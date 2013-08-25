@@ -20,3 +20,10 @@
 *.swp
 *.lock
 profile
+
+# Cmake auto-generated cruft
+CDTConfig.h
+CMakeCache.txt
+CMakeFiles/
+*.cmake
+Makefile
