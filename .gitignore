@@ -23,7 +23,10 @@ profile
 
 # Cmake auto-generated cruft
 CDTConfig.h
-CMakeCache.txt
+*.txt
 CMakeFiles/
 *.cmake
 Makefile
+
+# Program executable
+CDT
