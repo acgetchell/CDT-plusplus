@@ -2,11 +2,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-#include "TutorialConfig.h"
+#include <iostream>
+#include "CDTConfig.h"
 
-#ifdef USE_MYMATH
-#include "MathFunctions.h"
-#endif
+using namespace std;
 
 int main (int argc, char *argv[])
 {
@@ -14,21 +13,12 @@ int main (int argc, char *argv[])
     {
     fprintf(stdout,"%s Version %d.%d\n",
             argv[0],
-            Tutorial_VERSION_MAJOR,
-            Tutorial_VERSION_MINOR);
+            CDT_VERSION_MAJOR,
+            CDT_VERSION_MINOR);
     fprintf(stdout,"Usage: %s number\n",argv[0]);
     return 1;
     }
 
-  double inputValue = atof(argv[1]);
-
-#ifdef USE_MYMATH
-  double outputValue = mysqrt(inputValue);
-#else
-  double outputValue = sqrt(inputValue);
-#endif
-
-  fprintf(stdout,"The square root of %g is %g\n",
-          inputValue, outputValue);
+  cout << "Sorry, I don't do anything yet" << endl;
   return 0;
 }
