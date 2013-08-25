@@ -1,4 +1,4 @@
-// A simple program that computes the square root of a number
+// A simple program that generates spacetime
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
