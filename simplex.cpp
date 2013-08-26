@@ -1,6 +1,6 @@
 // Incremental 3D triangulation by inserting points
 
-#include "CGAL/Voronoi_diagram_2/Triangulation_data_structure_3.h"
+#include <CGAL/Triangulation_data_structure_3.h>
 #include <iostream>
 #include <fstream>
 #include <cassert>
