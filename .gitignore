@@ -31,3 +31,4 @@ Makefile
 # Program executable stuff
 CDT
 *.plist
+*.out
