@@ -28,5 +28,6 @@ CMakeFiles/
 *.cmake
 Makefile
 
-# Program executable
+# Program executable stuff
 CDT
+*.plist
