@@ -1,7 +1,7 @@
 CDT-plusplus
 ============
 
-Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorithms Library][1] and compiled with [CMake][2] using [LLVM][3].
+Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorithms Library][1] and compiled with [CMake][2] using [Clang][8]/[LLVM][3].
 
 - [ ] 3D Simplex
 - [ ] 4D Simplex
@@ -29,3 +29,4 @@ Usage:
 [5]: http://open.cdash.org/index.php
 [6]: http://www.literateprogramming.com
 [7]: http://www.doxygen.org
+[8]: http://clang.llvm.org
