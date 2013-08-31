@@ -1,37 +1,32 @@
-cmake_minimum_required (VERSION 2.8)
-project (CDT)
-
-# The version number.
-set (CDT_VERSION_MAJOR 0)
-set (CDT_VERSION_MINOR 1)
-
-# configure a header file to pass some of the CMake settings
-# to the source code
-configure_file (
-  "${PROJECT_SOURCE_DIR}/CDTConfig.h.in"
-  "${PROJECT_BINARY_DIR}/CDTConfig.h"
-  )
-
-# add the binary tree to the search path for include files
-# so that we will find CDTConfig.h
-include_directories ("${PROJECT_BINARY_DIR}")
-
-# add the executable
-add_executable (CDT CDT.cpp)
-target_link_libraries (CDT  ${EXTRA_LIBS})
-
-# add the install targets
-install (TARGETS CDT DESTINATION bin)
-install (FILES "${PROJECT_BINARY_DIR}/CDTConfig.h" 
-  DESTINATION include)
+# Created by the script cgal_create_cmake_script
+# This is the CMake script for compiling a CGAL application.
 
 
-# enable testing
-enable_testing ()
+project( CDT-plusplus_ )
 
-# does the usage message work?
-add_test (CDTUsage CDT)
-set_tests_properties (CDTUsage
-  PROPERTIES 
-  PASS_REGULAR_EXPRESSION "Usage:.*number"
-  )
+cmake_minimum_required(VERSION 2.6.2)
+if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
+  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
+    cmake_policy(VERSION 2.8.4)
+  else()
+    cmake_policy(VERSION 2.6)
+  endif()
+endif()
+
+find_package(CGAL QUIET COMPONENTS Core )
+
+if ( CGAL_FOUND )
+
+  include( ${CGAL_USE_FILE} )
+
+  include( CGAL_CreateSingleSourceCGALProgram )
+
+  create_single_source_cgal_program( "cdt.cpp" )
+  create_single_source_cgal_program( "simplex.cpp" )
+
+else()
+  
+    message(STATUS "This program requires the CGAL library, and will not be compiled.")
+  
+endif()
+
