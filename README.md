@@ -18,6 +18,13 @@ Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorit
 - [ ] ???
 - [ ] Profit
 
+Build:
+
+```
+# cmake .
+# make
+```
+
 Usage:
 - Currently just prints out the version number, but aspires to construct spacetime
 
