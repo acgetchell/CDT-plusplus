@@ -31,5 +31,6 @@ Makefile
 # Program executable stuff
 CDT
 simplex
+output_tds
 *.plist
 *.out
