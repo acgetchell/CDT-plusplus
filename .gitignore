@@ -30,5 +30,6 @@ Makefile
 
 # Program executable stuff
 CDT
+simplex
 *.plist
 *.out
