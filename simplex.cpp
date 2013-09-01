@@ -1,68 +1,54 @@
-// Incremental 3D triangulation by inserting points
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Triangulation_3.h>
 
-#include <CGAL/Triangulation_data_structure_3.h>
 #include <iostream>
 #include <fstream>
-#include <cassert>
-#include <vector>
+#include <list>
+#include <set>
 
-typedef CGAL::Triangulation_data_structure_3<> Tds;
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
-typedef Tds::size_type size_type;
-typedef Tds::Cell_handle Cell_handle;
-typedef Tds::Vertex_handle Vertex_handle;
+typedef CGAL::Triangulation_3<K> Triangulation;
+
+typedef Triangulation::Finite_vertices_iterator Finite_vertices_iterator;
+typedef Triangulation::Finite_edges_iterator Finite_edges_iterator;
+typedef Triangulation::Finite_facets_iterator Finite_facets_iterator;
+typedef Triangulation::Finite_cells_iterator Finite_cells_iterator;
+typedef Triangulation::Simplex Simplex;
+typedef Triangulation::Locate_type Locate_type;
+typedef Triangulation::Point Point;
 
 int main()
 {
-	Tds T;
+	// construction from a list of points
+	std::list<Point> L;
+	L.push_front(Point(0,0,0));
+	L.push_front(Point(1,0,0));
+	L.push_front(Point(0,1,0));
+	L.push_front(Point(0,1,1));
 
-	assert(T.number_of_vertices() == 0);
-	assert(T.dimension() == -2);
-	assert(T.is_valid());
+	Triangulation T(L.begin(), L.end());
 
-	std::vector<Vertex_handle> PV(7);
+	std::set<Simplex> simplices;
 
-	PV[0] = T.insert_increase_dimension();
-	assert(T.number_of_vertices() == 1);
-	assert(T.dimension() == -1);
-	assert(T.is_valid());
+	Finite_vertices_iterator vit = T.finite_vertices_begin();
+	simplices.insert(Simplex(vit));
 
-	// each of the following insertion of vertices increases the dimension
-	for (int i = 1; i < 5; i++)
+	Finite_cells_iterator cit = T.finite_cells_begin();
+	simplices.insert(Simplex(cit));
+
+	Finite_edges_iterator eit = T.finite_edges_begin();
+	simplices.insert(Simplex(*eit));
+
+	Finite_facets_iterator fit = T.finite_facets_begin();
+	simplices.insert(Simplex(*fit));
+
+	for (std::set<Simplex>::iterator it = simplices.begin();
+		it != simplices.end();
+		++it)
 	{
-		PV[i] = T.insert_increase_dimension(PV[0]);
-		assert(T.number_of_vertices() == (size_type) i+1);
-		assert(T.dimension() == i-1);
-		assert(T.is_valid());
+		std::cout << it->dimension() << std::endl;
 	}
-	assert(T.number_of_cells() == 5);
-
-	// we now have a 4-simplex
-
-	// cell incident to PV[0]
-	Cell_handle c = PV[0]->cell();
-	int ind;
-	bool check = c->has_vertex(PV[0], ind);
-	assert(check);
-	// PV[0] is the vertex of index ind in c
-
-	// insertion of a new vertex in the facet opposite to PV[0]
-	PV[5] = T.insert_in_facet(c, ind);
-
-	assert(T.number_of_vertices() == 6);
-	assert(T.dimension() == 3);
-	assert(T.is_valid());
-
-	// insertion of a new vertex in c
-	PV[6] = T.insert_in_cell(c);
-
-	assert(T.number_of_vertices() ==7);
-	assert(T.dimension() == 3);
-	assert(T.is_valid());
-
-	std::ofstream oFileT("output_tds", std::ios::out);
-	// writing file output_tds
-	oFileT << T;
 
 	return 0;
 }
