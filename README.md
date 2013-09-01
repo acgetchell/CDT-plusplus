@@ -18,7 +18,7 @@ Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorit
 - [ ] ???
 - [ ] Profit
 
-Build:
+Build (you must have [CGAL][1] installed):
 
 ```
 # cmake .
