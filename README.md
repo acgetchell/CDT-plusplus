@@ -21,7 +21,7 @@ Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorit
 
 Build:
 
-CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][9] and [CGAL][10] installed.
+CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][9] and [CGAL][10] installed. Download this source code (from GitHub or [here][12]) and run the following commands in the top-level directory:
 
 ```
 # cmake .
@@ -46,3 +46,4 @@ Currently just prints out the version number, but aspires to construct spacetime
 [9]: http://www.cmake.org/cmake/help/install.html
 [10]: http://www.cgal.org/Manual/latest/doc_html/installation_manual/Chapter_installation_manual.html
 [11]: http://www.kitware.com/blog/home/post/434
+[12]: https://github.com/acgetchell/CDT-plusplus/archive/master.zip
