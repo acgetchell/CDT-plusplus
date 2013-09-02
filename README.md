@@ -15,12 +15,13 @@ Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorit
 - [ ] Shortest path algorithm
 - [ ] Ergodic moves
 - [ ] Metropolis algorithm
+- [ ] Einstein tensor
 - [ ] ???
-- [ ] Profit
+- [ ] Non-profit
 
 Build:
 
-CDT++ should build on any system with [CMake][9] and [CGAL][10] installed.
+CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][9] and [CGAL][10] installed.
 
 ```
 # cmake .
@@ -30,7 +31,8 @@ CDT++ should build on any system with [CMake][9] and [CGAL][10] installed.
 There are also directions for doing a [parallel build using CMake][11].
 
 Usage:
-- Currently just prints out the version number, but aspires to construct spacetime
+
+Currently just prints out the version number, but aspires to construct spacetime
 
 
 [1]: http://www.cgal.org
