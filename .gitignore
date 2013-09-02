@@ -21,6 +21,8 @@
 *.lock
 profile
 
+# cgal_create_cmake_script cruft
+*.bak
 # Cmake auto-generated cruft
 CDTConfig.h
 *.txt
