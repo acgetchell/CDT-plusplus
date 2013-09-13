@@ -30,6 +30,11 @@ On MacOS, the easiest way to do this is with [HomeBrew][13]:
 # brew install cgal
 ```
 
+On Ubuntu, you can do this via:
+```
+# sudo apt-get install cmake
+# sudo apt-get install libcgal-dev
+```
 
 Then, download this source code (clone this repo from GitHub or grab a zipped archive [here][12]) and run the following commands in the top-level directory:
 
