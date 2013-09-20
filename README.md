@@ -27,7 +27,8 @@ On MacOS, the easiest way to do this is with [HomeBrew][13]:
 
 ```
 # brew install cmake
-# brew install cgal
+# brew install eigen
+# brew install cgal --imaging --with-eigen3 --with-lapack
 ```
 
 On Ubuntu, you can do this via:
