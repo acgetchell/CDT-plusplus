@@ -31,8 +31,9 @@ CMakeFiles/
 Makefile
 
 # Program executable stuff
-CDT
+cdt
 simplex
-output_tds
+tds
+output.tds
 *.plist
 *.out

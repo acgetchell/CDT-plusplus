@@ -23,6 +23,7 @@ if ( CGAL_FOUND )
 
   create_single_source_cgal_program( "cdt.cpp" )
   create_single_source_cgal_program( "simplex.cpp" )
+  create_single_source_cgal_program( "tds.cpp" )
 
 else()
   
