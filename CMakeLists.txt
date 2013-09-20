@@ -24,6 +24,7 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "cdt.cpp" )
   create_single_source_cgal_program( "simplex.cpp" )
   create_single_source_cgal_program( "tds.cpp" )
+  create_single_source_cgal_program( "find_conflicts_3.cpp" )
 
 else()
   

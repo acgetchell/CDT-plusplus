@@ -1,3 +1,5 @@
+// From examples/Triangulaton_3/simplex.cpp
+
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Triangulation_3.h>
 
@@ -8,15 +10,15 @@
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
-typedef CGAL::Triangulation_3<K> Triangulation;
+typedef CGAL::Triangulation_3<K> 					Triangulation;
 
-typedef Triangulation::Finite_vertices_iterator Finite_vertices_iterator;
-typedef Triangulation::Finite_edges_iterator Finite_edges_iterator;
-typedef Triangulation::Finite_facets_iterator Finite_facets_iterator;
-typedef Triangulation::Finite_cells_iterator Finite_cells_iterator;
-typedef Triangulation::Simplex Simplex;
-typedef Triangulation::Locate_type Locate_type;
-typedef Triangulation::Point Point;
+typedef Triangulation::Finite_vertices_iterator 	Finite_vertices_iterator;
+typedef Triangulation::Finite_edges_iterator 		Finite_edges_iterator;
+typedef Triangulation::Finite_facets_iterator 		Finite_facets_iterator;
+typedef Triangulation::Finite_cells_iterator 		Finite_cells_iterator;
+typedef Triangulation::Simplex 						Simplex;
+typedef Triangulation::Locate_type 					Locate_type;
+typedef Triangulation::Point 						Point;
 
 int main()
 {
