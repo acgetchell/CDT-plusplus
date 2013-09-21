@@ -28,6 +28,10 @@ int main(int argc, char const *argv[])
 
 	assert(T.dimension() == 3);
 
+	std::cout << "Initial seed has " << T.number_of_vertices()
+				<< " vertices and " << T.number_of_facets() << " facets"
+				<< " and " << T.number_of_cells() << " cells" << std::endl;
+
 	// Insert random points if and only if their insertion
 	// in the Delaunay tetrahedralization conflicts with
 	// an even number of cells.
