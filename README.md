@@ -52,7 +52,7 @@ Usage:
 
 cdt (number of simplices)
 
-CDT currently defaults to making spherical 3D simplicial manifolds
+Currently defaults to making random spherical 3D simplicial manifolds
 
 
 [1]: http://www.cgal.org
