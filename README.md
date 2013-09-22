@@ -1,7 +1,8 @@
 CDT-plusplus
 ============
 
-Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorithms Library][1] and compiled with [CMake][2] using [Clang][8]/[LLVM][3].
+Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorithms Library][1] and compiled with
+[CMake][2] using [Clang][8]/[LLVM][3]. Follows (mostly) the [Google C++ Style Guide][14].
 
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
@@ -67,3 +68,4 @@ CDT currently defaults to making spherical 3D simplicial manifolds
 [11]: http://www.kitware.com/blog/home/post/434
 [12]: https://github.com/acgetchell/CDT-plusplus/archive/master.zip
 [13]: http://brew.sh
+[14]: http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
