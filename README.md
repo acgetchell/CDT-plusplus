@@ -48,7 +48,9 @@ There are also directions for doing a [parallel build using CMake][11], but curr
 
 Usage:
 
-Currently just prints out the version number, but aspires to construct spacetime
+cdt (number of simplices)
+
+CDT currently defaults to making 3D simplicial manifolds
 
 
 [1]: http://www.cgal.org
