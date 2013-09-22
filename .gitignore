@@ -34,7 +34,6 @@ Makefile
 cdt
 simplex
 tds
-find_conflicts_3
 output.tds
 *.plist
 *.out

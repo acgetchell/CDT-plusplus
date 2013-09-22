@@ -38,7 +38,7 @@ int main (int argc, char *argv[])
 
   // Default to 3D
   fprintf(stdout, "Number of dimensions = 3\n");  
-  fprintf(stdout, "Number of simplces = %s\n", argv[1]);
+  fprintf(stdout, "Number of simplices = %s\n", argv[1]);
 
   int number_of_simplices = atoi(argv[1]);
 
