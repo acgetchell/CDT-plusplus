@@ -4,20 +4,21 @@ CDT-plusplus
 Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorithms Library][1] and compiled with [CMake][2] using [Clang][8]/[LLVM][3].
 
 - [x] 3D Simplex
+- [x] 3D Spherical simplicial complex
+- [ ] 2+1 foliation
 - [ ] 4D Simplex
-- [ ] Simplicial complex
+- [ ] 4D Simplicial complex
+- [ ] 3+1 foliation
 - [ ] Tests using [CTest][4]
 - [ ] Test builds with [CDash][5]
 - [ ] [Literate programming][6] generated using [Doxygen][7]
-- [ ] Initialize sphere
-- [ ] Initialize torus
 - [ ] Initialize two masses
 - [ ] Shortest path algorithm
 - [ ] Ergodic moves
 - [ ] Metropolis algorithm
 - [ ] Einstein tensor
 - [ ] ???
-- [ ] Non-profit
+- [ ] (Non)profit
 
 Build:
 
@@ -50,7 +51,7 @@ Usage:
 
 cdt (number of simplices)
 
-CDT currently defaults to making 3D simplicial manifolds
+CDT currently defaults to making spherical 3D simplicial manifolds
 
 
 [1]: http://www.cgal.org
