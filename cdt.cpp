@@ -42,10 +42,10 @@ int main(int argc, char *argv[])
 
   int num_simplices = atoi(argv[1]);
 
-  Delaunay T = make_3_simplicial_complex(num_simplices);
-  std::cout << "Final triangulation has " << T.number_of_vertices()
-        << " vertices and " << T.number_of_facets() << " facets"
-        << " and " << T.number_of_cells() << " cells" << std::endl;
+  Delaunay S = make_3_simplicial_complex(num_simplices);
+  std::cout << "Final triangulation has " << S.number_of_vertices()
+        << " vertices and " << S.number_of_facets() << " facets"
+        << " and " << S.number_of_cells() << " cells" << std::endl;
 
   return 0;
 }
