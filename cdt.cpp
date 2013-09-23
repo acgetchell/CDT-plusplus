@@ -23,7 +23,7 @@ typedef Delaunay::Cell_handle                                 Cell_handle;
 typedef Delaunay::Facet                                       Facet;
 
 // Function prototypes
-Delaunay make_3_simplicial_complex(int);  // Uses random points
+Delaunay make_3D_simplicial_complex(int);  // Uses random points
 
 int main(int argc, char *argv[])
 {
@@ -42,7 +42,7 @@ int main(int argc, char *argv[])
 
   int num_simplices = atoi(argv[1]);
 
-  Delaunay S = make_3_simplicial_complex(num_simplices);
+  Delaunay S = make_3D_simplicial_complex(num_simplices);
   std::cout << "Final triangulation has " << S.number_of_vertices()
         << " vertices and " << S.number_of_facets() << " facets"
         << " and " << S.number_of_cells() << " cells" << std::endl;
@@ -50,12 +50,12 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-Delaunay make_3_simplicial_complex(int number_of_simplices)
+Delaunay make_3D_simplicial_complex(int number_of_simplices)
 {
   Delaunay T;
   CGAL::Random_points_in_sphere_3<Point> rnd;
 
-  // First make sure triangulation is in 3D
+  // Initialize triangulation in 3D
   T.insert(Point(0, 0, 0));
   T.insert(Point(1, 0, 0));
   T.insert(Point(0, 1, 0));
