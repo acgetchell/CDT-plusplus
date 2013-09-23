@@ -2,7 +2,14 @@ CDT-plusplus
 ============
 
 Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorithms Library][1] and compiled with
-[CMake][2] using [Clang][8]/[LLVM][3]. Follows (mostly) the [Google C++ Style Guide][14].
+[CMake][2] using [Clang][8]/[LLVM][3]. Follows (mostly) the [Google C++ Style Guide][14], which you can check by
+running the (included in project) [cpplint.py][15] script:
+
+```
+# python cpplint.py <filename>
+```
+
+The goals and targets of this project are:
 
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
@@ -69,3 +76,4 @@ Currently defaults to making random spherical 3D simplicial manifolds
 [12]: https://github.com/acgetchell/CDT-plusplus/archive/master.zip
 [13]: http://brew.sh
 [14]: http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
+[15]: http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
