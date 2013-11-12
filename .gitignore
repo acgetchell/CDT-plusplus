@@ -37,3 +37,6 @@ tds
 output.tds
 *.plist
 *.out
+
+# Test dirs
+Testing/

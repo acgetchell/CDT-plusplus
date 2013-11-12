@@ -31,3 +31,15 @@ else()
   
 endif()
 
+enable_testing()
+
+# does the application run?
+
+add_test (CDTRuns cdt 1000)
+
+# does the usage message work?
+
+add_test (CDTUsage cdt)
+set_tests_properties (CDTUsage
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Usage: .*number")

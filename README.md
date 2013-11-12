@@ -13,11 +13,13 @@ The goals and targets of this project are:
 
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
+- [ ] 3D Toroidal simplicial complex
 - [ ] 2+1 foliation
 - [ ] 4D Simplex
 - [ ] 4D Simplicial complex
 - [ ] 3+1 foliation
-- [ ] Tests using [CTest][4]
+- [x] Tests using [CTest][4]
+- [ ] Complete test coverage
 - [ ] Test builds with [CDash][5]
 - [ ] [Literate programming][6] generated using [Doxygen][7]
 - [ ] Initialize two masses
