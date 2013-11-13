@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <unistd.h>
 
 #include "CDTConfig.h"
 
@@ -24,22 +25,79 @@ typedef Delaunay::Facet                                       Facet;
 
 /// Function prototypes
 Delaunay make_3D_simplicial_complex(int number_of_simplices);
+void print_error(char*);
 
 int main(int argc, char *argv[]) {
   /// Parse arguments
-  if (argc < 2 || argc > 2) {
-    fprintf(stdout, "%s Version %d.%d\n", argv[0],
-      CDT_VERSION_MAJOR, CDT_VERSION_MINOR);
-    fprintf(stdout, "Usage: %s (number of simplices)\n", argv[0]);
+  // if (argc < 2 || argc > 2) {
+  //   fprintf(stdout, "%s Version %d.%d\n", argv[0],
+  //     CDT_VERSION_MAJOR, CDT_VERSION_MINOR);
+  //   fprintf(stdout, "Usage: %s (number of simplices)\n", argv[0]);
+  //   return 1;
+  //   }
+
+  int dimensions = 3;         /// Number of dimensions
+  int num_simplices = 0;      /// Number of simplices
+  char topology;              /// Topology type
+  bool topology_set = false;  /// Topology type set?
+  int c;                      /// Case statement switch
+  opterr = 0;                 /// Suppress getopt error messages
+  bool error_flag = false;    /// Error in program invocation?
+
+  if (argc < 2) {
+    print_error(argv[0]);
     return 1;
-    }
+  }
+
+  while ((c = getopt (argc, argv, "d:s:t:")) != -1)
+    switch (c)
+      {
+        case 'd':
+          dimensions = atoi(optarg);
+          break;
+        case 's':
+          if (!topology_set)
+          {
+            topology = 's';
+            topology_set = true;
+            num_simplices = atoi(optarg);
+          }
+          else
+            error_flag = true;
+          break;
+        case 't':
+          if (!topology_set)
+          {
+            topology = 't';
+            topology_set= true;
+            num_simplices = atoi(optarg);
+          }
+          else
+            error_flag = true;        
+          break;
+        case '?':
+          if (optopt == 's' || optopt =='t' || optopt == 'd') {
+            fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+          }
+          else
+            fprintf (stderr, "Unknown option `-%c'.\n", optopt);        
+        print_error(argv[0]);
+        return 1;
+      default:
+        abort();
+      }
+
+  if (error_flag || num_simplices == 0 || dimensions > 3) {
+    print_error(argv[0]);
+    exit(2);
+  }
 
   /// Default to 3D
-  fprintf(stdout, "Number of dimensions = 3\n");
-  fprintf(stdout, "Number of simplices = %s\n", argv[1]);
-  fprintf(stdout, "Geometry = spherical\n");
+  fprintf(stdout, "Number of dimensions = %d\n", dimensions);
+  fprintf(stdout, "Number of simplices = %d\n", num_simplices);
+  fprintf(stdout, "Geometry = %s\n", topology == 's' ? "spherical" : "toroidal" );
 
-  int num_simplices = atoi(argv[1]);
+  //int num_simplices = atoi(argv[1]);
 
   Delaunay S = make_3D_simplicial_complex(num_simplices);
   std::cout << "Final triangulation has " << S.number_of_vertices()
@@ -93,4 +151,9 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices) {
   assert(T.is_valid());
 
   return T;
+}
+
+void print_error(char *name) {
+  fprintf(stderr, "Usage: %s [-s|-t] number of simplices [-d dimensions]\n", name);
+  fprintf(stderr, "Currently, number of dimensions cannot be higher than 3.\n");
 }
