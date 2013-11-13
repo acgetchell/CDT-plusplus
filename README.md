@@ -5,9 +5,9 @@ Causal Dynamical Triangulations in C++ using the [Computational Geometry Algorit
 [CMake][2] using [Clang][8]/[LLVM][3]. Follows (mostly) the [Google C++ Style Guide][14], which you can check by
 running the (included in project) [cpplint.py][15] script:
 
-```
+~~~
 # python cpplint.py <filename>
-```
+~~~
 
 The goals and targets of this project are:
 
@@ -38,11 +38,11 @@ CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][9] an
 
 On MacOS, the easiest way to do this is with [HomeBrew][13]:
 
-```
+~~~
 # brew install cmake
 # brew install eigen
 # brew install cgal --imaging --with-eigen3 --with-lapack
-```
+~~~
 
 On Ubuntu, you can do this via:
 ~~~
@@ -62,9 +62,9 @@ There are also directions for doing a [parallel build using CMake][11], but curr
 Usage:
 ------
 
-`cdt number-of-simplices`
+`cdt [-s|-t] number_of_simplices [-d] dimensions`
 
-Currently defaults to making random spherical 3D simplicial manifolds.
+Where **s** denotes spherical topology and **t** denotes toroidal topology. Currently defaults to making random spherical 3D simplicial manifolds.
 
 Documentation:
 --------------
