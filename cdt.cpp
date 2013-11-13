@@ -22,23 +22,22 @@ typedef Delaunay::Point                                       Point;
 typedef Delaunay::Cell_handle                                 Cell_handle;
 typedef Delaunay::Facet                                       Facet;
 
-// Function prototypes
-Delaunay make_3D_simplicial_complex(int);  // Uses random points
+/// Function prototypes
+Delaunay make_3D_simplicial_complex(int number_of_simplices);
 
-int main(int argc, char *argv[])
-{
-  // Parse arguments
-  if (argc < 2 || argc > 2)
-    {
+int main(int argc, char *argv[]) {
+  /// Parse arguments
+  if (argc < 2 || argc > 2) {
     fprintf(stdout, "%s Version %d.%d\n", argv[0],
       CDT_VERSION_MAJOR, CDT_VERSION_MINOR);
     fprintf(stdout, "Usage: %s (number of simplices)\n", argv[0]);
     return 1;
     }
 
-  // Default to 3D
+  /// Default to 3D
   fprintf(stdout, "Number of dimensions = 3\n");
   fprintf(stdout, "Number of simplices = %s\n", argv[1]);
+  fprintf(stdout, "Geometry = spherical\n");
 
   int num_simplices = atoi(argv[1]);
 
@@ -50,12 +49,11 @@ int main(int argc, char *argv[])
   return 0;
 }
 
-Delaunay make_3D_simplicial_complex(int number_of_simplices)
-{
+Delaunay make_3D_simplicial_complex(int number_of_simplices) {
   Delaunay T;
   CGAL::Random_points_in_sphere_3<Point> rnd;
 
-  // Initialize triangulation in 3D
+  /// Initialize triangulation in 3D
   T.insert(Point(0, 0, 0));
   T.insert(Point(1, 0, 0));
   T.insert(Point(0, 1, 0));
@@ -68,19 +66,18 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices)
         << " and " << T.number_of_cells() << " cells" << std::endl;
 
 
-  do
-  {
+  do {
      Point p = *rnd++;
 
-    // Locate the point
+    /// Locate the point
     Delaunay::Locate_type lt;
     int li, lj;
     Cell_handle c = T.locate(p, lt, li, lj);
     if (lt == Delaunay::VERTEX)
       continue;  // Point already exists
 
-    // Get the cells that conflict with p in a vector V,
-    // and a facet on the boundary of this hole in f
+    /// Get the cells that conflict with p in a vector V,
+    /// and a facet on the boundary of this hole in f
     std::vector<Cell_handle> V;
     Facet f;
 
