@@ -1,10 +1,16 @@
-// Copyright (c) 2013 Adam Getchell
-// A program that generates spacetime
+/// Copyright (c) 2013 Adam Getchell
+/// A program that generates spacetimes
+///
+/// For an introduction see [J. Ambjorn, J. Jurkiewicz, and R. Loll.
+/// “Dynamically Triangulating Lorentzian Quantum Gravity.”
+/// Nuclear Physics B 610, no. 2001 (May 27, 2001): 347–382.]
+/// (http://arxiv.org/abs/hep-th/9208032)
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/point_generators_3.h>
 
+#include <unistd.h>
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +18,7 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
-#include <unistd.h>
+
 
 #include "CDTConfig.h"
 
@@ -25,7 +31,7 @@ typedef Delaunay::Facet                                       Facet;
 
 /// Function prototypes
 Delaunay make_3D_simplicial_complex(int number_of_simplices);
-void print_error(char*);
+void print_error(char* name_of_program);
 
 int main(int argc, char *argv[]) {
   /// Parse arguments
@@ -50,37 +56,34 @@ int main(int argc, char *argv[]) {
   }
 
   while ((c = getopt (argc, argv, "d:s:t:")) != -1)
-    switch (c)
-      {
+    switch (c) {
         case 'd':
           dimensions = atoi(optarg);
           break;
         case 's':
-          if (!topology_set)
-          {
+          if (!topology_set) {
             topology = 's';
             topology_set = true;
             num_simplices = atoi(optarg);
-          }
-          else
+          } else {
             error_flag = true;
+          }
           break;
         case 't':
-          if (!topology_set)
-          {
+          if (!topology_set) {
             topology = 't';
             topology_set= true;
             num_simplices = atoi(optarg);
+          } else {
+            error_flag = true;
           }
-          else
-            error_flag = true;        
           break;
         case '?':
           if (optopt == 's' || optopt =='t' || optopt == 'd') {
             fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+          } else {
+            fprintf(stderr, "Unknown option `-%c'.\n", optopt);
           }
-          else
-            fprintf (stderr, "Unknown option `-%c'.\n", optopt);        
         print_error(argv[0]);
         return 1;
       default:
@@ -95,9 +98,8 @@ int main(int argc, char *argv[]) {
   /// Default to 3D
   fprintf(stdout, "Number of dimensions = %d\n", dimensions);
   fprintf(stdout, "Number of simplices = %d\n", num_simplices);
-  fprintf(stdout, "Geometry = %s\n", topology == 's' ? "spherical" : "toroidal" );
-
-  //int num_simplices = atoi(argv[1]);
+  fprintf(stdout, "Geometry = %s\n", topology == 's'
+    ? "spherical" : "toroidal");
 
   Delaunay S = make_3D_simplicial_complex(num_simplices);
   std::cout << "Final triangulation has " << S.number_of_vertices()
@@ -154,6 +156,7 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices) {
 }
 
 void print_error(char *name) {
-  fprintf(stderr, "Usage: %s [-s|-t] number of simplices [-d dimensions]\n", name);
+  fprintf(stderr, "Usage: %s [-s|-t] number of simplices [-d dimensions]\n",
+    name);
   fprintf(stderr, "Currently, number of dimensions cannot be higher than 3.\n");
 }
