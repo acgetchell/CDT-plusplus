@@ -1,7 +1,7 @@
-/// Causal Dynamical Triangulations in C++ using CGAL 
-/// 
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
 /// Copyright (c) 2013 Adam Getchell
-/// 
+///
 /// A program that generates spacetimes
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -32,27 +32,20 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices);
 void print_error(char* name_of_program);
 
 int main(int argc, char *argv[]) {
-  /// Parse arguments
-  // if (argc < 2 || argc > 2) {
-  //   fprintf(stdout, "%s Version %d.%d\n", argv[0],
-  //     CDT_VERSION_MAJOR, CDT_VERSION_MINOR);
-  //   fprintf(stdout, "Usage: %s (number of simplices)\n", argv[0]);
-  //   return 1;
-  //   }
-
-  int dimensions = 3;         /// Number of dimensions
-  int num_simplices = 0;      /// Number of simplices
-  char topology;              /// Topology type
-  bool topology_set = false;  /// Topology type set?
-  int c;                      /// Case statement switch
-  opterr = 0;                 /// Suppress getopt error messages
-  bool error_flag = false;    /// Error in program invocation?
+  int dimensions = 3;         // Number of dimensions
+  int num_simplices = 0;      // Number of simplices
+  char topology;              // Topology type
+  bool topology_set = false;  // Topology type set?
+  int c;                      // Case statement switch
+  opterr = 0;                 // Suppress getopt error messages
+  bool error_flag = false;    // Error in program invocation?
 
   if (argc < 2) {
     print_error(argv[0]);
     return 1;
   }
 
+  /// Use getopt to parse command line arguments
   while ((c = getopt (argc, argv, "d:s:t:")) != -1)
     switch (c) {
         case 'd':
@@ -93,7 +86,7 @@ int main(int argc, char *argv[]) {
     exit(2);
   }
 
-  /// Default to 3D
+  /// Default to 3D spherical simplicial complex
   fprintf(stdout, "Number of dimensions = %d\n", dimensions);
   fprintf(stdout, "Number of simplices = %d\n", num_simplices);
   fprintf(stdout, "Geometry = %s\n", topology == 's'

@@ -89,7 +89,7 @@ You can build and run unit tests by typing:
 
 In addition to the command line output, you can see detailed results in the Testing directory which is generated thereby.
 
-[1]: http://arxiv.org/abs/hep-th/9208032
+[1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
 [3]: http://www.cmake.org
 [4]: http://clang.llvm.org
