@@ -62,9 +62,9 @@ There are also directions for doing a [parallel build using CMake][11], but curr
 Usage:
 ------
 
-cdt (number of simplices)
+`cdt number-of-simplices`
 
-Currently defaults to making random spherical 3D simplicial manifolds
+Currently defaults to making random spherical 3D simplicial manifolds.
 
 Documentation:
 --------------
