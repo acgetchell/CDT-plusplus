@@ -32,6 +32,7 @@ The goals and targets of this project are:
 - [ ] (Non)profit
 
 Build:
+------
 
 CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][9] and [CGAL][10] installed. 
 
@@ -59,6 +60,7 @@ Then, download this source code (clone this repo from GitHub or grab a zipped ar
 There are also directions for doing a [parallel build using CMake][11], but currently the builds don't really take long enough to bother.
 
 Unit tests:
+-----------
 
 You can build and run unit tests by typing:
 
@@ -69,12 +71,14 @@ You can build and run unit tests by typing:
 In addition to the command line output, you can see detailed results in the Testing directory which is generated thereby.
 
 Usage:
+------
 
 cdt (number of simplices)
 
 Currently defaults to making random spherical 3D simplicial manifolds
 
 Documentation:
+--------------
 
 If you have Doxygen installed you can simply type:
 
