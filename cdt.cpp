@@ -1,8 +1,8 @@
 /// Causal Dynamical Triangulations in C++ using CGAL 
+/// 
 /// Copyright (c) 2013 Adam Getchell
+/// 
 /// A program that generates spacetimes
-///
-/// For an introduction see [J. Ambjorn, J. Jurkiewicz, and R. Loll. “Dynamically Triangulating Lorentzian Quantum Gravity.”Nuclear Physics B 610, no. 2001 (May 27, 2001): 347–382.] (http://arxiv.org/abs/hep-th/9208032)
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>

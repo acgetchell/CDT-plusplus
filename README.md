@@ -1,5 +1,3 @@
-\mainpage
-
 CDT-plusplus
 ============
 
