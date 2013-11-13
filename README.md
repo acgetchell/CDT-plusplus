@@ -3,7 +3,7 @@ CDT-plusplus
 
 [Causal Dynamical Triangulations][1] in C++ using the [Computational Geometry Algorithms Library][2] and compiled with
 [CMake][3] using [Clang][4]/[LLVM][5]. Follows (mostly) the [Google C++ Style Guide][6], which you can check by
-running the (included in project) [cpplint.py][7] script:
+running the [cpplint.py][7] script:
 
 ~~~
 # python cpplint.py <filename>

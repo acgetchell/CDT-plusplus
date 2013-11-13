@@ -42,3 +42,4 @@ output.tds
 Testing/
 html/
 latex/
+cpplint.py
