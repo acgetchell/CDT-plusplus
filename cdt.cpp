@@ -17,9 +17,6 @@
 #include <vector>
 #include <cassert>
 
-
-#include "CDTConfig.h"
-
 typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
 
 typedef CGAL::Delaunay_triangulation_3<K>                     Delaunay;

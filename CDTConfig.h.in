@@ -1,4 +1,0 @@
-// the configured options and settings for CDT
-#define CDT_VERSION_MAJOR @CDT_VERSION_MAJOR@
-#define CDT_VERSION_MINOR @CDT_VERSION_MINOR@
-
