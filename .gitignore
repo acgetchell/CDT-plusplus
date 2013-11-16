@@ -36,6 +36,7 @@ simplex
 tds
 periodic_simplex
 output.tds
+gv_terrain
 *.plist
 *.out
 

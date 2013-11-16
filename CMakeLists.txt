@@ -25,6 +25,7 @@ if ( CGAL_FOUND )
   create_single_source_cgal_program( "simplex.cpp" )
   create_single_source_cgal_program( "tds.cpp" )
   create_single_source_cgal_program( "periodic_simplex.cpp" )
+  create_single_source_cgal_program( "gv_terrain.cpp" )
 
 else()
   
