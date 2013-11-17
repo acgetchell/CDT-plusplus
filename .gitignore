@@ -45,3 +45,6 @@ Testing/
 html/
 latex/
 cpplint.py
+
+# Output files
+*.dat

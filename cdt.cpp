@@ -16,6 +16,7 @@
 #include <iostream>
 #include <vector>
 #include <cassert>
+#include <fstream>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
 
@@ -93,6 +94,11 @@ int main(int argc, char *argv[]) {
   std::cout << "Final triangulation has " << S.number_of_vertices()
         << " vertices and " << S.number_of_facets() << " facets"
         << " and " << S.number_of_cells() << " cells" << std::endl;
+
+  fprintf(stdout, "Writing to file %s\n", "output_tds.dat");
+  std::ofstream oFileT("output_tds.dat", std::ios::out);
+  // writing file output_tds;
+  oFileT << S;
 
   return 0;
 }
