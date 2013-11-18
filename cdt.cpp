@@ -17,6 +17,10 @@
 #include <vector>
 #include <cassert>
 #include <fstream>
+#include <string>
+#include <ctime>
+
+using namespace std;
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
 
@@ -28,6 +32,9 @@ typedef Delaunay::Facet                                       Facet;
 /// Function prototypes
 Delaunay make_3D_simplicial_complex(int number_of_simplices);
 void print_error(char* name_of_program);
+string generate_filename(char topology, int dimensions, int number_of_simplices);
+string getEnvVar(string const& key);
+const string currentDateTime();
 
 int main(int argc, char *argv[]) {
   int dimensions = 3;         // Number of dimensions
@@ -37,6 +44,7 @@ int main(int argc, char *argv[]) {
   int c;                      // Case statement switch
   opterr = 0;                 // Suppress getopt error messages
   bool error_flag = false;    // Error in program invocation?
+  std::string filename = "";
 
   if (argc < 2) {
     print_error(argv[0]);
@@ -95,8 +103,10 @@ int main(int argc, char *argv[]) {
         << " vertices and " << S.number_of_facets() << " facets"
         << " and " << S.number_of_cells() << " cells" << std::endl;
 
-  fprintf(stdout, "Writing to file %s\n", "output_tds.dat");
-  std::ofstream oFileT("output_tds.dat", std::ios::out);
+  filename.assign(generate_filename(topology, dimensions, num_simplices));
+
+  fprintf(stdout, "Writing to file %s\n", filename.c_str());
+  std::ofstream oFileT(filename, std::ios::out);
   // writing file output_tds;
   oFileT << S;
 
@@ -154,3 +164,47 @@ void print_error(char *name) {
     name);
   fprintf(stderr, "Currently, number of dimensions cannot be higher than 3.\n");
 }
+
+string generate_filename(char top, int dim, int number_of_simplices) {
+  string filename;
+  if (top == 's') {
+    filename += "S-";
+  } else {
+    filename += "T-";
+  }
+  filename += std::to_string(dim);
+  filename += "-";
+  filename += to_string(number_of_simplices);
+  //filename += string(getenv("HOSTNAME"));
+
+  /// Get machine name
+  filename += "-";
+  filename += getEnvVar("HOSTNAME");
+
+  /// Append current time
+  filename += "-";
+  filename += currentDateTime();
+
+  /// Append .dat file extension
+  filename += ".dat";
+  return filename;
+}
+/// Return an environment variable
+string getEnvVar(string const& key) {
+  char const* val = getenv(key.c_str());
+  return val == NULL ? string() : string(val);
+}
+
+/// Return the current date and time
+const string currentDateTime() {
+  time_t      now = time(0);
+  struct tm   tstruct;
+  char        buf[80];
+  tstruct = *localtime(&now);
+  /// Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+  /// for more info about date/time format
+  strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+
+  return buf;
+}
+
