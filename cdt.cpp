@@ -8,8 +8,11 @@
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/point_generators_3.h>
 
+/// C headers
 #include <unistd.h>
+#include <sys/utsname.h>
 
+/// C++ headers
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -19,8 +22,6 @@
 #include <fstream>
 #include <string>
 #include <ctime>
-
-using namespace std;
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
 
@@ -32,9 +33,12 @@ typedef Delaunay::Facet                                       Facet;
 /// Function prototypes
 Delaunay make_3D_simplicial_complex(int number_of_simplices);
 void print_error(char* name_of_program);
-string generate_filename(char topology, int dimensions, int number_of_simplices);
-string getEnvVar(string const& key);
-const string currentDateTime();
+std::string generate_filename(char topology,
+                          int dimensions,
+                          int number_of_simplices);
+std::string getEnvVar(std::string const& key);
+const std::string currentDateTime();
+std::string hostname();
 
 int main(int argc, char *argv[]) {
   int dimensions = 3;         // Number of dimensions
@@ -97,6 +101,7 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "Number of simplices = %d\n", num_simplices);
   fprintf(stdout, "Geometry = %s\n", topology == 's'
     ? "spherical" : "toroidal");
+  fprintf(stdout, "Hostname = %s\n", hostname().c_str());
 
   Delaunay S = make_3D_simplicial_complex(num_simplices);
   std::cout << "Final triangulation has " << S.number_of_vertices()
@@ -165,21 +170,24 @@ void print_error(char *name) {
   fprintf(stderr, "Currently, number of dimensions cannot be higher than 3.\n");
 }
 
-string generate_filename(char top, int dim, int number_of_simplices) {
-  string filename;
+std::string generate_filename(char top, int dim, int number_of_simplices) {
+  std::string filename;
   if (top == 's') {
-    filename += "S-";
+    filename += "S";
   } else {
-    filename += "T-";
+    filename += "T";
   }
   filename += std::to_string(dim);
   filename += "-";
-  filename += to_string(number_of_simplices);
-  //filename += string(getenv("HOSTNAME"));
+  filename += std::to_string(number_of_simplices);
+
+  /// Get user
+  filename += "-";
+  filename += getEnvVar("USER");
 
   /// Get machine name
-  filename += "-";
-  filename += getEnvVar("HOSTNAME");
+  filename += "@";
+  filename += hostname();
 
   /// Append current time
   filename += "-";
@@ -190,13 +198,13 @@ string generate_filename(char top, int dim, int number_of_simplices) {
   return filename;
 }
 /// Return an environment variable
-string getEnvVar(string const& key) {
+std::string getEnvVar(std::string const& key) {
   char const* val = getenv(key.c_str());
-  return val == NULL ? string() : string(val);
+  return val == NULL ? std::string() : std::string(val);
 }
 
 /// Return the current date and time
-const string currentDateTime() {
+const std::string currentDateTime() {
   time_t      now = time(0);
   struct tm   tstruct;
   char        buf[80];
@@ -206,5 +214,12 @@ const string currentDateTime() {
   strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
 
   return buf;
+}
+
+std::string hostname() {
+  struct utsname name;
+  /// Ensure uname returns a value
+  if (uname(&name)) exit(-1);
+  return name.nodename;
 }
 
