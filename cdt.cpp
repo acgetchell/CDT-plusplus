@@ -26,9 +26,9 @@ typedef Delaunay::Cell_handle                                 Cell_handle;
 typedef Delaunay::Facet                                       Facet;
 
 /// Function prototypes
-Delaunay make_3D_simplicial_complex(int number_of_simplices);
+void make_S3_simplicial_complex(Delaunay* D, int number_of_simplices);
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
   /// Start running time
   clock_t start, end;
   start = clock();
@@ -88,7 +88,6 @@ int main(int argc, char *argv[]) {
     exit(2);
   }
 
-  /// Default to 3D spherical simplicial complex
   fprintf(stdout, "Number of dimensions = %d\n", dimensions);
   fprintf(stdout, "Number of simplices = %d\n", num_simplices);
   fprintf(stdout, "Geometry = %s\n", topology == 's'
@@ -96,16 +95,18 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "User = %s\n", getEnvVar("USER").c_str());
   fprintf(stdout, "Hostname = %s\n", hostname().c_str());
 
+  Delaunay S;
 
-  Delaunay S = make_3D_simplicial_complex(num_simplices);
+  /// Default to 3D spherical simplicial complex
+  make_S3_simplicial_complex(&S, num_simplices);
   std::cout << "Final triangulation has " << S.number_of_vertices()
         << " vertices and " << S.number_of_facets() << " facets"
         << " and " << S.number_of_cells() << " cells" << std::endl;
 
   end = clock();
-  
+
   /// Calculate and display program running time
-  float running_time ((float)end - (float)start);
+  float running_time(static_cast<float>(end) - static_cast<float>(start));
   float seconds = running_time / CLOCKS_PER_SEC;
   fprintf(stdout, "Running time is %f seconds\n", seconds);
 
@@ -118,21 +119,21 @@ int main(int argc, char *argv[]) {
   return 0;
 }
 
-Delaunay make_3D_simplicial_complex(int number_of_simplices) {
-  Delaunay T;
+/// Make 3D spherical simplicial complexes
+void make_S3_simplicial_complex(Delaunay* T, int number_of_simplices) {
   CGAL::Random_points_in_sphere_3<Point> rnd;
 
   /// Initialize triangulation in 3D
-  T.insert(Point(0, 0, 0));
-  T.insert(Point(1, 0, 0));
-  T.insert(Point(0, 1, 0));
-  T.insert(Point(0, 0, 1));
+  T->insert(Point(0, 0, 0));
+  T->insert(Point(1, 0, 0));
+  T->insert(Point(0, 1, 0));
+  T->insert(Point(0, 0, 1));
 
-  assert(T.dimension() == 3);
+  assert(T->dimension() == 3);
 
-  std::cout  << "Initial seed has " << T.number_of_vertices()
-        << " vertices and " << T.number_of_facets() << " facets"
-        << " and " << T.number_of_cells() << " cells" << std::endl;
+  std::cout  << "Initial seed has " << T->number_of_vertices()
+        << " vertices and " << T->number_of_facets() << " facets"
+        << " and " << T->number_of_cells() << " cells" << std::endl;
 
 
   do {
@@ -141,7 +142,7 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices) {
     /// Locate the point
     Delaunay::Locate_type lt;
     int li, lj;
-    Cell_handle c = T.locate(p, lt, li, lj);
+    Cell_handle c = T->locate(p, lt, li, lj);
     if (lt == Delaunay::VERTEX)
       continue;  // Point already exists
 
@@ -150,16 +151,14 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices) {
     std::vector<Cell_handle> V;
     Facet f;
 
-    T.find_conflicts(p, c,
+    T->find_conflicts(p, c,
               CGAL::Oneset_iterator<Facet>(f),  // Get one boundary facet
               std::back_inserter(V));       // Conflict cells in V
 
     if ((V.size() & 1) == 0)  // Even number of conflict cells?
-      T.insert_in_hole(p, V.begin(), V.end(), f.first, f.second);
-  } while (T.number_of_cells() < number_of_simplices);
+      T->insert_in_hole(p, V.begin(), V.end(), f.first, f.second);
+  } while (T->number_of_cells() < number_of_simplices);
 
-  assert(T.dimension() == 3);
-  assert(T.is_valid());
-
-  return T;
+  assert(T->dimension() == 3);
+  assert(T->is_valid());
 }
