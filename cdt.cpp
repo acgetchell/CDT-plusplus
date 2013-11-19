@@ -8,20 +8,15 @@
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/point_generators_3.h>
 
-/// C headers
-#include <unistd.h>
-#include <sys/utsname.h>
-
 /// C++ headers
-#include <stdio.h>
-#include <stdlib.h>
 #include <math.h>
 #include <iostream>
 #include <vector>
 #include <cassert>
 #include <fstream>
 #include <string>
-#include <ctime>
+
+#include "utilities.h"
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
 
@@ -32,13 +27,6 @@ typedef Delaunay::Facet                                       Facet;
 
 /// Function prototypes
 Delaunay make_3D_simplicial_complex(int number_of_simplices);
-void print_error(char* name_of_program);
-std::string generate_filename(char topology,
-                          int dimensions,
-                          int number_of_simplices);
-std::string getEnvVar(std::string const& key);
-const std::string currentDateTime();
-std::string hostname();
 
 int main(int argc, char *argv[]) {
   int dimensions = 3;         // Number of dimensions
@@ -163,63 +151,3 @@ Delaunay make_3D_simplicial_complex(int number_of_simplices) {
 
   return T;
 }
-
-void print_error(char *name) {
-  fprintf(stderr, "Usage: %s [-s|-t] number of simplices [-d dimensions]\n",
-    name);
-  fprintf(stderr, "Currently, number of dimensions cannot be higher than 3.\n");
-}
-
-std::string generate_filename(char top, int dim, int number_of_simplices) {
-  std::string filename;
-  if (top == 's') {
-    filename += "S";
-  } else {
-    filename += "T";
-  }
-  filename += std::to_string(dim);
-  filename += "-";
-  filename += std::to_string(number_of_simplices);
-
-  /// Get user
-  filename += "-";
-  filename += getEnvVar("USER");
-
-  /// Get machine name
-  filename += "@";
-  filename += hostname();
-
-  /// Append current time
-  filename += "-";
-  filename += currentDateTime();
-
-  /// Append .dat file extension
-  filename += ".dat";
-  return filename;
-}
-/// Return an environment variable
-std::string getEnvVar(std::string const& key) {
-  char const* val = getenv(key.c_str());
-  return val == NULL ? std::string() : std::string(val);
-}
-
-/// Return the current date and time
-const std::string currentDateTime() {
-  time_t      now = time(0);
-  struct tm   tstruct;
-  char        buf[80];
-  tstruct = *localtime(&now);
-  /// Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-  /// for more info about date/time format
-  strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
-
-  return buf;
-}
-
-std::string hostname() {
-  struct utsname name;
-  /// Ensure uname returns a value
-  if (uname(&name)) exit(-1);
-  return name.nodename;
-}
-
