@@ -45,7 +45,7 @@ const std::string currentDateTime() {
   tstruct = *localtime(&now);
   /// Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   /// for more info about date/time format
-  strftime(buf, sizeof(buf), "%Y-%m-%d.%X", &tstruct);
+  strftime(buf, sizeof(buf), "%Y-%m-%d.%X%Z", &tstruct);
 
   return buf;
 }

@@ -29,6 +29,10 @@ typedef Delaunay::Facet                                       Facet;
 Delaunay make_3D_simplicial_complex(int number_of_simplices);
 
 int main(int argc, char *argv[]) {
+  /// Start running time
+  clock_t start, end;
+  start = clock();
+
   int dimensions = 3;         // Number of dimensions
   int num_simplices = 0;      // Number of simplices
   char topology;              // Topology type
@@ -89,18 +93,26 @@ int main(int argc, char *argv[]) {
   fprintf(stdout, "Number of simplices = %d\n", num_simplices);
   fprintf(stdout, "Geometry = %s\n", topology == 's'
     ? "spherical" : "toroidal");
+  fprintf(stdout, "User = %s\n", getEnvVar("USER").c_str());
   fprintf(stdout, "Hostname = %s\n", hostname().c_str());
+
 
   Delaunay S = make_3D_simplicial_complex(num_simplices);
   std::cout << "Final triangulation has " << S.number_of_vertices()
         << " vertices and " << S.number_of_facets() << " facets"
         << " and " << S.number_of_cells() << " cells" << std::endl;
 
-  filename.assign(generate_filename(topology, dimensions, num_simplices));
+  end = clock();
+  
+  /// Calculate and display program running time
+  float running_time ((float)end - (float)start);
+  float seconds = running_time / CLOCKS_PER_SEC;
+  fprintf(stdout, "Running time is %f seconds\n", seconds);
 
+  /// Write to file
+  filename.assign(generate_filename(topology, dimensions, num_simplices));
   fprintf(stdout, "Writing to file %s\n", filename.c_str());
   std::ofstream oFileT(filename, std::ios::out);
-  // writing file output_tds;
   oFileT << S;
 
   return 0;
