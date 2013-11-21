@@ -12,15 +12,15 @@
 #include <sys/utsname.h>
 
 /// C++ headers
-#include <stdio.h>
 #include <stdlib.h>
 #include <string>
 #include <ctime>
 
 void print_error(char *name) {
-  fprintf(stderr, "Usage: %s [-s|-t] number of simplices [-d dimensions]\n",
-    name);
-  fprintf(stderr, "Currently, number of dimensions cannot be higher than 3.\n");
+  std::cout << "Usage: " << name << " [-s|-t] number of simplices [-d dimensions]"
+    << std::endl;
+  std::cout << "Currently, number of dimensions cannot be higher than 3."
+    << std::endl;
 }
 
 /// Return an environment variable

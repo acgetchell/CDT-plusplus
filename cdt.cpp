@@ -73,9 +73,10 @@ int main(int argc, char* argv[]) {
           break;
         case '?':
           if (optopt == 's' || optopt =='t' || optopt == 'd') {
-            fprintf(stderr, "Option -%c requires an argument.\n", optopt);
+            std::cout << "Option -" << optopt << " requires an argument."
+            << std::endl;
           } else {
-            fprintf(stderr, "Unknown option `-%c'.\n", optopt);
+            std::cerr << "Uknown option -" << optopt << std::endl;
           }
         print_error(argv[0]);
         return 1;
@@ -87,13 +88,12 @@ int main(int argc, char* argv[]) {
     print_error(argv[0]);
     exit(2);
   }
-
-  fprintf(stdout, "Number of dimensions = %d\n", dimensions);
-  fprintf(stdout, "Number of simplices = %d\n", num_simplices);
-  fprintf(stdout, "Geometry = %s\n", topology == 's'
-    ? "spherical" : "toroidal");
-  fprintf(stdout, "User = %s\n", getEnvVar("USER").c_str());
-  fprintf(stdout, "Hostname = %s\n", hostname().c_str());
+  std::cout << "Number of dimensions = " << dimensions << std::endl;
+  std::cout << "Number of simplices = " << num_simplices << std::endl;
+  std::cout << "Geometry = " << (topology == 's'
+    ? "spherical" : "toroidal") << std::endl;
+  std::cout << "User = " << getEnvVar("USER") << std::endl;
+  std::cout << "Hostname = " << hostname() << std::endl;
 
   Delaunay S;
 
@@ -108,11 +108,11 @@ int main(int argc, char* argv[]) {
   /// Calculate and display program running time
   float running_time(static_cast<float>(end) - static_cast<float>(start));
   float seconds = running_time / CLOCKS_PER_SEC;
-  fprintf(stdout, "Running time is %f seconds\n", seconds);
+  std::cout << "Running time is " << seconds;
 
   /// Write to file
   filename.assign(generate_filename(topology, dimensions, num_simplices));
-  fprintf(stdout, "Writing to file %s\n", filename.c_str());
+  std::cout << "Writing to file " << filename << std::endl;
   std::ofstream oFileT(filename, std::ios::out);
   oFileT << S;
 
