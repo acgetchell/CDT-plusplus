@@ -48,3 +48,6 @@ cpplint.py
 
 # Output files
 *.dat
+
+# Instrumentation
+*.trace
