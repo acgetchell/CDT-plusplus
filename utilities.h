@@ -8,13 +8,11 @@
 #define UTILITIES_H_
 
 /// C headers
-#include <unistd.h>
 #include <sys/utsname.h>
 
 /// C++ headers
-#include <stdlib.h>
+#include <iostream>
 #include <string>
-#include <ctime>
 
 void print_error(char *name) {
   std::cout << "Usage: " << name << " [-s|-t] number of simplices [-d dimensions]"
