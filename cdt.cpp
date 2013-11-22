@@ -3,15 +3,16 @@
 /// Copyright (c) 2013 Adam Getchell
 ///
 /// A program that generates spacetimes
+///
 /// Inspired by https://github.com/ucdavis/CDT
+///
 
 
-
-/// C++ headers
+// C++ headers
 #include <fstream>
 #include <string>
 
-/// CDT headers
+// CDT headers
 #include "utilities.h"
 #include "simplicial_complex.h"
 
@@ -20,13 +21,13 @@ int main(int argc, char* argv[]) {
   clock_t start, end;
   start = clock();
 
-  int dimensions = 3;         // Number of dimensions
-  int num_simplices = 0;      // Number of simplices
-  char topology;              // Topology type
-  bool topology_set = false;  // Topology type set?
-  int c;                      // Case statement switch
-  opterr = 0;                 // Suppress getopt error messages
-  bool error_flag = false;    // Error in program invocation?
+  int dimensions = 3;         /// Number of dimensions, defaults to 3
+  int num_simplices = 0;      /// Number of simplices, defaults to 0
+  char topology;              /// Topology type
+  bool topology_set = false;  /// Is the Topology type set?
+  int c;                      /// Case statement switch integer
+  opterr = 0;                 /// Suppress getopt error messages
+  bool error_flag = false;    /// Is there an error in program invocation?
   std::string filename = "";
 
   if (argc < 2) {
