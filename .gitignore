@@ -37,6 +37,7 @@ tds
 periodic_simplex
 output.tds
 gv_terrain
+periodic_large_point_set
 *.plist
 *.out
 

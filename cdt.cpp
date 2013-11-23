@@ -85,7 +85,7 @@ int main(int argc, char* argv[]) {
 
   Delaunay S;
 
-  if (topology == 's') {
+  if (topology == 's' && dimensions == 3) {
     make_S3_simplicial_complex(&S, num_simplices);
   } else {
     // make_T3_simplicial_complex(&S, num_simplices);
