@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <vector>
+#include <cassert>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Periodic_3_triangulation_traits_3<K> GT;
@@ -39,6 +40,8 @@ int main() {
 	}
 	t.stop();
 	std::cout << "Time: " << t.time() << " sec. (Standard insertion)" << std::endl;
+	std::cout << "Number of cells: " << PT1.number_of_cells() << std::endl;
+	assert(PT1.is_valid());
 	t.reset();
 
 	// Iterator range insertion using spatial sorting but no dummy points
@@ -46,6 +49,7 @@ int main() {
 	PT2.insert(pts.begin(), pts.end()); // third param defaults to false
 	t.stop();
 	std::cout << "Time: " << t.time() << " sec. (with spatial sorting)" << std::endl;
+	std::cout << "Number of cells: " << PT2.number_of_cells() << std::endl;
 	t.reset();
 
 	// Iterator range insertion using spatial sorting and dummy point heuristic
@@ -53,6 +57,7 @@ int main() {
 	PT3.insert(pts.begin(), pts.end(), true);
 	t.stop();
 	std::cout << "Time: " << t.time() << " sec. (Dummy point heuristic)" << std::endl;
+	std::cout << "Number of cells: " << PT3.number_of_cells() << std::endl;
 
 	return 0;
 }

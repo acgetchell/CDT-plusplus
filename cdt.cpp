@@ -7,6 +7,7 @@
 /// Inspired by https://github.com/ucdavis/CDT
 ///
 
+#include <CGAL/Timer.h>
 
 // C++ headers
 #include <fstream>
@@ -14,12 +15,12 @@
 
 // CDT headers
 #include "utilities.h"
-#include "simplicial_complex.h"
+#include "spherical_3_complex.h"
 
 int main(int argc, char* argv[]) {
   /// Start running time
-  clock_t start, end;
-  start = clock();
+  CGAL::Timer t;
+  t.start();
 
   int dimensions = 3;         /// Number of dimensions, defaults to 3
   int num_simplices = 0;      /// Number of simplices, defaults to 0
@@ -91,16 +92,13 @@ int main(int argc, char* argv[]) {
     // make_T3_simplicial_complex(&S, num_simplices);
   }
 
+  t.stop();
+
   std::cout << "Final triangulation has " << S.number_of_vertices()
         << " vertices and " << S.number_of_facets() << " facets"
         << " and " << S.number_of_cells() << " cells" << std::endl;
-
-  end = clock();
-
-  /// Calculate and display program running time
-  float running_time(static_cast<float>(end) - static_cast<float>(start));
-  float seconds = running_time / CLOCKS_PER_SEC;
-  std::cout << "Running time is " << seconds << std::endl;
+  /// Display program running time
+  std::cout << "Running time is " << t.time() << " seconds." << std::endl;
 
   /// Write to file
   filename.assign(generate_filename(topology, dimensions, num_simplices));
