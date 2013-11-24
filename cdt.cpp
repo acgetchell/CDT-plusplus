@@ -12,10 +12,12 @@
 // C++ headers
 #include <fstream>
 #include <string>
+#include <typeinfo>
 
 // CDT headers
 #include "utilities.h"
 #include "spherical_3_complex.h"
+#include "periodic_3_complex.h"
 
 int main(int argc, char* argv[]) {
   /// Start running time
@@ -88,6 +90,7 @@ int main(int argc, char* argv[]) {
 
   if (topology == 's' && dimensions == 3) {
     make_S3_simplicial_complex(&S, num_simplices);
+    std::cout << typeid(S).name() << std::endl;
   } else {
     // make_T3_simplicial_complex(&S, num_simplices);
   }

@@ -18,20 +18,21 @@
 typedef CGAL::Exact_predicates_inexact_constructions_kernel   K;
 typedef CGAL::Delaunay_triangulation_3<K>                     Delaunay;
 
-typedef Delaunay::Cell_handle                                 Cell_handle;
-typedef Delaunay::Facet                                       Facet;
-typedef Delaunay::Locate_type                                 Locate_type;
-typedef Delaunay::Point                                       Point;
+//typedef Delaunay::Cell_handle                                 Cell_handle;
+//typedef Delaunay::Facet                                       Facet;
+//typedef Delaunay::Locate_type                                 Locate_type;
+//typedef Delaunay::Point                                       Point;
 
 /// Make 3D spherical simplicial complexes
-void make_S3_simplicial_complex(Delaunay* S3, int number_of_simplices) {
-  CGAL::Random_points_in_sphere_3<Point> rnd;
+template <typename T>
+void make_S3_simplicial_complex(T* S3, int number_of_simplices) {
+  CGAL::Random_points_in_sphere_3<typename T::Point> rnd;
 
   /// Initialize triangulation in 3D
-  S3->insert(Point(0, 0, 0));
-  S3->insert(Point(1, 0, 0));
-  S3->insert(Point(0, 1, 0));
-  S3->insert(Point(0, 0, 1));
+  S3->insert(Delaunay::Point(0, 0, 0));
+  S3->insert(Delaunay::Point(1, 0, 0));
+  S3->insert(Delaunay::Point(0, 1, 0));
+  S3->insert(Delaunay::Point(0, 0, 1));
 
   assert(S3->dimension() == 3);
 
@@ -41,22 +42,22 @@ void make_S3_simplicial_complex(Delaunay* S3, int number_of_simplices) {
 
 
   do {
-     Point p = *rnd++;
+     Delaunay::Point p = *rnd++;
 
     /// Locate the point
-    Locate_type lt;
+    Delaunay::Locate_type lt;
     int li, lj;
-    Cell_handle c = S3->locate(p, lt, li, lj);
+    Delaunay::Cell_handle c = S3->locate(p, lt, li, lj);
     if (lt == Delaunay::VERTEX)
       continue;  // Point already exists
 
     /// Get the cells that conflict with p in a vector V,
     /// and a facet on the boundary of this hole in f
-    std::vector<Cell_handle> V;
-    Facet f;
+    std::vector<Delaunay::Cell_handle> V;
+    Delaunay::Facet f;
 
     S3->find_conflicts(p, c,
-              CGAL::Oneset_iterator<Facet>(f),  // Get one boundary facet
+              CGAL::Oneset_iterator<Delaunay::Facet>(f),  // Get one boundary facet
               std::back_inserter(V));       // Conflict cells in V
 
     if ((V.size() & 1) == 0)  // Even number of conflict cells?
