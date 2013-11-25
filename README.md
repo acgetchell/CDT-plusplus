@@ -84,7 +84,7 @@ Unit tests:
 You can build and run unit tests by typing:
 
 ~~~
-# make tests
+# make test
 ~~~
 
 In addition to the command line output, you can see detailed results in the Testing directory which is generated thereby.
