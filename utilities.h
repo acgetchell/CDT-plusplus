@@ -7,16 +7,21 @@
 #ifndef UTILITIES_H_
 #define UTILITIES_H_
 
+#include <CGAL/Timer.h>
+
 /// C headers
 #include <sys/utsname.h>
 
 /// C++ headers
 #include <iostream>
 #include <string>
+#include <fstream>
 
 void print_error(char *name) {
-  std::cout << "Usage: " << name << " [-s|-t] number of simplices [-d dimensions]"
-    << std::endl;
+  std::cout << "Usage: "
+            << name
+            << " [-s|-t] number of simplices [-d dimensions]"
+            << std::endl;
   std::cout << "Currently, number of dimensions cannot be higher than 3."
     << std::endl;
 }
@@ -76,4 +81,36 @@ std::string generate_filename(char top, int dim, int number_of_simplices) {
   filename += ".dat";
   return filename;
 }
+
+template <typename T>
+void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) {
+  std::cout << "Final triangulation has "
+            << Simplicial_Complex->number_of_vertices()
+            << " vertices and "
+            << Simplicial_Complex->number_of_facets()
+            << " facets"
+            << " and "
+            << Simplicial_Complex->number_of_cells()
+            << " cells" << std::endl;
+  /// Display program running time
+  std::cout << "Running time is "
+            << timer->time()
+            << " seconds."
+            << std::endl;
+}
+
+template <typename T>
+void write_file(const T Simplicial_Complex,
+                char topology,
+                int dimensions,
+                int num_simplices) {
+  std::string filename = "";
+  filename.assign(generate_filename(topology, dimensions, num_simplices));
+  std::cout << "Writing to file "
+            << filename
+            << std::endl;
+  std::ofstream oFileT(filename, std::ios::out);
+  oFileT << Simplicial_Complex;
+}
+
 #endif  // UTILITIES_H_

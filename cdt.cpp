@@ -9,15 +9,10 @@
 
 #include <CGAL/Timer.h>
 
-// C++ headers
-#include <fstream>
-#include <string>
-#include <typeinfo>
-
 // CDT headers
-#include "utilities.h"
-#include "spherical_3_complex.h"
-#include "periodic_3_complex.h"
+#include <utilities.h>
+#include <spherical_3_complex.h>
+#include <periodic_3_complex.h>
 
 int main(int argc, char* argv[]) {
   /// Start running time
@@ -31,7 +26,6 @@ int main(int argc, char* argv[]) {
   int c;                      /// Case statement switch integer
   opterr = 0;                 /// Suppress getopt error messages
   bool error_flag = false;    /// Is there an error in program invocation?
-  std::string filename = "";
 
   if (argc < 2) {
     print_error(argv[0]);
@@ -79,6 +73,8 @@ int main(int argc, char* argv[]) {
     print_error(argv[0]);
     exit(2);
   }
+
+  /// Display job parameters
   std::cout << "Number of dimensions = " << dimensions << std::endl;
   std::cout << "Number of simplices = " << num_simplices << std::endl;
   std::cout << "Geometry = " << (topology == 's'
@@ -86,28 +82,26 @@ int main(int argc, char* argv[]) {
   std::cout << "User = " << getEnvVar("USER") << std::endl;
   std::cout << "Hostname = " << hostname() << std::endl;
 
-  Delaunay S;
+  /// Initialize both simplicial complex types
+  Delaunay Sphere3;
+  PDT Torus3;
 
-  if (topology == 's' && dimensions == 3) {
-    make_S3_simplicial_complex(&S, num_simplices);
-    std::cout << typeid(S).name() << std::endl;
-  } else {
-    // make_T3_simplicial_complex(&S, num_simplices);
+  switch (topology) {
+    case 's':
+      make_S3_simplicial_complex(&Sphere3, num_simplices);
+      t.stop();
+      print_results(&Sphere3, &t);
+      write_file(Sphere3, topology, dimensions, num_simplices);
+      break;
+    case 't':
+      make_T3_simplicial_complex(&Torus3, num_simplices);
+      t.stop();
+      print_results(&Torus3, &t);
+      write_file(Torus3, topology, dimensions, num_simplices);
+      break;
+    default:
+      print_error(argv[0]);
+      return 1;
   }
-
-  t.stop();
-
-  std::cout << "Final triangulation has " << S.number_of_vertices()
-        << " vertices and " << S.number_of_facets() << " facets"
-        << " and " << S.number_of_cells() << " cells" << std::endl;
-  /// Display program running time
-  std::cout << "Running time is " << t.time() << " seconds." << std::endl;
-
-  /// Write to file
-  filename.assign(generate_filename(topology, dimensions, num_simplices));
-  std::cout << "Writing to file " << filename << std::endl;
-  std::ofstream oFileT(filename, std::ios::out);
-  oFileT << S;
-
   return 0;
 }

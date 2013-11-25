@@ -32,14 +32,7 @@ Makefile
 
 # Program executable stuff
 cdt
-simplex
-tds
-periodic_simplex
-output.tds
-gv_terrain
-periodic_large_point_set
 *.plist
-*.out
 
 # Test and Doc dirs
 Testing/
