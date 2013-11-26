@@ -33,11 +33,12 @@ enable_testing()
 
 # does the application run?
 
-add_test (CDTRuns cdt 1000)
+add_test (CDT-S3Runs cdt -s 5000)
+add_test (CDT-T3Runs cdt -t 5000)
 
 # does the usage message work?
 
-add_test (CDTUsage cdt)
-set_tests_properties (CDTUsage
+add_test (CDT-Usage cdt)
+set_tests_properties (CDT-Usage
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Usage: .*number")

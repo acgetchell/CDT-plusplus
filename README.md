@@ -13,7 +13,7 @@ The goals and targets of this project are:
 
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
-- [ ] 3D Toroidal simplicial complex
+- [x] 3D Toroidal simplicial complex
 - [ ] 2+1 foliation
 - [ ] 4D Simplex
 - [ ] 4D Simplicial complex

@@ -15,36 +15,35 @@
 #include <CGAL/Point_generators_3.h>
 #include <CGAL/Timer.h>
 
-#include <iostream>
 #include <vector>
+#include <cassert>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Periodic_3_triangulation_traits_3<K> GT;
-
 typedef CGAL::Periodic_3_Delaunay_triangulation_3<GT> PDT;
-
-typedef PDT::Cell_handle		Cell_handle;
-typedef PDT::Vertex_handle		Vertex_handle;
-typedef PDT::Locate_type		Locate_type;
-//typedef PDT::Point 				Point;
-typedef PDT::Iso_cuboid			Iso_cuboid;
 
 /// Make 3D toroidal (periodic in 3D) simplicial complexes
 void make_T3_simplicial_complex(PDT* T3, int number_of_simplices) {
-	CGAL::Random_points_in_cube_3<PDT::Point> rnd;
+    typedef CGAL::Creator_uniform_3<double, PDT::Point> Creator;
+    CGAL::Random random(7);
+    CGAL::Random_points_in_cube_3<PDT::Point, Creator> in_cube(.5, random);
 
-	/// Initialize triangulation in 3D
-	T3->insert(PDT::Point(0, 0, 0));
-	T3->insert(PDT::Point(1, 0, 0));
-	T3->insert(PDT::Point(0, 1, 0));
-	T3->insert(PDT::Point(0, 0, 1));
+    /// We can't directly pick number of simplices as we can in S3
+    /// but heuristically a point has <6 simplices
+    int n = number_of_simplices / 6;
+    std::vector<PDT::Point> pts;
 
-	assert(T3->dimension() == 3);
+    // Generate random points
+    for (int i = 0; i < n; i++) {
+        PDT::Point p = *in_cube;
+        in_cube++;
+        pts.push_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));
+    }
 
-	std::cout << "Initial seed has " << T3->number_of_vertices()
-			  << " vertices and " << T3->number_of_facets() << " facets"
-			  << " and " << T3->number_of_cells() << " cells" << std::endl;
+    // Iterator range insertion using spatial sorting and dummy point heuristic
+    T3->insert(pts.begin(), pts.end(), true);
 
+    assert(T3->dimension() == 3);
+    assert(T3->is_valid());
 }
-
 #endif  // PERIODIC_3_COMPLEX_H_
