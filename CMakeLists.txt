@@ -53,3 +53,9 @@ add_test (CDT-3Donly cdt -d 4)
 set_tests_properties (CDT-3Donly
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Currently, number of dimensions cannot be higher than 3.")
+
+# set number of time slices
+add_test (CDT-Timeslices cdt -s 5000 -p 256)
+set_tests_properties (CDT-Timeslices
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Final triangulation has")
