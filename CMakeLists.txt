@@ -37,7 +37,7 @@ add_test (CDT-S3Runs cdt -s 5000)
 set_tests_properties (CDT-S3Runs
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Number of simplices = 5000")
-add_test (CDT-T3Runs cdt -t 5000)
+add_test (CDT-T3Runs cdt -p 5000)
 set_tests_properties (CDT-T3Runs
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Final triangulation has")
@@ -55,7 +55,7 @@ set_tests_properties (CDT-3Donly
   PASS_REGULAR_EXPRESSION "Currently, number of dimensions cannot be higher than 3.")
 
 # set number of time slices
-add_test (CDT-Timeslices cdt -s 5000 -p 256)
+add_test (CDT-Timeslices cdt -s 5000 -the 256)
 set_tests_properties (CDT-Timeslices
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Final triangulation has")
