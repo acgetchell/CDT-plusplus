@@ -108,7 +108,7 @@ Be sure to edit CMakeLists.txt and set Java binds to off:
 option( BUILD_JAVA "Build Java bindings" OFF )
 ```
 
-Now, set an appropriate value of [PYTHONPATH][21] and you're good to go!
+Now, set an appropriate value of [PYTHONPATH][21] and you're [good to go](simple_triangulation_3.py)!
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
