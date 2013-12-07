@@ -14,13 +14,14 @@ The goals and targets of this project are:
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
 - [x] 3D Toroidal simplicial complex
+- [x] Python bindings from [cgal-bindings][20]
 - [ ] 2+1 foliation
 - [ ] 4D Simplex
 - [ ] 4D Simplicial complex
 - [ ] 3+1 foliation
 - [x] Tests using [CTest][8]
 - [ ] Complete test coverage
-- [ ] Test builds with [CDash][9]
+- [ ] Test builds with ~~[CDash][9]~~ [Travis CI][19]
 - [x] [Literate programming][10] generated using [Doxygen][11]
 - [ ] Complete documentation
 - [ ] Initialize two masses
@@ -89,6 +90,26 @@ You can build and run unit tests by typing:
 
 In addition to the command line output, you can see detailed results in the Testing directory which is generated thereby.
 
+Python Bindings:
+----------------
+
+[Cgal-bindings][20] can be installed pretty easily:
+
+~~~
+# git clone https://code.google.com/p/cgal-bindings/
+# cd cgal-bindings
+# cmake .
+# make
+~~~
+
+Be sure to edit CMakeLists.txt and set Java binds to off:
+
+```CMake
+option( BUILD_JAVA "Build Java bindings" OFF )
+```
+
+Now, set an appropriate value of [PYTHONPATH][21] and you're good to go!
+
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
 [3]: http://www.cmake.org
@@ -107,3 +128,6 @@ In addition to the command line output, you can see detailed results in the Test
 [16]: http://www.kitware.com/blog/home/post/434
 [17]: http://www.mathjax.org
 [18]: http://www.graphviz.org
+[19]: http://about.travis-ci.org/docs/user/getting-started/
+[20]: https://code.google.com/p/cgal-bindings/
+[21]: http://scipher.wordpress.com/2010/05/10/setting-your-pythonpath-environment-variable-linuxunixosx/
