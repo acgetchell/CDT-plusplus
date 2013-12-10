@@ -22,7 +22,7 @@ void usage(char *name) {
             << name << std::endl;
   std::cout << "Required arguments: (you can use abbreviations)" << std::endl;
   std::cout << " --spherical or --periodic or --toroidal";
-  std::cout << " (periodic and toroidal are the same thing" << std::endl;
+  std::cout << " (periodic and toroidal are the same thing)" << std::endl;
   std::cout << " --number-of-simplices (int) <num_simplices>" << std::endl;
   std::cout << " --timeslices (int) <num_timeslices>" << std::endl;
   std::cout << "Optional arguments:" << std::endl;
