@@ -17,11 +17,16 @@
 #include <string>
 #include <fstream>
 
-void print_error(char *name) {
+void usage(char *name) {
   std::cout << "Usage: "
-            << name
-            << " [-s|-t] number of simplices [-d dimensions]"
-            << std::endl;
+            << name << std::endl;
+  std::cout << "Required arguments: (you can use abbreviations)" << std::endl;
+  std::cout << " --spherical or --periodic or --toroidal";
+  std::cout << " (periodic and toroidal are the same thing" << std::endl;
+  std::cout << " --number-of-simplices (int) <num_simplices>" << std::endl;
+  std::cout << " --timeslices (int) <num_timeslices>" << std::endl;
+  std::cout << "Optional arguments:" << std::endl;
+  std::cout << "--dimensions (int) <dimensions> (defaults to 3)" << std::endl;
   std::cout << "Currently, number of dimensions cannot be higher than 3."
     << std::endl;
 }
@@ -54,7 +59,10 @@ const std::string currentDateTime() {
 }
 
 /// Generate useful filenames
-std::string generate_filename(char top, int dim, int number_of_simplices) {
+std::string generate_filename(int top,
+                              int dim,
+                              int number_of_simplices,
+                              int number_of_timeslices) {
   std::string filename;
   if (top == 's') {
     filename += "S";
@@ -62,6 +70,8 @@ std::string generate_filename(char top, int dim, int number_of_simplices) {
     filename += "T";
   }
   filename += std::to_string(dim);
+  filename += "-";
+  filename += std::to_string(number_of_timeslices);
   filename += "-";
   filename += std::to_string(number_of_simplices);
 
@@ -103,9 +113,13 @@ template <typename T>
 void write_file(const T Simplicial_Complex,
                 char topology,
                 int dimensions,
-                int num_simplices) {
+                int num_simplices,
+                int num_timeslices) {
   std::string filename = "";
-  filename.assign(generate_filename(topology, dimensions, num_simplices));
+  filename.assign(generate_filename(topology,
+                                    dimensions,
+                                    num_simplices,
+                                    num_timeslices));
   std::cout << "Writing to file "
             << filename
             << std::endl;

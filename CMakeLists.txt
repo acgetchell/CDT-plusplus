@@ -31,31 +31,44 @@ endif()
 
 include( CTest )
 
-# does the application run?
-
-add_test (CDT-S3Runs cdt -s 5000)
-set_tests_properties (CDT-S3Runs
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Number of simplices = 5000")
-add_test (CDT-T3Runs cdt -p 5000)
-set_tests_properties (CDT-T3Runs
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Final triangulation has")
-
 # does the usage message work?
 
 add_test (CDT-Usage cdt)
 set_tests_properties (CDT-Usage
   PROPERTIES
-  PASS_REGULAR_EXPRESSION "Usage: .*number")
+  PASS_REGULAR_EXPRESSION "Usage:")
 
-add_test (CDT-3Donly cdt -d 4)
+# Make an S3
+
+add_test (CDT-S3Runs cdt --s --time 25 -n 5000)
+set_tests_properties (CDT-S3Runs
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Writing to file S")
+
+# Make a T3
+
+add_test (CDT-T3Runs cdt --p --time 30 -n 6000)
+set_tests_properties (CDT-T3Runs
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Writing to file T")
+
+# Dimensions = 3
+
+add_test (CDT-3Donly cdt --s --time 25 -n 5000 -d 4)
 set_tests_properties (CDT-3Donly
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Currently, number of dimensions cannot be higher than 3.")
 
-# set number of time slices
-add_test (CDT-Timeslices cdt -s 5000 -the 256)
+# Simplices = 7000
+
+add_test (CDT-Simplices cdt --s --time 35 -n 7000)
+set_tests_properties (CDT-Simplices
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Number of simplices = 7000")
+
+# Timeslices = 50
+add_test (CDT-Timeslices cdt --p --time 50 -n 8000)
 set_tests_properties (CDT-Timeslices
   PROPERTIES
-  PASS_REGULAR_EXPRESSION "Final triangulation has")
+  PASS_REGULAR_EXPRESSION "Number of timeslices = 50")
+

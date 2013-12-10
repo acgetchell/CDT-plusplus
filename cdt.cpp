@@ -7,6 +7,12 @@
 /// Inspired by https://github.com/ucdavis/CDT
 ///
 
+#include <getopt.h>
+#include <fcntl.h>
+#include <err.h>
+
+
+/// CGAL headers
 #include <CGAL/Timer.h>
 
 // CDT headers
@@ -19,66 +25,67 @@ int main(int argc, char* argv[]) {
   CGAL::Timer t;
   t.start();
 
+  int ch, fd;
   int dimensions = 3;         /// Number of dimensions, defaults to 3
   int num_simplices = 0;      /// Number of simplices, defaults to 0
-  char topology;              /// Topology type
-  bool topology_set = false;  /// Is the Topology type set?
-  int c;                      /// Case statement switch integer
-  opterr = 0;                 /// Suppress getopt error messages
-  bool error_flag = false;    /// Is there an error in program invocation?
+  int num_timeslices = 0;     /// Number of timeslices
+  int topology;
 
-  if (argc < 2) {
-    print_error(argv[0]);
-    return 1;
-  }
+  enum topology_type { TOROIDAL, SPHERICAL};
+
+  static struct option long_options[] = {
+    {"dimension",           required_argument,  NULL,       'd'},
+    {"file",                required_argument,  NULL,       'f'},
+    {"number-of-simplices", required_argument,  NULL,       'n'},
+    {"periodic",            no_argument,        &topology,  TOROIDAL},
+    {"spherical",           no_argument,        &topology,  SPHERICAL},
+    {"toroidal",            no_argument,        &topology,  TOROIDAL},
+    {"timeslices",          required_argument,  NULL,       't'},
+    {NULL,                  0,                  NULL,       0}
+  };
 
   /// Use getopt to parse command line arguments
-  while ((c = getopt (argc, argv, "d:s:t:")) != -1)
-    switch (c) {
+  while ((ch = getopt_long(argc, argv, "d:f:n:t:", long_options, NULL)) != -1)
+    switch (ch) {
+        case 0:
+            break;
         case 'd':
-          dimensions = atoi(optarg);
-          break;
-        case 's':
-          if (!topology_set) {
-            topology = 's';
-            topology_set = true;
+            dimensions = atoi(optarg);
+            break;
+        case 'f':
+            if ((fd = open(optarg, O_RDONLY, 0)) == -1)
+                    err(1, "unable to open %s", optarg);
+            std::cout << "Opening file " << optarg
+                      << " and reading options from there" << std::endl;
+            // do nothing for now
+            exit(1);
+        case 'n':
             num_simplices = atoi(optarg);
-          } else {
-            error_flag = true;
-          }
-          break;
+            break;
         case 't':
-          if (!topology_set) {
-            topology = 't';
-            topology_set= true;
-            num_simplices = atoi(optarg);
-          } else {
-            error_flag = true;
-          }
-          break;
-        case '?':
-          if (optopt == 's' || optopt =='t' || optopt == 'd') {
-            std::cout << "Option -" << optopt << " requires an argument."
-            << std::endl;
-          } else {
-            std::cerr << "Uknown option -" << optopt << std::endl;
-          }
-        print_error(argv[0]);
-        return 1;
-      default:
-        abort();
-      }
+            num_timeslices = atoi(optarg);
+            break;
+        default:
+            usage(argv[0]);
+            // Program returns with error
+            return 1;
+    }
 
-  if (error_flag || num_simplices == 0 || dimensions > 3) {
-    print_error(argv[0]);
-    exit(2);
-  }
+    if (topology > 1
+        || num_timeslices == 0
+        || num_simplices == 0
+        || dimensions > 3) {
+        usage(argv[0]);
+        return 1;
+    }
 
   /// Display job parameters
   std::cout << "Number of dimensions = " << dimensions << std::endl;
   std::cout << "Number of simplices = " << num_simplices << std::endl;
-  std::cout << "Geometry = " << (topology == 's'
-    ? "spherical" : "toroidal") << std::endl;
+  std::cout << "Number of timeslices = " << num_timeslices << std::endl;
+  std::cout << "Topology is "
+            << (topology == TOROIDAL ? " toroidal " : "spherical ")
+            << std::endl;
   std::cout << "User = " << getEnvVar("USER") << std::endl;
   std::cout << "Hostname = " << hostname() << std::endl;
 
@@ -86,21 +93,24 @@ int main(int argc, char* argv[]) {
   Delaunay Sphere3;
   PDT Torus3;
 
+  // Debugging
+  std::cout << topology << std::endl;
+
   switch (topology) {
-    case 's':
+    case SPHERICAL:
       make_S3_simplicial_complex(&Sphere3, num_simplices);
       t.stop();
       print_results(&Sphere3, &t);
-      write_file(Sphere3, topology, dimensions, num_simplices);
+      write_file(Sphere3, 's', dimensions, num_simplices, num_timeslices);
       break;
-    case 't':
+    case TOROIDAL:
       make_T3_simplicial_complex(&Torus3, num_simplices);
       t.stop();
       print_results(&Torus3, &t);
-      write_file(Torus3, topology, dimensions, num_simplices);
+      write_file(Torus3, 't', dimensions, num_simplices, num_timeslices);
       break;
     default:
-      print_error(argv[0]);
+      usage(argv[0]);
       return 1;
   }
   return 0;
