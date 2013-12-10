@@ -29,6 +29,12 @@ else()
   
 endif()
 
+################################################################################
+# GTest - http://code.google.com/p/googlemock/
+################################################################################
+add_subdirectory(gmock-1.7.0)
+enable_testing(true)
+
 include( CTest )
 
 # does the usage message work?
