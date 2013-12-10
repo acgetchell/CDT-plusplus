@@ -65,7 +65,15 @@ There are also directions for doing a [parallel build using CMake][18], but curr
 Usage:
 ------
 
-`cdt [-s|-t] number_of_simplices [-d] dimensions`
+`cdt
+Required arguments: (you can use abbreviations)
+--spherical or --periodic or --toroidal
+(periodic and toroidal are the same thing)
+--number-of-simplices (int) <number-of-simplices>
+--timeslices (int) <number-of-timeslices>
+Optional arguments:
+--dimensions (int) <dimensions> (defaults to 3)
+Currently, number of dimensions cannot be higher than 3.`
 
 Where **s** denotes spherical topology and **t** denotes toroidal topology. Currently defaults to making random spherical 3D simplicial manifolds.
 
