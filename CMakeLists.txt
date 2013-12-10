@@ -47,7 +47,7 @@ set_tests_properties (CDT-S3Runs
 
 # Make a T3
 
-add_test (CDT-T3Runs cdt --p --time 30 -n 6000)
+add_test (CDT-T3Runs cdt --toroidal --time 30 -n 6000)
 set_tests_properties (CDT-T3Runs
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Writing to file T")
