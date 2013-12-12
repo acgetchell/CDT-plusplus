@@ -27,7 +27,7 @@ parser.add_option("-f", "--file", dest="filename",
     help="Open from data file")
 parser.add_option("-p", "--periodic", action="store_false", dest="topology",
     help="Periodic (toroidal) topology")
-parser.add_option("-s", "--spherical", dest="topology",
+parser.add_option("-s", "--spherical", action="store_true", dest="topology",
     help="Spherical topology")
 parser.add_option("-n", "--number-of-simplices", dest="simplices",
     help="Number of simplices")
