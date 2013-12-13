@@ -136,6 +136,8 @@ Now, set an appropriate value of [PYTHONPATH][22] and you're [good to go](simple
 export PYTHONPATH=$PYTHONPATH:$HOME/cgal-bindings/build-python
 ~~~
 
+Unfortunately, at this time the Python bindings lack several functions (such as `CGAL::Random_points_in_sphere_3<T>`) that are necessary to build up simplices.
+
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
 [3]: http://www.cmake.org
