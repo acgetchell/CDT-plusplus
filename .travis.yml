@@ -1,0 +1,13 @@
+language: cpp
+compiler:
+  - gcc
+  - clang
+# Change this to your needs
+before_install: sudo apt-get update
+install:
+  - sudo apt-get install cmake
+  - sudo apt-get install libcgal-dev
+script: 
+  - cmake .
+  - make
+after_script: make test
