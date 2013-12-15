@@ -13,12 +13,12 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
   endif()
 endif()
 
-################################################################################
-# GTest - http://code.google.com/p/googlemock/
-################################################################################
-add_subdirectory(gmock-1.7.0)
-enable_testing(true)
-include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
+# ################################################################################
+# # GTest - http://code.google.com/p/googlemock/
+# ################################################################################
+# add_subdirectory(gmock-1.7.0)
+# enable_testing(true)
+# include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
 
 find_package(CGAL QUIET COMPONENTS Core )
 
@@ -29,7 +29,7 @@ if ( CGAL_FOUND )
   include( CGAL_CreateSingleSourceCGALProgram )
 
   create_single_source_cgal_program( "cdt.cpp" )
-  create_single_source_cgal_program( "main.cpp")
+  #create_single_source_cgal_program( "main.cpp")
 
 else()
   
