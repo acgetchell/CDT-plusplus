@@ -6,7 +6,7 @@ compiler:
 before_install: sudo apt-get update
 install:
   - sudo apt-get install cmake
-  - sudo apt-get install libcgal-dev
+#  - sudo apt-get install libcgal-dev
 script: 
   - cmake .
   - make
