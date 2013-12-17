@@ -1,4 +1,4 @@
-CDT-plusplus
+CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)
 ============
 
 [Causal Dynamical Triangulations][1] in C++ using the [Computational Geometry Algorithms Library][2] and compiled with
