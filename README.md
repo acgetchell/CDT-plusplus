@@ -23,7 +23,7 @@ The goals and targets of this project are:
 - [x] Tests using [CTest][10]
 - [ ] More comprehensive tests with [Gmock][6]
 - [ ] Complete test coverage
-- [ ] Test builds with [Travis CI][11]
+- [x] Test builds with [Travis CI][11]
 - [x] Developed with [literate programming][12] generated using [Doxygen][13]
 - [ ] Complete documentation
 - [ ] Initialize two masses
@@ -59,6 +59,8 @@ Then, download this source code (clone this repo from GitHub or grab a zipped ar
 # cmake .
 # make
 ~~~
+
+For some versions of Linux, you may have to build CGAL from source. Follow the instructions (or their equivalent) given in the install section of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
 There are also directions for doing a [parallel build using CMake][18], but currently the builds don't really take long enough to bother.
 
