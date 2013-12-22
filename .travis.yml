@@ -4,8 +4,19 @@ compiler:
   - clang
 before_install: sudo apt-get update
 install:
+  - sudo apt-get install build-essential
+  - sudo apt-get install libboost-all-dev
+  - sudo apt-get install libmpfr-dev
   - sudo apt-get install cmake
-  - sudo apt-get install libcgal-dev
+  - sudo apt-get install make
+  - sudo apt-get install curl
+  - sudo apt-get install libgmp3-dev
+  - curl -O https://gforge.inria.fr/frs/download.php/32994/CGAL-4.3.tar.gz
+  - tar zxvf CGAL-4.3.tar.gz
+  - cd CGAL-4.3
+  - cmake .
+  - make
+
 script: 
   - cmake .
   - make
