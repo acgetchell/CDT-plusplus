@@ -16,7 +16,7 @@ install:
   - cd CGAL-4.3
   - cmake .
   - make
-  - make install
+  - sudo make install
 script:
   - cd ..  
   - cmake .
