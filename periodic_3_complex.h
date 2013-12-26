@@ -12,7 +12,7 @@
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
 
 #include <CGAL/Random.h>
-#include <CGAL/Point_generators_3.h>
+#include <CGAL/point_generators_3.h>
 #include <CGAL/Timer.h>
 
 #include <vector>

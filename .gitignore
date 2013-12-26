@@ -39,6 +39,7 @@ Testing/
 html/
 latex/
 cpplint.py
+DartConfiguration.tcl
 
 # Output files
 *.dat
