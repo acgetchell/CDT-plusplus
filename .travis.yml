@@ -1,6 +1,6 @@
 language: cpp
 env:
-  - CXXFLAGS=-stdlib=libc++ LDFLAGS=-stdlib=libc++
+  - CXXFLAGS=stdlib=libc++ LDFLAGS=stdlib=libc++
 compiler:
   - gcc
   - clang
