@@ -16,7 +16,7 @@ install:
   - cd CGAL-4.3
   - cmake .
   - make
-
+before-script: cd
 script: 
   - cmake .
   - make
