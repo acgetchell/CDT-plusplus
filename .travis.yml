@@ -1,7 +1,7 @@
 language: cpp
 compiler:
-  - gcc -std=c++11
-  - clang -std=c++11
+  - gcc -std=c++0x
+  - clang -std=c++1y
 before_install: sudo apt-get update
 install:
   - sudo apt-get install build-essential
