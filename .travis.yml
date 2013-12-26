@@ -16,8 +16,8 @@ install:
   - cd CGAL-4.3
   - cmake .
   - make
-before-script: cd
-script: 
+script:
+  - cd .. 
   - cmake .
   - make
 after_script: make test
