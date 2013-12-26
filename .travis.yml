@@ -2,20 +2,21 @@ language: cpp
 compiler:
   - gcc -std=c++0x
   - clang -std=c++1y
-before_install: sudo apt-get update
+before_install: 
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
 install:
   #- sudo apt-get install build-essential
   # Install gcc 4.8
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
-  - sudo apt-get install libboost-all-dev
-  - sudo apt-get install libmpfr-dev
-  - sudo apt-get install cmake
+  - sudo apt-get -qq install libstdc++-4.8-dev
+  - sudo apt-get install -qq libboost-all-dev
+  - sudo apt-get install -qq libmpfr-dev
+  - sudo apt-get install -qq cmake
   #- sudo apt-get install make
-  - sudo apt-get install curl
-  - sudo apt-get install libgmp3-dev
+  - sudo apt-get install -qq curl
+  - sudo apt-get install -qq libgmp3-dev
   - curl -O https://gforge.inria.fr/frs/download.php/32994/CGAL-4.3.tar.gz
   - tar zxvf CGAL-4.3.tar.gz &> install.log
   - cd CGAL-4.3
