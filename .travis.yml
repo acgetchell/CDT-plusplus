@@ -1,7 +1,10 @@
 language: objective-c
-
+before_install:
+  - rvm use ruby-2.0.0-p247
+  - brew update
+  - brew reinstall isl011
+  - brew install gcc48
 install:
-  - brew install cmake
   - brew install eigen
   - brew install cgal --imaging --with-eigen --with-lapack
 script: 
