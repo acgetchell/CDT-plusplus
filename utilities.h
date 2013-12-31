@@ -138,7 +138,8 @@ void write_file(const T Simplicial_Complex,
   std::cout << "Writing to file "
             << filename
             << std::endl;
-  std::ofstream oFileT(filename, std::ios::out);
+  // filename without the .c_str() works in c++11
+  std::ofstream oFileT(filename.c_str(), std::ios::out);
   oFileT << Simplicial_Complex;
 }
 
