@@ -17,6 +17,9 @@
 #include <string>
 #include <fstream>
 
+/// Required for our little std::to_string() workaround
+#include <sstream>
+
 void usage(char *name) {
   std::cout << "Usage: "
             << name << std::endl;
@@ -69,11 +72,23 @@ std::string generate_filename(int top,
   } else {
     filename += "T";
   }
-  filename += std::to_string(dim);
+  /// This works in C++11, but not earlier
+  //filename += std::to_string(dim);
+  std::stringstream ds;
+  ds << dim;
+  filename += ds.str();
   filename += "-";
-  filename += std::to_string(number_of_timeslices);
+
+  //filename += std::to_string(number_of_timeslices);
+  std::stringstream timeslices;
+  timeslices << number_of_timeslices;
+  filename += timeslices.str();
   filename += "-";
-  filename += std::to_string(number_of_simplices);
+  
+  //filename += std::to_string(number_of_simplices);
+  std::stringstream ns;
+  ns << number_of_simplices;
+  filename += ns.str();
 
   /// Get user
   filename += "-";

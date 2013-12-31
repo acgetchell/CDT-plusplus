@@ -1,6 +1,4 @@
 language: objective-c
-env:
-  - CXXFLAGS=stdlib=libc++ LDFLAGS=stdlib=libc++
 compiler:
   - clang
 before_install:
