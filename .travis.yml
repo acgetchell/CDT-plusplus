@@ -1,5 +1,8 @@
 language: objective-c
-compiler: clang++ -std=c++11 -stdlib=libc++
+env:
+  - CXXFLAGS=stdlib=libc++ LDFLAGS=stdlib=libc++
+compiler:
+  - clang
 before_install:
   - rvm use ruby-2.0.0-p247
   - brew update
