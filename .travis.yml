@@ -1,17 +1,36 @@
-language: objective-c
+language: cpp
 compiler:
+  - gcc
   - clang
 before_install:
-  - rvm use ruby-2.0.0-p247
-  - brew update
-  #- brew reinstall isl011
+  # Not needed for Travis-CI, but needed for a bare Ubuntu box
+  # sudo apt-get update # finds the python-software-properties package
+  # sudo apt-get install python-software-properties 
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
 install:
-  - brew install eigen
-  - brew install cgal --imaging --with-eigen --with-lapack
-script: 
+  #- sudo apt-get install build-essential
+  # Install gcc 4.8
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - sudo apt-get install -qq libstc++-4.8-dev
+  - sudo apt-get install -qq libboost-all-dev
+  - sudo apt-get install -qq libmpfr-dev
+  - sudo apt-get install -qq cmake
+  #- sudo apt-get install make
+  - sudo apt-get install -qq curl
+  - sudo apt-get install -qq libgmp3-dev
+  - curl -O https://gforge.inria.fr/frs/download.php/32994/CGAL-4.3.tar.gz
+  - tar zxvf CGAL-4.3.tar.gz &> install.log
+  - cd CGAL-4.3
   - cmake .
   - make
-after_script:
-  - make test
+  - sudo make install &>> install.log
+script:
+  - cd ..  
+  - cmake .
+  - make
+after_script: make test
 cache:
   - bundler
+  - apt
