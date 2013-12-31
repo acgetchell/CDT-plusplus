@@ -47,3 +47,6 @@ output
 
 # Instrumentation
 *.trace
+
+# Cruft
+*.old.*

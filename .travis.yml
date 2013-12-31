@@ -1,35 +1,15 @@
-language: cpp
-env:
-  - CXXFLAGS=stdlib=libc++ LDFLAGS=stdlib=libc++
-compiler:
-  - gcc
-  - clang
-before_install: 
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
+language: objective-c
+
+before_install:
+  # Install homebrew
+  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 install:
-  #- sudo apt-get install build-essential
-  # Install gcc 4.8
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
-  #- sudo apt-get install libc++
-  - sudo apt-get install -qq libboost-all-dev
-  - sudo apt-get install -qq libmpfr-dev
-  - sudo apt-get install -qq cmake
-  #- sudo apt-get install make
-  - sudo apt-get install -qq curl
-  - sudo apt-get install -qq libgmp3-dev
-  - curl -O https://gforge.inria.fr/frs/download.php/32994/CGAL-4.3.tar.gz
-  - tar zxvf CGAL-4.3.tar.gz &> install.log
-  - cd CGAL-4.3
-  - cmake .
-  - make
-  - sudo make install &>> install.log
-script:
-  - cd ..  
+  - brew install cmake
+  - brew install eigen
+  - brew install cgal --imaging --with-eigen --with-lapack
+script: 
   - cmake .
   - make
 after_script: make test
 cache:
   - bundler
-  - apt
