@@ -1,8 +1,5 @@
 language: objective-c
 
-before_install:
-  # Install homebrew
-  ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
 install:
   - brew install cmake
   - brew install eigen
@@ -10,6 +7,7 @@ install:
 script: 
   - cmake .
   - make
-after_script: make test
+after_script:
+  - make test
 cache:
   - bundler
