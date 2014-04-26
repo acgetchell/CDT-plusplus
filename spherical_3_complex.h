@@ -20,7 +20,7 @@ typedef CGAL::Delaunay_triangulation_3<K>                     Delaunay;
 
 /// Make 3D spherical simplicial complexes
 template <typename T>
-void make_S3_simplicial_complex(T* S3, int number_of_simplices) {
+void make_random_S3_simplicial_complex(T* S3, int number_of_simplices) {
   CGAL::Random_points_in_sphere_3<typename T::Point> rnd;
 
   /// Initialize triangulation in 3D
