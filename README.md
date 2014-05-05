@@ -61,7 +61,7 @@ Then, download this source code (clone this repo from GitHub or grab a zipped ar
 # make
 ~~~
 
-Actually, CMake is usually smart enough to run itself if you just type *make*. If you want to turn debugging stuff on or off, use:
+Actually, CMake is usually smart enough to run itself if you just type `make`. If you want to turn debugging stuff on or off, use:
 
 ~~~
 # cmake -DCMAKE_BUILD_TYPE=Debug .
@@ -73,7 +73,7 @@ or:
 # cmake -DCMAKE_BUILD_TYPE=Release .
 ~~~
 
-And then type *make* as usual.
+And then type `make` as usual.
 
 For some versions of Linux, you may have to build CGAL from source. Follow the instructions (or their equivalent) given in the install section of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
@@ -104,7 +104,7 @@ Generates a simplicial complex with 25 timeslices of 5000 simplices with spheric
 
 Does the same but with periodic (toroidal) topology.
 
-The dimensionality of the spacetime is `d`+1, so setting `d=3` generates a 3+1 dimensional spacetime.
+The dimensionality of the spacetime is such that each slice of spacetime is `d-1`-dimensional, so setting `d=3` generates 2 spacelike dimensions and one timelike dimension. Thus a `d`-dimensional simplex will have some `d-1` sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (space two timeslices).
 
 Documentation:
 --------------
