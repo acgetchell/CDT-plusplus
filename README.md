@@ -70,7 +70,7 @@ Actually, CMake is usually smart enough to run itself if you just type *make*. I
 or:
 
 ~~~
-# cmake -DCMAKE_BUILD_TYPE= Release .
+# cmake -DCMAKE_BUILD_TYPE=Release .
 ~~~
 
 And then type *make* as usual.
