@@ -61,7 +61,7 @@ Then, download this source code (clone this repo from GitHub or grab a zipped ar
 # make
 ~~~
 
-Actually, CMake is usually smart enough to run itself if you just type 'make'. If you want to turn debugging stuff on or off, use:
+Actually, CMake is usually smart enough to run itself if you just type *make*. If you want to turn debugging stuff on or off, use:
 
 ~~~
 # cmake -DCMAKE_BUILD_TYPE=Debug .
@@ -73,7 +73,7 @@ or:
 # cmake -DCMAKE_BUILD_TYPE= Release .
 ~~~
 
-And then type 'make' as usual.
+And then type *make* as usual.
 
 For some versions of Linux, you may have to build CGAL from source. Follow the instructions (or their equivalent) given in the install section of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
