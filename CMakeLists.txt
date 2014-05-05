@@ -80,4 +80,3 @@ add_test (CDT-Timeslices cdt --p --time 50 -n 8000)
 set_tests_properties (CDT-Timeslices
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Number of timeslices = 50")
-

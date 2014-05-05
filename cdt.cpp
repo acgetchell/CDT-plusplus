@@ -22,8 +22,8 @@
 
 int main(int argc, char* argv[]) {
 
-#ifdef DEBUG
-  printf("Running debug build");
+#ifndef NDEBUG
+  printf("Running debug build\n");
 #endif
   /// Start running time
   CGAL::Timer t;

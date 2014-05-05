@@ -135,7 +135,7 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
   }
 
   /// Debugging: print out each vertex and the timeslice number associated
-  #ifdef DEBUG
+  #ifndef NDEBUG
   for (vit = S3->finite_vertices_begin(); vit != S3->finite_vertices_end(); ++vit)
     std::cout << '(' << vit->point() << ") (timeslice = " << vit->info() << ")" << std::endl;
   #endif
