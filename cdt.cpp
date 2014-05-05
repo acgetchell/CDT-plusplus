@@ -21,6 +21,10 @@
 #include <periodic_3_complex.h>
 
 int main(int argc, char* argv[]) {
+
+#ifdef DEBUG
+  printf("Running debug build");
+#endif
   /// Start running time
   CGAL::Timer t;
   t.start();
@@ -94,7 +98,9 @@ int main(int argc, char* argv[]) {
   PDT Torus3;
 
   // Debugging
+  #ifdef DEBUG
   std::cout << "Debugging: topology type is " << topology << std::endl;
+  #endif
 
   switch (topology) {
     case SPHERICAL:
