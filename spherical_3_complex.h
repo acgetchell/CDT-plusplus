@@ -35,6 +35,7 @@ void make_random_S3_simplicial_complex(T* S3, int number_of_simplices,
   CGAL::Random_points_in_sphere_3<typename T::Point> rnd;
 
   /// Initialize triangulation in 3D
+  /// This is a single simplex of 1 cell, 4 vertices, 6 edges, and 4 faces
   S3->insert(typename T::Point(0, 0, 0));
   S3->insert(typename T::Point(1, 0, 0));
   S3->insert(typename T::Point(0, 1, 0));
@@ -105,6 +106,16 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
   print_results(S3);
 
   /// Add cells using 2-6 or 2-3 ergodic moves
+  /// Get a cell
+  Delaunay::Finite_cells_iterator cit;
+  cit = S3->finite_cells_begin();
+  assert(S3->is_cell(cit));
+  /// Get an edge, hopefully in the same cell
+  Delaunay::Finite_facets_iterator fit;
+  fit = S3->finite_facets_begin();
+  /// Now flip them
+  //Delaunay::flip(eit);
+
 
   /// Store the timeslice as an integer in each vertex's info field
   Delaunay::Finite_vertices_iterator vit;
