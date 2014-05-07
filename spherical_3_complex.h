@@ -114,7 +114,7 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
   Delaunay::Finite_facets_iterator fit;
   fit = S3->finite_facets_begin();
   /// Now flip them
-  //Delaunay::flip(eit);
+  //Delaunay::flip(fit);
 
 
   /// Store the timeslice as an integer in each vertex's info field
