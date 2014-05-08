@@ -11,8 +11,8 @@
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
-#include <CGAL/number_utils.h>
-#include <CGAL/random_selection.h>
+//#include <CGAL/number_utils.h>
+//#include <CGAL/random_selection.h>
 
 /// C++ headers
 #include <cassert>
@@ -70,6 +70,14 @@ void make_random_S3_simplicial_complex(T* S3, int number_of_simplices,
 
     if ((V.size() & 1) == 0)  // Even number of conflict cells?
       S3->insert_in_hole(p, V.begin(), V.end(), f.first, f.second);
+
+    // // Store the timeslice as an integer in each vertex's info field
+    // int timeslice = (int) CGAL::to_double(p.point().z());
+    // p.info() = timeslice;
+
+#ifndef NDEBUG
+    std::cout << '(' << p << std::endl;
+#endif
   } while (S3->number_of_finite_cells() < number_of_simplices);
 
   assert(S3->dimension() == 3);
@@ -104,18 +112,6 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
 
   std::cout  << "Initial seed has ";
   print_results(S3);
-
-  /// Add cells using 2-6 or 2-3 ergodic moves
-  /// Get a cell
-  Delaunay::Finite_cells_iterator cit;
-  cit = S3->finite_cells_begin();
-  assert(S3->is_cell(cit));
-  /// Get an edge, hopefully in the same cell
-  Delaunay::Finite_facets_iterator fit;
-  fit = S3->finite_facets_begin();
-  /// Now flip them
-  //Delaunay::flip(fit);
-
 
   /// Store the timeslice as an integer in each vertex's info field
   Delaunay::Finite_vertices_iterator vit;
