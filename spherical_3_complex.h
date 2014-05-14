@@ -76,7 +76,7 @@ void make_random_S3_simplicial_complex(T* S3, int number_of_simplices,
     // p.info() = timeslice;
 
 #ifndef NDEBUG
-    std::cout << '(' << p << std::endl;
+    std::cout << '(' << p << ')' << std::endl;
 #endif
   } while (S3->number_of_finite_cells() < number_of_simplices);
 
