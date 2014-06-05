@@ -94,7 +94,8 @@ int main(int argc, char* argv[]) {
   std::cout << "Hostname = " << hostname() << std::endl;
 
   /// Initialize both simplicial complex types
-  Delaunay Sphere3;
+  // Delaunay Sphere3;
+  Triangulation Sphere3;
   PDT Torus3;
 
   // Debugging
