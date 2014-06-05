@@ -84,7 +84,7 @@ std::string generate_filename(int top,
   timeslices << number_of_timeslices;
   filename += timeslices.str();
   filename += "-";
-  
+
   //filename += std::to_string(number_of_simplices);
   std::stringstream ns;
   ns << number_of_simplices;
@@ -118,7 +118,7 @@ void print_results(const T* Simplicial_Complex) {
             << Simplicial_Complex->number_of_finite_edges()
             << " edges and "
             << Simplicial_Complex->number_of_finite_facets()
-            << " facets"
+            << " faces"
             << " and "
             << Simplicial_Complex->number_of_finite_cells()
             << " cells" << std::endl;
@@ -132,7 +132,7 @@ void print_results(const T* Simplicial_Complex) {
 template <typename T>
 void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) {
   print_results(Simplicial_Complex);
-            
+
   /// Display program running time
   std::cout << "Running time is "
             << timer->time()
