@@ -7,7 +7,7 @@
 #ifndef PERIODIC_3_COMPLEX_H_
 #define PERIODIC_3_COMPLEX_H_
 
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Periodic_3_triangulation_traits_3.h>
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
 
@@ -18,7 +18,7 @@
 #include <vector>
 #include <cassert>
 
-typedef CGAL::Exact_predicates_exact_constructions_kernel K;
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 typedef CGAL::Periodic_3_triangulation_traits_3<K> GT;
 typedef CGAL::Periodic_3_Delaunay_triangulation_3<GT> PDT;
 

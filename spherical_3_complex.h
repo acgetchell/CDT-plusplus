@@ -7,7 +7,7 @@
 #ifndef SPHERICAL_3_COMPLEX_H_
 #define SPHERICAL_3_COMPLEX_H_
 
-#include <CGAL/Exact_predicates_exact_constructions_kernel.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
@@ -19,7 +19,7 @@
 #include <cassert>
 #include <vector>
 
-typedef CGAL::Exact_predicates_exact_constructions_kernel    K;
+typedef CGAL::Exact_predicates_inexact_constructions_kernel    K;
 /// Used so that an integer for each timeslice may be associated
 /// with each vertex
 typedef CGAL::Triangulation_vertex_base_with_info_3<int, K>  Vb;
@@ -115,6 +115,7 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
 
   /// This point makes a naive 2-6 move. We should have 6 cells
   S3->insert(typename T::Point(1, 1, 1));
+  // S3->insert(typename T::Point(1, 1, .9));
 
   /// Store the timeslice as an integer in each vertex's info field
   Triangulation::Finite_vertices_iterator vit;
@@ -123,13 +124,14 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
     vit->info() = timeslice;
   }
 
+    assert(S3->dimension() == 3);
+  assert(S3->is_valid());
+  std::cout << "Triangulation is valid: " << ((S3->is_valid()) ? "True" : "False") << std::endl;
+
   /// Debugging: print out each vertex and the timeslice number associated
   #ifndef NDEBUG
   for (vit = S3->finite_vertices_begin(); vit != S3->finite_vertices_end(); ++vit)
     std::cout << '(' << vit->point() << ") (timeslice = " << vit->info() << ")" << std::endl;
   #endif
-
-    assert(S3->dimension() == 3);
-  assert(S3->is_valid());
 }
 #endif  // SPHERICAL_3_COMPLEX_H_
