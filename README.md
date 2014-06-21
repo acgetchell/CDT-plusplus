@@ -38,7 +38,7 @@ The goals and targets of this project are:
 Build:
 ------
 
-CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][14] and [CGAL][15] installed. 
+CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][14] and [CGAL][15] installed.
 
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
@@ -61,7 +61,7 @@ Then, download this source code (clone this repo from GitHub or grab a zipped ar
 # make
 ~~~
 
-Actually, CMake is usually smart enough to run itself if you just type `make`. If you want to turn debugging stuff on or off, use:
+If you want to turn debugging stuff on or off, use:
 
 ~~~
 # cmake -DCMAKE_BUILD_TYPE=Debug .
@@ -132,7 +132,7 @@ In addition to the command line output, you can see detailed results in the Test
 Python Bindings:
 ----------------
 
-[Cgal-bindings][9] can be installed pretty easily:
+[Cgal-bindings][9] can be installed pretty easily once [SWIG][23] is installed:
 
 ~~~
 # git clone https://code.google.com/p/cgal-bindings/
@@ -177,3 +177,4 @@ Unfortunately, at this time the Python bindings lack several functions (such as 
 [20]: http://www.mathjax.org
 [21]: http://www.graphviz.org
 [22]: http://scipher.wordpress.com/2010/05/10/setting-your-pythonpath-environment-variable-linuxunixosx/
+[23]: http://www.swig.org
