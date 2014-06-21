@@ -29,12 +29,12 @@ if ( CGAL_FOUND )
   include( CGAL_CreateSingleSourceCGALProgram )
 
   create_single_source_cgal_program( "cdt.cpp" )
-  #create_single_source_cgal_program( "main.cpp")
+  create_single_source_cgal_program( "sphere_d.cpp")
 
 else()
-  
+
     message(STATUS "This program requires the CGAL library, and will not be compiled.")
-  
+
 endif()
 
 # CTest basic testing

@@ -15,7 +15,7 @@
 *.a
 
 # OS X temporary files that should never be committed
- 
+
 .DS_Store
 *.swp
 *.lock
@@ -32,6 +32,7 @@ Makefile
 
 # Program executable stuff
 cdt
+sphere_d
 *.plist
 
 # Test and Doc dirs
