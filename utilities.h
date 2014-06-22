@@ -141,7 +141,7 @@ void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) {
 }
 
 template <typename T>
-void write_file(const T Simplicial_Complex,
+void write_file(const T* Simplicial_Complex,
                 char topology,
                 int dimensions,
                 int num_simplices,
@@ -156,7 +156,7 @@ void write_file(const T Simplicial_Complex,
             << std::endl;
   // filename without the .c_str() works in c++11
   std::ofstream oFileT(filename.c_str(), std::ios::out);
-  oFileT << Simplicial_Complex;
+  oFileT << *Simplicial_Complex;
 }
 
 #endif  // UTILITIES_H_

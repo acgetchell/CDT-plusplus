@@ -17,15 +17,15 @@ typedef Kd::Point_d Point;
 int main (int argc, char const *argv[])
 {
   int nb_points = 10;
-  int dim = 4;
-  double size = 100.0;
+  int dim = 2;
+  double radius = 10.0;
   std::cout << "Generating " << nb_points << " random points on the surface of"
             << " a sphere in " << dim << "D" << std::endl
-            << "of center 0 and radius " << size << std::endl;
+            << "of center 0 and radius " << radius << std::endl;
   std::vector<Point> v;
   v.reserve(nb_points);
 
-  CGAL::Random_points_on_sphere_d<Point> gen (dim, size);
+  CGAL::Random_points_on_sphere_d<Point> gen (dim, radius);
 
   for(size_t i = 0; i < nb_points; i++)
   {

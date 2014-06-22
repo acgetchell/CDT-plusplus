@@ -19,6 +19,9 @@
 #include <cassert>
 #include <vector>
 
+/// CDT Headers
+#include <sphere_d.h>
+
 typedef CGAL::Exact_predicates_inexact_constructions_kernel    K;
 /// Used so that an integer for each timeslice may be associated
 /// with each vertex
@@ -133,5 +136,12 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
   for (vit = S3->finite_vertices_begin(); vit != S3->finite_vertices_end(); ++vit)
     std::cout << '(' << vit->point() << ") (timeslice = " << vit->info() << ")" << std::endl;
   #endif
+}
+
+template <typename T>
+void make_S3_simplicial_complex_v2(T* S3, int number_of_simplices, int number_of_timeslices) {
+  int simplices_per_timeslice = number_of_simplices / number_of_timeslices;
+  std::vector<Point> v;
+  make_d_sphere(v, simplices_per_timeslice, 2, 1.0);
 }
 #endif  // SPHERICAL_3_COMPLEX_H_

@@ -105,18 +105,18 @@ int main(int argc, char* argv[]) {
 
   switch (topology) {
     case SPHERICAL:
+      // make_S3_simplicial_complex_v2(&Sphere3, num_simplices, num_timeslices);
       make_S3_simplicial_complex(&Sphere3, num_simplices, num_timeslices);
-      // make_S3_simplicial_complex(&Sphere3, num_simplices, num_timeslices);
       t.stop(); // End running time
       std::cout << "Final simplicial complex has ";
       print_results(&Sphere3, &t);
-      write_file(Sphere3, 's', dimensions, num_simplices, num_timeslices);
+      write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
       break;
     case TOROIDAL:
       make_random_T3_simplicial_complex(&Torus3, num_simplices);
       t.stop(); // End running time
       print_results(&Torus3, &t);
-      write_file(Torus3, 't', dimensions, num_simplices, num_timeslices);
+      write_file(&Torus3, 't', dimensions, num_simplices, num_timeslices);
       break;
     default:
       usage(argv[0]);
