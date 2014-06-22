@@ -32,7 +32,6 @@ Makefile
 
 # Program executable stuff
 cdt
-sphere_d
 *.plist
 
 # Test and Doc dirs
