@@ -33,6 +33,7 @@ Makefile
 # Program executable stuff
 cdt
 *.plist
+*.pyc
 
 # Test and Doc dirs
 Testing/
