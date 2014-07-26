@@ -48,7 +48,7 @@ from CGAL.CGAL_Kernel import Ref_int
 from docopt import docopt
 import os
 import socket
-from datetime import datetime
+import utilities
 
 if __name__ == '__main__':
   arguments = docopt(__doc__, version='0.1')
@@ -60,9 +60,19 @@ if __name__ == '__main__':
   print "Topology is ", "spherical" if arguments['--spherical'] else "periodic"
   print "User = ", os.getlogin()
   print "Hostname = ", socket.gethostname()
-  print datetime.now().strftime("%Y-%m-%d.%X")
+
+  # Debugging docopt
+  # print arguments
 
   if arguments['--spherical']:
     print "Call make_S3_triangulation()"
   else:
     print "Call make_T3_triangulation()"
+
+  spherical = True if arguments['--spherical'] else False
+
+  filename = utilities.generate_filename(spherical,
+                                          arguments['-d'],
+                                          arguments['-n'],
+                                          arguments['-t'])
+  print filename
