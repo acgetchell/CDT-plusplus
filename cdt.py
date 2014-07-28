@@ -37,22 +37,15 @@ Options:
 
 """
 
-from CGAL.CGAL_Kernel import Point_3
-from CGAL.CGAL_Triangulation_3 import Delaunay_triangulation_3
-from CGAL.CGAL_Triangulation_3 import Delaunay_triangulation_3_Cell_handle
-from CGAL.CGAL_Triangulation_3 import Delaunay_triangulation_3_Vertex_handle
-from CGAL.CGAL_Triangulation_3 import Ref_Locate_type_3
-from CGAL.CGAL_Triangulation_3 import VERTEX
-from CGAL.CGAL_Kernel import Ref_int
-
 from docopt import docopt
 import os
 import socket
 import utilities
+import sys
+import spherical_3_triangulations as s3
 
 if __name__ == '__main__':
   arguments = docopt(__doc__, version='0.1')
-  # print arguments
 
   print "Number of dimensions = ", arguments['-d']
   print "Number of simplices = ", arguments['-n']
@@ -61,18 +54,24 @@ if __name__ == '__main__':
   print "User = ", os.getlogin()
   print "Hostname = ", socket.gethostname()
 
-  # Debugging docopt
+  # To debug docopt uncomment the following line
   # print arguments
 
-  if arguments['--spherical']:
-    print "Call make_S3_triangulation()"
-  else:
-    print "Call make_T3_triangulation()"
+  dimensions = int(arguments['-d'])
+  simplices = int(arguments['-n'])
+  timeslices = int(arguments['-t'])
 
   spherical = True if arguments['--spherical'] else False
-
   filename = utilities.generate_filename(spherical,
-                                          arguments['-d'],
-                                          arguments['-n'],
-                                          arguments['-t'])
-  print filename
+                                          str(dimensions),
+                                          str(simplices),
+                                          str(timeslices))
+
+  if dimensions != 3:
+    sys.exit("Only 3D triangulations currently supported")
+  elif arguments['--spherical']:
+    s3.make_S3_triangulations(dimensions, simplices, timeslices)
+  else:
+    print "Call make_T3_triangulations()"
+
+  print "Results written to ", filename
