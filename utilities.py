@@ -21,3 +21,9 @@ def generate_filename(spherical, dimensions, simplices, timeslices):
   filename += '.dat'
 
   return filename
+
+def print_results(T):
+  print T.number_of_vertices(), "vertices and "
+  print T.number_of_finite_edges(), "edges and "
+  print T.number_of_finite_facets(), "faces and "
+  print T.number_of_finite_cells(), "cells"

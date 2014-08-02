@@ -43,6 +43,7 @@ import socket
 import utilities
 import sys
 import spherical_3_triangulations as s3
+from CGAL.CGAL_Triangulation_3 import Delaunay_triangulation_3
 
 if __name__ == '__main__':
   arguments = docopt(__doc__, version='0.1')
@@ -70,8 +71,19 @@ if __name__ == '__main__':
   if dimensions != 3:
     sys.exit("Only 3D triangulations currently supported")
   elif arguments['--spherical']:
-    s3.make_S3_triangulations(dimensions, simplices, timeslices)
+    S = s3.make_S3_triangulations(dimensions, simplices, timeslices)
   else:
     print "Call make_T3_triangulations()"
 
+  S.write_to_file(filename, 14)
   print "Results written to ", filename
+
+  T1 = Delaunay_triangulation_3()
+  T1.read_from_file(filename)
+
+  assert T1.is_valid()
+  assert T1.number_of_vertices() == S.number_of_vertices()
+  assert T1.number_of_cells() == S.number_of_cells()
+  print "Results verified"
+  print "Final triangulation has "
+  utilities.print_results(T1)
