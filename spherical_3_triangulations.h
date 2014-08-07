@@ -40,6 +40,8 @@ typedef Kd::Point_d Point;
 
 template <typename T>
 void make_S3_triangulation(T* S3, int simplices, int timeslices) {
+  std::cout << "make_S3_triangulation() called " << std::endl;
+
   int simplices_per_timeslice = simplices / timeslices;
 
   std::vector<Delaunay::Point> v;

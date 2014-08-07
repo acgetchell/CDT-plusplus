@@ -18,7 +18,8 @@
 // CDT headers
 #include <utilities.h>
 #include <spherical_3_complex.h>
-#include <periodic_3_complex.h>
+//#include <periodic_3_complex.h>
+#include <periodic_3_triangulations.h>
 #include <spherical_3_triangulations.h>
 
 int main(int argc, char* argv[]) {
@@ -114,8 +115,10 @@ int main(int argc, char* argv[]) {
       write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
       break;
     case TOROIDAL:
-      make_random_T3_simplicial_complex(&Torus3, num_simplices);
+      // make_random_T3_simplicial_complex(&Torus3, num_simplices);
+      make_random_T3_triangulation(&Torus3, num_simplices, num_timeslices);
       t.stop(); // End running time
+      std::cout << "Final toroidal triangulation has ";
       print_results(&Torus3, &t);
       write_file(&Torus3, 't', dimensions, num_simplices, num_timeslices);
       break;
