@@ -11,7 +11,7 @@
 #include <CGAL/Cartesian_d.h>
 
 #include <sphere_d.h>
-#include <grid_d.h>
+//#include <grid_d.h>
 
 typedef CGAL::Cartesian_d<double> Kd;
 typedef Kd::Point_d Point;
@@ -32,12 +32,12 @@ int main (int argc, char const *argv[])
 
   std::vector<Point> grid;
 
-  make_d_cube(&grid, number_of_points, dim);
-  std::cout << "Printing points for grid. " << std::endl;
-
-  for(size_t i = 0; i<number_of_points; ++i) {
-    std::cout << " " << grid[i] << std::endl;
-  }
+  // make_d_cube(&grid, number_of_points, dim);
+  // std::cout << "Printing points for grid. " << std::endl;
+  //
+  // for(size_t i = 0; i<number_of_points; ++i) {
+  //   std::cout << " " << grid[i] << std::endl;
+  // }
 
   std::cout << "Tests passed." << std::endl;
 

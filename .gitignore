@@ -32,6 +32,7 @@ Makefile
 
 # Program executable stuff
 cdt
+cdt_tests
 *.plist
 *.pyc
 grid_d

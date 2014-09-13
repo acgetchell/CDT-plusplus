@@ -41,12 +41,15 @@ void make_d_sphere(std::vector<Point> *v,
   {
     v->push_back(*gen++);
   }
-}
+} // make_d_sphere()
 
+
+/// make_d_sphere without message
 void make_d_sphere(std::vector<Point> *v,
                     int number_of_points,
                     int dimension,
                     double radius) {
   make_d_sphere(v, number_of_points, dimension, radius, false);
-}
+} // make_d_sphere
+
 #endif  // SPHERE_D_H_

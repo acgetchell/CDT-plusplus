@@ -17,20 +17,17 @@ typedef Kd::Point_d Point;
 typedef CGAL::Creator_uniform_d <std::vector<double>::iterator, Point> Creator_d;
 
 void make_d_cube(std::vector<Point> *v,
-  int number_of_points,
+  int nb_points,
   int dimension) {
 
     double size = 1.0;
 
-    std::cout << "Generating " << number_of_points << " grid points in "
+    std::cout << "Generating " << nb_points << " grid points in "
               << dimension << "D" << std::endl;
 
-    v->reserve(number_of_points);
-    CGAL::points_on_cube_grid_d (dimension,
-                                 size,
-                                 (std::size_t) number_of_points,
-                                 std::back_inserter(v),
-                                 Creator_d(dimension));
+    v->reserve(nb_points);
+    CGAL::points_on_cube_grid_d (dimension, size, (std::size_t) nb_points,
+          std::back_inserter(v), Creator_d(dimension) );
   }
 
 #endif // GRID_D_H

@@ -29,8 +29,8 @@ if ( CGAL_FOUND )
   include( CGAL_CreateSingleSourceCGALProgram )
 
   create_single_source_cgal_program( "cdt.cpp" )
-  create_single_source_cgal_program( "grid_d.cpp")
-  #create_single_source_cgal_program("cdt_tests.cpp")
+  #create_single_source_cgal_program( "grid_d.cpp")
+  create_single_source_cgal_program("cdt_tests.cpp")
 
 else()
 
