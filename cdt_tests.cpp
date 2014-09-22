@@ -10,7 +10,7 @@
 
 #include <CGAL/Cartesian_d.h>
 
-#include <sphere_d.h>
+#include "sphere_d.h"
 //#include <grid_d.h>
 
 typedef CGAL::Cartesian_d<double> Kd;

@@ -8,7 +8,7 @@
 #define SPHERICAL_3_COMPLEX_H_
 
 /// CDT Headers
-#include <sphere_d.h>
+#include "sphere_d.h"
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>

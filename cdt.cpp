@@ -16,11 +16,11 @@
 #include <CGAL/Timer.h>
 
 // CDT headers
-#include <utilities.h>
-#include <spherical_3_complex.h>
+#include "utilities.h"
+#include "spherical_3_complex.h"
 //#include <periodic_3_complex.h>
-#include <periodic_3_triangulations.h>
-#include <spherical_3_triangulations.h>
+#include "periodic_3_triangulations.h"
+#include "spherical_3_triangulations.h"
 
 int main(int argc, char* argv[]) {
 #ifndef NDEBUG
