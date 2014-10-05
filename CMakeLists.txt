@@ -13,12 +13,26 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
   endif()
 endif()
 
-# ################################################################################
-# # GTest - http://code.google.com/p/googlemock/
-# ################################################################################
-# add_subdirectory(gmock-1.7.0)
-# enable_testing(true)
-# include_directories(${gmock_SOURCE_DIR}/include ${gmock_SOURCE_DIR})
+# General
+###############################################################################
+# Activate C++11 support (if you encounter gmock errors, use 1.6.0 version)
+add_definitions(-std=c++11)
+
+# Extra warnings
+#add_definitions(-Wextra)
+
+# Google Mock & Test
+###############################################################################
+set(GMOCK_HOME "$ENV{GMOCK_HOME}")
+
+include_directories("${GMOCK_HOME}/include")
+include_directories("${GMOCK_HOME}/gtest/include")
+link_directories("${GMOCK_HOME}/lib/.libs")
+link_directories("${GMOCK_HOME}/gtest/lib/.libs")
+
+# Main program executable
+###############################################################################
+set(EXECUTABLE_NAME "CDT")
 
 find_package(CGAL QUIET COMPONENTS Core )
 
@@ -28,15 +42,31 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  create_single_source_cgal_program( "cdt.cpp" )
+  create_single_source_cgal_program( "src/cdt.cpp" )
   #create_single_source_cgal_program( "grid_d.cpp")
-  create_single_source_cgal_program("cdt_tests.cpp")
+  create_single_source_cgal_program("src/cdt_tests.cpp")
 
 else()
 
     message(STATUS "This program requires the CGAL library, and will not be compiled.")
 
 endif()
+
+# Unit Tests executable
+###############################################################################
+set(UT_EXECUTABLE_NAME "unittests")
+
+# Test files
+file(GLOB TEST_FILES "unittests/*.cpp")
+
+add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES})
+
+# Set link libraries (order matters)
+target_link_libraries("${UT_EXECUTABLE_NAME}" gmock gtest pthread)
+
+# Include root directory
+include_directories(BEFORE ".")
+include_directories(BEFORE "src/")
 
 # CTest basic testing
 include( CTest )

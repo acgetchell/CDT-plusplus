@@ -54,10 +54,12 @@ On Ubuntu, you can do this via:
 # sudo apt-get install libcgal-dev
 ~~~
 
-Then, download this source code (clone this repo from GitHub or grab a zipped archive [here][17]) and run the following commands in the top-level directory:
+This project uses a separate build directory. Thus, download this source code (clone this repo from GitHub or grab a zipped archive [here][17]) and run the following commands in the top-level directory:
 
 ~~~
-# cmake .
+# mkdir build
+# cd build
+# cmake ..
 # make
 ~~~
 
@@ -74,6 +76,8 @@ or:
 ~~~
 
 And then type `make` as usual.
+
+This should result in the main program executable, `cdt`, as well as the unit test executable, `unittests`, in the build directory. If you want to install the program, you will eventually be able to run `make install`.
 
 For some versions of Linux, you may have to build CGAL from source. Follow the instructions (or their equivalent) given in the install section of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
@@ -121,7 +125,7 @@ This will generate **html/** and **latex/** directories which will contain docum
 Unit tests:
 -----------
 
-You can build and run unit tests by typing:
+You can build and run integration tests by typing:
 
 ~~~
 # make test
