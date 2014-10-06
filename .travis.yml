@@ -27,10 +27,7 @@ install:
   - sudo make install &>> install.log
 script:
   - cd ..
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
+  - "./build.sh"
 after_script:
   - make test
 cache:
