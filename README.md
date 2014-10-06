@@ -63,6 +63,8 @@ This project uses a separate build directory. Thus, download this source code (c
 # make
 ~~~
 
+(Or run `build.sh`)
+
 If you want to turn debugging stuff on or off, use:
 
 ~~~

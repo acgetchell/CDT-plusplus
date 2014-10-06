@@ -5,7 +5,7 @@ compiler:
 before_install:
   # Not needed for Travis-CI, but needed for a bare Ubuntu box
   # sudo apt-get update # finds the python-software-properties package
-  # sudo apt-get install python-software-properties 
+  # sudo apt-get install python-software-properties
   - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
   - sudo apt-get update -qq
 install:
@@ -26,10 +26,11 @@ install:
   - make
   - sudo make install &>> install.log
 script:
-  - cd ..  
-  - cmake .
-  - make
-after_script: make test
+  - cd ..
+  - "./build.sh"
+after_script:
+  - cd build
+  - make test
 cache:
   - bundler
   - apt
