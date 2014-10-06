@@ -2,7 +2,7 @@ CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?
 ============
 
 [Causal Dynamical Triangulations][1] in C++ using the [Computational Geometry Algorithms Library][2] and compiled with
-[CMake][3] using [Clang][4]/[LLVM][5]. [Gmock][6] has been included in order to build mock classes.
+[CMake][3] using [Clang][4]/[LLVM][5]. [Gmock 1.7][6] must also be installed in order to run unit tests.
 Follows (mostly) the [Google C++ Style Guide][7], which you can check by
 running the [cpplint.py][8] script:
 
@@ -21,7 +21,7 @@ The goals and targets of this project are:
 - [ ] 4D Simplicial complex
 - [ ] 3+1 foliation
 - [x] Tests using [CTest][10]
-- [ ] More comprehensive tests with [Gmock][6]
+- [x] More comprehensive tests with [Gmock][6]
 - [ ] Complete test coverage
 - [x] Test builds with [Travis CI][11]
 - [x] Developed with [literate programming][12] generated using [Doxygen][13]
@@ -35,10 +35,10 @@ The goals and targets of this project are:
 - [ ] ???
 - [ ] (Non)profit
 
-Build:
+Prerequisites:
 ------
 
-CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][14] and [CGAL][15] installed.
+CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][14], [CGAL][15], and [Gmock][6] installed.
 
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
@@ -54,6 +54,17 @@ On Ubuntu, you can do this via:
 # sudo apt-get install libcgal-dev
 ~~~
 
+To install Gmock, look at the [README][24]. Ubuntu users can just do:
+
+~~~
+# sudo apt-get install google-mock
+~~~
+
+But you may run into trouble because Gmock is the wrong version, or has the wrong compiler flags. I just download and build gmock-1.7 in a local directory.
+
+Build:
+------
+
 This project uses a separate build directory. Thus, download this source code (clone this repo from GitHub or grab a zipped archive [here][17]) and run the following commands in the top-level directory:
 
 ~~~
@@ -68,13 +79,13 @@ This project uses a separate build directory. Thus, download this source code (c
 If you want to turn debugging stuff on or off, use:
 
 ~~~
-# cmake -DCMAKE_BUILD_TYPE=Debug .
+# cmake -DCMAKE_BUILD_TYPE=Debug ..
 ~~~
 
 or:
 
 ~~~
-# cmake -DCMAKE_BUILD_TYPE=Release .
+# cmake -DCMAKE_BUILD_TYPE=Release ..
 ~~~
 
 And then type `make` as usual.
@@ -184,3 +195,4 @@ Unfortunately, at this time the Python bindings lack several functions (such as 
 [21]: http://www.graphviz.org
 [22]: http://scipher.wordpress.com/2010/05/10/setting-your-pythonpath-environment-variable-linuxunixosx/
 [23]: http://www.swig.org
+[24]: https://code.google.com/p/googlemock/source/browse/trunk/README
