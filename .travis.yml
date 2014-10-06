@@ -29,6 +29,8 @@ script:
   - cd ..
   - "./build.sh"
 after_script:
+  - cd build
+  - "./unittests"
   - make test
 cache:
   - bundler
