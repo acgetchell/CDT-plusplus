@@ -5,16 +5,17 @@ language: objective-c
 compiler:
   - clang
 before_install:
-  - rvm use ruby-2.0.0-p247
+  #- rvm use ruby-2.0.0-p247
   - brew update
   #- brew reinstall isl011
 install:
   - brew install eigen
-  - brew install cgal --imaging --with-eigen --with-lapack
-script: 
-  - cmake .
-  - make
+  - brew install cgal --c++11 --imaging --with-eigen --with-lapack
+script:
+  - "./build.sh"
 after_script:
+  - cd build
+  - "./unittests"
   - make test
 cache:
   - bundler
