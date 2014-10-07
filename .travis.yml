@@ -11,6 +11,11 @@ before_install:
 install:
   - brew install eigen
   - brew install cgal --c++11 --imaging --with-eigen --with-lapack
+  - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
+  - cd gmock-1.7.0
+  -"./configure"
+  - make
+
 script:
   - "./build.sh"
 after_script:
