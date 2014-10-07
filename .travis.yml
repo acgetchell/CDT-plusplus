@@ -18,10 +18,10 @@ install:
 script:
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
-  - cd gmock-1.7.0
-  - "./configure"
+  - cd gmock-1.7.0/make
   - make
-  - cd ..
+  - "./gmock_test"
+  - cd ../..
   - "./build.sh"
 after_script:
   - cd build
