@@ -4,6 +4,9 @@
 language: objective-c
 compiler:
   - clang
+env:
+  - GMOCK_HOME="$HOME/gmock-1.7.0"
+  - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:$DYLD_FALLBACK_LIBRARY_PATH
 before_install:
   #- rvm use ruby-2.0.0-p247
   - brew update
