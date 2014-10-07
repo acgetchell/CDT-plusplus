@@ -22,7 +22,8 @@ script:
   - make
   - "./gmock_test"
   - cd ../..
-  - "echo $GMOCK_HOME"
+  - "ls $GMOCK_HOME/lib/.libs"
+  - "ls $GMOCK_HOME/gtest/lib/.libs"
   - "./build.sh"
 after_script:
   - cd build
