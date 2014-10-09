@@ -20,10 +20,10 @@ script:
   - unzip gmock-1.7.0.zip
   - cd gmock-1.7.0
   - "./configure"
-  - cd make
   - make
-  - "./gmock_test"
-  - cd ../..
+  - cd ..
+  - "ls $GMOCK_HOME/lib/.libs"
+  - "ls $GMOCK_HOME/gtest/lib/.libs"
   - "./build.sh"
 after_script:
   - cd build
