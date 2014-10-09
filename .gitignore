@@ -21,29 +21,20 @@
 *.lock
 profile
 
-# cgal_create_cmake_script cruft
-*.bak
-# Cmake auto-generated cruft
-CDTConfig.h
-*.txt
-CMakeFiles/
-*.cmake
-Makefile
-
-# Program executable stuff
-cdt
-cdt_tests
-*.plist
-*.pyc
-grid_d
-
-# Test and Doc dirs
-Testing/
+# Build and Doc dirs
+build/
 html/
 latex/
 cpplint.py
 DartConfiguration.tcl
 doc_html/
+
+# Program/script executables
+cdt
+cdt_tests
+*.plist
+*.pyc
+grid_d
 
 # Output files
 *.dat

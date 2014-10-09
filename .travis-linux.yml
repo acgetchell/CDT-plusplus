@@ -1,0 +1,41 @@
+# This file builds on the Travis-CI Linux environment
+# Just rename to .travis.yml
+# Currently fails due to compiler issues
+
+language: cpp
+compiler:
+  - gcc
+  - clang
+before_install:
+  # Not needed for Travis-CI, but needed for a bare Ubuntu box
+  # sudo apt-get update # finds the python-software-properties package
+  # sudo apt-get install python-software-properties
+  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
+  - sudo apt-get update -qq
+install:
+  #- sudo apt-get install build-essential
+  # Install gcc 4.8
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - sudo apt-get install -qq libboost-all-dev
+  - sudo apt-get install -qq libmpfr-dev
+  - sudo apt-get install -qq cmake
+  #- sudo apt-get install make
+  - sudo apt-get install -qq curl
+  - sudo apt-get install -qq libgmp3-dev
+  - curl -O https://gforge.inria.fr/frs/download.php/latestfile/2743/CGAL-4.4.tar.gz
+  - tar zxvf CGAL-4.4.tar.gz &> install.log
+  - cd CGAL-4.4
+  - cmake .
+  - make
+  - sudo make install &>> install.log
+script:
+  - cd ..
+  - "./build.sh"
+after_script:
+  - cd build
+  - "./unittests"
+  - make test
+cache:
+  - bundler
+  - apt

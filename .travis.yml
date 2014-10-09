@@ -1,35 +1,30 @@
-language: cpp
+# This file builds on the Travis-CI MacOS environment
+
+language: objective-c
 compiler:
-  - gcc
   - clang
+env:
+  global:
+    - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
+    - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:$DYLD_FALLBACK_LIBRARY_PATH
 before_install:
-  # Not needed for Travis-CI, but needed for a bare Ubuntu box
-  # sudo apt-get update # finds the python-software-properties package
-  # sudo apt-get install python-software-properties 
-  - sudo add-apt-repository ppa:ubuntu-toolchain-r/test -y
-  - sudo apt-get update -qq
+  #- rvm use ruby-2.0.0-p247
+  - brew update
+  #- brew reinstall isl011
 install:
-  #- sudo apt-get install build-essential
-  # Install gcc 4.8
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
-  - sudo apt-get install -qq libboost-all-dev
-  - sudo apt-get install -qq libmpfr-dev
-  - sudo apt-get install -qq cmake
-  #- sudo apt-get install make
-  - sudo apt-get install -qq curl
-  - sudo apt-get install -qq libgmp3-dev
-  - curl -O https://gforge.inria.fr/frs/download.php/32994/CGAL-4.3.tar.gz
-  - tar zxvf CGAL-4.3.tar.gz &> install.log
-  - cd CGAL-4.3
-  - cmake .
-  - make
-  - sudo make install &>> install.log
+  - brew install eigen
+  - brew install cgal --c++11 --imaging --with-eigen --with-lapack
 script:
-  - cd ..  
-  - cmake .
+  - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
+  - unzip gmock-1.7.0.zip
+  - cd gmock-1.7.0
+  - "./configure"
   - make
-after_script: make test
+  - cd ..
+  - "./build.sh"
+after_script:
+  - cd build
+  - "./unittests"
+  - make test
 cache:
   - bundler
-  - apt
