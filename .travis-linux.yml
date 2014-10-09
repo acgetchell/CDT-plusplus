@@ -1,3 +1,7 @@
+# This file builds on the Travis-CI Linux environment
+# Just rename to .travis.yml
+# Currently fails due to compiler issues
+
 language: cpp
 compiler:
   - gcc

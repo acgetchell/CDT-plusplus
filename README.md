@@ -1,10 +1,11 @@
 CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)
 ============
 
-[Causal Dynamical Triangulations][1] in C++ using the [Computational Geometry Algorithms Library][2] and compiled with
-[CMake][3] using [Clang][4]/[LLVM][5]. [Gmock 1.7][6] must also be installed in order to run unit tests.
-Follows (mostly) the [Google C++ Style Guide][7], which you can check by
-running the [cpplint.py][8] script:
+[Causal Dynamical Triangulations][1] in C++ using the
+[Computational Geometry Algorithms Library][2] and compiled with [CMake][3]
+using [Clang][4]/[LLVM][5]. [Gmock 1.7][6] must also be installed in order
+to run unit tests. Follows (mostly) the [Google C++ Style Guide][7], which
+you can check by running the [cpplint.py][8] script:
 
 ~~~
 # python cpplint.py <filename>
@@ -38,7 +39,8 @@ The goals and targets of this project are:
 Prerequisites:
 ------
 
-CDT++ should build on any system (e.g. Linux, MacOS, Windows) with [CMake][14], [CGAL][15], and [Gmock][6] installed.
+CDT++ should build on any system (e.g. Linux, MacOS, Windows) with
+[CMake][14], [CGAL][15], and [Gmock][6] installed.
 
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
@@ -60,12 +62,15 @@ To install Gmock, look at the [README][24]. Ubuntu users can just do:
 # sudo apt-get install google-mock
 ~~~
 
-But you may run into trouble because Gmock is the wrong version, or has the wrong compiler flags. I just download and build gmock-1.7 in a local directory.
+But you may run into trouble because Gmock is the wrong version, or has the
+wrong compiler flags. I just download and build gmock-1.7 in a local directory.
 
 Build:
 ------
 
-This project uses a separate build directory. Thus, download this source code (clone this repo from GitHub or grab a zipped archive [here][17]) and run the following commands in the top-level directory:
+This project uses a separate build directory. Thus, download this source code
+(clone this repo from GitHub or grab a zipped archive [here][17]) and run the
+following commands in the top-level directory:
 
 ~~~
 # mkdir build
@@ -90,15 +95,22 @@ or:
 
 And then type `make` as usual.
 
-This should result in the main program executable, `cdt`, as well as the unit test executable, `unittests`, in the build directory. If you want to install the program, you will eventually be able to run `make install`.
+This should result in the main program executable, `cdt`, as well as the unit
+test executable, `unittests`, in the build directory. If you want to install
+the program, you will eventually be able to run `make install`.
 
-For some versions of Linux, you may have to build CGAL from source. Follow the instructions (or their equivalent) given in the install section of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
+For some versions of Linux, you may have to build CGAL from source.
+Follow the instructions (or their equivalent) given in the install section
+of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
-There are also directions for doing a [parallel build using CMake][18], but currently the builds don't really take long enough to bother.
+There are also directions for doing a [parallel build using CMake][18], but
+currently the builds don't really take long enough to bother.
 
 Usage:
 ------
-CDT-plusplus uses [GNU getopt_long][19], and so understands long or short argument formats, provided the short argument given is an unambigous match to a longer one. Typing just the program generates the usage message:
+CDT-plusplus uses [GNU getopt_long][19], and so understands long or short
+argument formats, provided the short argument given is an unambigous match
+to a longer one. Typing just the program generates the usage message:
 
 ~~~
 # ./cdt
@@ -115,28 +127,47 @@ Currently, number of dimensions cannot be higher than 3.`
 
 `./cdt --spherical --time=25 --number-of-simplices=5000`
 
-Generates a simplicial complex with 25 timeslices of 5000 simplices with spherical topology.
+Generates a simplicial complex with 25 timeslices of 5000 simplices with
+spherical topology.
 
 `./cdt --p --time 50 -n 5000`
 
 Does the same but with periodic (toroidal) topology.
 
-The dimensionality of the spacetime is such that each slice of spacetime is `d-1`-dimensional, so setting `d=3` generates 2 spacelike dimensions and one timelike dimension. Thus a `d`-dimensional simplex will have some `d-1` sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (spans two timeslices).
+The dimensionality of the spacetime is such that each slice of spacetime is
+`d-1`-dimensional, so setting `d=3` generates 2 spacelike dimensions and one
+timelike dimension, with a defined global time foliation. Thus a
+`d`-dimensional simplex will have some `d-1` sub-simplices that are purely
+spacelike (all on the same timeslice) as well as some that are timelike
+(span two timeslices).
 
 Documentation:
 --------------
 
-If you have Doxygen installed you can simply type:
+If you have Doxygen installed you can simply type (at the top level directory,
+Doxygen will recursively search):
 
 ~~~
 # doxygen
 ~~~
 
-This will generate **html/** and **latex/** directories which will contain documentation generated from CDT++ source files. `USE_MATHJAX` has been enabled in [Doxyfile](https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile) so that the LaTeX formulae can be rendered in the html documentation using [MathJax][20]. `HAVE_DOT` is set to **YES** which allows various graphs to be autogenerated by Doxygen using [GraphViz][21]. If you do not have GraphViz installed, set this option to **NO**.
+This will generate **html/** and **latex/** directories which will contain
+documentation generated from CDT++ source files. `USE_MATHJAX` has been enabled
+in [Doxyfile](https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile)
+so that the LaTeX formulae can be rendered in the html documentation using
+[MathJax][20]. `HAVE_DOT` is set to **YES** which allows various graphs to be
+autogenerated by Doxygen using [GraphViz][21]. If you do not have GraphViz
+installed, set this option to **NO**.
 
 
-Unit tests:
+Tests:
 -----------
+
+Unit tests using GMock are run (in the build directory) via:
+
+~~~
+# ./unittests
+~~~
 
 You can build and run integration tests by typing:
 
@@ -144,12 +175,15 @@ You can build and run integration tests by typing:
 # make test
 ~~~
 
-In addition to the command line output, you can see detailed results in the Testing directory which is generated thereby.
+In addition to the command line output, you can see detailed results in the
+build/Testing directory which is generated thereby.
 
-Python Bindings:
-----------------
+Python:
+-------
 
-[Cgal-bindings][9] can be installed pretty easily once [SWIG][23] is installed:
+There are bare bones Python scripts, which were used to develop some concepts,
+at the top level directory. These require [Cgal-bindings][9], which can be
+installed pretty easily once [SWIG][23] is installed:
 
 ~~~
 # git clone https://code.google.com/p/cgal-bindings/
@@ -164,13 +198,16 @@ Be sure to edit CMakeLists.txt and set Java binds to off:
 option( BUILD_JAVA "Build Java bindings" OFF )
 ~~~
 
-Now, set an appropriate value of [PYTHONPATH][22] and you're [good to go](simple_triangulation_3.py)!
+Now, set an appropriate value of [PYTHONPATH][22] and you're
+[good to go](simple_triangulation_3.py)!
 
 ~~~bash
 export PYTHONPATH=$PYTHONPATH:$HOME/cgal-bindings/build-python
 ~~~
 
-Unfortunately, at this time the Python bindings lack several functions (such as `CGAL::Random_points_in_sphere_3<T>`) that are necessary to build up simplices.
+Unfortunately, at this time the Python bindings lack several functions
+(such as `CGAL::Random_points_in_sphere_3<T>`) that are necessary to build up
+simplices.
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org

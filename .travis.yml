@@ -1,5 +1,4 @@
-# This file allows a build on Travis-CI MacOS environment
-# Just rename to .travis.yml
+# This file builds on the Travis-CI MacOS environment
 
 language: objective-c
 compiler:
@@ -22,8 +21,6 @@ script:
   - "./configure"
   - make
   - cd ..
-  - "ls $GMOCK_HOME/lib/.libs"
-  - "ls $GMOCK_HOME/gtest/lib/.libs"
   - "./build.sh"
 after_script:
   - cd build
