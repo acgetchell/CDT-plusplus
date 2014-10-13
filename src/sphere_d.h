@@ -27,12 +27,6 @@ void make_d_sphere(std::vector<Point> *v,
   double radius,
   bool message) {
 
-  if (message) {
-  std::cout << "Generating " << number_of_points << " random points on the "
-            << "surface of a sphere in " << dimension << "D" << std::endl
-            << "of center 0 and radius " << radius << std::endl;
-          }
-
   v->reserve(number_of_points);
 
   CGAL::Random_points_on_sphere_d<Point> gen(dimension, radius);
@@ -40,6 +34,18 @@ void make_d_sphere(std::vector<Point> *v,
   for (size_t i = 0; i < number_of_points; i++)
   {
     v->push_back(*gen++);
+  }
+  ///
+  /// If message = true, print out values of points in sphere
+  ///
+  if (message) {
+    std::cout << "Generating " << number_of_points << " random points on "
+              << "the surface of a sphere in " << dimension << "D" << std::endl
+              << "of center 0 and radius " << radius << "." << std::endl;
+    for (std::vector<Point>::iterator it = v->begin(); it != v->end(); ++it)
+      {
+        std::cout << " " << *it << std::endl;
+      }
   }
 } // make_d_sphere()
 
