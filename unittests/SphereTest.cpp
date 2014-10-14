@@ -1,10 +1,7 @@
 #include "gmock/gmock.h"
+#include "Sphere_d.h"
 
-#include <CGAL/Cartesian_d.h>
-#include "sphere_d.h"
-
-typedef CGAL::Cartesian_d<double> Kd;
-typedef Kd::Point_d Point;
+using namespace ::testing;
 
 TEST(Sphere, CreatesSphere) {
   std::vector<Point> points;
@@ -14,4 +11,7 @@ TEST(Sphere, CreatesSphere) {
   const bool message = true;
 
   make_d_sphere(&points, number_of_points, dim, radius, message);
+
+  ASSERT_THAT(points.size(), Eq(number_of_points))
+    << "Vector has " << number_of_points << " points.";
 }

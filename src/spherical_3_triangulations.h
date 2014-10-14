@@ -15,7 +15,7 @@
 #define SPHERICAL_3_TRIANGULATIONS_H_
 
 /// CDT headers
-#include "sphere_d.h"
+#include "Sphere_d.h"
 
 /// CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
