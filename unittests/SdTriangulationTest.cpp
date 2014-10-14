@@ -1,4 +1,5 @@
 #include "gmock/gmock.h"
+using namespace ::testing;
 
 #include <CGAL/Homogeneous_d.h>
 #include <CGAL/gmpxx.h>
@@ -24,7 +25,21 @@ TEST(SdTriangulation, Creates16cellTriangulation) {
   Vertex_handle v7 = T.insert(Point(0,0,0,1));
   Vertex_handle v8 = T.insert(Point(0,0,0,-1));
 
-  std::cout << "Dimension of triangulation is " << T.dimension() << std::endl;
-  ASSERT_FALSE(T.empty()) << "Triangulation is empty";
-  ASSERT_TRUE(T.is_valid()) << "Triangulation is invalid";
+  ASSERT_THAT(T.dimension(), Eq(4))
+      << "Triangulation has wrong dimensionality.";
+
+    ASSERT_THAT(T.number_of_vertices(), Eq(8))
+      << "Triangulation has wrong number of vertices.";
+
+    // ASSERT_THAT(T.number_of_finite_edges(), Eq(24))
+    //   << "Triangulation has wrong number of edges.";
+
+    // ASSERT_THAT(T.number_of_finite_facets(), Eq(32))
+    //   << "Triangulation has wrong number of faces.";
+
+    // ASSERT_THAT(T.number_of_finite_cells(), Eq(16))
+    //   << "Triangulation has wrong number of cells.";
+
+    ASSERT_TRUE(T.is_valid())
+      << "Triangulation is invalid.";
 }
