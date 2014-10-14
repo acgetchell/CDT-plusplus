@@ -4,12 +4,12 @@
 using namespace ::testing;
 
 
-TEST(SdTriangulation, CreateTetrahedralTriangulationIn4D) {
+TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   Delaunay T(4);
-  Vertex_handle v1 = T.insert(Point(1,0,0,0));
+  Vertex_handle v1 = T.insert(Point(0,0,0,0));
   Vertex_handle v2 = T.insert(Point(0,1,0,0));
   Vertex_handle v3 = T.insert(Point(0,0,1,0));
-  Vertex_handle v4 = T.insert(Point(0,0,0,1));
+  Vertex_handle v4 = T.insert(Point(1,0,0,0));
 
   ASSERT_THAT(T.dimension(), Eq(4))
     << "Triangulation has wrong dimensionality.";
