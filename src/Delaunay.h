@@ -1,14 +1,16 @@
 #ifndef DELAUNAY_H
 #define DELAUNAY_H
 
-#include <CGAL/Homogeneous_d.h>
-#include <CGAL/gmpxx.h>
+// #include <CGAL/Homogeneous_d.h>
+// #include <CGAL/gmpxx.h>
+#include <CGAL/Cartesian_d.h>
 #include <CGAL/Delaunay_d.h>
 
 #include <iostream>
 
-typedef mpz_class RT;
-typedef CGAL::Homogeneous_d<RT> Kernel;
+// typedef mpz_class RT;
+// typedef CGAL::Homogeneous_d<RT> Kernel;
+typedef CGAL::Cartesian_d<double> Kernel;
 typedef CGAL::Delaunay_d<Kernel> Delaunay_d;
 typedef Delaunay_d::Point_d Point;
 typedef Delaunay_d::Simplex_handle Simplex_handle;
