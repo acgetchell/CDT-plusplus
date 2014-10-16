@@ -14,7 +14,7 @@ int CountVertices(Delaunay* D) {
 }
 
 
-TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
+TEST(SdTriangulation, DISABLED_CreatesTetrahedralTriangulationIn4D) {
   Delaunay T(4);
   Vertex_handle v1 = T.insert(Point(0,0,0,0));
   Vertex_handle v2 = T.insert(Point(0,1,0,0));
@@ -38,7 +38,7 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
 
 }
 
-TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
+TEST(SdTriangulation, DISABLED_Creates16cellTriangulationIn4D) {
   Delaunay T(4);
   Vertex_handle v1 = T.insert(Point(1,0,0,0));
   Vertex_handle v2 = T.insert(Point(-1,0,0,0));
