@@ -13,6 +13,7 @@ typedef CGAL::Delaunay_d<Kernel> Delaunay_d;
 typedef Delaunay_d::Point_d Point;
 typedef Delaunay_d::Simplex_handle Simplex_handle;
 typedef Delaunay_d::Vertex_handle Vertex_handle;
+typedef Delaunay_d::Vertex_iterator Vertex_iterator;
 
 class Delaunay : public Delaunay_d
 {
