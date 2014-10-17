@@ -1,25 +1,15 @@
 #include "gmock/gmock.h"
+#include "S3Triangulation.h"
+
 using namespace ::testing;
-
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Triangulation_3.h>
-#include <list>
-#include <vector>
-
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef CGAL::Triangulation_3<K>  Triangulation;
-typedef Triangulation::Cell_handle Cell_handle;
-typedef Triangulation::Vertex_handle Vertex_handle;
-typedef Triangulation::Locate_type Locate_type;
-typedef Triangulation::Point Point;
 
 TEST(S3Triangulation, CreatesTetrahedronTriangulation) {
 
-  std::vector<Point> V(4);
-  V[0] = Point(0,0,0);
-  V[1] = Point(0,1,0);
-  V[2] = Point(0,0,1);
-  V[3] = Point(1,0,0);
+  std::vector<Delaunay::Point> V(4);
+  V[0] = Delaunay::Point(0,0,0);
+  V[1] = Delaunay::Point(0,1,0);
+  V[2] = Delaunay::Point(0,0,1);
+  V[3] = Delaunay::Point(1,0,0);
 
   Triangulation T(V.begin(), V.end());
 

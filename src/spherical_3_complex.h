@@ -141,7 +141,7 @@ void make_S3_simplicial_complex(T* S3, int number_of_simplices, int number_of_ti
 template <typename T>
 void make_S3_simplicial_complex_v2(T* S3, int number_of_simplices, int number_of_timeslices) {
   int simplices_per_timeslice = number_of_simplices / number_of_timeslices;
-  std::vector<Point> v;
+  std::vector<Kd::Point_d> v;
   make_d_sphere(&v, simplices_per_timeslice, 3, 1.0);
 
   for (size_t i = 0; i < simplices_per_timeslice; i++)

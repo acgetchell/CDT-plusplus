@@ -1,16 +1,12 @@
 #include "gmock/gmock.h"
-
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Delaunay_triangulation_2.h>
-
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef CGAL::Delaunay_triangulation_2<K> Delaunay2;
+//#include "Sphere_d.h"
+#include "S3Triangulation.h"
 
 using namespace ::testing;
 
-TEST(Triangulated2Sphere, CreatesTriangulated2Sphere) {
+TEST(Triangulated2Sphere, DISABLED_CreatesTriangulated2Sphere) {
 
-  Delaunay2 T;
+  Delaunay T;
 
   ASSERT_TRUE(T.is_valid())
     << "Triangulation is invalid.";

@@ -19,9 +19,9 @@
 
 
 typedef CGAL::Cartesian_d<double> Kd;
-typedef Kd::Point_d Point;
+//typedef Kd::Point_d Point;
 
-void make_d_sphere(std::vector<Point> *v,
+void make_d_sphere(std::vector<Kd::Point_d> *v,
   int number_of_points,
   int dimension,
   double radius,
@@ -29,7 +29,7 @@ void make_d_sphere(std::vector<Point> *v,
 
   v->reserve(number_of_points);
 
-  CGAL::Random_points_on_sphere_d<Point> gen(dimension, radius);
+  CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
   for (size_t i = 0; i < number_of_points; i++)
   {
@@ -42,7 +42,7 @@ void make_d_sphere(std::vector<Point> *v,
     std::cout << "Generating " << number_of_points << " random points on "
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
-    for (std::vector<Point>::iterator it = v->begin(); it != v->end(); ++it)
+    for (std::vector<Kd::Point_d>::iterator it = v->begin(); it != v->end(); ++it)
       {
         std::cout << " " << *it << std::endl;
       }
@@ -51,7 +51,7 @@ void make_d_sphere(std::vector<Point> *v,
 
 
 /// make_d_sphere without message
-void make_d_sphere(std::vector<Point> *v,
+void make_d_sphere(std::vector<Kd::Point_d> *v,
                     int number_of_points,
                     int dimension,
                     double radius) {

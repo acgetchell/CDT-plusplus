@@ -4,11 +4,11 @@
 using namespace ::testing;
 
 TEST(Sphere, CreatesSphere) {
-  std::vector<Point> points;
+  std::vector<Kd::Point_d> points;
   const int number_of_points = 5;
   const int dim = 4;
   const int radius = 1.0;
-  const bool message = true;
+  const bool message = false;
 
   make_d_sphere(&points, number_of_points, dim, radius, message);
 
