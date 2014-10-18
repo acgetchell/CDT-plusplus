@@ -27,11 +27,23 @@ public:
   int CountVertices() {
     // How many vertices do we really have?
     int PointCounter = 0;
-    for (Vertex_iterator v = this->vertices_begin(); v != this->vertices_end(); ++v) {
+    for (Vertex_iterator vit = this->vertices_begin(); vit != this->vertices_end(); ++vit) {
       PointCounter++;
-      std::cout << "Point #" << PointCounter << std::endl;
+      //Vertex_handle vh = vit;
+      std::cout << "Point #" << PointCounter << " is ";
+      std::cout << Delaunay_d::Point_d(vit->point()) << std::endl;
     }
     return PointCounter;
+  }
+
+  int number_of_cells() {
+    int CellCounter = 0;
+    for (Simplex_iterator sit = this->simplices_begin(); sit != this->simplices_end(); ++sit)
+      {
+        CellCounter++;
+        std::cout << "Simplex#" << CellCounter << std::endl;
+      }
+    return CellCounter;
   }
 };
 

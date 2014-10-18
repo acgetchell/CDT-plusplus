@@ -3,9 +3,6 @@
 
 using namespace ::testing;
 
-
-
-
 TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   Delaunay T(4);
   Vertex_handle v1 = T.insert(Delaunay_d::Point_d(1,0,0,1));
@@ -21,6 +18,9 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
 
   ASSERT_THAT(T.CountVertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
+
+  ASSERT_THAT(T.number_of_cells(), Eq(1))
+    << "Triangulation has wrong number of simplices.";
 
 
   ASSERT_TRUE(T.is_valid())
@@ -39,14 +39,16 @@ TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
   Vertex_handle v7 = T.insert(Delaunay_d::Point_d(1,0,0,7));
   Vertex_handle v8 = T.insert(Delaunay_d::Point_d(0,0,0,11));
 
+  std::cout << "16cell has " << T.number_of_cells() << " simplices." << std::endl;
+
   ASSERT_THAT(T.dimension(), Eq(4))
       << "Triangulation has wrong dimensionality.";
 
-  ASSERT_THAT(T.number_of_vertices(), Eq(8))
-      << "Triangulation has wrong number of vertices.";
-
-  // ASSERT_THAT(CountVertices(&T), Eq(8))
+  // ASSERT_THAT(T.number_of_vertices(), Eq(8))
   //     << "Triangulation has wrong number of vertices.";
+
+  ASSERT_THAT(T.CountVertices(), Eq(8))
+      << "Triangulation has wrong number of vertices.";
 
     // ASSERT_THAT(T.number_of_finite_edges(), Eq(24))
     //   << "Triangulation has wrong number of edges.";
