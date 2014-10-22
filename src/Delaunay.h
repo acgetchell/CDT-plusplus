@@ -5,6 +5,7 @@
 // #include <CGAL/gmpxx.h>
 #include <CGAL/Cartesian_d.h>
 #include <CGAL/Delaunay_d.h>
+#include <CGAL/Origin.h>
 
 #include <iostream>
 
@@ -41,7 +42,7 @@ public:
     for (Simplex_iterator sit = this->simplices_begin(); sit != this->simplices_end(); ++sit)
       {
         CellCounter++;
-        std::cout << "Simplex#" << CellCounter << std::endl;
+        // std::cout << "Simplex#" << CellCounter << std::endl;
       }
     return CellCounter;
   }

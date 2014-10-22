@@ -3,6 +3,35 @@
 
 using namespace ::testing;
 
+TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
+  int arr[] = {0,0,0,0};
+  Delaunay_d::Point_d p(4, arr, arr+4);
+
+
+  Delaunay T(4);
+  T.insert(p);
+
+  // std::cout << "Point is (";
+  //
+  // for(Cartesian_const_iterator cci = T.cartesian_begin();
+  //       cci != T.cartesian_end(); ++cci)
+  // {
+  //   std::cout << cci;
+  // }
+  //
+  // std::cout << ")" << std::endl;
+
+  ASSERT_THAT(T.dimension(), Eq(4))
+    << "Triangulation has wrong dimensionality.";
+
+  ASSERT_THAT(T.number_of_vertices(), Eq(1))
+    << "Triangulation did not insert point correctly.";
+
+  ASSERT_TRUE(T.is_valid())
+    << "Triangulation is invalid.";
+
+}
+
 TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   Delaunay T(4);
   Vertex_handle v1 = T.insert(Delaunay_d::Point_d(1,0,0,1));
@@ -13,11 +42,11 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   ASSERT_THAT(T.dimension(), Eq(4))
     << "Triangulation has wrong dimensionality.";
 
-  // ASSERT_THAT(T.number_of_vertices(), Eq(4))
-  //   << "Triangulation has wrong number of vertices.";
-
-  ASSERT_THAT(T.CountVertices(), Eq(4))
+  ASSERT_THAT(T.number_of_vertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
+
+  // ASSERT_THAT(T.CountVertices(), Eq(4))
+  //   << "Triangulation has wrong number of vertices.";
 
   ASSERT_THAT(T.number_of_cells(), Eq(1))
     << "Triangulation has wrong number of simplices.";
@@ -44,11 +73,11 @@ TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
   ASSERT_THAT(T.dimension(), Eq(4))
       << "Triangulation has wrong dimensionality.";
 
-  // ASSERT_THAT(T.number_of_vertices(), Eq(8))
-  //     << "Triangulation has wrong number of vertices.";
-
-  ASSERT_THAT(T.CountVertices(), Eq(8))
+  ASSERT_THAT(T.number_of_vertices(), Eq(8))
       << "Triangulation has wrong number of vertices.";
+
+  // ASSERT_THAT(T.CountVertices(), Eq(8))
+  //     << "Triangulation has wrong number of vertices.";
 
     // ASSERT_THAT(T.number_of_finite_edges(), Eq(24))
     //   << "Triangulation has wrong number of edges.";
