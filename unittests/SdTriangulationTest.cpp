@@ -21,7 +21,7 @@ TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
   //
   // std::cout << ")" << std::endl;
 
-  ASSERT_THAT(T.dimension(), Eq(4))
+  ASSERT_THAT(T.current_dimension(), Eq(0))
     << "Triangulation has wrong dimensionality.";
 
   ASSERT_THAT(T.number_of_vertices(), Eq(1))
@@ -42,7 +42,7 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
     T.insert(Delaunay_d::Point_d(4, tetra[i], tetra[i]+4));
   }
 
-  ASSERT_THAT(T.dimension(), Eq(4))
+  ASSERT_THAT(T.current_dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
   // ASSERT_THAT(T.number_of_vertices(), Eq(4))
@@ -75,7 +75,7 @@ TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
 
   std::cout << "16cell has " << T.number_of_cells() << " simplices." << std::endl;
 
-  ASSERT_THAT(T.dimension(), Eq(4))
+  ASSERT_THAT(T.current_dimension(), Eq(4))
       << "Triangulation has wrong dimensionality.";
 
   // ASSERT_THAT(T.number_of_vertices(), Eq(8))
