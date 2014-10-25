@@ -21,7 +21,7 @@
 typedef CGAL::Cartesian_d<double> Kd;
 //typedef Kd::Point_d Point;
 
-void make_d_sphere(std::vector<Kd::Point_d> *v,
+inline void make_d_sphere(std::vector<Kd::Point_d> *v,
   int number_of_points,
   int dimension,
   double radius,
@@ -51,7 +51,7 @@ void make_d_sphere(std::vector<Kd::Point_d> *v,
 
 
 /// make_d_sphere without message
-void make_d_sphere(std::vector<Kd::Point_d> *v,
+inline void make_d_sphere(std::vector<Kd::Point_d> *v,
                     int number_of_points,
                     int dimension,
                     double radius) {

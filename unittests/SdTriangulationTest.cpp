@@ -45,11 +45,11 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   ASSERT_THAT(T.current_dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  // ASSERT_THAT(T.number_of_vertices(), Eq(4))
-  //   << "Triangulation has wrong number of vertices.";
-
-  ASSERT_THAT(T.CountVertices(), Eq(4))
+  ASSERT_THAT(T.number_of_vertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
+
+  // ASSERT_THAT(T.CountVertices(), Eq(4))
+  //   << "Triangulation has wrong number of vertices.";
 
   ASSERT_THAT(T.number_of_cells(), Eq(1))
     << "Triangulation has wrong number of simplices.";
@@ -78,11 +78,11 @@ TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
   ASSERT_THAT(T.current_dimension(), Eq(4))
       << "Triangulation has wrong dimensionality.";
 
-  // ASSERT_THAT(T.number_of_vertices(), Eq(8))
-  //     << "Triangulation has wrong number of vertices.";
-
-  ASSERT_THAT(T.CountVertices(), Eq(8))
+  ASSERT_THAT(T.number_of_vertices(), Eq(8))
       << "Triangulation has wrong number of vertices.";
+
+  // ASSERT_THAT(T.CountVertices(), Eq(8))
+  //     << "Triangulation has wrong number of vertices.";
 
     // ASSERT_THAT(T.number_of_finite_edges(), Eq(24))
     //   << "Triangulation has wrong number of edges.";
