@@ -19,6 +19,10 @@ The goals and targets of this project are:
 - [x] Python bindings from [cgal-bindings][9]
 - [ ] 2+1 foliation
 - [ ] 4D Simplex
+- [ ] Implement a Triangulation_4.h
+- [ ] Implement a Triangulation_vertex_base_with_info_4.h
+- [ ] Implement a Triangulation_cell_base_with_info_4.h
+- [ ] Implement generic Point_d_with_info.h which includes .x(),.y(),.z(), and .w() member functions
 - [ ] 4D Simplicial complex
 - [ ] 3+1 foliation
 - [x] Tests using [CTest][10]
