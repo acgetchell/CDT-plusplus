@@ -42,9 +42,10 @@ inline void make_d_sphere(std::vector<Kd::Point_d> *v,
     std::cout << "Generating " << number_of_points << " random points on "
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
-    for (std::vector<Kd::Point_d>::iterator it = v->begin(); it != v->end(); ++it)
+
+    for (auto point : *v)
       {
-        std::cout << " " << *it << std::endl;
+        std::cout << " " << point << std::endl;
       }
   }
 } // make_d_sphere()
