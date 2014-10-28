@@ -19,7 +19,7 @@ install:
   - cd CGAL-4.5
   - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON .
   - make
-  - sudo make install &>> install.log
+  - sudo make install &> install.log
 script:
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
