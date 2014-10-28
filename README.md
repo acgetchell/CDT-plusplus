@@ -57,6 +57,7 @@ On MacOS, the easiest way to do this is with [HomeBrew][16]:
 On Ubuntu, you can do this via:
 ~~~
 # sudo apt-get install cmake
+# sudo apt-get install libeigen3-dev
 # sudo apt-get install libcgal-dev
 ~~~
 
