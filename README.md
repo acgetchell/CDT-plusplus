@@ -78,6 +78,7 @@ You should have the following environment variables set:
 export GMOCK_HOME="$HOME/gmock-1.7.0"
 export DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
 ~~~
+(Or wherever you built GMOCK and your dynamic libraries for CGAL.)
 
 This project uses a separate build directory, which allows you to rebuild the project without cluttering
 the source code. Thus, download this source code
