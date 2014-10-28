@@ -42,8 +42,19 @@ if ( CGAL_FOUND )
 
   include( CGAL_CreateSingleSourceCGALProgram )
 
-  create_single_source_cgal_program( "src/cdt.cpp" )
-  #create_single_source_cgal_program( "src/grid_d.cpp")
+  find_package(Eigen3)
+  if (EIGEN3_FOUND)
+      include( ${EIGEN3_USE_FILE})
+
+      include_directories (BEFORE "../../include")
+
+      create_single_source_cgal_program( "src/cdt.cpp" )
+      #create_single_source_cgal_program( "src/grid_d.cpp")
+  else()
+
+    message(STATUS "NOTICE: This program requires the Eigen3 library, and will not be compiled.")
+
+  endif()
 
 else()
 
