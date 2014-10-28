@@ -2,10 +2,10 @@ CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?
 ============
 
 [Causal Dynamical Triangulations][1] in C++ using the
-[Computational Geometry Algorithms Library][2] and compiled with [CMake][3]
+[Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled with [CMake][3]
 using [Clang][4]/[LLVM][5]. [Gmock 1.7][6] must also be installed in order
 to run unit tests. Follows (mostly) the [Google C++ Style Guide][7], which
-you can check by running the [cpplint.py][8] script:
+you can check by downloading and running the [cpplint.py][8] script:
 
 ~~~
 # python cpplint.py <filename>
@@ -44,7 +44,7 @@ Prerequisites:
 ------
 
 CDT++ should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake][14], [CGAL][15], and [Gmock][6] installed.
+[CMake][14], [CGAL][15], [Eigen][25] and [Gmock][6] installed.
 
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
@@ -71,8 +71,15 @@ wrong compiler flags. I just download and build gmock-1.7 in a local directory.
 
 Build:
 ------
+You should have the following environment variables set:
 
-This project uses a separate build directory. Thus, download this source code
+~~~
+export GMOCK_HOME="$HOME/gmock-1.7.0"
+export DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
+~~~
+
+This project uses a separate build directory, which allows you to rebuild the project without cluttering
+the source code. Thus, download this source code
 (clone this repo from GitHub or grab a zipped archive [here][17]) and run the
 following commands in the top-level directory:
 
@@ -237,3 +244,4 @@ simplices.
 [22]: http://scipher.wordpress.com/2010/05/10/setting-your-pythonpath-environment-variable-linuxunixosx/
 [23]: http://www.swig.org
 [24]: https://code.google.com/p/googlemock/source/browse/trunk/README
+[25]: http://eigen.tuxfamily.org/index.php?title=Main_Page
