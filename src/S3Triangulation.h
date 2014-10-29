@@ -45,7 +45,9 @@ inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
   std::vector<Scd::Point_3> vertices;
 
   make_3_sphere(&vertices, points, radius, message);
-  //D3->insert(vertices.begin(), vertices.end());
+  /// I'd like to do this, but it doesn't work
+  ///D3->insert(vertices.begin(), vertices.end());
+  /// The following almost works
   // for (auto point : *vertices)
   //   {
   //     D3->insert(point);
