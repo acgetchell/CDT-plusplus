@@ -9,19 +9,22 @@
 #define SPHERE_3_H
 
 /// CGAL headers
-#include <CGAL/Simple_cartesian.h>
+//#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/point_generators_3.h>
+#include <CGAL/Point_3.h>
 
-typedef CGAL::Simple_cartesian<double> Scd;
+//typedef CGAL::Simple_cartesian<double> Scd;
+typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 
-inline void make_3_sphere(std::vector<Scd::Point_3> *v,
+inline void make_3_sphere(std::vector<CGAL::Point_3<K>> *v,
     int number_of_points,
     double radius,
     bool message) {
 
     v->reserve(number_of_points);
 
-    CGAL::Random_points_on_sphere_3<Scd::Point_3> gen(radius);
+    CGAL::Random_points_on_sphere_3<CGAL::Point_3<K>> gen(radius);
 
     for(size_t i = 0; i < number_of_points; i++)
     {

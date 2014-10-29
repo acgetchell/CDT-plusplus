@@ -12,6 +12,12 @@ TEST(Triangulated2Sphere, CreatesTriangulated2Sphere) {
 
   make_S3_triangulation(&T, number_of_simplices, number_of_timeslices);
 
+  ASSERT_THAT(T.dimension(), Eq(3))
+    << "Triangulation has wrong dimensionality.";
+
+  ASSERT_THAT(T.number_of_vertices(), Eq(4))
+    << "Triangulation has wrong number of vertices.";
+
   ASSERT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
 }

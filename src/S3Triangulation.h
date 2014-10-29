@@ -18,7 +18,7 @@
 #include "Sphere_3.h"
 
 /// CGAL headers
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+//#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 
@@ -26,7 +26,7 @@
 #include <list>
 #include <vector>
 
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
+//typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 /// Used so that each timeslice is assigned an integer
 typedef CGAL::Triangulation_3<K>  Triangulation;
 typedef CGAL::Triangulation_vertex_base_with_info_3<int, K> Vb;
@@ -42,16 +42,11 @@ inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
   const double radius = 1;
   const bool message = false;
 
-  std::vector<Scd::Point_3> vertices;
+  std::vector<CGAL::Point_3<K>> vertices;
 
   make_3_sphere(&vertices, points, radius, message);
-  /// I'd like to do this, but it doesn't work
-  ///D3->insert(vertices.begin(), vertices.end());
-  /// The following almost works
-  // for (auto point : *vertices)
-  //   {
-  //     D3->insert(point);
-  //   }
+
+  D3->insert(vertices.begin(), vertices.end());
 
 }
 #endif // S3TRIANGULATION_H_

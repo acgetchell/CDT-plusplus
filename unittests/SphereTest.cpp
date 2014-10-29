@@ -5,7 +5,7 @@
 using namespace ::testing;
 
 TEST(Sphere, Create2Sphere) {
-  std::vector<Scd::Point_3> points;
+  std::vector<CGAL::Point_3<K>> points;
   const int number_of_points = 5;
   const int radius = 1.0;
   const bool message = false;
