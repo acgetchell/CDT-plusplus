@@ -4,11 +4,11 @@
 
 using namespace ::testing;
 
-TEST(Sphere, Creates3DSphere) {
+TEST(Sphere, Create2Sphere) {
   std::vector<Scd::Point_3> points;
   const int number_of_points = 5;
   const int radius = 1.0;
-  const bool message = true;
+  const bool message = false;
 
   make_3_sphere(&points, number_of_points, radius, message);
 
@@ -18,12 +18,12 @@ TEST(Sphere, Creates3DSphere) {
 }
 
 
-TEST(Sphere, Creates4DSphere) {
+TEST(Sphere, Create3Sphere) {
   std::vector<Kd::Point_d> points;
   const int number_of_points = 5;
   const int dim = 4;
   const int radius = 1.0;
-  const bool message = true;
+  const bool message = false;
 
   make_d_sphere(&points, number_of_points, dim, radius, message);
 

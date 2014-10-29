@@ -1,18 +1,7 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright (c) 2014 Adam Getchell
-///
-/// Creates a 3 dimensional spherical triangulation
-/// The number of desired timeslices is given, and
-/// successive 3D spheres are created a increasing radii
-/// Each radii is assigned a timeslice so that the
-/// entire triangulation will have a preferred foliation of time
-/// TODO: Insert a 3-sphere into the triangulation data structure
-/// TODO: Assign each 3-sphere a unique timeslice
-/// TODO: Iterate over the number of desired timeslices
+/// DEPRECATED
 
-#ifndef SPHERICAL_3_TRIANGULATIONS_H_
-#define SPHERICAL_3_TRIANGULATIONS_H_
+#ifndef SPHERICAL_3_TRIANGULATION_H_
+#define SPHERICAL_3_TRIANGULATION_H_
 
 /// CDT headers
 #include "Sphere_d.h"
@@ -48,4 +37,4 @@ void make_S3_triangulation(T* S3, int simplices, int timeslices) {
   v.reserve(simplices_per_timeslice);
 }
 
-#endif  // SPHERICAL_3_TRIANGULATIONS_H_
+#endif  // SPHERICAL_3_TRIANGULATION_H_

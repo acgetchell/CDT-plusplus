@@ -31,8 +31,8 @@ inline void make_3_sphere(std::vector<Scd::Point_3> *v,
     /// If message = true
     if (message) {
       std::cout << "Generating " << number_of_points << " random points on "
-      << "the surface of a sphere of center 0 and radius " << radius << "."
-      << std::endl;
+      << "the surface of a sphere of in 3D of center 0 and radius "
+      << radius << "." << std::endl;
 
       for (auto point : *v)
         {

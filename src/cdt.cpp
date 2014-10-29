@@ -17,10 +17,11 @@
 
 // CDT headers
 #include "utilities.h"
-#include "spherical_3_complex.h"
+//#include "spherical_3_complex.h"
 //#include <periodic_3_complex.h>
-#include "periodic_3_triangulations.h"
-#include "spherical_3_triangulations.h"
+//#include "periodic_3_triangulations.h"
+//#include "Spherical_3_triangulation.h"
+#include "S3Triangulation.h"
 
 int main(int argc, char* argv[]) {
 #ifndef NDEBUG
@@ -97,7 +98,7 @@ int main(int argc, char* argv[]) {
   /// Initialize both simplicial complex types
   Delaunay Sphere3;
   // Triangulation Sphere3;
-  PDT Torus3;
+  // PDT Torus3;
 
   // Debugging
   #ifdef DEBUG
@@ -116,11 +117,12 @@ int main(int argc, char* argv[]) {
       break;
     case TOROIDAL:
       // make_random_T3_simplicial_complex(&Torus3, num_simplices);
-      make_random_T3_triangulation(&Torus3, num_simplices, num_timeslices);
+      //make_random_T3_triangulation(&Torus3, num_simplices, num_timeslices);
+      std::cout << "make_T3_triangulation not implemented yet.";
       t.stop(); // End running time
-      std::cout << "Final toroidal triangulation has ";
-      print_results(&Torus3, &t);
-      write_file(&Torus3, 't', dimensions, num_simplices, num_timeslices);
+      // std::cout << "Final toroidal triangulation has ";
+      // print_results(&Torus3, &t);
+      // write_file(&Torus3, 't', dimensions, num_simplices, num_timeslices);
       break;
     default:
       usage(argv[0]);

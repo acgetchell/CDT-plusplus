@@ -7,13 +7,10 @@ using namespace ::testing;
 TEST(Triangulated2Sphere, CreatesTriangulated2Sphere) {
 
   Delaunay T;
+  const int number_of_simplices = 1;
+  const int number_of_timeslices = 2;
 
-  std::vector<Scd::Point_3> points;
-  const int number_of_points = 5;
-  const int radius = 1.0;
-  const bool message = false;
-
-  make_3_sphere(&points, number_of_points, radius, message);
+  make_S3_triangulation(&T, number_of_simplices, number_of_timeslices);
 
   ASSERT_TRUE(T.is_valid())
     << "Triangulation is invalid.";

@@ -1,8 +1,4 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright (c) 2013 Adam Getchell
-///
-/// Spherical simplicial complexes
+/// DEPRECATED
 
 #ifndef SPHERICAL_3_COMPLEX_H_
 #define SPHERICAL_3_COMPLEX_H_
