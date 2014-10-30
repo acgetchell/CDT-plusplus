@@ -27,7 +27,7 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
     << "Triangulation is invalid.";
 }
 
-TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
+TEST_F(Triangulated2Sphere, DISABLED_CreatesTriangulated2SphereWithLotsOfSimplices) {
   const int number_of_simplices = 64000;
   const int number_of_timeslices = 64;
 

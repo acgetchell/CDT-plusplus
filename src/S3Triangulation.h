@@ -25,6 +25,7 @@
 /// C++ headers
 #include <vector>
 #include <assert.h>
+#include <math.h>
 
 //typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 /// Used so that each timeslice is assigned an integer
@@ -36,12 +37,29 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 //typedef Delaunay::Point Point;
 
+inline void foliate_S3_triangulation(Delaunay* D3) {
+  /// Store the timeslice as an integer in each vertex's info field
+  /// by calculating its radial distance from the origin
+  /// This is shamefully ugly and should be fixed up/removed ASAP
+  Delaunay::Finite_vertices_iterator vit;
+  for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end(); ++vit) {
+    double x_dist = CGAL::to_double(vit->point().x());
+    double y_dist = CGAL::to_double(vit->point().y());
+    double z_dist = CGAL::to_double(vit->point().z());
+    double distance = pow(x_dist, 2.0) + pow(y_dist, 2.0) + pow(z_dist,2.0);
+    // int timeslice = (int) CGAL::to_double(vit->point().z());
+    int timeslice = static_cast<int> (round(sqrt(distance)));
+    vit->info() = timeslice;
+    //std::cout << "Timeslice is " << vit->info() << std::endl;
+  }
+}
+
 inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
   // std::cout << "make_S3_triangulation() called " << std::endl;
 
   const int simplices_per_timeslice = simplices / timeslices;
   assert(simplices_per_timeslice >= 1);
-  
+
   const int points = simplices_per_timeslice * 4;
   double radius = 1;
   const bool message = false;
@@ -55,6 +73,8 @@ inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
   }
 
   D3->insert(vertices.begin(), vertices.end());
+
+  foliate_S3_triangulation(D3);
 
 }
 #endif // S3TRIANGULATION_H_

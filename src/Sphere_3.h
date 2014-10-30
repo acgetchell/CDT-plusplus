@@ -29,6 +29,8 @@ inline void make_3_sphere(std::vector<CGAL::Point_3<K>> *v,
     for(size_t i = 0; i < number_of_points; i++)
     {
       v->push_back(*gen++);
+      // There's a slick way to do it with pair iterators later
+      //v->push_back( std::make_pair(*gen++, (int)radius));
     }
     ///
     /// If message = true
