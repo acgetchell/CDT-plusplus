@@ -23,8 +23,8 @@
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 
 /// C++ headers
-#include <list>
 #include <vector>
+#include <assert.h>
 
 //typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 /// Used so that each timeslice is assigned an integer
@@ -38,13 +38,21 @@ typedef Delaunay::Locate_type Locate_type;
 
 inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
   // std::cout << "make_S3_triangulation() called " << std::endl;
-  const int points = simplices * 4;
-  const double radius = 1;
+
+  const int simplices_per_timeslice = simplices / timeslices;
+  assert(simplices_per_timeslice >= 1);
+  
+  const int points = simplices_per_timeslice * 4;
+  double radius = 1;
   const bool message = false;
 
   std::vector<CGAL::Point_3<K>> vertices;
 
-  make_3_sphere(&vertices, points, radius, message);
+  for(size_t i = 0; i < timeslices; i++)
+  {
+    radius += double (i);
+    make_3_sphere(&vertices, points, radius, message);
+  }
 
   D3->insert(vertices.begin(), vertices.end());
 

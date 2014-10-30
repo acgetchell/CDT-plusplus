@@ -111,7 +111,7 @@ int main(int argc, char* argv[]) {
       // make_S3_simplicial_complex(&Sphere3, num_simplices, num_timeslices);
       // make_S3_simplicial_complex_v2(&Sphere3, num_simplices, num_timeslices);
       t.stop(); // End running time
-      std::cout << "Final simplicial complex has ";
+      std::cout << "Final triangulation has ";
       print_results(&Sphere3, &t);
       write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
       break;
