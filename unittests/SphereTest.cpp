@@ -1,19 +1,22 @@
 #include "gmock/gmock.h"
-#include "Sphere_3.h"
+#include "S3Triangulation.h"
 #include "Sphere_d.h"
 
 using namespace ::testing;
 
 TEST(Sphere, Create2Sphere) {
-  std::vector<CGAL::Point_3<K>> points;
+  std::vector<Point> points;
+  std::vector<unsigned> timeslice;
   const int number_of_points = 5;
   const int radius = 1.0;
-  const bool message = false;
 
-  make_3_sphere(&points, number_of_points, radius, message);
+  make_foliated_3_sphere(&points, &timeslice, number_of_points, radius);
 
   ASSERT_THAT(points.size(), Eq(number_of_points))
     << "Vector has wrong number of points.";
+
+  ASSERT_THAT(points.size(), Eq(timeslice.size()))
+    << "Each point does not have an associated timeslice.";
 
 }
 

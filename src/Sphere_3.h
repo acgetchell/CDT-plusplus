@@ -1,9 +1,4 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright (c) 2014 Adam Getchell
-///
-/// Inserts a given number of points onto a 3-dimensional sphere
-/// of given radius
+/// DEPRECATED
 
 #ifndef SPHERE_3_H
 #define SPHERE_3_H

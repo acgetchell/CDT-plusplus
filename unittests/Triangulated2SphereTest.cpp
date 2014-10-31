@@ -1,5 +1,4 @@
 #include "gmock/gmock.h"
-#include "Sphere_3.h"
 #include "S3Triangulation.h"
 
 using namespace ::testing;
@@ -27,8 +26,8 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
     << "Triangulation is invalid.";
 }
 
-TEST_F(Triangulated2Sphere, DISABLED_CreatesTriangulated2SphereWithLotsOfSimplices) {
-  const int number_of_simplices = 64000;
+TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
+  const int number_of_simplices = 640;
   const int number_of_timeslices = 64;
 
   make_S3_triangulation(&T, number_of_simplices, number_of_timeslices);
