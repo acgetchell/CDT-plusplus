@@ -107,7 +107,7 @@ int main(int argc, char* argv[]) {
 
   switch (topology) {
     case SPHERICAL:
-      make_S3_triangulation(&Sphere3, num_simplices, num_timeslices);
+      make_S3_triangulation(&Sphere3, num_simplices, num_timeslices, false);
       // make_S3_simplicial_complex(&Sphere3, num_simplices, num_timeslices);
       // make_S3_simplicial_complex_v2(&Sphere3, num_simplices, num_timeslices);
       t.stop(); // End running time

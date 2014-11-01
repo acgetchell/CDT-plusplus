@@ -12,7 +12,7 @@
 /// DONE: Insert a 3-sphere into the triangulation data structure
 /// DONE: Assign each 3-sphere a unique timeslice
 /// DONE: Iterate over the number of desired timeslices
-/// TODO: Check/fix issues for large values of simplices and timeslices
+/// DONE: Check/fix issues for large values of simplices and timeslices
 
 #ifndef S3TRIANGULATION_H_
 #define S3TRIANGULATION_H_
@@ -45,29 +45,36 @@ typedef Delaunay::Point Point;
 inline void make_foliated_3_sphere(std::vector<Point> *v,
     std::vector<unsigned> *ts,
     int number_of_points,
-    double radius) {
+    double radius,
+    bool output) {
 
       // v->reserve(number_of_points);
       // ts->reserve(number_of_points);
 
       CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
-      for(size_t i = 0; i < number_of_points; i++)
+      for(size_t j = 0; j < number_of_points; j++)
       {
         v->push_back(*gen++);
         ts->push_back(static_cast<unsigned int>(radius));
       }
-      std::cout << "Generating " << number_of_points << " random points on "
-      << "the surface of a sphere of in 3D of center 0 and radius "
-      << radius << "." << std::endl;
 
-      for (auto point : *v)
-        {
-          std::cout << " " << point << std::endl;
-        }
+      if (output) {
+        std::cout << "Generating " << number_of_points << " random points on "
+        << "the surface of a sphere of in 3D of center 0 and radius "
+        << radius << "." << std::endl;
+      };
+
+      // for (auto point : *v)
+      //   {
+      //     std::cout << " " << point << std::endl;
+      //   }
 }
 
-inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
+inline void make_S3_triangulation(Delaunay* D3,
+            int simplices,
+            int timeslices,
+            bool output) {
 
   const int simplices_per_timeslice = simplices / timeslices;
   assert(simplices_per_timeslice >= 1);
@@ -80,10 +87,10 @@ inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
 
   for(size_t i = 0; i < timeslices; i++)
   {
-    std::cout << "Loop " << i << std::endl;
-    radius += double (i);
+    // std::cout << "Loop " << i << std::endl;
+    radius = 1.0 + double (i);
     //make_3_sphere(&vertices, points, radius, message);
-    make_foliated_3_sphere(&vertices, &timevalue, points, radius);
+    make_foliated_3_sphere(&vertices, &timevalue, points, radius, output);
 
   }
 
@@ -93,11 +100,13 @@ inline void make_S3_triangulation(Delaunay* D3, int simplices, int timeslices) {
   boost::make_zip_iterator(boost::make_tuple(vertices.end(), timevalue.end())));
 
   // Print out results
-  Delaunay::Finite_vertices_iterator vit;
-  for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end(); ++vit)
-    {
-      std::cout << "Point " << vit->point() << " has timeslice " << vit->info() << std::endl;
-    }
+  if (output) {
+    Delaunay::Finite_vertices_iterator vit;
+    for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end();   ++vit)
+      {
+        std::cout << "Point " << vit->point() << " has timeslice " << vit->info() << std::endl;
+      }
+    };
 
 }
 #endif // S3TRIANGULATION_H_

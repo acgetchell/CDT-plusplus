@@ -17,7 +17,7 @@ The goals and targets of this project are:
 - [x] 3D Spherical simplicial complex
 - [x] 3D Toroidal simplicial complex
 - [x] Python bindings from [cgal-bindings][9]
-- [ ] 2+1 foliation
+- [x] 2+1 foliation
 - [ ] 4D Simplex
 - [ ] Implement a Triangulation_4.h
 - [ ] Implement a Triangulation_vertex_base_with_info_4.h

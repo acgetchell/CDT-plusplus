@@ -13,8 +13,9 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
   //Delaunay T;
   const int number_of_simplices = 2;
   const int number_of_timeslices = 2;
+  const bool output = false;
 
-  make_S3_triangulation(&T, number_of_simplices, number_of_timeslices);
+  make_S3_triangulation(&T, number_of_simplices, number_of_timeslices, output);
 
   ASSERT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
@@ -27,10 +28,11 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
 }
 
 TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
-  const int number_of_simplices = 640;
+  const int number_of_simplices = 6400;
   const int number_of_timeslices = 64;
+  const bool output = false;
 
-  make_S3_triangulation(&T, number_of_simplices, number_of_timeslices);
+  make_S3_triangulation(&T, number_of_simplices, number_of_timeslices, output);
 
   ASSERT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";

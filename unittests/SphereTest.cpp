@@ -9,8 +9,9 @@ TEST(Sphere, Create2Sphere) {
   std::vector<unsigned> timeslice;
   const int number_of_points = 5;
   const int radius = 1.0;
+  const bool output = false;
 
-  make_foliated_3_sphere(&points, &timeslice, number_of_points, radius);
+  make_foliated_3_sphere(&points, &timeslice, number_of_points, radius, output);
 
   ASSERT_THAT(points.size(), Eq(number_of_points))
     << "Vector has wrong number of points.";
