@@ -13,12 +13,13 @@
 /// DONE: Assign each 3-sphere a unique timeslice
 /// DONE: Iterate over the number of desired timeslices
 /// DONE: Check/fix issues for large values of simplices and timeslices
+/// TODO: Iterate over edges and check timeslices of vertices don't differ
+///       by more than 1.
 
 #ifndef S3TRIANGULATION_H_
 #define S3TRIANGULATION_H_
 
 /// CDT headers
-//#include "Sphere_3.h"
 
 /// CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>

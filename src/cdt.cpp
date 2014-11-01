@@ -17,10 +17,8 @@
 
 // CDT headers
 #include "utilities.h"
-//#include "spherical_3_complex.h"
 //#include <periodic_3_complex.h>
 //#include "periodic_3_triangulations.h"
-//#include "Spherical_3_triangulation.h"
 #include "S3Triangulation.h"
 
 int main(int argc, char* argv[]) {
@@ -97,7 +95,6 @@ int main(int argc, char* argv[]) {
 
   /// Initialize both simplicial complex types
   Delaunay Sphere3;
-  // Triangulation Sphere3;
   // PDT Torus3;
 
   // Debugging
@@ -108,8 +105,6 @@ int main(int argc, char* argv[]) {
   switch (topology) {
     case SPHERICAL:
       make_S3_triangulation(&Sphere3, num_simplices, num_timeslices, false);
-      // make_S3_simplicial_complex(&Sphere3, num_simplices, num_timeslices);
-      // make_S3_simplicial_complex_v2(&Sphere3, num_simplices, num_timeslices);
       t.stop(); // End running time
       std::cout << "Final triangulation has ";
       print_results(&Sphere3, &t);

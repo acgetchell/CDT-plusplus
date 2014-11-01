@@ -17,13 +17,16 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
 
   make_S3_triangulation(&T, number_of_simplices, number_of_timeslices, output);
 
-  ASSERT_THAT(T.dimension(), Eq(3))
+  EXPECT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  ASSERT_THAT(T.number_of_vertices(), Eq(8))
+  EXPECT_THAT(T.number_of_vertices(), Eq(8))
     << "Triangulation has wrong number of vertices.";
 
-  ASSERT_TRUE(T.is_valid())
+  // EXPECT_THAT(T.number_of_finite_cells(), Eq(2))
+  //   << "Triangulation has wrong number of cells.";
+
+  EXPECT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
 }
 
@@ -34,9 +37,9 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
 
   make_S3_triangulation(&T, number_of_simplices, number_of_timeslices, output);
 
-  ASSERT_THAT(T.dimension(), Eq(3))
+  EXPECT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  ASSERT_TRUE(T.is_valid())
+  EXPECT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
 }
