@@ -42,4 +42,7 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
 
   EXPECT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
+
+  EXPECT_TRUE(check_timeslices(&T))
+    << "Edges span more than 1 timeslice.";
 }

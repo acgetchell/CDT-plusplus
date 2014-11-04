@@ -43,14 +43,26 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 
+inline bool check_timeslices(Delaunay* D3) {
+  Delaunay::Finite_cells_iterator cit;
+  for(cit = D3->finite_cells_begin();  cit != D3->finite_cells_end(); ++cit)
+  {
+    /// Get the vertices from the cell
+    
+    /// If our timeslices differ by more than 1 there's a problem
+    // if (v1->info()-v2->info() > 1) {
+    //   std::cout << "Timeslice difference is " << v1->info()-v2->info() << std::endl;
+    //   return false;
+    // }
+  }
+  return true;
+}
+
 inline void make_foliated_3_sphere(std::vector<Point> *v,
     std::vector<unsigned> *ts,
     int number_of_points,
     double radius,
     bool output) {
-
-      // v->reserve(number_of_points);
-      // ts->reserve(number_of_points);
 
       CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
@@ -81,26 +93,30 @@ inline void make_S3_triangulation(Delaunay* D3,
   assert(simplices_per_timeslice >= 1);
 
   const int points = simplices_per_timeslice * 4;
+  const int total_points = points * timeslices;
   double radius = 1;
 
   std::vector<Point> vertices;
   std::vector<unsigned> timevalue;
 
+  /// We know how many points we have in advance, so reserve memory
+  vertices.reserve(total_points);
+  timevalue.reserve(total_points);
+
   for(size_t i = 0; i < timeslices; i++)
   {
     // std::cout << "Loop " << i << std::endl;
     radius = 1.0 + double (i);
-    //make_3_sphere(&vertices, points, radius, message);
     make_foliated_3_sphere(&vertices, &timevalue, points, radius, output);
 
   }
 
   //D3->insert(vertices.begin(), vertices.end());
-  // Zipping together vertices and timevalue
+  /// Zipping together vertices and timevalue
   D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices.begin(), timevalue.begin() )),
   boost::make_zip_iterator(boost::make_tuple(vertices.end(), timevalue.end())));
 
-  // Print out results
+  /// Print out results
   if (output) {
     Delaunay::Finite_vertices_iterator vit;
     for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end();   ++vit)
