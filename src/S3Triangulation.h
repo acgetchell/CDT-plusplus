@@ -45,16 +45,46 @@ typedef Delaunay::Point Point;
 
 inline bool check_timeslices(Delaunay* D3) {
   Delaunay::Finite_cells_iterator cit;
+  unsigned min_time, max_time;
+  /// Iterate over all cells in the Delaunay triangulation
   for(cit = D3->finite_cells_begin();  cit != D3->finite_cells_end(); ++cit)
   {
-    /// Get the vertices from the cell
-    
-    /// If our timeslices differ by more than 1 there's a problem
-    // if (v1->info()-v2->info() > 1) {
-    //   std::cout << "Timeslice difference is " << v1->info()-v2->info() << std::endl;
-    //   return false;
-    // }
+    if (cit->is_valid())
+      {
+        std::cout << "Cell is valid." << std::endl;
+        min_time = cit->vertex(0)->info();
+        max_time = min_time;
+        for(size_t i = 0; i < 4; i++)
+        {
+          unsigned current_time = cit->vertex(i)->info();
+          /// Iterate over all vertices in the cell
+          std::cout << "Vertex " << i << " is " << cit->vertex(i)->point();
+          std::cout << " with timeslice " << current_time << std::endl;
+          if (current_time < min_time) min_time = current_time;
+          if (current_time > max_time) max_time = current_time;
+        }
+        if (max_time - min_time > 1)
+          {
+            std::cout << "Foliation is invalid for this cell." << std::endl;
+            return false;
+          }
+        std::cout << "Foliation is valid for this cell." << std::endl;
+      }
+    else
+      {
+        /// Remove all vertices in the invalid cell
+        // for(size_t i = 0; i < 4; i++)
+        // {
+        //
+        //   D3->remove(cit->vertex(i));
+        // }
+
+        /// Or, just remove the cell directly!
+        D3->tds().delete_cell(cit);
+        std::cout << "Invalid cell destroyed." << std::endl;
+      }
   }
+  assert(D3->is_valid());
   return true;
 }
 
