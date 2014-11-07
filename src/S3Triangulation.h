@@ -13,8 +13,12 @@
 /// DONE: Assign each 3-sphere a unique timeslice
 /// DONE: Iterate over the number of desired timeslices
 /// DONE: Check/fix issues for large values of simplices and timeslices
-/// TODO: Iterate over edges and check timeslices of vertices don't differ
+/// DONE: Iterate over cells and check timeslices of vertices don't differ
 ///       by more than 1.
+/// DONE: Gather ratio of cells with bad/good foliation.
+///       Adjust value of radius to minimize.
+///       Recheck the whole triangulation when finished.
+/// TODO: When a cell contains a bad foliation, delete it. Recheck.
 
 #ifndef S3TRIANGULATION_H_
 #define S3TRIANGULATION_H_
@@ -43,32 +47,41 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 
-inline bool check_timeslices(Delaunay* D3) {
+inline bool check_timeslices(Delaunay* D3, bool output) {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
+  unsigned valid{0}, invalid{0};
   /// Iterate over all cells in the Delaunay triangulation
   for(cit = D3->finite_cells_begin();  cit != D3->finite_cells_end(); ++cit)
   {
     if (cit->is_valid())
       {
-        std::cout << "Cell is valid." << std::endl;
+        if (output) std::cout << "Cell is valid." << std::endl;
         min_time = cit->vertex(0)->info();
         max_time = min_time;
         for(size_t i = 0; i < 4; i++)
         {
           unsigned current_time = cit->vertex(i)->info();
           /// Iterate over all vertices in the cell
-          std::cout << "Vertex " << i << " is " << cit->vertex(i)->point();
-          std::cout << " with timeslice " << current_time << std::endl;
+          if (output)
+            {
+              std::cout << "Vertex " << i << " is " << cit->vertex(i)->point();
+              std::cout << " with timeslice " << current_time << std::endl;
+            }
+
           if (current_time < min_time) min_time = current_time;
           if (current_time > max_time) max_time = current_time;
         }
         if (max_time - min_time > 1)
           {
-            std::cout << "Foliation is invalid for this cell." << std::endl;
-            return false;
+            if (output) std::cout << "Foliation is invalid for this cell." << std::endl;
+            invalid++;
           }
-        std::cout << "Foliation is valid for this cell." << std::endl;
+        else
+          {
+            if (output) std::cout << "Foliation is valid for this cell." << std::endl;
+            valid++;
+          }
       }
     else
       {
@@ -85,7 +98,10 @@ inline bool check_timeslices(Delaunay* D3) {
       }
   }
   assert(D3->is_valid());
-  return true;
+  std::cout << "There are " << invalid << " invalid cells";
+  std::cout << " and " << valid << " valid cells in this triangulation." << std::endl;
+
+  return (invalid == 0) ? true : false;
 }
 
 inline void make_foliated_3_sphere(std::vector<Point> *v,
@@ -124,7 +140,7 @@ inline void make_S3_triangulation(Delaunay* D3,
 
   const int points = simplices_per_timeslice * 4;
   const int total_points = points * timeslices;
-  double radius = 1;
+  double radius = 10;
 
   std::vector<Point> vertices;
   std::vector<unsigned> timevalue;

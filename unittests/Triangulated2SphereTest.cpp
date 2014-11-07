@@ -26,7 +26,7 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
   // EXPECT_THAT(T.number_of_finite_cells(), Eq(2))
   //   << "Triangulation has wrong number of cells.";
 
-  EXPECT_TRUE(check_timeslices(&T))
+  EXPECT_TRUE(check_timeslices(&T, true))
     << "Edges span more than 1 timeslice.";
 
   EXPECT_TRUE(T.is_valid())
@@ -34,8 +34,8 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
 }
 
 TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
-  const int number_of_simplices = 32;
-  const int number_of_timeslices = 8;
+  const int number_of_simplices = 64000;
+  const int number_of_timeslices = 64;
   const bool output = false;
 
   make_S3_triangulation(&T, number_of_simplices, number_of_timeslices, output);
@@ -46,6 +46,6 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
   EXPECT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
 
-  // EXPECT_TRUE(check_timeslices(&T))
-  //   << "Edges span more than 1 timeslice.";
+  EXPECT_TRUE(check_timeslices(&T, output))
+    << "Edges span more than 1 timeslice.";
 }
