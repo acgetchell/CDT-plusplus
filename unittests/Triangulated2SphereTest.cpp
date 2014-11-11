@@ -27,7 +27,7 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
   //   << "Triangulation has wrong number of cells.";
 
   EXPECT_TRUE(check_timeslices(&T, true))
-    << "Edges span more than 1 timeslice.";
+    << "Cells do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
@@ -47,5 +47,5 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
     << "Triangulation is invalid.";
 
   EXPECT_TRUE(check_timeslices(&T, output))
-    << "Edges span more than 1 timeslice.";
+    << "Cells do not span exactly 1 timeslice.";
 }

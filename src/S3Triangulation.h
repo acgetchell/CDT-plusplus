@@ -18,7 +18,8 @@
 /// DONE: Gather ratio of cells with bad/good foliation.
 ///       Adjust value of radius to minimize.
 ///       Recheck the whole triangulation when finished.
-/// TODO: When a cell contains a bad foliation, delete it. Recheck.
+/// DONE: When a cell contains a bad foliation, delete it. Recheck.
+/// TODO: Fixup Delaunay triangulation after bad cells have been deleted
 
 #ifndef S3TRIANGULATION_H_
 #define S3TRIANGULATION_H_
@@ -47,6 +48,13 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 
+/// This function iterates over all of the cells in a Triangulation
+/// Within each cell, it iterates over all of the vertices and reads timeslices
+/// Validity of the cell is first checked by the is_valid() function
+/// The foliation validity is then checked by comparing timeslices in each
+/// vertex and ensuring that the difference is exactly 1
+/// As a side effect, this function deletes invalid cells
+/// Thus, this function may be called multiple times
 inline bool check_timeslices(Delaunay* D3, bool output) {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
@@ -56,14 +64,14 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
   {
     if (cit->is_valid())
       {
-        if (output) std::cout << "Cell is valid." << std::endl;
+        if (output) std::cout << "Cell is valid." << std::endl; // debugging
         min_time = cit->vertex(0)->info();
         max_time = min_time;
         for(size_t i = 0; i < 4; i++)
         {
           unsigned current_time = cit->vertex(i)->info();
           /// Iterate over all vertices in the cell
-          if (output)
+          if (output) // debugging
             {
               std::cout << "Vertex " << i << " is " << cit->vertex(i)->point();
               std::cout << " with timeslice " << current_time << std::endl;
@@ -72,14 +80,22 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
           if (current_time < min_time) min_time = current_time;
           if (current_time > max_time) max_time = current_time;
         }
-        if (max_time - min_time > 1)
+        /// There should be a difference of 1 between max and min
+        if (max_time - min_time != 1)
           {
             if (output) std::cout << "Foliation is invalid for this cell." << std::endl;
+            // Delete the invalid cell
+            D3->tds().delete_cell(cit);
+            // for(size_t i = 0; i < 4; i++)
+            // {
+            //   D3->remove(cit->vertex(i));
+            // }
+            // Increment the invalid cell counter
             invalid++;
           }
         else
           {
-            if (output) std::cout << "Foliation is valid for this cell." << std::endl;
+            if (output) std::cout << "Foliation is valid for this cell." << std::endl;  // debugging
             valid++;
           }
       }
@@ -94,7 +110,7 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
 
         /// Or, just remove the cell directly!
         D3->tds().delete_cell(cit);
-        std::cout << "Invalid cell destroyed." << std::endl;
+        if (output) std::cout << "Invalid cell destroyed." << std::endl;
       }
   }
   assert(D3->is_valid());
@@ -161,6 +177,14 @@ inline void make_S3_triangulation(Delaunay* D3,
   /// Zipping together vertices and timevalue
   D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices.begin(), timevalue.begin() )),
   boost::make_zip_iterator(boost::make_tuple(vertices.end(), timevalue.end())));
+
+  /// Remove cells that have invalid foliations
+  unsigned pass = 0;
+  while (check_timeslices(D3, false))
+    {
+      std::cout << "Pass #" << pass;
+      pass++;
+    }
 
   /// Print out results
   if (output) {
