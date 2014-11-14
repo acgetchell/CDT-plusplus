@@ -19,7 +19,8 @@
 ///       Adjust value of radius to minimize.
 ///       Recheck the whole triangulation when finished.
 /// DONE: When a cell contains a bad foliation, delete it. Recheck.
-/// TODO: Fixup Delaunay triangulation after bad cells have been deleted
+/// DONE: Fixup Delaunay triangulation after bad cells have been deleted
+/// TODO: Classify cells as (3,1), (2,2), or (1,3) based on their foliation
 
 #ifndef S3TRIANGULATION_H_
 #define S3TRIANGULATION_H_
@@ -48,13 +49,59 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 
-/// This function iterates over all of the cells in a Triangulation
-/// Within each cell, it iterates over all of the vertices and reads timeslices
-/// Validity of the cell is first checked by the is_valid() function
+/// This function iterates over all of the cells in a triangulation.
+/// Within each cell, it iterates over all of the vertices and reads timeslices.
+/// Validity of the cell is first checked by the is_valid() function.
 /// The foliation validity is then checked by comparing timeslices in each
-/// vertex and ensuring that the difference is exactly 1
-/// As a side effect, this function deletes invalid cells
-/// Thus, this function may be called multiple times
+/// vertex and ensuring that the difference is exactly 1.
+/// If a cell has a bad foliation, the vertex with the highest timeslice is
+/// deleted. The Delaunay triangulation is then recomputed on the remaining
+/// vertices.
+/// This function is repeatedly called up to max_foliation_fix_passes times
+/// as set in make_S3_triangulation()
+
+inline void fix_timeslices(Delaunay* D3, bool output) {
+  std::cout << "Fixing foliation...." << std::endl;
+  Delaunay::Finite_cells_iterator cit;
+  unsigned min_time, max_time;
+  unsigned max_vertex{0};
+
+  for (cit = D3->finite_cells_begin(); cit != D3->finite_cells_end(); ++cit)
+    {
+      if (cit->is_valid())
+        {
+          // Set min_time and max_time to first vertex timeslice
+          min_time = cit->vertex(0)->info();
+          max_time = min_time;
+
+          for(size_t i = 0; i < 4; i++)
+          {
+            unsigned current_time = cit->vertex(i)->info();
+            if (current_time < min_time) min_time = current_time;
+            if (current_time > max_time)
+              {
+                max_time = current_time;
+                max_vertex = i;
+              }
+          }
+
+          /// If max_time - min_time != 1 delete max_vertex
+          if (max_time - min_time != 1) {
+            D3->remove(cit->vertex(max_vertex));
+            if (output) std::cout << "Vertex " << max_vertex << " of cell removed." << std::endl;
+          }
+        }
+      else {
+        // Do nothing for now
+      }
+    }
+}
+
+/// This function iterates over all of the cells in a triangulation.
+/// Within each cell, it iterates over all of the vertices and reads timeslices.
+/// Validity of the cell is first checked by the is_valid() function.
+/// The foliation validity is then checked by comparing timeslices in each
+/// vertex and ensuring that the difference is exactly 1.
 inline bool check_timeslices(Delaunay* D3, bool output) {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
@@ -64,7 +111,8 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
   {
     if (cit->is_valid())
       {
-        if (output) std::cout << "Cell is valid." << std::endl; // debugging
+        // debugging
+        if (output) std::cout << "The following cell is valid." << std::endl;
         min_time = cit->vertex(0)->info();
         max_time = min_time;
         for(size_t i = 0; i < 4; i++)
@@ -84,13 +132,6 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
         if (max_time - min_time != 1)
           {
             if (output) std::cout << "Foliation is invalid for this cell." << std::endl;
-            // Delete the invalid cell
-            D3->tds().delete_cell(cit);
-            // for(size_t i = 0; i < 4; i++)
-            // {
-            //   D3->remove(cit->vertex(i));
-            // }
-            // Increment the invalid cell counter
             invalid++;
           }
         else
@@ -109,13 +150,19 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
         // }
 
         /// Or, just remove the cell directly!
-        D3->tds().delete_cell(cit);
-        if (output) std::cout << "Invalid cell destroyed." << std::endl;
+        //D3->tds().delete_cell(cit);
+        /// This function does *not* preserve the Delaunay triangulation!
+        /// After this, D3->is_valid() is false!
+
+        if (output) std::cout << "The following cell is invalid." << std::endl;
+        invalid++;
       }
   }
   assert(D3->is_valid());
-  std::cout << "There are " << invalid << " invalid cells";
-  std::cout << " and " << valid << " valid cells in this triangulation." << std::endl;
+  if (output) {
+    std::cout << "There are " << invalid << " invalid cells";
+    std::cout << " and " << valid << " valid cells in this triangulation." << std::endl;
+  }
 
   return (invalid == 0) ? true : false;
 }
@@ -151,7 +198,10 @@ inline void make_S3_triangulation(Delaunay* D3,
             int timeslices,
             bool output) {
 
+  std::cout << "Generating universe ..." << std::endl;
   const int simplices_per_timeslice = simplices / timeslices;
+  const unsigned max_foliation_fix_passes = 10;
+
   assert(simplices_per_timeslice >= 1);
 
   const int points = simplices_per_timeslice * 4;
@@ -180,13 +230,19 @@ inline void make_S3_triangulation(Delaunay* D3,
 
   /// Remove cells that have invalid foliations
   unsigned pass = 0;
-  while (check_timeslices(D3, false))
+  while (!check_timeslices(D3, output))
     {
-      std::cout << "Pass #" << pass;
       pass++;
+      if (pass > max_foliation_fix_passes) break;
+      std::cout << "Pass #" << pass << std::endl;
+      fix_timeslices(D3, output);
     }
 
   /// Print out results
+  bool valid = check_timeslices(D3, false);
+  std::cout << "Valid foliation: " << std::boolalpha << valid << std::endl;
+  std::cout << "Delaunay triangulation has " << D3->number_of_finite_cells();
+  std::cout << " cells." << std::endl;
   if (output) {
     Delaunay::Finite_vertices_iterator vit;
     for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end();   ++vit)
@@ -194,6 +250,6 @@ inline void make_S3_triangulation(Delaunay* D3,
         std::cout << "Point " << vit->point() << " has timeslice " << vit->info() << std::endl;
       }
     };
-
+  assert(D3->is_valid());
 }
 #endif // S3TRIANGULATION_H_
