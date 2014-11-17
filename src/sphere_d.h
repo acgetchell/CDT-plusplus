@@ -6,8 +6,8 @@
 /// a given radius
 /// TODO: Make the vector compatible with the triangulation data structure
 
-#ifndef SPHERE_D_H_
-#define SPHERE_D_H_
+#ifndef SRC_SPHERE_D_H_
+#define SRC_SPHERE_D_H_
 
 /// CGAL headers
 #include <CGAL/Cartesian_d.h>
@@ -19,20 +19,18 @@
 
 
 typedef CGAL::Cartesian_d<double> Kd;
-//typedef Kd::Point_d Point;
+// typedef Kd::Point_d Point;
 
 inline void make_d_sphere(std::vector<Kd::Point_d> *v,
   int number_of_points,
   int dimension,
   double radius,
   bool message) {
-
   v->reserve(number_of_points);
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
-  for (size_t i = 0; i < number_of_points; i++)
-  {
+  for (size_t i = 0; i < number_of_points; i++) {
     v->push_back(*gen++);
   }
   ///
@@ -43,12 +41,11 @@ inline void make_d_sphere(std::vector<Kd::Point_d> *v,
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
 
-    for (auto point : *v)
-      {
-        std::cout << " " << point << std::endl;
-      }
+    for (auto point : *v) {
+      std::cout << " " << point << std::endl;
+    }
   }
-} // make_d_sphere()
+}  // make_d_sphere()
 
 
 /// make_d_sphere without message
@@ -57,6 +54,6 @@ inline void make_d_sphere(std::vector<Kd::Point_d> *v,
                     int dimension,
                     double radius) {
   make_d_sphere(v, number_of_points, dimension, radius, false);
-} // make_d_sphere
+}  // make_d_sphere
 
-#endif  // SPHERE_D_H_
+#endif  // SRC_SPHERE_D_H_

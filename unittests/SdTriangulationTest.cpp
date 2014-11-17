@@ -1,12 +1,18 @@
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright (c) 2014 Adam Getchell
+///
+/// Tests for d-dimensional Triangulations
+
 #include "gmock/gmock.h"
 #include "Delaunay.h"
 
-using namespace ::testing;
+using namespace testing;
 
 TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
   Delaunay T(4);
 
-  int arr[] = {0,0,0,0};
+  int arr[] = {0, 0, 0, 0};
   Delaunay_d::Point_d p(4, arr, arr+4);
 
   T.insert(p);
@@ -29,16 +35,14 @@ TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
 
   ASSERT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
-
 }
 
 TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   Delaunay T(4);
 
-  int tetra[][4] = {{0,0,0,0}, {0,1,0,0}, {0,0,1,0},{1,0,0,0}};
+  int tetra[][4] = {{0, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {1, 0, 0, 0}};
 
-  for(size_t i = 0; i < 4; i++)
-  {
+  for (size_t i = 0; i < 4; i++) {
     T.insert(Delaunay_d::Point_d(4, tetra[i], tetra[i]+4));
   }
 
@@ -57,23 +61,22 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
 
   ASSERT_TRUE(T.is_valid())
     << "Triangulation is invalid.";
-
 }
 
 TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
   Delaunay T(4);
 
-  int sixteen[][4] = {  {1,0,0,0}, {-1,0,0,0},
-                        {0,1,0,0}, {0,-1,0,0},
-                        {0,0,1,0}, {0,0,-1,0},
-                        {0,0,0,1}, {0,0,0,-1}};
+  int sixteen[][4] = {  {1, 0, 0, 0}, {-1, 0, 0, 0},
+                        {0, 1, 0, 0}, {0, -1, 0, 0},
+                        {0, 0, 1, 0}, {0, 0, -1, 0},
+                        {0, 0, 0, 1}, {0, 0, 0, -1}};
 
-  for(size_t i = 0; i < 8; i++)
-  {
+  for (size_t i = 0; i < 8; i++) {
     T.insert(Delaunay_d::Point_d(4, sixteen[i], sixteen[i]+4));
   }
 
-  std::cout << "16cell has " << T.number_of_cells() << " simplices." << std::endl;
+  std::cout << "16cell has " << T.number_of_cells() << " simplices.";
+  std::cout << std::endl;
 
   ASSERT_THAT(T.current_dimension(), Eq(4))
       << "Triangulation has wrong dimensionality.";

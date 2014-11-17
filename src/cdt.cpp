@@ -16,9 +16,9 @@
 #include <CGAL/Timer.h>
 
 // CDT headers
-#include "utilities.h"
-//#include <periodic_3_complex.h>
-//#include "periodic_3_triangulations.h"
+#include "./utilities.h"
+// #include <periodic_3_complex.h>
+// #include "periodic_3_triangulations.h"
 #include "S3Triangulation.h"
 
 int main(int argc, char* argv[]) {
@@ -105,16 +105,16 @@ int main(int argc, char* argv[]) {
   switch (topology) {
     case SPHERICAL:
       make_S3_triangulation(&Sphere3, num_simplices, num_timeslices, false);
-      t.stop(); // End running time
+      t.stop();  // End running time
       std::cout << "Final triangulation has ";
       print_results(&Sphere3, &t);
       write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
       break;
     case TOROIDAL:
       // make_random_T3_simplicial_complex(&Torus3, num_simplices);
-      //make_random_T3_triangulation(&Torus3, num_simplices, num_timeslices);
+      // make_random_T3_triangulation(&Torus3, num_simplices, num_timeslices);
       std::cout << "make_T3_triangulation not implemented yet.";
-      t.stop(); // End running time
+      t.stop();  // End running time
       // std::cout << "Final toroidal triangulation has ";
       // print_results(&Torus3, &t);
       // write_file(&Torus3, 't', dimensions, num_simplices, num_timeslices);

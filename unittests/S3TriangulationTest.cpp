@@ -1,15 +1,22 @@
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright (c) 2014 Adam Getchell
+///
+/// Tests for 3-dimensional Triangulations
+
+#include <vector>
+
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
 
-using namespace ::testing;
+using namespace testing;
 
 TEST(S3Triangulation, CreatesTetrahedronTriangulation) {
-
   std::vector<Delaunay::Point> V(4);
-  V[0] = Delaunay::Point(0,0,0);
-  V[1] = Delaunay::Point(0,1,0);
-  V[2] = Delaunay::Point(0,0,1);
-  V[3] = Delaunay::Point(1,0,0);
+  V[0] = Delaunay::Point(0, 0, 0);
+  V[1] = Delaunay::Point(0, 1, 0);
+  V[2] = Delaunay::Point(0, 0, 1);
+  V[3] = Delaunay::Point(1, 0, 0);
 
   Triangulation T(V.begin(), V.end());
 

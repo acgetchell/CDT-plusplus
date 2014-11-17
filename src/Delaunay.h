@@ -1,5 +1,11 @@
-#ifndef DELAUNAY_H
-#define DELAUNAY_H
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright (c) 2014 Adam Getchell
+///
+/// Adds useful methods to CGAL/Delaunay_d
+
+#ifndef SRC_DELAUNAY_H_
+#define SRC_DELAUNAY_H_
 
 // #include <CGAL/Homogeneous_d.h>
 // #include <CGAL/gmpxx.h>
@@ -18,19 +24,18 @@ typedef Delaunay_d::Simplex_handle Simplex_handle;
 typedef Delaunay_d::Vertex_handle Vertex_handle;
 typedef Delaunay_d::Vertex_iterator Vertex_iterator;
 
-class Delaunay : public Delaunay_d
-{
-public:
-  Delaunay(int dimensions) : Delaunay_d(dimensions)
-  {
+class Delaunay : public Delaunay_d {
+ public:
+  explicit Delaunay(int dimensions) : Delaunay_d(dimensions) {
   }
 
   int CountVertices() {
     // How many vertices do we really have?
     int PointCounter = 0;
-    for (Vertex_iterator vit = this->vertices_begin(); vit != this->vertices_end(); ++vit) {
+    for (Vertex_iterator vit = this->vertices_begin();
+                          vit != this->vertices_end(); ++vit) {
       PointCounter++;
-      //Vertex_handle vh = vit;
+      // Vertex_handle vh = vit;
       std::cout << "Point #" << PointCounter << " is ";
       std::cout << Delaunay_d::Point_d(vit->point()) << std::endl;
     }
@@ -39,13 +44,13 @@ public:
 
   int number_of_cells() {
     int CellCounter = 0;
-    for (Simplex_iterator sit = this->simplices_begin(); sit != this->simplices_end(); ++sit)
-      {
+    for (Simplex_iterator sit = this->simplices_begin();
+                          sit != this->simplices_end(); ++sit) {
         CellCounter++;
         // std::cout << "Simplex#" << CellCounter << std::endl;
-      }
+    }
     return CellCounter;
   }
 };
 
-#endif
+#endif  // SRC_DELAUNAY_H_

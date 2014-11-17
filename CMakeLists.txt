@@ -49,8 +49,7 @@ if ( CGAL_FOUND )
       include_directories (BEFORE "../../include")
 
       create_single_source_cgal_program( "src/cdt.cpp" )
-      #create_single_source_cgal_program( "src/info_insert_with_pair_iterator.cpp")
-      create_single_source_cgal_program( "src/info_insert_with_zip_iterator.cpp")
+      
   else()
 
     message(STATUS "NOTICE: This program requires the Eigen3 library, and will not be compiled.")

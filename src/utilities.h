@@ -4,8 +4,8 @@
 ///
 /// Utility functions for cdt.cpp
 
-#ifndef UTILITIES_H_
-#define UTILITIES_H_
+#ifndef SRC_UTILITIES_H_
+#define SRC_UTILITIES_H_
 
 #include <CGAL/Timer.h>
 
@@ -112,7 +112,6 @@ std::string generate_filename(int top,
 ///
 template <typename T>
 void print_results(const T* Simplicial_Complex) {
-
   std::cout << Simplicial_Complex->number_of_vertices()
             << " vertices and "
             << Simplicial_Complex->number_of_finite_edges()
@@ -158,4 +157,4 @@ void write_file(const T* Simplicial_Complex,
   oFileT << *Simplicial_Complex;
 }
 
-#endif  // UTILITIES_H_
+#endif  // SRC_UTILITIES_H_

@@ -1,6 +1,15 @@
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright (c) 2014 Adam Getchell
+///
+/// Tests for Spheres
+
+#include <vector>
+
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
 #include "Sphere_d.h"
+
 
 using namespace ::testing;
 
@@ -18,7 +27,6 @@ TEST(Sphere, Create2Sphere) {
 
   ASSERT_THAT(points.size(), Eq(timeslice.size()))
     << "Each point does not have an associated timeslice.";
-
 }
 
 
