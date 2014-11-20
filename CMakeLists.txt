@@ -49,7 +49,7 @@ if ( CGAL_FOUND )
       include_directories (BEFORE "../../include")
 
       create_single_source_cgal_program( "src/cdt.cpp" )
-      
+
   else()
 
     message(STATUS "NOTICE: This program requires the Eigen3 library, and will not be compiled.")
@@ -97,10 +97,10 @@ set_tests_properties (CDT-S3Runs
 
 # Make a T3
 
-add_test (CDT-T3Runs cdt --toroidal --time 30 -n 6000)
-set_tests_properties (CDT-T3Runs
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Writing to file T")
+# add_test (CDT-T3Runs cdt --toroidal --time 30 -n 6000)
+# set_tests_properties (CDT-T3Runs
+#   PROPERTIES
+#   PASS_REGULAR_EXPRESSION "Writing to file T")
 
 # Dimensions = 3
 
@@ -117,7 +117,7 @@ set_tests_properties (CDT-Simplices
   PASS_REGULAR_EXPRESSION "Number of simplices = 7000")
 
 # Timeslices = 50
-add_test (CDT-Timeslices cdt --p --time 50 -n 8000)
-set_tests_properties (CDT-Timeslices
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Number of timeslices = 50")
+# add_test (CDT-Timeslices cdt --p --time 50 -n 8000)
+# set_tests_properties (CDT-Timeslices
+#   PROPERTIES
+#   PASS_REGULAR_EXPRESSION "Number of timeslices = 50")
