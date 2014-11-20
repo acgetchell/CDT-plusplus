@@ -117,7 +117,7 @@ of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.tra
 
 There are enough unit tests that it's worthwhile doing fast parallel builds. [Ninja][18] is just the ticket. It's effectively a drop-in replacement for `make`, and works nicely because CMake generates the build files. There's quite a difference in speed.
 
-Basically, everywhere you see `make` you can type `ninja` instead. See `build.sh` for an example.
+Basically, everywhere you see `make` you can type `ninja` instead. See [build.sh][https://github.com/acgetchell/CDT-plusplus/blob/master/build.sh] for an example.
 
 Usage:
 ------
