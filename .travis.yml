@@ -12,6 +12,7 @@ before_install:
   - brew update
   #- brew reinstall isl011
 install:
+  - brew install ninja
   - brew install eigen
   #- brew install cgal --c++11 --imaging --with-eigen --with-lapack
   - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
@@ -32,6 +33,6 @@ script:
 after_script:
   - cd build
   - "./unittests"
-  - make test
+  - ninja test
 cache:
   - bundler

@@ -109,15 +109,15 @@ or:
 And then type `make` as usual.
 
 This should result in the main program executable, `cdt`, as well as the unit
-test executable, `unittests`, in the build directory. If you want to install
-the program, you will eventually be able to run `make install`.
+test executable, `unittests`, in the build directory.
 
 For some versions of Linux, you may have to build CGAL from source.
 Follow the instructions (or their equivalent) given in the install section
 of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
-There are also directions for doing a [parallel build using CMake][18], but
-currently the builds don't really take long enough to bother.
+There are enough unit tests that it's worthwhile doing fast parallel builds. [Ninja][18] is just the ticket. It's effectively a drop-in replacement for `make`, and works nicely because CMake generates the build files. There's quite a difference in speed.
+
+Basically, everywhere you see `make` you can type `ninja` instead. See `build.sh` for an example.
 
 Usage:
 ------
@@ -239,7 +239,7 @@ simplices.
 [15]: http://www.cgal.org/Manual/latest/doc_html/installation_manual/Chapter_installation_manual.html
 [16]: http://brew.sh
 [17]: https://github.com/acgetchell/CDT-plusplus/archive/master.zip
-[18]: http://www.kitware.com/blog/home/post/434
+[18]: https://martine.github.io/ninja/
 [19]: http://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Options.html
 [20]: http://www.mathjax.org
 [21]: http://www.graphviz.org
@@ -247,3 +247,4 @@ simplices.
 [23]: http://www.swig.org
 [24]: https://code.google.com/p/googlemock/source/browse/trunk/README
 [25]: http://eigen.tuxfamily.org/index.php?title=Main_Page
+[26]: http://public.kitware.com/pipermail/cmake-developers/2011-November/002490.html
