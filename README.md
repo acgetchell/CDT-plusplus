@@ -4,7 +4,8 @@ CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?
 [Causal Dynamical Triangulations][1] in C++ using the
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled with [CMake][3]
 using [Clang][4]/[LLVM][5]. [Gmock 1.7][6] must also be installed in order
-to run unit tests. Follows (mostly) the [Google C++ Style Guide][7], which
+to run unit tests. [Ninja][18] is a nice (but optional) replacement for `make`.
+Follows (mostly) the [Google C++ Style Guide][7], which
 you can check by downloading and running the [cpplint.py][8] script:
 
 ~~~
@@ -115,7 +116,9 @@ For some versions of Linux, you may have to build CGAL from source.
 Follow the instructions (or their equivalent) given in the install section
 of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
 
-There are enough unit tests that it's worthwhile doing fast parallel builds. [Ninja][18] is just the ticket. It's effectively a drop-in replacement for `make`, and works nicely because CMake generates the build files. There's quite a difference in speed.
+There are enough unit tests that it's worthwhile doing fast parallel builds.
+[Ninja][18] is just the ticket. It's effectively a drop-in replacement for `make`,
+and works nicely because CMake generates the build files. There's quite a difference in speed.
 
 Basically, everywhere you see `make` you can type `ninja` instead. See [build.sh][27] for an example.
 
