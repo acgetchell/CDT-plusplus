@@ -45,7 +45,8 @@ Prerequisites:
 ------
 
 CDT++ should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake][14], [CGAL][15], [Eigen][25] and [Gmock][6] installed.
+[CMake][14], [CGAL][15], [Eigen][25] and [Gmock][6] installed. [Ninja][18] allows
+for quick parallel builds of the unit tests.
 
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
@@ -53,6 +54,7 @@ On MacOS, the easiest way to do this is with [HomeBrew][16]:
 # brew install cmake
 # brew install eigen
 # brew install cgal --imaging --with-eigen3 --with-lapack
+# brew install ninja
 ~~~
 
 On Ubuntu, you can do this via:
@@ -60,6 +62,7 @@ On Ubuntu, you can do this via:
 # sudo apt-get install cmake
 # sudo apt-get install libeigen3-dev
 # sudo apt-get install libcgal-dev
+# sudo apt-get install ninja-build
 ~~~
 
 To install Gmock, look at the [README][24]. Ubuntu users can just do:
