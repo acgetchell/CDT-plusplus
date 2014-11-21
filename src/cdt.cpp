@@ -108,7 +108,9 @@ int main(int argc, char* argv[]) {
       t.stop();  // End running time
       std::cout << "Final triangulation has ";
       print_results(&Sphere3, &t);
-      write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
+      // write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
+      write_file(&Sphere3, 's', dimensions,
+                  Sphere3.number_of_finite_cells(), num_timeslices);
       break;
     case TOROIDAL:
       // make_random_T3_simplicial_complex(&Torus3, num_simplices);

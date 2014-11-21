@@ -16,7 +16,7 @@ class Triangulated2Sphere : public Test {
   const bool no_output = false;
 };
 
-TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
+TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTimeslices) {
   const int number_of_simplices = 2;
   const int number_of_timeslices = 2;
 
@@ -29,8 +29,8 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTetrahedrons) {
   EXPECT_THAT(T.number_of_vertices(), AllOf(Ge(1), Le(8)))
     << "Triangulation has wrong number of vertices.";
 
-  // EXPECT_THAT(T.number_of_finite_cells(), Eq(2))
-  //   << "Triangulation has wrong number of cells.";
+  EXPECT_THAT(T.number_of_finite_cells(), AllOf(Ge(1), Le(12)))
+    << "Triangulation has wrong number of cells.";
 
   EXPECT_TRUE(check_timeslices(&T, no_output))
     << "Some cells do not span exactly 1 timeslice.";
