@@ -26,10 +26,10 @@ script:
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
   - cd gmock-1.7.0
-  # - "./configure"
-  - cmake -G Ninja .
-  # - make
-  - ninja
+  - "./configure"
+  # - cmake -G Ninja .
+  - make
+  # - ninja
   - cd ..
   - "./build.sh"
 after_script:
