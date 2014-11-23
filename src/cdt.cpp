@@ -34,6 +34,9 @@ int main(int argc, char* argv[]) {
   int num_simplices = 0;      /// Number of simplices, defaults to 0
   int num_timeslices = 0;     /// Number of timeslices
   int topology;
+  std::vector<Cell_handle> three_one;
+  std::vector<Cell_handle> two_two;
+  std::vector<Cell_handle> one_three;
 
   enum topology_type { TOROIDAL, SPHERICAL};
 
@@ -104,7 +107,8 @@ int main(int argc, char* argv[]) {
 
   switch (topology) {
     case SPHERICAL:
-      make_S3_triangulation(&Sphere3, num_simplices, num_timeslices, false);
+      make_S3_triangulation(&Sphere3, num_simplices, num_timeslices, false,
+                            &three_one, &two_two, &one_three);
       t.stop();  // End running time
       std::cout << "Final triangulation has ";
       print_results(&Sphere3, &t);

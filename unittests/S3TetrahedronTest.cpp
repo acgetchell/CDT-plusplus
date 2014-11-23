@@ -22,6 +22,9 @@ class S3Tetrahedron : public Test {
   std::vector<unsigned> timevalue {1, 1, 1, 2};
   const bool no_output = false;
   Delaunay::Finite_cells_iterator cit;
+  std::vector<Cell_handle> three_one;
+  std::vector<Cell_handle> two_two;
+  std::vector<Cell_handle> one_three;
 };
 
 TEST_F(S3Tetrahedron, CreatesTriangulatedTetrahedron) {
@@ -76,13 +79,10 @@ TEST_F(S3Tetrahedron, InsertsSimplexType) {
   boost::make_zip_iterator(boost::make_tuple(V.end(),
   timevalue.end())));
 
-  for (cit = T.finite_cells_begin(); cit != T.finite_cells_end(); ++cit) {
-    cit->info() = 31;
-  }
+  classify_3_simplices(&T, &three_one, &two_two, &one_three);
 
   for (cit = T.finite_cells_begin(); cit != T.finite_cells_end(); ++cit) {
     EXPECT_THAT(cit->info(), Eq(31));
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
-
 }

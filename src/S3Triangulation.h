@@ -20,7 +20,9 @@
 ///       Recheck the whole triangulation when finished.
 /// DONE: When a cell contains a bad foliation, delete it. Recheck.
 /// DONE: Fixup Delaunay triangulation after bad cells have been deleted
-/// TODO: Classify cells as (3,1), (2,2), or (1,3) based on their foliation
+/// DONE: Classify cells as (3,1), (2,2), or (1,3) based on their foliation
+/// The vectors three_one, two_two, and one_three contain cell handles to
+/// the simplices of type (3,1), (2,2), and (1,3) respectively.
 
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
@@ -32,6 +34,7 @@
 /// C++ headers
 #include <vector>
 #include <boost/iterator/zip_iterator.hpp>
+#include <list>
 
 /// CDT headers
 
@@ -49,9 +52,61 @@ typedef CGAL::Triangulation_vertex_base_with_info_3<unsigned, K> Vb;
 typedef CGAL::Triangulation_cell_base_with_info_3<unsigned, K> Cb;
 typedef CGAL::Triangulation_data_structure_3<Vb, Cb> Tds;
 typedef CGAL::Delaunay_triangulation_3<K, Tds> Delaunay;
+typedef Delaunay::Cell_handle Cell_handle;
 typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
+
+/// This function iterates over all cells in the triangulation
+/// and classifies them as:
+///     31 = (3, 1)
+///     22 = (2, 2)
+///     13 = (1, 3)
+/// The vectors three_one, two_two, and one_three contain
+/// cell handles to all the cells of that corresponding type
+inline void classify_3_simplices(Delaunay* D3,
+                          std::vector<Cell_handle>* three_one,
+                          std::vector<Cell_handle>* two_two,
+                          std::vector<Cell_handle>* one_three) {
+  std::cout << "Classifying simplices...." << std::endl;
+  Delaunay::Finite_cells_iterator cit;
+
+  for (cit = D3->finite_cells_begin(); cit != D3->finite_cells_end(); ++cit) {
+    std::list<unsigned> timevalues;
+    unsigned max_time{0};
+    unsigned current_time{0};
+    unsigned max_values{0};
+    unsigned min_values{0};
+    /// Push every time value into a list
+    for (size_t i = 0; i < 4; i++) {
+      timevalues.push_back(cit->vertex(i)->info());
+    }
+    /// Now sort the list
+    timevalues.sort();
+    /// The maximum timevalue is at the end of the list
+    max_time = timevalues.back();
+    timevalues.pop_back();
+    // std::cout << "The maximum time value is " << max_time << std::endl;
+    max_values++;
+
+    while (!timevalues.empty()) {
+      current_time = timevalues.back();
+      timevalues.pop_back();
+      (current_time == max_time) ? max_values++ : min_values++;
+    }
+
+    if (max_values == 3) {
+      cit->info() = 13;
+      one_three->push_back(cit);
+    } else if (max_values == 2) {
+      cit->info() = 22;
+      two_two->push_back(cit);
+    } else {
+      cit->info() = 31;
+      three_one->push_back(cit);
+    }
+  }
+}
 
 /// This function iterates over all of the cells in a triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
@@ -63,7 +118,6 @@ typedef Delaunay::Point Point;
 /// vertices.
 /// This function is repeatedly called up to MAX_FOLIATION_FIX_PASSES times
 /// as set in make_S3_triangulation()
-
 inline void fix_timeslices(Delaunay* D3, bool output) {
   std::cout << "Fixing foliation...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
@@ -72,10 +126,11 @@ inline void fix_timeslices(Delaunay* D3, bool output) {
 
   for (cit = D3->finite_cells_begin(); cit != D3->finite_cells_end(); ++cit) {
     if (cit->is_valid()) {
-      // Set min_time and max_time to first vertex timeslice
+      /// Set min_time and max_time to first vertex timeslice
       min_time = cit->vertex(0)->info();
       max_time = min_time;
 
+      /// Iterate over each vertex in a cell
       for (size_t i = 0; i < 4; i++) {
         unsigned current_time = cit->vertex(i)->info();
         if (current_time < min_time) min_time = current_time;
@@ -85,7 +140,7 @@ inline void fix_timeslices(Delaunay* D3, bool output) {
         }
       }
 
-          /// If max_time - min_time != 1 delete max_vertex
+      /// If max_time - min_time != 1 delete max_vertex
       if (max_time - min_time != 1) {
         D3->remove(cit->vertex(max_vertex));
         if (output) {
@@ -193,7 +248,10 @@ inline void make_foliated_3_sphere(std::vector<Point> *v,
 inline void make_S3_triangulation(Delaunay* D3,
             int simplices,
             int timeslices,
-            bool output) {
+            bool output,
+            std::vector<Cell_handle>* three_one,
+            std::vector<Cell_handle>* two_two,
+            std::vector<Cell_handle>* one_three) {
   std::cout << "Generating universe ..." << std::endl;
   const int simplices_per_timeslice = simplices / timeslices;
   const unsigned MAX_FOLIATION_FIX_PASSES = 20;
@@ -232,11 +290,18 @@ inline void make_S3_triangulation(Delaunay* D3,
     fix_timeslices(D3, output);
   }
 
+  /// Classify simplices and put cell handles of each simplex type
+  /// into a corresponding vector
+  classify_3_simplices(D3, three_one, two_two, one_three);
+
   /// Print out results
   bool valid = check_timeslices(D3, false);
   std::cout << "Valid foliation: " << std::boolalpha << valid << std::endl;
   std::cout << "Delaunay triangulation has " << D3->number_of_finite_cells();
   std::cout << " cells." << std::endl;
+  std::cout << "There are " << three_one->size() << " (3,1) simplices" <<
+               " and " << two_two->size() << " (2,2) simplices and " <<
+               one_three->size() << " (1,3) simplices." << std::endl;
   if (output) {
     Delaunay::Finite_vertices_iterator vit;
     for (vit = D3->finite_vertices_begin();
