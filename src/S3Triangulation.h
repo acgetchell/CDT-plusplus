@@ -27,23 +27,21 @@
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
 
-/// C headers
-#include <cassert>
-#include <cmath>
-
-/// C++ headers
-#include <vector>
-#include <boost/iterator/zip_iterator.hpp>
-#include <list>
-
-/// CDT headers
-
 /// CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
+
+/// C headers
+#include <assert.h>
+#include <math.h>
+
+/// C++ headers
+#include <boost/iterator/zip_iterator.hpp>
+#include <vector>
+#include <list>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 /// Used so that each timeslice is assigned an integer
@@ -106,7 +104,7 @@ inline void classify_3_simplices(Delaunay* D3,
       three_one->push_back(cit);
     }
   }
-}
+}  // classify_3_simplices
 
 /// This function iterates over all of the cells in a triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
