@@ -33,7 +33,7 @@ install:
   - sudo apt-get install -qq curl
   - sudo apt-get install -qq libgmp3-dev
   - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
-  - tar zxvf CGAL-5.4.tar.gz &> install.log
+  - tar zxvf CGAL-4.5.tar.gz &> install.log
   - cd CGAL-4.5
   - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
   - ninja
