@@ -63,9 +63,9 @@ typedef Delaunay::Point Point;
 /// The vectors three_one, two_two, and one_three contain
 /// cell handles to all the cells of that corresponding type
 inline void classify_3_simplices(Delaunay* D3,
-                          std::vector<Cell_handle>* three_one,
-                          std::vector<Cell_handle>* two_two,
-                          std::vector<Cell_handle>* one_three) {
+            std::vector<Cell_handle>* three_one,
+            std::vector<Cell_handle>* two_two,
+            std::vector<Cell_handle>* one_three) {
   std::cout << "Classifying simplices...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
 
@@ -218,30 +218,28 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
   return (invalid == 0) ? true : false;
 }  // check_timeslices()
 
-inline void make_foliated_3_sphere(std::vector<Point> *v,
-    std::vector<unsigned> *ts,
-    int number_of_points,
-    double radius,
-    bool output) {
+/// This function makes 2-spheres of varying radii
+/// The radius is used to denote the time value, which
+/// allows us to foliate nested 2-spheres
+inline void make_2_sphere(std::vector<Point> *vertices,
+            std::vector<unsigned> *timevalue,
+            int number_of_points,
+            double radius,
+            bool output) {
 
-      CGAL::Random_points_on_sphere_3<Point> gen(radius);
+  CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
-      for (size_t j = 0; j < number_of_points; j++) {
-        v->push_back(*gen++);
-        ts->push_back(static_cast<unsigned int>(radius));
-      }
+  for (size_t j = 0; j < number_of_points; j++) {
+    vertices->push_back(*gen++);
+    timevalue->push_back(static_cast<unsigned int>(radius));
+  }
 
-      if (output) {
-        std::cout << "Generating " << number_of_points << " random points on "
-        << "the surface of a sphere of in 3D of center 0 and radius "
-        << radius << "." << std::endl;
-      }
-
-      // for (auto point : *v)
-      //   {
-      //     std::cout << " " << point << std::endl;
-      //   }
-}  // make_foliated_3_sphere()
+  if (output) {
+    std::cout << "Generating " << number_of_points << " random points on "
+    << "the surface of a sphere of in 3D of center 0 and radius "
+    << radius << "." << std::endl;
+  }
+}  // make_2_sphere()
 
 inline void make_S3_triangulation(Delaunay* D3,
             int simplices,
@@ -270,7 +268,7 @@ inline void make_S3_triangulation(Delaunay* D3,
   for (size_t i = 0; i < timeslices; i++) {
     // std::cout << "Loop " << i << std::endl;
     radius = 1.0 + static_cast<double>(i);
-    make_foliated_3_sphere(&vertices, &timevalue, points, radius, output);
+    make_2_sphere(&vertices, &timevalue, points, radius, output);
   }
 
   // D3->insert(vertices.begin(), vertices.end());

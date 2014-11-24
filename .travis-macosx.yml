@@ -1,0 +1,40 @@
+# This file builds on the Travis-CI MacOS environment
+
+language: objective-c
+compiler:
+  - clang
+env:
+  global:
+    - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
+    - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
+before_install:
+  #- rvm use ruby-2.0.0-p247
+  - brew update
+  #- brew reinstall isl011
+install:
+  - brew install ninja
+  - brew install eigen
+  #- brew install cgal --c++11 --imaging --with-eigen --with-lapack
+  - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
+  - tar zxvf CGAL-4.5.tar.gz &> install.log
+  - cd CGAL-4.5
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
+  - ninja
+  - sudo ninja install &> install.log
+  - cd ..
+script:
+  - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
+  - unzip gmock-1.7.0.zip
+  - cd gmock-1.7.0
+  - "./configure"
+  # - cmake -G Ninja .
+  - make
+  # - ninja
+  - cd ..
+  - "./build.sh"
+after_script:
+  - cd build
+  - "./unittests"
+  - ninja test
+cache:
+  - bundler
