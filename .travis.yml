@@ -28,16 +28,16 @@ install:
   - sudo apt-get install -qq libmpfr-dev
   - sudo apt-get install -qq cmake
   - sudo apt-get install -qq libeigen3-dev
-  - sudo apt-get install -qq ninja-build
+  # - sudo apt-get install -qq ninja-build
   - sudo apt-get install make
   - sudo apt-get install -qq curl
   - sudo apt-get install -qq libgmp3-dev
   - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
   - tar zxvf CGAL-4.5.tar.gz &> install.log
   - cd CGAL-4.5
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
-  - ninja
-  - sudo ninja install &>> install.log
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON .
+  - make
+  - sudo make install &>> install.log
 script:
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
@@ -49,7 +49,7 @@ script:
 after_script:
   - cd build
   - "./unittests"
-  - ninja test
+  - make test
 cache:
   - bundler
   - apt
