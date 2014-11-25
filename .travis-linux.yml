@@ -1,6 +1,8 @@
 # This file builds on the Travis-CI Linux environment
 # Just rename to .travis.yml
-# Currently fails due to compiler issues
+# Currently fails due to compiler issues:
+# https://travis-ci.org/acgetchell/CDT-plusplus/jobs/42117660
+#
 
 language: cpp
 compiler:
@@ -15,12 +17,13 @@ before_install:
   # sudo apt-get install python-software-properties
   - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
   - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
+  - sudo add-apt-repository -y ppa:kalakris/eigen
   - sudo apt-get update -qq
 install:
   #- sudo apt-get install build-essential
   # Install gcc 4.8
-  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.9; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
   # Install clang 3.4
   - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
   - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4"; fi
@@ -28,28 +31,33 @@ install:
   - sudo apt-get install -qq libmpfr-dev
   - sudo apt-get install -qq cmake
   - sudo apt-get install -qq libeigen3-dev
-  - sudo apt-get install -qq ninja-build
-  #- sudo apt-get install make
+  #- sudo apt-get install -qq ninja-build
+  - sudo apt-get install make
   - sudo apt-get install -qq curl
   - sudo apt-get install -qq libgmp3-dev
   - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
   - tar zxvf CGAL-4.5.tar.gz &> install.log
   - cd CGAL-4.5
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
-  - ninja
-  - sudo ninja install &>> install.log
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON .
+  - make
+  - sudo make install &>> install.log
 script:
+  - cd $TRAVIS_BUILD_DIR
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
   - cd gmock-1.7.0
   - "./configure"
   - make
   - cd ..
-  - "./build.sh"
-after_script:
+  #- "./build.sh"
+  - mkdir build
   - cd build
+  - cmake ..
+  - make
+after_script:
+  #- cd build
   - "./unittests"
-  - ninja test
+  - make test
 cache:
   - bundler
   - apt
