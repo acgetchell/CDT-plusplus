@@ -28,7 +28,7 @@ install:
   - sudo apt-get install -qq libmpfr-dev
   - sudo apt-get install -qq cmake
   - sudo add-apt-repository -y ppa:kalakris/eigen
-  - sudo apt-get install -qq eigen3
+  - sudo apt-get install -qq libeigen3-dev
   #- sudo apt-get install -qq ninja-build
   - sudo apt-get install make
   - sudo apt-get install -qq curl
