@@ -52,7 +52,7 @@ script:
   - cd build
   - cmake ..
 after_script:
-  - cd build
+  #- cd build
   - "./unittests"
   - make test
 cache:
