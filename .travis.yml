@@ -39,6 +39,7 @@ install:
   - make
   - sudo make install &>> install.log
 script:
+  - cd $TRAVIS_BUILD_DIR
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
   - cd gmock-1.7.0
