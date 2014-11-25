@@ -46,7 +46,10 @@ script:
   - "./configure"
   - make
   - cd ..
-  - "./build.sh"
+  #- "./build.sh"
+  - mkdir build
+  - cd build
+  - cmake ..
 after_script:
   - cd build
   - "./unittests"
