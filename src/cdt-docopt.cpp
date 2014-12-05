@@ -1,4 +1,4 @@
-#include "docopt.cpp/docopt.h"
+#include "docopt/docopt.h"
 
 #include <iostream>
 
@@ -11,22 +11,17 @@ A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
 to the Metropolis algorithm.
 
-This is for quick and easy development in Python
-before writing in C++ for performance.
-
-Uses https://code.google.com/p/cgal-bindings/
-
 Usage:
-cdt.py  ( --spherical | --toroidal | --periodic )
+./cdt  ( --spherical | --toroidal | --periodic )
 ( -n SIMPLICES)
 ( -t TIMESLICES)
 [ -d DIMENSIONS]
-cdt.py --version
-cdt.py --help
+./cdt --version
+./cdt --help
 
 Examples:
-cdt.py --spherical -n 5000 -t 256
-cdt-py --periodic -n 5000 -t 256 -d 3
+./cdt --spherical -n 5000 -t 256
+./cdt --periodic -n 5000 -t 256 -d 3
 
 Options:
 -h --help         Show this screen.
