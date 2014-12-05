@@ -3,7 +3,7 @@
 #include <iostream>
 
 static const char USAGE[] =
-R"(Causal Dynamical Triangulations in Python using CGAL.
+R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014 Adam Getchell
 

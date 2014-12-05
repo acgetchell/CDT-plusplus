@@ -34,10 +34,6 @@ link_directories("${GMOCK_HOME}/gtest/lib/.libs")
 ###############################################################################
 set(EXECUTABLE_NAME "CDT")
 
-# Docopt
-include_directories (BEFORE "src/docopt")
-add_library(docopt.cpp "src/docopt/docopt.cpp")
-
 find_package(CGAL QUIET COMPONENTS Core )
 
 if ( CGAL_FOUND )
@@ -53,7 +49,7 @@ if ( CGAL_FOUND )
       include_directories (BEFORE "../../include")
 
       create_single_source_cgal_program( "src/cdt.cpp" )
-      create_single_source_cgal_program( "src/cdt-docopt.cpp")
+      create_single_source_cgal_program( "src/cdt-docopt.cpp" "src/docopt/docopt.cpp")
 
   else()
 
