@@ -34,6 +34,10 @@ link_directories("${GMOCK_HOME}/gtest/lib/.libs")
 ###############################################################################
 set(EXECUTABLE_NAME "CDT")
 
+# DocOpt
+include_directories (BEFORE "src/docopt.cpp")
+add_library(docopt.cpp "src/docopt.cpp/docopt.cpp")
+
 find_package(CGAL QUIET COMPONENTS Core )
 
 if ( CGAL_FOUND )
