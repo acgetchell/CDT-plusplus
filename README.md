@@ -2,9 +2,11 @@ CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?
 ============
 
 [Causal Dynamical Triangulations][1] in C++ using the
-[Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled with [CMake][3]
-using [Clang][4]/[LLVM][5]. [Gmock 1.7][6] must also be installed in order
-to run unit tests. [Ninja][18] is a nice (but optional) replacement for `make`.
+[Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
+with [CMake][3] using [Clang][4]/[LLVM][5].
+[Gmock 1.7][6] must also be installed in order to run unit tests.
+[Docopt][19] provides a beautiful command-line interface.
+[Ninja][18] is a nice (but optional) replacement for `make`.
 Follows (mostly) the [Google C++ Style Guide][7], which
 you can check by downloading and running the [cpplint.py][8] script:
 
@@ -19,6 +21,7 @@ The goals and targets of this project are:
 - [x] 3D Toroidal simplicial complex
 - [x] Python bindings from [cgal-bindings][9]
 - [x] 2+1 foliation
+- [x] Integrate [docopt][19] CLI
 - [ ] 4D Simplex
 - [ ] Implement a Triangulation_4.h
 - [ ] Implement a Triangulation_vertex_base_with_info_4.h
@@ -127,31 +130,36 @@ Basically, everywhere you see `make` you can type `ninja` instead. See [build.sh
 
 Usage:
 ------
-CDT-plusplus uses [GNU getopt_long][19], and so understands long or short
-argument formats, provided the short argument given is an unambigous match
-to a longer one. Typing just the program generates the usage message:
+CDT-plusplus uses [docopt][19] to parse options from the help message, and so
+understands long or short argument formats, provided the short argument given
+is an unambigous match to a longer one. The help message should be instructive:
 
 ~~~
-# ./cdt
-Usage: ./cdt
-Required arguments: (you can use abbreviations)
---spherical or --periodic or --toroidal
-(periodic and toroidal are the same thing)
---number-of-simplices (int) <number-of-simplices>
---timeslices (int) <number-of-timeslices>
-Optional arguments:
---dimensions (int) <dimensions> (defaults to 3)
-Currently, number of dimensions cannot be higher than 3.`
+# ./cdt --help
+Causal Dynamical Triangulations in C++ using CGAL.
+
+Copyright (c) 2014 Adam Getchell
+
+A program that generates d-dimensional triangulated spacetimes
+with a defined causal structure and evolves them according
+to the Metropolis algorithm.
+
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA
+
+Examples:
+./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3
+./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3
+
+Options:
+-h --help             Show this message
+--version             Show program version
+-n SIMPLICES          Approximate number of simplices
+-t TIMESLICES         Number of timeslices
+-d DIM                Dimensionality [default: 3]
+-a --alpha ALPHA      Alpha constant
+-k K                  K constant
+-l --lambda LAMBDA    Lambda constant
 ~~~
-
-`./cdt --spherical --time=25 --number-of-simplices=5000`
-
-Generates a simplicial complex with 25 timeslices of 5000 simplices with
-spherical topology.
-
-`./cdt --p --time 50 -n 5000`
-
-Does the same but with periodic (toroidal) topology.
 
 The dimensionality of the spacetime is such that each slice of spacetime is
 `d-1`-dimensional, so setting `d=3` generates 2 spacelike dimensions and one
@@ -246,7 +254,7 @@ simplices.
 [16]: http://brew.sh
 [17]: https://github.com/acgetchell/CDT-plusplus/archive/master.zip
 [18]: https://martine.github.io/ninja/
-[19]: http://www.gnu.org/software/libc/manual/html_node/Getopt-Long-Options.html
+[19]: https://github.com/docopt/docopt.cpp
 [20]: http://www.mathjax.org
 [21]: http://www.graphviz.org
 [22]: http://scipher.wordpress.com/2010/05/10/setting-your-pythonpath-environment-variable-linuxunixosx/
