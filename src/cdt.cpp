@@ -1,133 +1,123 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2013 Adam Getchell
+/// Copyright (c) 2014 Adam Getchell
 ///
 /// A program that generates spacetimes
 ///
 /// Inspired by https://github.com/ucdavis/CDT
-///
-
-#include <getopt.h>
-#include <fcntl.h>
-#include <err.h>
-
 
 /// CGAL headers
 #include <CGAL/Timer.h>
 
-// CDT headers
+/// C++ headers
+#include <iostream>
+#include <cstdlib>
+#include <map>
+#include <string>
+#include <vector>
+
+/// Docopt
+#include "docopt/docopt.h"
+
+/// CDT headers
 #include "./utilities.h"
-// #include <periodic_3_complex.h>
-// #include "periodic_3_triangulations.h"
 #include "S3Triangulation.h"
 
-int main(int argc, char* argv[]) {
-#ifndef NDEBUG
-  printf("Running debug build\n");
-#endif
+/// Help message parsed by docopt into options
+static const char USAGE[] =
+R"(Causal Dynamical Triangulations in C++ using CGAL.
+
+Copyright (c) 2014 Adam Getchell
+
+A program that generates d-dimensional triangulated spacetimes
+with a defined causal structure and evolves them according
+to the Metropolis algorithm.
+
+Usage:./cdt-docopt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA
+
+Examples:
+./cdt-docopt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3
+./cdt-docopt --s -n64000 -t256 -a1.1 -k2.2 -l3.3
+
+Options:
+  -h --help             Show this message
+  --version             Show program version
+  -n SIMPLICES          Approximate number of simplices
+  -t TIMESLICES         Number of timeslices
+  -d DIM                Dimensionality [default: 3]
+  -a --alpha ALPHA      Alpha constant
+  -k K                  K constant
+  -l --lambda LAMBDA    Lambda constant
+)";
+
+int main(int argc, char const *argv[]) {
   /// Start running time
   CGAL::Timer t;
   t.start();
 
-  int ch, fd;
-  int dimensions = 3;         /// Number of dimensions, defaults to 3
-  int num_simplices = 0;      /// Number of simplices, defaults to 0
-  int num_timeslices = 0;     /// Number of timeslices
-  int topology;
+  /// docopt option parser
+  std::map<std::string, docopt::value> args
+    = docopt::docopt(USAGE,
+                     { argv + 1, argv + argc},
+                     true,          // print help message automatically
+                     "CDT 1.0");    // Version
+
+  enum topology_type { TOROIDAL, SPHERICAL};
+
+  /// These contain cell handles for the (3,1), (2,2), and (1,3) simplices
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
 
-  enum topology_type { TOROIDAL, SPHERICAL};
+  /// Debugging
+  for (auto const& arg : args) {
+    std::cout << arg.first << " " << arg.second << std::endl;
+  }
 
-  static struct option long_options[] = {
-    {"dimension",           required_argument,  NULL,       'd'},
-    {"file",                required_argument,  NULL,       'f'},
-    {"number-of-simplices", required_argument,  NULL,       'n'},
-    {"periodic",            no_argument,        &topology,  TOROIDAL},
-    {"spherical",           no_argument,        &topology,  SPHERICAL},
-    {"toroidal",            no_argument,        &topology,  TOROIDAL},
-    {"timeslices",          required_argument,  NULL,       't'},
-    {NULL,                  0,                  NULL,       0}
-  };
-
-  /// Use getopt to parse command line arguments
-  while ((ch = getopt_long(argc, argv, "d:f:n:t:", long_options, NULL)) != -1)
-    switch (ch) {
-        case 0:
-            break;
-        case 'd':
-            dimensions = atoi(optarg);
-            break;
-        case 'f':
-            if ((fd = open(optarg, O_RDONLY, 0)) == -1)
-                    err(1, "unable to open %s", optarg);
-            std::cout << "Opening file " << optarg
-                      << " and reading options from there" << std::endl;
-            // do nothing for now
-            exit(1);
-        case 'n':
-            num_simplices = atoi(optarg);
-            break;
-        case 't':
-            num_timeslices = atoi(optarg);
-            break;
-        default:
-            usage(argv[0]);
-            // Program returns with error
-            return 1;
-    }
-
-    if (topology > 1
-        || num_timeslices == 0
-        || num_simplices == 0
-        || dimensions > 3) {
-        usage(argv[0]);
-        return 1;
-    }
+  /// Parse docopt::values in args map
+  int simplices = std::stoi(args["-n"].asString());
+  int timeslices = std::stoi(args["-t"].asString());
+  int dimensions = std::stoi(args["-d"].asString());
+  double alpha = std::stod(args["--alpha"].asString());
+  double k = std::stod(args["-k"].asString());
+  double lambda = std::stod(args["--lambda"].asString());
+  // Topology of simulation
+  topology_type topology;
+  if (args["--spherical"].asBool() == true) {
+    topology = SPHERICAL;
+  } else {
+    topology = TOROIDAL;
+  }
 
   /// Display job parameters
-  std::cout << "Number of dimensions = " << dimensions << std::endl;
-  std::cout << "Number of simplices = " << num_simplices << std::endl;
-  std::cout << "Number of timeslices = " << num_timeslices << std::endl;
   std::cout << "Topology is "
-            << (topology == TOROIDAL ? " toroidal " : "spherical ")
-            << std::endl;
+  << (topology == TOROIDAL ? " toroidal " : "spherical ") << std::endl;
+  std::cout << "Number of dimensions = " << dimensions << std::endl;
+  std::cout << "Number of simplices = " << simplices << std::endl;
+  std::cout << "Number of timeslices = " << timeslices << std::endl;
+  std::cout << "Alpha = " << alpha << std::endl;
+  std::cout << "K = " << k << std::endl;
+  std::cout << "Lambda = " << lambda << std::endl;
   std::cout << "User = " << getEnvVar("USER") << std::endl;
   std::cout << "Hostname = " << hostname() << std::endl;
 
-  /// Initialize both simplicial complex types
+  /// Initialize spherical Delaunay triangulation
   Delaunay Sphere3;
-  // PDT Torus3;
-
-  // Debugging
-  #ifdef DEBUG
-  std::cout << "Debugging: topology type is " << topology << std::endl;
-  #endif
 
   switch (topology) {
     case SPHERICAL:
-      make_S3_triangulation(&Sphere3, num_simplices, num_timeslices, false,
+      make_S3_triangulation(&Sphere3, simplices, timeslices, false,
                             &three_one, &two_two, &one_three);
-      t.stop();  // End running time
-      std::cout << "Final triangulation has ";
+      t.stop();  // End running time counter
+      std::cout << "Final Delaunay triangulation has ";
       print_results(&Sphere3, &t);
-      // write_file(&Sphere3, 's', dimensions, num_simplices, num_timeslices);
       write_file(&Sphere3, 's', dimensions,
-                  Sphere3.number_of_finite_cells(), num_timeslices);
+                  Sphere3.number_of_finite_cells(), timeslices);
       break;
     case TOROIDAL:
-      // make_random_T3_simplicial_complex(&Torus3, num_simplices);
-      // make_random_T3_triangulation(&Torus3, num_simplices, num_timeslices);
-      std::cout << "make_T3_triangulation not implemented yet.";
-      t.stop();  // End running time
-      // std::cout << "Final toroidal triangulation has ";
-      // print_results(&Torus3, &t);
-      // write_file(&Torus3, 't', dimensions, num_simplices, num_timeslices);
+      std::cout << "make_T3_triangulation not implemented yet." << std::endl;
+      t.stop();  // End running time counter
       break;
-    default:
-      usage(argv[0]);
-      return 1;
   }
   return 0;
 }
