@@ -33,11 +33,11 @@ A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
 to the Metropolis algorithm.
 
-Usage:./cdt-docopt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA
 
 Examples:
-./cdt-docopt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3
-./cdt-docopt --s -n64000 -t256 -a1.1 -k2.2 -l3.3
+./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3
+./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3
 
 Options:
   -h --help             Show this message
@@ -70,9 +70,9 @@ int main(int argc, char const *argv[]) {
   std::vector<Cell_handle> one_three;
 
   /// Debugging
-  for (auto const& arg : args) {
-    std::cout << arg.first << " " << arg.second << std::endl;
-  }
+  // for (auto const& arg : args) {
+  //   std::cout << arg.first << " " << arg.second << std::endl;
+  // }
 
   /// Parse docopt::values in args map
   int simplices = std::stoi(args["-n"].asString());

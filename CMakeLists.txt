@@ -48,8 +48,8 @@ if ( CGAL_FOUND )
 
       include_directories (BEFORE "../../include")
 
-      create_single_source_cgal_program( "src/cdt.cpp" )
-      create_single_source_cgal_program( "src/cdt-docopt.cpp" "src/docopt/docopt.cpp")
+      #create_single_source_cgal_program( "src/cdt.cpp" )
+      create_single_source_cgal_program( "src/cdt.cpp" "src/docopt/docopt.cpp")
 
   else()
 
