@@ -101,12 +101,12 @@ And then type `make` as usual.
 
 This should result in the main program executable, `cdt` in the build directory.
 
-If you have GMock installed and set `GMOCK_TESTS` to `TRUE` (which is the
+If you have GMock installed and set `GMOCK_TESTS` to **TRUE** (which is the
 default), the unit test executable, `unittests`, will also be present. See the
 section on Tests for details.
 
 If you are not interested in the unit tests and only want to run the program,
-set `GMOCK_TESTS` in [CMakeLists.txt][28] to `FALSE`.
+set `GMOCK_TESTS` in [CMakeLists.txt][28] to **FALSE**.
 
 For some versions of Linux, you may have to build CGAL from source.
 Follow the instructions (or their equivalent) given in the install section
