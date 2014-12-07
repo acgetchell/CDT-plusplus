@@ -106,13 +106,18 @@ int main(int argc, char const *argv[]) {
 
   switch (topology) {
     case SPHERICAL:
-      make_S3_triangulation(&Sphere3, simplices, timeslices, false,
-                            &three_one, &two_two, &one_three);
-      t.stop();  // End running time counter
-      std::cout << "Final Delaunay triangulation has ";
-      print_results(&Sphere3, &t);
-      write_file(&Sphere3, 's', dimensions,
-                  Sphere3.number_of_finite_cells(), timeslices);
+      if (dimensions == 3) {
+        make_S3_triangulation(&Sphere3, simplices, timeslices, false,
+                              &three_one, &two_two, &one_three);
+        t.stop();  // End running time counter
+        std::cout << "Final Delaunay triangulation has ";
+        print_results(&Sphere3, &t);
+        write_file(&Sphere3, 's', dimensions,
+                    Sphere3.number_of_finite_cells(), timeslices);
+      } else {
+        std::cout << "Currently, dimensions cannot be higher than 3.";
+        std::cout << std::endl;
+      }
       break;
     case TOROIDAL:
       std::cout << "make_T3_triangulation not implemented yet." << std::endl;

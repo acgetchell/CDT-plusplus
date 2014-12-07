@@ -91,7 +91,7 @@ set_tests_properties (CDT-Usage
 
 # Make an S3
 
-add_test (CDT-S3Runs cdt --s --time 25 -n 5000)
+add_test (CDT-S3Runs cdt --s -n6400 -t16 -a1.1 -k2.2 -l3.3)
 set_tests_properties (CDT-S3Runs
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Writing to file S")
@@ -105,20 +105,7 @@ set_tests_properties (CDT-S3Runs
 
 # Dimensions = 3
 
-add_test (CDT-3Donly cdt --s --time 25 -n 5000 -d 4)
+add_test (CDT-3Donly cdt --s -n6400 -t16 -a1.1 -k2.2 -l3.3 -d4)
 set_tests_properties (CDT-3Donly
   PROPERTIES
-  PASS_REGULAR_EXPRESSION "Currently, number of dimensions cannot be higher than 3.")
-
-# Simplices = 7000
-
-add_test (CDT-Simplices cdt --s --time 35 -n 7000)
-set_tests_properties (CDT-Simplices
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Number of simplices = 7000")
-
-# Timeslices = 50
-# add_test (CDT-Timeslices cdt --p --time 50 -n 8000)
-# set_tests_properties (CDT-Timeslices
-#   PROPERTIES
-#   PASS_REGULAR_EXPRESSION "Number of timeslices = 50")
+  PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be higher than 3.")
