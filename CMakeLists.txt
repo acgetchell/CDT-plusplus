@@ -21,14 +21,9 @@ add_definitions(-std=c++11)
 # Extra warnings
 #add_definitions(-Wextra)
 
-# Google Mock & Test
+# Turn on/off Google Mock Tests
 ###############################################################################
-set(GMOCK_HOME "$ENV{GMOCK_HOME}")
-
-include_directories("${GMOCK_HOME}/include")
-include_directories("${GMOCK_HOME}/gtest/include")
-link_directories("${GMOCK_HOME}/lib/.libs")
-link_directories("${GMOCK_HOME}/gtest/lib/.libs")
+set(GMOCK_TESTS TRUE)
 
 # Main program executable
 ###############################################################################
@@ -63,21 +58,31 @@ else()
 
 endif()
 
-# Unit Tests executable
+# GMock Tests executable
 ###############################################################################
-set(UT_EXECUTABLE_NAME "unittests")
+if (GMOCK_TESTS)
+  set(GMOCK_HOME "$ENV{GMOCK_HOME}")
 
-# Test files
-file(GLOB TEST_FILES "unittests/*.cpp")
+  include_directories("${GMOCK_HOME}/include")
+  include_directories("${GMOCK_HOME}/gtest/include")
+  link_directories("${GMOCK_HOME}/lib/.libs")
+  link_directories("${GMOCK_HOME}/gtest/lib/.libs")
 
-add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES})
+  set(UT_EXECUTABLE_NAME "unittests")
 
-# Set link libraries (order matters)
-target_link_libraries("${UT_EXECUTABLE_NAME}" gmock gtest pthread)
+  # Test files
+  file(GLOB TEST_FILES "unittests/*.cpp")
 
-# Include root directory
-include_directories(BEFORE ".")
-include_directories(BEFORE "src/")
+  add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES})
+
+  # Set link libraries (order matters)
+  target_link_libraries("${UT_EXECUTABLE_NAME}" gmock gtest pthread)
+
+  # Include root directory
+  include_directories(BEFORE ".")
+  include_directories(BEFORE "src/")
+
+endif()
 
 # CTest basic testing
 include( CTest )
