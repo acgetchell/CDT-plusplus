@@ -45,9 +45,9 @@ Options:
   -n SIMPLICES          Approximate number of simplices
   -t TIMESLICES         Number of timeslices
   -d DIM                Dimensionality [default: 3]
-  -a --alpha ALPHA      Alpha constant
-  -k K                  K constant
-  -l --lambda LAMBDA    Lambda constant
+  -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
+  -k K                  K = 1/(8*pi*G_newton)
+  -l --lambda LAMBDA    K * Cosmological constant
 )";
 
 int main(int argc, char const *argv[]) {

@@ -55,6 +55,20 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 
+/// This function iterates over all edges in the triangulation
+/// and classifies them as timelike or spacelike.
+/// The integers N1_TL and N1_SL count the number of timelike and spacelike
+/// edges respectively
+inline void classify_edges(Delaunay* D3,
+            int N1_TL,
+            int N1_SL) {
+
+  Delaunay::Finite_edges_iterator eit;
+  for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
+    // Get endpoints of edges and find their
+  }
+}  // classify_edges()
+
 /// This function iterates over all cells in the triangulation
 /// and classifies them as:
 ///     31 = (3, 1)
