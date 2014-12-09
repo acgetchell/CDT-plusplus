@@ -143,14 +143,14 @@ Examples:
 ./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3
 
 Options:
--h --help             Show this message
---version             Show program version
--n SIMPLICES          Approximate number of simplices
--t TIMESLICES         Number of timeslices
--d DIM                Dimensionality [default: 3]
--a --alpha ALPHA      Alpha constant
--k K                  K constant
--l --lambda LAMBDA    Lambda constant
+  -h --help             Show this message
+  --version             Show program version
+  -n SIMPLICES          Approximate number of simplices
+  -t TIMESLICES         Number of timeslices
+  -d DIM                Dimensionality [default: 3]
+  -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
+  -k K                  K = 1/(8*pi*G_newton)
+  -l --lambda LAMBDA    K * Cosmological constant
 ~~~
 
 The dimensionality of the spacetime is such that each slice of spacetime is
