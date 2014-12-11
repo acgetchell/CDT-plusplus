@@ -21,8 +21,8 @@ class S3BulkAction : public Test {
 
   const bool output = true;
   const bool no_output = false;
-  const int number_of_simplices = 6400;
-  const int number_of_timeslices = 16;
+  const int number_of_simplices = 2;
+  const int number_of_timeslices = 2;
   Delaunay T;
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
@@ -42,7 +42,10 @@ TEST_F(S3BulkAction, GetN1Values) {
   int N1_SL{0};
   int N1_TL{0};
 
-  classify_edges(&T, N1_TL, N1_SL);
+  // classify_edges(&T, &N1_TL, &N1_SL);
+  std::pair<unsigned, unsigned> Links = classify_edges(&T);
+  N1_SL = Links.first;
+  N1_TL = Links.second;
 
   ASSERT_EQ(T.number_of_finite_edges(), N1_TL + N1_SL)
     << "N1_TL + N1_SL should be total number of edges.";

@@ -59,14 +59,38 @@ typedef Delaunay::Point Point;
 /// and classifies them as timelike or spacelike.
 /// The integers N1_TL and N1_SL count the number of timelike and spacelike
 /// edges respectively
-inline void classify_edges(Delaunay* D3,
-            int N1_TL,
-            int N1_SL) {
+inline std::pair<unsigned, unsigned> classify_edges(Delaunay* D3) {
 
   Delaunay::Finite_edges_iterator eit;
+  unsigned N1_SL{0}, N1_TL{0};
+  std::pair<unsigned, unsigned> Links;
   for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
-    // Get endpoints of edges and find their
+    /// Get endpoints of edges and find their timevalues
+    /// If they differ, increment N1_TL, otherwise increment N1_SL
+    /// An edge is a triple; the first element is the cell handle, and the
+    /// second and third are the integers representing the i-th vertices of
+    /// the cell
+    Cell_handle ch = eit->first;
+    /// Now we can get the values of the endpoints
+    unsigned time1 = ch->vertex(eit->second)->info();
+    unsigned time2 = ch->vertex(eit->third)->info();
+
+    // Debugging
+    std::cout << "First timevalue is " << time1 << std::endl;
+    std::cout << "Second timevalue is " << time2 << std::endl;
+
+    if (time1 == time2) {
+      N1_SL++;
+    } else {
+      N1_TL++;
+    }
   }
+  // Debugging
+  std::cout << "N1_SL = " << N1_SL << std::endl;
+  std::cout << "N1_TL = " << N1_TL << std::endl;
+  Links.first = N1_SL;
+  Links.second = N1_TL;
+  return Links;
 }  // classify_edges()
 
 /// This function iterates over all cells in the triangulation
