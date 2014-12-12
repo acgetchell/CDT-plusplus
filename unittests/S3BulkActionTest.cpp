@@ -4,10 +4,13 @@
 ///
 /// Tests for the S3 bulk action
 
+#include <CGAL/Gmpzf.h>
+
 #include <vector>
 
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
+#include "S3Action.h"
 
 using namespace testing;
 
@@ -46,4 +49,20 @@ TEST_F(S3BulkAction, GetN1Values) {
 
   ASSERT_EQ(T.number_of_finite_edges(), N1_TL + N1_SL)
     << "N1_TL + N1_SL should be total number of edges.";
+}
+
+TEST_F(S3BulkAction, CalculateAlphaMinus1BulkAction) {
+  CGAL::Gmpzf N1 = CGAL::Gmpzf(static_cast<int>(T.number_of_finite_edges()));
+  std::cout << "(Gmpzf) N1 = " << N1 << std::endl;
+  CGAL::Gmpzf N3 = CGAL::Gmpzf(static_cast<int>(T.number_of_finite_cells()));
+  std::cout << "(Gmpzf) N3 = " << N3 << std::endl;
+  CGAL::Gmpzf K = CGAL::Gmpzf(static_cast<double>(1.1));
+  std::cout << "(Gmpzf) K = " << K << std::endl;
+  CGAL::Gmpzf Lambda = CGAL::Gmpzf(static_cast<double>(2.2));
+  std::cout << "(Gmpzf) Lambda = " << Lambda << std::endl;
+
+  CGAL::Gmpzf Bulk_action = S3_bulk_action_alpha_minus_one(N1, N3, K, Lambda);
+
+  ASSERT_EQ(Bulk_action, 1)
+    << "Bulk action value wrong.";
 }

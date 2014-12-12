@@ -23,6 +23,8 @@
 /// DONE: Classify cells as (3,1), (2,2), or (1,3) based on their foliation
 /// The vectors three_one, two_two, and one_three contain cell handles to
 /// the simplices of type (3,1), (2,2), and (1,3) respectively.
+/// DONE: Classify edges as timelike or spacelike so that action can be
+/// calculated.
 
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
@@ -62,7 +64,6 @@ typedef Delaunay::Point Point;
 inline void classify_edges(Delaunay* D3,
                           unsigned* N1_TL,
                           unsigned* N1_SL) {
-
   Delaunay::Finite_edges_iterator eit;
   for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
     /// Get endpoints of edges and find their timevalues
@@ -262,7 +263,6 @@ inline void make_2_sphere(std::vector<Point> *vertices,
             int number_of_points,
             double radius,
             bool output) {
-
   CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
   for (size_t j = 0; j < number_of_points; j++) {
