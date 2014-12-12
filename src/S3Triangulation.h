@@ -64,8 +64,6 @@ inline void classify_edges(Delaunay* D3,
                           unsigned* N1_SL) {
 
   Delaunay::Finite_edges_iterator eit;
-  // unsigned N1_SL{0}, N1_TL{0};
-  std::pair<unsigned, unsigned> Links;
   for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
     /// Get endpoints of edges and find their timevalues
     /// If they differ, increment N1_TL, otherwise increment N1_SL

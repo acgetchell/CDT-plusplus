@@ -52,6 +52,19 @@ if ( CGAL_FOUND )
 
   endif()
 
+  # Experimental TBB support
+  # TBB seems to be incompatible with <iostream> and <CGAL/Timer.h>
+  # See https://gist.github.com/acgetchell/a097d232859c318ecf69 and
+  # https://gist.github.com/acgetchell/385be42d249e20a9b78c for details
+  # Leave this in for when TBB works
+  find_package( TBB QUIET)
+  if (TBB_FOUND)
+    include( ${TBB_USE_FILE})
+
+    list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
+
+  endif()
+
 else()
 
     message(STATUS "This program requires the CGAL library, and will not be compiled.")
