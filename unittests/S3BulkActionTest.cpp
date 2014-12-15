@@ -4,7 +4,7 @@
 ///
 /// Tests for the S3 bulk action
 
-#include <CGAL/Gmpzf.h>
+// #include <CGAL/Gmpzf.h>
 
 #include <vector>
 
@@ -52,17 +52,17 @@ TEST_F(S3BulkAction, GetN1Values) {
 }
 
 TEST_F(S3BulkAction, CalculateAlphaMinus1BulkAction) {
-  CGAL::Gmpzf N1 = CGAL::Gmpzf(static_cast<int>(T.number_of_finite_edges()));
-  std::cout << "(Gmpzf) N1 = " << N1 << std::endl;
-  CGAL::Gmpzf N3 = CGAL::Gmpzf(static_cast<int>(T.number_of_finite_cells()));
-  std::cout << "(Gmpzf) N3 = " << N3 << std::endl;
-  CGAL::Gmpzf K = CGAL::Gmpzf(static_cast<double>(1.1));
-  std::cout << "(Gmpzf) K = " << K << std::endl;
-  CGAL::Gmpzf Lambda = CGAL::Gmpzf(static_cast<double>(2.2));
-  std::cout << "(Gmpzf) Lambda = " << Lambda << std::endl;
+  unsigned N1 = static_cast<unsigned>(T.number_of_finite_edges());
+  std::cout << "(Unsigned) N1 = " << N1 << std::endl;
+  unsigned N3 = static_cast<unsigned>(T.number_of_finite_cells());
+  std::cout << "(Unsigned) N3 = " << N3 << std::endl;
+  long double K = static_cast<long double>(1.1);
+  std::cout << "(Long double) K = " << K << std::endl;
+  long double Lambda = static_cast<long double>(2.2);
+  std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
   CGAL::Gmpzf Bulk_action = S3_bulk_action_alpha_minus_one(N1, N3, K, Lambda);
 
-  ASSERT_EQ(Bulk_action, 1)
+  EXPECT_THAT(Bulk_action, Ge(35000))
     << "Bulk action value wrong.";
 }
