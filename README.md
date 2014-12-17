@@ -16,31 +16,35 @@ you can check by downloading and running the [cpplint.py][8] script:
 
 The goals and targets of this project are:
 
+- [x] Developed with [literate programming][12] generated using [Doxygen][13]
+- [x] Tests using [CTest][10]
+- [x] More comprehensive tests with [Gmock][6]
+- [x] Test builds with [Travis CI][11]
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
-- [x] 3D Toroidal simplicial complex
+- [ ] 3D Toroidal simplicial complex
 - [x] Python bindings from [cgal-bindings][9]
 - [x] 2+1 foliation
 - [x] Integrate [docopt][19] CLI
+- [ ] S3 Bulk action
+- [ ] S3 Boundary action
+- [ ] 3D Ergodic moves
+- [ ] Metropolis algorithm
 - [ ] 4D Simplex
 - [ ] Implement a Triangulation_4.h
 - [ ] Implement a Triangulation_vertex_base_with_info_4.h
 - [ ] Implement a Triangulation_cell_base_with_info_4.h
-- [ ] Implement generic Point_d_with_info.h which includes .x(),.y(),.z(), and .w() member functions
+- [ ] Implement generic Point_d_with_info.h with .x(),.y(),.z(),.w() members
 - [ ] 4D Simplicial complex
 - [ ] 3+1 foliation
-- [x] Tests using [CTest][10]
-- [x] More comprehensive tests with [Gmock][6]
-- [ ] Complete test coverage
-- [x] Test builds with [Travis CI][11]
-- [x] Developed with [literate programming][12] generated using [Doxygen][13]
-- [ ] Complete documentation
+- [ ] S4 Bulk action
+- [ ] S4 Boundary action
+- [ ] 4D Ergodic moves
 - [ ] Initialize two masses
 - [ ] Shortest path algorithm
-- [ ] 3D Ergodic moves
-- [ ] 4D Ergodic moves
-- [ ] Metropolis algorithm
 - [ ] Einstein tensor
+- [ ] Complete test coverage
+- [ ] Complete documentation
 - [ ] ???
 - [ ] (Non)profit
 

@@ -14,20 +14,24 @@
 typedef CGAL::Gmpzf Gmpzf;
 
 /// Calculates S3 bulk action for alpha=-1.
-/// This result is i* the action for Euclidean dynmically triangulated
+/// This result is i* the action for Euclidean dynamically triangulated
 /// gravity in three dimensions.
 /// The formula is:
-/// \f[S^{(3)}(\alpha=-1)=-2\pi ikN_1+6N_3 ik\arccos\frac{1}{3}+\frac{iN_3\lambda}{6\sqrt(2)}=iS^{(3)}_{EDT}\f]
+/**
+\f[S^{(3)}(\alpha=-1)=-2\pi ikN_1+6N_3 ik\arccos\frac{1}{3}
++\frac{iN_3\lambda}{6\sqrt(2)}=iS^{(3)}_{EDT}
+\f]
+*/
 Gmpzf S3_bulk_action_alpha_minus_one(unsigned N1,
                                      unsigned N3,
                                      long double K,
                                      long double Lambda) {
   // Initialize for MPFR
   mpfr_t n1, n3, k, lambda, two, pi, r1, r2, r3, six, r4, r5, one, three,
-         one_third, arc_cos, r6, square_root_two, r7, r8, r9, r10, result;
+         one_third, arc_cos, r6, square_root_two, r7, r8, r9, r10, total;
 
   mpfr_inits(pi, r1, r2, r3, r4, r5, one_third, arc_cos, r6,
-             square_root_two, r7, r8, r9, r10, result, (mpfr_ptr) 0);
+             square_root_two, r7, r8, r9, r10, total, (mpfr_ptr) 0);
   // Set input parameters to mpfr_t equivalents
   mpfr_init_set_ui(n1, N1, MPFR_RNDD);
   mpfr_init_set_ui(n3, N3, MPFR_RNDD);
@@ -59,14 +63,20 @@ Gmpzf S3_bulk_action_alpha_minus_one(unsigned N1,
 
   // Result is r6+r9-r3
   mpfr_add(r10, r6, r9, MPFR_RNDD);  // r6+r9
-  mpfr_sub(result, r10, r3, MPFR_RNDD);  // r6+r9-r3
+  mpfr_sub(total, r10, r3, MPFR_RNDD);  // r6+r9-r3
 
 
   // Debugging
   // std::cout << "result is " << mpfr_out_str(stdout, 10, 0, result, MPFR_RNDD)
   //                       << std::endl;
 
-  return Gmpzf(mpfr_get_d(result, MPFR_RNDD));
+  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+
+  mpfr_clears(n1, n3, k, lambda, two, pi, r1, r2, r3, six, r4, r5, one, three,
+              one_third, arc_cos, r6, square_root_two, r7, r8, r9, r10,
+              total, (mpfr_ptr) 0);
+
+  return result;
 }
 
 #endif  // SRC_S3ACTION_H_
