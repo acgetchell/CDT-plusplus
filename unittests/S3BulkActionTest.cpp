@@ -42,8 +42,8 @@ TEST_F(S3BulkAction, GetN3Values) {
 }
 
 TEST_F(S3BulkAction, GetN1Values) {
-  unsigned N1_SL{0};
   unsigned N1_TL{0};
+  unsigned N1_SL{0};
 
   classify_edges(&T, &N1_TL, &N1_SL);
 
@@ -63,6 +63,30 @@ TEST_F(S3BulkAction, CalculateAlphaMinus1BulkAction) {
 
   CGAL::Gmpzf Bulk_action = S3_bulk_action_alpha_minus_one(N1, N3, K, Lambda);
 
-  EXPECT_THAT(Bulk_action, Ge(34000))  // Magic value from lots of tests 
+  EXPECT_THAT(Bulk_action, Ge(34000))  // Magic value from lots of tests
+    << "Bulk action value wrong.";
+}
+
+TEST_F(S3BulkAction, CalculateAlpha1BulkAction) {
+  unsigned N1_TL{0};
+  unsigned N1_SL{0};
+
+  classify_edges(&T, &N1_TL, &N1_SL);
+  std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
+
+  unsigned N3_31 = three_one.size() + one_three.size();
+  std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
+  unsigned N3_22 = two_two.size();
+  std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
+
+  long double K = static_cast<long double>(1.1);
+  std::cout << "(Long double) K = " << K << std::endl;
+  long double Lambda = static_cast<long double>(2.2);
+  std::cout << "(Long double) Lambda = " << Lambda << std::endl;
+
+  CGAL::Gmpzf Bulk_action = S3_bulk_action_alpha_one(N1_TL,
+                                                     N3_31, N3_22, K, Lambda);
+
+  EXPECT_THAT(Bulk_action, Lt(-26000))
     << "Bulk action value wrong.";
 }
