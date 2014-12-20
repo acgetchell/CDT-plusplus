@@ -5,9 +5,9 @@
 /// Creates a foliated 2-sphere triangulation
 ///
 /// The number of desired timeslices is given, and
-/// successive 3D spheres are created with increasing radii
+/// successive 3D spheres are created with increasing radii.
 /// Each vertex at a given radius is assigned a timeslice so that the
-/// entire triangulation will have a preferred foliation of time
+/// entire triangulation will have a preferred foliation of time.
 ///
 /// DONE: Insert a 3-sphere into the triangulation data structure
 /// DONE: Assign each 3-sphere a unique timeslice
@@ -29,24 +29,24 @@
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
 
-/// CGAL headers
+// CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
 
-/// C headers
+// C headers
 #include <assert.h>
 #include <math.h>
 
-/// C++ headers
+// C++ headers
 #include <boost/iterator/zip_iterator.hpp>
 #include <vector>
 #include <list>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-/// Used so that each timeslice is assigned an integer
+// Used so that each timeslice is assigned an integer
 typedef CGAL::Triangulation_3<K>  Triangulation;
 typedef CGAL::Triangulation_vertex_base_with_info_3<unsigned, K> Vb;
 typedef CGAL::Triangulation_cell_base_with_info_3<unsigned, K> Cb;
@@ -60,19 +60,19 @@ typedef Delaunay::Point Point;
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// The integers N1_TL and N1_SL count the number of timelike and spacelike
-/// edges respectively
+/// edges respectively.
 inline void classify_edges(Delaunay* D3,
                           unsigned* N1_TL,
                           unsigned* N1_SL) {
   Delaunay::Finite_edges_iterator eit;
   for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
-    /// Get endpoints of edges and find their timevalues
-    /// If they differ, increment N1_TL, otherwise increment N1_SL
-    /// An edge is a triple; the first element is the cell handle, and the
-    /// second and third are the integers representing the i-th vertices of
-    /// the cell
+    // Get endpoints of edges and find their timevalues
+    // If they differ, increment N1_TL, otherwise increment N1_SL
+    // An edge is a triple; the first element is the cell handle, and the
+    // second and third are the integers representing the i-th vertices of
+    // the cell
     Cell_handle ch = eit->first;
-    /// Now we can get the values of the endpoints
+    // Now we can get the values of the endpoints
     unsigned time1 = ch->vertex(eit->second)->info();
     unsigned time2 = ch->vertex(eit->third)->info();
 
@@ -98,7 +98,7 @@ inline void classify_edges(Delaunay* D3,
 ///     22 = (2, 2)
 ///     13 = (1, 3)
 /// The vectors three_one, two_two, and one_three contain
-/// cell handles to all the cells of that corresponding type
+/// cell handles to all the cells of that corresponding type.
 inline void classify_3_simplices(Delaunay* D3,
             std::vector<Cell_handle>* three_one,
             std::vector<Cell_handle>* two_two,
@@ -112,13 +112,13 @@ inline void classify_3_simplices(Delaunay* D3,
     unsigned current_time{0};
     unsigned max_values{0};
     unsigned min_values{0};
-    /// Push every time value into a list
+    // Push every time value into a list
     for (size_t i = 0; i < 4; i++) {
       timevalues.push_back(cit->vertex(i)->info());
     }
-    /// Now sort the list
+    // Now sort the list
     timevalues.sort();
-    /// The maximum timevalue is at the end of the list
+    // The maximum timevalue is at the end of the list
     max_time = timevalues.back();
     timevalues.pop_back();
     // std::cout << "The maximum time value is " << max_time << std::endl;
@@ -152,7 +152,7 @@ inline void classify_3_simplices(Delaunay* D3,
 /// deleted. The Delaunay triangulation is then recomputed on the remaining
 /// vertices.
 /// This function is repeatedly called up to MAX_FOLIATION_FIX_PASSES times
-/// as set in make_S3_triangulation()
+/// as set in make_S3_triangulation().
 inline void fix_timeslices(Delaunay* D3, bool output) {
   std::cout << "Fixing foliation...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
@@ -161,11 +161,11 @@ inline void fix_timeslices(Delaunay* D3, bool output) {
 
   for (cit = D3->finite_cells_begin(); cit != D3->finite_cells_end(); ++cit) {
     if (cit->is_valid()) {
-      /// Set min_time and max_time to first vertex timeslice
+      // Set min_time and max_time to first vertex timeslice
       min_time = cit->vertex(0)->info();
       max_time = min_time;
 
-      /// Iterate over each vertex in a cell
+      // Iterate over each vertex in a cell
       for (size_t i = 0; i < 4; i++) {
         unsigned current_time = cit->vertex(i)->info();
         if (current_time < min_time) min_time = current_time;
@@ -175,7 +175,7 @@ inline void fix_timeslices(Delaunay* D3, bool output) {
         }
       }
 
-      /// If max_time - min_time != 1 delete max_vertex
+      // If max_time - min_time != 1 delete max_vertex
       if (max_time - min_time != 1) {
         D3->remove(cit->vertex(max_vertex));
         if (output) {
@@ -198,7 +198,7 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
   unsigned valid{0}, invalid{0};
-  /// Iterate over all cells in the Delaunay triangulation
+  // Iterate over all cells in the Delaunay triangulation
   for (cit = D3->finite_cells_begin();  cit != D3->finite_cells_end(); ++cit) {
     if (cit->is_valid()) {
       // debugging
@@ -207,7 +207,7 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
       max_time = min_time;
       for (size_t i = 0; i < 4; i++) {
         unsigned current_time = cit->vertex(i)->info();
-        /// Iterate over all vertices in the cell
+        // Iterate over all vertices in the cell
         if (output) {  // debugging
           std::cout << "Vertex " << i << " is " << cit->vertex(i)->point();
           std::cout << " with timeslice " << current_time << std::endl;
@@ -216,7 +216,7 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
         if (current_time < min_time) min_time = current_time;
         if (current_time > max_time) max_time = current_time;
       }
-        /// There should be a difference of 1 between max and min
+        // There should be a difference of 1 between max and min
         if (max_time - min_time != 1) {
           if (output) {
             std::cout << "Foliation is invalid for this cell." << std::endl;
@@ -229,17 +229,17 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
           valid++;
         }
     } else {
-        /// Remove all vertices in the invalid cell
+        // Remove all vertices in the invalid cell
         // for(size_t i = 0; i < 4; i++)
         // {
         //
         //   D3->remove(cit->vertex(i));
         // }
 
-        /// Or, just remove the cell directly!
+        // Or, just remove the cell directly!
         // D3->tds().delete_cell(cit);
-        /// This function does *not* preserve the Delaunay triangulation!
-        /// After this, D3->is_valid() is false!
+        // This function does *not* preserve the Delaunay triangulation!
+        // After this, D3->is_valid() is false!
 
         if (output) std::cout << "The following cell is invalid." << std::endl;
         invalid++;
@@ -255,9 +255,9 @@ inline bool check_timeslices(Delaunay* D3, bool output) {
   return (invalid == 0) ? true : false;
 }  // check_timeslices()
 
-/// This function makes 2-spheres of varying radii
-/// The radius is used to denote the time value, which
-/// allows us to foliate nested 2-spheres
+/// This function makes 2-spheres of varying radii.
+/// The radius is used to denote the time value, so we can nest 2-spheres
+/// such that our time foliation contains leaves of identical topology.
 inline void make_2_sphere(std::vector<Point> *vertices,
             std::vector<unsigned> *timevalue,
             int number_of_points,
@@ -277,6 +277,23 @@ inline void make_2_sphere(std::vector<Point> *vertices,
   }
 }  // make_2_sphere()
 
+/// This function creates a valid 2+1 foliation from a Delaunay triangulation.
+/// First, the number of points per leaf in the foliation is estimated given
+/// the desired number of simplices.
+/// Next, make_2_sphere is called once per timeslice to generate nested spheres.
+/// The radius of the sphere is assigned as the time value for each vertex
+/// in that sphere, which comprises a leaf in the foliation.
+/// All vertices in all spheres (along with their time values) are then
+/// inserted into a Delaunay triangulation
+/// (see http://en.wikipedia.org/wiki/Delaunay_triangulation for details).
+/// Next, we use check_timeslices() to check every cell in the DT for valid
+/// time values. Invalid time values in a cell are removed by fix_timeslices().
+/// Finally, the cells (simplices) are sorted by classify_3_simplices() into
+/// corresponding vectors which contain cell handles to that type of simplex.
+/// The vector three_one contains handles to all the (3,1) simplices,
+/// the vector two_two contains handles to the (2,2) simplices, and
+/// the vector one_three contains handles to the (1,3) simplices.
+/// A last check is performed to ensure a valid Delaunay triangulation.
 inline void make_S3_triangulation(Delaunay* D3,
             int simplices,
             int timeslices,
@@ -297,7 +314,7 @@ inline void make_S3_triangulation(Delaunay* D3,
   std::vector<Point> vertices;
   std::vector<unsigned> timevalue;
 
-  /// We know how many points we have in advance, so reserve memory
+  // We know how many points we have in advance, so reserve memory
   vertices.reserve(total_points);
   timevalue.reserve(total_points);
 
@@ -308,12 +325,12 @@ inline void make_S3_triangulation(Delaunay* D3,
   }
 
   // D3->insert(vertices.begin(), vertices.end());
-  /// Zipping together vertices and timevalue
+  // Zipping together vertices and timevalue
   D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices.begin(),
   timevalue.begin() )),
   boost::make_zip_iterator(boost::make_tuple(vertices.end(), timevalue.end())));
 
-  /// Remove cells that have invalid foliations
+  // Remove cells that have invalid foliations
   unsigned pass = 0;
   while (!check_timeslices(D3, output)) {
     pass++;
@@ -322,11 +339,11 @@ inline void make_S3_triangulation(Delaunay* D3,
     fix_timeslices(D3, output);
   }
 
-  /// Classify simplices and put cell handles of each simplex type
-  /// into a corresponding vector
+  // Classify simplices and put cell handles of each simplex type
+  // into a corresponding vector
   classify_3_simplices(D3, three_one, two_two, one_three);
 
-  /// Print out results
+  // Print out results
   bool valid = check_timeslices(D3, false);
   std::cout << "Valid foliation: " << std::boolalpha << valid << std::endl;
   std::cout << "Delaunay triangulation has " << D3->number_of_finite_cells();

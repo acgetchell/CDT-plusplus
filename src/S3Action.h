@@ -2,7 +2,9 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Creates a foliated 2-sphere triangulation
+/// Calculates the S3 Bulk (and later, boundary) actions.
+/// Uses the GNU MPFR library for arbitrary precision arithmetic on
+/// floating point numbers. See http://www.mpfr.org for more details.
 
 #ifndef SRC_S3ACTION_H_
 #define SRC_S3ACTION_H_
@@ -11,6 +13,8 @@
 #include <stdio.h>
 #include <mpfr.h>
 
+/// Results are converted to a CGAL multi-precision floating point number.
+/// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 typedef CGAL::Gmpzf Gmpzf;
 
 /// Calculates S3 bulk action for \f$\alpha\f$=-1.
@@ -54,13 +58,13 @@ long double Lambda) {
   mpfr_mul(r3, r2, n1_tl, MPFR_RNDD);  // r3 = 2*pi*k*n1_tl
 
   // Second term accumulates in r7
-  mpfr_mul(r4, const2673, k, MPFR_RNDD); //  r4 = 2.673*k
+  mpfr_mul(r4, const2673, k, MPFR_RNDD);  // r4 = 2.673*k
   mpfr_mul(r5, const118, lambda, MPFR_RNDD);  // r5 = 0.118*lambda
   mpfr_add(r6, r4, r5, MPFR_RNDD);  // r6 = r4 + r5
   mpfr_mul(r7, n3_31, r6, MPFR_RNDD);  // r7 = n3_31*r6
 
   // Third term accumulates in r11
-  mpfr_mul(r8, const7386, k, MPFR_RNDD); // r8 = 7.386*k
+  mpfr_mul(r8, const7386, k, MPFR_RNDD);  // r8 = 7.386*k
   mpfr_mul(r9, const118, lambda, MPFR_RNDD);  // r9 = 0.118*lambda
   mpfr_add(r10, r8, r9, MPFR_RNDD);  // r10 = r8+r9
   mpfr_mul(r11, n3_22, r10, MPFR_RNDD);  // r11 = n3_22*r10
@@ -69,6 +73,7 @@ long double Lambda) {
   mpfr_sub(r12, r7, r3, MPFR_RNDD);  // r12 = r7-r3
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
+  // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
 
   // Debugging
@@ -80,7 +85,7 @@ long double Lambda) {
               total, (mpfr_ptr) 0);
 
   return result;
-}
+}  // S3_bulk_action_alpha_minus_one
 
 /// Calculates S3 bulk action for \f$\alpha\f$=1.
 /// The formula is:
@@ -123,13 +128,13 @@ Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
   mpfr_mul(r3, r2, n1_tl, MPFR_RNDD);  // r3 = 2*pi*k*n1_tl
 
   // Second term accumulates in r7
-  mpfr_mul(r4, const3548, k, MPFR_RNDD); //  r4 = -3.548*k
+  mpfr_mul(r4, const3548, k, MPFR_RNDD);  // r4 = -3.548*k
   mpfr_mul(r5, const167, lambda, MPFR_RNDD);  // r5 = -0.167*lambda
   mpfr_add(r6, r4, r5, MPFR_RNDD);  // r6 = r4 + r5
   mpfr_mul(r7, n3_31, r6, MPFR_RNDD);  // r7 = n3_31*r6
 
   // Third term accumulates in r11
-  mpfr_mul(r8, const5355, k, MPFR_RNDD); // r8 = -5.355*k
+  mpfr_mul(r8, const5355, k, MPFR_RNDD);  // r8 = -5.355*k
   mpfr_mul(r9, const204, lambda, MPFR_RNDD);  // r9 = -0.204*lambda
   mpfr_add(r10, r8, r9, MPFR_RNDD);  // r10 = r8+r9
   mpfr_mul(r11, n3_22, r10, MPFR_RNDD);  // r11 = n3_22*r10
@@ -138,6 +143,7 @@ Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
   mpfr_add(r12, r3, r7, MPFR_RNDD);  // r12 = r3+r7
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
+  // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
 
   // Debugging
@@ -149,6 +155,6 @@ Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
               r12, total, (mpfr_ptr) 0);
 
   return result;
-}
+}  // Gmpzf S3_bulk_action_alpha_one
 
 #endif  // SRC_S3ACTION_H_

@@ -6,24 +6,24 @@
 ///
 /// Inspired by https://github.com/ucdavis/CDT
 
-/// CGAL headers
+// CGAL headers
 #include <CGAL/Timer.h>
 
-/// C++ headers
+// C++ headers
 #include <iostream>
 #include <cstdlib>
 #include <map>
 #include <string>
 #include <vector>
 
-/// Docopt
+// Docopt
 #include "docopt/docopt.h"
 
-/// CDT headers
+// CDT headers
 #include "./utilities.h"
 #include "S3Triangulation.h"
 
-/// Help message parsed by docopt into options
+// Help message parsed by docopt into options
 static const char USAGE[] =
 R"(Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -51,11 +51,11 @@ Options:
 )";
 
 int main(int argc, char const *argv[]) {
-  /// Start running time
+  // Start running time
   CGAL::Timer t;
   t.start();
 
-  /// docopt option parser
+  // docopt option parser
   std::map<std::string, docopt::value> args
     = docopt::docopt(USAGE,
                      { argv + 1, argv + argc},
@@ -64,17 +64,17 @@ int main(int argc, char const *argv[]) {
 
   enum topology_type { TOROIDAL, SPHERICAL};
 
-  /// These contain cell handles for the (3,1), (2,2), and (1,3) simplices
+  // These contain cell handles for the (3,1), (2,2), and (1,3) simplices
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
 
-  /// Debugging
+  // Debugging
   // for (auto const& arg : args) {
   //   std::cout << arg.first << " " << arg.second << std::endl;
   // }
 
-  /// Parse docopt::values in args map
+  // Parse docopt::values in args map
   int simplices = std::stoi(args["-n"].asString());
   int timeslices = std::stoi(args["-t"].asString());
   int dimensions = std::stoi(args["-d"].asString());
@@ -89,7 +89,7 @@ int main(int argc, char const *argv[]) {
     topology = TOROIDAL;
   }
 
-  /// Display job parameters
+  // Display job parameters
   std::cout << "Topology is "
   << (topology == TOROIDAL ? " toroidal " : "spherical ") << std::endl;
   std::cout << "Number of dimensions = " << dimensions << std::endl;
@@ -101,7 +101,7 @@ int main(int argc, char const *argv[]) {
   std::cout << "User = " << getEnvVar("USER") << std::endl;
   std::cout << "Hostname = " << hostname() << std::endl;
 
-  /// Initialize spherical Delaunay triangulation
+  // Initialize spherical Delaunay triangulation
   Delaunay Sphere3;
 
   switch (topology) {
