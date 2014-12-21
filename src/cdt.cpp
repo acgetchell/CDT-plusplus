@@ -78,9 +78,9 @@ int main(int argc, char const *argv[]) {
   int simplices = std::stoi(args["-n"].asString());
   int timeslices = std::stoi(args["-t"].asString());
   int dimensions = std::stoi(args["-d"].asString());
-  double alpha = std::stod(args["--alpha"].asString());
-  double k = std::stod(args["-k"].asString());
-  double lambda = std::stod(args["--lambda"].asString());
+  long double alpha = std::stold(args["--alpha"].asString());
+  long double k = std::stold(args["-k"].asString());
+  long double lambda = std::stold(args["--lambda"].asString());
   // Topology of simulation
   topology_type topology;
   if (args["--spherical"].asBool() == true) {

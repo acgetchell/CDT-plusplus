@@ -9,21 +9,21 @@
 /// Each vertex at a given radius is assigned a timeslice so that the
 /// entire triangulation will have a preferred foliation of time.
 ///
-/// DONE: Insert a 3-sphere into the triangulation data structure
-/// DONE: Assign each 3-sphere a unique timeslice
-/// DONE: Iterate over the number of desired timeslices
-/// DONE: Check/fix issues for large values of simplices and timeslices
-/// DONE: Iterate over cells and check timeslices of vertices don't differ
+/// - DONE: Insert a 3-sphere into the triangulation data structure
+/// - DONE: Assign each 3-sphere a unique timeslice
+/// - DONE: Iterate over the number of desired timeslices
+/// - DONE: Check/fix issues for large values of simplices and timeslices
+/// - DONE: Iterate over cells and check timeslices of vertices don't differ
 ///       by more than 1.
-/// DONE: Gather ratio of cells with bad/good foliation.
+/// - DONE: Gather ratio of cells with bad/good foliation.
 ///       Adjust value of radius to minimize.
 ///       Recheck the whole triangulation when finished.
-/// DONE: When a cell contains a bad foliation, delete it. Recheck.
-/// DONE: Fixup Delaunay triangulation after bad cells have been deleted
-/// DONE: Classify cells as (3,1), (2,2), or (1,3) based on their foliation
-/// The vectors three_one, two_two, and one_three contain cell handles to
-/// the simplices of type (3,1), (2,2), and (1,3) respectively.
-/// DONE: Classify edges as timelike or spacelike so that action can be
+/// - DONE: When a cell contains a bad foliation, delete it. Recheck.
+/// - DONE: Fixup Delaunay triangulation after bad cells have been deleted
+/// - DONE: Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
+/// The vectors **three_one**, **two_two**, and **one_three** contain cell
+/// handles to the simplices of type (3,1), (2,2), and (1,3) respectively.
+/// - DONE: Classify edges as timelike or spacelike so that action can be
 /// calculated.
 
 #ifndef SRC_S3TRIANGULATION_H_
@@ -59,8 +59,8 @@ typedef Delaunay::Point Point;
 
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
-/// The integers N1_TL and N1_SL count the number of timelike and spacelike
-/// edges respectively.
+/// The integers **N1_TL** and **N1_SL** count the number of timelike and
+/// spacelike edges respectively.
 inline void classify_edges(Delaunay* D3,
                           unsigned* N1_TL,
                           unsigned* N1_SL) {
@@ -94,11 +94,15 @@ inline void classify_edges(Delaunay* D3,
 
 /// This function iterates over all cells in the triangulation
 /// and classifies them as:
-///     31 = (3, 1)
-///     22 = (2, 2)
-///     13 = (1, 3)
-/// The vectors three_one, two_two, and one_three contain
-/// cell handles to all the cells of that corresponding type.
+/**
+\f{eqnarray*}{
+     31 &=& (3, 1) \\
+     22 &=& (2, 2) \\
+     13 &=& (1, 3)
+\f}
+The vectors **three_one**, **two_two**, and **one_three** contain cell handles
+to all the simplices in the triangulation of that corresponding type.
+*/
 inline void classify_3_simplices(Delaunay* D3,
             std::vector<Cell_handle>* three_one,
             std::vector<Cell_handle>* two_two,
@@ -141,17 +145,17 @@ inline void classify_3_simplices(Delaunay* D3,
       three_one->push_back(cit);
     }
   }
-}  // classify_3_simplices
+}  // classify_3_simplices()
 
-/// This function iterates over all of the cells in a triangulation.
+/// This function iterates over all of the cells in the triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
-/// Validity of the cell is first checked by the is_valid() function.
+/// Validity of the cell is first checked by the **is_valid()** function.
 /// The foliation validity is then checked by comparing timeslices in each
 /// vertex and ensuring that the difference is exactly 1.
 /// If a cell has a bad foliation, the vertex with the highest timeslice is
 /// deleted. The Delaunay triangulation is then recomputed on the remaining
 /// vertices.
-/// This function is repeatedly called up to MAX_FOLIATION_FIX_PASSES times
+/// This function is repeatedly called up to **MAX_FOLIATION_FIX_PASSES** times
 /// as set in make_S3_triangulation().
 inline void fix_timeslices(Delaunay* D3, bool output) {
   std::cout << "Fixing foliation...." << std::endl;
@@ -189,11 +193,14 @@ inline void fix_timeslices(Delaunay* D3, bool output) {
   }
 }  // fix_timeslices()
 
-/// This function iterates over all of the cells in a triangulation.
+/// This function iterates over all of the cells in the triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
-/// Validity of the cell is first checked by the is_valid() function.
-/// The foliation validity is then checked by comparing timeslices in each
-/// vertex and ensuring that the difference is exactly 1.
+/// Validity of the cell is first checked by the **is_valid()** function.
+/// The foliation validity is then verified by comparing the maximum and
+/// minimum timeslices in each cell and ensuring that the difference
+/// is exactly 1.
+/// The values of the unsigned variables **valid** and **invalid** give the
+/// number of those types of cells respectively.
 inline bool check_timeslices(Delaunay* D3, bool output) {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
@@ -280,7 +287,7 @@ inline void make_2_sphere(std::vector<Point> *vertices,
 /// This function creates a valid 2+1 foliation from a Delaunay triangulation.
 /// First, the number of points per leaf in the foliation is estimated given
 /// the desired number of simplices.
-/// Next, make_2_sphere is called once per timeslice to generate nested spheres.
+/// Next, make_2_sphere() is called per timeslice to generate nested spheres.
 /// The radius of the sphere is assigned as the time value for each vertex
 /// in that sphere, which comprises a leaf in the foliation.
 /// All vertices in all spheres (along with their time values) are then
@@ -290,9 +297,9 @@ inline void make_2_sphere(std::vector<Point> *vertices,
 /// time values. Invalid time values in a cell are removed by fix_timeslices().
 /// Finally, the cells (simplices) are sorted by classify_3_simplices() into
 /// corresponding vectors which contain cell handles to that type of simplex.
-/// The vector three_one contains handles to all the (3,1) simplices,
-/// the vector two_two contains handles to the (2,2) simplices, and
-/// the vector one_three contains handles to the (1,3) simplices.
+/// The vector **three_one** contains handles to all the (3,1) simplices,
+/// the vector **two_two** contains handles to the (2,2) simplices, and
+/// the vector **one_three** contains handles to the (1,3) simplices.
 /// A last check is performed to ensure a valid Delaunay triangulation.
 inline void make_S3_triangulation(Delaunay* D3,
             int simplices,

@@ -27,7 +27,7 @@ class S3Tetrahedron : public Test {
   std::vector<Cell_handle> one_three;
 };
 
-TEST_F(S3Tetrahedron, CreatesTriangulatedTetrahedron) {
+TEST_F(S3Tetrahedron, CreatesTriangulated) {
   Delaunay T(V.begin(), V.end());
 
   ASSERT_THAT(T.dimension(), Eq(3))
@@ -49,7 +49,7 @@ TEST_F(S3Tetrahedron, CreatesTriangulatedTetrahedron) {
     << "Triangulation is invalid.";
 }
 
-TEST_F(S3Tetrahedron, CreatesFoliatedTetrahedron) {
+TEST_F(S3Tetrahedron, CreatesFoliated) {
   Delaunay T;
   T.insert(boost::make_zip_iterator(boost::make_tuple(V.begin(),
            timevalue.begin() )),

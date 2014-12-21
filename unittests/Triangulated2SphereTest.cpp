@@ -20,7 +20,7 @@ class Triangulated2Sphere : public Test {
   std::vector<Cell_handle> one_three;
 };
 
-TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTimeslices) {
+TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
   const int number_of_simplices = 2;
   const int number_of_timeslices = 2;
 
@@ -50,7 +50,7 @@ TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithTwoTimeslices) {
     << "Triangulation is invalid.";
 }
 
-TEST_F(Triangulated2Sphere, CreatesTriangulated2SphereWithLotsOfSimplices) {
+TEST_F(Triangulated2Sphere, CreatesWithLotsOfSimplices) {
   const int number_of_simplices = 64000;
   const int number_of_timeslices = 64;
 

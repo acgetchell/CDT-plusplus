@@ -9,17 +9,15 @@
 
 #include <CGAL/Timer.h>
 
-/// C headers
+// C headers
 #include <sys/utsname.h>
 
-/// C++ headers
+// C++ headers
 #include <iostream>
 #include <string>
 #include <fstream>
 
-/// Required for our little std::to_string() workaround
-#include <sstream>
-
+/// Outdated. Replaced by docopt.
 void usage(char *name) {
   std::cout << "Usage: "
             << name << std::endl;
@@ -43,7 +41,7 @@ std::string getEnvVar(std::string const& key) {
 /// Return the hostname
 std::string hostname() {
   struct utsname name;
-  /// Ensure uname returns a value
+  // Ensure uname returns a value
   if (uname(&name)) exit(-1);
   return name.nodename;
 }
@@ -54,8 +52,8 @@ const std::string currentDateTime() {
   struct tm   tstruct;
   char        buf[80];
   tstruct = *localtime(&now);
-  /// Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-  /// for more info about date/time format
+  // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+  // for more info about date/time format
   strftime(buf, sizeof(buf), "%Y-%m-%d.%X%Z", &tstruct);
 
   return buf;
@@ -72,44 +70,35 @@ std::string generate_filename(int top,
   } else {
     filename += "T";
   }
-  /// This works in C++11, but not earlier
+  // std::to_string() works in C++11, but not earlier
   filename += std::to_string(dim);
-  // std::stringstream ds;
-  // ds << dim;
-  // filename += ds.str();
+
   filename += "-";
 
   filename += std::to_string(number_of_timeslices);
-  // std::stringstream timeslices;
-  // timeslices << number_of_timeslices;
-  // filename += timeslices.str();
+
   filename += "-";
 
   filename += std::to_string(number_of_simplices);
-  // std::stringstream ns;
-  // ns << number_of_simplices;
-  // filename += ns.str();
 
-  /// Get user
+  // Get user
   filename += "-";
   filename += getEnvVar("USER");
 
-  /// Get machine name
+  // Get machine name
   filename += "@";
   filename += hostname();
 
-  /// Append current time
+  // Append current time
   filename += "-";
   filename += currentDateTime();
 
-  /// Append .dat file extension
+  // Append .dat file extension
   filename += ".dat";
   return filename;
 }
 
-///
-/// This function prints out vertices, edges, facets (2D), and cells (3D)
-///
+/// This function prints out vertices, edges, facets (2D), and cells (3D).
 template <typename T>
 void print_results(const T* Simplicial_Complex) {
   std::cout << Simplicial_Complex->number_of_vertices()
@@ -123,16 +112,13 @@ void print_results(const T* Simplicial_Complex) {
             << " cells" << std::endl;
 }
 
-
-///
 /// This function prints out vertices, edges, facets (2D), cells (3D)
-/// and running time
-///
+/// and running time.
 template <typename T>
 void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) {
   print_results(Simplicial_Complex);
 
-  /// Display program running time
+  // Display program running time
   std::cout << "Running time is "
             << timer->time()
             << " seconds."
