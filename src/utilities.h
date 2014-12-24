@@ -61,9 +61,9 @@ const std::string currentDateTime() {
 
 /// Generate useful filenames
 std::string generate_filename(int top,
-                              int dim,
-                              int number_of_simplices,
-                              int number_of_timeslices) {
+                              unsigned dim,
+                              unsigned number_of_simplices,
+                              unsigned number_of_timeslices) {
   std::string filename;
   if (top == 's') {
     filename += "S";
@@ -128,9 +128,9 @@ void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) {
 template <typename T>
 void write_file(const T* Simplicial_Complex,
                 char topology,
-                int dimensions,
-                int num_simplices,
-                int num_timeslices) {
+                unsigned dimensions,
+                unsigned num_simplices,
+                unsigned num_timeslices) {
   std::string filename = "";
   filename.assign(generate_filename(topology,
                                     dimensions,

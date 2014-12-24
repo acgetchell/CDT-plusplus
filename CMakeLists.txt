@@ -127,3 +127,9 @@ add_test (CDT-3Donly cdt --s -n6400 -t16 -a1.1 -k2.2 -l3.3 -d4)
 set_tests_properties (CDT-3Donly
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Currently, dimensions cannot be higher than 3.")
+
+# 3D Triangle inequality
+add_test (CDT-3Dtriangle cdt --s -n6400 -t16 -a0.3 -k2.2 -l3.3 -d3)
+set_tests_properties (CDT-3Dtriangle
+  PROPERTIES
+  PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")

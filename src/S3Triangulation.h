@@ -302,14 +302,14 @@ inline void make_2_sphere(std::vector<Point> *vertices,
 /// the vector **one_three** contains handles to the (1,3) simplices.
 /// A last check is performed to ensure a valid Delaunay triangulation.
 inline void make_S3_triangulation(Delaunay* D3,
-            int simplices,
-            int timeslices,
+            unsigned simplices,
+            unsigned timeslices,
             bool output,
             std::vector<Cell_handle>* three_one,
             std::vector<Cell_handle>* two_two,
             std::vector<Cell_handle>* one_three) {
   std::cout << "Generating universe ..." << std::endl;
-  const int simplices_per_timeslice = simplices / timeslices;
+  const unsigned simplices_per_timeslice = simplices / timeslices;
   const unsigned MAX_FOLIATION_FIX_PASSES = 20;
 
   assert(simplices_per_timeslice >= 1);

@@ -291,6 +291,7 @@ Gmpzf S3_bulk_action(unsigned N1_TL,
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
 
+  // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4,
               r5,r6, three, r7, four, r8, one, r9, r10, r11, r12, r13, r14, r15,
               r16, r17, r18, r19, r20, r21, twelve, r22, r23, r24, r25, r26,

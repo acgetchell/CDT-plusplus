@@ -21,8 +21,8 @@ class Triangulated2Sphere : public Test {
 };
 
 TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
-  const int number_of_simplices = 2;
-  const int number_of_timeslices = 2;
+  const unsigned number_of_simplices = 2;
+  const unsigned number_of_timeslices = 2;
 
   make_S3_triangulation(&T, number_of_simplices,
                             number_of_timeslices, no_output,
@@ -51,8 +51,8 @@ TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
 }
 
 TEST_F(Triangulated2Sphere, CreatesWithLotsOfSimplices) {
-  const int number_of_simplices = 64000;
-  const int number_of_timeslices = 64;
+  const unsigned number_of_simplices = 64000;
+  const unsigned number_of_timeslices = 64;
 
   make_S3_triangulation(&T, number_of_simplices,
                             number_of_timeslices, no_output,

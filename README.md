@@ -26,7 +26,7 @@ The goals and targets of this project are:
 - [x] Python bindings from [cgal-bindings][9]
 - [x] 2+1 foliation
 - [x] Integrate [docopt][19] CLI
-- [ ] S3 Bulk action
+- [x] S3 Bulk action
 - [ ] S3 Boundary action
 - [ ] 3D Ergodic moves
 - [ ] Metropolis algorithm
