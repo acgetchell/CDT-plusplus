@@ -138,13 +138,15 @@ Copyright (c) 2014 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
-to the Metropolis algorithm.
+to the Metropolis algorithm. Specify the number of passes to control
+how much evolution is desired. Each pass attempts a number of ergodic
+moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES]
 
 Examples:
-./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3
-./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3
+./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3 --passes 1000
+./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3 -p1000
 
 Options:
   -h --help             Show this message
@@ -155,6 +157,7 @@ Options:
   -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
   -k K                  K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA    K * Cosmological constant
+  -p --passes PASSES    Number of passes [default: 10000]
 ~~~
 
 The dimensionality of the spacetime is such that each slice of spacetime is
