@@ -1,11 +1,16 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014 Adam Getchell
+/// Copyright (c) 2014, 2015 Adam Getchell
 ///
 /// Adds useful methods to CGAL/Delaunay_d
 
 #ifndef SRC_DELAUNAY_H_
 #define SRC_DELAUNAY_H_
+
+// Hack to make [-Wdeprecated-register] go away
+#if __cplusplus > 199711L
+#define register  // Deprecated in C++11
+#endif  // if __cplusplus > 199711L
 
 // #include <CGAL/Homogeneous_d.h>
 // #include <CGAL/gmpxx.h>
