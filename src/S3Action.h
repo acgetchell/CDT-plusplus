@@ -77,8 +77,8 @@ Gmpzf S3_bulk_action_alpha_minus_one(unsigned N1_TL,
   mpfr_add(total, r11, r12, MPFR_RNDD);       // total = r11+r12
 
   // Debugging
-  std::cout << "result is " << mpfr_out_str(stdout, 10, 0, total, MPFR_RNDD)
-  << std::endl;
+  std::cout << "S3_bulk_action_alpha_minus_one result is " <<
+                mpfr_out_str(stdout, 10, 0, total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
@@ -150,8 +150,8 @@ Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
   mpfr_add(total, r11, r12, MPFR_RNDD);       // total = r11+r12
 
   // Debugging
-  std::cout << "result is " << mpfr_out_str(stdout, 10, 0, total, MPFR_RNDD)
-            << std::endl;
+  std::cout << "S3_bulk_action_alpha_one result is " << mpfr_out_str(stdout,
+                10, 0, total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
@@ -292,8 +292,8 @@ Gmpzf S3_bulk_action(unsigned N1_TL,
   mpfr_add(total, r51, r52, MPFR_RNDD);   // total = r51+r52
 
   // Debugging
-  std::cout << "result is " << mpfr_out_str(stdout, 10, 0, total, MPFR_RNDD)
-  << std::endl;
+  std::cout << "S3_bulk_action result is " << mpfr_out_str(stdout, 10, 0,
+                total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
