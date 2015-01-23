@@ -32,9 +32,9 @@ class S3ErgodicMoves : public Test {
 TEST_F(S3ErgodicMoves, MakeA26Move) {
   unsigned N3_31_pre = three_one.size();
   unsigned N3_13_pre = one_three.size();
-  make_26_move(&T);
-  unsigned N3_31_post = three_one.size();
-  unsigned N3_13_post = one_three.size();
+  make_26_move(&T, number_of_timeslices);
+  unsigned N3_31_post = three_one.size()+2;
+  unsigned N3_13_post = one_three.size()+2;
 
   EXPECT_THAT(N3_31_post, Eq(N3_31_pre+2))
     << "(3,1) simplices did not increase by 2";

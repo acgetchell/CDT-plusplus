@@ -16,6 +16,7 @@
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 typedef CGAL::Gmpzf Gmpzf;
+static const unsigned PRECISION = 256;
 
 /// Calculates S3 bulk action for \f$\alpha\f$=-1.
 /// This result is i* the action for Euclidean dynamically triangulated
@@ -34,12 +35,14 @@ Gmpzf S3_bulk_action_alpha_minus_one(unsigned N1_TL,
                                      unsigned N3_22,
                                      long double K,
                                      long double Lambda) {
+  // Set precision for initialization and assignment functions
+  mpfr_set_default_prec(PRECISION);
   // Initialize for MPFR
   mpfr_t n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
          const118, r4, r5, r6, r7, const7386, r8, r9, r10, r11, r12, total;
 
-  mpfr_inits(pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11,
-             r12, total, (mpfr_ptr) 0);
+  mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11,
+             r12, total, nullptr);
   // Set input parameters and constants to mpfr_t equivalents
   mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
   mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
@@ -83,7 +86,7 @@ Gmpzf S3_bulk_action_alpha_minus_one(unsigned N1_TL,
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
               const118, r4, r5, r6, r7, const7386, r8, r9, r10, r11, r12,
-              total, (mpfr_ptr) 0);
+              total, nullptr);
 
   return result;
 }  // S3_bulk_action_alpha_minus_one()
@@ -103,13 +106,15 @@ Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
                                unsigned N3_22,
                                long double K,
                                long double Lambda) {
+  // Set precision for initialization and assignment functions
+  mpfr_set_default_prec(PRECISION);
   // Initialize for MPFR
   mpfr_t n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
          const167, r4, r5, r6, r7, const5355, const204, r8, r9, r10, r11,
          r12, total;
 
-  mpfr_inits(pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11,
-             r12, total, (mpfr_ptr) 0);
+  mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11,
+             r12, total, nullptr);
   // Set input parameters and constants to mpfr_t equivalents
   mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
   mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
@@ -154,7 +159,7 @@ Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
               const167, r4, r5, r6, r7, const5355, const204, r8, r9, r10, r11,
-              r12, total, (mpfr_ptr) 0);
+              r12, total, nullptr);
 
   return result;
 }  // Gmpzf S3_bulk_action_alpha_one()
@@ -186,6 +191,8 @@ Gmpzf S3_bulk_action(unsigned N1_TL,
                      long double Alpha,
                      long double K,
                      long double Lambda) {
+  // Set precision for initialization and assignment functions
+  mpfr_set_default_prec(PRECISION);
   // Initialize for MPFR
   mpfr_t n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4, r5,
          r6, three, r7, four, r8, one, r9, r10, r11, r12, r13, r14, r15, r16,
@@ -193,11 +200,11 @@ Gmpzf S3_bulk_action(unsigned N1_TL,
          r29, r30, r31, r32, r33, r34, r35, r36, r37, r38, r39, r40, r41, r42,
          r43, r44, r45, r46, r47, r48, r49, r50, r51, r52, total;
 
-  mpfr_inits(pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12,
-             r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23,
-             r24, r25, r26, r27, r28, r29, r30, r31, r32, r33, r34,
-             r35, r36, r37, r38, r39, r40, r41, r42, r43, r44, r45,
-             r46, r47, r48, r49, r50, r51, r52, total, (mpfr_ptr) 0);
+  mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12,
+              r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23,
+              r24, r25, r26, r27, r28, r29, r30, r31, r32, r33, r34,
+              r35, r36, r37, r38, r39, r40, r41, r42, r43, r44, r45,
+              r46, r47, r48, r49, r50, r51, r52, total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
   mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
@@ -297,7 +304,7 @@ Gmpzf S3_bulk_action(unsigned N1_TL,
               r16, r17, r18, r19, r20, r21, twelve, r22, r23, r24, r25, r26,
               r27, r28, r29, r30, r31, r32, r33, r34, r35, r36, r37, r38, r39,
               r40, r41, r42, r43, r44, r45, r46, r47, r48, r49, r50, r51, r52,
-              total, (mpfr_ptr) 0);
+              total, nullptr);
 
   return result;
 }  // Gmpzf S3_bulk_action()

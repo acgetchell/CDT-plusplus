@@ -125,3 +125,39 @@ TEST_F(S3BulkAction, CalculateGeneralBulkAction) {
   EXPECT_THAT(Bulk_action, Lt(-16000))  // Magic value from lots of tests
     << "Bulk action value wrong.";
 }
+
+TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
+  unsigned N1_TL{0};
+  unsigned N1_SL{0};
+  const long double tolerance{0.05};
+
+  classify_edges(&T, &N1_TL, &N1_SL);
+  std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
+
+  unsigned N3_31 = three_one.size() + one_three.size();
+  std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
+  unsigned N3_22 = two_two.size();
+  std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
+
+  long double Alpha = static_cast<long double>(1.0);
+  std::cout << "(Long double) Alpha = " << Alpha << std::endl;
+  long double K = static_cast<long double>(1.1);
+  std::cout << "(Long double) K = " << K << std::endl;
+  long double Lambda = static_cast<long double>(2.2);
+  std::cout << "(Long double) Lambda = " << Lambda << std::endl;
+
+  CGAL::Gmpzf Bulk_action = S3_bulk_action(N1_TL, N3_31, N3_22,
+    Alpha, K, Lambda);
+  CGAL::Gmpzf Bulk_action_one = S3_bulk_action_alpha_one(N1_TL,
+    N3_31, N3_22, K, Lambda);
+  std::cout << (1.0-tolerance) << std::endl;
+  CGAL::Gmpzf min(abs(Bulk_action_one*(1.0-tolerance)));
+  std::cout << "(Gmpzf) min = " << min << std::endl;
+  std::cout << (1.0+tolerance) << std::endl;
+  CGAL::Gmpzf max = abs(Bulk_action_one*(1.0+tolerance));
+  std::cout << "(Gmpzf) max = " << max << std::endl;
+
+  ASSERT_THAT(abs(Bulk_action), AllOf(Ge(min), Le(max)))
+    << "General Bulk action does not match Bulk action for alpha=1.";
+
+}

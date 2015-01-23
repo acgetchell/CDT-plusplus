@@ -10,7 +10,7 @@
 // CDT headers
 #include "S3Triangulation.h"
 
-void make_26_move(Delaunay* D3) {
+void make_26_move(Delaunay* D3, unsigned number_of_timeslices) {
   // do something
 }
 
