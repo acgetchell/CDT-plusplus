@@ -29,6 +29,20 @@ class S3ErgodicMoves : public Test {
   std::vector<Cell_handle> one_three;
 };
 
+TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
+  EXPECT_THAT(generate_random_timeslice(number_of_timeslices),
+    AllOf(Gt(0), Le(number_of_timeslices)))
+    << "Random timeslice out of bounds.";
+}
+
+TEST_F(S3ErgodicMoves, RandomSeedingTest) {
+  const unsigned value1 = generate_random_timeslice(number_of_timeslices);
+  const unsigned value2 = generate_random_timeslice(number_of_timeslices);
+
+  EXPECT_THAT(value1, Ne(value2))
+    << "Your random numbers aren't random.";
+}
+
 TEST_F(S3ErgodicMoves, MakeA26Move) {
   unsigned N3_31_pre = three_one.size();
   unsigned N3_13_pre = one_three.size();
@@ -37,8 +51,8 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
   unsigned N3_13_post = one_three.size()+2;
 
   EXPECT_THAT(N3_31_post, Eq(N3_31_pre+2))
-    << "(3,1) simplices did not increase by 2";
+    << "(3,1) simplices did not increase by 2.";
 
   EXPECT_THAT(N3_13_post, Eq(N3_13_pre+2))
-    << "(1,3) simplices did not increase by 2";
+    << "(1,3) simplices did not increase by 2.";
 }

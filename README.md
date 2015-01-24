@@ -4,6 +4,7 @@ CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?
 [Causal Dynamical Triangulations][1] in C++ using the
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
 with [CMake][3] using [Clang][4]/[LLVM][5].
+Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
 [Docopt][19] provides a beautiful command-line interface.
 [Gmock 1.7][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
@@ -17,8 +18,8 @@ you can check by downloading and running the [cpplint.py][8] script:
 The goals and targets of this project are:
 
 - [x] Developed with [literate programming][12] generated using [Doxygen][13]
-- [x] Tests using [CTest][10]
-- [x] More comprehensive tests with [Gmock][6]
+- [x] Validation tests using [CTest][10]
+- [x] Unit tests with [Gmock][6]
 - [x] Test builds with [Travis CI][11]
 - [x] 3D Simplex
 - [x] 3D Spherical simplicial complex
@@ -45,6 +46,7 @@ The goals and targets of this project are:
 - [ ] Einstein tensor
 - [ ] Complete test coverage
 - [ ] Complete documentation
+- [ ] [ParaView][31] output
 - [ ] ???
 - [ ] (Non)profit
 
@@ -216,7 +218,7 @@ Unit tests using GMock are then run (in the build directory) via:
 # ./unittests
 ~~~
 
-You can build and run integration tests by typing:
+You can build and run validation tests by typing:
 
 ~~~
 # make test
@@ -230,37 +232,6 @@ Or, if you are using Ninja:
 
 In addition to the command line output, you can see detailed results in the
 build/Testing directory which is generated thereby.
-
-Python:
--------
-
-There are bare bones Python scripts, which were used to develop some concepts,
-at the top level directory. These require [Cgal-bindings][9], which can be
-installed pretty easily once [SWIG][23] is installed:
-
-~~~
-# git clone https://code.google.com/p/cgal-bindings/
-# cd cgal-bindings
-# cmake .
-# make
-~~~
-
-Be sure to edit CMakeLists.txt and set Java binds to off:
-
-~~~CMake
-option( BUILD_JAVA "Build Java bindings" OFF )
-~~~
-
-Now, set an appropriate value of [PYTHONPATH][22] and you're
-[good to go](simple_triangulation_3.py)!
-
-~~~bash
-export PYTHONPATH=$PYTHONPATH:$HOME/cgal-bindings/build-python
-~~~
-
-Unfortunately, at this time the Python bindings lack several functions
-(such as `CGAL::Random_points_in_sphere_3<T>`) that are necessary to build up
-simplices.
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
@@ -290,3 +261,6 @@ simplices.
 [26]: http://public.kitware.com/pipermail/cmake-developers/2011-November/002490.html
 [27]: https://github.com/acgetchell/CDT-plusplus/blob/master/build.sh
 [28]: https://github.com/acgetchell/CDT-plusplus/blob/master/CMakeLists.txt
+[29]: http://www.mpfr.org
+[30]: https://gmplib.org
+[31]: http://www.paraview.org

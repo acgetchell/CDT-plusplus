@@ -5,6 +5,9 @@
 /// Calculates the S3 Bulk (and later, boundary) actions.
 /// Uses the GNU MPFR library for arbitrary precision arithmetic on
 /// floating point numbers. See http://www.mpfr.org for more details.
+/// Note: for performance reasons, variables should not hold successively
+/// increasing values. We avoid this by using each variable only once.
+/// See https://gmplib.org/manual/Efficiency.html#Efficiency for details.
 
 #ifndef SRC_S3ACTION_H_
 #define SRC_S3ACTION_H_
