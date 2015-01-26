@@ -36,11 +36,22 @@ TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
 }
 
 TEST_F(S3ErgodicMoves, RandomSeedingTest) {
-  const unsigned value1 = generate_random_timeslice(number_of_timeslices);
-  const unsigned value2 = generate_random_timeslice(number_of_timeslices);
+  // Set a wider range than just number_of_timeslices
+  const unsigned test_range_max = 64;
+  const unsigned value1 = generate_random_timeslice(test_range_max);
+  const unsigned value2 = generate_random_timeslice(test_range_max);
+  const unsigned value3 = generate_random_timeslice(test_range_max);
+  const unsigned value4 = generate_random_timeslice(test_range_max);
+
 
   EXPECT_THAT(value1, Ne(value2))
-    << "Your random numbers aren't random.";
+    << "Your random numbers don't seem to be random.";
+
+  EXPECT_THAT(value1, Ne(value3))
+    << "Your random numbers don't seem to be random.";
+
+  EXPECT_THAT(value1, Ne(value4))
+    << "Your random numbers don't seem to be random.";
 }
 
 TEST_F(S3ErgodicMoves, MakeA26Move) {

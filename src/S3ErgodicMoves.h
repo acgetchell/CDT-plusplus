@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014 Adam Getchell
+/// Copyright (c) 2014, 2015 Adam Getchell
 ///
 /// Performs ergodic moves on S3 (2+1) spacetimes
 
@@ -9,36 +9,24 @@
 
 // CDT headers
 #include "S3Triangulation.h"
-#include <stdio.h>
-#include <gmp.h>
 
+// C++ headers
+#include <random>
+
+/// This function generates a random number using a non-deterministic
+/// random number generator, if supported. There may be exceptions
+/// thrown if a random device is not available. See:
+/// http://www.cplusplus.com/reference/random/random_device/
+/// for more details
 unsigned generate_random_timeslice(unsigned max_timeslice) {
-  // Init GMP variables
-  mpz_t random_timeslice, max;
-  gmp_randstate_t state;
-  mpz_init(random_timeslice);
+  // Non-deterministic random number generator
+  std::random_device generator;
+  std::uniform_int_distribution<int> distribution(1, max_timeslice);
 
-  // Assign GMP variables
-  mpz_init_set_ui(max, max_timeslice);
-  // Mersenne Twister algorithm
-  gmp_randinit_mt(state);
-
-  // Seed the state
-  gmp_randseed_ui(state, 2452435425);
-
-  // Generate random number random_timeslice from 0 to max-1 using state
-  mpz_urandomm(random_timeslice, state, max);
-
-  // Convert to unsigned long integer and convert to range 1 to max
-  unsigned result = 1 + mpz_get_ui(random_timeslice);
+  unsigned result = distribution(generator);
 
   // Debugging
-  std::cout << "result = " << result << std::endl;
-
-  // Clear GMP variables
-  // Note: you will segfault attempting to clear an unassigned variable
-  mpz_clear(max);
-  gmp_randclear(state);
+  std::cout << "Result is " << result << std::endl;
 
   return result;
 }
