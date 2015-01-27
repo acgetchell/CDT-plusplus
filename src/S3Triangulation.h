@@ -156,6 +156,18 @@ inline void classify_3_simplices(Delaunay* D3,
   }
 }  // classify_3_simplices()
 
+inline void reclassify_3_simplices(Delaunay* D3,
+            std::vector<Cell_handle>* three_one,
+            std::vector<Cell_handle>* two_two,
+            std::vector<Cell_handle>* one_three) {
+  // Null out the vectors
+  three_one->clear();
+  two_two->clear();
+  one_three->clear();
+  // Now classify simplices
+  classify_3_simplices(D3, three_one, two_two, one_three);
+}  //  reclassify_3_simplices()
+
 /// This function iterates over all of the cells in the triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
 /// Validity of the cell is first checked by the **is_valid()** function.

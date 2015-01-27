@@ -68,11 +68,15 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
   std::cout << "Number of vertices before = " << number_of_vertices_pre
             << std::endl;
   unsigned N3_31_pre = three_one.size();
+  unsigned N3_22_pre = two_two.size();
   unsigned N3_13_pre = one_three.size();
   make_26_move(&T, number_of_timeslices);
   std::cout << "Number of vertices after = " << T.number_of_vertices()
             << std::endl;
+  // Now look at changes
+  reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
   unsigned N3_31_post = three_one.size();
+  unsigned N3_22_post = two_two.size();
   unsigned N3_13_post = one_three.size();
 
   EXPECT_TRUE(T.is_valid())
@@ -89,6 +93,9 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
 
   EXPECT_THAT(N3_31_post, Eq(N3_31_pre+2))
     << "(3,1) simplices did not increase by 2.";
+
+  EXPECT_THAT(N3_22_post, Eq(N3_22_pre))
+    << "(2,2) simplices changed.";
 
   EXPECT_THAT(N3_13_post, Eq(N3_13_pre+2))
     << "(1,3) simplices did not increase by 2.";
