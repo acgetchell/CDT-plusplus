@@ -64,9 +64,14 @@ TEST_F(S3ErgodicMoves, RandomSeedingTest) {
 }
 
 TEST_F(S3ErgodicMoves, MakeA26Move) {
+  unsigned number_of_vertices_pre = T.number_of_vertices();
+  std::cout << "Number of vertices before = " << number_of_vertices_pre
+            << std::endl;
   unsigned N3_31_pre = three_one.size();
   unsigned N3_13_pre = one_three.size();
   make_26_move(&T, number_of_timeslices);
+  std::cout << "Number of vertices after = " << T.number_of_vertices()
+            << std::endl;
   unsigned N3_31_post = three_one.size();
   unsigned N3_13_post = one_three.size();
 
@@ -78,6 +83,9 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
 
   EXPECT_TRUE(check_timeslices(&T, no_output))
   << "Cells do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_pre+1))
+  << "A vertex was not added to the triangulation.";
 
   EXPECT_THAT(N3_31_post, Eq(N3_31_pre+2))
     << "(3,1) simplices did not increase by 2.";
