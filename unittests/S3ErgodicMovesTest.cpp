@@ -37,7 +37,7 @@ TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
 
 TEST_F(S3ErgodicMoves, RandomSeedingTest) {
   // Set a wider range than just number_of_timeslices
-  const unsigned test_range_max = 64;
+  const unsigned test_range_max = 128;
   const unsigned value1 = generate_random_timeslice(test_range_max);
   const unsigned value2 = generate_random_timeslice(test_range_max);
   const unsigned value3 = generate_random_timeslice(test_range_max);
@@ -52,14 +52,32 @@ TEST_F(S3ErgodicMoves, RandomSeedingTest) {
 
   EXPECT_THAT(value1, Ne(value4))
     << "Your random numbers don't seem to be random.";
+
+  EXPECT_THAT(value2, Ne(value3))
+    << "Your random numbers don't seem to be random.";
+
+  EXPECT_THAT(value2, Ne(value4))
+    << "Your random numbers don't seem to be random.";
+
+  EXPECT_THAT(value3, Ne(value4))
+    << "Your random numbers don't seem to be random.";
 }
 
 TEST_F(S3ErgodicMoves, MakeA26Move) {
   unsigned N3_31_pre = three_one.size();
   unsigned N3_13_pre = one_three.size();
   make_26_move(&T, number_of_timeslices);
-  unsigned N3_31_post = three_one.size()+2;
-  unsigned N3_13_post = one_three.size()+2;
+  unsigned N3_31_post = three_one.size();
+  unsigned N3_13_post = one_three.size();
+
+  EXPECT_TRUE(T.is_valid())
+  << "Triangulation is invalid.";
+
+  EXPECT_THAT(T.dimension(), Eq(3))
+  << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(check_timeslices(&T, no_output))
+  << "Cells do not span exactly 1 timeslice.";
 
   EXPECT_THAT(N3_31_post, Eq(N3_31_pre+2))
     << "(3,1) simplices did not increase by 2.";

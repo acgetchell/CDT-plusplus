@@ -26,13 +26,27 @@ unsigned generate_random_timeslice(unsigned max_timeslice) {
   unsigned result = distribution(generator);
 
   // Debugging
-  std::cout << "Result is " << result << std::endl;
+  std::cout << "Random number is " << result << std::endl;
 
   return result;
 }
 
 void make_26_move(Delaunay* D3, unsigned number_of_timeslices) {
-  // do something
+  const unsigned points = 1;
+  const bool output = true;
+  // Allot vector to hold point and timevalue
+  std::vector<Point> vertices;
+  std::vector<unsigned> timevalue;
+
+  // Set radius to random timeslice
+  double radius =
+    static_cast<double>(generate_random_timeslice(number_of_timeslices));
+
+  // Generate a point
+  make_2_sphere(&vertices, &timevalue, points, radius, output);
+
+  // Insert into D3
+  insert_into_S3(D3, &vertices, &timevalue);
 }
 
 #endif  // SRC_S3ERGODICMOVES_H_

@@ -57,6 +57,15 @@ typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 
+inline void insert_into_S3(Delaunay* D3, std::vector<Point> *vertices,
+                    std::vector<unsigned> *timevalue) {
+  // Zip together vertices and timeslice values
+  D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices->begin(),
+                                      timevalue->begin() )),
+             boost::make_zip_iterator(boost::make_tuple(vertices->end(),
+                                      timevalue->end())));
+} // insert_into_S3()
+
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// The integers **N1_TL** and **N1_SL** count the number of timelike and
@@ -279,7 +288,7 @@ inline void make_2_sphere(std::vector<Point> *vertices,
 
   if (output) {
     std::cout << "Generating " << number_of_points << " random points on "
-    << "the surface of a sphere of in 3D of center 0 and radius "
+    << "the surface of a sphere in 3D of center 0 and radius "
     << radius << "." << std::endl;
   }
 }  // make_2_sphere()
@@ -316,7 +325,7 @@ inline void make_S3_triangulation(Delaunay* D3,
 
   const int points = simplices_per_timeslice * 4;
   const int total_points = points * timeslices;
-  double radius = 10;
+  double radius;
 
   std::vector<Point> vertices;
   std::vector<unsigned> timevalue;
@@ -332,10 +341,8 @@ inline void make_S3_triangulation(Delaunay* D3,
   }
 
   // D3->insert(vertices.begin(), vertices.end());
-  // Zipping together vertices and timevalue
-  D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices.begin(),
-  timevalue.begin() )),
-  boost::make_zip_iterator(boost::make_tuple(vertices.end(), timevalue.end())));
+  // Insert vertices and timeslices
+  insert_into_S3(D3, &vertices, &timevalue);
 
   // Remove cells that have invalid foliations
   unsigned pass = 0;
