@@ -63,7 +63,7 @@ TEST_F(S3ErgodicMoves, RandomSeedingTest) {
     << "Your random numbers don't seem to be random.";
 }
 
-TEST_F(S3ErgodicMoves, MakeA26Move) {
+TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
   unsigned number_of_vertices_pre = T.number_of_vertices();
   std::cout << "Number of vertices before = " << number_of_vertices_pre
             << std::endl;

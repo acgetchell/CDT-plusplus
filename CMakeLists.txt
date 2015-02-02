@@ -53,10 +53,7 @@ if ( CGAL_FOUND )
   endif()
 
   # Experimental TBB support
-  # TBB seems to be incompatible with <iostream> and <CGAL/Timer.h>
-  # See https://gist.github.com/acgetchell/a097d232859c318ecf69 and
-  # https://gist.github.com/acgetchell/385be42d249e20a9b78c for details
-  # Leave this in for when TBB works
+  # TBB 4.3 compatibility fixed in CGAL 4.5.1
   find_package( TBB QUIET)
   if (TBB_FOUND)
     include( ${TBB_USE_FILE})

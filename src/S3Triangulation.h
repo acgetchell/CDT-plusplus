@@ -156,6 +156,9 @@ inline void classify_3_simplices(Delaunay* D3,
   }
 }  // classify_3_simplices()
 
+
+/// This function nulls out the **three_one**, **two_two**, and **one_three**
+/// vectors and then calls **classify_3_simplices()**
 inline void reclassify_3_simplices(Delaunay* D3,
             std::vector<Cell_handle>* three_one,
             std::vector<Cell_handle>* two_two,
