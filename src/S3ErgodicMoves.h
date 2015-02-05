@@ -37,7 +37,7 @@ unsigned generate_random_timeslice(unsigned max_timeslice) {
   return generate_random_unsigned(max_timeslice);
 }
 
-void make_23_31_move(Delaunay* D3, std::vector<Cell_handle>* three_one,
+void make_23_move(Delaunay* D3, std::vector<Cell_handle>* three_one,
                      std::vector<Cell_handle>* two_two) {
   // Pick a random (2,2)
   unsigned choice = generate_random_unsigned(three_one->size());

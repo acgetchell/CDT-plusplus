@@ -71,7 +71,7 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   unsigned N3_13_before = one_three.size();
   std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
-  make_23_31_move(&T, &three_one, &two_two);
+  make_23_move(&T, &three_one, &two_two);
 
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
