@@ -40,9 +40,9 @@ unsigned generate_random_timeslice(unsigned max_timeslice) {
 void make_23_move(Delaunay* D3, std::vector<Cell_handle>* three_one,
                      std::vector<Cell_handle>* two_two) {
   // Pick a random (2,2)
-  unsigned choice = generate_random_unsigned(three_one->size());
-  std::cout << "We're picking (3,1) vector " << choice << std::endl;
-  Cell_handle to_be_moved = (*three_one)[choice];
+  unsigned choice = generate_random_unsigned(two_two->size());
+  std::cout << "We're picking (2,2) vector " << choice << std::endl;
+  Cell_handle to_be_moved = (*two_two)[choice];
   for (size_t i = 0; i < 4; i++) {
     if (D3->flip(to_be_moved, i)) {
       // Delaunay::flip_flippable(to_be_moved,0)
