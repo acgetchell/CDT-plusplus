@@ -27,6 +27,7 @@ class S3ErgodicMoves : public Test {
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
+
 };
 
 TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
@@ -63,21 +64,20 @@ TEST_F(S3ErgodicMoves, RandomSeedingTest) {
     << "Your random numbers don't seem to be random.";
 }
 
-TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
-  unsigned number_of_vertices_pre = T.number_of_vertices();
-  std::cout << "Number of vertices before = " << number_of_vertices_pre
+TEST_F(S3ErgodicMoves, MakeA23Move) {
+  unsigned number_of_vertices_before = T.number_of_vertices();
+  unsigned N3_31_before = three_one.size();
+  unsigned N3_22_before = two_two.size();
+  unsigned N3_13_before = one_three.size();
+  std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
-  unsigned N3_31_pre = three_one.size();
-  unsigned N3_22_pre = two_two.size();
-  unsigned N3_13_pre = one_three.size();
-  make_26_move(&T, number_of_timeslices);
-  std::cout << "Number of vertices after = " << T.number_of_vertices()
-            << std::endl;
+  make_23_31_move(&T, &three_one, &two_two);
+
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
-  unsigned N3_31_post = three_one.size();
-  unsigned N3_22_post = two_two.size();
-  unsigned N3_13_post = one_three.size();
+  unsigned N3_31_after = three_one.size();
+  unsigned N3_22_after = two_two.size();
+  unsigned N3_13_after = one_three.size();
 
   EXPECT_TRUE(T.is_valid())
   << "Triangulation is invalid.";
@@ -88,15 +88,53 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
   EXPECT_TRUE(check_timeslices(&T, no_output))
   << "Cells do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_pre+1))
+  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before))
+  << "The number of vertices changed.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before))
+    << "(3,1) simplices changed.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before+1))
+    << "(2,2) simplices did not increase by 1.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before))
+    << "(1,3) simplices changed.";
+}
+
+TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
+  unsigned number_of_vertices_before = T.number_of_vertices();
+  unsigned N3_31_before = three_one.size();
+  unsigned N3_22_before = two_two.size();
+  unsigned N3_13_before = one_three.size();
+  std::cout << "Number of vertices before = " << number_of_vertices_before
+            << std::endl;
+  make_26_move(&T, number_of_timeslices);
+  std::cout << "Number of vertices after = " << T.number_of_vertices()
+            << std::endl;
+  // Now look at changes
+  reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
+  unsigned N3_31_after = three_one.size();
+  unsigned N3_22_after = two_two.size();
+  unsigned N3_13_after = one_three.size();
+
+  EXPECT_TRUE(T.is_valid())
+  << "Triangulation is invalid.";
+
+  EXPECT_THAT(T.dimension(), Eq(3))
+  << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(check_timeslices(&T, no_output))
+  << "Cells do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before+1))
   << "A vertex was not added to the triangulation.";
 
-  EXPECT_THAT(N3_31_post, Eq(N3_31_pre+2))
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
     << "(3,1) simplices did not increase by 2.";
 
-  EXPECT_THAT(N3_22_post, Eq(N3_22_pre))
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
     << "(2,2) simplices changed.";
 
-  EXPECT_THAT(N3_13_post, Eq(N3_13_pre+2))
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
     << "(1,3) simplices did not increase by 2.";
 }
