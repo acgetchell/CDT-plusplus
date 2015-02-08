@@ -151,6 +151,7 @@ TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   CGAL::Gmpzf Bulk_action_one = S3_bulk_action_alpha_one(N1_TL,
     N3_31, N3_22, K, Lambda);
   std::cout << (1.0-tolerance) << std::endl;
+  // BUG: For some reason this produces 0
   CGAL::Gmpzf min(abs(Bulk_action_one*(1.0-tolerance)));
   std::cout << "(Gmpzf) min = " << min << std::endl;
   std::cout << (1.0+tolerance) << std::endl;

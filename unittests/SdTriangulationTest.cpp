@@ -34,7 +34,7 @@ TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
     << "Triangulation did not insert point correctly.";
 
   ASSERT_TRUE(T.is_valid())
-    << "Triangulation is invalid.";
+    << "Triangulation is not Delaunay.";
 }
 
 TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
@@ -60,7 +60,7 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
 
 
   ASSERT_TRUE(T.is_valid())
-    << "Triangulation is invalid.";
+    << "Triangulation is not Delaunay.";
 }
 
 TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
@@ -97,5 +97,5 @@ TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
     //   << "Triangulation has wrong number of cells.";
 
     ASSERT_TRUE(T.is_valid())
-      << "Triangulation is invalid.";
+      << "Triangulation is not Delaunay.";
 }

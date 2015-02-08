@@ -60,10 +60,10 @@ const std::string currentDateTime() {
 }
 
 /// Generate useful filenames
-std::string generate_filename(int top,
-                              unsigned dim,
-                              unsigned number_of_simplices,
-                              unsigned number_of_timeslices) {
+std::string generate_filename(const int top,
+                              const unsigned dim,
+                              const unsigned number_of_simplices,
+                              const unsigned number_of_timeslices) {
   std::string filename;
   if (top == 's') {
     filename += "S";

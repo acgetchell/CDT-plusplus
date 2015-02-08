@@ -47,6 +47,9 @@ TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
     << "The types of (3,1), (2,2), and (1,3) simplices do not equal the total.";
 
   EXPECT_TRUE(T.is_valid())
+    << "Triangulation is not Delaunay.";
+
+  EXPECT_TRUE(T.tds().is_valid())
     << "Triangulation is invalid.";
 }
 
@@ -71,5 +74,8 @@ TEST_F(Triangulated2Sphere, CreatesWithLotsOfSimplices) {
     << "The types of (3,1), (2,2), and (1,3) simplices do not equal the total.";
 
   EXPECT_TRUE(T.is_valid())
-      << "Triangulation is invalid.";
+    << "Triangulation is not Delaunay.";
+
+  EXPECT_TRUE(T.tds().is_valid())
+    << "Triangulation is invalid.";
 }

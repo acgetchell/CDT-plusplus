@@ -27,7 +27,6 @@ class S3ErgodicMoves : public Test {
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
-
 };
 
 TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
@@ -71,7 +70,9 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   unsigned N3_13_before = one_three.size();
   std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
-  make_23_move(&T, &three_one, &two_two);
+
+  // Make the move
+  make_23_move(&T, &two_two);
 
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
@@ -79,6 +80,7 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   unsigned N3_22_after = two_two.size();
   unsigned N3_13_after = one_three.size();
 
+  // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(T.tds().is_valid())
   << "Triangulation is invalid.";
 
@@ -101,6 +103,51 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
     << "(1,3) simplices changed.";
 }
 
+TEST_F(S3ErgodicMoves, MakeA32Move) {
+  unsigned number_of_vertices_before = T.number_of_vertices();
+  unsigned N3_31_before = three_one.size();
+  unsigned N3_22_before = two_two.size();
+  unsigned N3_13_before = one_three.size();
+  std::cout << "Number of (2,2) simplices before = " << N3_22_before
+            << std::endl;
+  std::vector<Edge_tuple> V2;
+  unsigned N1_SL{0};
+
+  // Get timelike edges
+  get_timelike_edges(&T, &V2, &N1_SL);
+
+  // Make the move
+  make_32_move(&T, &V2);
+
+  // Now look at changes
+  reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
+  unsigned N3_31_after = three_one.size();
+  unsigned N3_22_after = two_two.size();
+  unsigned N3_13_after = one_three.size();
+
+  // We expect the triangulation to be valid, but not necessarily Delaunay
+  EXPECT_TRUE(T.tds().is_valid())
+  << "Triangulation is invalid.";
+
+  EXPECT_THAT(T.dimension(), Eq(3))
+  << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(check_timeslices(&T, no_output))
+  << "Cells do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before))
+  << "The number of vertices changed.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before))
+    << "(3,1) simplices changed.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before-1))
+    << "(2,2) simplices did not decrease by 1.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before))
+    << "(1,3) simplices changed.";
+}
+
 TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
   unsigned number_of_vertices_before = T.number_of_vertices();
   unsigned N3_31_before = three_one.size();
@@ -118,7 +165,7 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
   unsigned N3_13_after = one_three.size();
 
   EXPECT_TRUE(T.is_valid())
-  << "Triangulation is invalid.";
+  << "Triangulation is not Delaunay.";
 
   EXPECT_THAT(T.dimension(), Eq(3))
   << "Triangulation has wrong dimensionality.";

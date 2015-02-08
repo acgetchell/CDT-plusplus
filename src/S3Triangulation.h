@@ -36,6 +36,7 @@
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
 
+
 // C headers
 #include <assert.h>
 #include <math.h>
@@ -44,6 +45,7 @@
 #include <boost/iterator/zip_iterator.hpp>
 #include <vector>
 #include <list>
+#include <tuple>
 
 typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
 // Used so that each timeslice is assigned an integer
@@ -56,7 +58,40 @@ typedef Delaunay::Cell_handle Cell_handle;
 typedef Delaunay::Vertex_handle Vertex_handle;
 typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
+typedef std::tuple<Cell_handle, unsigned, unsigned> Edge_tuple;
 
+/// This function iterates over all edges in the triangulation
+/// and classifies them as timelike or spacelike.
+/// Timelike edges are stored in the **N1_TL** vector as a tuple of
+/// (Cell_handle, unsigned, unsigned) for later use by ergodic moves
+/// on timelike edges. **N1_SL** is an integer which counts the number
+/// of spacelike edges.
+inline void get_timelike_edges(const Delaunay* D3,
+                               std::vector<Edge_tuple>* N1_TL,
+                               unsigned* N1_SL) {
+  Delaunay::Finite_edges_iterator eit;
+  for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
+    Cell_handle ch = eit->first;
+    unsigned time1 = ch->vertex(eit->second)->info();
+    unsigned time2 = ch->vertex(eit->third)->info();
+
+    if (time1 != time2) {
+      Edge_tuple thisEdge{ch, ch->index(ch->vertex(eit->second)),
+                    ch->index(ch->vertex(eit->third))};
+      N1_TL->push_back(thisEdge);
+
+      // debugging
+      // std::cout << "First vertex of edge is " << std::get<1>(thisEdge)
+      //           << " and second vertex of edge is " << std::get<2>(thisEdge)
+      //           << std::endl;
+    } else {
+      (*N1_SL)++;
+    }
+  }
+}  // get_timelike_edges()
+
+/// This function inserts vertices and timeslice values by using a
+/// zip iterator and boost tuples
 inline void insert_into_S3(Delaunay* D3, std::vector<Point> *vertices,
                     std::vector<unsigned> *timevalue) {
   // Zip together vertices and timeslice values
@@ -64,13 +99,13 @@ inline void insert_into_S3(Delaunay* D3, std::vector<Point> *vertices,
                                       timevalue->begin() )),
              boost::make_zip_iterator(boost::make_tuple(vertices->end(),
                                       timevalue->end())));
-} // insert_into_S3()
+}  // insert_into_S3()
 
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// The integers **N1_TL** and **N1_SL** count the number of timelike and
 /// spacelike edges respectively.
-inline void classify_edges(Delaunay* D3,
+inline void classify_edges(const Delaunay* D3,
                           unsigned* N1_TL,
                           unsigned* N1_SL) {
   Delaunay::Finite_edges_iterator eit;
@@ -112,7 +147,7 @@ inline void classify_edges(Delaunay* D3,
 The vectors **three_one**, **two_two**, and **one_three** contain cell handles
 to all the simplices in the triangulation of that corresponding type.
 */
-inline void classify_3_simplices(Delaunay* D3,
+inline void classify_3_simplices(const Delaunay* D3,
             std::vector<Cell_handle>* three_one,
             std::vector<Cell_handle>* two_two,
             std::vector<Cell_handle>* one_three) {
@@ -159,7 +194,7 @@ inline void classify_3_simplices(Delaunay* D3,
 
 /// This function nulls out the **three_one**, **two_two**, and **one_three**
 /// vectors and then calls **classify_3_simplices()**
-inline void reclassify_3_simplices(Delaunay* D3,
+inline void reclassify_3_simplices(const Delaunay* D3,
             std::vector<Cell_handle>* three_one,
             std::vector<Cell_handle>* two_two,
             std::vector<Cell_handle>* one_three) {
@@ -225,7 +260,7 @@ inline void fix_timeslices(Delaunay* D3, bool output) {
 /// is exactly 1.
 /// The values of the unsigned variables **valid** and **invalid** give the
 /// number of those types of cells respectively.
-inline bool check_timeslices(Delaunay* D3, bool output) {
+inline bool check_timeslices(const Delaunay* D3, bool output) {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
   unsigned valid{0}, invalid{0};

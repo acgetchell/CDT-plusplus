@@ -33,11 +33,11 @@ Where \f$N_1^{TL}\f$ is the number of timelike links,
 \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices, and
 \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices.
 */
-Gmpzf S3_bulk_action_alpha_minus_one(unsigned N1_TL,
-                                     unsigned N3_31,
-                                     unsigned N3_22,
-                                     long double K,
-                                     long double Lambda) {
+Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
+                                     const unsigned N3_31,
+                                     const unsigned N3_22,
+                                     const long double K,
+                                     const long double Lambda) {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
   // Initialize for MPFR
@@ -104,11 +104,11 @@ Where \f$N_1^{TL}\f$ is the number of timelike links,
 \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices, and
 \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices.
 */
-Gmpzf S3_bulk_action_alpha_one(unsigned N1_TL,
-                               unsigned N3_31,
-                               unsigned N3_22,
-                               long double K,
-                               long double Lambda) {
+Gmpzf S3_bulk_action_alpha_one(const unsigned N1_TL,
+                               const unsigned N3_31,
+                               const unsigned N3_22,
+                               const long double K,
+                               const long double Lambda) {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
   // Initialize for MPFR
@@ -188,12 +188,12 @@ Where \f$\alpha\f$ is the timelike edge length,
 \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices, and
 \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices.
 */
-Gmpzf S3_bulk_action(unsigned N1_TL,
-                     unsigned N3_31,
-                     unsigned N3_22,
-                     long double Alpha,
-                     long double K,
-                     long double Lambda) {
+Gmpzf S3_bulk_action(const unsigned N1_TL,
+                     const unsigned N3_31,
+                     const unsigned N3_22,
+                     const long double Alpha,
+                     const long double K,
+                     const long double Lambda) {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
   // Initialize for MPFR
