@@ -44,28 +44,34 @@ unsigned generate_random_timeslice(unsigned const max_timeslice) {
 /// from the list of **two_two** simplices into its dual edge.
 /// This move does not always succeed, but when it does the
 /// triangulation is no longer Delaunay.
-void make_23_move(Delaunay* D3, std::vector<Cell_handle>* two_two) {
-  // Pick a random (2,2) out of the two_two vector, which ranges
-  // from 0 to size()-1
-  unsigned choice = generate_random_unsigned(0, two_two->size()-1);
-  std::cout << "We're picking (2,2) simplex " << choice << std::endl;
-  Cell_handle to_be_moved = (*two_two)[choice];
-  for (size_t i = 0; i < 4; i++) {
-    if (D3->flip(to_be_moved, i)) {
-      std::cout << "Facet " << i << " was flippable." << std::endl;
-      // Erase the flipped (2,2) simplex from the vector two_two
-      two_two->erase(two_two->begin() + choice);
-      // Debugging
-      std::cout << "(2,2) simplex " << choice
-                << " was removed from vector two_two" << std::endl;
-      break;
-    } else {
-      std::cout << "Facet " << i << " was not flippable." << std::endl;
+void make_23_move(Delaunay* const D3,
+                  std::vector<Cell_handle>* const two_two) {
+  bool not_flipped = true;
+  while (not_flipped) {
+    // Pick a random (2,2) out of the two_two vector, which ranges
+    // from 0 to size()-1
+    unsigned choice = generate_random_unsigned(0, two_two->size()-1);
+    std::cout << "We're picking (2,2) simplex " << choice << std::endl;
+    Cell_handle to_be_moved = (*two_two)[choice];
+    for (size_t i = 0; i < 4; i++) {
+      if (D3->flip(to_be_moved, i)) {
+        std::cout << "Facet " << i << " was flippable." << std::endl;
+        // Erase the flipped (2,2) simplex from the vector two_two
+        two_two->erase(two_two->begin() + choice);
+        // Debugging
+        std::cout << "(2,2) simplex " << choice
+                  << " was removed from vector two_two" << std::endl;
+        not_flipped = false;
+        break;
+      } else {
+        std::cout << "Facet " << i << " was not flippable." << std::endl;
+      }
     }
   }
 }  // make_23_move()
 
-void make_32_move(Delaunay* D3, std::vector<Edge_tuple>* timelike_edges) {
+void make_32_move(Delaunay* const D3,
+                  std::vector<Edge_tuple>* const timelike_edges) {
   bool not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
