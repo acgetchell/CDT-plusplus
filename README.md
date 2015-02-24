@@ -233,6 +233,14 @@ Or, if you are using Ninja:
 In addition to the command line output, you can see detailed results in the
 build/Testing directory which is generated thereby.
 
+Static Analysis:
+-----------
+Clang comes with [scan-build][32] which can run static analysis integrated with
+CMake and Ninja. Simply run the [scan-build.sh][33] script. Note that this
+script is somewhat fragile, as it depends upon the version of llvm installed,
+as it links directly to those directories without helpful symlinks to abstract
+version numbers away.
+
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
 [3]: http://www.cmake.org
@@ -264,3 +272,5 @@ build/Testing directory which is generated thereby.
 [29]: http://www.mpfr.org
 [30]: https://gmplib.org
 [31]: http://www.paraview.org
+[32]: http://clang-analyzer.llvm.org/scan-build.html
+[33]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan-build.sh
