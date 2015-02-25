@@ -32,7 +32,8 @@
 /// @file S3Triangulation.h
 /// @brief Functions on 3D Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug No known bugs
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_

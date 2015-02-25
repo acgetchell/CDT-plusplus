@@ -3,7 +3,7 @@
 /// Copyright (c) 2014 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional grid (cube)
-/// TODO: Make the vector compatible with the triangulation data structure
+/// \todo Make the vector compatible with the triangulation data structure
 
 #ifndef GRID_D_H
 #define GRID_D_H

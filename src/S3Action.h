@@ -6,7 +6,7 @@
 /// Uses the GNU MPFR library for arbitrary precision arithmetic on
 /// floating point numbers. See http://www.mpfr.org for more details.
 /// Note: for performance reasons, variables should not hold successively
-/// increasing values. We avoid this by using each variable only once.
+/// increasing values. We avoid this by setting each variable only once.
 /// See https://gmplib.org/manual/Efficiency.html#Efficiency for details.
 
 /// \done \f$\alpha\f$=-1 S3 bulk action
@@ -16,7 +16,8 @@
 /// @file S3Action.h
 /// @brief Calculate S3 bulk action on 3D Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug No known bugs
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #ifndef SRC_S3ACTION_H_
 #define SRC_S3ACTION_H_

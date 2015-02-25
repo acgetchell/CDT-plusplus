@@ -11,7 +11,8 @@
 /// @file utilities.h
 /// @brief Utility functions
 /// @author Adam Getchell
-/// @bug No known bugs
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #ifndef SRC_UTILITIES_H_
 #define SRC_UTILITIES_H_

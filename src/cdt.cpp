@@ -12,7 +12,8 @@
 /// @file cdt.cpp
 /// @brief The main body of the program
 /// @author Adam Getchell
-/// @bug No known bugs
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 // CGAL headers
 #include <CGAL/Timer.h>
