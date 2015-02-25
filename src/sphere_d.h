@@ -4,7 +4,13 @@
 ///
 /// Inserts a given number of points into a d-dimensional sphere of
 /// a given radius
-/// TODO: Make the vector compatible with the triangulation data structure
+
+/// \todo Make the vector compatible with the triangulation data structure
+
+/// @file sphere_d.h
+/// @brief Functions on d-Spheres
+/// @author Adam Getchell
+/// @bug No known bugs
 
 #ifndef SRC_SPHERE_D_H_
 #define SRC_SPHERE_D_H_

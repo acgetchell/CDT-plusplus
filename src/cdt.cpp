@@ -5,6 +5,14 @@
 /// A program that generates spacetimes
 ///
 /// Inspired by https://github.com/ucdavis/CDT
+///
+/// \done Use <a href="https://github.com/docopt/docopt.cpp">Docopt</a>
+/// for a beautiful command line interface.
+
+/// @file cdt.cpp
+/// @brief The main body of the program
+/// @author Adam Getchell
+/// @bug No known bugs
 
 // CGAL headers
 #include <CGAL/Timer.h>

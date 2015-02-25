@@ -3,6 +3,20 @@
 /// Copyright (c) 2014, 2015 Adam Getchell
 ///
 /// Performs ergodic moves on S3 (2+1) spacetimes.
+///
+/// \done (2,3) move
+/// \done (3,2) move
+/// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
+/// Const Correctness</a>
+/// \todo (2,6) move
+/// \todo (6,2) move
+/// \todo (4,4) move
+/// \todo Multi-threaded operations using Intel TBB
+
+/// @file S3ErgodicMoves.h
+/// @brief Pachner moves on 3D Delaunay Triangulations
+/// @author Adam Getchell
+/// @bug No known bugs
 
 #ifndef SRC_S3ERGODICMOVES_H_
 #define SRC_S3ERGODICMOVES_H_

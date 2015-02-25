@@ -4,6 +4,15 @@
 ///
 /// Utility functions for cdt.cpp
 
+/// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
+/// Const Correctness</a>
+/// \todo Use localtime_r() for thread safety
+
+/// @file utilities.h
+/// @brief Utility functions
+/// @author Adam Getchell
+/// @bug No known bugs
+
 #ifndef SRC_UTILITIES_H_
 #define SRC_UTILITIES_H_
 

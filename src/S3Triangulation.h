@@ -9,22 +9,30 @@
 /// Each vertex at a given radius is assigned a timeslice so that the
 /// entire triangulation will have a preferred foliation of time.
 ///
-/// - DONE: Insert a 3-sphere into the triangulation data structure
-/// - DONE: Assign each 3-sphere a unique timeslice
-/// - DONE: Iterate over the number of desired timeslices
-/// - DONE: Check/fix issues for large values of simplices and timeslices
-/// - DONE: Iterate over cells and check timeslices of vertices don't differ
-///       by more than 1.
-/// - DONE: Gather ratio of cells with bad/good foliation.
-///       Adjust value of radius to minimize.
-///       Recheck the whole triangulation when finished.
-/// - DONE: When a cell contains a bad foliation, delete it. Recheck.
-/// - DONE: Fixup Delaunay triangulation after bad cells have been deleted
-/// - DONE: Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
+/// \done Insert a 3-sphere into the triangulation data structure
+/// \done Assign each 3-sphere a unique timeslice
+/// \done Iterate over the number of desired timeslices
+/// \done Check/fix issues for large values of simplices and timeslices
+/// \done Iterate over cells and check timeslices of vertices don't differ
+///        by more than 1.
+/// \done Gather ratio of cells with bad/good foliation.
+///        Adjust value of radius to minimize.
+///        Recheck the whole triangulation when finished.
+/// \done When a cell contains a bad foliation, delete it. Recheck.
+/// \done Fixup Delaunay triangulation after bad cells have been deleted
+/// \done Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
 /// The vectors **three_one**, **two_two**, and **one_three** contain cell
 /// handles to the simplices of type (3,1), (2,2), and (1,3) respectively.
-/// - DONE: Classify edges as timelike or spacelike so that action can be
+/// \done Classify edges as timelike or spacelike so that action can be
 /// calculated.
+/// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
+/// Const Correctness</a>
+/// \todo Multi-threaded operations using Intel TBB
+
+/// @file S3Triangulation.h
+/// @brief Functions on 3D Delaunay Triangulations
+/// @author Adam Getchell
+/// @bug No known bugs
 
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
