@@ -8,6 +8,7 @@
 /// \done (3,2) move
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
 /// Const Correctness</a>
+/// \done Complete function documentation
 /// \todo (2,6) move
 /// \todo (6,2) move
 /// \todo (4,4) move
@@ -29,11 +30,16 @@
 #include <random>
 #include <vector>
 
+/// @brief Generate random unsigned integers
+///
 /// This function generates a random unsigned integer from [1, max_value]
 /// using a non-deterministic random number generator, if supported. There
 /// may be exceptions thrown if a random device is not available. See:
 /// http://www.cplusplus.com/reference/random/random_device/
 /// for more details.
+///
+/// @param[in] min_value  The minimum value in the range
+/// @param[in] max_value  The maximum value in the range
 unsigned generate_random_unsigned(const unsigned min_value,
                                   const unsigned max_value) {
   // Non-deterministic random number generator
@@ -48,17 +54,26 @@ unsigned generate_random_unsigned(const unsigned min_value,
   return result;
 }  // generate_random_unsigned()
 
+/// @brief Generate a random timeslice
+///
 /// This function generates a random timeslice
 /// using **generate_random_unsigned()**. Timeslices go from
 /// 1 to max_timeslice.
+///
+/// @param[in] max_timeslice  The maximum timeslice
 unsigned generate_random_timeslice(unsigned const max_timeslice) {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 
+/// @brief Make a (2,3) move
+///
 /// This function performs the (2,3) move by converting a facet
-/// from the list of **two_two** simplices into its dual edge.
+/// from the vector **two_two** simplices into its dual edge.
 /// This move does not always succeed, but when it does the
 /// triangulation is no longer Delaunay.
+///
+/// @param[in,out] D3 The Delaunay triangulation
+/// @param[in] two_two A vector of (2,2) simplices
 void make_23_move(Delaunay* const D3,
                   std::vector<Cell_handle>* const two_two) {
   bool not_flipped = true;
@@ -85,6 +100,13 @@ void make_23_move(Delaunay* const D3,
   }
 }  // make_23_move()
 
+/// @brief Make a (3,2) move
+///
+/// This function performs the (3,2) move by converting a timelike
+/// edge from the vector **timelike_edges** into its dual facet.
+///
+/// @param[in,out] D3 The Delaunay triangulation
+/// @param[in] timelike_edges Timelike edges to pick to attempt move
 void make_32_move(Delaunay* const D3,
                   std::vector<Edge_tuple>* const timelike_edges) {
   bool not_flipped = true;
@@ -101,10 +123,32 @@ void make_32_move(Delaunay* const D3,
       std::cout << "Edge " << choice << " was not flippable." << std::endl;
     }
   }
-}
+}  // make_32_move()
 
+/// @brief Make a (6,2) move
+///
+/// This function performs the (6,2) move by removing a vertex
+/// that has 3 (1,3) and 3 (3,1) simplices around it
+///
+/// @param[in,out]  D3        The Delaunay triangulation
+/// @param[in]      vertices  Vertices to pick to attempt move
+void make_62_move(Delaunay* const D3,
+                  std::vector<Vertex_handle>* const vertices) {
+  bool no_move = true;
+  while (no_move) {
+    // Pick a random vertex
+    unsigned choice = generate_random_unsigned(0, vertices->size()-1);
+    Vertex_handle to_be_moved = (*vertices)[choice];
+    no_move = false;
+  }
+}  // make_62_move()
 
-void make_26_move(Delaunay* D3, unsigned number_of_timeslices) {
+/// @brief Make a (2,6) move
+///
+/// @param[in,out]  D3                    The Delaunay triangulation
+/// @param[in]      number_of_timeslices  The maximum timeslice
+void make_26_move(Delaunay* const D3,
+                  const unsigned number_of_timeslices) {
   const unsigned points = 1;
   const bool output = true;
   // Allot vector to hold point and timevalue
@@ -120,6 +164,6 @@ void make_26_move(Delaunay* D3, unsigned number_of_timeslices) {
 
   // Insert into D3
   insert_into_S3(D3, &vertices, &timevalue);
-}
+}  // make_26_move()
 
 #endif  // SRC_S3ERGODICMOVES_H_

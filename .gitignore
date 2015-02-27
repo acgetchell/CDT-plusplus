@@ -33,7 +33,6 @@ doc_html/
 cdt
 cdt_tests
 *.plist
-*.pyc
 grid_d
 
 # Output files
@@ -45,3 +44,4 @@ output
 
 # Cruft
 *.old.*
+*.bak

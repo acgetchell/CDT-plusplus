@@ -148,6 +148,52 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
     << "(1,3) simplices changed.";
 }
 
+TEST_F(S3ErgodicMoves, MakeA62Move) {
+  unsigned number_of_vertices_before = T.number_of_vertices();
+  unsigned N3_31_before = three_one.size();
+  unsigned N3_22_before = two_two.size();
+  unsigned N3_13_before = one_three.size();
+  std::cout << "Number of vertices before = " << number_of_vertices_before
+            << std::endl;
+  std::vector<Vertex_handle> V;
+  // Get vertices
+  get_vertices(&T, &V);
+
+  EXPECT_THAT(V.size(), Eq(T.number_of_vertices()))
+    << "Vertex handle vector V doesn't have all vertices in triangulation";
+
+  // Now make the move
+  make_62_move(&T, &V);
+  std::cout << "Number of vertices after = " << T.number_of_vertices()
+            << std::endl;
+  // Now look at changes
+  reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
+  unsigned N3_31_after = three_one.size();
+  unsigned N3_22_after = two_two.size();
+  unsigned N3_13_after = one_three.size();
+
+  EXPECT_TRUE(T.is_valid())
+  << "Triangulation is not Delaunay.";
+
+  EXPECT_THAT(T.dimension(), Eq(3))
+  << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(check_timeslices(&T, no_output))
+  << "Cells do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before-1))
+  << "A vertex was not removed from the triangulation.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before-2))
+    << "(3,1) simplices did not decrease by 2.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
+    << "(2,2) simplices changed.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before-2))
+    << "(1,3) simplices did not decrease by 2.";
+}
+
 TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
   unsigned number_of_vertices_before = T.number_of_vertices();
   unsigned N3_31_before = three_one.size();

@@ -22,9 +22,7 @@ The goals and targets of this project are:
 - [x] Unit tests with [Gmock][6]
 - [x] Test builds with [Travis CI][11]
 - [x] 3D Simplex
-- [x] 3D Spherical simplicial complex
-- [ ] 3D Toroidal simplicial complex
-- [x] Python bindings from [cgal-bindings][9]
+- [x] 3D Spherical triangulation
 - [x] 2+1 foliation
 - [x] Integrate [docopt][19] CLI
 - [x] S3 Bulk action
@@ -32,11 +30,7 @@ The goals and targets of this project are:
 - [ ] 3D Ergodic moves
 - [ ] Metropolis algorithm
 - [ ] 4D Simplex
-- [ ] Implement a Triangulation_4.h
-- [ ] Implement a Triangulation_vertex_base_with_info_4.h
-- [ ] Implement a Triangulation_cell_base_with_info_4.h
-- [ ] Implement generic Point_d_with_info.h with .x(),.y(),.z(),.w() members
-- [ ] 4D Simplicial complex
+- [ ] 4D Spherical triangulation
 - [ ] 3+1 foliation
 - [ ] S4 Bulk action
 - [ ] S4 Boundary action
@@ -90,20 +84,6 @@ following commands in the top-level directory:
 ~~~
 
 (Or run [build.sh][27]) if you have [Ninja][18] installed.
-
-If you want to turn debugging stuff on or off, use:
-
-~~~
-# cmake -DCMAKE_BUILD_TYPE=Debug ..
-~~~
-
-or:
-
-~~~
-# cmake -DCMAKE_BUILD_TYPE=Release ..
-~~~
-
-And then type `make` as usual.
 
 This should result in the main program executable, `cdt` in the build directory.
 

@@ -27,6 +27,7 @@
 /// calculated.
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
 /// Const Correctness</a>
+/// \todo Function documentation
 /// \todo Multi-threaded operations using Intel TBB
 
 /// @file S3Triangulation.h
@@ -69,12 +70,30 @@ typedef Delaunay::Locate_type Locate_type;
 typedef Delaunay::Point Point;
 typedef std::tuple<Cell_handle, unsigned, unsigned> Edge_tuple;
 
+/// @brief Gets all vertices
+/// @param[in] D3 The Delaunay triangulation
+/// @param[out] Vertices A vector of all vertices in D3
+inline void get_vertices(const Delaunay* const D3,
+                  std::vector<Vertex_handle>* const Vertices) {
+  Delaunay::Finite_vertices_iterator vit;
+  for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end();
+       ++vit) {
+    Vertices->push_back(vit);
+  }
+} //  get_vertices()
+
+/// @brief Gets all timelike edges
+///
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// Timelike edges are stored in the **N1_TL** vector as a tuple of
 /// (Cell_handle, unsigned, unsigned) for later use by ergodic moves
 /// on timelike edges. **N1_SL** is an integer which counts the number
 /// of spacelike edges.
+///
+/// @param[in]  D3 The Delaunay triangulation
+/// @param[out] N1_TL A vector of timelike edges
+/// @param[out] N1_SL An integer counting the spacelike edges
 inline void get_timelike_edges(const Delaunay* const D3,
                                std::vector<Edge_tuple>* const N1_TL,
                                unsigned* const N1_SL) {
@@ -99,8 +118,14 @@ inline void get_timelike_edges(const Delaunay* const D3,
   }
 }  // get_timelike_edges()
 
+/// @brief Inserts vertices and timeslices into Delaunay triangulation
+///
 /// This function inserts vertices and timeslice values by using a
 /// zip iterator and boost tuples
+///
+/// @param[out] D3        The Delaunay triangulation
+/// @param[in]  vertices  The vertices to insert into D3
+/// @param[in]  timevalue The timevalues placed into vertex.info()
 inline void insert_into_S3(Delaunay* const D3,
                            const std::vector<Point>* const vertices,
                            const std::vector<unsigned>* const timevalue) {
