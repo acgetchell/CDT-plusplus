@@ -12,9 +12,10 @@
 /// \done \f$\alpha\f$=-1 S3 bulk action
 /// \done \f$\alpha\f$=1 S3 bulk action
 /// \done Generic \f$\alpha\f$ S3 bulk action
+/// \done Function documentation
 
 /// @file S3Action.h
-/// @brief Calculate S3 bulk action on 3D Delaunay Triangulations
+/// @brief Calculate S3 bulk actions on 3D Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
@@ -29,9 +30,11 @@
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 typedef CGAL::Gmpzf Gmpzf;
+/// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static const unsigned PRECISION = 256;
 
-/// Calculates S3 bulk action for \f$\alpha\f$=-1.
+/// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
+///
 /// This result is i* the action for Euclidean dynamically triangulated
 /// gravity in three dimensions.
 /// The formula is:
@@ -39,10 +42,11 @@ static const unsigned PRECISION = 256;
 \f[S^{(3)}(\alpha=-1)=-2\pi ik N_1^{TL}+N_3^{(3,1)}\left(2.673ik+0.118i\lambda
 \right)+N_3^{(2,2)}\left(7.386ik+0.118i\lambda\right)\equiv iS^3_{EDT}
 \f]
-Where \f$N_1^{TL}\f$ is the number of timelike links,
-\f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices, and
-\f$N_3^{(2,2)}\f$ is the number of (2,2) simplices.
 */
+/// @param[in] N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
+/// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+///                   simplices
+/// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
 Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
                                      const unsigned N3_31,
                                      const unsigned N3_22,
@@ -104,16 +108,18 @@ Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
   return result;
 }  // S3_bulk_action_alpha_minus_one()
 
-/// Calculates S3 bulk action for \f$\alpha\f$=1.
+/// @brief Calculates S3 bulk action for \f$\alpha\f$=1.
+///
 /// The formula is:
 /**
 \f[S^{(3)}(\alpha=1)=2\pi k N_1^{TL}+N_3^{(3,1)}\left(-3.548k-0.167\lambda
 \right)+N_3^{(2,2)}\left(-5.355k-0.204\lambda\right)
 \f]
-Where \f$N_1^{TL}\f$ is the number of timelike links,
-\f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices, and
-\f$N_3^{(2,2)}\f$ is the number of (2,2) simplices.
 */
+/// @param[in] N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
+/// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+///                   simplices
+/// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
 Gmpzf S3_bulk_action_alpha_one(const unsigned N1_TL,
                                const unsigned N3_31,
                                const unsigned N3_22,
@@ -177,9 +183,12 @@ Gmpzf S3_bulk_action_alpha_one(const unsigned N1_TL,
   return result;
 }  // Gmpzf S3_bulk_action_alpha_one()
 
-/// Calculates the generalized S3 bulk action in terms of \f$\alpha\f$,
+
+///
+/// @brief Calculates the generalized S3 bulk action in terms of \f$\alpha\f$,
 /// \f$k\f$, \f$\lambda\f$, \f$N_1^{TL}\f$, \f$N_3^{(3,1)}\f$, and
 /// \f$N_3^{(2,2)}\f$.
+///
 /// The formula is:
 /**
 \f{eqnarray*}{
@@ -191,13 +200,15 @@ S^{(3)} &=& 2\pi k\sqrt{\alpha}N_1^{TL} \\
 {4\alpha +1}\right)-4k\sqrt{\alpha}\text{arccos}\left(\frac{-1}{4\alpha+1}
 \right)-\frac{\lambda}{12}\sqrt{4\alpha +2}\right]
 \f}
-Where \f$\alpha\f$ is the timelike edge length,
-\f$k=\frac{1}{8\pi G_{Newton}}\f$,
-\f$\lambda=k*\Lambda\f$ (\f$\Lambda\f$ is the Cosmological constant),
-\f$N_1^{TL}\f$ is the number of timelike links,
-\f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices, and
-\f$N_3^{(2,2)}\f$ is the number of (2,2) simplices.
 */
+/// @param[in] N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
+/// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+///                   simplices
+/// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+/// @param[in] Alpha  \f$\alpha\f$ is the timelike edge length
+/// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
+/// @param[in] Lambda \f$\lambda=k*\Lambda\f$ (\f$\Lambda\f$ is the
+///                   Cosmological constant)
 Gmpzf S3_bulk_action(const unsigned N1_TL,
                      const unsigned N3_31,
                      const unsigned N3_22,

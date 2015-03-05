@@ -28,6 +28,7 @@ latex/
 cpplint.py
 DartConfiguration.tcl
 doc_html/
+*.tmp
 
 # Program/script executables
 cdt
