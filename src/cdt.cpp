@@ -6,7 +6,10 @@
 ///
 /// Inspired by https://github.com/ucdavis/CDT
 ///
-/// \done Use <a href="https://github.com/docopt/docopt.cpp">Docopt</a>
+/// \todo Invoke complete set of ergodic (Pachner) moves
+/// \todo Use Metropolis-Hastings algorithm
+/// \todo Fix write_file() to include cell->info() and vertex->info()
+/// \done Use <a href="https://github.com/docopt/docopt.cpp">docopt</a>
 /// for a beautiful command line interface.
 
 /// @file cdt.cpp
@@ -32,7 +35,7 @@
 #include "./utilities.h"
 #include "S3Triangulation.h"
 
-// Help message parsed by docopt into options
+/// Help message parsed by docopt into options
 static const char USAGE[] =
 R"(Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -62,7 +65,12 @@ Options:
   -p --passes PASSES    Number of passes [default: 10000]
 )";
 
-int main(int argc, char const *argv[]) {
+/// @brief The main path of the CDT++ program
+///
+/// @param[in,out]  argc  Argument count = 1 + number of arguments
+/// @param[in,out]  argv  Argument vector (array) to be passed to docopt
+/// @return         Integer value 0 if successful, 1 on failure
+int main(int argc, char* const argv[]) {
   // Start running time
   CGAL::Timer t;
   t.start();
@@ -75,11 +83,6 @@ int main(int argc, char const *argv[]) {
                      "CDT 1.0");    // Version
 
   enum topology_type { TOROIDAL, SPHERICAL};
-
-  // These contain cell handles for the (3,1), (2,2), and (1,3) simplices
-  std::vector<Cell_handle> three_one;
-  std::vector<Cell_handle> two_two;
-  std::vector<Cell_handle> one_three;
 
   // Debugging
   // for (auto const& arg : args) {
@@ -119,6 +122,11 @@ int main(int argc, char const *argv[]) {
   // Initialize spherical Delaunay triangulation
   Delaunay Sphere3;
 
+  // These contain cell handles for the (3,1), (2,2), and (1,3) simplices
+  std::vector<Cell_handle> three_one;
+  std::vector<Cell_handle> two_two;
+  std::vector<Cell_handle> one_three;
+
   // Ensure Triangle inequalities hold
   // See http://arxiv.org/abs/hep-th/0105267 for details
   if (dimensions == 3 && std::abs(alpha) < 0.5) {
@@ -147,7 +155,18 @@ int main(int argc, char const *argv[]) {
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
 
-  // TODO: Ergodic moves
+  // TODO: Ergodic moves using Metropolis algorithm
+  // Initialize data and data structures needed for ergodic moves
+  //
+  // make_23_move(&Sphere3, &two_two) does the (2,2) move
+  // These hold the timelike edges needed for a (3,2) move
+  std::vector<Edge_tuple> V2;
+  unsigned N1_SL{0};
+
+  // Get timelike edges V2 that make_32_move(&Sphere3, &V2) can be called on
+  get_timelike_edges(&Sphere3, &V2, &N1_SL);
+
+  // Metropolis algorithm to select moves goes here
 
   // Output results
   t.stop();  // End running time counter
