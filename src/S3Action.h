@@ -47,6 +47,9 @@ static const unsigned PRECISION = 256;
 /// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
 ///                   simplices
 /// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+/// @return \f$S^{(3)}(\alpha=-1)\f$ as a
+/// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
+///                   value
 Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
                                      const unsigned N3_31,
                                      const unsigned N3_22,
@@ -120,6 +123,9 @@ Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
 /// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
 ///                   simplices
 /// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+/// @return \f$S^{(3)}(\alpha=1)\f$ as a
+/// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
+///                   value
 Gmpzf S3_bulk_action_alpha_one(const unsigned N1_TL,
                                const unsigned N3_31,
                                const unsigned N3_22,
@@ -209,6 +215,9 @@ S^{(3)} &=& 2\pi k\sqrt{\alpha}N_1^{TL} \\
 /// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param[in] Lambda \f$\lambda=k*\Lambda\f$ (\f$\Lambda\f$ is the
 ///                   Cosmological constant)
+/// @return \f$S^{(3)}(\alpha)\f$ as a
+/// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
+///                   value
 Gmpzf S3_bulk_action(const unsigned N1_TL,
                      const unsigned N3_31,
                      const unsigned N3_22,

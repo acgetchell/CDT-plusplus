@@ -40,6 +40,7 @@
 ///
 /// @param[in] min_value  The minimum value in the range
 /// @param[in] max_value  The maximum value in the range
+/// @return A random unsigned value between min_value and max_value, inclusive
 unsigned generate_random_unsigned(const unsigned min_value,
                                   const unsigned max_value) {
   // Non-deterministic random number generator
@@ -61,6 +62,7 @@ unsigned generate_random_unsigned(const unsigned min_value,
 /// 1 to max_timeslice.
 ///
 /// @param[in] max_timeslice  The maximum timeslice
+/// @return A random timeslice from 1 to max_timeslice
 unsigned generate_random_timeslice(unsigned const max_timeslice) {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
@@ -139,6 +141,12 @@ void make_62_move(Delaunay* const D3,
     // Pick a random vertex
     unsigned choice = generate_random_unsigned(0, vertices->size()-1);
     Vertex_handle to_be_moved = (*vertices)[choice];
+
+    // Ensure conditions are satisfied
+    CGAL_triangulation_precondition((dimension() == 3));
+    CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
+
+
     no_move = false;
   }
 }  // make_62_move()
