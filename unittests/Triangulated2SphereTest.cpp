@@ -8,7 +8,7 @@
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
 
-using namespace testing;
+using namespace testing;  // NOLINT
 
 class Triangulated2Sphere : public Test {
  public:

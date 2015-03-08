@@ -155,7 +155,7 @@ int main(int argc, char* const argv[]) {
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
 
-  // TODO: Ergodic moves using Metropolis algorithm
+  // TODO(acgetchell): Ergodic moves using Metropolis algorithm
   // Initialize data and data structures needed for ergodic moves
   //
   // make_23_move(&Sphere3, &two_two) does the (2,2) move
@@ -174,7 +174,8 @@ int main(int argc, char* const argv[]) {
   print_results(&Sphere3, &t);
 
   // Write results to file
-  // TODO: Fixup so that cell->info() and vertex->info() values are written
+  // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values are
+  //                   written
   write_file(&Sphere3, 's', dimensions, Sphere3.number_of_finite_cells(),
              timeslices);
 

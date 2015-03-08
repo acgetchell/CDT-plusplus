@@ -9,7 +9,7 @@
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
 
-using namespace testing;
+using namespace testing;  // NOLINT
 
 class S3Tetrahedron : public Test {
  public:

@@ -11,7 +11,7 @@
 #include "Sphere_d.h"
 
 
-using namespace ::testing;
+using namespace ::testing;  // NOLINT
 
 TEST(Sphere, Create2Sphere) {
   std::vector<Point> points;

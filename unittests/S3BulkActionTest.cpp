@@ -7,12 +7,13 @@
 // #include <CGAL/Gmpzf.h>
 
 #include <vector>
+#include <algorithm>
 
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
 #include "S3Action.h"
 
-using namespace testing;
+using namespace testing;  // NOLINT
 
 class S3BulkAction : public Test {
  protected:
@@ -160,5 +161,4 @@ TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
 
   ASSERT_THAT(abs(Bulk_action), AllOf(Ge(min), Le(max)))
     << "General Bulk action does not match Bulk action for alpha=1.";
-
 }

@@ -254,75 +254,75 @@ Gmpzf S3_bulk_action(const unsigned N1_TL,
   mpfr_init_set_ld(twelve, 12.0, MPFR_RNDD);
 
   // First term accumulates in r5
-  mpfr_mul(r1, two, pi, MPFR_RNDD);       // r1 = 2*pi
-  mpfr_mul(r2, r1, k, MPFR_RNDD);         // r2 = 2*pi*k
-  mpfr_sqrt(r3, alpha, MPFR_RNDD);        // r3 = sqrt(alpha)
-  mpfr_mul(r4, r3, r2, MPFR_RNDD);        // r4 = r3*r2 = 2*pi*k*sqrt(alpha)
-  mpfr_mul(r5, r4, n1_tl, MPFR_RNDD);     // r5 = r4*n1_tl
+  mpfr_mul(r1, two, pi, MPFR_RNDD);        // r1 = 2*pi
+  mpfr_mul(r2, r1, k, MPFR_RNDD);          // r2 = 2*pi*k
+  mpfr_sqrt(r3, alpha, MPFR_RNDD);         // r3 = sqrt(alpha)
+  mpfr_mul(r4, r3, r2, MPFR_RNDD);         // r4 = r3*r2 = 2*pi*k*sqrt(alpha)
+  mpfr_mul(r5, r4, n1_tl, MPFR_RNDD);      // r5 = r4*n1_tl
 
   // Second term accumulates in r30
-  mpfr_sqrt(r6, three, MPFR_RNDD);        // r6 = sqrt(3)
-  mpfr_mul(r7, four, alpha, MPFR_RNDD);   // r7 = 4*alpha
-  mpfr_add(r8, one, r7, MPFR_RNDD);       // r8 = r7+1 = 4*alpha+1
-  mpfr_sqrt(r9, r8, MPFR_RNDD);           // r9 = sqrt(r8) = sqrt(4*alpha+1)
-  mpfr_mul(r10, r6, r9, MPFR_RNDD);       // r10 = r6*r9
-  mpfr_div(r11, one, r10, MPFR_RNDD);     // r11 = 1/r10
-  mpfr_asinh(r12, r11, MPFR_RNDD);        // r12 = arcsinh(r11)
-  mpfr_neg(r13, three, MPFR_RNDD);        // r13 = -3
-  mpfr_mul(r14, r13, k, MPFR_RNDD);       // r14 = r13*k = -3*k
-  mpfr_mul(r15, r14, r12, MPFR_RNDD);     // r15 = r14*r12 = -3*k*arcsinh(r11)
+  mpfr_sqrt(r6, three, MPFR_RNDD);         // r6 = sqrt(3)
+  mpfr_mul(r7, four, alpha, MPFR_RNDD);    // r7 = 4*alpha
+  mpfr_add(r8, one, r7, MPFR_RNDD);        // r8 = r7+1 = 4*alpha+1
+  mpfr_sqrt(r9, r8, MPFR_RNDD);            // r9 = sqrt(r8) = sqrt(4*alpha+1)
+  mpfr_mul(r10, r6, r9, MPFR_RNDD);        // r10 = r6*r9
+  mpfr_div(r11, one, r10, MPFR_RNDD);      // r11 = 1/r10
+  mpfr_asinh(r12, r11, MPFR_RNDD);         // r12 = arcsinh(r11)
+  mpfr_neg(r13, three, MPFR_RNDD);         // r13 = -3
+  mpfr_mul(r14, r13, k, MPFR_RNDD);        // r14 = r13*k = -3*k
+  mpfr_mul(r15, r14, r12, MPFR_RNDD);      // r15 = r14*r12 = -3*k*arcsinh(r11)
 
-  mpfr_mul(r16, two, alpha, MPFR_RNDD);   // r16 = 2*alpha
-  mpfr_add(r17, r16, one, MPFR_RNDD);     // r17 = 2*alpha+1
-  mpfr_div(r18, r17, r8, MPFR_RNDD);      // r18 = (2*alpha+1)/(4*alpha+1)
-  mpfr_acos(r19, r18, MPFR_RNDD);         // r19 = arccos(r18)
-  mpfr_mul(r20, r14, r3, MPFR_RNDD);      // r20 = -3*k*sqrt(alpha)
-  mpfr_mul(r21, r20, r19, MPFR_RNDD);     // r21 = -3*k*sqrt(alpha)*arccos(r18)
+  mpfr_mul(r16, two, alpha, MPFR_RNDD);    // r16 = 2*alpha
+  mpfr_add(r17, r16, one, MPFR_RNDD);      // r17 = 2*alpha+1
+  mpfr_div(r18, r17, r8, MPFR_RNDD);       // r18 = (2*alpha+1)/(4*alpha+1)
+  mpfr_acos(r19, r18, MPFR_RNDD);          // r19 = arccos(r18)
+  mpfr_mul(r20, r14, r3, MPFR_RNDD);       // r20 = -3*k*sqrt(alpha)
+  mpfr_mul(r21, r20, r19, MPFR_RNDD);      // r21 = -3*k*sqrt(alpha)*arccos(r18)
 
-  mpfr_mul(r22, three, alpha, MPFR_RNDD); // r22 = 3*alpha
-  mpfr_add(r23, r22, one, MPFR_RNDD);     // r23 = 3*alpha+1
-  mpfr_sqrt(r24, r23, MPFR_RNDD);         // r24 = sqrt(3*alpha+1)
-  mpfr_neg(r25, lambda, MPFR_RNDD);       // r25 = -lambda
-  mpfr_div(r26, r25, twelve, MPFR_RNDD);  // r26 = -lambda/12
-  mpfr_mul(r27, r26, r24, MPFR_RNDD);     // r27 = (-lambda/12)*sqrt(3*alpha+1)
+  mpfr_mul(r22, three, alpha, MPFR_RNDD);  // r22 = 3*alpha
+  mpfr_add(r23, r22, one, MPFR_RNDD);      // r23 = 3*alpha+1
+  mpfr_sqrt(r24, r23, MPFR_RNDD);          // r24 = sqrt(3*alpha+1)
+  mpfr_neg(r25, lambda, MPFR_RNDD);        // r25 = -lambda
+  mpfr_div(r26, r25, twelve, MPFR_RNDD);   // r26 = -lambda/12
+  mpfr_mul(r27, r26, r24, MPFR_RNDD);      // r27 = (-lambda/12)*sqrt(3*alpha+1)
 
   // Accumulate partial sums of second term
-  mpfr_add(r28, r15, r21, MPFR_RNDD);     // r28 = r15+r21
-  mpfr_add(r29, r28, r27, MPFR_RNDD);     // r29 = r28+r27
+  mpfr_add(r28, r15, r21, MPFR_RNDD);      // r28 = r15+r21
+  mpfr_add(r29, r28, r27, MPFR_RNDD);      // r29 = r28+r27
   // Multiply by overall factor of n3_31
-  mpfr_mul(r30, n3_31, r29, MPFR_RNDD);   // r30 = n3_31*r29
+  mpfr_mul(r30, n3_31, r29, MPFR_RNDD);    // r30 = n3_31*r29
 
   // Third term accumulates in r51
-  mpfr_mul(r31, two, k, MPFR_RNDD);       // r31 = 2*k
-  mpfr_sqrt(r32, two, MPFR_RNDD);         // r32 = sqrt(2)
-  mpfr_mul(r33, two, r32, MPFR_RNDD);     // r33 = 2*sqrt(2)
-  mpfr_sqrt(r34, r17, MPFR_RNDD);         // r34 = sqrt(2*alpha+1)
-  mpfr_mul(r35, r33, r34, MPFR_RNDD);     // r35 = r33*r34
-  mpfr_div(r36, r35, r8, MPFR_RNDD);      // r36 = 2*sqrt(2)*sqrt(2*alpha+1)/
-                                          //       4*alpha+1
-  mpfr_asinh(r37, r36, MPFR_RNDD);        // r37 = arcsinh(r36)
-  mpfr_mul(r38, r31, r37, MPFR_RNDD);     // r38 = 2*k*arcsinh(r36)
+  mpfr_mul(r31, two, k, MPFR_RNDD);        // r31 = 2*k
+  mpfr_sqrt(r32, two, MPFR_RNDD);          // r32 = sqrt(2)
+  mpfr_mul(r33, two, r32, MPFR_RNDD);      // r33 = 2*sqrt(2)
+  mpfr_sqrt(r34, r17, MPFR_RNDD);          // r34 = sqrt(2*alpha+1)
+  mpfr_mul(r35, r33, r34, MPFR_RNDD);      // r35 = r33*r34
+  mpfr_div(r36, r35, r8, MPFR_RNDD);       // r36 = 2*sqrt(2)*sqrt(2*alpha+1)/
+                                           //       4*alpha+1
+  mpfr_asinh(r37, r36, MPFR_RNDD);         // r37 = arcsinh(r36)
+  mpfr_mul(r38, r31, r37, MPFR_RNDD);      // r38 = 2*k*arcsinh(r36)
 
-  mpfr_neg(r39, one, MPFR_RNDD);          // r39 = -1
-  mpfr_div(r40, r39, r8, MPFR_RNDD);      // r40 = -1/(4*alpha+1)
-  mpfr_acos(r41, r40, MPFR_RNDD);         // r41 = arccos(r40)
-  mpfr_neg(r42, four, MPFR_RNDD);         // r42 = -4
-  mpfr_mul(r43, r42, k, MPFR_RNDD);       // r43 = -4*k
-  mpfr_mul(r44, r43, r3, MPFR_RNDD);      // r44 = -4*k*sqrt(alpha)
-  mpfr_mul(r45, r44, r41, MPFR_RNDD);     // r45 = -4*k*sqrt(alpha)*arccos(r40)
+  mpfr_neg(r39, one, MPFR_RNDD);           // r39 = -1
+  mpfr_div(r40, r39, r8, MPFR_RNDD);       // r40 = -1/(4*alpha+1)
+  mpfr_acos(r41, r40, MPFR_RNDD);          // r41 = arccos(r40)
+  mpfr_neg(r42, four, MPFR_RNDD);          // r42 = -4
+  mpfr_mul(r43, r42, k, MPFR_RNDD);        // r43 = -4*k
+  mpfr_mul(r44, r43, r3, MPFR_RNDD);       // r44 = -4*k*sqrt(alpha)
+  mpfr_mul(r45, r44, r41, MPFR_RNDD);      // r45 = -4*k*sqrt(alpha)*arccos(r40)
 
-  mpfr_add(r46, r7, two, MPFR_RNDD);      // r46 = 4*alpha+2
-  mpfr_sqrt(r47, r46, MPFR_RNDD);         // r47 = sqrt(4*alpha+2)
-  mpfr_mul(r48, r26, r47, MPFR_RNDD);     // r48 = (-lambda/12)*sqrt(4*alpha+2)
+  mpfr_add(r46, r7, two, MPFR_RNDD);       // r46 = 4*alpha+2
+  mpfr_sqrt(r47, r46, MPFR_RNDD);          // r47 = sqrt(4*alpha+2)
+  mpfr_mul(r48, r26, r47, MPFR_RNDD);      // r48 = (-lambda/12)*sqrt(4*alpha+2)
 
   // Accumulate partial sums of third term
-  mpfr_add(r49, r38, r45, MPFR_RNDD);     // r49 = r38+r45
-  mpfr_add(r50, r49, r48, MPFR_RNDD);     // r50 = r49+r48
+  mpfr_add(r49, r38, r45, MPFR_RNDD);      // r49 = r38+r45
+  mpfr_add(r50, r49, r48, MPFR_RNDD);      // r50 = r49+r48
   // Multiply by overall factor of n3_22
-  mpfr_mul(r51, n3_22, r50, MPFR_RNDD);   // r51 = n3_22*r50
+  mpfr_mul(r51, n3_22, r50, MPFR_RNDD);    // r51 = n3_22*r50
 
-  mpfr_add(r52, r5, r30, MPFR_RNDD);      // r52 = r5+r30
-  mpfr_add(total, r51, r52, MPFR_RNDD);   // total = r51+r52
+  mpfr_add(r52, r5, r30, MPFR_RNDD);       // r52 = r5+r30
+  mpfr_add(total, r51, r52, MPFR_RNDD);    // total = r51+r52
 
   // Debugging
   std::cout << "S3_bulk_action result is " << mpfr_out_str(stdout, 10, 0,
@@ -333,11 +333,11 @@ Gmpzf S3_bulk_action(const unsigned N1_TL,
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4,
-              r5,r6, three, r7, four, r8, one, r9, r10, r11, r12, r13, r14, r15,
-              r16, r17, r18, r19, r20, r21, twelve, r22, r23, r24, r25, r26,
-              r27, r28, r29, r30, r31, r32, r33, r34, r35, r36, r37, r38, r39,
-              r40, r41, r42, r43, r44, r45, r46, r47, r48, r49, r50, r51, r52,
-              total, nullptr);
+              r5, r6, three, r7, four, r8, one, r9, r10, r11, r12, r13, r14,
+              r15, r16, r17, r18, r19, r20, r21, twelve, r22, r23, r24, r25,
+              r26, r27, r28, r29, r30, r31, r32, r33, r34, r35, r36, r37, r38,
+              r39, r40, r41, r42, r43, r44, r45, r46, r47, r48, r49, r50, r51,
+              r52, total, nullptr);
 
   return result;
 }  // Gmpzf S3_bulk_action()

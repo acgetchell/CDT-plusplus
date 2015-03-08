@@ -80,7 +80,7 @@ inline void get_vertices(const Delaunay* const D3,
        ++vit) {
     Vertices->push_back(vit);
   }
-} //  get_vertices()
+}  // get_vertices()
 
 /// @brief Gets all timelike edges
 ///

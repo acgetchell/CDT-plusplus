@@ -143,7 +143,7 @@ void make_62_move(Delaunay* const D3,
     Vertex_handle to_be_moved = (*vertices)[choice];
 
     // Ensure conditions are satisfied
-    CGAL_triangulation_precondition((dimension() == 3));
+    CGAL_triangulation_precondition((D3->dimension() == 3));
     CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
 
 

@@ -7,7 +7,7 @@
 #include "gmock/gmock.h"
 #include "Point.h"
 
-using namespace testing;
+using namespace testing;  // NOLINT
 
 TEST(Point, CreateAPoint) {
   Point4 myPoint;

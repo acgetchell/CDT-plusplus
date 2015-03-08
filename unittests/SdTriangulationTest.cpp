@@ -7,7 +7,7 @@
 #include "gmock/gmock.h"
 #include "Delaunay.h"
 
-using namespace testing;
+using namespace testing;  // NOLINT
 
 TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
   Delaunay T(4);
