@@ -10,16 +10,9 @@ compiler:
 env:
   global:
     - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
-before_install:
-  # Not needed for Travis-CI, but needed for a bare Ubuntu box
-  # sudo apt-get update # finds the python-software-properties package
-  # sudo apt-get install python-software-properties
-  - if [ "$CXX" == "g++" ]; then add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-  - if [ "$CXX" == "clang++" ]; then add-apt-repository -y ppa:h-rayflood/llvm; fi
-  - sudo add-apt-repository -y ppa:kalakris/eigen
-  - sudo apt-get update -qq
+
 install:
-  #- sudo apt-get install build-essential
+
   # Install gcc 4.8
   - if [ "$CXX" = "g++" ]; then apt-get install -qq g++-4.9; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
