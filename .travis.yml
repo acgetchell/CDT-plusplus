@@ -1,48 +1,41 @@
-# This file builds on the Travis-CI container environment
-# Just rename to .travis.yml
-#
+# This file builds on the Travis-CI MacOS environment
 
-sudo: false
-language: cpp
+language: objective-c
 compiler:
-  - gcc
   - clang
 env:
   global:
     - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
-
+    - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
+before_install:
+  #- rvm use ruby-2.0.0-p247
+  - brew update
+  #- brew reinstall isl011
 install:
-  - apt-get install -qq libboost-all-dev
-  - apt-get install -qq libmpfr-dev
-  - apt-get install -qq cmake
-  - apt-get install -qq libeigen3-dev
-  #- sudo apt-get install -qq ninja-build
-  - apt-get install make
-  - apt-get install -qq curl
-  - apt-get install -qq libgmp3-dev
-  - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
-  - tar zxvf CGAL-4.5.tar.gz &> install.log
-  - cd CGAL-4.5
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON .
-  - make
-  - make install &>> install.log
+  - brew install ninja
+  - brew install eigen
+  #- brew unlink cgal
+  #- brew install cgal --c++11 --imaging --with-eigen --with-lapack
+  - curl -O https://gforge.inria.fr/frs/download.php/file/34512/CGAL-4.5.2.tar.gz
+  - tar zxvf CGAL-4.5.2.tar.gz &> install.log
+  - cd CGAL-4.5.2
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
+  - ninja
+  - sudo ninja install &> install.log
+  - cd ..
 script:
-  - cd $TRAVIS_BUILD_DIR
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
   - cd gmock-1.7.0
   - "./configure"
+  # - cmake -G Ninja .
   - make
+  # - ninja
   - cd ..
-  #- "./build.sh"
-  - mkdir build
-  - cd build
-  - cmake ..
-  - make
+  - "./build.sh"
 after_script:
-  #- cd build
+  - cd build
   - "./unittests"
-  - make test
+  - ninja test
 cache:
   - bundler
-  - apt
