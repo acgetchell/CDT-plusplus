@@ -148,7 +148,7 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
     << "(1,3) simplices changed.";
 }
 
-TEST_F(S3ErgodicMoves, MakeA62Move) {
+TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
   unsigned number_of_vertices_before = T.number_of_vertices();
   unsigned N3_31_before = three_one.size();
   unsigned N3_22_before = two_two.size();
