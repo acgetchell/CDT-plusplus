@@ -12,13 +12,6 @@ env:
     - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
 
 install:
-
-  # Install gcc 4.8
-  - if [ "$CXX" = "g++" ]; then apt-get install -qq g++-4.9; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
-  # Install clang 3.4
-  - if [ "$CXX" == "clang++" ]; then apt-get install --allow-unauthenticated -qq clang-3.4; fi
-  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4"; fi
   - apt-get install -qq libboost-all-dev
   - apt-get install -qq libmpfr-dev
   - apt-get install -qq cmake
