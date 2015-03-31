@@ -74,7 +74,7 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 /// @param[in] D3 The Delaunay triangulation
 /// @param[out] Vertices A vector of all vertices in D3
 inline void get_vertices(const Delaunay* const D3,
-                  std::vector<Vertex_handle>* const Vertices) {
+                  std::vector<Vertex_handle>* const Vertices) noexcept {
   Delaunay::Finite_vertices_iterator vit;
   for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end();
        ++vit) {
@@ -96,7 +96,7 @@ inline void get_vertices(const Delaunay* const D3,
 /// @param[out] N1_SL An integer counting the spacelike edges
 inline void get_timelike_edges(const Delaunay* const D3,
                                std::vector<Edge_tuple>* const N1_TL,
-                               unsigned* const N1_SL) {
+                               unsigned* const N1_SL) noexcept {
   Delaunay::Finite_edges_iterator eit;
   for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
     Cell_handle ch = eit->first;
@@ -128,7 +128,8 @@ inline void get_timelike_edges(const Delaunay* const D3,
 /// @param[in]  timevalue The timevalues placed into vertex.info()
 inline void insert_into_S3(Delaunay* const D3,
                            const std::vector<Point>* const vertices,
-                           const std::vector<unsigned>* const timevalue) {
+                           const std::vector<unsigned>* const timevalue)
+                           noexcept {
   // Zip together vertices and timeslice values
   D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices->begin(),
                                       timevalue->begin() )),
@@ -142,7 +143,7 @@ inline void insert_into_S3(Delaunay* const D3,
 /// spacelike edges respectively.
 inline void classify_edges(const Delaunay* const D3,
                            unsigned* const N1_TL,
-                           unsigned* const N1_SL) {
+                           unsigned* const N1_SL) noexcept {
   Delaunay::Finite_edges_iterator eit;
   for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
     // Get endpoints of edges and find their timevalues
@@ -185,7 +186,8 @@ to all the simplices in the triangulation of that corresponding type.
 inline void classify_3_simplices(const Delaunay* const D3,
                                  std::vector<Cell_handle>* const three_one,
                                  std::vector<Cell_handle>* const two_two,
-                                 std::vector<Cell_handle>* const one_three) {
+                                 std::vector<Cell_handle>* const one_three)
+                                 noexcept {
   std::cout << "Classifying simplices...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
 
@@ -232,7 +234,8 @@ inline void classify_3_simplices(const Delaunay* const D3,
 inline void reclassify_3_simplices(const Delaunay* const D3,
                                    std::vector<Cell_handle>* const three_one,
                                    std::vector<Cell_handle>* const two_two,
-                                   std::vector<Cell_handle>* const one_three) {
+                                   std::vector<Cell_handle>* const one_three)
+                                   noexcept {
   // Null out the vectors
   three_one->clear();
   two_two->clear();
@@ -251,7 +254,7 @@ inline void reclassify_3_simplices(const Delaunay* const D3,
 /// vertices.
 /// This function is repeatedly called up to **MAX_FOLIATION_FIX_PASSES** times
 /// as set in make_S3_triangulation().
-inline void fix_timeslices(Delaunay* const D3, const bool output) {
+inline void fix_timeslices(Delaunay* const D3, const bool output) noexcept {
   std::cout << "Fixing foliation...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
@@ -295,7 +298,8 @@ inline void fix_timeslices(Delaunay* const D3, const bool output) {
 /// is exactly 1.
 /// The values of the unsigned variables **valid** and **invalid** give the
 /// number of those types of cells respectively.
-inline bool check_timeslices(const Delaunay* const D3, const bool output) {
+inline bool check_timeslices(const Delaunay* const D3,
+                             const bool output) noexcept {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
   unsigned valid{0}, invalid{0};
@@ -363,7 +367,7 @@ inline void make_2_sphere(std::vector<Point>* const vertices,
                           std::vector<unsigned>* const timevalue,
                           const unsigned number_of_points,
                           const double radius,
-                          const bool output) {
+                          const bool output) noexcept {
   CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
   for (size_t j = 0; j < number_of_points; j++) {
@@ -401,7 +405,8 @@ inline void make_S3_triangulation(Delaunay* const D3,
                                   const bool output,
                                   std::vector<Cell_handle>* const three_one,
                                   std::vector<Cell_handle>* const two_two,
-                                  std::vector<Cell_handle>* const one_three) {
+                                  std::vector<Cell_handle>* const one_three)
+                                  noexcept {
   std::cout << "Generating universe ..." << std::endl;
   const unsigned simplices_per_timeslice = simplices / timeslices;
   const unsigned MAX_FOLIATION_FIX_PASSES = 20;

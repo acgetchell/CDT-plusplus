@@ -27,29 +27,14 @@
 #include <string>
 #include <fstream>
 
-/// Outdated. Replaced by docopt.
-void usage(char *name) {
-  std::cout << "Usage: "
-            << name << std::endl;
-  std::cout << "Required arguments: (you can use abbreviations)" << std::endl;
-  std::cout << " --spherical or --periodic or --toroidal";
-  std::cout << " (periodic and toroidal are the same thing)" << std::endl;
-  std::cout << " --number-of-simplices (int) <num_simplices>" << std::endl;
-  std::cout << " --timeslices (int) <num_timeslices>" << std::endl;
-  std::cout << "Optional arguments:" << std::endl;
-  std::cout << "--dimensions (int) <dimensions> (defaults to 3)" << std::endl;
-  std::cout << "Currently, number of dimensions cannot be higher than 3."
-    << std::endl;
-}
-
 /// Return an environment variable
-std::string getEnvVar(std::string const& key) {
+std::string getEnvVar(std::string const& key) noexcept {
   char const* val = getenv(key.c_str());
   return val == NULL ? std::string() : std::string(val);
 }
 
 /// Return the hostname
-std::string hostname() {
+std::string hostname() noexcept {
   struct utsname name;
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
@@ -57,7 +42,7 @@ std::string hostname() {
 }
 
 /// Return the current date and time
-const std::string currentDateTime() {
+const std::string currentDateTime() noexcept {
   time_t      now = time(0);
   struct tm   tstruct;
   char        buf[80];
@@ -73,7 +58,7 @@ const std::string currentDateTime() {
 std::string generate_filename(const int top,
                               const unsigned dim,
                               const unsigned number_of_simplices,
-                              const unsigned number_of_timeslices) {
+                              const unsigned number_of_timeslices) noexcept {
   std::string filename;
   if (top == 's') {
     filename += "S";
@@ -110,7 +95,7 @@ std::string generate_filename(const int top,
 
 /// This function prints out vertices, edges, facets (2D), and cells (3D).
 template <typename T>
-void print_results(const T* Simplicial_Complex) {
+void print_results(const T* Simplicial_Complex) noexcept {
   std::cout << Simplicial_Complex->number_of_vertices()
             << " vertices and "
             << Simplicial_Complex->number_of_finite_edges()
@@ -125,7 +110,7 @@ void print_results(const T* Simplicial_Complex) {
 /// This function prints out vertices, edges, facets (2D), cells (3D)
 /// and running time.
 template <typename T>
-void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) {
+void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) noexcept {
   print_results(Simplicial_Complex);
 
   // Display program running time
@@ -140,7 +125,7 @@ void write_file(const T* Simplicial_Complex,
                 char topology,
                 unsigned dimensions,
                 unsigned num_simplices,
-                unsigned num_timeslices) {
+                unsigned num_timeslices) noexcept {
   std::string filename = "";
   filename.assign(generate_filename(topology,
                                     dimensions,

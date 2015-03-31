@@ -29,10 +29,10 @@ using Kd = CGAL::Cartesian_d<double>;
 // typedef Kd::Point_d Point;
 
 inline void make_d_sphere(std::vector<Kd::Point_d> *v,
-  int number_of_points,
-  int dimension,
-  double radius,
-  bool message) {
+                          int number_of_points,
+                          int dimension,
+                          double radius,
+                          bool message) noexcept {
   v->reserve(number_of_points);
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
@@ -57,9 +57,9 @@ inline void make_d_sphere(std::vector<Kd::Point_d> *v,
 
 /// make_d_sphere without message
 inline void make_d_sphere(std::vector<Kd::Point_d> *v,
-                    int number_of_points,
-                    int dimension,
-                    double radius) {
+                          int number_of_points,
+                          int dimension,
+                          double radius) noexcept {
   make_d_sphere(v, number_of_points, dimension, radius, false);
 }  // make_d_sphere
 

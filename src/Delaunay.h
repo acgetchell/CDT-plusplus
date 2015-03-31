@@ -22,11 +22,11 @@
 
 // typedef mpz_class RT;
 // typedef CGAL::Homogeneous_d<RT> Kernel;
-using Kernel =          CGAL::Cartesian_d<double>;
-using Delaunay_d =      CGAL::Delaunay_d<Kernel>;
+using Kernel = CGAL::Cartesian_d<double>;
+using Delaunay_d = CGAL::Delaunay_d<Kernel>;
 // typedef Delaunay_d::Point_d Point;
-using Simplex_handle =  Delaunay_d::Simplex_handle;
-using Vertex_handle =   Delaunay_d::Vertex_handle;
+using Simplex_handle = Delaunay_d::Simplex_handle;
+using Vertex_handle = Delaunay_d::Vertex_handle;
 using Vertex_iterator = Delaunay_d::Vertex_iterator;
 
 class Delaunay : public Delaunay_d {
@@ -34,7 +34,7 @@ class Delaunay : public Delaunay_d {
   explicit Delaunay(int dimensions) : Delaunay_d(dimensions) {
   }
 
-  int CountVertices() {
+  int CountVertices() noexcept {
     // How many vertices do we really have?
     int PointCounter = 0;
     for (Vertex_iterator vit = this->vertices_begin();
@@ -47,7 +47,7 @@ class Delaunay : public Delaunay_d {
     return PointCounter;
   }
 
-  int number_of_cells() {
+  int number_of_cells() noexcept {
     int CellCounter = 0;
     for (Simplex_iterator sit = this->simplices_begin();
                           sit != this->simplices_end(); ++sit) {

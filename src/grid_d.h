@@ -18,7 +18,7 @@ using Creator_d = CGAL::Creator_uniform_d <std::vector<double>::iterator, Point>
 
 void make_d_cube(std::vector<Point> *v,
   int nb_points,
-  int dimension) {
+  int dimension) noexcept {
 
     double size = 1.0;
 

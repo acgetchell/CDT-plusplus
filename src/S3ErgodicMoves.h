@@ -42,7 +42,7 @@
 /// @param[in] max_value  The maximum value in the range
 /// @return A random unsigned value between min_value and max_value, inclusive
 unsigned generate_random_unsigned(const unsigned min_value,
-                                  const unsigned max_value) {
+                                  const unsigned max_value) noexcept {
   // Non-deterministic random number generator
   std::random_device generator;
   std::uniform_int_distribution<int> distribution(min_value, max_value);
@@ -63,7 +63,7 @@ unsigned generate_random_unsigned(const unsigned min_value,
 ///
 /// @param[in] max_timeslice  The maximum timeslice
 /// @return A random timeslice from 1 to max_timeslice
-unsigned generate_random_timeslice(unsigned const max_timeslice) {
+unsigned generate_random_timeslice(unsigned const max_timeslice) noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 
@@ -77,7 +77,7 @@ unsigned generate_random_timeslice(unsigned const max_timeslice) {
 /// @param[in,out] D3 The Delaunay triangulation
 /// @param[in] two_two A vector of (2,2) simplices
 void make_23_move(Delaunay* const D3,
-                  std::vector<Cell_handle>* const two_two) {
+                  std::vector<Cell_handle>* const two_two) noexcept {
   bool not_flipped = true;
   while (not_flipped) {
     // Pick a random (2,2) out of the two_two vector, which ranges
@@ -110,7 +110,7 @@ void make_23_move(Delaunay* const D3,
 /// @param[in,out] D3 The Delaunay triangulation
 /// @param[in] timelike_edges Timelike edges to pick to attempt move
 void make_32_move(Delaunay* const D3,
-                  std::vector<Edge_tuple>* const timelike_edges) {
+                  std::vector<Edge_tuple>* const timelike_edges) noexcept {
   bool not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
@@ -135,7 +135,7 @@ void make_32_move(Delaunay* const D3,
 /// @param[in,out]  D3        The Delaunay triangulation
 /// @param[in]      vertices  Vertices to pick to attempt move
 void make_62_move(Delaunay* const D3,
-                  std::vector<Vertex_handle>* const vertices) {
+                  std::vector<Vertex_handle>* const vertices) noexcept {
   bool no_move = true;
   while (no_move) {
     // Pick a random vertex
@@ -156,7 +156,7 @@ void make_62_move(Delaunay* const D3,
 /// @param[in,out]  D3                    The Delaunay triangulation
 /// @param[in]      number_of_timeslices  The maximum timeslice
 void make_26_move(Delaunay* const D3,
-                  const unsigned number_of_timeslices) {
+                  const unsigned number_of_timeslices) noexcept {
   const unsigned points = 1;
   const bool output = true;
   // Allot vector to hold point and timevalue
