@@ -19,10 +19,10 @@ class S3ErgodicMoves : public Test {
     &three_one, &two_two, &one_three);
   }
 
-  const bool output = true;
-  const bool no_output = false;
-  const unsigned number_of_simplices = 6400;
-  const unsigned number_of_timeslices = 16;
+  const bool output{true};
+  const bool no_output{false};
+  const unsigned number_of_simplices{6400};
+  const unsigned number_of_timeslices{16};
   Delaunay T;
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
@@ -37,11 +37,11 @@ TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
 
 TEST_F(S3ErgodicMoves, RandomSeedingTest) {
   // Set a wider range than just number_of_timeslices
-  const unsigned test_range_max = 128;
-  const unsigned value1 = generate_random_timeslice(test_range_max);
-  const unsigned value2 = generate_random_timeslice(test_range_max);
-  const unsigned value3 = generate_random_timeslice(test_range_max);
-  const unsigned value4 = generate_random_timeslice(test_range_max);
+  constexpr auto test_range_max = static_cast<unsigned>(128);
+  const auto value1 = generate_random_timeslice(test_range_max);
+  const auto value2 = generate_random_timeslice(test_range_max);
+  const auto value3 = generate_random_timeslice(test_range_max);
+  const auto value4 = generate_random_timeslice(test_range_max);
 
 
   EXPECT_THAT(value1, Ne(value2))
@@ -64,10 +64,10 @@ TEST_F(S3ErgodicMoves, RandomSeedingTest) {
 }
 
 TEST_F(S3ErgodicMoves, MakeA23Move) {
-  unsigned number_of_vertices_before = T.number_of_vertices();
-  unsigned N3_31_before = three_one.size();
-  unsigned N3_22_before = two_two.size();
-  unsigned N3_13_before = one_three.size();
+  auto number_of_vertices_before = T.number_of_vertices();
+  auto N3_31_before = three_one.size();
+  auto N3_22_before = two_two.size();
+  auto N3_13_before = one_three.size();
   std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
 
@@ -76,9 +76,9 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
 
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
-  unsigned N3_31_after = three_one.size();
-  unsigned N3_22_after = two_two.size();
-  unsigned N3_13_after = one_three.size();
+  auto N3_31_after = three_one.size();
+  auto N3_22_after = two_two.size();
+  auto N3_13_after = one_three.size();
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(T.tds().is_valid())
@@ -104,26 +104,30 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
 }
 
 TEST_F(S3ErgodicMoves, MakeA32Move) {
-  unsigned number_of_vertices_before = T.number_of_vertices();
-  unsigned N3_31_before = three_one.size();
-  unsigned N3_22_before = two_two.size();
-  unsigned N3_13_before = one_three.size();
+  auto number_of_vertices_before = T.number_of_vertices();
+  auto N3_31_before = three_one.size();
+  auto N3_22_before = two_two.size();
+  auto N3_13_before = one_three.size();
   std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
   std::vector<Edge_tuple> V2;
-  unsigned N1_SL{0};
+  auto N1_SL = static_cast<unsigned>(0);
 
   // Get timelike edges
   get_timelike_edges(&T, &V2, &N1_SL);
+
+  // Get size of V2
+  auto V2_before = V2.size();
 
   // Make the move
   make_32_move(&T, &V2);
 
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
-  unsigned N3_31_after = three_one.size();
-  unsigned N3_22_after = two_two.size();
-  unsigned N3_13_after = one_three.size();
+  auto N3_31_after = three_one.size();
+  auto N3_22_after = two_two.size();
+  auto N3_13_after = one_three.size();
+  auto V2_after = V2.size();
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(T.tds().is_valid())
@@ -146,13 +150,16 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
 
   EXPECT_THAT(N3_13_after, Eq(N3_13_before))
     << "(1,3) simplices changed.";
+
+  EXPECT_THAT(V2_after, Eq(V2_before-1))
+    << "The edge that was flipped wasn't removed.";
 }
 
 TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
-  unsigned number_of_vertices_before = T.number_of_vertices();
-  unsigned N3_31_before = three_one.size();
-  unsigned N3_22_before = two_two.size();
-  unsigned N3_13_before = one_three.size();
+  auto number_of_vertices_before = T.number_of_vertices();
+  auto N3_31_before = three_one.size();
+  auto N3_22_before = two_two.size();
+  auto N3_13_before = one_three.size();
   std::cout << "Number of vertices before = " << number_of_vertices_before
             << std::endl;
   std::vector<Vertex_handle> V;
@@ -168,9 +175,9 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
             << std::endl;
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
-  unsigned N3_31_after = three_one.size();
-  unsigned N3_22_after = two_two.size();
-  unsigned N3_13_after = one_three.size();
+  auto N3_31_after = three_one.size();
+  auto N3_22_after = two_two.size();
+  auto N3_13_after = one_three.size();
 
   EXPECT_TRUE(T.is_valid())
   << "Triangulation is not Delaunay.";
@@ -195,10 +202,10 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
 }
 
 TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
-  unsigned number_of_vertices_before = T.number_of_vertices();
-  unsigned N3_31_before = three_one.size();
-  unsigned N3_22_before = two_two.size();
-  unsigned N3_13_before = one_three.size();
+  auto number_of_vertices_before = T.number_of_vertices();
+  auto N3_31_before = three_one.size();
+  auto N3_22_before = two_two.size();
+  auto N3_13_before = one_three.size();
   std::cout << "Number of vertices before = " << number_of_vertices_before
             << std::endl;
   make_26_move(&T, number_of_timeslices);
@@ -206,9 +213,9 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
             << std::endl;
   // Now look at changes
   reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
-  unsigned N3_31_after = three_one.size();
-  unsigned N3_22_after = two_two.size();
-  unsigned N3_13_after = one_three.size();
+  auto N3_31_after = three_one.size();
+  auto N3_22_after = two_two.size();
+  auto N3_13_after = one_three.size();
 
   EXPECT_TRUE(T.is_valid())
   << "Triangulation is not Delaunay.";
