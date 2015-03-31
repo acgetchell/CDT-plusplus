@@ -22,12 +22,12 @@
 
 // typedef mpz_class RT;
 // typedef CGAL::Homogeneous_d<RT> Kernel;
-typedef CGAL::Cartesian_d<double> Kernel;
-typedef CGAL::Delaunay_d<Kernel> Delaunay_d;
+using Kernel =          CGAL::Cartesian_d<double>;
+using Delaunay_d =      CGAL::Delaunay_d<Kernel>;
 // typedef Delaunay_d::Point_d Point;
-typedef Delaunay_d::Simplex_handle Simplex_handle;
-typedef Delaunay_d::Vertex_handle Vertex_handle;
-typedef Delaunay_d::Vertex_iterator Vertex_iterator;
+using Simplex_handle =  Delaunay_d::Simplex_handle;
+using Vertex_handle =   Delaunay_d::Vertex_handle;
+using Vertex_iterator = Delaunay_d::Vertex_iterator;
 
 class Delaunay : public Delaunay_d {
  public:

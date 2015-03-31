@@ -1,6 +1,8 @@
 CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)
 ============
 
+**Quantize spacetime on your laptop.**
+
 [Causal Dynamical Triangulations][1] in C++ using the
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
 with [CMake][3] using [Clang][4]/[LLVM][5].

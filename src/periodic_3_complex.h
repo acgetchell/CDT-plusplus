@@ -18,9 +18,9 @@
 #include <vector>
 #include <cassert>
 
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef CGAL::Periodic_3_triangulation_traits_3<K> GT;
-typedef CGAL::Periodic_3_Delaunay_triangulation_3<GT> PDT;
+using K = CGAL::Exact_predicates_inexact_constructions_kernel;
+using GT = CGAL::Periodic_3_triangulation_traits_3<K>;
+using PDT = CGAL::Periodic_3_Delaunay_triangulation_3<GT>;
 
 /// Make 3D toroidal (periodic in 3D) simplicial complexes
 void make_random_T3_simplicial_complex(PDT* T3, int number_of_simplices) {

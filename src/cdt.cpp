@@ -36,7 +36,7 @@
 #include "S3Triangulation.h"
 
 /// Help message parsed by docopt into options
-static const char USAGE[] =
+static const char USAGE[] {
 R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014 Adam Getchell
@@ -63,7 +63,8 @@ Options:
   -k K                  K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA    K * Cosmological constant
   -p --passes PASSES    Number of passes [default: 10000]
-)";
+)"
+};
 
 /// @brief The main path of the CDT++ program
 ///
@@ -82,7 +83,7 @@ int main(int argc, char* const argv[]) {
                      true,          // print help message automatically
                      "CDT 1.0");    // Version
 
-  enum topology_type { TOROIDAL, SPHERICAL};
+  enum class topology_type { TOROIDAL, SPHERICAL};
 
   // Debugging
   // for (auto const& arg : args) {
@@ -90,25 +91,26 @@ int main(int argc, char* const argv[]) {
   // }
 
   // Parse docopt::values in args map
-  unsigned simplices = std::stoul(args["-n"].asString());
-  unsigned timeslices = std::stoul(args["-t"].asString());
-  unsigned dimensions = std::stoul(args["-d"].asString());
-  long double alpha = std::stold(args["--alpha"].asString());
-  long double k = std::stold(args["-k"].asString());
-  long double lambda = std::stold(args["--lambda"].asString());
-  unsigned passes = std::stoul(args["--passes"].asString());
+  auto simplices = std::stoul(args["-n"].asString());
+  auto timeslices = std::stoul(args["-t"].asString());
+  auto dimensions = std::stoul(args["-d"].asString());
+  auto alpha = std::stold(args["--alpha"].asString());
+  auto k = std::stold(args["-k"].asString());
+  auto lambda = std::stold(args["--lambda"].asString());
+  auto passes = std::stoul(args["--passes"].asString());
 
   // Topology of simulation
   topology_type topology;
   if (args["--spherical"].asBool() == true) {
-    topology = SPHERICAL;
+    topology = topology_type::SPHERICAL;
   } else {
-    topology = TOROIDAL;
+    topology = topology_type::TOROIDAL;
   }
 
   // Display job parameters
   std::cout << "Topology is "
-  << (topology == TOROIDAL ? " toroidal " : "spherical ") << std::endl;
+    << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
+    << std::endl;
   std::cout << "Number of dimensions = " << dimensions << std::endl;
   std::cout << "Number of simplices = " << simplices << std::endl;
   std::cout << "Number of timeslices = " << timeslices << std::endl;
@@ -136,7 +138,7 @@ int main(int argc, char* const argv[]) {
   }
 
   switch (topology) {
-    case SPHERICAL:
+    case topology_type::SPHERICAL:
       if (dimensions == 3) {
         make_S3_triangulation(&Sphere3, simplices, timeslices, false,
                               &three_one, &two_two, &one_three);
@@ -145,7 +147,7 @@ int main(int argc, char* const argv[]) {
         std::cout << std::endl;
       }
       break;
-    case TOROIDAL:
+    case topology_type::TOROIDAL:
       std::cout << "make_T3_triangulation not implemented yet." << std::endl;
       t.stop();  // End running time counter
       break;

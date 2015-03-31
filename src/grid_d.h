@@ -12,9 +12,9 @@
 #include <CGAL/point_generators_d.h>
 #include <CGAL/constructions_d.h>
 
-typedef CGAL::Cartesian_d<double> Kd;
-typedef Kd::Point_d Point;
-typedef CGAL::Creator_uniform_d <std::vector<double>::iterator, Point> Creator_d;
+using Kd = CGAL::Cartesian_d<double>;
+using Point = Kd::Point_d;
+using Creator_d = CGAL::Creator_uniform_d <std::vector<double>::iterator, Point>;
 
 void make_d_cube(std::vector<Point> *v,
   int nb_points,

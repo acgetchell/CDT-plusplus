@@ -19,24 +19,24 @@
 #include <vector>
 #include <cassert>
 
-typedef CGAL::Exact_predicates_inexact_constructions_kernel K;
-typedef CGAL::Periodic_3_triangulation_filtered_traits_3<K> GT;
+using K = CGAL::Exact_predicates_inexact_constructions_kernel;
+using GT = CGAL::Periodic_3_triangulation_filtered_traits_3<K>;
 
-typedef CGAL::Periodic_3_triangulation_ds_vertex_base_3<> VbDS;
-typedef CGAL::Triangulation_vertex_base_3<GT, VbDS> T3Vb;
+using VbDS = CGAL::Periodic_3_triangulation_ds_vertex_base_3<>;
+using T3Vb = CGAL::Triangulation_vertex_base_3<GT, VbDS>;
 
-typedef CGAL::Periodic_3_triangulation_ds_cell_base_3<> CbDS;
-typedef CGAL::Triangulation_cell_base_3<GT, CbDS> Cb;
+using CbDS = CGAL::Periodic_3_triangulation_ds_cell_base_3<>;
+using Cb = CGAL::Triangulation_cell_base_3<GT, CbDS>;
 
 /// Allows each vertex to contain an integer denoting its timeslice
-typedef CGAL::Triangulation_vertex_base_with_info_3<int, GT, T3Vb> VbInfo;
-typedef CGAL::Triangulation_data_structure_3<VbInfo, Cb> TDS;
-typedef CGAL::Periodic_3_Delaunay_triangulation_3<GT, TDS> PDT;
-typedef PDT::Point T3Point;
+using VbInfo = CGAL::Triangulation_vertex_base_with_info_3<int, GT, T3Vb>;
+using TDS = CGAL::Triangulation_data_structure_3<VbInfo, Cb>;
+using PDT = CGAL::Periodic_3_Delaunay_triangulation_3<GT, TDS>;
+using T3Point = PDT::Point;
 
 /// Random point generators for d-dimensional points in a d-cube per timeslice
-typedef CGAL::Cartesian_d<double> Kd;
-typedef Kd::Point_d Point;
+using Kd = CGAL::Cartesian_d<double>;
+using Point = Kd::Point_d;
 
 /// Make 3D toroidal (periodic) triangulations
 template <typename T>
