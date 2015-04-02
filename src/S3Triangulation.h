@@ -205,12 +205,12 @@ inline void classify_3_simplices(const Delaunay* const D3,
 
   for (cit = D3->finite_cells_begin(); cit != D3->finite_cells_end(); ++cit) {
     std::list<unsigned> timevalues;
-    unsigned max_time{0};
-    unsigned current_time{0};
-    unsigned max_values{0};
-    unsigned min_values{0};
+    auto max_time = static_cast<unsigned>(0);
+    auto current_time = static_cast<unsigned>(0);
+    auto max_values = static_cast<unsigned>(0);
+    auto min_values = static_cast<unsigned>(0);
     // Push every time value into a list
-    for (size_t i = 0; i < 4; i++) {
+    for (size_t i = 0; i < 4; ++i) {
       timevalues.push_back(cit->vertex(i)->info());
     }
     // Now sort the list
@@ -279,7 +279,7 @@ inline void fix_timeslices(Delaunay* const D3, const bool output) noexcept {
       max_time = min_time;
 
       // Iterate over each vertex in a cell
-      for (size_t i = 0; i < 4; i++) {
+      for (size_t i = 0; i < 4; ++i) {
         unsigned current_time = cit->vertex(i)->info();
         if (current_time < min_time) min_time = current_time;
         if (current_time > max_time) {
@@ -302,6 +302,8 @@ inline void fix_timeslices(Delaunay* const D3, const bool output) noexcept {
   }
 }  // fix_timeslices()
 
+/// @brief Check that foliation of Delaunay triangulation is valid
+///
 /// This function iterates over all of the cells in the triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
 /// Validity of the cell is first checked by the **is_valid()** function.
@@ -310,11 +312,16 @@ inline void fix_timeslices(Delaunay* const D3, const bool output) noexcept {
 /// is exactly 1.
 /// The values of the unsigned variables **valid** and **invalid** give the
 /// number of those types of cells respectively.
+///
+/// @param[in] D3 The Delaunay triangulation
+/// @param[in] output Selects whether results for each cell is printed
 inline bool check_timeslices(const Delaunay* const D3,
                              const bool output) noexcept {
   Delaunay::Finite_cells_iterator cit;
   unsigned min_time, max_time;
-  unsigned valid{0}, invalid{0};
+  auto valid = static_cast<unsigned>(0);
+  auto invalid = static_cast<unsigned>(0);
+  //unsigned valid{0}, invalid{0};
   // Iterate over all cells in the Delaunay triangulation
   for (cit = D3->finite_cells_begin();  cit != D3->finite_cells_end(); ++cit) {
     if (cit->is_valid()) {
@@ -322,7 +329,7 @@ inline bool check_timeslices(const Delaunay* const D3,
       if (output) std::cout << "The following cell is valid." << std::endl;
       min_time = cit->vertex(0)->info();
       max_time = min_time;
-      for (size_t i = 0; i < 4; i++) {
+      for (size_t i = 0; i < 4; ++i) {
         unsigned current_time = cit->vertex(i)->info();
         // Iterate over all vertices in the cell
         if (output) {  // debugging
@@ -382,7 +389,7 @@ inline void make_2_sphere(std::vector<Point>* const vertices,
                           const bool output) noexcept {
   CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
-  for (size_t j = 0; j < number_of_points; j++) {
+  for (size_t j = 0; j < number_of_points; ++j) {
     vertices->push_back(*gen++);
     timevalue->push_back(static_cast<unsigned int>(radius));
   }
@@ -436,7 +443,7 @@ inline void make_S3_triangulation(Delaunay* const D3,
   vertices.reserve(total_points);
   timevalue.reserve(total_points);
 
-  for (size_t i = 0; i < timeslices; i++) {
+  for (size_t i = 0; i < timeslices; ++i) {
     // std::cout << "Loop " << i << std::endl;
     radius = 1.0 + static_cast<double>(i);
     make_2_sphere(&vertices, &timevalue, points, radius, output);

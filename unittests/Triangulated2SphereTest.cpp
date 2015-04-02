@@ -13,23 +13,23 @@ using namespace testing;  // NOLINT
 class Triangulated2Sphere : public Test {
  public:
   Delaunay T;
-  const bool output = true;
-  const bool no_output = false;
+  const bool output{true};
+  const bool no_output{false};
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
 };
 
 TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
-  const unsigned number_of_simplices = 2;
-  const unsigned number_of_timeslices = 2;
+  auto number_of_simplices = static_cast<const unsigned>(2);
+  auto number_of_timeslices = static_cast<const unsigned>(2);
 
   make_S3_triangulation(&T, number_of_simplices,
-                            number_of_timeslices, no_output,
+                            number_of_timeslices, output,
                         &three_one, &two_two, &one_three);
 
-  const unsigned generated_number_of_simplices =
-    three_one.size() + two_two.size() + one_three.size();
+  auto generated_number_of_simplices = static_cast<const unsigned>
+    (three_one.size() + two_two.size() + one_three.size());
 
   EXPECT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
@@ -54,15 +54,15 @@ TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
 }
 
 TEST_F(Triangulated2Sphere, CreatesWithLotsOfSimplices) {
-  const unsigned number_of_simplices = 64000;
-  const unsigned number_of_timeslices = 64;
+  auto number_of_simplices = static_cast<const unsigned>(64000);
+  auto number_of_timeslices = static_cast<const unsigned>(64);
 
   make_S3_triangulation(&T, number_of_simplices,
                             number_of_timeslices, no_output,
                         &three_one, &two_two, &one_three);
 
-  const unsigned generated_number_of_simplices =
-    three_one.size() + two_two.size() + one_three.size();
+  auto generated_number_of_simplices = static_cast<const unsigned>
+    (three_one.size() + two_two.size() + one_three.size());
 
   EXPECT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
