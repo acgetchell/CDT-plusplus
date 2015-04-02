@@ -83,7 +83,7 @@ int main(int argc, char* const argv[]) {
                      true,          // print help message automatically
                      "CDT 1.0");    // Version
 
-  enum class topology_type { TOROIDAL, SPHERICAL};
+  // enum class topology_type { TOROIDAL, SPHERICAL};
 
   // Debugging
   // for (auto const& arg : args) {
@@ -173,12 +173,12 @@ int main(int argc, char* const argv[]) {
   // Output results
   t.stop();  // End running time counter
   std::cout << "Final Delaunay triangulation has ";
-  print_results(&Sphere3, &t);
+  print_results(Sphere3, t);
 
   // Write results to file
   // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values are
   //                   written
-  write_file(&Sphere3, 's', dimensions, Sphere3.number_of_finite_cells(),
+  write_file(Sphere3, topology, dimensions, Sphere3.number_of_finite_cells(),
              timeslices);
 
   return 0;

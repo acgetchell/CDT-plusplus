@@ -70,7 +70,7 @@ unsigned generate_random_timeslice(unsigned const max_timeslice) noexcept {
 /// @brief Make a (2,3) move
 ///
 /// This function performs the (2,3) move by converting a facet
-/// from the vector **two_two** simplices into its dual edge.
+/// from a (2,2) simplex in the vector **two_two** into its dual edge.
 /// This move does not always succeed, but when it does the
 /// triangulation is no longer Delaunay.
 ///

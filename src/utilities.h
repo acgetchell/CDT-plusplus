@@ -27,13 +27,20 @@
 #include <string>
 #include <fstream>
 
-/// Return an environment variable
+enum class topology_type { TOROIDAL, SPHERICAL};
+
+/// @brief Return an environment variable
+///
+/// Uses getenv from <cstdlib> which has a char* rvalue
+///
+/// @param[in] key The string value
+/// @return The environment variable corresponding to the key
 std::string getEnvVar(std::string const& key) noexcept {
   char const* val = getenv(key.c_str());
   return val == NULL ? std::string() : std::string(val);
 }
 
-/// Return the hostname
+/// @brief Return the hostname
 std::string hostname() noexcept {
   struct utsname name;
   // Ensure uname returns a value
@@ -41,7 +48,7 @@ std::string hostname() noexcept {
   return name.nodename;
 }
 
-/// Return the current date and time
+/// @brief Return the current date and time
 const std::string currentDateTime() noexcept {
   time_t      now = time(0);
   struct tm   tstruct;
@@ -54,19 +61,24 @@ const std::string currentDateTime() noexcept {
   return buf;
 }
 
-/// Generate useful filenames
-std::string generate_filename(const int top,
-                              const unsigned dim,
+/// @brief Generate useful filenames
+///
+/// @param[in] top The topology type from the scoped enum topology_type
+/// @param[in] dimensions The number of dimensions of the triangulation
+/// @param[in] number_of_simplices The number of simplices in the triangulation
+/// @param[in] number_of_timeslices The number of foliated timeslices
+std::string generate_filename(const topology_type& top,
+                              const unsigned dimensions,
                               const unsigned number_of_simplices,
                               const unsigned number_of_timeslices) noexcept {
   std::string filename;
-  if (top == 's') {
+  if (top == topology_type::SPHERICAL) {
     filename += "S";
   } else {
     filename += "T";
   }
   // std::to_string() works in C++11, but not earlier
-  filename += std::to_string(dim);
+  filename += std::to_string(dimensions);
 
   filename += "-";
 
@@ -93,49 +105,68 @@ std::string generate_filename(const int top,
   return filename;
 }
 
+/// @brief Print out runtime results
+///
 /// This function prints out vertices, edges, facets (2D), and cells (3D).
+///
+/// @param[in] Triangulation The triangulated, foliated universe simulation
 template <typename T>
-void print_results(const T* Simplicial_Complex) noexcept {
-  std::cout << Simplicial_Complex->number_of_vertices()
+void print_results(const T& Triangulation) noexcept {
+  std::cout << Triangulation.number_of_vertices()
             << " vertices and "
-            << Simplicial_Complex->number_of_finite_edges()
+            << Triangulation.number_of_finite_edges()
             << " edges and "
-            << Simplicial_Complex->number_of_finite_facets()
+            << Triangulation.number_of_finite_facets()
             << " faces"
             << " and "
-            << Simplicial_Complex->number_of_finite_cells()
+            << Triangulation.number_of_finite_cells()
             << " cells" << std::endl;
 }
 
+/// @brief Print out runtime results including time elapsed
+///
 /// This function prints out vertices, edges, facets (2D), cells (3D)
-/// and running time.
+/// and running time on a Triangulation. This calls a simpler version
+/// without a timer object.
+///
+/// @param[in] Triangulation The triangulated, foliated universe simulation
+/// @param[in] timer A CGAL::Timer object used to determine elapsed time
 template <typename T>
-void print_results(const T* Simplicial_Complex, CGAL::Timer* timer) noexcept {
-  print_results(Simplicial_Complex);
+void print_results(const T& Triangulation, const CGAL::Timer& timer) noexcept {
+  print_results(Triangulation);
 
   // Display program running time
   std::cout << "Running time is "
-            << timer->time()
+            << timer.time()
             << " seconds."
             << std::endl;
 }
 
+/// @brief Writes the runtime results to a file
+///
+/// This function writes the Delaunay triangulation to a file.
+///
+/// @param[in] Triangulation The triangulated, foliated universe simulation
+/// @param[in] topology The topology type from the scoped enum topology_type
+/// @param[in] dimensions The number of dimensions of the triangulation
+/// @param[in] number_of_simplices The number of simplices in the triangulation
+/// @param[in] number_of_timeslices The number of foliated timeslices
 template <typename T>
-void write_file(const T* Simplicial_Complex,
-                char topology,
-                unsigned dimensions,
-                unsigned num_simplices,
-                unsigned num_timeslices) noexcept {
+void write_file(const T& Triangulation,
+                const topology_type& topology,
+                const unsigned dimensions,
+                const unsigned number_of_simplices,
+                const unsigned number_of_timeslices) noexcept {
   std::string filename = "";
   filename.assign(generate_filename(topology,
                                     dimensions,
-                                    num_simplices,
-                                    num_timeslices));
+                                    number_of_simplices,
+                                    number_of_timeslices));
   std::cout << "Writing to file "
             << filename
             << std::endl;
   std::ofstream oFileT(filename, std::ios::out);
-  oFileT << *Simplicial_Complex;
+  oFileT << Triangulation;
 }
 
 #endif  // SRC_UTILITIES_H_
