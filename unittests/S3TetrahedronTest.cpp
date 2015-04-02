@@ -54,7 +54,7 @@ TEST_F(S3Tetrahedron, CreatesTriangulated) {
 
 TEST_F(S3Tetrahedron, CreatesFoliated) {
   Delaunay T;
-  insert_into_S3(&T, &V, &timevalue);
+  insert_into_S3(V, timevalue, &T);
 
   EXPECT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
@@ -77,7 +77,7 @@ TEST_F(S3Tetrahedron, CreatesFoliated) {
 
 TEST_F(S3Tetrahedron, InsertsSimplexType) {
   Delaunay T;
-  insert_into_S3(&T, &V, &timevalue);
+  insert_into_S3(V, timevalue, &T);
 
   classify_3_simplices(&T, &three_one, &two_two, &one_three);
 
@@ -89,15 +89,15 @@ TEST_F(S3Tetrahedron, InsertsSimplexType) {
 
 TEST_F(S3Tetrahedron, GetsTimelikeEdges) {
   Delaunay T;
-  insert_into_S3(&T, &V, &timevalue);
+  insert_into_S3(V, timevalue, &T);
   std::vector<Edge_tuple> V2;
   unsigned N1_TL{0};
   unsigned N1_SL{0};
 
-  get_timelike_edges(&T, &V2, &N1_SL);
+  get_timelike_edges(T, &V2, &N1_SL);
   unsigned N1_TL_from_get_timelike_edges = V2.size();
 
-  classify_edges(&T, &N1_TL, &N1_SL);
+  classify_edges(T, &N1_TL, &N1_SL);
 
   EXPECT_THAT(T.dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";

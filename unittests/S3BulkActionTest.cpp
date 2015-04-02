@@ -46,7 +46,7 @@ TEST_F(S3BulkAction, GetN1Values) {
   unsigned N1_TL{0};
   unsigned N1_SL{0};
 
-  classify_edges(&T, &N1_TL, &N1_SL);
+  classify_edges(T, &N1_TL, &N1_SL);
 
   ASSERT_EQ(T.number_of_finite_edges(), N1_TL + N1_SL)
     << "N1_TL + N1_SL should be total number of edges.";
@@ -56,7 +56,7 @@ TEST_F(S3BulkAction, CalculateAlphaMinus1BulkAction) {
   unsigned N1_TL{0};
   unsigned N1_SL{0};
 
-  classify_edges(&T, &N1_TL, &N1_SL);
+  classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
   unsigned N3_31 = three_one.size() + one_three.size();
@@ -81,7 +81,7 @@ TEST_F(S3BulkAction, CalculateAlpha1BulkAction) {
   unsigned N1_TL{0};
   unsigned N1_SL{0};
 
-  classify_edges(&T, &N1_TL, &N1_SL);
+  classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
   unsigned N3_31 = three_one.size() + one_three.size();
@@ -105,7 +105,7 @@ TEST_F(S3BulkAction, CalculateGeneralBulkAction) {
   unsigned N1_TL{0};
   unsigned N1_SL{0};
 
-  classify_edges(&T, &N1_TL, &N1_SL);
+  classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
   unsigned N3_31 = three_one.size() + one_three.size();
@@ -132,7 +132,7 @@ TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   unsigned N1_SL{0};
   const long double tolerance{0.05};
 
-  classify_edges(&T, &N1_TL, &N1_SL);
+  classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
   unsigned N3_31 = three_one.size() + one_three.size();

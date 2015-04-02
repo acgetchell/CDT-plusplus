@@ -114,7 +114,7 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
   auto N1_SL = static_cast<unsigned>(0);
 
   // Get timelike edges
-  get_timelike_edges(&T, &V2, &N1_SL);
+  get_timelike_edges(T, &V2, &N1_SL);
 
   // Get size of V2
   auto V2_before = V2.size();
@@ -164,7 +164,7 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
             << std::endl;
   std::vector<Vertex_handle> V;
   // Get vertices
-  get_vertices(&T, &V);
+  get_vertices(T, &V);
 
   EXPECT_THAT(V.size(), Eq(T.number_of_vertices()))
     << "Vertex handle vector V doesn't have all vertices in triangulation";

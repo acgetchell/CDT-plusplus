@@ -83,8 +83,6 @@ int main(int argc, char* const argv[]) {
                      true,          // print help message automatically
                      "CDT 1.0");    // Version
 
-  // enum class topology_type { TOROIDAL, SPHERICAL};
-
   // Debugging
   // for (auto const& arg : args) {
   //   std::cout << arg.first << " " << arg.second << std::endl;
@@ -163,10 +161,10 @@ int main(int argc, char* const argv[]) {
   // make_23_move(&Sphere3, &two_two) does the (2,2) move
   // These hold the timelike edges needed for a (3,2) move
   std::vector<Edge_tuple> V2;
-  unsigned N1_SL{0};
+  auto N1_SL = static_cast<unsigned>(0);
 
   // Get timelike edges V2 that make_32_move(&Sphere3, &V2) can be called on
-  get_timelike_edges(&Sphere3, &V2, &N1_SL);
+  get_timelike_edges(Sphere3, &V2, &N1_SL);
 
   // Metropolis algorithm to select moves goes here
 

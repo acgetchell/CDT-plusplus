@@ -176,7 +176,7 @@ void make_26_move(Delaunay* const D3,
   make_2_sphere(&vertices, &timevalue, points, radius, output);
 
   // Insert into D3
-  insert_into_S3(D3, &vertices, &timevalue);
+  insert_into_S3(vertices, timevalue, D3);
 }  // make_26_move()
 
 #endif  // SRC_S3ERGODICMOVES_H_

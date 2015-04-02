@@ -73,10 +73,10 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 /// @brief Gets all vertices
 /// @param[in] D3 The Delaunay triangulation
 /// @param[out] Vertices A vector of all vertices in D3
-inline void get_vertices(const Delaunay* const D3,
-                  std::vector<Vertex_handle>* const Vertices) noexcept {
+inline void get_vertices(const Delaunay& D3,
+                         std::vector<Vertex_handle>* const Vertices) noexcept {
   Delaunay::Finite_vertices_iterator vit;
-  for (vit = D3->finite_vertices_begin(); vit != D3->finite_vertices_end();
+  for (vit = D3.finite_vertices_begin(); vit != D3.finite_vertices_end();
        ++vit) {
     Vertices->push_back(vit);
   }
@@ -94,11 +94,11 @@ inline void get_vertices(const Delaunay* const D3,
 /// @param[in]  D3 The Delaunay triangulation
 /// @param[out] N1_TL A vector of timelike edges
 /// @param[out] N1_SL An integer counting the spacelike edges
-inline void get_timelike_edges(const Delaunay* const D3,
+inline void get_timelike_edges(const Delaunay& D3,
                                std::vector<Edge_tuple>* const N1_TL,
                                unsigned* const N1_SL) noexcept {
   Delaunay::Finite_edges_iterator eit;
-  for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
+  for (eit = D3.finite_edges_begin(); eit != D3.finite_edges_end(); ++eit) {
     Cell_handle ch = eit->first;
     unsigned time1 = ch->vertex(eit->second)->info();
     unsigned time2 = ch->vertex(eit->third)->info();
@@ -123,29 +123,34 @@ inline void get_timelike_edges(const Delaunay* const D3,
 /// This function inserts vertices and timeslice values by using a
 /// zip iterator and boost tuples
 ///
-/// @param[out] D3        The Delaunay triangulation
 /// @param[in]  vertices  The vertices to insert into D3
 /// @param[in]  timevalue The timevalues placed into vertex.info()
-inline void insert_into_S3(Delaunay* const D3,
-                           const std::vector<Point>* const vertices,
-                           const std::vector<unsigned>* const timevalue)
-                           noexcept {
+/// @param[out] D3        The Delaunay triangulation
+inline void insert_into_S3(const std::vector<Point>& vertices,
+                           const std::vector<unsigned>& timevalue,
+                           Delaunay* const D3) noexcept {
   // Zip together vertices and timeslice values
-  D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices->begin(),
-                                      timevalue->begin() )),
-             boost::make_zip_iterator(boost::make_tuple(vertices->end(),
-                                      timevalue->end())));
+  D3->insert(boost::make_zip_iterator(boost::make_tuple(vertices.begin(),
+                                      timevalue.begin() )),
+             boost::make_zip_iterator(boost::make_tuple(vertices.end(),
+                                      timevalue.end())));
 }  // insert_into_S3()
 
+/// @brief Classify edges as timelike or spacelike
+///
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// The integers **N1_TL** and **N1_SL** count the number of timelike and
 /// spacelike edges respectively.
-inline void classify_edges(const Delaunay* const D3,
+///
+/// @param[in] D3 The Delaunay triangulation
+/// @param[out] N1_TL The number of timelike edges
+/// @param[out] N1_SL The number of spacelike edges
+inline void classify_edges(const Delaunay& D3,
                            unsigned* const N1_TL,
                            unsigned* const N1_SL) noexcept {
   Delaunay::Finite_edges_iterator eit;
-  for (eit = D3->finite_edges_begin(); eit != D3->finite_edges_end(); ++eit) {
+  for (eit = D3.finite_edges_begin(); eit != D3.finite_edges_end(); ++eit) {
     // Get endpoints of edges and find their timevalues
     // If they differ, increment N1_TL, otherwise increment N1_SL
     // An edge is a triple; the first element is the cell handle, and the
@@ -172,6 +177,8 @@ inline void classify_edges(const Delaunay* const D3,
   std::cout << "N1_TL = " << *N1_TL << std::endl;
 }  // classify_edges()
 
+/// @brief Classify simplices as (3,1), (2,2), or (1,3)
+///
 /// This function iterates over all cells in the triangulation
 /// and classifies them as:
 /**
@@ -183,6 +190,11 @@ inline void classify_edges(const Delaunay* const D3,
 The vectors **three_one**, **two_two**, and **one_three** contain cell handles
 to all the simplices in the triangulation of that corresponding type.
 */
+///
+/// @param[in] D3 The Delaunay triangulation
+/// @param[out] three_one Cell handles of all (3,1) simplices
+/// @param[out] two_two Cell handles of all (2,2) simplices
+/// @param[out] one_three Cell handles of all (1,3) simplices
 inline void classify_3_simplices(const Delaunay* const D3,
                                  std::vector<Cell_handle>* const three_one,
                                  std::vector<Cell_handle>* const two_two,
@@ -432,7 +444,7 @@ inline void make_S3_triangulation(Delaunay* const D3,
 
   // D3->insert(vertices.begin(), vertices.end());
   // Insert vertices and timeslices
-  insert_into_S3(D3, &vertices, &timevalue);
+  insert_into_S3(vertices, timevalue, D3);
 
   // Remove cells that have invalid foliations
   unsigned pass = 0;
