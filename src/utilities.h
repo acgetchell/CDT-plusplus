@@ -6,7 +6,7 @@
 
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
 /// Const Correctness</a>
-/// \todo Use localtime_r() for thread safety
+/// \done Use localtime_r() for thread safety
 
 /// @file utilities.h
 /// @brief Utility functions
@@ -49,16 +49,19 @@ std::string hostname() noexcept {
 }
 
 /// @brief Return the current date and time
+///
+/// Returns the current data and time in a thread-safe manner using
+/// localtime_r().
 const std::string currentDateTime() noexcept {
-  time_t      now = time(0);
-  struct tm   tstruct;
-  char        buf[80];
-  tstruct = *localtime(&now);
+  auto now = time(0);
+  struct tm tstruct;
+  char time_str[100];
+  localtime_r(&now, &tstruct);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   // for more info about date/time format
-  strftime(buf, sizeof(buf), "%Y-%m-%d.%X%Z", &tstruct);
+  strftime(time_str, sizeof(time_str), "%Y-%m-%d.%X%Z", &tstruct);
 
-  return buf;
+  return time_str;
 }
 
 /// @brief Generate useful filenames
