@@ -18,9 +18,13 @@ using namespace testing;  // NOLINT
 class S3BulkAction : public Test {
  protected:
   virtual void SetUp() {
-    make_S3_triangulation(&T, number_of_simplices,
-                          number_of_timeslices, no_output,
-                          &three_one, &two_two, &one_three);
+    make_S3_triangulation(number_of_simplices,
+                          number_of_timeslices,
+                          no_output,
+                          &T,
+                          &three_one,
+                          &two_two,
+                          &one_three);
   }
 
   const bool output = true;

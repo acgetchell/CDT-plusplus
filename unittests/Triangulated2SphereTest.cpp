@@ -24,9 +24,13 @@ TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
   auto number_of_simplices = static_cast<const unsigned>(2);
   auto number_of_timeslices = static_cast<const unsigned>(2);
 
-  make_S3_triangulation(&T, number_of_simplices,
-                            number_of_timeslices, output,
-                        &three_one, &two_two, &one_three);
+  make_S3_triangulation(number_of_simplices,
+                        number_of_timeslices,
+                        output,
+                        &T,
+                        &three_one,
+                        &two_two,
+                        &one_three);
 
   auto generated_number_of_simplices = static_cast<const unsigned>
     (three_one.size() + two_two.size() + one_three.size());
@@ -57,9 +61,13 @@ TEST_F(Triangulated2Sphere, CreatesWithLotsOfSimplices) {
   auto number_of_simplices = static_cast<const unsigned>(64000);
   auto number_of_timeslices = static_cast<const unsigned>(64);
 
-  make_S3_triangulation(&T, number_of_simplices,
-                            number_of_timeslices, no_output,
-                        &three_one, &two_two, &one_three);
+  make_S3_triangulation(number_of_simplices,
+                        number_of_timeslices,
+                        no_output,
+                        &T,
+                        &three_one,
+                        &two_two,
+                        &one_three);
 
   auto generated_number_of_simplices = static_cast<const unsigned>
     (three_one.size() + two_two.size() + one_three.size());

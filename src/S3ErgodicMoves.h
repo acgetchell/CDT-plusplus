@@ -173,7 +173,7 @@ void make_26_move(Delaunay* const D3,
     static_cast<double>(generate_random_timeslice(number_of_timeslices));
 
   // Generate a point
-  make_2_sphere(&vertices, &timevalue, points, radius, output);
+  make_2_sphere(points, radius, output, &vertices, &timevalue);
 
   // Insert into D3
   insert_into_S3(vertices, timevalue, D3);

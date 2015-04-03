@@ -20,7 +20,7 @@ TEST(Sphere, Create2Sphere) {
   const int radius = 1.0;
   const bool output = false;
 
-  make_2_sphere(&points, &timeslice, number_of_points, radius, output);
+  make_2_sphere(number_of_points, radius, output, &points, &timeslice);
 
   ASSERT_THAT(points.size(), Eq(number_of_points))
     << "Vector has wrong number of points.";

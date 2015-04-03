@@ -138,7 +138,7 @@ int main(int argc, char* const argv[]) {
   switch (topology) {
     case topology_type::SPHERICAL:
       if (dimensions == 3) {
-        make_S3_triangulation(&Sphere3, simplices, timeslices, false,
+        make_S3_triangulation(simplices, timeslices, false, &Sphere3,
                               &three_one, &two_two, &one_three);
       } else {
         std::cout << "Currently, dimensions cannot be higher than 3.";
