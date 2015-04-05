@@ -2,7 +2,13 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for d-dimensional Triangulations
+/// Tests for 4-dimensional Triangulations.
+
+/// @file SdTriangulationTest.cpp
+/// @brief Tests of 4-dimensional Triangulations
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
 #include "Delaunay.h"

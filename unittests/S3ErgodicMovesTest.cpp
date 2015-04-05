@@ -2,7 +2,14 @@
 ///
 /// Copyright (c) 2015 Adam Getchell
 ///
-/// Tests for S3 ergodic moves
+/// Tests for S3 ergodic moves: randomness, (2,3) moves, (3,2) moves,
+/// (6,2) moves (disabled), (2,6) moves (disabled)
+
+/// @file S3ErgodicMovesTest.cpp
+/// @brief Tests for S3 ergodic moves
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include <vector>
 

@@ -2,7 +2,13 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for 3-dimensional triangulated & foliated tetrahedrons
+/// Tests for inserting and deleting vertices (disabled).
+
+/// @file VertexTest.cpp
+/// @brief Tests on vertices
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"

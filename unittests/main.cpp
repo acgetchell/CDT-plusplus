@@ -2,7 +2,12 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Google Mock test driver
+/// Invokes all GoogleTest/GoogleMock tests in the unittests directory.
+
+/// @file unittests/main.cpp
+/// @brief Google Mock test driver
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
 

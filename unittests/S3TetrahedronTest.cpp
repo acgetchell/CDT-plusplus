@@ -2,7 +2,14 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for 3-dimensional triangulated & foliated tetrahedrons
+/// Tests that 3-dimensional triangulated & foliated tetrahedrons are
+/// constructed correctly.
+
+/// @file S3TetrahedronTest.cpp
+/// @brief Tests for 3D triangulated and foliated tetrahedrons
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include <vector>
 

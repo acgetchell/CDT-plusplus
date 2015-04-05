@@ -2,9 +2,14 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for the S3 bulk action
+/// Ensures that the S3 bulk action calculations are correct, and give
+/// similar results for similar values.
 
-// #include <CGAL/Gmpzf.h>
+/// @file S3BulkActionTest.cpp
+/// @brief Tests for the S3 bulk action functions
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include <vector>
 #include <algorithm>

@@ -2,7 +2,14 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for Spheres
+/// Tests that 2-spheres and 3-spheres are correctly constructed
+/// in 3D and 4D respectively.
+
+/// @file SphereTest.cpp
+/// @brief Tests for spheres
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include <vector>
 

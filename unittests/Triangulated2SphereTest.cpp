@@ -2,7 +2,14 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for S3 Triangulations
+/// Tests for S3 Triangulations: two timeslices created, lots of
+/// simplices correctly foliated are created.
+
+/// @file Triangulated2SphereTest.cpp
+/// @brief Tests for S3 ergodic moves
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include <vector>
 #include "gmock/gmock.h"
