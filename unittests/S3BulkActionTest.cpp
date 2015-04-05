@@ -29,8 +29,8 @@ class S3BulkAction : public Test {
 
   const bool output = true;
   const bool no_output = false;
-  const unsigned number_of_simplices = 6400;
-  const unsigned number_of_timeslices = 16;
+  const unsigned number_of_simplices{6400};
+  const unsigned number_of_timeslices{16};
   Delaunay T;
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
@@ -38,8 +38,8 @@ class S3BulkAction : public Test {
 };
 
 TEST_F(S3BulkAction, GetN3Values) {
-  unsigned N3_31 = three_one.size() + one_three.size();
-  unsigned N3_22 = two_two.size();
+  auto N3_31 = three_one.size() + one_three.size();
+  auto N3_22 = two_two.size();
   std::cout << "N3(3,1) = " << N3_31 << std::endl;
   std::cout << "N3(2,2) = " << N3_22 << std::endl;
   ASSERT_EQ(T.number_of_finite_cells(), N3_31 + N3_22)
@@ -47,8 +47,8 @@ TEST_F(S3BulkAction, GetN3Values) {
 }
 
 TEST_F(S3BulkAction, GetN1Values) {
-  unsigned N1_TL{0};
-  unsigned N1_SL{0};
+  auto N1_TL = static_cast<unsigned>(0);
+  auto N1_SL = static_cast<unsigned>(0);
 
   classify_edges(T, &N1_TL, &N1_SL);
 
@@ -57,110 +57,118 @@ TEST_F(S3BulkAction, GetN1Values) {
 }
 
 TEST_F(S3BulkAction, CalculateAlphaMinus1BulkAction) {
-  unsigned N1_TL{0};
-  unsigned N1_SL{0};
+  auto N1_TL = static_cast<unsigned>(0);
+  auto N1_SL = static_cast<unsigned>(0);
 
   classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
-  unsigned N3_31 = three_one.size() + one_three.size();
+  auto N3_31 = three_one.size() + one_three.size();
   std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
-  unsigned N3_22 = two_two.size();
+  auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  long double K = static_cast<long double>(1.1);
+  auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  long double Lambda = static_cast<long double>(2.2);
+  auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
-  CGAL::Gmpzf Bulk_action = S3_bulk_action_alpha_minus_one(N1_TL,
-                                                           N3_31,
-                                                           N3_22, K, Lambda);
+  auto Bulk_action = S3_bulk_action_alpha_minus_one(N1_TL,
+                                                    N3_31,
+                                                    N3_22,
+                                                    K,
+                                                    Lambda);
 
   EXPECT_THAT(Bulk_action, Ge(34000))  // Magic value from lots of tests
     << "Bulk action value wrong.";
 }
 
 TEST_F(S3BulkAction, CalculateAlpha1BulkAction) {
-  unsigned N1_TL{0};
-  unsigned N1_SL{0};
+  auto N1_TL = static_cast<unsigned>(0);
+  auto N1_SL = static_cast<unsigned>(0);
 
   classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
-  unsigned N3_31 = three_one.size() + one_three.size();
+  auto N3_31 = three_one.size() + one_three.size();
   std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
-  unsigned N3_22 = two_two.size();
+  auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  long double K = static_cast<long double>(1.1);
+  auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  long double Lambda = static_cast<long double>(2.2);
+  auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
-  CGAL::Gmpzf Bulk_action = S3_bulk_action_alpha_one(N1_TL,
-                                                     N3_31, N3_22, K, Lambda);
+  auto Bulk_action = S3_bulk_action_alpha_one(N1_TL,
+                                              N3_31,
+                                              N3_22,
+                                              K,
+                                              Lambda);
 
   EXPECT_THAT(Bulk_action, Lt(-26000))
     << "Bulk action value wrong.";
 }
 
 TEST_F(S3BulkAction, CalculateGeneralBulkAction) {
-  unsigned N1_TL{0};
-  unsigned N1_SL{0};
+  auto N1_TL = static_cast<unsigned>(0);
+  auto N1_SL = static_cast<unsigned>(0);
 
   classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
-  unsigned N3_31 = three_one.size() + one_three.size();
+  auto N3_31 = three_one.size() + one_three.size();
   std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
-  unsigned N3_22 = two_two.size();
+  auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  long double Alpha = static_cast<long double>(0.5);
+  auto Alpha = static_cast<long double>(0.5);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
-  long double K = static_cast<long double>(1.1);
+  auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  long double Lambda = static_cast<long double>(2.2);
+  auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
-  CGAL::Gmpzf Bulk_action = S3_bulk_action(N1_TL, N3_31, N3_22,
-                                           Alpha, K, Lambda);
+  auto Bulk_action = S3_bulk_action(N1_TL,
+                                    N3_31,
+                                    N3_22,
+                                    Alpha,
+                                    K,
+                                    Lambda);
 
   EXPECT_THAT(Bulk_action, Lt(-16000))  // Magic value from lots of tests
     << "Bulk action value wrong.";
 }
 
 TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
-  unsigned N1_TL{0};
-  unsigned N1_SL{0};
-  const long double tolerance{0.05};
+  auto N1_TL = static_cast<unsigned>(0);
+  auto N1_SL = static_cast<unsigned>(0);
+  const auto tolerance = static_cast<long double>(0.05);
 
   classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
 
-  unsigned N3_31 = three_one.size() + one_three.size();
+  auto N3_31 = three_one.size() + one_three.size();
   std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
-  unsigned N3_22 = two_two.size();
+  auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  long double Alpha = static_cast<long double>(1.0);
+  auto Alpha = static_cast<long double>(1.0);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
-  long double K = static_cast<long double>(1.1);
+  auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  long double Lambda = static_cast<long double>(2.2);
+  auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
-  CGAL::Gmpzf Bulk_action = S3_bulk_action(N1_TL, N3_31, N3_22,
-    Alpha, K, Lambda);
-  CGAL::Gmpzf Bulk_action_one = S3_bulk_action_alpha_one(N1_TL,
-    N3_31, N3_22, K, Lambda);
+  auto Bulk_action = S3_bulk_action(N1_TL, N3_31, N3_22, Alpha, K, Lambda);
+  auto Bulk_action_one = S3_bulk_action_alpha_one(N1_TL, N3_31, N3_22, K,
+                                                  Lambda);
   std::cout << (1.0-tolerance) << std::endl;
   // BUG: For some reason this produces 0
-  CGAL::Gmpzf min(abs(Bulk_action_one*(1.0-tolerance)));
+  auto min(abs(Bulk_action_one*(1.0-tolerance)));
   std::cout << "(Gmpzf) min = " << min << std::endl;
   std::cout << (1.0+tolerance) << std::endl;
-  CGAL::Gmpzf max = abs(Bulk_action_one*(1.0+tolerance));
+  auto max = abs(Bulk_action_one*(1.0+tolerance));
   std::cout << "(Gmpzf) max = " << max << std::endl;
 
   ASSERT_THAT(abs(Bulk_action), AllOf(Ge(min), Le(max)))
