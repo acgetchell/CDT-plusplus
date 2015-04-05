@@ -28,39 +28,54 @@
 using Kd = CGAL::Cartesian_d<double>;
 // typedef Kd::Point_d Point;
 
-inline void make_d_sphere(std::vector<Kd::Point_d> *v,
-                          int number_of_points,
-                          int dimension,
+/// @brief Make a d-dimensional sphere
+///
+/// The radius is used to denote the time value, so we can nest d-spheres
+/// such that our time foliation contains leaves of identical topology.
+///
+/// @param[in] number_of_points Number of vertices at a given radius
+/// @param[in] dimension Dimension of sphere
+/// @param[in] radius Radius of sphere
+/// @param[in] output Prints detailed output
+/// @param[out]  points  The points ready to insert
+inline void make_d_sphere(unsigned number_of_points,
+                          unsigned dimension,
                           double radius,
-                          bool message) noexcept {
-  v->reserve(number_of_points);
+                          bool output,
+                          std::vector<Kd::Point_d>* const points) noexcept {
+  points->reserve(number_of_points);
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
-  for (size_t i = 0; i < number_of_points; i++) {
-    v->push_back(*gen++);
+  for (auto i = 0; i < number_of_points; ++i) {
+    points->push_back(*gen++);
   }
-  ///
-  /// If message = true, print out values of points in sphere
-  ///
-  if (message) {
+  // If output = true, print out values of points in sphere
+  if (output) {
     std::cout << "Generating " << number_of_points << " random points on "
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
 
-    for (auto point : *v) {
+    for (auto point : *points) {
       std::cout << " " << point << std::endl;
     }
   }
 }  // make_d_sphere()
 
 
-/// make_d_sphere without message
-inline void make_d_sphere(std::vector<Kd::Point_d> *v,
-                          int number_of_points,
-                          int dimension,
-                          double radius) noexcept {
-  make_d_sphere(v, number_of_points, dimension, radius, false);
+/// @brief Make a d-dimensional sphere without output
+///
+/// Function overload of make_d_sphere to suppress output
+///
+/// @param[in] number_of_points Number of vertices at a given radius
+/// @param[in] dimension Dimension of sphere
+/// @param[in] radius Radius of sphere
+/// @param[out]  points  The points ready to insert
+inline void make_d_sphere(unsigned number_of_points,
+                          unsigned dimension,
+                          double radius,
+                          std::vector<Kd::Point_d>* const points) noexcept {
+  make_d_sphere(number_of_points, dimension, radius, false, points);
 }  // make_d_sphere
 
 #endif  // SRC_SPHERE_D_H_

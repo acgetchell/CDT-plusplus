@@ -91,11 +91,11 @@ TEST_F(S3Tetrahedron, GetsTimelikeEdges) {
   Delaunay T;
   insert_into_S3(V, timevalue, &T);
   std::vector<Edge_tuple> V2;
-  unsigned N1_TL{0};
-  unsigned N1_SL{0};
+  auto N1_TL = static_cast<unsigned>(0);
+  auto N1_SL = static_cast<unsigned>(0);
 
   get_timelike_edges(T, &V2, &N1_SL);
-  unsigned N1_TL_from_get_timelike_edges = V2.size();
+  auto N1_TL_from_get_timelike_edges = V2.size();
 
   classify_edges(T, &N1_TL, &N1_SL);
 

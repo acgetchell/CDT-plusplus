@@ -16,9 +16,9 @@ using namespace ::testing;  // NOLINT
 TEST(Sphere, Create2Sphere) {
   std::vector<Point> points;
   std::vector<unsigned> timeslice;
-  const int number_of_points = 5;
-  const int radius = 1.0;
-  const bool output = false;
+  const auto number_of_points = 5;
+  const auto radius = 1.0;
+  const auto output = false;
 
   make_2_sphere(number_of_points, radius, output, &points, &timeslice);
 
@@ -32,12 +32,12 @@ TEST(Sphere, Create2Sphere) {
 
 TEST(Sphere, Create3Sphere) {
   std::vector<Kd::Point_d> points;
-  const int number_of_points = 5;
-  const int dim = 4;
-  const int radius = 1.0;
-  const bool message = false;
+  const auto number_of_points = 5;
+  const auto dim = 4;
+  const auto radius = 1.0;
+  const auto output = false;
 
-  make_d_sphere(&points, number_of_points, dim, radius, message);
+  make_d_sphere(number_of_points, dim, radius, output, &points);
 
   ASSERT_THAT(points.size(), Eq(number_of_points))
     << "Vector has " << number_of_points << " points.";
