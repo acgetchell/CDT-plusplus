@@ -29,7 +29,9 @@ using Simplex_handle = Delaunay_d::Simplex_handle;
 using Vertex_handle = Delaunay_d::Vertex_handle;
 using Vertex_iterator = Delaunay_d::Vertex_iterator;
 
-class Delaunay : public Delaunay_d {
+class
+[[deprecated("We won't need this for CGAL 4.6 and beyond")]]
+Delaunay : public Delaunay_d {
  public:
   explicit Delaunay(int dimensions) : Delaunay_d(dimensions) {
   }

@@ -9,7 +9,9 @@
 
 #include <CGAL/Epick_d.h>
 
-class Point4 : public CGAL::Epick_d<CGAL::Dimension_tag<4>>::Point_d {
+class
+[[deprecated("We won't need this for CGAL 4.6 and beyond")]]
+Point4 : public CGAL::Epick_d<CGAL::Dimension_tag<4>>::Point_d {
  public:
   Point4() : Point_d() {
   }

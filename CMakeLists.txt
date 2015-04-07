@@ -15,8 +15,8 @@ endif()
 
 # General
 ###############################################################################
-# Activate C++11 support (if you encounter gmock errors, use 1.6.0 version)
-add_definitions(-std=c++11)
+# Activate C++14 support
+add_definitions(-std=c++1y)
 
 # Extra warnings
 #add_definitions(-Wextra)

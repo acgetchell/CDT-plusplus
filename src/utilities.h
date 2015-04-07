@@ -34,13 +34,18 @@ enum class topology_type { TOROIDAL, SPHERICAL};
 /// Uses getenv from <cstdlib> which has a char* rvalue
 ///
 /// @param[in] key The string value
-/// @return The environment variable corresponding to the key
-std::string getEnvVar(std::string const& key) noexcept {
+/// @returns The environment variable corresponding to the key as a std::string
+auto getEnvVar(std::string const& key) noexcept {
   char const* val = getenv(key.c_str());
   return val == NULL ? std::string() : std::string(val);
 }
 
 /// @brief Return the hostname
+///
+/// auto doesn't work here as a return type because name.nodename is a stack
+/// memory address
+///
+/// @returns The hostname as a std::string
 std::string hostname() noexcept {
   struct utsname name;
   // Ensure uname returns a value
@@ -50,8 +55,11 @@ std::string hostname() noexcept {
 
 /// @brief Return the current date and time
 ///
-/// Returns the current data and time in a thread-safe manner using
-/// localtime_r().
+/// auto doesn't work here as a return type because time_str is a stack
+/// memory address
+///
+/// @returns The current data and time in a thread-safe manner using
+/// localtime_r() as a std::string.
 const std::string currentDateTime() noexcept {
   auto now = time(0);
   struct tm tstruct;
@@ -70,7 +78,8 @@ const std::string currentDateTime() noexcept {
 /// @param[in] dimensions The number of dimensions of the triangulation
 /// @param[in] number_of_simplices The number of simplices in the triangulation
 /// @param[in] number_of_timeslices The number of foliated timeslices
-std::string generate_filename(const topology_type& top,
+/// @returns A filename as a std::string
+auto generate_filename(const topology_type& top,
                               const unsigned dimensions,
                               const unsigned number_of_simplices,
                               const unsigned number_of_timeslices) noexcept {

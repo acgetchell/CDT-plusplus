@@ -329,7 +329,7 @@ inline void fix_timeslices(const bool output, Delaunay* const D3) noexcept {
 ///
 /// @param[in] D3 The Delaunay triangulation
 /// @param[in] output Selects whether results for each cell is printed
-inline bool check_timeslices(const Delaunay* const D3,
+inline auto check_timeslices(const Delaunay* const D3,
                              const bool output) noexcept {
   Delaunay::Finite_cells_iterator cit;
   // unsigned min_time, max_time;

@@ -50,7 +50,7 @@ static const unsigned PRECISION = 256;
 /// @return \f$S^{(3)}(\alpha=-1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
+auto S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
                                      const unsigned N3_31,
                                      const unsigned N3_22,
                                      const long double K,
@@ -126,7 +126,7 @@ Gmpzf S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
 /// @return \f$S^{(3)}(\alpha=1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-Gmpzf S3_bulk_action_alpha_one(const unsigned N1_TL,
+auto S3_bulk_action_alpha_one(const unsigned N1_TL,
                                const unsigned N3_31,
                                const unsigned N3_22,
                                const long double K,
@@ -218,7 +218,7 @@ S^{(3)} &=& 2\pi k\sqrt{\alpha}N_1^{TL} \\
 /// @return \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-Gmpzf S3_bulk_action(const unsigned N1_TL,
+auto S3_bulk_action(const unsigned N1_TL,
                      const unsigned N3_31,
                      const unsigned N3_22,
                      const long double Alpha,
