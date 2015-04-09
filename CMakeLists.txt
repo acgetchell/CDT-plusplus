@@ -44,6 +44,8 @@ if ( CGAL_FOUND )
       include_directories (BEFORE "../../include")
 
       # create_single_source_cgal_program( "src/parallel_insertion_in_delaunay_3.cpp" )
+      #create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+      create_single_source_cgal_program("src/gv_terrain.cpp")
       create_single_source_cgal_program( "src/cdt.cpp" "src/docopt/docopt.cpp")
 
   else()

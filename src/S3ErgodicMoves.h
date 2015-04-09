@@ -40,7 +40,7 @@
 ///
 /// @param[in] min_value  The minimum value in the range
 /// @param[in] max_value  The maximum value in the range
-/// @return A random unsigned value between min_value and max_value, inclusive
+/// @returns A random unsigned value between min_value and max_value, inclusive
 unsigned generate_random_unsigned(const unsigned min_value,
                                   const unsigned max_value) noexcept {
   // Non-deterministic random number generator
@@ -62,7 +62,7 @@ unsigned generate_random_unsigned(const unsigned min_value,
 /// 1 to max_timeslice.
 ///
 /// @param[in] max_timeslice  The maximum timeslice
-/// @return A random timeslice from 1 to max_timeslice
+/// @returns A random timeslice from 1 to max_timeslice
 unsigned generate_random_timeslice(unsigned const max_timeslice) noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
