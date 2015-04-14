@@ -108,6 +108,10 @@ There's quite a difference in speed.
 Basically, everywhere you see `make` you can type `ninja` instead. Again, see
 [build.sh][27] for an example.
 
+Possible build troubles:
+-----------------------
+* While running ```build.sh``` under linux with ```gcc``` you may encounter ```virtual memory exhausted: Cannot allocate memory```, common solution for which is to [allocate swap space](http://www.cyberciti.biz/faq/linux-add-a-swap-file-howto/).
+
 Usage:
 ------
 CDT-plusplus uses [docopt][19] to parse options from the help message, and so
