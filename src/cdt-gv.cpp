@@ -90,7 +90,7 @@ int main(int argc, char* const argv[]) {
   // Test
   std::cout << "File to be loaded is " << file << std::endl;
 
-  CGAL::Geomview_stream gv(CGAL::Bbox_3(-100, -100, -100, 600, 600, 600));
+  CGAL::Geomview_stream gv(CGAL::Bbox_3(-100, -100, -100, 100, 100, 100));
   gv.set_line_width(4);
   gv.set_bg_color(CGAL::Color(0, 200, 200));
 
