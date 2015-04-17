@@ -20,16 +20,16 @@ using namespace testing;  // NOLINT
 class Triangulated2Sphere : public Test {
  public:
   Delaunay T;
-  const bool output{true};
-  const bool no_output{false};
+  static constexpr auto output = static_cast<bool>(true);
+  static constexpr auto no_output = static_cast<bool>(false);
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
 };
 
 TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
-  auto number_of_simplices = static_cast<const unsigned>(2);
-  auto number_of_timeslices = static_cast<const unsigned>(2);
+  constexpr auto number_of_simplices = static_cast<unsigned>(2);
+  constexpr auto number_of_timeslices = static_cast<unsigned>(2);
 
   make_S3_triangulation(number_of_simplices,
                         number_of_timeslices,
@@ -65,8 +65,8 @@ TEST_F(Triangulated2Sphere, CreatesWithTwoTimeslices) {
 }
 
 TEST_F(Triangulated2Sphere, CreatesWithLotsOfSimplices) {
-  auto number_of_simplices = static_cast<const unsigned>(64000);
-  auto number_of_timeslices = static_cast<const unsigned>(64);
+  constexpr auto number_of_simplices = static_cast<unsigned>(64000);
+  constexpr auto number_of_timeslices = static_cast<unsigned>(64);
 
   make_S3_triangulation(number_of_simplices,
                         number_of_timeslices,

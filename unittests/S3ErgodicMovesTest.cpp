@@ -30,10 +30,10 @@ class S3ErgodicMoves : public Test {
                           &one_three);
   }
 
-  const bool output{true};
-  const bool no_output{false};
-  const unsigned number_of_simplices{6400};
-  const unsigned number_of_timeslices{16};
+  static constexpr auto output = static_cast<bool>(true);
+  static constexpr auto no_output = static_cast<bool>(false);
+  static constexpr auto number_of_simplices = static_cast<unsigned>(6400);
+  static constexpr auto number_of_timeslices = static_cast<unsigned>(16);
   Delaunay T;
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
