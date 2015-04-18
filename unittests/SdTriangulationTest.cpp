@@ -18,7 +18,7 @@ using namespace testing;  // NOLINT
 TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
   Delaunay T(4);
 
-  int arr[] = {0, 0, 0, 0};
+  constexpr int arr[] = {0, 0, 0, 0};
   Delaunay_d::Point_d p(4, arr, arr+4);
 
   T.insert(p);
@@ -46,7 +46,8 @@ TEST(SdTriangulation, CreatesPointsFromIteratorsIn4D) {
 TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
   Delaunay T(4);
 
-  int tetra[][4] = {{0, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0}, {1, 0, 0, 0}};
+  constexpr int tetra[][4] = {{0, 0, 0, 0}, {0, 1, 0, 0}, {0, 0, 1, 0},
+                              {1, 0, 0, 0}};
 
   for (size_t i = 0; i < 4; i++) {
     T.insert(Delaunay_d::Point_d(4, tetra[i], tetra[i]+4));
@@ -72,10 +73,10 @@ TEST(SdTriangulation, CreatesTetrahedralTriangulationIn4D) {
 TEST(SdTriangulation, Creates16cellTriangulationIn4D) {
   Delaunay T(4);
 
-  int sixteen[][4] = {  {1, 0, 0, 0}, {-1, 0, 0, 0},
-                        {0, 1, 0, 0}, {0, -1, 0, 0},
-                        {0, 0, 1, 0}, {0, 0, -1, 0},
-                        {0, 0, 0, 1}, {0, 0, 0, -1}};
+  constexpr int sixteen[][4] = {{1, 0, 0, 0}, {-1, 0, 0, 0},
+                                {0, 1, 0, 0}, {0, -1, 0, 0},
+                                {0, 0, 1, 0}, {0, 0, -1, 0},
+                                {0, 0, 0, 1}, {0, 0, 0, -1}};
 
   for (size_t i = 0; i < 8; i++) {
     T.insert(Delaunay_d::Point_d(4, sixteen[i], sixteen[i]+4));

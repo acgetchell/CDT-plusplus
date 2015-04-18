@@ -27,7 +27,7 @@ class S3Tetrahedron : public Test {
      Delaunay::Point(1, 0, 0)
   };
   std::vector<unsigned> timevalue {1, 1, 1, 2};
-  const bool no_output = false;
+  static constexpr auto no_output = static_cast<bool>(false);
   Delaunay::Finite_cells_iterator cit;
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;

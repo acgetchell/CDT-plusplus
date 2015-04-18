@@ -73,9 +73,9 @@ TEST_F(S3BulkAction, CalculateAlphaMinus1BulkAction) {
   auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  auto K = static_cast<long double>(1.1);
+  constexpr auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  auto Lambda = static_cast<long double>(2.2);
+  constexpr auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
   auto Bulk_action = S3_bulk_action_alpha_minus_one(N1_TL,
@@ -100,9 +100,9 @@ TEST_F(S3BulkAction, CalculateAlpha1BulkAction) {
   auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  auto K = static_cast<long double>(1.1);
+  constexpr auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  auto Lambda = static_cast<long double>(2.2);
+  constexpr auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
   auto Bulk_action = S3_bulk_action_alpha_one(N1_TL,
@@ -127,11 +127,11 @@ TEST_F(S3BulkAction, CalculateGeneralBulkAction) {
   auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  auto Alpha = static_cast<long double>(0.5);
+  constexpr auto Alpha = static_cast<long double>(0.5);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
-  auto K = static_cast<long double>(1.1);
+  constexpr auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  auto Lambda = static_cast<long double>(2.2);
+  constexpr auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
   auto Bulk_action = S3_bulk_action(N1_TL,
@@ -148,7 +148,7 @@ TEST_F(S3BulkAction, CalculateGeneralBulkAction) {
 TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   auto N1_TL = static_cast<unsigned>(0);
   auto N1_SL = static_cast<unsigned>(0);
-  const auto tolerance = static_cast<long double>(0.05);
+  constexpr auto tolerance = static_cast<long double>(0.05);
 
   classify_edges(T, &N1_TL, &N1_SL);
   std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
@@ -158,11 +158,11 @@ TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   auto N3_22 = two_two.size();
   std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
 
-  auto Alpha = static_cast<long double>(1.0);
+  constexpr auto Alpha = static_cast<long double>(1.0);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
-  auto K = static_cast<long double>(1.1);
+  constexpr auto K = static_cast<long double>(1.1);
   std::cout << "(Long double) K = " << K << std::endl;
-  auto Lambda = static_cast<long double>(2.2);
+  constexpr auto Lambda = static_cast<long double>(2.2);
   std::cout << "(Long double) Lambda = " << Lambda << std::endl;
 
   auto Bulk_action = S3_bulk_action(N1_TL, N3_31, N3_22, Alpha, K, Lambda);
@@ -170,10 +170,10 @@ TEST_F(S3BulkAction, GeneralBulkActionEquivalentToAlpha1BulkAction) {
                                                   Lambda);
   std::cout << (1.0-tolerance) << std::endl;
   // BUG: For some reason this produces 0
-  auto min(abs(Bulk_action_one*(1.0-tolerance)));
+  const auto min(abs(Bulk_action_one*(1.0-tolerance)));
   std::cout << "(Gmpzf) min = " << min << std::endl;
   std::cout << (1.0+tolerance) << std::endl;
-  auto max = abs(Bulk_action_one*(1.0+tolerance));
+  const auto max = abs(Bulk_action_one*(1.0+tolerance));
   std::cout << "(Gmpzf) max = " << max << std::endl;
 
   ASSERT_THAT(abs(Bulk_action), AllOf(Ge(min), Le(max)))
