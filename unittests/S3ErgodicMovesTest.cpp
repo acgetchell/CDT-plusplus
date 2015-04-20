@@ -166,6 +166,44 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
     << "The edge that was flipped wasn't removed.";
 }
 
+TEST_F(S3ErgodicMoves, MakeA26Move) {
+  auto number_of_vertices_before = T.number_of_vertices();
+  auto N3_31_before = three_one.size();
+  auto N3_22_before = two_two.size();
+  auto N3_13_before = one_three.size();
+  std::cout << "Number of vertices before = " << number_of_vertices_before
+            << std::endl;
+  make_26_move(&T, &one_three);
+  std::cout << "Number of vertices after = " << T.number_of_vertices()
+            << std::endl;
+  // Now look at changes
+  reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
+  auto N3_31_after = three_one.size();
+  auto N3_22_after = two_two.size();
+  auto N3_13_after = one_three.size();
+
+  EXPECT_TRUE(T.is_valid())
+  << "Triangulation is not Delaunay.";
+
+  EXPECT_THAT(T.dimension(), Eq(3))
+  << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(check_timeslices(&T, no_output))
+  << "Cells do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before+1))
+  << "A vertex was not added to the triangulation.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
+    << "(3,1) simplices did not increase by 2.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
+    << "(2,2) simplices changed.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
+    << "(1,3) simplices did not increase by 2.";
+}
+
 TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
   auto number_of_vertices_before = T.number_of_vertices();
   auto N3_31_before = three_one.size();
@@ -210,42 +248,4 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
 
   EXPECT_THAT(N3_13_after, Eq(N3_13_before-2))
     << "(1,3) simplices did not decrease by 2.";
-}
-
-TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
-  auto number_of_vertices_before = T.number_of_vertices();
-  auto N3_31_before = three_one.size();
-  auto N3_22_before = two_two.size();
-  auto N3_13_before = one_three.size();
-  std::cout << "Number of vertices before = " << number_of_vertices_before
-            << std::endl;
-  make_26_move(&T, number_of_timeslices);
-  std::cout << "Number of vertices after = " << T.number_of_vertices()
-            << std::endl;
-  // Now look at changes
-  reclassify_3_simplices(&T, &three_one, &two_two, &one_three);
-  auto N3_31_after = three_one.size();
-  auto N3_22_after = two_two.size();
-  auto N3_13_after = one_three.size();
-
-  EXPECT_TRUE(T.is_valid())
-  << "Triangulation is not Delaunay.";
-
-  EXPECT_THAT(T.dimension(), Eq(3))
-  << "Triangulation has wrong dimensionality.";
-
-  EXPECT_TRUE(check_timeslices(&T, no_output))
-  << "Cells do not span exactly 1 timeslice.";
-
-  EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before+1))
-  << "A vertex was not added to the triangulation.";
-
-  EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
-    << "(3,1) simplices did not increase by 2.";
-
-  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
-    << "(2,2) simplices changed.";
-
-  EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
-    << "(1,3) simplices did not increase by 2.";
 }

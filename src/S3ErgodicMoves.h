@@ -78,11 +78,11 @@ auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
 /// @param[in,out] two_two A vector of (2,2) simplices
 void make_23_move(Delaunay* const D3,
                   std::vector<Cell_handle>* const two_two) noexcept {
-  bool not_flipped = true;
+  auto not_flipped = true;
   while (not_flipped) {
     // Pick a random (2,2) out of the two_two vector, which ranges
     // from 0 to size()-1
-    unsigned choice = generate_random_unsigned(0, two_two->size()-1);
+    auto choice = generate_random_unsigned(0, two_two->size()-1);
     std::cout << "We're picking (2,2) simplex " << choice << std::endl;
     Cell_handle to_be_moved = (*two_two)[choice];
     for (size_t i = 0; i < 4; i++) {
@@ -111,11 +111,11 @@ void make_23_move(Delaunay* const D3,
 /// @param[in,out] timelike_edges Timelike edges to pick to attempt move
 void make_32_move(Delaunay* const D3,
                   std::vector<Edge_tuple>* const timelike_edges) noexcept {
-  bool not_flipped = true;
+  auto not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    unsigned choice = generate_random_unsigned(0, timelike_edges->size()-1);
+    auto choice = generate_random_unsigned(0, timelike_edges->size()-1);
     Edge_tuple to_be_moved = (*timelike_edges)[choice];
     if (D3->flip(std::get<0>(to_be_moved), std::get<1>(to_be_moved),
                std::get<2>(to_be_moved))) {
@@ -131,6 +131,34 @@ void make_32_move(Delaunay* const D3,
     }
   }
 }  // make_32_move()
+
+
+auto is_26_movable(Cell_handle) noexcept {
+  return true;
+}
+/// @brief Make a (2,6) move
+///
+/// This function performs the (2,6) move by picking a (1,3) simplex
+/// and then checking that the timelike face has an opposing (3,1)
+/// simplex. This is done using the is_26_movable() function.
+///
+/// @param[in,out]  D3 The Delaunay triangulation
+/// @param[in,out]  one_three  A list of (1,3) simplices to attempt move on
+void make_26_move(Delaunay* const D3,
+                  std::vector<Cell_handle>* const one_three) noexcept {
+  auto not_moved = true;
+  while (not_moved) {
+    // Pick a random simplex out of the one_three vector
+    auto choice = generate_random_unsigned(0, one_three->size()-1);
+    if (is_26_movable((*one_three)[choice])) {
+      std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
+      not_moved = false;
+    } else {
+      std::cout << "(1,3) simplex " << choice << " was not movable." << std::endl;
+    }
+
+  }
+}  // make_26_move()
 
 /// @brief Make a (6,2) move
 ///
@@ -155,28 +183,5 @@ void make_62_move(Delaunay* const D3,
     no_move = false;
   }
 }  // make_62_move()
-
-/// @brief Make a (2,6) move
-///
-/// @param[in,out]  D3                    The Delaunay triangulation
-/// @param[in]      number_of_timeslices  The maximum timeslice
-void make_26_move(Delaunay* const D3,
-                  const unsigned number_of_timeslices) noexcept {
-  const unsigned points = 1;
-  const bool output = true;
-  // Allot vector to hold point and timevalue
-  std::vector<Point> vertices;
-  std::vector<unsigned> timevalue;
-
-  // Set radius to random timeslice
-  double radius =
-    static_cast<double>(generate_random_timeslice(number_of_timeslices));
-
-  // Generate a point
-  make_2_sphere(points, radius, output, &vertices, &timevalue);
-
-  // Insert into D3
-  insert_into_S3(vertices, timevalue, D3);
-}  // make_26_move()
 
 #endif  // SRC_S3ERGODICMOVES_H_
