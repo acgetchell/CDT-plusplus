@@ -132,14 +132,30 @@ void make_32_move(Delaunay* const D3,
   }
 }  // make_32_move()
 
-
-auto is_26_movable(Cell_handle) noexcept {
-  return true;
+/// @brief Check a (2,6) move
+///
+/// This function checks to see if a (2,6) move is possible.
+///
+/// @param[in,out] c The (1,3) simplex that is checked
+/// @param[out] n The integer value of the neighboring (3,1) simplex
+auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
+  for (auto i = 0; i < 3; i++) {
+    // Debugging
+    std::cout << "Neighbor " << i << " is of type "
+              << c->neighbor(i)->info() << std::endl;
+    // Check all neighbors for a (3,1) simplex
+    if (c->neighbor(i)->info()==31) {
+      *n = i;
+      return true;
+    }
+  }
+  // No neighboring (3,1) simplices found
+  return false;
 }
 /// @brief Make a (2,6) move
 ///
 /// This function performs the (2,6) move by picking a (1,3) simplex
-/// and then checking that the timelike face has an opposing (3,1)
+/// and then checking that the spacelike face has an opposing (3,1)
 /// simplex. This is done using the is_26_movable() function.
 ///
 /// @param[in,out]  D3 The Delaunay triangulation
@@ -147,11 +163,17 @@ auto is_26_movable(Cell_handle) noexcept {
 void make_26_move(Delaunay* const D3,
                   std::vector<Cell_handle>* const one_three) noexcept {
   auto not_moved = true;
+  unsigned neighbor;
   while (not_moved) {
     // Pick a random simplex out of the one_three vector
     auto choice = generate_random_unsigned(0, one_three->size()-1);
-    if (is_26_movable((*one_three)[choice])) {
+    // Is there a neighboring (3,1) simplex?
+    if (is_26_movable((*one_three)[choice], &neighbor)) {
+      // Debugging
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
+      std::cout << "The neighboring simplex is of type "
+                << (*one_three)[choice]->neighbor(neighbor)->info()
+                << std::endl;
       not_moved = false;
     } else {
       std::cout << "(1,3) simplex " << choice << " was not movable." << std::endl;
