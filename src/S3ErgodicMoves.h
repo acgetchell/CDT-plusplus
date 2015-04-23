@@ -26,9 +26,57 @@
 // CDT headers
 #include "S3Triangulation.h"
 
+// CGAL headers
+#include <CGAL/Gmpzf.h>
+
 // C++ headers
 #include <random>
 #include <vector>
+
+/// Results are converted to a CGAL multi-precision floating point number.
+/// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
+using Gmpzf = CGAL::Gmpzf;
+/// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
+static const unsigned PRECISION = 256;
+
+/// @brief Average points with full **PRECISION**-bits
+///
+/// @param[in] c1 The first coordinate to be averaged
+/// @param[in] c2 The second coordinate to be averaged
+/// @param[in] c3 The third coordinate to be averaged
+/// @returns The average of the coordinates
+auto average_coordinates(const long double c1,
+                         const long double c2,
+                         const long double c3) noexcept {
+  // Set precision for initialization and assignment functions
+  mpfr_set_default_prec(PRECISION);
+
+  // Initialize for MPFR
+  mpfr_t r1, coord1, coord2, coord3, total, three, average;
+  mpfr_inits2(PRECISION, r1, total, average, nullptr);
+
+  // Set input parameters and constants to mpfr_t equivalents
+  mpfr_init_set_ld(coord1, c1, MPFR_RNDD);
+  mpfr_init_set_ld(coord2, c2, MPFR_RNDD);
+  mpfr_init_set_ld(coord3, c3, MPFR_RNDD);
+  mpfr_init_set_ld(three, 3.0, MPFR_RNDD);
+
+  // Accumulate sum
+  mpfr_add(r1, coord1, coord2, MPFR_RNDD);     // r1 = coord1 + coord2
+  mpfr_add(total, coord3, r1, MPFR_RNDD);      // total = coord3 + r1
+
+  // Calculate average
+  mpfr_div(average, total, three, MPFR_RNDD);  // average = total/3
+
+  // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
+  // Gmpzf result = Gmpzf(mpfr_get_d(average, MPFR_RNDD));
+  auto result = mpfr_get_ld(average, MPFR_RNDD);
+
+  // Free memory
+  mpfr_clears(r1, coord1, coord2, coord3, total, three, average, nullptr);
+
+  return result;
+}  // average_points()
 
 /// @brief Generate random unsigned integers
 ///
@@ -176,20 +224,59 @@ void move_26(Delaunay* const D3,
 
   // Get vertices of common face
   unsigned i1 = (neighbor_index + 1)&3;
-  std::cout << "Vertex index 1 is " << i1 << std::endl;
   unsigned i2 = (neighbor_index + 2)&3;
-  std::cout << "Vertex index 2 is " << i2 << std::endl;
   unsigned i3 = (neighbor_index + 3)&3;
-  std::cout << "Vertex index 3 is " << i3 << std::endl;
 
   Vertex_handle v1 = one_three_simplex->vertex(i1);
+  Vertex_handle v2 = one_three_simplex->vertex(i2);
+  Vertex_handle v3 = one_three_simplex->vertex(i3);
+
+  // Debugging
+  std::cout << "Vertex index 1 is " << i1
+            << " with coordinates of " << v1->point() << std::endl;
+  std::cout << "Vertex index 2 is " << i2
+            << " with coordinates of " << v2->point() << std::endl;
+  std::cout << "Vertex index 3 is " << i3
+            << " with coordinates of " << v3->point() << std::endl;
 
   // Average vertices to get new one in their center
+  auto center_of_X = average_coordinates(v1->point().x(),
+                                         v2->point().x(),
+                                         v3->point().x());
+  auto center_of_Y = average_coordinates(v1->point().y(),
+                                         v2->point().y(),
+                                         v3->point().y());
+  auto center_of_Z = average_coordinates(v1->point().z(),
+                                         v2->point().z(),
+                                         v3->point().z());
+
+  // Debugging
+  std::cout << "Average x-coord is " << center_of_X << std::endl;
+  std::cout << "Average y-coord is " << center_of_Y << std::endl;
+  std::cout << "Average z-coord is " << center_of_Z << std::endl;
+
+  // Timeslices should be same
+  assert(v1->info() == v2->info());
+  assert(v1->info() == v3->info());
+
+  // Insert new vertex
+  // Vertex_handle inserted_vertex = D3->insert(Point(center_of_X,
+  //                                                  center_of_Y,
+  //                                                  center_of_Z));
+  Point p = Point(center_of_X, center_of_Y, center_of_Z);
+  Vertex_handle inserted_vertex = D3->insert(p);
 
   // Assign a timeslice to the new vertex
+  auto timeslice = v1->info();
+  std::cout << "Timeslice is " << timeslice << std::endl;
+  inserted_vertex->info() = timeslice;
+  std::cout << "Inserted vertex " << inserted_vertex->point()
+            << " with timeslice " << inserted_vertex->info()
+            << std::endl;
 
-  // Hopefully the Delaunay re-triangulates correctly!
-}
+
+  // Hopefully the Delaunay re-triangulates correctly! Not always.
+}  // move_26()
 
 /// @brief Make a (2,6) move
 ///

@@ -304,8 +304,8 @@ inline void fix_timeslices(const bool output, Delaunay* const D3) noexcept {
       if (max_time - min_time != 1) {
         D3->remove(cit->vertex(max_vertex));
         if (output) {
-          std::cout << "Vertex " << max_vertex;
-          std::cout << " of cell removed." << std::endl;
+          std::cout << "Vertex " << max_vertex
+                    << " of cell removed." << std::endl;
         }
       }
     } else {
@@ -351,8 +351,8 @@ inline auto check_timeslices(const Delaunay* const D3,
         auto current_time = cit->vertex(i)->info();
         // Iterate over all vertices in the cell
         if (output) {  // debugging
-          std::cout << "Vertex " << i << " is " << cit->vertex(i)->point();
-          std::cout << " with timeslice " << current_time << std::endl;
+          std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
+                    << " with timeslice " << current_time << std::endl;
         }
 
         if (current_time < min_time) min_time = current_time;
@@ -389,9 +389,9 @@ inline auto check_timeslices(const Delaunay* const D3,
   }
   assert(D3->is_valid());
   if (output) {
-    std::cout << "There are " << invalid << " invalid cells";
-    std::cout << " and " << valid << " valid cells in this triangulation.";
-    std::cout << std::endl;
+    std::cout << "There are " << invalid << " invalid cells and "
+              << valid << " valid cells in this triangulation."
+              << std::endl;
   }
 
   return (invalid == 0) ? true : false;
@@ -422,8 +422,8 @@ inline void make_2_sphere(const unsigned number_of_points,
 
   if (output) {
     std::cout << "Generating " << number_of_points << " random points on "
-    << "the surface of a sphere in 3D of center 0 and radius "
-    << radius << "." << std::endl;
+              << "the surface of a sphere in 3D of center 0 and radius "
+              << radius << "." << std::endl;
   }
 }  // make_2_sphere()
 
@@ -508,8 +508,8 @@ inline void make_S3_triangulation(const unsigned number_of_simplices,
   // Print out results
   auto valid = check_timeslices(D3, false);
   std::cout << "Valid foliation: " << std::boolalpha << valid << std::endl;
-  std::cout << "Delaunay triangulation has " << D3->number_of_finite_cells();
-  std::cout << " cells." << std::endl;
+  std::cout << "Delaunay triangulation has " << D3->number_of_finite_cells()
+            << " cells." << std::endl;
   std::cout << "There are " << three_one->size() << " (3,1) simplices" <<
                " and " << two_two->size() << " (2,2) simplices and " <<
                one_three->size() << " (1,3) simplices." << std::endl;
@@ -517,8 +517,8 @@ inline void make_S3_triangulation(const unsigned number_of_simplices,
     Delaunay::Finite_vertices_iterator vit;
     for (vit = D3->finite_vertices_begin();
           vit != D3->finite_vertices_end();   ++vit) {
-        std::cout << "Point " << vit->point() << " has timeslice ";
-        std::cout << vit->info() << std::endl;
+        std::cout << "Point " << vit->point() << " has timeslice "
+                  << vit->info() << std::endl;
     }
   }
   assert(D3->is_valid());

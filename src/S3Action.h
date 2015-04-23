@@ -51,18 +51,19 @@ static const unsigned PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 auto S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
-                                     const unsigned N3_31,
-                                     const unsigned N3_22,
-                                     const long double K,
-                                     const long double Lambda) noexcept {
+                                    const unsigned N3_31,
+                                    const unsigned N3_22,
+                                    const long double K,
+                                    const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
+
   // Initialize for MPFR
   mpfr_t n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
          const118, r4, r5, r6, r7, const7386, r8, r9, r10, r11, r12, total;
-
   mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11,
              r12, total, nullptr);
+
   // Set input parameters and constants to mpfr_t equivalents
   mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
   mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
@@ -127,19 +128,20 @@ auto S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 auto S3_bulk_action_alpha_one(const unsigned N1_TL,
-                               const unsigned N3_31,
-                               const unsigned N3_22,
-                               const long double K,
-                               const long double Lambda) noexcept {
+                              const unsigned N3_31,
+                              const unsigned N3_22,
+                              const long double K,
+                              const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
+
   // Initialize for MPFR
   mpfr_t n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
          const167, r4, r5, r6, r7, const5355, const204, r8, r9, r10, r11,
          r12, total;
-
   mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11,
              r12, total, nullptr);
+
   // Set input parameters and constants to mpfr_t equivalents
   mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
   mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
@@ -219,20 +221,20 @@ S^{(3)} &=& 2\pi k\sqrt{\alpha}N_1^{TL} \\
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 auto S3_bulk_action(const unsigned N1_TL,
-                     const unsigned N3_31,
-                     const unsigned N3_22,
-                     const long double Alpha,
-                     const long double K,
-                     const long double Lambda) noexcept {
+                    const unsigned N3_31,
+                    const unsigned N3_22,
+                    const long double Alpha,
+                    const long double K,
+                    const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
+
   // Initialize for MPFR
   mpfr_t n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4, r5,
          r6, three, r7, four, r8, one, r9, r10, r11, r12, r13, r14, r15, r16,
          r17, r18, r19, r20, r21, twelve, r22, r23, r24, r25, r26, r27, r28,
          r29, r30, r31, r32, r33, r34, r35, r36, r37, r38, r39, r40, r41, r42,
          r43, r44, r45, r46, r47, r48, r49, r50, r51, r52, total;
-
   mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12,
               r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23,
               r24, r25, r26, r27, r28, r29, r30, r31, r32, r33, r34,
@@ -289,6 +291,7 @@ auto S3_bulk_action(const unsigned N1_TL,
   // Accumulate partial sums of second term
   mpfr_add(r28, r15, r21, MPFR_RNDD);      // r28 = r15+r21
   mpfr_add(r29, r28, r27, MPFR_RNDD);      // r29 = r28+r27
+
   // Multiply by overall factor of n3_31
   mpfr_mul(r30, n3_31, r29, MPFR_RNDD);    // r30 = n3_31*r29
 
@@ -318,6 +321,7 @@ auto S3_bulk_action(const unsigned N1_TL,
   // Accumulate partial sums of third term
   mpfr_add(r49, r38, r45, MPFR_RNDD);      // r49 = r38+r45
   mpfr_add(r50, r49, r48, MPFR_RNDD);      // r50 = r49+r48
+
   // Multiply by overall factor of n3_22
   mpfr_mul(r51, n3_22, r50, MPFR_RNDD);    // r51 = n3_22*r50
 
