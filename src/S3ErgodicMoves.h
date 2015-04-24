@@ -37,7 +37,7 @@
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 using Gmpzf = CGAL::Gmpzf;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static const unsigned PRECISION = 256;
+static constexpr unsigned PRECISION = 256;
 
 /// @brief Average points with full **PRECISION**-bits
 ///
@@ -190,18 +190,18 @@ void make_32_move(Delaunay* const D3,
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns True if the (2,6) move is possible
 auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
-  for (auto i = 0; i < 3; i++) {
+  auto movable = false;
+  for (auto i = 0; i < 4; i++) {
     // Debugging
     std::cout << "Neighbor " << i << " is of type "
               << c->neighbor(i)->info() << std::endl;
     // Check all neighbors for a (3,1) simplex
     if (c->neighbor(i)->info() == 31) {
       *n = i;
-      return true;
+      movable = true;
     }
   }
-  // No neighboring (3,1) simplices found
-  return false;
+  return movable;
 }  // is_26_movable()
 
 /// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3(3,1)s

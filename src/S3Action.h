@@ -31,7 +31,7 @@
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 using Gmpzf = CGAL::Gmpzf;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static const unsigned PRECISION = 256;
+static constexpr unsigned PRECISION = 256;
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
