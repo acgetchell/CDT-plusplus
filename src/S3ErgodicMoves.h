@@ -186,9 +186,9 @@ void make_32_move(Delaunay* const D3,
 /// a (1,3) simplex, it checks all neighbors to see if there is a (3,1).
 /// If so, the index **n** of that neighbor is passed via an out parameter.
 ///
-/// @param[in,out] c The (1,3) simplex that is checked
+/// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
-/// @returns True if the (2,6) move is possible
+/// @returns **True** if the (2,6) move is possible
 auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
   auto movable = false;
   for (auto i = 0; i < 4; i++) {
@@ -204,7 +204,7 @@ auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
   return movable;
 }  // is_26_movable()
 
-/// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3(3,1)s
+/// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
 ///
 /// This function takes in a (1,3) and its neighboring (3,1) along with
 /// the index which labels their common face. The points of the common
@@ -219,8 +219,14 @@ void move_26(Delaunay* const D3,
              Cell_handle one_three_simplex,
              unsigned neighbor_index,
              Cell_handle three_one_simplex) noexcept {
-  // First, verify cells are neighbors
-  assert(one_three_simplex.has_neighbor(three_one_simplex));
+  // Preconditions
+  CGAL_triangulation_precondition((dimension() == 3)
+                                   && (0 <= neighbor_index)
+                                   && (neighbor_index < 4));
+  CGAL_triangulation_precondition(one_three_simplex.has_neighbor
+                                  (three_one_simplex));
+  CGAL_triangulation_expensive_precondition(is_cell(one_three_simplex,
+                                                    three_one_simplex));
 
   // Get vertices of common face
   unsigned i1 = (neighbor_index + 1)&3;
