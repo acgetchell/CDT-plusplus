@@ -48,7 +48,6 @@
 
 
 // C headers
-#include <assert.h>
 #include <math.h>
 
 // C++ headers
@@ -387,7 +386,7 @@ inline auto check_timeslices(const Delaunay* const D3,
         invalid++;
     }
   }
-  assert(D3->is_valid());
+  CGAL_triangulation_expensive_postcondition(D3->is_valid());
   if (output) {
     std::cout << "There are " << invalid << " invalid cells and "
               << valid << " valid cells in this triangulation."
@@ -467,7 +466,7 @@ inline void make_S3_triangulation(const unsigned number_of_simplices,
                                        number_of_timeslices;
   const auto MAX_FOLIATION_FIX_PASSES = 20;
 
-  assert(simplices_per_timeslice >= 1);
+  CGAL_triangulation_precondition(simplices_per_timeslice >= 1);
 
   const auto points = simplices_per_timeslice * 4;
   const auto total_points = points * number_of_timeslices;
@@ -521,6 +520,6 @@ inline void make_S3_triangulation(const unsigned number_of_simplices,
                   << vit->info() << std::endl;
     }
   }
-  assert(D3->is_valid());
+  CGAL_triangulation_expensive_postcondition(D3->is_valid());
 }  // make_S3_triangulation()
 #endif  // SRC_S3TRIANGULATION_H_
