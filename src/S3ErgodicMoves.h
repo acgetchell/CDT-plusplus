@@ -210,6 +210,9 @@ auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
 /// the index which labels their common face. The points of the common
 /// face are then averaged to get their center. A new vertex is inserted there.
 ///
+/// @image html 26.png
+/// @image latex 26.eps width=7cm
+///
 /// @param[in,out] D3 The Delaunay triangulation
 /// @param[in,out] one_three_simplex The (1,3) simplex that will be deleted
 /// @param[in,out] neighbor_index Index labelling the (3,1) neighbor of the
@@ -237,6 +240,12 @@ void move_26(Delaunay* const D3,
   Vertex_handle v2 = one_three_simplex->vertex(i2);
   Vertex_handle v3 = one_three_simplex->vertex(i3);
 
+  // Bottom vertex is the one opposite of the common face
+  Vertex_handle v_bottom = one_three_simplex->vertex(neighbor_index);
+
+  // Likewise, top vertex is one opposite of common face on the neighbor
+  Vertex_handle v_top = D3->mirror_vertex(one_three_simplex, neighbor_index);
+
   // Debugging
   std::cout << "Vertex index 1 is " << i1
             << " with coordinates of " << v1->point() << std::endl;
@@ -244,6 +253,11 @@ void move_26(Delaunay* const D3,
             << " with coordinates of " << v2->point() << std::endl;
   std::cout << "Vertex index 3 is " << i3
             << " with coordinates of " << v3->point() << std::endl;
+  std::cout << "Vertex v_bottom is " << neighbor_index
+            << " with coordinates of " << v_bottom->point() << std::endl;
+  std::cout << "Vertex v_top is " << neighbor_index
+            << " with coordinates of " << v_top->point() << std::endl;
+
 
   // Average vertices to get new one in their center
   auto center_of_X = average_coordinates(v1->point().x(),
@@ -261,27 +275,32 @@ void move_26(Delaunay* const D3,
   std::cout << "Average y-coord is " << center_of_Y << std::endl;
   std::cout << "Average z-coord is " << center_of_Z << std::endl;
 
-  // Timeslices should be same
-  assert(v1->info() == v2->info());
-  assert(v1->info() == v3->info());
+  // Timeslices of v1, v2, and v3 should be same
+  CGAL_triangulation_precondition(v1->info() == v2->info());
+  CGAL_triangulation_precondition(v1->info() == v3->info());
 
   // Insert new vertex
-  // Vertex_handle inserted_vertex = D3->insert(Point(center_of_X,
+  // Vertex_handle v_center = D3->insert(Point(center_of_X,
   //                                                  center_of_Y,
   //                                                  center_of_Z));
   Point p = Point(center_of_X, center_of_Y, center_of_Z);
-  Vertex_handle inserted_vertex = D3->insert(p);
+  Vertex_handle v_center = D3->insert(p);
 
   // Assign a timeslice to the new vertex
   auto timeslice = v1->info();
   std::cout << "Timeslice is " << timeslice << std::endl;
-  inserted_vertex->info() = timeslice;
-  std::cout << "Inserted vertex " << inserted_vertex->point()
-            << " with timeslice " << inserted_vertex->info()
+  v_center->info() = timeslice;
+  std::cout << "Inserted vertex " << v_center->point()
+            << " with timeslice " << v_center->info()
             << std::endl;
 
+  // Setup child cells of one_three
+  // Get neighbors
+  // Cell_handle neighbor_13_1 = one_three_simplex->neighbor(i1);
+  // Cell_handle neighbor_13_2 = one_three_simplex->neighbor(i2);
+  // Cell_handle neighbor_13_3 = one_three_simplex->neighbor(i3);
 
-  // Hopefully the Delaunay re-triangulates correctly! Not always.
+
 }  // move_26()
 
 /// @brief Make a (2,6) move
