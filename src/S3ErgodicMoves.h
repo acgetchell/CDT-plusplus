@@ -294,13 +294,61 @@ void move_26(Delaunay* const D3,
             << " with timeslice " << v_center->info()
             << std::endl;
 
-  // Setup child cells of one_three
   // Get neighbors
-  // Cell_handle neighbor_13_1 = one_three_simplex->neighbor(i1);
-  // Cell_handle neighbor_13_2 = one_three_simplex->neighbor(i2);
-  // Cell_handle neighbor_13_3 = one_three_simplex->neighbor(i3);
+  Cell_handle neighbor_13_1 = one_three_simplex->neighbor(i1);
+  Cell_handle neighbor_13_2 = one_three_simplex->neighbor(i2);
+  Cell_handle neighbor_13_3 = one_three_simplex->neighbor(i3);
+  Cell_handle neighbor_31_1 = three_one_simplex->neighbor(i1);
+  Cell_handle neighbor_31_2 = three_one_simplex->neighbor(i2);
+  Cell_handle neighbor_31_3 = three_one_simplex->neighbor(i3);
 
+  // Delete old cells
+  D3->tds().delete_cell(one_three_simplex);
+  D3->tds().delete_cell(three_one_simplex);
 
+  // Create new ones
+  Cell_handle bottom_12 = D3->tds().create_cell(v1, v_center, v2, v_bottom);
+  Cell_handle bottom_23 = D3->tds().create_cell(v2, v_center, v3, v_bottom);
+  Cell_handle bottom_31 = D3->tds().create_cell(v3, v_center, v1, v_bottom);
+  Cell_handle top_12 = D3->tds().create_cell(v1, v_center, v2, v_top);
+  Cell_handle top_23 = D3->tds().create_cell(v2, v_center, v3, v_top);
+  Cell_handle top_31 = D3->tds().create_cell(v3, v_center, v1, v_top);
+
+  // Set neighbors for bottom_12
+  bottom_12->set_neighbor(bottom_12->index(v_center), neighbor_13_3);
+  bottom_12->set_neighbor(bottom_12->index(v1), bottom_23);
+  bottom_12->set_neighbor(bottom_12->index(v2), bottom_31);
+  bottom_12->set_neighbor(bottom_12->index(v_bottom), top_12);
+
+  // Set neighbors for bottom_23
+  bottom_23->set_neighbor(bottom_23->index(v_center), neighbor_13_1);
+  bottom_23->set_neighbor(bottom_23->index(v2), bottom_31);
+  bottom_23->set_neighbor(bottom_23->index(v3), bottom_12);
+  bottom_23->set_neighbor(bottom_23->index(v_bottom), top_23);
+
+  // Set neighbors for bottom_31
+  bottom_31->set_neighbor(bottom_31->index(v_center), neighbor_13_2);
+  bottom_31->set_neighbor(bottom_31->index(v3), bottom_12);
+  bottom_31->set_neighbor(bottom_31->index(v1), bottom_23);
+  bottom_31->set_neighbor(bottom_31->index(v_bottom), top_31);
+
+  // Set neighbors for top_12
+  top_12->set_neighbor(top_12->index(v_center), neighbor_31_3);
+  top_12->set_neighbor(top_12->index(v1), top_23);
+  top_12->set_neighbor(top_12->index(v2), top_31);
+  top_12->set_neighbor(top_12->index(v_top), bottom_12);
+
+  // Set neighbors for top_23
+  top_23->set_neighbor(top_23->index(v_center), neighbor_31_1);
+  top_23->set_neighbor(top_23->index(v2), top_31);
+  top_23->set_neighbor(top_23->index(v3), top_12);
+  top_23->set_neighbor(top_23->index(v_top), bottom_23);
+
+  // Set neighbors for top_31
+  top_31->set_neighbor(top_31->index(v_center), neighbor_31_2);
+  top_31->set_neighbor(top_31->index(v3), top_12);
+  top_31->set_neighbor(top_31->index(v1), top_23);
+  top_31->set_neighbor(top_31->index(v_top), bottom_31);
 }  // move_26()
 
 /// @brief Make a (2,6) move
