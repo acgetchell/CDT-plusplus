@@ -364,12 +364,15 @@ void move_26(Delaunay* const D3,
   top_31->set_neighbor(top_31->index(v1), top_23);
   top_31->set_neighbor(top_31->index(v_top), bottom_31);
 
+  // Set incident cell for v_center
+  v_center->set_cell(bottom_12);
+
   // Do all the cells have v_center as a vertex?
   (top_31->has_vertex(v_center)) ? std::cout << "top31 has v_center" << std::endl : std::cout << "top31 doesn't have v_center" << std::endl;
 
   (v_center->is_valid(true,1)) ? std::cout << "v_center->is_valid is true" << std::endl : std::cout << "v_center->is_valid is false" << std::endl;
 
-  // (v_center->cell()->has_vertex(v_center)) ? std::cout << "v_center->cell has itself" << std::endl : std::cout << "v_center->cell doesn't have itself";
+  (v_center->cell()->has_vertex(v_center)) ? std::cout << "v_center->cell has itself" << std::endl : std::cout << "v_center->cell doesn't have itself";
 
   CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true, 1));
 }  // move_26()
