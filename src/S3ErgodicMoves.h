@@ -23,7 +23,7 @@
 #ifndef SRC_S3ERGODICMOVES_H_
 #define SRC_S3ERGODICMOVES_H_
 
-// #undef NDEBUG
+#undef NDEBUG
 
 // CDT headers
 #include "S3Triangulation.h"
@@ -282,16 +282,23 @@ void move_26(Delaunay* const D3,
   CGAL_triangulation_precondition(v1->info() == v3->info());
 
   // Insert new vertex
-  // Vertex_handle v_center = D3->insert(Point(center_of_X,
-  //                                                  center_of_Y,
-  //                                                  center_of_Z));
   Point p = Point(center_of_X, center_of_Y, center_of_Z);
-  // Vertex_handle v_center = TriangulationVertexBase_3(p);
-  // D3->tds().create_vertex(v_center);
-  Vertex_handle v_center = D3->tds().create_vertex(p);
+  Vertex_handle v_center = D3->tds().create_vertex();
+  v_center->set_point(p);
 
-  // Check that vertex is valid with verbose messages for invalidity
-  // CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true) == true);
+  // Check we have a vertex
+  if (D3->tds().is_vertex(v_center)) {
+    std::cout << "It's a vertex in the TDS." << std::endl;
+  } else {
+    std::cout << "It's not a vertex in the TDS." << std::endl;
+  }
+
+  // // Check that vertex is valid with verbose messages for invalidity
+  // if (D3->tds().is_valid(v_center, true)) {
+  //   std::cout << "It's a valid vertex in the TDS." << std::endl;
+  // } else {
+  //   std::cout << "It's not a valid vertex in the TDS." << std::endl;
+  // }
 
   // Assign a timeslice to the new vertex
   auto timeslice = v1->info();
@@ -356,6 +363,15 @@ void move_26(Delaunay* const D3,
   top_31->set_neighbor(top_31->index(v3), top_12);
   top_31->set_neighbor(top_31->index(v1), top_23);
   top_31->set_neighbor(top_31->index(v_top), bottom_31);
+
+  // Do all the cells have v_center as a vertex?
+  (top_31->has_vertex(v_center)) ? std::cout << "top31 has v_center" << std::endl : std::cout << "top31 doesn't have v_center" << std::endl;
+
+  (v_center->is_valid(true,1)) ? std::cout << "v_center->is_valid is true" << std::endl : std::cout << "v_center->is_valid is false" << std::endl;
+
+  // (v_center->cell()->has_vertex(v_center)) ? std::cout << "v_center->cell has itself" << std::endl : std::cout << "v_center->cell doesn't have itself";
+
+  CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true, 1));
 }  // move_26()
 
 /// @brief Make a (2,6) move
