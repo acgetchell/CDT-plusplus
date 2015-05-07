@@ -23,6 +23,8 @@
 #ifndef SRC_S3ERGODICMOVES_H_
 #define SRC_S3ERGODICMOVES_H_
 
+// #undef NDEBUG
+
 // CDT headers
 #include "S3Triangulation.h"
 
@@ -223,10 +225,10 @@ void move_26(Delaunay* const D3,
              unsigned neighbor_index,
              Cell_handle three_one_simplex) noexcept {
   // Preconditions
-  CGAL_triangulation_precondition((dimension() == 3)
+  CGAL_triangulation_precondition((D3->dimension() == 3)
                                    && (0 <= neighbor_index)
                                    && (neighbor_index < 4));
-  CGAL_triangulation_precondition(one_three_simplex.has_neighbor
+  CGAL_triangulation_precondition(one_three_simplex->has_neighbor
                                   (three_one_simplex));
   CGAL_triangulation_expensive_precondition(is_cell(one_three_simplex,
                                                     three_one_simplex));
@@ -284,7 +286,12 @@ void move_26(Delaunay* const D3,
   //                                                  center_of_Y,
   //                                                  center_of_Z));
   Point p = Point(center_of_X, center_of_Y, center_of_Z);
-  Vertex_handle v_center = D3->insert(p);
+  // Vertex_handle v_center = TriangulationVertexBase_3(p);
+  // D3->tds().create_vertex(v_center);
+  Vertex_handle v_center = D3->tds().create_vertex(p);
+
+  // Check that vertex is valid with verbose messages for invalidity
+  // CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true) == true);
 
   // Assign a timeslice to the new vertex
   auto timeslice = v1->info();

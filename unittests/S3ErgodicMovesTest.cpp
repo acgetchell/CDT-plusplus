@@ -182,7 +182,7 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
   auto N3_22_after = two_two.size();
   auto N3_13_after = one_three.size();
 
-  EXPECT_TRUE(T.tds().is_valid())
+  EXPECT_TRUE(T.tds().is_valid(true))
   << "Triangulation is invalid.";
 
   EXPECT_THAT(T.dimension(), Eq(3))
