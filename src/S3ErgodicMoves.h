@@ -216,37 +216,42 @@ auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
 /// @image latex 26.eps width=7cm
 ///
 /// @param[in,out] D3 The Delaunay triangulation
-/// @param[in,out] one_three_simplex The (1,3) simplex that will be deleted
-/// @param[in,out] neighbor_index Index labelling the (3,1) neighbor of the
-///                (1,3) simplex
-/// @param[in,out] three_one_simplex The (3,1) simplex that will be deleted
+/// @param[in,out] bottom The (1,3) simplex that will be split
+/// @param[in,out] top The (3,1) simplex that will be split
 void move_26(Delaunay* const D3,
-             Cell_handle one_three_simplex,
-             unsigned neighbor_index,
-             Cell_handle three_one_simplex) noexcept {
+             Cell_handle bottom,
+             Cell_handle top) noexcept {
   // Preconditions
-  CGAL_triangulation_precondition((D3->dimension() == 3)
-                                   && (0 <= neighbor_index)
-                                   && (neighbor_index < 4));
-  CGAL_triangulation_precondition(one_three_simplex->has_neighbor
-                                  (three_one_simplex));
-  CGAL_triangulation_expensive_precondition(is_cell(one_three_simplex,
-                                                    three_one_simplex));
+  CGAL_triangulation_precondition(D3->dimension() == 3);
+  CGAL_triangulation_precondition(bottom->has_neighbor
+                                  (top));
+  CGAL_triangulation_expensive_precondition(is_cell(bottom, top));
+
+  int common_face_index;
+  // has_neighbor() returns the index of the common face
+  bottom->has_neighbor(top, common_face_index);
 
   // Get vertices of common face
-  unsigned i1 = (neighbor_index + 1)&3;
-  unsigned i2 = (neighbor_index + 2)&3;
-  unsigned i3 = (neighbor_index + 3)&3;
+  unsigned i1 = (common_face_index + 1)&3;
+  unsigned i2 = (common_face_index + 2)&3;
+  unsigned i3 = (common_face_index + 3)&3;
 
-  Vertex_handle v1 = one_three_simplex->vertex(i1);
-  Vertex_handle v2 = one_three_simplex->vertex(i2);
-  Vertex_handle v3 = one_three_simplex->vertex(i3);
+  Vertex_handle v1 = bottom->vertex(i1);
+  Vertex_handle v2 = bottom->vertex(i2);
+  Vertex_handle v3 = bottom->vertex(i3);
+
+  // Are bottom and top vertex handles the same?
+  if ((v1 == top->vertex(i1)) && (v2 == top->vertex(i2)) && (v3 == top->vertex(i3))) {
+    std::cout << "Vertex indices are same for top and bottom." << std::endl;
+  } else {
+    std::cout << "Vertex indices are not the same for top and bottom." << std::endl;
+  }
 
   // Bottom vertex is the one opposite of the common face
-  Vertex_handle v_bottom = one_three_simplex->vertex(neighbor_index);
+  Vertex_handle v_bottom = bottom->vertex(common_face_index);
 
   // Likewise, top vertex is one opposite of common face on the neighbor
-  Vertex_handle v_top = D3->mirror_vertex(one_three_simplex, neighbor_index);
+  Vertex_handle v_top = D3->tds().mirror_vertex(bottom, common_face_index);
 
   // Debugging
   std::cout << "Vertex index 1 is " << i1
@@ -255,9 +260,9 @@ void move_26(Delaunay* const D3,
             << " with coordinates of " << v2->point() << std::endl;
   std::cout << "Vertex index 3 is " << i3
             << " with coordinates of " << v3->point() << std::endl;
-  std::cout << "Vertex v_bottom is " << neighbor_index
+  std::cout << "Vertex v_bottom is " << common_face_index
             << " with coordinates of " << v_bottom->point() << std::endl;
-  std::cout << "Vertex v_top is " << neighbor_index
+  std::cout << "Vertex v_top is " << common_face_index
             << " with coordinates of " << v_top->point() << std::endl;
 
 
@@ -309,16 +314,16 @@ void move_26(Delaunay* const D3,
             << std::endl;
 
   // Get neighbors
-  Cell_handle neighbor_13_1 = one_three_simplex->neighbor(i1);
-  Cell_handle neighbor_13_2 = one_three_simplex->neighbor(i2);
-  Cell_handle neighbor_13_3 = one_three_simplex->neighbor(i3);
-  Cell_handle neighbor_31_1 = three_one_simplex->neighbor(i1);
-  Cell_handle neighbor_31_2 = three_one_simplex->neighbor(i2);
-  Cell_handle neighbor_31_3 = three_one_simplex->neighbor(i3);
+  Cell_handle bottom_neighbor_1 = bottom->neighbor(i1);
+  Cell_handle bottom_neighbor_2 = bottom->neighbor(i2);
+  Cell_handle bottom_neighbor_3 = bottom->neighbor(i3);
+  Cell_handle top_neighbor_1 = top->neighbor(i1);
+  Cell_handle top_neighbor_2 = top->neighbor(i2);
+  Cell_handle top_neighbor_3 = top->neighbor(i3);
 
   // Delete old cells
-  D3->tds().delete_cell(one_three_simplex);
-  D3->tds().delete_cell(three_one_simplex);
+  D3->tds().delete_cell(bottom);
+  D3->tds().delete_cell(top);
 
   // Create new ones
   Cell_handle bottom_12 = D3->tds().create_cell(v1, v_center, v2, v_bottom);
@@ -329,37 +334,45 @@ void move_26(Delaunay* const D3,
   Cell_handle top_31 = D3->tds().create_cell(v3, v_center, v1, v_top);
 
   // Set neighbors for bottom_12
-  bottom_12->set_neighbor(bottom_12->index(v_center), neighbor_13_3);
+  bottom_12->set_neighbor(bottom_12->index(v_center), bottom_neighbor_3);
+  // D3->tds().set_adjacency(bottom_12,
+  //                         bottom_12->index(v_center),
+  //                         bottom_neighbor_3,
+  //                         D3->tds().mirror_index(bottom_12,
+  //                                                bottom_12->index(v_center)));
+  // std::cout << "Mirror index is " <<
+  //   bottom_neighbor_3->index(D3->tds().mirror_vertex(bottom_12, bottom_12->index(v_center)))
+                                  // << std::endl;
   bottom_12->set_neighbor(bottom_12->index(v1), bottom_23);
   bottom_12->set_neighbor(bottom_12->index(v2), bottom_31);
   bottom_12->set_neighbor(bottom_12->index(v_bottom), top_12);
 
   // Set neighbors for bottom_23
-  bottom_23->set_neighbor(bottom_23->index(v_center), neighbor_13_1);
+  bottom_23->set_neighbor(bottom_23->index(v_center), bottom_neighbor_1);
   bottom_23->set_neighbor(bottom_23->index(v2), bottom_31);
   bottom_23->set_neighbor(bottom_23->index(v3), bottom_12);
   bottom_23->set_neighbor(bottom_23->index(v_bottom), top_23);
 
   // Set neighbors for bottom_31
-  bottom_31->set_neighbor(bottom_31->index(v_center), neighbor_13_2);
+  bottom_31->set_neighbor(bottom_31->index(v_center), bottom_neighbor_2);
   bottom_31->set_neighbor(bottom_31->index(v3), bottom_12);
   bottom_31->set_neighbor(bottom_31->index(v1), bottom_23);
   bottom_31->set_neighbor(bottom_31->index(v_bottom), top_31);
 
   // Set neighbors for top_12
-  top_12->set_neighbor(top_12->index(v_center), neighbor_31_3);
+  top_12->set_neighbor(top_12->index(v_center), top_neighbor_3);
   top_12->set_neighbor(top_12->index(v1), top_23);
   top_12->set_neighbor(top_12->index(v2), top_31);
   top_12->set_neighbor(top_12->index(v_top), bottom_12);
 
   // Set neighbors for top_23
-  top_23->set_neighbor(top_23->index(v_center), neighbor_31_1);
+  top_23->set_neighbor(top_23->index(v_center), top_neighbor_1);
   top_23->set_neighbor(top_23->index(v2), top_31);
   top_23->set_neighbor(top_23->index(v3), top_12);
   top_23->set_neighbor(top_23->index(v_top), bottom_23);
 
   // Set neighbors for top_31
-  top_31->set_neighbor(top_31->index(v_center), neighbor_31_2);
+  top_31->set_neighbor(top_31->index(v_center), top_neighbor_2);
   top_31->set_neighbor(top_31->index(v3), top_12);
   top_31->set_neighbor(top_31->index(v1), top_23);
   top_31->set_neighbor(top_31->index(v_top), bottom_31);
@@ -396,6 +409,7 @@ void make_26_move(Delaunay* const D3,
     auto choice = generate_random_unsigned(0, one_three->size()-1);
     unsigned neighboring_31_index;
     // Is there a neighboring (3,1) simplex?
+    // TODO: don't need to return neighboring_31_index
     if (is_26_movable((*one_three)[choice], &neighboring_31_index)) {
       // Debugging
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
@@ -407,7 +421,7 @@ void make_26_move(Delaunay* const D3,
       Cell_handle old_31_to_be_moved =
         (*one_three)[choice]->neighbor(neighboring_31_index);
       // Do the (2,6) move
-      move_26(D3, old_13_to_be_moved, neighboring_31_index, old_31_to_be_moved);
+      move_26(D3, old_13_to_be_moved, old_31_to_be_moved);
       not_moved = false;
     } else {
       std::cout << "(1,3) simplex " << choice << " was not movable."
