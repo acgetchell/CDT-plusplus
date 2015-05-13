@@ -14,6 +14,7 @@ before_install:
 install:
   - brew install ninja
   - brew install eigen
+  - brew install cppcheck
   #- brew unlink cgal
   #- brew install cgal --c++11 --imaging --with-eigen --with-lapack
   - curl -O https://gforge.inria.fr/frs/download.php/file/34512/CGAL-4.5.2.tar.gz
