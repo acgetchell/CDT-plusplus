@@ -15,15 +15,15 @@ install:
   - brew install ninja
   - brew install eigen
   - brew install cppcheck
-  #- brew unlink cgal
-  #- brew install cgal --c++11 --imaging --with-eigen --with-lapack
-  - curl -O https://gforge.inria.fr/frs/download.php/file/34512/CGAL-4.5.2.tar.gz
-  - tar zxvf CGAL-4.5.2.tar.gz &> install.log
-  - cd CGAL-4.5.2
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
-  - ninja
-  - sudo ninja install &> install.log
-  - cd ..
+  - brew unlink cgal
+  - brew install cgal --c++11 --imaging --with-eigen3 --with-lapack
+  # - curl -O https://gforge.inria.fr/frs/download.php/file/34512/CGAL-4.5.2.tar.gz
+  # - tar zxvf CGAL-4.5.2.tar.gz &> install.log
+  # - cd CGAL-4.5.2
+  # - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
+  # - ninja
+  # - sudo ninja install &> install.log
+  # - cd ..
 script:
   - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   - unzip gmock-1.7.0.zip
