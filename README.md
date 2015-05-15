@@ -221,10 +221,12 @@ build/Testing directory which is generated thereby.
 
 Static Analysis:
 -----------
-Clang comes with [scan-build][32] which can run static analysis integrated with
+The [build.sh][28] script runs a quick static analysis using [cppcheck][34].
+
+Clang comes with [scan-build][32] which can run a much more thorough, but slower static analysis integrated with
 CMake and Ninja. Simply run the [scan-build.sh][33] script. Note that this
 script is somewhat fragile, as it depends upon the version of llvm installed,
-as it links directly to those directories without helpful symlinks to abstract
+and links directly to those directories without helpful symlinks to abstract
 version numbers away.
 
 [1]: http://arxiv.org/abs/hep-th/0105267
@@ -260,3 +262,4 @@ version numbers away.
 [31]: http://www.hdfgroup.org/HDF5/
 [32]: http://clang-analyzer.llvm.org/scan-build.html
 [33]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan-build.sh
+[34]: http://cppcheck.sourceforge.net
