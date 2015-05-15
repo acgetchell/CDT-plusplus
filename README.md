@@ -221,7 +221,7 @@ build/Testing directory which is generated thereby.
 
 Static Analysis:
 -----------
-The [build.sh][28] script runs a quick static analysis using [cppcheck][34].
+The [build.sh][27] script runs a quick static analysis using [cppcheck][34].
 
 Clang comes with [scan-build][32] which can run a much more thorough, but slower static analysis integrated with
 CMake and Ninja. Simply run the [scan-build.sh][33] script. Note that this
