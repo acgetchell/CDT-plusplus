@@ -77,7 +77,7 @@ inline void get_vertices(const Delaunay& D3,
   Delaunay::Finite_vertices_iterator vit;
   for (vit = D3.finite_vertices_begin(); vit != D3.finite_vertices_end();
        ++vit) {
-    Vertices->push_back(vit);
+    Vertices->emplace_back(vit);
   }
 }  // get_vertices()
 
@@ -105,7 +105,7 @@ inline void get_timelike_edges(const Delaunay& D3,
     if (time1 != time2) {
       Edge_tuple thisEdge{ch, ch->index(ch->vertex(eit->second)),
                     ch->index(ch->vertex(eit->third))};
-      N1_TL->push_back(thisEdge);
+      N1_TL->emplace_back(thisEdge);
 
       // debugging
       // std::cout << "First vertex of edge is " << std::get<1>(thisEdge)
@@ -210,7 +210,7 @@ inline void classify_3_simplices(const Delaunay* const D3,
     auto min_values = 0;
     // Push every time value into a list
     for (auto i = 0; i < 4; ++i) {
-      timevalues.push_back(cit->vertex(i)->info());
+      timevalues.emplace_back(cit->vertex(i)->info());
     }
     // Now sort the list
     timevalues.sort();
@@ -228,13 +228,13 @@ inline void classify_3_simplices(const Delaunay* const D3,
 
     if (max_values == 3) {
       cit->info() = 13;
-      one_three->push_back(cit);
+      one_three->emplace_back(cit);
     } else if (max_values == 2) {
       cit->info() = 22;
-      two_two->push_back(cit);
+      two_two->emplace_back(cit);
     } else {
       cit->info() = 31;
-      three_one->push_back(cit);
+      three_one->emplace_back(cit);
     }
   }
 }  // classify_3_simplices()
@@ -415,8 +415,8 @@ inline void make_2_sphere(const unsigned number_of_points,
   CGAL::Random_points_on_sphere_3<Point> gen(radius);
 
   for (auto j = 0; j < number_of_points; ++j) {
-    vertices->push_back(*gen++);
-    timevalue->push_back(static_cast<unsigned int>(radius));
+    vertices->emplace_back(*gen++);
+    timevalue->emplace_back(static_cast<unsigned int>(radius));
   }
 
   if (output) {
