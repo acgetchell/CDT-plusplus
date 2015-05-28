@@ -191,7 +191,7 @@ void make_32_move(Delaunay* const D3,
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
+auto is_26_movable(const Cell_handle c, unsigned* n) noexcept {
   auto movable = false;
   for (auto i = 0; i < 4; i++) {
     // Debugging
@@ -208,9 +208,24 @@ auto is_26_movable(Cell_handle c, unsigned* n) noexcept {
 
 /// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
 ///
-/// This function takes in a (1,3) and its neighboring (3,1) along with
-/// the index which labels their common face. The points of the common
-/// face are then averaged to get their center. A new vertex is inserted there.
+/// This function takes in a (1,3) and its neighboring (3,1), finding
+/// **common_face_index** using **has_neighbor()**. The points of the common
+/// face are then averaged to get their center. A new vertex, **v_center**,
+/// is inserted there. **v_center** is then assigned an incident cell with
+/// **set_cell()**.
+///
+/// Next, the neighbors of the (1,3) and (3,1) are obtained.
+///
+/// The new cells are created with **v_center** and either **v_top**
+/// or **v_bottom**, plus 2 of {v1, v2, v3}. The correct adjacency
+/// relationships with the neighbors and each other are then set with
+/// **set_adjacency**.
+///
+/// The incident cell for each vertex must be set, again with **set_cell**.
+///
+/// Finally, the orientations of each cell are checked, and fixed with
+/// **change_orientation()**, an undocumented CGAL function which swaps
+/// indices 0 and 1.
 ///
 /// @image html 26.png
 /// @image latex 26.eps width=7cm
@@ -231,21 +246,19 @@ void move_26(Delaunay* const D3,
   // has_neighbor() returns the index of the common face
   bottom->has_neighbor(top, common_face_index);
 
-  // Get vertices of common face
-  unsigned i1 = (common_face_index + 1)&3;
-  unsigned i2 = (common_face_index + 2)&3;
-  unsigned i3 = (common_face_index + 3)&3;
+  // Get vertices of common face with respect to bottom cell
+  int i1 = (common_face_index + 1)&3;
+  int i2 = (common_face_index + 2)&3;
+  int i3 = (common_face_index + 3)&3;
+
+  // Get vertices of common face with respect to top cell
+  int in1 = top->index(bottom->vertex(i1));
+  int in2 = top->index(bottom->vertex(i2));
+  int in3 = top->index(bottom->vertex(i3));
 
   Vertex_handle v1 = bottom->vertex(i1);
   Vertex_handle v2 = bottom->vertex(i2);
   Vertex_handle v3 = bottom->vertex(i3);
-
-  // Are bottom and top vertex handles the same?
-  if ((v1 == top->vertex(i1)) && (v2 == top->vertex(i2)) && (v3 == top->vertex(i3))) {
-    std::cout << "Vertex indices are same for top and bottom." << std::endl;
-  } else {
-    std::cout << "Vertex indices are not the same for top and bottom." << std::endl;
-  }
 
   // Bottom vertex is the one opposite of the common face
   Vertex_handle v_bottom = bottom->vertex(common_face_index);
@@ -254,12 +267,18 @@ void move_26(Delaunay* const D3,
   Vertex_handle v_top = D3->tds().mirror_vertex(bottom, common_face_index);
 
   // Debugging
-  std::cout << "Vertex index 1 is " << i1
-            << " with coordinates of " << v1->point() << std::endl;
-  std::cout << "Vertex index 2 is " << i2
-            << " with coordinates of " << v2->point() << std::endl;
-  std::cout << "Vertex index 3 is " << i3
-            << " with coordinates of " << v3->point() << std::endl;
+  std::cout << "i1 is " << i1 << " with coordinates of "
+            << v1->point() << std::endl;
+  std::cout << "in1 is " << in1 << " with coordinates of "
+            << top->vertex(in1)->point() << std::endl;
+  std::cout << "i2 is " << i2 << " with coordinates of "
+            << v2->point() << std::endl;
+  std::cout << "in2 is " << in2 << " with coordinates of "
+            << top->vertex(in2)->point() << std::endl;
+  std::cout << "i3 is " << i3 << " with coordinates of "
+            << v3->point() << std::endl;
+  std::cout << "in3 is " << in3 << " with coordinates of "
+            << top->vertex(in3)->point() << std::endl;
   std::cout << "Vertex v_bottom is " << common_face_index
             << " with coordinates of " << v_bottom->point() << std::endl;
   std::cout << "Vertex v_top is " << common_face_index
@@ -307,6 +326,8 @@ void move_26(Delaunay* const D3,
 
   // Assign a timeslice to the new vertex
   auto timeslice = v1->info();
+
+  // Debugging
   std::cout << "Timeslice is " << timeslice << std::endl;
   v_center->info() = timeslice;
   std::cout << "Inserted vertex " << v_center->point()
@@ -317,9 +338,9 @@ void move_26(Delaunay* const D3,
   Cell_handle bottom_neighbor_1 = bottom->neighbor(i1);
   Cell_handle bottom_neighbor_2 = bottom->neighbor(i2);
   Cell_handle bottom_neighbor_3 = bottom->neighbor(i3);
-  Cell_handle top_neighbor_1 = top->neighbor(i1);
-  Cell_handle top_neighbor_2 = top->neighbor(i2);
-  Cell_handle top_neighbor_3 = top->neighbor(i3);
+  Cell_handle top_neighbor_1 = top->neighbor(in1);
+  Cell_handle top_neighbor_2 = top->neighbor(in2);
+  Cell_handle top_neighbor_3 = top->neighbor(in3);
 
   // Delete old cells
   D3->tds().delete_cell(bottom);
@@ -333,52 +354,10 @@ void move_26(Delaunay* const D3,
   Cell_handle top_23 = D3->tds().create_cell(v2, v_center, v3, v_top);
   Cell_handle top_31 = D3->tds().create_cell(v3, v_center, v1, v_top);
 
-  // Set neighbors for bottom_12
-  bottom_12->set_neighbor(bottom_12->index(v_center), bottom_neighbor_3);
-  // D3->tds().set_adjacency(bottom_12,
-  //                         bottom_12->index(v_center),
-  //                         bottom_neighbor_3,
-  //                         D3->tds().mirror_index(bottom_12,
-  //                                                bottom_12->index(v_center)));
-  // std::cout << "Mirror index is " <<
-  //   bottom_neighbor_3->index(D3->tds().mirror_vertex(bottom_12, bottom_12->index(v_center)))
-                                  // << std::endl;
-  bottom_12->set_neighbor(bottom_12->index(v1), bottom_23);
-  bottom_12->set_neighbor(bottom_12->index(v2), bottom_31);
-  bottom_12->set_neighbor(bottom_12->index(v_bottom), top_12);
-
-  // Set neighbors for bottom_23
-  bottom_23->set_neighbor(bottom_23->index(v_center), bottom_neighbor_1);
-  bottom_23->set_neighbor(bottom_23->index(v2), bottom_31);
-  bottom_23->set_neighbor(bottom_23->index(v3), bottom_12);
-  bottom_23->set_neighbor(bottom_23->index(v_bottom), top_23);
-
-  // Set neighbors for bottom_31
-  bottom_31->set_neighbor(bottom_31->index(v_center), bottom_neighbor_2);
-  bottom_31->set_neighbor(bottom_31->index(v3), bottom_12);
-  bottom_31->set_neighbor(bottom_31->index(v1), bottom_23);
-  bottom_31->set_neighbor(bottom_31->index(v_bottom), top_31);
-
-  // Set neighbors for top_12
-  top_12->set_neighbor(top_12->index(v_center), top_neighbor_3);
-  top_12->set_neighbor(top_12->index(v1), top_23);
-  top_12->set_neighbor(top_12->index(v2), top_31);
-  top_12->set_neighbor(top_12->index(v_top), bottom_12);
-
-  // Set neighbors for top_23
-  top_23->set_neighbor(top_23->index(v_center), top_neighbor_1);
-  top_23->set_neighbor(top_23->index(v2), top_31);
-  top_23->set_neighbor(top_23->index(v3), top_12);
-  top_23->set_neighbor(top_23->index(v_top), bottom_23);
-
-  // Set neighbors for top_31
-  top_31->set_neighbor(top_31->index(v_center), top_neighbor_2);
-  top_31->set_neighbor(top_31->index(v3), top_12);
-  top_31->set_neighbor(top_31->index(v1), top_23);
-  top_31->set_neighbor(top_31->index(v_top), bottom_31);
-
   // Set incident cell for v_center
   v_center->set_cell(bottom_12);
+
+  // Set neighbors for bottom_12
 
   // Do all the cells have v_center as a vertex?
   (top_31->has_vertex(v_center)) ? std::cout << "top31 has v_center" << std::endl : std::cout << "top31 doesn't have v_center" << std::endl;
