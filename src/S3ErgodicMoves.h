@@ -246,16 +246,18 @@ void move_26(Delaunay* const D3,
   // has_neighbor() returns the index of the common face
   bottom->has_neighbor(top, common_face_index);
 
-  // Get vertices of common face with respect to bottom cell
+  // Get indices of vertices of common face with respect to bottom cell
   int i1 = (common_face_index + 1)&3;
   int i2 = (common_face_index + 2)&3;
   int i3 = (common_face_index + 3)&3;
 
-  // Get vertices of common face with respect to top cell
+  // Get indices of vertices of common face with respect to top cell
   int in1 = top->index(bottom->vertex(i1));
   int in2 = top->index(bottom->vertex(i2));
   int in3 = top->index(bottom->vertex(i3));
 
+  // Get vertices of the common face
+  // They're denoted wrt the bottom, but could easily be wrt to top
   Vertex_handle v1 = bottom->vertex(i1);
   Vertex_handle v2 = bottom->vertex(i2);
   Vertex_handle v3 = bottom->vertex(i3);
@@ -267,6 +269,8 @@ void move_26(Delaunay* const D3,
   Vertex_handle v_top = D3->tds().mirror_vertex(bottom, common_face_index);
 
   // Debugging
+  // Checks that v1, v2, and v3 are same whether specified with bottom cell
+  // indices or top cell indices
   std::cout << "i1 is " << i1 << " with coordinates of "
             << v1->point() << std::endl;
   std::cout << "in1 is " << in1 << " with coordinates of "
@@ -310,6 +314,9 @@ void move_26(Delaunay* const D3,
   Vertex_handle v_center = D3->tds().create_vertex();
   v_center->set_point(p);
 
+  // Assign a timeslice to the new vertex
+  auto timeslice = v1->info();
+
   // Check we have a vertex
   if (D3->tds().is_vertex(v_center)) {
     std::cout << "It's a vertex in the TDS." << std::endl;
@@ -323,9 +330,6 @@ void move_26(Delaunay* const D3,
   // } else {
   //   std::cout << "It's not a valid vertex in the TDS." << std::endl;
   // }
-
-  // Assign a timeslice to the new vertex
-  auto timeslice = v1->info();
 
   // Debugging
   std::cout << "Timeslice is " << timeslice << std::endl;
@@ -357,7 +361,19 @@ void move_26(Delaunay* const D3,
   // Set incident cell for v_center
   v_center->set_cell(bottom_12);
 
+  // Set adjacency relations for external neighbors of bottom and top
+  int bottom_neighbor_1_index;
+  bottom_12->has_neighbor(bottom_neighbor_1, bottom_neighbor_1_index);
+  std::cout << "bottom_neighbor_1_index is " << bottom_neighbor_1_index << std::endl;
+  int bottom_neighbor_1_mirror_index;
+  bottom_neighbor_1->has_neighbor(bottom_12, bottom_neighbor_1_mirror_index);
+  std::cout << "it's mirror vertex is " << bottom_neighbor_1_mirror_index << std::endl;
+  D3->tds().set_adjacency(bottom_12, bottom_neighbor_1_index, bottom_neighbor_1, bottom_neighbor_1_mirror_index);
+
+
+
   // Set neighbors for bottom_12
+  // set_adjacency(bottom_12, )
 
   // Do all the cells have v_center as a vertex?
   (top_31->has_vertex(v_center)) ? std::cout << "top31 has v_center" << std::endl : std::cout << "top31 doesn't have v_center" << std::endl;
