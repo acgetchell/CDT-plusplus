@@ -17,7 +17,8 @@ install:
   - brew install cppcheck
   # - brew unlink cgal
   # - brew install cgal --c++11 --imaging --with-eigen3 --with-lapack
-  - curl -O https://gforge.inria.fr/frs/download.php/file/34704/CGAL-4.6.tar.gz
+  #- curl -O https://gforge.inria.fr/frs/download.php/file/34704/CGAL-4.6.tar.gz
+  - curl -0 https://github.com/CGAL/cgal/archive/releases/CGAL-4.6.tar.gz
   - tar zxvf CGAL-4.6.tar.gz &> install.log
   - cd CGAL-4.6
   - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
