@@ -34,6 +34,7 @@
 // C++ headers
 #include <random>
 #include <vector>
+#include <utility>
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
@@ -206,6 +207,46 @@ auto is_26_movable(const Cell_handle c, unsigned* n) noexcept {
   return movable;
 }  // is_26_movable()
 
+/// @brief Set pairs of cells to be each others neighbors
+///
+/// Given a vector of pairs of Cell_handles, find their mutual
+/// neighbor indices and call **set_adjacency(Cell1, index of Cell2 in Cell1,
+/// Cell2, index of Cell1 in Cell2)** to set neighbors
+///
+/// @param[in] adjacency_list A vector of pairs of Cell handles
+void set_adjacencies(Delaunay* const D3,
+                     std::vector<std::pair<Cell_handle,
+                     Cell_handle>> adjacency_list)  noexcept {
+  for (auto it = adjacency_list.begin(); it != adjacency_list.end(); ++it) {
+    int neighbor_index;
+    Cell_handle first = it->first;
+    Cell_handle second = it->second;
+    // Find the index of the second cell wrt the first cell
+    first->has_neighbor(second, neighbor_index);
+    // Find the index of the first cell wrt the second cell
+    int neighbor_mirror_index;
+    second->has_neighbor(first, neighbor_mirror_index);
+    D3->tds().set_adjacency(first, neighbor_index, second,
+                            neighbor_mirror_index);
+
+    // Debugging
+    std::cout << "First cell index is " << neighbor_index << std::endl;
+    std::cout << "Second cell index is " << neighbor_mirror_index << std::endl;
+  }
+
+  // Set adjacency relations for external neighbors of bottom and top
+  // int bottom_neighbor_1_index;
+  // bottom_12->has_neighbor(bottom_neighbor_1, bottom_neighbor_1_index);
+  // std::cout << "bottom_neighbor_1_index is "
+  //           << bottom_neighbor_1_index << std::endl;
+  // int bottom_neighbor_1_mirror_index;
+  // bottom_neighbor_1->has_neighbor(bottom_12, bottom_neighbor_1_mirror_index);
+  // std::cout << "it's mirror vertex is "
+  //           << bottom_neighbor_1_mirror_index << std::endl;
+  // D3->tds().set_adjacency(bottom_12, bottom_neighbor_1_index,
+  //                         bottom_neighbor_1, bottom_neighbor_1_mirror_index);
+}
+
 /// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
 ///
 /// This function takes in a (1,3) and its neighboring (3,1), finding
@@ -346,6 +387,8 @@ void move_26(Delaunay* const D3,
   Cell_handle top_neighbor_2 = top->neighbor(in2);
   Cell_handle top_neighbor_3 = top->neighbor(in3);
 
+  std::vector<std::pair<Cell_handle, Cell_handle>> adjacency_vector;
+
   // Delete old cells
   D3->tds().delete_cell(bottom);
   D3->tds().delete_cell(top);
@@ -361,26 +404,127 @@ void move_26(Delaunay* const D3,
   // Set incident cell for v_center
   v_center->set_cell(bottom_12);
 
+  // Populate adjacency matrix with all neighbors pairwise
+  // adjacency_vector.push_back(std::make_pair(bottom_12, bottom_neighbor_1));
+
+  // set_adjacencies(D3, adjacency_vector);
+
   // Set adjacency relations for external neighbors of bottom and top
+  // We do this the long way for now because looping through a construct
+  // produces violations of dimensionality
   int bottom_neighbor_1_index;
   bottom_12->has_neighbor(bottom_neighbor_1, bottom_neighbor_1_index);
-  std::cout << "bottom_neighbor_1_index is " << bottom_neighbor_1_index << std::endl;
+  std::cout << "bottom_neighbor_1_index is "
+            << bottom_neighbor_1_index << std::endl;
   int bottom_neighbor_1_mirror_index;
   bottom_neighbor_1->has_neighbor(bottom_12, bottom_neighbor_1_mirror_index);
-  std::cout << "it's mirror vertex is " << bottom_neighbor_1_mirror_index << std::endl;
-  D3->tds().set_adjacency(bottom_12, bottom_neighbor_1_index, bottom_neighbor_1, bottom_neighbor_1_mirror_index);
+  std::cout << "it's mirror vertex is "
+            << bottom_neighbor_1_mirror_index << std::endl;
+  D3->tds().set_adjacency(bottom_12, bottom_neighbor_1_index,
+                          bottom_neighbor_1, bottom_neighbor_1_mirror_index);
+
+  int bottom_neighbor_2_index;
+  bottom_23->has_neighbor(bottom_neighbor_2, bottom_neighbor_2_index);
+  std::cout << "bottom_neighbor_2_index is "
+            << bottom_neighbor_2_index << std::endl;
+  int bottom_neighbor_2_mirror_index;
+  bottom_neighbor_2->has_neighbor(bottom_23, bottom_neighbor_2_mirror_index);
+  std::cout << "it's mirror vertex is "
+            << bottom_neighbor_2_mirror_index << std::endl;
+  D3->tds().set_adjacency(bottom_23, bottom_neighbor_2_index,
+                          bottom_neighbor_2, bottom_neighbor_2_mirror_index);
+
+  int bottom_neighbor_3_index;
+  bottom_31->has_neighbor(bottom_neighbor_3, bottom_neighbor_3_index);
+  std::cout << "bottom_neighbor_3_index is "
+            << bottom_neighbor_3_index << std::endl;
+  int bottom_neighbor_3_mirror_index;
+  bottom_neighbor_3->has_neighbor(bottom_31, bottom_neighbor_3_mirror_index);
+  std::cout << "it's mirror vertex is "
+            << bottom_neighbor_3_mirror_index << std::endl;
+  D3->tds().set_adjacency(bottom_31, bottom_neighbor_3_index,
+                          bottom_neighbor_3, bottom_neighbor_3_mirror_index);
+
+  int top_neighbor_1_index;
+  top_12->has_neighbor(top_neighbor_1, top_neighbor_1_index);
+  std::cout << "top_neighbor_1_index is "
+            << top_neighbor_1_index << std::endl;
+  int top_neighbor_1_mirror_index;
+  top_neighbor_1->has_neighbor(top_12, top_neighbor_1_mirror_index);
+  std::cout << "it's mirror vertex is "
+            << top_neighbor_1_mirror_index << std::endl;
+  D3->tds().set_adjacency(top_12, top_neighbor_1_index,
+                          top_neighbor_1, top_neighbor_1_mirror_index);
+
+  int top_neighbor_2_index;
+  top_23->has_neighbor(top_neighbor_2, top_neighbor_2_index);
+  std::cout << "top_neighbor_2_index is "
+            << top_neighbor_2_index << std::endl;
+  int top_neighbor_2_mirror_index;
+  top_neighbor_2->has_neighbor(top_23, top_neighbor_2_mirror_index);
+  std::cout << "it's mirror vertex is "
+            << top_neighbor_2_mirror_index << std::endl;
+  D3->tds().set_adjacency(top_23, top_neighbor_2_index,
+                          top_neighbor_2, top_neighbor_2_mirror_index);
+
+  int top_neighbor_3_index;
+  top_31->has_neighbor(top_neighbor_3, top_neighbor_3_index);
+  std::cout << "top_neighbor_3_index is "
+            << top_neighbor_3_index << std::endl;
+  int top_neighbor_3_mirror_index;
+  top_neighbor_3->has_neighbor(top_31, top_neighbor_3_mirror_index);
+  std::cout << "it's mirror vertex is "
+            << top_neighbor_3_mirror_index << std::endl;
+  D3->tds().set_adjacency(top_31, top_neighbor_3_index,
+                          top_neighbor_3, top_neighbor_3_mirror_index);
 
 
+  // Set internal neighbors of bottom cells
+  int bottom_12_23_index;
+  bottom_12->has_neighbor(bottom_23, bottom_12_23_index);
+  std::cout << "bottom_12_23_index is "
+            << bottom_12_23_index << std::endl;
+  int bottom_23_12_index;
+  bottom_23->has_neighbor(bottom_12, bottom_23_12_index);
+  std::cout << "bottom_23_12_index is "
+            << bottom_23_12_index << std::endl;
+  D3->tds().set_adjacency(bottom_12, bottom_12_23_index,
+                          bottom_23, bottom_23_12_index);
 
-  // Set neighbors for bottom_12
+  int bottom_23_31_index;
+  bottom_23->has_neighbor(bottom_31, bottom_23_31_index);
+  std::cout << "bottom_23_31_index is "
+            << bottom_23_31_index << std::endl;
+  int bottom_31_23_index;
+  bottom_31->has_neighbor(bottom_23, bottom_31_23_index);
+  std::cout << "bottom_31_23_index is "
+            << bottom_31_23_index << std::endl;
+  D3->tds().set_adjacency(bottom_23, bottom_23_31_index,
+                          bottom_31, bottom_31_23_index);
+
+  int bottom_31_12_index;
+  bottom_31->has_neighbor(bottom_12, bottom_31_12_index);
+  std::cout << "bottom_31_12_index is "
+            << bottom_31_12_index << std::endl;
+  int bottom_12_31_index;
+  bottom_12->has_neighbor(bottom_31,bottom_12_31_index);
+  std::cout << "bottom_12_31_index is "
+            << bottom_12_31_index << std::endl;
+  D3->tds().set_adjacency(bottom_31, bottom_31_12_index,
+                          bottom_12, bottom_12_31_index);
+
   // set_adjacency(bottom_12, )
 
   // Do all the cells have v_center as a vertex?
-  (top_31->has_vertex(v_center)) ? std::cout << "top31 has v_center" << std::endl : std::cout << "top31 doesn't have v_center" << std::endl;
+  (top_31->has_vertex(v_center)) ? std::cout << "top31 has v_center"
+    << std::endl : std::cout << "top31 doesn't have v_center" << std::endl;
 
-  (v_center->is_valid(true,1)) ? std::cout << "v_center->is_valid is true" << std::endl : std::cout << "v_center->is_valid is false" << std::endl;
+  (v_center->is_valid(true, 1)) ? std::cout << "v_center->is_valid is true"
+    << std::endl : std::cout << "v_center->is_valid is false" << std::endl;
 
-  (v_center->cell()->has_vertex(v_center)) ? std::cout << "v_center->cell has itself" << std::endl : std::cout << "v_center->cell doesn't have itself";
+  (v_center->cell()->has_vertex(v_center)) ? std::cout
+    << "v_center->cell has itself" << std::endl : std::cout
+    << "v_center->cell doesn't have itself";
 
   CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true, 1));
 }  // move_26()
@@ -404,7 +548,7 @@ void make_26_move(Delaunay* const D3,
     auto choice = generate_random_unsigned(0, one_three->size()-1);
     unsigned neighboring_31_index;
     // Is there a neighboring (3,1) simplex?
-    // TODO: don't need to return neighboring_31_index
+    // TODO(acgetchell): don't need to return neighboring_31_index
     if (is_26_movable((*one_three)[choice], &neighboring_31_index)) {
       // Debugging
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
