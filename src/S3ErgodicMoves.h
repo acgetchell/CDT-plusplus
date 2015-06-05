@@ -437,42 +437,7 @@ void move_26(Delaunay* const D3,
   adjacency_vector.emplace_back(std::make_pair(bottom_31, top_31));
 
   // Set adjacencies
-  // for (auto i : adjacency_vector) {
-  //   Cell_handle first = i.first;
-  //   Cell_handle second = i.second;
-  //   // Dirty hack; all neighbors seem to come up as 3
-  //   int index{3};
-  //   int mirror_index{3};
-  //   if (first->has_neighbor(second, index) &&
-  //       second->has_neighbor(first, mirror_index)) {
-  //     std::cout << "index is " << index << std::endl;
-  //     std::cout << "mirror_index is " << mirror_index << std::endl;
-  //     std::cout << "first and second are neighbors" << std::endl;
-  //     D3->tds().set_adjacency(first, index, second, mirror_index);
-  //   } else {
-  //     std::cout << "first and second aren't neighbors" << std::endl;
-  //   }
-  // }
-
   set_adjacencies(D3, adjacency_vector);
-
-  // Set adjacency relations for external neighbors of bottom and top
-  // CGAL_triangulation_precondition(bottom_12->has_neighbor
-  //                                 (bottom_neighbor_2));
-  // int bottom_neighbor_3_index;
-  // auto first = bottom_12->has_neighbor(bottom_neighbor_3,
-  //   bottom_neighbor_3_index);
-  // std::cout << "bottom_neighbor_3_index is "
-  //           << bottom_neighbor_3_index << std::endl;
-  // int bottom_neighbor_3_mirror_index;
-  // auto second = bottom_neighbor_1->has_neighbor(bottom_12,
-  //   bottom_neighbor_3_mirror_index);
-  // std::cout << "it's mirror vertex is "
-  //           << bottom_neighbor_3_mirror_index << std::endl;
-  // (first) ? std::cout << "first is neighbor " << std::endl :
-  //   std::cout << "first is not neighbor" << std::endl;
-  // D3->tds().set_adjacency(bottom_12, bottom_neighbor_3_index,
-  //                         bottom_neighbor_1, bottom_neighbor_3_mirror_index);
 
   // Do all the cells have v_center as a vertex?
   (bottom_12->has_vertex(v_center)) ? std::cout << "bottom_12 has v_center"
