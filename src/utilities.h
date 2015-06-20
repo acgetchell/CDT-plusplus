@@ -80,9 +80,9 @@ const std::string currentDateTime() noexcept {
 /// @param[in] number_of_timeslices The number of foliated timeslices
 /// @returns A filename as a std::string
 auto generate_filename(const topology_type& top,
-                              const unsigned dimensions,
-                              const unsigned number_of_simplices,
-                              const unsigned number_of_timeslices) noexcept {
+                       const unsigned dimensions,
+                       const unsigned number_of_simplices,
+                       const unsigned number_of_timeslices) noexcept {
   std::string filename;
   if (top == topology_type::SPHERICAL) {
     filename += "S";
