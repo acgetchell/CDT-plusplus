@@ -93,16 +93,16 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(T.tds().is_valid())
-  << "Triangulation is invalid.";
+    << "Triangulation is invalid.";
 
   EXPECT_THAT(T.dimension(), Eq(3))
-  << "Triangulation has wrong dimensionality.";
+    << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(check_timeslices(&T, no_output))
-  << "Cells do not span exactly 1 timeslice.";
+    << "Cells do not span exactly 1 timeslice.";
 
   EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before))
-  << "The number of vertices changed.";
+    << "The number of vertices changed.";
 
   EXPECT_THAT(N3_31_after, Eq(N3_31_before))
     << "(3,1) simplices changed.";
@@ -142,16 +142,16 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(T.tds().is_valid())
-  << "Triangulation is invalid.";
+    << "Triangulation is invalid.";
 
   EXPECT_THAT(T.dimension(), Eq(3))
-  << "Triangulation has wrong dimensionality.";
+    << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(check_timeslices(&T, no_output))
-  << "Cells do not span exactly 1 timeslice.";
+    << "Cells do not span exactly 1 timeslice.";
 
   EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before))
-  << "The number of vertices changed.";
+    << "The number of vertices changed.";
 
   EXPECT_THAT(N3_31_after, Eq(N3_31_before))
     << "(3,1) simplices changed.";
@@ -183,16 +183,16 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
   auto N3_13_after = one_three.size();
 
   EXPECT_TRUE(T.tds().is_valid(true))
-  << "Triangulation is invalid.";
+    << "Triangulation is invalid.";
 
   EXPECT_THAT(T.dimension(), Eq(3))
-  << "Triangulation has wrong dimensionality.";
+    << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(check_timeslices(&T, no_output))
-  << "Cells do not span exactly 1 timeslice.";
+    << "Cells do not span exactly 1 timeslice.";
 
   EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before+1))
-  << "A vertex was not added to the triangulation.";
+    << "A vertex was not added to the triangulation.";
 
   EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
     << "(3,1) simplices did not increase by 2.";
@@ -229,16 +229,16 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
   auto N3_13_after = one_three.size();
 
   EXPECT_TRUE(T.is_valid())
-  << "Triangulation is not Delaunay.";
+    << "Triangulation is not Delaunay.";
 
   EXPECT_THAT(T.dimension(), Eq(3))
-  << "Triangulation has wrong dimensionality.";
+    << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(check_timeslices(&T, no_output))
-  << "Cells do not span exactly 1 timeslice.";
+    << "Cells do not span exactly 1 timeslice.";
 
   EXPECT_THAT(T.number_of_vertices(), Eq(number_of_vertices_before-1))
-  << "A vertex was not removed from the triangulation.";
+    << "A vertex was not removed from the triangulation.";
 
   EXPECT_THAT(N3_31_after, Eq(N3_31_before-2))
     << "(3,1) simplices did not decrease by 2.";

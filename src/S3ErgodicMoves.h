@@ -185,6 +185,25 @@ void make_32_move(Delaunay* const D3,
 
 /// @brief Check a (2,6) move
 ///
+/// This function checks if a (2,6) move is possible on the i-th
+/// neighbor of a (1,3) cell. That is, the i-th neighboring cell must be
+/// a (3,1) cell, and of course the base cell must be a (1,3). This preserves
+/// the timelike foliation. This condition can be relaxed in the more
+/// general case.
+///
+/// @param[in] c The presumed (1,3) cell
+/// @param[in] i The i-th neighbor of c
+/// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
+auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
+  // Source cell should be a 13
+  auto source_is_13 = (c->info() == 13) ? true : false;
+  // Neighbor should be a 31
+  auto neighbor_is_31 = (c->neighbor(i)->info() == 31) ? true : false;
+  return (source_is_13 && neighbor_is_31);
+}
+
+/// @brief Find a (2,6) move
+///
 /// This function checks to see if a (2,6) move is possible. Starting with
 /// a (1,3) simplex, it checks all neighbors to see if there is a (3,1).
 /// If so, the index **n** of that neighbor is passed via an out parameter.
@@ -192,20 +211,20 @@ void make_32_move(Delaunay* const D3,
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-auto is_26_movable(const Cell_handle c, unsigned* n) noexcept {
+auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   auto movable = false;
   for (auto i = 0; i < 4; i++) {
     // Debugging
     std::cout << "Neighbor " << i << " is of type "
               << c->neighbor(i)->info() << std::endl;
     // Check all neighbors for a (3,1) simplex
-    if (c->neighbor(i)->info() == 31) {
+    if (is_26_movable(c, i)) {
       *n = i;
       movable = true;
     }
   }
   return movable;
-}  // is_26_movable()
+}  // find_26_movable()
 
 /// @brief Set pairs of cells to be each others neighbors
 ///
@@ -220,7 +239,6 @@ void set_adjacencies(Delaunay* const D3,
   for (auto i : adjacency_vector) {
     Cell_handle first = i.first;
     Cell_handle second = i.second;
-    CGAL_triangulation_precondition(first->has_neighbor(second));
     // Find the index of the second cell wrt the first cell
     int neighbor_index;
     first->has_neighbor(second, neighbor_index);
@@ -467,9 +485,9 @@ void move_26(Delaunay* const D3,
 ///
 /// This function performs the (2,6) move by picking a (1,3) simplex
 /// and then checking that the spacelike face has an opposing (3,1)
-/// simplex. This is done using the **is_26_movable()** function, which in
+/// simplex. This is done using the **find_26_movable()** function, which in
 /// addition to returning a boolean value also has an out parameter which
-/// is the unsigned index of the first (3,1) neighbor that **is_26_movable()**
+/// is the unsigned index of the first (3,1) neighbor that **find_26_movable()**
 /// finds. The actual move is performed by **move_26()**.
 ///
 /// @param[in,out]  D3 The Delaunay triangulation
@@ -483,7 +501,7 @@ void make_26_move(Delaunay* const D3,
     unsigned neighboring_31_index;
     // Is there a neighboring (3,1) simplex?
     // TODO(acgetchell): don't need to return neighboring_31_index
-    if (is_26_movable((*one_three)[choice], &neighboring_31_index)) {
+    if (find_26_movable((*one_three)[choice], &neighboring_31_index)) {
       // Debugging
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
       std::cout << "The neighboring simplex " << neighboring_31_index
