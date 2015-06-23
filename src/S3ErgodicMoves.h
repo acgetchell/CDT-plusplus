@@ -285,6 +285,16 @@ auto find_disjoint_index(Cell_handle const first,
 /// Cell2, index of Cell1 in Cell2)** to set neighbors
 ///
 /// @param[in] adjacency_vector A vector of pairs of Cell handles
+
+void change_orientation(Cell_handle const c) noexcept {
+  Vertex_handle tmp_v = c->vertex(0);
+  c->set_vertex(0, c->vertex(1));
+  c->set_vertex(1, tmp_v);
+  Cell_handle tmp_c = c->neighbor(0);
+  c->set_neighbor(0, c->neighbor(1));
+  c->set_neighbor(1, tmp_c);
+}
+
 void set_adjacencies(Delaunay* const D3,
                      std::vector<std::pair<Cell_handle,
                      Cell_handle>> const adjacency_vector) noexcept {
@@ -297,6 +307,9 @@ void set_adjacencies(Delaunay* const D3,
     auto neighbor_mirror_index = find_disjoint_index(second, first);
     D3->tds().set_adjacency(first, neighbor_index, second,
                             neighbor_mirror_index);
+    // Fix orientations
+    if ((neighbor_index&1) != 0)
+      change_orientation(first);
   }
 }  // set_adjacencies()
 
