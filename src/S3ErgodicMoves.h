@@ -35,6 +35,7 @@
 #include <random>
 #include <vector>
 #include <utility>
+#include <algorithm>
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
@@ -226,6 +227,43 @@ auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   return movable;
 }  // find_26_movable()
 
+int find_disjoint_index(Cell_handle const first,
+                        Cell_handle const second) noexcept {
+  std::vector<Vertex_handle> first_vertices;
+  std::vector<Vertex_handle> second_vertices;
+  std::vector<Vertex_handle> disjoint_vector;
+  for (auto i = 0; i < 4; ++i) {
+    first_vertices.emplace_back(first->vertex(i));
+    second_vertices.emplace_back(second->vertex(i));
+  }
+
+  // Sort vectors
+  std::sort(first_vertices.begin(), first_vertices.end());
+  std::sort(second_vertices.begin(), second_vertices.end());
+
+  std::cout << "Cell 1 has the following vertices: " << std::endl;
+  for (auto i : first_vertices) {
+    std::cout << i->point() << std::endl;
+  }
+  std::cout << "Cell 2 has the following vertices: " << std::endl;
+  for (auto i: second_vertices) {
+    std::cout << i->point() << std::endl;
+  }
+  std::set_difference(first_vertices.begin(), first_vertices.end(),
+                      second_vertices.begin(), second_vertices.end(),
+                      std::inserter(disjoint_vector, disjoint_vector.begin()));
+  //CGAL_triangulation_precondition(disjoint_vector.size() == 1);
+  std::cout << "The following vertices are disjoint between cell 1 & 2: "
+            << std::endl;
+  for (auto i : disjoint_vector) {
+    std::cout << i->point() << std::endl;
+  }
+  auto result = disjoint_vector.front();
+  std::cout << "We're going to return the vertex " << result->point()
+            << " with an index of " << first->index(result) << std::endl;
+  return first->index(result);
+}
+
 /// @brief Set pairs of cells to be each others neighbors
 ///
 /// Given a vector of pairs of Cell_handles, find their mutual
@@ -240,27 +278,13 @@ void set_adjacencies(Delaunay* const D3,
     Cell_handle first = i.first;
     Cell_handle second = i.second;
     // Find the index of the second cell wrt the first cell
-    int neighbor_index;
-    first->has_neighbor(second, neighbor_index);
+    auto neighbor_index = find_disjoint_index(first, second);
     // Find the index of the first cell wrt the second cell
-    int neighbor_mirror_index;
-    second->has_neighbor(first, neighbor_mirror_index);
+    auto neighbor_mirror_index = find_disjoint_index(second, first);
     D3->tds().set_adjacency(first, neighbor_index, second,
                             neighbor_mirror_index);
   }
-
-  // Set adjacency relations for external neighbors of bottom and top
-  // int bottom_neighbor_1_index;
-  // bottom_12->has_neighbor(bottom_neighbor_1, bottom_neighbor_1_index);
-  // std::cout << "bottom_neighbor_1_index is "
-  //           << bottom_neighbor_1_index << std::endl;
-  // int bottom_neighbor_1_mirror_index;
-  // bottom_neighbor_1->has_neighbor(bottom_12, bottom_neighbor_1_mirror_index);
-  // std::cout << "it's mirror vertex is "
-  //           << bottom_neighbor_1_mirror_index << std::endl;
-  // D3->tds().set_adjacency(bottom_12, bottom_neighbor_1_index,
-  //                         bottom_neighbor_1, bottom_neighbor_1_mirror_index);
-}
+}  // set_adjacencies()
 
 /// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
 ///
@@ -297,6 +321,9 @@ void move_26(Delaunay* const D3,
   CGAL_triangulation_precondition(bottom->has_neighbor
                                   (top));
   CGAL_triangulation_expensive_precondition(is_cell(bottom, top));
+
+  // The vector of all cells involved in the move
+  std::vector<Cell_handle> cells;
 
   int common_face_index;
   // has_neighbor() returns the index of the common face
@@ -402,11 +429,17 @@ void move_26(Delaunay* const D3,
 
   // Get neighbors
   Cell_handle bottom_neighbor_1 = bottom->neighbor(i1);
+  cells.emplace_back(bottom_neighbor_1);
   Cell_handle bottom_neighbor_2 = bottom->neighbor(i2);
+  cells.emplace_back(bottom_neighbor_2);
   Cell_handle bottom_neighbor_3 = bottom->neighbor(i3);
+  cells.emplace_back(bottom_neighbor_3);
   Cell_handle top_neighbor_1 = top->neighbor(in1);
+  cells.emplace_back(top_neighbor_1);
   Cell_handle top_neighbor_2 = top->neighbor(in2);
+  cells.emplace_back(top_neighbor_2);
   Cell_handle top_neighbor_3 = top->neighbor(in3);
+  cells.emplace_back(top_neighbor_3);
 
   // Delete old cells
   D3->tds().delete_cell(bottom);
@@ -414,11 +447,17 @@ void move_26(Delaunay* const D3,
 
   // Create new ones
   Cell_handle bottom_12 = D3->tds().create_cell(v1, v_center, v2, v_bottom);
+  cells.emplace_back(bottom_12);
   Cell_handle bottom_23 = D3->tds().create_cell(v2, v_center, v3, v_bottom);
+  cells.emplace_back(bottom_23);
   Cell_handle bottom_31 = D3->tds().create_cell(v3, v_center, v1, v_bottom);
+  cells.emplace_back(bottom_31);
   Cell_handle top_12 = D3->tds().create_cell(v1, v_center, v2, v_top);
+  cells.emplace_back(top_12);
   Cell_handle top_23 = D3->tds().create_cell(v2, v_center, v3, v_top);
+  cells.emplace_back(top_23);
   Cell_handle top_31 = D3->tds().create_cell(v3, v_center, v1, v_top);
+  cells.emplace_back(top_31);
 
   // Set incident cell for v_center which should make it a valid vertex
   v_center->set_cell(bottom_12);
