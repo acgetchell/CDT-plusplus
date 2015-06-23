@@ -227,8 +227,16 @@ auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   return movable;
 }  // find_26_movable()
 
-int find_disjoint_index(Cell_handle const first,
-                        Cell_handle const second) noexcept {
+/// @brief Finds the disjoint index
+///
+/// Given two cells, find the index of a vertex in cell 1 that is not
+/// in cell 2.
+///
+/// @param[in] first The first cell
+/// @param[in] second The second cell
+/// @returns The integer index of a vertex in first that is not in second
+auto find_disjoint_index(Cell_handle const first,
+                         Cell_handle const second) noexcept {
   std::vector<Vertex_handle> first_vertices;
   std::vector<Vertex_handle> second_vertices;
   std::vector<Vertex_handle> disjoint_vector;
@@ -241,28 +249,34 @@ int find_disjoint_index(Cell_handle const first,
   std::sort(first_vertices.begin(), first_vertices.end());
   std::sort(second_vertices.begin(), second_vertices.end());
 
-  std::cout << "Cell 1 has the following vertices: " << std::endl;
-  for (auto i : first_vertices) {
-    std::cout << i->point() << std::endl;
-  }
-  std::cout << "Cell 2 has the following vertices: " << std::endl;
-  for (auto i: second_vertices) {
-    std::cout << i->point() << std::endl;
-  }
+  // Debugging
+  // std::cout << "Cell 1 has the following vertices: " << std::endl;
+  // for (auto i : first_vertices) {
+  //   std::cout << i->point() << std::endl;
+  // }
+  // std::cout << "Cell 2 has the following vertices: " << std::endl;
+  // for (auto i: second_vertices) {
+  //   std::cout << i->point() << std::endl;
+  // }
+  // Find difference
   std::set_difference(first_vertices.begin(), first_vertices.end(),
                       second_vertices.begin(), second_vertices.end(),
                       std::inserter(disjoint_vector, disjoint_vector.begin()));
-  //CGAL_triangulation_precondition(disjoint_vector.size() == 1);
-  std::cout << "The following vertices are disjoint between cell 1 & 2: "
-            << std::endl;
-  for (auto i : disjoint_vector) {
-    std::cout << i->point() << std::endl;
-  }
+  CGAL_triangulation_precondition(disjoint_vector.size() == 1);
+
+  // Debugging
+  // std::cout << "The following vertices are disjoint between cell 1 & 2: "
+  //           << std::endl;
+  // for (auto i : disjoint_vector) {
+  //   std::cout << i->point() << std::endl;
+  // }
   auto result = disjoint_vector.front();
-  std::cout << "We're going to return the vertex " << result->point()
-            << " with an index of " << first->index(result) << std::endl;
+
+  // Debugging
+  // std::cout << "We're going to return the vertex " << result->point()
+  //           << " with an index of " << first->index(result) << std::endl;
   return first->index(result);
-}
+}  // find_disjoint_index()
 
 /// @brief Set pairs of cells to be each others neighbors
 ///
