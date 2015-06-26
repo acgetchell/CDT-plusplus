@@ -262,6 +262,8 @@ auto find_disjoint_index(Cell_handle const first,
   std::set_difference(first_vertices.begin(), first_vertices.end(),
                       second_vertices.begin(), second_vertices.end(),
                       std::inserter(disjoint_vector, disjoint_vector.begin()));
+  
+  // Must have 3 vertices in common
   CGAL_triangulation_precondition(disjoint_vector.size() == 1);
 
   // Debugging
@@ -278,14 +280,10 @@ auto find_disjoint_index(Cell_handle const first,
   return first->index(result);
 }  // find_disjoint_index()
 
-/// @brief Set pairs of cells to be each others neighbors
+/// @brief Change orientation of a cell
 ///
-/// Given a vector of pairs of Cell_handles, find their mutual
-/// neighbor indices and call **set_adjacency(Cell1, index of Cell2 in Cell1,
-/// Cell2, index of Cell1 in Cell2)** to set neighbors
-///
-/// @param[in] adjacency_vector A vector of pairs of Cell handles
-
+/// This is a private member function in Triangulation_data_structure_3.h
+/// Copied here since this code doesn't have access
 void change_orientation(Cell_handle const c) noexcept {
   Vertex_handle tmp_v = c->vertex(0);
   c->set_vertex(0, c->vertex(1));
@@ -293,8 +291,15 @@ void change_orientation(Cell_handle const c) noexcept {
   Cell_handle tmp_c = c->neighbor(0);
   c->set_neighbor(0, c->neighbor(1));
   c->set_neighbor(1, tmp_c);
-}
+}  // change_orientation()
 
+/// @brief Set pairs of cells to be each others neighbors
+///
+/// Given a vector of pairs of Cell_handles, find their mutual
+/// neighbor indices and call **set_adjacency(Cell1, index of Cell2 in Cell1,
+/// Cell2, index of Cell1 in Cell2)** to set neighbors
+///
+/// @param[in] adjacency_vector A vector of pairs of Cell handles
 void set_adjacencies(Delaunay* const D3,
                      std::vector<std::pair<Cell_handle,
                      Cell_handle>> const adjacency_vector) noexcept {

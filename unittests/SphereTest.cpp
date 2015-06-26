@@ -15,7 +15,7 @@
 
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
-#include "Sphere_d.h"
+#include "sphere_d.h"
 
 
 using namespace ::testing;  // NOLINT
