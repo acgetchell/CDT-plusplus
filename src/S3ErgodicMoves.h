@@ -282,12 +282,67 @@ auto find_disjoint_index(Cell_handle const first,
 
 auto check_orientation(Cell_handle const c) noexcept {
   // check all values of i = 0; i< 4
-  // check in such that n->neighbor(in) == c
-  // check j1n such that n->has_vertex(c->vertex((i+1)&3),j1n)
-  // check j2n such that n->has_vertex(c->vertex((i+2)&3),j2n)
-  // check j3n such that n->has_vertex(c->vertex((i+3)&3),j3n)
+  for (auto i = 0; i < 4; ++i) {
+    Cell_handle n = c->neighbor(i);
+
+    // check in such that n->neighbor(in) == c and set in
+    int in = 5;
+    if (n->neighbor(0) == c) in = 0;
+    if (n->neighbor(1) == c) in = 1;
+    if (n->neighbor(2) == c) in = 2;
+    if (n->neighbor(3) == c) in = 3;
+
+    // set values for j1n, j2n, j3n;
+    int j1n = 5;
+    int j2n = 5;
+    int j3n = 5;
+    n->has_vertex(c->vertex((i+1)&3), j1n);
+    n->has_vertex(c->vertex((i+2)&3), j2n);
+    n->has_vertex(c->vertex((i+3)&3), j3n);
+
+    // tests whether the orientations of this and n are consistent
+    if ( ((i+in)&1) == 0 ) {  // i and in have the same parity
+      if ( j1n == ((in+1)&3) ) {
+        if ( ( j2n != ((in+3)&3) ) || ( j3n != ((in+2)&3) ) ) return false;
+      }
+      if ( j1n == ((in+2)&3) ) {
+        if ( ( j2n != ((in+1)&3) ) || ( j3n != ((in+3)&3) ) ) return false;
+      }
+      if ( j1n == ((in+3)&3) ) {
+        if ( ( j2n != ((in+2)&3) ) || ( j3n != ((in+1)&3) ) ) return false;
+      }
+    } else {  // i and in do not have the same parity
+      if ( j1n == ((in+1)&3) ) {
+        if ( ( j2n != ((in+2)&3) ) || ( j3n != ((in+3)&3) ) ) return false;
+      }
+      if ( j1n == ((in+2)&3) ) {
+        if ( ( j2n != ((in+3)&3) ) || ( j3n != ((in+1)&3) ) ) return false;
+      }
+      if ( j1n == ((in+3)&3) ) {
+        if ( ( j2n != ((in+1)&3) ) || ( j3n != ((in+2)&3) ) ) return false;
+      }
+    }
+
+      // Debugging
+      if (in == 5) {
+        std::cerr << "in was not set!" << std::endl;
+        return false;
+      } else if (j1n == 5) {
+        std::cerr << "j1n was not set!" << std::endl;
+        return false;
+      } else if (j2n ==5) {
+        std::cerr << "j2n was not set!" << std::endl;
+        return false;
+      } else if (j3n == 5) {
+        std::cerr << "j3n was not set!" << std::endl;
+        return false;
+      } else if (in + j1n + j2n + j3n != 6) {
+        std::cerr << "sum of the indices != 6" << std::endl;
+      }
+  }  // end looking at neighbors
   // return true if all fit
-}
+  return true;
+}  // check_orientation()
 
 /// @brief Change orientation of a cell
 ///
@@ -322,8 +377,9 @@ void set_adjacencies(Delaunay* const D3,
     D3->tds().set_adjacency(first, neighbor_index, second,
                             neighbor_mirror_index);
     // Fix orientations
-    if ((neighbor_index&1) != 0)
-      change_orientation(first);
+    // if ((neighbor_index&1) != 0)
+    //   change_orientation(first);
+    if (!check_orientation(first)) change_orientation(first);
   }
 }  // set_adjacencies()
 
