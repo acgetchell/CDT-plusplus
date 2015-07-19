@@ -282,8 +282,12 @@ auto find_disjoint_index(Cell_handle const first,
 
 auto check_orientation(Cell_handle const c) noexcept {
   // check all values of i = 0; i< 4
+  int i;
   for (auto i = 0; i < 4; ++i) {
     Cell_handle n = c->neighbor(i);
+    if ( n == Cell_handle() ) {
+      return false;
+    }
 
     // check in such that n->neighbor(in) == c and set in
     int in = 5;
