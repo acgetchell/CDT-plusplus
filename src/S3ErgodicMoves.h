@@ -262,7 +262,7 @@ auto find_disjoint_index(Cell_handle const first,
   std::set_difference(first_vertices.begin(), first_vertices.end(),
                       second_vertices.begin(), second_vertices.end(),
                       std::inserter(disjoint_vector, disjoint_vector.begin()));
-  
+
   // Must have 3 vertices in common
   CGAL_triangulation_precondition(disjoint_vector.size() == 1);
 
@@ -279,6 +279,15 @@ auto find_disjoint_index(Cell_handle const first,
   //           << " with an index of " << first->index(result) << std::endl;
   return first->index(result);
 }  // find_disjoint_index()
+
+auto check_orientation(Cell_handle const c) noexcept {
+  // check all values of i = 0; i< 4
+  // check in such that n->neighbor(in) == c
+  // check j1n such that n->has_vertex(c->vertex((i+1)&3),j1n)
+  // check j2n such that n->has_vertex(c->vertex((i+2)&3),j2n)
+  // check j3n such that n->has_vertex(c->vertex((i+3)&3),j3n)
+  // return true if all fit
+}
 
 /// @brief Change orientation of a cell
 ///
