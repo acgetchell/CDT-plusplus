@@ -304,6 +304,14 @@ auto check_orientation(Cell_handle const c) noexcept {
     n->has_vertex(c->vertex((i+2)&3), j2n);
     n->has_vertex(c->vertex((i+3)&3), j3n);
 
+    // Debugging
+    std::cout << "check_orientation(): loop counter i = " << i << std::endl;
+    std::cout << "parity for i and in? " << ((i+in)&1) << " == 0?" << std::endl;
+    std::cout << "   in = " << in << std::endl;
+    std::cout << "  j1n = " << j1n << std::endl;
+    std::cout << "  j2n = " << j2n << std::endl;
+    std::cout << "  j3n = " << j3n << std::endl;
+
     // tests whether the orientations of this and n are consistent
     if ( ((i+in)&1) == 0 ) {  // i and in have the same parity
       if ( j1n == ((in+1)&3) ) {
@@ -384,6 +392,9 @@ void set_adjacencies(Delaunay* const D3,
     // if ((neighbor_index&1) != 0)
     //   change_orientation(first);
     if (!check_orientation(first)) change_orientation(first);
+    // while (!check_orientation(first)) {
+    //   change_orientation(first);
+    // }
   }
 }  // set_adjacencies()
 
