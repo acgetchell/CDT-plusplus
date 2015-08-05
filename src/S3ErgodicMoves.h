@@ -137,7 +137,7 @@ void make_23_move(Delaunay* const D3,
     auto choice = generate_random_unsigned(0, two_two->size()-1);
     std::cout << "We're picking (2,2) simplex " << choice << std::endl;
     Cell_handle to_be_moved = (*two_two)[choice];
-    for (size_t i = 0; i < 4; i++) {
+    for (size_t i = 0; i < 4; ++i) {
       if (D3->flip(to_be_moved, i)) {
         std::cout << "Facet " << i << " was flippable." << std::endl;
         // Erase the flipped (2,2) simplex from the vector two_two
@@ -214,7 +214,7 @@ auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
 /// @returns **True** if the (2,6) move is possible
 auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   auto movable = false;
-  for (auto i = 0; i < 4; i++) {
+  for (auto i = 0; i < 4; ++i) {
     // Debugging
     std::cout << "Neighbor " << i << " is of type "
               << c->neighbor(i)->info() << std::endl;

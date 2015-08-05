@@ -166,7 +166,7 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
     << "The edge that was flipped wasn't removed.";
 }
 
-TEST_F(S3ErgodicMoves, MakeA26Move) {
+TEST_F(S3ErgodicMoves, DISABLED_MakeA26Move) {
   auto number_of_vertices_before = T.number_of_vertices();
   auto N3_31_before = three_one.size();
   auto N3_22_before = two_two.size();

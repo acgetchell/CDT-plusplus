@@ -371,7 +371,7 @@ inline auto check_timeslices(const Delaunay* const D3,
         }
     } else {
         // Remove all vertices in the invalid cell
-        // for(size_t i = 0; i < 4; i++)
+        // for(size_t i = 0; i < 4; ++i)
         // {
         //
         //   D3->remove(cit->vertex(i));
@@ -496,7 +496,7 @@ inline void make_S3_triangulation(const unsigned number_of_simplices,
   while (!check_timeslices(D3, output)) {
     pass++;
     if (pass > MAX_FOLIATION_FIX_PASSES) break;
-    std::cout << "Pass #" << pass << std::endl;
+    std::cout << "Fix Pass #" << pass << std::endl;
     fix_timeslices(output, D3);
   }
 

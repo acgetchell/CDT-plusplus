@@ -34,6 +34,7 @@
 // CDT headers
 #include "./utilities.h"
 #include "S3Triangulation.h"
+#include "MetropolisManager.h"
 
 /// Help message parsed by docopt into options
 static const char USAGE[] {
@@ -62,7 +63,7 @@ Options:
   -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
   -k K                  K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA    K * Cosmological constant
-  -p --passes PASSES    Number of passes [default: 10000]
+  -p --passes PASSES    Number of passes [default: 10]
 )"
 };
 
@@ -120,7 +121,7 @@ int main(int argc, char* const argv[]) {
   std::cout << "Hostname = " << hostname() << std::endl;
 
   // Initialize spherical Delaunay triangulation
-  Delaunay Sphere3;
+  Delaunay SphericalUniverse;
 
   // These contain cell handles for the (3,1), (2,2), and (1,3) simplices
   std::vector<Cell_handle> three_one;
@@ -138,7 +139,7 @@ int main(int argc, char* const argv[]) {
   switch (topology) {
     case topology_type::SPHERICAL:
       if (dimensions == 3) {
-        make_S3_triangulation(simplices, timeslices, false, &Sphere3,
+        make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
                               &three_one, &two_two, &one_three);
       } else {
         std::cout << "Currently, dimensions cannot be higher than 3.";
@@ -155,28 +156,50 @@ int main(int argc, char* const argv[]) {
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
 
-  // TODO(acgetchell): Ergodic moves using Metropolis algorithm
-  // Initialize data and data structures needed for ergodic moves
+  // Keep track of moves for Metropolis algorithm
+  std::atomic<int> total_attempted_moves{0};
+  std::atomic<int> attempted_23_moves{0};
+  std::atomic<int> successful_23_moves{0};
+  std::atomic<int> attempted_32_moves{0};
+  std::atomic<int> successful_32_moves{0};
+
+  Metropolis simulation(&SphericalUniverse, passes);
+
+  // // Main loop of program
+  // for (auto i = 0; i < passes; ++i) {
+  //   // Initialize data and data structures needed for ergodic moves
+  //   // each pass.
+  //   // make_23_move(&SphericalUniverse, &two_two) does the (2,3) move
+  //   // two_two is populated via classify_3_simplices()
   //
-  // make_23_move(&Sphere3, &two_two) does the (2,2) move
-  // These hold the timelike edges needed for a (3,2) move
-  std::vector<Edge_tuple> V2;
-  auto N1_SL = static_cast<unsigned>(0);
-
-  // Get timelike edges V2 that make_32_move(&Sphere3, &V2) can be called on
-  get_timelike_edges(Sphere3, &V2, &N1_SL);
-
-  // Metropolis algorithm to select moves goes here
+  //   // Get timelike edges V2 for make_32_move(&SphericalUniverse, &V2)
+  //   std::vector<Edge_tuple> V2;
+  //   auto N1_SL = static_cast<unsigned>(0);
+  //   get_timelike_edges(SphericalUniverse, &V2, &N1_SL);
+  //
+  //   auto moves_this_pass = SphericalUniverse.number_of_finite_cells();
+  //
+  //   std::cout << "Pass #" << i+1 << " is "
+  //             << moves_this_pass
+  //             << " attempted moves." << std::endl;
+  //
+  //   for (auto j = 0; j < moves_this_pass; ++j) {
+  //     // Metropolis algorithm to select moves goes here
+  //   }
+  // }
 
   // Output results
   t.stop();  // End running time counter
   std::cout << "Final Delaunay triangulation has ";
-  print_results(Sphere3, t);
+  print_results(SphericalUniverse, t);
 
   // Write results to file
   // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values are
   //                   written
-  write_file(Sphere3, topology, dimensions, Sphere3.number_of_finite_cells(),
+  write_file(SphericalUniverse,
+             topology,
+             dimensions,
+             SphericalUniverse.number_of_finite_cells(),
              timeslices);
 
   return 0;
