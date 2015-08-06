@@ -1,13 +1,13 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014 Adam Getchell
+/// Copyright (c) 2015 Adam Getchell
 ///
-/// Calculates the S3 Bulk (and later, boundary) actions.
-/// Uses the GNU MPFR library for arbitrary precision arithmetic on
-/// floating point numbers. See http://www.mpfr.org for more details.
-/// Note: for performance reasons, variables should not hold successively
-/// increasing values. We avoid this by setting each variable only once.
-/// See https://gmplib.org/manual/Efficiency.html#Efficiency for details.
+/// Performs the Metropolis-Hastings algorithm on the foliated Delaunay
+/// triangulations.
+/// For details see:
+/// M. Creutz, and B. Freedman. “A Statistical Approach to Quantum Mechanics.”
+/// Annals of Physics 132 (1981): 427–62.
+/// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 
 /// \todo Perfect forwarding constructor
 /// \todo Initialization
@@ -15,7 +15,7 @@
 /// \todo Implement concurrency
 
 /// @file MetropolisManager.h
-/// @brief Perform Metropolis-Hasting algorithm on 3D Delaunay Triangulations
+/// @brief Perform Metropolis-Hasting algorithm on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
@@ -40,6 +40,9 @@ class Metropolis {
     // void get_passes() {
     //   std::cout << "Passes = " << passes_ << std::endl;
     // }
+  int get_passes() {
+    return passes_;
+  }
 
  private:
   int passes_;
