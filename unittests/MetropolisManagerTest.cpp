@@ -11,6 +11,8 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
+#include <vector>
+
 #include "gmock/gmock.h"
 #include "MetropolisManager.h"
 
@@ -41,6 +43,6 @@ class MetropolisManager : public Test {
 TEST_F(MetropolisManager, Create) {
   Metropolis simulation(&T, 10);
 
-  ASSERT_THAT(simulation.get_passes(), Eq(10))
+  ASSERT_THAT(simulation.passes(), Eq(10))
     << "MetropolisManager has wrong number of passes.";
 }

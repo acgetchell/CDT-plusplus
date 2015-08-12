@@ -28,9 +28,9 @@
 
 class Metropolis {
  public:
-  Metropolis(Delaunay* const D3, int passes) {
+  explicit Metropolis(Delaunay* const D3, int passes) {
        passes_ = passes;
-       // Sphere_ = D3;
+      //  Sphere_ = D3;
   }
 
     // Metropolis3 (int&& passes) :
@@ -40,13 +40,13 @@ class Metropolis {
     // void get_passes() {
     //   std::cout << "Passes = " << passes_ << std::endl;
     // }
-  int get_passes() {
+  int passes() {
     return passes_;
   }
 
  private:
   int passes_;
-    // Delaunay& Sphere_;
+  // Delaunay& Sphere_;
 };
 
 #endif  // SRC_METROPOLISMANAGER_H_
