@@ -1,6 +1,8 @@
 CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)
 ============
 
+[![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/acgetchell/CDT-plusplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 **Quantize spacetime on your laptop.**
 
 [Causal Dynamical Triangulations][1] in C++ using the
