@@ -41,3 +41,9 @@ after_script:
   - ninja test
 cache:
   - bundler
+
+notifications:
+  webhooks:
+    urls: https://webhooks.gitter.im/e/c70e4d2749931f601747
+    on_success: change
+    on_failure: always

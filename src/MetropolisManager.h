@@ -28,23 +28,18 @@
 
 class Metropolis {
  public:
-  explicit Metropolis(Delaunay* const D3, int passes) {
-       passes_ = passes;
-      //  Sphere_ = D3;
-  }
+  explicit Metropolis(Delaunay&& D3, int&& passes) :
+    // Sphere_{std::forward<Delaunay>(D3)},
+    passes_{std::forward<int>(passes)}
+     {
+     }
 
-    // Metropolis3 (int&& passes) :
-    //   passes_{std::forward(passes)}
-    //   {}
-
-    // void get_passes() {
-    //   std::cout << "Passes = " << passes_ << std::endl;
-    // }
   int passes() {
     return passes_;
   }
 
  private:
+
   int passes_;
   // Delaunay& Sphere_;
 };
