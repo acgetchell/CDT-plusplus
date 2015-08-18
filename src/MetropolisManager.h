@@ -9,8 +9,8 @@
 /// Annals of Physics 132 (1981): 427–62.
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 
-/// \done Perfect forwarding constructor
-/// \done Initialization
+/// \todo Perfect forwarding constructor
+/// \todo Initialization
 /// \todo Implement 3D Metropolis algorithm
 /// \todo Implement concurrency
 
@@ -38,8 +38,11 @@ class Metropolis {
     return passes_;
   }
 
- private:
+  int cells() {
+    return Sphere_.number_of_finite_cells();
+  }
 
+ private:
   int passes_;
   Delaunay& Sphere_;
 };

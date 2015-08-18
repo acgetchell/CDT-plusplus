@@ -50,24 +50,6 @@ TEST_F(MetropolisManager, CreateWith10Passes) {
 TEST_F(MetropolisManager, PerfectForwardingCtor) {
   Metropolis simulation(&T, 10);
 
-  EXPECT_TRUE(T.is_valid())
-    << "Delaunay Triangulation is invalid";
-
-  EXPECT_THAT(T.dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
-
-  EXPECT_TRUE(check_timeslices(&T, no_output))
-    << "Cells do not span exactly 1 timeslice.";
-
-  EXPECT_NE(T.number_of_vertices(), 0)
-    << "The number of vertices changed.";
-
-  EXPECT_NE(three_one.size(), 0)
-    << "(3,1) simplices = 0.";
-
-  EXPECT_NE(two_two.size(), 0)
-    << "(2,2) simplices = 0.";
-
-  EXPECT_NE(one_three.size(), 0)
-    << "(1,3) simplices = 0.";
+  EXPECT_THAT(simulation.cells(), Eq(T.number_of_finite_cells()))
+    << "The number of cells different; &T not forwarded.";
 }
