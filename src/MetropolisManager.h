@@ -9,8 +9,8 @@
 /// Annals of Physics 132 (1981): 427–62.
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 
-/// \todo Perfect forwarding constructor
-/// \todo Initialization
+/// \done Perfect forwarding constructor
+/// \done Initialization
 /// \todo Implement 3D Metropolis algorithm
 /// \todo Implement concurrency
 
@@ -29,7 +29,7 @@
 class Metropolis {
  public:
   explicit Metropolis(Delaunay&& D3, int&& passes) :
-    // Sphere_{std::forward<Delaunay>(D3)},
+    Sphere_{std::forward<Delaunay&>(D3)},
     passes_{std::forward<int>(passes)}
      {
      }
@@ -41,7 +41,7 @@ class Metropolis {
  private:
 
   int passes_;
-  // Delaunay& Sphere_;
+  Delaunay& Sphere_;
 };
 
 #endif  // SRC_METROPOLISMANAGER_H_
