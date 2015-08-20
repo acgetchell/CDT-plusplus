@@ -29,7 +29,7 @@
 class Metropolis {
  public:
   explicit Metropolis(Delaunay&& D3, int&& passes) :
-    Sphere_{std::forward<Delaunay&>(D3)},
+    Sphere_{std::forward<Delaunay>(D3)},
     passes_{std::forward<int>(passes)}
      {
      }
@@ -44,7 +44,7 @@ class Metropolis {
 
  private:
   int passes_;
-  Delaunay& Sphere_;
+  Delaunay Sphere_;
 };
 
 #endif  // SRC_METROPOLISMANAGER_H_
