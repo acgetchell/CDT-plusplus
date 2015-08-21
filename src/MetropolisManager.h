@@ -23,13 +23,22 @@
 #ifndef SRC_METROPOLISMANAGER_H_
 #define SRC_METROPOLISMANAGER_H_
 
+#include <memory>
+
 // CDT headers
 #include "S3Triangulation.h"
 
+template<typename T, typename Arg>
+std::shared_ptr<T> MetropolisFactory(Arg&& arg) {
+  return std::shared_ptr<T>(new T(std::forward<Arg>(arg)));
+}
+
+
 class Metropolis {
  public:
-  explicit Metropolis(Delaunay&& D3, int&& passes) :
+  explicit Metropolis(Delaunay&& D3, int&& passes) :  // NOLINT
     Sphere_{std::forward<Delaunay>(D3)},
+    // Sphere_{std::forward<std::shared_ptr>(MetropolisFactory(D3))},
     passes_{std::forward<int>(passes)}
      {
      }
@@ -45,6 +54,7 @@ class Metropolis {
  private:
   int passes_;
   Delaunay Sphere_;
+  // std::shared_ptr<Delaunay> Sphere_;
 };
 
 #endif  // SRC_METROPOLISMANAGER_H_
