@@ -165,9 +165,13 @@ int main(int argc, char* const argv[]) {
   std::atomic<int> successful_32_moves{0};
 
   // Metropolis simulation(&SphericalUniverse, passes);
-  auto simulation = std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
-  std::cout << typeid(simulation).name() << std::endl;
-  std::cout << "Universe has " << simulation->number_of_finite_cells() << " cells." << std::endl;
+  auto universe =
+    std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
+
+    // auto metropolis =
+    //   std::make_unique<decltype(universe)>(Metropolis(universe));
+    // std::unique_ptr<Metropolis> metropolis = std::make_unique<Metropolis>(universe);
+    // Metropolis metropolis(universe);
 
   // // Main loop of program
   // for (auto i = 0; i < passes; ++i) {
