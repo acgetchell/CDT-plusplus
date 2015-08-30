@@ -27,6 +27,7 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 // Docopt
 #include "docopt/docopt.h"
@@ -163,7 +164,10 @@ int main(int argc, char* const argv[]) {
   std::atomic<int> attempted_32_moves{0};
   std::atomic<int> successful_32_moves{0};
 
-  Metropolis simulation(&SphericalUniverse, passes);
+  // Metropolis simulation(&SphericalUniverse, passes);
+  auto simulation = std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
+  std::cout << typeid(simulation).name() << std::endl;
+  std::cout << "Universe has " << simulation->number_of_finite_cells() << " cells." << std::endl;
 
   // // Main loop of program
   // for (auto i = 0; i < passes; ++i) {

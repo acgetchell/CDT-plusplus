@@ -234,8 +234,8 @@ version numbers away.
 [3]: http://www.cmake.org
 [4]: http://clang.llvm.org
 [5]: http://llvm.org
-[6]: https://code.google.com/p/googlemock/
-[7]: http://google-styleguide.googlecode.com/svn/trunk/cppguide.xml
+[6]: https://github.com/google/googletest/tree/master/googlemock
+[7]: https://google.github.io/styleguide/cppguide.html
 [8]: http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
 [9]: https://code.google.com/p/cgal-bindings/]
 [10]: http://cmake.org/Wiki/CMake/Testing_With_CTest
