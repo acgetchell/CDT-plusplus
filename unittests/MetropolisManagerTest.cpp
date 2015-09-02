@@ -41,15 +41,21 @@ class MetropolisManager : public Test {
 };
 
 TEST_F(MetropolisManager, CreateWithUniquePtr) {
-  // Metropolis simulation(&T, 10);
-  auto universe =
-    std::make_unique<decltype(T3)>(T3);
+  auto universe = std::make_unique<decltype(T3)>(T3);
 
-  std::cout << "universe->number_of_finite_cells() = " << universe->number_of_finite_cells() << std::endl;
+  // Verify unique_ptr null check
+  // universe.reset();
+  EXPECT_FALSE(!universe)
+    << "unique_ptr universe has been reset or is null.";
 
-  EXPECT_THAT(universe->number_of_finite_cells(), Eq(T3.number_of_finite_cells()))
-    << "The number of cells different; T3 not forwarded.";
+  EXPECT_THAT(universe->number_of_finite_cells(),
+    Eq(T3.number_of_finite_cells()))
+    << "Number of cells different; unique_ptr universe not pointing to T3.";
+}
 
-  // ASSERT_THAT(simulation.passes(), Eq(10))
-  //   << "MetropolisManager has wrong number of passes.";
+TEST_F(MetropolisManager, PassUniquePtrIntoMetropolisClass) {
+  auto universe = std::make_unique<decltype(T3)>(T3);
+
+  // Metropolis simulation(universe);
+
 }
