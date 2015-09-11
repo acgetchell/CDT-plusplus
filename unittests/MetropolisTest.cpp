@@ -14,17 +14,17 @@
 #include <vector>
 
 #include "gmock/gmock.h"
-#include "MetropolisManager.h"
+#include "Metropolis.h"
 
 using namespace testing;  // NOLINT
 
-class MetropolisManager : public Test {
+class Metropolis : public Test {
  protected:
   virtual void SetUp() {
     make_S3_triangulation(number_of_simplices,
                           number_of_timeslices,
                           no_output,
-                          &T3,
+                          &S3,
                           &three_one,
                           &two_two,
                           &one_three);
@@ -34,14 +34,14 @@ class MetropolisManager : public Test {
   static constexpr auto no_output = static_cast<bool>(false);
   static constexpr auto number_of_simplices = static_cast<unsigned>(6400);
   static constexpr auto number_of_timeslices = static_cast<unsigned>(16);
-  Delaunay T3;
+  Delaunay S3;
   std::vector<Cell_handle> three_one;
   std::vector<Cell_handle> two_two;
   std::vector<Cell_handle> one_three;
 };
 
-TEST_F(MetropolisManager, CreateWithUniquePtr) {
-  auto universe = std::make_unique<decltype(T3)>(T3);
+TEST_F(Metropolis, CreateWithUniquePtr) {
+  auto universe = std::make_unique<decltype(S3)>(S3);
 
   // Verify unique_ptr null check
   // universe.reset();
@@ -49,13 +49,12 @@ TEST_F(MetropolisManager, CreateWithUniquePtr) {
     << "unique_ptr universe has been reset or is null.";
 
   EXPECT_THAT(universe->number_of_finite_cells(),
-    Eq(T3.number_of_finite_cells()))
-    << "Number of cells different; unique_ptr universe not pointing to T3.";
+    Eq(S3.number_of_finite_cells()))
+    << "Number of cells different; unique_ptr universe not pointing to S3.";
 }
 
-TEST_F(MetropolisManager, PassUniquePtrIntoMetropolisClass) {
-  auto universe = std::make_unique<decltype(T3)>(T3);
+TEST_F(Metropolis, ForwardUniquePtrInto) {
+  auto universe = std::make_unique<decltype(S3)>(S3);
 
-  // Metropolis simulation(universe);
 
 }

@@ -35,7 +35,7 @@
 // CDT headers
 #include "./utilities.h"
 #include "S3Triangulation.h"
-#include "MetropolisManager.h"
+#include "Metropolis.h"
 
 /// Help message parsed by docopt into options
 static const char USAGE[] {
@@ -167,6 +167,10 @@ int main(int argc, char* const argv[]) {
   // Metropolis simulation(&SphericalUniverse, passes);
   auto universe =
     std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
+
+  // The main work of the program
+  // metropolis(universe, number_of_passes, output_every_n_passes);
+
 
     // auto metropolis =
     //   std::make_unique<decltype(universe)>(Metropolis(universe));

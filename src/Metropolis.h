@@ -20,8 +20,8 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#ifndef SRC_METROPOLISMANAGER_H_
-#define SRC_METROPOLISMANAGER_H_
+#ifndef SRC_METROPOLIS_H_
+#define SRC_METROPOLIS_H_
 
 // CDT headers
 #include "S3Triangulation.h"
@@ -55,19 +55,18 @@
 //   // std::shared_ptr<Delaunay> Sphere_;
 // };
 
-template <typename T>
-class Metropolis {
-public:
-  explicit Metropolis(T&& data) :
-    data_{std::forward<T>(data)}
-    {
-    }
+// template <typename T>
+// class Metropolis {
+//  public:
+//   explicit Metropolis(T&& data) :  // NOLINT
+//     data_{std::forward<T>(data)}
+//     {
+//     }
+//
+//
+//  private:
+//   int passes_;
+//   T data_;
+// };
 
-
-private:
-  int passes_;
-  T data_;
-
-};
-
-#endif  // SRC_METROPOLISMANAGER_H_
+#endif  // SRC_METROPOLIS_H_
