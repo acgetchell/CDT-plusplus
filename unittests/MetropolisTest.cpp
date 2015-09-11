@@ -53,8 +53,25 @@ TEST_F(Metropolis, CreateWithUniquePtr) {
     << "Number of cells different; unique_ptr universe not pointing to S3.";
 }
 
-TEST_F(Metropolis, ForwardUniquePtrInto) {
+TEST_F(Metropolis, RunSimulation) {
   auto universe = std::make_unique<decltype(S3)>(S3);
+  auto number_of_passes = static_cast<unsigned>(100);
+  auto output_every_n_passes = static_cast<unsigned>(0);
+  auto starting_vertices = universe->number_of_vertices();
+  auto starting_finite_cells = universe->number_of_finite_cells();
+  auto starting_finite_edges = universe->number_of_finite_edges();
+
+  // Run simulation
+  metropolis(universe, number_of_passes, output_every_n_passes);
+
+  EXPECT_THAT(starting_vertices, Ne(universe->number_of_vertices()))
+    << "Vertices didn't change.";
+
+  EXPECT_THAT(starting_finite_edges, Ne(universe->number_of_finite_edges()))
+    << "Edges didn't change.";
+
+  EXPECT_THAT(starting_finite_cells, Ne(universe->number_of_finite_cells()))
+    << "Cells didn't change";
 
 
 }
