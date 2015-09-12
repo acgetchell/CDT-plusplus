@@ -27,14 +27,15 @@
 #include <map>
 #include <string>
 #include <vector>
+#include <memory>
 
 // Docopt
 #include "docopt/docopt.h"
 
 // CDT headers
-#include "./utilities.h"
+#include "./Utilities.h"
 #include "S3Triangulation.h"
-#include "MetropolisManager.h"
+#include "Metropolis.h"
 
 /// Help message parsed by docopt into options
 static const char USAGE[] {
@@ -163,30 +164,12 @@ int main(int argc, char* const argv[]) {
   std::atomic<int> attempted_32_moves{0};
   std::atomic<int> successful_32_moves{0};
 
-  Metropolis simulation(&SphericalUniverse, passes);
+  // Metropolis simulation(&SphericalUniverse, passes);
+  auto universe =
+    std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
 
-  // // Main loop of program
-  // for (auto i = 0; i < passes; ++i) {
-  //   // Initialize data and data structures needed for ergodic moves
-  //   // each pass.
-  //   // make_23_move(&SphericalUniverse, &two_two) does the (2,3) move
-  //   // two_two is populated via classify_3_simplices()
-  //
-  //   // Get timelike edges V2 for make_32_move(&SphericalUniverse, &V2)
-  //   std::vector<Edge_tuple> V2;
-  //   auto N1_SL = static_cast<unsigned>(0);
-  //   get_timelike_edges(SphericalUniverse, &V2, &N1_SL);
-  //
-  //   auto moves_this_pass = SphericalUniverse.number_of_finite_cells();
-  //
-  //   std::cout << "Pass #" << i+1 << " is "
-  //             << moves_this_pass
-  //             << " attempted moves." << std::endl;
-  //
-  //   for (auto j = 0; j < moves_this_pass; ++j) {
-  //     // Metropolis algorithm to select moves goes here
-  //   }
-  // }
+  // The main work of the program
+  // metropolis(universe, number_of_passes, output_every_n_passes);
 
   // Output results
   t.stop();  // End running time counter

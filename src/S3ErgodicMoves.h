@@ -27,12 +27,13 @@
 
 // CDT headers
 #include "S3Triangulation.h"
+#include "Utilities.h"
 
 // CGAL headers
 #include <CGAL/Gmpzf.h>
 
 // C++ headers
-#include <random>
+// #include <random>
 #include <vector>
 #include <utility>
 #include <algorithm>
@@ -81,31 +82,6 @@ auto average_coordinates(const long double c1,
 
   return result;
 }  // average_points()
-
-/// @brief Generate random unsigned integers
-///
-/// This function generates a random unsigned integer from [1, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
-/// for more details.
-///
-/// @param[in] min_value  The minimum value in the range
-/// @param[in] max_value  The maximum value in the range
-/// @returns A random unsigned value between min_value and max_value, inclusive
-auto generate_random_unsigned(const unsigned min_value,
-                              const unsigned max_value) noexcept {
-  // Non-deterministic random number generator
-  std::random_device generator;
-  std::uniform_int_distribution<int> distribution(min_value, max_value);
-
-  auto result = distribution(generator);
-
-  // Debugging
-  std::cout << "Random number is " << result << std::endl;
-
-  return result;
-}  // generate_random_unsigned()
 
 /// @brief Generate a random timeslice
 ///

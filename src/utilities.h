@@ -26,8 +26,12 @@
 #include <iostream>
 #include <string>
 #include <fstream>
+#include <random>
 
 enum class topology_type { TOROIDAL, SPHERICAL};
+
+enum move_type {TWO_THREE = 1,
+                THREE_TWO = 2};
 
 /// @brief Return an environment variable
 ///
@@ -35,7 +39,7 @@ enum class topology_type { TOROIDAL, SPHERICAL};
 ///
 /// @param[in] key The string value
 /// @returns The environment variable corresponding to the key as a std::string
-auto getEnvVar(std::string const& key) noexcept {
+inline auto getEnvVar(std::string const& key) noexcept {
   char const* val = getenv(key.c_str());
   return val == NULL ? std::string() : std::string(val);
 }
@@ -46,7 +50,7 @@ auto getEnvVar(std::string const& key) noexcept {
 /// stack memory address.
 ///
 /// @returns The hostname as a std::string
-std::string hostname() noexcept {
+inline std::string hostname() noexcept {
   struct utsname name;
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
@@ -60,7 +64,7 @@ std::string hostname() noexcept {
 ///
 /// @returns The current data and time in a thread-safe manner using
 /// **localtime_r()** as a std::string.
-const std::string currentDateTime() noexcept {
+inline const std::string currentDateTime() noexcept {
   auto now = time(0);
   struct tm tstruct;
   char time_str[100];
@@ -79,7 +83,7 @@ const std::string currentDateTime() noexcept {
 /// @param[in] number_of_simplices The number of simplices in the triangulation
 /// @param[in] number_of_timeslices The number of foliated timeslices
 /// @returns A filename as a std::string
-auto generate_filename(const topology_type& top,
+inline auto generate_filename(const topology_type& top,
                        const unsigned dimensions,
                        const unsigned number_of_simplices,
                        const unsigned number_of_timeslices) noexcept {
@@ -181,5 +185,30 @@ void write_file(const T& Triangulation,
   std::ofstream oFileT(filename, std::ios::out);
   oFileT << Triangulation;
 }
+
+/// @brief Generate random unsigned integers
+///
+/// This function generates a random unsigned integer from [1, max_value]
+/// using a non-deterministic random number generator, if supported. There
+/// may be exceptions thrown if a random device is not available. See:
+/// http://www.cplusplus.com/reference/random/random_device/
+/// for more details.
+///
+/// @param[in] min_value  The minimum value in the range
+/// @param[in] max_value  The maximum value in the range
+/// @returns A random unsigned value between min_value and max_value, inclusive
+inline auto generate_random_unsigned(const unsigned min_value,
+                              const unsigned max_value) noexcept {
+  // Non-deterministic random number generator
+  std::random_device generator;
+  std::uniform_int_distribution<int> distribution(min_value, max_value);
+
+  auto result = distribution(generator);
+
+  // Debugging
+  std::cout << "Random number is " << result << std::endl;
+
+  return result;
+}  // generate_random_unsigned()
 
 #endif  // SRC_UTILITIES_H_
