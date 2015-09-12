@@ -53,7 +53,7 @@ TEST_F(Metropolis, CreateWithUniquePtr) {
     << "Number of cells different; unique_ptr universe not pointing to S3.";
 }
 
-TEST_F(Metropolis, RunSimulation) {
+TEST_F(Metropolis, DISABLED_RunSimulation) {
   auto universe = std::make_unique<decltype(S3)>(S3);
   auto number_of_passes = static_cast<unsigned>(100);
   auto output_every_n_passes = static_cast<unsigned>(0);

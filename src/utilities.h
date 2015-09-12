@@ -30,6 +30,9 @@
 
 enum class topology_type { TOROIDAL, SPHERICAL};
 
+enum move_type {TWO_THREE = 1,
+                THREE_TWO = 2};
+
 /// @brief Return an environment variable
 ///
 /// Uses **getenv** from **<cstdlib>** which has a char* rvalue

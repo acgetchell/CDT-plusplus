@@ -27,12 +27,41 @@
 #include "S3Triangulation.h"
 #include "Utilities.h"
 
+// Keep track of attempted moves for Metropolis algorithm
+std::atomic<int> attempted_23_moves{0};
+std::atomic<int> attempted_32_moves{0};
+
 template <typename T>
-void metropolis(T&&, unsigned number_of_passes,
+void metropolis(T&& universe, unsigned number_of_passes,
                    unsigned output_every_n_passes) {
   std::cout << "Starting ..." << std::endl;
-  auto move = generate_random_unsigned(1, 2);
-  std::cout << "Move #" << move << std::endl;
+  auto attempted_moves_per_pass = universe->number_of_finite_cells();
+  // First, attempt a move of each type
+  // attempt_23_move();
+  ++attempted_23_moves;
+  // attempt_32_move();
+  ++attempted_32_moves;
+  while (attempted_32_moves + attempted_23_moves < attempted_moves_per_pass) {
+    // Fix this function to use attempt[i]/total attempts
+    auto move = generate_random_unsigned(1, 2);
+    std::cout << "Move #" << move << std::endl;
+
+    switch (move) {
+      case (move_type::TWO_THREE):
+        std::cout << "Move 1 (2,3) picked" << std::endl;
+        // attempt_23_move()
+        ++attempted_23_moves;
+        break;
+      case move_type::THREE_TWO:
+        std::cout << "Move 2 (3,2) picked" << std::endl;
+        // attempt_32_move()
+        ++attempted_32_moves;
+        break;
+      default:
+        std::cout << "Oops!" << std::endl;
+        break;
+    }
+  }
 }
 // auto metropolis =
 //   std::make_unique<decltype(universe)>(Metropolis(universe));
