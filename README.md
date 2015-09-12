@@ -29,7 +29,7 @@ The goals and targets of this project are:
 - [x] Integrate [docopt][19] CLI
 - [x] S3 Bulk action
 - [ ] S3 Boundary action
-- [ ] 3D Ergodic moves
+- [x] 3D Ergodic moves
 - [ ] Metropolis algorithm
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
