@@ -25,11 +25,14 @@
 
 // CDT headers
 #include "S3Triangulation.h"
+#include "Utilities.h"
 
 template <typename T>
 void metropolis(T&&, unsigned number_of_passes,
                    unsigned output_every_n_passes) {
-
+  std::cout << "Starting ..." << std::endl;
+  auto move = generate_random_unsigned(1, 2);
+  std::cout << "Move #" << move << std::endl;
 }
 // auto metropolis =
 //   std::make_unique<decltype(universe)>(Metropolis(universe));

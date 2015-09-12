@@ -33,7 +33,7 @@
 #include "docopt/docopt.h"
 
 // CDT headers
-#include "./utilities.h"
+#include "./Utilities.h"
 #include "S3Triangulation.h"
 #include "Metropolis.h"
 
