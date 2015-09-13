@@ -6,7 +6,7 @@
 /// simplices correctly foliated are created.
 
 /// @file Triangulated2SphereTest.cpp
-/// @brief Tests for S3 ergodic moves
+/// @brief Tests for S3 foliated triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.

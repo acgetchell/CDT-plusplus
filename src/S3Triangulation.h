@@ -480,8 +480,8 @@ inline void make_S3_triangulation(const unsigned number_of_simplices,
   timevalue.reserve(total_points);
 
   for (auto i = 0; i < number_of_timeslices; ++i) {
-    // std::cout << "Loop " << i << std::endl;
     radius = 1.0 + static_cast<double>(i);
+    // std::cout << "Loop: " << i << " Radius: " << radius << std::endl;
     make_2_sphere(points, radius, output, &vertices, &timevalue);
   }
 

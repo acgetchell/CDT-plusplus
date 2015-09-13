@@ -157,19 +157,12 @@ int main(int argc, char* const argv[]) {
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
 
-  // Keep track of moves for Metropolis algorithm
-  std::atomic<int> total_attempted_moves{0};
-  std::atomic<int> attempted_23_moves{0};
-  std::atomic<int> successful_23_moves{0};
-  std::atomic<int> attempted_32_moves{0};
-  std::atomic<int> successful_32_moves{0};
-
   // Metropolis simulation(&SphericalUniverse, passes);
   auto universe =
     std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
 
   // The main work of the program
-  // metropolis(universe, number_of_passes, output_every_n_passes);
+  // universe = metropolis(universe, number_of_passes, output_every_n_passes);
 
   // Output results
   t.stop();  // End running time counter
