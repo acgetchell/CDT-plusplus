@@ -38,10 +38,35 @@ using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
+static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
+
+template <typename T>
+void fix_timeslices(T&& universe) {
+  // do something
+}
+
+template <typename T>
+auto check_timeslices(T&& universe) {
+  // do something
+  return false;
+}  // check_timeslices
+
+
+template <typename T>
+void fix_triangulation(T&& universe) {
+  auto pass = 0;
+  while (!check_timeslices(universe)) {
+    pass++;
+    if (pass > MAX_FOLIATION_FIX_PASSES) break;
+    std::cout << "Fix Pass #" << pass << std::endl;
+    fix_timeslices(universe);
+  }
+}  // fix_triangulation
+
 template <typename T1, typename T2>
 void insert_into_triangulation(T1&& universe, T2&& causal_vertices) {
   universe->insert(boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.begin(), causal_vertices.second.begin())), boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.end(), causal_vertices.second.end())));  // NOLINT
-}
+}  // insert_into_triangulation
 
 auto make_foliated_sphere(unsigned simplices, unsigned timeslices) {
   auto radius = 1.0;
@@ -75,10 +100,12 @@ auto make_triangulation(unsigned simplices, unsigned timeslices) {
 
   insert_into_triangulation(universe_ptr, causal_vertices);
 
+  fix_triangulation(universe_ptr);
+
 
 
   // This isn't as expensive as it looks thanks to return value optimization
   return universe_ptr;
-}
+}  // make_triangulation
 
 #endif  // SRC_SPHERICALTRIANGULATION_H_
