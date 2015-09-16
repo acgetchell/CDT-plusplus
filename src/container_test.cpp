@@ -26,7 +26,8 @@ using Delaunay = CGAL::Delaunay_triangulation_3<K, Tds>;
 using Cell_handle = Delaunay::Cell_handle;
 using Vertex_handle = Delaunay::Vertex_handle;
 using Locate_type = Delaunay::Locate_type;
-using Point = Delaunay::Point;
+// using Point = Delaunay::Point;
+using Point = K::Point_3;
 
 int main() {
   auto radius = 1.0;
