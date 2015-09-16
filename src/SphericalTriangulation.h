@@ -19,9 +19,10 @@
 // #include <math.h>
 
 // C++ headers
-// #include <boost/iterator/zip_iterator.hpp>
+#include <boost/iterator/zip_iterator.hpp>
 #include <vector>
 #include <utility>
+#include <tuple>
 
 
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -37,8 +38,12 @@ using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
-auto make_foliated_sphere(unsigned simplices, unsigned timeslices)
- {
+template <typename T1, typename T2>
+void insert_into_triangulation(T1&& universe, T2&& causal_vertices) {
+  universe->insert(boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.begin(), causal_vertices.second.begin())), boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.end(), causal_vertices.second.end())));  // NOLINT
+}
+
+auto make_foliated_sphere(unsigned simplices, unsigned timeslices) {
   auto radius = 1.0;
   const auto simplices_per_timeslice = simplices/timeslices;
   const auto points_per_timeslice = 4 * simplices_per_timeslice;
@@ -57,17 +62,23 @@ auto make_foliated_sphere(unsigned simplices, unsigned timeslices)
   return causal_vertices;
 }  // make_foliated_sphere()
 
-template <typename T>
-auto make_triangulation(T&& universe, unsigned simplices, unsigned timeslices)
-  -> decltype(universe) {
-// void make_triangulation(T&& universe, unsigned simplices, unsigned timeslices) {
+// template <typename T>
+// auto make_triangulation(T&& universe, unsigned simplices, unsigned timeslices)  // NOLINT
+//   -> decltype(universe) {
+auto make_triangulation(unsigned simplices, unsigned timeslices) {
   std::cout << "Generating universe ... " << std::endl;
+  Delaunay universe;
+  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
   const auto MAX_FOLIATION_FIX_PASSES = 20;
 
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
 
+  insert_into_triangulation(universe_ptr, causal_vertices);
+
+
+
   // This isn't as expensive as it looks thanks to return value optimization
-  return universe;
+  return universe_ptr;
 }
 
 #endif  // SRC_SPHERICALTRIANGULATION_H_

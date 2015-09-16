@@ -17,12 +17,13 @@ using namespace testing;  // NOLINT
 class SphericalTriangulation: public Test {
  public:
    static constexpr auto simplices = static_cast<unsigned>(100);
-   static constexpr auto timeslices = static_cast<unsigned>(12);
-   Delaunay universe;
+   static constexpr auto timeslices = static_cast<unsigned>(10);
+  //  Delaunay universe;
 };
 
 TEST_F(SphericalTriangulation, CreateWithUniquePtr) {
-  auto universe_ptr = std::make_shared<decltype(universe)>(universe);
+  Delaunay universe;
+  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
   // Verify unique_ptr null check
   // universe_ptr.reset();
@@ -42,13 +43,16 @@ TEST_F(SphericalTriangulation, Create2Sphere) {
   ASSERT_THAT(causal_vertices.first.size(), Eq(number_of_vertices))
     << "Wrong number of vertices.";
 
-  // ASSERT_EQ(causal_vertices.first.size(), causal_vertices.second.size())
-  //   << "Each point does not have an associated timeslice.";
+  ASSERT_EQ(causal_vertices.first.size(), causal_vertices.second.size())
+    << "Each point does not have an associated timeslice.";
 }
 
-TEST_F(SphericalTriangulation, DISABLED_Foliate) {
-  auto universe_ptr = std::make_shared<decltype(universe)>(universe);
-  universe_ptr = make_triangulation(universe_ptr, simplices, timeslices);
+TEST_F(SphericalTriangulation, Foliate) {
+  // auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+  auto universe_ptr = make_triangulation(simplices, timeslices);
+
+  std::cout << "Vertices: " << universe_ptr->number_of_vertices() << std::endl;
+  std::cout << "Cells: " << universe_ptr->number_of_finite_cells() << std::endl;
 
   EXPECT_THAT(universe_ptr->number_of_vertices(), Ne(0))
     << "universe has 0 vertices.";
