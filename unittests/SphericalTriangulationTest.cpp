@@ -16,8 +16,8 @@ using namespace testing;  // NOLINT
 
 class SphericalTriangulation: public Test {
  public:
-   static constexpr auto simplices = static_cast<unsigned>(100);
-   static constexpr auto timeslices = static_cast<unsigned>(10);
+   static constexpr auto simplices = static_cast<unsigned>(2);
+   static constexpr auto timeslices = static_cast<unsigned>(2);
   //  Delaunay universe;
 };
 
@@ -60,7 +60,7 @@ TEST_F(SphericalTriangulation, InsertIntoTriangulation) {
   EXPECT_EQ(universe_p->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_EQ(universe_p->number_of_vertices(), 4*simplices)
+  EXPECT_THAT(universe_p->number_of_vertices(), AllOf(Ge(1), Le(4*simplices)))
     << "Triangulation has wrong number of vertices.";
 
   EXPECT_TRUE(universe_p->is_valid())
@@ -70,8 +70,10 @@ TEST_F(SphericalTriangulation, InsertIntoTriangulation) {
     << "Triangulation is invalid.";
 }
 
-TEST_F(SphericalTriangulation, CreatesFoliated) {
-  auto universe_p = make_triangulation(simplices, timeslices);
+TEST_F(SphericalTriangulation, CreatesFoliatedWithTwoTimeslices) {
+  auto local_simplices = 2;
+  auto local_timeslices = 2;
+  auto universe_p = make_triangulation(local_simplices, local_timeslices);
 
   EXPECT_EQ(universe_p->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
