@@ -119,9 +119,10 @@ void fix_triangulation(T&& universe) noexcept {
 template <typename T1, typename T2>
 void insert_into_triangulation(T1&& universe, T2&& causal_vertices) noexcept {
   universe->insert(boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.begin(), causal_vertices.second.begin())), boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.end(), causal_vertices.second.end())));  // NOLINT
-}  // insert_into_triangulation
+}  // insert_into_triangulation()
 
-auto make_foliated_sphere(unsigned simplices, unsigned timeslices) {
+auto inline make_foliated_sphere(unsigned simplices,
+                                 unsigned timeslices) noexcept {
   auto radius = 1.0;
   const auto simplices_per_timeslice = simplices/timeslices;
   const auto points_per_timeslice = 4 * simplices_per_timeslice;
@@ -143,7 +144,8 @@ auto make_foliated_sphere(unsigned simplices, unsigned timeslices) {
 // template <typename T>
 // auto make_triangulation(T&& universe, unsigned simplices, unsigned timeslices)  // NOLINT
 //   -> decltype(universe) {
-auto make_triangulation(unsigned simplices, unsigned timeslices) noexcept {
+auto inline make_triangulation(unsigned simplices,
+                               unsigned timeslices) noexcept {
   std::cout << "Generating universe ... " << std::endl;
   Delaunay universe;
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
@@ -157,6 +159,6 @@ auto make_triangulation(unsigned simplices, unsigned timeslices) noexcept {
 
   // This isn't as expensive as it looks thanks to return value optimization
   return universe_ptr;
-}  // make_triangulation
+}  // make_triangulation()
 
 #endif  // SRC_SPHERICALTRIANGULATION_H_

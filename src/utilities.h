@@ -133,10 +133,10 @@ void print_results(const T& Triangulation) noexcept {
             << Triangulation->number_of_finite_edges()
             << " edges and "
             << Triangulation->number_of_finite_facets()
-            << " faces"
-            << " and "
+            << " faces\n"
+            << "and "
             << Triangulation->number_of_finite_cells()
-            << " cells" << std::endl;
+            << " cells." << std::endl;
 }
 
 /// @brief Print out runtime results including time elapsed

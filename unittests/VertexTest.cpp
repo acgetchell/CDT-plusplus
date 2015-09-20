@@ -2,7 +2,10 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
-/// Tests for inserting and deleting vertices (disabled).
+///
+/// DEPRECATED: Not
+///
+/// Tests for inserting and deleting vertices.
 
 /// @file VertexTest.cpp
 /// @brief Tests on vertices
@@ -11,38 +14,39 @@
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "S3Triangulation.h"
+#include "SphericalTriangulation.h"
 
 using namespace testing;  // NOLINT
 
-TEST(Vertex, DISABLED_InsertAVertex) {
-  Delaunay T;
+TEST(Vertex, InsertAVertex) {
+  Delaunay universe;
+  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
-  Vertex_handle v0 = T.insert(Point(0, 0, 0));
+  Vertex_handle v0 = universe_ptr->insert(Point(0, 0, 0));
 
-  EXPECT_THAT(T.dimension(), Eq(0))
+  EXPECT_THAT(universe_ptr->dimension(), Eq(0))
     << "Inserting 1 point should make dimension 0.";
 
-  Vertex_handle v1 = T.insert(Point(1, 0, 0));
+  Vertex_handle v1 = universe_ptr->insert(Point(1, 0, 0));
 
-  EXPECT_THAT(T.dimension(), Eq(1))
+  EXPECT_THAT(universe_ptr->dimension(), Eq(1))
     << "Inserting 2 points should make dimension 1.";
 
-  Vertex_handle v2 = T.insert(Point(0, 1, 0));
+  Vertex_handle v2 = universe_ptr->insert(Point(0, 1, 0));
 
-  EXPECT_THAT(T.dimension(), Eq(2))
+  EXPECT_THAT(universe_ptr->dimension(), Eq(2))
     << "Inserting 3 points should make dimension 2.";
 
-  EXPECT_THAT(T.number_of_vertices(), Eq(3))
+  EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(3))
     << "We should have 3 points inserted.";
 
-  Vertex_handle v3 = T.insert(Point(0, 0, 1));
+  Vertex_handle v3 = universe_ptr->insert(Point(0, 0, 1));
 
-  EXPECT_THAT(T.dimension(), Eq(3))
+  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Dimensionality after 4 points should still be 3.";
 
-  Vertex_handle v4 = T.insert(Point(2, 2, 2));
-  Vertex_handle v5 = T.insert(Point(-1, 0, 1));
+  Vertex_handle v4 = universe_ptr->insert(Point(2, 2, 2));
+  Vertex_handle v5 = universe_ptr->insert(Point(-1, 0, 1));
   // Now we can link the vertices as we like.
   // v0->Vertex_handle = v1;
   // v1->Vertex_handle = v2;
