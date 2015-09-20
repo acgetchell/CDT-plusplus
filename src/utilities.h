@@ -128,14 +128,14 @@ inline auto generate_filename(const topology_type& top,
 /// @param[in] Triangulation The triangulated, foliated universe simulation
 template <typename T>
 void print_results(const T& Triangulation) noexcept {
-  std::cout << Triangulation.number_of_vertices()
+  std::cout << Triangulation->number_of_vertices()
             << " vertices and "
-            << Triangulation.number_of_finite_edges()
+            << Triangulation->number_of_finite_edges()
             << " edges and "
-            << Triangulation.number_of_finite_facets()
+            << Triangulation->number_of_finite_facets()
             << " faces"
             << " and "
-            << Triangulation.number_of_finite_cells()
+            << Triangulation->number_of_finite_cells()
             << " cells" << std::endl;
 }
 
@@ -183,7 +183,7 @@ void write_file(const T& Triangulation,
             << filename
             << std::endl;
   std::ofstream oFileT(filename, std::ios::out);
-  oFileT << Triangulation;
+  oFileT << *Triangulation;
 }
 
 /// @brief Generate random unsigned integers

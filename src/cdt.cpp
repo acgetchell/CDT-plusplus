@@ -143,7 +143,6 @@ int main(int argc, char* const argv[]) {
       if (dimensions == 3) {
         // make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
         //                       &three_one, &two_two, &one_three);
-        auto universe = make_triangulation(simplices, timeslices);
       } else {
         std::cout << "Currently, dimensions cannot be higher than 3.";
         std::cout << std::endl;
@@ -155,6 +154,7 @@ int main(int argc, char* const argv[]) {
       break;
   }
 
+  auto universe = make_triangulation(simplices, timeslices);
   std::cout << "Universe has been initialized ..." << std::endl;
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
@@ -169,15 +169,15 @@ int main(int argc, char* const argv[]) {
   // Output results
   t.stop();  // End running time counter
   std::cout << "Final Delaunay triangulation has ";
-  print_results(SphericalUniverse, t);
+  print_results(universe, t);
 
   // Write results to file
   // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values are
   //                   written
-  write_file(SphericalUniverse,
+  write_file(universe,
              topology,
              dimensions,
-             SphericalUniverse.number_of_finite_cells(),
+             universe->number_of_finite_cells(),
              timeslices);
 
   return 0;
