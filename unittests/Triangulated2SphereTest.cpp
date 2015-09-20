@@ -4,6 +4,7 @@
 ///
 /// Tests for S3 Triangulations: two timeslices created, lots of
 /// simplices correctly foliated are created.
+/// DEPRECATED: SphericalTriangulationTest.cpp handles all cases here
 
 /// @file Triangulated2SphereTest.cpp
 /// @brief Tests for S3 foliated triangulations

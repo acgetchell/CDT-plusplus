@@ -14,7 +14,6 @@
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
 
-
 // C headers
 // #include <math.h>
 
@@ -42,50 +41,19 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
 
 template <typename T>
-void fix_timeslices(T&& universe) {
-  std::cout << "Fixing foliation ...." << std::endl;
-  Delaunay::Finite_cells_iterator cit;
-  auto min_time = static_cast<unsigned>(0);
-  auto max_time = static_cast<unsigned>(0);
-  auto max_vertex = static_cast<unsigned>(0);
-
-  // Iterate over all cells in the Delaunay triangulation
-  for (cit = universe->finite_cells_begin();
-       cit != universe->finite_cells_end(); ++cit) {
-    // Set min_time and max_time to timevalue of first vertex
-    min_time = cit->vertex(0)->info();
-    max_time = min_time;
-
-    // Iterate over each vertex in cell
-    for (auto i = 0; i < 4; ++i) {
-      auto current_time = cit->vertex(i)->info();
-      if (current_time < min_time) min_time = current_time;
-      if (current_time > max_time) {
-        max_time = current_time;
-        max_vertex = i;
-      }
-    }  // Finish iterating over vertices
-
-    // If max_time - min_time != 1 delete max_vertex
-    if (max_time - min_time != 1) {
-      universe->remove(cit->vertex(max_vertex));
-      std::cout << "Vertex " << max_vertex << " of cell removed." << std::endl;
-    }
-  }  // Finish iterating over cells
-}  // fix_timeslices()
-
-template <typename T>
-auto check_timeslices(T&& universe) {
+// auto check_timeslices(T&& universe) {
+  auto check_and_fix_timeslices(T&& universe) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
   auto min_time = static_cast<unsigned>(0);
   auto max_time = static_cast<unsigned>(0);
   auto valid = static_cast<unsigned>(0);
   auto invalid = static_cast<unsigned>(0);
+  auto max_vertex = static_cast<unsigned>(0);
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe->finite_cells_begin();
        cit != universe->finite_cells_end(); ++cit) {
-    if (cit->is_valid()) {
+    if (cit->is_valid()) {  // Valid cell
       min_time = cit->vertex(0)->info();
       max_time = min_time;
       bool this_cell_foliation_valid = true;
@@ -95,34 +63,44 @@ auto check_timeslices(T&& universe) {
 
         // Classify extreme values
         if (current_time < min_time) min_time = current_time;
-        if (current_time > max_time) max_time = current_time;
+        if (current_time > max_time) {
+          max_time = current_time;
+          max_vertex = i;
+        }
       }  // Finish iterating over vertices
       // There should be a difference of 1 between min_time and max_time
       if (max_time - min_time != 1) {
         invalid++;
         this_cell_foliation_valid = false;
+        // Delete max vertex
+        universe->remove(cit->vertex(max_vertex));
       } else {
         ++valid;
       }
 
-// #ifndef NDEBUG
+#ifndef NDEBUG
       std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
         "valid." : "invalid.") << std::endl;
       for (auto i = 0; i < 4; ++i) {
         std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
                   << " with timeslice " << cit->vertex(i)->info() << std::endl;
       }
-// #endif
+#endif
 
     } else {
       throw std::runtime_error("Cell handle is invalid.");
+      // Or just remove the cell
+      // universe->tds().delete_cell(cit);
+      // This results in a possibly broken Delaunay triangulation
+      // Or possibly just delete a vertex in the cell,
+      // perhaps forcing a re-triangulation?
     }
-  }
+  }  // Finish iterating over cells
   // Check that the triangulation is still valid
   CGAL_triangulation_expensive_postcondition(universe->is_valid());
 
   std::cout << "There are " << invalid << " invalid simplices and "
-            << valid << " valid simplices in this triangulation." << std::endl;
+            << valid << " valid simplices." << std::endl;
 
   return (invalid == 0) ? true : false;
 }  // check_timeslices
@@ -131,13 +109,12 @@ auto check_timeslices(T&& universe) {
 template <typename T>
 void fix_triangulation(T&& universe) noexcept {
   auto pass = 0;
-  while (!check_timeslices(universe)) {
+  do {
     pass++;
     if (pass > MAX_FOLIATION_FIX_PASSES) break;
     std::cout << "Fix Pass #" << pass << std::endl;
-    fix_timeslices(universe);
-  }
-}  // fix_triangulation
+  } while (!check_and_fix_timeslices(universe));
+}  // fix_triangulation()
 
 template <typename T1, typename T2>
 void insert_into_triangulation(T1&& universe, T2&& causal_vertices) noexcept {
@@ -177,8 +154,6 @@ auto make_triangulation(unsigned simplices, unsigned timeslices) noexcept {
   insert_into_triangulation(universe_ptr, causal_vertices);
 
   fix_triangulation(universe_ptr);
-
-
 
   // This isn't as expensive as it looks thanks to return value optimization
   return universe_ptr;

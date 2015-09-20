@@ -34,14 +34,15 @@
 
 // CDT headers
 #include "./Utilities.h"
-#include "S3Triangulation.h"
+// #include "S3Triangulation.h"
+#include "SphericalTriangulation.h"
 #include "Metropolis.h"
 
 /// Help message parsed by docopt into options
 static const char USAGE[] {
 R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014 Adam Getchell
+Copyright (c) 2014, 2015 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -140,8 +141,9 @@ int main(int argc, char* const argv[]) {
   switch (topology) {
     case topology_type::SPHERICAL:
       if (dimensions == 3) {
-        make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
-                              &three_one, &two_two, &one_three);
+        // make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
+        //                       &three_one, &two_two, &one_three);
+        auto universe = make_triangulation(simplices, timeslices);
       } else {
         std::cout << "Currently, dimensions cannot be higher than 3.";
         std::cout << std::endl;
@@ -158,8 +160,8 @@ int main(int argc, char* const argv[]) {
             << std::endl;
 
   // Metropolis simulation(&SphericalUniverse, passes);
-  auto universe =
-    std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
+  // auto universe =
+  //   std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
 
   // The main work of the program
   // universe = metropolis(universe, number_of_passes, output_every_n_passes);
