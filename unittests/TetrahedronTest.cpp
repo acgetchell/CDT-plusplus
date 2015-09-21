@@ -20,7 +20,15 @@ using namespace testing;  // NOLINT
 
 class Tetrahedron : public Test {
  protected:
-  virtual void SetUp() {}
+  virtual void SetUp() {
+    // We wouldn't normally directly insert into the Delaunay triangulation
+    // This is to insert without timevalues to directly create a tetrahedron
+    universe_ptr->insert(V.begin(), V.end());
+  }
+
+  Delaunay universe;
+  std::unique_ptr<Delaunay>
+    universe_ptr = std::make_unique<decltype(universe)>(universe);
   std::vector<Delaunay::Point> V {
     Delaunay::Point(0, 0, 0),
     Delaunay::Point(0, 1, 0),
@@ -31,19 +39,17 @@ class Tetrahedron : public Test {
 
 class FoliatedTetrahedron : public Tetrahedron {
  protected:
-   virtual void SetUp() {}
+   virtual void SetUp() {
+     // Manually create causal_vertices
+     std::pair<std::vector<Point>, std::vector<unsigned>>
+       causal_vertices(V, timevalue);
+     // Manually insert
+     insert_into_triangulation(universe_ptr, causal_vertices);
+   }
    std::vector<unsigned> timevalue {1, 1, 1, 2};
-   Delaunay::Finite_cells_iterator cit;
-   std::vector<Cell_handle> three_one;
-   std::vector<Cell_handle> two_two;
-   std::vector<Cell_handle> one_three;
 };
 
 TEST_F(Tetrahedron, Create) {
-  // We wouldn't normally directly insert into the Delaunay triangulation
-  // This is to insert without timevalues to directly create a tetrahedron
-  Delaunay universe(V.begin(), V.end());
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
   EXPECT_EQ(universe_ptr->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
@@ -68,13 +74,6 @@ TEST_F(Tetrahedron, Create) {
 }
 
 TEST_F(FoliatedTetrahedron, Create) {
-  Delaunay universe;
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-  // Manually create causal_vertices
-  std::pair<std::vector<Point>, std::vector<unsigned>>
-    causal_vertices(V, timevalue);
-  // Manually insert
-  insert_into_triangulation(universe_ptr, causal_vertices);
 
   EXPECT_EQ(universe_ptr->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
@@ -96,17 +95,11 @@ TEST_F(FoliatedTetrahedron, Create) {
 }
 
 TEST_F(FoliatedTetrahedron, InsertSimplexType) {
-  Delaunay universe;
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-  // Manually create causal_vertices
-  std::pair<std::vector<Point>, std::vector<unsigned>>
-    causal_vertices(V, timevalue);
-  // Manually insert
-  insert_into_triangulation(universe_ptr, causal_vertices);
 
   // classify_3_simplices(&T, &three_one, &two_two, &one_three);
   auto simplex_types = classify_simplices(universe_ptr);
 
+  Delaunay::Finite_cells_iterator cit;
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
     EXPECT_EQ(cit->info(), 31);
@@ -124,22 +117,6 @@ TEST_F(FoliatedTetrahedron, InsertSimplexType) {
 }
 
 TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
-  Delaunay universe;
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-  // Manually create causal_vertices
-  std::pair<std::vector<Point>, std::vector<unsigned>>
-    causal_vertices(V, timevalue);
-  // Manually insert
-  insert_into_triangulation(universe_ptr, causal_vertices);
-
-  // std::vector<Edge_tuple> V2;
-  // auto N1_TL = static_cast<unsigned>(0);
-  // auto N1_SL = static_cast<unsigned>(0);
-  //
-  // get_timelike_edges(T, &V2, &N1_SL);
-  // auto N1_TL_from_get_timelike_edges = V2.size();
-
-  // classify_edges(T, &N1_TL, &N1_SL);
 
   auto timelike_edges = get_timelike_edges(universe_ptr);
 
