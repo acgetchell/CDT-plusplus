@@ -94,18 +94,25 @@ TEST_F(FoliatedTetrahedron, Create) {
   EXPECT_TRUE(universe_ptr->tds().is_valid())
     << "Triangulation is invalid.";
 }
-//
-// TEST_F(Tetrahedron, InsertsSimplexType) {
-//   Delaunay T;
-//   insert_into_S3(V, timevalue, &T);
-//
-//   classify_3_simplices(&T, &three_one, &two_two, &one_three);
-//
-//   for (cit = T.finite_cells_begin(); cit != T.finite_cells_end(); ++cit) {
-//     EXPECT_THAT(cit->info(), Eq(31));
-//     std::cout << "Simplex type is " << cit->info() << std::endl;
-//   }
-// }
+
+TEST_F(FoliatedTetrahedron, InsertsSimplexType) {
+  Delaunay universe;
+  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+  // Manually create causal_vertices
+  std::pair<std::vector<Point>, std::vector<unsigned>>
+    causal_vertices(V, timevalue);
+  // Manually insert
+  insert_into_triangulation(universe_ptr, causal_vertices);
+
+  // classify_3_simplices(&T, &three_one, &two_two, &one_three);
+  auto simplex_types = classify_simplices(universe_ptr);
+
+  for (cit = universe_ptr->finite_cells_begin();
+       cit != universe_ptr->finite_cells_end(); ++cit) {
+    EXPECT_THAT(cit->info(), Eq(31));
+    std::cout << "Simplex type is " << cit->info() << std::endl;
+  }
+}
 //
 // TEST_F(Tetrahedron, GetsTimelikeEdges) {
 //   Delaunay T;

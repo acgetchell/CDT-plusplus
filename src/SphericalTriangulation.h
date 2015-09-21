@@ -75,6 +75,72 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
 
+/// @brief Classify simplices as (3,1), (2,2), or (1,3)
+///
+/// This function iterates over all cells in the triangulation
+/// and classifies them as:
+/**
+\f{eqnarray*}{
+     31 &=& (3, 1) \\
+     22 &=& (2, 2) \\
+     13 &=& (1, 3)
+\f}
+The vectors **three_one**, **two_two**, and **one_three** contain cell handles
+to all the simplices in the triangulation of that corresponding type.
+*/
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @returns A std::tuple<std::vector, std::vector, std::vector> of
+/// **three_one**, **two_two**, and **one_three**
+template <typename T>
+auto classify_simplices(T&& universe_ptr) noexcept {
+  std::cout << "Classifying simplices...." << std::endl;
+  Delaunay::Finite_cells_iterator cit;
+  std::vector<Cell_handle> three_one;
+  std::vector<Cell_handle> two_two;
+  std::vector<Cell_handle> one_three;
+
+  // Iterate over all cells in the Delaunay triangulation
+  for (cit = universe_ptr->finite_cells_begin();
+       cit != universe_ptr->finite_cells_end(); ++cit) {
+    std::list<unsigned> timevalues;
+    auto max_time = 0;
+    auto current_time = 0;
+    auto max_values = 0;
+    auto min_values = 0;
+    // Push every time value of every vertex into a list
+    for (auto i = 0; i < 4; ++i) {
+      timevalues.emplace_back(cit->vertex(i)->info());
+    }
+    // Now sort the list
+    timevalues.sort();
+    // The maximum timevalue is at the back of the list
+    max_time = timevalues.back();
+    timevalues.pop_back();
+    ++max_values;
+
+    // Now pop the rest of the values
+    while (!timevalues.empty()) {
+      current_time = timevalues.back();
+      timevalues.pop_back();
+      (current_time == max_time) ? ++max_values : ++min_values;
+    }
+
+    // Classify simplex using max_values and write to cit->info()
+    if (max_values == 3) {
+      cit->info() = 13;
+      one_three.emplace_back(cit);
+    } else if (max_values == 2) {
+      cit->info() = 22;
+      two_two.emplace_back(cit);
+    } else {
+      cit->info() = 31;
+      three_one.emplace_back(cit);
+    }  // endif
+  }  // Finish iterating over cells
+  return std::make_tuple(three_one, two_two, one_three);
+}
+
 /// @brief Check and fix simplices with incorrect foliation
 ///
 /// This function iterates over all of the cells in the triangulation.
