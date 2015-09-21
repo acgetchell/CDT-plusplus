@@ -2,8 +2,7 @@
 ///
 /// Copyright (c) 2015 Adam Getchell
 ///
-/// Ensures that the S3 bulk action calculations are correct, and give
-/// similar results for similar values.
+/// Checks that Metropolis algorithm runs properly.
 
 /// @file MetropolisManagerTest.cpp
 /// @brief Tests for the Metropolis-Hastings algorithm
@@ -17,41 +16,6 @@
 #include "Metropolis.h"
 
 using namespace testing;  // NOLINT
-
-// class Metropolis : public Test {
-//  protected:
-//   virtual void SetUp() {
-//     make_S3_triangulation(number_of_simplices,
-//                           number_of_timeslices,
-//                           no_output,
-//                           &S3,
-//                           &three_one,
-//                           &two_two,
-//                           &one_three);
-//   }
-//
-//   static constexpr auto output = static_cast<bool>(true);
-//   static constexpr auto no_output = static_cast<bool>(false);
-//   static constexpr auto number_of_simplices = static_cast<unsigned>(6400);
-//   static constexpr auto number_of_timeslices = static_cast<unsigned>(16);
-//   Delaunay S3;
-//   std::vector<Cell_handle> three_one;
-//   std::vector<Cell_handle> two_two;
-//   std::vector<Cell_handle> one_three;
-// };
-
-// TEST_F(Metropolis, CreateWithUniquePtr) {
-//   auto universe = std::make_unique<decltype(S3)>(S3);
-//
-//   // Verify unique_ptr null check
-//   // universe.reset();
-//   EXPECT_FALSE(!universe)
-//     << "unique_ptr universe has been reset or is null.";
-//
-//   EXPECT_THAT(universe->number_of_finite_cells(),
-//     Eq(S3.number_of_finite_cells()))
-//     << "Number of cells different; unique_ptr universe not pointing to S3.";
-// }
 
 TEST(Metropolis, DISABLED_RunSimulation) {
   constexpr auto simplices = static_cast<unsigned>(64000);
@@ -71,7 +35,6 @@ TEST(Metropolis, DISABLED_RunSimulation) {
   auto starting_finite_edges = universe->number_of_finite_edges();
 
   // Run simulation
-  // metropolis(universe, number_of_passes, output_every_n_passes);
   universe = std::move(metropolis(universe, passes, output_every_n_passes));
 
   EXPECT_THAT(starting_vertices, Ne(universe->number_of_vertices()))
@@ -82,6 +45,4 @@ TEST(Metropolis, DISABLED_RunSimulation) {
 
   EXPECT_THAT(starting_finite_cells, Ne(universe->number_of_finite_cells()))
     << "Cells didn't change";
-
-
 }
