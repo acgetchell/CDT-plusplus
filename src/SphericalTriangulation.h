@@ -3,6 +3,42 @@
 /// Copyright (c) 2015 Adam Getchell
 ///
 /// Creates foliated spherical triangulations
+///
+/// The number of desired timeslices is given, and
+/// successive spheres are created with increasing radii.
+/// Each vertex at a given radius is assigned a timeslice so that the
+/// entire triangulation will have a preferred foliation of time.
+///
+/// \done Insert a 3-sphere into the triangulation data structure
+/// \done Assign each 3-sphere a unique timeslice
+/// \done Iterate over the number of desired timeslices
+/// \done Check/fix issues for large values of simplices and timeslices
+/// \done Iterate over cells and check timeslices of vertices don't differ
+///        by more than 1.
+/// \done Gather ratio of cells with bad/good foliation.
+///        Adjust value of radius to minimize.
+///        Recheck the whole triangulation when finished.
+/// \done When a cell contains a bad foliation, delete it. Recheck.
+/// \done Fixup Delaunay triangulation after bad cells have been deleted
+/// \done Re-written with std::unique_ptr<T> and
+/// <a href="http://blog.knatten.org/2012/11/02/efficient-pure-functional-
+/// programming-in-c-using-move-semantics/">
+/// Efficient Pure Functional Programming in C++ Using Move Semantics</a>
+/// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
+/// Const Correctness</a>
+/// \done Function documentation
+/// \todo Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
+/// A tuple of vectors contain cell handles to the simplices of type (3,1),
+/// (2,2), and (1,3) respectively.
+/// \todo Classify edges as timelike or spacelike so that action can be
+/// calculated.
+/// \todo Multi-threaded operations using Intel TBB
+
+/// @file SphericalTriangulation.h
+/// @brief Functions on Spherical Delaunay Triangulations
+/// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #ifndef SRC_SPHERICALTRIANGULATION_H_
 #define SRC_SPHERICALTRIANGULATION_H_
@@ -24,7 +60,6 @@
 #include <tuple>
 #include <stdexcept>
 
-
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
 // Used so that each timeslice is assigned an integer
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -40,9 +75,22 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
 
+/// @brief Check and fix simplices with incorrect foliation
+///
+/// This function iterates over all of the cells in the triangulation.
+/// Within each cell, it iterates over all of the vertices and reads timeslices.
+/// Validity of the cell is first checked by the **is_valid()** function.
+/// The foliation validity is then checked by comparing timeslices in each
+/// vertex and ensuring that the difference is exactly 1.
+/// If a cell has a bad foliation, the vertex with the highest timeslice is
+/// deleted. The Delaunay triangulation is then recomputed on the remaining
+/// vertices.
+/// This function is repeatedly called up to **MAX_FOLIATION_FIX_PASSES** times.
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @returns A boolean value if there are invalid simplices
 template <typename T>
-// auto check_timeslices(T&& universe) {
-  auto check_and_fix_timeslices(T&& universe) {  // NOLINT
+auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
   auto min_time = static_cast<unsigned>(0);
   auto max_time = static_cast<unsigned>(0);
@@ -51,8 +99,8 @@ template <typename T>
   auto max_vertex = static_cast<unsigned>(0);
 
   // Iterate over all cells in the Delaunay triangulation
-  for (cit = universe->finite_cells_begin();
-       cit != universe->finite_cells_end(); ++cit) {
+  for (cit = universe_ptr->finite_cells_begin();
+       cit != universe_ptr->finite_cells_end(); ++cit) {
     if (cit->is_valid()) {  // Valid cell
       min_time = cit->vertex(0)->info();
       max_time = min_time;
@@ -73,7 +121,7 @@ template <typename T>
         invalid++;
         this_cell_foliation_valid = false;
         // Delete max vertex
-        universe->remove(cit->vertex(max_vertex));
+        universe_ptr->remove(cit->vertex(max_vertex));
       } else {
         ++valid;
       }
@@ -90,14 +138,14 @@ template <typename T>
     } else {
       throw std::runtime_error("Cell handle is invalid.");
       // Or just remove the cell
-      // universe->tds().delete_cell(cit);
+      // universe_ptr->tds().delete_cell(cit);
       // This results in a possibly broken Delaunay triangulation
       // Or possibly just delete a vertex in the cell,
       // perhaps forcing a re-triangulation?
     }
   }  // Finish iterating over cells
   // Check that the triangulation is still valid
-  CGAL_triangulation_expensive_postcondition(universe->is_valid());
+  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
 
   std::cout << "There are " << invalid << " invalid simplices and "
             << valid << " valid simplices." << std::endl;
@@ -105,24 +153,47 @@ template <typename T>
   return (invalid == 0) ? true : false;
 }  // check_timeslices
 
-
+/// @brief Fixes the foliation of the triangulation
+///
+/// Runs check_and_fix_timeslices() to fix foliation until there are no errors,
+/// or MAX_FOLIATION_FIX_PASSES whichever comes first.
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 template <typename T>
-void fix_triangulation(T&& universe) noexcept {
+void fix_triangulation(T&& universe_ptr) noexcept {
   auto pass = 0;
   do {
     pass++;
     if (pass > MAX_FOLIATION_FIX_PASSES) break;
     std::cout << "Fix Pass #" << pass << std::endl;
-  } while (!check_and_fix_timeslices(universe));
+  } while (!check_and_fix_timeslices(universe_ptr));
 }  // fix_triangulation()
 
+/// @brief Inserts vertices with timeslices into Delaunay triangulation
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] causal_vertices A std::pair<std::vector, unsigned> containing
+/// the vertices to be inserted along with their timevalues
 template <typename T1, typename T2>
-void insert_into_triangulation(T1&& universe, T2&& causal_vertices) noexcept {
-  universe->insert(boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.begin(), causal_vertices.second.begin())), boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.end(), causal_vertices.second.end())));  // NOLINT
+void insert_into_triangulation(T1&& universe_ptr,
+                               T2&& causal_vertices) noexcept {
+  universe_ptr->insert(boost::make_zip_iterator(boost::make_tuple
+    (causal_vertices.first.begin(), causal_vertices.second.begin())),
+     boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.end(),
+     causal_vertices.second.end())));
 }  // insert_into_triangulation()
 
-auto inline make_foliated_sphere(unsigned simplices,
-                                 unsigned timeslices) noexcept {
+/// @brief Make foliated spheres
+///
+/// The radius is used to denote the time value, so we can nest 2-spheres
+/// such that our time foliation contains leaves of identical topology.
+///
+/// @param[in] simplices  The number of desired simplices in the triangulation
+/// @param[in] timeslices The number of timeslices in the triangulation
+/// @returns  A std::pair<std::vector, unsigned> containing random vertices and
+/// their corresponding timevalues
+auto inline make_foliated_sphere(const unsigned simplices,
+                                 const unsigned timeslices) noexcept {
   auto radius = 1.0;
   const auto simplices_per_timeslice = simplices/timeslices;
   const auto points_per_timeslice = 4 * simplices_per_timeslice;
@@ -141,11 +212,32 @@ auto inline make_foliated_sphere(unsigned simplices,
   return causal_vertices;
 }  // make_foliated_sphere()
 
-// template <typename T>
-// auto make_triangulation(T&& universe, unsigned simplices, unsigned timeslices)  // NOLINT
-//   -> decltype(universe) {
-auto inline make_triangulation(unsigned simplices,
-                               unsigned timeslices) noexcept {
+/// @brief Make a triangulation from foliated 2-spheres
+///
+/// This function creates a triangulation from successive spheres.
+/// First, the number of points per leaf in the foliation is estimated given
+/// the desired number of simplices.
+/// Next, make_foliated_sphere() is called to generate nested spheres.
+/// The radius of the sphere is assigned as the time value for each vertex
+/// in that sphere, which comprises a leaf in the foliation.
+/// All vertices in all spheres (along with their time values) are then
+/// inserted with insert_into_triangulation() into a Delaunay triangulation
+/// (see http://en.wikipedia.org/wiki/Delaunay_triangulation for details).
+/// Next, we use fix_triangulation() to remove cells in the DT with invalid
+/// foliations using check_and_fix_timeslices().
+/// Finally, the cells (simplices) are sorted by classify_3_simplices() into
+/// a tuple of corresponding vectors which contain cell handles to that type of
+/// simplex.
+/// The vector **three_one** contains handles to all the (3,1) simplices,
+/// the vector **two_two** contains handles to the (2,2) simplices, and
+/// the vector **one_three** contains handles to the (1,3) simplices.
+/// A last check is performed to ensure a valid Delaunay triangulation.
+///
+/// @param[in] simplices  The number of desired simplices in the triangulation
+/// @param[in] timeslices The number of timeslices in the triangulation
+/// @returns A std::unique_ptr to the foliated Delaunay triangulation
+auto inline make_triangulation(const unsigned simplices,
+                               const unsigned timeslices) noexcept {
   std::cout << "Generating universe ... " << std::endl;
   Delaunay universe;
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);

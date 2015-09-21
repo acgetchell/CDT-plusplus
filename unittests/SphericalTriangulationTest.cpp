@@ -52,7 +52,6 @@ TEST(SphericalTriangulation, CreatesFoliatedWithTwoTimeslices) {
 }
 
 TEST(SphericalTriangulation, CreateWithLotsOfSimplices) {
-  // auto universe_ptr = std::make_unique<decltype(universe)>(universe);
   constexpr auto simplices = static_cast<unsigned>(64000);
   constexpr auto timeslices = static_cast<unsigned>(67);
   auto universe_ptr = make_triangulation(simplices, timeslices);

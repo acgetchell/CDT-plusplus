@@ -31,10 +31,10 @@ std::atomic<int> attempted_23_moves{0};
 std::atomic<int> attempted_32_moves{0};
 
 template <typename T>
-auto metropolis(T&& universe, unsigned number_of_passes,
-                   unsigned output_every_n_passes) -> decltype(universe) {
+auto metropolis(T&& universe_ptr, unsigned number_of_passes,
+                unsigned output_every_n_passes) -> decltype(universe_ptr) {
   std::cout << "Starting ..." << std::endl;
-  auto attempted_moves_per_pass = universe->number_of_finite_cells();
+  auto attempted_moves_per_pass = universe_ptr->number_of_finite_cells();
   // First, attempt a move of each type
   // attempt_23_move();
   ++attempted_23_moves;
@@ -61,7 +61,7 @@ auto metropolis(T&& universe, unsigned number_of_passes,
         break;
     }
   }
-  return universe;
+  return universe_ptr;
 }
 // auto metropolis =
 //   std::make_unique<decltype(universe)>(Metropolis(universe));
