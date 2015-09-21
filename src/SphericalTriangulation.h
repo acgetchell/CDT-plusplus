@@ -75,6 +75,46 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
 
+/// @brief Gets all timelike edges
+///
+/// This function iterates over all edges in the triangulation
+/// and classifies them as timelike or spacelike.
+/// Timelike edges are stored in the **timelike_edgesL** vector as a tuple of
+/// (Cell_handle, unsigned, unsigned) for later use by ergodic moves
+/// on timelike edges.
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @returns A std::vector<Edge_tuple> of timelike edges
+template <typename T>
+auto get_timelike_edges(T&& universe_ptr) noexcept {
+  std::cout << "Getting timelike edges...." << std::endl;
+  Delaunay::Finite_edges_iterator eit;
+  std::vector<Edge_tuple> timelike_edges;
+
+  // Iterate over all edges in the Delaunay triangulation
+  for (eit = universe_ptr->finite_edges_begin();
+       eit != universe_ptr->finite_edges_end(); ++eit) {
+    Cell_handle ch = eit->first;
+    // Get timevalues of vertices at the edge ends
+    auto time1 = ch->vertex(eit->second)->info();
+    auto time2 = ch->vertex(eit->third)->info();
+
+    if (time1 != time2) {  // We have a timelike edge
+      Edge_tuple thisEdge{ch,
+                          ch->index(ch->vertex(eit->second)),
+                          ch->index(ch->vertex(eit->third))};
+      timelike_edges.emplace_back(thisEdge);
+
+      // Debugging
+      // std::cout << "First vertex of edge is " << std::get<1>(thisEdge)
+      //           << " and second vertex of edge is " << std::get<2>(thisEdge)
+      //
+    } else {
+      // We could increment spacelike edges here if we cared
+    }  // endif
+  }  // Finish iterating over edges
+  return timelike_edges;
+}
 /// @brief Classify simplices as (3,1), (2,2), or (1,3)
 ///
 /// This function iterates over all cells in the triangulation

@@ -45,25 +45,25 @@ TEST_F(Tetrahedron, Create) {
   Delaunay universe(V.begin(), V.end());
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
-  ASSERT_THAT(universe_ptr->dimension(), Eq(3))
+  EXPECT_EQ(universe_ptr->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
 
-  ASSERT_THAT(universe_ptr->number_of_vertices(), Eq(4))
+  EXPECT_EQ(universe_ptr->number_of_vertices(), 4)
     << "Triangulation has wrong number of vertices.";
 
-  ASSERT_THAT(universe_ptr->number_of_finite_edges(), Eq(6))
+  EXPECT_EQ(universe_ptr->number_of_finite_edges(), 6)
     << "Triangulation has wrong number of edges.";
 
-  ASSERT_THAT(universe_ptr->number_of_finite_facets(), Eq(4))
+  EXPECT_EQ(universe_ptr->number_of_finite_facets(), 4)
     << "Triangulation has wrong number of faces.";
 
-  ASSERT_THAT(universe_ptr->number_of_finite_cells(), Eq(1))
+  EXPECT_EQ(universe_ptr->number_of_finite_cells(), 1)
     << "Triangulation has wrong number of cells.";
 
-  ASSERT_TRUE(universe_ptr->is_valid())
+  EXPECT_TRUE(universe_ptr->is_valid())
     << "Triangulation is not Delaunay.";
 
-  ASSERT_TRUE(universe_ptr->tds().is_valid())
+  EXPECT_TRUE(universe_ptr->tds().is_valid())
     << "Triangulation is invalid.";
 }
 
@@ -76,13 +76,13 @@ TEST_F(FoliatedTetrahedron, Create) {
   // Manually insert
   insert_into_triangulation(universe_ptr, causal_vertices);
 
-  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
+  EXPECT_EQ(universe_ptr->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(4))
+  EXPECT_EQ(universe_ptr->number_of_vertices(), 4)
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_THAT(universe_ptr->number_of_finite_cells(), Eq(1))
+  EXPECT_EQ(universe_ptr->number_of_finite_cells(), 1)
     << "Triangulation has wrong number of cells.";
 
   EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
@@ -95,7 +95,7 @@ TEST_F(FoliatedTetrahedron, Create) {
     << "Triangulation is invalid.";
 }
 
-TEST_F(FoliatedTetrahedron, InsertsSimplexType) {
+TEST_F(FoliatedTetrahedron, InsertSimplexType) {
   Delaunay universe;
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
   // Manually create causal_vertices
@@ -109,41 +109,61 @@ TEST_F(FoliatedTetrahedron, InsertsSimplexType) {
 
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
-    EXPECT_THAT(cit->info(), Eq(31));
+    EXPECT_EQ(cit->info(), 31);
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
+
+  EXPECT_EQ(std::get<0>(simplex_types).size(), 1)
+    << "(3,1) vector in tuple doesn't have a single value.";
+
+  EXPECT_EQ(std::get<1>(simplex_types).size(), 0)
+    << "(2,2) vector in tuple is nonzero.";
+
+  EXPECT_EQ(std::get<2>(simplex_types).size(), 0)
+    << "(1,3) vector in tuple is nonzero.";
 }
-//
-// TEST_F(Tetrahedron, GetsTimelikeEdges) {
-//   Delaunay T;
-//   insert_into_S3(V, timevalue, &T);
-//   std::vector<Edge_tuple> V2;
-//   auto N1_TL = static_cast<unsigned>(0);
-//   auto N1_SL = static_cast<unsigned>(0);
-//
-//   get_timelike_edges(T, &V2, &N1_SL);
-//   auto N1_TL_from_get_timelike_edges = V2.size();
-//
-//   classify_edges(T, &N1_TL, &N1_SL);
-//
-//   EXPECT_THAT(T.dimension(), Eq(3))
-//     << "Triangulation has wrong dimensionality.";
-//
-//   EXPECT_THAT(T.number_of_vertices(), Eq(4))
-//     << "Triangulation has wrong number of vertices.";
-//
-//   EXPECT_THAT(T.number_of_finite_cells(), Eq(1))
-//     << "Triangulation has wrong number of cells.";
-//
-//   EXPECT_THAT(N1_TL_from_get_timelike_edges, Eq(N1_TL))
-//     << "get_timelike_edges() returning different value than classify_edges()";
-//
-//   EXPECT_TRUE(check_timeslices(&T, no_output))
-//     << "Some cells do not span exactly 1 timeslice.";
-//
-//   EXPECT_TRUE(T.is_valid())
-//     << "Triangulation is not Delaunay.";
-//
-//   EXPECT_TRUE(T.tds().is_valid())
-//     << "Triangulation is invalid.";
-// }
+
+TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
+  Delaunay universe;
+  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+  // Manually create causal_vertices
+  std::pair<std::vector<Point>, std::vector<unsigned>>
+    causal_vertices(V, timevalue);
+  // Manually insert
+  insert_into_triangulation(universe_ptr, causal_vertices);
+
+  // std::vector<Edge_tuple> V2;
+  // auto N1_TL = static_cast<unsigned>(0);
+  // auto N1_SL = static_cast<unsigned>(0);
+  //
+  // get_timelike_edges(T, &V2, &N1_SL);
+  // auto N1_TL_from_get_timelike_edges = V2.size();
+
+  // classify_edges(T, &N1_TL, &N1_SL);
+
+  auto timelike_edges = get_timelike_edges(universe_ptr);
+
+  EXPECT_EQ(universe_ptr->dimension(), 3)
+    << "Triangulation has wrong dimensionality.";
+
+  EXPECT_EQ(universe_ptr->number_of_vertices(), 4)
+    << "Triangulation has wrong number of vertices.";
+
+  EXPECT_EQ(universe_ptr->number_of_finite_cells(), 1)
+    << "Triangulation has wrong number of cells.";
+
+  EXPECT_EQ(timelike_edges.size(), 3)
+    << "(3,1) tetrahedron doesn't have 3 timelike edges.";
+
+  // EXPECT_THAT(N1_TL_from_get_timelike_edges, Eq(N1_TL))
+  //   << "get_timelike_edges() returning different value than classify_edges()";
+
+  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+    << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_TRUE(universe_ptr->is_valid())
+    << "Triangulation is not Delaunay.";
+
+  EXPECT_TRUE(universe_ptr->tds().is_valid())
+    << "Triangulation is invalid.";
+}
