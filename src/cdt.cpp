@@ -34,14 +34,15 @@
 
 // CDT headers
 #include "./Utilities.h"
-#include "S3Triangulation.h"
+// #include "S3Triangulation.h"
+#include "SphericalTriangulation.h"
 #include "Metropolis.h"
 
 /// Help message parsed by docopt into options
 static const char USAGE[] {
 R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014 Adam Getchell
+Copyright (c) 2014, 2015 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -49,7 +50,7 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-o OUTPUT]
 
 Examples:
 ./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3 --passes 1000
@@ -65,6 +66,7 @@ Options:
   -k K                  K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA    K * Cosmological constant
   -p --passes PASSES    Number of passes [default: 10]
+  -o --output OUTPUT    Output every n passes [default: 10]
 )"
 };
 
@@ -98,6 +100,7 @@ int main(int argc, char* const argv[]) {
   auto k = std::stold(args["-k"].asString());
   auto lambda = std::stold(args["--lambda"].asString());
   auto passes = std::stoul(args["--passes"].asString());
+  auto output_every_n_passes = std::stoul(args["--output"].asString());
 
   // Topology of simulation
   topology_type topology;
@@ -118,11 +121,13 @@ int main(int argc, char* const argv[]) {
   std::cout << "K = " << k << std::endl;
   std::cout << "Lambda = " << lambda << std::endl;
   std::cout << "Number of passes = " << passes << std::endl;
+  std::cout << "Output every n passes = " << output_every_n_passes << std::endl;
   std::cout << "User = " << getEnvVar("USER") << std::endl;
   std::cout << "Hostname = " << hostname() << std::endl;
 
   // Initialize spherical Delaunay triangulation
-  Delaunay SphericalUniverse;
+  Delaunay universe;
+  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
   // These contain cell handles for the (3,1), (2,2), and (1,3) simplices
   std::vector<Cell_handle> three_one;
@@ -140,8 +145,9 @@ int main(int argc, char* const argv[]) {
   switch (topology) {
     case topology_type::SPHERICAL:
       if (dimensions == 3) {
-        make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
-                              &three_one, &two_two, &one_three);
+        // make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
+        //                       &three_one, &two_two, &one_three);
+        universe_ptr = std::move(make_triangulation(simplices, timeslices));
       } else {
         std::cout << "Currently, dimensions cannot be higher than 3.";
         std::cout << std::endl;
@@ -157,32 +163,22 @@ int main(int argc, char* const argv[]) {
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
 
-  // Keep track of moves for Metropolis algorithm
-  std::atomic<int> total_attempted_moves{0};
-  std::atomic<int> attempted_23_moves{0};
-  std::atomic<int> successful_23_moves{0};
-  std::atomic<int> attempted_32_moves{0};
-  std::atomic<int> successful_32_moves{0};
-
-  // Metropolis simulation(&SphericalUniverse, passes);
-  auto universe =
-    std::make_unique<decltype(SphericalUniverse)>(SphericalUniverse);
-
   // The main work of the program
-  // metropolis(universe, number_of_passes, output_every_n_passes);
+  universe_ptr = std::move(metropolis(universe_ptr, passes,
+                                      output_every_n_passes));
 
   // Output results
   t.stop();  // End running time counter
   std::cout << "Final Delaunay triangulation has ";
-  print_results(SphericalUniverse, t);
+  print_results(universe_ptr, t);
 
   // Write results to file
   // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values are
   //                   written
-  write_file(SphericalUniverse,
+  write_file(universe_ptr,
              topology,
              dimensions,
-             SphericalUniverse.number_of_finite_cells(),
+             universe_ptr->number_of_finite_cells(),
              timeslices);
 
   return 0;

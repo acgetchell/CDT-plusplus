@@ -20,6 +20,7 @@ you can check by downloading and running the [cpplint.py][8] script:
 The goals and targets of this project are:
 
 - [x] Developed with [literate programming][12] generated using [Doxygen][13]
+- [ ] [Efficient Pure Functional Programming in C++ Using Move Semantics][36]
 - [x] Validation tests using [CTest][10]
 - [x] Unit tests with [Gmock][6]
 - [x] Test builds with [Travis CI][11]
@@ -264,3 +265,4 @@ version numbers away.
 [33]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan-build.sh
 [34]: http://cppcheck.sourceforge.net
 [35]: https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh
+[36]: http://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/

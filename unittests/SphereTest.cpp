@@ -14,25 +14,28 @@
 #include <vector>
 
 #include "gmock/gmock.h"
-#include "S3Triangulation.h"
+#include "SphericalTriangulation.h"
 #include "sphere_d.h"
 
 
-using namespace ::testing;  // NOLINT
+using namespace testing;  // NOLINT
 
 TEST(Sphere, Create2Sphere) {
-  std::vector<Point> points;
-  std::vector<unsigned> timeslice;
-  constexpr auto number_of_points = 5;
-  constexpr auto radius = 1.0;
-  constexpr auto output = false;
+  constexpr auto simplices = static_cast<unsigned>(100);
+  constexpr auto timeslices = static_cast<unsigned>(12);
+  auto causal_vertices = make_foliated_sphere(simplices, timeslices);
+  auto number_of_vertices = 4 * (simplices/timeslices) * timeslices;
 
-  make_2_sphere(number_of_points, radius, output, &points, &timeslice);
+  // Debugging
+  // for (auto k = 0; k < number_of_vertices; ++k) {
+  //   std::cout << "Point: " << causal_vertices.first[k];
+  //   std::cout << " Timevalue: " << causal_vertices.second[k] << std::endl;
+  // }
 
-  ASSERT_THAT(points.size(), Eq(number_of_points))
-    << "Vector has wrong number of points.";
+  EXPECT_THAT(causal_vertices.first.size(), Eq(number_of_vertices))
+    << "Wrong number of vertices.";
 
-  ASSERT_THAT(points.size(), Eq(timeslice.size()))
+  EXPECT_EQ(causal_vertices.first.size(), causal_vertices.second.size())
     << "Each point does not have an associated timeslice.";
 }
 
