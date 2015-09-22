@@ -96,7 +96,6 @@ TEST_F(FoliatedTetrahedron, Create) {
 
 TEST_F(FoliatedTetrahedron, InsertSimplexType) {
 
-  // classify_3_simplices(&T, &three_one, &two_two, &one_three);
   auto simplex_types = classify_simplices(universe_ptr);
 
   Delaunay::Finite_cells_iterator cit;
@@ -118,7 +117,9 @@ TEST_F(FoliatedTetrahedron, InsertSimplexType) {
 
 TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
 
-  auto timelike_edges = get_timelike_edges(universe_ptr);
+  auto edge_types = classify_edges(universe_ptr);
+  auto timelike_edges = edge_types.first;
+  auto spacelike_edges = edge_types.second;
 
   EXPECT_EQ(universe_ptr->dimension(), 3)
     << "Triangulation has wrong dimensionality.";
@@ -132,8 +133,8 @@ TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
   EXPECT_EQ(timelike_edges.size(), 3)
     << "(3,1) tetrahedron doesn't have 3 timelike edges.";
 
-  // EXPECT_THAT(N1_TL_from_get_timelike_edges, Eq(N1_TL))
-  //   << "get_timelike_edges() returning different value than classify_edges()";
+  EXPECT_EQ(spacelike_edges, 3)
+    << "(3,1) tetrahedron doesn't have 3 spacelike edges.";
 
   EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";

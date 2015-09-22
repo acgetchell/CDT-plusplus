@@ -75,21 +75,25 @@ using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
 
-/// @brief Gets all timelike edges
+/// @brief Classifies edges
 ///
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
-/// Timelike edges are stored in the **timelike_edgesL** vector as a tuple of
+/// Timelike edges are stored in the **timelike_edges** vector as a tuple of
 /// (Cell_handle, unsigned, unsigned) for later use by ergodic moves
-/// on timelike edges.
+/// on timelike edges. Spacelike edges are stored as an unsigned int
+/// **spacelike_edges**, since we don't do much with them other than use them
+/// to check correctness.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @returns A std::vector<Edge_tuple> of timelike edges
+/// @returns A std::pair<std::vector<Edge_tuple>, unsigned> of timelike edges
+/// and spacelike edges
 template <typename T>
-auto get_timelike_edges(T&& universe_ptr) noexcept {
-  std::cout << "Getting timelike edges...." << std::endl;
+auto classify_edges(T&& universe_ptr) noexcept {
+  std::cout << "Classifying edges...." << std::endl;
   Delaunay::Finite_edges_iterator eit;
   std::vector<Edge_tuple> timelike_edges;
+  auto spacelike_edges = static_cast<unsigned>(0);
 
   // Iterate over all edges in the Delaunay triangulation
   for (eit = universe_ptr->finite_edges_begin();
@@ -110,11 +114,12 @@ auto get_timelike_edges(T&& universe_ptr) noexcept {
       //           << " and second vertex of edge is " << std::get<2>(thisEdge)
       //
     } else {
-      // We could increment spacelike edges here if we cared
+      ++spacelike_edges;
     }  // endif
   }  // Finish iterating over edges
-  return timelike_edges;
-}
+  return std::make_pair(timelike_edges, spacelike_edges);
+}  // classify_edges()
+
 /// @brief Classify simplices as (3,1), (2,2), or (1,3)
 ///
 /// This function iterates over all cells in the triangulation
@@ -179,7 +184,7 @@ auto classify_simplices(T&& universe_ptr) noexcept {
     }  // endif
   }  // Finish iterating over cells
   return std::make_tuple(three_one, two_two, one_three);
-}
+}  // classify_simplices()
 
 /// @brief Check and fix simplices with incorrect foliation
 ///
