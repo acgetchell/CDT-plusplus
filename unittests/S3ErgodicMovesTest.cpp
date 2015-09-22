@@ -86,15 +86,24 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
 
-  std::unique_ptr<std::vector<Cell_handle>>
-    two_two_ptr = std::make_unique<std::vector<Cell_handle>>(std::get<1>(simplex_types));
+  // std::unique_ptr<std::vector<Cell_handle>>
+  //   two_two_ptr = std::make_unique<std::vector<Cell_handle>>(std::get<1>(simplex_types));
   // Make the move
   // make_23_move(&S3, &two_two);
+  std::vector<Cell_handle> two_two;
+  std::tie(std::ignore, two_two, std::ignore) = simplex_types;
+  auto two_two_ptr = std::make_unique<decltype(two_two)>(two_two);
   universe_ptr = std::move(make_23_move(universe_ptr, two_two_ptr));
 
   // Did we remove a (2,2) Cell_handle?
   EXPECT_THAT(std::get<1>(simplex_types).size(), Eq(N3_22_before-1))
-    << "make_23_move removed a copy of the (2,2) simplex vector";
+    << "make_23_move removed a copy of a (2,2) simplex vector element.";
+
+  EXPECT_THAT(std::get<0>(simplex_types).size(), Eq(N3_31_before))
+    << "make_23_move removed a (3,1) simplex vector element.";
+
+  EXPECT_THAT(std::get<2>(simplex_types).size(), Eq(N3_13_before))
+    << "make_23_move removed a (1,3) simplex vector element.";
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);

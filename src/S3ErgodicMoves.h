@@ -126,6 +126,8 @@ auto make_23_move(T1&& universe_ptr,
         // Debugging
         std::cout << "(2,2) simplex " << choice
                   << " was removed from vector two_two" << std::endl;
+        std::cout << "Number of (2,2) simplices after = " << two_two_ptr->size()
+                  << std::endl;
         not_flipped = false;
         break;
       } else {
