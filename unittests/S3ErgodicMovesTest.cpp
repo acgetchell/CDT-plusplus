@@ -41,9 +41,6 @@ class S3ErgodicMoves : public Test {
   static constexpr auto timeslices = static_cast<unsigned>(16);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types;
-  std::unique_ptr<decltype(simplex_types)>
-    simplex_types_ptr =
-      std::make_unique<decltype(simplex_types)>(simplex_types);
   std::pair<std::vector<Edge_tuple>, unsigned> edge_types;
 };
 
@@ -89,9 +86,15 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   std::cout << "Number of (2,2) simplices before = " << N3_22_before
             << std::endl;
 
+  std::unique_ptr<std::vector<Cell_handle>>
+    two_two_ptr = std::make_unique<std::vector<Cell_handle>>(std::get<1>(simplex_types));
   // Make the move
   // make_23_move(&S3, &two_two);
-  universe_ptr = std::move(make_23_move(universe_ptr, simplex_types));
+  universe_ptr = std::move(make_23_move(universe_ptr, two_two_ptr));
+
+  // Did we remove a (2,2) Cell_handle?
+  EXPECT_THAT(std::get<1>(simplex_types).size(), Eq(N3_22_before-1))
+    << "make_23_move removed a copy of the (2,2) simplex vector";
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);

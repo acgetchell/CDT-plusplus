@@ -103,26 +103,26 @@ auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
 /// This move does not always succeed, but when it does the
 /// triangulation is no longer Delaunay.
 ///
-/// @param[in,out] D3 The Delaunay triangulation
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] two_two A vector of (2,2) simplices
+/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation
 template <typename T1, typename T2>
 auto make_23_move(T1&& universe_ptr,
-                  T2&& simplex_types) noexcept -> decltype(universe_ptr) {
+                  T2&& two_two_ptr) noexcept -> decltype(universe_ptr) {
 // void make_23_move(Delaunay* const D3,
 //                   std::vector<Cell_handle>* const two_two) noexcept {
   auto not_flipped = true;
-  auto two_two = std::get<1>(simplex_types);
   while (not_flipped) {
     // Pick a random (2,2) out of the two_two vector, which ranges
     // from 0 to size()-1
-    auto choice = generate_random_unsigned(0, two_two.size()-1);
+    auto choice = generate_random_unsigned(0, two_two_ptr->size()-1);
     std::cout << "We're picking (2,2) simplex " << choice << std::endl;
-    Cell_handle to_be_moved = two_two[choice];
+    Cell_handle to_be_moved = (*two_two_ptr)[choice];
     for (size_t i = 0; i < 4; ++i) {
       if (universe_ptr->flip(to_be_moved, i)) {
         std::cout << "Facet " << i << " was flippable." << std::endl;
         // Erase the flipped (2,2) simplex from the vector two_two
-        two_two.erase(two_two.begin() + choice);
+        two_two_ptr->erase(two_two_ptr->begin() + choice);
         // Debugging
         std::cout << "(2,2) simplex " << choice
                   << " was removed from vector two_two" << std::endl;
