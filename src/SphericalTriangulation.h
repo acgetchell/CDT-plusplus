@@ -27,10 +27,10 @@
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
 /// Const Correctness</a>
 /// \done Function documentation
-/// \todo Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
+/// \done Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
 /// A tuple of vectors contain cell handles to the simplices of type (3,1),
 /// (2,2), and (1,3) respectively.
-/// \todo Classify edges as timelike or spacelike so that action can be
+/// \done Classify edges as timelike or spacelike so that action can be
 /// calculated.
 /// \todo Multi-threaded operations using Intel TBB
 
