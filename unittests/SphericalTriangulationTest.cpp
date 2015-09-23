@@ -5,9 +5,11 @@
 /// Tests that foliated tetrahedrons are constructed correctly
 /// in a Delaunay triangulation.
 
-/// @file TriangulationTest.cpp
+/// @file SphericalTriangulationTest.cpp
 /// @brief Tests for correctly foliated triangulations
 /// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
 #include "SphericalTriangulation.h"
