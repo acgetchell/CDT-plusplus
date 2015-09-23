@@ -11,9 +11,9 @@ install:
 - brew install ninja
 - brew install eigen
 - brew install cppcheck
-- curl -L -o CGAL-4.6.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.6.tar.gz
-- tar zxvf CGAL-4.6.tar.gz &> install.log
-- cd cgal-releases-CGAL-4.6
+- curl -L -o CGAL-4.6.3.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.6.3.tar.gz
+- tar zxvf CGAL-4.6.3.tar.gz &> install.log
+- cd cgal-releases-CGAL-4.6.3
 - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
 - ninja
 - sudo ninja install &> install.log
@@ -32,7 +32,7 @@ after_script:
 - ninja test
 after_success:
 - brew install graphviz
-- brew install doxygen --with-graphviz --with-libclang
+- brew install doxygen --with-graphviz
 - openssl aes-256-cbc
   -K $encrypted_6c395e2502e9_key
   -iv $encrypted_6c395e2502e9_iv
@@ -41,7 +41,7 @@ after_success:
   -d
 - chmod 0600 config/travisci_rsa
 - cp config/travisci_rsa ~/.ssh/id_rsa
-- .config/publish-doxygen  
+- .config/publish-doxygen
 cache:
 - bundler
 notifications:

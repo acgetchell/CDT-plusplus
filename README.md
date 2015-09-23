@@ -120,10 +120,10 @@ understands long or short argument formats, provided the short argument given
 is an unambigous match to a longer one. The help message should be instructive:
 
 ~~~
-# ./cdt --help
+# ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014 Adam Getchell
+Copyright (c) 2014, 2015 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -131,7 +131,7 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-o OUTPUT]
 
 Examples:
 ./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3 --passes 1000
@@ -146,7 +146,8 @@ Options:
   -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
   -k K                  K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA    K * Cosmological constant
-  -p --passes PASSES    Number of passes [default: 10000]
+  -p --passes PASSES    Number of passes [default: 10]
+  -o --output OUTPUT    Output every n passes [default: 10]
 ~~~
 
 The dimensionality of the spacetime is such that each slice of spacetime is
