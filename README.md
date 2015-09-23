@@ -20,7 +20,7 @@ you can check by downloading and running the [cpplint.py][8] script:
 The goals and targets of this project are:
 
 - [x] Developed with [literate programming][12] generated using [Doxygen][13]
-- [ ] [Efficient Pure Functional Programming in C++ Using Move Semantics][36]
+- [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][36]
 - [x] Validation tests using [CTest][10]
 - [x] Unit tests with [Gmock][6]
 - [x] Test builds with [Travis CI][11]
@@ -160,9 +160,10 @@ links (in 2+1 spacetime) and the timelike faces (in 3+1 spacetime).
 
 Documentation:
 --------------
+Online documentation may be found at http://www.adamgetchell.org/CDT-plusplus/
 
-If you have Doxygen installed you can simply type (at the top level directory,
-Doxygen will recursively search):
+If you have Doxygen installed you can generate the same information by simply
+typing (at the top level directory, Doxygen will recursively search):
 
 ~~~
 # doxygen

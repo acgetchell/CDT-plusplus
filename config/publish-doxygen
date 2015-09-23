@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Settings
-REPO_PATH=https://github.com/acgetchell/CDT-plusplus.git
+REPO_PATH=git@github.com:acgetchell/CDT-plusplus.git
 HTML_PATH=html
 COMMIT_USER="Documentation Builder"
 COMMIT_EMAIL="acgetchell@ucdavis.edu"
@@ -22,9 +22,8 @@ doxygen
 
 # Create and commit the documentation repo.
 cd ${HTML_PATH}
-git add .
-git config user.name "${COMMIT_USER}"
-git config user.email "${COMMIT_EMAIL}"
-git commit -m "Automated documentation build for changeset ${CHANGESET}."
+#git config user.name "${COMMIT_USER}"
+#git config user.email "${COMMIT_EMAIL}"
+git commit -am "Documentation build for changeset ${CHANGESET}."
 git push origin gh-pages
 cd -
