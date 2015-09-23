@@ -40,6 +40,7 @@ after_success:
   -out config/travisci_rsa
   -d
 - chmod 0600 ./config/travisci_rsa
+-'echo -e "Host *\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config' 
 - cp ./config/travisci_rsa ~/.ssh/id_rsa
 - "./config/publish-doxygen"
 cache:
