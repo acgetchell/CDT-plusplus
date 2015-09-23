@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 # Settings
-REPO_PATH=git@github.com:acgetchell/CDT-plusplus.git
+REPO_PATH=https://github.com/acgetchell/CDT-plusplus.git
 HTML_PATH=html
 COMMIT_USER="Documentation Builder"
 COMMIT_EMAIL="acgetchell@ucdavis.edu"
