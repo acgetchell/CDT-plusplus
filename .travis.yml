@@ -26,10 +26,11 @@ script:
 - make
 - cd ..
 - "./build.sh"
-after_script:
+after_success:
 - cd build
 - "./unittests"
 - ninja test
+- cd ..
 - brew install graphviz
 - brew install doxygen --with-graphviz
 - openssl aes-256-cbc
