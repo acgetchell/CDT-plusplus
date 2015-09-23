@@ -151,19 +151,23 @@ auto make_23_move(T1&& universe_ptr,
 ///
 /// @param[in,out] D3 The Delaunay triangulation
 /// @param[in,out] timelike_edges Timelike edges to pick to attempt move
-void make_32_move(Delaunay* const D3,
-                  std::vector<Edge_tuple>* const timelike_edges) noexcept {
+template <typename T1, typename T2>
+auto make_32_move(T1&& universe_ptr,
+                  T2&& edge_types) noexcept -> decltype(universe_ptr) {
+// void make_32_move(Delaunay* const D3,
+//                   std::vector<Edge_tuple>* const timelike_edges) noexcept {
   auto not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice = generate_random_unsigned(0, timelike_edges->size()-1);
-    Edge_tuple to_be_moved = (*timelike_edges)[choice];
-    if (D3->flip(std::get<0>(to_be_moved), std::get<1>(to_be_moved),
+    auto choice =
+      generate_random_unsigned(0, edge_types.first.size()-1);
+    Edge_tuple to_be_moved = edge_types.first[choice];
+    if (universe_ptr->flip(std::get<0>(to_be_moved), std::get<1>(to_be_moved),
                std::get<2>(to_be_moved))) {
       std::cout << "Edge " << choice << " was flippable." << std::endl;
       // Erase the flipped edge from timelike_edges
-      timelike_edges->erase(timelike_edges->begin() + choice);
+      edge_types.first.erase(edge_types.first.begin() + choice);
       // Debugging
       std::cout << "Edge " << choice
                 << " was removed from vector timelike_edges" << std::endl;
@@ -172,6 +176,8 @@ void make_32_move(Delaunay* const D3,
       std::cout << "Edge " << choice << " was not flippable." << std::endl;
     }
   }
+  // Users return value optimization and allows chaining function calls
+  return universe_ptr;
 }  // make_32_move()
 
 /// @brief Check a (2,6) move

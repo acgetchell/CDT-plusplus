@@ -55,10 +55,12 @@
 
 // C++ headers
 #include <boost/iterator/zip_iterator.hpp>
-#include <vector>
-#include <utility>
-#include <tuple>
 #include <stdexcept>
+#include <utility>
+#include <vector>
+#include <tuple>
+#include <list>
+
 
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
 // Used so that each timeslice is assigned an integer
@@ -117,6 +119,10 @@ auto classify_edges(T&& universe_ptr) noexcept {
       ++spacelike_edges;
     }  // endif
   }  // Finish iterating over edges
+  // Display results
+  std::cout << "There are " << timelike_edges.size() << " timelike edges and "
+            << spacelike_edges << " spacelike edges." << std::endl;
+
   return std::make_pair(timelike_edges, spacelike_edges);
 }  // classify_edges()
 
@@ -183,6 +189,10 @@ auto classify_simplices(T&& universe_ptr) noexcept {
       three_one.emplace_back(cit);
     }  // endif
   }  // Finish iterating over cells
+  // Display results
+  std::cout << "There are " << three_one.size() << " (3,1) simplices and "
+            << two_two.size() << " (2,2) simplices" << std::endl;
+  std::cout << "and " << one_three.size() << " (1,3) simplices." << std::endl;
   return std::make_tuple(three_one, two_two, one_three);
 }  // classify_simplices()
 
