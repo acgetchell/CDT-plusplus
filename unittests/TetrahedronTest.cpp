@@ -51,19 +51,19 @@ class FoliatedTetrahedron : public Tetrahedron {
 
 TEST_F(Tetrahedron, Create) {
 
-  EXPECT_EQ(universe_ptr->dimension(), 3)
+  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_EQ(universe_ptr->number_of_vertices(), 4)
+  EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_EQ(universe_ptr->number_of_finite_edges(), 6)
+  EXPECT_THAT(universe_ptr->number_of_finite_edges(), Eq(6))
     << "Triangulation has wrong number of edges.";
 
-  EXPECT_EQ(universe_ptr->number_of_finite_facets(), 4)
+  EXPECT_THAT(universe_ptr->number_of_finite_facets(), Eq(4))
     << "Triangulation has wrong number of faces.";
 
-  EXPECT_EQ(universe_ptr->number_of_finite_cells(), 1)
+  EXPECT_THAT(universe_ptr->number_of_finite_cells(), Eq(1))
     << "Triangulation has wrong number of cells.";
 
   EXPECT_TRUE(universe_ptr->is_valid())
@@ -75,13 +75,13 @@ TEST_F(Tetrahedron, Create) {
 
 TEST_F(FoliatedTetrahedron, Create) {
 
-  EXPECT_EQ(universe_ptr->dimension(), 3)
+  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_EQ(universe_ptr->number_of_vertices(), 4)
+  EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_EQ(universe_ptr->number_of_finite_cells(), 1)
+  EXPECT_THAT(universe_ptr->number_of_finite_cells(), Eq(1))
     << "Triangulation has wrong number of cells.";
 
   EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
@@ -101,17 +101,17 @@ TEST_F(FoliatedTetrahedron, InsertSimplexType) {
   Delaunay::Finite_cells_iterator cit;
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
-    EXPECT_EQ(cit->info(), 31);
+    EXPECT_THAT(cit->info(), Eq(31));
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
 
-  EXPECT_EQ(std::get<0>(simplex_types).size(), 1)
+  EXPECT_THAT(std::get<0>(simplex_types).size(), Eq(1))
     << "(3,1) vector in tuple doesn't have a single value.";
 
-  EXPECT_EQ(std::get<1>(simplex_types).size(), 0)
+  EXPECT_THAT(std::get<1>(simplex_types).size(), Eq(0))
     << "(2,2) vector in tuple is nonzero.";
 
-  EXPECT_EQ(std::get<2>(simplex_types).size(), 0)
+  EXPECT_THAT(std::get<2>(simplex_types).size(), Eq(0))
     << "(1,3) vector in tuple is nonzero.";
 }
 
@@ -121,19 +121,19 @@ TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
   auto timelike_edges = edge_types.first;
   auto spacelike_edges = edge_types.second;
 
-  EXPECT_EQ(universe_ptr->dimension(), 3)
+  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_EQ(universe_ptr->number_of_vertices(), 4)
+  EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_EQ(universe_ptr->number_of_finite_cells(), 1)
+  EXPECT_THAT(universe_ptr->number_of_finite_cells(), Eq(1))
     << "Triangulation has wrong number of cells.";
 
-  EXPECT_EQ(timelike_edges.size(), 3)
+  EXPECT_THAT(timelike_edges.size(), Eq(3))
     << "(3,1) tetrahedron doesn't have 3 timelike edges.";
 
-  EXPECT_EQ(spacelike_edges, 3)
+  EXPECT_THAT(spacelike_edges, Eq(3))
     << "(3,1) tetrahedron doesn't have 3 spacelike edges.";
 
   EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))

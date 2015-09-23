@@ -29,7 +29,7 @@ TEST(SphericalTriangulation, CreatesFoliatedWithTwoTimeslices) {
   constexpr auto timeslices = static_cast<unsigned>(2);
   auto universe_ptr = make_triangulation(simplices, timeslices);
 
-  EXPECT_EQ(universe_ptr->dimension(), 3)
+  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(), AllOf(Ge(1), Le(8)))
@@ -61,7 +61,7 @@ TEST(SphericalTriangulation, CreateWithLotsOfSimplices) {
   std::cout << "Facets: " << universe_ptr->number_of_finite_facets() << std::endl;
   std::cout << "Cells: " << universe_ptr->number_of_finite_cells() << std::endl;
 
-  EXPECT_EQ(universe_ptr->dimension(), 3)
+  EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(), AllOf(Ge(1), Le(4*simplices)))

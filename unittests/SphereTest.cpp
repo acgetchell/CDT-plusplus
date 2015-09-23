@@ -35,7 +35,7 @@ TEST(Sphere, Create2Sphere) {
   EXPECT_THAT(causal_vertices.first.size(), Eq(number_of_vertices))
     << "Wrong number of vertices.";
 
-  EXPECT_EQ(causal_vertices.first.size(), causal_vertices.second.size())
+  EXPECT_THAT(causal_vertices.first.size(), Eq(causal_vertices.second.size()))
     << "Each point does not have an associated timeslice.";
 }
 

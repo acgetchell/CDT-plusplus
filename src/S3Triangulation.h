@@ -2,6 +2,8 @@
 ///
 /// Copyright (c) 2014 Adam Getchell
 ///
+/// DEPRECATED: SphericalTriangulation.h replaces functionality
+///
 /// Creates a foliated 2-sphere triangulation
 ///
 /// The number of desired timeslices is given, and
