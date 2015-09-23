@@ -30,7 +30,6 @@ after_script:
 - cd build
 - "./unittests"
 - ninja test
-after_success:
 - brew install graphviz
 - brew install doxygen --with-graphviz
 - openssl aes-256-cbc
@@ -39,9 +38,9 @@ after_success:
   -in config/travisci_rsa.enc
   -out config/travisci_rsa
   -d
-- chmod 0600 config/travisci_rsa
-- cp config/travisci_rsa ~/.ssh/id_rsa
-- .config/publish-doxygen
+- chmod 0600 ./config/travisci_rsa
+- cp ./config/travisci_rsa ~/.ssh/id_rsa
+- "./config/publish-doxygen"
 cache:
 - bundler
 notifications:
