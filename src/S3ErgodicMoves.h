@@ -2,14 +2,14 @@
 ///
 /// Copyright (c) 2014, 2015 Adam Getchell
 ///
-/// Performs ergodic moves on S3 (2+1) spacetimes.
+/// Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.
 ///
 /// \done (2,3) move
 /// \done (3,2) move
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
 /// Const Correctness</a>
 /// \done Complete function documentation
-/// \todo (2,6) move
+/// \done (2,6) move
 /// \todo (6,2) move
 /// \todo (4,4) move
 /// \todo Multi-threaded operations using Intel TBB
@@ -40,65 +40,6 @@
 #include <algorithm>
 #include <tuple>
 
-/// Results are converted to a CGAL multi-precision floating point number.
-/// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
-using Gmpzf = CGAL::Gmpzf;
-/// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static constexpr unsigned PRECISION = 256;
-
-/// @brief Average points with full **PRECISION**-bits
-///
-/// @param[in] c1 The first coordinate to be averaged
-/// @param[in] c2 The second coordinate to be averaged
-/// @param[in] c3 The third coordinate to be averaged
-/// @returns The average of the coordinates
-
-// barycenter()
-auto average_coordinates(const long double c1,
-                         const long double c2,
-                         const long double c3) noexcept {
-  // Set precision for initialization and assignment functions
-  mpfr_set_default_prec(PRECISION);
-
-  // Initialize for MPFR
-  mpfr_t r1, coord1, coord2, coord3, total, three, average;
-  mpfr_inits2(PRECISION, r1, total, average, nullptr);
-
-  // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ld(coord1, c1, MPFR_RNDD);
-  mpfr_init_set_ld(coord2, c2, MPFR_RNDD);
-  mpfr_init_set_ld(coord3, c3, MPFR_RNDD);
-  mpfr_init_set_ld(three, 3.0, MPFR_RNDD);
-
-  // Accumulate sum
-  mpfr_add(r1, coord1, coord2, MPFR_RNDD);     // r1 = coord1 + coord2
-  mpfr_add(total, coord3, r1, MPFR_RNDD);      // total = coord3 + r1
-
-  // Calculate average
-  mpfr_div(average, total, three, MPFR_RNDD);  // average = total/3
-
-  // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  // Gmpzf result = Gmpzf(mpfr_get_d(average, MPFR_RNDD));
-  auto result = mpfr_get_ld(average, MPFR_RNDD);
-
-  // Free memory
-  mpfr_clears(r1, coord1, coord2, coord3, total, three, average, nullptr);
-
-  return result;
-}  // average_points()
-
-/// @brief Generate a random timeslice
-///
-/// This function generates a random timeslice
-/// using **generate_random_unsigned()**. Timeslices go from
-/// 1 to max_timeslice.
-///
-/// @param[in] max_timeslice  The maximum timeslice
-/// @returns A random timeslice from 1 to max_timeslice
-auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
-  return generate_random_unsigned(1, max_timeslice);
-}  // generate_random_timeslice()
-
 /// @brief Make a (2,3) move
 ///
 /// This function performs the (2,3) move by converting a facet
@@ -110,7 +51,8 @@ auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
 /// and (1,3) simplices
-/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
+/// the move has been made
 template <typename T1, typename T2>
 auto make_23_move(T1&& universe_ptr,
                   T2&& simplex_types) noexcept -> decltype(universe_ptr) {
@@ -152,8 +94,11 @@ auto make_23_move(T1&& universe_ptr,
 /// This function performs the (3,2) move by converting a timelike
 /// edge from the vector **timelike_edges** into its dual facet.
 ///
-/// @param[in,out] D3 The Delaunay triangulation
-/// @param[in,out] timelike_edges Timelike edges to pick to attempt move
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in,out] edge_types A pair<vector<Edge_tuple>, unsigned> holding the
+/// timelike edges and a count of the spacelike edges
+/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
+/// the move has been made
 template <typename T1, typename T2>
 auto make_32_move(T1&& universe_ptr,
                   T2&& edge_types) noexcept -> decltype(universe_ptr) {
@@ -226,13 +171,32 @@ auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   return movable;
 }  // find_26_movable()
 
+/// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
+///
+/// This function performs the (2,6) move by picking a random (1,3) simplex
+/// from **simplex_types**. The **find_26_movable()** function finds the
+/// index of the neighboring (3,1) simplex, **neighboring_31_index**, and
+/// **has_neighbor()** is used to check the results.
+///
+/// After some other values are gathered for debugging purposes,
+/// the **v_center** vertex is inserted into the facet delineated by
+/// **neighboring_31_index** using **tds().insert_in_facet()**.
+/// Finally, the centroid of the common face calculated using
+/// **CGAL::centroid()** and assigned to **v_center**, along with a
+/// timevalue taken from one of the vertices of the common face.
+///
+/// @image html 26.png
+/// @image latex 26.eps width=7cm
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
+/// and (1,3) simplices
 template <typename T1, typename T2>
-auto make_26_move_v2(T1&& universe_ptr,
-                     T2&& simplex_types) noexcept -> decltype(universe_ptr) {
-  // Vertex_handle inserted_vertex = universe->tds().insert_in_facet(const Facet& f); fill in the facet
+auto make_26_move(T1&& universe_ptr,
+                  T2&& simplex_types) noexcept -> decltype(universe_ptr) {
   auto not_moved = true;
   while (not_moved) {
-    // Pick out a random (1,3) which ranges from 0 to size()-1
+    // Pick out a random (1,3) from simplex_types
     auto choice =
       generate_random_unsigned(0, std::get<2>(simplex_types).size()-1);
     unsigned neighboring_31_index;
@@ -282,7 +246,6 @@ auto make_26_move_v2(T1&& universe_ptr,
                            << std::endl;
 
     // Is there a neighboring (3,1) simplex?
-    // TODO(acgetchell): don't need to return neighboring_31_index
     if (find_26_movable(bottom, &neighboring_31_index)) {
       // Debugging
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
@@ -290,18 +253,16 @@ auto make_26_move_v2(T1&& universe_ptr,
                 << " is of type "
                 << bottom->neighbor(neighboring_31_index)->info()
                 << std::endl;
-      // Cell_handle old_13_to_be_moved = (*one_three)[choice];
-      // Cell_handle old_31_to_be_moved =
-      //   (*one_three)[choice]->neighbor(neighboring_31_index);
       // Do the (2,6) move
       // Insert new vertex
-      // Point center_point = CGAL::barycenter(v1->point(), 1, v2->point(), 1, v3->point(), 1);
-      auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
-      // Point p = Point(center_of_X, center_of_Y, center_of_Z);
-
-      std::cout << "Center point is: " << center_point << std::endl;
       Vertex_handle v_center =
         universe_ptr->tds().insert_in_facet(bottom, neighboring_31_index);
+
+      // Find the center of the facet
+      // A vertex is a topological object which may be associated with a point,
+      // which is a geometrical object.
+      auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
+      std::cout << "Center point is: " << center_point << std::endl;
       v_center->set_point(center_point);
 
       // Assign a timeslice to the new vertex
@@ -320,7 +281,8 @@ auto make_26_move_v2(T1&& universe_ptr,
       std::cout << "Inserted vertex " << v_center->point()
                 << " with timeslice " << v_center->info()
                 << std::endl;
-
+      CGAL_triangulation_postcondition(universe_ptr->tds().is_valid(v_center,
+                                                                    true, 1));
       not_moved = false;
     } else {
       std::cout << "(1,3) simplex " << choice << " was not movable."
@@ -328,7 +290,31 @@ auto make_26_move_v2(T1&& universe_ptr,
     }
   }
   return universe_ptr;
-}  // make_26_move_v2()
+}  // make_26_move()
+
+/// @brief Make a (6,2) move
+///
+/// This function performs the (6,2) move by removing a vertex
+/// that has 3 (1,3) and 3 (3,1) simplices around it
+///
+/// @param[in,out]  D3        The Delaunay triangulation
+/// @param[in]      vertices  Vertices to pick to attempt move
+void make_62_move(Delaunay* const D3,
+                  std::vector<Vertex_handle>* const vertices) noexcept {
+  bool no_move = true;
+  while (no_move) {
+    // Pick a random vertex
+    unsigned choice = generate_random_unsigned(0, vertices->size()-1);
+    Vertex_handle to_be_moved = (*vertices)[choice];
+
+    // Ensure conditions are satisfied
+    CGAL_triangulation_precondition((D3->dimension() == 3));
+    CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
+
+
+    no_move = false;
+  }
+}  // make_62_move()
 
 /// @brief Finds the disjoint index
 ///
@@ -528,213 +514,213 @@ void set_adjacencies(Delaunay* const D3,
 /// @param[in,out] D3 The Delaunay triangulation
 /// @param[in,out] bottom The (1,3) simplex that will be split
 /// @param[in,out] top The (3,1) simplex that will be split
-void move_26(Delaunay* const D3,
-             Cell_handle bottom,
-             Cell_handle top) noexcept {
-  // Preconditions
-  CGAL_triangulation_precondition(D3->dimension() == 3);
-  CGAL_triangulation_precondition(bottom->has_neighbor
-                                  (top));
-  CGAL_triangulation_expensive_precondition(is_cell(bottom, top));
-
-  // The vector of all cells involved in the move
-  std::vector<Cell_handle> cells;
-
-  int common_face_index;
-  // has_neighbor() returns the index of the common face
-  bottom->has_neighbor(top, common_face_index);
-  std::cout << "bottom's common_face_index with top is "
-            << common_face_index << std::endl;
-  int mirror_common_face_index;
-  top->has_neighbor(bottom, mirror_common_face_index);
-  std::cout << "top's mirror_common_face_index with bottom is "
-            << mirror_common_face_index << std::endl;
-
-  // Get indices of vertices of common face with respect to bottom cell
-  int i1 = (common_face_index + 1)&3;
-  int i2 = (common_face_index + 2)&3;
-  int i3 = (common_face_index + 3)&3;
-
-  // Get indices of vertices of common face with respect to top cell
-  int in1 = top->index(bottom->vertex(i1));
-  int in2 = top->index(bottom->vertex(i2));
-  int in3 = top->index(bottom->vertex(i3));
-
-  // Get vertices of the common face
-  // They're denoted wrt the bottom, but could easily be wrt to top
-  Vertex_handle v1 = bottom->vertex(i1);
-  Vertex_handle v2 = bottom->vertex(i2);
-  Vertex_handle v3 = bottom->vertex(i3);
-
-  // Debugging
-  Vertex_handle v5 = top->vertex(in1);
-  (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
-                         << std::endl : std::cout
-                         << "bottom->vertex(i1) != top->vertex(in1)"
-                         << std::endl;
-
-  // Bottom vertex is the one opposite of the common face
-  Vertex_handle v_bottom = bottom->vertex(common_face_index);
-
-  // Likewise, top vertex is one opposite of common face on the neighbor
-  Vertex_handle v_top = D3->mirror_vertex(bottom, common_face_index);
-
-  // Debugging
-  // Checks that v1, v2, and v3 are same whether specified with bottom cell
-  // indices or top cell indices
-  std::cout << "i1 is " << i1 << " with coordinates of "
-            << v1->point() << std::endl;
-  std::cout << "in1 is " << in1 << " with coordinates of "
-            << top->vertex(in1)->point() << std::endl;
-  std::cout << "i2 is " << i2 << " with coordinates of "
-            << v2->point() << std::endl;
-  std::cout << "in2 is " << in2 << " with coordinates of "
-            << top->vertex(in2)->point() << std::endl;
-  std::cout << "i3 is " << i3 << " with coordinates of "
-            << v3->point() << std::endl;
-  std::cout << "in3 is " << in3 << " with coordinates of "
-            << top->vertex(in3)->point() << std::endl;
-  std::cout << "Vertex v_bottom is index " << bottom->index(v_bottom)
-            << " with coordinates of " << v_bottom->point() << std::endl;
-  std::cout << "Vertex v_top is index " << top->index(v_top)
-            << " with coordinates of " << v_top->point() << std::endl;
-
-
-  // Average vertices to get new one in their center
-  auto center_of_X = average_coordinates(v1->point().x(),
-                                         v2->point().x(),
-                                         v3->point().x());
-  auto center_of_Y = average_coordinates(v1->point().y(),
-                                         v2->point().y(),
-                                         v3->point().y());
-  auto center_of_Z = average_coordinates(v1->point().z(),
-                                         v2->point().z(),
-                                         v3->point().z());
-
-  // Debugging
-  std::cout << "Average x-coord is " << center_of_X << std::endl;
-  std::cout << "Average y-coord is " << center_of_Y << std::endl;
-  std::cout << "Average z-coord is " << center_of_Z << std::endl;
-
-  // Timeslices of v1, v2, and v3 should be same
-  CGAL_triangulation_precondition(v1->info() == v2->info());
-  CGAL_triangulation_precondition(v1->info() == v3->info());
-
-  // Insert new vertex
-  Point p = Point(center_of_X, center_of_Y, center_of_Z);
-  Vertex_handle v_center = D3->tds().create_vertex();
-  // D3->insert_in_facet();
-  v_center->set_point(p);
-
-  // Assign a timeslice to the new vertex
-  auto timeslice = v1->info();
-
-  // Check we have a vertex
-  if (D3->tds().is_vertex(v_center)) {
-    std::cout << "It's a vertex in the TDS." << std::endl;
-  } else {
-    std::cout << "It's not a vertex in the TDS." << std::endl;
-  }
-
-  // Debugging
-  std::cout << "Timeslice is " << timeslice << std::endl;
-  v_center->info() = timeslice;
-  std::cout << "Inserted vertex " << v_center->point()
-            << " with timeslice " << v_center->info()
-            << std::endl;
-
-  // Get neighbors
-  Cell_handle bottom_neighbor_1 = bottom->neighbor(i1);
-  cells.emplace_back(bottom_neighbor_1);
-  Cell_handle bottom_neighbor_2 = bottom->neighbor(i2);
-  cells.emplace_back(bottom_neighbor_2);
-  Cell_handle bottom_neighbor_3 = bottom->neighbor(i3);
-  cells.emplace_back(bottom_neighbor_3);
-  Cell_handle top_neighbor_1 = top->neighbor(in1);
-  cells.emplace_back(top_neighbor_1);
-  Cell_handle top_neighbor_2 = top->neighbor(in2);
-  cells.emplace_back(top_neighbor_2);
-  Cell_handle top_neighbor_3 = top->neighbor(in3);
-  cells.emplace_back(top_neighbor_3);
-
-  // Delete old cells
-  D3->tds().delete_cell(bottom);
-  D3->tds().delete_cell(top);
-
-  // Create new ones
-  Cell_handle bottom_12 = D3->tds().create_cell(v1, v_center, v2, v_bottom);
-  cells.emplace_back(bottom_12);
-  Cell_handle bottom_23 = D3->tds().create_cell(v2, v_center, v3, v_bottom);
-  cells.emplace_back(bottom_23);
-  Cell_handle bottom_31 = D3->tds().create_cell(v3, v_center, v1, v_bottom);
-  cells.emplace_back(bottom_31);
-  Cell_handle top_12 = D3->tds().create_cell(v1, v_center, v2, v_top);
-  cells.emplace_back(top_12);
-  Cell_handle top_23 = D3->tds().create_cell(v2, v_center, v3, v_top);
-  cells.emplace_back(top_23);
-  Cell_handle top_31 = D3->tds().create_cell(v3, v_center, v1, v_top);
-  cells.emplace_back(top_31);
-
-  // Set incident cell for v_center which should make it a valid vertex
-  v_center->set_cell(bottom_12);
-
-  // Check that vertex is valid with verbose messages for invalidity
-  if (D3->tds().is_valid(v_center, true)) {
-    std::cout << "It's a valid vertex in the TDS." << std::endl;
-  } else {
-    std::cout << "It's not a valid vertex in the TDS." << std::endl;
-  }
-
-  // Create an adjacency vector
-  std::vector<std::pair<Cell_handle, Cell_handle>> adjacency_vector;
-
-  // Populate adjacency_vector with all neighbors pairwise
-  // External neighbors of bottom and top
-  adjacency_vector.emplace_back(std::make_pair(bottom_12, bottom_neighbor_3));
-  adjacency_vector.emplace_back(std::make_pair(bottom_23, bottom_neighbor_1));
-  adjacency_vector.emplace_back(std::make_pair(bottom_31, bottom_neighbor_2));
-  adjacency_vector.emplace_back(std::make_pair(top_12, top_neighbor_3));
-  adjacency_vector.emplace_back(std::make_pair(top_23, top_neighbor_1));
-  adjacency_vector.emplace_back(std::make_pair(top_31, top_neighbor_2));
-  // Internal neighbors for bottom cells
-  adjacency_vector.emplace_back(std::make_pair(bottom_12, bottom_23));
-  adjacency_vector.emplace_back(std::make_pair(bottom_23, bottom_31));
-  adjacency_vector.emplace_back(std::make_pair(bottom_31, bottom_12));
-  // Internal neighbors for top cells
-  adjacency_vector.emplace_back(std::make_pair(top_12, top_23));
-  adjacency_vector.emplace_back(std::make_pair(top_23, top_31));
-  adjacency_vector.emplace_back(std::make_pair(top_31, top_12));
-  // Connections between top and bottom cells
-  adjacency_vector.emplace_back(std::make_pair(bottom_12, top_12));
-  adjacency_vector.emplace_back(std::make_pair(bottom_23, top_23));
-  adjacency_vector.emplace_back(std::make_pair(bottom_31, top_31));
-
-  // Set adjacencies
-  set_adjacencies(D3, adjacency_vector);
-
-  // Do all the cells have v_center as a vertex?
-  (bottom_12->has_vertex(v_center)) ? std::cout << "bottom_12 has v_center"
-    << std::endl : std::cout << "bottom_12 doesn't have v_center" << std::endl;
-  (bottom_23->has_vertex(v_center)) ? std::cout << "bottom_23 has v_center"
-    << std::endl : std::cout << "bottom_23 doesn't have v_center" << std::endl;
-  (bottom_31->has_vertex(v_center)) ? std::cout << "bottom_31 has v_center"
-    << std::endl : std::cout << "bottom_31 doesn't have v_center" << std::endl;
-  (top_12->has_vertex(v_center)) ? std::cout << "top_12 has v_center"
-    << std::endl : std::cout << "top_12 doesn't have v_center" << std::endl;
-  (top_23->has_vertex(v_center)) ? std::cout << "top_23 has v_center"
-    << std::endl : std::cout << "top_23 doesn't have v_center" << std::endl;
-  (top_31->has_vertex(v_center)) ? std::cout << "top_31 has v_center"
-    << std::endl : std::cout << "top_31 doesn't have v_center" << std::endl;
-
-  (v_center->is_valid(true, 1)) ? std::cout << "v_center->is_valid is true"
-    << std::endl : std::cout << "v_center->is_valid is false" << std::endl;
-
-  (v_center->cell()->has_vertex(v_center)) ? std::cout
-    << "v_center->cell has itself" << std::endl : std::cout
-    << "v_center->cell doesn't have itself";
-
-  CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true, 1));
-}  // move_26()
+// void move_26(Delaunay* const D3,
+//              Cell_handle bottom,
+//              Cell_handle top) noexcept {
+//   // Preconditions
+//   CGAL_triangulation_precondition(D3->dimension() == 3);
+//   CGAL_triangulation_precondition(bottom->has_neighbor
+//                                   (top));
+//   CGAL_triangulation_expensive_precondition(is_cell(bottom, top));
+//
+//   // The vector of all cells involved in the move
+//   std::vector<Cell_handle> cells;
+//
+//   int common_face_index;
+//   // has_neighbor() returns the index of the common face
+//   bottom->has_neighbor(top, common_face_index);
+//   std::cout << "bottom's common_face_index with top is "
+//             << common_face_index << std::endl;
+//   int mirror_common_face_index;
+//   top->has_neighbor(bottom, mirror_common_face_index);
+//   std::cout << "top's mirror_common_face_index with bottom is "
+//             << mirror_common_face_index << std::endl;
+//
+//   // Get indices of vertices of common face with respect to bottom cell
+//   int i1 = (common_face_index + 1)&3;
+//   int i2 = (common_face_index + 2)&3;
+//   int i3 = (common_face_index + 3)&3;
+//
+//   // Get indices of vertices of common face with respect to top cell
+//   int in1 = top->index(bottom->vertex(i1));
+//   int in2 = top->index(bottom->vertex(i2));
+//   int in3 = top->index(bottom->vertex(i3));
+//
+//   // Get vertices of the common face
+//   // They're denoted wrt the bottom, but could easily be wrt to top
+//   Vertex_handle v1 = bottom->vertex(i1);
+//   Vertex_handle v2 = bottom->vertex(i2);
+//   Vertex_handle v3 = bottom->vertex(i3);
+//
+//   // Debugging
+//   Vertex_handle v5 = top->vertex(in1);
+//   (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
+//                          << std::endl : std::cout
+//                          << "bottom->vertex(i1) != top->vertex(in1)"
+//                          << std::endl;
+//
+//   // Bottom vertex is the one opposite of the common face
+//   Vertex_handle v_bottom = bottom->vertex(common_face_index);
+//
+//   // Likewise, top vertex is one opposite of common face on the neighbor
+//   Vertex_handle v_top = D3->mirror_vertex(bottom, common_face_index);
+//
+//   // Debugging
+//   // Checks that v1, v2, and v3 are same whether specified with bottom cell
+//   // indices or top cell indices
+//   std::cout << "i1 is " << i1 << " with coordinates of "
+//             << v1->point() << std::endl;
+//   std::cout << "in1 is " << in1 << " with coordinates of "
+//             << top->vertex(in1)->point() << std::endl;
+//   std::cout << "i2 is " << i2 << " with coordinates of "
+//             << v2->point() << std::endl;
+//   std::cout << "in2 is " << in2 << " with coordinates of "
+//             << top->vertex(in2)->point() << std::endl;
+//   std::cout << "i3 is " << i3 << " with coordinates of "
+//             << v3->point() << std::endl;
+//   std::cout << "in3 is " << in3 << " with coordinates of "
+//             << top->vertex(in3)->point() << std::endl;
+//   std::cout << "Vertex v_bottom is index " << bottom->index(v_bottom)
+//             << " with coordinates of " << v_bottom->point() << std::endl;
+//   std::cout << "Vertex v_top is index " << top->index(v_top)
+//             << " with coordinates of " << v_top->point() << std::endl;
+//
+//
+//   // Average vertices to get new one in their center
+//   auto center_of_X = average_coordinates(v1->point().x(),
+//                                          v2->point().x(),
+//                                          v3->point().x());
+//   auto center_of_Y = average_coordinates(v1->point().y(),
+//                                          v2->point().y(),
+//                                          v3->point().y());
+//   auto center_of_Z = average_coordinates(v1->point().z(),
+//                                          v2->point().z(),
+//                                          v3->point().z());
+//
+//   // Debugging
+//   std::cout << "Average x-coord is " << center_of_X << std::endl;
+//   std::cout << "Average y-coord is " << center_of_Y << std::endl;
+//   std::cout << "Average z-coord is " << center_of_Z << std::endl;
+//
+//   // Timeslices of v1, v2, and v3 should be same
+//   CGAL_triangulation_precondition(v1->info() == v2->info());
+//   CGAL_triangulation_precondition(v1->info() == v3->info());
+//
+//   // Insert new vertex
+//   Point p = Point(center_of_X, center_of_Y, center_of_Z);
+//   Vertex_handle v_center = D3->tds().create_vertex();
+//   // D3->insert_in_facet();
+//   v_center->set_point(p);
+//
+//   // Assign a timeslice to the new vertex
+//   auto timeslice = v1->info();
+//
+//   // Check we have a vertex
+//   if (D3->tds().is_vertex(v_center)) {
+//     std::cout << "It's a vertex in the TDS." << std::endl;
+//   } else {
+//     std::cout << "It's not a vertex in the TDS." << std::endl;
+//   }
+//
+//   // Debugging
+//   std::cout << "Timeslice is " << timeslice << std::endl;
+//   v_center->info() = timeslice;
+//   std::cout << "Inserted vertex " << v_center->point()
+//             << " with timeslice " << v_center->info()
+//             << std::endl;
+//
+//   // Get neighbors
+//   Cell_handle bottom_neighbor_1 = bottom->neighbor(i1);
+//   cells.emplace_back(bottom_neighbor_1);
+//   Cell_handle bottom_neighbor_2 = bottom->neighbor(i2);
+//   cells.emplace_back(bottom_neighbor_2);
+//   Cell_handle bottom_neighbor_3 = bottom->neighbor(i3);
+//   cells.emplace_back(bottom_neighbor_3);
+//   Cell_handle top_neighbor_1 = top->neighbor(in1);
+//   cells.emplace_back(top_neighbor_1);
+//   Cell_handle top_neighbor_2 = top->neighbor(in2);
+//   cells.emplace_back(top_neighbor_2);
+//   Cell_handle top_neighbor_3 = top->neighbor(in3);
+//   cells.emplace_back(top_neighbor_3);
+//
+//   // Delete old cells
+//   D3->tds().delete_cell(bottom);
+//   D3->tds().delete_cell(top);
+//
+//   // Create new ones
+//   Cell_handle bottom_12 = D3->tds().create_cell(v1, v_center, v2, v_bottom);
+//   cells.emplace_back(bottom_12);
+//   Cell_handle bottom_23 = D3->tds().create_cell(v2, v_center, v3, v_bottom);
+//   cells.emplace_back(bottom_23);
+//   Cell_handle bottom_31 = D3->tds().create_cell(v3, v_center, v1, v_bottom);
+//   cells.emplace_back(bottom_31);
+//   Cell_handle top_12 = D3->tds().create_cell(v1, v_center, v2, v_top);
+//   cells.emplace_back(top_12);
+//   Cell_handle top_23 = D3->tds().create_cell(v2, v_center, v3, v_top);
+//   cells.emplace_back(top_23);
+//   Cell_handle top_31 = D3->tds().create_cell(v3, v_center, v1, v_top);
+//   cells.emplace_back(top_31);
+//
+//   // Set incident cell for v_center which should make it a valid vertex
+//   v_center->set_cell(bottom_12);
+//
+//   // Check that vertex is valid with verbose messages for invalidity
+//   if (D3->tds().is_valid(v_center, true)) {
+//     std::cout << "It's a valid vertex in the TDS." << std::endl;
+//   } else {
+//     std::cout << "It's not a valid vertex in the TDS." << std::endl;
+//   }
+//
+//   // Create an adjacency vector
+//   std::vector<std::pair<Cell_handle, Cell_handle>> adjacency_vector;
+//
+//   // Populate adjacency_vector with all neighbors pairwise
+//   // External neighbors of bottom and top
+//   adjacency_vector.emplace_back(std::make_pair(bottom_12, bottom_neighbor_3));
+//   adjacency_vector.emplace_back(std::make_pair(bottom_23, bottom_neighbor_1));
+//   adjacency_vector.emplace_back(std::make_pair(bottom_31, bottom_neighbor_2));
+//   adjacency_vector.emplace_back(std::make_pair(top_12, top_neighbor_3));
+//   adjacency_vector.emplace_back(std::make_pair(top_23, top_neighbor_1));
+//   adjacency_vector.emplace_back(std::make_pair(top_31, top_neighbor_2));
+//   // Internal neighbors for bottom cells
+//   adjacency_vector.emplace_back(std::make_pair(bottom_12, bottom_23));
+//   adjacency_vector.emplace_back(std::make_pair(bottom_23, bottom_31));
+//   adjacency_vector.emplace_back(std::make_pair(bottom_31, bottom_12));
+//   // Internal neighbors for top cells
+//   adjacency_vector.emplace_back(std::make_pair(top_12, top_23));
+//   adjacency_vector.emplace_back(std::make_pair(top_23, top_31));
+//   adjacency_vector.emplace_back(std::make_pair(top_31, top_12));
+//   // Connections between top and bottom cells
+//   adjacency_vector.emplace_back(std::make_pair(bottom_12, top_12));
+//   adjacency_vector.emplace_back(std::make_pair(bottom_23, top_23));
+//   adjacency_vector.emplace_back(std::make_pair(bottom_31, top_31));
+//
+//   // Set adjacencies
+//   set_adjacencies(D3, adjacency_vector);
+//
+//   // Do all the cells have v_center as a vertex?
+//   (bottom_12->has_vertex(v_center)) ? std::cout << "bottom_12 has v_center"
+//     << std::endl : std::cout << "bottom_12 doesn't have v_center" << std::endl;
+//   (bottom_23->has_vertex(v_center)) ? std::cout << "bottom_23 has v_center"
+//     << std::endl : std::cout << "bottom_23 doesn't have v_center" << std::endl;
+//   (bottom_31->has_vertex(v_center)) ? std::cout << "bottom_31 has v_center"
+//     << std::endl : std::cout << "bottom_31 doesn't have v_center" << std::endl;
+//   (top_12->has_vertex(v_center)) ? std::cout << "top_12 has v_center"
+//     << std::endl : std::cout << "top_12 doesn't have v_center" << std::endl;
+//   (top_23->has_vertex(v_center)) ? std::cout << "top_23 has v_center"
+//     << std::endl : std::cout << "top_23 doesn't have v_center" << std::endl;
+//   (top_31->has_vertex(v_center)) ? std::cout << "top_31 has v_center"
+//     << std::endl : std::cout << "top_31 doesn't have v_center" << std::endl;
+//
+//   (v_center->is_valid(true, 1)) ? std::cout << "v_center->is_valid is true"
+//     << std::endl : std::cout << "v_center->is_valid is false" << std::endl;
+//
+//   (v_center->cell()->has_vertex(v_center)) ? std::cout
+//     << "v_center->cell has itself" << std::endl : std::cout
+//     << "v_center->cell doesn't have itself";
+//
+//   CGAL_triangulation_postcondition(D3->tds().is_valid(v_center, true, 1));
+// }  // move_26()
 
 /// @brief Make a (2,6) move
 ///
@@ -747,58 +733,34 @@ void move_26(Delaunay* const D3,
 ///
 /// @param[in,out]  D3 The Delaunay triangulation
 /// @param[in,out]  one_three  A list of (1,3) simplices to attempt move on
-void make_26_move(Delaunay* const D3,
-                  std::vector<Cell_handle>* const one_three) noexcept {
-  auto not_moved = true;
-  while (not_moved) {
-    // Pick a random simplex out of the one_three vector
-    auto choice = generate_random_unsigned(0, one_three->size()-1);
-    unsigned neighboring_31_index;
-    // Is there a neighboring (3,1) simplex?
-    // TODO(acgetchell): don't need to return neighboring_31_index
-    if (find_26_movable((*one_three)[choice], &neighboring_31_index)) {
-      // Debugging
-      std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
-      std::cout << "The neighboring simplex " << neighboring_31_index
-                << " is of type "
-                << (*one_three)[choice]->neighbor(neighboring_31_index)->info()
-                << std::endl;
-      Cell_handle old_13_to_be_moved = (*one_three)[choice];
-      Cell_handle old_31_to_be_moved =
-        (*one_three)[choice]->neighbor(neighboring_31_index);
-      // Do the (2,6) move
-      move_26(D3, old_13_to_be_moved, old_31_to_be_moved);
-      not_moved = false;
-    } else {
-      std::cout << "(1,3) simplex " << choice << " was not movable."
-                << std::endl;
-    }
-  }
-}  // make_26_move()
-
-/// @brief Make a (6,2) move
-///
-/// This function performs the (6,2) move by removing a vertex
-/// that has 3 (1,3) and 3 (3,1) simplices around it
-///
-/// @param[in,out]  D3        The Delaunay triangulation
-/// @param[in]      vertices  Vertices to pick to attempt move
-
-void make_62_move(Delaunay* const D3,
-                  std::vector<Vertex_handle>* const vertices) noexcept {
-  bool no_move = true;
-  while (no_move) {
-    // Pick a random vertex
-    unsigned choice = generate_random_unsigned(0, vertices->size()-1);
-    Vertex_handle to_be_moved = (*vertices)[choice];
-
-    // Ensure conditions are satisfied
-    CGAL_triangulation_precondition((D3->dimension() == 3));
-    CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
+// void make_26_move(Delaunay* const D3,
+//                   std::vector<Cell_handle>* const one_three) noexcept {
+//   auto not_moved = true;
+//   while (not_moved) {
+//     // Pick a random simplex out of the one_three vector
+//     auto choice = generate_random_unsigned(0, one_three->size()-1);
+//     unsigned neighboring_31_index;
+//     // Is there a neighboring (3,1) simplex?
+//     if (find_26_movable((*one_three)[choice], &neighboring_31_index)) {
+//       // Debugging
+//       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
+//       std::cout << "The neighboring simplex " << neighboring_31_index
+//                 << " is of type "
+//                 << (*one_three)[choice]->neighbor(neighboring_31_index)->info()
+//                 << std::endl;
+//       Cell_handle old_13_to_be_moved = (*one_three)[choice];
+//       Cell_handle old_31_to_be_moved =
+//         (*one_three)[choice]->neighbor(neighboring_31_index);
+//       // Do the (2,6) move
+//       move_26(D3, old_13_to_be_moved, old_31_to_be_moved);
+//       not_moved = false;
+//     } else {
+//       std::cout << "(1,3) simplex " << choice << " was not movable."
+//                 << std::endl;
+//     }
+//   }
+// }  // make_26_move()
 
 
-    no_move = false;
-  }
-}  // make_62_move()
 
 #endif  // SRC_S3ERGODICMOVES_H_

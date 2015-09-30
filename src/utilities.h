@@ -211,4 +211,16 @@ inline auto generate_random_unsigned(const unsigned min_value,
   return result;
 }  // generate_random_unsigned()
 
+/// @brief Generate a random timeslice
+///
+/// This function generates a random timeslice
+/// using **generate_random_unsigned()**. Timeslices go from
+/// 1 to max_timeslice.
+///
+/// @param[in] max_timeslice  The maximum timeslice
+/// @returns A random timeslice from 1 to max_timeslice
+inline auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
+  return generate_random_unsigned(1, max_timeslice);
+}  // generate_random_timeslice()
+
 #endif  // SRC_UTILITIES_H_

@@ -23,13 +23,6 @@ using namespace testing;  // NOLINT
 class S3ErgodicMoves : public Test {
  protected:
   virtual void SetUp() {
-    // make_S3_triangulation(number_of_simplices,
-    //                       number_of_timeslices,
-    //                       no_output,
-    //                       &S3,
-    //                       &three_one,
-    //                       &two_two,
-    //                       &one_three);
     universe_ptr = std::move(make_triangulation(simplices, timeslices));
     simplex_types = classify_simplices(universe_ptr);
     edge_types = classify_edges(universe_ptr);
@@ -62,7 +55,6 @@ class S3ErgodicMoves : public Test {
   unsigned N3_22_before{0};
   unsigned N3_13_before{0};
   unsigned V2_before{0};
-
 };
 
 class Minimal26Test : public S3ErgodicMoves {
@@ -100,39 +92,6 @@ class Minimal26Test : public S3ErgodicMoves {
   std::vector<unsigned> timevalue {1, 2, 2, 2, 3};
 };
 
-TEST_F(S3ErgodicMoves, GenerateRandomTimeslice) {
-  EXPECT_THAT(generate_random_timeslice(timeslices),
-    AllOf(Gt(0), Le(timeslices)))
-    << "Random timeslice out of bounds.";
-}
-
-TEST_F(S3ErgodicMoves, RandomSeedingTest) {
-  // Set a wider range than just number_of_timeslices
-  constexpr auto test_range_max = static_cast<unsigned>(128);
-  const auto value1 = generate_random_timeslice(test_range_max);
-  const auto value2 = generate_random_timeslice(test_range_max);
-  const auto value3 = generate_random_timeslice(test_range_max);
-  const auto value4 = generate_random_timeslice(test_range_max);
-
-
-  EXPECT_THAT(value1, Ne(value2))
-    << "Your random numbers don't seem to be random.";
-
-  EXPECT_THAT(value1, Ne(value3))
-    << "Your random numbers don't seem to be random.";
-
-  EXPECT_THAT(value1, Ne(value4))
-    << "Your random numbers don't seem to be random.";
-
-  EXPECT_THAT(value2, Ne(value3))
-    << "Your random numbers don't seem to be random.";
-
-  EXPECT_THAT(value2, Ne(value4))
-    << "Your random numbers don't seem to be random.";
-
-  EXPECT_THAT(value3, Ne(value4))
-    << "Your random numbers don't seem to be random.";
-}
 
 TEST_F(S3ErgodicMoves, MakeA23Move) {
   universe_ptr = std::move(make_23_move(universe_ptr, simplex_types));
@@ -218,7 +177,7 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
 }
 
 TEST_F(Minimal26Test, MakeA26Move) {
-  universe_ptr = std::move(make_26_move_v2(universe_ptr, simplex_types));
+  universe_ptr = std::move(make_26_move(universe_ptr, simplex_types));
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);
@@ -250,7 +209,7 @@ TEST_F(Minimal26Test, MakeA26Move) {
 }
 
 TEST_F(S3ErgodicMoves, MakeA26Move) {
-  universe_ptr = std::move(make_26_move_v2(universe_ptr, simplex_types));
+  universe_ptr = std::move(make_26_move(universe_ptr, simplex_types));
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);
