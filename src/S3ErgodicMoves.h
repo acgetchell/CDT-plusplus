@@ -297,23 +297,23 @@ auto make_26_move(T1&& universe_ptr,
 /// This function performs the (6,2) move by removing a vertex
 /// that has 3 (1,3) and 3 (3,1) simplices around it
 ///
-/// @param[in,out]  D3        The Delaunay triangulation
-/// @param[in]      vertices  Vertices to pick to attempt move
-void make_62_move(Delaunay* const D3,
-                  std::vector<Vertex_handle>* const vertices) noexcept {
-  bool no_move = true;
-  while (no_move) {
-    // Pick a random vertex
-    unsigned choice = generate_random_unsigned(0, vertices->size()-1);
-    Vertex_handle to_be_moved = (*vertices)[choice];
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
+/// and (1,3) simplices
+template <typename T1, typename T2>
+auto make_62_move(T1&& universe_ptr,
+                  T2&& simplex_types) noexcept -> decltype(universe_ptr) {
+  auto not_moved = true;
+  while (not_moved) {
+    // do something
 
     // Ensure conditions are satisfied
-    CGAL_triangulation_precondition((D3->dimension() == 3));
+    CGAL_triangulation_precondition((universe_ptr->dimension() == 3));
     CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
 
-
-    no_move = false;
+    not_moved = false;
   }
+  return universe_ptr;
 }  // make_62_move()
 
 /// @brief Finds the disjoint index
