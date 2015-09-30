@@ -31,6 +31,7 @@
 
 // CGAL headers
 #include <CGAL/Gmpzf.h>
+#include <CGAL/barycenter.h>
 
 // C++ headers
 // #include <random>
@@ -162,8 +163,7 @@ auto make_32_move(T1&& universe_ptr,
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice =
-      generate_random_unsigned(0, edge_types.first.size()-1);
+    auto choice = generate_random_unsigned(0, edge_types.first.size()-1);
     Edge_tuple to_be_moved = edge_types.first[choice];
     if (universe_ptr->flip(std::get<0>(to_be_moved), std::get<1>(to_be_moved),
                std::get<2>(to_be_moved))) {
@@ -181,6 +181,7 @@ auto make_32_move(T1&& universe_ptr,
   // Users return value optimization and allows chaining function calls
   return universe_ptr;
 }  // make_32_move()
+
 
 /// @brief Check a (2,6) move
 ///
@@ -224,6 +225,110 @@ auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   }
   return movable;
 }  // find_26_movable()
+
+template <typename T1, typename T2>
+auto make_26_move_v2(T1&& universe_ptr,
+                     T2&& simplex_types) noexcept -> decltype(universe_ptr) {
+  // Vertex_handle inserted_vertex = universe->tds().insert_in_facet(const Facet& f); fill in the facet
+  auto not_moved = true;
+  while (not_moved) {
+    // Pick out a random (1,3) which ranges from 0 to size()-1
+    auto choice =
+      generate_random_unsigned(0, std::get<2>(simplex_types).size()-1);
+    unsigned neighboring_31_index;
+    Cell_handle bottom = std::get<2>(simplex_types)[choice];
+
+    find_26_movable(bottom, &neighboring_31_index);
+    std::cout << "neighboring_31_index is " << neighboring_31_index
+              << std::endl;
+
+    Cell_handle top = bottom->neighbor(neighboring_31_index);
+    // Check
+    // has_neighbor() returns the index of the common face
+    int common_face_index;
+    bottom->has_neighbor(top, common_face_index);
+    std::cout << "bottom's common_face_index with top is "
+              << common_face_index << std::endl;
+    int mirror_common_face_index;
+    top->has_neighbor(bottom, mirror_common_face_index);
+    std::cout << "top's mirror_common_face_index with bottom is "
+              << mirror_common_face_index << std::endl;
+
+    // Get indices of vertices of common face with respect to bottom cell
+    int i1 = (common_face_index + 1)&3;
+    int i2 = (common_face_index + 2)&3;
+    int i3 = (common_face_index + 3)&3;
+
+    // Get indices of vertices of common face with respect to top cell
+    int in1 = top->index(bottom->vertex(i1));
+    int in2 = top->index(bottom->vertex(i2));
+    int in3 = top->index(bottom->vertex(i3));
+
+    // Get vertices of the common face
+    // They're denoted wrt the bottom, but could easily be wrt to top
+    Vertex_handle v1 = bottom->vertex(i1);
+    Vertex_handle v2 = bottom->vertex(i2);
+    Vertex_handle v3 = bottom->vertex(i3);
+
+    // Timeslices of v1, v2, and v3 should be same
+    CGAL_triangulation_precondition(v1->info() == v2->info());
+    CGAL_triangulation_precondition(v1->info() == v3->info());
+
+    // Debugging
+    Vertex_handle v5 = top->vertex(in1);
+    (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
+                           << std::endl : std::cout
+                           << "bottom->vertex(i1) != top->vertex(in1)"
+                           << std::endl;
+
+    // Is there a neighboring (3,1) simplex?
+    // TODO(acgetchell): don't need to return neighboring_31_index
+    if (find_26_movable(bottom, &neighboring_31_index)) {
+      // Debugging
+      std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
+      std::cout << "The neighboring simplex " << neighboring_31_index
+                << " is of type "
+                << bottom->neighbor(neighboring_31_index)->info()
+                << std::endl;
+      // Cell_handle old_13_to_be_moved = (*one_three)[choice];
+      // Cell_handle old_31_to_be_moved =
+      //   (*one_three)[choice]->neighbor(neighboring_31_index);
+      // Do the (2,6) move
+      // Insert new vertex
+      // Point center_point = CGAL::barycenter(v1->point(), 1, v2->point(), 1, v3->point(), 1);
+      auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
+      // Point p = Point(center_of_X, center_of_Y, center_of_Z);
+
+      std::cout << "Center point is: " << center_point << std::endl;
+      Vertex_handle v_center =
+        universe_ptr->tds().insert_in_facet(bottom, neighboring_31_index);
+      v_center->set_point(center_point);
+
+      // Assign a timeslice to the new vertex
+      auto timeslice = v1->info();
+
+      // Check we have a vertex
+      if (universe_ptr->tds().is_vertex(v_center)) {
+        std::cout << "It's a vertex in the TDS." << std::endl;
+      } else {
+        std::cout << "It's not a vertex in the TDS." << std::endl;
+      }
+
+      // Debugging
+      std::cout << "Spacelike face timeslice is " << timeslice << std::endl;
+      v_center->info() = timeslice;
+      std::cout << "Inserted vertex " << v_center->point()
+                << " with timeslice " << v_center->info()
+                << std::endl;
+
+      not_moved = false;
+    } else {
+      std::cout << "(1,3) simplex " << choice << " was not movable."
+                << std::endl;
+    }
+  }
+  return universe_ptr;
+}  // make_26_move_v2()
 
 /// @brief Finds the disjoint index
 ///
@@ -678,13 +783,6 @@ void make_26_move(Delaunay* const D3,
 ///
 /// @param[in,out]  D3        The Delaunay triangulation
 /// @param[in]      vertices  Vertices to pick to attempt move
-
-template <typename T>
-auto make_26_move_v2(T&& universe) noexcept {
-  // Vertex_handle inserted_vertex = universe->tds().insert_in_facet(const Facet& f); fill in the facet
-
-  return universe;
-}
 
 void make_62_move(Delaunay* const D3,
                   std::vector<Vertex_handle>* const vertices) noexcept {
