@@ -17,7 +17,7 @@
 
 using namespace testing;  // NOLINT
 
-TEST(Metropolis, RunSimulation) {
+TEST(Metropolis, DISABLED_RunSimulation) {
   constexpr auto simplices = static_cast<unsigned>(64000);
   constexpr auto timeslices = static_cast<unsigned>(67);
   auto universe_ptr = make_triangulation(simplices, timeslices);

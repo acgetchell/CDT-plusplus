@@ -362,7 +362,7 @@ auto inline make_triangulation(const unsigned simplices,
   std::cout << "Generating universe ... " << std::endl;
   Delaunay universe;
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-  const auto MAX_FOLIATION_FIX_PASSES = 20;
+  constexpr auto MAX_FOLIATION_FIX_PASSES = 20;
 
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
 

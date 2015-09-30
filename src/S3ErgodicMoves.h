@@ -51,6 +51,8 @@ static constexpr unsigned PRECISION = 256;
 /// @param[in] c2 The second coordinate to be averaged
 /// @param[in] c3 The third coordinate to be averaged
 /// @returns The average of the coordinates
+
+// barycenter()
 auto average_coordinates(const long double c1,
                          const long double c2,
                          const long double c3) noexcept {
@@ -470,7 +472,7 @@ void move_26(Delaunay* const D3,
   Vertex_handle v_bottom = bottom->vertex(common_face_index);
 
   // Likewise, top vertex is one opposite of common face on the neighbor
-  Vertex_handle v_top = D3->tds().mirror_vertex(bottom, common_face_index);
+  Vertex_handle v_top = D3->mirror_vertex(bottom, common_face_index);
 
   // Debugging
   // Checks that v1, v2, and v3 are same whether specified with bottom cell
@@ -516,6 +518,7 @@ void move_26(Delaunay* const D3,
   // Insert new vertex
   Point p = Point(center_of_X, center_of_Y, center_of_Z);
   Vertex_handle v_center = D3->tds().create_vertex();
+  // D3->insert_in_facet();
   v_center->set_point(p);
 
   // Assign a timeslice to the new vertex
@@ -675,6 +678,14 @@ void make_26_move(Delaunay* const D3,
 ///
 /// @param[in,out]  D3        The Delaunay triangulation
 /// @param[in]      vertices  Vertices to pick to attempt move
+
+template <typename T>
+auto make_26_move_v2(T&& universe) noexcept {
+  // Vertex_handle inserted_vertex = universe->tds().insert_in_facet(const Facet& f); fill in the facet
+
+  return universe;
+}
+
 void make_62_move(Delaunay* const D3,
                   std::vector<Vertex_handle>* const vertices) noexcept {
   bool no_move = true;
