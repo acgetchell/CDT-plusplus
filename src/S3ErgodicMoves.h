@@ -30,7 +30,6 @@
 #include "Utilities.h"
 
 // CGAL headers
-#include <CGAL/Gmpzf.h>
 #include <CGAL/barycenter.h>
 
 // C++ headers
@@ -209,11 +208,11 @@ auto make_26_move(T1&& universe_ptr,
     Cell_handle top = bottom->neighbor(neighboring_31_index);
     // Check
     // has_neighbor() returns the index of the common face
-    int common_face_index;
+    int common_face_index{0};
     bottom->has_neighbor(top, common_face_index);
     std::cout << "bottom's common_face_index with top is "
               << common_face_index << std::endl;
-    int mirror_common_face_index;
+    int mirror_common_face_index{0};
     top->has_neighbor(bottom, mirror_common_face_index);
     std::cout << "top's mirror_common_face_index with bottom is "
               << mirror_common_face_index << std::endl;
