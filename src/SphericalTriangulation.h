@@ -63,11 +63,18 @@
 
 
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
+
 // Used so that each timeslice is assigned an integer
 using Triangulation = CGAL::Triangulation_3<K>;
 using Vb = CGAL::Triangulation_vertex_base_with_info_3<unsigned, K>;
 using Cb = CGAL::Triangulation_cell_base_with_info_3<unsigned, K>;
+
+// Parallel operations
+#ifdef CGAL_LINKED_WITH_TBB
+using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Parallel_tag>;
+#else
 using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb>;
+#endif
 using Delaunay = CGAL::Delaunay_triangulation_3<K, Tds>;
 using Cell_handle = Delaunay::Cell_handle;
 using Vertex_handle = Delaunay::Vertex_handle;
@@ -360,7 +367,18 @@ auto inline make_foliated_sphere(const unsigned simplices,
 auto inline make_triangulation(const unsigned simplices,
                                const unsigned timeslices) noexcept {
   std::cout << "Generating universe ... " << std::endl;
+
+#ifdef CGAL_LINKED_WITH_TBB
+// Construct the locking data-structure, using the bounding-box of the points
+  auto bounding_box_size = static_cast<double>(timeslices+1);
+  Delaunay::Lock_data_structure locking_ds(
+  CGAL::Bbox_3(-bounding_box_size, -bounding_box_size, -bounding_box_size,
+                bounding_box_size, bounding_box_size, bounding_box_size), 50);
+  Delaunay universe(K(), &locking_ds);
+#else
   Delaunay universe;
+#endif
+
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
   constexpr auto MAX_FOLIATION_FIX_PASSES = 20;
 

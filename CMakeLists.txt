@@ -23,7 +23,7 @@ add_definitions(-std=c++1y)
 
 # Turn on/off Google Mock Tests
 ###############################################################################
-set(GMOCK_TESTS TRUE)
+set(GMOCK_TESTS FALSE)
 
 # Main program executable
 ###############################################################################
@@ -35,6 +35,16 @@ if ( CGAL_FOUND )
 
   include( ${CGAL_USE_FILE} )
 
+    # Experimental TBB support
+    # TBB 4.3 compatibility fixed in CGAL 4.5.1
+    find_package( TBB )
+    if (TBB_FOUND)
+      include( ${TBB_USE_FILE})
+
+      list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
+      MESSAGE(${TBB_LIBRARIES})
+    endif()
+
   include( CGAL_CreateSingleSourceCGALProgram )
 
   find_package(Eigen3)
@@ -43,7 +53,7 @@ if ( CGAL_FOUND )
 
       include_directories (BEFORE "../../include")
 
-      # create_single_source_cgal_program( "src/parallel_insertion_in_delaunay_3.cpp" )
+      create_single_source_cgal_program( "src/parallel_insertion_in_delaunay_3.cpp" )
       # create_single_source_cgal_program( "src/container_test.cpp" )
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
       create_single_source_cgal_program( "src/cdt.cpp" "src/docopt/docopt.cpp")
@@ -51,16 +61,6 @@ if ( CGAL_FOUND )
   else()
 
     message(STATUS "NOTICE: This program requires the Eigen3 library, and will not be compiled.")
-
-  endif()
-
-  # Experimental TBB support
-  # TBB 4.3 compatibility fixed in CGAL 4.5.1
-  find_package( TBB QUIET)
-  if (TBB_FOUND)
-    include( ${TBB_USE_FILE})
-
-    list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
 
   endif()
 
