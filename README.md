@@ -10,6 +10,7 @@ Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
 [Docopt][19] provides a beautiful command-line interface.
 [Gmock 1.7][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
+Intel's [TBB][37] provides better performance if present.
 Follows (mostly) the [Google C++ Style Guide][7], which
 you can check by downloading and running the [cpplint.py][8] script:
 
@@ -268,3 +269,4 @@ version numbers away.
 [34]: http://cppcheck.sourceforge.net
 [35]: https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh
 [36]: http://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
+[37]: https://www.threadingbuildingblocks.org
