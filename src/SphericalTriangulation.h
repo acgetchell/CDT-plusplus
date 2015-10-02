@@ -60,6 +60,7 @@
 #include <vector>
 #include <tuple>
 #include <list>
+#include <set>
 
 
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -82,7 +83,7 @@ using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
-static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 20;
+static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 150;
 
 /// @brief Classifies edges
 ///
@@ -225,6 +226,8 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
   auto valid = static_cast<unsigned>(0);
   auto invalid = static_cast<unsigned>(0);
   auto max_vertex = static_cast<unsigned>(0);
+  std::set<Vertex_handle> deleted_vertices;
+
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
@@ -249,7 +252,8 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
         invalid++;
         this_cell_foliation_valid = false;
         // Delete max vertex
-        universe_ptr->remove(cit->vertex(max_vertex));
+        // universe_ptr->remove(cit->vertex(max_vertex));
+        deleted_vertices.emplace(cit->vertex(max_vertex));
       } else {
         ++valid;
       }
@@ -272,6 +276,9 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
       // perhaps forcing a re-triangulation?
     }
   }  // Finish iterating over cells
+
+  // Delete invalid vertices
+  universe_ptr->remove(deleted_vertices.begin(), deleted_vertices.end());
   // Check that the triangulation is still valid
   CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
 
@@ -380,7 +387,6 @@ auto inline make_triangulation(const unsigned simplices,
 #endif
 
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-  constexpr auto MAX_FOLIATION_FIX_PASSES = 20;
 
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
 

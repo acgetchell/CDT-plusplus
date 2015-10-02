@@ -39,6 +39,7 @@ grid_d
 # Output files
 *.dat
 output
+*.txt
 
 # Instrumentation
 *.trace

@@ -19,7 +19,7 @@
 /// scan-build</a>: No bugs found.
 
 // CGAL headers
-#include <CGAL/Timer.h>
+#include <CGAL/Real_timer.h>
 
 // C++ headers
 #include <iostream>
@@ -77,7 +77,7 @@ Options:
 /// @returns        Integer value 0 if successful, 1 on failure
 int main(int argc, char* const argv[]) {
   // Start running time
-  CGAL::Timer t;
+  CGAL::Real_timer t;
   t.start();
 
   // docopt option parser
@@ -164,8 +164,8 @@ int main(int argc, char* const argv[]) {
             << std::endl;
 
   // The main work of the program
-  universe_ptr = std::move(metropolis(universe_ptr, passes,
-                                      output_every_n_passes));
+  // universe_ptr = std::move(metropolis(universe_ptr, passes,
+                                      // output_every_n_passes));
 
   // Output results
   t.stop();  // End running time counter

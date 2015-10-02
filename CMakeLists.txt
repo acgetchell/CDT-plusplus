@@ -23,8 +23,8 @@ add_definitions(-std=c++1y)
 
 ###############################################################################
 # Turn on/off Google Mock Tests
-set(GMOCK_TESTS FALSE)
-# Turn on/off TBB as it's not compatible with GMOCK_TESTS
+set(GMOCK_TESTS TRUE)
+# Turn on/off TBB
 set(TBB_ON TRUE)
 
 
@@ -91,7 +91,7 @@ if (GMOCK_TESTS)
   add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES})
 
   # Set link libraries (order matters)
-  target_link_libraries("${UT_EXECUTABLE_NAME}" gmock gtest pthread)
+  target_link_libraries("${UT_EXECUTABLE_NAME}" ${TBB_LIBRARIES} gmock gtest pthread)
 
   # Include root directory
   include_directories(BEFORE ".")

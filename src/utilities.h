@@ -147,8 +147,8 @@ void print_results(const T& universe_ptr) noexcept {
 ///
 /// @param[in] universe_ptr A std::unique_ptr to a triangulation
 /// @param[in] timer A CGAL::Timer object used to determine elapsed time
-template <typename T>
-void print_results(const T& universe_ptr, const CGAL::Timer& timer) noexcept {
+template <typename T1, typename T2>
+void print_results(const T1& universe_ptr, const T2& timer) noexcept {
   print_results(universe_ptr);
 
   // Display program running time
