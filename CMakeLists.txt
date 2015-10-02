@@ -21,9 +21,12 @@ add_definitions(-std=c++1y)
 # Extra warnings
 #add_definitions(-Wextra)
 
-# Turn on/off Google Mock Tests
 ###############################################################################
+# Turn on/off Google Mock Tests
 set(GMOCK_TESTS FALSE)
+# Turn on/off TBB as it's not compatible with GMOCK_TESTS
+set(TBB_ON TRUE)
+
 
 # Main program executable
 ###############################################################################
@@ -38,7 +41,7 @@ if ( CGAL_FOUND )
     # Experimental TBB support
     # TBB 4.3 compatibility fixed in CGAL 4.5.1
     find_package( TBB )
-    if (TBB_FOUND)
+    if (TBB_FOUND AND TBB_ON)
       include( ${TBB_USE_FILE})
 
       list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
@@ -53,7 +56,7 @@ if ( CGAL_FOUND )
 
       include_directories (BEFORE "../../include")
 
-      create_single_source_cgal_program( "src/parallel_insertion_in_delaunay_3.cpp" )
+      # create_single_source_cgal_program( "src/parallel_insertion_in_delaunay_3.cpp" )
       # create_single_source_cgal_program( "src/container_test.cpp" )
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
       create_single_source_cgal_program( "src/cdt.cpp" "src/docopt/docopt.cpp")
