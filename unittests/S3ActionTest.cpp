@@ -98,7 +98,7 @@ TEST_F(S3Action, CalculateGeneralBulkAction) {
                                     K,
                                     Lambda);
 
-  EXPECT_THAT(Bulk_action, Lt(-13000))  // Magic value from lots of tests
+  EXPECT_THAT(Bulk_action, Lt(-12000))  // Magic value from lots of tests
     << "Bulk action value wrong.";
 }
 

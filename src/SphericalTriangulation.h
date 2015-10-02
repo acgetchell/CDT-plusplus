@@ -32,7 +32,7 @@
 /// (2,2), and (1,3) respectively.
 /// \done Classify edges as timelike or spacelike so that action can be
 /// calculated.
-/// \todo Multi-threaded operations using Intel TBB
+/// \done Multi-threaded operations using Intel TBB
 
 /// @file SphericalTriangulation.h
 /// @brief Functions on Spherical Delaunay Triangulations
