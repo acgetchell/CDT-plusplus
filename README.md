@@ -10,7 +10,7 @@ Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
 [Docopt][19] provides a beautiful command-line interface.
 [Gmock 1.7][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
-Intel's [TBB][37] provides better performance if present.
+Intel's [TBB][37] provides significantly better performance if present (3x+).
 Follows (mostly) the [Google C++ Style Guide][7], which
 you can check by downloading and running the [cpplint.py][8] script:
 
@@ -30,14 +30,13 @@ The goals and targets of this project are:
 - [x] 2+1 foliation
 - [x] Integrate [docopt][19] CLI
 - [x] S3 Bulk action
-- [ ] S3 Boundary action
 - [x] 3D Ergodic moves
+- [x] [TBB][37] multithreading
 - [ ] Metropolis algorithm
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
 - [ ] 3+1 foliation
 - [ ] S4 Bulk action
-- [ ] S4 Boundary action
 - [ ] 4D Ergodic moves
 - [ ] Initialize two masses
 - [ ] Shortest path algorithm

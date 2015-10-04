@@ -83,7 +83,7 @@ using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
-static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 150;
+static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 200;
 
 /// @brief Classifies edges
 ///

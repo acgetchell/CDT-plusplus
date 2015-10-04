@@ -73,7 +73,7 @@ TEST_F(S3Action, CalculateAlphaMinus1BulkAction) {
                                                     K,
                                                     Lambda);
 
-  EXPECT_THAT(Bulk_action, Ge(26000))  // Magic value from lots of tests
+  EXPECT_THAT(Bulk_action, Ge(24000))  // Magic value from lots of tests
     << "Bulk action value wrong.";
 }
 
@@ -84,7 +84,7 @@ TEST_F(S3Action, CalculateAlpha1BulkAction) {
                                               K,
                                               Lambda);
 
-  EXPECT_THAT(Bulk_action, Lt(-20000)) // Magic value from lots of tests
+  EXPECT_THAT(Bulk_action, Lt(-18000)) // Magic value from lots of tests
     << "Bulk action value wrong.";
 }
 

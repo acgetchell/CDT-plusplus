@@ -159,6 +159,11 @@ int main(int argc, char* const argv[]) {
       break;
   }
 
+  if (!check_and_fix_timeslices(universe_ptr)) {
+    t.stop();  // End running time counter
+    std::cout << "Delaunay triangulation not correctly foliated." << std::endl;
+    return 1;
+  }
   std::cout << "Universe has been initialized ..." << std::endl;
   std::cout << "Now performing " << passes << " passes of ergodic moves."
             << std::endl;
