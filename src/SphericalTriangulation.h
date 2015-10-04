@@ -152,7 +152,7 @@ to all the simplices in the triangulation of that corresponding type.
 /// @returns A std::tuple<std::vector, std::vector, std::vector> of
 /// **three_one**, **two_two**, and **one_three**
 template <typename T>
-auto classify_simplices(T&& universe_ptr) noexcept {
+auto classify_simplices(T&& universe_ptr) {
   std::cout << "Classifying simplices...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
   std::vector<Cell_handle> three_one;
@@ -192,9 +192,11 @@ auto classify_simplices(T&& universe_ptr) noexcept {
     } else if (max_values == 2) {
       cit->info() = 22;
       two_two.emplace_back(cit);
-    } else {
+    } else if (max_values == 1) {
       cit->info() = 31;
       three_one.emplace_back(cit);
+    } else {
+      throw std::runtime_error("Invalid simplex in classify_simplices()!");
     }  // endif
   }  // Finish iterating over cells
   // Display results
@@ -268,7 +270,7 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
 #endif
 
     } else {
-      throw std::runtime_error("Cell handle is invalid.");
+      throw std::runtime_error("Cell handle is invalid!");
       // Or just remove the cell
       // universe_ptr->tds().delete_cell(cit);
       // This results in a possibly broken Delaunay triangulation
@@ -295,7 +297,7 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 template <typename T>
-void fix_triangulation(T&& universe_ptr) noexcept {
+void fix_triangulation(T&& universe_ptr) {
   auto pass = 0;
   do {
     pass++;
@@ -372,7 +374,7 @@ auto inline make_foliated_sphere(const unsigned simplices,
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr to the foliated Delaunay triangulation
 auto inline make_triangulation(const unsigned simplices,
-                               const unsigned timeslices) noexcept {
+                               const unsigned timeslices) {
   std::cout << "Generating universe ... " << std::endl;
 
 #ifdef CGAL_LINKED_WITH_TBB
