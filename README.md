@@ -224,13 +224,20 @@ build/Testing directory which is generated thereby.
 
 Static Analysis:
 -----------
-The [cppcheck-build.sh][35] script runs a quick static analysis using [cppcheck][34].
+The [cppcheck-build.sh][35] script runs a quick static analysis using
+[cppcheck][34].
 
-Clang comes with [scan-build][32] which can run a much more thorough, but slower static analysis integrated with
-CMake and Ninja. Simply run the [scan-build.sh][33] script. Note that this
+Clang comes with [scan-build][32] which can run a much more thorough,
+but slower static analysis integrated with CMake and Ninja.
+Simply run the [scan-build.sh][33] script. Note that this
 script is somewhat fragile, as it depends upon the version of llvm installed,
 and links directly to those directories without helpful symlinks to abstract
 version numbers away.
+
+Also, these tools build in DEBUG mode. You should probably not then run
+unittests as you will get thousands of lines of debugging output from the tests
+that create large triangulations. (You could use **--gtest_filter**
+to run just the tests that you want.)
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
