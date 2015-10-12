@@ -226,6 +226,14 @@ inline auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 
+// template <typename T1>
+// class RandomNumber {
+//  public:
+//    RandomNumber(T1 min) : _min(min) {}
+//
+//  private:
+//    auto _min;
+// };
 // template <typename T>
 // auto generate_random_real(const T min_value,
 //                             const T max_value) noexcept {
