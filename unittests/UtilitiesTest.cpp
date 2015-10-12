@@ -50,3 +50,14 @@ TEST(Utilities, RandomSeedingTest) {
   EXPECT_THAT(value3, Ne(value4))
     << "Your random numbers don't seem to be random.";
 }
+
+// TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
+//   // long double min{0.0};
+//   // long double max{1.0};
+//
+//   int min{0};
+//   int max{1};
+//   EXPECT_THAT(generate_random_real(min, max),
+//     AllOf(Gt(min), Le(max)))
+//     << "Random real out of bounds.";
+// }

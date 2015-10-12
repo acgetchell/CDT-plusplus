@@ -23,7 +23,7 @@
 #define SRC_METROPOLIS_H_
 
 // CDT headers
-#include "SphericalTriangulation.h"
+#include "S3Triangulation.h"
 #include "Utilities.h"
 
 // Keep track of attempted moves for Metropolis algorithm

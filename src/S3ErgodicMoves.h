@@ -26,7 +26,7 @@
 #undef NDEBUG
 
 // CDT headers
-#include "SphericalTriangulation.h"
+#include "S3Triangulation.h"
 #include "Utilities.h"
 
 // CGAL headers

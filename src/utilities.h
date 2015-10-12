@@ -28,6 +28,9 @@
 #include <fstream>
 #include <random>
 
+// Boost
+#include <boost/type_index.hpp>
+
 enum class topology_type { TOROIDAL, SPHERICAL};
 
 enum move_type {TWO_THREE = 1,
@@ -222,5 +225,29 @@ inline auto generate_random_unsigned(const unsigned min_value,
 inline auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
+
+// template <typename T>
+// auto generate_random_real(const T min_value,
+//                             const T max_value) noexcept {
+//   // Get accurate typeID
+//   using boost::typeindex::type_id_with_cvr;
+//
+//   std::random_device generator;
+//
+//   if (type_id_with_cvr<T>().pretty_name() == "int") {
+//     std::uniform_int_distribution<T> distribution(min_value, max_value);
+//     std::cout << "TypeID'd as int" << std::endl;
+//   } else {
+//     std::uniform_real_distribution<T> distribution(min_value, max_value);
+//   }
+//
+//   auto result = distribution(generator);
+//
+//   std::cout << "Type of T is " << type_id_with_cvr<T>().pretty_name()
+//             << std::endl;
+//   std::cout << "Random number is " << result << std::endl;
+//
+//   return result;
+// }
 
 #endif  // SRC_UTILITIES_H_

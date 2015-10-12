@@ -35,7 +35,7 @@
 // CDT headers
 #include "./Utilities.h"
 // #include "S3Triangulation.h"
-#include "SphericalTriangulation.h"
+#include "S3Triangulation.h"
 #include "Metropolis.h"
 
 /// Help message parsed by docopt into options

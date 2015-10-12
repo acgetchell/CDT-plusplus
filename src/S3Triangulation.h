@@ -40,8 +40,8 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#ifndef SRC_SPHERICALTRIANGULATION_H_
-#define SRC_SPHERICALTRIANGULATION_H_
+#ifndef SRC_S3TRIANGULATION_H_
+#define SRC_S3TRIANGULATION_H_
 
 // CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -400,4 +400,4 @@ auto inline make_triangulation(const unsigned simplices,
   return universe_ptr;
 }  // make_triangulation()
 
-#endif  // SRC_SPHERICALTRIANGULATION_H_
+#endif  // SRC_S3TRIANGULATION_H_

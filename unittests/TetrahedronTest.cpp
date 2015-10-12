@@ -14,7 +14,7 @@
 #include <vector>
 
 #include "gmock/gmock.h"
-#include "SphericalTriangulation.h"
+#include "S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 

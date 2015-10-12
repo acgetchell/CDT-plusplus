@@ -5,18 +5,18 @@
 /// Tests that foliated tetrahedrons are constructed correctly
 /// in a Delaunay triangulation.
 
-/// @file SphericalTriangulationTest.cpp
+/// @file S3TriangulationTest.cpp
 /// @brief Tests for correctly foliated triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "SphericalTriangulation.h"
+#include "S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 
-TEST(SphericalTriangulation, CreateWithUniquePtr) {
+TEST(S3Triangulation, CreateWithUniquePtr) {
   Delaunay universe;
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
@@ -26,7 +26,7 @@ TEST(SphericalTriangulation, CreateWithUniquePtr) {
     << "universe has been reset or is null.";
 }
 
-TEST(SphericalTriangulation, CreatesFoliatedWithTwoTimeslices) {
+TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
   constexpr auto simplices = static_cast<unsigned>(2);
   constexpr auto timeslices = static_cast<unsigned>(2);
   auto universe_ptr = make_triangulation(simplices, timeslices);
@@ -53,7 +53,7 @@ TEST(SphericalTriangulation, CreatesFoliatedWithTwoTimeslices) {
     << "Triangulation is invalid.";
 }
 
-TEST(SphericalTriangulation, CreateWithLotsOfSimplices) {
+TEST(S3Triangulation, CreateWithLotsOfSimplices) {
   constexpr auto simplices = static_cast<unsigned>(64000);
   constexpr auto timeslices = static_cast<unsigned>(67);
   auto universe_ptr = make_triangulation(simplices, timeslices);
