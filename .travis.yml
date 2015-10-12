@@ -7,6 +7,7 @@ env:
   - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
 before_install:
 - brew update
+- brew unlink boost
 install:
 - brew install ninja
 - brew install eigen
