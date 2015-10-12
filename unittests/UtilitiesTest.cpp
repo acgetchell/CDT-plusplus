@@ -51,13 +51,38 @@ TEST(Utilities, RandomSeedingTest) {
     << "Your random numbers don't seem to be random.";
 }
 
-// TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
-//   // long double min{0.0};
-//   // long double max{1.0};
-//
-//   int min{0};
-//   int max{1};
-//   EXPECT_THAT(generate_random_real(min, max),
-//     AllOf(Gt(min), Le(max)))
-//     << "Random real out of bounds.";
-// }
+TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
+  long double min{0.0};
+  long double max{1.0};
+
+  EXPECT_THAT(generate_random_real(min, max),
+    AllOf(Gt(min), Le(max)))
+    << "Random real out of bounds.";
+}
+
+TEST(Utilities, ProbabilityCheck) {
+  // Set a wider range than just number_of_timeslices
+  const auto value1 = generate_probability();
+  const auto value2 = generate_probability();
+  const auto value3 = generate_probability();
+  const auto value4 = generate_probability();
+
+
+  EXPECT_THAT(value1, Ne(value2))
+    << "Probabilities don't seem to be random.";
+
+  EXPECT_THAT(value1, Ne(value3))
+    << "Probabilities don't seem to be random.";
+
+  EXPECT_THAT(value1, Ne(value4))
+    << "Probabilities don't seem to be random.";
+
+  EXPECT_THAT(value2, Ne(value3))
+    << "Probabilities don't seem to be random.";
+
+  EXPECT_THAT(value2, Ne(value4))
+    << "Probabilities don't seem to be random.";
+
+  EXPECT_THAT(value3, Ne(value4))
+    << "Probabilities don't seem to be random.";
+}

@@ -226,36 +226,40 @@ inline auto generate_random_timeslice(unsigned const max_timeslice) noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 
-// template <typename T1>
-// class RandomNumber {
-//  public:
-//    RandomNumber(T1 min) : _min(min) {}
-//
-//  private:
-//    auto _min;
-// };
-// template <typename T>
-// auto generate_random_real(const T min_value,
-//                             const T max_value) noexcept {
-//   // Get accurate typeID
-//   using boost::typeindex::type_id_with_cvr;
-//
-//   std::random_device generator;
-//
-//   if (type_id_with_cvr<T>().pretty_name() == "int") {
-//     std::uniform_int_distribution<T> distribution(min_value, max_value);
-//     std::cout << "TypeID'd as int" << std::endl;
-//   } else {
-//     std::uniform_real_distribution<T> distribution(min_value, max_value);
-//   }
-//
-//   auto result = distribution(generator);
-//
-//   std::cout << "Type of T is " << type_id_with_cvr<T>().pretty_name()
-//             << std::endl;
-//   std::cout << "Random number is " << result << std::endl;
-//
-//   return result;
-// }
+/// @brief Generate random real numbers
+///
+/// This function generates a random real number from [min_value, max_value]
+/// using a non-deterministic random number generator, if supported. There
+/// may be exceptions thrown if a random device is not available. See:
+/// http://www.cplusplus.com/reference/random/random_device/
+/// for more details.
+///
+/// @param[in] min_value  The minimum value in the range
+/// @param[in] max_value  The maximum value in the range
+/// @returns A random real number between min_value and max_value, inclusive
+template <typename T>
+auto generate_random_real(const T min_value,
+                            const T max_value) noexcept {
+  std::random_device generator;
+  std::uniform_real_distribution<T> distribution(min_value, max_value);
+
+  auto result = distribution(generator);
+
+  std::cout << "Random number is " << result << std::endl;
+
+  return result;
+}
+
+/// @brief Generate a random timeslice
+///
+/// This function generates a probability
+/// using **generate_random_real()**.
+///
+/// @returns A probability from 0 to 1
+inline auto generate_probability() noexcept {
+  auto min = static_cast<long double>(0.0);
+  auto max = static_cast<long double>(1.0);
+  return generate_random_real(min, max);
+}  // generate_probability()
 
 #endif  // SRC_UTILITIES_H_
