@@ -29,7 +29,7 @@
 #include <random>
 
 // Boost
-#include <boost/type_index.hpp>
+// #include <boost/type_index.hpp>
 
 enum class topology_type { TOROIDAL, SPHERICAL};
 
