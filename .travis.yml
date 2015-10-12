@@ -1,4 +1,5 @@
-language: objective-c
+#language: objective-c
+osx_image: xcode7
 compiler:
 - clang
 env:
@@ -7,13 +8,11 @@ env:
   - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
 before_install:
 - brew update
-- brew unlink boost
 install:
 - brew install ninja
 - brew install eigen
 - brew install cppcheck
 - brew install tbb --c++11
-- brew install boost --c++11 --without-single --with-mpi
 - curl -L -o CGAL-4.6.3.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.6.3.tar.gz
 - tar zxvf CGAL-4.6.3.tar.gz &> install.log
 - cd cgal-releases-CGAL-4.6.3
