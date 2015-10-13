@@ -10,9 +10,9 @@
 /// Const Correctness</a>
 /// \done Complete function documentation
 /// \done (2,6) move
+/// \done Multi-threaded operations using Intel TBB
 /// \todo (6,2) move
 /// \todo (4,4) move
-/// \todo Multi-threaded operations using Intel TBB
 
 /// @file S3ErgodicMoves.h
 /// @brief Pachner moves on 3D Delaunay Triangulations
@@ -315,176 +315,176 @@ auto make_62_move(T1&& universe_ptr,
   return universe_ptr;
 }  // make_62_move()
 
-/// @brief Finds the disjoint index
-///
-/// Given two cells, find the index of a vertex in cell 1 that is not
-/// in cell 2.
-///
-/// @param[in] first The first cell
-/// @param[in] second The second cell
-/// @returns The integer index of a vertex in first that is not in second
-auto find_disjoint_index(Cell_handle const first,
-                         Cell_handle const second) noexcept {
-  std::vector<Vertex_handle> first_vertices;
-  std::vector<Vertex_handle> second_vertices;
-  std::vector<Vertex_handle> disjoint_vector;
-  for (auto i = 0; i < 4; ++i) {
-    first_vertices.emplace_back(first->vertex(i));
-    second_vertices.emplace_back(second->vertex(i));
-  }
-
-  // Sort vectors
-  std::sort(first_vertices.begin(), first_vertices.end());
-  std::sort(second_vertices.begin(), second_vertices.end());
-
-  // Debugging
-  // std::cout << "Cell 1 has the following vertices: " << std::endl;
-  // for (auto i : first_vertices) {
-  //   std::cout << i->point() << std::endl;
-  // }
-  // std::cout << "Cell 2 has the following vertices: " << std::endl;
-  // for (auto i: second_vertices) {
-  //   std::cout << i->point() << std::endl;
-  // }
-  // Find difference
-  std::set_difference(first_vertices.begin(), first_vertices.end(),
-                      second_vertices.begin(), second_vertices.end(),
-                      std::inserter(disjoint_vector, disjoint_vector.begin()));
-
-  // Must have 3 vertices in common
-  CGAL_triangulation_precondition(disjoint_vector.size() == 1);
-
-  // Debugging
-  // std::cout << "The following vertices are disjoint between cell 1 & 2: "
-  //           << std::endl;
-  // for (auto i : disjoint_vector) {
-  //   std::cout << i->point() << std::endl;
-  // }
-  auto result = disjoint_vector.front();
-
-  // Debugging
-  // std::cout << "We're going to return the vertex " << result->point()
-  //           << " with an index of " << first->index(result) << std::endl;
-  return first->index(result);
-}  // find_disjoint_index()
-
-auto check_orientation(Cell_handle const c) noexcept {
-  // check all values of i = 0; i< 4
-  int i;
-  for (auto i = 0; i < 4; ++i) {
-    Cell_handle n = c->neighbor(i);
-    if ( n == Cell_handle() ) {
-      return false;
-    }
-
-    // check in such that n->neighbor(in) == c and set in
-    int in = 5;
-    if (n->neighbor(0) == c) in = 0;
-    if (n->neighbor(1) == c) in = 1;
-    if (n->neighbor(2) == c) in = 2;
-    if (n->neighbor(3) == c) in = 3;
-
-    // set values for j1n, j2n, j3n;
-    int j1n = 5;
-    int j2n = 5;
-    int j3n = 5;
-    n->has_vertex(c->vertex((i+1)&3), j1n);
-    n->has_vertex(c->vertex((i+2)&3), j2n);
-    n->has_vertex(c->vertex((i+3)&3), j3n);
-
-    // Debugging
-    std::cout << "check_orientation(): loop counter i = " << i << std::endl;
-    std::cout << "parity for i and in? " << ((i+in)&1) << " == 0?" << std::endl;
-    std::cout << "   in = " << in << std::endl;
-    std::cout << "  j1n = " << j1n << std::endl;
-    std::cout << "  j2n = " << j2n << std::endl;
-    std::cout << "  j3n = " << j3n << std::endl;
-
-    // tests whether the orientations of this and n are consistent
-    if ( ((i+in)&1) == 0 ) {  // i and in have the same parity
-      if ( j1n == ((in+1)&3) ) {
-        if ( ( j2n != ((in+3)&3) ) || ( j3n != ((in+2)&3) ) ) return false;
-      }
-      if ( j1n == ((in+2)&3) ) {
-        if ( ( j2n != ((in+1)&3) ) || ( j3n != ((in+3)&3) ) ) return false;
-      }
-      if ( j1n == ((in+3)&3) ) {
-        if ( ( j2n != ((in+2)&3) ) || ( j3n != ((in+1)&3) ) ) return false;
-      }
-    } else {  // i and in do not have the same parity
-      if ( j1n == ((in+1)&3) ) {
-        if ( ( j2n != ((in+2)&3) ) || ( j3n != ((in+3)&3) ) ) return false;
-      }
-      if ( j1n == ((in+2)&3) ) {
-        if ( ( j2n != ((in+3)&3) ) || ( j3n != ((in+1)&3) ) ) return false;
-      }
-      if ( j1n == ((in+3)&3) ) {
-        if ( ( j2n != ((in+1)&3) ) || ( j3n != ((in+2)&3) ) ) return false;
-      }
-    }
-
-      // Debugging
-      if (in == 5) {
-        std::cerr << "in was not set!" << std::endl;
-        return false;
-      } else if (j1n == 5) {
-        std::cerr << "j1n was not set!" << std::endl;
-        return false;
-      } else if (j2n ==5) {
-        std::cerr << "j2n was not set!" << std::endl;
-        return false;
-      } else if (j3n == 5) {
-        std::cerr << "j3n was not set!" << std::endl;
-        return false;
-      } else if (in + j1n + j2n + j3n != 6) {
-        std::cerr << "sum of the indices != 6" << std::endl;
-      }
-  }  // end looking at neighbors
-  // return true if all fit
-  return true;
-}  // check_orientation()
-
-/// @brief Change orientation of a cell
-///
-/// This is a private member function in Triangulation_data_structure_3.h
-/// Copied here since this code doesn't have access
-void change_orientation(Cell_handle const c) noexcept {
-  Vertex_handle tmp_v = c->vertex(0);
-  c->set_vertex(0, c->vertex(1));
-  c->set_vertex(1, tmp_v);
-  Cell_handle tmp_c = c->neighbor(0);
-  c->set_neighbor(0, c->neighbor(1));
-  c->set_neighbor(1, tmp_c);
-}  // change_orientation()
-
-/// @brief Set pairs of cells to be each others neighbors
-///
-/// Given a vector of pairs of Cell_handles, find their mutual
-/// neighbor indices and call **set_adjacency(Cell1, index of Cell2 in Cell1,
-/// Cell2, index of Cell1 in Cell2)** to set neighbors
-///
-/// @param[in] adjacency_vector A vector of pairs of Cell handles
-void set_adjacencies(Delaunay* const D3,
-                     std::vector<std::pair<Cell_handle,
-                     Cell_handle>> const adjacency_vector) noexcept {
-  for (auto i : adjacency_vector) {
-    Cell_handle first = i.first;
-    Cell_handle second = i.second;
-    // Find the index of the second cell wrt the first cell
-    auto neighbor_index = find_disjoint_index(first, second);
-    // Find the index of the first cell wrt the second cell
-    auto neighbor_mirror_index = find_disjoint_index(second, first);
-    D3->tds().set_adjacency(first, neighbor_index, second,
-                            neighbor_mirror_index);
-    // Fix orientations
-    // if ((neighbor_index&1) != 0)
-    //   change_orientation(first);
-    if (!check_orientation(first)) change_orientation(first);
-    // while (!check_orientation(first)) {
-    //   change_orientation(first);
-    // }
-  }
-}  // set_adjacencies()
+// /// @brief Finds the disjoint index
+// ///
+// /// Given two cells, find the index of a vertex in cell 1 that is not
+// /// in cell 2.
+// ///
+// /// @param[in] first The first cell
+// /// @param[in] second The second cell
+// /// @returns The integer index of a vertex in first that is not in second
+// auto find_disjoint_index(Cell_handle const first,
+//                          Cell_handle const second) noexcept {
+//   std::vector<Vertex_handle> first_vertices;
+//   std::vector<Vertex_handle> second_vertices;
+//   std::vector<Vertex_handle> disjoint_vector;
+//   for (auto i = 0; i < 4; ++i) {
+//     first_vertices.emplace_back(first->vertex(i));
+//     second_vertices.emplace_back(second->vertex(i));
+//   }
+//
+//   // Sort vectors
+//   std::sort(first_vertices.begin(), first_vertices.end());
+//   std::sort(second_vertices.begin(), second_vertices.end());
+//
+//   // Debugging
+//   // std::cout << "Cell 1 has the following vertices: " << std::endl;
+//   // for (auto i : first_vertices) {
+//   //   std::cout << i->point() << std::endl;
+//   // }
+//   // std::cout << "Cell 2 has the following vertices: " << std::endl;
+//   // for (auto i: second_vertices) {
+//   //   std::cout << i->point() << std::endl;
+//   // }
+//   // Find difference
+//   std::set_difference(first_vertices.begin(), first_vertices.end(),
+//                       second_vertices.begin(), second_vertices.end(),
+//                       std::inserter(disjoint_vector, disjoint_vector.begin()));
+//
+//   // Must have 3 vertices in common
+//   CGAL_triangulation_precondition(disjoint_vector.size() == 1);
+//
+//   // Debugging
+//   // std::cout << "The following vertices are disjoint between cell 1 & 2: "
+//   //           << std::endl;
+//   // for (auto i : disjoint_vector) {
+//   //   std::cout << i->point() << std::endl;
+//   // }
+//   auto result = disjoint_vector.front();
+//
+//   // Debugging
+//   // std::cout << "We're going to return the vertex " << result->point()
+//   //           << " with an index of " << first->index(result) << std::endl;
+//   return first->index(result);
+// }  // find_disjoint_index()
+//
+// auto check_orientation(Cell_handle const c) noexcept {
+//   // check all values of i = 0; i< 4
+//   int i;
+//   for (auto i = 0; i < 4; ++i) {
+//     Cell_handle n = c->neighbor(i);
+//     if ( n == Cell_handle() ) {
+//       return false;
+//     }
+//
+//     // check in such that n->neighbor(in) == c and set in
+//     int in = 5;
+//     if (n->neighbor(0) == c) in = 0;
+//     if (n->neighbor(1) == c) in = 1;
+//     if (n->neighbor(2) == c) in = 2;
+//     if (n->neighbor(3) == c) in = 3;
+//
+//     // set values for j1n, j2n, j3n;
+//     int j1n = 5;
+//     int j2n = 5;
+//     int j3n = 5;
+//     n->has_vertex(c->vertex((i+1)&3), j1n);
+//     n->has_vertex(c->vertex((i+2)&3), j2n);
+//     n->has_vertex(c->vertex((i+3)&3), j3n);
+//
+//     // Debugging
+//     std::cout << "check_orientation(): loop counter i = " << i << std::endl;
+//     std::cout << "parity for i and in? " << ((i+in)&1) << " == 0?" << std::endl;
+//     std::cout << "   in = " << in << std::endl;
+//     std::cout << "  j1n = " << j1n << std::endl;
+//     std::cout << "  j2n = " << j2n << std::endl;
+//     std::cout << "  j3n = " << j3n << std::endl;
+//
+//     // tests whether the orientations of this and n are consistent
+//     if ( ((i+in)&1) == 0 ) {  // i and in have the same parity
+//       if ( j1n == ((in+1)&3) ) {
+//         if ( ( j2n != ((in+3)&3) ) || ( j3n != ((in+2)&3) ) ) return false;
+//       }
+//       if ( j1n == ((in+2)&3) ) {
+//         if ( ( j2n != ((in+1)&3) ) || ( j3n != ((in+3)&3) ) ) return false;
+//       }
+//       if ( j1n == ((in+3)&3) ) {
+//         if ( ( j2n != ((in+2)&3) ) || ( j3n != ((in+1)&3) ) ) return false;
+//       }
+//     } else {  // i and in do not have the same parity
+//       if ( j1n == ((in+1)&3) ) {
+//         if ( ( j2n != ((in+2)&3) ) || ( j3n != ((in+3)&3) ) ) return false;
+//       }
+//       if ( j1n == ((in+2)&3) ) {
+//         if ( ( j2n != ((in+3)&3) ) || ( j3n != ((in+1)&3) ) ) return false;
+//       }
+//       if ( j1n == ((in+3)&3) ) {
+//         if ( ( j2n != ((in+1)&3) ) || ( j3n != ((in+2)&3) ) ) return false;
+//       }
+//     }
+//
+//       // Debugging
+//       if (in == 5) {
+//         std::cerr << "in was not set!" << std::endl;
+//         return false;
+//       } else if (j1n == 5) {
+//         std::cerr << "j1n was not set!" << std::endl;
+//         return false;
+//       } else if (j2n ==5) {
+//         std::cerr << "j2n was not set!" << std::endl;
+//         return false;
+//       } else if (j3n == 5) {
+//         std::cerr << "j3n was not set!" << std::endl;
+//         return false;
+//       } else if (in + j1n + j2n + j3n != 6) {
+//         std::cerr << "sum of the indices != 6" << std::endl;
+//       }
+//   }  // end looking at neighbors
+//   // return true if all fit
+//   return true;
+// }  // check_orientation()
+//
+// /// @brief Change orientation of a cell
+// ///
+// /// This is a private member function in Triangulation_data_structure_3.h
+// /// Copied here since this code doesn't have access
+// void change_orientation(Cell_handle const c) noexcept {
+//   Vertex_handle tmp_v = c->vertex(0);
+//   c->set_vertex(0, c->vertex(1));
+//   c->set_vertex(1, tmp_v);
+//   Cell_handle tmp_c = c->neighbor(0);
+//   c->set_neighbor(0, c->neighbor(1));
+//   c->set_neighbor(1, tmp_c);
+// }  // change_orientation()
+//
+// /// @brief Set pairs of cells to be each others neighbors
+// ///
+// /// Given a vector of pairs of Cell_handles, find their mutual
+// /// neighbor indices and call **set_adjacency(Cell1, index of Cell2 in Cell1,
+// /// Cell2, index of Cell1 in Cell2)** to set neighbors
+// ///
+// /// @param[in] adjacency_vector A vector of pairs of Cell handles
+// void set_adjacencies(Delaunay* const D3,
+//                      std::vector<std::pair<Cell_handle,
+//                      Cell_handle>> const adjacency_vector) noexcept {
+//   for (auto i : adjacency_vector) {
+//     Cell_handle first = i.first;
+//     Cell_handle second = i.second;
+//     // Find the index of the second cell wrt the first cell
+//     auto neighbor_index = find_disjoint_index(first, second);
+//     // Find the index of the first cell wrt the second cell
+//     auto neighbor_mirror_index = find_disjoint_index(second, first);
+//     D3->tds().set_adjacency(first, neighbor_index, second,
+//                             neighbor_mirror_index);
+//     // Fix orientations
+//     // if ((neighbor_index&1) != 0)
+//     //   change_orientation(first);
+//     if (!check_orientation(first)) change_orientation(first);
+//     // while (!check_orientation(first)) {
+//     //   change_orientation(first);
+//     // }
+//   }
+// }  // set_adjacencies()
 
 /// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
 ///

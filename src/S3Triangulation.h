@@ -34,7 +34,7 @@
 /// calculated.
 /// \done Multi-threaded operations using Intel TBB
 
-/// @file SphericalTriangulation.h
+/// @file S3Triangulation.h
 /// @brief Functions on Spherical Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
