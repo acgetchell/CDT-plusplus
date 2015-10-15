@@ -50,7 +50,7 @@ The goals and targets of this project are:
 Prerequisites:
 ------
 
-CDT++ should build on any system (e.g. Linux, MacOS, Windows) with
+[CDT++][38] should build on any system (e.g. Linux, MacOS, Windows) with
 [CMake][14], [CGAL][15], and [Eigen][25] installed. [Gmock][6] is optional
 for running the unit tests, and [Ninja][18] is an optional replacement for
 `make` which provides quick parallel builds of the unit tests.
@@ -276,3 +276,4 @@ to run just the tests that you want.)
 [35]: https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh
 [36]: http://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [37]: https://www.threadingbuildingblocks.org
+[38]: https://github.com/acgetchell/CDT-plusplus
