@@ -27,9 +27,31 @@
 #include "Utilities.h"
 
 // Keep track of attempted moves for Metropolis algorithm
-std::atomic<int> attempted_23_moves{0};
-std::atomic<int> attempted_32_moves{0};
+std::tuple<std::atomic<unsigned>,
+           std::atomic<unsigned>,
+           std::atomic<unsigned>> attempted_moves;
 
+template <typename T>
+auto attempt_23_move(T&& universe_ptr) noexcept
+                     -> decltype(universe_ptr) {
+  auto simplex_types = classify_simplices(universe_ptr);
+
+  return universe_ptr;
+}  // attempt_23_move()
+
+/// @brief Apply the Metropolis-Hastings algorithm
+///
+/// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
+/// The probability of making an ergodic (Pachner) move is:
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] number_of_passes The number of passes made with MCMC, where a
+/// pass is defined as a number of attempted moves equal to the current number
+/// of simplices.
+/// @param[in] output_every_n_passes Prints/saves to file the current
+/// Delaunay triangulation every n passes.
+/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
+/// the move has been made
 template <typename T>
 auto metropolis(T&& universe_ptr, unsigned number_of_passes,
                 unsigned output_every_n_passes) noexcept
@@ -38,24 +60,33 @@ auto metropolis(T&& universe_ptr, unsigned number_of_passes,
   auto attempted_moves_per_pass = universe_ptr->number_of_finite_cells();
   // First, attempt a move of each type
   // attempt_23_move();
-  ++attempted_23_moves;
+  ++std::get<0>(attempted_moves);
   // attempt_32_move();
-  ++attempted_32_moves;
-  while (attempted_32_moves + attempted_23_moves < attempted_moves_per_pass) {
+  ++std::get<1>(attempted_moves);
+  // attempt_26_move();
+  ++std::get<2>(attempted_moves);
+  while (std::get<0>(attempted_moves) +
+         std::get<1>(attempted_moves) +
+         std::get<2>(attempted_moves) < attempted_moves_per_pass) {
     // Fix this function to use attempt[i]/total attempts
-    auto move = generate_random_unsigned(1, 2);
+    auto move = generate_random_unsigned(1, 3);
     std::cout << "Move #" << move << std::endl;
 
     switch (move) {
       case (move_type::TWO_THREE):
         std::cout << "Move 1 (2,3) picked" << std::endl;
         // attempt_23_move()
-        ++attempted_23_moves;
+        ++std::get<0>(attempted_moves);
         break;
-      case move_type::THREE_TWO:
+      case (move_type::THREE_TWO):
         std::cout << "Move 2 (3,2) picked" << std::endl;
         // attempt_32_move()
-        ++attempted_32_moves;
+        ++std::get<1>(attempted_moves);
+        break;
+      case (move_type::TWO_SIX):
+        std::cout << "Move 3 (2,6) picked" << std::endl;
+        // attempt_26_move()
+        ++std::get<2>(attempted_moves);
         break;
       default:
         std::cout << "Oops!" << std::endl;
@@ -63,7 +94,7 @@ auto metropolis(T&& universe_ptr, unsigned number_of_passes,
     }
   }
   return universe_ptr;
-}
+}  // metropolis()
 // auto metropolis =
 //   std::make_unique<decltype(universe)>(Metropolis(universe));
 // std::unique_ptr<Metropolis> metropolis = std::make_unique<Metropolis>(universe);
