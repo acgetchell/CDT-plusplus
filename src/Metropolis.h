@@ -26,18 +26,40 @@
 #include "S3Triangulation.h"
 #include "Utilities.h"
 
-// Keep track of attempted moves for Metropolis algorithm
-std::tuple<std::atomic<unsigned>,
-           std::atomic<unsigned>,
-           std::atomic<unsigned>> attempted_moves;
-
-template <typename T>
-auto attempt_23_move(T&& universe_ptr) noexcept
+template <typename T1, typename T2>
+auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
                      -> decltype(universe_ptr) {
-  auto simplex_types = classify_simplices(universe_ptr);
-
   return universe_ptr;
 }  // attempt_23_move()
+
+
+class Metropolis {
+ public:
+  template <typename T>
+  Metropolis(T&& universe_ptr, unsigned passes, unsigned output_every_n_passes)
+    : universe_ptr_(std::move(universe_ptr)), passes_(passes), output_every_n_passes_(output_every_n_passes) {};
+
+  template <typename T>
+  auto operator()(T&& universe_ptr, unsigned passes,
+                  unsigned output_every_n_passes) {
+    return universe_ptr_;
+  }
+  unsigned Passes() {return passes_;}
+  unsigned Output() {return output_every_n_passes_;}
+  unsigned TotalMoves() {return std::get<0>(attempted_moves_) +
+                                std::get<1>(attempted_moves_) +
+                                std::get<2>(attempted_moves_);}
+
+ private:
+  Delaunay universe;
+  std::unique_ptr<decltype(universe)>
+    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
+  unsigned passes_;
+  unsigned output_every_n_passes_;
+  std::tuple<std::atomic<unsigned>,
+             std::atomic<unsigned>,
+             std::atomic<unsigned>> attempted_moves_;
+};
 
 /// @brief Apply the Metropolis-Hastings algorithm
 ///
@@ -52,49 +74,54 @@ auto attempt_23_move(T&& universe_ptr) noexcept
 /// Delaunay triangulation every n passes.
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-template <typename T>
-auto metropolis(T&& universe_ptr, unsigned number_of_passes,
-                unsigned output_every_n_passes) noexcept
-                -> decltype(universe_ptr) {
-  std::cout << "Starting ..." << std::endl;
-  auto attempted_moves_per_pass = universe_ptr->number_of_finite_cells();
-  // First, attempt a move of each type
-  // attempt_23_move();
-  ++std::get<0>(attempted_moves);
-  // attempt_32_move();
-  ++std::get<1>(attempted_moves);
-  // attempt_26_move();
-  ++std::get<2>(attempted_moves);
-  while (std::get<0>(attempted_moves) +
-         std::get<1>(attempted_moves) +
-         std::get<2>(attempted_moves) < attempted_moves_per_pass) {
-    // Fix this function to use attempt[i]/total attempts
-    auto move = generate_random_unsigned(1, 3);
-    std::cout << "Move #" << move << std::endl;
-
-    switch (move) {
-      case (move_type::TWO_THREE):
-        std::cout << "Move 1 (2,3) picked" << std::endl;
-        // attempt_23_move()
-        ++std::get<0>(attempted_moves);
-        break;
-      case (move_type::THREE_TWO):
-        std::cout << "Move 2 (3,2) picked" << std::endl;
-        // attempt_32_move()
-        ++std::get<1>(attempted_moves);
-        break;
-      case (move_type::TWO_SIX):
-        std::cout << "Move 3 (2,6) picked" << std::endl;
-        // attempt_26_move()
-        ++std::get<2>(attempted_moves);
-        break;
-      default:
-        std::cout << "Oops!" << std::endl;
-        break;
-    }
-  }
-  return universe_ptr;
-}  // metropolis()
+// template <typename T>
+// auto metropolis(T&& universe_ptr, unsigned number_of_passes,
+//                 unsigned output_every_n_passes) noexcept
+//                 -> decltype(universe_ptr) {
+//   std::cout << "Starting ..." << std::endl;
+//
+//   auto simplex_types = classify_simplices(universe_ptr);
+//   auto edge_types = edge_types = classify_edges(universe_ptr);
+//
+//
+//   auto attempted_moves_per_pass = universe_ptr->number_of_finite_cells();
+//   // First, attempt a move of each type
+//   // attempt_23_move();
+//   ++std::get<0>(attempted_moves);
+//   // attempt_32_move();
+//   ++std::get<1>(attempted_moves);
+//   // attempt_26_move();
+//   ++std::get<2>(attempted_moves);
+//   while (std::get<0>(attempted_moves) +
+//          std::get<1>(attempted_moves) +
+//          std::get<2>(attempted_moves) < attempted_moves_per_pass) {
+//     // Fix this function to use attempt[i]/total attempts
+//     auto move = generate_random_unsigned(1, 3);
+//     std::cout << "Move #" << move << std::endl;
+//
+//     switch (move) {
+//       case (move_type::TWO_THREE):
+//         std::cout << "Move 1 (2,3) picked" << std::endl;
+//         // attempt_23_move()
+//         ++std::get<0>(attempted_moves);
+//         break;
+//       case (move_type::THREE_TWO):
+//         std::cout << "Move 2 (3,2) picked" << std::endl;
+//         // attempt_32_move()
+//         ++std::get<1>(attempted_moves);
+//         break;
+//       case (move_type::TWO_SIX):
+//         std::cout << "Move 3 (2,6) picked" << std::endl;
+//         // attempt_26_move()
+//         ++std::get<2>(attempted_moves);
+//         break;
+//       default:
+//         std::cout << "Oops!" << std::endl;
+//         break;
+//     }
+//   }
+//   return universe_ptr;
+// }  // metropolis()
 // auto metropolis =
 //   std::make_unique<decltype(universe)>(Metropolis(universe));
 // std::unique_ptr<Metropolis> metropolis = std::make_unique<Metropolis>(universe);

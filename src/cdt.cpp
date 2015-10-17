@@ -65,7 +65,7 @@ Options:
   -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
   -k K                  K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA    K * Cosmological constant
-  -p --passes PASSES    Number of passes [default: 10]
+  -p --passes PASSES    Number of passes [default: 100]
   -o --output OUTPUT    Output every n passes [default: 10]
 )"
 };
@@ -129,11 +129,6 @@ int main(int argc, char* const argv[]) {
   Delaunay universe;
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
-  // These contain cell handles for the (3,1), (2,2), and (1,3) simplices
-  std::vector<Cell_handle> three_one;
-  std::vector<Cell_handle> two_two;
-  std::vector<Cell_handle> one_three;
-
   // Ensure Triangle inequalities hold
   // See http://arxiv.org/abs/hep-th/0105267 for details
   if (dimensions == 3 && std::abs(alpha) < 0.5) {
@@ -145,8 +140,6 @@ int main(int argc, char* const argv[]) {
   switch (topology) {
     case topology_type::SPHERICAL:
       if (dimensions == 3) {
-        // make_S3_triangulation(simplices, timeslices, false, &SphericalUniverse,
-        //                       &three_one, &two_two, &one_three);
         universe_ptr = std::move(make_triangulation(simplices, timeslices));
       } else {
         std::cout << "Currently, dimensions cannot be higher than 3.";

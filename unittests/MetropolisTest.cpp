@@ -17,7 +17,7 @@
 
 using namespace testing;  // NOLINT
 
-TEST(Metropolis, DISABLED_RunSimulation) {
+TEST(Metropolis, RunSimulation) {
   constexpr auto simplices = static_cast<unsigned>(64000);
   constexpr auto timeslices = static_cast<unsigned>(67);
   auto universe_ptr = make_triangulation(simplices, timeslices);
@@ -28,21 +28,29 @@ TEST(Metropolis, DISABLED_RunSimulation) {
   std::cout << "Cells: " << universe_ptr->number_of_finite_cells() << std::endl;
 
   auto passes = static_cast<unsigned>(100);
-  auto output_every_n_passes = static_cast<unsigned>(0);
+  auto output_every_n_passes = static_cast<unsigned>(10);
 
   auto starting_vertices = universe_ptr->number_of_vertices();
   auto starting_finite_cells = universe_ptr->number_of_finite_cells();
   auto starting_finite_edges = universe_ptr->number_of_finite_edges();
 
   // Run simulation
-  universe_ptr = std::move(metropolis(universe_ptr, passes, output_every_n_passes));
+  // universe_ptr = std::move(metropolis(universe_ptr, passes, output_every_n_passes)):
+  Metropolis testrun(universe_ptr, passes, output_every_n_passes);
 
-  EXPECT_THAT(starting_vertices, Ne(universe_ptr->number_of_vertices()))
-    << "Vertices didn't change.";
+  EXPECT_THAT(testrun.Passes(), Eq(passes))
+    << "Passes not correctly forwarded by operator().";
 
-  EXPECT_THAT(starting_finite_edges, Ne(universe_ptr->number_of_finite_edges()))
-    << "Edges didn't change.";
+  EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes))
+    << "output_every_n_passes not correctly forwarded by operator().";
 
-  EXPECT_THAT(starting_finite_cells, Ne(universe_ptr->number_of_finite_cells()))
-    << "Cells didn't change";
+
+  // EXPECT_THAT(starting_vertices, Ne(universe_ptr->number_of_vertices()))
+  //   << "Vertices didn't change.";
+  //
+  // EXPECT_THAT(starting_finite_edges, Ne(universe_ptr->number_of_finite_edges()))
+  //   << "Edges didn't change.";
+  //
+  // EXPECT_THAT(starting_finite_cells, Ne(universe_ptr->number_of_finite_cells()))
+  //   << "Cells didn't change";
 }
