@@ -35,13 +35,22 @@ auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
 
 class Metropolis {
  public:
+  Metropolis(unsigned passes, unsigned output_every_n_passes)
+    : passes_(passes), output_every_n_passes_(output_every_n_passes) {
+    // Debugging
+    std::cout << "Ctor called." << std::endl;
+  }
+  // template <typename T>
+  // explicit Metropolis(T&& universe_ptr) : universe_ptr_(std::move(universe_ptr)) {
+  //   std::cout << "Ctor called." << std::endl;
+  // }
+  //
   template <typename T>
-  Metropolis(T&& universe_ptr, unsigned passes, unsigned output_every_n_passes)
-    : universe_ptr_(std::move(universe_ptr)), passes_(passes), output_every_n_passes_(output_every_n_passes) {};
+  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+    std::cout << "operator() called." << std::endl;
+    universe_ptr_ = std::move(universe_ptr);
+    // Do stuff
 
-  template <typename T>
-  auto operator()(T&& universe_ptr, unsigned passes,
-                  unsigned output_every_n_passes) {
     return universe_ptr_;
   }
   unsigned Passes() {return passes_;}

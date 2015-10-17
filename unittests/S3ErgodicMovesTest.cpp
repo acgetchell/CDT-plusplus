@@ -291,8 +291,8 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(),
-              Eq(number_of_vertices_before+1))
-    << "A vertex was not added to the triangulation.";
+              Eq(number_of_vertices_before-1))
+    << "A vertex was not subtracted from the triangulation.";
 
   EXPECT_THAT(N3_31_after, Eq(N3_31_before-2))
     << "(3,1) simplices did not decrease by 2.";

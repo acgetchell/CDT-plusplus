@@ -34,23 +34,30 @@ TEST(Metropolis, RunSimulation) {
   auto starting_finite_cells = universe_ptr->number_of_finite_cells();
   auto starting_finite_edges = universe_ptr->number_of_finite_edges();
 
-  // Run simulation
-  // universe_ptr = std::move(metropolis(universe_ptr, passes, output_every_n_passes)):
-  Metropolis testrun(universe_ptr, passes, output_every_n_passes);
+  // Instantiate Metropolis functor with desired parameters
+  Metropolis testrun(passes, output_every_n_passes);
 
   EXPECT_THAT(testrun.Passes(), Eq(passes))
-    << "Passes not correctly forwarded by operator().";
+    << "Passes not correctly forwarded by ctor.";
 
   EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes))
-    << "output_every_n_passes not correctly forwarded by operator().";
+    << "output_every_n_passes not correctly forwarded by ctor.";
 
+  // Run simulation
+  auto result = std::move(testrun(universe_ptr));
 
-  // EXPECT_THAT(starting_vertices, Ne(universe_ptr->number_of_vertices()))
+  // EXPECT_THAT(starting_vertices, Ne(result->number_of_vertices()))
   //   << "Vertices didn't change.";
   //
-  // EXPECT_THAT(starting_finite_edges, Ne(universe_ptr->number_of_finite_edges()))
+  // EXPECT_THAT(starting_finite_edges, Ne(result->number_of_finite_edges()))
   //   << "Edges didn't change.";
   //
-  // EXPECT_THAT(starting_finite_cells, Ne(universe_ptr->number_of_finite_cells()))
+  // EXPECT_THAT(starting_finite_cells, Ne(result->number_of_finite_cells()))
   //   << "Cells didn't change";
+  //
+  // EXPECT_TRUE(result->is_valid())
+  //   << "Triangulation is not Delaunay.";
+  //
+  // EXPECT_TRUE(result->tds().is_valid())
+  //   << "Triangulation is invalid.";
 }
