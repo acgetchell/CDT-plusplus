@@ -32,42 +32,63 @@ auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
   return universe_ptr;
 }  // attempt_23_move()
 
+/// @class Metropolis
+///
+/// @brief Metropolis-Hastings algorithm functor
+///
+/// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
+/// The probability of making an ergodic (Pachner) move is:
 
 class Metropolis {
  public:
   Metropolis(unsigned passes, unsigned output_every_n_passes)
     : passes_(passes), output_every_n_passes_(output_every_n_passes) {
-    // Debugging
+#ifndef NDEBUG
     std::cout << "Ctor called." << std::endl;
+#endif
   }
-  // template <typename T>
-  // explicit Metropolis(T&& universe_ptr) : universe_ptr_(std::move(universe_ptr)) {
-  //   std::cout << "Ctor called." << std::endl;
-  // }
-  //
+
   template <typename T>
   auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+#ifndef NDEBUG
     std::cout << "operator() called." << std::endl;
+#endif
     universe_ptr_ = std::move(universe_ptr);
     // Do stuff
+    simplex_types_ = classify_simplices(universe_ptr_);
+    edge_types_ = classify_edges(universe_ptr_);
 
     return universe_ptr_;
   }
-  unsigned Passes() {return passes_;}
-  unsigned Output() {return output_every_n_passes_;}
-  unsigned TotalMoves() {return std::get<0>(attempted_moves_) +
+  /// Gets value of **passes_**.
+  auto Passes() {return passes_;}
+  /// Gets value of **output_every_n_passes_**.
+  auto Output() {return output_every_n_passes_;}
+  /// Gets the total number of attempted moves.
+  auto TotalMoves() {return std::get<0>(attempted_moves_) +
                                 std::get<1>(attempted_moves_) +
                                 std::get<2>(attempted_moves_);}
+  auto TimelikeEdges() {return edge_types_.first;}
+  auto ThreeOne() {return std::get<0>(simplex_types_);}
+  auto TwoTwo() {return std::get<1>(simplex_types_);}
+  auto OneThree() {return std::get<2>(simplex_types_);}
 
  private:
   Delaunay universe;
   std::unique_ptr<decltype(universe)>
     universe_ptr_ = std::make_unique<decltype(universe)>(universe);
-  unsigned passes_;
-  unsigned output_every_n_passes_;
+  unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
+  unsigned output_every_n_passes_;  ///< How often to print/write output.
   std::tuple<std::atomic<unsigned>,
              std::atomic<unsigned>,
              std::atomic<unsigned>> attempted_moves_;
+  ///< Attempted (2,3), (3,2), and (2,6) moves.
+  std::tuple<std::vector<Cell_handle>,
+             std::vector<Cell_handle>,
+             std::vector<Cell_handle>> simplex_types_;
+  ///< (3,1), (2,2) and (1,3) simplices.
+  std::pair<std::vector<Edge_tuple>, unsigned> edge_types_;
+  ///< Timelike and spacelike edges.
 };
 
 /// @brief Apply the Metropolis-Hastings algorithm

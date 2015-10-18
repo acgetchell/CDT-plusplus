@@ -77,9 +77,29 @@ TEST_F(MetropolisTest, Ctor) {
     << "output_every_n_passes not correctly forwarded by ctor.";
 }
 
-TEST_F(MetropolisTest, RunSimulation) {
+TEST_F(MetropolisTest, Operator) {
+  // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(passes, output_every_n_passes);
-  // Run simulation
+  // Run simulation using operator() and return result
+  auto result = std::move(testrun(universe_ptr));
+
+  EXPECT_THAT(testrun.TimelikeEdges().size(), Eq(V2_before))
+    << "Metropolis functor edge_types_ incorrect.";
+
+  EXPECT_THAT(testrun.ThreeOne().size(), Eq(N3_31_before))
+    << "Metropolis functor simplex_types_ incorrect.";
+
+  EXPECT_THAT(testrun.TwoTwo().size(), Eq(N3_22_before))
+    << "Metropolis functor simplex_types_ incorrect.";
+
+  EXPECT_THAT(testrun.OneThree().size(), Eq(N3_13_before))
+    << "Metropolis functor simplex_types_ incorrect.";
+}
+
+TEST_F(MetropolisTest, DISABLED_RunSimulation) {
+  // Instantiate Metropolis functor with desired parameters
+  Metropolis testrun(passes, output_every_n_passes);
+  // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
   EXPECT_THAT(starting_vertices, Ne(result->number_of_vertices()))
