@@ -1,6 +1,6 @@
 language: objective-c
-compiler:
-- clang
+# compiler:
+# - clang
 env:
   global:
   - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"

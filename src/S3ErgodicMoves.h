@@ -39,12 +39,33 @@
 #include <algorithm>
 #include <tuple>
 
-/// @brief Make a (2,3) move
+/// @brief Try a (2,3) move
 ///
 /// This function performs the (2,3) move by converting a facet
 /// from a (2,2) simplex in the (2,2) vector of the simplex_types tuple
 /// into its dual edge.
-/// This move does not always succeed, but when it does the
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] to_be_moved  The Cell_handle that is tried
+/// @returns  flipped  A boolean value whether the move succeeded
+template <typename T1>
+auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
+  auto flipped = false;
+  for (auto i = 0; i < 4; ++i) {
+    if (universe_ptr->flip(to_be_moved, i)) {
+      std::cout << "Facet " << i << " was flippable." << std::endl;
+      flipped = true;
+      break;
+    } else {
+      std::cout << "Facet " << i << " was not flippable." << std::endl;
+    }
+  }
+  return flipped;
+}
+
+/// @brief Make a (2,3) move
+///
+/// This calls **try_23_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
@@ -53,38 +74,57 @@
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
 template <typename T1, typename T2>
-auto make_23_move(T1&& universe_ptr,
-                  T2&& simplex_types) noexcept -> decltype(universe_ptr) {
-// void make_23_move(Delaunay* const D3,
-//                   std::vector<Cell_handle>* const two_two) noexcept {
+auto make_23_move(T1&& universe_ptr, T2&& simplex_types)
+                  noexcept -> decltype(universe_ptr) {
   auto not_flipped = true;
   while (not_flipped) {
-    // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
       generate_random_unsigned(0, std::get<1>(simplex_types).size()-1);
     std::cout << "We're picking (2,2) simplex " << choice << std::endl;
     Cell_handle to_be_moved = std::get<1>(simplex_types)[choice];
-    for (size_t i = 0; i < 4; ++i) {
-      if (universe_ptr->flip(to_be_moved, i)) {
-        std::cout << "Facet " << i << " was flippable." << std::endl;
-        // Erase the flipped (2,2) simplex from the vector two_two
-        std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
-          + choice);
-        // Debugging
-        std::cout << "(2,2) simplex " << choice
-                  << " was removed from std::get<1>(simplex_types)"
-                  << std::endl;
-        std::cout << "Number of (2,2) simplices after = "
-                  << std::get<1>(simplex_types).size()
-                  << std::endl;
-        not_flipped = false;
-        break;
-      } else {
-        std::cout << "Facet " << i << " was not flippable." << std::endl;
-      }
-    }
+    if (try_23_move(universe_ptr, to_be_moved)) not_flipped = false;
+
+    // Erase the tried (2,2) simplex from simplex_types
+    std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
+                                     + choice);
+    // Debugging
+    std::cout << "(2,2) simplex " << choice
+              << " was removed from std::get<1>(simplex_types)"
+              << std::endl;
+    std::cout << "Remaining number of potentially movable (2,2) simplices = "
+              << std::get<1>(simplex_types).size()
+              << std::endl;
   }
-  // Users return value optimization and allows chaining function calls
+
+  // auto not_flipped = true;
+  // while (not_flipped) {
+  //   // Pick out a random (2,2) which ranges from 0 to size()-1
+  //   auto choice =
+  //     generate_random_unsigned(0, std::get<1>(simplex_types).size()-1);
+  //   std::cout << "We're picking (2,2) simplex " << choice << std::endl;
+  //   Cell_handle to_be_moved = std::get<1>(simplex_types)[choice];
+  //   for (size_t i = 0; i < 4; ++i) {
+  //     if (universe_ptr->flip(to_be_moved, i)) {
+  //       std::cout << "Facet " << i << " was flippable." << std::endl;
+  //       // Erase the flipped (2,2) simplex from the vector two_two
+  //       std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
+  //         + choice);
+  //       // Debugging
+  //       std::cout << "(2,2) simplex " << choice
+  //                 << " was removed from std::get<1>(simplex_types)"
+  //                 << std::endl;
+  //       std::cout << "Number of (2,2) simplices after = "
+  //                 << std::get<1>(simplex_types).size()
+  //                 << std::endl;
+  //       not_flipped = false;
+  //       break;
+  //     } else {
+  //       std::cout << "Facet " << i << " was not flippable." << std::endl;
+  //     }
+  //   }
+  //   // ++std::get<0>(attempted_moves);
+  // }
+  // Uses return value optimization and allows chaining function calls
   return universe_ptr;
 }  // make_23_move()
 

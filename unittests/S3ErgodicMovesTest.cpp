@@ -47,14 +47,21 @@ class S3ErgodicMoves : public Test {
     universe_ptr = std::make_unique<decltype(universe)>(universe);
   static constexpr auto simplices = static_cast<unsigned>(6400);
   static constexpr auto timeslices = static_cast<unsigned>(16);
-  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
+  std::tuple<std::vector<Cell_handle>,
+             std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types;
+  // std::tuple<std::vector<Cell_handle>,
+  //            std::vector<Cell_handle>,
+  //            std::vector<Cell_handle>> movable_simplex_types;
   std::pair<std::vector<Edge_tuple>, unsigned> edge_types;
   unsigned number_of_vertices_before{0};
   unsigned N3_31_before{0};
   unsigned N3_22_before{0};
   unsigned N3_13_before{0};
   unsigned V2_before{0};
+  // std::tuple<std::atomic<unsigned>,
+  //            std::atomic<unsigned>,
+  //            std::atomic<unsigned>> attempted_moves;
 };
 
 class Minimal26Test : public S3ErgodicMoves {
@@ -129,8 +136,13 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   universe_ptr = std::move(make_23_move(universe_ptr, simplex_types));
 
   // Did we remove a (2,2) Cell_handle?
-  EXPECT_THAT(std::get<1>(simplex_types).size(), Eq(N3_22_before-1))
-    << "make_23_move removed a copy of a (2,2) simplex vector element.";
+  EXPECT_THAT(std::get<1>(simplex_types).size(), Le(N3_22_before-1))
+    << "make_23_move didn't remove a (2,2) simplex vector element.";
+
+  // // Did we record an attempted move?
+  // EXPECT_THAT(std::get<0>(attempted_moves) +
+  //             std::get<1>(movable_simplex_types).size(), Eq(N3_22_before))
+  //   << "We didn't record making a (2,3) move.";
 
   EXPECT_THAT(std::get<0>(simplex_types).size(), Eq(N3_31_before))
     << "make_23_move removed a (3,1) simplex vector element.";

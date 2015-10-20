@@ -26,11 +26,11 @@
 #include "S3Triangulation.h"
 #include "Utilities.h"
 
-template <typename T1, typename T2>
-auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
-                     -> decltype(universe_ptr) {
-  return universe_ptr;
-}  // attempt_23_move()
+// template <typename T1, typename T2>
+// auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
+//                      -> decltype(universe_ptr) {
+//   return universe_ptr;
+// }  // attempt_23_move()
 
 /// @class Metropolis
 ///
@@ -53,10 +53,12 @@ class Metropolis {
 #ifndef NDEBUG
     std::cout << "operator() called." << std::endl;
 #endif
+    // Populate member data
     universe_ptr_ = std::move(universe_ptr);
-    // Do stuff
     simplex_types_ = classify_simplices(universe_ptr_);
     edge_types_ = classify_edges(universe_ptr_);
+
+    // Attempt each type of move to populate **attempted_moves_**
 
     return universe_ptr_;
   }
@@ -65,13 +67,24 @@ class Metropolis {
   /// Gets value of **output_every_n_passes_**.
   auto Output() {return output_every_n_passes_;}
   /// Gets the total number of attempted moves.
-  auto TotalMoves() {return std::get<0>(attempted_moves_) +
-                                std::get<1>(attempted_moves_) +
-                                std::get<2>(attempted_moves_);}
-  auto TimelikeEdges() {return edge_types_.first;}
-  auto ThreeOne() {return std::get<0>(simplex_types_);}
-  auto TwoTwo() {return std::get<1>(simplex_types_);}
-  auto OneThree() {return std::get<2>(simplex_types_);}
+  auto TotalMoves() const {return std::get<0>(attempted_moves_) +
+                                  std::get<1>(attempted_moves_) +
+                                  std::get<2>(attempted_moves_);}
+  auto TimelikeEdges() const {return edge_types_.first;}
+  auto ThreeOne() const {return std::get<0>(simplex_types_);}
+  auto TwoTwo() const {return std::get<1>(simplex_types_);}
+  auto OneThree() const {return std::get<2>(simplex_types_);}
+
+  template <typename T1, typename T2, typename T3>
+  auto attempt_23_move(T1&& universe_ptr,
+                       T2&& simplex_types,
+                       T3&& attempted_moves)
+                       noexcept -> decltype(universe_ptr) {
+    // Calculate probability
+    // Make move if random number < probability
+    return universe_ptr;
+  }  // attempt_23_move()
+
 
  private:
   Delaunay universe;
@@ -90,6 +103,9 @@ class Metropolis {
   std::pair<std::vector<Edge_tuple>, unsigned> edge_types_;
   ///< Timelike and spacelike edges.
 };
+
+
+
 
 /// @brief Apply the Metropolis-Hastings algorithm
 ///
