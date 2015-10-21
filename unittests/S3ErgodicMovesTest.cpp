@@ -183,8 +183,8 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
   universe_ptr = std::move(make_32_move(universe_ptr, edge_types));
 
   // Did we remove a timelike edge?
-  EXPECT_THAT(edge_types.first.size(), Eq(V2_before-1))
-    << "make_32_move removed a copy of a timelike edge vector element.";
+  EXPECT_THAT(edge_types.first.size(), Le(V2_before-1))
+    << "make_32_move didn't remove a timelike edge vector element.";
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);

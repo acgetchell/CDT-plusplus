@@ -61,11 +61,11 @@ auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
     }
   }
   return flipped;
-}
+}  // try_23_move()
 
 /// @brief Make a (2,3) move
 ///
-/// This calls **try_23_move()** until it succeeds; the
+/// This function calls **try_23_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
@@ -78,6 +78,7 @@ auto make_23_move(T1&& universe_ptr, T2&& simplex_types)
                   noexcept -> decltype(universe_ptr) {
   auto not_flipped = true;
   while (not_flipped) {
+    // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
       generate_random_unsigned(0, std::get<1>(simplex_types).size()-1);
     std::cout << "We're picking (2,2) simplex " << choice << std::endl;
@@ -95,43 +96,33 @@ auto make_23_move(T1&& universe_ptr, T2&& simplex_types)
               << std::get<1>(simplex_types).size()
               << std::endl;
   }
-
-  // auto not_flipped = true;
-  // while (not_flipped) {
-  //   // Pick out a random (2,2) which ranges from 0 to size()-1
-  //   auto choice =
-  //     generate_random_unsigned(0, std::get<1>(simplex_types).size()-1);
-  //   std::cout << "We're picking (2,2) simplex " << choice << std::endl;
-  //   Cell_handle to_be_moved = std::get<1>(simplex_types)[choice];
-  //   for (size_t i = 0; i < 4; ++i) {
-  //     if (universe_ptr->flip(to_be_moved, i)) {
-  //       std::cout << "Facet " << i << " was flippable." << std::endl;
-  //       // Erase the flipped (2,2) simplex from the vector two_two
-  //       std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
-  //         + choice);
-  //       // Debugging
-  //       std::cout << "(2,2) simplex " << choice
-  //                 << " was removed from std::get<1>(simplex_types)"
-  //                 << std::endl;
-  //       std::cout << "Number of (2,2) simplices after = "
-  //                 << std::get<1>(simplex_types).size()
-  //                 << std::endl;
-  //       not_flipped = false;
-  //       break;
-  //     } else {
-  //       std::cout << "Facet " << i << " was not flippable." << std::endl;
-  //     }
-  //   }
-  //   // ++std::get<0>(attempted_moves);
-  // }
   // Uses return value optimization and allows chaining function calls
   return universe_ptr;
 }  // make_23_move()
 
+/// @brief Try a (3,2) move
+///
+/// This function performs a foliation-preserving (3,2) move by converting
+/// timelike edge into it's dual facet.
+///
+/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] to_be_moved  The Edge_tuple that is tried
+/// @returns  flipped  A boolean value whether the move succeeded
+template <typename T1>
+auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
+  auto flipped = false;
+  if (universe_ptr->flip(std::get<0>(to_be_moved),
+                         std::get<1>(to_be_moved),
+                         std::get<2>(to_be_moved))) {
+    flipped = true;
+  }
+  return flipped;
+}  // try_32_move()
+
 /// @brief Make a (3,2) move
 ///
-/// This function performs the (3,2) move by converting a timelike
-/// edge from the vector **timelike_edges** into its dual facet.
+/// This function calls **try_32_move()** until it succeeds; the
+/// triangulation is no longer Delaunay.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] edge_types A pair<vector<Edge_tuple>, unsigned> holding the
@@ -141,26 +132,27 @@ auto make_23_move(T1&& universe_ptr, T2&& simplex_types)
 template <typename T1, typename T2>
 auto make_32_move(T1&& universe_ptr,
                   T2&& edge_types) noexcept -> decltype(universe_ptr) {
-// void make_32_move(Delaunay* const D3,
-//                   std::vector<Edge_tuple>* const timelike_edges) noexcept {
   auto not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
     auto choice = generate_random_unsigned(0, edge_types.first.size()-1);
     Edge_tuple to_be_moved = edge_types.first[choice];
-    if (universe_ptr->flip(std::get<0>(to_be_moved), std::get<1>(to_be_moved),
-               std::get<2>(to_be_moved))) {
-      std::cout << "Edge " << choice << " was flippable." << std::endl;
-      // Erase the flipped edge from timelike_edges
-      edge_types.first.erase(edge_types.first.begin() + choice);
-      // Debugging
-      std::cout << "Edge " << choice
-                << " was removed from vector timelike_edges" << std::endl;
+    if (try_32_move(universe_ptr, to_be_moved)) {
       not_flipped = false;
+      std::cout << "Edge " << choice << " was flippable." << std::endl;
     } else {
       std::cout << "Edge " << choice << " was not flippable." << std::endl;
     }
+
+    // Erase the attempted edge from timelike_edges
+    edge_types.first.erase(edge_types.first.begin() + choice);
+    // Debugging
+    std::cout << "Edge " << choice
+              << " was removed from edge_types.first." << std::endl;
+    std::cout << "Remaining number of potentially flippable timelike edges = "
+              << edge_types.first.size()
+              << std::endl;
   }
   // Users return value optimization and allows chaining function calls
   return universe_ptr;
