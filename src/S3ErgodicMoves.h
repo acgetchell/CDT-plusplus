@@ -73,8 +73,10 @@ auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
 /// and (1,3) simplices
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-template <typename T1, typename T2>
-auto make_23_move(T1&& universe_ptr, T2&& simplex_types)
+template <typename T1, typename T2, typename T3>
+auto make_23_move(T1&& universe_ptr,
+                  T2&& simplex_types,
+                  T3&& attempted_moves)
                   noexcept -> decltype(universe_ptr) {
   auto not_flipped = true;
   while (not_flipped) {
@@ -85,6 +87,8 @@ auto make_23_move(T1&& universe_ptr, T2&& simplex_types)
     Cell_handle to_be_moved = std::get<1>(simplex_types)[choice];
     if (try_23_move(universe_ptr, to_be_moved)) not_flipped = false;
 
+    // Increment the (2,3) move counter
+    ++std::get<0>(attempted_moves);
     // Erase the tried (2,2) simplex from simplex_types
     std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
                                      + choice);
@@ -129,9 +133,10 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
 /// timelike edges and a count of the spacelike edges
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-template <typename T1, typename T2>
+template <typename T1, typename T2, typename T3>
 auto make_32_move(T1&& universe_ptr,
-                  T2&& edge_types) noexcept -> decltype(universe_ptr) {
+                  T2&& edge_types,
+                  T3&& attempted_moves) noexcept -> decltype(universe_ptr) {
   auto not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
@@ -144,7 +149,8 @@ auto make_32_move(T1&& universe_ptr,
     } else {
       std::cout << "Edge " << choice << " was not flippable." << std::endl;
     }
-
+    // Increment the (3,2) move counter
+    ++std::get<1>(attempted_moves);
     // Erase the attempted edge from timelike_edges
     edge_types.first.erase(edge_types.first.begin() + choice);
     // Debugging
@@ -222,9 +228,10 @@ auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
 /// and (1,3) simplices
-template <typename T1, typename T2>
+template <typename T1, typename T2, typename T3>
 auto make_26_move(T1&& universe_ptr,
-                  T2&& simplex_types) noexcept -> decltype(universe_ptr) {
+                  T2&& simplex_types,
+                  T3&& attempted_moves) noexcept -> decltype(universe_ptr) {
   auto not_moved = true;
   while (not_moved) {
     // Pick out a random (1,3) from simplex_types

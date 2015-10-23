@@ -59,9 +59,9 @@ class S3ErgodicMoves : public Test {
   unsigned N3_22_before{0};
   unsigned N3_13_before{0};
   unsigned V2_before{0};
-  // std::tuple<std::atomic<unsigned>,
-  //            std::atomic<unsigned>,
-  //            std::atomic<unsigned>> attempted_moves;
+  std::tuple<std::atomic<unsigned long long>,
+             std::atomic<unsigned long long>,
+             std::atomic<unsigned long long>> attempted_moves;
 };
 
 class Minimal26Test : public S3ErgodicMoves {
@@ -108,7 +108,9 @@ class Minimal62Test : public Minimal26Test {
     // Manually insert
     insert_into_triangulation(universe_ptr, causal_vertices);
     // We have a (1,3) and (3,1) now use make_26_move() to create test case
-    universe_ptr = std::move(make_26_move(universe_ptr, simplex_types));
+    universe_ptr = std::move(make_26_move(universe_ptr,
+                                          simplex_types,
+                                          attempted_moves));
     // Now classify
     simplex_types = classify_simplices(universe_ptr);
     edge_types = classify_edges(universe_ptr);
@@ -133,16 +135,20 @@ class Minimal62Test : public Minimal26Test {
 
 
 TEST_F(S3ErgodicMoves, MakeA23Move) {
-  universe_ptr = std::move(make_23_move(universe_ptr, simplex_types));
+  universe_ptr = std::move(make_23_move(universe_ptr,
+                                        simplex_types,
+                                        attempted_moves));
+  std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves)
+            << std::endl;
 
   // Did we remove a (2,2) Cell_handle?
   EXPECT_THAT(std::get<1>(simplex_types).size(), Le(N3_22_before-1))
     << "make_23_move didn't remove a (2,2) simplex vector element.";
 
-  // // Did we record an attempted move?
-  // EXPECT_THAT(std::get<0>(attempted_moves) +
-  //             std::get<1>(movable_simplex_types).size(), Eq(N3_22_before))
-  //   << "We didn't record making a (2,3) move.";
+  // Did we record an attempted move?
+  EXPECT_THAT(std::get<0>(attempted_moves) +
+              std::get<1>(simplex_types).size(), Eq(N3_22_before))
+    << "Attempted (2,3) moves not recorded correctly.";
 
   EXPECT_THAT(std::get<0>(simplex_types).size(), Eq(N3_31_before))
     << "make_23_move removed a (3,1) simplex vector element.";
@@ -180,11 +186,21 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
 }
 
 TEST_F(S3ErgodicMoves, MakeA32Move) {
-  universe_ptr = std::move(make_32_move(universe_ptr, edge_types));
+  universe_ptr = std::move(make_32_move(universe_ptr,
+                                        edge_types,
+                                        attempted_moves));
+  // auto attempted_32_moves = std::get<1>(attempted_moves);
+  std::cout << "Attempted (3,2) moves = " << std::get<1>(attempted_moves)
+                                          << std::endl;
 
   // Did we remove a timelike edge?
   EXPECT_THAT(edge_types.first.size(), Le(V2_before-1))
     << "make_32_move didn't remove a timelike edge vector element.";
+
+  // Did we record attempted (3,2) moves?
+  EXPECT_THAT(std::get<1>(attempted_moves) + edge_types.first.size(),
+              Eq(V2_before))
+    << "Attempted (3,2) moves not recorded correctly.";
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);
@@ -221,7 +237,9 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
 }
 
 TEST_F(Minimal26Test, MakeA26Move) {
-  universe_ptr = std::move(make_26_move(universe_ptr, simplex_types));
+  universe_ptr = std::move(make_26_move(universe_ptr,
+                                        simplex_types,
+                                        attempted_moves));
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);
@@ -253,7 +271,9 @@ TEST_F(Minimal26Test, MakeA26Move) {
 }
 
 TEST_F(S3ErgodicMoves, MakeA26Move) {
-  universe_ptr = std::move(make_26_move(universe_ptr, simplex_types));
+  universe_ptr = std::move(make_26_move(universe_ptr,
+                                        simplex_types,
+                                        attempted_moves));
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);

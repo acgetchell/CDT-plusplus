@@ -33,9 +33,9 @@
 
 enum class topology_type { TOROIDAL, SPHERICAL};
 
-enum move_type {TWO_THREE = 1,
-                THREE_TWO = 2,
-                TWO_SIX = 3};
+enum class move_type {TWO_THREE = 1,
+                      THREE_TWO = 2,
+                      TWO_SIX = 3};
 
 /// @brief Return an environment variable
 ///
