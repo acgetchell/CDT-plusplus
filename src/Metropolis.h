@@ -92,9 +92,9 @@ class Metropolis {
     universe_ptr_ = std::make_unique<decltype(universe)>(universe);
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.
-  std::tuple<std::atomic<unsigned>,
-             std::atomic<unsigned>,
-             std::atomic<unsigned>> attempted_moves_;
+  std::tuple<std::atomic<unsigned long long>,
+             std::atomic<unsigned long long>,
+             std::atomic<unsigned long long>> attempted_moves_;
   ///< Attempted (2,3), (3,2), and (2,6) moves.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,

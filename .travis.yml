@@ -12,7 +12,7 @@ install:
 - brew install eigen
 - brew install cppcheck
 - brew install tbb --c++11
-- curl -L -o CGAL-4.6.3.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.7.tar.gz
+- curl -L -o CGAL-4.7.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.7.tar.gz
 - tar zxvf CGAL-4.7.tar.gz &> install.log
 - cd cgal-releases-CGAL-4.7
 - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
