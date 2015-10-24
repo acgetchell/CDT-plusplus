@@ -136,7 +136,8 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
 template <typename T1, typename T2, typename T3>
 auto make_32_move(T1&& universe_ptr,
                   T2&& edge_types,
-                  T3&& attempted_moves) noexcept -> decltype(universe_ptr) {
+                  T3&& attempted_moves) noexcept  // NOLINT
+                  -> decltype(universe_ptr) {
   auto not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
@@ -176,7 +177,7 @@ auto make_32_move(T1&& universe_ptr,
 /// @param[in] c The presumed (1,3) cell
 /// @param[in] i The i-th neighbor of c
 /// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
+inline auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13) ? true : false;
   // Neighbor should be a 31
@@ -193,7 +194,7 @@ auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
+inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   auto movable = false;
   for (auto i = 0; i < 4; ++i) {
     // Debugging
@@ -231,7 +232,8 @@ auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
 template <typename T1, typename T2, typename T3>
 auto make_26_move(T1&& universe_ptr,
                   T2&& simplex_types,
-                  T3&& attempted_moves) noexcept -> decltype(universe_ptr) {
+                  T3&& attempted_moves) noexcept  // NOLINT
+                  -> decltype(universe_ptr) {
   auto not_moved = true;
   while (not_moved) {
     // Pick out a random (1,3) from simplex_types
@@ -340,7 +342,8 @@ auto make_26_move(T1&& universe_ptr,
 /// and (1,3) simplices
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe_ptr,
-                  T2&& simplex_types) noexcept -> decltype(universe_ptr) {
+                  T2&& simplex_types) noexcept  // NOLINT
+                  -> decltype(universe_ptr) {
   auto not_moved = true;
   while (not_moved) {
     // do something

@@ -22,9 +22,34 @@
 #ifndef SRC_METROPOLIS_H_
 #define SRC_METROPOLIS_H_
 
+// CGAL headers
+#include <CGAL/Gmpzf.h>
+#include <CGAL/Gmpz.h>
+#include <mpfr.h>
+
 // CDT headers
 #include "S3Triangulation.h"
+#include "S3ErgodicMoves.h"
 #include "Utilities.h"
+
+// C++ headers
+#include <vector>
+#include <utility>
+#include <tuple>
+
+using Gmpzf = CGAL::Gmpzf;
+using Gmpz = CGAL::Gmpz;
+// using move_tuple = std::tuple<std::atomic<long int>,
+                              // std::atomic<long int>,
+                              // std::atomic<long int>>;
+using move_tuple = std::tuple<unsigned long int, unsigned long int,
+                              unsigned long int>;
+
+extern unsigned PRECISION;
+
+enum class move_type {TWO_THREE = 1,
+                      THREE_TWO = 2,
+                      TWO_SIX = 3};
 
 // template <typename T1, typename T2>
 // auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
@@ -59,6 +84,9 @@ class Metropolis {
     edge_types_ = classify_edges(universe_ptr_);
 
     // Attempt each type of move to populate **attempted_moves_**
+    universe_ptr_ = std::move(make_23_move(universe_ptr_,
+                                           simplex_types_, attempted_moves_));
+
 
     return universe_ptr_;
   }
@@ -70,10 +98,56 @@ class Metropolis {
   auto TotalMoves() const {return std::get<0>(attempted_moves_) +
                                   std::get<1>(attempted_moves_) +
                                   std::get<2>(attempted_moves_);}
+  /// Gets attempted (2,3) moves.
+  auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
+  /// Gets the number of timelike edges.
   auto TimelikeEdges() const {return edge_types_.first;}
+  /// Gets the number of (3,1) simplices.
   auto ThreeOne() const {return std::get<0>(simplex_types_);}
+  /// Gets the number of (2,2) simplices.
   auto TwoTwo() const {return std::get<1>(simplex_types_);}
+  /// Gets the number of (1,3) simplices.
   auto OneThree() const {return std::get<2>(simplex_types_);}
+  /// Calculate the probability of making a move divided by the
+  /// probability of its reverse.
+  auto CalculateA1(move_type move) const {
+    auto total_moves = this->TotalMoves();
+    auto this_move = 0;
+    switch (move) {
+      case move_type::TWO_THREE:
+        this_move = std::get<0>(attempted_moves_);
+      case move_type::THREE_TWO:
+        this_move = std::get<1>(attempted_moves_);
+      case move_type::TWO_SIX:
+        this_move = std::get<2>(attempted_moves_);
+    }
+    // Set precision for initialization and assignment functions
+    mpfr_set_default_prec(PRECISION);
+
+    // Initialize for MPFR
+    mpfr_t r1, r2, a1;
+    mpfr_inits2(PRECISION, r1, r2, a1, nullptr);
+
+    mpfr_init_set_ui(r1, this_move, MPFR_RNDD);     // r1 = this_move
+    mpfr_init_set_ui(r2, total_moves, MPFR_RNDD);   // r2 = total_moves
+
+    // The result
+    mpfr_div(a1, r1, r2, MPFR_RNDD);                // a1 = r1/r2
+
+    // Debugging
+    std::cout << "TotalMoves() = " << total_moves << std::endl;
+    std::cout << "this_move = " << this_move << std::endl;
+    std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
+              << std::endl;
+
+    // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
+    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
+
+    // Free memory
+    mpfr_clears(r1, r2, a1, nullptr);
+
+    return result;
+  }  // CalculateA1()
 
   template <typename T1, typename T2, typename T3>
   auto attempt_23_move(T1&& universe_ptr,
@@ -81,6 +155,7 @@ class Metropolis {
                        T3&& attempted_moves)
                        noexcept -> decltype(universe_ptr) {
     // Calculate probability
+    auto a1 = CalculateA1(move_type::TWO_THREE);
     // Make move if random number < probability
     return universe_ptr;
   }  // attempt_23_move()
@@ -90,11 +165,10 @@ class Metropolis {
   Delaunay universe;
   std::unique_ptr<decltype(universe)>
     universe_ptr_ = std::make_unique<decltype(universe)>(universe);
+  ///< Pointer to the Delaunay triangulation.
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.
-  std::tuple<std::atomic<unsigned long long>,
-             std::atomic<unsigned long long>,
-             std::atomic<unsigned long long>> attempted_moves_;
+  move_tuple attempted_moves_;
   ///< Attempted (2,3), (3,2), and (2,6) moves.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
