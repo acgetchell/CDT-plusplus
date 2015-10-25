@@ -86,6 +86,8 @@ class Metropolis {
     // Attempt each type of move to populate **attempted_moves_**
     universe_ptr_ = std::move(make_23_move(universe_ptr_,
                                            simplex_types_, attempted_moves_));
+    universe_ptr_ = std::move(make_32_move(universe_ptr_,
+                                           edge_types_, attempted_moves_));
 
 
     return universe_ptr_;
@@ -100,6 +102,8 @@ class Metropolis {
                                   std::get<2>(attempted_moves_);}
   /// Gets attempted (2,3) moves.
   auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
+  /// Gets attempted (3,2) moves.
+  auto ThreeTwoMoves() const {return std::get<1>(attempted_moves_);}
   /// Gets the number of timelike edges.
   auto TimelikeEdges() const {return edge_types_.first;}
   /// Gets the number of (3,1) simplices.
