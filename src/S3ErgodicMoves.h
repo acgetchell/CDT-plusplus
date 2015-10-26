@@ -328,6 +328,8 @@ auto make_26_move(T1&& universe_ptr,
       std::cout << "(1,3) simplex " << choice << " was not movable."
                 << std::endl;
     }
+  // Increment the (2,6) move counter
+  ++std::get<2>(attempted_moves);
   }
   return universe_ptr;
 }  // make_26_move()

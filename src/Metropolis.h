@@ -31,6 +31,7 @@
 #include "S3Triangulation.h"
 #include "S3ErgodicMoves.h"
 #include "Utilities.h"
+#include "S3Action.h"
 
 // C++ headers
 #include <vector>
@@ -45,7 +46,7 @@ using Gmpz = CGAL::Gmpz;
 using move_tuple = std::tuple<unsigned long int, unsigned long int,
                               unsigned long int>;
 
-extern unsigned PRECISION;
+extern const unsigned PRECISION;
 
 enum class move_type {TWO_THREE = 1,
                       THREE_TWO = 2,
@@ -66,8 +67,16 @@ enum class move_type {TWO_THREE = 1,
 
 class Metropolis {
  public:
-  Metropolis(unsigned passes, unsigned output_every_n_passes)
-    : passes_(passes), output_every_n_passes_(output_every_n_passes) {
+  Metropolis(const long double Alpha,
+             const long double K,
+             const long double Lambda,
+             const unsigned passes,
+             const unsigned output_every_n_passes)
+             : Alpha_(Alpha),
+               K_(K),
+               Lambda_(Lambda),
+               passes_(passes),
+               output_every_n_passes_(output_every_n_passes) {
 #ifndef NDEBUG
     std::cout << "Ctor called." << std::endl;
 #endif
@@ -88,14 +97,22 @@ class Metropolis {
                                            simplex_types_, attempted_moves_));
     universe_ptr_ = std::move(make_32_move(universe_ptr_,
                                            edge_types_, attempted_moves_));
+    universe_ptr_ = std::move(make_26_move(universe_ptr_,
+                                           simplex_types_, attempted_moves_));
 
 
     return universe_ptr_;
   }
+  /// Gets value of **Alpha_**.
+  auto Alpha() const {return Alpha_;}
+  /// Gets value of **K_**.
+  auto K() const {return K_;}
+  /// Gets value of **Lambda_**.
+  auto Lambda() const {return Lambda_;}
   /// Gets value of **passes_**.
-  auto Passes() {return passes_;}
+  auto Passes() const {return passes_;}
   /// Gets value of **output_every_n_passes_**.
-  auto Output() {return output_every_n_passes_;}
+  auto Output() const {return output_every_n_passes_;}
   /// Gets the total number of attempted moves.
   auto TotalMoves() const {return std::get<0>(attempted_moves_) +
                                   std::get<1>(attempted_moves_) +
@@ -104,6 +121,8 @@ class Metropolis {
   auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
   /// Gets attempted (3,2) moves.
   auto ThreeTwoMoves() const {return std::get<1>(attempted_moves_);}
+  /// Gets attempted (2,6) moves.
+  auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
   /// Gets the number of timelike edges.
   auto TimelikeEdges() const {return edge_types_.first;}
   /// Gets the number of (3,1) simplices.
@@ -117,13 +136,20 @@ class Metropolis {
   auto CalculateA1(move_type move) const {
     auto total_moves = this->TotalMoves();
     auto this_move = 0;
+    auto move_name = "";
     switch (move) {
       case move_type::TWO_THREE:
         this_move = std::get<0>(attempted_moves_);
+        move_name = "(2,3)";
+        break;
       case move_type::THREE_TWO:
         this_move = std::get<1>(attempted_moves_);
+        move_name = "(3,2)";
+        break;
       case move_type::TWO_SIX:
         this_move = std::get<2>(attempted_moves_);
+        move_name = "(2,6)";
+        break;
     }
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -138,17 +164,18 @@ class Metropolis {
     // The result
     mpfr_div(a1, r1, r2, MPFR_RNDD);                // a1 = r1/r2
 
-    // Debugging
-    std::cout << "TotalMoves() = " << total_moves << std::endl;
-    std::cout << "this_move = " << this_move << std::endl;
-    std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
-              << std::endl;
+    // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
     Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
 
     // Free memory
     mpfr_clears(r1, r2, a1, nullptr);
+
+    // Debugging
+    std::cout << "TotalMoves() = " << total_moves << std::endl;
+    std::cout << move_name << " moves = " << this_move << std::endl;
+    std::cout << "A1 is " << result << std::endl;
 
     return result;
   }  // CalculateA1()
@@ -170,6 +197,9 @@ class Metropolis {
   std::unique_ptr<decltype(universe)>
     universe_ptr_ = std::make_unique<decltype(universe)>(universe);
   ///< Pointer to the Delaunay triangulation.
+  long double Alpha_;
+  long double K_;
+  long double Lambda_;
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.
   move_tuple attempted_moves_;

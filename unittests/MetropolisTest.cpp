@@ -63,6 +63,9 @@ class MetropolisTest : public Test {
   unsigned V2_before{0};
   unsigned starting_cells{0};
   unsigned starting_edges{0};
+  static constexpr auto Alpha = static_cast<long double>(1.1);
+  static constexpr auto K = static_cast<long double>(2.2);
+  static constexpr auto Lambda = static_cast<long double>(3.3);
   static constexpr auto passes = static_cast<unsigned>(100);
   static constexpr auto output_every_n_passes = static_cast<unsigned>(10);
 };
@@ -70,7 +73,16 @@ class MetropolisTest : public Test {
 
 TEST_F(MetropolisTest, Ctor) {
   // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(passes, output_every_n_passes);
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+
+  EXPECT_THAT(testrun.Alpha(), Eq(Alpha))
+    << "Alpha not correctly forwarded by ctor.";
+
+  EXPECT_THAT(testrun.K(), Eq(K))
+    << "K not correctly forwarded by ctor.";
+
+  EXPECT_THAT(testrun.Lambda(), Eq(Lambda))
+    << "Lambda not correctly forwarded by ctor.";
 
   EXPECT_THAT(testrun.Passes(), Eq(passes))
     << "Passes not correctly forwarded by ctor.";
@@ -81,28 +93,60 @@ TEST_F(MetropolisTest, Ctor) {
 
 TEST_F(MetropolisTest, Operator) {
   // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(passes, output_every_n_passes);
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
-  EXPECT_THAT(testrun.TimelikeEdges().size()+testrun.ThreeTwoMoves(), Eq(V2_before))
+  EXPECT_THAT(testrun.TimelikeEdges().size() +
+              testrun.ThreeTwoMoves(), Eq(V2_before))
     << "Metropolis functor (3,2) moves recorded.";
 
   EXPECT_THAT(testrun.ThreeOne().size(), Eq(N3_31_before))
     << "Metropolis functor simplex_types_ incorrect.";
 
-  EXPECT_THAT(testrun.TwoTwo().size()+testrun.TwoThreeMoves(), Eq(N3_22_before))
+  EXPECT_THAT(testrun.TwoTwo().size() +
+              testrun.TwoThreeMoves(), Eq(N3_22_before))
     << "Metropolis functor (2,3) moves recorded.";
 
   EXPECT_THAT(testrun.OneThree().size(), Eq(N3_13_before))
     << "Metropolis functor simplex_types_ incorrect.";
 }
 
-TEST_F(MetropolisTest, RunSimulation) {
+TEST_F(MetropolisTest, CalculateA1) {
   // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(passes, output_every_n_passes);
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
+
+  // std::cout << "A1 for (2,3) is: "
+  //           << testrun.CalculateA1(move_type::TWO_THREE)
+  //           << std::endl;
+
+  EXPECT_THAT(testrun.CalculateA1(move_type::TWO_THREE), AllOf(Ge(0), Le(1)))
+    << "A1 not calculated correctly.";
+
+  EXPECT_THAT(testrun.CalculateA1(move_type::THREE_TWO), AllOf(Ge(0), Le(1)))
+    << "A1 not calculated correctly.";
+
+  EXPECT_THAT(testrun.CalculateA1(move_type::TWO_SIX), AllOf(Ge(0), Le(1)))
+    << "A1 not calculated correctly.";
+
+  EXPECT_THAT(testrun.TwoThreeMoves() +
+              testrun.ThreeTwoMoves() +
+              testrun.TwoSixMoves(), Eq(testrun.TotalMoves()))
+    << "Moves don't add up.";
+}
+
+TEST_F(MetropolisTest, RunSimulation) {
+  // Instantiate Metropolis functor with desired parameters
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+  // Run simulation using operator() and return result
+  auto result = std::move(testrun(universe_ptr));
+
+  std::cout << "Total moves: " << testrun.TotalMoves() << std::endl;
+  std::cout << "(2,3) moves: " << testrun.TwoThreeMoves() << std::endl;
+  std::cout << "(3,2) moves: " << testrun.ThreeTwoMoves() << std::endl;
+  std::cout << "(2,6) moves: " << testrun.TwoSixMoves() << std::endl;
 
   EXPECT_THAT(testrun.TotalMoves(), Ge(1))
     << "No moves were recorded.";
@@ -113,14 +157,17 @@ TEST_F(MetropolisTest, RunSimulation) {
   EXPECT_THAT(testrun.ThreeTwoMoves(), Ge(1))
     << "No (3,2) moves were attempted.";
 
-  // EXPECT_THAT(starting_vertices, Ne(result->number_of_vertices()))
-  //   << "Vertices didn't change.";
+  EXPECT_THAT(testrun.TwoSixMoves(), Ge(1))
+    << "No (2,6) moves were attempted.";
 
-  // EXPECT_THAT(starting_edges, Ne(result->number_of_finite_edges()))
-  //   << "Edges didn't change.";
+  EXPECT_THAT(starting_vertices, Ne(result->number_of_vertices()))
+    << "Vertices didn't change.";
 
-  // EXPECT_THAT(starting_cells, Ne(result->number_of_finite_cells()))
-  //   << "Cells didn't change";
+  EXPECT_THAT(starting_edges, Ne(result->number_of_finite_edges()))
+    << "Edges didn't change.";
+
+  EXPECT_THAT(starting_cells, Ne(result->number_of_finite_cells()))
+    << "Cells didn't change";
 
   EXPECT_TRUE(result->tds().is_valid())
     << "Triangulation is invalid.";
