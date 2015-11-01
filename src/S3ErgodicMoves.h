@@ -229,6 +229,10 @@ inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
 /// and (1,3) simplices
+/// @param[in, out] attempted_moves A tuple holding a count of the attempted
+/// moves of each type given by the **move_type** enum
+/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
+/// the move has been made
 template <typename T1, typename T2, typename T3>
 auto make_26_move(T1&& universe_ptr,
                   T2&& simplex_types,
@@ -265,8 +269,8 @@ auto make_26_move(T1&& universe_ptr,
 
     // Get indices of vertices of common face with respect to top cell
     int in1 = top->index(bottom->vertex(i1));
-    int in2 = top->index(bottom->vertex(i2));
-    int in3 = top->index(bottom->vertex(i3));
+    // int in2 = top->index(bottom->vertex(i2));
+    // int in3 = top->index(bottom->vertex(i3));
 
     // Get vertices of the common face
     // They're denoted wrt the bottom, but could easily be wrt to top
@@ -281,7 +285,8 @@ auto make_26_move(T1&& universe_ptr,
     // Debugging
     Vertex_handle v5 = top->vertex(in1);
     (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
-                           << std::endl : std::cout
+                           << std::endl
+               : std::cout
                            << "bottom->vertex(i1) != top->vertex(in1)"
                            << std::endl;
 
@@ -340,11 +345,14 @@ auto make_26_move(T1&& universe_ptr,
 /// that has 3 (1,3) and 3 (3,1) simplices around it
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
-/// and (1,3) simplices
-template <typename T1, typename T2>
+/// @param[in,out] edge_types A pair<vector<Edge_tuple>, unsigned> holding the
+/// timelike edges and a count of the spacelike edges
+/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
+/// the move has been made
+template <typename T1, typename T2, typename T3>
 auto make_62_move(T1&& universe_ptr,
-                  T2&& simplex_types) noexcept  // NOLINT
+                  T2&& edge_types,
+                  T3&& attempted_moves) noexcept  // NOLINT
                   -> decltype(universe_ptr) {
   auto not_moved = true;
   while (not_moved) {

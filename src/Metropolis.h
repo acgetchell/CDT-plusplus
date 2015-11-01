@@ -43,14 +43,17 @@ using Gmpz = CGAL::Gmpz;
 // using move_tuple = std::tuple<std::atomic<long int>,
                               // std::atomic<long int>,
                               // std::atomic<long int>>;
-using move_tuple = std::tuple<unsigned long int, unsigned long int,
+using move_tuple = std::tuple<unsigned long int,
+                              unsigned long int,
+                              unsigned long int,
                               unsigned long int>;
 
 extern const unsigned PRECISION;
 
 enum class move_type {TWO_THREE = 1,
                       THREE_TWO = 2,
-                      TWO_SIX = 3};
+                      TWO_SIX = 3,
+                      SIX_TWO = 4};
 
 // template <typename T1, typename T2>
 // auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
@@ -123,6 +126,8 @@ class Metropolis {
   auto ThreeTwoMoves() const {return std::get<1>(attempted_moves_);}
   /// Gets attempted (2,6) moves.
   auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
+  /// Gets attempted (6,2) moves.
+  auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
   /// Gets the number of timelike edges.
   auto TimelikeEdges() const {return edge_types_.first;}
   /// Gets the number of (3,1) simplices.
@@ -149,6 +154,10 @@ class Metropolis {
       case move_type::TWO_SIX:
         this_move = std::get<2>(attempted_moves_);
         move_name = "(2,6)";
+        break;
+      case move_type::SIX_TWO:
+        this_move = std::get<3>(attempted_moves_);
+        move_name = "(6,2)";
         break;
     }
     // Set precision for initialization and assignment functions

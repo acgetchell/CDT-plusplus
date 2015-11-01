@@ -284,8 +284,10 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
   // Check that the triangulation is still valid
   CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
 
+#ifndef NDEBUG
   std::cout << "There are " << invalid << " invalid simplices and "
             << valid << " valid simplices." << std::endl;
+#endif
 
   return (invalid == 0) ? true : false;
 }  // check_timeslices
@@ -302,7 +304,9 @@ void fix_triangulation(T&& universe_ptr) {
   do {
     pass++;
     if (pass > MAX_FOLIATION_FIX_PASSES) break;
+#ifndef NDEBUG
     std::cout << "Fix Pass #" << pass << std::endl;
+#endif
   } while (!check_and_fix_timeslices(universe_ptr));
 }  // fix_triangulation()
 

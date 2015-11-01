@@ -130,7 +130,6 @@ class Minimal62Test : public Minimal26Test {
     std::cout << "Number of timelike edges before = " << V2_before
               << std::endl;
   }
-
 };
 
 
@@ -304,8 +303,10 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
     << "(1,3) simplices did not increase by 2.";
 }
 
-TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
-  universe_ptr = std::move(make_62_move(universe_ptr, simplex_types));
+TEST_F(S3ErgodicMoves, MakeA62Move) {
+  universe_ptr = std::move(make_62_move(universe_ptr,
+                                        edge_types,
+                                        attempted_moves));
 
   // Now look at changes
   simplex_types = classify_simplices(universe_ptr);
