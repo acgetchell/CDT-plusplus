@@ -43,11 +43,15 @@
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
 
+// CDT headers
+#include "Utilities.h"
+
+
 // CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
+#include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/point_generators_3.h>
 
 // C headers
@@ -84,6 +88,7 @@ using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 200;
+static constexpr unsigned DIMENSION = 3;
 
 /// @brief Classifies edges
 ///
@@ -260,14 +265,14 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
         ++valid;
       }
 
-#ifndef NDEBUG
+      #ifndef NDEBUG
       std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
         "valid." : "invalid.") << std::endl;
       for (auto i = 0; i < 4; ++i) {
         std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
                   << " with timeslice " << cit->vertex(i)->info() << std::endl;
       }
-#endif
+      #endif
 
     } else {
       throw std::runtime_error("Cell handle is invalid!");
@@ -284,10 +289,10 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
   // Check that the triangulation is still valid
   CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
 
-#ifndef NDEBUG
+  #ifndef NDEBUG
   std::cout << "There are " << invalid << " invalid simplices and "
             << valid << " valid simplices." << std::endl;
-#endif
+  #endif
 
   return (invalid == 0) ? true : false;
 }  // check_timeslices
@@ -304,9 +309,9 @@ void fix_triangulation(T&& universe_ptr) {
   do {
     pass++;
     if (pass > MAX_FOLIATION_FIX_PASSES) break;
-#ifndef NDEBUG
+    #ifndef NDEBUG
     std::cout << "Fix Pass #" << pass << std::endl;
-#endif
+    #endif
   } while (!check_and_fix_timeslices(universe_ptr));
 }  // fix_triangulation()
 
@@ -336,9 +341,11 @@ void insert_into_triangulation(T1&& universe_ptr,
 auto inline make_foliated_sphere(const unsigned simplices,
                                  const unsigned timeslices) noexcept {
   auto radius = 1.0;
-  const auto simplices_per_timeslice = simplices/timeslices;
-  const auto points_per_timeslice = 4 * simplices_per_timeslice;
-  CGAL_triangulation_precondition(simplices_per_timeslice >= 1);
+  // const auto simplices_per_timeslice = simplices/timeslices;
+  // const auto points_per_timeslice = 4 * simplices_per_timeslice;
+  const auto points_per_timeslice = expected_points_per_simplex(DIMENSION,
+                                    simplices, timeslices);
+  CGAL_triangulation_precondition(points_per_timeslice >= 4);
   std::pair<std::vector<Point>, std::vector<unsigned>> causal_vertices;
 
   for (auto i = 0; i < timeslices; ++i) {
@@ -381,16 +388,16 @@ auto inline make_triangulation(const unsigned simplices,
                                const unsigned timeslices) {
   std::cout << "Generating universe ... " << std::endl;
 
-#ifdef CGAL_LINKED_WITH_TBB
-// Construct the locking data-structure, using the bounding-box of the points
+  #ifdef CGAL_LINKED_WITH_TBB
+  // Construct the locking data-structure, using the bounding-box of the points
   auto bounding_box_size = static_cast<double>(timeslices+1);
   Delaunay::Lock_data_structure locking_ds(
   CGAL::Bbox_3(-bounding_box_size, -bounding_box_size, -bounding_box_size,
                 bounding_box_size, bounding_box_size, bounding_box_size), 50);
   Delaunay universe(K(), &locking_ds);
-#else
+  #else
   Delaunay universe;
-#endif
+  #endif
 
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 

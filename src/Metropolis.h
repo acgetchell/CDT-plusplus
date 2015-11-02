@@ -28,9 +28,9 @@
 #include <mpfr.h>
 
 // CDT headers
-#include "S3Triangulation.h"
+// #include "S3Triangulation.h"
 #include "S3ErgodicMoves.h"
-#include "Utilities.h"
+// #include "Utilities.h"
 #include "S3Action.h"
 
 // C++ headers

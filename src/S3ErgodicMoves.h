@@ -23,11 +23,9 @@
 #ifndef SRC_S3ERGODICMOVES_H_
 #define SRC_S3ERGODICMOVES_H_
 
-#undef NDEBUG
-
 // CDT headers
 #include "S3Triangulation.h"
-#include "Utilities.h"
+// #include "Utilities.h"
 
 // CGAL headers
 #include <CGAL/barycenter.h>
@@ -243,10 +241,11 @@ auto make_26_move(T1&& universe_ptr,
     // Pick out a random (1,3) from simplex_types
     auto choice =
       generate_random_unsigned(0, std::get<2>(simplex_types).size()-1);
-    unsigned neighboring_31_index;
+    unsigned neighboring_31_index{5};
     Cell_handle bottom = std::get<2>(simplex_types)[choice];
 
     find_26_movable(bottom, &neighboring_31_index);
+    // If neighboring_31_index == 5 there's an error
     std::cout << "neighboring_31_index is " << neighboring_31_index
               << std::endl;
 

@@ -303,7 +303,7 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
     << "(1,3) simplices did not increase by 2.";
 }
 
-TEST_F(S3ErgodicMoves, MakeA62Move) {
+TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
   universe_ptr = std::move(make_62_move(universe_ptr,
                                         edge_types,
                                         attempted_moves));

@@ -253,10 +253,45 @@ auto generate_random_real(const T min_value,
 /// using **generate_random_real()**.
 ///
 /// @returns A probability from 0 to 1
-inline auto generate_probability() noexcept {
+inline
+auto generate_probability() noexcept {
   auto min = static_cast<long double>(0.0);
   auto max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
 }  // generate_probability()
+
+/// @brief Calculate expected # of points per simplex
+///
+/// Usually, there are less vertices than simplices.
+/// Here, we throw away a number of simplices that aren't correctly
+/// foliated.
+/// The exact formula is given by Dwyer:
+/// http://link.springer.com/article/10.1007/BF02574694
+///
+/// @param[in] dimension  Number of dimensions
+/// @param[in] simplices  Number of desired simplices
+/// @param[in] timeslices Number of desired timeslices
+/// @returns  The number of points per timeslice to obtain
+/// the desired number of simplices
+inline
+auto expected_points_per_simplex(const unsigned dimension,
+                                 const unsigned simplices,
+                                 const unsigned timeslices)
+                                 noexcept {
+  std::cout << simplices << " simplices desired on "
+            << timeslices << " timeslices."
+            << std::endl;
+  const auto simplices_per_timeslice = simplices/timeslices;
+  // Avoid segfaults for small values
+  if (simplices == timeslices) {
+    return 4*simplices_per_timeslice;
+  } else if (simplices < 10000) {
+    return simplices_per_timeslice;
+  } else if (simplices < 100000) {
+    return static_cast<unsigned>(1.5*simplices_per_timeslice);
+  } else {
+    return static_cast<unsigned>(2.7*simplices_per_timeslice);
+  }
+}
 
 #endif  // SRC_UTILITIES_H_
