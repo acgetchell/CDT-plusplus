@@ -41,8 +41,9 @@
 using Gmpzf = CGAL::Gmpzf;
 using Gmpz = CGAL::Gmpz;
 // using move_tuple = std::tuple<std::atomic<long int>,
-                              // std::atomic<long int>,
-                              // std::atomic<long int>>;
+//                               std::atomic<long int>,
+//                               std::atomic<long int>,
+//                               std::atomic<long int>>;
 using move_tuple = std::tuple<unsigned long int,
                               unsigned long int,
                               unsigned long int,
@@ -67,6 +68,11 @@ enum class move_type {TWO_THREE = 1,
 ///
 /// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
 /// The probability of making an ergodic (Pachner) move is:
+/**
+\f[P_{ergodic move}=a_{1}a_{2}\f]
+\f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
+\f[a_2=e^{\Delta S}\f]
+*/
 
 class Metropolis {
  public:
