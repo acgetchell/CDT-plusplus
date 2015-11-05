@@ -34,9 +34,9 @@ class S3Action : public Test {
     N1_TL = edge_types.first.size();
     N1_SL = edge_types.second;
 
-    std::cout << "(Unsigned) N1_TL = " << N1_TL << std::endl;
-    std::cout << "(Unsigned) N3_31 = " << N3_31 << std::endl;
-    std::cout << "(Unsigned) N3_22 = " << N3_22 << std::endl;
+    std::cout << "(Unsigned long int) N1_TL = " << N1_TL << std::endl;
+    std::cout << "(Unsigned long int) N3_31 = " << N3_31 << std::endl;
+    std::cout << "(Unsigned long int) N3_22 = " << N3_22 << std::endl;
     std::cout << "(Long double) K = " << K << std::endl;
     std::cout << "(Long double) Lambda = " << Lambda << std::endl;
   }

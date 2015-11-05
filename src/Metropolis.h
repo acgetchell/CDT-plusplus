@@ -100,6 +100,10 @@ class Metropolis {
     universe_ptr_ = std::move(universe_ptr);
     simplex_types_ = classify_simplices(universe_ptr_);
     edge_types_ = classify_edges(universe_ptr_);
+    N3_31_ = static_cast<unsigned long int>(std::get<0>(simplex_types_).size() +
+                                            std::get<2>(simplex_types_).size());
+    N3_22_ = static_cast<unsigned long int>(std::get<1>(simplex_types_).size());
+    N1_TL_ = static_cast<unsigned long int>(edge_types_.first.size());
 
     // Attempt each type of move to populate **attempted_moves_**
     universe_ptr_ = std::move(make_23_move(universe_ptr_,
@@ -134,16 +138,17 @@ class Metropolis {
   auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
   /// Gets attempted (6,2) moves.
   auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
-  /// Gets the number of timelike edges.
-  auto TimelikeEdges() const {return edge_types_.first;}
-  /// Gets the number of (3,1) simplices.
-  auto ThreeOne() const {return std::get<0>(simplex_types_);}
-  /// Gets the number of (2,2) simplices.
-  auto TwoTwo() const {return std::get<1>(simplex_types_);}
-  /// Gets the number of (1,3) simplices.
-  auto OneThree() const {return std::get<2>(simplex_types_);}
+  /// Gets the number of movable timelike edges.
+  auto MovableTimelikeEdges() const {return edge_types_.first;}
+  /// Gets the number of movable (3,1) simplices.
+  auto MovableThreeOne() const {return std::get<0>(simplex_types_);}
+  /// Gets the number of movable (2,2) simplices.
+  auto MovableTwoTwo() const {return std::get<1>(simplex_types_);}
+  /// Gets the number of movable (1,3) simplices.
+  auto MovableOneThree() const {return std::get<2>(simplex_types_);}
   /// Calculate the probability of making a move divided by the
-  /// probability of its reverse.
+  /// probability of its reverse, that is:
+  /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
   auto CalculateA1(move_type move) const {
     auto total_moves = this->TotalMoves();
     auto this_move = 0;
@@ -195,6 +200,10 @@ class Metropolis {
     return result;
   }  // CalculateA1()
 
+  auto CalculateA2(move_type move) const {
+    return 1;
+  }
+
   template <typename T1, typename T2, typename T3>
   auto attempt_23_move(T1&& universe_ptr,
                        T2&& simplex_types,
@@ -209,12 +218,24 @@ class Metropolis {
 
  private:
   Delaunay universe;
+  ///< The type of triangulation.
   std::unique_ptr<decltype(universe)>
     universe_ptr_ = std::make_unique<decltype(universe)>(universe);
   ///< Pointer to the Delaunay triangulation.
   long double Alpha_;
+  ///< Alpha is the length of timelike edges.
   long double K_;
+  ///< \f$K=\frac{1}{8\pi G_{N}}\f$
   long double Lambda_;
+  ///< \f$\Lambda=\frac{\lambda}{8\pi G_{N}}\f$ where \f$\lambda\f$ is
+  /// the cosmological constant.
+  unsigned long int N1_TL_;
+  ///< The current number of timelike edges, some of which may not be movable.
+  unsigned long int N3_31_;
+  ///< The current number of (3,1) and (1,3) simplices, some of which may not
+  /// be movable.
+  unsigned long int N3_22_;
+  ///< The current number of (2,2) simplices, some of which may not be movable.
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.
   move_tuple attempted_moves_;
@@ -222,9 +243,9 @@ class Metropolis {
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types_;
-  ///< (3,1), (2,2) and (1,3) simplices.
+  ///< Movable (3,1), (2,2) and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, unsigned> edge_types_;
-  ///< Timelike and spacelike edges.
+  ///< Movable timelike and spacelike edges.
 };
 
 

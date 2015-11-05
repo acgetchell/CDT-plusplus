@@ -97,18 +97,18 @@ TEST_F(MetropolisTest, Operator) {
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
-  EXPECT_THAT(testrun.TimelikeEdges().size() +
+  EXPECT_THAT(testrun.MovableTimelikeEdges().size() +
               testrun.ThreeTwoMoves(), Eq(V2_before))
     << "Metropolis functor (3,2) moves recorded.";
 
-  EXPECT_THAT(testrun.ThreeOne().size(), Eq(N3_31_before))
+  EXPECT_THAT(testrun.MovableThreeOne().size(), Eq(N3_31_before))
     << "Metropolis functor simplex_types_ incorrect.";
 
-  EXPECT_THAT(testrun.TwoTwo().size() +
+  EXPECT_THAT(testrun.MovableTwoTwo().size() +
               testrun.TwoThreeMoves(), Eq(N3_22_before))
     << "Metropolis functor (2,3) moves recorded.";
 
-  EXPECT_THAT(testrun.OneThree().size(), Eq(N3_13_before))
+  EXPECT_THAT(testrun.MovableOneThree().size(), Eq(N3_13_before))
     << "Metropolis functor simplex_types_ incorrect.";
 }
 

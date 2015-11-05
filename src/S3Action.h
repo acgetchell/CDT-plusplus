@@ -51,9 +51,9 @@ static constexpr unsigned PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline
-auto S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
-                                    const unsigned N3_31,
-                                    const unsigned N3_22,
+auto S3_bulk_action_alpha_minus_one(const unsigned long int N1_TL,
+                                    const unsigned long int N3_31,
+                                    const unsigned long int N3_22,
                                     const long double K,
                                     const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
@@ -131,9 +131,9 @@ auto S3_bulk_action_alpha_minus_one(const unsigned N1_TL,
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline
-auto S3_bulk_action_alpha_one(const unsigned N1_TL,
-                              const unsigned N3_31,
-                              const unsigned N3_22,
+auto S3_bulk_action_alpha_one(const unsigned long int N1_TL,
+                              const unsigned long int N3_31,
+                              const unsigned long int N3_22,
                               const long double K,
                               const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
@@ -227,9 +227,9 @@ S^{(3)} &=& 2\pi k\sqrt{\alpha}N_1^{TL} \\
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline
-auto S3_bulk_action(const unsigned N1_TL,
-                    const unsigned N3_31,
-                    const unsigned N3_22,
+auto S3_bulk_action(const unsigned long int N1_TL,
+                    const unsigned long int N3_31,
+                    const unsigned long int N3_22,
                     const long double Alpha,
                     const long double K,
                     const long double Lambda) noexcept {
