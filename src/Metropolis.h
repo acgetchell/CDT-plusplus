@@ -10,6 +10,10 @@
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 
 /// \done Initialization
+/// \done operator()
+/// \done CalculateA1
+/// \todo Add logic to update N1_TL_, N3_31_ and N3_22_ after successful moves
+/// \todo CalculateA2
 /// \todo Implement 3D Metropolis algorithm
 /// \todo Implement concurrency
 
@@ -47,6 +51,7 @@ using Gmpz = CGAL::Gmpz;
 using move_tuple = std::tuple<unsigned long int,
                               unsigned long int,
                               unsigned long int,
+                              unsigned long int,
                               unsigned long int>;
 
 extern const unsigned PRECISION;
@@ -54,7 +59,8 @@ extern const unsigned PRECISION;
 enum class move_type {TWO_THREE = 1,
                       THREE_TWO = 2,
                       TWO_SIX = 3,
-                      SIX_TWO = 4};
+                      SIX_TWO = 4,
+                      FOUR_FOUR = 5};
 
 // template <typename T1, typename T2>
 // auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
@@ -68,12 +74,10 @@ enum class move_type {TWO_THREE = 1,
 ///
 /// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
 /// The probability of making an ergodic (Pachner) move is:
-/**
-\f[P_{ergodic move}=a_{1}a_{2}\f]
-\f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
-\f[a_2=e^{\Delta S}\f]
-*/
-
+///
+/// \f[P_{ergodic move}=a_{1}a_{2}\f]
+/// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
+/// \f[a_2=e^{\Delta S}\f]
 class Metropolis {
  public:
   Metropolis(const long double Alpha,
@@ -85,7 +89,10 @@ class Metropolis {
                K_(K),
                Lambda_(Lambda),
                passes_(passes),
-               output_every_n_passes_(output_every_n_passes) {
+               output_every_n_passes_(output_every_n_passes),
+               N1_TL_(0),
+               N3_31_(0),
+               N3_22_(0) {
 #ifndef NDEBUG
     std::cout << "Ctor called." << std::endl;
 #endif
@@ -170,6 +177,10 @@ class Metropolis {
         this_move = std::get<3>(attempted_moves_);
         move_name = "(6,2)";
         break;
+      case move_type::FOUR_FOUR:
+        this_move = std::get<4>(attempted_moves_);
+        move_name = "(4,4)";
+        break;
     }
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -200,9 +211,7 @@ class Metropolis {
     return result;
   }  // CalculateA1()
 
-  auto CalculateA2(move_type move) const {
-    return 1;
-  }
+  auto CalculateA2(move_type) const;
 
   template <typename T1, typename T2, typename T3>
   auto attempt_23_move(T1&& universe_ptr,
@@ -227,7 +236,7 @@ class Metropolis {
   long double K_;
   ///< \f$K=\frac{1}{8\pi G_{N}}\f$
   long double Lambda_;
-  ///< \f$\Lambda=\frac{\lambda}{8\pi G_{N}}\f$ where \f$\lambda\f$ is
+  ///< \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
   /// the cosmological constant.
   unsigned long int N1_TL_;
   ///< The current number of timelike edges, some of which may not be movable.
@@ -246,9 +255,66 @@ class Metropolis {
   ///< Movable (3,1), (2,2) and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, unsigned> edge_types_;
   ///< Movable timelike and spacelike edges.
-};
+};  // Metropolis
 
+auto Metropolis::CalculateA2(move_type move) const {
+  auto currentS3Action = S3_bulk_action(N1_TL_,
+                                        N3_31_,
+                                        N3_22_,
+                                        Alpha_,
+                                        K_,
+                                        Lambda_);
+  auto newS3Action = static_cast<Gmpzf>(0);
+  switch (move) {
+    case move_type::TWO_THREE:
+      // A (2,3) move removes a timelike edge and
+      // adds a (2,2) simplex
+      newS3Action = S3_bulk_action(N1_TL_-1,
+                                   N3_31_,
+                                   N3_22_+1,
+                                   Alpha_,
+                                   K_,
+                                   Lambda_);
+      break;
+    case move_type::THREE_TWO:
+    // A (3,2) move adds a timelike edge and
+    // removes a (2,2) simplex
+    newS3Action = S3_bulk_action(N1_TL_+1,
+                                 N3_31_,
+                                 N3_22_-1,
+                                 Alpha_,
+                                 K_,
+                                 Lambda_);
+      break;
+    case move_type::TWO_SIX:
+    // A (2,6) move adds 2 timelike edges and
+    // adds 2 (1,3) and 2 (3,1) simplices
+    newS3Action = S3_bulk_action(N1_TL_+2,
+                                 N3_31_+4,
+                                 N3_22_,
+                                 Alpha_,
+                                 K_,
+                                 Lambda_);
+      break;
+    case move_type::SIX_TWO:
+    // A (6,2) move removes 2 timelike edges and
+    // removes 2 (1,3) and 2 (3,1) simplices
+    newS3Action = S3_bulk_action(N1_TL_-2,
+                                 N3_31_,
+                                 N3_22_-4,
+                                 Alpha_,
+                                 K_,
+                                 Lambda_);
+      break;
+    case move_type::FOUR_FOUR:
+    // A (4,4) move changes nothing, and e^0==1
+    return static_cast<Gmpzf>(1);
+  }
 
+  auto result = static_cast<Gmpzf>(1);
+
+  return result;
+}  // CAlculateA2()
 
 
 /// @brief Apply the Metropolis-Hastings algorithm
