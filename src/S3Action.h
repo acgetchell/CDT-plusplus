@@ -23,6 +23,7 @@
 #ifndef SRC_S3ACTION_H_
 #define SRC_S3ACTION_H_
 
+#include <CGAL/MP_Float.h>
 #include <CGAL/Gmpzf.h>
 #include <stdio.h>
 #include <mpfr.h>
@@ -30,6 +31,7 @@
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 using Gmpzf = CGAL::Gmpzf;
+using MP_Float = CGAL::MP_Float;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static constexpr unsigned PRECISION = 256;
 
@@ -71,11 +73,11 @@ auto S3_bulk_action_alpha_minus_one(const unsigned long int N1_TL,
   mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
-  mpfr_init_set_ld(two, 2.0, MPFR_RNDD);
+  mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
   mpfr_const_pi(pi, MPFR_RNDD);
-  mpfr_init_set_ld(const2673, 2.673, MPFR_RNDD);
-  mpfr_init_set_ld(const118, 0.118, MPFR_RNDD);
-  mpfr_init_set_ld(const7386, 7.386, MPFR_RNDD);
+  mpfr_init_set_str(const2673, "2.673", 10, MPFR_RNDD);
+  mpfr_init_set_str(const118, "0.118", 10, MPFR_RNDD);
+  mpfr_init_set_str(const7386, "7.386", 10, MPFR_RNDD);
 
   // First term accumulates in r3
   mpfr_mul(r1, two, pi, MPFR_RNDD);           // r1 = 2*pi
@@ -104,13 +106,14 @@ auto S3_bulk_action_alpha_minus_one(const unsigned long int N1_TL,
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
               const118, r4, r5, r6, r7, const7386, r8, r9, r10, r11, r12,
               total, nullptr);
 
-  std::cout << "S3_bulk_action result is " << result << std::endl;
+  std::cout << "S3_bulk_action_alpha_minus_one() result is " << result << std::endl;
 
   return result;
 }  // S3_bulk_action_alpha_minus_one()
@@ -151,12 +154,12 @@ auto S3_bulk_action_alpha_one(const unsigned long int N1_TL,
   mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
-  mpfr_init_set_ld(two, 2.0, MPFR_RNDD);
+  mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
   mpfr_const_pi(pi, MPFR_RNDD);
-  mpfr_init_set_ld(const3548, -3.548, MPFR_RNDD);
-  mpfr_init_set_ld(const167, -0.167, MPFR_RNDD);
-  mpfr_init_set_ld(const5355, -5.355, MPFR_RNDD);
-  mpfr_init_set_ld(const204, -0.204, MPFR_RNDD);
+  mpfr_init_set_str(const3548, "-3.548", 10, MPFR_RNDD);
+  mpfr_init_set_str(const167, "-0.167", 10, MPFR_RNDD);
+  mpfr_init_set_str(const5355, "-5.355", 10, MPFR_RNDD);
+  mpfr_init_set_str(const204, "-0.204", 10, MPFR_RNDD);
 
   // First term accumulates in r3
   mpfr_mul(r1, two, pi, MPFR_RNDD);           // r1 = 2*pi
@@ -185,13 +188,14 @@ auto S3_bulk_action_alpha_one(const unsigned long int N1_TL,
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
               const167, r4, r5, r6, r7, const5355, const204, r8, r9, r10, r11,
               r12, total, nullptr);
 
-  std::cout << "S3_bulk_action result is " << result << std::endl;
+  std::cout << "S3_bulk_action_alpha_one() result is " << result << std::endl;
 
   return result;
 }  // Gmpzf S3_bulk_action_alpha_one()
@@ -251,12 +255,12 @@ auto S3_bulk_action(const unsigned long int N1_TL,
   mpfr_init_set_ld(alpha, Alpha, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
-  mpfr_init_set_ld(two, 2.0, MPFR_RNDD);
+  mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
   mpfr_const_pi(pi, MPFR_RNDD);
-  mpfr_init_set_ld(three, 3.0, MPFR_RNDD);
-  mpfr_init_set_ld(four, 4.0, MPFR_RNDD);
-  mpfr_init_set_ld(one, 1.0, MPFR_RNDD);
-  mpfr_init_set_ld(twelve, 12.0, MPFR_RNDD);
+  mpfr_init_set_str(three, "3.0", 10, MPFR_RNDD);
+  mpfr_init_set_str(four, "4.0", 10, MPFR_RNDD);
+  mpfr_init_set_str(one, "1.0", 10, MPFR_RNDD);
+  mpfr_init_set_str(twelve, "12.0", 10, MPFR_RNDD);
 
   // First term accumulates in r5
   mpfr_mul(r1, two, pi, MPFR_RNDD);        // r1 = 2*pi
@@ -337,6 +341,7 @@ auto S3_bulk_action(const unsigned long int N1_TL,
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4,
@@ -346,7 +351,7 @@ auto S3_bulk_action(const unsigned long int N1_TL,
               r39, r40, r41, r42, r43, r44, r45, r46, r47, r48, r49, r50, r51,
               r52, total, nullptr);
 
-  std::cout << "S3_bulk_action result is " << result << std::endl;
+  std::cout << "S3_bulk_action() result is " << result << std::endl;
 
   return result;
 }  // Gmpzf S3_bulk_action()

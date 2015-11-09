@@ -30,6 +30,7 @@
 #include <CGAL/Gmpzf.h>
 #include <CGAL/Gmpz.h>
 #include <mpfr.h>
+#include <CGAL/Mpzf.h>
 
 // CDT headers
 // #include "S3Triangulation.h"
@@ -44,6 +45,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 using Gmpz = CGAL::Gmpz;
+using MP_Float = CGAL::MP_Float;
 // using move_tuple = std::tuple<std::atomic<long int>,
 //                               std::atomic<long int>,
 //                               std::atomic<long int>,
@@ -199,6 +201,7 @@ class Metropolis {
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
     Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
+    // MP_Float result = MP_Float(mpfr_get_ld(a1, MPFR_RNDD));
 
     // Free memory
     mpfr_clears(r1, r2, a1, nullptr);
@@ -211,7 +214,77 @@ class Metropolis {
     return result;
   }  // CalculateA1()
 
-  auto CalculateA2(move_type) const;
+  auto CalculateA2(move_type move) const {
+    auto currentS3Action = S3_bulk_action(N1_TL_,
+                                          N3_31_,
+                                          N3_22_,
+                                          Alpha_,
+                                          K_,
+                                          Lambda_);
+    auto newS3Action = static_cast<Gmpzf>(0);
+    // auto newS3Action = static_cast<MP_Float>(0);
+    switch (move) {
+      case move_type::TWO_THREE:
+        // A (2,3) move removes a timelike edge and
+        // adds a (2,2) simplex
+        newS3Action = S3_bulk_action(N1_TL_-1,
+                                     N3_31_,
+                                     N3_22_+1,
+                                     Alpha_,
+                                     K_,
+                                     Lambda_);
+        break;
+      case move_type::THREE_TWO:
+      // A (3,2) move adds a timelike edge and
+      // removes a (2,2) simplex
+      newS3Action = S3_bulk_action(N1_TL_+1,
+                                   N3_31_,
+                                   N3_22_-1,
+                                   Alpha_,
+                                   K_,
+                                   Lambda_);
+        break;
+      case move_type::TWO_SIX:
+      // A (2,6) move adds 2 timelike edges and
+      // adds 2 (1,3) and 2 (3,1) simplices
+      newS3Action = S3_bulk_action(N1_TL_+2,
+                                   N3_31_+4,
+                                   N3_22_,
+                                   Alpha_,
+                                   K_,
+                                   Lambda_);
+        break;
+      case move_type::SIX_TWO:
+      // A (6,2) move removes 2 timelike edges and
+      // removes 2 (1,3) and 2 (3,1) simplices
+      newS3Action = S3_bulk_action(N1_TL_-2,
+                                   N3_31_,
+                                   N3_22_-4,
+                                   Alpha_,
+                                   K_,
+                                   Lambda_);
+        break;
+      case move_type::FOUR_FOUR:
+      // A (4,4) move changes nothing, and e^0==1
+      return static_cast<Gmpzf>(1);
+      // return static_cast<MP_Float>(1);
+    }
+
+    // Set precision for initialization and assignment functions
+    mpfr_set_default_prec(PRECISION);
+
+    // Initialize for MPFR
+    mpfr_t r1, r2, a2;
+    mpfr_inits2(PRECISION, r1, r2, a2, nullptr);
+
+    // mpfr_init_set_str(r1, currentS3Action, MPFR_RNDD);   // r1 = currentS3Action
+    // mpfr_init_set_str(r2, newS3Action, MPFR_RNDD);       // r2 = newS3Action
+
+    auto result = static_cast<Gmpzf>(1);
+    // auto result = static_cast<MP_Float>(1);
+
+    return result;
+  }  // CAlculateA2()
 
   template <typename T1, typename T2, typename T3>
   auto attempt_23_move(T1&& universe_ptr,
@@ -221,9 +294,17 @@ class Metropolis {
     // Calculate probability
     auto a1 = CalculateA1(move_type::TWO_THREE);
     // Make move if random number < probability
+    auto a2 = CalculateA2(move_type::TWO_THREE);
+
+    const auto trial = generate_probability();
+
+    // Debugging
+    // std::cout << "Trial = " << trial << std::cout;
+    // std::cout << "A1 = " << a1 << std::cout;
+    // std::cout << "A2 = " << a2 << std::cout;
+
     return universe_ptr;
   }  // attempt_23_move()
-
 
  private:
   Delaunay universe;
@@ -257,64 +338,6 @@ class Metropolis {
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
 
-auto Metropolis::CalculateA2(move_type move) const {
-  auto currentS3Action = S3_bulk_action(N1_TL_,
-                                        N3_31_,
-                                        N3_22_,
-                                        Alpha_,
-                                        K_,
-                                        Lambda_);
-  auto newS3Action = static_cast<Gmpzf>(0);
-  switch (move) {
-    case move_type::TWO_THREE:
-      // A (2,3) move removes a timelike edge and
-      // adds a (2,2) simplex
-      newS3Action = S3_bulk_action(N1_TL_-1,
-                                   N3_31_,
-                                   N3_22_+1,
-                                   Alpha_,
-                                   K_,
-                                   Lambda_);
-      break;
-    case move_type::THREE_TWO:
-    // A (3,2) move adds a timelike edge and
-    // removes a (2,2) simplex
-    newS3Action = S3_bulk_action(N1_TL_+1,
-                                 N3_31_,
-                                 N3_22_-1,
-                                 Alpha_,
-                                 K_,
-                                 Lambda_);
-      break;
-    case move_type::TWO_SIX:
-    // A (2,6) move adds 2 timelike edges and
-    // adds 2 (1,3) and 2 (3,1) simplices
-    newS3Action = S3_bulk_action(N1_TL_+2,
-                                 N3_31_+4,
-                                 N3_22_,
-                                 Alpha_,
-                                 K_,
-                                 Lambda_);
-      break;
-    case move_type::SIX_TWO:
-    // A (6,2) move removes 2 timelike edges and
-    // removes 2 (1,3) and 2 (3,1) simplices
-    newS3Action = S3_bulk_action(N1_TL_-2,
-                                 N3_31_,
-                                 N3_22_-4,
-                                 Alpha_,
-                                 K_,
-                                 Lambda_);
-      break;
-    case move_type::FOUR_FOUR:
-    // A (4,4) move changes nothing, and e^0==1
-    return static_cast<Gmpzf>(1);
-  }
-
-  auto result = static_cast<Gmpzf>(1);
-
-  return result;
-}  // CAlculateA2()
 
 
 /// @brief Apply the Metropolis-Hastings algorithm
