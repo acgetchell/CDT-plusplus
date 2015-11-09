@@ -40,7 +40,7 @@ TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
   EXPECT_THAT(universe_ptr->number_of_finite_cells(), AllOf(Ge(1), Le(12)))
     << "Triangulation has wrong number of cells.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(universe_ptr->is_valid())
@@ -67,7 +67,7 @@ TEST(S3Triangulation, CreateSomeSimplices) {
   EXPECT_THAT(universe_ptr->number_of_vertices(), AllOf(Ge(1), Le(4*simplices)))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(universe_ptr->is_valid())
@@ -94,7 +94,7 @@ TEST(S3Triangulation, CreateWithLotsOfSimplices) {
   EXPECT_THAT(universe_ptr->number_of_vertices(), AllOf(Ge(1), Le(4*simplices)))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(universe_ptr->is_valid())
@@ -121,7 +121,7 @@ TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices) {
   EXPECT_THAT(universe_ptr->number_of_vertices(), AllOf(Ge(1), Le(4*simplices)))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(universe_ptr->is_valid())

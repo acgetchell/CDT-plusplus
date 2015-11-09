@@ -12,6 +12,7 @@
 /// scan-build</a>: No bugs found.
 
 #include <vector>
+#include <utility>
 
 #include "gmock/gmock.h"
 #include "S3Triangulation.h"
@@ -39,18 +40,17 @@ class Tetrahedron : public Test {
 
 class FoliatedTetrahedron : public Tetrahedron {
  protected:
-   virtual void SetUp() {
+    virtual void SetUp() {
      // Manually create causal_vertices
-     std::pair<std::vector<Point>, std::vector<unsigned>>
+      std::pair<std::vector<Point>, std::vector<unsigned>>
        causal_vertices(V, timevalue);
      // Manually insert
      insert_into_triangulation(universe_ptr, causal_vertices);
-   }
-   std::vector<unsigned> timevalue {1, 1, 1, 2};
+    }
+    std::vector<unsigned> timevalue {1, 1, 1, 2};
 };
 
 TEST_F(Tetrahedron, Create) {
-
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
@@ -74,7 +74,6 @@ TEST_F(Tetrahedron, Create) {
 }
 
 TEST_F(FoliatedTetrahedron, Create) {
-
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
@@ -84,7 +83,7 @@ TEST_F(FoliatedTetrahedron, Create) {
   EXPECT_THAT(universe_ptr->number_of_finite_cells(), Eq(1))
     << "Triangulation has wrong number of cells.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(universe_ptr->is_valid())
@@ -95,7 +94,6 @@ TEST_F(FoliatedTetrahedron, Create) {
 }
 
 TEST_F(FoliatedTetrahedron, InsertSimplexType) {
-
   auto simplex_types = classify_simplices(universe_ptr);
 
   Delaunay::Finite_cells_iterator cit;
@@ -116,7 +114,6 @@ TEST_F(FoliatedTetrahedron, InsertSimplexType) {
 }
 
 TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
-
   auto edge_types = classify_edges(universe_ptr);
   auto timelike_edges = edge_types.first;
   auto spacelike_edges = edge_types.second;
@@ -136,7 +133,7 @@ TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
   EXPECT_THAT(spacelike_edges, Eq(3))
     << "(3,1) tetrahedron doesn't have 3 spacelike edges.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_TRUE(universe_ptr->is_valid())

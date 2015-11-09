@@ -35,7 +35,7 @@ enum class topology_type { TOROIDAL, SPHERICAL};
 
 /// @brief Return an environment variable
 ///
-/// Uses **getenv** from **<cstdlib>** which has a char* rvalue
+/// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
 ///
 /// @param[in] key The string value
 /// @returns The environment variable corresponding to the key as a std::string

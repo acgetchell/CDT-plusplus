@@ -143,15 +143,13 @@ auto classify_edges(T&& universe_ptr) noexcept {
 ///
 /// This function iterates over all cells in the triangulation
 /// and classifies them as:
-/**
-\f{eqnarray*}{
-     31 &=& (3, 1) \\
-     22 &=& (2, 2) \\
-     13 &=& (1, 3)
-\f}
-The vectors **three_one**, **two_two**, and **one_three** contain cell handles
-to all the simplices in the triangulation of that corresponding type.
-*/
+/// \f{eqnarray*}{
+///   31 &=& (3, 1) \\
+///   22 &=& (2, 2) \\
+///   13 &=& (1, 3) \f}
+/// The vectors **three_one**, **two_two**, and **one_three** contain cell
+/// handles to all the simplices in the triangulation of that corresponding
+/// type.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @returns A std::tuple<std::vector, std::vector, std::vector> of
@@ -211,22 +209,24 @@ auto classify_simplices(T&& universe_ptr) {
   return std::make_tuple(three_one, two_two, one_three);
 }  // classify_simplices()
 
-/// @brief Check and fix simplices with incorrect foliation
+/// @brief Fix simplices with incorrect foliation
 ///
 /// This function iterates over all of the cells in the triangulation.
 /// Within each cell, it iterates over all of the vertices and reads timeslices.
 /// Validity of the cell is first checked by the **is_valid()** function.
-/// The foliation validity is then checked by comparing timeslices in each
-/// vertex and ensuring that the difference is exactly 1.
+/// The foliation validity is then checked by finding maximum and minimum
+/// timeslices for all the vertices of a cell and ensuring that the difference
+/// is exactly 1.
 /// If a cell has a bad foliation, the vertex with the highest timeslice is
 /// deleted. The Delaunay triangulation is then recomputed on the remaining
 /// vertices.
-/// This function is repeatedly called up to **MAX_FOLIATION_FIX_PASSES** times.
+/// This function is repeatedly called by **fix_triangulation()** up to
+/// **MAX_FOLIATION_FIX_PASSES** times.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @returns A boolean value if there are invalid simplices
 template <typename T>
-auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
+auto fix_timeslices(T&& universe_ptr) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
   auto min_time = static_cast<unsigned>(0);
   auto max_time = static_cast<unsigned>(0);
@@ -295,11 +295,11 @@ auto check_and_fix_timeslices(T&& universe_ptr) {  // NOLINT
   #endif
 
   return (invalid == 0) ? true : false;
-}  // check_timeslices
+}  // fix_timeslices
 
 /// @brief Fixes the foliation of the triangulation
 ///
-/// Runs check_and_fix_timeslices() to fix foliation until there are no errors,
+/// Runs **fix_timeslices()** to fix foliation until there are no errors,
 /// or MAX_FOLIATION_FIX_PASSES whichever comes first.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
@@ -312,7 +312,7 @@ void fix_triangulation(T&& universe_ptr) {
     #ifndef NDEBUG
     std::cout << "Fix Pass #" << pass << std::endl;
     #endif
-  } while (!check_and_fix_timeslices(universe_ptr));
+  } while (!fix_timeslices(universe_ptr));
 }  // fix_triangulation()
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
@@ -372,7 +372,7 @@ auto inline make_foliated_sphere(const unsigned simplices,
 /// inserted with insert_into_triangulation() into a Delaunay triangulation
 /// (see http://en.wikipedia.org/wiki/Delaunay_triangulation for details).
 /// Next, we use fix_triangulation() to remove cells in the DT with invalid
-/// foliations using check_and_fix_timeslices().
+/// foliations using fix_timeslices().
 /// Finally, the cells (simplices) are sorted by classify_3_simplices() into
 /// a tuple of corresponding vectors which contain cell handles to that type of
 /// simplex.

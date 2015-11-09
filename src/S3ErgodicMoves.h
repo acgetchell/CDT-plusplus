@@ -69,6 +69,8 @@ auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
 /// and (1,3) simplices
+/// @param[in,out] attempted_moves A tuple holding a count of the attempted
+/// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
 template <typename T1, typename T2, typename T3>
@@ -129,6 +131,8 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] edge_types A pair<vector<Edge_tuple>, unsigned> holding the
 /// timelike edges and a count of the spacelike edges
+/// @param[in,out] attempted_moves A tuple holding a count of the attempted
+/// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
 template <typename T1, typename T2, typename T3>
@@ -227,7 +231,7 @@ inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
 /// and (1,3) simplices
-/// @param[in, out] attempted_moves A tuple holding a count of the attempted
+/// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
@@ -346,6 +350,8 @@ auto make_26_move(T1&& universe_ptr,
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in,out] edge_types A pair<vector<Edge_tuple>, unsigned> holding the
 /// timelike edges and a count of the spacelike edges
+/// @param[in,out] attempted_moves A tuple holding a count of the attempted
+/// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
 template <typename T1, typename T2, typename T3>

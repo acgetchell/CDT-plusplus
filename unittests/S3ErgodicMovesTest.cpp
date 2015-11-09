@@ -19,6 +19,11 @@
 #include "S3ErgodicMoves.h"
 
 using namespace testing;  // NOLINT
+using move_tuple = std::tuple<unsigned long int,
+                              unsigned long int,
+                              unsigned long int,
+                              unsigned long int,
+                              unsigned long int>;
 
 class S3ErgodicMoves : public Test {
  protected:
@@ -59,9 +64,7 @@ class S3ErgodicMoves : public Test {
   unsigned N3_22_before{0};
   unsigned N3_13_before{0};
   unsigned V2_before{0};
-  std::tuple<std::atomic<unsigned long long>,
-             std::atomic<unsigned long long>,
-             std::atomic<unsigned long long>> attempted_moves;
+  move_tuple attempted_moves;
 };
 
 class Minimal26Test : public S3ErgodicMoves {
@@ -168,7 +171,7 @@ TEST_F(S3ErgodicMoves, MakeA23Move) {
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(number_of_vertices_before))
@@ -216,7 +219,7 @@ TEST_F(S3ErgodicMoves, MakeA32Move) {
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(number_of_vertices_before))
@@ -252,7 +255,7 @@ TEST_F(Minimal26Test, MakeA26Move) {
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(),
@@ -286,7 +289,7 @@ TEST_F(S3ErgodicMoves, MakeA26Move) {
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(),
@@ -320,7 +323,7 @@ TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_TRUE(check_and_fix_timeslices(universe_ptr))
+  EXPECT_TRUE(fix_timeslices(universe_ptr))
     << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_THAT(universe_ptr->number_of_vertices(),

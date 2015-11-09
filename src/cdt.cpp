@@ -35,7 +35,7 @@
 // CDT headers
 // #include "./Utilities.h"
 // #include "S3Triangulation.h"
-#include "S3Triangulation.h"
+// #include "S3Triangulation.h"
 #include "Metropolis.h"
 
 /// Help message parsed by docopt into options
@@ -152,7 +152,7 @@ int main(int argc, char* const argv[]) {
       break;
   }
 
-  if (!check_and_fix_timeslices(universe_ptr)) {
+  if (!fix_timeslices(universe_ptr)) {
     t.stop();  // End running time counter
     std::cout << "Delaunay triangulation not correctly foliated." << std::endl;
     return 1;

@@ -17,7 +17,7 @@
 /// \todo Implement 3D Metropolis algorithm
 /// \todo Implement concurrency
 
-/// @file MetropolisManager.h
+/// @file Metropolis.h
 /// @brief Perform Metropolis-Hasting algorithm on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
@@ -329,7 +329,7 @@ class Metropolis {
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.
   move_tuple attempted_moves_;
-  ///< Attempted (2,3), (3,2), and (2,6) moves.
+  ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types_;
