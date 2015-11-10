@@ -33,9 +33,7 @@
 #include <CGAL/Mpzf.h>
 
 // CDT headers
-// #include "S3Triangulation.h"
 #include "S3ErgodicMoves.h"
-// #include "Utilities.h"
 #include "S3Action.h"
 
 // C++ headers
@@ -158,6 +156,9 @@ class Metropolis {
   /// Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
+  ///
+  /// @param[in] move The type of move
+  /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_type move) const {
     auto total_moves = this->TotalMoves();
     auto this_move = 0;
@@ -214,6 +215,10 @@ class Metropolis {
     return result;
   }  // CalculateA1()
 
+  /// Calculate \f$a_2=e^{\Delta S}\f$
+  ///
+  /// @param[in] move The type of move
+  /// @returns \f$a_2=e^{\Delta S}\f$
   auto CalculateA2(move_type move) const {
     auto currentS3Action = S3_bulk_action(N1_TL_,
                                           N3_31_,
@@ -270,18 +275,31 @@ class Metropolis {
       // return static_cast<MP_Float>(1);
     }
 
+    auto exponent = newS3Action - currentS3Action;
+    auto exponent_double = Gmpzf_to_double(exponent);
+
+    // if exponent > 0 then e^exponent >=1 so according to Metropolis
+    // algorithm return A2=1
+    if (exponent >=0) return static_cast<Gmpzf>(1);
+
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
     // Initialize for MPFR
-    mpfr_t r1, r2, a2;
-    mpfr_inits2(PRECISION, r1, r2, a2, nullptr);
+    mpfr_t r1, a2;
+    mpfr_inits2(PRECISION, r1, a2, nullptr);
 
-    // mpfr_init_set_str(r1, currentS3Action, MPFR_RNDD);   // r1 = currentS3Action
-    // mpfr_init_set_str(r2, newS3Action, MPFR_RNDD);       // r2 = newS3Action
+    // Set input parameters and constants to mpfr_t equivalents
+    mpfr_init_set_d(r1, exponent_double, MPFR_RNDD);   // r1 = exponent
 
-    auto result = static_cast<Gmpzf>(1);
-    // auto result = static_cast<MP_Float>(1);
+    // e^exponent
+    mpfr_exp(a2, r1, MPFR_RNDD);
+
+    // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
+    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
+
+    // Free memory
+    mpfr_clears(r1, a2, nullptr);
 
     return result;
   }  // CAlculateA2()

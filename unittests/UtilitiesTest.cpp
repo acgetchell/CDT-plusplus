@@ -86,3 +86,19 @@ TEST(Utilities, ProbabilityCheck) {
   EXPECT_THAT(value3, Ne(value4))
     << "Probabilities don't seem to be random.";
 }
+
+TEST(Utilities, GmpzfToDouble) {
+  // Pick a value not exactly representable in binary
+  Gmpzf value = 0.17;
+
+  std::cout << "Gmpzf value is " << value << std::endl;
+
+  auto converted_value = Gmpzf_to_double(value);
+
+  std::cout << "Gmpzf_to_double() value is "
+            << converted_value << std::endl;
+
+  // Convert back to Gmpzf via Gmpzf(double d) and verify
+  EXPECT_THAT(value, Eq(Gmpzf(converted_value)))
+    << "Conversion not exact.";
+}

@@ -103,10 +103,6 @@ auto S3_bulk_action_alpha_minus_one(const unsigned long int N1_TL,
   mpfr_sub(r12, r7, r3, MPFR_RNDD);           // r12 = r7-r3
   mpfr_add(total, r11, r12, MPFR_RNDD);       // total = r11+r12
 
-  // Debugging
-  // std::cout << "S3_bulk_action_alpha_minus_one result is " <<
-  //               mpfr_out_str(stdout, 10, 0, total, MPFR_RNDD) << std::endl;
-
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
   Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
@@ -115,8 +111,6 @@ auto S3_bulk_action_alpha_minus_one(const unsigned long int N1_TL,
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
               const118, r4, r5, r6, r7, const7386, r8, r9, r10, r11, r12,
               total, nullptr);
-
-  std::cout << "S3_bulk_action_alpha_minus_one() result is " << result << std::endl;
 
   return result;
 }  // S3_bulk_action_alpha_minus_one()
@@ -200,8 +194,6 @@ auto S3_bulk_action_alpha_one(const unsigned long int N1_TL,
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
               const167, r4, r5, r6, r7, const5355, const204, r8, r9, r10, r11,
               r12, total, nullptr);
-
-  std::cout << "S3_bulk_action_alpha_one() result is " << result << std::endl;
 
   return result;
 }  // Gmpzf S3_bulk_action_alpha_one()
@@ -356,8 +348,6 @@ auto S3_bulk_action(const unsigned long int N1_TL,
               r26, r27, r28, r29, r30, r31, r32, r33, r34, r35, r36, r37, r38,
               r39, r40, r41, r42, r43, r44, r45, r46, r47, r48, r49, r50, r51,
               r52, total, nullptr);
-
-  std::cout << "S3_bulk_action() result is " << result << std::endl;
 
   return result;
 }  // Gmpzf S3_bulk_action()

@@ -72,9 +72,12 @@ TEST_F(S3Action, CalculateAlphaMinus1BulkAction) {
                                                     N3_22,
                                                     K,
                                                     Lambda);
+  std::cout << "S3_bulk_action_alpha_minus_one() result is "
+            << Bulk_action << std::endl;
 
-  EXPECT_THAT(Bulk_action, Ge(1200))  // Magic value from lots of tests
-    << "Bulk action value wrong.";
+  // Magic values from lots of tests
+  EXPECT_THAT(Bulk_action, AllOf(Ge(1500), Le(3300)))
+    << "S3_bulk_action_alpha_minus_one() out of expected range.";
 }
 
 TEST_F(S3Action, CalculateAlpha1BulkAction) {
@@ -83,9 +86,12 @@ TEST_F(S3Action, CalculateAlpha1BulkAction) {
                                               N3_22,
                                               K,
                                               Lambda);
+  std::cout << "S3_bulk_action_alpha_one() result is "
+            << Bulk_action << std::endl;
 
-  EXPECT_THAT(Bulk_action, Lt(-1200))  // Magic value from lots of tests
-    << "Bulk action value wrong.";
+  // Magic values from lots of tests
+  EXPECT_THAT(Bulk_action, AllOf(Le(-1600), Ge(-2800)))
+    << "S3_bulk_action_alpha_one() out of expected range.";
 }
 
 TEST_F(S3Action, CalculateGeneralBulkAction) {
@@ -97,9 +103,12 @@ TEST_F(S3Action, CalculateGeneralBulkAction) {
                                     Alpha,
                                     K,
                                     Lambda);
+  std::cout << "S3_bulk_action() result is "
+            << Bulk_action << std::endl;
 
-  EXPECT_THAT(Bulk_action, Lt(-1200))  // Magic value from lots of tests
-    << "Bulk action value wrong.";
+  // Magic value from lots of tests
+  EXPECT_THAT(Bulk_action, AllOf(Le(-1200), Ge(-1900)))
+    << "S3_bulk_action() out of expected range.";
 }
 
 TEST_F(S3Action, GeneralBulkActionEquivalentToAlpha1BulkAction) {
@@ -118,6 +127,10 @@ TEST_F(S3Action, GeneralBulkActionEquivalentToAlpha1BulkAction) {
                                                   N3_22,
                                                   K,
                                                   Lambda);
+  std::cout << "S3_bulk_action() result is "
+            << Bulk_action << std::endl;
+  std::cout << "S3_bulk_action_alpha_one() result is "
+            << Bulk_action_one << std::endl;
   std::cout << (1.0-tolerance) << std::endl;
   // BUG: For some reason this produces 0
   const auto min = abs(Bulk_action_one*(1.0-tolerance));

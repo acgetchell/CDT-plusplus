@@ -17,6 +17,8 @@
 #ifndef SRC_UTILITIES_H_
 #define SRC_UTILITIES_H_
 
+// CGAL headers
+#include <CGAL/Gmpzf.h>
 #include <CGAL/Timer.h>
 
 // C headers
@@ -30,6 +32,8 @@
 
 // Boost
 // #include <boost/type_index.hpp>
+
+using Gmpzf = CGAL::Gmpzf;
 
 enum class topology_type { TOROIDAL, SPHERICAL};
 
@@ -292,6 +296,19 @@ auto expected_points_per_simplex(const unsigned dimension,
   } else {
     return static_cast<unsigned>(2.7*simplices_per_timeslice);
   }
+}
+
+/// @brief Convert Gmpzf into a double
+///
+/// This function is mainly for testing, since to_double()
+/// seems to work. However, if something more elaborate is required
+/// this function can be expanded.
+///
+/// @param[in] value An exact Gmpzf multiple-precision floating point number
+/// @returns The double version
+inline
+auto Gmpzf_to_double(Gmpzf value) {
+  return value.to_double();
 }
 
 #endif  // SRC_UTILITIES_H_

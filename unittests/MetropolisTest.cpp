@@ -137,6 +137,37 @@ TEST_F(MetropolisTest, CalculateA1) {
     << "Moves don't add up.";
 }
 
+TEST_F(MetropolisTest, CalculateA2) {
+  // Instantiate Metropolis functor with desired parameters
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+  // Run simulation using operator() and return result
+  auto result = std::move(testrun(universe_ptr));
+
+  std::cout << "A2 for (2,3) is: "
+            << testrun.CalculateA2(move_type::TWO_THREE)
+            << std::endl;
+  std::cout << "A2 for (3,2) is: "
+            << testrun.CalculateA2(move_type::THREE_TWO)
+            << std::endl;
+  std::cout << "A2 for (2,6) is: "
+            << testrun.CalculateA2(move_type::TWO_SIX)
+            << std::endl;
+
+  EXPECT_THAT(testrun.CalculateA2(move_type::TWO_THREE), AllOf(Ge(0), Le(1)))
+    << "A2 not calculated correctly.";
+
+  EXPECT_THAT(testrun.CalculateA2(move_type::THREE_TWO), AllOf(Ge(0), Le(1)))
+    << "A2 not calculated correctly.";
+
+  EXPECT_THAT(testrun.CalculateA2(move_type::TWO_SIX), AllOf(Ge(0), Le(1)))
+    << "A2 not calculated correctly.";
+
+  EXPECT_THAT(testrun.TwoThreeMoves() +
+              testrun.ThreeTwoMoves() +
+              testrun.TwoSixMoves(), Eq(testrun.TotalMoves()))
+    << "Moves don't add up.";
+}
+
 TEST_F(MetropolisTest, RunSimulation) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
