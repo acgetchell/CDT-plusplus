@@ -143,6 +143,13 @@ TEST_F(MetropolisTest, CalculateA2) {
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
+  std::cout << "Alpha = " << testrun.Alpha() << std::endl;
+  std::cout << "K = " << testrun.K() << std::endl;
+  std::cout << "Lambda = " << testrun.Lambda() << std::endl;
+  std::cout << "N1_TL = " << testrun.TimelikeEdges() << std::endl;
+  std::cout << "N3_31 = " << testrun.ThreeOneSimplices() << std::endl;
+  std::cout << "N3_22 = " << testrun.TwoTwoSimplices() << std::endl;
+
   std::cout << "A2 for (2,3) is: "
             << testrun.CalculateA2(move_type::TWO_THREE)
             << std::endl;

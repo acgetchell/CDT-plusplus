@@ -115,11 +115,17 @@ class Metropolis {
     // Attempt each type of move to populate **attempted_moves_**
     universe_ptr_ = std::move(make_23_move(universe_ptr_,
                                            simplex_types_, attempted_moves_));
+    // A (2,3) move increases (2,2) simplices by 1
+    ++N3_22_;
+
     universe_ptr_ = std::move(make_32_move(universe_ptr_,
                                            edge_types_, attempted_moves_));
+    // A (3,2) move decreases (2,2) simplices by 1
+    --N3_22_;
     universe_ptr_ = std::move(make_26_move(universe_ptr_,
                                            simplex_types_, attempted_moves_));
-
+    // A (2,6) move increases (1,3) and (3,1) simplices by 4
+    N3_31_+=4;
 
     return universe_ptr_;
   }
@@ -153,6 +159,12 @@ class Metropolis {
   auto MovableTwoTwo() const {return std::get<1>(simplex_types_);}
   /// Gets the number of movable (1,3) simplices.
   auto MovableOneThree() const {return std::get<2>(simplex_types_);}
+  /// Gets current number of timelike edges
+  auto TimelikeEdges() const {return N1_TL_;}
+  /// Gets current number of (3,1) and (1,3) simplices
+  auto ThreeOneSimplices() const {return N3_31_;}
+  /// Gets current number of (2,2) simplices
+  auto TwoTwoSimplices() const {return N3_22_;}
   /// Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
