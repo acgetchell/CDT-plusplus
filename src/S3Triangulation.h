@@ -132,9 +132,12 @@ auto classify_edges(T&& universe_ptr) noexcept {
       ++spacelike_edges;
     }  // endif
   }  // Finish iterating over edges
-  // Display results
+
+  // Display results if debugging
+  #ifndef NDEBUG
   std::cout << "There are " << timelike_edges.size() << " timelike edges and "
             << spacelike_edges << " spacelike edges." << std::endl;
+  #endif
 
   return std::make_pair(timelike_edges, spacelike_edges);
 }  // classify_edges()
@@ -202,10 +205,14 @@ auto classify_simplices(T&& universe_ptr) {
       throw std::runtime_error("Invalid simplex in classify_simplices()!");
     }  // endif
   }  // Finish iterating over cells
-  // Display results
+
+  // Display results if debugging
+  #ifndef NDEBUG
   std::cout << "There are " << three_one.size() << " (3,1) simplices and "
             << two_two.size() << " (2,2) simplices" << std::endl;
   std::cout << "and " << one_three.size() << " (1,3) simplices." << std::endl;
+  #endif
+
   return std::make_tuple(three_one, two_two, one_three);
 }  // classify_simplices()
 
@@ -265,14 +272,15 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
         ++valid;
       }
 
-      #ifndef NDEBUG
-      std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
-        "valid." : "invalid.") << std::endl;
-      for (auto i = 0; i < 4; ++i) {
-        std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
-                  << " with timeslice " << cit->vertex(i)->info() << std::endl;
-      }
-      #endif
+      // #ifndef NDEBUG
+      // std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
+      //   "valid." : "invalid.") << std::endl;
+      // for (auto i = 0; i < 4; ++i) {
+      //   std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
+      //             << " with timeslice " << cit->vertex(i)->info()
+      //             << std::endl;
+      // }
+      // #endif
 
     } else {
       throw std::runtime_error("Cell handle is invalid!");

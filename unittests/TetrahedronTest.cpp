@@ -118,6 +118,9 @@ TEST_F(FoliatedTetrahedron, GetTimelikeEdges) {
   auto timelike_edges = edge_types.first;
   auto spacelike_edges = edge_types.second;
 
+  std::cout << "There are " << timelike_edges.size() << " timelike edges and "
+            << spacelike_edges << " spacelike edges." << std::endl;
+
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 

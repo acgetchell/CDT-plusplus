@@ -27,7 +27,8 @@ TEST(Sphere, Create2Sphere) {
   // auto number_of_vertices = 4 * (simplices/timeslices) * timeslices;
   auto number_of_vertices = expected_points_per_simplex(3,
                                                         simplices,
-                                                        timeslices)
+                                                        timeslices,
+                                                        false)
                             * timeslices;
 
   // Debugging

@@ -280,11 +280,15 @@ auto generate_probability() noexcept {
 inline
 auto expected_points_per_simplex(const unsigned dimension,
                                  const unsigned simplices,
-                                 const unsigned timeslices)
+                                 const unsigned timeslices,
+                                 const bool output = true)
                                  noexcept {
-  std::cout << simplices << " simplices desired on "
-            << timeslices << " timeslices."
-            << std::endl;
+  if (output) {
+    std::cout << simplices << " simplices desired on "
+              << timeslices << " timeslices."
+              << std::endl;
+  }
+
   const auto simplices_per_timeslice = simplices/timeslices;
   // Avoid segfaults for small values
   if (simplices == timeslices) {
