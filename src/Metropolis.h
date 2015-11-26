@@ -27,10 +27,10 @@
 #define SRC_METROPOLIS_H_
 
 // CGAL headers
-#include <CGAL/Gmpzf.h>
-#include <CGAL/Gmpz.h>
-#include <mpfr.h>
-#include <CGAL/Mpzf.h>
+// #include <CGAL/Gmpzf.h>
+// #include <CGAL/Gmpz.h>
+// #include <mpfr.h>
+// #include <CGAL/Mpzf.h>
 
 // CDT headers
 #include "S3ErgodicMoves.h"
@@ -42,17 +42,17 @@
 #include <tuple>
 
 using Gmpzf = CGAL::Gmpzf;
-using Gmpz = CGAL::Gmpz;
-using MP_Float = CGAL::MP_Float;
+// using Gmpz = CGAL::Gmpz;
+// using MP_Float = CGAL::MP_Float;
 // using move_tuple = std::tuple<std::atomic<long int>,
 //                               std::atomic<long int>,
 //                               std::atomic<long int>,
 //                               std::atomic<long int>>;
-using move_tuple = std::tuple<unsigned long int,
-                              unsigned long int,
-                              unsigned long int,
-                              unsigned long int,
-                              unsigned long int>;
+using move_tuple = std::tuple<uintmax_t,
+                              uintmax_t,
+                              uintmax_t,
+                              uintmax_t,
+                              uintmax_t>;
 
 extern const unsigned PRECISION;
 
@@ -80,6 +80,7 @@ enum class move_type {TWO_THREE = 1,
 /// \f[a_2=e^{\Delta S}\f]
 class Metropolis {
  public:
+  /// Constructor
   Metropolis(const long double Alpha,
              const long double K,
              const long double Lambda,
@@ -98,6 +99,7 @@ class Metropolis {
 #endif
   }
 
+  /// () operator
   template <typename T>
   auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
 #ifndef NDEBUG
@@ -107,10 +109,10 @@ class Metropolis {
     universe_ptr_ = std::move(universe_ptr);
     simplex_types_ = classify_simplices(universe_ptr_);
     edge_types_ = classify_edges(universe_ptr_);
-    N3_31_ = static_cast<unsigned long int>(std::get<0>(simplex_types_).size() +
+    N3_31_ = static_cast<uintmax_t>(std::get<0>(simplex_types_).size() +
                                             std::get<2>(simplex_types_).size());
-    N3_22_ = static_cast<unsigned long int>(std::get<1>(simplex_types_).size());
-    N1_TL_ = static_cast<unsigned long int>(edge_types_.first.size());
+    N3_22_ = static_cast<uintmax_t>(std::get<1>(simplex_types_).size());
+    N1_TL_ = static_cast<uintmax_t>(edge_types_.first.size());
 
     // Attempt each type of move to populate **attempted_moves_**
     universe_ptr_ = std::move(make_23_move(universe_ptr_,
@@ -349,12 +351,12 @@ class Metropolis {
   long double Lambda_;
   ///< \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
   /// the cosmological constant.
-  unsigned long int N1_TL_;
+  uintmax_t N1_TL_;
   ///< The current number of timelike edges, some of which may not be movable.
-  unsigned long int N3_31_;
+  uintmax_t N3_31_;
   ///< The current number of (3,1) and (1,3) simplices, some of which may not
   /// be movable.
-  unsigned long int N3_22_;
+  uintmax_t N3_22_;
   ///< The current number of (2,2) simplices, some of which may not be movable.
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.

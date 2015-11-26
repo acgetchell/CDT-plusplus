@@ -35,7 +35,7 @@
 /// \done Multi-threaded operations using Intel TBB
 
 /// @file S3Triangulation.h
-/// @brief Functions on Spherical Delaunay Triangulations
+/// @brief Functions on 3D Spherical Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
@@ -249,7 +249,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
     if (cit->is_valid()) {  // Valid cell
       min_time = cit->vertex(0)->info();
       max_time = min_time;
-      bool this_cell_foliation_valid = true;
+      // bool this_cell_foliation_valid = true;
       // Iterate over all vertices in the cell
       for (auto i = 0; i < 4; ++i) {
         auto current_time = cit->vertex(i)->info();
@@ -264,14 +264,16 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
       // There should be a difference of 1 between min_time and max_time
       if (max_time - min_time != 1) {
         invalid++;
-        this_cell_foliation_valid = false;
+        // this_cell_foliation_valid = false;
         // Delete max vertex
         // universe_ptr->remove(cit->vertex(max_vertex));
+        // Delete std::set of max_vertex for all invalid cells in parallel
         deleted_vertices.emplace(cit->vertex(max_vertex));
       } else {
         ++valid;
       }
 
+      // Needs this_cell_foliation_valid uncommented above
       // #ifndef NDEBUG
       // std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
       //   "valid." : "invalid.") << std::endl;
