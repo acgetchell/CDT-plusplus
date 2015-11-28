@@ -80,7 +80,17 @@ enum class move_type {TWO_THREE = 1,
 /// \f[a_2=e^{\Delta S}\f]
 class Metropolis {
  public:
-  /// Constructor
+  /// @brief Metropolis constructor
+  ///
+  /// Very minimal setup of runtime job parameters.
+  /// All the real work is done by operator().
+  ///
+  /// @param[in] Alpha  \f$\alpha\f$ is the timelike edge length
+  /// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
+  /// @param[in] Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+  ///                   Cosmological constant
+  /// @param[in] passes Number of passes of ergodic moves on triangulation.
+  /// @param[in] output_every_n_passes How often to print/write output.
   Metropolis(const long double Alpha,
              const long double K,
              const long double Lambda,
@@ -99,7 +109,18 @@ class Metropolis {
 #endif
   }
 
-  /// () operator
+  /// @brief () operator
+  ///
+  /// This makes the Metropolis class into a functor. Minimal setup of
+  /// runtime job parameters is handled by the constructor. This () operator
+  /// conducts all of algorithmic work for Metropolis-Hastings on the
+  /// Delaunay triangulation.
+  ///
+  /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+  /// @returns The std::unique_ptr to the Delaunay triangulation. Note that
+  /// this sets the data member **universe_ptr_** to null, and so no operations
+  /// can be successfully carried out on **universe_ptr_** when operator()
+  /// returns. Instead, they should be conducted on the results.
   template <typename T>
   auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
 #ifndef NDEBUG
@@ -153,14 +174,20 @@ class Metropolis {
   auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
   /// Gets attempted (6,2) moves.
   auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
-  /// Gets the number of movable timelike edges.
+  /// Gets attempted (4,4) moves.
+  auto FourFourMoves() const {return std::get<4>(attempted_moves_);}
+  /// Gets the vector of **Edge_tuple**s corresponding to
+  /// movable timelike edges.
   auto MovableTimelikeEdges() const {return edge_types_.first;}
-  /// Gets the number of movable (3,1) simplices.
-  auto MovableThreeOne() const {return std::get<0>(simplex_types_);}
-  /// Gets the number of movable (2,2) simplices.
-  auto MovableTwoTwo() const {return std::get<1>(simplex_types_);}
-  /// Gets the number of movable (1,3) simplices.
-  auto MovableOneThree() const {return std::get<2>(simplex_types_);}
+  /// Gets the vector of **Cell_handle**s corresponding to
+  /// movable (3,1) simplices.
+  auto MovableThreeOneSimplices() const {return std::get<0>(simplex_types_);}
+  /// Gets the vector of **Cell_handle**s corresponding to
+  /// movable (2,2) simplices.
+  auto MovableTwoTwoSimplices() const {return std::get<1>(simplex_types_);}
+  /// Gets the vector of **Cell_handle**s corresponding to
+  /// movable (1,3) simplices.
+  auto MovableOneThreeSimplices() const {return std::get<2>(simplex_types_);}
   /// Gets current number of timelike edges
   auto TimelikeEdges() const {return N1_TL_;}
   /// Gets current number of (3,1) and (1,3) simplices
@@ -343,7 +370,9 @@ class Metropolis {
   ///< The type of triangulation.
   std::unique_ptr<decltype(universe)>
     universe_ptr_ = std::make_unique<decltype(universe)>(universe);
-  ///< Pointer to the Delaunay triangulation.
+  ///< A std::unique_ptr to the Delaunay triangulation. For this reason you
+  /// should not access this member directly, as operator() may be called
+  /// at any time and null it out via std::move().
   long double Alpha_;
   ///< Alpha is the length of timelike edges.
   long double K_;

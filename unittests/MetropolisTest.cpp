@@ -97,19 +97,38 @@ TEST_F(MetropolisTest, Operator) {
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
+  std::cout << "Current Timelike Edges = " << testrun.TimelikeEdges()
+            << std::endl;
+  std::cout << "Movable Timelike Edges = "
+            << testrun.MovableTimelikeEdges().size() << std::endl;
+  std::cout << "Current (3,1) + (1,3) simplices = "
+            << testrun.ThreeOneSimplices() << std::endl;
+  std::cout << "Movable (3,1) simplices = "
+            << testrun.MovableThreeOneSimplices().size() << std::endl;
+  std::cout << "Movable (1,3) simplices = "
+            << testrun.MovableOneThreeSimplices().size() << std::endl;
+  std::cout << "Current (2,2) simplices = "
+            << testrun.TwoTwoSimplices() << std::endl;
+  std::cout << "Movable (2,2) simplices = "
+            << testrun.MovableTwoTwoSimplices().size() << std::endl;
+
   EXPECT_THAT(testrun.MovableTimelikeEdges().size() +
               testrun.ThreeTwoMoves(), Eq(V2_before))
     << "Metropolis functor (3,2) moves recorded.";
 
-  EXPECT_THAT(testrun.MovableThreeOne().size(), Eq(N3_31_before))
+  EXPECT_THAT(testrun.MovableThreeOneSimplices().size(), Eq(N3_31_before))
     << "Metropolis functor simplex_types_ incorrect.";
 
-  EXPECT_THAT(testrun.MovableTwoTwo().size() +
+  EXPECT_THAT(testrun.MovableTwoTwoSimplices().size() +
               testrun.TwoThreeMoves(), Eq(N3_22_before))
     << "Metropolis functor (2,3) moves recorded.";
 
-  EXPECT_THAT(testrun.MovableOneThree().size(), Eq(N3_13_before))
+  EXPECT_THAT(testrun.MovableOneThreeSimplices().size(), Eq(N3_13_before))
     << "Metropolis functor simplex_types_ incorrect.";
+
+  EXPECT_THAT(testrun.ThreeOneSimplices() + testrun.TwoTwoSimplices(),
+              Eq(result->number_of_finite_cells()))
+    << "ThreeOneSimplices() + TwoTwoSimplices() has an incorrect count.";
 }
 
 TEST_F(MetropolisTest, CalculateA1) {
