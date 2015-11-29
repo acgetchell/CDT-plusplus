@@ -51,11 +51,16 @@ auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
   auto flipped = false;
   for (auto i = 0; i < 4; ++i) {
     if (universe_ptr->flip(to_be_moved, i)) {
+      #ifndef NDEBUG
       std::cout << "Facet " << i << " was flippable." << std::endl;
+      #endif
+
       flipped = true;
       break;
     } else {
+      #ifndef NDEBUG
       std::cout << "Facet " << i << " was not flippable." << std::endl;
+      #endif
     }
   }
   return flipped;
@@ -83,7 +88,12 @@ auto make_23_move(T1&& universe_ptr,
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
       generate_random_unsigned(0, std::get<1>(simplex_types).size()-1);
+
+    #ifndef NDEBUG
+    std::cout << "Attempting (2,3) move." << std::endl;
     std::cout << "We're picking (2,2) simplex " << choice << std::endl;
+    #endif
+
     Cell_handle to_be_moved = std::get<1>(simplex_types)[choice];
     if (try_23_move(universe_ptr, to_be_moved)) not_flipped = false;
 
@@ -92,13 +102,14 @@ auto make_23_move(T1&& universe_ptr,
     // Erase the tried (2,2) simplex from simplex_types
     std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
                                      + choice);
-    // Debugging
+    #ifndef NDEBUG
     std::cout << "(2,2) simplex " << choice
               << " was removed from std::get<1>(simplex_types)"
               << std::endl;
     std::cout << "Remaining number of potentially movable (2,2) simplices = "
               << std::get<1>(simplex_types).size()
               << std::endl;
+    #endif
   }
   // Uses return value optimization and allows chaining function calls
   return universe_ptr;
@@ -146,22 +157,35 @@ auto make_32_move(T1&& universe_ptr,
     // which ranges from 0 to size()-1
     auto choice = generate_random_unsigned(0, edge_types.first.size()-1);
     Edge_tuple to_be_moved = edge_types.first[choice];
+
+    #ifndef NDEBUG
+    std::cout << "Attempting (3,2) move." << std::endl;
+    std::cout << "We're picking edge " << choice << std::endl;
+    #endif
+
     if (try_32_move(universe_ptr, to_be_moved)) {
-      not_flipped = false;
+      #ifndef NDEBUG
       std::cout << "Edge " << choice << " was flippable." << std::endl;
+      #endif
+
+      not_flipped = false;
     } else {
+      #ifndef NDEBUG
       std::cout << "Edge " << choice << " was not flippable." << std::endl;
+      #endif
     }
     // Increment the (3,2) move counter
     ++std::get<1>(attempted_moves);
     // Erase the attempted edge from timelike_edges
     edge_types.first.erase(edge_types.first.begin() + choice);
-    // Debugging
+
+    #ifndef NDEBUG
     std::cout << "Edge " << choice
               << " was removed from edge_types.first." << std::endl;
     std::cout << "Remaining number of potentially flippable timelike edges = "
               << edge_types.first.size()
               << std::endl;
+    #endif
   }
   // Users return value optimization and allows chaining function calls
   return universe_ptr;
@@ -199,9 +223,10 @@ inline auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
 inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   auto movable = false;
   for (auto i = 0; i < 4; ++i) {
-    // Debugging
+    #ifndef NDEBUG
     std::cout << "Neighbor " << i << " is of type "
               << c->neighbor(i)->info() << std::endl;
+    #endif
     // Check all neighbors for a (3,1) simplex
     if (is_26_movable(c, i)) {
       *n = i;
@@ -245,25 +270,50 @@ auto make_26_move(T1&& universe_ptr,
     // Pick out a random (1,3) from simplex_types
     auto choice =
       generate_random_unsigned(0, std::get<2>(simplex_types).size()-1);
+
+    #ifndef NDEBUG
+    std::cout << "Attempting (2,6) move." << std::endl;
+    std::cout << "We're picking (1,3) simplex " << choice << std::endl;
+    #endif
+
     unsigned neighboring_31_index{5};
     Cell_handle bottom = std::get<2>(simplex_types)[choice];
 
+    CGAL_triangulation_expensive_precondition(is_cell(bottom));
+    
     find_26_movable(bottom, &neighboring_31_index);
     // If neighboring_31_index == 5 there's an error
+    CGAL_triangulation_postcondition(neighboring_31_index != 5);
+
+    #ifndef NDEBUG
     std::cout << "neighboring_31_index is " << neighboring_31_index
               << std::endl;
+    #endif
 
     Cell_handle top = bottom->neighbor(neighboring_31_index);
     // Check
     // has_neighbor() returns the index of the common face
-    int common_face_index{0};
+    int common_face_index{5};
     bottom->has_neighbor(top, common_face_index);
+
+    #ifndef NDEBUG
     std::cout << "bottom's common_face_index with top is "
               << common_face_index << std::endl;
-    int mirror_common_face_index{0};
+    #endif
+
+    // If common_face_index == 5 there's an error
+    CGAL_triangulation_postcondition(common_face_index != 5);
+
+    int mirror_common_face_index{5};
     top->has_neighbor(bottom, mirror_common_face_index);
+
+    #ifndef NDEBUG
     std::cout << "top's mirror_common_face_index with bottom is "
               << mirror_common_face_index << std::endl;
+    #endif
+
+    // If mirror_common_face_index == 5 there's an error
+    CGAL_triangulation_postcondition(mirror_common_face_index != 5);
 
     // Get indices of vertices of common face with respect to bottom cell
     int i1 = (common_face_index + 1)&3;
@@ -285,22 +335,25 @@ auto make_26_move(T1&& universe_ptr,
     CGAL_triangulation_precondition(v1->info() == v2->info());
     CGAL_triangulation_precondition(v1->info() == v3->info());
 
-    // Debugging
+    #ifndef NDEBUG
     Vertex_handle v5 = top->vertex(in1);
     (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
                            << std::endl
                : std::cout
                            << "bottom->vertex(i1) != top->vertex(in1)"
                            << std::endl;
+    #endif
 
     // Is there a neighboring (3,1) simplex?
     if (find_26_movable(bottom, &neighboring_31_index)) {
-      // Debugging
+      #ifndef NDEBUG
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
       std::cout << "The neighboring simplex " << neighboring_31_index
                 << " is of type "
                 << bottom->neighbor(neighboring_31_index)->info()
                 << std::endl;
+      #endif
+
       // Do the (2,6) move
       // Insert new vertex
       Vertex_handle v_center =
@@ -310,31 +363,37 @@ auto make_26_move(T1&& universe_ptr,
       // A vertex is a topological object which may be associated with a point,
       // which is a geometrical object.
       auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
+
+      #ifndef NDEBUG
       std::cout << "Center point is: " << center_point << std::endl;
       v_center->set_point(center_point);
+      #endif
 
       // Assign a timeslice to the new vertex
       auto timeslice = v1->info();
+      v_center->info() = timeslice;
 
+      #ifndef NDEBUG
       // Check we have a vertex
       if (universe_ptr->tds().is_vertex(v_center)) {
         std::cout << "It's a vertex in the TDS." << std::endl;
       } else {
         std::cout << "It's not a vertex in the TDS." << std::endl;
       }
-
-      // Debugging
       std::cout << "Spacelike face timeslice is " << timeslice << std::endl;
-      v_center->info() = timeslice;
       std::cout << "Inserted vertex " << v_center->point()
                 << " with timeslice " << v_center->info()
                 << std::endl;
+      #endif
+
       CGAL_triangulation_postcondition(universe_ptr->tds().is_valid(v_center,
                                                                     true, 1));
       not_moved = false;
     } else {
+      #ifndef NDEBUG
       std::cout << "(1,3) simplex " << choice << " was not movable."
                 << std::endl;
+      #endif
     }
   // Increment the (2,6) move counter
   ++std::get<2>(attempted_moves);

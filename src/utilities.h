@@ -209,8 +209,9 @@ inline auto generate_random_unsigned(const unsigned min_value,
 
   auto result = distribution(generator);
 
-  // Debugging
+  #ifndef NDEBUG
   std::cout << "Random number is " << result << std::endl;
+  #endif
 
   return result;
 }  // generate_random_unsigned()
@@ -246,7 +247,9 @@ auto generate_random_real(const T min_value,
 
   auto result = distribution(generator);
 
+  #ifndef NDEBUG
   std::cout << "Random number is " << result << std::endl;
+  #endif
 
   return result;
 }
@@ -275,6 +278,7 @@ auto generate_probability() noexcept {
 /// @param[in] dimension  Number of dimensions
 /// @param[in] simplices  Number of desired simplices
 /// @param[in] timeslices Number of desired timeslices
+/// @param[in] output     Prints desired number of simplices on timeslices
 /// @returns  The number of points per timeslice to obtain
 /// the desired number of simplices
 inline

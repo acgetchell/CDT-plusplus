@@ -12,8 +12,8 @@
 /// \done Initialization
 /// \done operator()
 /// \done CalculateA1
+/// \done CalculateA2
 /// \todo Add logic to update N1_TL_, N3_31_ and N3_22_ after successful moves
-/// \todo CalculateA2
 /// \todo Implement 3D Metropolis algorithm
 /// \todo Implement concurrency
 
@@ -176,16 +176,16 @@ class Metropolis {
   auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
   /// Gets attempted (4,4) moves.
   auto FourFourMoves() const {return std::get<4>(attempted_moves_);}
-  /// Gets the vector of **Edge_tuple**s corresponding to
+  /// Gets the vector of **Edge_tuples** corresponding to
   /// movable timelike edges.
   auto MovableTimelikeEdges() const {return edge_types_.first;}
-  /// Gets the vector of **Cell_handle**s corresponding to
+  /// Gets the vector of **Cell_handles** corresponding to
   /// movable (3,1) simplices.
   auto MovableThreeOneSimplices() const {return std::get<0>(simplex_types_);}
-  /// Gets the vector of **Cell_handle**s corresponding to
+  /// Gets the vector of **Cell_handles** corresponding to
   /// movable (2,2) simplices.
   auto MovableTwoTwoSimplices() const {return std::get<1>(simplex_types_);}
-  /// Gets the vector of **Cell_handle**s corresponding to
+  /// Gets the vector of **Cell_handles** corresponding to
   /// movable (1,3) simplices.
   auto MovableOneThreeSimplices() const {return std::get<2>(simplex_types_);}
   /// Gets current number of timelike edges
