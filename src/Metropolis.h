@@ -100,14 +100,83 @@ class Metropolis {
                K_(K),
                Lambda_(Lambda),
                passes_(passes),
-               output_every_n_passes_(output_every_n_passes),
-               N1_TL_(0),
-               N3_31_(0),
-               N3_22_(0) {
-#ifndef NDEBUG
+               output_every_n_passes_(output_every_n_passes) {
+    #ifndef NDEBUG
     std::cout << "Ctor called." << std::endl;
-#endif
+    #endif
   }
+
+  /// Gets value of **Alpha_**.
+  auto Alpha() const {return Alpha_;}
+
+  /// Gets value of **K_**.
+  auto K() const {return K_;}
+
+  /// Gets value of **Lambda_**.
+  auto Lambda() const {return Lambda_;}
+
+  /// Gets value of **passes_**.
+  auto Passes() const {return passes_;}
+
+  /// Gets value of **output_every_n_passes_**.
+  auto Output() const {return output_every_n_passes_;}
+
+  /// Gets the total number of attempted moves.
+  auto TotalMoves() const {return std::get<0>(attempted_moves_) +
+                                  std::get<1>(attempted_moves_) +
+                                  std::get<2>(attempted_moves_);}
+
+  /// Gets attempted (2,3) moves.
+  auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
+
+  /// Gets successful (2,3) moves.
+  auto SuccessfulTwoThreeMoves() const {return std::get<0>(successful_moves_);}
+
+  /// Gets attempted (3,2) moves.
+  auto ThreeTwoMoves() const {return std::get<1>(attempted_moves_);}
+
+  /// Gets successful (3,2) moves.
+  auto SuccessfulThreeTwoMoves() const {return std::get<1>(successful_moves_);}
+
+  /// Gets attempted (2,6) moves.
+  auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
+
+  /// Gets successful (2,6) moves.
+  auto SuccessfulTwoSixMoves() const {return std::get<2>(successful_moves_);}
+
+  /// Gets attempted (6,2) moves.
+  auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
+
+  /// Gets attempted (4,4) moves.
+  auto FourFourMoves() const {return std::get<4>(attempted_moves_);}
+
+  /// Gets the vector of **Edge_tuples** corresponding to
+  /// movable timelike edges.
+  auto MovableTimelikeEdges() const {return edge_types_.first;}
+
+  /// Gets the vector of **Cell_handles** corresponding to
+  /// movable (3,1) simplices.
+  auto MovableThreeOneSimplices() const {return std::get<0>(simplex_types_);}
+
+  /// Gets the vector of **Cell_handles** corresponding to
+  /// movable (2,2) simplices.
+  auto MovableTwoTwoSimplices() const {return std::get<1>(simplex_types_);}
+
+  /// Gets the vector of **Cell_handles** corresponding to
+  /// movable (1,3) simplices.
+  auto MovableOneThreeSimplices() const {return std::get<2>(simplex_types_);}
+
+  /// Gets current number of timelike edges
+  auto TimelikeEdges() const {return N1_TL_;}
+
+  /// Gets current number of (3,1) and (1,3) simplices
+  auto ThreeOneSimplices() const {return N3_31_;}
+
+  /// Gets current number of (2,2) simplices
+  auto TwoTwoSimplices() const {return N3_22_;}
+
+  /// Gets current total number of simplices
+  auto CurrentTotalSimplices() const {return N3_31_ + N3_22_;}
 
   /// @brief () operator
   ///
@@ -116,16 +185,19 @@ class Metropolis {
   /// conducts all of algorithmic work for Metropolis-Hastings on the
   /// Delaunay triangulation.
   ///
-  /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+  /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation,
+  /// which should already be initialized with **make_triangulation()**.
   /// @returns The std::unique_ptr to the Delaunay triangulation. Note that
   /// this sets the data member **universe_ptr_** to null, and so no operations
   /// can be successfully carried out on **universe_ptr_** when operator()
-  /// returns. Instead, they should be conducted on the results.
+  /// returns. Instead, they should be conducted on the results of this
+  /// function call.
   template <typename T>
   auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
-#ifndef NDEBUG
+    #ifndef NDEBUG
     std::cout << "operator() called." << std::endl;
-#endif
+    #endif
+    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
     // Populate member data
     universe_ptr_ = std::move(universe_ptr);
     simplex_types_ = classify_simplices(universe_ptr_);
@@ -140,60 +212,50 @@ class Metropolis {
                                            simplex_types_, attempted_moves_));
     // A (2,3) move increases (2,2) simplices by 1
     ++N3_22_;
+    ++std::get<0>(successful_moves_);
 
     universe_ptr_ = std::move(make_32_move(universe_ptr_,
                                            edge_types_, attempted_moves_));
     // A (3,2) move decreases (2,2) simplices by 1
     --N3_22_;
+    ++std::get<1>(successful_moves_);
+
     universe_ptr_ = std::move(make_26_move(universe_ptr_,
                                            simplex_types_, attempted_moves_));
     // A (2,6) move increases (1,3) and (3,1) simplices by 4
     N3_31_+=4;
+    ++std::get<2>(successful_moves_);
+
+    auto total_simplices_this_pass = 20;  // CurrentTotalSimplices();
+    for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+         ++move_attempt) {
+      // Pick a move to attempt
+      auto move_choice = generate_random_unsigned(1, 5);
+      #ifndef NDEBUG
+      std::cout << "Move choice = " << move_choice << std::endl;
+      #endif
+
+      switch (move_choice) {
+        case static_cast<int>(move_type::TWO_THREE):
+          std::cout << "(2,3) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::THREE_TWO):
+          std::cout << "(3,2) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::TWO_SIX):
+          std::cout << "(2,6) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::SIX_TWO):
+          std::cout << "(6,2) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::FOUR_FOUR):
+          std::cout << "(4,4) move" << std::endl;
+          break;
+      }
+    }
 
     return universe_ptr_;
   }
-  /// Gets value of **Alpha_**.
-  auto Alpha() const {return Alpha_;}
-  /// Gets value of **K_**.
-  auto K() const {return K_;}
-  /// Gets value of **Lambda_**.
-  auto Lambda() const {return Lambda_;}
-  /// Gets value of **passes_**.
-  auto Passes() const {return passes_;}
-  /// Gets value of **output_every_n_passes_**.
-  auto Output() const {return output_every_n_passes_;}
-  /// Gets the total number of attempted moves.
-  auto TotalMoves() const {return std::get<0>(attempted_moves_) +
-                                  std::get<1>(attempted_moves_) +
-                                  std::get<2>(attempted_moves_);}
-  /// Gets attempted (2,3) moves.
-  auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
-  /// Gets attempted (3,2) moves.
-  auto ThreeTwoMoves() const {return std::get<1>(attempted_moves_);}
-  /// Gets attempted (2,6) moves.
-  auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
-  /// Gets attempted (6,2) moves.
-  auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
-  /// Gets attempted (4,4) moves.
-  auto FourFourMoves() const {return std::get<4>(attempted_moves_);}
-  /// Gets the vector of **Edge_tuples** corresponding to
-  /// movable timelike edges.
-  auto MovableTimelikeEdges() const {return edge_types_.first;}
-  /// Gets the vector of **Cell_handles** corresponding to
-  /// movable (3,1) simplices.
-  auto MovableThreeOneSimplices() const {return std::get<0>(simplex_types_);}
-  /// Gets the vector of **Cell_handles** corresponding to
-  /// movable (2,2) simplices.
-  auto MovableTwoTwoSimplices() const {return std::get<1>(simplex_types_);}
-  /// Gets the vector of **Cell_handles** corresponding to
-  /// movable (1,3) simplices.
-  auto MovableOneThreeSimplices() const {return std::get<2>(simplex_types_);}
-  /// Gets current number of timelike edges
-  auto TimelikeEdges() const {return N1_TL_;}
-  /// Gets current number of (3,1) and (1,3) simplices
-  auto ThreeOneSimplices() const {return N3_31_;}
-  /// Gets current number of (2,2) simplices
-  auto TwoTwoSimplices() const {return N3_22_;}
   /// Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
@@ -248,10 +310,11 @@ class Metropolis {
     // Free memory
     mpfr_clears(r1, r2, a1, nullptr);
 
-    // Debugging
+    #ifndef NDEBUG
     std::cout << "TotalMoves() = " << total_moves << std::endl;
     std::cout << move_name << " moves = " << this_move << std::endl;
     std::cout << "A1 is " << result << std::endl;
+    #endif
 
     return result;
   }  // CalculateA1()
@@ -346,10 +409,9 @@ class Metropolis {
   }  // CAlculateA2()
 
   template <typename T1, typename T2, typename T3>
-  auto attempt_23_move(T1&& universe_ptr,
+  void attempt_23_move(T1&& universe_ptr,
                        T2&& simplex_types,
-                       T3&& attempted_moves)
-                       noexcept -> decltype(universe_ptr) {
+                       T3&& attempted_moves) noexcept {
     // Calculate probability
     auto a1 = CalculateA1(move_type::TWO_THREE);
     // Make move if random number < probability
@@ -361,8 +423,6 @@ class Metropolis {
     // std::cout << "Trial = " << trial << std::cout;
     // std::cout << "A1 = " << a1 << std::cout;
     // std::cout << "A2 = " << a2 << std::cout;
-
-    return universe_ptr;
   }  // attempt_23_move()
 
  private:
@@ -380,17 +440,19 @@ class Metropolis {
   long double Lambda_;
   ///< \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
   /// the cosmological constant.
-  uintmax_t N1_TL_;
+  uintmax_t N1_TL_ {0};
   ///< The current number of timelike edges, some of which may not be movable.
-  uintmax_t N3_31_;
+  uintmax_t N3_31_ {0};
   ///< The current number of (3,1) and (1,3) simplices, some of which may not
   /// be movable.
-  uintmax_t N3_22_;
+  uintmax_t N3_22_ {0};
   ///< The current number of (2,2) simplices, some of which may not be movable.
   unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
   unsigned output_every_n_passes_;  ///< How often to print/write output.
-  move_tuple attempted_moves_;
+  move_tuple attempted_moves_ {0, 0, 0, 0, 0};
   ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
+  move_tuple successful_moves_ {0, 0, 0, 0, 0};
+  ///< Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types_;

@@ -33,6 +33,7 @@
 /// \done Classify edges as timelike or spacelike so that action can be
 /// calculated.
 /// \done Multi-threaded operations using Intel TBB
+/// \done Debugging output toggled by macros
 
 /// @file S3Triangulation.h
 /// @brief Functions on 3D Spherical Delaunay Triangulations
@@ -88,7 +89,13 @@ using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 200;
+///< The maximum number of passes to fix invalidly foliated simplices
 static constexpr unsigned DIMENSION = 3;
+///< The dimensionality of the Delaunay triangulation
+
+#define DETAILED_DEBUGGING
+#undef DETAILED_DEBUGGING
+///< Toggles detailed per-simplex debugging output
 
 /// @brief Classifies edges
 ///
@@ -124,10 +131,12 @@ auto classify_edges(T&& universe_ptr) noexcept {
                           ch->index(ch->vertex(eit->third))};
       timelike_edges.emplace_back(thisEdge);
 
-      // Debugging
-      // std::cout << "First vertex of edge is " << std::get<1>(thisEdge)
-      //           << " and second vertex of edge is " << std::get<2>(thisEdge)
-      //
+      #ifdef DETAILED_DEBUGGING
+      std::cout << "First vertex of edge is " << std::get<1>(thisEdge)
+                << " and second vertex of edge is " << std::get<2>(thisEdge)
+                << std::endl;
+      #endif
+
     } else {
       ++spacelike_edges;
     }  // endif
@@ -150,8 +159,8 @@ auto classify_edges(T&& universe_ptr) noexcept {
 ///   31 &=& (3, 1) \\
 ///   22 &=& (2, 2) \\
 ///   13 &=& (1, 3) \f}
-/// The vectors **three_one**, **two_two**, and **one_three** contain cell
-/// handles to all the simplices in the triangulation of that corresponding
+/// The vectors **three_one**, **two_two**, and **one_three** contain
+/// Cell_handles to all the simplices in the triangulation of that corresponding
 /// type.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
@@ -227,7 +236,7 @@ auto classify_simplices(T&& universe_ptr) {
 /// If a cell has a bad foliation, the vertex with the highest timeslice is
 /// deleted. The Delaunay triangulation is then recomputed on the remaining
 /// vertices.
-/// This function is repeatedly called by **fix_triangulation()** up to
+/// This function is repeatedly called by fix_triangulation() up to
 /// **MAX_FOLIATION_FIX_PASSES** times.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
@@ -249,7 +258,9 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
     if (cit->is_valid()) {  // Valid cell
       min_time = cit->vertex(0)->info();
       max_time = min_time;
-      // bool this_cell_foliation_valid = true;
+      #ifdef DETAILED_DEBUGGING
+      bool this_cell_foliation_valid = true;
+      #endif
       // Iterate over all vertices in the cell
       for (auto i = 0; i < 4; ++i) {
         auto current_time = cit->vertex(i)->info();
@@ -264,25 +275,27 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
       // There should be a difference of 1 between min_time and max_time
       if (max_time - min_time != 1) {
         invalid++;
-        // this_cell_foliation_valid = false;
-        // Delete max vertex
+        #ifdef DETAILED_DEBUGGING
+        this_cell_foliation_valid = false;
+        #endif
+        // Single-threaded delete max vertex
         // universe_ptr->remove(cit->vertex(max_vertex));
+
         // Delete std::set of max_vertex for all invalid cells in parallel
         deleted_vertices.emplace(cit->vertex(max_vertex));
       } else {
         ++valid;
       }
 
-      // Needs this_cell_foliation_valid uncommented above
-      // #ifndef NDEBUG
-      // std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
-      //   "valid." : "invalid.") << std::endl;
-      // for (auto i = 0; i < 4; ++i) {
-      //   std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
-      //             << " with timeslice " << cit->vertex(i)->info()
-      //             << std::endl;
-      // }
-      // #endif
+      #ifdef DETAILED_DEBUGGING
+      std::cout << "Foliation for cell is " << ((this_cell_foliation_valid) ?
+        "valid." : "invalid.") << std::endl;
+      for (auto i = 0; i < 4; ++i) {
+        std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
+                  << " with timeslice " << cit->vertex(i)->info()
+                  << std::endl;
+      }
+      #endif
 
     } else {
       throw std::runtime_error("Cell handle is invalid!");
@@ -309,7 +322,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
 
 /// @brief Fixes the foliation of the triangulation
 ///
-/// Runs **fix_timeslices()** to fix foliation until there are no errors,
+/// Runs fix_timeslices() to fix foliation until there are no errors,
 /// or MAX_FOLIATION_FIX_PASSES whichever comes first.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
@@ -381,15 +394,9 @@ auto inline make_foliated_sphere(const unsigned simplices,
 /// All vertices in all spheres (along with their time values) are then
 /// inserted with insert_into_triangulation() into a Delaunay triangulation
 /// (see http://en.wikipedia.org/wiki/Delaunay_triangulation for details).
-/// Next, we use fix_triangulation() to remove cells in the DT with invalid
-/// foliations using fix_timeslices().
-/// Finally, the cells (simplices) are sorted by classify_3_simplices() into
-/// a tuple of corresponding vectors which contain cell handles to that type of
-/// simplex.
-/// The vector **three_one** contains handles to all the (3,1) simplices,
-/// the vector **two_two** contains handles to the (2,2) simplices, and
-/// the vector **one_three** contains handles to the (1,3) simplices.
-/// A last check is performed to ensure a valid Delaunay triangulation.
+/// Finally, fix_triangulation() removes cells in the Delaunay triangulation
+/// with invalid foliations using fix_timeslices(). A last check is performed
+/// to ensure a valid Delaunay triangulation.
 ///
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation

@@ -126,9 +126,18 @@ TEST_F(MetropolisTest, Operator) {
   EXPECT_THAT(testrun.MovableOneThreeSimplices().size(), Eq(N3_13_before))
     << "Metropolis functor simplex_types_ incorrect.";
 
-  EXPECT_THAT(testrun.ThreeOneSimplices() + testrun.TwoTwoSimplices(),
+  EXPECT_THAT(testrun.CurrentTotalSimplices(),
               Eq(result->number_of_finite_cells()))
     << "ThreeOneSimplices() + TwoTwoSimplices() has an incorrect count.";
+
+  EXPECT_THAT(testrun.SuccessfulTwoThreeMoves(), Ge(1))
+    << "No successful (2,3) moves.";
+
+  EXPECT_THAT(testrun.SuccessfulThreeTwoMoves(), Ge(1))
+    << "No successful (3,2) moves.";
+
+  EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Ge(1))
+    << "No successful (2,6) moves.";
 }
 
 TEST_F(MetropolisTest, CalculateA1) {
@@ -136,10 +145,6 @@ TEST_F(MetropolisTest, CalculateA1) {
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
-
-  // std::cout << "A1 for (2,3) is: "
-  //           << testrun.CalculateA1(move_type::TWO_THREE)
-  //           << std::endl;
 
   EXPECT_THAT(testrun.CalculateA1(move_type::TWO_THREE), AllOf(Ge(0), Le(1)))
     << "A1 not calculated correctly.";
