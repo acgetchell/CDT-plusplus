@@ -138,6 +138,12 @@ TEST_F(MetropolisTest, Operator) {
 
   EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Ge(1))
     << "No successful (2,6) moves.";
+
+  // EXPECT_THAT(testrun.SuccessfulSixTwoMoves(), Ge(1))
+  //   << "No successful (6,2) moves.";
+  //
+  // EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
+  //   << "No successful (4,4) moves.";
 }
 
 TEST_F(MetropolisTest, CalculateA1) {

@@ -13,8 +13,8 @@
 /// \done operator()
 /// \done CalculateA1
 /// \done CalculateA2
-/// \todo Add logic to update N1_TL_, N3_31_ and N3_22_ after successful moves
-/// \todo Implement 3D Metropolis algorithm
+/// \todo Update N1_TL_, N3_31_ and N3_22_ after successful moves
+/// \todo Implement 3D Metropolis algorithm in operator()
 /// \todo Implement concurrency
 
 /// @file Metropolis.h
@@ -124,7 +124,9 @@ class Metropolis {
   /// Gets the total number of attempted moves.
   auto TotalMoves() const {return std::get<0>(attempted_moves_) +
                                   std::get<1>(attempted_moves_) +
-                                  std::get<2>(attempted_moves_);}
+                                  std::get<2>(attempted_moves_) +
+                                  std::get<3>(attempted_moves_) +
+                                  std::get<4>(attempted_moves_);}
 
   /// Gets attempted (2,3) moves.
   auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
@@ -147,8 +149,14 @@ class Metropolis {
   /// Gets attempted (6,2) moves.
   auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
 
+  /// Gets successful (6,2) moves.
+  auto SuccessfulSixTwoMoves() const {return std::get<3>(attempted_moves_);}
+
   /// Gets attempted (4,4) moves.
   auto FourFourMoves() const {return std::get<4>(attempted_moves_);}
+
+  /// Gets successful (4,4) moves.
+  auto SuccessfulFourFourMoves() const {return std::get<4>(attempted_moves_);}
 
   /// Gets the vector of **Edge_tuples** corresponding to
   /// movable timelike edges.
