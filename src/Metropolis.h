@@ -56,11 +56,11 @@ using move_tuple = std::tuple<uintmax_t,
 
 extern const unsigned PRECISION;
 
-enum class move_type {TWO_THREE = 1,
-                      THREE_TWO = 2,
-                      TWO_SIX = 3,
-                      SIX_TWO = 4,
-                      FOUR_FOUR = 5};
+enum class move_type {TWO_THREE = 0,
+                      THREE_TWO = 1,
+                      TWO_SIX = 2,
+                      SIX_TWO = 3,
+                      FOUR_FOUR = 4};
 
 // template <typename T1, typename T2>
 // auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
@@ -238,7 +238,7 @@ class Metropolis {
     for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
          ++move_attempt) {
       // Pick a move to attempt
-      auto move_choice = generate_random_unsigned(1, 5);
+      auto move_choice = generate_random_unsigned(0, 4);
       #ifndef NDEBUG
       std::cout << "Move choice = " << move_choice << std::endl;
       #endif
@@ -272,7 +272,7 @@ class Metropolis {
   /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_type move) const {
     auto total_moves = this->TotalMoves();
-    auto this_move = 0;
+    auto this_move = 5;
     auto move_name = "";
     switch (move) {
       case move_type::TWO_THREE:
