@@ -186,84 +186,6 @@ class Metropolis {
   /// Gets current total number of simplices
   auto CurrentTotalSimplices() const {return N3_31_ + N3_22_;}
 
-  /// @brief () operator
-  ///
-  /// This makes the Metropolis class into a functor. Minimal setup of
-  /// runtime job parameters is handled by the constructor. This () operator
-  /// conducts all of algorithmic work for Metropolis-Hastings on the
-  /// Delaunay triangulation.
-  ///
-  /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation,
-  /// which should already be initialized with **make_triangulation()**.
-  /// @returns The std::unique_ptr to the Delaunay triangulation. Note that
-  /// this sets the data member **universe_ptr_** to null, and so no operations
-  /// can be successfully carried out on **universe_ptr_** when operator()
-  /// returns. Instead, they should be conducted on the results of this
-  /// function call.
-  template <typename T>
-  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
-    #ifndef NDEBUG
-    std::cout << "operator() called." << std::endl;
-    #endif
-    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
-    // Populate member data
-    universe_ptr_ = std::move(universe_ptr);
-    simplex_types_ = classify_simplices(universe_ptr_);
-    edge_types_ = classify_edges(universe_ptr_);
-    N3_31_ = static_cast<uintmax_t>(std::get<0>(simplex_types_).size() +
-                                            std::get<2>(simplex_types_).size());
-    N3_22_ = static_cast<uintmax_t>(std::get<1>(simplex_types_).size());
-    N1_TL_ = static_cast<uintmax_t>(edge_types_.first.size());
-
-    // Attempt each type of move to populate **attempted_moves_**
-    universe_ptr_ = std::move(make_23_move(universe_ptr_,
-                                           simplex_types_, attempted_moves_));
-    // A (2,3) move increases (2,2) simplices by 1
-    ++N3_22_;
-    ++std::get<0>(successful_moves_);
-
-    universe_ptr_ = std::move(make_32_move(universe_ptr_,
-                                           edge_types_, attempted_moves_));
-    // A (3,2) move decreases (2,2) simplices by 1
-    --N3_22_;
-    ++std::get<1>(successful_moves_);
-
-    universe_ptr_ = std::move(make_26_move(universe_ptr_,
-                                           simplex_types_, attempted_moves_));
-    // A (2,6) move increases (1,3) and (3,1) simplices by 4
-    N3_31_+=4;
-    ++std::get<2>(successful_moves_);
-
-    auto total_simplices_this_pass = 20;  // CurrentTotalSimplices();
-    for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-         ++move_attempt) {
-      // Pick a move to attempt
-      auto move_choice = generate_random_unsigned(0, 4);
-      #ifndef NDEBUG
-      std::cout << "Move choice = " << move_choice << std::endl;
-      #endif
-
-      switch (move_choice) {
-        case static_cast<int>(move_type::TWO_THREE):
-          std::cout << "(2,3) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::THREE_TWO):
-          std::cout << "(3,2) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::TWO_SIX):
-          std::cout << "(2,6) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::SIX_TWO):
-          std::cout << "(6,2) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::FOUR_FOUR):
-          std::cout << "(4,4) move" << std::endl;
-          break;
-      }
-    }
-
-    return universe_ptr_;
-  }
   /// Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
@@ -416,10 +338,7 @@ class Metropolis {
     return result;
   }  // CAlculateA2()
 
-  template <typename T1, typename T2, typename T3>
-  void attempt_23_move(T1&& universe_ptr,
-                       T2&& simplex_types,
-                       T3&& attempted_moves) noexcept {
+  void attempt_23_move() noexcept {
     // Calculate probability
     auto a1 = CalculateA1(move_type::TWO_THREE);
     // Make move if random number < probability
@@ -427,11 +346,108 @@ class Metropolis {
 
     const auto trial = generate_probability();
 
-    // Debugging
-    // std::cout << "Trial = " << trial << std::cout;
-    // std::cout << "A1 = " << a1 << std::cout;
-    // std::cout << "A2 = " << a2 << std::cout;
+    if (trial <= a1*a2) {
+      make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
+      // Increment successful_moves_ and N3_22_
+      ++std::get<0>(successful_moves_);
+      ++N3_22_;
+    } else {
+      std::get<0>(attempted_moves_);
+    }
+
+    #ifndef NDEBUG
+    std::cout << "Trial = " << trial << std::endl;
+    std::cout << "A1 = " << a1 << std::endl;
+    std::cout << "A2 = " << a2 << std::endl;
+    std::cout << "A1*A2 = " << a1*a2 << std::endl;
+    std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
+              << std::endl;
+    #endif
   }  // attempt_23_move()
+
+  /// @brief () operator
+  ///
+  /// This makes the Metropolis class into a functor. Minimal setup of
+  /// runtime job parameters is handled by the constructor. This () operator
+  /// conducts all of algorithmic work for Metropolis-Hastings on the
+  /// Delaunay triangulation.
+  ///
+  /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation,
+  /// which should already be initialized with **make_triangulation()**.
+  /// @returns The std::unique_ptr to the Delaunay triangulation. Note that
+  /// this sets the data member **universe_ptr_** to null, and so no operations
+  /// can be successfully carried out on **universe_ptr_** when operator()
+  /// returns. Instead, they should be conducted on the results of this
+  /// function call.
+  template <typename T>
+  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+    #ifndef NDEBUG
+    std::cout << "operator() called." << std::endl;
+    #endif
+    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
+    // Populate member data
+    universe_ptr_ = std::move(universe_ptr);
+    simplex_types_ = classify_simplices(universe_ptr_);
+    edge_types_ = classify_edges(universe_ptr_);
+    N3_31_ = static_cast<uintmax_t>(std::get<0>(simplex_types_).size() +
+                                            std::get<2>(simplex_types_).size());
+    N3_22_ = static_cast<uintmax_t>(std::get<1>(simplex_types_).size());
+    N1_TL_ = static_cast<uintmax_t>(edge_types_.first.size());
+
+    // Attempt each type of move to populate **attempted_moves_**
+    universe_ptr_ = std::move(make_23_move(universe_ptr_,
+                                           simplex_types_, attempted_moves_));
+    // A (2,3) move increases (2,2) simplices by 1
+    ++N3_22_;
+    ++std::get<0>(successful_moves_);
+
+    universe_ptr_ = std::move(make_32_move(universe_ptr_,
+                                           edge_types_, attempted_moves_));
+    // A (3,2) move decreases (2,2) simplices by 1
+    --N3_22_;
+    ++std::get<1>(successful_moves_);
+
+    universe_ptr_ = std::move(make_26_move(universe_ptr_,
+                                           simplex_types_, attempted_moves_));
+    // A (2,6) move increases (1,3) and (3,1) simplices by 4
+    N3_31_+=4;
+    ++std::get<2>(successful_moves_);
+
+    // Other moves go here ...
+
+    auto total_simplices_this_pass = 20;  // CurrentTotalSimplices();
+    for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+         ++move_attempt) {
+      // Pick a move to attempt
+      auto move_choice = generate_random_unsigned(0, 4);
+      #ifndef NDEBUG
+      std::cout << "Move choice = " << move_choice << std::endl;
+      #endif
+
+      switch (move_choice) {
+        case static_cast<int>(move_type::TWO_THREE):
+          #ifndef NDEBUG
+          std::cout << "(2,3) move" << std::endl;
+          #endif
+          attempt_23_move();
+          break;
+        case static_cast<int>(move_type::THREE_TWO):
+          std::cout << "(3,2) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::TWO_SIX):
+          std::cout << "(2,6) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::SIX_TWO):
+          std::cout << "(6,2) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::FOUR_FOUR):
+          std::cout << "(4,4) move" << std::endl;
+          break;
+      }
+    }
+
+    return universe_ptr_;
+  }
 
  private:
   Delaunay universe;
