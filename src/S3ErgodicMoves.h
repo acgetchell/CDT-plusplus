@@ -83,16 +83,15 @@ auto make_23_move(T1&& universe_ptr,
                   T2&& simplex_types,
                   T3&& attempted_moves)
                   noexcept -> decltype(universe_ptr) {
+  #ifndef NDEBUG
+  std::cout << "Attempting (2,3) move." << std::endl;
+  #endif
+
   auto not_flipped = true;
   while (not_flipped) {
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
       generate_random_unsigned(0, std::get<1>(simplex_types).size()-1);
-
-    #ifndef NDEBUG
-    std::cout << "Attempting (2,3) move." << std::endl;
-    std::cout << "We're picking (2,2) simplex " << choice << std::endl;
-    #endif
 
     Cell_handle to_be_moved = std::get<1>(simplex_types)[choice];
     if (try_23_move(universe_ptr, to_be_moved)) not_flipped = false;
@@ -151,17 +150,16 @@ auto make_32_move(T1&& universe_ptr,
                   T2&& edge_types,
                   T3&& attempted_moves) noexcept  // NOLINT
                   -> decltype(universe_ptr) {
+  #ifndef NDEBUG
+  std::cout << "Attempting (3,2) move." << std::endl;
+  #endif
+
   auto not_flipped = true;
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
     auto choice = generate_random_unsigned(0, edge_types.first.size()-1);
     Edge_tuple to_be_moved = edge_types.first[choice];
-
-    #ifndef NDEBUG
-    std::cout << "Attempting (3,2) move." << std::endl;
-    std::cout << "We're picking edge " << choice << std::endl;
-    #endif
 
     if (try_32_move(universe_ptr, to_be_moved)) {
       #ifndef NDEBUG
@@ -265,22 +263,21 @@ auto make_26_move(T1&& universe_ptr,
                   T2&& simplex_types,
                   T3&& attempted_moves) noexcept  // NOLINT
                   -> decltype(universe_ptr) {
+  #ifndef NDEBUG
+  std::cout << "Attempting (2,6) move." << std::endl;
+  #endif
+
   auto not_moved = true;
   while (not_moved) {
     // Pick out a random (1,3) from simplex_types
     auto choice =
       generate_random_unsigned(0, std::get<2>(simplex_types).size()-1);
 
-    #ifndef NDEBUG
-    std::cout << "Attempting (2,6) move." << std::endl;
-    std::cout << "We're picking (1,3) simplex " << choice << std::endl;
-    #endif
-
     unsigned neighboring_31_index{5};
     Cell_handle bottom = std::get<2>(simplex_types)[choice];
 
     CGAL_triangulation_expensive_precondition(is_cell(bottom));
-    
+
     find_26_movable(bottom, &neighboring_31_index);
     // If neighboring_31_index == 5 there's an error
     CGAL_triangulation_postcondition(neighboring_31_index != 5);

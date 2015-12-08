@@ -210,7 +210,7 @@ inline auto generate_random_unsigned(const unsigned min_value,
   auto result = distribution(generator);
 
   #ifndef NDEBUG
-  std::cout << "Random number is " << result << std::endl;
+  std::cout << "Random unsigned number is " << result << std::endl;
   #endif
 
   return result;
@@ -248,7 +248,7 @@ auto generate_random_real(const T min_value,
   auto result = distribution(generator);
 
   #ifndef NDEBUG
-  std::cout << "Random number is " << result << std::endl;
+  std::cout << "Random trial is " << result << std::endl;
   #endif
 
   return result;

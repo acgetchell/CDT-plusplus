@@ -97,6 +97,7 @@ TEST_F(MetropolisTest, Operator) {
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
+  std::cout << "MetropolisTest results:" << std::endl;
   std::cout << "Current Timelike Edges = " << testrun.TimelikeEdges()
             << std::endl;
   std::cout << "Movable Timelike Edges = "

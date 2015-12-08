@@ -20,8 +20,7 @@
 /// @file Metropolis.h
 /// @brief Perform Metropolis-Hasting algorithm on Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
+/// @bug Does not quite keep track of (2,3), (3,2)
 
 #ifndef SRC_METROPOLIS_H_
 #define SRC_METROPOLIS_H_
@@ -274,9 +273,9 @@ class Metropolis {
                                      Lambda_);
         break;
       case move_type::THREE_TWO:
-      // A (3,2) move adds a timelike edge and
-      // removes a (2,2) simplex
-      newS3Action = S3_bulk_action(N1_TL_+1,
+        // A (3,2) move adds a timelike edge and
+        // removes a (2,2) simplex
+        newS3Action = S3_bulk_action(N1_TL_+1,
                                    N3_31_,
                                    N3_22_-1,
                                    Alpha_,
@@ -284,9 +283,9 @@ class Metropolis {
                                    Lambda_);
         break;
       case move_type::TWO_SIX:
-      // A (2,6) move adds 2 timelike edges and
-      // adds 2 (1,3) and 2 (3,1) simplices
-      newS3Action = S3_bulk_action(N1_TL_+2,
+        // A (2,6) move adds 2 timelike edges and
+        // adds 2 (1,3) and 2 (3,1) simplices
+        newS3Action = S3_bulk_action(N1_TL_+2,
                                    N3_31_+4,
                                    N3_22_,
                                    Alpha_,
@@ -294,9 +293,9 @@ class Metropolis {
                                    Lambda_);
         break;
       case move_type::SIX_TWO:
-      // A (6,2) move removes 2 timelike edges and
-      // removes 2 (1,3) and 2 (3,1) simplices
-      newS3Action = S3_bulk_action(N1_TL_-2,
+        // A (6,2) move removes 2 timelike edges and
+        // removes 2 (1,3) and 2 (3,1) simplices
+        newS3Action = S3_bulk_action(N1_TL_-2,
                                    N3_31_,
                                    N3_22_-4,
                                    Alpha_,
@@ -304,9 +303,11 @@ class Metropolis {
                                    Lambda_);
         break;
       case move_type::FOUR_FOUR:
-      // A (4,4) move changes nothing, and e^0==1
-      return static_cast<Gmpzf>(1);
-      // return static_cast<MP_Float>(1);
+        // A (4,4) move changes nothing, and e^0==1
+        #ifndef NDEBUG
+        std::cout << "A2 is 1" << std::endl;
+        #endif
+        return static_cast<Gmpzf>(1);
     }
 
     auto exponent = newS3Action - currentS3Action;
@@ -335,35 +336,117 @@ class Metropolis {
     // Free memory
     mpfr_clears(r1, a2, nullptr);
 
+    #ifndef NDEBUG
+    std::cout << "A2 is " << result << std::endl;
+    #endif
+
     return result;
   }  // CAlculateA2()
 
-  void attempt_23_move() noexcept {
+  void attempt_move(const move_type move) noexcept {
     // Calculate probability
-    auto a1 = CalculateA1(move_type::TWO_THREE);
+    auto a1 = CalculateA1(move);
     // Make move if random number < probability
-    auto a2 = CalculateA2(move_type::TWO_THREE);
+    auto a2 = CalculateA2(move);
 
-    const auto trial = generate_probability();
+    // Cast move_type to corresponding size_t
+    // const auto move_choice = 0;
+    const auto move_choice = static_cast<size_t>(move);
+
+    const auto trialval = generate_probability();
+    const auto trial = Gmpzf(static_cast<double>(trialval));
+
+    #ifndef NDEBUG
+    std::cout << "trialval = " << trialval << std::endl;
+    std::cout << "trial = " << trial << std::endl;
+    #endif
 
     if (trial <= a1*a2) {
-      make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
-      // Increment successful_moves_ and N3_22_
-      ++std::get<0>(successful_moves_);
-      ++N3_22_;
+      // Move accepted
+
+      switch (move_choice) {
+        case static_cast<int>(move_type::TWO_THREE):
+          std::cout << "(2,3) move" << std::endl;
+          make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
+          // Increment N3_22_ and successful_moves_
+          ++N3_22_;
+          ++std::get<0>(successful_moves_);
+          break;
+        case static_cast<int>(move_type::THREE_TWO):
+          std::cout << "(3,2) move" << std::endl;
+          make_32_move(universe_ptr_, edge_types_, attempted_moves_);
+          // Decrement N3_22_, increment successful_moves_
+          --N3_22_;
+          ++std::get<1>(successful_moves_);
+          break;
+        case static_cast<int>(move_type::TWO_SIX):
+          std::cout << "(2,6) move" << std::endl;
+          make_26_move(universe_ptr_, simplex_types_, attempted_moves_);
+          // Increment N3_31 and successful_moves_
+          N3_31_ += 4;
+          ++std::get<2>(successful_moves_);
+          break;
+        case static_cast<int>(move_type::SIX_TWO):
+          std::cout << "(6,2) move" << std::endl;
+          break;
+        case static_cast<int>(move_type::FOUR_FOUR):
+          std::cout << "(4,4) move" << std::endl;
+          break;
+      }
     } else {
-      std::get<0>(attempted_moves_);
+      // Move rejected
+      // Increment attempted_moves_
+      // ++std::get<move_choice>(attempted_moves);
+      switch (move_choice) {
+        case static_cast<int>(move_type::TWO_THREE):
+          ++std::get<0>(attempted_moves_);
+          break;
+        case static_cast<int>(move_type::THREE_TWO):
+          ++std::get<1>(attempted_moves_);
+          break;
+        case static_cast<int>(move_type::TWO_SIX):
+          ++std::get<2>(attempted_moves_);
+          break;
+        case static_cast<int>(move_type::SIX_TWO):
+          ++std::get<3>(attempted_moves_);
+          break;
+        case static_cast<int>(move_type::FOUR_FOUR):
+          ++std::get<4>(attempted_moves_);
+          break;
+      }
     }
 
     #ifndef NDEBUG
+    std::cout << "Attempting move." << std::endl;
+    std::cout << "Move type = " << static_cast<unsigned>(move_choice)
+              << std::endl;
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
     std::cout << "A2 = " << a2 << std::endl;
     std::cout << "A1*A2 = " << a1*a2 << std::endl;
+    std::cout << ((trial <= a1*a2) ? "Move accepted."
+                                   : "Move rejected.") << std::endl;
     std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
               << std::endl;
+    std::cout << "Attempted (2,3) moves = " << TwoThreeMoves() << std::endl;
+
+    std::cout << "Successful (3,2) moves = " << SuccessfulThreeTwoMoves()
+              << std::endl;
+    std::cout << "Attempted (3,2) moves = " << ThreeTwoMoves() << std::endl;
+
+    std::cout << "Successful (2,6) moves = " << SuccessfulTwoSixMoves()
+              << std::endl;
+    std::cout << "Attempted (2,6) moves = " << TwoSixMoves() << std::endl;
+
+    std::cout << "Successful (6,2) moves = " << SuccessfulSixTwoMoves()
+              << std::endl;
+    std::cout << "Attempted (6,2) moves = " << SixTwoMoves() << std::endl;
+
+    std::cout << "Successful (4,4) moves = " << SuccessfulFourFourMoves()
+              << std::endl;
+    std::cout << "Attempted (4,4) moves = " << FourFourMoves() << std::endl;
     #endif
-  }  // attempt_23_move()
+  }  // attempt_move()
 
   /// @brief () operator
   ///
@@ -391,8 +474,13 @@ class Metropolis {
     edge_types_ = classify_edges(universe_ptr_);
     N3_31_ = static_cast<uintmax_t>(std::get<0>(simplex_types_).size() +
                                             std::get<2>(simplex_types_).size());
+    std::cout << "N3_31_ = " << N3_31_ << std::endl;
+
     N3_22_ = static_cast<uintmax_t>(std::get<1>(simplex_types_).size());
+    std::cout << "N3_22_ = " << N3_22_ << std::endl;
+
     N1_TL_ = static_cast<uintmax_t>(edge_types_.first.size());
+    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
 
     // Attempt each type of move to populate **attempted_moves_**
     universe_ptr_ = std::move(make_23_move(universe_ptr_,
@@ -415,35 +503,18 @@ class Metropolis {
 
     // Other moves go here ...
 
-    auto total_simplices_this_pass = 20;  // CurrentTotalSimplices();
+    auto total_simplices_this_pass = 10;  // CurrentTotalSimplices();
     for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
          ++move_attempt) {
       // Pick a move to attempt
-      auto move_choice = generate_random_unsigned(0, 4);
+      auto move_choice = generate_random_unsigned(0, 2);
       #ifndef NDEBUG
       std::cout << "Move choice = " << move_choice << std::endl;
       #endif
 
-      switch (move_choice) {
-        case static_cast<int>(move_type::TWO_THREE):
-          #ifndef NDEBUG
-          std::cout << "(2,3) move" << std::endl;
-          #endif
-          attempt_23_move();
-          break;
-        case static_cast<int>(move_type::THREE_TWO):
-          std::cout << "(3,2) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::TWO_SIX):
-          std::cout << "(2,6) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::SIX_TWO):
-          std::cout << "(6,2) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::FOUR_FOUR):
-          std::cout << "(4,4) move" << std::endl;
-          break;
-      }
+      // Convert unsigned to move_choice enum
+      auto move = static_cast<move_type>(move_choice);
+      attempt_move(move);
     }
 
     return universe_ptr_;
