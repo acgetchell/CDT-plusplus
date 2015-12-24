@@ -68,6 +68,8 @@ auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
 
 /// @brief Make a (2,3) move
 ///
+/// A (2,3) moves adds a (2,2) simplex and a timelike edge.
+///
 /// This function calls **try_23_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
@@ -134,6 +136,8 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
 }  // try_32_move()
 
 /// @brief Make a (3,2) move
+///
+/// A (3,2) move removes a (2,2) simplex and a timelike edge.
 ///
 /// This function calls **try_32_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
@@ -234,7 +238,12 @@ inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
   return movable;
 }  // find_26_movable()
 
-/// @brief Convert (1,3) and (3,1) into 3 (1,3)s and 3 (3,1)s
+/// @brief Make a (2,6) move
+///
+/// A (2,6) move adds 2 (1,3) simplices and 2 (3,1) simplices for a
+/// total of 3 (1,3) simplices and 3 (3,1) simplices.
+/// It also adds 2 timelike edges and 3 spacelike edges, for a total
+/// of 8 timelike edges and 6 spacelike edges.
 ///
 /// This function performs the (2,6) move by picking a random (1,3) simplex
 /// from **simplex_types**. The **find_26_movable()** function finds the

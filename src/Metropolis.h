@@ -368,22 +368,28 @@ class Metropolis {
         case static_cast<int>(move_type::TWO_THREE):
           std::cout << "(2,3) move" << std::endl;
           make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
-          // Increment N3_22_ and successful_moves_
+          // Increment N3_22_, N1_TL_ and successful_moves_
           ++N3_22_;
+          ++N1_TL_;
           ++std::get<0>(successful_moves_);
           break;
         case static_cast<int>(move_type::THREE_TWO):
           std::cout << "(3,2) move" << std::endl;
           make_32_move(universe_ptr_, edge_types_, attempted_moves_);
-          // Decrement N3_22_, increment successful_moves_
+          // Decrement N3_22_ and N1_TL_, increment successful_moves_
           --N3_22_;
+          --N1_TL_;
           ++std::get<1>(successful_moves_);
           break;
         case static_cast<int>(move_type::TWO_SIX):
           std::cout << "(2,6) move" << std::endl;
           make_26_move(universe_ptr_, simplex_types_, attempted_moves_);
-          // Increment N3_31 and successful_moves_
+          // Increment N3_31, N1_TL_ and successful_moves_
           N3_31_ += 4;
+          N1_TL_ += 2;
+          // We don't currently keep track of changes to spacelike edges
+          // because it doesn't figure in the bulk action formula, but if
+          // we did there would be 3 additional spacelike edges to add here.
           ++std::get<2>(successful_moves_);
           break;
         case static_cast<int>(move_type::SIX_TWO):
@@ -485,20 +491,24 @@ class Metropolis {
     // Attempt each type of move to populate **attempted_moves_**
     universe_ptr_ = std::move(make_23_move(universe_ptr_,
                                            simplex_types_, attempted_moves_));
-    // A (2,3) move increases (2,2) simplices by 1
+    // A (2,3) move increases (2,2) simplices and timelike edges by 1
     ++N3_22_;
+    ++N1_TL_;
     ++std::get<0>(successful_moves_);
 
     universe_ptr_ = std::move(make_32_move(universe_ptr_,
                                            edge_types_, attempted_moves_));
-    // A (3,2) move decreases (2,2) simplices by 1
+    // A (3,2) move decreases (2,2) simplices and timelike edges by 1
     --N3_22_;
+    --N1_TL_;
     ++std::get<1>(successful_moves_);
 
     universe_ptr_ = std::move(make_26_move(universe_ptr_,
                                            simplex_types_, attempted_moves_));
     // A (2,6) move increases (1,3) and (3,1) simplices by 4
-    N3_31_+=4;
+    // and timelike edges by 2
+    N3_31_ += 4;
+    N1_TL_ += 2;
     ++std::get<2>(successful_moves_);
 
     // Other moves go here ...

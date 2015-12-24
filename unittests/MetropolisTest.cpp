@@ -112,20 +112,37 @@ TEST_F(MetropolisTest, Operator) {
             << testrun.TwoTwoSimplices() << std::endl;
   std::cout << "Movable (2,2) simplices = "
             << testrun.MovableTwoTwoSimplices().size() << std::endl;
+  std::cout << "There were " << testrun.TwoThreeMoves()
+            << " attempted (2,3) moves and "
+            << testrun.SuccessfulTwoThreeMoves()
+            << " successful (2,3) moves." << std::endl;
+  std::cout << "There were " << testrun.ThreeTwoMoves()
+            << " attempted (3,2) moves and "
+            << testrun.SuccessfulThreeTwoMoves()
+            << " successful (3,2) moves." << std::endl;
+  std::cout << "There were " << testrun.TwoSixMoves()
+            << " attempted (2,6) moves and "
+            << testrun.SuccessfulTwoSixMoves()
+            << " successful (2,6) moves." << std::endl;
 
-  EXPECT_THAT(testrun.MovableTimelikeEdges().size() +
-              testrun.ThreeTwoMoves(), Eq(V2_before))
-    << "Metropolis functor (3,2) moves recorded.";
+  EXPECT_THAT(testrun.TimelikeEdges(),
+              Eq(V2_before - testrun.SuccessfulThreeTwoMoves()
+                  + testrun.SuccessfulTwoThreeMoves()
+                  + 2*testrun.SuccessfulTwoSixMoves()))
+    << "Timelike edges not correctly counted during moves.";
 
   EXPECT_THAT(testrun.MovableThreeOneSimplices().size(), Eq(N3_31_before))
     << "Metropolis functor simplex_types_ incorrect.";
 
-  EXPECT_THAT(testrun.MovableTwoTwoSimplices().size() +
-              testrun.TwoThreeMoves(), Eq(N3_22_before))
-    << "Metropolis functor (2,3) moves recorded.";
+  EXPECT_THAT(testrun.TwoTwoSimplices(),
+              Eq(N3_22_before + testrun.SuccessfulTwoThreeMoves()
+                  - testrun.SuccessfulThreeTwoMoves()))
+    << "(2,2) simplices not correctly counted during moves.";
 
-  EXPECT_THAT(testrun.MovableOneThreeSimplices().size(), Eq(N3_13_before))
-    << "Metropolis functor simplex_types_ incorrect.";
+  EXPECT_THAT(testrun.ThreeOneSimplices(),
+              Eq(N3_13_before + N3_31_before
+                 + 4*testrun.SuccessfulTwoSixMoves()))
+    << "(1,3) and (3,1) simplices not correctly counted during moves.";
 
   EXPECT_THAT(testrun.CurrentTotalSimplices(),
               Eq(result->number_of_finite_cells()))
