@@ -263,9 +263,9 @@ class Metropolis {
     // auto newS3Action = static_cast<MP_Float>(0);
     switch (move) {
       case move_type::TWO_THREE:
-        // A (2,3) move removes a timelike edge and
-        // adds a (2,2) simplex
-        newS3Action = S3_bulk_action(N1_TL_-1,
+        // A (2,3) move adds a timelike edge
+        // and a (2,2) simplex
+        newS3Action = S3_bulk_action(N1_TL_+1,
                                      N3_31_,
                                      N3_22_+1,
                                      Alpha_,
@@ -273,9 +273,9 @@ class Metropolis {
                                      Lambda_);
         break;
       case move_type::THREE_TWO:
-        // A (3,2) move adds a timelike edge and
-        // removes a (2,2) simplex
-        newS3Action = S3_bulk_action(N1_TL_+1,
+        // A (3,2) move removes a timelike edge
+        // and a (2,2) simplex
+        newS3Action = S3_bulk_action(N1_TL_-1,
                                    N3_31_,
                                    N3_22_-1,
                                    Alpha_,
