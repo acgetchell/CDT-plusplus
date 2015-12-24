@@ -525,7 +525,7 @@ class Metropolis {
     // Other moves go here ...
 
     std::cout << "Making random moves ..." << std::endl;
-    auto total_simplices_this_pass = 10;  // CurrentTotalSimplices();
+    auto total_simplices_this_pass = CurrentTotalSimplices();
     for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
          ++move_attempt) {
       // Pick a move to attempt
