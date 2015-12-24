@@ -13,14 +13,15 @@
 /// \done operator()
 /// \done CalculateA1
 /// \done CalculateA2
-/// \todo Update N1_TL_, N3_31_ and N3_22_ after successful moves
+/// \done Update N1_TL_, N3_31_ and N3_22_ after successful moves
 /// \todo Implement 3D Metropolis algorithm in operator()
 /// \todo Implement concurrency
 
 /// @file Metropolis.h
 /// @brief Perform Metropolis-Hasting algorithm on Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug Does not quite keep track of (2,3), (3,2)
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #ifndef SRC_METROPOLIS_H_
 #define SRC_METROPOLIS_H_
@@ -61,12 +62,6 @@ enum class move_type {TWO_THREE = 0,
                       SIX_TWO = 3,
                       FOUR_FOUR = 4};
 
-// template <typename T1, typename T2>
-// auto attempt_23_move(T1&& universe_ptr, T2&& simplex_types) noexcept
-//                      -> decltype(universe_ptr) {
-//   return universe_ptr;
-// }  // attempt_23_move()
-
 /// @class Metropolis
 ///
 /// @brief Metropolis-Hastings algorithm functor
@@ -81,7 +76,7 @@ class Metropolis {
  public:
   /// @brief Metropolis constructor
   ///
-  /// Very minimal setup of runtime job parameters.
+  /// Minimal setup of runtime job parameters.
   /// All the real work is done by operator().
   ///
   /// @param[in] Alpha  \f$\alpha\f$ is the timelike edge length
@@ -193,7 +188,7 @@ class Metropolis {
   /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_type move) const {
     auto total_moves = this->TotalMoves();
-    auto this_move = 5;
+    auto this_move = 0;
     auto move_name = "";
     switch (move) {
       case move_type::TWO_THREE:
@@ -284,7 +279,7 @@ class Metropolis {
         break;
       case move_type::TWO_SIX:
         // A (2,6) move adds 2 timelike edges and
-        // adds 2 (1,3) and 2 (3,1) simplices
+        // 2 (1,3) and 2 (3,1) simplices
         newS3Action = S3_bulk_action(N1_TL_+2,
                                    N3_31_+4,
                                    N3_22_,
@@ -294,7 +289,7 @@ class Metropolis {
         break;
       case move_type::SIX_TWO:
         // A (6,2) move removes 2 timelike edges and
-        // removes 2 (1,3) and 2 (3,1) simplices
+        // 2 (1,3) and 2 (3,1) simplices
         newS3Action = S3_bulk_action(N1_TL_-2,
                                    N3_31_,
                                    N3_22_-4,
@@ -303,7 +298,8 @@ class Metropolis {
                                    Lambda_);
         break;
       case move_type::FOUR_FOUR:
-        // A (4,4) move changes nothing, and e^0==1
+        // A (4,4) move changes nothing with respect to the action,
+        // and e^0==1
         #ifndef NDEBUG
         std::cout << "A2 is 1" << std::endl;
         #endif
@@ -343,6 +339,56 @@ class Metropolis {
     return result;
   }  // CAlculateA2()
 
+  void make_move(const move_type move) noexcept {
+    // Cast move_type to corresponding size_t
+    const auto move_choice = static_cast<size_t>(move);
+
+    switch (move_choice) {
+      case static_cast<int>(move_type::TWO_THREE):
+        std::cout << "(2,3) move" << std::endl;
+        make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
+        // make_23_move() increments attempted_moves_
+        // Increment N3_22_, N1_TL_ and successful_moves_
+        ++N3_22_;
+        ++N1_TL_;
+        ++std::get<0>(successful_moves_);
+        break;
+      case static_cast<int>(move_type::THREE_TWO):
+        std::cout << "(3,2) move" << std::endl;
+        make_32_move(universe_ptr_, edge_types_, attempted_moves_);
+        // make_32_move() increments attempted_moves_
+        // Decrement N3_22_ and N1_TL_, increment successful_moves_
+        --N3_22_;
+        --N1_TL_;
+        ++std::get<1>(successful_moves_);
+        break;
+      case static_cast<int>(move_type::TWO_SIX):
+        std::cout << "(2,6) move" << std::endl;
+        make_26_move(universe_ptr_, simplex_types_, attempted_moves_);
+        // make_26_move() increments attempted_moves_
+        // Increment N3_31, N1_TL_ and successful_moves_
+        N3_31_ += 4;
+        N1_TL_ += 2;
+        // We don't currently keep track of changes to spacelike edges
+        // because it doesn't figure in the bulk action formula, but if
+        // we did there would be 3 additional spacelike edges to add here.
+        ++std::get<2>(successful_moves_);
+        break;
+      case static_cast<int>(move_type::SIX_TWO):
+        std::cout << "(6,2) move" << std::endl;
+        // make_62_move(universe_ptr_, simplex_types_, attempted_moves_);
+        // N3_31_ -= 4;
+        // N1_TL_ -= 2;
+        // ++std::get<3>(successful_moves_);
+        break;
+      case static_cast<int>(move_type::FOUR_FOUR):
+        std::cout << "(4,4) move" << std::endl;
+        // make_44_move(universe_ptr_, simplex_types_, attempted_moves_);
+        // ++std::get<4>(successful_moves_);
+        break;
+    }
+  }  // make_move()
+
   void attempt_move(const move_type move) noexcept {
     // Calculate probability
     auto a1 = CalculateA1(move);
@@ -363,46 +409,11 @@ class Metropolis {
 
     if (trial <= a1*a2) {
       // Move accepted
-
-      switch (move_choice) {
-        case static_cast<int>(move_type::TWO_THREE):
-          std::cout << "(2,3) move" << std::endl;
-          make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
-          // Increment N3_22_, N1_TL_ and successful_moves_
-          ++N3_22_;
-          ++N1_TL_;
-          ++std::get<0>(successful_moves_);
-          break;
-        case static_cast<int>(move_type::THREE_TWO):
-          std::cout << "(3,2) move" << std::endl;
-          make_32_move(universe_ptr_, edge_types_, attempted_moves_);
-          // Decrement N3_22_ and N1_TL_, increment successful_moves_
-          --N3_22_;
-          --N1_TL_;
-          ++std::get<1>(successful_moves_);
-          break;
-        case static_cast<int>(move_type::TWO_SIX):
-          std::cout << "(2,6) move" << std::endl;
-          make_26_move(universe_ptr_, simplex_types_, attempted_moves_);
-          // Increment N3_31, N1_TL_ and successful_moves_
-          N3_31_ += 4;
-          N1_TL_ += 2;
-          // We don't currently keep track of changes to spacelike edges
-          // because it doesn't figure in the bulk action formula, but if
-          // we did there would be 3 additional spacelike edges to add here.
-          ++std::get<2>(successful_moves_);
-          break;
-        case static_cast<int>(move_type::SIX_TWO):
-          std::cout << "(6,2) move" << std::endl;
-          break;
-        case static_cast<int>(move_type::FOUR_FOUR):
-          std::cout << "(4,4) move" << std::endl;
-          break;
-      }
+      make_move(move);
     } else {
       // Move rejected
       // Increment attempted_moves_
-      // ++std::get<move_choice>(attempted_moves);
+      // ++std::get<move_choice>(attempted_moves); // sadly doesn't work
       switch (move_choice) {
         case static_cast<int>(move_type::TWO_THREE):
           ++std::get<0>(attempted_moves_);
@@ -488,31 +499,14 @@ class Metropolis {
     N1_TL_ = static_cast<uintmax_t>(edge_types_.first.size());
     std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
 
-    // Attempt each type of move to populate **attempted_moves_**
-    universe_ptr_ = std::move(make_23_move(universe_ptr_,
-                                           simplex_types_, attempted_moves_));
-    // A (2,3) move increases (2,2) simplices and timelike edges by 1
-    ++N3_22_;
-    ++N1_TL_;
-    ++std::get<0>(successful_moves_);
-
-    universe_ptr_ = std::move(make_32_move(universe_ptr_,
-                                           edge_types_, attempted_moves_));
-    // A (3,2) move decreases (2,2) simplices and timelike edges by 1
-    --N3_22_;
-    --N1_TL_;
-    ++std::get<1>(successful_moves_);
-
-    universe_ptr_ = std::move(make_26_move(universe_ptr_,
-                                           simplex_types_, attempted_moves_));
-    // A (2,6) move increases (1,3) and (3,1) simplices by 4
-    // and timelike edges by 2
-    N3_31_ += 4;
-    N1_TL_ += 2;
-    ++std::get<2>(successful_moves_);
-
+    // Make a successful move of each type to populate **attempted_moves_**
+    std::cout << "Making initial moves ..." << std::endl;
+    make_move(move_type::TWO_THREE);
+    make_move(move_type::THREE_TWO);
+    make_move(move_type::TWO_SIX);
     // Other moves go here ...
 
+    std::cout << "Making random moves ..." << std::endl;
     auto total_simplices_this_pass = 10;  // CurrentTotalSimplices();
     for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
          ++move_attempt) {
@@ -522,11 +516,10 @@ class Metropolis {
       std::cout << "Move choice = " << move_choice << std::endl;
       #endif
 
-      // Convert unsigned to move_choice enum
+      // Convert unsigned move_choice to move_type enum
       auto move = static_cast<move_type>(move_choice);
       attempt_move(move);
     }
-
     return universe_ptr_;
   }
 

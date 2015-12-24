@@ -169,7 +169,6 @@ auto make_32_move(T1&& universe_ptr,
       #ifndef NDEBUG
       std::cout << "Edge " << choice << " was flippable." << std::endl;
       #endif
-
       not_flipped = false;
     } else {
       #ifndef NDEBUG
@@ -189,7 +188,7 @@ auto make_32_move(T1&& universe_ptr,
               << std::endl;
     #endif
   }
-  // Users return value optimization and allows chaining function calls
+  // Uses return value optimization and allows chaining function calls
   return universe_ptr;
 }  // make_32_move()
 
@@ -288,6 +287,7 @@ auto make_26_move(T1&& universe_ptr,
     CGAL_triangulation_expensive_precondition(is_cell(bottom));
 
     find_26_movable(bottom, &neighboring_31_index);
+
     // If neighboring_31_index == 5 there's an error
     CGAL_triangulation_postcondition(neighboring_31_index != 5);
 
