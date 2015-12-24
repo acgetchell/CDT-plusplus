@@ -180,6 +180,8 @@ class Metropolis {
   /// Gets current total number of simplices
   auto CurrentTotalSimplices() const {return N3_31_ + N3_22_;}
 
+  /// @brief Calculate A1
+  ///
   /// Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
@@ -243,6 +245,8 @@ class Metropolis {
     return result;
   }  // CalculateA1()
 
+  /// @brief Calculte A2
+  ///
   /// Calculate \f$a_2=e^{\Delta S}\f$
   ///
   /// @param[in] move The type of move
@@ -339,12 +343,18 @@ class Metropolis {
     return result;
   }  // CAlculateA2()
 
+  /// @brief Make a move of the selected type
+  ///
+  /// This function handles making a **move_type** move
+  /// by delegating to the particular named function, which handles
+  /// the bookkeeping for **attempted_moves_**. This function then
+  /// handles the bookkeeping for successful_moves_ and updates the
+  /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
+  ///
+  /// @param[in] move The type of move
   void make_move(const move_type move) noexcept {
-    // Cast move_type to corresponding size_t
-    const auto move_choice = static_cast<size_t>(move);
-
-    switch (move_choice) {
-      case static_cast<int>(move_type::TWO_THREE):
+    switch (move) {
+      case move_type::TWO_THREE:
         std::cout << "(2,3) move" << std::endl;
         make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
         // make_23_move() increments attempted_moves_
@@ -353,7 +363,7 @@ class Metropolis {
         ++N1_TL_;
         ++std::get<0>(successful_moves_);
         break;
-      case static_cast<int>(move_type::THREE_TWO):
+      case move_type::THREE_TWO:
         std::cout << "(3,2) move" << std::endl;
         make_32_move(universe_ptr_, edge_types_, attempted_moves_);
         // make_32_move() increments attempted_moves_
@@ -362,7 +372,7 @@ class Metropolis {
         --N1_TL_;
         ++std::get<1>(successful_moves_);
         break;
-      case static_cast<int>(move_type::TWO_SIX):
+      case move_type::TWO_SIX:
         std::cout << "(2,6) move" << std::endl;
         make_26_move(universe_ptr_, simplex_types_, attempted_moves_);
         // make_26_move() increments attempted_moves_
@@ -374,14 +384,14 @@ class Metropolis {
         // we did there would be 3 additional spacelike edges to add here.
         ++std::get<2>(successful_moves_);
         break;
-      case static_cast<int>(move_type::SIX_TWO):
+      case move_type::SIX_TWO:
         std::cout << "(6,2) move" << std::endl;
         // make_62_move(universe_ptr_, simplex_types_, attempted_moves_);
         // N3_31_ -= 4;
         // N1_TL_ -= 2;
         // ++std::get<3>(successful_moves_);
         break;
-      case static_cast<int>(move_type::FOUR_FOUR):
+      case move_type::FOUR_FOUR:
         std::cout << "(4,4) move" << std::endl;
         // make_44_move(universe_ptr_, simplex_types_, attempted_moves_);
         // ++std::get<4>(successful_moves_);
@@ -389,17 +399,23 @@ class Metropolis {
     }
   }  // make_move()
 
+  /// @brief Attempt a move of the selected type
+  ///
+  /// This function implements the core of the Metropolis-Hastings algorithm
+  /// by generating a random number and comparing with the results of
+  /// CalculateA1() and CalculateA2(). If the move is accepted, this function
+  /// calls make_move(). If not, it updates attempted_moves_.
+  ///
+  /// @param[in] move The type of move
   void attempt_move(const move_type move) noexcept {
     // Calculate probability
     auto a1 = CalculateA1(move);
     // Make move if random number < probability
     auto a2 = CalculateA2(move);
 
-    // Cast move_type to corresponding size_t
-    // const auto move_choice = 0;
-    const auto move_choice = static_cast<size_t>(move);
-
     const auto trialval = generate_probability();
+    // Convert to Gmpzf because trialval will be set to 0 when
+    // comparing with a1 and a2!
     const auto trial = Gmpzf(static_cast<double>(trialval));
 
     #ifndef NDEBUG
@@ -413,21 +429,23 @@ class Metropolis {
     } else {
       // Move rejected
       // Increment attempted_moves_
-      // ++std::get<move_choice>(attempted_moves); // sadly doesn't work
-      switch (move_choice) {
-        case static_cast<int>(move_type::TWO_THREE):
+      // Too bad the following doesn't work because std::get wants a constexpr
+      // ++std::get<static_cast<size_t>(move)>(attempted_moves);
+      // Instead, need to use a switch statement
+      switch (move) {
+        case move_type::TWO_THREE:
           ++std::get<0>(attempted_moves_);
           break;
-        case static_cast<int>(move_type::THREE_TWO):
+        case move_type::THREE_TWO:
           ++std::get<1>(attempted_moves_);
           break;
-        case static_cast<int>(move_type::TWO_SIX):
+        case move_type::TWO_SIX:
           ++std::get<2>(attempted_moves_);
           break;
-        case static_cast<int>(move_type::SIX_TWO):
+        case move_type::SIX_TWO:
           ++std::get<3>(attempted_moves_);
           break;
-        case static_cast<int>(move_type::FOUR_FOUR):
+        case move_type::FOUR_FOUR:
           ++std::get<4>(attempted_moves_);
           break;
       }
@@ -435,7 +453,7 @@ class Metropolis {
 
     #ifndef NDEBUG
     std::cout << "Attempting move." << std::endl;
-    std::cout << "Move type = " << static_cast<unsigned>(move_choice)
+    std::cout << "Move type = " << static_cast<unsigned>(move)
               << std::endl;
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
@@ -477,8 +495,8 @@ class Metropolis {
   /// @returns The std::unique_ptr to the Delaunay triangulation. Note that
   /// this sets the data member **universe_ptr_** to null, and so no operations
   /// can be successfully carried out on **universe_ptr_** when operator()
-  /// returns. Instead, they should be conducted on the results of this
-  /// function call.
+  /// returns. Instead, they should be conducted on the std::move() results
+  /// of this function call.
   template <typename T>
   auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
     #ifndef NDEBUG
