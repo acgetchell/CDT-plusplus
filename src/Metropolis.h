@@ -14,6 +14,7 @@
 /// \done CalculateA1
 /// \done CalculateA2
 /// \done Update N1_TL_, N3_31_ and N3_22_ after successful moves
+/// \todo Debug occasional infinite loops and segfaults!
 /// \todo Implement 3D Metropolis algorithm in operator()
 /// \todo Implement concurrency
 
@@ -37,9 +38,10 @@
 #include "S3Action.h"
 
 // C++ headers
+#include <tuple>
 #include <vector>
 #include <utility>
-#include <tuple>
+#include <algorithm>
 
 using Gmpzf = CGAL::Gmpzf;
 // using Gmpz = CGAL::Gmpz;
@@ -154,19 +156,25 @@ class Metropolis {
 
   /// Gets the vector of **Edge_tuples** corresponding to
   /// movable timelike edges.
-  auto MovableTimelikeEdges() const {return edge_types_.first;}
+  auto MovableTimelikeEdges() const {return movable_edge_types_.first;}
 
   /// Gets the vector of **Cell_handles** corresponding to
   /// movable (3,1) simplices.
-  auto MovableThreeOneSimplices() const {return std::get<0>(simplex_types_);}
+  auto MovableThreeOneSimplices() const {
+    return std::get<0>(movable_simplex_types_);
+  }
 
   /// Gets the vector of **Cell_handles** corresponding to
   /// movable (2,2) simplices.
-  auto MovableTwoTwoSimplices() const {return std::get<1>(simplex_types_);}
+  auto MovableTwoTwoSimplices() const {
+    return std::get<1>(movable_simplex_types_);
+  }
 
   /// Gets the vector of **Cell_handles** corresponding to
   /// movable (1,3) simplices.
-  auto MovableOneThreeSimplices() const {return std::get<2>(simplex_types_);}
+  auto MovableOneThreeSimplices() const {
+    return std::get<2>(movable_simplex_types_);
+  }
 
   /// Gets current number of timelike edges
   auto TimelikeEdges() const {return N1_TL_;}
@@ -355,8 +363,10 @@ class Metropolis {
   void make_move(const move_type move) noexcept {
     switch (move) {
       case move_type::TWO_THREE:
+        #ifndef NDEBUG
         std::cout << "(2,3) move" << std::endl;
-        make_23_move(universe_ptr_, simplex_types_, attempted_moves_);
+        #endif
+        make_23_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
         // make_23_move() increments attempted_moves_
         // Increment N3_22_, N1_TL_ and successful_moves_
         ++N3_22_;
@@ -364,8 +374,10 @@ class Metropolis {
         ++std::get<0>(successful_moves_);
         break;
       case move_type::THREE_TWO:
+        #ifndef NDEBUG
         std::cout << "(3,2) move" << std::endl;
-        make_32_move(universe_ptr_, edge_types_, attempted_moves_);
+        #endif
+        make_32_move(universe_ptr_, movable_edge_types_, attempted_moves_);
         // make_32_move() increments attempted_moves_
         // Decrement N3_22_ and N1_TL_, increment successful_moves_
         --N3_22_;
@@ -373,8 +385,10 @@ class Metropolis {
         ++std::get<1>(successful_moves_);
         break;
       case move_type::TWO_SIX:
+        #ifndef NDEBUG
         std::cout << "(2,6) move" << std::endl;
-        make_26_move(universe_ptr_, simplex_types_, attempted_moves_);
+        #endif
+        make_26_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
         // make_26_move() increments attempted_moves_
         // Increment N3_31, N1_TL_ and successful_moves_
         N3_31_ += 4;
@@ -385,15 +399,19 @@ class Metropolis {
         ++std::get<2>(successful_moves_);
         break;
       case move_type::SIX_TWO:
+        #ifndef NDEBUG
         std::cout << "(6,2) move" << std::endl;
-        // make_62_move(universe_ptr_, simplex_types_, attempted_moves_);
+        #endif
+        // make_62_move(universe_ptr_, movable_types_, attempted_moves_);
         // N3_31_ -= 4;
         // N1_TL_ -= 2;
         // ++std::get<3>(successful_moves_);
         break;
       case move_type::FOUR_FOUR:
+        #ifndef NDEBUG
         std::cout << "(4,4) move" << std::endl;
-        // make_44_move(universe_ptr_, simplex_types_, attempted_moves_);
+        #endif
+        // make_44_move(universe_ptr_, movable_types_, attempted_moves_);
         // ++std::get<4>(successful_moves_);
         break;
     }
@@ -483,6 +501,15 @@ class Metropolis {
     #endif
   }  // attempt_move()
 
+  void reset_movable() {
+    // Re-populate with current data
+    auto new_movable_simplex_types = classify_simplices(universe_ptr_);
+    auto new_movable_edge_types = classify_edges(universe_ptr_);
+    // Swap new data into class data members
+    std::swap(movable_simplex_types_, new_movable_simplex_types);
+    std::swap(movable_edge_types_, new_movable_edge_types);
+  }
+
   /// @brief () operator
   ///
   /// This makes the Metropolis class into a functor. Minimal setup of
@@ -505,16 +532,17 @@ class Metropolis {
     std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
     // Populate member data
     universe_ptr_ = std::move(universe_ptr);
-    simplex_types_ = classify_simplices(universe_ptr_);
-    edge_types_ = classify_edges(universe_ptr_);
-    N3_31_ = static_cast<uintmax_t>(std::get<0>(simplex_types_).size() +
-                                            std::get<2>(simplex_types_).size());
+    // movable_simplex_types_ = classify_simplices(universe_ptr_);
+    // movable_edge_types_ = classify_edges(universe_ptr_);
+    reset_movable();
+    N3_31_ = static_cast<uintmax_t>(std::get<0>(movable_simplex_types_).size()
+                                  + std::get<2>(movable_simplex_types_).size());
     std::cout << "N3_31_ = " << N3_31_ << std::endl;
 
-    N3_22_ = static_cast<uintmax_t>(std::get<1>(simplex_types_).size());
+    N3_22_ = static_cast<uintmax_t>(std::get<1>(movable_simplex_types_).size());
     std::cout << "N3_22_ = " << N3_22_ << std::endl;
 
-    N1_TL_ = static_cast<uintmax_t>(edge_types_.first.size());
+    N1_TL_ = static_cast<uintmax_t>(movable_edge_types_.first.size());
     std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
 
     // Make a successful move of each type to populate **attempted_moves_**
@@ -525,19 +553,31 @@ class Metropolis {
     // Other moves go here ...
 
     std::cout << "Making random moves ..." << std::endl;
-    auto total_simplices_this_pass = CurrentTotalSimplices();
-    for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-         ++move_attempt) {
-      // Pick a move to attempt
-      auto move_choice = generate_random_unsigned(0, 2);
-      #ifndef NDEBUG
-      std::cout << "Move choice = " << move_choice << std::endl;
-      #endif
+    // Loop through passes_
+    for (uintmax_t pass_number = 1; pass_number <= passes_;
+         ++pass_number) {
+      auto total_simplices_this_pass = CurrentTotalSimplices();
+      // Loop through CurrentTotalSimplices
+      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+           ++move_attempt) {
+        // Pick a move to attempt
+        auto move_choice = generate_random_unsigned(0, 2);
+        #ifndef NDEBUG
+        std::cout << "Move choice = " << move_choice << std::endl;
+        #endif
 
-      // Convert unsigned move_choice to move_type enum
-      auto move = static_cast<move_type>(move_choice);
-      attempt_move(move);
-    }
+        // Convert unsigned move_choice to move_type enum
+        auto move = static_cast<move_type>(move_choice);
+        attempt_move(move);
+      }  // End loop through CurrentTotalSimplices
+      // Reset movable data structures
+      // reset_movable();
+      // Do stuff on output_every_n_passes_
+      if ((pass_number % output_every_n_passes_) == 0) {
+        std::cout << "Pass " << pass_number << std::endl;
+        // write results to a file
+      }
+    }  // End loop through passes_
     return universe_ptr_;
   }
 
@@ -571,9 +611,9 @@ class Metropolis {
   ///< Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
-             std::vector<Cell_handle>> simplex_types_;
+             std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_tuple>, unsigned> edge_types_;
+  std::pair<std::vector<Edge_tuple>, unsigned> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
 

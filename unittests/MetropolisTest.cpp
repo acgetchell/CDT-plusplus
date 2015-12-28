@@ -93,7 +93,7 @@ TEST_F(MetropolisTest, Ctor) {
 
 TEST_F(MetropolisTest, Operator) {
   // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+  Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
