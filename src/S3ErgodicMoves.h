@@ -11,6 +11,7 @@
 /// \done Complete function documentation
 /// \done (2,6) move
 /// \done Multi-threaded operations using Intel TBB
+/// \todo Handle neighboring_31_index != 5 condition
 /// \todo (6,2) move
 /// \todo (4,4) move
 

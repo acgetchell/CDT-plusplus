@@ -148,13 +148,13 @@ TEST_F(MetropolisTest, Operator) {
               Eq(result->number_of_finite_cells()))
     << "ThreeOneSimplices() + TwoTwoSimplices() has an incorrect count.";
 
-  EXPECT_THAT(testrun.SuccessfulTwoThreeMoves(), Ge(1))
+  EXPECT_THAT(testrun.SuccessfulTwoThreeMoves(), Gt(1))
     << "No successful (2,3) moves.";
 
-  EXPECT_THAT(testrun.SuccessfulThreeTwoMoves(), Ge(1))
+  EXPECT_THAT(testrun.SuccessfulThreeTwoMoves(), Gt(1))
     << "No successful (3,2) moves.";
 
-  EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Ge(1))
+  EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Gt(1))
     << "No successful (2,6) moves.";
 
   // EXPECT_THAT(testrun.SuccessfulSixTwoMoves(), Ge(1))

@@ -14,6 +14,7 @@
 /// \done CalculateA1
 /// \done CalculateA2
 /// \done Update N1_TL_, N3_31_ and N3_22_ after successful moves
+/// \done Atomic integral types for safe multithreading
 /// \todo Debug occasional infinite loops and segfaults!
 /// \todo Implement 3D Metropolis algorithm in operator()
 /// \todo Implement concurrency
@@ -39,22 +40,17 @@
 
 // C++ headers
 #include <tuple>
+#include <atomic>
 #include <vector>
 #include <utility>
 #include <algorithm>
 
 using Gmpzf = CGAL::Gmpzf;
-// using Gmpz = CGAL::Gmpz;
-// using MP_Float = CGAL::MP_Float;
-// using move_tuple = std::tuple<std::atomic<long int>,
-//                               std::atomic<long int>,
-//                               std::atomic<long int>,
-//                               std::atomic<long int>>;
-using move_tuple = std::tuple<uintmax_t,
-                              uintmax_t,
-                              uintmax_t,
-                              uintmax_t,
-                              uintmax_t>;
+using move_tuple = std::tuple<std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>>;
 
 extern const unsigned PRECISION;
 
@@ -94,99 +90,125 @@ class Metropolis {
              const unsigned output_every_n_passes)
              : Alpha_(Alpha),
                K_(K),
-               Lambda_(Lambda),
-               passes_(passes),
-               output_every_n_passes_(output_every_n_passes) {
+               Lambda_(Lambda) {
+    // store values atomically
+    passes_.store(passes);
+    output_every_n_passes_.store(output_every_n_passes);
+
     #ifndef NDEBUG
     std::cout << "Ctor called." << std::endl;
     #endif
   }
 
   /// Gets value of **Alpha_**.
-  auto Alpha() const {return Alpha_;}
+  auto Alpha() const noexcept {return Alpha_;}
 
   /// Gets value of **K_**.
-  auto K() const {return K_;}
+  auto K() const noexcept {return K_;}
 
   /// Gets value of **Lambda_**.
-  auto Lambda() const {return Lambda_;}
+  auto Lambda() const noexcept {return Lambda_;}
 
   /// Gets value of **passes_**.
-  auto Passes() const {return passes_;}
+  auto Passes() const noexcept {return passes_.load();}
 
   /// Gets value of **output_every_n_passes_**.
-  auto Output() const {return output_every_n_passes_;}
-
-  /// Gets the total number of attempted moves.
-  auto TotalMoves() const {return std::get<0>(attempted_moves_) +
-                                  std::get<1>(attempted_moves_) +
-                                  std::get<2>(attempted_moves_) +
-                                  std::get<3>(attempted_moves_) +
-                                  std::get<4>(attempted_moves_);}
+  auto Output() const noexcept {return output_every_n_passes_.load();}
 
   /// Gets attempted (2,3) moves.
-  auto TwoThreeMoves() const {return std::get<0>(attempted_moves_);}
+  auto TwoThreeMoves() const noexcept {
+    return std::get<0>(attempted_moves_).load();
+  }
 
   /// Gets successful (2,3) moves.
-  auto SuccessfulTwoThreeMoves() const {return std::get<0>(successful_moves_);}
+  auto SuccessfulTwoThreeMoves() const noexcept {
+    return std::get<0>(successful_moves_).load();
+  }
 
   /// Gets attempted (3,2) moves.
-  auto ThreeTwoMoves() const {return std::get<1>(attempted_moves_);}
+  auto ThreeTwoMoves() const noexcept {
+    return std::get<1>(attempted_moves_).load();
+  }
 
   /// Gets successful (3,2) moves.
-  auto SuccessfulThreeTwoMoves() const {return std::get<1>(successful_moves_);}
+  auto SuccessfulThreeTwoMoves() const noexcept {
+    return std::get<1>(successful_moves_).load();
+  }
 
   /// Gets attempted (2,6) moves.
-  auto TwoSixMoves() const {return std::get<2>(attempted_moves_);}
+  auto TwoSixMoves() const noexcept {
+    return std::get<2>(attempted_moves_).load();
+  }
 
   /// Gets successful (2,6) moves.
-  auto SuccessfulTwoSixMoves() const {return std::get<2>(successful_moves_);}
+  auto SuccessfulTwoSixMoves() const noexcept {
+    return std::get<2>(successful_moves_).load();
+  }
 
   /// Gets attempted (6,2) moves.
-  auto SixTwoMoves() const {return std::get<3>(attempted_moves_);}
+  auto SixTwoMoves() const noexcept {
+    return std::get<3>(attempted_moves_).load();
+  }
 
   /// Gets successful (6,2) moves.
-  auto SuccessfulSixTwoMoves() const {return std::get<3>(attempted_moves_);}
+  auto SuccessfulSixTwoMoves() const noexcept {
+    return std::get<3>(attempted_moves_).load();
+  }
 
   /// Gets attempted (4,4) moves.
-  auto FourFourMoves() const {return std::get<4>(attempted_moves_);}
+  auto FourFourMoves() const noexcept {
+    return std::get<4>(attempted_moves_).load();
+  }
 
   /// Gets successful (4,4) moves.
-  auto SuccessfulFourFourMoves() const {return std::get<4>(attempted_moves_);}
+  auto SuccessfulFourFourMoves() const noexcept {
+    return std::get<4>(attempted_moves_).load();
+  }
+
+  /// Gets the total number of attempted moves.
+  auto TotalMoves() const noexcept {
+    return TwoThreeMoves() +
+           ThreeTwoMoves() +
+           TwoSixMoves() +
+           SixTwoMoves() +
+           FourFourMoves();
+  }
 
   /// Gets the vector of **Edge_tuples** corresponding to
   /// movable timelike edges.
-  auto MovableTimelikeEdges() const {return movable_edge_types_.first;}
+  auto MovableTimelikeEdges() const noexcept {return movable_edge_types_.first;}
 
   /// Gets the vector of **Cell_handles** corresponding to
   /// movable (3,1) simplices.
-  auto MovableThreeOneSimplices() const {
+  auto MovableThreeOneSimplices() const noexcept {
     return std::get<0>(movable_simplex_types_);
   }
 
   /// Gets the vector of **Cell_handles** corresponding to
   /// movable (2,2) simplices.
-  auto MovableTwoTwoSimplices() const {
+  auto MovableTwoTwoSimplices() const noexcept {
     return std::get<1>(movable_simplex_types_);
   }
 
   /// Gets the vector of **Cell_handles** corresponding to
   /// movable (1,3) simplices.
-  auto MovableOneThreeSimplices() const {
+  auto MovableOneThreeSimplices() const noexcept {
     return std::get<2>(movable_simplex_types_);
   }
 
   /// Gets current number of timelike edges
-  auto TimelikeEdges() const {return N1_TL_;}
+  auto TimelikeEdges() const noexcept {return N1_TL_.load();}
 
   /// Gets current number of (3,1) and (1,3) simplices
-  auto ThreeOneSimplices() const {return N3_31_;}
+  auto ThreeOneSimplices() const noexcept {return N3_31_.load();}
 
   /// Gets current number of (2,2) simplices
-  auto TwoTwoSimplices() const {return N3_22_;}
+  auto TwoTwoSimplices() const noexcept {return N3_22_.load();}
 
   /// Gets current total number of simplices
-  auto CurrentTotalSimplices() const {return N3_31_ + N3_22_;}
+  auto CurrentTotalSimplices() const noexcept {
+    return ThreeOneSimplices() + TwoTwoSimplices();
+  }
 
   /// @brief Calculate A1
   ///
@@ -196,7 +218,7 @@ class Metropolis {
   ///
   /// @param[in] move The type of move
   /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
-  auto CalculateA1(move_type move) const {
+  auto CalculateA1(move_type move) const noexcept {
     auto total_moves = this->TotalMoves();
     auto this_move = 0;
     auto move_name = "";
@@ -259,10 +281,10 @@ class Metropolis {
   ///
   /// @param[in] move The type of move
   /// @returns \f$a_2=e^{\Delta S}\f$
-  auto CalculateA2(move_type move) const {
-    auto currentS3Action = S3_bulk_action(N1_TL_,
-                                          N3_31_,
-                                          N3_22_,
+  auto CalculateA2(move_type move) const noexcept {
+    auto currentS3Action = S3_bulk_action(N1_TL_.load(),
+                                          N3_31_.load(),
+                                          N3_22_.load(),
                                           Alpha_,
                                           K_,
                                           Lambda_);
@@ -272,9 +294,9 @@ class Metropolis {
       case move_type::TWO_THREE:
         // A (2,3) move adds a timelike edge
         // and a (2,2) simplex
-        newS3Action = S3_bulk_action(N1_TL_+1,
-                                     N3_31_,
-                                     N3_22_+1,
+        newS3Action = S3_bulk_action(N1_TL_.load()+1,
+                                     N3_31_.load(),
+                                     N3_22_.load()+1,
                                      Alpha_,
                                      K_,
                                      Lambda_);
@@ -282,9 +304,9 @@ class Metropolis {
       case move_type::THREE_TWO:
         // A (3,2) move removes a timelike edge
         // and a (2,2) simplex
-        newS3Action = S3_bulk_action(N1_TL_-1,
-                                   N3_31_,
-                                   N3_22_-1,
+        newS3Action = S3_bulk_action(N1_TL_.load()-1,
+                                   N3_31_.load(),
+                                   N3_22_.load()-1,
                                    Alpha_,
                                    K_,
                                    Lambda_);
@@ -292,9 +314,9 @@ class Metropolis {
       case move_type::TWO_SIX:
         // A (2,6) move adds 2 timelike edges and
         // 2 (1,3) and 2 (3,1) simplices
-        newS3Action = S3_bulk_action(N1_TL_+2,
-                                   N3_31_+4,
-                                   N3_22_,
+        newS3Action = S3_bulk_action(N1_TL_.load()+2,
+                                   N3_31_.load()+4,
+                                   N3_22_.load(),
                                    Alpha_,
                                    K_,
                                    Lambda_);
@@ -302,9 +324,9 @@ class Metropolis {
       case move_type::SIX_TWO:
         // A (6,2) move removes 2 timelike edges and
         // 2 (1,3) and 2 (3,1) simplices
-        newS3Action = S3_bulk_action(N1_TL_-2,
-                                   N3_31_,
-                                   N3_22_-4,
+        newS3Action = S3_bulk_action(N1_TL_.load()-2,
+                                   N3_31_.load(),
+                                   N3_22_.load()-4,
                                    Alpha_,
                                    K_,
                                    Lambda_);
@@ -359,8 +381,10 @@ class Metropolis {
   /// handles the bookkeeping for successful_moves_ and updates the
   /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
   ///
+  /// \todo Add exception handling for moves to gracefully recover
+  ///
   /// @param[in] move The type of move
-  void make_move(const move_type move) noexcept {
+  void make_move(const move_type move) {
     switch (move) {
       case move_type::TWO_THREE:
         #ifndef NDEBUG
@@ -596,15 +620,17 @@ class Metropolis {
   long double Lambda_;
   ///< \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
   /// the cosmological constant.
-  uintmax_t N1_TL_ {0};
+  std::atomic<uintmax_t> N1_TL_ {0};
   ///< The current number of timelike edges, some of which may not be movable.
-  uintmax_t N3_31_ {0};
+  std::atomic<uintmax_t> N3_31_ {0};
   ///< The current number of (3,1) and (1,3) simplices, some of which may not
   /// be movable.
-  uintmax_t N3_22_ {0};
+  std::atomic<uintmax_t> N3_22_ {0};
   ///< The current number of (2,2) simplices, some of which may not be movable.
-  unsigned passes_;  ///< Number of passes of ergodic moves on triangulation.
-  unsigned output_every_n_passes_;  ///< How often to print/write output.
+  std::atomic<uintmax_t> passes_ {100};
+  ///< Number of passes of ergodic moves on triangulation.
+  std::atomic<uintmax_t> output_every_n_passes_ {10};
+  ///< How often to print/write output.
   move_tuple attempted_moves_ {0, 0, 0, 0, 0};
   ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   move_tuple successful_moves_ {0, 0, 0, 0, 0};
