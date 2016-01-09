@@ -25,10 +25,12 @@
 #include <sys/utsname.h>
 
 // C++ headers
+#include <stdexcept>
 #include <iostream>
-#include <string>
 #include <fstream>
+#include <string>
 #include <random>
+#include <mutex>
 
 // Boost
 // #include <boost/type_index.hpp>
@@ -177,7 +179,10 @@ void write_file(const T& universe_ptr,
                 const topology_type& topology,
                 const unsigned dimensions,
                 const unsigned number_of_simplices,
-                const unsigned number_of_timeslices) noexcept {
+                const unsigned number_of_timeslices) {
+  // mutex to protect file access across threads
+  static std::mutex mutex;
+
   std::string filename = "";
   filename.assign(generate_filename(topology,
                                     dimensions,
@@ -186,8 +191,14 @@ void write_file(const T& universe_ptr,
   std::cout << "Writing to file "
             << filename
             << std::endl;
-  std::ofstream oFileT(filename, std::ios::out);
-  oFileT << *universe_ptr;
+
+  std::lock_guard<std::mutex> lock(mutex);
+
+  std::ofstream file(filename, std::ios::out);
+  if (!file.is_open())
+    throw std::runtime_error("unable to open file");
+
+  file << *universe_ptr;
 }
 
 /// @brief Generate random unsigned integers
