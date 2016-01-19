@@ -90,13 +90,13 @@ class Metropolis {
              const unsigned output_every_n_passes)
              : Alpha_(Alpha),
                K_(K),
-               Lambda_(Lambda) {
-    // store values atomically
-    passes_.store(passes);
-    output_every_n_passes_.store(output_every_n_passes);
+               Lambda_(Lambda),
+               passes_(passes),
+               output_every_n_passes_(output_every_n_passes) {
+    // RAII stuff
 
     #ifndef NDEBUG
-    std::cout << "Ctor called." << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     #endif
   }
 
@@ -642,96 +642,5 @@ class Metropolis {
   std::pair<std::vector<Edge_tuple>, unsigned> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
-
-
-
-/// @brief Apply the Metropolis-Hastings algorithm
-///
-/// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
-/// The probability of making an ergodic (Pachner) move is:
-///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in] number_of_passes The number of passes made with MCMC, where a
-/// pass is defined as a number of attempted moves equal to the current number
-/// of simplices.
-/// @param[in] output_every_n_passes Prints/saves to file the current
-/// Delaunay triangulation every n passes.
-/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
-/// the move has been made
-// template <typename T>
-// auto metropolis(T&& universe_ptr, unsigned number_of_passes,
-//                 unsigned output_every_n_passes) noexcept
-//                 -> decltype(universe_ptr) {
-//   std::cout << "Starting ..." << std::endl;
-//
-//   auto simplex_types = classify_simplices(universe_ptr);
-//   auto edge_types = edge_types = classify_edges(universe_ptr);
-//
-//
-//   auto attempted_moves_per_pass = universe_ptr->number_of_finite_cells();
-//   // First, attempt a move of each type
-//   // attempt_23_move();
-//   ++std::get<0>(attempted_moves);
-//   // attempt_32_move();
-//   ++std::get<1>(attempted_moves);
-//   // attempt_26_move();
-//   ++std::get<2>(attempted_moves);
-//   while (std::get<0>(attempted_moves) +
-//          std::get<1>(attempted_moves) +
-//          std::get<2>(attempted_moves) < attempted_moves_per_pass) {
-//     // Fix this function to use attempt[i]/total attempts
-//     auto move = generate_random_unsigned(1, 3);
-//     std::cout << "Move #" << move << std::endl;
-//
-//     switch (move) {
-//       case (move_type::TWO_THREE):
-//         std::cout << "Move 1 (2,3) picked" << std::endl;
-//         // attempt_23_move()
-//         ++std::get<0>(attempted_moves);
-//         break;
-//       case (move_type::THREE_TWO):
-//         std::cout << "Move 2 (3,2) picked" << std::endl;
-//         // attempt_32_move()
-//         ++std::get<1>(attempted_moves);
-//         break;
-//       case (move_type::TWO_SIX):
-//         std::cout << "Move 3 (2,6) picked" << std::endl;
-//         // attempt_26_move()
-//         ++std::get<2>(attempted_moves);
-//         break;
-//       default:
-//         std::cout << "Oops!" << std::endl;
-//         break;
-//     }
-//   }
-//   return universe_ptr;
-// }  // metropolis()
-// auto metropolis =
-//   std::make_unique<decltype(universe)>(Metropolis(universe));
-// std::unique_ptr<Metropolis> metropolis = std::make_unique<Metropolis>(universe);
-// Metropolis metropolis(universe);
-
-// // Main loop of program
-// for (auto i = 0; i < passes; ++i) {
-//   // Initialize data and data structures needed for ergodic moves
-//   // each pass.
-//   // make_23_move(&SphericalUniverse, &two_two) does the (2,3) move
-//   // two_two is populated via classify_3_simplices()
-//
-//   // Get timelike edges V2 for make_32_move(&SphericalUniverse, &V2)
-//   std::vector<Edge_tuple> V2;
-//   auto N1_SL = static_cast<unsigned>(0);
-//   get_timelike_edges(SphericalUniverse, &V2, &N1_SL);
-//
-//   auto moves_this_pass = SphericalUniverse.number_of_finite_cells();
-//
-//   std::cout << "Pass #" << i+1 << " is "
-//             << moves_this_pass
-//             << " attempted moves." << std::endl;
-//
-//   for (auto j = 0; j < moves_this_pass; ++j) {
-//     // Metropolis algorithm to select moves goes here
-//   }
-// }
 
 #endif  // SRC_METROPOLIS_H_
