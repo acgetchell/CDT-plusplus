@@ -22,19 +22,19 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
+#include <exception>
 #include <iostream>
 #include <cstdlib>
-#include <map>
 #include <string>
 #include <vector>
 #include <memory>
+#include <map>
 
 // Docopt
 #include "docopt/docopt.h"
 
 // CDT headers
 // #include "./Utilities.h"
-// #include "S3Triangulation.h"
 // #include "S3Triangulation.h"
 #include "Metropolis.h"
 
@@ -76,108 +76,130 @@ Options:
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
 int main(int argc, char* const argv[]) {
-  // Start running time
-  CGAL::Real_timer t;
-  t.start();
+  try {
+    // Start running time
+    CGAL::Real_timer t;
+    t.start();
 
-  // docopt option parser
-  std::map<std::string, docopt::value> args
-    = docopt::docopt(USAGE,
-                     { argv + 1, argv + argc},
-                     true,          // print help message automatically
-                     "CDT 1.0");    // Version
+    // docopt option parser
+    std::map<std::string, docopt::value> args
+      = docopt::docopt(USAGE,
+                       { argv + 1, argv + argc},
+                       true,          // print help message automatically
+                       "CDT 1.0");    // Version
 
-  // Debugging
-  // for (auto const& arg : args) {
-  //   std::cout << arg.first << " " << arg.second << std::endl;
-  // }
+    // Debugging
+    // for (auto const& arg : args) {
+    //   std::cout << arg.first << " " << arg.second << std::endl;
+    // }
 
-  // Parse docopt::values in args map
-  auto simplices = std::stoul(args["-n"].asString());
-  auto timeslices = std::stoul(args["-t"].asString());
-  auto dimensions = std::stoul(args["-d"].asString());
-  auto alpha = std::stold(args["--alpha"].asString());
-  auto k = std::stold(args["-k"].asString());
-  auto lambda = std::stold(args["--lambda"].asString());
-  auto passes = std::stoul(args["--passes"].asString());
-  auto output_every_n_passes = std::stoul(args["--output"].asString());
+    // Parse docopt::values in args map
+    auto simplices = std::stoul(args["-n"].asString());
+    auto timeslices = std::stoul(args["-t"].asString());
+    auto dimensions = std::stoul(args["-d"].asString());
+    auto alpha = std::stold(args["--alpha"].asString());
+    auto k = std::stold(args["-k"].asString());
+    auto lambda = std::stold(args["--lambda"].asString());
+    auto passes = std::stoul(args["--passes"].asString());
+    auto output_every_n_passes = std::stoul(args["--output"].asString());
 
-  // Topology of simulation
-  topology_type topology;
-  if (args["--spherical"].asBool() == true) {
-    topology = topology_type::SPHERICAL;
-  } else {
-    topology = topology_type::TOROIDAL;
+    // Topology of simulation
+    topology_type topology;
+    if (args["--spherical"].asBool() == true) {
+      topology = topology_type::SPHERICAL;
+    } else {
+      topology = topology_type::TOROIDAL;
+    }
+
+    // Display job parameters
+    std::cout << "Topology is "
+      << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
+      << std::endl;
+    std::cout << "Number of dimensions = " << dimensions << std::endl;
+    std::cout << "Number of simplices = " << simplices << std::endl;
+    std::cout << "Number of timeslices = " << timeslices << std::endl;
+    std::cout << "Alpha = " << alpha << std::endl;
+    std::cout << "K = " << k << std::endl;
+    std::cout << "Lambda = " << lambda << std::endl;
+    std::cout << "Number of passes = " << passes << std::endl;
+    std::cout << "Output every n passes = " << output_every_n_passes
+              << std::endl;
+    std::cout << "User = " << getEnvVar("USER") << std::endl;
+    std::cout << "Hostname = " << hostname() << std::endl;
+
+    // Initialize spherical Delaunay triangulation
+    Delaunay universe;
+    auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+
+    // Ensure Triangle inequalities hold
+    // See http://arxiv.org/abs/hep-th/0105267 for details
+    if (dimensions == 3 && std::abs(alpha) < 0.5) {
+      t.stop();  // End running time counter
+      throw std::domain_error("Alpha in 3D should be greater than 1/2.");
+    }
+
+    switch (topology) {
+      case topology_type::SPHERICAL:
+        if (dimensions == 3) {
+          universe_ptr = std::move(make_triangulation(simplices, timeslices));
+        } else {
+          t.stop();  // End running time counter
+          throw std::invalid_argument("Currently, dimensions cannot be >3.");
+        }
+        break;
+      case topology_type::TOROIDAL:
+        t.stop();  // End running time counter
+        throw std::invalid_argument("Toroidal triangulations not yet supported.");  // NOLINT
+    }
+
+    if (!fix_timeslices(universe_ptr)) {
+      t.stop();  // End running time counter
+      throw std::logic_error("Delaunay triangulation not correctly foliated.");
+    }
+    
+    std::cout << "Universe has been initialized ..." << std::endl;
+    std::cout << "Now performing " << passes << " passes of ergodic moves."
+              << std::endl;
+
+    // The main work of the program
+    // TODO(Adam): add strong exception-safety guarantee on Metropolis functor
+    Metropolis simulation(alpha, k, lambda, passes, output_every_n_passes);
+    auto result = std::move(simulation(universe_ptr));
+
+    // Output results
+    t.stop();  // End running time counter
+    std::cout << "Final Delaunay triangulation has ";
+    print_results(result, t);
+
+    // Write results to file
+    // Strong exception-safety guarantee
+    // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values
+    //                   are written
+    write_file(result,
+               topology,
+               dimensions,
+               result->number_of_finite_cells(),
+               timeslices);
+
+    return 0;
   }
-
-  // Display job parameters
-  std::cout << "Topology is "
-    << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
-    << std::endl;
-  std::cout << "Number of dimensions = " << dimensions << std::endl;
-  std::cout << "Number of simplices = " << simplices << std::endl;
-  std::cout << "Number of timeslices = " << timeslices << std::endl;
-  std::cout << "Alpha = " << alpha << std::endl;
-  std::cout << "K = " << k << std::endl;
-  std::cout << "Lambda = " << lambda << std::endl;
-  std::cout << "Number of passes = " << passes << std::endl;
-  std::cout << "Output every n passes = " << output_every_n_passes << std::endl;
-  std::cout << "User = " << getEnvVar("USER") << std::endl;
-  std::cout << "Hostname = " << hostname() << std::endl;
-
-  // Initialize spherical Delaunay triangulation
-  Delaunay universe;
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-
-  // Ensure Triangle inequalities hold
-  // See http://arxiv.org/abs/hep-th/0105267 for details
-  if (dimensions == 3 && std::abs(alpha) < 0.5) {
-    std::cout << "Alpha in 3D should be greater than 1/2." << std::endl;
+  catch (std::domain_error& DomainError) {
+    std::cout << DomainError.what() << std::endl;
     std::cout << "Triangle inequalities violated ... Exiting." << std::endl;
     return 1;
   }
-
-  switch (topology) {
-    case topology_type::SPHERICAL:
-      if (dimensions == 3) {
-        universe_ptr = std::move(make_triangulation(simplices, timeslices));
-      } else {
-        std::cout << "Currently, dimensions cannot be higher than 3.";
-        std::cout << std::endl;
-      }
-      break;
-    case topology_type::TOROIDAL:
-      std::cout << "make_T3_triangulation not implemented yet." << std::endl;
-      t.stop();  // End running time counter
-      break;
-  }
-
-  if (!fix_timeslices(universe_ptr)) {
-    t.stop();  // End running time counter
-    std::cout << "Delaunay triangulation not correctly foliated." << std::endl;
+  catch (std::invalid_argument& InvalidArgument) {
+    std::cout << InvalidArgument.what() << std::endl;
+    std::cout << "Invalid parameter ... Exiting." << std::endl;
     return 1;
   }
-  std::cout << "Universe has been initialized ..." << std::endl;
-  std::cout << "Now performing " << passes << " passes of ergodic moves."
-            << std::endl;
-
-  // The main work of the program
-  // universe_ptr = std::move(metropolis(universe_ptr, passes,
-                                      // output_every_n_passes));
-
-  // Output results
-  t.stop();  // End running time counter
-  std::cout << "Final Delaunay triangulation has ";
-  print_results(universe_ptr, t);
-
-  // Write results to file
-  // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values are
-  //                   written
-  write_file(universe_ptr,
-             topology,
-             dimensions,
-             universe_ptr->number_of_finite_cells(),
-             timeslices);
-
-  return 0;
+  catch (std::logic_error& LogicError) {
+    std::cout << LogicError.what() << std::endl;
+    std::cout << "Simulation startup failed ... Exiting." << std::endl;
+    return 1;
+  }
+  catch (...) {
+    std::cout << "Something went wrong ... Exiting." << std::endl;
+    return 1;
+  }
 }

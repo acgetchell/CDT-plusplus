@@ -91,7 +91,7 @@ TEST_F(MetropolisTest, Ctor) {
     << "output_every_n_passes not correctly forwarded by ctor.";
 }
 
-TEST_F(MetropolisTest, Operator) {
+TEST_F(MetropolisTest, DISABLED_Operator) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
@@ -164,7 +164,7 @@ TEST_F(MetropolisTest, Operator) {
   //   << "No successful (4,4) moves.";
 }
 
-TEST_F(MetropolisTest, CalculateA1) {
+TEST_F(MetropolisTest, DISABLED_CalculateA1) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
@@ -185,7 +185,7 @@ TEST_F(MetropolisTest, CalculateA1) {
     << "Moves don't add up.";
 }
 
-TEST_F(MetropolisTest, CalculateA2) {
+TEST_F(MetropolisTest, DISABLED_CalculateA2) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
@@ -223,7 +223,7 @@ TEST_F(MetropolisTest, CalculateA2) {
     << "Moves don't add up.";
 }
 
-TEST_F(MetropolisTest, RunSimulation) {
+TEST_F(MetropolisTest, DISABLED_RunSimulation) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
