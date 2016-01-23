@@ -42,7 +42,7 @@
 static const char USAGE[] {
 R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014, 2015 Adam Getchell
+Copyright (c) 2014-2016 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -50,23 +50,24 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-o OUTPUT]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
 
 Examples:
 ./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3 --passes 1000
 ./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3 -p1000
 
 Options:
-  -h --help             Show this message
-  --version             Show program version
-  -n SIMPLICES          Approximate number of simplices
-  -t TIMESLICES         Number of timeslices
-  -d DIM                Dimensionality [default: 3]
-  -a --alpha ALPHA      Negative squared geodesic length of 1-d timelike edges
-  -k K                  K = 1/(8*pi*G_newton)
-  -l --lambda LAMBDA    K * Cosmological constant
-  -p --passes PASSES    Number of passes [default: 100]
-  -o --output OUTPUT    Output every n passes [default: 10]
+  -h --help                   Show this message
+  --version                   Show program version
+  -n SIMPLICES                Approximate number of simplices
+  -t TIMESLICES               Number of timeslices
+  -d DIM                      Dimensionality [default: 3]
+  -a --alpha ALPHA            Negative squared geodesic length of 1-d
+                              timelike edges
+  -k K                        K = 1/(8*pi*G_newton)
+  -l --lambda LAMBDA          K * Cosmological constant
+  -p --passes PASSES          Number of passes [default: 100]
+  -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]
 )"
 };
 
@@ -101,7 +102,7 @@ int main(int argc, char* const argv[]) {
     auto k = std::stold(args["-k"].asString());
     auto lambda = std::stold(args["--lambda"].asString());
     auto passes = std::stoul(args["--passes"].asString());
-    auto output_every_n_passes = std::stoul(args["--output"].asString());
+    auto checkpoint = std::stoul(args["--checkpoint"].asString());
 
     // Topology of simulation
     topology_type topology;
@@ -122,7 +123,7 @@ int main(int argc, char* const argv[]) {
     std::cout << "K = " << k << std::endl;
     std::cout << "Lambda = " << lambda << std::endl;
     std::cout << "Number of passes = " << passes << std::endl;
-    std::cout << "Output every n passes = " << output_every_n_passes
+    std::cout << "Checkpoint every n passes = " << checkpoint
               << std::endl;
     std::cout << "User = " << getEnvVar("USER") << std::endl;
     std::cout << "Hostname = " << hostname() << std::endl;
@@ -156,14 +157,14 @@ int main(int argc, char* const argv[]) {
       t.stop();  // End running time counter
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }
-    
+
     std::cout << "Universe has been initialized ..." << std::endl;
     std::cout << "Now performing " << passes << " passes of ergodic moves."
               << std::endl;
 
     // The main work of the program
     // TODO(Adam): add strong exception-safety guarantee on Metropolis functor
-    Metropolis simulation(alpha, k, lambda, passes, output_every_n_passes);
+    Metropolis simulation(alpha, k, lambda, passes, checkpoint);
     auto result = std::move(simulation(universe_ptr));
 
     // Output results

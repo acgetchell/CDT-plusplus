@@ -82,17 +82,17 @@ class Metropolis {
   /// @param[in] Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
   ///                   Cosmological constant
   /// @param[in] passes Number of passes of ergodic moves on triangulation.
-  /// @param[in] output_every_n_passes How often to print/write output.
+  /// @param[in] checkpoint How often to print/write output.
   Metropolis(const long double Alpha,
              const long double K,
              const long double Lambda,
              const unsigned passes,
-             const unsigned output_every_n_passes)
+             const unsigned checkpoint)
              : Alpha_(Alpha),
                K_(K),
                Lambda_(Lambda),
                passes_(passes),
-               output_every_n_passes_(output_every_n_passes) {
+               checkpoint_(checkpoint) {
     // RAII stuff
 
     #ifndef NDEBUG
@@ -112,8 +112,8 @@ class Metropolis {
   /// Gets value of **passes_**.
   auto Passes() const noexcept {return passes_.load();}
 
-  /// Gets value of **output_every_n_passes_**.
-  auto Output() const noexcept {return output_every_n_passes_.load();}
+  /// Gets value of **checkpoint_**.
+  auto Output() const noexcept {return checkpoint_.load();}
 
   /// Gets attempted (2,3) moves.
   auto TwoThreeMoves() const noexcept {
@@ -596,8 +596,8 @@ class Metropolis {
       }  // End loop through CurrentTotalSimplices
       // Reset movable data structures
       // reset_movable();
-      // Do stuff on output_every_n_passes_
-      if ((pass_number % output_every_n_passes_) == 0) {
+      // Do stuff on checkpoint_
+      if ((pass_number % checkpoint_) == 0) {
         std::cout << "Pass " << pass_number << std::endl;
         // write results to a file
       }
@@ -629,7 +629,7 @@ class Metropolis {
   ///< The current number of (2,2) simplices, some of which may not be movable.
   std::atomic<uintmax_t> passes_ {100};
   ///< Number of passes of ergodic moves on triangulation.
-  std::atomic<uintmax_t> output_every_n_passes_ {10};
+  std::atomic<uintmax_t> checkpoint_ {10};
   ///< How often to print/write output.
   move_tuple attempted_moves_ {0, 0, 0, 0, 0};
   ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.

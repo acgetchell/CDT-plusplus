@@ -165,8 +165,8 @@ TEST_F(MetropolisTest, DISABLED_Operator) {
 }
 
 TEST_F(MetropolisTest, DISABLED_CalculateA1) {
-  // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+  // Instantiate Metropolis functor with passes and checkpoints = 1
+  Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
@@ -186,8 +186,8 @@ TEST_F(MetropolisTest, DISABLED_CalculateA1) {
 }
 
 TEST_F(MetropolisTest, DISABLED_CalculateA2) {
-  // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+  // Instantiate Metropolis functor with passes and checkpoints = 1
+  Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_ptr));
 
