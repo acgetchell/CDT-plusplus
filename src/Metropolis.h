@@ -93,8 +93,6 @@ class Metropolis {
                Lambda_(Lambda),
                passes_(passes),
                checkpoint_(checkpoint) {
-    // RAII stuff
-
     #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     #endif
@@ -385,6 +383,9 @@ class Metropolis {
   ///
   /// @param[in] move The type of move
   void make_move(const move_type move) {
+    #ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    #endif
     switch (move) {
       case move_type::TWO_THREE:
         #ifndef NDEBUG
@@ -461,6 +462,7 @@ class Metropolis {
     const auto trial = Gmpzf(static_cast<double>(trialval));
 
     #ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     std::cout << "trialval = " << trialval << std::endl;
     std::cout << "trial = " << trial << std::endl;
     #endif
@@ -494,6 +496,7 @@ class Metropolis {
     }
 
     #ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     std::cout << "Attempting move." << std::endl;
     std::cout << "Move type = " << static_cast<unsigned>(move)
               << std::endl;
@@ -551,7 +554,7 @@ class Metropolis {
   template <typename T>
   auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
     #ifndef NDEBUG
-    std::cout << "operator() called." << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     #endif
     std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
     // Populate member data

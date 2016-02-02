@@ -48,7 +48,7 @@
 /// @param[in] to_be_moved  The Cell_handle that is tried
 /// @returns  flipped  A boolean value whether the move succeeded
 template <typename T1>
-auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) noexcept {
+auto try_23_move(T1&& universe_ptr, Cell_handle to_be_moved) {
   auto flipped = false;
   for (auto i = 0; i < 4; ++i) {
     if (universe_ptr->flip(to_be_moved, i)) {
@@ -85,7 +85,7 @@ template <typename T1, typename T2, typename T3>
 auto make_23_move(T1&& universe_ptr,
                   T2&& simplex_types,
                   T3&& attempted_moves)
-                  noexcept -> decltype(universe_ptr) {
+                  -> decltype(universe_ptr) {
   #ifndef NDEBUG
   std::cout << "Attempting (2,3) move." << std::endl;
   #endif
@@ -126,7 +126,7 @@ auto make_23_move(T1&& universe_ptr,
 /// @param[in] to_be_moved  The Edge_tuple that is tried
 /// @returns  flipped  A boolean value whether the move succeeded
 template <typename T1>
-auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
+auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) {
   auto flipped = false;
   if (universe_ptr->flip(std::get<0>(to_be_moved),
                          std::get<1>(to_be_moved),
@@ -153,7 +153,7 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) noexcept {
 template <typename T1, typename T2, typename T3>
 auto make_32_move(T1&& universe_ptr,
                   T2&& edge_types,
-                  T3&& attempted_moves) noexcept  // NOLINT
+                  T3&& attempted_moves)
                   -> decltype(universe_ptr) {
   #ifndef NDEBUG
   std::cout << "Attempting (3,2) move." << std::endl;
@@ -205,7 +205,7 @@ auto make_32_move(T1&& universe_ptr,
 /// @param[in] c The presumed (1,3) cell
 /// @param[in] i The i-th neighbor of c
 /// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-inline auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
+inline auto is_26_movable(const Cell_handle c, unsigned i) {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13) ? true : false;
   // Neighbor should be a 31
@@ -222,7 +222,7 @@ inline auto is_26_movable(const Cell_handle c, unsigned i) noexcept {
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
+inline auto find_26_movable(const Cell_handle c, unsigned* n) {
   auto movable = false;
   for (auto i = 0; i < 4; ++i) {
     #ifndef NDEBUG
@@ -270,7 +270,7 @@ inline auto find_26_movable(const Cell_handle c, unsigned* n) noexcept {
 template <typename T1, typename T2, typename T3>
 auto make_26_move(T1&& universe_ptr,
                   T2&& simplex_types,
-                  T3&& attempted_moves) noexcept  // NOLINT
+                  T3&& attempted_moves)
                   -> decltype(universe_ptr) {
   #ifndef NDEBUG
   std::cout << "Attempting (2,6) move." << std::endl;
@@ -423,7 +423,7 @@ auto make_26_move(T1&& universe_ptr,
 template <typename T1, typename T2, typename T3>
 auto make_62_move(T1&& universe_ptr,
                   T2&& edge_types,
-                  T3&& attempted_moves) noexcept  // NOLINT
+                  T3&& attempted_moves)
                   -> decltype(universe_ptr) {
   auto not_moved = true;
   while (not_moved) {

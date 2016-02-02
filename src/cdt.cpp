@@ -185,22 +185,22 @@ int main(int argc, char* const argv[]) {
     return 0;
   }
   catch (std::domain_error& DomainError) {
-    std::cout << DomainError.what() << std::endl;
-    std::cout << "Triangle inequalities violated ... Exiting." << std::endl;
+    std::cerr << DomainError.what() << std::endl;
+    std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
     return 1;
   }
   catch (std::invalid_argument& InvalidArgument) {
-    std::cout << InvalidArgument.what() << std::endl;
-    std::cout << "Invalid parameter ... Exiting." << std::endl;
+    std::cerr << InvalidArgument.what() << std::endl;
+    std::cerr << "Invalid parameter ... Exiting." << std::endl;
     return 1;
   }
   catch (std::logic_error& LogicError) {
-    std::cout << LogicError.what() << std::endl;
-    std::cout << "Simulation startup failed ... Exiting." << std::endl;
+    std::cerr << LogicError.what() << std::endl;
+    std::cerr << "Simulation startup failed ... Exiting." << std::endl;
     return 1;
   }
   catch (...) {
-    std::cout << "Something went wrong ... Exiting." << std::endl;
+    std::cerr << "Something went wrong ... Exiting." << std::endl;
     return 1;
   }
 }
