@@ -6,6 +6,11 @@
 /// Pachner) moves.
 /// See http://www.stroustrup.com/except.pdf and
 /// http://exceptionsafecode.com for details.
+///
+/// @file PachnerMove.h
+/// @brief Resource Aquisition Is Initialization class to manage
+/// exception-safe Pachner moves
+/// @author Adam Getchell
 
 #ifndef SRC_PACHNERMOVE_H_
 #define SRC_PACHNERMOVE_H_
@@ -15,6 +20,7 @@
 #include <vector>
 #include <utility>
 #include <algorithm>
+#include <type_traits>
 
 #include "Metropolis.h"
 
@@ -29,12 +35,27 @@ class PachnerMove {
               move_(move),
               movable_simplex_types_(movable_simplex_types),
               movable_edge_types_(movable_edge_types) {
-    // Make a copy
-    auto tempDT = Delaunay(*universe_);
-    auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+    // Debugging
+    // Print info on move/copy operation exception safety
+    std::cout << std::boolalpha
+      << "Delaunay is copy-assignable? "
+      << std::is_copy_assignable<Delaunay>::value << '\n'
+      << "Delaunay is nothrow copy-assignable? "
+      << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
+      << "Delaunay is nothrow move-assignable? "
+      << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
+      << "unique_ptr<Delaunay> is nothrow move-assignable? "
+      << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
+      << std::endl;
 
     try {
-      this->make_move(move);  //  throws exceptions
+      // Make a copy
+      auto tempDT = Delaunay(*universe_);  // throws exceptions
+
+      // Move exception-safe, can't copy
+      auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+
+      this->make_move(tempDT_ptr, move);  //  throws exceptions
 
       // Exception-safe commit
       std::swap(universe_, tempDT_ptr);
@@ -43,13 +64,15 @@ class PachnerMove {
     catch (...) {
       // Swallow the exceptions thrown by make_move() from
       // CGAL_triangulation_precondition and postcondition
+      // as well as in the try block
       std::cerr << "We caught a move error." << std::endl;
     }
   }
 
   ~PachnerMove() {}
 
-  void make_move(move_type);
+  template <typename T>
+  void make_move(T&&, move_type);
 
   move_tuple attempted_moves_;
   std::tuple<std::vector<Cell_handle>,
@@ -65,25 +88,26 @@ class PachnerMove {
   ///< Movable timelike and spacelike edges.
 };
 
-void PachnerMove::make_move(const move_type move) {
+template <typename T>
+void PachnerMove::make_move(T&& universe, const move_type move) {
   #ifndef NDEBUG
   std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
   #endif
   switch (move) {
     case move_type::TWO_THREE:
-      make_23_move(universe_, movable_simplex_types_, attempted_moves_);
+      make_23_move(universe, movable_simplex_types_, attempted_moves_);
       break;
     case move_type::THREE_TWO:
-      make_32_move(universe_, movable_edge_types_, attempted_moves_);
+      make_32_move(universe, movable_edge_types_, attempted_moves_);
       break;
     case move_type::TWO_SIX:
-      make_26_move(universe_, movable_simplex_types_, attempted_moves_);
+      make_26_move(universe, movable_simplex_types_, attempted_moves_);
       break;
     case move_type::SIX_TWO:
-      // make_62_move(universe_, movable_types_, attempted_moves_);
+      // make_62_move(universe, movable_types_, attempted_moves_);
       break;
     case move_type::FOUR_FOUR:
-      // make_44_move(universe_, movable_types_, attempted_moves_);
+      // make_44_move(universe, movable_types_, attempted_moves_);
       break;
   }
 }  // make_move()
