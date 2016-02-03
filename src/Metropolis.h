@@ -380,6 +380,7 @@ class Metropolis {
   /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
   ///
   /// \todo Add exception handling for moves to gracefully recover
+  /// \todo Deprecate in favor of PachnerMove::make_move()
   ///
   /// @param[in] move The type of move
   void make_move(const move_type move) {
