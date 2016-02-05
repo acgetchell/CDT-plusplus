@@ -14,6 +14,65 @@
 
 using namespace testing;  // NOLINT
 
+TEST(PachnerMoveTest, DeepCopyCtor) {
+  // This is a std::unique_ptr<Delaunay>
+  auto universe = std::move(make_triangulation(6400, 17));
+  auto tempDT = Delaunay(*universe);
+  auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+
+  // Print info on move/copy operation exception safety
+  std::cout << std::boolalpha
+    << "Delaunay alias is copy-assignable? "
+    << std::is_copy_assignable<Delaunay>::value << '\n'
+    << "Delaunay alias is nothrow copy-assignable? "
+    << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
+    << "Delaunay alias is nothrow move-assignable? "
+    << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
+    << "unique_ptr<Delaunay> is nothrow move-assignable? "
+    << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
+    << std::endl;
+
+  EXPECT_THAT(universe->number_of_vertices(),
+    Eq(tempDT_ptr->number_of_vertices()))
+    << "Delaunay copy doesn't have the same number of vertices.";
+
+  EXPECT_THAT(universe->number_of_finite_edges(),
+    Eq(tempDT_ptr->number_of_finite_edges()))
+    << "Delaunay copy doesn't have the same number of edges.";
+
+  EXPECT_THAT(universe->number_of_finite_facets(),
+    Eq(tempDT_ptr->number_of_finite_facets()))
+    << "Delaunay copy doesn't have the same number of facets.";
+
+  EXPECT_THAT(universe->number_of_finite_cells(),
+    Eq(tempDT_ptr->number_of_finite_cells()))
+    << "Delaunay copy doesn't have the same number of cells.";
+
+  auto simplex_types = classify_simplices(universe);
+  auto tempDT_simplex_types = classify_simplices(tempDT_ptr);
+
+  EXPECT_THAT(std::get<0>(simplex_types).size(),
+    Eq(std::get<0>(tempDT_simplex_types).size()))
+    << "Delaunay copy doesn't have the same number of (3,1) simplices.";
+
+  EXPECT_THAT(std::get<1>(simplex_types).size(),
+    Eq(std::get<1>(tempDT_simplex_types).size()))
+    << "Delaunay copy doesn't have the same number of (2,2) simplices.";
+
+  EXPECT_THAT(std::get<2>(simplex_types).size(),
+    Eq(std::get<2>(tempDT_simplex_types).size()))
+    << "Delaunay copy doesn't have the same number of (1,3) simplices.";
+
+  auto edge_types = classify_edges(universe);
+  auto tempDT_edge_types = classify_edges(tempDT_ptr);
+
+  EXPECT_THAT(edge_types.first.size(), Eq(tempDT_edge_types.first.size()))
+    << "Delaunay copy doesn't have the same number of timelike edges.";
+
+  EXPECT_THAT(edge_types.second, Eq(tempDT_edge_types.second))
+    << "Delaunay copy doesn't have the same number of spacelike edges.";
+}
+
 TEST(PachnerMoveTest, MakeA23Move) {
   // Make a foliated triangulation
   auto universe = std::move(make_triangulation(6400, 17));

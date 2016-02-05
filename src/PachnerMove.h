@@ -35,19 +35,6 @@ class PachnerMove {
               move_(move),
               movable_simplex_types_(movable_simplex_types),
               movable_edge_types_(movable_edge_types) {
-    // Debugging
-    // Print info on move/copy operation exception safety
-    std::cout << std::boolalpha
-      << "Delaunay is copy-assignable? "
-      << std::is_copy_assignable<Delaunay>::value << '\n'
-      << "Delaunay is nothrow copy-assignable? "
-      << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
-      << "Delaunay is nothrow move-assignable? "
-      << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
-      << "unique_ptr<Delaunay> is nothrow move-assignable? "
-      << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
-      << std::endl;
-
     try {
       // Make a copy
       auto tempDT = Delaunay(*universe_);  // throws exceptions
