@@ -19,11 +19,6 @@
 #include "S3ErgodicMoves.h"
 
 using namespace testing;  // NOLINT
-using move_tuple = std::tuple<unsigned long int,
-                              unsigned long int,
-                              unsigned long int,
-                              unsigned long int,
-                              unsigned long int>;
 
 class S3ErgodicMoves : public Test {
  protected:

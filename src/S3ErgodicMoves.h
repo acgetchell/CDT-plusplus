@@ -38,6 +38,12 @@
 #include <algorithm>
 #include <tuple>
 
+using move_tuple = std::tuple<std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>,
+                              std::atomic<uintmax_t>>;
+
 /// @brief Try a (2,3) move
 ///
 /// This function performs the (2,3) move by converting a facet

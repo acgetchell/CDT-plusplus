@@ -46,11 +46,6 @@
 #include <algorithm>
 
 using Gmpzf = CGAL::Gmpzf;
-using move_tuple = std::tuple<std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>>;
 
 extern const unsigned PRECISION;
 

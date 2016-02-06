@@ -150,6 +150,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopy) {
   auto new_movable_edge_types = classify_edges(this->universe_);
 
   // Print new values
+  std::cout << "New values: " << std::endl;
   std::cout << "(3,1) simplices: "
             << std::get<0>(new_movable_simplex_types).size() << std::endl;
   std::cout << "(2,2) simplices: "
@@ -163,28 +164,24 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopy) {
   std::cout << "Vertices: "
             << this->universe_->number_of_vertices() << std::endl;
 
-  // Did we add a (2,2) Cell_handle?
+  EXPECT_THAT(std::get<0>(attempted_moves_).load(), Ge(1))
+    << "make_23_move() didn't record an attempted move.";
+
   EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
     Eq(std::get<1>(movable_simplex_types_).size()+1))
-    << "make_23_move didn't add a (2,2) simplex vector element.";
+    << "make_23_move() didn't add a (2,2) simplex.";
 
-  // Did we add a Timelike edge?
   EXPECT_THAT(new_movable_edge_types.first.size(),
     Eq(movable_edge_types_.first.size()+1))
-    << "make_23_move didn't add a timelike edge.";
+    << "make_23_move() didn't add a timelike edge.";
 
+  EXPECT_THAT(std::get<0>(new_movable_simplex_types).size(),
+    Eq(std::get<0>(movable_simplex_types_).size()))
+    << "make_23_move() added a (3,1) simplex.";
 
-
-    // // Did we record an attempted move?
-    // EXPECT_THAT(std::get<0>(attempted_moves) +
-    //             std::get<1>(simplex_types).size(), Eq(N3_22_before))
-    //   << "Attempted (2,3) moves not recorded correctly.";
-    //
-    // EXPECT_THAT(std::get<0>(simplex_types).size(), Eq(N3_31_before))
-    //   << "make_23_move removed a (3,1) simplex vector element.";
-    //
-    // EXPECT_THAT(std::get<2>(simplex_types).size(), Eq(N3_13_before))
-    //   << "make_23_move removed a (1,3) simplex vector element.";
+  EXPECT_THAT(std::get<2>(new_movable_simplex_types).size(),
+    Eq(std::get<2>(movable_simplex_types_).size()))
+    << "make_23_move() added a (1,3) simplex.";
 }
 // TEST(PachnerMoveTest, MakeA23Move) {
 //   // Make a foliated triangulation
