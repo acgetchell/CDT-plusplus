@@ -25,7 +25,9 @@ class PachnerMoveTest : public Test {
                       movable_simplex_types_(classify_simplices(universe_)),
                       movable_edge_types_(classify_edges(universe_)),
                       attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
-                      number_of_vertices_(universe_->number_of_vertices()) {
+                      number_of_vertices_(universe_->number_of_vertices()) {}
+
+  virtual void SetUp() {
     // Print ctor-initialized values
     std::cout << "(3,1) simplices: "
               << std::get<0>(movable_simplex_types_).size() << std::endl;
@@ -39,18 +41,18 @@ class PachnerMoveTest : public Test {
               << movable_edge_types_.second << std::endl;
     std::cout << "Vertices: "
               << number_of_vertices_ << std::endl;
-  }  // Ctor
+  }
 
   std::unique_ptr<Delaunay> universe_;
   ///< Unique pointer to the Delaunay triangulation
-  move_tuple attempted_moves_;
-  ///< A count of all attempted moves
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, unsigned> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
+  move_tuple attempted_moves_;
+  ///< A count of all attempted moves
   std::atomic<std::uintmax_t> number_of_vertices_;
   ///< Vertices in Delaunay triangulation
 };
@@ -171,7 +173,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
 
   EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
     Eq(std::get<1>(movable_simplex_types_).size()+1))
-    << "make_23_move() didn't add a (2,2) simplex.";
+    << "make_23_move() didn't add one and only one (2,2) simplex.";
 
   EXPECT_THAT(std::get<0>(new_movable_simplex_types).size(),
     Eq(std::get<0>(movable_simplex_types_).size()))
@@ -183,7 +185,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
 
   EXPECT_THAT(new_movable_edge_types.first.size(),
     Eq(movable_edge_types_.first.size()+1))
-    << "make_23_move() didn't add a timelike edge.";
+    << "make_23_move() didn't add one and only one timelike edge.";
 
   EXPECT_THAT(new_movable_edge_types.second, Eq(movable_edge_types_.second))
     << "make_23_move() changed the number of spacelike edges.";
@@ -236,7 +238,7 @@ EXPECT_THAT(std::get<0>(attempted_moves_).load(), Ge(1))
 
 EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
   Eq(std::get<1>(movable_simplex_types_).size()+1))
-  << "PachnerMove(TWO_THREE) didn't add a (2,2) simplex.";
+  << "PachnerMove(TWO_THREE) didn't add one and only one (2,2) simplex.";
 
 EXPECT_THAT(std::get<0>(new_movable_simplex_types).size(),
   Eq(std::get<0>(movable_simplex_types_).size()))
@@ -248,7 +250,7 @@ EXPECT_THAT(std::get<2>(new_movable_simplex_types).size(),
 
 EXPECT_THAT(new_movable_edge_types.first.size(),
   Eq(movable_edge_types_.first.size()+1))
-  << "PachnerMove(TWO_THREE) didn't add a timelike edge.";
+  << "PachnerMove(TWO_THREE) didn't add one and only one timelike edge.";
 
 EXPECT_THAT(new_movable_edge_types.second, Eq(movable_edge_types_.second))
   << "PachnerMove(TWO_THREE) changed the number of spacelike edges.";
