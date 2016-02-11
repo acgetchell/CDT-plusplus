@@ -26,7 +26,7 @@
 
 // CDT headers
 #include "S3Triangulation.h"
-// #include "Utilities.h"
+// #include "utilities.h"
 
 // CGAL headers
 #include <CGAL/barycenter.h>
