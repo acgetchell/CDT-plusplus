@@ -45,7 +45,7 @@
 #define SRC_S3TRIANGULATION_H_
 
 // CDT headers
-#include "Utilities.h"
+#include "utilities.h"
 
 
 // CGAL headers
