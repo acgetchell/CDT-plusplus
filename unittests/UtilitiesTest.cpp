@@ -11,7 +11,7 @@
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "Utilities.h"
+#include "src/utilities.h"
 
 using namespace testing;  // NOLINT
 
