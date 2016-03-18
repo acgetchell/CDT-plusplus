@@ -53,7 +53,7 @@ class PachnerMoveTest : public Test {
   ///< Movable timelike and spacelike edges.
   move_tuple attempted_moves_;
   ///< A count of all attempted moves
-  std::atomic<std::uintmax_t> number_of_vertices_;
+  std::uintmax_t number_of_vertices_;
   ///< Vertices in Delaunay triangulation
 };
 
@@ -168,7 +168,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
   std::cout << "Vertices: "
             << this->universe_->number_of_vertices() << std::endl;
 
-  EXPECT_THAT(std::get<0>(attempted_moves_).load(), Ge(1))
+  EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
     << "make_23_move() didn't record an attempted move.";
 
   EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
@@ -191,7 +191,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
     << "make_23_move() changed the number of spacelike edges.";
 
   EXPECT_THAT(this->universe_->number_of_vertices(),
-    Eq(number_of_vertices_.load()))
+    Eq(number_of_vertices_))
     << "make_23_move() changed the number of vertices.";
 }
 
@@ -233,7 +233,7 @@ TEST_F(PachnerMoveTest, MakeA23PachnerMove) {
   std::cout << "Vertices: "
             << this->universe_->number_of_vertices() << std::endl;
 
-EXPECT_THAT(std::get<0>(attempted_moves_).load(), Ge(1))
+EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
   << "PachnerMove(TWO_THREE) didn't record an attempted move.";
 
 EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
@@ -256,6 +256,6 @@ EXPECT_THAT(new_movable_edge_types.second, Eq(movable_edge_types_.second))
   << "PachnerMove(TWO_THREE) changed the number of spacelike edges.";
 
 EXPECT_THAT(this->universe_->number_of_vertices(),
-  Eq(number_of_vertices_.load()))
+  Eq(number_of_vertices_))
   << "PachnerMove(TWO_THREE) changed the number of vertices.";
 }

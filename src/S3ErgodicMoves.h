@@ -38,11 +38,11 @@
 #include <algorithm>
 #include <tuple>
 
-using move_tuple = std::tuple<std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>,
-                              std::atomic<uintmax_t>>;
+using move_tuple = std::tuple<std::uintmax_t,
+                              std::uintmax_t,
+                              std::uintmax_t,
+                              std::uintmax_t,
+                              std::uintmax_t>;
 
 /// @brief Try a (2,3) move
 ///
