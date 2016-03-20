@@ -110,7 +110,7 @@ This should result in the main program executable, `cdt` in the `build/`
 directory.
 
 If you have [GMock][6] installed and set `GMOCK_TESTS` to **TRUE** (which is the
-default), the unit test executable, `unittests`, will also be present. See [Tests][#tests] for details.
+default), the unit test executable, `unittests`, will also be present. See [Tests](#tests) for details.
 
 If you are not interested in the unit tests and only want to run the program,
 set `GMOCK_TESTS` in [CMakeLists.txt][28] to **FALSE**.
