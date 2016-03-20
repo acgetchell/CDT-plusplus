@@ -8,7 +8,8 @@ dist: trusty
 language: cpp
 compiler:
   - gcc
-  - clang
+  # clang++-3.8 not quite there yet
+  # - clang
 env:
   global:
     - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
@@ -50,7 +51,6 @@ install:
   - ninja
   - sudo ninja install &> install.log
   - cd ..
-script:
   # Build GoogleMock
   - cd $TRAVIS_BUILD_DIR
   - git clone https://github.com/google/googletest.git
@@ -66,14 +66,7 @@ script:
   - sudo cp -a include/gtest /usr/include/
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
   - cd ../..
-
-  # - cd $TRAVIS_BUILD_DIR
-  # - curl -L -o gmock-1.7.0.zip https://googlemock.googlecode.com/files/gmock-1.7.0.zip
-  # - unzip gmock-1.7.0.zip
-  # - cd gmock-1.7.0
-  # - "./configure"
-  # - make
-  # - cd ..
+script:
   - "./build.sh"
   # - mkdir build
   # - cd build
