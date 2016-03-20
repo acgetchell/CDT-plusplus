@@ -1,37 +1,34 @@
 # This file builds on the Travis-CI Linux environment
 # Just rename to .travis.yml
-# Currently fails due to compiler issues:
-# https://travis-ci.org/acgetchell/CDT-plusplus/jobs/42117660
 #
 sudo: required
 
 dist: trusty
 
 language: cpp
+
 compiler:
   - gcc
-  - clang
+# clang++-3.8 not quite there yet
+  # - clang
+
 env:
   global:
     - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
 
-# before_install:
-
-#   # Not needed for Travis-CI, but needed for a bare Ubuntu box
-#   # sudo apt-get update # finds the python-software-properties package
-#   # sudo apt-get install python-software-properties
-#   - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
-#   - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
-#   - sudo add-apt-repository -y ppa:kalakris/eigen
-#   - sudo apt-get update -qq
+before_install:
+# Install gcc for C++14
+  - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
+  - if [ "$CXX" == "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; sudo apt-add-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty main"; fi
+  - sudo apt-get update -qq
 install:
-  # - sudo apt-get install build-essential
-  # Install gcc 4.8
-  # - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.9; fi
-  # - if [ "$CXX" = "g++" ]; then export CXX="g++-4.9" CC="gcc-4.9"; fi
-  # # Install clang 3.4
-  # - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
-  # - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4"; fi
+# Install gcc 5.3
+  - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-5; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+# Install clang 3.8
+  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 lldb-3.8; fi
+  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
+# Install other needed libraries
   - sudo apt-get install -qq libboost-all-dev
   - sudo apt-get install -qq libmpfr-dev
   - sudo apt-get install -qq cmake
@@ -41,12 +38,7 @@ install:
   - sudo apt-get install make
   - sudo apt-get install -qq curl
   - sudo apt-get install -qq libgmp3-dev
-  # - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
-  # - tar zxvf CGAL-4.5.tar.gz &> install.log
-  # - cd CGAL-4.5
-  # - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON .
-  # - make
-  # - sudo make install &>> install.log
+# Install CGAL from source
   - curl -L -o CGAL-4.7.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.7.tar.gz
   - tar zxvf CGAL-4.7.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.7
@@ -54,23 +46,29 @@ install:
   - ninja
   - sudo ninja install &> install.log
   - cd ..
-script:
+# Build GoogleMock
   - cd $TRAVIS_BUILD_DIR
-  - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
-  - unzip gmock-1.7.0.zip
-  - cd gmock-1.7.0
-  - "./configure"
+  - git clone https://github.com/google/googletest.git
+  - cd googletest/googlemock
+  - cmake -DBUILD_SHARED_LIBS=ON .
   - make
-  - cd ..
+  - sudo cp -a include/gmock/ /usr/include/
+  - sudo cp -a libgmock_main.so libgmock.so /usr/lib/
+# to use GoogleTest
+  - cd ../googletest
+  - cmake -DBUILD_SHARED_LIBS=ON .
+  - make
+  - sudo cp -a include/gtest /usr/include/
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+  - cd ../..
+script:
   - "./build.sh"
-  # - mkdir build
-  # - cd build
-  # - cmake ..
-  # - make
 after_script:
-  #- cd build
+  - cd build
+# GMock
   - "./unittests"
-  - make test
+# CTest
+  - ninja test
 cache:
   - bundler
   - apt

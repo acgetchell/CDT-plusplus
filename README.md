@@ -51,7 +51,8 @@ Prerequisites:
 ------
 
 [CDT++][38] should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake][14], [CGAL][15], and [Eigen][25] installed. [Gmock][6] is optional
+[CMake][14], [CGAL][15], and [Eigen][25] installed. [TBB][37] provides an
+optional (but significant) speed boost.  [Gmock][6] is optional
 for running the unit tests, and [Ninja][18] is an optional replacement for
 `make` which provides quick parallel builds of the unit tests.
 
@@ -60,17 +61,34 @@ On MacOS, the easiest way to do this is with [HomeBrew][16]:
 ~~~
 # brew install cmake
 # brew install eigen
-# brew install cgal --imaging --with-eigen3 --with-lapack
+# brew install tbb --c++11
 # brew install ninja
+# brew install cgal --imaging --with-eigen3 --with-lapack
 ~~~
 
-On Ubuntu, you can do this via:
+On Ubuntu, you will need an updated version of gcc, which you can install via:
+
 ~~~
+sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
+sudo apt-get update
+sudo apt-get install g++-5
+export CXX="g++-5" CC="gcc-5"
+~~~
+
+Then you can install the rest of the needed libraries:
+
+~~~
+# sudo apt-get install libboost-all-dev
+# sudo apt-get install libmpfr-dev
+# sudo apt-get install libgmp3-dev
 # sudo apt-get install cmake
 # sudo apt-get install libeigen3-dev
-# sudo apt-get install libcgal-dev
+# sudo apt-get install libtbb-dev
 # sudo apt-get install ninja-build
+# sudo apt-get install libcgal-dev
 ~~~
+
+This is scripted in [.travis.yml][39].
 
 Build:
 ------
@@ -100,7 +118,7 @@ set `GMOCK_TESTS` in [CMakeLists.txt][28] to **FALSE**.
 
 For some versions of Linux, you may have to build [CGAL][2] from source.
 Follow the instructions (or their equivalent) given in the install section
-of the [.travis.yml](https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml) buildfile.
+of the [.travis.yml][39] buildfile.
 
 There are enough unit tests that it's worthwhile doing fast parallel builds.
 [Ninja][18] is just the ticket. It's effectively a drop-in replacement for
@@ -186,16 +204,31 @@ Tests:
 or understand the source code in detail. Building the [GMock][6] `unittests`
 executable is set by the `GMOCK_TESTS` variable in [CMakeLists.txt][28].
 
-To install GMock, look at the [README][24]. Ubuntu users can just do:
+To install GMock, you'll need to install GMock and GTest as a shared library. First look at the [README][24]. On Linux:
 
 ~~~
-# sudo apt-get install google-mock
+# git clone https://github.com/google/googletest.git
+# cd googletest/googlemock
+# cmake -DBUILD_SHARED_LIBS=ON .
+# make
+# sudo cp -a include/gmock/ /usr/include/
+# sudo cp -a libgmock_main.so libgmock.so /usr/lib/
 ~~~
 
-But you may run into trouble because GMock is the wrong version, or has the
-wrong compiler flags. I just download and build gmock-1.7 in a local directory.
+Now, do the same for GoogleTest:
 
-You should also have the following environment variables set:
+~~~
+# cd ../googletest
+# cmake -DBUILD_SHARED_LIBS=ON .
+# make
+# sudo cp -a include/gtest /usr/include/
+# sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+~~~
+
+This is also scripted in [.travis.yml][39]. Thanks to [Stack Overflow][40] for
+the assist.
+
+On MacOS, the following environment variables should be set:
 
 ~~~
 export GMOCK_HOME="$HOME/gmock-1.7.0"
@@ -265,7 +298,7 @@ to run just the tests that you want.)
 [21]: http://www.graphviz.org
 [22]: http://scipher.wordpress.com/2010/05/10/setting-your-pythonpath-environment-variable-linuxunixosx/
 [23]: http://www.swig.org
-[24]: https://code.google.com/p/googlemock/source/browse/trunk/README
+[24]: https://github.com/google/googletest/blob/master/googlemock/README.md
 [25]: http://eigen.tuxfamily.org/index.php?title=Main_Page
 [26]: http://public.kitware.com/pipermail/cmake-developers/2011-November/002490.html
 [27]: https://github.com/acgetchell/CDT-plusplus/blob/master/build.sh
@@ -280,3 +313,5 @@ to run just the tests that you want.)
 [36]: http://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [37]: https://www.threadingbuildingblocks.org
 [38]: https://github.com/acgetchell/CDT-plusplus
+[39]: https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml
+[40]: http://stackoverflow.com/questions/13513905/how-to-setup-googletest-as-a-shared-library-on-linux
