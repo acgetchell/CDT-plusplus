@@ -15,11 +15,11 @@ env:
 
 before_install:
 
-  - sudo add-apt-repository -y ppa:ostogvin/tjo-develop
-
 #   # Not needed for Travis-CI, but needed for a bare Ubuntu box
 #   # sudo apt-get update # finds the python-software-properties package
 #   # sudo apt-get install python-software-properties
+
+# Install gcc for C++14
   - if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
 #   - if [ "$CXX" == "clang++" ]; then sudo add-apt-repository -y ppa:h-rayflood/llvm; fi
 #   - sudo add-apt-repository -y ppa:kalakris/eigen
@@ -41,7 +41,7 @@ install:
   - sudo apt-get install make
   - sudo apt-get install -qq curl
   - sudo apt-get install -qq libgmp3-dev
-  - sudo apt-get install -qq google-mock
+
   # - curl -O https://gforge.inria.fr/frs/download.php/file/34149/CGAL-4.5.tar.gz
   # - tar zxvf CGAL-4.5.tar.gz &> install.log
   # - cd CGAL-4.5
@@ -56,6 +56,22 @@ install:
   - sudo ninja install &> install.log
   - cd ..
 script:
+  # Build GoogleMock
+  - cd $TRAVIS_BUILD_DIR
+  - git clone https://github.com/google/googletest.git
+  - cd googletest/googlemock
+  - cmake -DBUILD_SHARED_LIBS=ON .
+  - make
+  - sudo cp -a include/gmock/ /usr/include/
+  - sudo cp -a libgmock_main.so libgmock.so /usr/lib/
+  # to use GoogleTest
+  - cd ../googletest
+  - cmake -DBUILD_SHARED_LIBS=ON .
+  - make
+  - sudo cp -a include/gtest /usr/include/
+  - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+  - cd ../..
+
   # - cd $TRAVIS_BUILD_DIR
   # - curl -L -o gmock-1.7.0.zip https://googlemock.googlecode.com/files/gmock-1.7.0.zip
   # - unzip gmock-1.7.0.zip
@@ -70,7 +86,9 @@ script:
   # - make
 after_script:
   #- cd build
+  # GMock unittests
   - "./unittests"
+  # CTest
   - make test
 cache:
   - bundler
