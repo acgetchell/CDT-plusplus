@@ -10,7 +10,7 @@ language: cpp
 compiler:
   - gcc
 # clang++-3.8 not quite there yet
-  - clang
+  # - clang
 
 env:
   global:
@@ -26,7 +26,7 @@ install:
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-5; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 # Install clang 3.8
-  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 libclang-common-3.8-dev libclang1-3.8 libclang1-3.8-dbg libclang-3.8-dev libllvm3.8 libllvm3.8-dbg lldb-3.8 lldb-3.8-dev llvm-3.8-dev llvm-3.8-runtime liblldb-3.8-dbg; fi
+  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 lldb-3.8; fi
   - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
 # Install other needed libraries
   - sudo apt-get install -qq libboost-all-dev
@@ -36,7 +36,6 @@ install:
   - sudo apt-get install -qq libeigen3-dev
   - sudo apt-get install -qq libtbb-dev
   - sudo apt-get install -qq ninja-build
-  - sudo apt-get install make
   - sudo apt-get install -qq curl
 # Install CGAL from source
   - curl -L -o CGAL-4.7.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.7.tar.gz
@@ -50,13 +49,13 @@ install:
   - cd $TRAVIS_BUILD_DIR
   - git clone https://github.com/google/googletest.git
   - cd googletest/googlemock
-  - cmake -DBUILD_SHARED_LIBS=ON .
+  - cmake -DBUILD_SHARED_LIBS=ON -G Ninja .
   - make
   - sudo cp -a include/gmock/ /usr/include/
   - sudo cp -a libgmock_main.so libgmock.so /usr/lib/
 # to use GoogleTest
   - cd ../googletest
-  - cmake -DBUILD_SHARED_LIBS=ON .
+  - cmake -DBUILD_SHARED_LIBS=ON -G Ninja .
   - make
   - sudo cp -a include/gtest /usr/include/
   - sudo cp -a libgtest_main.so libgtest.so /usr/lib/
