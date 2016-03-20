@@ -195,7 +195,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
     << "make_23_move() changed the number of vertices.";
 }
 
-TEST_F(PachnerMoveTest, MakeA23PachnerMove) {
+TEST_F(PachnerMoveTest, DISABLED_MakeA23PachnerMove) {
   EXPECT_TRUE(this->universe_->tds().is_valid())
     << "Constructed universe_ is invalid.";
 

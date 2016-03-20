@@ -10,7 +10,7 @@ language: cpp
 compiler:
   - gcc
 # clang++-3.8 not quite there yet
-  # - clang
+  - clang
 
 env:
   global:
@@ -26,7 +26,7 @@ install:
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-5; fi
   - if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
 # Install clang 3.8
-  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 lldb-3.8; fi
+  - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 libclang-common-3.8-dev libclang1-3.8 libclang1-3.8-dbg libclang-3.8-dev libllvm3.8 libllvm3.8-dbg lldb-3.8 lldb-3.8-dev llvm-3.8-dev llvm-3.8-runtime liblldb-3.8-dbg; fi
   - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
 # Install other needed libraries
   - sudo apt-get install -qq libboost-all-dev
@@ -65,8 +65,8 @@ script:
   - "./build.sh"
 after_script:
   - cd build
-# GMock
-  - "./unittests"
+# GMock with random test order
+  - "./unittests --gtest_shuffle"
 # CTest
   - ninja test
 cache:

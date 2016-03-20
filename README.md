@@ -18,6 +18,8 @@ you can check by downloading and running the [cpplint.py][8] script:
 # python cpplint.py <filename>
 ~~~
 
+(Or use your favorite linter plugin for your editor/IDE.)
+
 The goals and targets of this project are:
 
 - [x] Developed with [literate programming][12] generated using [Doxygen][13]
@@ -33,6 +35,7 @@ The goals and targets of this project are:
 - [x] 3D Ergodic moves
 - [x] [TBB][37] multithreading
 - [ ] Metropolis algorithm
+- [ ] [HDF5][31] output
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
 - [ ] 3+1 foliation
@@ -43,7 +46,6 @@ The goals and targets of this project are:
 - [ ] Einstein tensor
 - [ ] Complete test coverage
 - [ ] Complete documentation
-- [ ] [HDF5][31] output
 - [ ] ???
 - [ ] (Non)profit
 
@@ -135,7 +137,7 @@ Possible build troubles:
 ------
 CDT-plusplus uses [docopt][19] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
-is an unambigous match to a longer one. The help message should be instructive:
+is an unambiguous match to a longer one. The help message should be instructive:
 
 ~~~
 # ./build/cdt --help
@@ -202,7 +204,7 @@ If you do not have GraphViz installed, set this option to **NO**.
 or understand the source code in detail. Building the [GMock][6] `unittests`
 executable is set by the `GMOCK_TESTS` variable in [CMakeLists.txt][28].
 
-To install GMock, you'll need to install GMock and GTest as a shared library. First look at the [README][24]. On Linux:
+To install GMock, you'll need to install GMock and GTest as a shared library. First look at the [README][24] to understand the general idea. On Linux:
 
 ~~~
 # git clone https://github.com/google/googletest.git
