@@ -29,6 +29,8 @@ cpplint.py
 DartConfiguration.tcl
 doc_html/
 *.tmp
+*.tar.gz
+googletest/
 
 # Program/script executables
 cdt
