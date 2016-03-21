@@ -12,12 +12,12 @@ compiler:
   - gcc
   - clang
 
-matrix:
-  exclude:
-    - os: osx
-    - compiler: gcc
-    - os: linux
-    - compiler: clang
+# matrix:
+#   exclude:
+#     - os: osx
+#     - compiler: gcc
+#     - os: linux
+#     - compiler: clang
   # include:
   #   - os: linux
   #     dist: trusty
