@@ -75,12 +75,12 @@ endif()
 # GMock Tests executable
 ###############################################################################
 if (GMOCK_TESTS)
-  set(GMOCK_HOME "$ENV{GMOCK_HOME}")
+  # set(GMOCK_HOME "$ENV{GMOCK_HOME}")
 
-  include_directories("${GMOCK_HOME}/include")
-  include_directories("${GMOCK_HOME}/gtest/include")
-  link_directories("${GMOCK_HOME}/lib/.libs")
-  link_directories("${GMOCK_HOME}/gtest/lib/.libs")
+  # include_directories("${GMOCK_HOME}/include")
+  # include_directories("${GMOCK_HOME}/gtest/include")
+  # link_directories("${GMOCK_HOME}/lib/.libs")
+  # link_directories("${GMOCK_HOME}/gtest/lib/.libs")
 
   set(UT_EXECUTABLE_NAME "unittests")
 
