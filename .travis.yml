@@ -12,12 +12,13 @@ compiler:
   - gcc
   - clang
 
-# matrix:
-#   exclude:
+matrix:
+  exclude:
+    - os: linux
+      compiler: clang
 #     - os: osx
 #     - compiler: gcc
-#     - os: linux
-#     - compiler: clang
+
   # include:
   #   - os: linux
   #     dist: trusty
@@ -25,8 +26,8 @@ compiler:
   #   - os: osx
   #     osx_image: xcode7.2
 
-# before_install:
-#   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 #   - if [[ "$TRAVIS_OS_NAME" == "linux" && "CXX" == "gcc" ]]; then
 #       sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test;
 #     fi

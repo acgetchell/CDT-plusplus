@@ -4,7 +4,7 @@ if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/t
 
 if [ "$CXX" == "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; sudo apt-add-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty main"; fi
 
-sudo apt-get update
+sudo apt-get update -qq
 
 # Install gcc 5.3
 if [[ "$CXX" = "g++" ]]; then sudo apt-get install -qq g++-5; fi

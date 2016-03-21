@@ -1,6 +1,5 @@
 #!/bin/bash
 
-brew update
 brew install ninja
 brew install eigen
 brew install cppcheck
