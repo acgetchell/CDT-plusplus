@@ -1,10 +1,16 @@
-language: objective-c
+language: cpp
+
+os: osx
+osx_image: xcode7
+
+
+# language: objective-c
 # compiler:
 # - clang
-env:
-  global:
-  - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
-  - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
+# env:
+#   global:
+#   - GMOCK_HOME="$TRAVIS_BUILD_DIR/gmock-1.7.0"
+#   - DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
 before_install:
 - brew update
 install:
@@ -12,6 +18,7 @@ install:
 - brew install eigen
 - brew install cppcheck
 - brew install tbb --c++11
+# Install CGAL from source
 - curl -L -o CGAL-4.7.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.7.tar.gz
 - tar zxvf CGAL-4.7.tar.gz &> install.log
 - cd cgal-releases-CGAL-4.7
@@ -19,17 +26,32 @@ install:
 - ninja
 - sudo ninja install &> install.log
 - cd ..
+# Build GoogleMock
+  - cd $TRAVIS_BUILD_DIR
+  - git clone https://github.com/google/googletest.git
+  - cd googletest/googlemock
+  - cmake -G Ninja .
+  - ninja
+  - sudo cp -a include/gmock/ /usr/local/include/gmock/
+  - sudo cp -a libgmock_main.so libgmock.so /usr/local/lib/
+# to use GoogleTest
+  - cd ../googletest
+  - cmake -G Ninja .
+  - ninja
+  - sudo cp -a include/gtest /usr/local/include/gtest/
+  - sudo cp -a libgtest_main.so libgtest.so /usr/local/lib/
+  - cd ../..
 script:
-- curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
-- unzip gmock-1.7.0.zip
-- cd gmock-1.7.0
-- "./configure"
-- make
-- cd ..
+# - curl -O https://googlemock.googlecode.com/files/gmock-1.7.0.zip
+# - unzip gmock-1.7.0.zip
+# - cd gmock-1.7.0
+# - "./configure"
+# - make
+# - cd ..
 - "./build.sh"
 after_success:
 - cd build
-- "./unittests"
+- "./unittests --gtest_shuffle"
 - ninja test
 # - cd ..
 # - brew install graphviz
