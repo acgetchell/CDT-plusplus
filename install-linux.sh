@@ -1,12 +1,12 @@
 #!/bin/bash
 
 # Install gcc 5.3
-if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-5; fi
-if [ "$CXX" = "g++" ]; then export CXX="g++-5" CC="gcc-5"; fi
+if [[ "$CXX" = "g++" ]]; then sudo apt-get install -qq g++-5; fi
+if [[ "$CXX" = "g++" ]]; then export CXX="g++-5" CC="gcc-5"; fi
 # Install clang 3.8
-if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 lldb-3.8; fi
+if [[ "$CXX" == "clang++" ]]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 lldb-3.8; fi
 
-if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
+if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
 
 # Install other needed libraries
 sudo apt-get install -qq libboost-all-dev
