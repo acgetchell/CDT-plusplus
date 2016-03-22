@@ -1,8 +1,8 @@
 #!/bin/bash
 
+brew install cmake
 brew install ninja
 brew install eigen
-brew install cppcheck
 brew install tbb --c++11
 
 # Build GoogleMock
