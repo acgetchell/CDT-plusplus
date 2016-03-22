@@ -226,16 +226,10 @@ to use GoogleTest, do:
 # sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 ~~~
 
-This is also scripted in [.travis.yml][39]. Thanks to [ManuelSchneid3r][42] and
+This is scripted in [install-linux.sh][43]. Thanks to [ManuelSchneid3r][42] and
 [Stack Overflow][40] for the assist.
 
-On MacOS, the following environment variables should be set:
-
-~~~
-export GMOCK_HOME="$HOME/gmock-1.7.0"
-export DYLD_FALLBACK_LIBRARY_PATH=$GMOCK_HOME/lib/.libs:$GMOCK_HOME/gtest/lib/.libs:/usr/local/lib:$DYLD_FALLBACK_LIBRARY_PATH
-~~~
-(Or wherever you built GMOCK and your dynamic libraries for CGAL.)
+MacOS is very similiar, and the exact steps are scripted in [install-osx.sh][44].
 
 
 Unit tests using GMock are then run (in the `build/` directory) via:
@@ -275,6 +269,10 @@ Also, these tools build in **DEBUG** mode. You should probably not then run
 `unittests` as you will get thousands of lines of debugging output from the
 tests that create large triangulations. (You could use `--gtest_filter`
 to run just the tests that you want.)
+
+### Contributing ###
+
+Please see [CONTRIBUTING.md][45].
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
@@ -318,3 +316,6 @@ to run just the tests that you want.)
 [40]: https://stackoverflow.com/questions/13513905/how-to-setup-googletest-as-a-shared-library-on-linux
 [41]: https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile
 [42]: https://stackoverflow.com/users/978486/manuelschneid3r
+[43]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-linux.sh
+[44]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-osx.sh
+[45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
