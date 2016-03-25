@@ -2,18 +2,18 @@
 ///
 /// Copyright (c) 2016 Adam Getchell
 ///
-/// RAII class for managing exception-safe ergodic (foliation-preserving
-/// Pachner) moves.
+/// Resource Aquisition Is Initialization class for managing exception-safe
+/// ergodic (foliation-preserving Pachner) moves.
 /// See http://www.stroustrup.com/except.pdf and
 /// http://exceptionsafecode.com for details.
 ///
-/// @file PachnerMove.h
-/// @brief Resource Aquisition Is Initialization class to manage
-/// exception-safe Pachner moves
+/// @file MoveManager.h
+/// @brief RAII class to manage exception-safe foliation-preserving
+/// Pachner moves
 /// @author Adam Getchell
 
-#ifndef SRC_PACHNERMOVE_H_
-#define SRC_PACHNERMOVE_H_
+#ifndef SRC_MOVEMANAGER_H_
+#define SRC_MOVEMANAGER_H_
 
 #include <tuple>
 #include <memory>
@@ -103,4 +103,4 @@ void PachnerMove::make_move(T&& universe, const move_type move) {
 }  // make_move()
 
 
-#endif  // SRC_PACHNERMOVE_H_
+#endif  // SRC_MOVEMANAGER_H_
