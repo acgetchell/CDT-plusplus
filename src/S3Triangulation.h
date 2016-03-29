@@ -44,9 +44,8 @@
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
 
-// CDT headers
-#include "utilities.h"
-
+// C headers
+// #include <math.h>
 
 // CGAL headers
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -54,9 +53,6 @@
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/point_generators_3.h>
-
-// C headers
-// #include <math.h>
 
 // C++ headers
 #include <boost/iterator/zip_iterator.hpp>
@@ -66,6 +62,9 @@
 #include <tuple>
 #include <list>
 #include <set>
+
+// CDT headers
+#include "src/utilities.h"
 
 
 using K = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -107,7 +106,7 @@ static constexpr unsigned DIMENSION = 3;
 /// **spacelike_edges**, since we don't do much with them other than use them
 /// to check correctness.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A std::pair<std::vector<Edge_tuple>, unsigned> of timelike edges
 /// and spacelike edges
 template <typename T>
@@ -163,7 +162,7 @@ auto classify_edges(T&& universe_ptr) noexcept {
 /// Cell_handles to all the simplices in the triangulation of that corresponding
 /// type.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A std::tuple<std::vector, std::vector, std::vector> of
 /// **three_one**, **two_two**, and **one_three**
 template <typename T>
@@ -239,7 +238,7 @@ auto classify_simplices(T&& universe_ptr) {
 /// This function is repeatedly called by fix_triangulation() up to
 /// **MAX_FOLIATION_FIX_PASSES** times.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A boolean value if there are invalid simplices
 template <typename T>
 auto fix_timeslices(T&& universe_ptr) {  // NOLINT
@@ -325,7 +324,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
 /// Runs fix_timeslices() to fix foliation until there are no errors,
 /// or MAX_FOLIATION_FIX_PASSES whichever comes first.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 template <typename T>
 void fix_triangulation(T&& universe_ptr) {
   auto pass = 0;
@@ -340,9 +339,10 @@ void fix_triangulation(T&& universe_ptr) {
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @param[in] causal_vertices A std::pair<std::vector, unsigned> containing
 /// the vertices to be inserted along with their timevalues
+/// @returns  A std::unique_ptr<Delaunay> to the triangulation
 template <typename T1, typename T2>
 void insert_into_triangulation(T1&& universe_ptr,
                                T2&& causal_vertices) noexcept {
@@ -350,6 +350,7 @@ void insert_into_triangulation(T1&& universe_ptr,
     (causal_vertices.first.begin(), causal_vertices.second.begin())),
      boost::make_zip_iterator(boost::make_tuple(causal_vertices.first.end(),
      causal_vertices.second.end())));
+  // return std::move(universe_ptr);
 }  // insert_into_triangulation()
 
 /// @brief Make foliated spheres
@@ -400,7 +401,7 @@ auto inline make_foliated_sphere(const unsigned simplices,
 ///
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
-/// @returns A std::unique_ptr to the foliated Delaunay triangulation
+/// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
 auto inline make_triangulation(const unsigned simplices,
                                const unsigned timeslices) {
   std::cout << "Generating universe ... " << std::endl;
