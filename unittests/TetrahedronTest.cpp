@@ -20,7 +20,7 @@
 using namespace testing;  // NOLINT
 
 class TetrahedronTest : public Test {
- public:
+ protected:
   TetrahedronTest() {
     // We wouldn't normally directly insert into the Delaunay triangulation
     // This is to insert without timevalues to directly create a tetrahedron
@@ -39,7 +39,7 @@ class TetrahedronTest : public Test {
 };
 
 class FoliatedTetrahedronTest : public TetrahedronTest {
- public:
+ protected:
   FoliatedTetrahedronTest() : causal_vertices(std::make_pair(V, timevalue)) {
     // Manually insert
     insert_into_triangulation(universe_, causal_vertices);
