@@ -12,9 +12,7 @@ using namespace std;
 
 typedef pair<int, int> pii;
 typedef vector<vector<pii> > Graph;
-
 const int INF = INT_MAX / 3;
-
 bool bellmanFord(Graph &g, int s, vector<int> &prio, vector<int> &pred)
 {
     int n = g.size();
