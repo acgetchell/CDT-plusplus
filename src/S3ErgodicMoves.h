@@ -38,7 +38,7 @@
 #include <algorithm>
 #include <tuple>
 
-using move_tuple = std::tuple<std::uintmax_t,
+using Move_tuple = std::tuple<std::uintmax_t,
                               std::uintmax_t,
                               std::uintmax_t,
                               std::uintmax_t,

@@ -64,7 +64,7 @@ class PachnerMove {
   template <typename T>
   void make_move(T&&, move_type);
 
-  move_tuple attempted_moves_;
+  Move_tuple attempted_moves_;
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;

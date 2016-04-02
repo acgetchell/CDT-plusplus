@@ -28,6 +28,14 @@ class S3ErgodicMoveTest : public Test {
                         attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
                         number_of_vertices_(universe_->number_of_vertices()) {}
 
+  // explicit S3ErgodicMoveTest(Causal_vertices causal_vertices) {
+  //   insert_into_triangulation(universe_, causal_vertices);
+  //   movable_edge_types_ = classify_edges(universe_);
+  //   attempted_moves_ = std::make_tuple(0, 0, 0, 0, 0);
+  //   number_of_vertices_ = universe_->number_of_vertices();
+  // }
+  // Short circuit base class ctor
+  explicit S3ErgodicMoveTest(bool Test) {}
   // template <typename T1,typename T2, typename T3, typename T4>
   // S3ErgodicMoveTest(T1&& args1, T2&& args2, T3&& args3, T4&& args4 :
   //                       universe_(std::move(make_triangulation(6400, 17))),
@@ -67,8 +75,9 @@ class S3ErgodicMoveTest : public Test {
   //   std::cout << "Number of timelike edges before = " << V2_before
   //             << std::endl;
   }
-
-  std::unique_ptr<Delaunay> universe_;
+  Delaunay triangulation;
+  std::unique_ptr<Delaunay>
+    universe_ = std::make_unique<Delaunay>(triangulation);
   ///< Unique pointer to the Delaunay triangulation.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
@@ -76,7 +85,7 @@ class S3ErgodicMoveTest : public Test {
   ///< Movable (3,1), (2,2), and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
-  move_tuple attempted_moves_;
+  Move_tuple attempted_moves_;
   ///< A count of all attempted moves.
   std::uintmax_t number_of_vertices_;
   ///< Vertices in Delaunay triangulation.
@@ -97,25 +106,31 @@ class S3ErgodicMoveTest : public Test {
   // unsigned N3_22_before{0};
   // unsigned N3_13_before{0};
   // unsigned V2_before{0};
-  // move_tuple attempted_moves;
+  // Move_tuple attempted_moves;
 };
 
 class Minimal26Test : public S3ErgodicMoveTest {
  protected:
-  Minimal26Test() // : causal_vertices(std::make_pair(V, timevalue)),
+  Minimal26Test() : S3ErgodicMoveTest(true)
+                    //S3ErgodicMoveTest(std::make_pair(V, timevalue))
+                    // : causal_vertices(std::make_pair(V, timevalue)),
                     //movable_simplex_types_(classify_simplices(universe_)),
                     //movable_edge_types_(classify_edges(universe_)),
                     //attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
                     //number_of_vertices_(universe_->number_of_vertices())
     {
       // Manually insert
+      // S3ErgodicMoveTest(std::make_pair(V, timevalue));
       causal_vertices = std::make_pair(V, timevalue);
       insert_into_triangulation(universe_, causal_vertices);
+      movable_simplex_types_ = classify_simplices(universe_);
       movable_edge_types_ = classify_edges(universe_);
       attempted_moves_ = std::make_tuple(0, 0, 0, 0, 0);
       number_of_vertices_ = universe_->number_of_vertices();
-    }
-  // virtual void SetUp() {
+}
+  virtual void SetUp() {
+    S3ErgodicMoveTest::SetUp();
+    // S3ErgodicMoveTest(std::make_pair(V, timevalue));
   //   // Manually create causal_vertices
   //   std::pair<std::vector<Point>, std::vector<unsigned>>
   //     causal_vertices(V, timevalue);
@@ -138,7 +153,7 @@ class Minimal26Test : public S3ErgodicMoveTest {
   //             << std::endl;
   //   std::cout << "Number of timelike edges before = " << V2_before
   //             << std::endl;
-  // }
+  }
   std::vector<Delaunay::Point> V {
     Delaunay::Point(0, 1, 0),
     Delaunay::Point(0, 0, 1),

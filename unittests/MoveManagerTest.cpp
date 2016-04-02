@@ -51,7 +51,7 @@ class MoveManagerTest : public Test {
   ///< Movable (3,1), (2,2) and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, unsigned> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
-  move_tuple attempted_moves_;
+  Move_tuple attempted_moves_;
   ///< A count of all attempted moves
   std::uintmax_t number_of_vertices_;
   ///< Vertices in Delaunay triangulation

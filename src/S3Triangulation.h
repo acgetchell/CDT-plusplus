@@ -86,6 +86,7 @@ using Vertex_handle = Delaunay::Vertex_handle;
 using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, unsigned, unsigned>;
+using Causal_vertices = std::pair<std::vector<Point>, std::vector<uintmax_t>>;
 
 static constexpr unsigned MAX_FOLIATION_FIX_PASSES = 200;
 ///< The maximum number of passes to fix invalidly foliated simplices
@@ -340,8 +341,9 @@ void fix_triangulation(T&& universe_ptr) {
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-/// @param[in] causal_vertices A std::pair<std::vector, unsigned> containing
-/// the vertices to be inserted along with their timevalues
+/// @param[in] causal_vertices A std::pair<std::vector<Point>,
+/// std::vector<uintmax_t>> containing the vertices to be inserted along with
+/// their timevalues
 /// @returns  A std::unique_ptr<Delaunay> to the triangulation
 template <typename T1, typename T2>
 void insert_into_triangulation(T1&& universe_ptr,
@@ -370,7 +372,8 @@ auto inline make_foliated_sphere(const unsigned simplices,
   const auto points_per_timeslice = expected_points_per_simplex(DIMENSION,
                                     simplices, timeslices);
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
-  std::pair<std::vector<Point>, std::vector<unsigned>> causal_vertices;
+  // std::pair<std::vector<Point>, std::vector<unsigned>> causal_vertices;
+  Causal_vertices causal_vertices;
 
   for (auto i = 0; i < timeslices; ++i) {
     radius = 1.0 + static_cast<double>(i);
