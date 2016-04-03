@@ -630,9 +630,9 @@ class Metropolis {
   ///< Number of passes of ergodic moves on triangulation.
   std::uintmax_t checkpoint_ {10};
   ///< How often to print/write output.
-  move_tuple attempted_moves_ {0, 0, 0, 0, 0};
+  Move_tuple attempted_moves_ {0, 0, 0, 0, 0};
   ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  move_tuple successful_moves_ {0, 0, 0, 0, 0};
+  Move_tuple successful_moves_ {0, 0, 0, 0, 0};
   ///< Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,

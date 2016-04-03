@@ -38,7 +38,7 @@
 #include <algorithm>
 #include <tuple>
 
-using move_tuple = std::tuple<std::uintmax_t,
+using Move_tuple = std::tuple<std::uintmax_t,
                               std::uintmax_t,
                               std::uintmax_t,
                               std::uintmax_t,
@@ -410,6 +410,8 @@ auto make_26_move(T1&& universe_ptr,
     }
   // Increment the (2,6) move counter
   ++std::get<2>(attempted_moves);
+  // Erase the attempted (1,3) simplex from simplex_types
+  std::get<2>(simplex_types).erase(std::get<2>(simplex_types).begin() + choice);
   }
   return universe_ptr;
 }  // make_26_move()

@@ -2,10 +2,10 @@
 ///
 /// Copyright (c) 2016 Adam Getchell
 ///
-/// Checks that the PachnerMove RAII class handles resources properly.
+/// Checks that the MoveManager RAII class handles resources properly.
 
-/// @file PachnerMoveTest.cpp
-/// @brief Tests for the PachnerMove RAII class
+/// @file MoveManagerTest.cpp
+/// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
 #include <tuple>
@@ -14,14 +14,14 @@
 #include <algorithm>
 
 #include "gmock/gmock.h"
-#include "PachnerMove.h"
+#include "MoveManager.h"
 #include "S3ErgodicMoves.h"
 
 using namespace testing;  // NOLINT
 
-class PachnerMoveTest : public Test {
+class MoveManagerTest : public Test {
  public:
-  PachnerMoveTest() : universe_(std::move(make_triangulation(6400, 17))),
+  MoveManagerTest() : universe_(std::move(make_triangulation(6400, 17))),
                       movable_simplex_types_(classify_simplices(universe_)),
                       movable_edge_types_(classify_edges(universe_)),
                       attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
@@ -51,13 +51,13 @@ class PachnerMoveTest : public Test {
   ///< Movable (3,1), (2,2) and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, unsigned> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
-  move_tuple attempted_moves_;
+  Move_tuple attempted_moves_;
   ///< A count of all attempted moves
   std::uintmax_t number_of_vertices_;
   ///< Vertices in Delaunay triangulation
 };
 
-TEST_F(PachnerMoveTest, DelaunayDeepCopyCtor) {
+TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
   // Print info on move/copy operation exception safety
   std::cout << std::boolalpha
     << "Delaunay alias is copy-assignable? "
@@ -121,7 +121,7 @@ TEST_F(PachnerMoveTest, DelaunayDeepCopyCtor) {
     << "Delaunay copy doesn't have the same number of spacelike edges.";
 }
 
-TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
+TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(this->universe_->tds().is_valid())
     << "Constructed universe_ is invalid.";
 
@@ -195,7 +195,7 @@ TEST_F(PachnerMoveTest, MakeA23MoveOnACopyAndSwap) {
     << "make_23_move() changed the number of vertices.";
 }
 
-TEST_F(PachnerMoveTest, MakeA23PachnerMove) {
+TEST_F(MoveManagerTest, MakeA23MoveManager) {
   EXPECT_TRUE(this->universe_->tds().is_valid())
     << "Constructed universe_ is invalid.";
 
@@ -207,12 +207,12 @@ TEST_F(PachnerMoveTest, MakeA23PachnerMove) {
   std::cout << "Attempted (2,3) moves = " << std::get<0>(p.attempted_moves_)
             << std::endl;
 
-  // Move info from PachnerMove
+  // Move info from MoveManager
   universe_ = std::move(p.universe_);
   std::get<0>(attempted_moves_) += std::get<0>(p.attempted_moves_);
 
   EXPECT_TRUE(this->universe_->tds().is_valid())
-    << "PachnerMove(TWO_THREE) invalidated universe_.";
+    << "MoveManager(TWO_THREE) invalidated universe_.";
 
   // Re-populate with current data
   auto new_movable_simplex_types = classify_simplices(this->universe_);
@@ -234,28 +234,28 @@ TEST_F(PachnerMoveTest, MakeA23PachnerMove) {
             << this->universe_->number_of_vertices() << std::endl;
 
 EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
-  << "PachnerMove(TWO_THREE) didn't record an attempted move.";
+  << "MoveManager(TWO_THREE) didn't record an attempted move.";
 
 EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
   Eq(std::get<1>(movable_simplex_types_).size()+1))
-  << "PachnerMove(TWO_THREE) didn't add one and only one (2,2) simplex.";
+  << "MoveManager(TWO_THREE) didn't add one and only one (2,2) simplex.";
 
 EXPECT_THAT(std::get<0>(new_movable_simplex_types).size(),
   Eq(std::get<0>(movable_simplex_types_).size()))
-  << "PachnerMove(TWO_THREE) changed (3,1) simplices.";
+  << "MoveManager(TWO_THREE) changed (3,1) simplices.";
 
 EXPECT_THAT(std::get<2>(new_movable_simplex_types).size(),
   Eq(std::get<2>(movable_simplex_types_).size()))
-  << "PachnerMove(TWO_THREE) changed (1,3) simplices.";
+  << "MoveManager(TWO_THREE) changed (1,3) simplices.";
 
 EXPECT_THAT(new_movable_edge_types.first.size(),
   Eq(movable_edge_types_.first.size()+1))
-  << "PachnerMove(TWO_THREE) didn't add one and only one timelike edge.";
+  << "MoveManager(TWO_THREE) didn't add one and only one timelike edge.";
 
 EXPECT_THAT(new_movable_edge_types.second, Eq(movable_edge_types_.second))
-  << "PachnerMove(TWO_THREE) changed the number of spacelike edges.";
+  << "MoveManager(TWO_THREE) changed the number of spacelike edges.";
 
 EXPECT_THAT(this->universe_->number_of_vertices(),
   Eq(number_of_vertices_))
-  << "PachnerMove(TWO_THREE) changed the number of vertices.";
+  << "MoveManager(TWO_THREE) changed the number of vertices.";
 }
