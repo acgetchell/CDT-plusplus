@@ -28,22 +28,12 @@ class S3ErgodicMoveTest : public Test {
                         attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
                         number_of_vertices_(universe_->number_of_vertices()) {}
 
-  // explicit S3ErgodicMoveTest(Causal_vertices causal_vertices) {
-  //   insert_into_triangulation(universe_, causal_vertices);
-  //   movable_edge_types_ = classify_edges(universe_);
-  //   attempted_moves_ = std::make_tuple(0, 0, 0, 0, 0);
-  //   number_of_vertices_ = universe_->number_of_vertices();
-  // }
-  // Short circuit base class ctor
+  // No initialization by base class ctor
   explicit S3ErgodicMoveTest(bool Test) {}
-  // template <typename T1,typename T2, typename T3, typename T4>
-  // S3ErgodicMoveTest(T1&& args1, T2&& args2, T3&& args3, T4&& args4 :
-  //                       universe_(std::move(make_triangulation(6400, 17))),
-  //                       movable_simplex_types_(classify_simplices(args1)),
-  //                       movable_edge_types_(classify_edges(universe_))
 
   virtual void SetUp() {
     // Print ctor-initialized values
+    std::cout << "Initial Triangulation ..." << std::endl;
     std::cout << "(3,1) simplices: "
               << std::get<0>(movable_simplex_types_).size() << std::endl;
     std::cout << "(2,2) simplices: "
@@ -56,26 +46,18 @@ class S3ErgodicMoveTest : public Test {
               << movable_edge_types_.second << std::endl;
     std::cout << "Vertices: "
               << number_of_vertices_ << std::endl;
-  //   universe_ptr = std::move(make_triangulation(simplices, timeslices));
-  //   simplex_types = classify_simplices(universe_ptr);
-  //   edge_types = classify_edges(universe_ptr);
-  //   number_of_vertices_before = universe_ptr->number_of_vertices();
-  //   N3_31_before = std::get<0>(simplex_types).size();
-  //   N3_22_before = std::get<1>(simplex_types).size();
-  //   N3_13_before = std::get<2>(simplex_types).size();
-  //   V2_before = edge_types.first.size();
-  //   std::cout << "Number of vertices before = " << number_of_vertices_before
-  //             << std::endl;
-  //   std::cout << "Number of (3,1) simplices before = " << N3_31_before
-  //             << std::endl;
-  //   std::cout << "Number of (2,2) simplices before = " << N3_22_before
-  //             << std::endl;
-  //   std::cout << "Number of (1,3) simplices before = " << N3_13_before
-  //             << std::endl;
-  //   std::cout << "Number of timelike edges before = " << V2_before
-  //             << std::endl;
+
+    // Initial values for comparison tests
+    N3_31_before = std::get<0>(movable_simplex_types_).size();
+    N3_22_before = std::get<1>(movable_simplex_types_).size();
+    N3_13_before = std::get<2>(movable_simplex_types_).size();
+    timelike_edges = movable_edge_types_.first.size();
+    spacelike_edges = movable_edge_types_.second;
+    vertices_before = number_of_vertices_;
   }
+
   Delaunay triangulation;
+  ///< Delaunay triangulation
   std::unique_ptr<Delaunay>
     universe_ = std::make_unique<Delaunay>(triangulation);
   ///< Unique pointer to the Delaunay triangulation.
@@ -89,71 +71,36 @@ class S3ErgodicMoveTest : public Test {
   ///< A count of all attempted moves.
   std::uintmax_t number_of_vertices_;
   ///< Vertices in Delaunay triangulation.
-  // Delaunay universe;
-  // std::unique_ptr<decltype(universe)>
-  //   universe_ptr = std::make_unique<decltype(universe)>(universe);
-  // static constexpr auto simplices = static_cast<unsigned>(6400);
-  // static constexpr auto timeslices = static_cast<unsigned>(16);
-  // std::tuple<std::vector<Cell_handle>,
-  //            std::vector<Cell_handle>,
-  //            std::vector<Cell_handle>> simplex_types;
-  // // std::tuple<std::vector<Cell_handle>,
-  // //            std::vector<Cell_handle>,
-  // //            std::vector<Cell_handle>> movable_simplex_types;
-  // std::pair<std::vector<Edge_tuple>, unsigned> edge_types;
-  // unsigned number_of_vertices_before{0};
-  // unsigned N3_31_before{0};
-  // unsigned N3_22_before{0};
-  // unsigned N3_13_before{0};
-  // unsigned V2_before{0};
-  // Move_tuple attempted_moves;
+  std::uintmax_t N3_31_before{0};
+  ///< Initial number of (3,1) simplices
+  std::uintmax_t N3_22_before{0};
+  ///< Initial number of (2,2) simplices
+  std::uintmax_t N3_13_before{0};
+  ///< Initial number of (1,3) simplices
+  std::uintmax_t timelike_edges{0};
+  ///< Initial number of timelike edges
+  std::uintmax_t spacelike_edges{0};
+  ///< Initial number of spacelike edges
+  std::uintmax_t vertices_before{0};
+  ///< Initial number of vertices
 };
 
-class Minimal26Test : public S3ErgodicMoveTest {
+class MinimalErgodic26MoveTest : public S3ErgodicMoveTest {
  protected:
-  Minimal26Test() : S3ErgodicMoveTest(true)
-                    //S3ErgodicMoveTest(std::make_pair(V, timevalue))
-                    // : causal_vertices(std::make_pair(V, timevalue)),
-                    //movable_simplex_types_(classify_simplices(universe_)),
-                    //movable_edge_types_(classify_edges(universe_)),
-                    //attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
-                    //number_of_vertices_(universe_->number_of_vertices())
-    {
-      // Manually insert
-      // S3ErgodicMoveTest(std::make_pair(V, timevalue));
-      causal_vertices = std::make_pair(V, timevalue);
-      insert_into_triangulation(universe_, causal_vertices);
-      movable_simplex_types_ = classify_simplices(universe_);
-      movable_edge_types_ = classify_edges(universe_);
-      attempted_moves_ = std::make_tuple(0, 0, 0, 0, 0);
-      number_of_vertices_ = universe_->number_of_vertices();
-}
+  MinimalErgodic26MoveTest() : S3ErgodicMoveTest(true) {
+    // Manually insert
+    causal_vertices = std::make_pair(V, timevalue);
+    insert_into_triangulation(universe_, causal_vertices);
+    movable_simplex_types_ = classify_simplices(universe_);
+    movable_edge_types_ = classify_edges(universe_);
+    attempted_moves_ = std::make_tuple(0, 0, 0, 0, 0);
+    number_of_vertices_ = universe_->number_of_vertices();
+  }
+
   virtual void SetUp() {
     S3ErgodicMoveTest::SetUp();
-    // S3ErgodicMoveTest(std::make_pair(V, timevalue));
-  //   // Manually create causal_vertices
-  //   std::pair<std::vector<Point>, std::vector<unsigned>>
-  //     causal_vertices(V, timevalue);
-  //   // Manually insert
-  //   insert_into_triangulation(universe_ptr, causal_vertices);
-  //   simplex_types = classify_simplices(universe_ptr);
-  //   edge_types = classify_edges(universe_ptr);
-  //   number_of_vertices_before = universe_ptr->number_of_vertices();
-  //   N3_31_before = std::get<0>(simplex_types).size();
-  //   N3_22_before = std::get<1>(simplex_types).size();
-  //   N3_13_before = std::get<2>(simplex_types).size();
-  //   V2_before = edge_types.first.size();
-  //   std::cout << "Number of vertices before = " << number_of_vertices_before
-  //             << std::endl;
-  //   std::cout << "Number of (3,1) simplices before = " << N3_31_before
-  //             << std::endl;
-  //   std::cout << "Number of (2,2) simplices before = " << N3_22_before
-  //             << std::endl;
-  //   std::cout << "Number of (1,3) simplices before = " << N3_13_before
-  //             << std::endl;
-  //   std::cout << "Number of timelike edges before = " << V2_before
-  //             << std::endl;
   }
+
   std::vector<Delaunay::Point> V {
     Delaunay::Point(0, 1, 0),
     Delaunay::Point(0, 0, 1),
@@ -198,56 +145,57 @@ class Minimal26Test : public S3ErgodicMoveTest {
 // };
 //
 //
-// TEST_F(S3ErgodicMoves, MakeA23Move) {
-//   universe_ptr = std::move(make_23_move(universe_ptr,
-//                                         simplex_types,
-//                                         attempted_moves));
-//   std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves)
-//             << std::endl;
-//
-//   // Did we remove a (2,2) Cell_handle?
-//   EXPECT_THAT(std::get<1>(simplex_types).size(), Le(N3_22_before-1))
-//     << "make_23_move didn't remove a (2,2) simplex vector element.";
-//
-//   // Did we record an attempted move?
-//   EXPECT_THAT(std::get<0>(attempted_moves) +
-//               std::get<1>(simplex_types).size(), Eq(N3_22_before))
-//     << "Attempted (2,3) moves not recorded correctly.";
-//
-//   EXPECT_THAT(std::get<0>(simplex_types).size(), Eq(N3_31_before))
-//     << "make_23_move removed a (3,1) simplex vector element.";
-//
-//   EXPECT_THAT(std::get<2>(simplex_types).size(), Eq(N3_13_before))
-//     << "make_23_move removed a (1,3) simplex vector element.";
-//
-//   // Now look at changes
-//   simplex_types = classify_simplices(universe_ptr);
-//   auto N3_31_after = std::get<0>(simplex_types).size();
-//   auto N3_22_after = std::get<1>(simplex_types).size();
-//   auto N3_13_after = std::get<2>(simplex_types).size();
-//
-//   // We expect the triangulation to be valid, but not necessarily Delaunay
-//   EXPECT_TRUE(universe_ptr->tds().is_valid())
-//     << "Triangulation is invalid.";
-//
-//   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
-//     << "Triangulation has wrong dimensionality.";
-//
-//   EXPECT_TRUE(fix_timeslices(universe_ptr))
-//     << "Some simplices do not span exactly 1 timeslice.";
-//
-//   EXPECT_THAT(universe_ptr->number_of_vertices(), Eq(number_of_vertices_before))
-//     << "The number of vertices changed.";
-//
-//   EXPECT_THAT(N3_31_after, Eq(N3_31_before))
-//     << "(3,1) simplices changed.";
-//
-//   EXPECT_THAT(N3_22_after, Eq(N3_22_before+1))
-//     << "(2,2) simplices did not increase by 1.";
-//
-//   EXPECT_THAT(N3_13_after, Eq(N3_13_before))
-//     << "(1,3) simplices changed.";
-// }
+TEST_F(S3ErgodicMoveTest, MakeA23Move) {
+  universe_ = std::move(make_23_move(universe_,
+                                     movable_simplex_types_,
+                                     attempted_moves_));
+  std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
+            << std::endl;
+
+  // Did we remove a (2,2) Cell_handle?
+  EXPECT_THAT(std::get<1>(movable_simplex_types_).size(), Le(N3_22_before-1))
+    << "make_23_move didn't remove a (2,2) simplex vector element.";
+
+  // Did we record an attempted move?
+  EXPECT_THAT(std::get<0>(attempted_moves_) +
+              std::get<1>(movable_simplex_types_).size(), Eq(N3_22_before))
+    << "Attempted (2,3) moves not recorded correctly.";
+
+  EXPECT_THAT(std::get<0>(movable_simplex_types_).size(), Eq(N3_31_before))
+    << "make_23_move removed a (3,1) simplex vector element.";
+
+  EXPECT_THAT(std::get<2>(movable_simplex_types_).size(), Eq(N3_13_before))
+    << "make_23_move removed a (1,3) simplex vector element.";
+
+  // Now look at changes
+  auto simplex_types = classify_simplices(universe_);
+  auto N3_31_after = std::get<0>(simplex_types).size();
+  auto N3_22_after = std::get<1>(simplex_types).size();
+  auto N3_13_after = std::get<2>(simplex_types).size();
+  auto edge_types = classify_edges(universe_);
+
+  // We expect the triangulation to be valid, but not necessarily Delaunay
+  EXPECT_TRUE(universe_->tds().is_valid())
+    << "Triangulation is invalid.";
+
+  EXPECT_THAT(universe_->dimension(), Eq(3))
+    << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_))
+    << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(universe_->number_of_vertices(), Eq(vertices_before))
+    << "The number of vertices changed.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before))
+    << "(3,1) simplices changed.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before+1))
+    << "(2,2) simplices did not increase by 1.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before))
+    << "(1,3) simplices changed.";
+}
 //
 // TEST_F(S3ErgodicMoves, MakeA32Move) {
 //   universe_ptr = std::move(make_32_move(universe_ptr,
@@ -300,7 +248,7 @@ class Minimal26Test : public S3ErgodicMoveTest {
 //     << "The edge that was flipped wasn't removed.";
 // }
 //
-TEST_F(Minimal26Test, MakeA26Move) {
+TEST_F(MinimalErgodic26MoveTest, MakeA26Move) {
   universe_ = std::move(make_26_move(universe_,
                                      movable_simplex_types_,
                                      attempted_moves_));
@@ -310,6 +258,47 @@ TEST_F(Minimal26Test, MakeA26Move) {
   auto N3_31_after = std::get<0>(simplex_types).size();
   auto N3_22_after = std::get<1>(simplex_types).size();
   auto N3_13_after = std::get<2>(simplex_types).size();
+  auto edge_types = classify_edges(universe_);
+
+  EXPECT_TRUE(universe_->tds().is_valid(true))
+    << "Triangulation is invalid.";
+
+  EXPECT_THAT(universe_->dimension(), Eq(3))
+    << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_))
+    << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
+    << "(3,1) simplices did not increase by 2.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
+    << "(2,2) simplices changed.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
+    << "(1,3) simplices did not increase by 2.";
+
+  EXPECT_THAT(edge_types.first.size(), Eq(timelike_edges+2))
+    << "Timelike edges did not increase by 2.";
+
+  EXPECT_THAT(edge_types.second, Eq(spacelike_edges+3))
+    << "Spacelike edges did not increase by 3.";
+
+  EXPECT_THAT(universe_->number_of_vertices(), Eq(vertices_before+1))
+    << "A vertex was not added to the triangulation.";
+}
+
+TEST_F(S3ErgodicMoveTest, MakeA26Move) {
+  universe_ = std::move(make_26_move(universe_,
+                                     movable_simplex_types_,
+                                     attempted_moves_));
+
+  // Now look at changes
+  auto simplex_types = classify_simplices(universe_);
+  auto N3_31_after = std::get<0>(simplex_types).size();
+  auto N3_22_after = std::get<1>(simplex_types).size();
+  auto N3_13_after = std::get<2>(simplex_types).size();
+  auto edge_types = classify_edges(universe_);
 //
   EXPECT_TRUE(universe_->tds().is_valid(true))
     << "Triangulation is invalid.";
@@ -319,55 +308,26 @@ TEST_F(Minimal26Test, MakeA26Move) {
 
   EXPECT_TRUE(fix_timeslices(universe_))
     << "Some simplices do not span exactly 1 timeslice.";
-//
-//   EXPECT_THAT(universe_ptr->number_of_vertices(),
-//               Eq(number_of_vertices_before+1))
-//     << "A vertex was not added to the triangulation.";
-//
-//   EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
-//     << "(3,1) simplices did not increase by 2.";
-//
-//   EXPECT_THAT(N3_22_after, Eq(N3_22_before))
-//     << "(2,2) simplices changed.";
-//
-//   EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
-//     << "(1,3) simplices did not increase by 2.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
+    << "(3,1) simplices did not increase by 2.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
+    << "(2,2) simplices changed.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
+    << "(1,3) simplices did not increase by 2.";
+
+  EXPECT_THAT(edge_types.first.size(), Eq(timelike_edges+2))
+    << "Timelike edges did not increase by 2.";
+
+  EXPECT_THAT(edge_types.second, Eq(spacelike_edges+3))
+    << "Spacelike edges did not increase by 3.";
+
+  EXPECT_THAT(universe_->number_of_vertices(), Eq(vertices_before+1))
+    << "A vertex was not added to the triangulation.";
 }
-//
-// TEST_F(S3ErgodicMoves, MakeA26Move) {
-//   universe_ptr = std::move(make_26_move(universe_ptr,
-//                                         simplex_types,
-//                                         attempted_moves));
-//
-//   // Now look at changes
-//   simplex_types = classify_simplices(universe_ptr);
-//   auto N3_31_after = std::get<0>(simplex_types).size();
-//   auto N3_22_after = std::get<1>(simplex_types).size();
-//   auto N3_13_after = std::get<2>(simplex_types).size();
-//
-//   EXPECT_TRUE(universe_ptr->tds().is_valid(true))
-//     << "Triangulation is invalid.";
-//
-//   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
-//     << "Triangulation has wrong dimensionality.";
-//
-//   EXPECT_TRUE(fix_timeslices(universe_ptr))
-//     << "Some simplices do not span exactly 1 timeslice.";
-//
-//   EXPECT_THAT(universe_ptr->number_of_vertices(),
-//               Eq(number_of_vertices_before+1))
-//     << "A vertex was not added to the triangulation.";
-//
-//   EXPECT_THAT(N3_31_after, Eq(N3_31_before+2))
-//     << "(3,1) simplices did not increase by 2.";
-//
-//   EXPECT_THAT(N3_22_after, Eq(N3_22_before))
-//     << "(2,2) simplices changed.";
-//
-//   EXPECT_THAT(N3_13_after, Eq(N3_13_before+2))
-//     << "(1,3) simplices did not increase by 2.";
-// }
-//
+
 // TEST_F(S3ErgodicMoves, DISABLED_MakeA62Move) {
 //   universe_ptr = std::move(make_62_move(universe_ptr,
 //                                         edge_types,
