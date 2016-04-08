@@ -45,8 +45,10 @@ class PachnerMove {
       this->make_move(tempDT_ptr, move);  //  throws exceptions
 
       // Throws if false
-      CGAL_triangulation_postcondition(tempDT_ptr->tds().is_valid());
-
+      // CGAL_triangulation_postcondition(tempDT_ptr->tds().is_valid());
+      if (!tempDT_ptr->tds().is_valid()) {
+        throw std::logic_error("Triangulation is invalid.");
+      }
       // Exception-safe commit
       std::swap(universe_, tempDT_ptr);
     }
