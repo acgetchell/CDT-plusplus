@@ -35,7 +35,7 @@ install:
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
   - curl -L -o CGAL-4.8.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.8.tar.gz
-  - tar zxvf CGAL-4.7.tar.gz &> install.log
+  - tar zxvf CGAL-4.8.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.8
   - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
   - ninja
