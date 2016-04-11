@@ -43,7 +43,10 @@ class MoveManagerTest : public Test {
               << number_of_vertices_ << std::endl;
   }
 
-  std::unique_ptr<Delaunay> universe_;
+  Delaunay triangulation;
+  ///< Delaunay triangulation
+  std::unique_ptr<Delaunay>
+    universe_ = std::make_unique<Delaunay>(triangulation);
   ///< Unique pointer to the Delaunay triangulation
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
