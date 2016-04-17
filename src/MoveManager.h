@@ -42,13 +42,18 @@ class PachnerMove {
       // Move exception-safe, can't copy
       auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
 
+      if (!tempDT_ptr->tds().is_valid()) {
+        throw std::logic_error("Copied triangulation was invalid.");
+      }
+
       this->make_move(tempDT_ptr, move);  //  throws exceptions
 
       // Throws if false
       // CGAL_triangulation_postcondition(tempDT_ptr->tds().is_valid());
-      if (!tempDT_ptr->tds().is_valid()) {
-        throw std::logic_error("Triangulation is invalid.");
-      }
+      // if (!tempDT_ptr->tds().is_valid()) {
+      //   throw std::logic_error("Triangulation is invalid.");
+      // }
+      CGAL_triangulation_assertion_msg(tempDT_ptr->tds().is_valid(), "Triangulation is invalid.");
       // Exception-safe commit
       std::swap(universe_, tempDT_ptr);
     }
@@ -61,7 +66,9 @@ class PachnerMove {
     }
   }
 
-  ~PachnerMove() {}
+  ~PachnerMove() {
+    universe_.release();
+  }
 
   template <typename T>
   void make_move(T&&, move_type);
