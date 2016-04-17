@@ -17,8 +17,8 @@
 #include <tuple>
 
 #include "gmock/gmock.h"
-#include "S3Triangulation.h"
-#include "S3Action.h"
+#include "src/S3Triangulation.h"
+#include "src/S3Action.h"
 
 using namespace testing;  // NOLINT
 

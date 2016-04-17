@@ -15,7 +15,7 @@
 #include <tuple>
 
 #include "gmock/gmock.h"
-#include "Metropolis.h"
+#include "src/Metropolis.h"
 
 using namespace testing;  // NOLINT
 
