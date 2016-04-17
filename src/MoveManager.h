@@ -83,7 +83,7 @@ class PachnerMove {
   std::unique_ptr<Delaunay> universe_;
   move_type move_;
 
-  std::pair<std::vector<Edge_tuple>, uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };
 

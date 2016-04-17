@@ -150,7 +150,7 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) {
 /// triangulation is no longer Delaunay.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in,out] edge_types A pair<vector<Edge_tuple>, uintmax_t> holding the
+/// @param[in,out] edge_types A pair<vector<Edge_tuple>, std::uintmax_t> holding the
 /// timelike edges and a count of the spacelike edges
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
@@ -211,7 +211,7 @@ auto make_32_move(T1&& universe_ptr,
 /// @param[in] c The presumed (1,3) cell
 /// @param[in] i The i-th neighbor of c
 /// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-inline auto is_26_movable(const Cell_handle c, uintmax_t i) {
+inline auto is_26_movable(const Cell_handle c, std::uintmax_t i) {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13) ? true : false;
   // Neighbor should be a 31
@@ -228,7 +228,7 @@ inline auto is_26_movable(const Cell_handle c, uintmax_t i) {
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle c, uintmax_t* n) {
+inline auto find_26_movable(const Cell_handle c, std::uintmax_t* n) {
   auto movable = false;
   for (auto i = 0; i < 4; ++i) {
     #ifndef NDEBUG
@@ -288,7 +288,7 @@ auto make_26_move(T1&& universe_ptr,
     auto choice =
       generate_random_unsigned(0, std::get<2>(simplex_types).size()-1);
 
-    uintmax_t neighboring_31_index{5};
+    std::uintmax_t neighboring_31_index{5};
     Cell_handle bottom = std::get<2>(simplex_types)[choice];
 
     CGAL_triangulation_expensive_precondition(is_cell(bottom));
@@ -422,7 +422,7 @@ auto make_26_move(T1&& universe_ptr,
 /// that has 3 (1,3) and 3 (3,1) simplices around it
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in,out] edge_types A pair<vector<Edge_tuple>, uintmax_t> holding the
+/// @param[in,out] edge_types A pair<vector<Edge_tuple>, std::uintmax_t> holding the
 /// timelike edges and a count of the spacelike edges
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum

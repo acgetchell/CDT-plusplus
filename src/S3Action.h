@@ -33,7 +33,7 @@
 using Gmpzf = CGAL::Gmpzf;
 using MP_Float = CGAL::MP_Float;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static constexpr uintmax_t PRECISION = 256;
+static constexpr std::uintmax_t PRECISION = 256;
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
@@ -56,9 +56,9 @@ static constexpr uintmax_t PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline
-auto S3_bulk_action_alpha_minus_one(const uintmax_t N1_TL,
-                                    const uintmax_t N3_31,
-                                    const uintmax_t N3_22,
+auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
+                                    const std::uintmax_t N3_31,
+                                    const std::uintmax_t N3_22,
                                     const long double K,
                                     const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
@@ -133,9 +133,9 @@ auto S3_bulk_action_alpha_minus_one(const uintmax_t N1_TL,
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline
-auto S3_bulk_action_alpha_one(const uintmax_t N1_TL,
-                              const uintmax_t N3_31,
-                              const uintmax_t N3_22,
+auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
+                              const std::uintmax_t N3_31,
+                              const std::uintmax_t N3_22,
                               const long double K,
                               const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
@@ -225,9 +225,9 @@ auto S3_bulk_action_alpha_one(const uintmax_t N1_TL,
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline
-auto S3_bulk_action(const uintmax_t N1_TL,
-                    const uintmax_t N3_31,
-                    const uintmax_t N3_22,
+auto S3_bulk_action(const std::uintmax_t N1_TL,
+                    const std::uintmax_t N3_31,
+                    const std::uintmax_t N3_22,
                     const long double Alpha,
                     const long double K,
                     const long double Lambda) noexcept {
