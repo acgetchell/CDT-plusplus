@@ -21,8 +21,8 @@
 using namespace testing;  // NOLINT
 
 TEST(Sphere, Create2Sphere) {
-  constexpr auto simplices = static_cast<unsigned>(100);
-  constexpr auto timeslices = static_cast<unsigned>(12);
+  constexpr auto simplices = static_cast<uintmax_t>(100);
+  constexpr auto timeslices = static_cast<uintmax_t>(12);
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
   // auto number_of_vertices = 4 * (simplices/timeslices) * timeslices;
   auto number_of_vertices = expected_points_per_simplex(3,
