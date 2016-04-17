@@ -32,6 +32,9 @@ doc_html/
 *.tar.gz
 googletest/
 
+# Config files
+.clang_complete
+
 # Program/script executables
 cdt
 cdt_tests
