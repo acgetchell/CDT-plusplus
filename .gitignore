@@ -12,7 +12,6 @@
 # Compiled Static libraries
 *.lai
 *.la
-*.a
 
 # OS X temporary files that should never be committed
 
@@ -26,19 +25,17 @@ build/
 html/
 latex/
 cpplint.py
-DartConfiguration.tcl
 doc_html/
 *.tmp
 *.tar.gz
 googletest/
 
-# Config files
+# Editor files
 .clang_complete
+.idea
 
 # Program/script executables
-cdt
 cdt_tests
-*.plist
 grid_d
 
 # Output files

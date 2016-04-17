@@ -13,6 +13,10 @@ if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
   endif()
 endif()
 
+# Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
+# with CGAL_SetupFlags.cmake
+set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
+
 # General
 ###############################################################################
 # Activate C++14 support

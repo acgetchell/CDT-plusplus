@@ -53,7 +53,8 @@ class PachnerMove {
       // if (!tempDT_ptr->tds().is_valid()) {
       //   throw std::logic_error("Triangulation is invalid.");
       // }
-      CGAL_triangulation_assertion_msg(tempDT_ptr->tds().is_valid(), "Triangulation is invalid.");
+      CGAL_triangulation_assertion_msg(tempDT_ptr->tds().is_valid(),
+                                       "Triangulation is invalid.");
       // Exception-safe commit
       std::swap(universe_, tempDT_ptr);
     }
@@ -73,18 +74,26 @@ class PachnerMove {
   template <typename T>
   void make_move(T&&, move_type);
 
-  Move_tuple attempted_moves_;
+// private:
+  // std::unique_ptr<Delaunay> universe_;
+  move_type move_;
+
+  Delaunay triangulation;
+  ///< Delaunay triangulation
+  std::unique_ptr<Delaunay>
+    universe_ = std::make_unique<Delaunay>(triangulation);
+  ///< Unique pointer to the Delaunay triangulation
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-
-// private:
-  std::unique_ptr<Delaunay> universe_;
-  move_type move_;
-
   std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
+  Move_tuple attempted_moves_;
+  ///< A count of all attempted moves
+  std::uintmax_t number_of_vertices_;
+  ///< Vertices in Delaunay triangulation
+
 };
 
 template <typename T>
