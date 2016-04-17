@@ -51,23 +51,23 @@ class MetropolisTest : public Test {
   Delaunay universe;
   std::unique_ptr<decltype(universe)>
     universe_ptr = std::make_unique<decltype(universe)>(universe);
-  static constexpr auto simplices = static_cast<unsigned>(6400);
-  static constexpr auto timeslices = static_cast<unsigned>(16);
+  static constexpr auto simplices = static_cast<uintmax_t>(6400);
+  static constexpr auto timeslices = static_cast<uintmax_t>(16);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types;
-  std::pair<std::vector<Edge_tuple>, unsigned> edge_types;
-  unsigned starting_vertices{0};
-  unsigned N3_31_before{0};
-  unsigned N3_22_before{0};
-  unsigned N3_13_before{0};
-  unsigned V2_before{0};
-  unsigned starting_cells{0};
-  unsigned starting_edges{0};
+  std::pair<std::vector<Edge_tuple>, uintmax_t> edge_types;
+  uintmax_t starting_vertices{0};
+  uintmax_t N3_31_before{0};
+  uintmax_t N3_22_before{0};
+  uintmax_t N3_13_before{0};
+  uintmax_t V2_before{0};
+  uintmax_t starting_cells{0};
+  uintmax_t starting_edges{0};
   static constexpr auto Alpha = static_cast<long double>(1.1);
   static constexpr auto K = static_cast<long double>(2.2);
   static constexpr auto Lambda = static_cast<long double>(3.3);
-  static constexpr auto passes = static_cast<unsigned>(100);
-  static constexpr auto output_every_n_passes = static_cast<unsigned>(10);
+  static constexpr auto passes = static_cast<uintmax_t>(100);
+  static constexpr auto output_every_n_passes = static_cast<uintmax_t>(10);
 };
 
 

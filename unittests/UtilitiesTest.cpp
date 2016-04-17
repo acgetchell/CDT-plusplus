@@ -16,7 +16,7 @@
 using namespace testing;  // NOLINT
 
 TEST(Utilities, GenerateRandomTimeslice) {
-  unsigned timeslices{16};
+  uintmax_t timeslices{16};
 
   EXPECT_THAT(generate_random_timeslice(timeslices),
     AllOf(Gt(0), Le(timeslices)))
@@ -25,7 +25,7 @@ TEST(Utilities, GenerateRandomTimeslice) {
 
 TEST(Utilities, RandomSeedingTest) {
   // Set a wider range than just number_of_timeslices
-  constexpr auto test_range_max = static_cast<unsigned>(128);
+  constexpr auto test_range_max = static_cast<uintmax_t>(128);
   const auto value1 = generate_random_timeslice(test_range_max);
   const auto value2 = generate_random_timeslice(test_range_max);
   const auto value3 = generate_random_timeslice(test_range_max);

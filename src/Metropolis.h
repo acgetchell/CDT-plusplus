@@ -47,7 +47,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-extern const unsigned PRECISION;
+extern const uintmax_t PRECISION;
 
 enum class move_type {TWO_THREE = 0,
                       THREE_TWO = 1,
@@ -81,8 +81,8 @@ class Metropolis {
   Metropolis(const long double Alpha,
              const long double K,
              const long double Lambda,
-             const unsigned passes,
-             const unsigned checkpoint)
+             const uintmax_t passes,
+             const uintmax_t checkpoint)
              : Alpha_(Alpha),
                K_(K),
                Lambda_(Lambda),
@@ -494,7 +494,7 @@ class Metropolis {
     #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     std::cout << "Attempting move." << std::endl;
-    std::cout << "Move type = " << static_cast<unsigned>(move)
+    std::cout << "Move type = " << static_cast<uintmax_t>(move)
               << std::endl;
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
@@ -589,7 +589,7 @@ class Metropolis {
         std::cout << "Move choice = " << move_choice << std::endl;
         #endif
 
-        // Convert unsigned move_choice to move_type enum
+        // Convert uintmax_t move_choice to move_type enum
         auto move = static_cast<move_type>(move_choice);
         attempt_move(move);
       }  // End loop through CurrentTotalSimplices
@@ -638,7 +638,7 @@ class Metropolis {
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_tuple>, unsigned> movable_edge_types_;
+  std::pair<std::vector<Edge_tuple>, uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
 
