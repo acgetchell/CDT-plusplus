@@ -236,6 +236,8 @@ class Metropolis {
         this_move = std::get<4>(attempted_moves_);
         move_name = "(4,4)";
         break;
+      default:
+        assert(!"Metropolis::CalculateA1 should never get here!");
     }
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -331,6 +333,8 @@ class Metropolis {
         std::cout << "A2 is 1" << std::endl;
         #endif
         return static_cast<Gmpzf>(1);
+      default:
+        assert(!"Metropolis::CalculateA2 should never get here!");
     }
 
     auto exponent = newS3Action - currentS3Action;
@@ -435,6 +439,8 @@ class Metropolis {
         // make_44_move(universe_ptr_, movable_types_, attempted_moves_);
         // ++std::get<4>(successful_moves_);
         break;
+      default:
+        assert(!"Metropolis::make_move should never get here!");
     }
   }  // make_move()
 
@@ -488,6 +494,8 @@ class Metropolis {
         case move_type::FOUR_FOUR:
           ++std::get<4>(attempted_moves_);
           break;
+        default:
+          assert(!"Metropolis::attempt_move should never get here!");
       }
     }
 

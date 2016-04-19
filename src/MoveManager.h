@@ -93,7 +93,6 @@ class PachnerMove {
   ///< A count of all attempted moves
   std::uintmax_t number_of_vertices_;
   ///< Vertices in Delaunay triangulation
-
 };
 
 template <typename T>
@@ -117,6 +116,8 @@ void PachnerMove::make_move(T&& universe, const move_type move) {
     case move_type::FOUR_FOUR:
       // make_44_move(universe, movable_types_, attempted_moves_);
       break;
+    default:
+      assert(!"PachnerMove::make_move should never get here!");
   }
 }  // make_move()
 

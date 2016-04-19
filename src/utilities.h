@@ -212,7 +212,7 @@ void write_file(const T& universe_ptr,
 ///
 /// @param[in] min_value  The minimum value in the range
 /// @param[in] max_value  The maximum value in the range
-/// @returns A random std::uintmax_t value between min_value and max_value, inclusive
+/// @returns A random std::uintmax_t value between min_value and max_value
 inline auto generate_random_unsigned(const std::uintmax_t min_value,
                               const std::uintmax_t max_value) noexcept {
   // Non-deterministic random number generator
@@ -236,7 +236,8 @@ inline auto generate_random_unsigned(const std::uintmax_t min_value,
 ///
 /// @param[in] max_timeslice  The maximum timeslice
 /// @returns A random timeslice from 1 to max_timeslice
-inline auto generate_random_timeslice(std::uintmax_t const max_timeslice) noexcept {
+inline auto generate_random_timeslice(std::uintmax_t const max_timeslice)
+  noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 

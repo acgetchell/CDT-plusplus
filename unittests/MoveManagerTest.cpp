@@ -198,7 +198,7 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
     << "make_23_move() changed the number of vertices.";
 }
 
-TEST_F(MoveManagerTest, MakeA23MoveManager) {
+TEST_F(MoveManagerTest, DISABLED_MakeA23MoveManager) {
   EXPECT_TRUE(this->universe_->tds().is_valid())
     << "Constructed universe_ is invalid.";
 
