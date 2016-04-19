@@ -12,7 +12,7 @@
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "S3Triangulation.h"
+#include "src/S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 
@@ -27,8 +27,8 @@ TEST(S3Triangulation, CreateWithUniquePtr) {
 }
 
 TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
-  constexpr auto simplices = static_cast<unsigned>(2);
-  constexpr auto timeslices = static_cast<unsigned>(2);
+  constexpr auto simplices = static_cast<std::uintmax_t>(2);
+  constexpr auto timeslices = static_cast<std::uintmax_t>(2);
   auto universe_ptr = make_triangulation(simplices, timeslices);
 
   EXPECT_THAT(universe_ptr->dimension(), Eq(3))
@@ -51,8 +51,8 @@ TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
 }
 
 TEST(S3Triangulation, CreateSomeSimplices) {
-  constexpr auto simplices = static_cast<unsigned>(6400);
-  constexpr auto timeslices = static_cast<unsigned>(16);
+  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
+  constexpr auto timeslices = static_cast<std::uintmax_t>(16);
   auto universe_ptr = make_triangulation(simplices, timeslices);
 
   std::cout << "Vertices: " << universe_ptr->number_of_vertices() << std::endl;
@@ -78,8 +78,8 @@ TEST(S3Triangulation, CreateSomeSimplices) {
 }
 
 TEST(S3Triangulation, CreateWithLotsOfSimplices) {
-  constexpr auto simplices = static_cast<unsigned>(64000);
-  constexpr auto timeslices = static_cast<unsigned>(67);
+  constexpr auto simplices = static_cast<std::uintmax_t>(64000);
+  constexpr auto timeslices = static_cast<std::uintmax_t>(67);
   auto universe_ptr = make_triangulation(simplices, timeslices);
 
   std::cout << "Vertices: " << universe_ptr->number_of_vertices() << std::endl;
@@ -105,8 +105,8 @@ TEST(S3Triangulation, CreateWithLotsOfSimplices) {
 }
 
 TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices) {
-  constexpr auto simplices = static_cast<unsigned>(640000);
-  constexpr auto timeslices = static_cast<unsigned>(256);
+  constexpr auto simplices = static_cast<std::uintmax_t>(640000);
+  constexpr auto timeslices = static_cast<std::uintmax_t>(256);
   auto universe_ptr = make_triangulation(simplices, timeslices);
 
   std::cout << "Vertices: " << universe_ptr->number_of_vertices() << std::endl;

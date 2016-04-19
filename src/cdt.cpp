@@ -151,6 +151,8 @@ int main(int argc, char* const argv[]) {
       case topology_type::TOROIDAL:
         t.stop();  // End running time counter
         throw std::invalid_argument("Toroidal triangulations not yet supported.");  // NOLINT
+      default:
+        assert(!"cdt.cpp should never get here!");
     }
 
     if (!fix_timeslices(universe_ptr)) {

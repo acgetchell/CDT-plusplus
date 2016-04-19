@@ -14,15 +14,15 @@
 #include <vector>
 
 #include "gmock/gmock.h"
-#include "S3Triangulation.h"
+#include "src/S3Triangulation.h"
 #include "src/sphere_d.h"
 
 
 using namespace testing;  // NOLINT
 
 TEST(Sphere, Create2Sphere) {
-  constexpr auto simplices = static_cast<uintmax_t>(100);
-  constexpr auto timeslices = static_cast<uintmax_t>(12);
+  constexpr auto simplices = static_cast<std::uintmax_t>(100);
+  constexpr auto timeslices = static_cast<std::uintmax_t>(12);
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
   // auto number_of_vertices = 4 * (simplices/timeslices) * timeslices;
   auto number_of_vertices = expected_points_per_simplex(3,

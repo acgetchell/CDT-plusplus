@@ -47,7 +47,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-extern const uintmax_t PRECISION;
+extern const std::uintmax_t PRECISION;
 
 enum class move_type {TWO_THREE = 0,
                       THREE_TWO = 1,
@@ -81,8 +81,8 @@ class Metropolis {
   Metropolis(const long double Alpha,
              const long double K,
              const long double Lambda,
-             const uintmax_t passes,
-             const uintmax_t checkpoint)
+             const std::uintmax_t passes,
+             const std::uintmax_t checkpoint)
              : Alpha_(Alpha),
                K_(K),
                Lambda_(Lambda),
@@ -236,6 +236,8 @@ class Metropolis {
         this_move = std::get<4>(attempted_moves_);
         move_name = "(4,4)";
         break;
+      default:
+        assert(!"Metropolis::CalculateA1 should never get here!");
     }
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -331,6 +333,8 @@ class Metropolis {
         std::cout << "A2 is 1" << std::endl;
         #endif
         return static_cast<Gmpzf>(1);
+      default:
+        assert(!"Metropolis::CalculateA2 should never get here!");
     }
 
     auto exponent = newS3Action - currentS3Action;
@@ -435,6 +439,8 @@ class Metropolis {
         // make_44_move(universe_ptr_, movable_types_, attempted_moves_);
         // ++std::get<4>(successful_moves_);
         break;
+      default:
+        assert(!"Metropolis::make_move should never get here!");
     }
   }  // make_move()
 
@@ -488,13 +494,15 @@ class Metropolis {
         case move_type::FOUR_FOUR:
           ++std::get<4>(attempted_moves_);
           break;
+        default:
+          assert(!"Metropolis::attempt_move should never get here!");
       }
     }
 
     #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     std::cout << "Attempting move." << std::endl;
-    std::cout << "Move type = " << static_cast<uintmax_t>(move)
+    std::cout << "Move type = " << static_cast<std::uintmax_t>(move)
               << std::endl;
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
@@ -589,7 +597,7 @@ class Metropolis {
         std::cout << "Move choice = " << move_choice << std::endl;
         #endif
 
-        // Convert uintmax_t move_choice to move_type enum
+        // Convert std::uintmax_t move_choice to move_type enum
         auto move = static_cast<move_type>(move_choice);
         attempt_move(move);
       }  // End loop through CurrentTotalSimplices
@@ -638,7 +646,7 @@ class Metropolis {
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_tuple>, uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
 

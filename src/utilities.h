@@ -90,9 +90,9 @@ inline const std::string currentDateTime() noexcept {
 /// @param[in] number_of_timeslices The number of foliated timeslices
 /// @returns A filename as a std::string
 inline auto generate_filename(const topology_type& top,
-                       const uintmax_t dimensions,
-                       const uintmax_t number_of_simplices,
-                       const uintmax_t number_of_timeslices) noexcept {
+                       const std::uintmax_t dimensions,
+                       const std::uintmax_t number_of_simplices,
+                       const std::uintmax_t number_of_timeslices) noexcept {
   std::string filename;
   if (top == topology_type::SPHERICAL) {
     filename += "S";
@@ -178,9 +178,9 @@ void print_results(const T1& universe_ptr, const T2& timer) noexcept {
 template <typename T>
 void write_file(const T& universe_ptr,
                 const topology_type& topology,
-                const uintmax_t dimensions,
-                const uintmax_t number_of_simplices,
-                const uintmax_t number_of_timeslices) {
+                const std::uintmax_t dimensions,
+                const std::uintmax_t number_of_simplices,
+                const std::uintmax_t number_of_timeslices) {
   // mutex to protect file access across threads
   static std::mutex mutex;
 
@@ -202,9 +202,9 @@ void write_file(const T& universe_ptr,
   file << *universe_ptr;
 }
 
-/// @brief Generate random uintmax_t integers
+/// @brief Generate random std::uintmax_t integers
 ///
-/// This function generates a random uintmax_t integer from [1, max_value]
+/// This function generates a random std::uintmax_t integer from [1, max_value]
 /// using a non-deterministic random number generator, if supported. There
 /// may be exceptions thrown if a random device is not available. See:
 /// http://www.cplusplus.com/reference/random/random_device/
@@ -212,9 +212,9 @@ void write_file(const T& universe_ptr,
 ///
 /// @param[in] min_value  The minimum value in the range
 /// @param[in] max_value  The maximum value in the range
-/// @returns A random uintmax_t value between min_value and max_value, inclusive
-inline auto generate_random_unsigned(const uintmax_t min_value,
-                              const uintmax_t max_value) noexcept {
+/// @returns A random std::uintmax_t value between min_value and max_value
+inline auto generate_random_unsigned(const std::uintmax_t min_value,
+                              const std::uintmax_t max_value) noexcept {
   // Non-deterministic random number generator
   std::random_device generator;
   std::uniform_int_distribution<int> distribution(min_value, max_value);
@@ -222,7 +222,7 @@ inline auto generate_random_unsigned(const uintmax_t min_value,
   auto result = distribution(generator);
 
   #ifndef NDEBUG
-  std::cout << "Random uintmax_t number is " << result << std::endl;
+  std::cout << "Random std::uintmax_t number is " << result << std::endl;
   #endif
 
   return result;
@@ -236,7 +236,8 @@ inline auto generate_random_unsigned(const uintmax_t min_value,
 ///
 /// @param[in] max_timeslice  The maximum timeslice
 /// @returns A random timeslice from 1 to max_timeslice
-inline auto generate_random_timeslice(uintmax_t const max_timeslice) noexcept {
+inline auto generate_random_timeslice(std::uintmax_t const max_timeslice)
+  noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 
@@ -294,9 +295,9 @@ auto generate_probability() noexcept {
 /// @returns  The number of points per timeslice to obtain
 /// the desired number of simplices
 inline
-auto expected_points_per_simplex(const uintmax_t dimension,
-                                 const uintmax_t simplices,
-                                 const uintmax_t timeslices,
+auto expected_points_per_simplex(const std::uintmax_t dimension,
+                                 const std::uintmax_t simplices,
+                                 const std::uintmax_t timeslices,
                                  const bool output = true)
                                  noexcept {
   if (output) {
@@ -312,9 +313,9 @@ auto expected_points_per_simplex(const uintmax_t dimension,
   } else if (simplices < 10000) {
     return simplices_per_timeslice;
   } else if (simplices < 100000) {
-    return static_cast<uintmax_t>(1.5*simplices_per_timeslice);
+    return static_cast<std::uintmax_t>(1.5*simplices_per_timeslice);
   } else {
-    return static_cast<uintmax_t>(2.7*simplices_per_timeslice);
+    return static_cast<std::uintmax_t>(2.7*simplices_per_timeslice);
   }
 }
 

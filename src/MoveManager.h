@@ -42,11 +42,19 @@ class PachnerMove {
       // Move exception-safe, can't copy
       auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
 
+      if (!tempDT_ptr->tds().is_valid()) {
+        throw std::logic_error("Copied triangulation was invalid.");
+      }
+
       this->make_move(tempDT_ptr, move);  //  throws exceptions
 
       // Throws if false
-      CGAL_triangulation_postcondition(tempDT_ptr->tds().is_valid());
-
+      // CGAL_triangulation_postcondition(tempDT_ptr->tds().is_valid());
+      // if (!tempDT_ptr->tds().is_valid()) {
+      //   throw std::logic_error("Triangulation is invalid.");
+      // }
+      CGAL_triangulation_assertion_msg(tempDT_ptr->tds().is_valid(),
+                                       "Triangulation is invalid.");
       // Exception-safe commit
       std::swap(universe_, tempDT_ptr);
     }
@@ -59,23 +67,32 @@ class PachnerMove {
     }
   }
 
-  ~PachnerMove() {}
+  ~PachnerMove() {
+    universe_.release();
+  }
 
   template <typename T>
   void make_move(T&&, move_type);
 
-  Move_tuple attempted_moves_;
+// private:
+  // std::unique_ptr<Delaunay> universe_;
+  move_type move_;
+
+  Delaunay triangulation;
+  ///< Delaunay triangulation
+  std::unique_ptr<Delaunay>
+    universe_ = std::make_unique<Delaunay>(triangulation);
+  ///< Unique pointer to the Delaunay triangulation
   std::tuple<std::vector<Cell_handle>,
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-
-// private:
-  std::unique_ptr<Delaunay> universe_;
-  move_type move_;
-
-  std::pair<std::vector<Edge_tuple>, uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
+  Move_tuple attempted_moves_;
+  ///< A count of all attempted moves
+  std::uintmax_t number_of_vertices_;
+  ///< Vertices in Delaunay triangulation
 };
 
 template <typename T>
@@ -99,6 +116,8 @@ void PachnerMove::make_move(T&& universe, const move_type move) {
     case move_type::FOUR_FOUR:
       // make_44_move(universe, movable_types_, attempted_moves_);
       break;
+    default:
+      assert(!"PachnerMove::make_move should never get here!");
   }
 }  // make_move()
 

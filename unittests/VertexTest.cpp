@@ -11,7 +11,7 @@
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "S3Triangulation.h"
+#include "src/S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 
