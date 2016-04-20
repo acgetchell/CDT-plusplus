@@ -86,7 +86,8 @@ using Vertex_handle = Delaunay::Vertex_handle;
 using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
 using Edge_tuple = std::tuple<Cell_handle, std::uintmax_t, std::uintmax_t>;
-using Causal_vertices = std::pair<std::vector<Point>, std::vector<std::uintmax_t>>;
+using Causal_vertices = std::pair<std::vector<Point>,
+                                  std::vector<std::uintmax_t>>;
 
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
 ///< The maximum number of passes to fix invalidly foliated simplices
@@ -108,8 +109,8 @@ static constexpr std::uintmax_t DIMENSION = 3;
 /// to check correctness.
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-/// @returns A std::pair<std::vector<Edge_tuple>, std::uintmax_t> of timelike edges
-/// and spacelike edges
+/// @returns A std::pair<std::vector<Edge_tuple>, std::uintmax_t> of
+/// timelike edges and spacelike edges
 template <typename T>
 auto classify_edges(T&& universe_ptr) noexcept {
   std::cout << "Classifying edges...." << std::endl;
@@ -317,7 +318,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
             << valid << " valid simplices." << std::endl;
   #endif
 
-  return (invalid == 0) ? true : false;
+  return invalid == 0;
 }  // fix_timeslices
 
 /// @brief Fixes the foliation of the triangulation
