@@ -31,10 +31,10 @@ class PachnerMove {
               T2&& move,
               T3&& movable_simplex_types,
               T4&& movable_edge_types) :
-              universe_(std::move(universe)),
-              move_(move),
-              movable_simplex_types_(movable_simplex_types),
-              movable_edge_types_(movable_edge_types) {
+              universe_{std::move(universe)},
+              move_{move},
+              movable_simplex_types_{movable_simplex_types},
+              movable_edge_types_{movable_edge_types} {
     try {
       // Make a copy
       auto tempDT = Delaunay(*universe_);  // throws exceptions

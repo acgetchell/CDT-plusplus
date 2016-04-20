@@ -15,17 +15,17 @@
 
 #include "gmock/gmock.h"
 #include "src/MoveManager.h"
-#include "src/S3ErgodicMoves.h"
+//#include "src/S3ErgodicMoves.h"
 
 using namespace testing;  // NOLINT
 
 class MoveManagerTest : public Test {
  public:
-  MoveManagerTest() : universe_(std::move(make_triangulation(6400, 17))),
-                      movable_simplex_types_(classify_simplices(universe_)),
-                      movable_edge_types_(classify_edges(universe_)),
-                      attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
-                      number_of_vertices_(universe_->number_of_vertices()) {}
+  MoveManagerTest() : universe_{std::move(make_triangulation(6400, 17))},
+                      movable_simplex_types_{classify_simplices(universe_)},
+                      movable_edge_types_{classify_edges(universe_)},
+                      attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)},
+                      number_of_vertices_{universe_->number_of_vertices()} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values

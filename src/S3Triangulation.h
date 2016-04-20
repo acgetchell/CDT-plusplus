@@ -342,8 +342,8 @@ void fix_triangulation(T&& universe_ptr) {
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @param[in] causal_vertices A std::pair<std::vector<Point>,
-/// std::vector<std::uintmax_t>> containing the vertices to be inserted along with
-/// their timevalues
+/// std::vector<std::uintmax_t>> containing the vertices to be inserted along
+/// with their timevalues
 /// @returns  A std::unique_ptr<Delaunay> to the triangulation
 template <typename T1, typename T2>
 void insert_into_triangulation(T1&& universe_ptr,
@@ -362,8 +362,8 @@ void insert_into_triangulation(T1&& universe_ptr,
 ///
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
-/// @returns  A std::pair<std::vector, std::uintmax_t> containing random vertices and
-/// their corresponding timevalues
+/// @returns  A std::pair<std::vector, std::uintmax_t> containing random
+/// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::uintmax_t simplices,
                                  const std::uintmax_t timeslices) noexcept {
   auto radius = 1.0;
