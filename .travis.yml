@@ -21,7 +21,7 @@ matrix:
     # - os: osx
     #   compiler: gcc
   allow_failures:
-    - os: osx
+    - os: linux
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
