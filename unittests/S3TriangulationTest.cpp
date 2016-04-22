@@ -27,7 +27,6 @@ TEST(S3Triangulation, CreateWithUniquePtr) {
 }
 
 TEST(S3Triangulation, SimplicialManifold) {
-  // SimplicialManifold universe;
   constexpr auto simplices = static_cast<std::uintmax_t>(6400);
   constexpr auto timeslices = static_cast<std::uintmax_t>(17);
   auto universe_ptr = make_triangulation(simplices, timeslices);
@@ -36,10 +35,20 @@ TEST(S3Triangulation, SimplicialManifold) {
   EXPECT_THAT(universe.manifold_, Ne(nullptr))
     << "Simplicial manifold not correctly constructed.";
 
-  // EXPECT_THAT(universe.geometry_, Eq(nullptr))
-  //   << "Simplicial manifold geometry not correctly constructed.";
-  //
-  // universe(simplices, timeslices);
+  EXPECT_THAT(std::get<0>(universe.geometry_).size() +
+              std::get<1>(universe.geometry_).size() +
+              std::get<2>(universe.geometry_).size(),
+    Eq(universe.manifold_->number_of_finite_cells()))
+    << "Simplicial manifold has wrong number of cells.";
+
+  EXPECT_THAT(std::get<3>(universe.geometry_).size() +
+              std::get<4>(universe.geometry_),
+    Eq(universe.manifold_->number_of_finite_edges()))
+    << "Simplicial manifold has wrong number of edges.";
+
+  EXPECT_THAT(std::get<5>(universe.geometry_).size(),
+    Eq(universe.manifold_->number_of_vertices()))
+    << "Simplicial manifod has the wrong number of vertices.";
 
   EXPECT_THAT(universe.manifold_->dimension(), Eq(3))
     << "Simplicial manifold has wrong dimensionality.";

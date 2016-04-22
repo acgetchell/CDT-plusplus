@@ -92,7 +92,7 @@ using geometry_tuple = std::tuple<std::vector<Cell_handle>,
                                   std::vector<Cell_handle>,
                                   std::vector<Cell_handle>,
                                   std::vector<Edge_handle>,
-                                  std::vector<Edge_handle>,
+                                  std::uintmax_t,
                                   std::vector<Vertex_handle>>;
 
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
@@ -231,6 +231,25 @@ auto classify_simplices(T&& universe_ptr) {
 
   return std::make_tuple(three_one, two_two, one_three);
 }  // classify_simplices()
+
+template <typename T>
+auto classify_all_simplices(T&& universe_ptr) {
+  std::cout << "Classifying all simplices...." << std::endl;
+
+  auto cells = classify_simplices(universe_ptr);
+  auto edges = classify_edges(universe_ptr);
+  std::vector<Vertex_handle> vertices;
+  for (auto vit = universe_ptr->finite_vertices_begin();
+            vit != universe_ptr->finite_vertices_end(); ++vit) {
+    vertices.emplace_back(vit);
+  }
+  return std::make_tuple(std::get<0>(cells),
+                         std::get<1>(cells),
+                         std::get<2>(cells),
+                         edges.first,
+                         edges.second,
+                         vertices);
+}
 
 /// @brief Fix simplices with incorrect foliation
 ///
@@ -441,7 +460,8 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 
 template <typename T>
 struct SimplicialManifold {
-  explicit SimplicialManifold(T&& manifold) : manifold_{std::move(manifold)} {
+  explicit SimplicialManifold(T&& manifold) : manifold_{std::move(manifold)},
+    geometry_{classify_all_simplices(manifold_)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
 
