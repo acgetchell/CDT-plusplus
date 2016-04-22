@@ -433,4 +433,22 @@ auto inline make_triangulation(const std::uintmax_t simplices,
   return universe_ptr;
 }  // make_triangulation()
 
+// template <typename T1, typename T2>
+struct SimplicialManifold {
+  SimplicialManifold() : manifold_(nullptr), geometry_(std::vector<int>()) {
+    std::cout << "Ctor called." << std::endl;
+  }  // Ctor
+
+  void operator() (const std::uintmax_t simplices,
+                    const std::uintmax_t timeslices) {
+    std::cout << "operator () called." << std::endl;
+    manifold_ = std::move(make_triangulation(simplices, timeslices));
+  }  // operator()
+
+  std::unique_ptr<Delaunay> manifold_;
+  ///< std::unique_ptr to the Delaunay triangulation
+  std::vector<int> geometry_;
+  ///< The geometric struction of the triangulation
+};
+
 #endif  // SRC_S3TRIANGULATION_H_

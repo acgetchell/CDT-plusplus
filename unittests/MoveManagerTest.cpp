@@ -15,7 +15,6 @@
 
 #include "gmock/gmock.h"
 #include "src/MoveManager.h"
-//#include "src/S3ErgodicMoves.h"
 
 using namespace testing;  // NOLINT
 

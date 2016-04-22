@@ -26,6 +26,34 @@ TEST(S3Triangulation, CreateWithUniquePtr) {
     << "universe has been reset or is null.";
 }
 
+TEST(S3Triangulation, SimplicialManifold) {
+
+  SimplicialManifold universe;
+  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
+  constexpr auto timeslices = static_cast<std::uintmax_t>(17);
+
+  EXPECT_THAT(universe.manifold_, Eq(nullptr))
+    << "Simplicial manifold not correctly constructed.";
+
+  universe(simplices, timeslices);
+
+  EXPECT_THAT(universe.manifold_->dimension(), Eq(3))
+    << "Simplicial manifold has wrong dimensionality.";
+
+  EXPECT_THAT(universe.manifold_->number_of_vertices(),
+    AllOf(Ge(1), Le(4*simplices)))
+    << "Triangulation has wrong number of vertices.";
+
+  EXPECT_TRUE(fix_timeslices(universe.manifold_))
+    << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_TRUE(universe.manifold_->is_valid())
+    << "Triangulation is not Delaunay.";
+
+  EXPECT_TRUE(universe.manifold_->tds().is_valid())
+    << "Triangulation is invalid.";
+}
+
 TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
   constexpr auto simplices = static_cast<std::uintmax_t>(2);
   constexpr auto timeslices = static_cast<std::uintmax_t>(2);
