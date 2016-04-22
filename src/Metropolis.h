@@ -167,7 +167,7 @@ class Metropolis {
            FourFourMoves();
   }
 
-  /// Gets the vector of **Edge_tuples** corresponding to
+  /// Gets the vector of **Edge_handles** corresponding to
   /// movable timelike edges.
   auto MovableTimelikeEdges() const noexcept {return movable_edge_types_.first;}
 
@@ -646,7 +646,7 @@ class Metropolis {
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
 

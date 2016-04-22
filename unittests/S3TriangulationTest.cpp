@@ -27,15 +27,19 @@ TEST(S3Triangulation, CreateWithUniquePtr) {
 }
 
 TEST(S3Triangulation, SimplicialManifold) {
-
-  SimplicialManifold universe;
+  // SimplicialManifold universe;
   constexpr auto simplices = static_cast<std::uintmax_t>(6400);
   constexpr auto timeslices = static_cast<std::uintmax_t>(17);
+  auto universe_ptr = make_triangulation(simplices, timeslices);
+  SimplicialManifold<decltype(universe_ptr)> universe(std::move(universe_ptr));
 
-  EXPECT_THAT(universe.manifold_, Eq(nullptr))
+  EXPECT_THAT(universe.manifold_, Ne(nullptr))
     << "Simplicial manifold not correctly constructed.";
 
-  universe(simplices, timeslices);
+  // EXPECT_THAT(universe.geometry_, Eq(nullptr))
+  //   << "Simplicial manifold geometry not correctly constructed.";
+  //
+  // universe(simplices, timeslices);
 
   EXPECT_THAT(universe.manifold_->dimension(), Eq(3))
     << "Simplicial manifold has wrong dimensionality.";

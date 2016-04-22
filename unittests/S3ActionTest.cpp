@@ -47,7 +47,7 @@ class S3Action : public Test {
   static constexpr auto timeslices = static_cast<std::uintmax_t>(16);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
              std::vector<Cell_handle>> simplex_types;
-  std::pair<std::vector<Edge_tuple>, std::uintmax_t> edge_types;
+  std::pair<std::vector<Edge_handle>, std::uintmax_t> edge_types;
   std::uintmax_t N3_31 = static_cast<std::uintmax_t>(0);
   std::uintmax_t N3_22 = static_cast<std::uintmax_t>(0);
   std::uintmax_t N1_TL = static_cast<std::uintmax_t>(0);

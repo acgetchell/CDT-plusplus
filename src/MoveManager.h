@@ -87,7 +87,7 @@ class PachnerMove {
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
   Move_tuple attempted_moves_;
   ///< A count of all attempted moves

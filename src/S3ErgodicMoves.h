@@ -129,10 +129,10 @@ auto make_23_move(T1&& universe_ptr,
 /// timelike edge into it's dual facet.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in] to_be_moved  The Edge_tuple that is tried
+/// @param[in] to_be_moved  The Edge_handle that is tried
 /// @returns  flipped  A boolean value whether the move succeeded
 template <typename T1>
-auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) {
+auto try_32_move(T1&& universe_ptr, Edge_handle to_be_moved) {
   auto flipped = false;
   if (universe_ptr->flip(std::get<0>(to_be_moved),
                          std::get<1>(to_be_moved),
@@ -150,7 +150,7 @@ auto try_32_move(T1&& universe_ptr, Edge_tuple to_be_moved) {
 /// triangulation is no longer Delaunay.
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in,out] edge_types A pair<vector<Edge_tuple>, std::uintmax_t> holding the
+/// @param[in,out] edge_types A pair<vector<Edge_handle>, std::uintmax_t> holding the
 /// timelike edges and a count of the spacelike edges
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
@@ -170,7 +170,7 @@ auto make_32_move(T1&& universe_ptr,
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
     auto choice = generate_random_unsigned(0, edge_types.first.size()-1);
-    Edge_tuple to_be_moved = edge_types.first[choice];
+    Edge_handle to_be_moved = edge_types.first[choice];
 
     if (try_32_move(universe_ptr, to_be_moved)) {
       #ifndef NDEBUG
@@ -422,7 +422,7 @@ auto make_26_move(T1&& universe_ptr,
 /// that has 3 (1,3) and 3 (3,1) simplices around it
 ///
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in,out] edge_types A pair<vector<Edge_tuple>, std::uintmax_t> holding the
+/// @param[in,out] edge_types A pair<vector<Edge_handle>, std::uintmax_t> holding the
 /// timelike edges and a count of the spacelike edges
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum

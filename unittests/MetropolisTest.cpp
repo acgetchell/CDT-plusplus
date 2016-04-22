@@ -55,7 +55,7 @@ class MetropolisTest : public Test {
     universe_ = std::make_unique<decltype(triangulation)>(triangulation);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
-  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
   Move_tuple attempted_moves_;
     ///< A count of all attempted moves
   std::uintmax_t starting_vertices_;

@@ -85,9 +85,15 @@ using Cell_handle = Delaunay::Cell_handle;
 using Vertex_handle = Delaunay::Vertex_handle;
 using Locate_type = Delaunay::Locate_type;
 using Point = Delaunay::Point;
-using Edge_tuple = std::tuple<Cell_handle, std::uintmax_t, std::uintmax_t>;
+using Edge_handle = std::tuple<Cell_handle, std::uintmax_t, std::uintmax_t>;
 using Causal_vertices = std::pair<std::vector<Point>,
                                   std::vector<std::uintmax_t>>;
+using geometry_tuple = std::tuple<std::vector<Cell_handle>,
+                                  std::vector<Cell_handle>,
+                                  std::vector<Cell_handle>,
+                                  std::vector<Edge_handle>,
+                                  std::vector<Edge_handle>,
+                                  std::vector<Vertex_handle>>;
 
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
 ///< The maximum number of passes to fix invalidly foliated simplices
@@ -109,13 +115,13 @@ static constexpr std::uintmax_t DIMENSION = 3;
 /// to check correctness.
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-/// @returns A std::pair<std::vector<Edge_tuple>, std::uintmax_t> of
+/// @returns A std::pair<std::vector<Edge_handle>, std::uintmax_t> of
 /// timelike edges and spacelike edges
 template <typename T>
 auto classify_edges(T&& universe_ptr) noexcept {
   std::cout << "Classifying edges...." << std::endl;
   Delaunay::Finite_edges_iterator eit;
-  std::vector<Edge_tuple> timelike_edges;
+  std::vector<Edge_handle> timelike_edges;
   auto spacelike_edges = static_cast<std::uintmax_t>(0);
 
   // Iterate over all edges in the Delaunay triangulation
@@ -127,7 +133,7 @@ auto classify_edges(T&& universe_ptr) noexcept {
     auto time2 = ch->vertex(eit->third)->info();
 
     if (time1 != time2) {  // We have a timelike edge
-      Edge_tuple thisEdge{ch,
+      Edge_handle thisEdge{ch,
                           ch->index(ch->vertex(eit->second)),
                           ch->index(ch->vertex(eit->third))};
       timelike_edges.emplace_back(thisEdge);
@@ -433,22 +439,24 @@ auto inline make_triangulation(const std::uintmax_t simplices,
   return universe_ptr;
 }  // make_triangulation()
 
-// template <typename T1, typename T2>
+template <typename T>
 struct SimplicialManifold {
-  SimplicialManifold() : manifold_(nullptr), geometry_(std::vector<int>()) {
+  explicit SimplicialManifold(T&& manifold) : manifold_{std::move(manifold)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
+
 
   void operator() (const std::uintmax_t simplices,
                     const std::uintmax_t timeslices) {
     std::cout << "operator () called." << std::endl;
-    manifold_ = std::move(make_triangulation(simplices, timeslices));
+    manifold_ = make_triangulation(simplices, timeslices);
   }  // operator()
 
   std::unique_ptr<Delaunay> manifold_;
   ///< std::unique_ptr to the Delaunay triangulation
-  std::vector<int> geometry_;
-  ///< The geometric struction of the triangulation
+
+  geometry_tuple geometry_;
+  ///< The geometric structure of the triangulation
 };
 
 #endif  // SRC_S3TRIANGULATION_H_
