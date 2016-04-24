@@ -458,24 +458,26 @@ auto inline make_triangulation(const std::uintmax_t simplices,
   return universe_ptr;
 }  // make_triangulation()
 
-template <typename T>
+/// @struct
+/// @brief A struct to hold a pointer to the triangulation and the geometry
+/// of (3,1), (2,2), (1,3) cells, timelike and spacelike edges, and vertices.
 struct SimplicialManifold {
-  explicit SimplicialManifold(T&& manifold) : manifold_{std::move(manifold)},
-    geometry_{classify_all_simplices(manifold_)} {
+  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& triangulation)  //  NOLINT
+          : manifold{std::move(triangulation)},
+            geometry{classify_all_simplices(manifold)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
 
+  SimplicialManifold(std::uintmax_t simplices, std::uintmax_t timeslices)
+          : manifold{make_triangulation(simplices, timeslices)},
+            geometry{classify_all_simplices(manifold)} {
+    std::cout << "Ctor called." << std::endl;
+  }  // Ctor
 
-  void operator() (const std::uintmax_t simplices,
-                    const std::uintmax_t timeslices) {
-    std::cout << "operator () called." << std::endl;
-    manifold_ = make_triangulation(simplices, timeslices);
-  }  // operator()
-
-  std::unique_ptr<Delaunay> manifold_;
+  std::unique_ptr<Delaunay> manifold;
   ///< std::unique_ptr to the Delaunay triangulation
 
-  geometry_tuple geometry_;
+  geometry_tuple geometry;
   ///< The geometric structure of the triangulation
 };
 
