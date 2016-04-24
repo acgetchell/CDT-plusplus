@@ -463,18 +463,18 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 /// of (3,1), (2,2), (1,3) cells, timelike and spacelike edges, and vertices.
 struct SimplicialManifold {
   explicit SimplicialManifold(std::unique_ptr<Delaunay>&& triangulation)  //  NOLINT
-          : manifold{std::move(triangulation)},
-            geometry{classify_all_simplices(manifold)} {
+          : triangulation{std::move(triangulation)},
+            geometry{classify_all_simplices(triangulation)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
 
   SimplicialManifold(std::uintmax_t simplices, std::uintmax_t timeslices)
-          : manifold{make_triangulation(simplices, timeslices)},
-            geometry{classify_all_simplices(manifold)} {
+          : triangulation{make_triangulation(simplices, timeslices)},
+            geometry{classify_all_simplices(triangulation)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
 
-  std::unique_ptr<Delaunay> manifold;
+  std::unique_ptr<Delaunay> triangulation;
   ///< std::unique_ptr to the Delaunay triangulation
 
   geometry_tuple geometry;
