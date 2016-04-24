@@ -459,11 +459,14 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 }  // make_triangulation()
 
 /// @struct
-/// @brief A struct to hold a pointer to the triangulation and the geometry
-/// of (3,1), (2,2), (1,3) cells, timelike and spacelike edges, and vertices.
+/// @brief A struct to hold triangulation and geometry information
+///
+/// SimplicialManifold contains information about the triangulation and
+/// its geometry. In addition, it defines convenient constructors
+/// and a functor to easy creation.
 struct SimplicialManifold {
-  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& triangulation)  //  NOLINT
-          : triangulation{std::move(triangulation)},
+  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  //  NOLINT
+          : triangulation{std::move(manifold)},
             geometry{classify_all_simplices(triangulation)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
@@ -473,6 +476,17 @@ struct SimplicialManifold {
             geometry{classify_all_simplices(triangulation)} {
     std::cout << "Ctor called." << std::endl;
   }  // Ctor
+
+  /// @brief Functor for initializing a SimplicialManifold
+  ///
+  /// Passes arguments to make_triangulation()
+  ///
+  /// @param[in] simplices  The number of desired simplices in the triangulation
+  /// @param[in] timeslices The number of timeslices in the triangulation
+  void operator()(const uintmax_t simplices, const uintmax_t timeslices) {
+      triangulation = make_triangulation(simplices, timeslices);
+      geometry = classify_all_simplices(triangulation);
+    }
 
   std::unique_ptr<Delaunay> triangulation;
   ///< std::unique_ptr to the Delaunay triangulation

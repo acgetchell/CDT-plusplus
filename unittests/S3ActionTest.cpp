@@ -22,51 +22,49 @@
 
 using namespace testing;  // NOLINT
 
-class S3Action : public Test {
+class S3ActionTest : public Test {
  protected:
+    S3ActionTest() : universe(simplices, timeslices) {
+        N3_31 = std::get<0>(universe.geometry).size() +
+                std::get<2>(universe.geometry).size();
+        N3_22 = std::get<1>(universe.geometry).size();
+        N1_TL = std::get<3>(universe.geometry).size();
+        N1_SL = std::get<4>(universe.geometry);
+        N0    = std::get<5>(universe.geometry).size();
+    }
   virtual void SetUp() {
-    universe_ptr = std::move(make_triangulation(simplices, timeslices));
-    simplex_types = classify_simplices(universe_ptr);
-    N3_31 = std::get<0>(simplex_types).size() +
-            std::get<2>(simplex_types).size();
-    N3_22 = std::get<1>(simplex_types).size();
-    edge_types = classify_edges(universe_ptr);
-    N1_TL = edge_types.first.size();
-    N1_SL = edge_types.second;
-
-    std::cout << "(Unsigned long int) N1_TL = " << N1_TL << std::endl;
-    std::cout << "(Unsigned long int) N3_31 = " << N3_31 << std::endl;
-    std::cout << "(Unsigned long int) N3_22 = " << N3_22 << std::endl;
+    std::cout << "(uintmax_t) N1_TL = " << N1_TL << std::endl;
+    std::cout << "(uintmax_t) N3_31 = " << N3_31 << std::endl;
+    std::cout << "(uintmax_t) N3_22 = " << N3_22 << std::endl;
+    std::cout << "(uintmax_t) N1_TL = " << N1_TL << std::endl;
+    std::cout << "(uintmax_t) N1_SL = " << N1_SL << std::endl;
+    std::cout << "(uintmax_t) N0    = " << N0    << std::endl;
     std::cout << "(Long double) K = " << K << std::endl;
     std::cout << "(Long double) Lambda = " << Lambda << std::endl;
   }
-  Delaunay universe;
-  std::unique_ptr<Delaunay>
-    universe_ptr = std::make_unique<decltype(universe)>(universe);
+  SimplicialManifold universe;
   static constexpr auto simplices = static_cast<std::uintmax_t>(6400);
-  static constexpr auto timeslices = static_cast<std::uintmax_t>(16);
-  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>> simplex_types;
-  std::pair<std::vector<Edge_handle>, std::uintmax_t> edge_types;
+  static constexpr auto timeslices = static_cast<std::uintmax_t>(17);
   std::uintmax_t N3_31 = static_cast<std::uintmax_t>(0);
   std::uintmax_t N3_22 = static_cast<std::uintmax_t>(0);
   std::uintmax_t N1_TL = static_cast<std::uintmax_t>(0);
   std::uintmax_t N1_SL = static_cast<std::uintmax_t>(0);
+  std::uintmax_t N0 = static_cast<std::uintmax_t>(0);
   static constexpr auto K = static_cast<long double>(1.1);
   static constexpr auto Lambda = static_cast<long double>(2.2);
 };
 
-TEST_F(S3Action, GetN3Values) {
-  ASSERT_EQ(universe_ptr->number_of_finite_cells(), N3_31 + N3_22)
+TEST_F(S3ActionTest, GetN3Values) {
+  ASSERT_EQ(universe.triangulation->number_of_finite_cells(), N3_31 + N3_22)
     << "N3(3,1) + N3(2,2) should be total number of cells.";
 }
 
-TEST_F(S3Action, GetN1Values) {
-  ASSERT_EQ(universe_ptr->number_of_finite_edges(), N1_TL + N1_SL)
+TEST_F(S3ActionTest, GetN1Values) {
+  ASSERT_EQ(universe.triangulation->number_of_finite_edges(), N1_TL + N1_SL)
     << "N1_TL + N1_SL should be total number of edges.";
 }
 
-TEST_F(S3Action, CalculateAlphaMinus1BulkAction) {
+TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
   auto Bulk_action = S3_bulk_action_alpha_minus_one(N1_TL,
                                                     N3_31,
                                                     N3_22,
@@ -80,7 +78,7 @@ TEST_F(S3Action, CalculateAlphaMinus1BulkAction) {
     << "S3_bulk_action_alpha_minus_one() out of expected range.";
 }
 
-TEST_F(S3Action, CalculateAlpha1BulkAction) {
+TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
   auto Bulk_action = S3_bulk_action_alpha_one(N1_TL,
                                               N3_31,
                                               N3_22,
@@ -94,7 +92,7 @@ TEST_F(S3Action, CalculateAlpha1BulkAction) {
     << "S3_bulk_action_alpha_one() out of expected range.";
 }
 
-TEST_F(S3Action, CalculateGeneralBulkAction) {
+TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   constexpr auto Alpha = static_cast<long double>(0.5);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
   auto Bulk_action = S3_bulk_action(N1_TL,
@@ -111,7 +109,7 @@ TEST_F(S3Action, CalculateGeneralBulkAction) {
     << "S3_bulk_action() out of expected range.";
 }
 
-TEST_F(S3Action, GeneralBulkActionEquivalentToAlpha1BulkAction) {
+TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   constexpr auto tolerance = static_cast<long double>(0.05);
   constexpr auto Alpha = static_cast<long double>(1.0);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;

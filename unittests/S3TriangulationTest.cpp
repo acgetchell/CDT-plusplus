@@ -116,10 +116,12 @@ TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
   EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(), AllOf(Ge(1), Le(8)))
+  EXPECT_THAT(universe.triangulation->number_of_vertices(),
+              AllOf(Ge(1), Le(8)))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_THAT(universe.triangulation->number_of_finite_cells(), AllOf(Ge(1), Le(12)))
+  EXPECT_THAT(universe.triangulation->number_of_finite_cells(),
+              AllOf(Ge(1), Le(12)))
     << "Triangulation has wrong number of cells.";
 
   EXPECT_TRUE(fix_timeslices(universe.triangulation))
