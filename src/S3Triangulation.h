@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015 Adam Getchell
+/// Copyright (c) 2015, 2016 Adam Getchell
 ///
 /// Creates foliated spherical triangulations
 ///
@@ -465,17 +465,32 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 /// its geometry. In addition, it defines convenient constructors
 /// and a functor to easy creation.
 struct SimplicialManifold {
+
+  /// @brief Constructor taking a std::unique_ptr<Delaunay>
+  ///
+  /// Constructor taking a std::unique_ptr<Delaunay> which should be created
+  /// using make_triangulation(). If you wish to default initialize a
+  /// SimplicialManifold with no values, use SimplicialManifold() instead.
   explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  //  NOLINT
           : triangulation{std::move(manifold)},
-            geometry{classify_all_simplices(triangulation)} {
-    std::cout << "Ctor called." << std::endl;
-  }  // Ctor
+            geometry{classify_all_simplices(triangulation)} {}
 
+  /// @brief make_triangulation constructor
+  ///
+  /// Constructor that initializes **triangulation** by calling make_triangulation()
+  /// and **geometry** by calling classify_all_simplices().
+  /// @param[in] simplices  The number of desired simplices in the triangulation
+  /// @param[in] timeslices The number of timeslices in the triangulation
   SimplicialManifold(std::uintmax_t simplices, std::uintmax_t timeslices)
           : triangulation{make_triangulation(simplices, timeslices)},
-            geometry{classify_all_simplices(triangulation)} {
-    std::cout << "Ctor called." << std::endl;
-  }  // Ctor
+            geometry{classify_all_simplices(triangulation)} {}
+
+  /// @brief Default constructor
+  ///
+  ///  Default constructor with proper initialization
+  SimplicialManifold()
+          : triangulation{std::make_unique<Delaunay>()},
+            geometry{std::make_tuple(0, 0, 0, 0, 0, 0)} {}
 
   /// @brief Functor for initializing a SimplicialManifold
   ///
@@ -483,10 +498,10 @@ struct SimplicialManifold {
   ///
   /// @param[in] simplices  The number of desired simplices in the triangulation
   /// @param[in] timeslices The number of timeslices in the triangulation
-  void operator()(const uintmax_t simplices, const uintmax_t timeslices) {
-      triangulation = make_triangulation(simplices, timeslices);
-      geometry = classify_all_simplices(triangulation);
-    }
+//  void operator()(const uintmax_t simplices, const uintmax_t timeslices) {
+//      triangulation = make_triangulation(simplices, timeslices);
+//      geometry = classify_all_simplices(triangulation);
+//    }
 
   std::unique_ptr<Delaunay> triangulation;
   ///< std::unique_ptr to the Delaunay triangulation

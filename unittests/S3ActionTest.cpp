@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014 Adam Getchell
+/// Copyright (c) 2014-2016 Adam Getchell
 ///
 /// Ensures that the S3 bulk action calculations are correct, and give
 /// similar results for similar values.
@@ -105,7 +105,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
             << Bulk_action << std::endl;
 
   // Magic value from lots of tests
-  EXPECT_THAT(Bulk_action, AllOf(Le(-1200), Ge(-2000)))
+  EXPECT_THAT(Bulk_action, AllOf(Le(-1000), Ge(-1800)))
     << "S3_bulk_action() out of expected range.";
 }
 
