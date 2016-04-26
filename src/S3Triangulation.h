@@ -490,14 +490,7 @@ struct SimplicialManifold {
   ///  Default constructor with proper initialization
   SimplicialManifold()
           : triangulation{std::make_unique<Delaunay>()},
-            geometry(std::make_tuple(0, 0, 0, 0, 0, 0)) {}
-//            geometry{std::initializer_list<std::vector<Cell_handle>,
-//                    std::vector<Cell_handle>,
-//                    std::vector<Cell_handle>,
-//                    std::vector<Edge_handle>,
-//                    std::uintmax_t,
-//                    std::vector<Vertex_handle>>({0, 0, 0, 0, 0, 0})
-//            } {}
+            geometry{std::make_tuple(0, 0, 0, 0, 0, 0)} {}
 
   /// @brief Functor for initializing a SimplicialManifold
   ///

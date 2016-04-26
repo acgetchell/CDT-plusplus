@@ -15,13 +15,13 @@ compiler:
   - clang
 
 matrix:
-#  exclude:
-#    - os: linux
-#      compiler: clang
+  exclude:
+    - os: linux
+      compiler: clang
     # - os: osx
     #   compiler: gcc
   allow_failures:
-    - compiler: clang
+    - compiler: gcc
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
