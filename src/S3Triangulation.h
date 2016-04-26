@@ -477,8 +477,8 @@ struct SimplicialManifold {
 
   /// @brief make_triangulation constructor
   ///
-  /// Constructor that initializes **triangulation** by calling make_triangulation()
-  /// and **geometry** by calling classify_all_simplices().
+  /// Constructor that initializes **triangulation** by calling
+  /// make_triangulation() and **geometry** by calling classify_all_simplices().
   /// @param[in] simplices  The number of desired simplices in the triangulation
   /// @param[in] timeslices The number of timeslices in the triangulation
   SimplicialManifold(std::uintmax_t simplices, std::uintmax_t timeslices)
@@ -490,7 +490,14 @@ struct SimplicialManifold {
   ///  Default constructor with proper initialization
   SimplicialManifold()
           : triangulation{std::make_unique<Delaunay>()},
-            geometry{std::make_tuple(0, 0, 0, 0, 0, 0)} {}
+            geometry(std::make_tuple(0, 0, 0, 0, 0, 0)) {}
+//            geometry{std::initializer_list<std::vector<Cell_handle>,
+//                    std::vector<Cell_handle>,
+//                    std::vector<Cell_handle>,
+//                    std::vector<Edge_handle>,
+//                    std::uintmax_t,
+//                    std::vector<Vertex_handle>>({0, 0, 0, 0, 0, 0})
+//            } {}
 
   /// @brief Functor for initializing a SimplicialManifold
   ///
