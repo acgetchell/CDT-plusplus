@@ -25,12 +25,18 @@ using namespace testing;  // NOLINT
 class S3ActionTest : public Test {
  protected:
     S3ActionTest() : universe(simplices, timeslices) {
-        N3_31 = std::get<0>(universe.geometry).size() +
-                std::get<2>(universe.geometry).size();
-        N3_22 = std::get<1>(universe.geometry).size();
-        N1_TL = std::get<3>(universe.geometry).size();
-        N1_SL = std::get<4>(universe.geometry);
-        N0    = std::get<5>(universe.geometry).size();
+//        N3_31 = std::get<0>(universe.geometry).size() +
+//                std::get<2>(universe.geometry).size();
+        N3_31 = universe.geometry.three_one.size() +
+                universe.geometry.one_three.size();
+//        N3_22 = std::get<1>(universe.geometry).size();
+        N3_22 = universe.geometry.two_two.size();
+//        N1_TL = std::get<3>(universe.geometry).size();
+        N1_TL = universe.geometry.timelike_edges.size();
+//        N1_SL = std::get<4>(universe.geometry);
+        N1_SL = universe.geometry.spacelike_edges;
+//        N0    = std::get<5>(universe.geometry).size();
+        N0 = universe.geometry.vertices.size();
     }
   virtual void SetUp() {
     std::cout << "(uintmax_t) N1_TL = " << N1_TL << std::endl;

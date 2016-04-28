@@ -458,6 +458,35 @@ auto inline make_triangulation(const std::uintmax_t simplices,
   return universe_ptr;
 }  // make_triangulation()
 
+struct geometry_info {
+    geometry_info() : spacelike_edges{0} {
+      three_one.emplace_back(nullptr);
+      two_two.emplace_back(nullptr);
+      one_three.emplace_back(nullptr);
+      timelike_edges.emplace_back(nullptr);
+      vertices.emplace_back(nullptr);
+    }
+    explicit geometry_info(const geometry_tuple &geometry)
+            : three_one{std::get<0>(geometry)},
+              two_two{std::get<1>(geometry)},
+              one_three{std::get<2>(geometry)},
+              timelike_edges{std::get<3>(geometry)},
+              spacelike_edges{std::get<4>(geometry)},
+              vertices{std::get<5>(geometry)} {}
+    auto number_of_cells() {
+      return three_one.size() + two_two.size() + one_three.size();
+    }
+    auto number_of_edges() {
+      return timelike_edges.size() + spacelike_edges;
+    }
+    std::vector<Cell_handle> three_one;
+    std::vector<Cell_handle> two_two;
+    std::vector<Cell_handle> one_three;
+    std::vector<Edge_handle> timelike_edges;
+    std::uintmax_t spacelike_edges;
+    std::vector<Vertex_handle> vertices;
+};
+
 /// @struct
 /// @brief A struct to hold triangulation and geometry information
 ///
@@ -506,7 +535,8 @@ struct SimplicialManifold {
   std::unique_ptr<Delaunay> triangulation;
   ///< std::unique_ptr to the Delaunay triangulation
 
-  geometry_tuple geometry;
+//  geometry_tuple geometry;
+  geometry_info geometry;
   ///< The geometric structure of the triangulation
 };
 

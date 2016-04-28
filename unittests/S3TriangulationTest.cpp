@@ -36,18 +36,23 @@ TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
   EXPECT_THAT(universe.triangulation, Ne(nullptr))
     << "Triangulation not correctly constructed.";
 
-  EXPECT_THAT(std::get<0>(universe.geometry).size() +
-              std::get<1>(universe.geometry).size() +
-              std::get<2>(universe.geometry).size(),
-    Eq(universe.triangulation->number_of_finite_cells()))
+//  EXPECT_THAT(std::get<0>(universe.geometry).size() +
+//              std::get<1>(universe.geometry).size() +
+//              std::get<2>(universe.geometry).size(),
+//    Eq(universe.triangulation->number_of_finite_cells()))
+    EXPECT_THAT(universe.geometry.number_of_cells(),
+                Eq(universe.triangulation->number_of_finite_cells()))
     << "Triangulation has wrong number of cells.";
 
-  EXPECT_THAT(std::get<3>(universe.geometry).size() +
-              std::get<4>(universe.geometry),
-    Eq(universe.triangulation->number_of_finite_edges()))
+//  EXPECT_THAT(std::get<3>(universe.geometry).size() +
+//              std::get<4>(universe.geometry),
+//    Eq(universe.triangulation->number_of_finite_edges()))
+    EXPECT_THAT(universe.geometry.number_of_edges(),
+                Eq(universe.triangulation->number_of_finite_edges()))
     << "Triangulation has wrong number of edges.";
 
-  EXPECT_THAT(std::get<5>(universe.geometry).size(),
+//  EXPECT_THAT(std::get<5>(universe.geometry).size(),
+    EXPECT_THAT(universe.geometry.vertices.size(),
     Eq(universe.triangulation->number_of_vertices()))
     << "Triangulation has the wrong number of vertices.";
 
@@ -76,18 +81,21 @@ TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
   EXPECT_THAT(universe.triangulation, Ne(nullptr))
     << "Triangulation not correctly constructed.";
 
-  EXPECT_THAT(std::get<0>(universe.geometry).size() +
-              std::get<1>(universe.geometry).size() +
-              std::get<2>(universe.geometry).size(),
+//  EXPECT_THAT(std::get<0>(universe.geometry).size() +
+//              std::get<1>(universe.geometry).size() +
+//              std::get<2>(universe.geometry).size(),
+    EXPECT_THAT(universe.geometry.number_of_cells(),
               Eq(universe.triangulation->number_of_finite_cells()))
     << "Triangulation has wrong number of cells.";
 
-  EXPECT_THAT(std::get<3>(universe.geometry).size() +
-              std::get<4>(universe.geometry),
+//  EXPECT_THAT(std::get<3>(universe.geometry).size() +
+//              std::get<4>(universe.geometry),
+    EXPECT_THAT(universe.geometry.number_of_edges(),
               Eq(universe.triangulation->number_of_finite_edges()))
     << "Triangulation has wrong number of edges.";
 
-  EXPECT_THAT(std::get<5>(universe.geometry).size(),
+//  EXPECT_THAT(std::get<5>(universe.geometry).size(),
+    EXPECT_THAT(universe.geometry.vertices.size(),
               Eq(universe.triangulation->number_of_vertices()))
     << "Triangulation has the wrong number of vertices.";
 
