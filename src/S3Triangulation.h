@@ -460,11 +460,11 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 
 struct geometry_info {
     geometry_info() : spacelike_edges{0} {
-      three_one.emplace_back(nullptr);
-      two_two.emplace_back(nullptr);
-      one_three.emplace_back(nullptr);
-      timelike_edges.emplace_back(nullptr);
-      vertices.emplace_back(nullptr);
+//      three_one.emplace_back(nullptr);
+//      two_two.emplace_back(nullptr);
+//      one_three.emplace_back(nullptr);
+//      timelike_edges.emplace_back(nullptr);
+//      vertices.emplace_back(nullptr);
     }
     explicit geometry_info(const geometry_tuple &geometry)
             : three_one{std::get<0>(geometry)},
