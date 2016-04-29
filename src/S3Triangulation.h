@@ -465,6 +465,11 @@ struct geometry_info {
 //      one_three.emplace_back(nullptr);
 //      timelike_edges.emplace_back(nullptr);
 //      vertices.emplace_back(nullptr);
+      three_one.clear();
+      two_two.clear();
+      one_three.clear();
+      timelike_edges.clear();
+      vertices.clear();
     }
     explicit geometry_info(const geometry_tuple &geometry)
             : three_one{std::get<0>(geometry)},
