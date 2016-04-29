@@ -17,220 +17,206 @@
 using namespace testing;  // NOLINT
 
 TEST(S3Triangulation, CreateWithUniquePtr) {
-  Delaunay universe;
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+    Delaunay universe;
+    auto universe_ptr = std::make_unique<decltype(universe)>(universe);
 
-  // Verify unique_ptr null check
-  // universe_ptr.reset();
-  EXPECT_FALSE(!universe_ptr)
-    << "universe has been reset or is null.";
+    // Verify unique_ptr null check
+    // universe_ptr.reset();
+    EXPECT_FALSE(!universe_ptr)
+                        << "universe has been reset or is null.";
 }
 
 TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(17);
-  // explicit SimplicialManifold ctor with std::unique_ptr<Delaunay>
-  auto universe_ptr = make_triangulation(simplices, timeslices);
-  SimplicialManifold universe(std::move(universe_ptr));
+    constexpr auto simplices = static_cast<std::uintmax_t>(6400);
+    constexpr auto timeslices = static_cast<std::uintmax_t>(17);
+    // explicit SimplicialManifold ctor with std::unique_ptr<Delaunay>
+    auto universe_ptr = make_triangulation(simplices, timeslices);
+    SimplicialManifold universe(std::move(universe_ptr));
 
-  EXPECT_THAT(universe.triangulation, Ne(nullptr))
-    << "Triangulation not correctly constructed.";
+    EXPECT_THAT(universe.triangulation, Ne(nullptr))
+                        << "Triangulation not correctly constructed.";
 
-//  EXPECT_THAT(std::get<0>(universe.geometry).size() +
-//              std::get<1>(universe.geometry).size() +
-//              std::get<2>(universe.geometry).size(),
-//    Eq(universe.triangulation->number_of_finite_cells()))
     EXPECT_THAT(universe.geometry.number_of_cells(),
                 Eq(universe.triangulation->number_of_finite_cells()))
-    << "Triangulation has wrong number of cells.";
+                        << "Triangulation has wrong number of cells.";
 
-//  EXPECT_THAT(std::get<3>(universe.geometry).size() +
-//              std::get<4>(universe.geometry),
-//    Eq(universe.triangulation->number_of_finite_edges()))
     EXPECT_THAT(universe.geometry.number_of_edges(),
                 Eq(universe.triangulation->number_of_finite_edges()))
-    << "Triangulation has wrong number of edges.";
+                        << "Triangulation has wrong number of edges.";
 
-//  EXPECT_THAT(std::get<5>(universe.geometry).size(),
     EXPECT_THAT(universe.geometry.vertices.size(),
-    Eq(universe.triangulation->number_of_vertices()))
-    << "Triangulation has the wrong number of vertices.";
+                Eq(universe.triangulation->number_of_vertices()))
+                        << "Triangulation has the wrong number of vertices.";
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
+    EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+                        << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(),
-    AllOf(Ge(1), Le(4*simplices)))
-    << "Triangulation has wrong number of vertices.";
+    EXPECT_THAT(universe.triangulation->number_of_vertices(),
+                AllOf(Ge(1), Le(4 * simplices)))
+                        << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
-    << "Some simplices do not span exactly 1 timeslice.";
+    EXPECT_TRUE(fix_timeslices(universe.triangulation))
+                        << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
-    << "Triangulation is not Delaunay.";
+    EXPECT_TRUE(universe.triangulation->is_valid())
+                        << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
-    << "Triangulation is invalid.";
+    EXPECT_TRUE(universe.triangulation->tds().is_valid())
+                        << "Triangulation is invalid.";
 }
 
 TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(17);
-  SimplicialManifold universe(simplices, timeslices);
+    constexpr auto simplices = static_cast<std::uintmax_t>(6400);
+    constexpr auto timeslices = static_cast<std::uintmax_t>(17);
+    SimplicialManifold universe(simplices, timeslices);
 
-  EXPECT_THAT(universe.triangulation, Ne(nullptr))
-    << "Triangulation not correctly constructed.";
+    EXPECT_THAT(universe.triangulation, Ne(nullptr))
+                        << "Triangulation not correctly constructed.";
 
-//  EXPECT_THAT(std::get<0>(universe.geometry).size() +
-//              std::get<1>(universe.geometry).size() +
-//              std::get<2>(universe.geometry).size(),
     EXPECT_THAT(universe.geometry.number_of_cells(),
-              Eq(universe.triangulation->number_of_finite_cells()))
-    << "Triangulation has wrong number of cells.";
+                Eq(universe.triangulation->number_of_finite_cells()))
+                        << "Triangulation has wrong number of cells.";
 
-//  EXPECT_THAT(std::get<3>(universe.geometry).size() +
-//              std::get<4>(universe.geometry),
     EXPECT_THAT(universe.geometry.number_of_edges(),
-              Eq(universe.triangulation->number_of_finite_edges()))
-    << "Triangulation has wrong number of edges.";
+                Eq(universe.triangulation->number_of_finite_edges()))
+                        << "Triangulation has wrong number of edges.";
 
-//  EXPECT_THAT(std::get<5>(universe.geometry).size(),
     EXPECT_THAT(universe.geometry.vertices.size(),
-              Eq(universe.triangulation->number_of_vertices()))
-    << "Triangulation has the wrong number of vertices.";
+                Eq(universe.triangulation->number_of_vertices()))
+                        << "Triangulation has the wrong number of vertices.";
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
+    EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+                        << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(),
-              AllOf(Ge(1), Le(4*simplices)))
-    << "Triangulation has wrong number of vertices.";
+    EXPECT_THAT(universe.triangulation->number_of_vertices(),
+                AllOf(Ge(1), Le(4 * simplices)))
+                        << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
-    << "Some simplices do not span exactly 1 timeslice.";
+    EXPECT_TRUE(fix_timeslices(universe.triangulation))
+                        << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
-    << "Triangulation is not Delaunay.";
+    EXPECT_TRUE(universe.triangulation->is_valid())
+                        << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
-    << "Triangulation is invalid.";
+    EXPECT_TRUE(universe.triangulation->tds().is_valid())
+                        << "Triangulation is invalid.";
 }
 
 TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(2);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(2);
-  SimplicialManifold universe(simplices, timeslices);
+    constexpr auto simplices = static_cast<std::uintmax_t>(2);
+    constexpr auto timeslices = static_cast<std::uintmax_t>(2);
+    SimplicialManifold universe(simplices, timeslices);
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
+    EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+                        << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(),
-              AllOf(Ge(1), Le(8)))
-    << "Triangulation has wrong number of vertices.";
+    EXPECT_THAT(universe.triangulation->number_of_vertices(),
+                AllOf(Ge(1), Le(8)))
+                        << "Triangulation has wrong number of vertices.";
 
-  EXPECT_THAT(universe.triangulation->number_of_finite_cells(),
-              AllOf(Ge(1), Le(12)))
-    << "Triangulation has wrong number of cells.";
+    EXPECT_THAT(universe.triangulation->number_of_finite_cells(),
+                AllOf(Ge(1), Le(12)))
+                        << "Triangulation has wrong number of cells.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
-    << "Some simplices do not span exactly 1 timeslice.";
+    EXPECT_TRUE(fix_timeslices(universe.triangulation))
+                        << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
-    << "Triangulation is not Delaunay.";
+    EXPECT_TRUE(universe.triangulation->is_valid())
+                        << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
-    << "Triangulation is invalid.";
+    EXPECT_TRUE(universe.triangulation->tds().is_valid())
+                        << "Triangulation is invalid.";
 }
 
 TEST(S3Triangulation, CreateSomeSimplices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(16);
+    constexpr auto simplices = static_cast<std::uintmax_t>(6400);
+    constexpr auto timeslices = static_cast<std::uintmax_t>(16);
     SimplicialManifold universe(simplices, timeslices);
 
-  std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
-  std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
-  std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
-  std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+    std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
+              << std::endl;
+    std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
+              << std::endl;
+    std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
+              << std::endl;
+    std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
+              << std::endl;
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
+    EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+                        << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(),
-              AllOf(Ge(1), Le(4*simplices)))
-    << "Triangulation has wrong number of vertices.";
+    EXPECT_THAT(universe.triangulation->number_of_vertices(),
+                AllOf(Ge(1), Le(4 * simplices)))
+                        << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
-    << "Some simplices do not span exactly 1 timeslice.";
+    EXPECT_TRUE(fix_timeslices(universe.triangulation))
+                        << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
-    << "Triangulation is not Delaunay.";
+    EXPECT_TRUE(universe.triangulation->is_valid())
+                        << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
-    << "Triangulation is invalid.";
+    EXPECT_TRUE(universe.triangulation->tds().is_valid())
+                        << "Triangulation is invalid.";
 }
 
 TEST(S3Triangulation, CreateWithLotsOfSimplices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(64000);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(67);
-  SimplicialManifold universe(simplices, timeslices);
+    constexpr auto simplices = static_cast<std::uintmax_t>(64000);
+    constexpr auto timeslices = static_cast<std::uintmax_t>(67);
+    SimplicialManifold universe(simplices, timeslices);
 
-  std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
-  std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
-  std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
-  std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+    std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
+              << std::endl;
+    std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
+              << std::endl;
+    std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
+              << std::endl;
+    std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
+              << std::endl;
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
+    EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+                        << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(),
-              AllOf(Ge(1), Le(4*simplices)))
-    << "Triangulation has wrong number of vertices.";
+    EXPECT_THAT(universe.triangulation->number_of_vertices(),
+                AllOf(Ge(1), Le(4 * simplices)))
+                        << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
-    << "Some simplices do not span exactly 1 timeslice.";
+    EXPECT_TRUE(fix_timeslices(universe.triangulation))
+                        << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
-    << "Triangulation is not Delaunay.";
+    EXPECT_TRUE(universe.triangulation->is_valid())
+                        << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
-    << "Triangulation is invalid.";
+    EXPECT_TRUE(universe.triangulation->tds().is_valid())
+                        << "Triangulation is invalid.";
 }
 
 TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(640000);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(256);
-  SimplicialManifold universe(simplices, timeslices);
+    constexpr auto simplices = static_cast<std::uintmax_t>(640000);
+    constexpr auto timeslices = static_cast<std::uintmax_t>(256);
+    SimplicialManifold universe(simplices, timeslices);
 
-  std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
-  std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
-  std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
-  std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+    std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
+              << std::endl;
+    std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
+              << std::endl;
+    std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
+              << std::endl;
+    std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
+              << std::endl;
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
-    << "Triangulation has wrong dimensionality.";
+    EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+                        << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(),
-              AllOf(Ge(1), Le(4*simplices)))
-    << "Triangulation has wrong number of vertices.";
+    EXPECT_THAT(universe.triangulation->number_of_vertices(),
+                AllOf(Ge(1), Le(4 * simplices)))
+                        << "Triangulation has wrong number of vertices.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
-    << "Some simplices do not span exactly 1 timeslice.";
+    EXPECT_TRUE(fix_timeslices(universe.triangulation))
+                        << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
-    << "Triangulation is not Delaunay.";
+    EXPECT_TRUE(universe.triangulation->is_valid())
+                        << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
-    << "Triangulation is invalid.";
+    EXPECT_TRUE(universe.triangulation->tds().is_valid())
+                        << "Triangulation is invalid.";
 }
