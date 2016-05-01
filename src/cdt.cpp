@@ -167,8 +167,9 @@ int main(int argc, char* const argv[]) {
     // The main work of the program
     // TODO(Adam): add strong exception-safety guarantee on Metropolis functor
     Metropolis simulation(alpha, k, lambda, passes, checkpoint);
-    auto result = std::move(simulation(universe_ptr));
-
+    // TODO: Fix Metropolis call operator
+//    auto result = std::move(simulation(universe_ptr));
+    auto result = SimplicialManifold(simplices, timeslices);
     // Output results
     t.stop();  // End running time counter
     std::cout << "Final Delaunay triangulation has ";
@@ -181,7 +182,7 @@ int main(int argc, char* const argv[]) {
     write_file(result,
                topology,
                dimensions,
-               result->number_of_finite_cells(),
+               result.triangulation->number_of_finite_cells(),
                timeslices);
 
     return 0;

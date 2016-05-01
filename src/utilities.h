@@ -134,14 +134,14 @@ inline auto generate_filename(const topology_type& top,
 /// @param[in] universe_ptr A std::unique_ptr to a triangulation
 template <typename T>
 void print_results(const T& universe_ptr) noexcept {
-  std::cout << universe_ptr->number_of_vertices()
+  std::cout << universe_ptr.triangulation->number_of_vertices()
             << " vertices and "
-            << universe_ptr->number_of_finite_edges()
+            << universe_ptr.triangulation->number_of_finite_edges()
             << " edges and "
-            << universe_ptr->number_of_finite_facets()
+            << universe_ptr.triangulation->number_of_finite_facets()
             << " faces\n"
             << "and "
-            << universe_ptr->number_of_finite_cells()
+            << universe_ptr.triangulation->number_of_finite_cells()
             << " cells." << std::endl;
 }
 
@@ -199,7 +199,7 @@ void write_file(const T& universe_ptr,
   if (!file.is_open())
     throw std::runtime_error("Unable to open file.");
 
-  file << *universe_ptr;
+  file << *universe_ptr.triangulation;
 }
 
 /// @brief Generate random std::uintmax_t integers
