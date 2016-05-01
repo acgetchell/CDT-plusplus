@@ -545,6 +545,12 @@ struct SimplicialManifold {
             : triangulation{make_triangulation(simplices, timeslices)},
               geometry{classify_all_simplices(triangulation)} { }
 
+
+//    SimplicialManifold(const SimplicialManifold& copy) {
+//        triangulation = std::make_unique(Delaunay)
+//        geometry = copy.geometry;
+//    }
+
     std::unique_ptr<Delaunay> triangulation;
     ///< std::unique_ptr to the Delaunay triangulation
     GeometryInfo geometry;
