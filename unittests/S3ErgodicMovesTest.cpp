@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015 Adam Getchell
+/// Copyright (c) 2015, 2016 Adam Getchell
 ///
 /// Tests for S3 ergodic moves: randomness, (2,3) moves, (3,2) moves,
 /// (6,2) moves (disabled), (2,6) moves (disabled)

@@ -99,7 +99,7 @@ TEST_F(MetropolisTest, Ctor) {
   EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes))
     << "output_every_n_passes not correctly forwarded by ctor.";
 }
-// TODO: Fix MetropolisTest, Operator
+// \todo: Fix MetropolisTest, Operator
 //TEST_F(MetropolisTest, DISABLED_Operator) {
 //  // Instantiate Metropolis functor with desired parameters
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);
@@ -172,7 +172,7 @@ TEST_F(MetropolisTest, Ctor) {
   // EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
   //   << "No successful (4,4) moves.";
 //}
-// TODO: Fix MetropolisTest.CalculateA1
+// \todo: Fix MetropolisTest.CalculateA1
 //TEST_F(MetropolisTest, DISABLED_CalculateA1) {
 //  // Instantiate Metropolis functor with passes and checkpoints = 1
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);
@@ -194,7 +194,7 @@ TEST_F(MetropolisTest, Ctor) {
 //    << "Moves don't add up.";
 //}
 
-// TODO: Fix MetropolisTest.CalcuateA2
+// \todo: Fix MetropolisTest.CalcuateA2
 //TEST_F(MetropolisTest, DISABLED_CalculateA2) {
 //  // Instantiate Metropolis functor with passes and checkpoints = 1
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);
@@ -233,7 +233,7 @@ TEST_F(MetropolisTest, Ctor) {
 //    << "Moves don't add up.";
 //}
 
-// TODO: Fix MetropolisTest.RunSimulation
+// \todo: Fix MetropolisTest.RunSimulation
 //TEST_F(MetropolisTest, DISABLED_RunSimulation) {
 //  // Instantiate Metropolis functor with desired parameters
 //  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);

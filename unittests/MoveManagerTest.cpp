@@ -21,158 +21,133 @@ using namespace testing;  // NOLINT
 class MoveManagerTest : public Test {
  public:
     MoveManagerTest() : universe_{std::move(make_triangulation(6400, 17))},
-//                        movable_simplex_types_{classify_simplices(universe_)},
-//                        movable_edge_types_{classify_edges(universe_)},
                         attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)},
-                        number_of_vertices_{universe_.geometry.vertices.size
-                                    ()} {}
+                      number_of_vertices_{universe_.geometry.vertices.size()} {}
 
     virtual void SetUp() {
         // Print ctor-initialized values
         std::cout << "(3,1) simplices: "
-//        << std::get<0>(movable_simplex_types_).size() << std::endl;
         << universe_.geometry.three_one.size() << std::endl;
         std::cout << "(2,2) simplices: "
-//        << std::get<1>(movable_simplex_types_).size() << std::endl;
         << universe_.geometry.two_two.size() << std::endl;
         std::cout << "(1,3) simplices: "
-//        << std::get<2>(movable_simplex_types_).size() << std::endl;
         << universe_.geometry.one_three.size() << std::endl;
         std::cout << "Timelike edges: "
-//        << movable_edge_types_.first.size() << std::endl;
         << universe_.geometry.timelike_edges.size() << std::endl;
         std::cout << "Spacelike edges: "
-//        << movable_edge_types_.second << std::endl;
         << universe_.geometry.spacelike_edges << std::endl;
         std::cout << "Vertices: "
-//        << number_of_vertices_ << std::endl;
         << universe_.geometry.vertices.size() << std::endl;
     }
 
     Delaunay triangulation;
     ///< Delaunay triangulation
-//    std::unique_ptr<Delaunay>
-//            universe_ = std::make_unique<Delaunay>(triangulation);
     SimplicialManifold universe_;
-    ///< Unique pointer to the Delaunay triangulation
-//    std::tuple<std::vector<Cell_handle>,
-//            std::vector<Cell_handle>,
-//            std::vector<Cell_handle>> movable_simplex_types_;
-    ///< Movable (3,1), (2,2) and (1,3) simplices.
-//    std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
-    ///< Movable timelike and spacelike edges.
+    ///< Simplicial manifold containing pointer to triangulation
+    ///< and geometric information.
     Move_tuple attempted_moves_;
     ///< A count of all attempted moves
     std::uintmax_t number_of_vertices_;
     ///< Vertices in Delaunay triangulation
 };
 
-// TODO: Fix MoveManagerTest.DelaunayDeepCopyCtor
 TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
     // Print info on move/copy operation exception safety
     std::cout << std::boolalpha
-    << "Delaunay alias is copy-assignable? "
-    << std::is_copy_assignable<Delaunay>::value << '\n'
-    << "Delaunay alias is nothrow copy-assignable? "
-    << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
-    << "Delaunay alias is nothrow move-assignable? "
-    << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
-    << "unique_ptr<Delaunay> is nothrow move-assignable? "
-    << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
-    << std::endl;
+        << "Delaunay alias is copy-assignable? "
+        << std::is_copy_assignable<Delaunay>::value << '\n'
+        << "Delaunay alias is nothrow copy-assignable? "
+        << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
+        << "Delaunay alias is nothrow move-assignable? "
+        << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
+        << "unique_ptr<Delaunay> is nothrow move-assignable? "
+        << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
+        << std::endl;
 
     EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
-                        << "Constructed universe is invalid.";
+        << "Constructed universe is invalid.";
 
     // Make a copy using Delaunay copy-ctor
-    auto tempDT = Delaunay(*this->universe_.triangulation);
+    auto tempDT = Delaunay(*(this->universe_.triangulation));
     auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
-    auto tempSM = SimplicialManifold(make_triangulation(6400, 17));
-//    auto tempDT_ptr = universe_;
-//    auto tempDT = Delaunay(*(this->universe_.triangulation));
-//    auto tempDT_ptr{SimplicialManifold(tempDT)};
+
+    EXPECT_TRUE(this->universe_.triangulation != tempDT_ptr)
+        << "Pointers are equal.";
+
+    auto tempSM = SimplicialManifold(std::move(tempDT_ptr));
+
     EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
-                        << "Delaunay copy is invalid.";
+        << "SimplicialManifold copy is invalid.";
 
     EXPECT_THAT(number_of_vertices_, Eq(tempSM.geometry.vertices.size()))
-//            number_of_vertices()))
-                        <<
-                        "Delaunay copy doesn't have the same number of vertices.";
+        << "SimplicialManifold copy doesn't have the same number of vertices.";
 
     EXPECT_THAT(this->universe_.triangulation->number_of_finite_edges(),
                 Eq(tempSM.triangulation->number_of_finite_edges()))
-                        <<
-                        "Delaunay copy doesn't have the same number of edges.";
+        << "SimplicialManifold copy doesn't have the same number of edges.";
 
     EXPECT_THAT(this->universe_.triangulation->number_of_finite_facets(),
                 Eq(tempSM.triangulation->number_of_finite_facets()))
-                        <<
-                        "Delaunay copy doesn't have the same number of facets.";
+        << "SimplicialManifold copy doesn't have the same number of facets.";
 
     EXPECT_THAT(this->universe_.triangulation->number_of_finite_cells(),
                 Eq(tempSM.triangulation->number_of_finite_cells()))
-                        <<
-                        "Delaunay copy doesn't have the same number of cells.";
-
-    // Calculate copied simplex types
-//    auto tempDT_simplex_types = classify_simplices(tempDT_ptr);
+        << "SimplicialManifold copy doesn't have the same number of cells.";
 
     EXPECT_THAT(this->universe_.geometry.three_one.size(),
                 Eq(tempSM.geometry.three_one.size()))
-                        <<
-                        "Delaunay copy doesn't have the same number of (3,1) simplices.";
+        << "SimplicialManifold copy doesn't have the same number of (3,1) "
+                   "simplices.";
 
     EXPECT_THAT(this->universe_.geometry.two_two.size(),
                 Eq(tempSM.geometry.two_two.size()))
-                        <<
-                        "Delaunay copy doesn't have the same number of (2,2) simplices.";
+        << "SimplicialManifold copy doesn't have the same number of (2,2) "
+                   "simplices.";
 
     EXPECT_THAT(this->universe_.geometry.one_three.size(),
                 Eq(tempSM.geometry.one_three.size()))
-                        <<
-                        "Delaunay copy doesn't have the same number of (1,3) simplices.";
-
-    // Calculate copied edge types
-//    auto tempDT_edge_types = classify_edges(tempDT_ptr);
+        << "SimplicialManifold copy doesn't have the same number of (1,3) "
+                   "simplices.";
 
     EXPECT_THAT(this->universe_.geometry.timelike_edges.size(),
                 Eq(tempSM.geometry.timelike_edges.size()))
-                        <<
-                        "Delaunay copy doesn't have the same number of timelike edges.";
+        << "SimplicialManifold copy doesn't have the same number of timelike "
+                   "edges.";
 
     EXPECT_THAT(this->universe_.geometry.spacelike_edges,
                 Eq(tempSM.geometry.spacelike_edges))
-                        <<
-                        "Delaunay copy doesn't have the same number of spacelike edges.";
+        << "SimplicialManifold copy doesn't have the same number of spacelike "
+                   "edges.";
 }
-// TODO(Adam) Fix MoveManager tests
-//TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
-//    EXPECT_TRUE(this->universe_->tds().is_valid())
-//                        << "Constructed universe_ is invalid.";
-//
-//    // Make a copy using Delaunay copy-ctor
-//    auto tempDT = Delaunay(*this->universe_);
-//    auto tempSM = std::make_unique<Delaunay>(tempDT);
-//
-//    EXPECT_TRUE(tempDT_ptr->tds().is_valid())
-//                        << "Copied universe is invalid.";
-//
-//    auto simplex_types = classify_simplices(tempDT_ptr);
-//
-//    tempDT_ptr = std::move(make_23_move(tempDT_ptr,
-////                                      simplex_types,
-//                                        attempted_moves_));
-//
-//    std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
-//    << std::endl;
-//
-//    EXPECT_TRUE(tempDT_ptr->tds().is_valid())
-//                        << "Copied universe invalid after make_23_move().";
-//
-//    std::swap(this->universe_, tempDT_ptr);
-//
-//    EXPECT_TRUE(this->universe_->tds().is_valid())
-//                        << "universe_ invalid after swap with copied universe.";
+// \todo: Fix MoveManager tests
+TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
+    EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
+        << "Constructed universe_ is invalid.";
+
+    // Make a copy using Delaunay copy-ctor
+    auto tempDT = Delaunay(*(this->universe_.triangulation));
+    auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+
+    EXPECT_TRUE(this->universe_.triangulation != tempDT_ptr)
+        << "Pointers are equal.";
+
+    auto tempSM = SimplicialManifold(std::move(tempDT_ptr));
+
+    EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
+        << "SimplicialManifold copy is invalid.";
+
+    tempSM = std::move(make_23_move(std::move(tempSM), attempted_moves_));
+
+    std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
+              << std::endl;
+
+    EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
+        << "SimplicialManifold copy invalid after make_23_move().";
+
+    std::swap(this->universe_, tempSM);
+
+    EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
+        << "universe_ invalid after swap with copied universe.";
 //
 //    // Re-populate with current data
 //    auto new_movable_simplex_types = classify_simplices(this->universe_);
@@ -221,7 +196,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
 //    EXPECT_THAT(this->universe_->number_of_vertices(),
 //                Eq(number_of_vertices_))
 //                        << "make_23_move() changed the number of vertices.";
-//}
+}
 //
 //TEST_F(MoveManagerTest, DISABLED_MakeA23MoveManager) {
 //    EXPECT_TRUE(this->universe_->tds().is_valid())

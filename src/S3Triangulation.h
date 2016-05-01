@@ -34,6 +34,8 @@
 /// calculated.
 /// \done Multi-threaded operations using Intel TBB
 /// \done Debugging output toggled by macros
+/// \done SimplicialManifold data structure holding a std::unique_ptr to
+/// the Delaunay triangulation and a std::tuple of geometry information.
 
 /// @file S3Triangulation.h
 /// @brief Functions on 3D Spherical Delaunay Triangulations

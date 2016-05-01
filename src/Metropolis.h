@@ -402,7 +402,7 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(3,2) move" << std::endl;
         #endif
-            // TODO: Fix make_32_move in Metropolis.h
+            // \todo: Fix make_32_move in Metropolis.h
 //        make_32_move(universe_ptr_, movable_edge_types_, attempted_moves_);
         // make_32_move() increments attempted_moves_
         // Decrement N3_22_ and N1_TL_, increment successful_moves_
@@ -414,7 +414,7 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(2,6) move" << std::endl;
         #endif
-            // TODO: Fix make_26_move in Metropolis.h
+            // \todo: Fix make_26_move in Metropolis.h
 //        make_26_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
         // make_26_move() increments attempted_moves_
         // Increment N3_31, N1_TL_ and successful_moves_
@@ -558,7 +558,7 @@ class Metropolis {
   /// can be successfully carried out on **universe_ptr_** when operator()
   /// returns. Instead, they should be conducted on the std::move() results
   /// of this function call.
-    // TODO: Fix Metropolis::operator()
+    // \todo: Fix Metropolis::operator()
 //  template <typename T>
 //  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
 //    #ifndef NDEBUG

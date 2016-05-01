@@ -132,7 +132,7 @@ auto make_23_move(SimplicialManifold&& universe,
 /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
 /// @param[in] to_be_moved  The Edge_handle that is tried
 /// @returns  flipped  A boolean value whether the move succeeded
-// TODO: Fix try_32_move()
+// \todo: Fix try_32_move()
 //template<typename T1>
 //auto try_32_move(T1 &&universe_ptr, Edge_handle to_be_moved) {
 //    auto flipped = false;
@@ -158,7 +158,7 @@ auto make_23_move(SimplicialManifold&& universe,
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-// TODO: Fix make_32_move()
+// \todo: Fix make_32_move()
 //template<typename T1, typename T2, typename T3>
 //auto make_32_move(T1 &&universe_ptr,
 //                  T2 &&edge_types,
@@ -214,7 +214,7 @@ auto make_23_move(SimplicialManifold&& universe,
 /// @param[in] c The presumed (1,3) cell
 /// @param[in] i The i-th neighbor of c
 /// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-// TODO: Fix is_26_movable()
+// \todo: Fix is_26_movable()
 //inline auto is_26_movable(const Cell_handle c, std::uintmax_t i) {
 //    // Source cell should be a 13
 //    auto source_is_13 = (c->info() == 13) ? true : false;
@@ -232,7 +232,7 @@ auto make_23_move(SimplicialManifold&& universe,
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-// TODO: Fix find_26_movable()
+// \todo: Fix find_26_movable()
 //inline auto find_26_movable(const Cell_handle c, std::uintmax_t *n) {
 //    auto movable = false;
 //    for (auto i = 0; i < 4; ++i) {
@@ -278,7 +278,7 @@ auto make_23_move(SimplicialManifold&& universe,
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-// TODO: Fix make_26_move()
+// \todo: Fix make_26_move()
 //template<typename T1, typename T2, typename T3>
 //auto make_26_move(T1 &&universe_ptr,
 //                  T2 &&simplex_types,
