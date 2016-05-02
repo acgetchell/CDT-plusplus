@@ -22,83 +22,53 @@ using namespace testing;  // NOLINT
 
 class S3ErgodicMoveTest : public Test {
  public:
-  S3ErgodicMoveTest() : universe_(std::move(make_triangulation(6400, 17))),
-//                        movable_simplex_types_(classify_simplices(universe_)),
-//                        movable_edge_types_(classify_edges(universe_)),
-                        attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
-//                        number_of_vertices_(universe_->number_of_vertices()) {}
-                        N3_31_before{universe_.geometry.three_one.size()},
-                        N3_22_before{universe_.geometry.two_two.size()},
-                        N3_13_before{universe_.geometry.one_three.size()},
-                        timelike_edges_before{universe_.geometry.timelike_edges
-                                                       .size()},
-                        spacelike_edges_before{universe_.geometry
-                                                        .spacelike_edges},
-                        vertices_before{universe_.geometry.vertices.size()} {}
+    S3ErgodicMoveTest() : universe_(std::move(make_triangulation(6400, 17))),
+                          attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
+                          N3_31_before{universe_.geometry.three_one.size()},
+                          N3_22_before{universe_.geometry.two_two.size()},
+                          N3_13_before{universe_.geometry.one_three.size()},
+                          timelike_edges_before{
+                                  universe_.geometry.timelike_edges
+                                           .size()},
+                          spacelike_edges_before{universe_.geometry
+                                                          .spacelike_edges},
+                          vertices_before{
+                                  universe_.geometry.vertices.size()} { }
 
+    virtual void SetUp() {
+        // Print ctor-initialized values
+        std::cout << "Initial Triangulation ..." << std::endl;
+        std::cout << "(3,1) simplices: "
+        << N3_31_before;
+        std::cout << "(2,2) simplices: "
+        << N3_22_before;
+        std::cout << "(1,3) simplices: "
+        << N3_13_before;
+        std::cout << "Timelike edges: "
+        << timelike_edges_before;
+        std::cout << "Spacelike edges: "
+        << spacelike_edges_before;
+        std::cout << "Vertices: "
+        << vertices_before;
+    }
 
-  // No initialization by base class ctor
-//  explicit S3ErgodicMoveTest(bool Test) {}
-
-  virtual void SetUp() {
-    // Print ctor-initialized values
-    std::cout << "Initial Triangulation ..." << std::endl;
-    std::cout << "(3,1) simplices: "
-//              << std::get<0>(movable_simplex_types_).size() << std::endl;
-              << N3_31_before;
-    std::cout << "(2,2) simplices: "
-//              << std::get<1>(movable_simplex_types_).size() << std::endl;
-              << N3_22_before;
-    std::cout << "(1,3) simplices: "
-//              << std::get<2>(movable_simplex_types_).size() << std::endl;
-              << N3_13_before;
-    std::cout << "Timelike edges: "
-//              << movable_edge_types_.first.size() << std::endl;
-              << timelike_edges_before;
-    std::cout << "Spacelike edges: "
-//              << movable_edge_types_.second << std::endl;
-              << spacelike_edges_before;
-    std::cout << "Vertices: "
-//              << number_of_vertices_ << std::endl;
-              << vertices_before;
-
-    // Initial values for comparison tests
-//    N3_31_before = std::get<0>(movable_simplex_types_).size();
-//    N3_22_before = std::get<1>(movable_simplex_types_).size();
-//    N3_13_before = std::get<2>(movable_simplex_types_).size();
-//    timelike_edges = movable_edge_types_.first.size();
-//    spacelike_edges = movable_edge_types_.second;
-//    vertices_before = number_of_vertices_;
-  }
-
-//  Delaunay triangulation;
-  ///< Delaunay triangulation
-//  std::unique_ptr<Delaunay>
-//    universe_ = std::make_unique<Delaunay>(triangulation);
-  SimplicialManifold universe_;
-  ///< Unique pointer to the Delaunay triangulation.
-//  std::tuple<std::vector<Cell_handle>,
-//             std::vector<Cell_handle>,
-//             std::vector<Cell_handle>> movable_simplex_types_;
-  ///< Movable (3,1), (2,2), and (1,3) simplices.
-//  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
-  ///< Movable timelike and spacelike edges.
-  Move_tuple attempted_moves_;
-  ///< A count of all attempted moves.
-//  std::uintmax_t number_of_vertices_;
-  ///< Vertices in Delaunay triangulation.
-  std::uintmax_t N3_31_before;
-  ///< Initial number of (3,1) simplices
-  std::uintmax_t N3_22_before;
-  ///< Initial number of (2,2) simplices
-  std::uintmax_t N3_13_before;
-  ///< Initial number of (1,3) simplices
-  std::uintmax_t timelike_edges_before;
-  ///< Initial number of timelike edges
-  std::uintmax_t spacelike_edges_before;
-  ///< Initial number of spacelike edges
-  std::uintmax_t vertices_before;
-  ///< Initial number of vertices
+    SimplicialManifold universe_;
+    ///< Simplicial manifold containing pointer to triangulation
+    ///< and geometric information.
+    Move_tuple attempted_moves_;
+    ///< A count of all attempted moves.
+    std::uintmax_t N3_31_before;
+    ///< Initial number of (3,1) simplices
+    std::uintmax_t N3_22_before;
+    ///< Initial number of (2,2) simplices
+    std::uintmax_t N3_13_before;
+    ///< Initial number of (1,3) simplices
+    std::uintmax_t timelike_edges_before;
+    ///< Initial number of timelike edges
+    std::uintmax_t spacelike_edges_before;
+    ///< Initial number of spacelike edges
+    std::uintmax_t vertices_before;
+    ///< Initial number of vertices
 };
 
 //class MinimalErgodic26MoveTest : public S3ErgodicMoveTest {
@@ -128,11 +98,11 @@ class S3ErgodicMoveTest : public Test {
 //};
 //
 TEST_F(S3ErgodicMoveTest, MakeA23Move) {
-  universe_ = std::move(make_23_move(std::move(universe_),
+    universe_ = std::move(make_23_move(std::move(universe_),
 //                                     movable_simplex_types_,
-                                     attempted_moves_));
-  std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
-            << std::endl;
+                                       attempted_moves_));
+    std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
+              << std::endl;
 //
 //  // (2,2) Cell_handle removed from the list of possible (2,3) move sites?
 //  EXPECT_THAT(std::get<1>(movable_simplex_types_).size(), Le(N3_22_before-1))

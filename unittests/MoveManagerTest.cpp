@@ -22,7 +22,16 @@ class MoveManagerTest : public Test {
  public:
     MoveManagerTest() : universe_{std::move(make_triangulation(6400, 17))},
                         attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)},
-                      number_of_vertices_{universe_.geometry.vertices.size()} {}
+                        N3_31_before{universe_.geometry.three_one.size()},
+                        N3_22_before{universe_.geometry.two_two.size()},
+                        N3_13_before{universe_.geometry.one_three.size()},
+                        timelike_edges_before{
+                                universe_.geometry.timelike_edges
+                                         .size()},
+                        spacelike_edges_before{universe_.geometry
+                                                        .spacelike_edges},
+                        vertices_before{
+                                universe_.geometry.vertices.size()} { }
 
     virtual void SetUp() {
         // Print ctor-initialized values
@@ -40,29 +49,37 @@ class MoveManagerTest : public Test {
         << universe_.geometry.vertices.size() << std::endl;
     }
 
-    Delaunay triangulation;
-    ///< Delaunay triangulation
-    SimplicialManifold universe_;
-    ///< Simplicial manifold containing pointer to triangulation
-    ///< and geometric information.
-    Move_tuple attempted_moves_;
-    ///< A count of all attempted moves
-    std::uintmax_t number_of_vertices_;
-    ///< Vertices in Delaunay triangulation
+      SimplicialManifold universe_;
+      ///< Simplicial manifold containing pointer to triangulation
+      ///< and geometric information.
+      Move_tuple attempted_moves_;
+      ///< A count of all attempted moves.
+      std::uintmax_t N3_31_before;
+      ///< Initial number of (3,1) simplices
+      std::uintmax_t N3_22_before;
+      ///< Initial number of (2,2) simplices
+      std::uintmax_t N3_13_before;
+      ///< Initial number of (1,3) simplices
+      std::uintmax_t timelike_edges_before;
+      ///< Initial number of timelike edges
+      std::uintmax_t spacelike_edges_before;
+      ///< Initial number of spacelike edges
+      std::uintmax_t vertices_before;
+      ///< Initial number of vertices
 };
 
 TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
     // Print info on move/copy operation exception safety
     std::cout << std::boolalpha
-        << "Delaunay alias is copy-assignable? "
-        << std::is_copy_assignable<Delaunay>::value << '\n'
-        << "Delaunay alias is nothrow copy-assignable? "
-        << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
-        << "Delaunay alias is nothrow move-assignable? "
-        << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
-        << "unique_ptr<Delaunay> is nothrow move-assignable? "
-        << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
-        << std::endl;
+    << "Delaunay alias is copy-assignable? "
+    << std::is_copy_assignable<Delaunay>::value << '\n'
+    << "Delaunay alias is nothrow copy-assignable? "
+    << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
+    << "Delaunay alias is nothrow move-assignable? "
+    << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
+    << "unique_ptr<Delaunay> is nothrow move-assignable? "
+    << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
+    << std::endl;
 
     EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
         << "Constructed universe is invalid.";
@@ -79,7 +96,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
     EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
         << "SimplicialManifold copy is invalid.";
 
-    EXPECT_THAT(number_of_vertices_, Eq(tempSM.geometry.vertices.size()))
+    EXPECT_THAT(vertices_before, Eq(tempSM.geometry.vertices.size()))
         << "SimplicialManifold copy doesn't have the same number of vertices.";
 
     EXPECT_THAT(this->universe_.triangulation->number_of_finite_edges(),
@@ -97,27 +114,27 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
     EXPECT_THAT(this->universe_.geometry.three_one.size(),
                 Eq(tempSM.geometry.three_one.size()))
         << "SimplicialManifold copy doesn't have the same number of (3,1) "
-                   "simplices.";
+                                "simplices.";
 
     EXPECT_THAT(this->universe_.geometry.two_two.size(),
                 Eq(tempSM.geometry.two_two.size()))
         << "SimplicialManifold copy doesn't have the same number of (2,2) "
-                   "simplices.";
+                                "simplices.";
 
     EXPECT_THAT(this->universe_.geometry.one_three.size(),
                 Eq(tempSM.geometry.one_three.size()))
         << "SimplicialManifold copy doesn't have the same number of (1,3) "
-                   "simplices.";
+                                "simplices.";
 
     EXPECT_THAT(this->universe_.geometry.timelike_edges.size(),
                 Eq(tempSM.geometry.timelike_edges.size()))
         << "SimplicialManifold copy doesn't have the same number of timelike "
-                   "edges.";
+                                "edges.";
 
     EXPECT_THAT(this->universe_.geometry.spacelike_edges,
                 Eq(tempSM.geometry.spacelike_edges))
         << "SimplicialManifold copy doesn't have the same number of spacelike "
-                   "edges.";
+                                "edges.";
 }
 // \todo: Fix MoveManager tests
 TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
@@ -129,7 +146,7 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
     auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
 
     EXPECT_TRUE(this->universe_.triangulation != tempDT_ptr)
-        << "Pointers are equal.";
+        << "Pointers are equal and/or point to the same location.";
 
     auto tempSM = SimplicialManifold(std::move(tempDT_ptr));
 

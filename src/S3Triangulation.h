@@ -96,6 +96,11 @@ using Geometry_tuple = std::tuple<std::vector<Cell_handle>,
         std::vector<Edge_handle>,
         std::uintmax_t,
         std::vector<Vertex_handle>>;
+using Move_tuple = std::tuple<std::uintmax_t,
+        std::uintmax_t,
+        std::uintmax_t,
+        std::uintmax_t,
+        std::uintmax_t>;
 
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
 ///< The maximum number of passes to fix invalidly foliated simplices
@@ -492,6 +497,13 @@ struct GeometryInfo {
               spacelike_edges{std::get<4>(geometry)},
               vertices{std::get<5>(geometry)} { }
 
+    auto N3_31() {
+        return three_one.size() + one_three.size();
+    }
+
+    auto N3_22() {
+        return two_two.size();
+    }
     auto number_of_cells() {
         return three_one.size() + two_two.size() + one_three.size();
     }

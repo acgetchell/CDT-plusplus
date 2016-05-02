@@ -38,12 +38,6 @@
 #include <algorithm>
 #include <tuple>
 
-using Move_tuple = std::tuple<std::uintmax_t,
-                              std::uintmax_t,
-                              std::uintmax_t,
-                              std::uintmax_t,
-                              std::uintmax_t>;
-
 /// @brief Try a (2,3) move
 ///
 /// This function performs the (2,3) move by converting a facet
@@ -87,9 +81,8 @@ auto try_23_move(T1&& universe, Cell_handle to_be_moved) {
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-template<typename T> //, typename T2>
+template<typename T>
 auto make_23_move(SimplicialManifold&& universe,
-//                  T2 &&simplex_types,
                   T&& attempted_moves)
 -> decltype(universe) {
     #ifndef NDEBUG
