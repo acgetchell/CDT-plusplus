@@ -1,4 +1,8 @@
 CDT-plusplus [![License](https://img.shields.io/badge/license-BSD%203--clause-blue.svg)](https://github.com/acgetchell/CDT-plusplus/blob/master/LICENSE.md)  [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+<a href="https://scan.coverity.com/projects/acgetchell-cdt-plusplus">
+  <img alt="Coverity Scan Build Status"
+       src="https://img.shields.io/coverity/scan/8786.svg"/>
+</a>
 ============
 
 **Quantize spacetime on your laptop.**
