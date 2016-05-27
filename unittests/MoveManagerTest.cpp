@@ -36,17 +36,17 @@ class MoveManagerTest : public Test {
     virtual void SetUp() {
         // Print ctor-initialized values
         std::cout << "(3,1) simplices: "
-        << universe_.geometry.three_one.size() << std::endl;
+        << universe_.geometry.three_one.size() << '\n';
         std::cout << "(2,2) simplices: "
-        << universe_.geometry.two_two.size() << std::endl;
+        << universe_.geometry.two_two.size() << '\n';
         std::cout << "(1,3) simplices: "
-        << universe_.geometry.one_three.size() << std::endl;
+        << universe_.geometry.one_three.size() << '\n';
         std::cout << "Timelike edges: "
-        << universe_.geometry.timelike_edges.size() << std::endl;
+        << universe_.geometry.timelike_edges.size() << '\n';
         std::cout << "Spacelike edges: "
-        << universe_.geometry.spacelike_edges << std::endl;
+        << universe_.geometry.spacelike_edges << '\n';
         std::cout << "Vertices: "
-        << universe_.geometry.vertices.size() << std::endl;
+        << universe_.geometry.vertices.size() << '\n';
     }
 
       SimplicialManifold universe_;
@@ -79,7 +79,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
     << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
     << "unique_ptr<Delaunay> is nothrow move-assignable? "
     << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
-    << std::endl;
+    << '\n';
 
     EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
         << "Constructed universe is invalid.";
@@ -137,7 +137,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
                                 "edges.";
 }
 // \todo: Fix MoveManager tests
-TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
+TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
     EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
         << "Constructed universe_ is invalid.";
 
@@ -156,7 +156,7 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
     tempSM = std::move(make_23_move(std::move(tempSM), attempted_moves_));
 
     std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
-              << std::endl;
+              << '\n';
 
     EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
         << "SimplicialManifold copy invalid after make_23_move().";
@@ -170,49 +170,43 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
 //    auto new_movable_simplex_types = classify_simplices(this->universe_);
 //    auto new_movable_edge_types = classify_edges(this->universe_);
 //
-//    // Print new values
-//    std::cout << "New values: " << std::endl;
-//    std::cout << "(3,1) simplices: "
-//    << std::get<0>(new_movable_simplex_types).size() << std::endl;
-//    std::cout << "(2,2) simplices: "
-//    << std::get<1>(new_movable_simplex_types).size() << std::endl;
-//    std::cout << "(1,3) simplices: "
-//    << std::get<2>(new_movable_simplex_types).size() << std::endl;
-//    std::cout << "Timelike edges: "
-//    << new_movable_edge_types.first.size() << std::endl;
-//    std::cout << "Spacelike edges: "
-//    << new_movable_edge_types.second << std::endl;
-//    std::cout << "Vertices: "
-//    << this->universe_->number_of_vertices() << std::endl;
-//
-//    EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
-//                        << "make_23_move() didn't record an attempted move.";
-//
-//    EXPECT_THAT(std::get<1>(new_movable_simplex_types).size(),
-//                Eq(std::get<1>(movable_simplex_types_).size() + 1))
-//                        <<
-//                        "make_23_move() didn't add one and only one (2,2) simplex.";
-//
-//    EXPECT_THAT(std::get<0>(new_movable_simplex_types).size(),
-//                Eq(std::get<0>(movable_simplex_types_).size()))
-//                        << "make_23_move() changed (3,1) simplices.";
-//
-//    EXPECT_THAT(std::get<2>(new_movable_simplex_types).size(),
-//                Eq(std::get<2>(movable_simplex_types_).size()))
-//                        << "make_23_move() changed (1,3) simplices.";
-//
-//    EXPECT_THAT(new_movable_edge_types.first.size(),
-//                Eq(movable_edge_types_.first.size() + 1))
-//                        <<
-//                        "make_23_move() didn't add one and only one timelike edge.";
-//
-//    EXPECT_THAT(new_movable_edge_types.second, Eq(movable_edge_types_.second))
-//                        <<
-//                        "make_23_move() changed the number of spacelike edges.";
-//
-//    EXPECT_THAT(this->universe_->number_of_vertices(),
-//                Eq(number_of_vertices_))
-//                        << "make_23_move() changed the number of vertices.";
+    // Print new values
+    std::cout << "New values:\n";
+    std::cout << "(3,1) simplices: "
+              << this->universe_.geometry.three_one.size() << "\n";
+    std::cout << "(2,2) simplices: "
+              << this->universe_.geometry.two_two.size() << "\n";
+    std::cout << "(1,3) simplices: "
+              << this->universe_.geometry.one_three.size() << "\n";
+    std::cout << "Timelike edges: "
+              << this->universe_.geometry.timelike_edges.size() << "\n";
+    std::cout << "Spacelike edges: "
+              << this->universe_.geometry.spacelike_edges << "\n";
+    std::cout << "Vertices: "
+              << this->universe_.geometry.vertices.size() << "\n";
+
+    EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
+              << "make_23_move() didn't record an attempted move.";
+
+    EXPECT_THAT(this->universe_.geometry.two_two.size(), Eq(N3_22_before + 1))
+              << "make_23_move() didn't add one and only one (2,2) simplex.";
+
+    EXPECT_THAT(this->universe_.geometry.three_one.size(), Eq(N3_31_before))
+              << "make_23_move() changed (3,1) simplices.";
+
+    EXPECT_THAT(this->universe_.geometry.one_three.size(), Eq(N3_13_before))
+              << "make_23_move() changed (1,3) simplices.";
+
+    EXPECT_THAT(this->universe_.geometry.timelike_edges.size(),
+                Eq(timelike_edges_before + 1))
+              << "make_23_move() didn't add one and only one timelike edge.";
+
+    EXPECT_THAT(this->universe_.geometry.spacelike_edges,
+                Eq(spacelike_edges_before))
+              << "make_23_move() changed the number of spacelike edges.";
+
+    EXPECT_THAT(this->universe_.geometry.vertices.size(), Eq(vertices_before))
+              << "make_23_move() changed the number of vertices.";
 }
 //
 //TEST_F(MoveManagerTest, DISABLED_MakeA23MoveManager) {
@@ -225,7 +219,7 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
 //                  movable_edge_types_);
 //
 //    std::cout << "Attempted (2,3) moves = " << std::get<0>(p.attempted_moves_)
-//    << std::endl;
+//    << '\n';
 //
 //    // Move info from MoveManager
 //    universe_ = std::move(p.universe_);
@@ -239,19 +233,19 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
 //    auto new_movable_edge_types = classify_edges(this->universe_);
 //
 //    // Print new values
-//    std::cout << "New values: " << std::endl;
+//    std::cout << "New values: " << '\n';
 //    std::cout << "(3,1) simplices: "
-//    << std::get<0>(new_movable_simplex_types).size() << std::endl;
+//    << std::get<0>(new_movable_simplex_types).size() << '\n';
 //    std::cout << "(2,2) simplices: "
-//    << std::get<1>(new_movable_simplex_types).size() << std::endl;
+//    << std::get<1>(new_movable_simplex_types).size() << '\n';
 //    std::cout << "(1,3) simplices: "
-//    << std::get<2>(new_movable_simplex_types).size() << std::endl;
+//    << std::get<2>(new_movable_simplex_types).size() << '\n';
 //    std::cout << "Timelike edges: "
-//    << new_movable_edge_types.first.size() << std::endl;
+//    << new_movable_edge_types.first.size() << '\n';
 //    std::cout << "Spacelike edges: "
-//    << new_movable_edge_types.second << std::endl;
+//    << new_movable_edge_types.second << '\n';
 //    std::cout << "Vertices: "
-//    << this->universe_->number_of_vertices() << std::endl;
+//    << this->universe_->number_of_vertices() << '\n';
 //
 //    EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
 //                        <<

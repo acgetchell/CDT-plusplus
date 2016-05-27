@@ -58,6 +58,7 @@
 
 // C++ headers
 #include <boost/iterator/zip_iterator.hpp>
+#include <algorithm>
 #include <stdexcept>
 #include <utility>
 #include <vector>
@@ -383,7 +384,7 @@ void fix_triangulation(T &&universe_ptr) {
 /// @returns  A std::unique_ptr<Delaunay> to the triangulation
 template<typename T1, typename T2>
 void insert_into_triangulation(T1 &&universe_ptr,
-                               T2 &&causal_vertices) noexcept {
+                               T2 &&causal_vertices) {
     universe_ptr->insert(boost::make_zip_iterator(boost::make_tuple
                          (causal_vertices.first.begin(),
                           causal_vertices.second.begin())),
@@ -467,7 +468,6 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 
     fix_triangulation(universe_ptr);
 
-    // This isn't as expensive as it looks thanks to return value optimization
     return universe_ptr;
 }  // make_triangulation()
 
@@ -479,35 +479,65 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 /// retrieve commonly used values.
 struct GeometryInfo {
     /// @brief Default constructor
-    ///
-    ///  Default constructor with proper initialization
-    GeometryInfo() : spacelike_edges{0} {
-        three_one.clear();
-        two_two.clear();
-        one_three.clear();
-        timelike_edges.clear();
-        vertices.clear();
-    }
-
-    explicit GeometryInfo(const Geometry_tuple &geometry)
+    GeometryInfo() = default;
+    // @brief Constructor from Geometry_tuple
+    //
+    // This is usually called as a result of classify_all_simplices(),
+    // which itself takes a std::unique_ptr<Delaunay>
+    explicit GeometryInfo(const Geometry_tuple &&geometry)  //  NOLINT
             : three_one{std::get<0>(geometry)},
               two_two{std::get<1>(geometry)},
               one_three{std::get<2>(geometry)},
               timelike_edges{std::get<3>(geometry)},
               spacelike_edges{std::get<4>(geometry)},
-              vertices{std::get<5>(geometry)} { }
+              vertices{std::get<5>(geometry)} {}
 
+    /// @brief Default destructor
+    virtual ~GeometryInfo() = default;
+
+    /// @brief Default move constructor
+    GeometryInfo(GeometryInfo&&) = default;
+
+    /// @brief Default move assignment operator
+    GeometryInfo& operator=(GeometryInfo&&) = default;
+
+    /// @brief Default copy constructor
+    GeometryInfo(const GeometryInfo&) = default;
+
+    /// @brief Default copy assignment operator
+    GeometryInfo& operator=(const GeometryInfo&) = default;
+
+    /// @brief Return (3,1) and (1,3) simplices
+    ///
+    /// Returns the total number of simplices with 3 vertices on one
+    /// timeslice and 1 vertex on the adjacent timeslice. Used to
+    /// calculate the change in action in the Metropolis class.
     auto N3_31() {
         return three_one.size() + one_three.size();
     }
 
+    /// @brief Return (2,2) simplices
+    ///
+    /// Returns the total number of simplices with 2 vertices on one
+    /// timeslice and 2 vertices on the adjacent timeslice. Used to
+    /// calculate the change in action in the Metropolis class.
     auto N3_22() {
         return two_two.size();
     }
+    /// @brief Return the number of cells in the triangulation
+    ///
+    /// This should be the equivalent of
+    /// SimplicialManifold::triangulation->number_of_finite_cells(),
+    /// and is used as a check to ensure that GeometryInfo{} matches.
     auto number_of_cells() {
         return three_one.size() + two_two.size() + one_three.size();
     }
 
+    /// @brief Return the number of edges in the triangulation
+    ///
+    /// This should be the equivalent of
+    /// SimplicialManifold::triangulation->number_of_finite_edges(),
+    /// and is used as a check to ensure that GeometryInfo{} matches.
     auto number_of_edges() {
         return timelike_edges.size() + spacelike_edges;
     }
@@ -556,14 +586,52 @@ struct SimplicialManifold {
     // /in the triangulation
     /// @param[in] timeslices The number of timeslices in the triangulation
     SimplicialManifold(std::uintmax_t simplices, std::uintmax_t timeslices)
-            : triangulation{make_triangulation(simplices, timeslices)},
-              geometry{classify_all_simplices(triangulation)} { }
+            : triangulation{make_triangulation(simplices, timeslices)}
+            , geometry{classify_all_simplices(triangulation)} {}
 
+    // Destructor
+    virtual ~SimplicialManifold() {
+        this->triangulation = nullptr;
+    }
 
-//    SimplicialManifold(const SimplicialManifold& copy) {
-//        triangulation = std::make_unique(Delaunay)
-//        geometry = copy.geometry;
+    // Move constructor
+    // \todo Ensure move ctor re-calculates geometry
+    SimplicialManifold(SimplicialManifold&& other)
+            : triangulation{std::move(other.triangulation)}
+            , geometry{classify_all_simplices(other.triangulation)} {
+//        triangulation = std::move(other.triangulation);
+//        geometry = classify_all_simplices(other.triangulation);
+//        std::swap(triangulation, other.triangulation);
+//        std::swap(geometry, other.geometry);
+
+        other.triangulation = nullptr;
+        other.geometry = GeometryInfo{};
+    }
+
+    // Move assignment operator
+    SimplicialManifold& operator=(SimplicialManifold&& other) = default;
+//    {
+//        if (this != other) {
+//            // Free current resources
+//            triangulation = nullptr;
+//            geometry = GeometryInfo{};
+//
+//            // Copy/generate data from other
+//            triangulation = other.triangulation;
+//            geometry = classify_all_simplices(other.triangulation);
+//
+//            // Release data from other
+//            other.triangulation = nullptr;
+//            other.geometry = GeometryInfo{};
+//        }
+//        return *this;
 //    }
+
+    // Copy constructor
+    SimplicialManifold(const SimplicialManifold&) = default;
+
+    // Copy assignment operator
+    SimplicialManifold& operator=(const SimplicialManifold&) = default;
 
     std::unique_ptr<Delaunay> triangulation;
     ///< std::unique_ptr to the Delaunay triangulation

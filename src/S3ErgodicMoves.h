@@ -81,10 +81,9 @@ auto try_23_move(T1&& universe, Cell_handle to_be_moved) {
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-template<typename T>
-auto make_23_move(SimplicialManifold&& universe,
-                  T&& attempted_moves)
--> decltype(universe) {
+template<typename T1, typename T2>
+auto make_23_move(T1&& universe,
+                  T2&& attempted_moves) {
     #ifndef NDEBUG
     std::cout << "Attempting (2,3) move." << std::endl;
     #endif

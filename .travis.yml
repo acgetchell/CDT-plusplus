@@ -23,6 +23,21 @@ matrix:
   allow_failures:
     - compiler: gcc
 
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "JuEvOnlCbo+3F1omn9eQi+UlurptombUlB3ROEM71F1wf6cxUnznDOYBr3cPb7zwFEOAfw1rYuEKJBWNh34vvlqxzi6I/pIIlpL73yOIIcYW0/CYMCkgvOIxdtQv4JyBYW7seAflaJyf8ElGtojiEumXwCqlBXg6uwrIoZ00NqI="
+
+addons:
+  coverity_scan:
+    project:
+      name: "acgetchell/CDT-plusplus"
+    notification_email: acgetchell@ucdavis.edu
+    build_command_prepend:
+    build_command:   "./build.sh"
+    branch_pattern: master
+
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
 
