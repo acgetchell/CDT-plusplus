@@ -33,16 +33,16 @@ class TetrahedronTest : public Test {
 //    universe_ = std::make_unique<decltype(universe)>(universe);
   SimplicialManifold universe;
   std::vector<Delaunay::Point> V {
-    Delaunay::Point(0, 0, 0),
-    Delaunay::Point(0, 1, 0),
-    Delaunay::Point(0, 0, 1),
-    Delaunay::Point(1, 0, 0)
+    Delaunay::Point{0, 0, 0},
+    Delaunay::Point{0, 1, 0},
+    Delaunay::Point{0, 0, 1},
+    Delaunay::Point{1, 0, 0}
   };
 };
 
 class FoliatedTetrahedronTest : public TetrahedronTest {
  protected:
-  FoliatedTetrahedronTest() : causal_vertices(std::make_pair(V, timevalue)) {
+  FoliatedTetrahedronTest() : causal_vertices{std::make_pair(V, timevalue)} {
     // Manually insert
     insert_into_triangulation(universe.triangulation, causal_vertices);
   }
