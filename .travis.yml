@@ -34,9 +34,9 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-3.8" CC="clang-3.8"; fi
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
-  - curl -L -o CGAL-4.8.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.8.1.tar.gz
-  - tar zxvf CGAL-4.8.tar.gz &> install.log
-  - cd cgal-releases-CGAL-4.8
+  - curl -L -o CGAL-4.8.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.8.1.tar.gz
+  - tar zxvf CGAL-4.8.1.tar.gz &> install.log
+  - cd cgal-releases-CGAL-4.8.1
   - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
   - ninja
   - sudo ninja install &> install.log
