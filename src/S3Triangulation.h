@@ -450,13 +450,14 @@ auto inline make_triangulation(const std::uintmax_t simplices,
     // Construct the locking data-structure
     // using the bounding-box of the points
     auto bounding_box_size = static_cast<double>(timeslices + 1);
-    Delaunay::Lock_data_structure locking_ds(
-            CGAL::Bbox_3(-bounding_box_size, -bounding_box_size,
-                         -bounding_box_size,  bounding_box_size,
-                         bounding_box_size, bounding_box_size), 50);
+    Delaunay::Lock_data_structure locking_ds{
+        CGAL::Bbox_3{-bounding_box_size, -bounding_box_size,
+                     -bounding_box_size,  bounding_box_size,
+                     bounding_box_size, bounding_box_size}
+        , 50};
     Delaunay universe{K{}, &locking_ds};
     #else
-    Delaunay universe;
+    Delaunay universe{};
     #endif
 
     auto universe_ptr = std::make_unique<decltype(universe)>(universe);
