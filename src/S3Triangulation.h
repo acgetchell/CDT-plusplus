@@ -454,7 +454,7 @@ auto inline make_triangulation(const std::uintmax_t simplices,
             CGAL::Bbox_3(-bounding_box_size, -bounding_box_size,
                          -bounding_box_size,  bounding_box_size,
                          bounding_box_size, bounding_box_size), 50);
-    Delaunay universe(K(), &locking_ds);
+    Delaunay universe{K{}, &locking_ds};
     #else
     Delaunay universe;
     #endif
@@ -502,7 +502,7 @@ struct GeometryInfo {
   ///
   /// This is usually called as a result of classify_all_simplices(),
   /// which itself takes a std::unique_ptr<Delaunay>
-  explicit GeometryInfo(const Geometry_tuple &&geometry)
+  explicit GeometryInfo(const Geometry_tuple &&geometry)  // NOLINT
       : three_one{std::get<0>(geometry)}
       , two_two{std::get<1>(geometry)}
       , one_three{std::get<2>(geometry)}
@@ -579,7 +579,7 @@ struct SimplicialManifold {
   ///  Default constructor with proper initialization
   SimplicialManifold()
       : triangulation{std::make_unique<Delaunay>()}
-      , geometry{GeometryInfo()} { }
+      , geometry{GeometryInfo{}} { }
 
   /// @brief Constructor taking a std::unique_ptr<Delaunay>
   ///
@@ -612,7 +612,6 @@ struct SimplicialManifold {
   SimplicialManifold(SimplicialManifold&& other)  // NOLINT
       : triangulation{std::move(other.triangulation)}
       , geometry{classify_all_simplices(other.triangulation)} {
-
 //    triangulation = std::move(other.triangulation);
 //    geometry = classify_all_simplices(other.triangulation);
 //    std::swap(triangulation, other.triangulation);
