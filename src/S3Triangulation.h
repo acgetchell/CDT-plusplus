@@ -9,33 +9,34 @@
 /// Each vertex at a given radius is assigned a timeslice so that the
 /// entire triangulation will have a preferred foliation of time.
 ///
-/// \done Insert a 3-sphere into the triangulation data structure
-/// \done Assign each 3-sphere a unique timeslice
-/// \done Iterate over the number of desired timeslices
-/// \done Check/fix issues for large values of simplices and timeslices
+/// \done Insert a 3-sphere into the triangulation data structure.
+/// \done Assign each 3-sphere a unique timeslice.
+/// \done Iterate over the number of desired timeslices.
+/// \done Check/fix issues for large values of simplices and timeslices.
 /// \done Iterate over cells and check timeslices of vertices don't differ
 ///        by more than 1.
 /// \done Gather ratio of cells with bad/good foliation.
 ///        Adjust value of radius to minimize.
 ///        Recheck the whole triangulation when finished.
 /// \done When a cell contains a bad foliation, delete it. Recheck.
-/// \done Fixup Delaunay triangulation after bad cells have been deleted
+/// \done Fixup Delaunay triangulation after bad cells have been deleted.
 /// \done Re-written with std::unique_ptr<T> and
 /// <a href="http://blog.knatten.org/2012/11/02/efficient-pure-functional-
-/// programming-in-c-using-move-semantics/">
+/// programming-in-c-using-move-semantics/">.
 /// Efficient Pure Functional Programming in C++ Using Move Semantics</a>
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
-/// Const Correctness</a>
-/// \done Function documentation
+/// Const Correctness</a>.
+/// \done Function documentation.
 /// \done Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
 /// A tuple of vectors contain cell handles to the simplices of type (3,1),
 /// (2,2), and (1,3) respectively.
 /// \done Classify edges as timelike or spacelike so that action can be
 /// calculated.
-/// \done Multi-threaded operations using Intel TBB
-/// \done Debugging output toggled by macros
+/// \done Multi-threaded operations using Intel TBB.
+/// \done Debugging output toggled by macros.
 /// \done SimplicialManifold data structure holding a std::unique_ptr to
 /// the Delaunay triangulation and a std::tuple of geometry information.
+/// \done Move constructor recalculates geometry.
 
 /// @file S3Triangulation.h
 /// @brief Functions on 3D Spherical Delaunay Triangulations
@@ -125,7 +126,7 @@ static constexpr std::uintmax_t DIMENSION = 3;
 /// @returns A std::pair<std::vector<Edge_handle>, std::uintmax_t> of
 /// timelike edges and spacelike edges
 template<typename T>
-auto classify_edges(T &&universe_ptr) noexcept {
+auto classify_edges(T&& universe_ptr) noexcept {
     std::cout << "Classifying edges...." << std::endl;
     Delaunay::Finite_edges_iterator eit;
     std::vector<Edge_handle> timelike_edges;
@@ -476,7 +477,13 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 ///
 /// GeometryInfo contains information about the geometry of
 /// a triangulation. In addition, it defines convenient functions to
-/// retrieve commonly used values.
+/// retrieve commonly used values. This is to save the expense of
+/// calculating manually from the triangulation. GeometryInfo() is
+/// recalculated using the move assignment operator anytime a
+/// SimplicialManifold() is move constructed.
+/// The default constructor, destructor, move constructor, copy
+/// constructor, and copy assignment operator are explictly defaulted.
+/// See http://en.cppreference.com/w/cpp/language/rule_of_three
 struct GeometryInfo {
   /// (3,1) cells in the foliation
   std::vector<Cell_handle> three_one;
@@ -517,8 +524,19 @@ struct GeometryInfo {
   /// @brief Default move constructor
   GeometryInfo(GeometryInfo&&) = default;
 
-  /// @brief Default move assignment operator
-  GeometryInfo& operator=(GeometryInfo&&) = default;
+  /// @brief Move assignment operator
+  ///
+  /// The GeometryInfo move assignment operator is called
+  /// by the SimplicialManifold move assignment operator.
+  GeometryInfo& operator=(Geometry_tuple&& other) {  // NOLINT
+    three_one = std::get<0>(other);
+    two_two = std::get<1>(other);
+    one_three = std::get<2>(other);
+    timelike_edges = std::get<3>(other);
+    spacelike_edges = std::get<4>(other);
+    vertices = std::get<5>(other);
+    return *this;
+  }
 
   /// @brief Default copy constructor
   GeometryInfo(const GeometryInfo&) = default;
@@ -586,7 +604,8 @@ struct SimplicialManifold {
   ///
   /// Constructor taking a std::unique_ptr<Delaunay> which should be created
   /// using make_triangulation(). If you wish to default initialize a
-  /// SimplicialManifold with no values, use SimplicialManifold() instead.
+  /// SimplicialManifold with no values, use the default
+  /// constructor SimplicialManifold() instead.
   explicit SimplicialManifold(std::unique_ptr<Delaunay> &&manifold) // NOLINT
       : triangulation{std::move(manifold)}
       , geometry{classify_all_simplices(triangulation)} { }
@@ -603,43 +622,23 @@ struct SimplicialManifold {
       : triangulation{make_triangulation(simplices, timeslices)}
       , geometry{classify_all_simplices(triangulation)} { }
 
-  /// Destructor
+  /// @brief Destructor
   virtual ~SimplicialManifold() {
       this->triangulation = nullptr;
+      this->geometry = GeometryInfo{};
   }
 
-  /// Move constructor
-  // \todo Ensure move ctor re-calculates geometry
+  /// @brief Move constructor
   SimplicialManifold(SimplicialManifold&& other)  // NOLINT
       : triangulation{std::move(other.triangulation)}
-      , geometry{classify_all_simplices(other.triangulation)} {
-//    triangulation = std::move(other.triangulation);
-//    geometry = classify_all_simplices(other.triangulation);
-//    std::swap(triangulation, other.triangulation);
-//    std::swap(geometry, other.geometry);
-
-//      other.triangulation = nullptr;
-//      other.geometry = GeometryInfo{};
-  }
+      , geometry{classify_all_simplices(other.triangulation)} { }
 
   /// Move assignment operator
-  SimplicialManifold& operator=(SimplicialManifold&& other) = default;
-//    {
-//        if (this != other) {
-//            // Free current resources
-//            triangulation = nullptr;
-//            geometry = GeometryInfo{};
-//
-//            // Copy/generate data from other
-//            triangulation = other.triangulation;
-//            geometry = classify_all_simplices(other.triangulation);
-//
-//            // Release data from other
-//            other.triangulation = nullptr;
-//            other.geometry = GeometryInfo{};
-//        }
-//        return *this;
-//    }
+  SimplicialManifold& operator=(SimplicialManifold&& other) {  // NOLINT
+      triangulation = std::move(other.triangulation);
+      geometry = classify_all_simplices(std::move(other.triangulation));
+      return *this;
+  }
 
   /// Copy constructor
   SimplicialManifold(const SimplicialManifold&) = default;

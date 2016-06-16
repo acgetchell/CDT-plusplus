@@ -95,40 +95,43 @@ TEST_F(FoliatedTetrahedronTest, Create) {
 }
 
 TEST_F(FoliatedTetrahedronTest, InsertSimplexType) {
-  classify_all_simplices(universe.triangulation);
+  // Move ctor recalculates
+  SimplicialManifold new_universe =
+      SimplicialManifold(std::move(universe.triangulation));
 
   Delaunay::Finite_cells_iterator cit;
-  for (cit = universe.triangulation->finite_cells_begin();
-       cit != universe.triangulation->finite_cells_end(); ++cit) {
+  for (cit = new_universe.triangulation->finite_cells_begin();
+       cit != new_universe.triangulation->finite_cells_end(); ++cit) {
     EXPECT_THAT(cit->info(), Eq(31));
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
 
-  EXPECT_THAT(universe.geometry.three_one.size(), Eq(1))
+  EXPECT_THAT(new_universe.geometry.three_one.size(), Eq(1))
     << "(3,1) simplices should be equal to one.";
 
-  EXPECT_THAT(universe.geometry.two_two.size(), Eq(0))
+  EXPECT_THAT(new_universe.geometry.two_two.size(), Eq(0))
     << "(2,2) simplices in (3,1) tetrahedron is nonzero.";
 
-  EXPECT_THAT(universe.geometry.one_three.size(), Eq(0))
+  EXPECT_THAT(new_universe.geometry.one_three.size(), Eq(0))
     << "(1,3) simplices in (3,1) tetrahedron is nonzero.";
 }
 
 TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges) {
-  auto edge_types = classify_edges(universe.triangulation);
-  auto timelike_edges = universe.geometry.timelike_edges.size();
-  auto spacelike_edges = universe.geometry.spacelike_edges;
+  SimplicialManifold new_universe =
+      SimplicialManifold(std::move(universe.triangulation));
+  auto timelike_edges = new_universe.geometry.timelike_edges.size();
+  auto spacelike_edges = new_universe.geometry.spacelike_edges;
 
   std::cout << "There are " << timelike_edges << " timelike edges and "
             << spacelike_edges << " spacelike edges.\n";
 
-  EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
+  EXPECT_THAT(new_universe.triangulation->dimension(), Eq(3))
     << "Triangulation has wrong dimensionality.";
 
-  EXPECT_THAT(universe.triangulation->number_of_vertices(), Eq(4))
+  EXPECT_THAT(new_universe.triangulation->number_of_vertices(), Eq(4))
     << "Triangulation has wrong number of vertices.";
 
-  EXPECT_THAT(universe.triangulation->number_of_finite_cells(), Eq(1))
+  EXPECT_THAT(new_universe.triangulation->number_of_finite_cells(), Eq(1))
     << "Triangulation has wrong number of cells.";
 
   EXPECT_THAT(timelike_edges, Eq(3))
@@ -137,12 +140,12 @@ TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges) {
   EXPECT_THAT(spacelike_edges, Eq(3))
     << "(3,1) tetrahedron doesn't have 3 spacelike edges.";
 
-  EXPECT_TRUE(fix_timeslices(universe.triangulation))
+  EXPECT_TRUE(fix_timeslices(new_universe.triangulation))
     << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_TRUE(universe.triangulation->is_valid())
+  EXPECT_TRUE(new_universe.triangulation->is_valid())
     << "Triangulation is not Delaunay.";
 
-  EXPECT_TRUE(universe.triangulation->tds().is_valid())
+  EXPECT_TRUE(new_universe.triangulation->tds().is_valid())
     << "Triangulation is invalid.";
 }
