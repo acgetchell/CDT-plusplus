@@ -37,19 +37,19 @@ class S3ErgodicMoveTest : public Test {
 
     virtual void SetUp() {
         // Print ctor-initialized values
-        std::cout << "Initial Triangulation ..." << std::endl;
+        std::cout << "Initial Triangulation ..." << '\n';
         std::cout << "(3,1) simplices: "
-        << N3_31_before;
+        << N3_31_before << '\n';
         std::cout << "(2,2) simplices: "
-        << N3_22_before;
+        << N3_22_before << '\n';
         std::cout << "(1,3) simplices: "
-        << N3_13_before;
+        << N3_13_before << '\n';
         std::cout << "Timelike edges: "
-        << timelike_edges_before;
+        << timelike_edges_before << '\n';
         std::cout << "Spacelike edges: "
-        << spacelike_edges_before;
+        << spacelike_edges_before << '\n';
         std::cout << "Vertices: "
-        << vertices_before;
+        << vertices_before << '\n';
     }
 
     SimplicialManifold universe_;
@@ -97,11 +97,11 @@ class S3ErgodicMoveTest : public Test {
 //  std::pair<std::vector<Point>, std::vector<std::uintmax_t>> causal_vertices;
 //};
 //
-TEST_F(S3ErgodicMoveTest, DISABLED_MakeA23Move) {
+TEST_F(S3ErgodicMoveTest, MakeA23Move) {
     // todo: move constructor here that recalculates the geometry
     // todo: fix segfault
-    universe_ = std::move(make_23_move(std::move(universe_),
-                                       attempted_moves_));
+    universe_ = make_23_move(std::move(universe_),
+                                       attempted_moves_);
     std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
         << std::endl;
 //
