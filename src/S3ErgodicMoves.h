@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014, 2015 Adam Getchell
+/// Copyright (c) 2014, 2015, 2016 Adam Getchell
 ///
 /// Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.
 ///
@@ -132,7 +132,7 @@ auto try_32_move(T&& universe, Edge_handle to_be_moved) {
 /// holding the timelike edges and a count of the spacelike edges
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
-/// @returns universe A SimplicialManifold after the move has been made
+/// @returns universe The SimplicialManifold after the move has been made
 template<typename T1, typename T2>
 auto make_32_move(T1&& universe,
                   T2&& attempted_moves)
@@ -168,7 +168,6 @@ auto make_32_move(T1&& universe,
     return std::move(universe);
 }  // make_32_move()
 
-
 /// @brief Check a (2,6) move
 ///
 /// This function checks if a (2,6) move is possible on the i-th
@@ -180,14 +179,13 @@ auto make_32_move(T1&& universe,
 /// @param[in] c The presumed (1,3) cell
 /// @param[in] i The i-th neighbor of c
 /// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-// \todo: Fix is_26_movable()
-//inline auto is_26_movable(const Cell_handle c, std::uintmax_t i) {
-//    // Source cell should be a 13
-//    auto source_is_13 = (c->info() == 13) ? true : false;
-//    // Neighbor should be a 31
-//    auto neighbor_is_31 = (c->neighbor(i)->info() == 31) ? true : false;
-//    return (source_is_13 && neighbor_is_31);
-//}
+inline auto is_26_movable(const Cell_handle c, std::uintmax_t i) {
+    // Source cell should be a 13
+    auto source_is_13 = (c->info() == 13) ? true : false;
+    // Neighbor should be a 31
+    auto neighbor_is_31 = (c->neighbor(i)->info() == 31) ? true : false;
+    return (source_is_13 && neighbor_is_31);
+}
 
 /// @brief Find a (2,6) move
 ///
@@ -198,22 +196,21 @@ auto make_32_move(T1&& universe,
 /// @param[in] c The (1,3) simplex that is checked
 /// @param[out] n The integer value of the neighboring (3,1) simplex
 /// @returns **True** if the (2,6) move is possible
-// \todo: Fix find_26_movable()
-//inline auto find_26_movable(const Cell_handle c, std::uintmax_t *n) {
-//    auto movable = false;
-//    for (auto i = 0; i < 4; ++i) {
-//        #ifndef NDEBUG
-//        std::cout << "Neighbor " << i << " is of type "
-//        << c->neighbor(i)->info() << std::endl;
-//        #endif
-//        // Check all neighbors for a (3,1) simplex
-//        if (is_26_movable(c, i)) {
-//            *n = i;
-//            movable = true;
-//        }
-//    }
-//    return movable;
-//}  // find_26_movable()
+inline auto find_26_movable(const Cell_handle c, std::uintmax_t *n) {
+    auto movable = false;
+    for (auto i = 0; i < 4; ++i) {
+        #ifndef NDEBUG
+        std::cout << "Neighbor " << i << " is of type "
+        << c->neighbor(i)->info() << std::endl;
+        #endif
+        // Check all neighbors for a (3,1) simplex
+        if (is_26_movable(c, i)) {
+            *n = i;
+            movable = true;
+        }
+    }
+    return movable;
+}  // find_26_movable()
 
 /// @brief Make a (2,6) move
 ///
@@ -223,7 +220,7 @@ auto make_32_move(T1&& universe,
 /// of 8 timelike edges and 6 spacelike edges.
 ///
 /// This function performs the (2,6) move by picking a random (1,3) simplex
-/// from **simplex_types**. The **find_26_movable()** function finds the
+/// from GeometryInfo. The **find_26_movable()** function finds the
 /// index of the neighboring (3,1) simplex, **neighboring_31_index**, and
 /// **has_neighbor()** is used to check the results.
 ///
@@ -237,156 +234,158 @@ auto make_32_move(T1&& universe,
 /// @image html 26.png
 /// @image latex 26.eps width=7cm
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in,out] universe A SimplicialManifold
 /// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
 /// and (1,3) simplices
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
-/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
-/// the move has been made
+/// @returns universe_ptr The SimplicialManifold after the move has been made
 // \todo: Fix make_26_move()
-//template<typename T1, typename T2, typename T3>
-//auto make_26_move(T1 &&universe_ptr,
-//                  T2 &&simplex_types,
-//                  T3 &&attempted_moves)
-//-> decltype(universe_ptr) {
-//    #ifndef NDEBUG
-//    std::cout << "Attempting (2,6) move." << std::endl;
-//    #endif
-//
-//    auto not_moved = true;
-//    while (not_moved) {
-//        // Pick out a random (1,3) from simplex_types
-//        auto choice =
-//                generate_random_unsigned(0, std::get<2>(simplex_types).size() - 1);
-//
-//        std::uintmax_t neighboring_31_index{5};
-//        Cell_handle bottom = std::get<2>(simplex_types)[choice];
-//
-//        CGAL_triangulation_expensive_precondition(is_cell(bottom));
-//
-//        find_26_movable(bottom, &neighboring_31_index);
-//
-//        // If neighboring_31_index == 5 there's an error
-//        CGAL_triangulation_postcondition(neighboring_31_index != 5);
-//
-//        #ifndef NDEBUG
-//        std::cout << "neighboring_31_index is " << neighboring_31_index
-//        << std::endl;
-//        #endif
-//
-//        Cell_handle top = bottom->neighbor(neighboring_31_index);
-//        // Check
-//        // has_neighbor() returns the index of the common face
-//        int common_face_index{5};
-//        bottom->has_neighbor(top, common_face_index);
-//
-//        #ifndef NDEBUG
-//        std::cout << "bottom's common_face_index with top is "
-//        << common_face_index << std::endl;
-//        #endif
-//
-//        // If common_face_index == 5 there's an error
-//        CGAL_triangulation_postcondition(common_face_index != 5);
-//
-//        int mirror_common_face_index{5};
-//        top->has_neighbor(bottom, mirror_common_face_index);
-//
-//        #ifndef NDEBUG
-//        std::cout << "top's mirror_common_face_index with bottom is "
-//        << mirror_common_face_index << std::endl;
-//        #endif
-//
-//        // If mirror_common_face_index == 5 there's an error
-//        CGAL_triangulation_postcondition(mirror_common_face_index != 5);
-//
-//        // Get indices of vertices of common face with respect to bottom cell
-//        int i1 = (common_face_index + 1) & 3;
-//        int i2 = (common_face_index + 2) & 3;
-//        int i3 = (common_face_index + 3) & 3;
-//
-//        // Get indices of vertices of common face with respect to top cell
-//        int in1 = top->index(bottom->vertex(i1));
-//        // int in2 = top->index(bottom->vertex(i2));
-//        // int in3 = top->index(bottom->vertex(i3));
-//
-//        // Get vertices of the common face
-//        // They're denoted wrt the bottom, but could easily be wrt to top
-//        Vertex_handle v1 = bottom->vertex(i1);
-//        Vertex_handle v2 = bottom->vertex(i2);
-//        Vertex_handle v3 = bottom->vertex(i3);
-//
-//        // Timeslices of v1, v2, and v3 should be same
-//        CGAL_triangulation_precondition(v1->info() == v2->info());
-//        CGAL_triangulation_precondition(v1->info() == v3->info());
-//
-//        #ifndef NDEBUG
-//        Vertex_handle v5 = top->vertex(in1);
-//        (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
-//                     << std::endl
-//                   : std::cout
-//                     << "bottom->vertex(i1) != top->vertex(in1)"
-//                     << std::endl;
-//        #endif
-//
-//        // Is there a neighboring (3,1) simplex?
-//        if (find_26_movable(bottom, &neighboring_31_index)) {
-//            #ifndef NDEBUG
-//            std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
-//            std::cout << "The neighboring simplex " << neighboring_31_index
-//            << " is of type "
-//            << bottom->neighbor(neighboring_31_index)->info()
-//            << std::endl;
-//            #endif
-//
-//            // Do the (2,6) move
-//            // Insert new vertex
-//            Vertex_handle v_center =
-//                    universe_ptr->tds().insert_in_facet(bottom, neighboring_31_index);
-//
-//            // Find the center of the facet
-//            // A vertex is a topological object which may be associated with a point,
-//            // which is a geometrical object.
-//            auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
-//
-//            #ifndef NDEBUG
-//            std::cout << "Center point is: " << center_point << std::endl;
-//            v_center->set_point(center_point);
-//            #endif
-//
-//            // Assign a timeslice to the new vertex
-//            auto timeslice = v1->info();
-//            v_center->info() = timeslice;
-//
-//            #ifndef NDEBUG
-//            // Check we have a vertex
-//            if (universe_ptr->tds().is_vertex(v_center)) {
-//                std::cout << "It's a vertex in the TDS." << std::endl;
-//            } else {
-//                std::cout << "It's not a vertex in the TDS." << std::endl;
-//            }
-//            std::cout << "Spacelike face timeslice is " << timeslice << std::endl;
-//            std::cout << "Inserted vertex " << v_center->point()
-//            << " with timeslice " << v_center->info()
-//            << std::endl;
-//            #endif
-//
-//            CGAL_triangulation_postcondition(universe_ptr->tds().is_valid(v_center,
-//                                                                          true, 1));
-//            not_moved = false;
-//        } else {
-//            #ifndef NDEBUG
-//            std::cout << "(1,3) simplex " << choice << " was not movable."
-//            << std::endl;
-//            #endif
-//        }
-//        // Increment the (2,6) move counter
-//        ++std::get<2>(attempted_moves);
-//        // Erase the attempted (1,3) simplex from simplex_types
-//        std::get<2>(simplex_types).erase(std::get<2>(simplex_types).begin() + choice);
-//    }
-//    return universe_ptr;
-//}  // make_26_move()
+template<typename T1, typename T2>
+auto make_26_move(T1&& universe,
+                  T2&& attempted_moves)
+                  -> decltype(universe) {
+    #ifndef NDEBUG
+    std::cout << "Attempting (2,6) move." << std::endl;
+    #endif
+
+    auto not_moved = true;
+    while (not_moved) {
+        // Pick out a random (1,3) from simplex_types
+        auto choice =
+            generate_random_unsigned(0,
+                                     universe.geometry.one_three.size() - 1);
+
+        std::uintmax_t neighboring_31_index{5};
+        Cell_handle bottom = universe.geometry.one_three[choice];
+
+        CGAL_triangulation_expensive_precondition(is_cell(bottom));
+
+        find_26_movable(bottom, &neighboring_31_index);
+
+        // If neighboring_31_index == 5 there's an error
+        CGAL_triangulation_postcondition(neighboring_31_index != 5);
+
+        #ifndef NDEBUG
+        std::cout << "neighboring_31_index is " << neighboring_31_index
+            << std::endl;
+        #endif
+
+        Cell_handle top = bottom->neighbor(neighboring_31_index);
+
+        // Check has_neighbor() returns the index of the common face
+        int common_face_index{5};
+        bottom->has_neighbor(top, common_face_index);
+
+        #ifndef NDEBUG
+        std::cout << "bottom's common_face_index with top is "
+        << common_face_index << std::endl;
+        #endif
+
+        // If common_face_index == 5 there's an error
+        CGAL_triangulation_postcondition(common_face_index != 5);
+
+        int mirror_common_face_index{5};
+        top->has_neighbor(bottom, mirror_common_face_index);
+
+        #ifndef NDEBUG
+        std::cout << "top's mirror_common_face_index with bottom is "
+            << mirror_common_face_index << std::endl;
+        #endif
+
+        // If mirror_common_face_index == 5 there's an error
+        CGAL_triangulation_postcondition(mirror_common_face_index != 5);
+
+        // Get indices of vertices of common face with respect to bottom cell
+        int i1 = (common_face_index + 1) & 3;
+        int i2 = (common_face_index + 2) & 3;
+        int i3 = (common_face_index + 3) & 3;
+
+        // Get indices of vertices of common face with respect to top cell
+        int in1 = top->index(bottom->vertex(i1));
+        // int in2 = top->index(bottom->vertex(i2));
+        // int in3 = top->index(bottom->vertex(i3));
+
+        // Get vertices of the common face
+        // They're denoted wrt the bottom, but could easily be wrt to top
+        Vertex_handle v1 = bottom->vertex(i1);
+        Vertex_handle v2 = bottom->vertex(i2);
+        Vertex_handle v3 = bottom->vertex(i3);
+
+        // Timeslices of v1, v2, and v3 should be same
+        CGAL_triangulation_precondition(v1->info() == v2->info());
+        CGAL_triangulation_precondition(v1->info() == v3->info());
+
+        #ifndef NDEBUG
+        Vertex_handle v5 = top->vertex(in1);
+        (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)"
+            << std::endl
+                   : std::cout
+            << "bottom->vertex(i1) != top->vertex(in1)" << std::endl;
+        #endif
+
+        // Is there a neighboring (3,1) simplex?
+        if (find_26_movable(bottom, &neighboring_31_index)) {
+            #ifndef NDEBUG
+            std::cout << "(1,3) simplex " << choice << " is movable."
+                << std::endl;
+            std::cout << "The neighboring simplex " << neighboring_31_index
+                << " is of type "
+                << bottom->neighbor(neighboring_31_index)->info()
+                << std::endl;
+            #endif
+
+            // Do the (2,6) move
+            // Insert new vertex
+            Vertex_handle v_center =
+                universe.triangulation->tds().insert_in_facet(bottom,
+                                                   neighboring_31_index);
+
+            // Find the center of the facet
+            // A vertex is a topological object which may be associated with a
+            // point, which is a geometrical object.
+            auto center_point = CGAL::centroid(v1->point(), v2->point(),
+                                               v3->point());
+
+            #ifndef NDEBUG
+            std::cout << "Center point is: " << center_point << std::endl;
+            v_center->set_point(center_point);
+            #endif
+
+            // Assign a timeslice to the new vertex
+            auto timeslice = v1->info();
+            v_center->info() = timeslice;
+
+            #ifndef NDEBUG
+            // Check we have a vertex
+            if (universe.triangulation->tds().is_vertex(v_center)) {
+                std::cout << "It's a vertex in the TDS." << std::endl;
+            } else {
+                std::cout << "It's not a vertex in the TDS." << std::endl;
+            }
+
+            std::cout << "Spacelike face timeslice is " << timeslice
+                << std::endl;
+            std::cout << "Inserted vertex " << v_center->point()
+                << " with timeslice " << v_center->info() << std::endl;
+            #endif
+
+            CGAL_triangulation_postcondition(universe.triangulation
+                                                     ->tds()
+                                                     .is_valid(v_center,
+                                                               true, 1));
+            not_moved = false;
+        } else {
+            #ifndef NDEBUG
+            std::cout << "(1,3) simplex " << choice << " was not movable."
+            << std::endl;
+            #endif
+        }
+        // Increment the (2,6) move counter
+        ++std::get<2>(attempted_moves);
+    }
+    return universe;
+}  // make_26_move()
 
 /// @brief Make a (6,2) move
 ///
@@ -400,23 +399,23 @@ auto make_32_move(T1&& universe,
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-template<typename T1, typename T2, typename T3>
-auto make_62_move(T1 &&universe_ptr,
-                  T2 &&edge_types,
-                  T3 &&attempted_moves)
--> decltype(universe_ptr) {
-    auto not_moved = true;
-    while (not_moved) {
-        // do something
-
-        // Ensure conditions are satisfied
-        CGAL_triangulation_precondition((universe_ptr->dimension() == 3));
-        CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
-
-        not_moved = false;
-    }
-    return universe_ptr;
-}  // make_62_move()
+//template<typename T1, typename T2, typename T3>
+//auto make_62_move(T1 &&universe_ptr,
+//                  T2 &&edge_types,
+//                  T3 &&attempted_moves)
+//-> decltype(universe_ptr) {
+//    auto not_moved = true;
+//    while (not_moved) {
+//        // do something
+//
+//        // Ensure conditions are satisfied
+//        CGAL_triangulation_precondition((universe_ptr->dimension() == 3));
+//        CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
+//
+//        not_moved = false;
+//    }
+//    return universe_ptr;
+//}  // make_62_move()
 
 // /// @brief Finds the disjoint index
 // ///
