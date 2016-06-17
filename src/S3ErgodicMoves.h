@@ -40,15 +40,14 @@
 
 /// @brief Try a (2,3) move
 ///
-/// This function performs the (2,3) move by converting a facet
-/// from a (2,2) simplex in the (2,2) vector of the simplex_types tuple
-/// into its dual edge.
+/// This function performs the (2,3) move by converting the facet
+/// between a (3,1) simplex and a (2,2) simplex into its dual edge.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in] to_be_moved  The Cell_handle that is tried
+/// @param[in,out] universe A SimplicialManifold
+/// @param[in] to_be_moved  The **Cell_handle** that is tried
 /// @returns  flipped  A boolean value whether the move succeeded
-template<typename T1>
-auto try_23_move(T1&& universe, Cell_handle to_be_moved) {
+template<typename T>
+auto try_23_move(T&& universe, Cell_handle to_be_moved) {
     auto flipped = false;
     for (auto i = 0; i < 4; ++i) {
         if (universe.triangulation->flip(to_be_moved, i)) {
@@ -74,13 +73,10 @@ auto try_23_move(T1&& universe, Cell_handle to_be_moved) {
 /// This function calls **try_23_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
-/// @param[in,out] simplex_types A tuple of vectors of (3,1),(2,2),
-/// and (1,3) simplices
+/// @param[in,out] universe A SimplicialManifold
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
-/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
-/// the move has been made
+/// @returns universe The SimplicialManifold after the move has been made
 template<typename T1, typename T2>
 auto make_23_move(T1&& universe,
                   T2&& attempted_moves)
@@ -100,18 +96,6 @@ auto make_23_move(T1&& universe,
 
         // Increment the (2,3) move counter
         ++std::get<0>(attempted_moves);
-        // Erase the tried (2,2) simplex from simplex_types
-//        std::get<1>(simplex_types).erase(std::get<1>(simplex_types).begin()
-//                                         + choice);
-//        #ifndef NDEBUG
-//        std::cout << "(2,2) simplex " << choice
-//        << " was removed from std::get<1>(simplex_types)"
-//        << std::endl;
-//        std::cout
-//        << "Remaining number of potentially movable (2,2) simplices = "
-//        << std::get<1>(simplex_types).size()
-//        << std::endl;
-//        #endif
     }
     // Uses return value optimization and allows chaining function calls
     return std::move(universe);
@@ -122,20 +106,19 @@ auto make_23_move(T1&& universe,
 /// This function performs a foliation-preserving (3,2) move by converting
 /// timelike edge into it's dual facet.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in,out] universe A SimplicialManifold
 /// @param[in] to_be_moved  The Edge_handle that is tried
 /// @returns  flipped  A boolean value whether the move succeeded
-// \todo: Fix try_32_move()
-//template<typename T1>
-//auto try_32_move(T1 &&universe_ptr, Edge_handle to_be_moved) {
-//    auto flipped = false;
-//    if (universe_ptr->flip(std::get<0>(to_be_moved),
-//                           std::get<1>(to_be_moved),
-//                           std::get<2>(to_be_moved))) {
-//        flipped = true;
-//    }
-//    return flipped;
-//}  // try_32_move()
+template<typename T>
+auto try_32_move(T&& universe, Edge_handle to_be_moved) {
+    auto flipped = false;
+    if (universe.triangulation->flip(std::get<0>(to_be_moved),
+                                     std::get<1>(to_be_moved),
+                                     std::get<2>(to_be_moved))) {
+        flipped = true;
+    }
+    return flipped;
+}  // try_32_move()
 
 /// @brief Make a (3,2) move
 ///
@@ -144,56 +127,46 @@ auto make_23_move(T1&& universe,
 /// This function calls **try_32_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
-/// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation
+/// @param[in,out] universe A SimplicialManifold
 /// @param[in,out] edge_types A pair<vector<Edge_handle>, std::uintmax_t>
 /// holding the timelike edges and a count of the spacelike edges
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
-/// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
-/// the move has been made
-// \todo: Fix make_32_move()
-//template<typename T1, typename T2, typename T3>
-//auto make_32_move(T1 &&universe_ptr,
-//                  T2 &&edge_types,
-//                  T3 &&attempted_moves)
-//-> decltype(universe_ptr) {
-//    #ifndef NDEBUG
-//    std::cout << "Attempting (3,2) move." << std::endl;
-//    #endif
-//
-//    auto not_flipped = true;
-//    while (not_flipped) {
-//        // Pick a random timelike edge out of the timelike_edges vector
-//        // which ranges from 0 to size()-1
-//        auto choice = generate_random_unsigned(0, edge_types.first.size() - 1);
-//        Edge_handle to_be_moved = edge_types.first[choice];
-//
-//        if (try_32_move(universe_ptr, to_be_moved)) {
-//            #ifndef NDEBUG
-//            std::cout << "Edge " << choice << " was flippable." << std::endl;
-//            #endif
-//            not_flipped = false;
-//        } else {
-//            #ifndef NDEBUG
-//            std::cout << "Edge " << choice << " was not flippable." << std::endl;
-//            #endif
-//        }
-//        // Increment the (3,2) move counter
-//        ++std::get<1>(attempted_moves);
-//        // Erase the attempted edge from timelike_edges
-//        edge_types.first.erase(edge_types.first.begin() + choice);
-//
-//        #ifndef NDEBUG
-//        std::cout << "Edge " << choice
-//        << " was removed from edge_types.first." << std::endl;
-//        std::cout << "Remaining number of potentially flippable timelike edges = "
-//        << edge_types.first.size()
-//        << std::endl;
-//        #endif
-//    }
-//    // Uses return value optimization and allows chaining function calls
-//    return universe_ptr;
-//}  // make_32_move()
+/// @returns universe A SimplicialManifold after the move has been made
+template<typename T1, typename T2>
+auto make_32_move(T1&& universe,
+                  T2&& attempted_moves)
+                  -> decltype(universe) {
+    #ifndef NDEBUG
+    std::cout << "Attempting (3,2) move." << std::endl;
+    #endif
+
+    auto not_flipped = true;
+    while (not_flipped) {
+        // Pick a random timelike edge out of the timelike_edges vector
+        // which ranges from 0 to size()-1
+        auto choice =
+            generate_random_unsigned(0,
+                                     universe.geometry.timelike_edges.size()-1);
+        Edge_handle to_be_moved = universe.geometry.timelike_edges[choice];
+
+        if (try_32_move(universe, to_be_moved)) {
+            #ifndef NDEBUG
+            std::cout << "Edge " << choice << " was flippable." << std::endl;
+            #endif
+            not_flipped = false;
+        } else {
+            #ifndef NDEBUG
+            std::cout << "Edge " << choice << " was not flippable."
+                      << std::endl;
+            #endif
+        }
+        // Increment the (3,2) move counter
+        ++std::get<1>(attempted_moves);
+    }
+    // Uses return value optimization and allows chaining function calls
+    return std::move(universe);
+}  // make_32_move()
 
 
 /// @brief Check a (2,6) move

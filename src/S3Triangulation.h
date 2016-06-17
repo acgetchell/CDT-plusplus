@@ -640,10 +640,10 @@ struct SimplicialManifold {
       return *this;
   }
 
-  /// Copy constructor
+  /// Default copy constructor
   SimplicialManifold(const SimplicialManifold&) = default;
 
-  /// Copy assignment operator
+  /// Default copy assignment operator
   SimplicialManifold& operator=(const SimplicialManifold&) = default;
 };
 
