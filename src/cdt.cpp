@@ -39,8 +39,8 @@
 #include "Metropolis.h"
 
 /// Help message parsed by docopt into options
-static const char USAGE[] {
-R"(Causal Dynamical Triangulations in C++ using CGAL.
+static const char USAGE[]{
+        R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2016 Adam Getchell
 
@@ -76,133 +76,138 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char* const argv[]) {
-  try {
-    // Start running time
-    CGAL::Real_timer t;
-    t.start();
+int main(int argc, char *const argv[]) {
+    try {
+        // Start running time
+        CGAL::Real_timer t;
+        t.start();
 
-    // docopt option parser
-    std::map<std::string, docopt::value> args
-      = docopt::docopt(USAGE,
-                       { argv + 1, argv + argc},
-                       true,          // print help message automatically
-                       "CDT 1.0");    // Version
+        // docopt option parser
+        std::map<std::string, docopt::value> args
+                = docopt::docopt(USAGE,
+                                 {argv + 1, argv + argc},
+                                 true,      // print help message automatically
+                                 "CDT 1.0"); // Version
 
-    // Debugging
-    // for (auto const& arg : args) {
-    //   std::cout << arg.first << " " << arg.second << std::endl;
-    // }
+        // Debugging
+        // for (auto const& arg : args) {
+        //   std::cout << arg.first << " " << arg.second << std::endl;
+        // }
 
-    // Parse docopt::values in args map
-    auto simplices = std::stoul(args["-n"].asString());
-    auto timeslices = std::stoul(args["-t"].asString());
-    auto dimensions = std::stoul(args["-d"].asString());
-    auto alpha = std::stold(args["--alpha"].asString());
-    auto k = std::stold(args["-k"].asString());
-    auto lambda = std::stold(args["--lambda"].asString());
-    auto passes = std::stoul(args["--passes"].asString());
-    auto checkpoint = std::stoul(args["--checkpoint"].asString());
+        // Parse docopt::values in args map
+        auto simplices = std::stoul(args["-n"].asString());
+        auto timeslices = std::stoul(args["-t"].asString());
+        auto dimensions = std::stoul(args["-d"].asString());
+        auto alpha = std::stold(args["--alpha"].asString());
+        auto k = std::stold(args["-k"].asString());
+        auto lambda = std::stold(args["--lambda"].asString());
+        auto passes = std::stoul(args["--passes"].asString());
+        auto checkpoint = std::stoul(args["--checkpoint"].asString());
 
-    // Topology of simulation
-    topology_type topology;
-    if (args["--spherical"].asBool() == true) {
-      topology = topology_type::SPHERICAL;
-    } else {
-      topology = topology_type::TOROIDAL;
-    }
-
-    // Display job parameters
-    std::cout << "Topology is "
-      << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
-      << std::endl;
-    std::cout << "Number of dimensions = " << dimensions << std::endl;
-    std::cout << "Number of simplices = " << simplices << std::endl;
-    std::cout << "Number of timeslices = " << timeslices << std::endl;
-    std::cout << "Alpha = " << alpha << std::endl;
-    std::cout << "K = " << k << std::endl;
-    std::cout << "Lambda = " << lambda << std::endl;
-    std::cout << "Number of passes = " << passes << std::endl;
-    std::cout << "Checkpoint every n passes = " << checkpoint
-              << std::endl;
-    std::cout << "User = " << getEnvVar("USER") << std::endl;
-    std::cout << "Hostname = " << hostname() << std::endl;
-
-    // Initialize spherical Delaunay triangulation
-    Delaunay universe;
-    auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-
-    // Ensure Triangle inequalities hold
-    // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && std::abs(alpha) < 0.5) {
-      t.stop();  // End running time counter
-      throw std::domain_error("Alpha in 3D should be greater than 1/2.");
-    }
-
-    switch (topology) {
-      case topology_type::SPHERICAL:
-        if (dimensions == 3) {
-          universe_ptr = std::move(make_triangulation(simplices, timeslices));
+        // Topology of simulation
+        topology_type topology;
+        if (args["--spherical"].asBool()) {
+            topology = topology_type::SPHERICAL;
         } else {
-          t.stop();  // End running time counter
-          throw std::invalid_argument("Currently, dimensions cannot be >3.");
+            topology = topology_type::TOROIDAL;
         }
-        break;
-      case topology_type::TOROIDAL:
+
+        // Display job parameters
+        std::cout << "Topology is "
+        << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
+        << std::endl;
+        std::cout << "Number of dimensions = " << dimensions << std::endl;
+        std::cout << "Number of simplices = " << simplices << std::endl;
+        std::cout << "Number of timeslices = " << timeslices << std::endl;
+        std::cout << "Alpha = " << alpha << std::endl;
+        std::cout << "K = " << k << std::endl;
+        std::cout << "Lambda = " << lambda << std::endl;
+        std::cout << "Number of passes = " << passes << std::endl;
+        std::cout << "Checkpoint every n passes = " << checkpoint
+        << std::endl;
+        std::cout << "User = " << getEnvVar("USER") << std::endl;
+        std::cout << "Hostname = " << hostname() << std::endl;
+
+        // Initialize spherical Delaunay triangulation
+        Delaunay universe;
+        auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+
+        // Ensure Triangle inequalities hold
+        // See http://arxiv.org/abs/hep-th/0105267 for details
+        if (dimensions == 3 && std::abs(alpha) < 0.5) {
+            t.stop();  // End running time counter
+            throw std::domain_error("Alpha in 3D should be greater than 1/2.");
+        }
+
+        switch (topology) {
+            case topology_type::SPHERICAL:
+                if (dimensions == 3) {
+                    universe_ptr = std::move(
+                            make_triangulation(simplices, timeslices));
+                } else {
+                    t.stop();  // End running time counter
+                    throw std::invalid_argument(
+                            "Currently, dimensions cannot be >3.");
+                }
+                break;
+            case topology_type::TOROIDAL:
+                t.stop();  // End running time counter
+                throw std::invalid_argument(
+                        "Toroidal triangulations not yet supported.");  // NOLINT
+            default:
+                assert(!"cdt.cpp should never get here!");
+        }
+
+        if (!fix_timeslices(universe_ptr)) {
+            t.stop();  // End running time counter
+            throw std::logic_error(
+                    "Delaunay triangulation not correctly foliated.");
+        }
+
+        std::cout << "Universe has been initialized ..." << std::endl;
+        std::cout << "Now performing " << passes << " passes of ergodic moves."
+        << std::endl;
+
+        // The main work of the program
+        // \todo: add strong exception-safety guarantee on Metropolis functor
+        Metropolis simulation(alpha, k, lambda, passes, checkpoint);
+        // \todo: Fix Metropolis call operator
+//    auto result = std::move(simulation(universe_ptr));
+        auto result = SimplicialManifold(simplices, timeslices);
+        // Output results
         t.stop();  // End running time counter
-        throw std::invalid_argument("Toroidal triangulations not yet supported.");  // NOLINT
-      default:
-        assert(!"cdt.cpp should never get here!");
+        std::cout << "Final Delaunay triangulation has ";
+        print_results(result, t);
+
+        // Write results to file
+        // Strong exception-safety guarantee
+        // \todo: Fixup so that cell->info() and vertex->info() values
+        //                   are written
+        write_file(result,
+                   topology,
+                   dimensions,
+                   result.triangulation->number_of_finite_cells(),
+                   timeslices);
+
+        return 0;
     }
-
-    if (!fix_timeslices(universe_ptr)) {
-      t.stop();  // End running time counter
-      throw std::logic_error("Delaunay triangulation not correctly foliated.");
+    catch (std::domain_error &DomainError) {
+        std::cerr << DomainError.what() << std::endl;
+        std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
+        return 1;
     }
-
-    std::cout << "Universe has been initialized ..." << std::endl;
-    std::cout << "Now performing " << passes << " passes of ergodic moves."
-              << std::endl;
-
-    // The main work of the program
-    // TODO(Adam): add strong exception-safety guarantee on Metropolis functor
-    Metropolis simulation(alpha, k, lambda, passes, checkpoint);
-    auto result = std::move(simulation(universe_ptr));
-
-    // Output results
-    t.stop();  // End running time counter
-    std::cout << "Final Delaunay triangulation has ";
-    print_results(result, t);
-
-    // Write results to file
-    // Strong exception-safety guarantee
-    // TODO(acgetchell): Fixup so that cell->info() and vertex->info() values
-    //                   are written
-    write_file(result,
-               topology,
-               dimensions,
-               result->number_of_finite_cells(),
-               timeslices);
-
-    return 0;
-  }
-  catch (std::domain_error& DomainError) {
-    std::cerr << DomainError.what() << std::endl;
-    std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
-    return 1;
-  }
-  catch (std::invalid_argument& InvalidArgument) {
-    std::cerr << InvalidArgument.what() << std::endl;
-    std::cerr << "Invalid parameter ... Exiting." << std::endl;
-    return 1;
-  }
-  catch (std::logic_error& LogicError) {
-    std::cerr << LogicError.what() << std::endl;
-    std::cerr << "Simulation startup failed ... Exiting." << std::endl;
-    return 1;
-  }
-  catch (...) {
-    std::cerr << "Something went wrong ... Exiting." << std::endl;
-    return 1;
-  }
+    catch (std::invalid_argument &InvalidArgument) {
+        std::cerr << InvalidArgument.what() << std::endl;
+        std::cerr << "Invalid parameter ... Exiting." << std::endl;
+        return 1;
+    }
+    catch (std::logic_error &LogicError) {
+        std::cerr << LogicError.what() << std::endl;
+        std::cerr << "Simulation startup failed ... Exiting." << std::endl;
+        return 1;
+    }
+    catch (...) {
+        std::cerr << "Something went wrong ... Exiting." << std::endl;
+        return 1;
+    }
 }

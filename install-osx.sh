@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# Install gcc 5.3
+# Install gcc 6.1
 if [[ "$CXX" = "g++" ]]; then brew install gcc; fi
-if [[ "$CXX" = "g++" ]]; then export CXX="g++-5" CC="gcc-5"; fi
+if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
 
 brew install cmake
 brew install ninja
