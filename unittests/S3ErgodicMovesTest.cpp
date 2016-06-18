@@ -25,7 +25,6 @@ class S3ErgodicMoveTest : public Test {
   S3ErgodicMoveTest() : universe_(std::move(make_triangulation(6400, 17))),
                         movable_simplex_types_(classify_simplices(universe_)),
                         movable_edge_types_(classify_edges(universe_)),
-                        movable_vertex_types_(group_vertices(universe_)),
                         attempted_moves_(std::make_tuple(0, 0, 0, 0, 0)),
                         number_of_vertices_(universe_->number_of_vertices()) {}
 
@@ -68,8 +67,6 @@ class S3ErgodicMoveTest : public Test {
   ///< Movable (3,1), (2,2), and (1,3) simplices.
   std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
-  std::std::vector<Vertex_handle> movable_vertex_types_;
-  ///< A list of all Vertex_handle in a triangulation.
   Move_tuple attempted_moves_;
   ///< A count of all attempted moves.
   std::uintmax_t number_of_vertices_;
@@ -318,9 +315,8 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
     << "A vertex was not added to the triangulation.";
 }
 
-TEST_F(S3ErgodicMovesTest, MakeA62Move){
+TEST_F(S3ErgodicMoveTest, MakeA62Move){
   universe_ = std::move(make_62_move(universe_,
-                                     movable_vertex_types_,
                                      attempted_moves_));
   std::cout << "Attempted (6,2) moves = " << std::get<3>(attempted_moves_)
                                           << std::endl;
@@ -342,14 +338,14 @@ TEST_F(S3ErgodicMovesTest, MakeA62Move){
   EXPECT_TRUE(fix_timeslices(universe_))
     << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(N3_31_after, Eq(N3_31_before - 3))
-    << "(3,1) simplices did not decrease by 3.";
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before - 2))
+    << "(3,1) simplices did not decrease by 2.";
 
   EXPECT_THAT(N3_22_after, Eq(N3_22_before))
     << "(2,2) simplices changed.";
 
-  EXPECT_THAT(N3_13_after, Eq(N3_13_before - 3))
-    << "(1,3) simplices did not decrease by 3.";
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before - 2))
+    << "(1,3) simplices did not decrease by 2.";
 
   EXPECT_THAT(edge_types.first.size(), Eq(timelike_edges - 2))
     << "Timelike edges did not decrease by 2.";
