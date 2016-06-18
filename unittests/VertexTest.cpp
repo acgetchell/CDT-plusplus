@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014-16 Adam Getchell
+/// Copyright (c) 2014-2016 Adam Getchell
 ///
 /// Tests for inserting and deleting vertices.
 
@@ -16,11 +16,8 @@
 using namespace testing;  // NOLINT
 
 TEST(Vertex, Insert) {
-//  Delaunay universe;
-//  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
   SimplicialManifold universe;
 
-//  Vertex_handle v0 = universe_ptr->insert(Point(0, 0, 0));
   universe.triangulation->insert(Point(0, 0, 0));
 
   EXPECT_THAT(universe.triangulation->number_of_vertices(), Eq(1))
@@ -29,7 +26,6 @@ TEST(Vertex, Insert) {
   EXPECT_THAT(universe.triangulation->dimension(), Eq(0))
     << "Inserting 1 point should make dimension 0.";
 
-//  Vertex_handle v1 = universe_ptr->insert(Point(1, 0, 0));
   universe.triangulation->insert(Point(1, 0, 0));
 
   EXPECT_THAT(universe.triangulation->number_of_vertices(), Eq(2))
@@ -38,7 +34,6 @@ TEST(Vertex, Insert) {
   EXPECT_THAT(universe.triangulation->dimension(), Eq(1))
     << "Inserting 2 points should make dimension 1.";
 
-//  Vertex_handle v2 = universe_ptr->insert(Point(0, 1, 0));
   universe.triangulation->insert(Point(0, 1, 0));
 
   EXPECT_THAT(universe.triangulation->number_of_vertices(), Eq(3))
@@ -47,7 +42,6 @@ TEST(Vertex, Insert) {
   EXPECT_THAT(universe.triangulation->dimension(), Eq(2))
     << "Inserting 3 points should make dimension 2.";
 
-//  Vertex_handle v3 = universe_ptr->insert(Point(0, 0, 1));
   universe.triangulation->insert(Point(0, 0, 1));
 
   EXPECT_THAT(universe.triangulation->number_of_vertices(), Eq(4))
@@ -56,8 +50,6 @@ TEST(Vertex, Insert) {
   EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
     << "Dimensionality after 4 points should still be 3.";
 
-//  Vertex_handle v4 = universe_ptr->insert(Point(2, 2, 2));
-//  Vertex_handle v5 = universe_ptr->insert(Point(-1, 0, 1));
   universe.triangulation->insert(Point(2, 2, 2));
   universe.triangulation->insert(Point(-1, 0, 1));
 
@@ -66,12 +58,4 @@ TEST(Vertex, Insert) {
 
   EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
     << "Dimensionality after 6 points should still be 3.";
-
-  // Now we can link the vertices as we like.
-  // v0->Vertex_handle = v1;
-  // v1->Vertex_handle = v2;
-  // v2->Vertex_handle = v3;
-  // v3->Vertex_handle = v4;
-  // v4->Vertex_handle = v5;
-  // v5->Vertex_handle = v0;
 }

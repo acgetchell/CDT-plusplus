@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014, 2015, 2016 Adam Getchell
+/// Copyright (c) 2014-2016 Adam Getchell
 ///
 /// Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.
 ///
@@ -239,8 +239,7 @@ inline auto find_26_movable(const Cell_handle c, std::uintmax_t *n) {
 /// and (1,3) simplices
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
-/// @returns universe_ptr The SimplicialManifold after the move has been made
-// \todo: Fix make_26_move()
+/// @returns universe The SimplicialManifold after the move has been made
 template<typename T1, typename T2>
 auto make_26_move(T1&& universe,
                   T2&& attempted_moves)
@@ -279,7 +278,7 @@ auto make_26_move(T1&& universe,
 
         #ifndef NDEBUG
         std::cout << "bottom's common_face_index with top is "
-        << common_face_index << std::endl;
+            << common_face_index << std::endl;
         #endif
 
         // If common_face_index == 5 there's an error
@@ -338,13 +337,14 @@ auto make_26_move(T1&& universe,
             // Do the (2,6) move
             // Insert new vertex
             Vertex_handle v_center =
-                universe.triangulation->tds().insert_in_facet(bottom,
-                                                   neighboring_31_index);
+                universe.triangulation->tds()
+                        .insert_in_facet(bottom, neighboring_31_index);
 
             // Find the center of the facet
             // A vertex is a topological object which may be associated with a
             // point, which is a geometrical object.
-            auto center_point = CGAL::centroid(v1->point(), v2->point(),
+            auto center_point = CGAL::centroid(v1->point(),
+                                               v2->point(),
                                                v3->point());
 
             #ifndef NDEBUG
@@ -378,13 +378,13 @@ auto make_26_move(T1&& universe,
         } else {
             #ifndef NDEBUG
             std::cout << "(1,3) simplex " << choice << " was not movable."
-            << std::endl;
+                << std::endl;
             #endif
         }
         // Increment the (2,6) move counter
         ++std::get<2>(attempted_moves);
     }
-    return universe;
+    return std::move(universe);
 }  // make_26_move()
 
 /// @brief Make a (6,2) move
