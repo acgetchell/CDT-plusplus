@@ -167,7 +167,7 @@ class Metropolis {
            FourFourMoves();
   }
 
-  /// Gets the vector of **Edge_tuples** corresponding to
+  /// Gets the vector of **Edge_handles** corresponding to
   /// movable timelike edges.
   auto MovableTimelikeEdges() const noexcept {return movable_edge_types_.first;}
 
@@ -391,7 +391,7 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(2,3) move" << std::endl;
         #endif
-        make_23_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
+        make_23_move(std::move(universe_ptr_), attempted_moves_);
         // make_23_move() increments attempted_moves_
         // Increment N3_22_, N1_TL_ and successful_moves_
         ++N3_22_;
@@ -402,7 +402,8 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(3,2) move" << std::endl;
         #endif
-        make_32_move(universe_ptr_, movable_edge_types_, attempted_moves_);
+            // \todo: Fix make_32_move in Metropolis.h
+//        make_32_move(universe_ptr_, movable_edge_types_, attempted_moves_);
         // make_32_move() increments attempted_moves_
         // Decrement N3_22_ and N1_TL_, increment successful_moves_
         --N3_22_;
@@ -413,7 +414,8 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(2,6) move" << std::endl;
         #endif
-        make_26_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
+            // \todo: Fix make_26_move in Metropolis.h
+//        make_26_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
         // make_26_move() increments attempted_moves_
         // Increment N3_31, N1_TL_ and successful_moves_
         N3_31_ += 4;
@@ -534,8 +536,9 @@ class Metropolis {
 
   void reset_movable() {
     // Re-populate with current data
-    auto new_movable_simplex_types = classify_simplices(universe_ptr_);
-    auto new_movable_edge_types = classify_edges(universe_ptr_);
+    auto new_movable_simplex_types = classify_simplices(universe_ptr_
+                                                                .triangulation);
+    auto new_movable_edge_types = classify_edges(universe_ptr_.triangulation);
     // Swap new data into class data members
     std::swap(movable_simplex_types_, new_movable_simplex_types);
     std::swap(movable_edge_types_, new_movable_edge_types);
@@ -555,68 +558,70 @@ class Metropolis {
   /// can be successfully carried out on **universe_ptr_** when operator()
   /// returns. Instead, they should be conducted on the std::move() results
   /// of this function call.
-  template <typename T>
-  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
-    #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-    #endif
-    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
-    // Populate member data
-    universe_ptr_ = std::move(universe_ptr);
-    // movable_simplex_types_ = classify_simplices(universe_ptr_);
-    // movable_edge_types_ = classify_edges(universe_ptr_);
-    reset_movable();
-    N3_31_ = static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
-                                  + std::get<2>(movable_simplex_types_).size());
-    std::cout << "N3_31_ = " << N3_31_ << std::endl;
-
-    N3_22_ = static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
-    std::cout << "N3_22_ = " << N3_22_ << std::endl;
-
-    N1_TL_ = static_cast<std::uintmax_t>(movable_edge_types_.first.size());
-    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
-
-    // Make a successful move of each type to populate **attempted_moves_**
-    std::cout << "Making initial moves ..." << std::endl;
-    make_move(move_type::TWO_THREE);
-    make_move(move_type::THREE_TWO);
-    make_move(move_type::TWO_SIX);
-    // Other moves go here ...
-
-    std::cout << "Making random moves ..." << std::endl;
-    // Loop through passes_
-    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
-         ++pass_number) {
-      auto total_simplices_this_pass = CurrentTotalSimplices();
-      // Loop through CurrentTotalSimplices
-      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-           ++move_attempt) {
-        // Pick a move to attempt
-        auto move_choice = generate_random_unsigned(0, 2);
-        #ifndef NDEBUG
-        std::cout << "Move choice = " << move_choice << std::endl;
-        #endif
-
-        // Convert std::uintmax_t move_choice to move_type enum
-        auto move = static_cast<move_type>(move_choice);
-        attempt_move(move);
-      }  // End loop through CurrentTotalSimplices
-      // Reset movable data structures
-      // reset_movable();
-      // Do stuff on checkpoint_
-      if ((pass_number % checkpoint_) == 0) {
-        std::cout << "Pass " << pass_number << std::endl;
-        // write results to a file
-      }
-    }  // End loop through passes_
-    return universe_ptr_;
-  }
+    // \todo: Fix Metropolis::operator()
+//  template <typename T>
+//  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+//    #ifndef NDEBUG
+//    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+//    #endif
+//    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
+//    // Populate member data
+//    universe_ptr_ = std::move(universe_ptr);
+//    // movable_simplex_types_ = classify_simplices(universe_ptr_);
+//    // movable_edge_types_ = classify_edges(universe_ptr_);
+//    reset_movable();
+//    N3_31_ = static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
+//                                  + std::get<2>(movable_simplex_types_).size());
+//    std::cout << "N3_31_ = " << N3_31_ << std::endl;
+//
+//    N3_22_ = static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
+//    std::cout << "N3_22_ = " << N3_22_ << std::endl;
+//
+//    N1_TL_ = static_cast<std::uintmax_t>(movable_edge_types_.first.size());
+//    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
+//
+//    // Make a successful move of each type to populate **attempted_moves_**
+//    std::cout << "Making initial moves ..." << std::endl;
+//    make_move(move_type::TWO_THREE);
+//    make_move(move_type::THREE_TWO);
+//    make_move(move_type::TWO_SIX);
+//    // Other moves go here ...
+//
+//    std::cout << "Making random moves ..." << std::endl;
+//    // Loop through passes_
+//    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
+//         ++pass_number) {
+//      auto total_simplices_this_pass = CurrentTotalSimplices();
+//      // Loop through CurrentTotalSimplices
+//      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+//           ++move_attempt) {
+//        // Pick a move to attempt
+//        auto move_choice = generate_random_unsigned(0, 2);
+//        #ifndef NDEBUG
+//        std::cout << "Move choice = " << move_choice << std::endl;
+//        #endif
+//
+//        // Convert std::uintmax_t move_choice to move_type enum
+//        auto move = static_cast<move_type>(move_choice);
+//        attempt_move(move);
+//      }  // End loop through CurrentTotalSimplices
+//      // Reset movable data structures
+//      // reset_movable();
+//      // Do stuff on checkpoint_
+//      if ((pass_number % checkpoint_) == 0) {
+//        std::cout << "Pass " << pass_number << std::endl;
+//        // write results to a file
+//      }
+//    }  // End loop through passes_
+//    return universe_ptr_;
+//  }
 
  private:
-  Delaunay universe;
+//  Delaunay universe;
   ///< The type of triangulation.
-  std::unique_ptr<decltype(universe)>
-    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
+//  std::unique_ptr<decltype(universe)>
+//    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
+  SimplicialManifold universe_ptr_;
   ///< A std::unique_ptr to the Delaunay triangulation. For this reason you
   /// should not access this member directly, as operator() may be called
   /// at any time and null it out via std::move().
@@ -646,7 +651,7 @@ class Metropolis {
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
 

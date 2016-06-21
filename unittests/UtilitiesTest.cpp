@@ -19,7 +19,7 @@ TEST(Utilities, GenerateRandomTimeslice) {
   std::uintmax_t timeslices{16};
 
   EXPECT_THAT(generate_random_timeslice(timeslices),
-    AllOf(Gt(0), Le(timeslices)))
+              AllOf(Gt(0), Le(timeslices)))
     << "Random timeslice out of bounds.";
 }
 
