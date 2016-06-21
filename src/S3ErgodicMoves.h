@@ -391,7 +391,7 @@ template <typename T1>
 auto try_62_move(T1&& universe_ptr, Vertex_handle candidate){
     std::vector<Cell_handle> candidate_cells;
     auto adjacent_cell = std::make_tuple(0, 0, 0); //holds how many (3, 1), (2, 2), and (1, 3) adjacent cells exist
-    universe_ptr->incident_cells(candidate, back_inserter(candidate_cells));
+    (universe_ptr.triangulation)->incident_cells(candidate, back_inserter(candidate_cells));
     for (auto cit: candidate_cells){
       CGAL_triangulation_precondition(is_cell(cit));
       if (cit->info() == 31){
@@ -428,7 +428,7 @@ auto try_62_move(T1&& universe_ptr, Vertex_handle candidate){
 /// the move has been made
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe_ptr, T2&& attempted_moves) -> decltype(universe_ptr) {
-  std::vector<Vertex_handle> tds_vertices = group_vertices(universe_ptr);
+  std::vector<Vertex_handle> tds_vertices = universe_ptr.geometry.vertices;
   auto not_moved = true;
   unsigned long tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
@@ -436,10 +436,10 @@ auto make_62_move(T1&& universe_ptr, T2&& attempted_moves) -> decltype(universe_
     auto choice = generate_random_unsigned(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices.at(choice);
     // Ensure pre-conditions are satisfied
-    CGAL_triangulation_precondition((universe_ptr->dimension() == 3));
+    CGAL_triangulation_precondition(((universe_ptr.triangulation)->dimension() == 3));
     CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
     if (try_62_move(universe_ptr, to_be_moved)){
-      universe_ptr->remove(to_be_moved);
+      (universe_ptr.triangulation)->remove(to_be_moved);
       not_moved = false;
     }
 
