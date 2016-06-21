@@ -426,7 +426,6 @@ auto try_62_move(T1&& universe_ptr, Vertex_handle candidate){
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
-<<<<<<< HEAD
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe_ptr, T2&& attempted_moves) -> decltype(universe_ptr) {
   std::vector<Vertex_handle> tds_vertices = group_vertices(universe_ptr);
