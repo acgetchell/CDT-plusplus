@@ -457,7 +457,6 @@ auto make_62_move(T1&& universe_ptr, T2&& attempted_moves) -> decltype(universe_
 
   return universe_ptr;
 }  // make_62_move()
-=======
 //template<typename T1, typename T2, typename T3>
 //auto make_62_move(T1 &&universe_ptr,
 //                  T2 &&edge_types,
@@ -475,7 +474,6 @@ auto make_62_move(T1&& universe_ptr, T2&& attempted_moves) -> decltype(universe_
 //    }
 //    return universe_ptr;
 //}  // make_62_move()
->>>>>>> 22b6ee3ca6b98ca0ead19baa4371ee2e43e9bd3b
 
 // /// @brief Finds the disjoint index
 // ///
