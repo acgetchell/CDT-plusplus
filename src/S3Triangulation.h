@@ -375,6 +375,22 @@ void fix_triangulation(T &&universe_ptr) {
     } while (!fix_timeslices(universe_ptr));
 }  // fix_triangulation()
 
+/// @brief Group all vertices within a triangulation
+///
+/// This function iterates over all of the vertices in the triangulation,
+/// and appends each Vertex_handle to a vector<Vertex_handle>, all_vertices.
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
+/// @returns A vector<Vertex_handle>
+template <typename T>
+auto group_vertices(T&& universe_ptr){
+  Delaunay::Finite_vertices_iterator vit;
+  std::vector<Vertex_handle> all_vertices;
+  for (vit = universe_ptr->finite_vertices_begin(); vit != universe_ptr->finite_vertices_end(); ++vit){
+    all_vertices.push_back(vit);
+  }
+  return all_vertices;
+} // group_vertices()
+
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation

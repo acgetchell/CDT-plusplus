@@ -194,3 +194,45 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
     EXPECT_THAT(universe_.geometry.vertices.size(), Eq(vertices_before+1))
         << "A vertex was not added to the triangulation.";
 }
+
+TEST_F(S3ErgodicMoveTest, MakeA62Move){
+  universe_ = std::move(make_62_move(universe_,
+                                     attempted_moves_));
+  std::cout << "Attempted (6,2) moves = " << std::get<3>(attempted_moves_)
+                                          << std::endl;
+
+  // Now look at changes
+  auto simplex_types = classify_simplices(universe_);
+  auto N3_31_after = std::get<0>(simplex_types).size();
+  auto N3_22_after = std::get<1>(simplex_types).size();
+  auto N3_13_after = std::get<2>(simplex_types).size();
+  auto edge_types = classify_edges(universe_);
+
+  // We expect the triangulation to be valid, but not necessarily Delaunay
+  EXPECT_TRUE(universe_->tds().is_valid())
+    << "Triangulation is invalid.";
+
+  EXPECT_THAT(universe_->dimension(), Eq(3))
+    << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_))
+    << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(N3_31_after, Eq(N3_31_before - 2))
+    << "(3,1) simplices did not decrease by 2.";
+
+  EXPECT_THAT(N3_22_after, Eq(N3_22_before))
+    << "(2,2) simplices changed.";
+
+  EXPECT_THAT(N3_13_after, Eq(N3_13_before - 2))
+    << "(1,3) simplices did not decrease by 2.";
+
+  EXPECT_THAT(edge_types.first.size(), Eq(timelike_edges - 2))
+    << "Timelike edges did not decrease by 2.";
+
+  EXPECT_THAT(edge_types.second, Eq(spacelike_edges - 3))
+    << "Spacelike edges did not decrease by 3.";
+
+  EXPECT_THAT(universe_->number_of_vertices(), Eq(vertices_before - 1))
+    << "The number of vertices did not decrease by 1.";
+}
