@@ -3,6 +3,8 @@ CDT-plusplus [![License](https://img.shields.io/badge/license-BSD%203--clause-bl
 
 **Quantize spacetime on your laptop.**
 
+For an introduction to [Causal Dynamical Triangulations][https://github.com/acgetchell/CDT-plusplus/wiki], including the foundations and recent results, please see the [wiki][https://github.com/acgetchell/CDT-plusplus/wiki]
+
 [Causal Dynamical Triangulations][1] in C++ using the
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
 with [CMake][3] using [Clang][4]/[LLVM][5].
