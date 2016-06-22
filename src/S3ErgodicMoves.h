@@ -387,6 +387,33 @@ auto make_26_move(T1&& universe,
     return std::move(universe);
 }  // make_26_move()
 
+template <typename T1>
+auto try_62_move(T1&& universe_ptr, Vertex_handle candidate){
+    std::vector<Cell_handle> candidate_cells;
+    auto adjacent_cell = std::make_tuple(0, 0, 0); //holds how many (3, 1), (2, 2), and (1, 3) adjacent cells exist
+    (universe_ptr.triangulation)->incident_cells(candidate, back_inserter(candidate_cells));
+    for (auto cit: candidate_cells){
+      CGAL_triangulation_precondition(is_cell(cit));
+      if (cit->info() == 31){
+        ++std::get<0>(adjacent_cell);
+      }
+      else if (cit->info() == 22){
+        ++std::get<1>(adjacent_cell);
+      }
+      else if (cit->info() == 13){
+        ++std::get<2>(adjacent_cell);
+      }
+      else{
+        #ifndef NDEBUG
+        std::cout << "Error: Not a 3-simplex" << std::endl;
+        #endif
+        return false;
+      }
+    }
+    return ((std::get<0>(adjacent_cell) == 3) && (std::get<1>(adjacent_cell) == 0) && (std::get<2>(adjacent_cell) == 3));
+
+} //try_62_move()
+
 /// @brief Make a (6,2) move
 ///
 /// This function performs the (6,2) move by removing a vertex
@@ -399,6 +426,36 @@ auto make_26_move(T1&& universe,
 /// moves of each type given by the **move_type** enum
 /// @returns universe_ptr A std::unique_ptr to the Delaunay triangulation after
 /// the move has been made
+template <typename T1, typename T2>
+auto make_62_move(T1&& universe_ptr, T2&& attempted_moves) -> decltype(universe_ptr) {
+  std::vector<Vertex_handle> tds_vertices = universe_ptr.geometry.vertices;
+  auto not_moved = true;
+  unsigned long tds_vertices_size = tds_vertices.size();
+  while ((not_moved) && (tds_vertices_size > 0)) {
+    // do something
+    auto choice = generate_random_unsigned(0, tds_vertices_size - 1);
+    Vertex_handle to_be_moved = tds_vertices.at(choice);
+    // Ensure pre-conditions are satisfied
+    CGAL_triangulation_precondition(((universe_ptr.triangulation)->dimension() == 3));
+    CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
+    if (try_62_move(universe_ptr, to_be_moved)){
+      (universe_ptr.triangulation)->remove(to_be_moved);
+      not_moved = false;
+    }
+
+    tds_vertices.erase(tds_vertices.begin() + choice); //O(|V|) bottleneck
+    tds_vertices_size--;
+    ++std::get<3>(attempted_moves);
+  }
+
+  #ifndef NDEBUG
+  if (tds_vertices_size == 0){
+    std::cout << "No (6, 2) move is possible." << std::endl;
+  }
+  #endif
+
+  return universe_ptr;
+}  // make_62_move()
 //template<typename T1, typename T2, typename T3>
 //auto make_62_move(T1 &&universe_ptr,
 //                  T2 &&edge_types,

@@ -2,75 +2,195 @@
 ///
 /// Copyright (c) 2015 Adam Getchell
 ///
-/// Performs the Metropolis-Hastings algorithm on the foliated Delaunay
-/// triangulations.
+/// Performs shortest paths algorithms on graphs using Bellman-Ford Algorithm and Voronoi Diagrams
 /// For details see:
-/// M. Creutz, and B. Freedman. “A Statistical Approach to Quantum Mechanics.”
-/// Annals of Physics 132 (1981): 427–62.
-/// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
+/// ADD REFERENCES
+/// ADD REFERENCES
 
-/// \done Initialization
-/// \done operator()
-/// \done CalculateA1
-/// \done CalculateA2
-/// \done Update N1_TL_, N3_31_ and N3_22_ after successful moves
-/// \todo Atomic integral types for safe multithreading
-/// \todo Debug occasional infinite loops and segfaults!
-/// \todo Implement 3D Metropolis algorithm in operator()
-/// \todo Implement concurrency
 
-/// @file Metropolis.h
-/// @brief Perform Metropolis-Hastings algorithm on Delaunay Triangulations
-/// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
+/// \todo Graph Initialization
+/// \todo AddVertex()
+/// \todo AddEdge()
+/// \todo IsNegativeCycle()
+/// \todo CalculateBellmanFord()
+/// \todo CalculateVoronoi()
 
-#ifndef SRC_METROPOLIS_H_
-#define SRC_METROPOLIS_H_
+/// @file ShortestPaths.h
+/// @brief Calculate shortest path of a graph using Bellman Ford Algorithm and Voronoi Diagrams
+/// @author Gaurav Nagar
 
-// CGAL headers
-// #include <CGAL/Gmpzf.h>
-// #include <CGAL/Gmpz.h>
-// #include <mpfr.h>
-// #include <CGAL/Mpzf.h>
 
-// CDT headers
-#include "S3ErgodicMoves.h"
-#include "S3Action.h"
+#ifndef SRC_SHORTESTPATHS_H_
+#define SRC_SHORTESTPATHS_H_
+
+
 
 // C++ headers
+#include <limits>
 #include <tuple>
-// #include <atomic>
 #include <vector>
-#include <utility>
+#include <map>
 #include <algorithm>
 
-using Gmpzf = CGAL::Gmpzf;
+const double inf = std::numerical_limits<double>::infinity(); //constant used to signify no edge between two nodes
 
-extern const std::uintmax_t PRECISION;
+class Vertex{
 
-enum class move_type {TWO_THREE = 0,
-                      THREE_TWO = 1,
-                      TWO_SIX = 2,
-                      SIX_TWO = 3,
-                      FOUR_FOUR = 4};
+    private:
+        double x_, y_, z_;
+        double sourceDistance_;
+        int prev_; //index of previous vertex
 
-/// @class Metropolis
+    public:
+        Vertex(){
+            Vertex(0, 0, 0);
+        }
+
+        Vertex(double x, double y, double z){
+            x_ = x;
+            y_ = y;
+            z_ = z;
+            sourceDistance_ = std::numerical_limits<double>::infinity();
+        }
+
+        double getDistance(){
+            return sourceDistance_;
+        }
+
+        int getPrev(){
+            return prev_;
+        }
+
+        void setDistance(double distance){
+            sourceDistance_ = distance;
+        }
+
+        void setPrev(int prevVertex){
+            prev_ = prevVertex;
+        }
+};
+
+class Edge{
+
+    private:
+        Vertex u_, v_; //indices of vertex u, v
+        double weight_; //weight of the edge
+
+    public:
+        Edge(){
+            Edge(0, 1, 0.0);
+        }
+
+        Edge(Vertex u, Vertex v, double weight){
+            u_ = u;
+            v_ = v;
+            weight_ = weight;
+        }
+
+        Vertex getU(){
+            return u_;
+        }
+
+        Vertex getV(){
+            return v_;
+        }
+
+        double getWeight(){
+            return weight_;
+        }
+
+        void setU(Vertex u){
+            u_ = u;
+        }
+
+        void setV(Vertex v){
+            v_ = u;
+        }
+
+        void setWeight(double weight){
+            weight_ = weight;
+        }
+};
+
+/// @class Graph
 ///
-/// @brief Metropolis-Hastings algorithm functor
+/// @brief Graph class that provides shortest paths functionalities
 ///
-/// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
-/// The probability of making an ergodic (Pachner) move is:
+/// The Bellman-Ford algorithm is a method that calculates the shortest paths on graphs with even negative weights.
+/// The reccurrence for the shortest paths is:
 ///
-/// \f[P_{ergodic move}=a_{1}a_{2}\f]
-/// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
-/// \f[a_2=e^{\Delta S}\f]
-class Metropolis {
+/// \D[i, j] = 0                                       if i = t,  j = 0
+///            inf                                     if i != t, j = 0
+///            min{D[k, j - 1] + w[i, k], D[i, j - 1]} if (i, k) is an edge
+
+class Graph{
+
+    private:
+        vector<Vertex> vertices_;
+        int numVertices_;
+        int numEdges_;
+        vector<Edge> edges_;
+        vector<vector<double>> adjMatrix_;
+        vector<Vertex> path_;
+        map<Vertex:int> verticesMap_;
+
+    public:
+        Graph(vector<Vertex> vertices, vector<Edge> edges){
+            vertices_ = vertices;
+            edges_ = edges;
+            numVertices_ = vertices.size();
+            numEdges_ = edge.size();
+            for(int i = 0; i < numVertices_; i++){
+                map[vertices_.at(i)] = i;
+            }
+            computeAdjMatrix();
+        }
+
+        void computeAdjMatrix(){
+            for (int i = 0; i < numVertices_; i++){
+                vertex<int> adjList; //adjList for ith vertex
+                for (int j = 0; j < numVertices_; j++){
+                    adjList.push_back(inf);
+                }
+                adjMatrix_.push_back(adjList);
+            }
+
+            for (int i = 0; i < numEdges_; i++){
+                int uIndex = verticesMap_[edges_.at(i).getU()];
+                int vIndex = verticesMap_[edges_.at(i).getV()];
+                adjMatrix_.at(uIndex).at(vIndex) = edges_.at(i).getWeight(); //edge weight between vertices u and v
+                adjMatrix_.at(vIndex).at(uIndex) = edges_.at(i).getWeight();
+            }
+        }
+
+        bool isNegativeCycle(){
+            return true;
+        }
+
+        void calculateBellmanFord(Vertex s, Vertex t){
+            for(int i = 0; i < numVertices_; i++){
+                for(int j = 0; j < numVertices_; j++){
+                    for(int k = 0; k < numVertices_; k++){
+
+                    }
+                }
+            }
+        }
+
+        double calculateOptimalPathCost(Vertex s, Vertex t){
+            return 0;
+        }
+
+        vector<Vertex> calculateOptimalPath(Vertex s, Vertex t){
+            return path_;
+        }
+};
+
+/*
+class Metropolis { 
  public:
-  /// @brief Metropolis constructor
+  /// @brief Graph constructor
   ///
-  /// Minimal setup of runtime job parameters.
-  /// All the real work is done by operator().
   ///
   /// @param[in] Alpha  \f$\alpha\f$ is the timelike edge length
   /// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
@@ -93,6 +213,7 @@ class Metropolis {
     #endif
   }
 
+  Graph(unsigned int nodes)
   /// Gets value of **Alpha_**.
   auto Alpha() const noexcept {return Alpha_;}
 
@@ -167,7 +288,7 @@ class Metropolis {
            FourFourMoves();
   }
 
-  /// Gets the vector of **Edge_handles** corresponding to
+  /// Gets the vector of **Edge_tuples** corresponding to
   /// movable timelike edges.
   auto MovableTimelikeEdges() const noexcept {return movable_edge_types_.first;}
 
@@ -391,7 +512,7 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(2,3) move" << std::endl;
         #endif
-        make_23_move(std::move(universe_ptr_), attempted_moves_);
+        make_23_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
         // make_23_move() increments attempted_moves_
         // Increment N3_22_, N1_TL_ and successful_moves_
         ++N3_22_;
@@ -402,8 +523,7 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(3,2) move" << std::endl;
         #endif
-            // \todo: Fix make_32_move in Metropolis.h
-//        make_32_move(universe_ptr_, movable_edge_types_, attempted_moves_);
+        make_32_move(universe_ptr_, movable_edge_types_, attempted_moves_);
         // make_32_move() increments attempted_moves_
         // Decrement N3_22_ and N1_TL_, increment successful_moves_
         --N3_22_;
@@ -414,8 +534,7 @@ class Metropolis {
         #ifndef NDEBUG
         std::cout << "(2,6) move" << std::endl;
         #endif
-            // \todo: Fix make_26_move in Metropolis.h
-//        make_26_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
+        make_26_move(universe_ptr_, movable_simplex_types_, attempted_moves_);
         // make_26_move() increments attempted_moves_
         // Increment N3_31, N1_TL_ and successful_moves_
         N3_31_ += 4;
@@ -536,9 +655,8 @@ class Metropolis {
 
   void reset_movable() {
     // Re-populate with current data
-    auto new_movable_simplex_types = classify_simplices(universe_ptr_
-                                                                .triangulation);
-    auto new_movable_edge_types = classify_edges(universe_ptr_.triangulation);
+    auto new_movable_simplex_types = classify_simplices(universe_ptr_);
+    auto new_movable_edge_types = classify_edges(universe_ptr_);
     // Swap new data into class data members
     std::swap(movable_simplex_types_, new_movable_simplex_types);
     std::swap(movable_edge_types_, new_movable_edge_types);
@@ -558,70 +676,68 @@ class Metropolis {
   /// can be successfully carried out on **universe_ptr_** when operator()
   /// returns. Instead, they should be conducted on the std::move() results
   /// of this function call.
-    // \todo: Fix Metropolis::operator()
-//  template <typename T>
-//  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
-//    #ifndef NDEBUG
-//    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-//    #endif
-//    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
-//    // Populate member data
-//    universe_ptr_ = std::move(universe_ptr);
-//    // movable_simplex_types_ = classify_simplices(universe_ptr_);
-//    // movable_edge_types_ = classify_edges(universe_ptr_);
-//    reset_movable();
-//    N3_31_ = static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
-//                                  + std::get<2>(movable_simplex_types_).size());
-//    std::cout << "N3_31_ = " << N3_31_ << std::endl;
-//
-//    N3_22_ = static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
-//    std::cout << "N3_22_ = " << N3_22_ << std::endl;
-//
-//    N1_TL_ = static_cast<std::uintmax_t>(movable_edge_types_.first.size());
-//    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
-//
-//    // Make a successful move of each type to populate **attempted_moves_**
-//    std::cout << "Making initial moves ..." << std::endl;
-//    make_move(move_type::TWO_THREE);
-//    make_move(move_type::THREE_TWO);
-//    make_move(move_type::TWO_SIX);
-//    // Other moves go here ...
-//
-//    std::cout << "Making random moves ..." << std::endl;
-//    // Loop through passes_
-//    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
-//         ++pass_number) {
-//      auto total_simplices_this_pass = CurrentTotalSimplices();
-//      // Loop through CurrentTotalSimplices
-//      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-//           ++move_attempt) {
-//        // Pick a move to attempt
-//        auto move_choice = generate_random_unsigned(0, 2);
-//        #ifndef NDEBUG
-//        std::cout << "Move choice = " << move_choice << std::endl;
-//        #endif
-//
-//        // Convert std::uintmax_t move_choice to move_type enum
-//        auto move = static_cast<move_type>(move_choice);
-//        attempt_move(move);
-//      }  // End loop through CurrentTotalSimplices
-//      // Reset movable data structures
-//      // reset_movable();
-//      // Do stuff on checkpoint_
-//      if ((pass_number % checkpoint_) == 0) {
-//        std::cout << "Pass " << pass_number << std::endl;
-//        // write results to a file
-//      }
-//    }  // End loop through passes_
-//    return universe_ptr_;
-//  }
+  template <typename T>
+  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+    #ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    #endif
+    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
+    // Populate member data
+    universe_ptr_ = std::move(universe_ptr);
+    // movable_simplex_types_ = classify_simplices(universe_ptr_);
+    // movable_edge_types_ = classify_edges(universe_ptr_);
+    reset_movable();
+    N3_31_ = static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
+                                  + std::get<2>(movable_simplex_types_).size());
+    std::cout << "N3_31_ = " << N3_31_ << std::endl;
+
+    N3_22_ = static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
+    std::cout << "N3_22_ = " << N3_22_ << std::endl;
+
+    N1_TL_ = static_cast<std::uintmax_t>(movable_edge_types_.first.size());
+    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
+
+    // Make a successful move of each type to populate **attempted_moves_**
+    std::cout << "Making initial moves ..." << std::endl;
+    make_move(move_type::TWO_THREE);
+    make_move(move_type::THREE_TWO);
+    make_move(move_type::TWO_SIX);
+    // Other moves go here ...
+
+    std::cout << "Making random moves ..." << std::endl;
+    // Loop through passes_
+    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
+         ++pass_number) {
+      auto total_simplices_this_pass = CurrentTotalSimplices();
+      // Loop through CurrentTotalSimplices
+      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+           ++move_attempt) {
+        // Pick a move to attempt
+        auto move_choice = generate_random_unsigned(0, 2);
+        #ifndef NDEBUG
+        std::cout << "Move choice = " << move_choice << std::endl;
+        #endif
+
+        // Convert std::uintmax_t move_choice to move_type enum
+        auto move = static_cast<move_type>(move_choice);
+        attempt_move(move);
+      }  // End loop through CurrentTotalSimplices
+      // Reset movable data structures
+      // reset_movable();
+      // Do stuff on checkpoint_
+      if ((pass_number % checkpoint_) == 0) {
+        std::cout << "Pass " << pass_number << std::endl;
+        // write results to a file
+      }
+    }  // End loop through passes_
+    return universe_ptr_;
+  }
 
  private:
-//  Delaunay universe;
+  Delaunay universe;
   ///< The type of triangulation.
-//  std::unique_ptr<decltype(universe)>
-//    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
-  SimplicialManifold universe_ptr_;
+  std::unique_ptr<decltype(universe)>
+    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
   ///< A std::unique_ptr to the Delaunay triangulation. For this reason you
   /// should not access this member directly, as operator() may be called
   /// at any time and null it out via std::move().
@@ -651,8 +767,10 @@ class Metropolis {
              std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_tuple>, std::uintmax_t> movable_edge_types_;
   ///< Movable timelike and spacelike edges.
 };  // Metropolis
+*/
 
-#endif  // SRC_METROPOLIS_H_
+
+#endif  // SRC_SHORTESTPATHS_H_
