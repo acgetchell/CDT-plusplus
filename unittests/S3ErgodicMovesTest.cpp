@@ -196,7 +196,7 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA62Move){
-  universe_ = std::move(make_62_move(universe_,
+  universe_ = std::move(make_62_move(std::move(universe_),
                                      attempted_moves_));
   std::cout << "Attempted (6,2) moves = " << std::get<3>(attempted_moves_)
                                           << std::endl;
