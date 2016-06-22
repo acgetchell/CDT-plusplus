@@ -430,10 +430,11 @@ auto try_62_move(T&& universe, Vertex_handle candidate) {
 /// @returns universe The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe,
-                  T2&& attempted_moves)
+                  T2&& attempted_moves, bool& successful_move)
                   -> decltype(universe) {
     std::vector<Vertex_handle> tds_vertices = universe.geometry.vertices;
     auto not_moved = true;
+    successful_move = false;
     uintmax_t tds_vertices_size = universe.geometry.vertices.size();
     while ((not_moved) && (tds_vertices_size > 0)) {
         // do something
@@ -446,6 +447,7 @@ auto make_62_move(T1&& universe,
         if (try_62_move(universe, to_be_moved)) {
             universe.triangulation->remove(to_be_moved);
             not_moved = false;
+            successful_move = true;
         }
         tds_vertices.erase(tds_vertices.begin() + choice); //O(|V|) bottleneck
         tds_vertices_size--;
@@ -457,7 +459,6 @@ auto make_62_move(T1&& universe,
         std::cout << "No (6, 2) move is possible." << std::endl;
     }
     #endif
-
     return std::move(universe);
 }  // make_62_move()
 
