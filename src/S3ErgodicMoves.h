@@ -175,9 +175,9 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// @returns **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
 inline auto is_26_movable(const Cell_handle c, std::uintmax_t i) {
   // Source cell should be a 13
-  auto source_is_13 = (c->info() == 13) ? true : false;
+  auto source_is_13 = (c->info() == 13);
   // Neighbor should be a 31
-  auto neighbor_is_31 = (c->neighbor(i)->info() == 31) ? true : false;
+  auto neighbor_is_31 = (c->neighbor(i)->info() == 31);
   return (source_is_13 && neighbor_is_31);
 }
 
@@ -398,7 +398,6 @@ auto try_62_move(T&& universe, Vertex_handle candidate) {
   return ((std::get<0>(adjacent_cell) == 3) &&
           (std::get<1>(adjacent_cell) == 0) &&
           (std::get<2>(adjacent_cell) == 3));
-
 }  // try_62_move()
 
 /// @brief Make a (6,2) move

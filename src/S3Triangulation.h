@@ -93,7 +93,7 @@ using Causal_vertices =
 using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
                std::vector<Cell_handle>, std::vector<Edge_handle>,
-               std::uintmax_t, std::vector<Vertex_handle>>;
+               std::vector<Edge_handle>, std::vector<Vertex_handle>>;
 using Move_tuple = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
                               std::uintmax_t, std::uintmax_t>;
 
@@ -125,7 +125,8 @@ auto classify_edges(T&& universe_ptr) noexcept {
   std::cout << "Classifying edges...." << std::endl;
   Delaunay::Finite_edges_iterator eit;
   std::vector<Edge_handle> timelike_edges;
-  auto spacelike_edges = static_cast<std::uintmax_t>(0);
+  //  auto spacelike_edges = static_cast<std::uintmax_t>(0);
+  std::vector<Edge_handle> spacelike_edges;
 
   // Iterate over all edges in the Delaunay triangulation
   for (eit = universe_ptr->finite_edges_begin();
@@ -135,9 +136,13 @@ auto classify_edges(T&& universe_ptr) noexcept {
     auto time1 = ch->vertex(eit->second)->info();
     auto time2 = ch->vertex(eit->third)->info();
 
+    // Make Edge_handle
+    Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
+                         ch->index(ch->vertex(eit->third))};
+
     if (time1 != time2) {  // We have a timelike edge
-      Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
-                           ch->index(ch->vertex(eit->third))};
+      //      Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
+      //                           ch->index(ch->vertex(eit->third))};
       timelike_edges.emplace_back(thisEdge);
 
 #ifdef DETAILED_DEBUGGING
@@ -147,14 +152,15 @@ auto classify_edges(T&& universe_ptr) noexcept {
 #endif
 
     } else {
-      ++spacelike_edges;
+      //      ++spacelike_edges;
+      spacelike_edges.emplace_back(thisEdge);
     }  // endif
   }    // Finish iterating over edges
 
 // Display results if debugging
 #ifndef NDEBUG
   std::cout << "There are " << timelike_edges.size() << " timelike edges and "
-            << spacelike_edges << " spacelike edges." << std::endl;
+            << spacelike_edges.size() << " spacelike edges." << std::endl;
 #endif
 
   return std::make_pair(timelike_edges, spacelike_edges);
@@ -501,8 +507,8 @@ struct GeometryInfo {
   /// Edges spanning two adjacent time slices in the foliation
   std::vector<Edge_handle> timelike_edges;
 
-  /// A count of the non-spanning edges in the foliation
-  std::uintmax_t spacelike_edges;
+  /// Non-spanning edges in the foliation
+  std::vector<Edge_handle> spacelike_edges;
 
   /// Vertices of the foliation
   std::vector<Vertex_handle> vertices;
@@ -576,7 +582,9 @@ struct GeometryInfo {
   /// This should be the equivalent of
   /// SimplicialManifold::triangulation->number_of_finite_edges(),
   /// and is used as a check to ensure that GeometryInfo{} matches.
-  auto number_of_edges() { return timelike_edges.size() + spacelike_edges; }
+  auto number_of_edges() {
+    return timelike_edges.size() + spacelike_edges.size();
+  }
 };
 
 /// @struct

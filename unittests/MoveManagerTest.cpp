@@ -27,7 +27,7 @@ class MoveManagerTest : public Test {
       , N3_22_before{universe_.geometry.two_two.size()}
       , N3_13_before{universe_.geometry.one_three.size()}
       , timelike_edges_before{universe_.geometry.timelike_edges.size()}
-      , spacelike_edges_before{universe_.geometry.spacelike_edges}
+      , spacelike_edges_before{universe_.geometry.spacelike_edges.size()}
       , vertices_before{universe_.geometry.vertices.size()} {}
 
   virtual void SetUp() {
@@ -40,8 +40,8 @@ class MoveManagerTest : public Test {
               << '\n';
     std::cout << "Timelike edges: " << universe_.geometry.timelike_edges.size()
               << '\n';
-    std::cout << "Spacelike edges: " << universe_.geometry.spacelike_edges
-              << '\n';
+    std::cout << "Spacelike edges: "
+              << universe_.geometry.spacelike_edges.size() << '\n';
     std::cout << "Vertices: " << universe_.geometry.vertices.size() << '\n';
   }
 
@@ -126,8 +126,8 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
       << "SimplicialManifold copy doesn't have the same number of timelike "
          "edges.";
 
-  EXPECT_THAT(this->universe_.geometry.spacelike_edges,
-              Eq(tempSM.geometry.spacelike_edges))
+  EXPECT_THAT(this->universe_.geometry.spacelike_edges.size(),
+              Eq(tempSM.geometry.spacelike_edges.size()))
       << "SimplicialManifold copy doesn't have the same number of spacelike "
          "edges.";
 }
@@ -175,8 +175,8 @@ TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
             << "\n";
   std::cout << "Timelike edges: "
             << this->universe_.geometry.timelike_edges.size() << "\n";
-  std::cout << "Spacelike edges: " << this->universe_.geometry.spacelike_edges
-            << "\n";
+  std::cout << "Spacelike edges: "
+            << this->universe_.geometry.spacelike_edges.size() << "\n";
   std::cout << "Vertices: " << this->universe_.geometry.vertices.size() << "\n";
 
   EXPECT_THAT(std::get<0>(attempted_moves_), Ge(1))
@@ -195,7 +195,7 @@ TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
               Eq(timelike_edges_before + 1))
       << "make_23_move() didn't add one and only one timelike edge.";
 
-  EXPECT_THAT(this->universe_.geometry.spacelike_edges,
+  EXPECT_THAT(this->universe_.geometry.spacelike_edges.size(),
               Eq(spacelike_edges_before))
       << "make_23_move() changed the number of spacelike edges.";
 

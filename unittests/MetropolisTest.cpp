@@ -39,7 +39,8 @@ class MetropolisTest : public Test {
     std::cout << "Starting vertices: " << starting_vertices_ << std::endl;
     std::cout << "Starting edges: " << starting_edges_ << " = "
               << timelike_edges_ << " timelike edges and "
-              << movable_edge_types_.second << " spacelike edges." << std::endl;
+              << movable_edge_types_.second.size() << " spacelike edges."
+              << std::endl;
     std::cout << "Starting faces: " << starting_faces_ << std::endl;
     std::cout << "Starting simplices: " << starting_cells_ << " = "
               << N3_31_before_ << " (3,1) and " << N3_22_before_
@@ -50,23 +51,27 @@ class MetropolisTest : public Test {
       std::make_unique<decltype(triangulation)>(triangulation);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
-  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
+  std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
+      movable_edge_types_;
+  /// A count of all attempted moves
   Move_tuple attempted_moves_;
-  ///< A count of all attempted moves
+  /// Initial number of vertices
   std::uintmax_t starting_vertices_;
+  /// Initial number of timelike + spacelike edges
   std::uintmax_t starting_edges_;
-  ///< Initial number of timelike edges
+  /// Initial number of 2D facets
   std::uintmax_t starting_faces_;
-  ///< Initial number of spacelike edges
+  /// Initial number of 3D cells
   std::uintmax_t starting_cells_;
+  /// Initial number of (3,1) simplices
   std::uintmax_t N3_31_before_{0};
-  ///< Initial number of (3,1) simplices
+  /// Initial number of (2,2) simplices
   std::uintmax_t N3_22_before_{0};
-  ///< Initial number of (2,2) simplices
+  /// Initial number of (1,3) simplices
   std::uintmax_t N3_13_before_{0};
-  ///< Initial number of (1,3) simplices
+  /// Initial number of timelike edges
   std::uintmax_t timelike_edges_{0};
-  ///< Initial number of vertices
+
   static constexpr auto Alpha = static_cast<long double>(1.1);
   static constexpr auto K = static_cast<long double>(2.2);
   static constexpr auto Lambda = static_cast<long double>(3.3);

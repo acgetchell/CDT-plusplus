@@ -27,7 +27,7 @@ class S3ErgodicMoveTest : public Test {
       , N3_22_before{universe_.geometry.two_two.size()}
       , N3_13_before{universe_.geometry.one_three.size()}
       , timelike_edges_before{universe_.geometry.timelike_edges.size()}
-      , spacelike_edges_before{universe_.geometry.spacelike_edges}
+      , spacelike_edges_before{universe_.geometry.spacelike_edges.size()}
       , vertices_before{universe_.geometry.vertices.size()} {}
 
   virtual void SetUp() {
@@ -101,7 +101,8 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move) {
               Eq(timelike_edges_before + 1))
       << "Timelike edges did not increase by 1.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges, Eq(spacelike_edges_before))
+  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+              Eq(spacelike_edges_before))
       << "Spacelike edges changed.";
 
   EXPECT_THAT(universe_.triangulation->number_of_vertices(),
@@ -137,7 +138,8 @@ TEST_F(S3ErgodicMoveTest, MakeA32Move) {
               Eq(timelike_edges_before - 1))
       << "Timelike edges did not decrease by 1.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges, Eq(spacelike_edges_before))
+  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+              Eq(spacelike_edges_before))
       << "Spacelike edges changed.";
 
   EXPECT_THAT(universe_.triangulation->number_of_vertices(),
@@ -172,7 +174,7 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
               Eq(timelike_edges_before + 2))
       << "Timelike edges did not increase by 2.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges,
+  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
               Eq(spacelike_edges_before + 3))
       << "Spacelike edges did not increase by 3.";
 
@@ -208,7 +210,7 @@ TEST_F(S3ErgodicMoveTest, MakeA62Move) {
               Eq(timelike_edges_before - 2))
       << "Timelike edges did not decrease by 2.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges,
+  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
               Eq(spacelike_edges_before - 3))
       << "Spacelike edges did not decrease by 3.";
 

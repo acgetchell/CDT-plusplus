@@ -31,7 +31,7 @@ class S3ActionTest : public Test {
       , N3_22_before{universe_.geometry.two_two.size()}
       , N3_13_before{universe_.geometry.one_three.size()}
       , timelike_edges_before{universe_.geometry.timelike_edges.size()}
-      , spacelike_edges_before{universe_.geometry.spacelike_edges}
+      , spacelike_edges_before{universe_.geometry.spacelike_edges.size()}
       , vertices_before{universe_.geometry.vertices.size()} {}
 
   virtual void SetUp() {
@@ -44,8 +44,8 @@ class S3ActionTest : public Test {
               << std::endl;
     std::cout << "Timelike edges: " << universe_.geometry.timelike_edges.size()
               << std::endl;
-    std::cout << "Spacelike edges: " << universe_.geometry.spacelike_edges
-              << std::endl;
+    std::cout << "Spacelike edges: "
+              << universe_.geometry.spacelike_edges.size() << std::endl;
     std::cout << "Vertices: " << universe_.geometry.vertices.size()
               << std::endl;
   }
