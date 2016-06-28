@@ -111,11 +111,11 @@ static constexpr std::uintmax_t DIMENSION = 3;
 ///
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
-/// Timelike edges are stored in the **timelike_edges** vector as an Edge_tuple
+/// Timelike edges are stored in the **timelike_edges** vector as an Edge_handle
 /// (tuple of Cell_handle, std::uintmax_t, std::uintmax_t) for later use by
-/// ergodic moves on timelike edges. Spacelike edges are also stored as the
-/// Edge_tuple **spacelike_edges**, for use by (4,4) moves as well as the
-/// distance-finding algorithms.
+/// ergodic moves on timelike edges. Spacelike edges are also stored as a
+/// vector of Edge_handle **spacelike_edges**, for use by (4,4) moves as
+/// well as the distance-finding algorithms.
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>> of
 /// timelike edges and spacelike edges
