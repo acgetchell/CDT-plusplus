@@ -460,6 +460,32 @@ auto make_62_move(T1&& universe,
 
   return std::move(universe);
 }  // make_62_move()
+                      
+
+/// @brief Make a (4,4) move
+///
+/// This function performs the (4,4) move by replacing a space-like edge
+/// with another space-like edge that maintains the number of simplices.
+///
+/// @param[in,out] universe A SimplicialManifold
+/// @param[in,out] attempted_moves A tuple holding a count of the attempted
+/// moves of each type given by the **move_type** enum
+/// @returns universe The SimplicialManifold after the move has been made
+template<typename T1, typename T2>
+auto make_44_move(T1&& universe, 
+                  T2&& attempted_moves)
+                  -> decltype(universe) {
+    
+    std::vector<Vertex_handle> tds_vertices = universe.geometry.vertices();
+    std::vector<Edge_handle> tds_spacelike_edges = 
+            group_spacelike_edges(universe.triangulation);
+    
+    auto not_moved = true;
+    uintmax_t tds_vertices_size = tds_vertices.size();
+  return std::move(universe);
+} // make_44_move()
+
+
 
 // /// @brief Finds the disjoint index
 // ///

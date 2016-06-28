@@ -375,24 +375,35 @@ void fix_triangulation(T &&universe_ptr) {
     } while (!fix_timeslices(universe_ptr));
 }  // fix_triangulation()
     
-/*
 
-/// @brief Group all vertices within a triangulation
+
+/// @brief Group all spacelike edges within a triangulation
 ///
 /// This function iterates over all of the vertices in the triangulation,
 /// and appends each Vertex_handle to a vector<Vertex_handle>, all_vertices.
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A vector<Vertex_handle>
 template <typename T>
-auto group_vertices(T&& universe_ptr){
-  Delaunay::Finite_vertices_iterator vit;
-  std::vector<Vertex_handle> all_vertices;
-  for (vit = (universe_ptr.triangulation)->finite_vertices_begin(); vit != (universe_ptr.triangulation)->finite_vertices_end(); ++vit){
-    all_vertices.push_back(vit);
-  }
-  return all_vertices;
-} // group_vertices()
-*/
+auto group_spacelike_edges(T &&universe_ptr){
+    Delaunay::Finite_edges_iterator eit;
+    std::vector<Edge_handle> spacelike_edges;
+    for (eit = universe_ptr->finite_edges_begin();
+         eit != universe_ptr->finite_edges_end(); ++eit){
+        Cell_handle ch = eit->first;
+
+        auto time1 = ch->vertex(eit->second)->info();
+        auto time2 = ch->vertex(eit->third)->info();
+        //vertices on the same timeslice implies spacelike edge
+        if (time1 == time2){
+            Edge_handle thisEdge{ch,
+                                 ch->index(ch->vertex(eit->second)),
+                                 ch->index(ch->vertex(eit->third))};
+            spacelike_edges.emplace_back(thisEdge);
+        }
+    }
+    return all_spacelike_edges;
+} // group_spacelike_edges()
+
     
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
