@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015, 2016 Adam Getchell
+/// Copyright (c) 2015-2016 Adam Getchell
 ///
 /// Creates foliated spherical triangulations
 ///
@@ -111,14 +111,13 @@ static constexpr std::uintmax_t DIMENSION = 3;
 ///
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
-/// Timelike edges are stored in the **timelike_edges** vector as a tuple of
-/// (Cell_handle, std::uintmax_t, std::uintmax_t) for later use by ergodic moves
-/// on timelike edges. Spacelike edges are stored as an std::uintmax_t int
-/// **spacelike_edges**, since we don't do much with them other than use them
-/// to check correctness.
-///
+/// Timelike edges are stored in the **timelike_edges** vector as an Edge_tuple
+/// (tuple of Cell_handle, std::uintmax_t, std::uintmax_t) for later use by
+/// ergodic moves on timelike edges. Spacelike edges are also stored as the
+/// Edge_tuple **spacelike_edges**, for use by (4,4) moves as well as the
+/// distance-finding algorithms.
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-/// @returns A std::pair<std::vector<Edge_handle>, std::uintmax_t> of
+/// @returns A std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>> of
 /// timelike edges and spacelike edges
 template <typename T>
 auto classify_edges(T&& universe_ptr) noexcept {
