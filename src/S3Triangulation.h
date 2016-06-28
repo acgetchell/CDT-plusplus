@@ -140,8 +140,6 @@ auto classify_edges(T&& universe_ptr) noexcept {
                          ch->index(ch->vertex(eit->third))};
 
     if (time1 != time2) {  // We have a timelike edge
-      //      Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
-      //                           ch->index(ch->vertex(eit->third))};
       timelike_edges.emplace_back(thisEdge);
 
 #ifdef DETAILED_DEBUGGING
@@ -150,8 +148,7 @@ auto classify_edges(T&& universe_ptr) noexcept {
                 << std::endl;
 #endif
 
-    } else {
-      //      ++spacelike_edges;
+    } else {  // We have a spacelike edge
       spacelike_edges.emplace_back(thisEdge);
     }  // endif
   }    // Finish iterating over edges
@@ -161,7 +158,6 @@ auto classify_edges(T&& universe_ptr) noexcept {
   std::cout << "There are " << timelike_edges.size() << " timelike edges and "
             << spacelike_edges.size() << " spacelike edges." << std::endl;
 #endif
-
   return std::make_pair(timelike_edges, spacelike_edges);
 }  // classify_edges()
 
@@ -235,7 +231,6 @@ auto classify_simplices(T&& universe_ptr) {
             << two_two.size() << " (2,2) simplices" << std::endl;
   std::cout << "and " << one_three.size() << " (1,3) simplices." << std::endl;
 #endif
-
   return std::make_tuple(three_one, two_two, one_three);
 }  // classify_simplices()
 
@@ -345,7 +340,6 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
   std::cout << "There are " << invalid << " invalid simplices and " << valid
             << " valid simplices." << std::endl;
 #endif
-
   return invalid == 0;
 }  // fix_timeslices
 
@@ -367,26 +361,6 @@ void fix_triangulation(T&& universe_ptr) {
   } while (!fix_timeslices(universe_ptr));
 }  // fix_triangulation()
 
-/*
-
-/// @brief Group all vertices within a triangulation
-///
-/// This function iterates over all of the vertices in the triangulation,
-/// and appends each Vertex_handle to a vector<Vertex_handle>, all_vertices.
-/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-/// @returns A vector<Vertex_handle>
-template <typename T>
-auto group_vertices(T&& universe_ptr){
-  Delaunay::Finite_vertices_iterator vit;
-  std::vector<Vertex_handle> all_vertices;
-  for (vit = (universe_ptr.triangulation)->finite_vertices_begin(); vit !=
-(universe_ptr.triangulation)->finite_vertices_end(); ++vit){
-    all_vertices.push_back(vit);
-  }
-  return all_vertices;
-} // group_vertices()
-*/
-
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
@@ -401,7 +375,6 @@ void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices) {
           causal_vertices.first.begin(), causal_vertices.second.begin())),
       boost::make_zip_iterator(boost::make_tuple(
           causal_vertices.first.end(), causal_vertices.second.end())));
-  // return std::move(universe_ptr);
 }  // insert_into_triangulation()
 
 /// @brief Make foliated spheres
@@ -416,8 +389,6 @@ void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices) {
 auto inline make_foliated_sphere(const std::uintmax_t simplices,
                                  const std::uintmax_t timeslices) noexcept {
   auto radius = 1.0;
-  // const auto simplices_per_timeslice = simplices/timeslices;
-  // const auto points_per_timeslice = 4 * simplices_per_timeslice;
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
@@ -471,13 +442,9 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 #endif
 
   auto universe_ptr = std::make_unique<decltype(universe)>(universe);
-
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
-
   insert_into_triangulation(universe_ptr, causal_vertices);
-
   fix_triangulation(universe_ptr);
-
   return universe_ptr;
 }  // make_triangulation()
 
@@ -491,7 +458,7 @@ auto inline make_triangulation(const std::uintmax_t simplices,
 /// recalculated using the move assignment operator anytime a
 /// SimplicialManifold() is move constructed.
 /// The default constructor, destructor, move constructor, copy
-/// constructor, and copy assignment operator are explictly defaulted.
+/// constructor, and copy assignment operator are explicitly defaulted.
 /// See http://en.cppreference.com/w/cpp/language/rule_of_three
 struct GeometryInfo {
   /// (3,1) cells in the foliation
