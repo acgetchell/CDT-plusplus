@@ -37,7 +37,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-enum class topology_type { TOROIDAL, SPHERICAL};
+enum class topology_type { TOROIDAL, SPHERICAL };
 
 /// @brief Return an environment variable
 ///
@@ -89,10 +89,10 @@ inline const std::string currentDateTime() noexcept {
 /// @param[in] number_of_simplices The number of simplices in the triangulation
 /// @param[in] number_of_timeslices The number of foliated timeslices
 /// @returns A filename as a std::string
-inline auto generate_filename(const topology_type& top,
-                       const std::uintmax_t dimensions,
-                       const std::uintmax_t number_of_simplices,
-                       const std::uintmax_t number_of_timeslices) noexcept {
+inline auto generate_filename(
+    const topology_type& top, const std::uintmax_t dimensions,
+    const std::uintmax_t number_of_simplices,
+    const std::uintmax_t number_of_timeslices) noexcept {
   std::string filename;
   if (top == topology_type::SPHERICAL) {
     filename += "S";
@@ -140,8 +140,7 @@ void print_results(const T& universe_ptr) noexcept {
             << " edges and "
             << universe_ptr.triangulation->number_of_finite_facets()
             << " faces\n"
-            << "and "
-            << universe_ptr.triangulation->number_of_finite_cells()
+            << "and " << universe_ptr.triangulation->number_of_finite_cells()
             << " cells." << std::endl;
 }
 
@@ -158,10 +157,7 @@ void print_results(const T1& universe_ptr, const T2& timer) noexcept {
   print_results(universe_ptr);
 
   // Display program running time
-  std::cout << "Running time is "
-            << timer.time()
-            << " seconds."
-            << std::endl;
+  std::cout << "Running time is " << timer.time() << " seconds." << std::endl;
 }
 
 /// @brief Writes the runtime results to a file
@@ -176,8 +172,7 @@ void print_results(const T1& universe_ptr, const T2& timer) noexcept {
 /// @param[in] number_of_simplices The number of simplices in the triangulation
 /// @param[in] number_of_timeslices The number of foliated timeslices
 template <typename T>
-void write_file(const T& universe_ptr,
-                const topology_type& topology,
+void write_file(const T& universe_ptr, const topology_type& topology,
                 const std::uintmax_t dimensions,
                 const std::uintmax_t number_of_simplices,
                 const std::uintmax_t number_of_timeslices) {
@@ -185,19 +180,14 @@ void write_file(const T& universe_ptr,
   static std::mutex mutex;
 
   std::string filename = "";
-  filename.assign(generate_filename(topology,
-                                    dimensions,
-                                    number_of_simplices,
+  filename.assign(generate_filename(topology, dimensions, number_of_simplices,
                                     number_of_timeslices));
-  std::cout << "Writing to file "
-            << filename
-            << std::endl;
+  std::cout << "Writing to file " << filename << std::endl;
 
   std::lock_guard<std::mutex> lock(mutex);
 
   std::ofstream file(filename, std::ios::out);
-  if (!file.is_open())
-    throw std::runtime_error("Unable to open file.");
+  if (!file.is_open()) throw std::runtime_error("Unable to open file.");
 
   file << *universe_ptr.triangulation;
 }
@@ -214,16 +204,16 @@ void write_file(const T& universe_ptr,
 /// @param[in] max_value  The maximum value in the range
 /// @returns A random std::uintmax_t value between min_value and max_value
 inline auto generate_random_unsigned(const std::uintmax_t min_value,
-                              const std::uintmax_t max_value) noexcept {
+                                     const std::uintmax_t max_value) noexcept {
   // Non-deterministic random number generator
   std::random_device generator;
   std::uniform_int_distribution<int> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
-  #ifndef NDEBUG
+#ifndef NDEBUG
   std::cout << "Random std::uintmax_t number is " << result << std::endl;
-  #endif
+#endif
 
   return result;
 }  // generate_random_unsigned()
@@ -236,8 +226,8 @@ inline auto generate_random_unsigned(const std::uintmax_t min_value,
 ///
 /// @param[in] max_timeslice  The maximum timeslice
 /// @returns A random timeslice from 1 to max_timeslice
-inline auto generate_random_timeslice(std::uintmax_t const max_timeslice)
-  noexcept {
+inline auto generate_random_timeslice(
+    std::uintmax_t const max_timeslice) noexcept {
   return generate_random_unsigned(1, max_timeslice);
 }  // generate_random_timeslice()
 
@@ -253,16 +243,15 @@ inline auto generate_random_timeslice(std::uintmax_t const max_timeslice)
 /// @param[in] max_value  The maximum value in the range
 /// @returns A random real number between min_value and max_value, inclusive
 template <typename T>
-auto generate_random_real(const T min_value,
-                            const T max_value) noexcept {
+auto generate_random_real(const T min_value, const T max_value) noexcept {
   std::random_device generator;
   std::uniform_real_distribution<T> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
-  #ifndef NDEBUG
+#ifndef NDEBUG
   std::cout << "Random trial is " << result << std::endl;
-  #endif
+#endif
 
   return result;
 }
@@ -273,8 +262,7 @@ auto generate_random_real(const T min_value,
 /// using **generate_random_real()**.
 ///
 /// @returns A probability from 0 to 1
-inline
-auto generate_probability() noexcept {
+inline auto generate_probability() noexcept {
   auto min = static_cast<long double>(0.0);
   auto max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
@@ -294,28 +282,25 @@ auto generate_probability() noexcept {
 /// @param[in] output     Prints desired number of simplices on timeslices
 /// @returns  The number of points per timeslice to obtain
 /// the desired number of simplices
-inline
-auto expected_points_per_simplex(const std::uintmax_t dimension,
-                                 const std::uintmax_t simplices,
-                                 const std::uintmax_t timeslices,
-                                 const bool output = true)
-                                 noexcept {
+inline auto expected_points_per_simplex(const std::uintmax_t dimension,
+                                        const std::uintmax_t simplices,
+                                        const std::uintmax_t timeslices,
+                                        const bool output = true) noexcept {
   if (output) {
-    std::cout << simplices << " simplices desired on "
-              << timeslices << " timeslices."
-              << std::endl;
+    std::cout << simplices << " simplices desired on " << timeslices
+              << " timeslices." << std::endl;
   }
 
-  const auto simplices_per_timeslice = simplices/timeslices;
+  const auto simplices_per_timeslice = simplices / timeslices;
   // Avoid segfaults for small values
   if (simplices == timeslices) {
-    return 4*simplices_per_timeslice;
+    return 4 * simplices_per_timeslice;
   } else if (simplices < 10000) {
     return simplices_per_timeslice;
   } else if (simplices < 100000) {
-    return static_cast<std::uintmax_t>(1.5*simplices_per_timeslice);
+    return static_cast<std::uintmax_t>(1.5 * simplices_per_timeslice);
   } else {
-    return static_cast<std::uintmax_t>(2.7*simplices_per_timeslice);
+    return static_cast<std::uintmax_t>(2.7 * simplices_per_timeslice);
   }
 }
 
@@ -327,9 +312,6 @@ auto expected_points_per_simplex(const std::uintmax_t dimension,
 ///
 /// @param[in] value An exact Gmpzf multiple-precision floating point number
 /// @returns The double version
-inline
-auto Gmpzf_to_double(Gmpzf value) {
-  return value.to_double();
-}
+inline auto Gmpzf_to_double(Gmpzf value) { return value.to_double(); }
 
 #endif  // SRC_UTILITIES_H_

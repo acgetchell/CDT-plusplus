@@ -20,7 +20,7 @@ TEST(Utilities, GenerateRandomTimeslice) {
 
   EXPECT_THAT(generate_random_timeslice(timeslices),
               AllOf(Gt(0), Le(timeslices)))
-    << "Random timeslice out of bounds.";
+      << "Random timeslice out of bounds.";
 }
 
 TEST(Utilities, RandomSeedingTest) {
@@ -31,33 +31,31 @@ TEST(Utilities, RandomSeedingTest) {
   const auto value3 = generate_random_timeslice(test_range_max);
   const auto value4 = generate_random_timeslice(test_range_max);
 
-
   EXPECT_THAT(value1, Ne(value2))
-    << "Your random numbers don't seem to be random.";
+      << "Your random numbers don't seem to be random.";
 
   EXPECT_THAT(value1, Ne(value3))
-    << "Your random numbers don't seem to be random.";
+      << "Your random numbers don't seem to be random.";
 
   EXPECT_THAT(value1, Ne(value4))
-    << "Your random numbers don't seem to be random.";
+      << "Your random numbers don't seem to be random.";
 
   EXPECT_THAT(value2, Ne(value3))
-    << "Your random numbers don't seem to be random.";
+      << "Your random numbers don't seem to be random.";
 
   EXPECT_THAT(value2, Ne(value4))
-    << "Your random numbers don't seem to be random.";
+      << "Your random numbers don't seem to be random.";
 
   EXPECT_THAT(value3, Ne(value4))
-    << "Your random numbers don't seem to be random.";
+      << "Your random numbers don't seem to be random.";
 }
 
 TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
   long double min{0.0};
   long double max{1.0};
 
-  EXPECT_THAT(generate_random_real(min, max),
-    AllOf(Gt(min), Le(max)))
-    << "Random real out of bounds.";
+  EXPECT_THAT(generate_random_real(min, max), AllOf(Gt(min), Le(max)))
+      << "Random real out of bounds.";
 }
 
 TEST(Utilities, ProbabilityCheck) {
@@ -67,24 +65,17 @@ TEST(Utilities, ProbabilityCheck) {
   const auto value3 = generate_probability();
   const auto value4 = generate_probability();
 
+  EXPECT_THAT(value1, Ne(value2)) << "Probabilities don't seem to be random.";
 
-  EXPECT_THAT(value1, Ne(value2))
-    << "Probabilities don't seem to be random.";
+  EXPECT_THAT(value1, Ne(value3)) << "Probabilities don't seem to be random.";
 
-  EXPECT_THAT(value1, Ne(value3))
-    << "Probabilities don't seem to be random.";
+  EXPECT_THAT(value1, Ne(value4)) << "Probabilities don't seem to be random.";
 
-  EXPECT_THAT(value1, Ne(value4))
-    << "Probabilities don't seem to be random.";
+  EXPECT_THAT(value2, Ne(value3)) << "Probabilities don't seem to be random.";
 
-  EXPECT_THAT(value2, Ne(value3))
-    << "Probabilities don't seem to be random.";
+  EXPECT_THAT(value2, Ne(value4)) << "Probabilities don't seem to be random.";
 
-  EXPECT_THAT(value2, Ne(value4))
-    << "Probabilities don't seem to be random.";
-
-  EXPECT_THAT(value3, Ne(value4))
-    << "Probabilities don't seem to be random.";
+  EXPECT_THAT(value3, Ne(value4)) << "Probabilities don't seem to be random.";
 }
 
 TEST(Utilities, GmpzfToDouble) {
@@ -95,10 +86,8 @@ TEST(Utilities, GmpzfToDouble) {
 
   auto converted_value = Gmpzf_to_double(value);
 
-  std::cout << "Gmpzf_to_double() value is "
-            << converted_value << std::endl;
+  std::cout << "Gmpzf_to_double() value is " << converted_value << std::endl;
 
   // Convert back to Gmpzf via Gmpzf(double d) and verify
-  EXPECT_THAT(value, Eq(Gmpzf(converted_value)))
-    << "Conversion not exact.";
+  EXPECT_THAT(value, Eq(Gmpzf(converted_value))) << "Conversion not exact.";
 }

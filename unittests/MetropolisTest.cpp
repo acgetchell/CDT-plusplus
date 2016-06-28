@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015 Adam Getchell
+/// Copyright (c) 2015-2016 Adam Getchell
 ///
 /// Checks that Metropolis algorithm runs properly.
 
@@ -21,14 +21,15 @@ using namespace testing;  // NOLINT
 
 class MetropolisTest : public Test {
  public:
-  MetropolisTest() : universe_{std::move(make_triangulation(6700, 17))},
-                     movable_simplex_types_{classify_simplices(universe_)},
-                     movable_edge_types_{classify_edges(universe_)},
-                     attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)},
-                     starting_vertices_{universe_->number_of_vertices()},
-                     starting_edges_{universe_->number_of_finite_edges()},
-                     starting_faces_{universe_->number_of_finite_facets()},
-                     starting_cells_{universe_->number_of_finite_cells()} {}
+  MetropolisTest()
+      : universe_{std::move(make_triangulation(6700, 17))}
+      , movable_simplex_types_{classify_simplices(universe_)}
+      , movable_edge_types_{classify_edges(universe_)}
+      , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
+      , starting_vertices_{universe_->number_of_vertices()}
+      , starting_edges_{universe_->number_of_finite_edges()}
+      , starting_faces_{universe_->number_of_finite_facets()}
+      , starting_cells_{universe_->number_of_finite_cells()} {}
 
   virtual void SetUp() {
     N3_31_before_ = std::get<0>(movable_simplex_types_).size();
@@ -36,28 +37,22 @@ class MetropolisTest : public Test {
     N3_13_before_ = std::get<2>(movable_simplex_types_).size();
     timelike_edges_ = movable_edge_types_.first.size();
     std::cout << "Starting vertices: " << starting_vertices_ << std::endl;
-    std::cout << "Starting edges: " << starting_edges_
-              << " = " << timelike_edges_ << " timelike edges and "
-              << movable_edge_types_.second << " spacelike edges."
-              << std::endl;
-    std::cout << "Starting faces: " << starting_faces_
-              << std::endl;
-    std::cout << "Starting simplices: "
-              << starting_cells_
-              << " = "
-              << N3_31_before_ << " (3,1) and "
-              << N3_22_before_ << " (2,2) and "
-              << N3_13_before_ << " (1,3)."
-              << std::endl;
+    std::cout << "Starting edges: " << starting_edges_ << " = "
+              << timelike_edges_ << " timelike edges and "
+              << movable_edge_types_.second << " spacelike edges." << std::endl;
+    std::cout << "Starting faces: " << starting_faces_ << std::endl;
+    std::cout << "Starting simplices: " << starting_cells_ << " = "
+              << N3_31_before_ << " (3,1) and " << N3_22_before_
+              << " (2,2) and " << N3_13_before_ << " (1,3)." << std::endl;
   }
   Delaunay triangulation;
-  std::unique_ptr<decltype(triangulation)>
-    universe_ = std::make_unique<decltype(triangulation)>(triangulation);
+  std::unique_ptr<decltype(triangulation)> universe_ =
+      std::make_unique<decltype(triangulation)>(triangulation);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
              std::vector<Cell_handle>> movable_simplex_types_;
   std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
   Move_tuple attempted_moves_;
-    ///< A count of all attempted moves
+  ///< A count of all attempted moves
   std::uintmax_t starting_vertices_;
   std::uintmax_t starting_edges_;
   ///< Initial number of timelike edges
@@ -79,28 +74,26 @@ class MetropolisTest : public Test {
   static constexpr auto output_every_n_passes = static_cast<std::uintmax_t>(10);
 };
 
-
 TEST_F(MetropolisTest, Ctor) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
 
   EXPECT_THAT(testrun.Alpha(), Eq(Alpha))
-    << "Alpha not correctly forwarded by ctor.";
+      << "Alpha not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.K(), Eq(K))
-    << "K not correctly forwarded by ctor.";
+  EXPECT_THAT(testrun.K(), Eq(K)) << "K not correctly forwarded by ctor.";
 
   EXPECT_THAT(testrun.Lambda(), Eq(Lambda))
-    << "Lambda not correctly forwarded by ctor.";
+      << "Lambda not correctly forwarded by ctor.";
 
   EXPECT_THAT(testrun.Passes(), Eq(passes))
-    << "Passes not correctly forwarded by ctor.";
+      << "Passes not correctly forwarded by ctor.";
 
   EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes))
-    << "output_every_n_passes not correctly forwarded by ctor.";
+      << "output_every_n_passes not correctly forwarded by ctor.";
 }
 // \todo: Fix MetropolisTest, Operator
-//TEST_F(MetropolisTest, DISABLED_Operator) {
+// TEST_F(MetropolisTest, DISABLED_Operator) {
 //  // Instantiate Metropolis functor with desired parameters
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);
 //  // Run simulation using operator() and return result
@@ -166,14 +159,14 @@ TEST_F(MetropolisTest, Ctor) {
 //  EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Gt(1))
 //    << "No successful (2,6) moves.";
 
-  // EXPECT_THAT(testrun.SuccessfulSixTwoMoves(), Ge(1))
-  //   << "No successful (6,2) moves.";
-  //
-  // EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
-  //   << "No successful (4,4) moves.";
+// EXPECT_THAT(testrun.SuccessfulSixTwoMoves(), Ge(1))
+//   << "No successful (6,2) moves.";
+//
+// EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
+//   << "No successful (4,4) moves.";
 //}
 // \todo: Fix MetropolisTest.CalculateA1
-//TEST_F(MetropolisTest, DISABLED_CalculateA1) {
+// TEST_F(MetropolisTest, DISABLED_CalculateA1) {
 //  // Instantiate Metropolis functor with passes and checkpoints = 1
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);
 //  // Run simulation using operator() and return result
@@ -195,7 +188,7 @@ TEST_F(MetropolisTest, Ctor) {
 //}
 
 // \todo: Fix MetropolisTest.CalcuateA2
-//TEST_F(MetropolisTest, DISABLED_CalculateA2) {
+// TEST_F(MetropolisTest, DISABLED_CalculateA2) {
 //  // Instantiate Metropolis functor with passes and checkpoints = 1
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);
 //  // Run simulation using operator() and return result
@@ -234,7 +227,7 @@ TEST_F(MetropolisTest, Ctor) {
 //}
 
 // \todo: Fix MetropolisTest.RunSimulation
-//TEST_F(MetropolisTest, DISABLED_RunSimulation) {
+// TEST_F(MetropolisTest, DISABLED_RunSimulation) {
 //  // Instantiate Metropolis functor with desired parameters
 //  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
 //  // Run simulation using operator() and return result

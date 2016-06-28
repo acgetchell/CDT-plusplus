@@ -13,7 +13,7 @@ Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
 [Gmock 1.7][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
 Intel's [TBB][37] provides significantly better performance if present (3x+).
-Follows (mostly) the [Google C++ Style Guide][7], which
+Follows (mostly) the [Google C++ Style Guide][7] as enforced by [clang-format][46], which
 you can check by downloading and running the [cpplint.py][8] script:
 
 ~~~
@@ -321,3 +321,4 @@ Please see [CONTRIBUTING.md][45].
 [43]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-linux.sh
 [44]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-osx.sh
 [45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
+[46]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html

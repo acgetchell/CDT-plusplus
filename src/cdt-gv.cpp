@@ -42,7 +42,7 @@ using Point3 = Gt3::Point;
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
-        R"(Causal Dynamical Triangulations in C++ using CGAL.
+    R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2015 Adam Getchell
 
@@ -63,8 +63,7 @@ Options:
   -h --help             Show this message
   --version             Show program version
   -f --file FILENAME    The file to load into GeomView
-)"
-};
+)"};
 
 /// @brief The main path of the cdt-gv program
 ///
@@ -72,46 +71,43 @@ Options:
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
 int main(int argc, char *const argv[]) {
-    // docopt option parser
-    std::map<std::string, docopt::value> args
-            = docopt::docopt(USAGE,
-                             {argv + 1, argv + argc},
-                             true,           // print help message automatically
-                             "cdt-gv 1.0");  // Version
+  // docopt option parser
+  std::map<std::string, docopt::value> args =
+      docopt::docopt(USAGE, {argv + 1, argv + argc},
+                     true,           // print help message automatically
+                     "cdt-gv 1.0");  // Version
 
-    // Debugging docopt values
-    // for (auto const& arg : args) {
-    //   std::cout << arg.first << " " << arg.second << std::endl;
-    // }
+  // Debugging docopt values
+  // for (auto const& arg : args) {
+  //   std::cout << arg.first << " " << arg.second << std::endl;
+  // }
 
-    // Parse docopt::values in args map
-    auto file = args["--file"].asString();
+  // Parse docopt::values in args map
+  auto file = args["--file"].asString();
 
-    // Test
-    std::cout << "File to be loaded is " << file << std::endl;
+  // Test
+  std::cout << "File to be loaded is " << file << std::endl;
 
-    CGAL::Geomview_stream gv(
-            CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));
-    gv.set_line_width(4);
-    gv.set_bg_color(CGAL::Color(0, 200, 200));
+  CGAL::Geomview_stream gv(CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));
+  gv.set_line_width(4);
+  gv.set_bg_color(CGAL::Color(0, 200, 200));
 
-    Delaunay D;
-    std::ifstream iFile(file, std::ios::in);
-    Point3 p;
+  Delaunay D;
+  std::ifstream iFile(file, std::ios::in);
+  Point3 p;
 
-    // Insert points from file into Delaunay triangulation
-    while (iFile >> p) {
-        D.insert(p);
-    }
+  // Insert points from file into Delaunay triangulation
+  while (iFile >> p) {
+    D.insert(p);
+  }
 
-    std::cout << "Drawing 3D Delaunay triangulation in wired mode." <<
-    std::endl;
-    gv.set_wired(true);
-    gv << D;
+  std::cout << "Drawing 3D Delaunay triangulation in wired mode." << std::endl;
+  gv.set_wired(true);
+  gv << D;
 
-    std::cout << "Enter a key to finish" << std::endl;
-    char ch;
-    std::cin >> ch;
+  std::cout << "Enter a key to finish" << std::endl;
+  char ch;
+  std::cin >> ch;
 
-    return 0;
+  return 0;
 }
