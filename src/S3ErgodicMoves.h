@@ -450,17 +450,15 @@ auto make_62_move(T1&& universe, T2&& attempted_moves, bool& successful_move)
 /// @returns universe The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
 auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
-  std::vector<Vertex_handle> tds_vertices = universe.geometry.vertices;
-  std::vector<Edge_handle> tds_spacelike_edges =
-      universe.geometry.spacelike_edges;
+  std::vector<Edge_handle> movable_spacelike_edges{
+      universe.geometry.spacelike_edges};
 
-  auto not_moved = false;  // should be true
-  uintmax_t tds_spacelike_size = tds_spacelike_edges.size();
-  while ((not_moved) && (tds_spacelike_size > 0)) {
+  auto not_moved{false};  // should be true
+  while ((not_moved) && (movable_spacelike_edges.size() > 0)) {
     // do something
   }
 #ifndef NDEBUG
-  if (tds_vertices_size == 0) {
+  if (movable_spacelike_edges.size() == 0) {
     std::cout << "No (4, 4) move is possible." << std::endl;
   }
 #endif
