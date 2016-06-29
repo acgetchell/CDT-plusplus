@@ -10,7 +10,6 @@
 
 #include <tuple>
 #include <vector>
-#include <utility>
 #include <algorithm>
 
 #include "gmock/gmock.h"
