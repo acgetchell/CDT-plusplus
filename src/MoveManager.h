@@ -25,17 +25,19 @@
 #include "Metropolis.h"
 
 class PachnerMove {
+ private:
+  move_type move_;
+  SimplicialManifold universe_;
+  Move_tuple attempted_moves_;
+
  public:
-  template <typename T1, typename T2, typename T3, typename T4>
-  PachnerMove(T1&& universe, T2&& move, T3&& movable_simplex_types,
-              T4&& movable_edge_types)
-      : universe_{std::move(universe)}
-      , move_{move}
-      , movable_simplex_types_{movable_simplex_types}
-      , movable_edge_types_{movable_edge_types} {
+  template <typename T1, typename T2>
+  PachnerMove(T1&& universe, T2&& move)
+      : universe_{std::move(universe)}, move_{move} {
     try {
-      // Make a copy
-      auto tempDT = Delaunay(*universe_);  // throws exceptions
+      // Make a copy by dereferencing the std::unique_ptr<Delaunay>
+      // in the SimplicialManifold
+      auto tempDT = Delaunay(*universe_.triangulation);  // throws exceptions
 
       // Move exception-safe, can't copy
       auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
@@ -54,7 +56,7 @@ class PachnerMove {
       CGAL_triangulation_assertion_msg(tempDT_ptr->tds().is_valid(),
                                        "Triangulation is invalid.");
       // Exception-safe commit
-      std::swap(universe_, tempDT_ptr);
+      std::swap(universe_.triangulation, tempDT_ptr);
     }
 
     catch (...) {
@@ -65,29 +67,10 @@ class PachnerMove {
     }
   }
 
-  ~PachnerMove() { universe_.release(); }
+  ~PachnerMove() { universe_.triangulation.release(); }
 
   template <typename T>
   void make_move(T&&, move_type);
-
-  // private:
-  // std::unique_ptr<Delaunay> universe_;
-  move_type move_;
-
-  Delaunay triangulation;
-  ///< Delaunay triangulation
-  std::unique_ptr<Delaunay> universe_ =
-      std::make_unique<Delaunay>(triangulation);
-  ///< Unique pointer to the Delaunay triangulation
-  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>> movable_simplex_types_;
-  ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_handle>, std::uintmax_t> movable_edge_types_;
-  ///< Movable timelike and spacelike edges.
-  Move_tuple attempted_moves_;
-  ///< A count of all attempted moves
-  std::uintmax_t number_of_vertices_;
-  ///< Vertices in Delaunay triangulation
 };
 
 template <typename T>
@@ -97,13 +80,13 @@ void PachnerMove::make_move(T&& universe, const move_type move) {
 #endif
   switch (move) {
     case move_type::TWO_THREE:
-      make_23_move(universe, movable_simplex_types_, attempted_moves_);
+      make_23_move(universe, attempted_moves_);
       break;
     case move_type::THREE_TWO:
-      make_32_move(universe, movable_edge_types_, attempted_moves_);
+      make_32_move(universe, attempted_moves_);
       break;
     case move_type::TWO_SIX:
-      make_26_move(universe, movable_simplex_types_, attempted_moves_);
+      make_26_move(universe, attempted_moves_);
       break;
     case move_type::SIX_TWO:
       // make_62_move(universe, movable_types_, attempted_moves_);

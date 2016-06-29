@@ -131,7 +131,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
          "edges.";
 }
 // \todo: Fix MoveManager tests
-TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
+TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "Constructed universe_ is invalid.";
 
@@ -155,6 +155,7 @@ TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
       << "SimplicialManifold copy invalid after make_23_move().";
 
+  // Here's the segfault; maybe define a swapperator?
   std::swap(this->universe_, tempSM);
 
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
