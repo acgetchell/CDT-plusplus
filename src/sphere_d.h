@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014 Adam Getchell
+/// Copyright (c) 2014-2016 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional sphere of
 /// a given radius
@@ -24,7 +24,6 @@
 #include <iostream>
 #include <vector>
 
-
 using Kd = CGAL::Cartesian_d<double>;
 // typedef Kd::Point_d Point;
 
@@ -39,9 +38,7 @@ using Kd = CGAL::Cartesian_d<double>;
 /// @param[in] output Prints detailed output
 /// @param[out]  points  The points ready to insert
 inline void make_d_sphere(std::uintmax_t number_of_points,
-                          std::uintmax_t dimension,
-                          double radius,
-                          bool output,
+                          std::uintmax_t dimension, double radius, bool output,
                           std::vector<Kd::Point_d>* const points) noexcept {
   points->reserve(number_of_points);
 
@@ -62,7 +59,6 @@ inline void make_d_sphere(std::uintmax_t number_of_points,
   }
 }  // make_d_sphere()
 
-
 /// @brief Make a d-dimensional sphere without output
 ///
 /// Function overload of make_d_sphere to suppress output
@@ -72,8 +68,7 @@ inline void make_d_sphere(std::uintmax_t number_of_points,
 /// @param[in] radius Radius of sphere
 /// @param[out]  points  The points ready to insert
 inline void make_d_sphere(std::uintmax_t number_of_points,
-                          std::uintmax_t dimension,
-                          double radius,
+                          std::uintmax_t dimension, double radius,
                           std::vector<Kd::Point_d>* const points) noexcept {
   make_d_sphere(number_of_points, dimension, radius, false, points);
 }  // make_d_sphere
