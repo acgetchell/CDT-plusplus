@@ -410,12 +410,13 @@ auto try_62_move(T&& universe, Vertex_handle candidate) {
 /// moves of each type given by the **move_type** enum
 /// @returns universe The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
-auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
+auto make_62_move(T1&& universe,
+                  T2&& attempted_moves, bool& successful_move) 
+                  -> decltype(universe) {
   std::vector<Vertex_handle> tds_vertices = universe.geometry.vertices;
   auto not_moved = true;
   uintmax_t tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
-    // do something
     auto choice = generate_random_unsigned(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices.at(choice);
     // Ensure pre-conditions are satisfied
@@ -435,8 +436,40 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     std::cout << "No (6, 2) move is possible." << std::endl;
   }
 #endif
-
+  successful_move = !not_moved;
   return std::move(universe);
 }  // make_62_move()
+                      
+
+/// @brief Make a (4,4) move
+///
+/// This function performs the (4,4) move by replacing a space-like edge
+/// with another space-like edge that maintains the number of simplices.
+///
+/// @param[in,out] universe A SimplicialManifold
+/// @param[in,out] attempted_moves A tuple holding a count of the attempted
+/// moves of each type given by the **move_type** enum
+/// @returns universe The SimplicialManifold after the move has been made
+template<typename T1, typename T2>
+auto make_44_move(T1&& universe, 
+                  T2&& attempted_moves)
+                  -> decltype(universe) {
+    
+  std::vector<Vertex_handle> tds_vertices = universe.geometry.vertices;
+  std::vector<Edge_handle> tds_spacelike_edges = universe.geometry.spacelike_edges;
+    
+  auto not_moved = false; //should be true
+  uintmax_t tds_spacelike_size = tds_spacelike_edges.size();
+  while((not_moved) && (tds_spacelike_size > 0)){
+    //do something
+
+  }
+#ifndef NDEBUG
+  if (tds_vertices_size == 0) {
+    std::cout << "No (4, 4) move is possible." << std::endl;
+  }
+#endif
+  return std::move(universe);
+} // make_44_move()
 
 #endif  // SRC_S3ERGODICMOVES_H_
