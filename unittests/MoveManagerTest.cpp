@@ -155,16 +155,13 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
       << "SimplicialManifold copy invalid after make_23_move().";
 
-  // Here's the segfault; maybe define a swapperator?
-  std::swap(this->universe_, tempSM);
+  // Define swap for SimplicialManifold so that geometry is recalculated
+  // when the triangulation is swapped
+  this->universe_.triangulation.swap(tempSM.triangulation);
 
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "universe_ invalid after swap with copied universe.";
-  //
-  //    // Re-populate with current data
-  //    auto new_movable_simplex_types = classify_simplices(this->universe_);
-  //    auto new_movable_edge_types = classify_edges(this->universe_);
-  //
+
   // Print new values
   std::cout << "New values:\n";
   std::cout << "(3,1) simplices: " << this->universe_.geometry.three_one.size()
