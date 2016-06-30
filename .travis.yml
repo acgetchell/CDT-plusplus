@@ -21,7 +21,8 @@ matrix:
     # - os: osx
     #   compiler: gcc
   allow_failures:
-    - compiler: gcc
+#    - compiler: gcc
+    - os: osx
 
 env:
   global:
