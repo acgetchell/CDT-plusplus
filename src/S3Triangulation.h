@@ -505,6 +505,9 @@ struct GeometryInfo {
   /// The GeometryInfo move assignment operator is called
   /// by the SimplicialManifold move assignment operator.
   GeometryInfo& operator=(Geometry_tuple&& other) {  // NOLINT
+#ifndef NDEBUG
+    std::cout << "GeometryInfo move assignment operator." << std::endl;
+#endif
     three_one = std::get<0>(other);
     two_two = std::get<1>(other);
     one_three = std::get<2>(other);
@@ -595,6 +598,9 @@ struct SimplicialManifold {
 
   /// @brief Destructor
   virtual ~SimplicialManifold() {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold dtor." << std::endl;
+#endif
     this->triangulation = nullptr;
     this->geometry = GeometryInfo{};
   }
@@ -602,10 +608,17 @@ struct SimplicialManifold {
   /// @brief Move constructor
   SimplicialManifold(SimplicialManifold&& other)  // NOLINT
       : triangulation{std::move(other.triangulation)},
-        geometry{classify_all_simplices(other.triangulation)} {}
+        geometry{classify_all_simplices(other.triangulation)} {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold move ctor." << std::endl;
+#endif
+  }
 
   /// Move assignment operator
   SimplicialManifold& operator=(SimplicialManifold&& other) {  // NOLINT
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold move assignment operator." << std::endl;
+#endif
     triangulation = std::move(other.triangulation);
     geometry = classify_all_simplices(std::move(other.triangulation));
     return *this;
