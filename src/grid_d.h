@@ -9,16 +9,16 @@
 #define SRC_GRID_D_H_
 
 #include <CGAL/Cartesian_d.h>
-#include <CGAL/point_generators_d.h>
 #include <CGAL/constructions_d.h>
+#include <CGAL/point_generators_d.h>
 
 #include <vector>
 
-using Kd = CGAL::Cartesian_d<double>;
-using Point = Kd::Point_d;
+using Kd        = CGAL::Cartesian_d<double>;
+using Point     = Kd::Point_d;
 using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
 
-void make_d_cube(std::vector<Point> *v, int nb_points, int dimension) {
+void make_d_cube(std::vector<Point>* v, int nb_points, int dimension) {
   double size = 1.0;
 
   std::cout << "Generating " << nb_points << " grid points in " << dimension

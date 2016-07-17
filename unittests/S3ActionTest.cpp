@@ -11,14 +11,14 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include <vector>
 #include <algorithm>
-#include <utility>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 #include "gmock/gmock.h"
-#include "src/S3Triangulation.h"
 #include "src/S3Action.h"
+#include "src/S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 
@@ -125,7 +125,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
 
 TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   constexpr auto tolerance = static_cast<long double>(0.05);
-  constexpr auto Alpha = static_cast<long double>(1.0);
+  constexpr auto Alpha     = static_cast<long double>(1.0);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
 
   auto Bulk_action =

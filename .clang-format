@@ -3,7 +3,8 @@ Language:        Cpp
 # BasedOnStyle:  Google
 AccessModifierOffset: -1
 AlignAfterOpenBracket: true
-#AlignConsecutiveAssignments: true
+AlignConsecutiveAssignments: true
+AlignConsecutiveDeclarations: true
 AlignEscapedNewlinesLeft: true
 AlignOperands:   true
 AlignTrailingComments: true
@@ -16,6 +17,7 @@ AllowShortFunctionsOnASingleLine: All
 AlwaysBreakAfterDefinitionReturnType: false
 AlwaysBreakTemplateDeclarations: true
 AlwaysBreakBeforeMultilineStrings: true
+BreakBeforeBraces: Attach
 BreakBeforeBinaryOperators: None
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
@@ -24,13 +26,20 @@ BinPackArguments: true
 ColumnLimit:     80
 ConstructorInitializerAllOnOneLineOrOnePerLine: true
 ConstructorInitializerIndentWidth: 4
+ContinuationIndentWidth: 4
+CommentPragmas:  '^ IWYU pragma:'
+Cpp11BracedListStyle: true
 DerivePointerAlignment: false
+DisableFormat:   false
 ExperimentalAutoDetectBinPacking: false
+ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
 IndentCaseLabels: true
-IndentWrappedFunctionNames: false
 IndentFunctionDeclarationAfterType: false
-MaxEmptyLinesToKeep: 1
+IndentWidth:     2
+IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
+Language: Cpp
+MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 ObjCBlockIndentWidth: 2
 ObjCSpaceAfterProperty: false
@@ -43,12 +52,6 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
 SpacesBeforeTrailingComments: 2
-Cpp11BracedListStyle: true
-Standard:        Auto
-IndentWidth:     2
-TabWidth:        8
-UseTab:          Never
-BreakBeforeBraces: Attach
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
 SpacesInAngles:  false
@@ -57,9 +60,8 @@ SpacesInCStyleCastParentheses: false
 SpaceAfterCStyleCast: false
 SpacesInContainerLiterals: true
 SpaceBeforeAssignmentOperators: true
-ContinuationIndentWidth: 4
-CommentPragmas:  '^ IWYU pragma:'
-ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
 SpaceBeforeParens: ControlStatements
-DisableFormat:   false
+Standard:        Cpp11
+TabWidth:        8
+UseTab:          Never
 ...

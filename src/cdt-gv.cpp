@@ -20,25 +20,25 @@
 /// @author Adam Getchell
 
 // CGAL headers
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Delaunay_triangulation_3.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/IO/Geomview_stream.h>
-#include <CGAL/Projection_traits_xy_3.h>
 #include <CGAL/IO/Triangulation_geomview_ostream_3.h>
+#include <CGAL/Projection_traits_xy_3.h>
 
 // C++ headers
-#include <iostream>
 #include <fstream>
+#include <iostream>
 #include <map>
 #include <string>
 
 // Docopt
 #include "docopt/docopt.h"
 
-using K = CGAL::Exact_predicates_inexact_constructions_kernel;
+using K        = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Delaunay = CGAL::Delaunay_triangulation_3<K>;
-using Gt3 = CGAL::Projection_traits_xy_3<K>;
-using Point3 = Gt3::Point;
+using Gt3      = CGAL::Projection_traits_xy_3<K>;
+using Point3   = Gt3::Point;
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -70,7 +70,7 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char *const argv[]) {
+int main(int argc, char* const argv[]) {
   // docopt option parser
   std::map<std::string, docopt::value> args =
       docopt::docopt(USAGE, {argv + 1, argv + argc},
@@ -92,9 +92,9 @@ int main(int argc, char *const argv[]) {
   gv.set_line_width(4);
   gv.set_bg_color(CGAL::Color(0, 200, 200));
 
-  Delaunay D;
+  Delaunay      D;
   std::ifstream iFile(file, std::ios::in);
-  Point3 p;
+  Point3        p;
 
   // Insert points from file into Delaunay triangulation
   while (iFile >> p) {

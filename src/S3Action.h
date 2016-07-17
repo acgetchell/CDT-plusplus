@@ -25,13 +25,13 @@
 
 // #include <CGAL/MP_Float.h>
 #include <CGAL/Gmpzf.h>
-#include <stdio.h>
 #include <mpfr.h>
+#include <stdio.h>
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
-using Gmpzf = CGAL::Gmpzf;
-using MP_Float = CGAL::MP_Float;
+using Gmpzf    = CGAL::Gmpzf;
+//using MP_Float = CGAL::MP_Float;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static constexpr std::uintmax_t PRECISION = 256;
 
@@ -58,7 +58,7 @@ static constexpr std::uintmax_t PRECISION = 256;
 inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
                                            const std::uintmax_t N3_31,
                                            const std::uintmax_t N3_22,
-                                           const long double K,
+                                           const long double    K,
                                            const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -134,8 +134,8 @@ inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
 inline auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
                                      const std::uintmax_t N3_31,
                                      const std::uintmax_t N3_22,
-                                     const long double K,
-                                     const long double Lambda) noexcept {
+                                     const long double    K,
+                                     const long double    Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
 

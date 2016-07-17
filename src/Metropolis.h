@@ -35,15 +35,15 @@
 // #include <CGAL/Mpzf.h>
 
 // CDT headers
-#include "S3ErgodicMoves.h"
 #include "S3Action.h"
+#include "S3ErgodicMoves.h"
 
 // C++ headers
 #include <tuple>
 // #include <atomic>
-#include <vector>
-#include <utility>
 #include <algorithm>
+#include <utility>
+#include <vector>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -52,8 +52,8 @@ extern const std::uintmax_t PRECISION;
 enum class move_type {
   TWO_THREE = 0,
   THREE_TWO = 1,
-  TWO_SIX = 2,
-  SIX_TWO = 3,
+  TWO_SIX   = 2,
+  SIX_TWO   = 3,
   FOUR_FOUR = 4
 };
 
@@ -202,8 +202,8 @@ class Metropolis {
   /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_type move) const noexcept {
     auto total_moves = this->TotalMoves();
-    auto this_move = 0;
-    auto move_name = "";
+    auto this_move   = 0;
+    auto move_name   = "";
     switch (move) {
       case move_type::TWO_THREE:
         this_move = std::get<0>(attempted_moves_);
@@ -306,7 +306,7 @@ class Metropolis {
         assert(!"Metropolis::CalculateA2 should never get here!");
     }
 
-    auto exponent = newS3Action - currentS3Action;
+    auto exponent        = newS3Action - currentS3Action;
     auto exponent_double = Gmpzf_to_double(exponent);
 
     // if exponent > 0 then e^exponent >=1 so according to Metropolis
@@ -480,7 +480,7 @@ class Metropolis {
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
     std::cout << "A2 = " << a2 << std::endl;
-    std::cout << "A1*A2 = " << a1* a2 << std::endl;
+    std::cout << "A1*A2 = " << a1 * a2 << std::endl;
     std::cout << ((trial <= a1 * a2) ? "Move accepted." : "Move rejected.")
               << std::endl;
     std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
@@ -622,7 +622,8 @@ class Metropolis {
   Move_tuple successful_moves_{0, 0, 0, 0, 0};
   ///< Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>> movable_simplex_types_;
+             std::vector<Cell_handle>>
+      movable_simplex_types_;
   ///< Movable (3,1), (2,2) and (1,3) simplices.
   std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
       movable_edge_types_;

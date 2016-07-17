@@ -25,12 +25,12 @@
 #include <sys/utsname.h>
 
 // C++ headers
-#include <stdexcept>
-#include <iostream>
 #include <fstream>
-#include <string>
-#include <random>
+#include <iostream>
 #include <mutex>
+#include <random>
+#include <stdexcept>
+#include <string>
 
 // Boost
 // #include <boost/type_index.hpp>
@@ -71,9 +71,9 @@ inline std::string hostname() noexcept {
 /// @returns The current data and time in a thread-safe manner using
 /// **localtime_r()** as a std::string.
 inline const std::string currentDateTime() noexcept {
-  auto now = time(0);
+  auto      now = time(0);
   struct tm tstruct;
-  char time_str[100];
+  char      time_str[100];
   localtime_r(&now, &tstruct);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   // for more info about date/time format
@@ -206,7 +206,7 @@ void write_file(const T& universe_ptr, const topology_type& topology,
 inline auto generate_random_unsigned(const std::uintmax_t min_value,
                                      const std::uintmax_t max_value) noexcept {
   // Non-deterministic random number generator
-  std::random_device generator;
+  std::random_device                 generator;
   std::uniform_int_distribution<int> distribution(min_value, max_value);
 
   auto result = distribution(generator);
@@ -244,7 +244,7 @@ inline auto generate_random_timeslice(
 /// @returns A random real number between min_value and max_value, inclusive
 template <typename T>
 auto generate_random_real(const T min_value, const T max_value) noexcept {
-  std::random_device generator;
+  std::random_device                generator;
   std::uniform_real_distribution<T> distribution(min_value, max_value);
 
   auto result = distribution(generator);

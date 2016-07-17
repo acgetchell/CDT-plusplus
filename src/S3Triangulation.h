@@ -48,29 +48,28 @@
 #define SRC_S3TRIANGULATION_H_
 
 // C headers
-// #include <math.h>
+#include <boost/iterator/zip_iterator.hpp>
 
 // CGAL headers
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Triangulation_vertex_base_with_info_3.h>
-#include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Delaunay_triangulation_3.h>
+#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Triangulation_cell_base_with_info_3.h>
+#include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
 
 // C++ headers
-#include <boost/iterator/zip_iterator.hpp>
 #include <algorithm>
-#include <stdexcept>
-#include <utility>
-#include <vector>
-#include <tuple>
 #include <list>
 #include <set>
+#include <stdexcept>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 // CDT headers
 #include "src/utilities.h"
 
-using K = CGAL::Exact_predicates_inexact_constructions_kernel;
+using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
 // Used so that each timeslice is assigned an integer
 using Vb = CGAL::Triangulation_vertex_base_with_info_3<std::uintmax_t, K>;
@@ -82,12 +81,12 @@ using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Parallel_tag>;
 #else
 using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb>;
 #endif
-using Delaunay = CGAL::Delaunay_triangulation_3<K, Tds>;
-using Cell_handle = Delaunay::Cell_handle;
+using Delaunay      = CGAL::Delaunay_triangulation_3<K, Tds>;
+using Cell_handle   = Delaunay::Cell_handle;
 using Vertex_handle = Delaunay::Vertex_handle;
-using Locate_type = Delaunay::Locate_type;
-using Point = Delaunay::Point;
-using Edge_handle = std::tuple<Cell_handle, std::uintmax_t, std::uintmax_t>;
+using Locate_type   = Delaunay::Locate_type;
+using Point         = Delaunay::Point;
+using Edge_handle   = std::tuple<Cell_handle, std::uintmax_t, std::uintmax_t>;
 using Causal_vertices =
     std::pair<std::vector<Point>, std::vector<std::uintmax_t>>;
 using Geometry_tuple =
@@ -123,7 +122,7 @@ template <typename T>
 auto classify_edges(T&& universe_ptr) noexcept {
   std::cout << "Classifying edges...." << std::endl;
   Delaunay::Finite_edges_iterator eit;
-  std::vector<Edge_handle> timelike_edges;
+  std::vector<Edge_handle>        timelike_edges;
   //  auto spacelike_edges = static_cast<std::uintmax_t>(0);
   std::vector<Edge_handle> spacelike_edges;
 
@@ -180,18 +179,18 @@ template <typename T>
 auto classify_simplices(T&& universe_ptr) {
   std::cout << "Classifying simplices...." << std::endl;
   Delaunay::Finite_cells_iterator cit;
-  std::vector<Cell_handle> three_one;
-  std::vector<Cell_handle> two_two;
-  std::vector<Cell_handle> one_three;
+  std::vector<Cell_handle>        three_one;
+  std::vector<Cell_handle>        two_two;
+  std::vector<Cell_handle>        one_three;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
     std::list<std::uintmax_t> timevalues;
-    auto max_time = 0;
-    auto current_time = 0;
-    auto max_values = 0;
-    auto min_values = 0;
+    auto                      max_time     = 0;
+    auto                      current_time = 0;
+    auto                      max_values   = 0;
+    auto                      min_values   = 0;
     // Push every time value of every vertex into a list
     for (auto i = 0; i < 4; ++i) {
       timevalues.emplace_back(cit->vertex(i)->info());
@@ -238,8 +237,8 @@ template <typename T>
 auto classify_all_simplices(T&& universe_ptr) {
   std::cout << "Classifying all simplices...." << std::endl;
 
-  auto cells = classify_simplices(universe_ptr);
-  auto edges = classify_edges(universe_ptr);
+  auto                       cells = classify_simplices(universe_ptr);
+  auto                       edges = classify_edges(universe_ptr);
   std::vector<Vertex_handle> vertices;
   for (auto vit = universe_ptr->finite_vertices_begin();
        vit != universe_ptr->finite_vertices_end(); ++vit) {
@@ -269,12 +268,12 @@ auto classify_all_simplices(T&& universe_ptr) {
 template <typename T>
 auto fix_timeslices(T&& universe_ptr) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
-  auto min_time = static_cast<std::uintmax_t>(0);
-  auto max_time = static_cast<std::uintmax_t>(0);
-  auto valid = static_cast<std::uintmax_t>(0);
-  auto invalid = static_cast<std::uintmax_t>(0);
-  auto max_vertex = static_cast<std::uintmax_t>(0);
-  std::set<Vertex_handle> deleted_vertices;
+  auto                            min_time   = static_cast<std::uintmax_t>(0);
+  auto                            max_time   = static_cast<std::uintmax_t>(0);
+  auto                            valid      = static_cast<std::uintmax_t>(0);
+  auto                            invalid    = static_cast<std::uintmax_t>(0);
+  auto                            max_vertex = static_cast<std::uintmax_t>(0);
+  std::set<Vertex_handle>         deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
@@ -292,7 +291,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
         // Classify extreme values
         if (current_time < min_time) min_time = current_time;
         if (current_time > max_time) {
-          max_time = current_time;
+          max_time   = current_time;
           max_vertex = i;
         }
       }  // Finish iterating over vertices
@@ -388,14 +387,14 @@ void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices) {
 /// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::uintmax_t simplices,
                                  const std::uintmax_t timeslices) noexcept {
-  auto radius = 1.0;
+  //  double     radius{0};
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
   Causal_vertices causal_vertices;
 
   for (auto i = 0; i < timeslices; ++i) {
-    radius = 1.0 + static_cast<double>(i);
+    auto radius = 1.0 + static_cast<double>(i);
     CGAL::Random_points_on_sphere_3<Point> gen(radius);
     // At each radius, generate a sphere of random points
     for (auto j = 0; j < points_per_timeslice; ++j) {
@@ -441,7 +440,7 @@ auto inline make_triangulation(const std::uintmax_t simplices,
   Delaunay universe{};
 #endif
 
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+  auto universe_ptr    = std::make_unique<decltype(universe)>(universe);
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
   insert_into_triangulation(universe_ptr, causal_vertices);
   fix_triangulation(universe_ptr);
@@ -508,12 +507,12 @@ struct GeometryInfo {
 #ifndef NDEBUG
     std::cout << "GeometryInfo move assignment operator." << std::endl;
 #endif
-    three_one = std::get<0>(other);
-    two_two = std::get<1>(other);
-    one_three = std::get<2>(other);
-    timelike_edges = std::get<3>(other);
+    three_one       = std::get<0>(other);
+    two_two         = std::get<1>(other);
+    one_three       = std::get<2>(other);
+    timelike_edges  = std::get<3>(other);
     spacelike_edges = std::get<4>(other);
-    vertices = std::get<5>(other);
+    vertices        = std::get<5>(other);
     return *this;
   }
 
@@ -602,7 +601,7 @@ struct SimplicialManifold {
     std::cout << "SimplicialManifold dtor." << std::endl;
 #endif
     this->triangulation = nullptr;
-    this->geometry = GeometryInfo{};
+    this->geometry      = GeometryInfo{};
   }
 
   /// @brief Move constructor
@@ -620,15 +619,31 @@ struct SimplicialManifold {
     std::cout << "SimplicialManifold move assignment operator." << std::endl;
 #endif
     triangulation = std::move(other.triangulation);
-    geometry = classify_all_simplices(std::move(other.triangulation));
+    geometry      = classify_all_simplices(std::move(other.triangulation));
     return *this;
   }
 
-  /// Default copy constructor
-  SimplicialManifold(const SimplicialManifold&) = default;
+  /// @brief Copy constructor
+  SimplicialManifold(const SimplicialManifold& other)
+      : triangulation{std::make_unique<Delaunay>(
+            Delaunay{*other.triangulation})}
+      , geometry{other.geometry} {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold copy ctor." << std::endl;
+#endif
+    //    // Invoke the Delaunay copy constructor
+    //    auto copied_DT = Delaunay(*other.triangulation);
+    //    auto copied_DT_ptr = std::make_unique<Delaunay>(copied_DT);
+    ////    triangulation = copied_DT_ptr;
+    //    swap(triangulation, copied_DT_ptr);
+    //    geometry = other.geometry;
+    //    return *this;
+    //    triangulation =
+    //    std::make_unique<Delaunay>(Delaunay{*other.triangulation});
+  };
 
   /// Default copy assignment operator
-  SimplicialManifold& operator=(const SimplicialManifold&) = default;
+  //  SimplicialManifold& operator=(const SimplicialManifold&) = default;
 };
 
 #endif  // SRC_S3TRIANGULATION_H_

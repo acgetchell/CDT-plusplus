@@ -33,10 +33,10 @@
 
 // C++ headers
 // #include <random>
-#include <vector>
-#include <utility>
 #include <algorithm>
 #include <tuple>
+#include <utility>
+#include <vector>
 
 /// @brief Try a (2,3) move
 ///
@@ -199,7 +199,7 @@ inline auto find_26_movable(const Cell_handle c, std::uintmax_t* n) {
 #endif
     // Check all neighbors for a (3,1) simplex
     if (is_26_movable(c, i)) {
-      *n = i;
+      *n      = i;
       movable = true;
     }
   }
@@ -247,7 +247,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
         generate_random_unsigned(0, universe.geometry.one_three.size() - 1);
 
     std::uintmax_t neighboring_31_index{5};
-    Cell_handle bottom = universe.geometry.one_three[choice];
+    Cell_handle    bottom = universe.geometry.one_three[choice];
 
     CGAL_triangulation_expensive_precondition(is_cell(bottom));
 
@@ -338,7 +338,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
 
       // Assign a timeslice to the new vertex
-      auto timeslice = v1->info();
+      auto timeslice   = v1->info();
       v_center->info() = timeslice;
 
 #ifndef NDEBUG
@@ -412,11 +412,11 @@ auto try_62_move(T&& universe, Vertex_handle candidate) {
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe, T2&& attempted_moves, bool& successful_move)
     -> decltype(universe) {
-  std::vector<Vertex_handle> tds_vertices = universe.geometry.vertices;
-  auto not_moved = true;
-  uintmax_t tds_vertices_size = tds_vertices.size();
+  std::vector<Vertex_handle> tds_vertices      = universe.geometry.vertices;
+  auto                       not_moved         = true;
+  uintmax_t                  tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
-    auto choice = generate_random_unsigned(0, tds_vertices_size - 1);
+    auto          choice = generate_random_unsigned(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices.at(choice);
     // Ensure pre-conditions are satisfied
     CGAL_triangulation_precondition(universe.triangulation->dimension() == 3);

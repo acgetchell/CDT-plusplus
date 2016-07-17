@@ -22,13 +22,13 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
+#include <cstdlib>
 #include <exception>
 #include <iostream>
-#include <cstdlib>
+#include <map>
+#include <memory>
 #include <string>
 #include <vector>
-#include <memory>
-#include <map>
 
 // Docopt
 #include "docopt/docopt.h"
@@ -75,7 +75,7 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char *const argv[]) {
+int main(int argc, char* const argv[]) {
   try {
     // Start running time
     CGAL::Real_timer t;
@@ -93,13 +93,13 @@ int main(int argc, char *const argv[]) {
     // }
 
     // Parse docopt::values in args map
-    auto simplices = std::stoul(args["-n"].asString());
+    auto simplices  = std::stoul(args["-n"].asString());
     auto timeslices = std::stoul(args["-t"].asString());
     auto dimensions = std::stoul(args["-d"].asString());
-    auto alpha = std::stold(args["--alpha"].asString());
-    auto k = std::stold(args["-k"].asString());
-    auto lambda = std::stold(args["--lambda"].asString());
-    auto passes = std::stoul(args["--passes"].asString());
+    auto alpha      = std::stold(args["--alpha"].asString());
+    auto k          = std::stold(args["-k"].asString());
+    auto lambda     = std::stold(args["--lambda"].asString());
+    auto passes     = std::stoul(args["--passes"].asString());
     auto checkpoint = std::stoul(args["--checkpoint"].asString());
 
     // Topology of simulation
@@ -111,9 +111,10 @@ int main(int argc, char *const argv[]) {
     }
 
     // Display job parameters
-    std::cout << "Topology is " << (topology == topology_type::TOROIDAL
-                                        ? " toroidal "
-                                        : "spherical ") << std::endl;
+    std::cout << "Topology is "
+              << (topology == topology_type::TOROIDAL ? " toroidal "
+                                                      : "spherical ")
+              << std::endl;
     std::cout << "Number of dimensions = " << dimensions << std::endl;
     std::cout << "Number of simplices = " << simplices << std::endl;
     std::cout << "Number of timeslices = " << timeslices << std::endl;
@@ -127,7 +128,7 @@ int main(int argc, char *const argv[]) {
 
     // Initialize spherical Delaunay triangulation
     Delaunay universe;
-    auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+    auto     universe_ptr = std::make_unique<decltype(universe)>(universe);
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
@@ -181,15 +182,15 @@ int main(int argc, char *const argv[]) {
                result.triangulation->number_of_finite_cells(), timeslices);
 
     return 0;
-  } catch (std::domain_error &DomainError) {
+  } catch (std::domain_error& DomainError) {
     std::cerr << DomainError.what() << std::endl;
     std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
     return 1;
-  } catch (std::invalid_argument &InvalidArgument) {
+  } catch (std::invalid_argument& InvalidArgument) {
     std::cerr << InvalidArgument.what() << std::endl;
     std::cerr << "Invalid parameter ... Exiting." << std::endl;
     return 1;
-  } catch (std::logic_error &LogicError) {
+  } catch (std::logic_error& LogicError) {
     std::cerr << LogicError.what() << std::endl;
     std::cerr << "Simulation startup failed ... Exiting." << std::endl;
     return 1;

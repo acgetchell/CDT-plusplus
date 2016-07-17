@@ -11,8 +11,8 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include <vector>
 #include <utility>
+#include <vector>
 
 #include "gmock/gmock.h"
 #include "src/S3Triangulation.h"
@@ -27,7 +27,7 @@ class TetrahedronTest : public Test {
     universe.triangulation->insert(V.begin(), V.end());
   }
 
-  SimplicialManifold universe;
+  SimplicialManifold           universe;
   std::vector<Delaunay::Point> V{
       Delaunay::Point{0, 0, 0}, Delaunay::Point{0, 1, 0},
       Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
@@ -112,7 +112,7 @@ TEST_F(FoliatedTetrahedronTest, InsertSimplexType) {
 TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges) {
   SimplicialManifold new_universe =
       SimplicialManifold(std::move(universe.triangulation));
-  auto timelike_edges = new_universe.geometry.timelike_edges.size();
+  auto timelike_edges  = new_universe.geometry.timelike_edges.size();
   auto spacelike_edges = new_universe.geometry.spacelike_edges.size();
 
   std::cout << "There are " << timelike_edges << " timelike edges and "

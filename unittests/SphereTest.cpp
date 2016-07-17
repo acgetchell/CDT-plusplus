@@ -20,9 +20,9 @@
 using namespace testing;  // NOLINT
 
 TEST(Sphere, Create2Sphere) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(100);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(12);
-  auto causal_vertices = make_foliated_sphere(simplices, timeslices);
+  constexpr auto simplices       = static_cast<std::uintmax_t>(100);
+  constexpr auto timeslices      = static_cast<std::uintmax_t>(12);
+  auto           causal_vertices = make_foliated_sphere(simplices, timeslices);
   // auto number_of_vertices = 4 * (simplices/timeslices) * timeslices;
   auto number_of_vertices =
       expected_points_per_simplex(3, simplices, timeslices, false) * timeslices;
@@ -42,10 +42,10 @@ TEST(Sphere, Create2Sphere) {
 
 TEST(Sphere, Create3Sphere) {
   std::vector<Kd::Point_d> points;
-  constexpr auto number_of_points = 5;
-  constexpr auto dim = 4;
-  constexpr auto radius = 1.0;
-  constexpr auto output = false;
+  constexpr auto           number_of_points = 5;
+  constexpr auto           dim              = 4;
+  constexpr auto           radius           = 1.0;
+  constexpr auto           output           = false;
 
   make_d_sphere(number_of_points, dim, radius, output, &points);
 

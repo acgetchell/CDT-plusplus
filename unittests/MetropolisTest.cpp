@@ -10,9 +10,9 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
+#include <tuple>
 #include <utility>
 #include <vector>
-#include <tuple>
 
 #include "gmock/gmock.h"
 #include "src/Metropolis.h"
@@ -32,9 +32,9 @@ class MetropolisTest : public Test {
       , starting_cells_{universe_->number_of_finite_cells()} {}
 
   virtual void SetUp() {
-    N3_31_before_ = std::get<0>(movable_simplex_types_).size();
-    N3_22_before_ = std::get<1>(movable_simplex_types_).size();
-    N3_13_before_ = std::get<2>(movable_simplex_types_).size();
+    N3_31_before_   = std::get<0>(movable_simplex_types_).size();
+    N3_22_before_   = std::get<1>(movable_simplex_types_).size();
+    N3_13_before_   = std::get<2>(movable_simplex_types_).size();
     timelike_edges_ = movable_edge_types_.first.size();
     std::cout << "Starting vertices: " << starting_vertices_ << std::endl;
     std::cout << "Starting edges: " << starting_edges_ << " = "
@@ -46,11 +46,12 @@ class MetropolisTest : public Test {
               << N3_31_before_ << " (3,1) and " << N3_22_before_
               << " (2,2) and " << N3_13_before_ << " (1,3)." << std::endl;
   }
-  Delaunay triangulation;
+  Delaunay                                 triangulation;
   std::unique_ptr<decltype(triangulation)> universe_ =
       std::make_unique<decltype(triangulation)>(triangulation);
   std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>> movable_simplex_types_;
+             std::vector<Cell_handle>>
+      movable_simplex_types_;
   std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
       movable_edge_types_;
   /// A count of all attempted moves
@@ -72,8 +73,8 @@ class MetropolisTest : public Test {
   /// Initial number of timelike edges
   std::uintmax_t timelike_edges_{0};
 
-  static constexpr auto Alpha = static_cast<long double>(1.1);
-  static constexpr auto K = static_cast<long double>(2.2);
+  static constexpr auto Alpha  = static_cast<long double>(1.1);
+  static constexpr auto K      = static_cast<long double>(2.2);
   static constexpr auto Lambda = static_cast<long double>(3.3);
   static constexpr auto passes = static_cast<std::uintmax_t>(100);
   static constexpr auto output_every_n_passes = static_cast<std::uintmax_t>(10);

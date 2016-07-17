@@ -11,24 +11,26 @@
 /// @brief RAII class to manage exception-safe foliation-preserving
 /// Pachner moves
 /// @author Adam Getchell
+/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
+/// scan-build</a>: No bugs found.
 
 #ifndef SRC_MOVEMANAGER_H_
 #define SRC_MOVEMANAGER_H_
 
-#include <tuple>
-#include <memory>
-#include <vector>
-#include <utility>
 #include <algorithm>
+#include <memory>
+#include <tuple>
 #include <type_traits>
+#include <utility>
+#include <vector>
 
 #include "Metropolis.h"
 
 class PachnerMove {
  private:
-  move_type move_;
+  move_type          move_;
   SimplicialManifold universe_;
-  Move_tuple attempted_moves_;
+  Move_tuple         attempted_moves_;
 
  public:
   template <typename T1, typename T2>

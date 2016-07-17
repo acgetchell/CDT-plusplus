@@ -8,9 +8,9 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
+#include <algorithm>
 #include <tuple>
 #include <vector>
-#include <algorithm>
 
 #include "gmock/gmock.h"
 #include "src/MoveManager.h"
@@ -79,7 +79,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
       << "Constructed universe is invalid.";
 
   // Make a copy using Delaunay copy-ctor
-  auto tempDT = Delaunay(*(this->universe_.triangulation));
+  auto tempDT     = Delaunay(*(this->universe_.triangulation));
   auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
 
   EXPECT_TRUE(this->universe_.triangulation != tempDT_ptr)
@@ -136,7 +136,7 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
       << "Constructed universe_ is invalid.";
 
   // Make a copy using Delaunay copy-ctor
-  auto tempDT = Delaunay(*(this->universe_.triangulation));
+  auto tempDT     = Delaunay(*(this->universe_.triangulation));
   auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
 
   EXPECT_TRUE(this->universe_.triangulation != tempDT_ptr)

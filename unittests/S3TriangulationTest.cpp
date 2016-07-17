@@ -11,14 +11,14 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include "gmock/gmock.h"
 #include "src/S3Triangulation.h"
+#include "gmock/gmock.h"
 
 using namespace testing;  // NOLINT
 
 TEST(S3Triangulation, CreateWithUniquePtr) {
   Delaunay universe;
-  auto universe_ptr = std::make_unique<decltype(universe)>(universe);
+  auto     universe_ptr = std::make_unique<decltype(universe)>(universe);
 
   // Verify unique_ptr null check
   // universe_ptr.reset();
@@ -26,10 +26,10 @@ TEST(S3Triangulation, CreateWithUniquePtr) {
 }
 
 TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
+  constexpr auto simplices  = static_cast<std::uintmax_t>(6400);
   constexpr auto timeslices = static_cast<std::uintmax_t>(17);
   // explicit SimplicialManifold ctor with std::unique_ptr<Delaunay>
-  auto universe_ptr = make_triangulation(simplices, timeslices);
+  auto               universe_ptr = make_triangulation(simplices, timeslices);
   SimplicialManifold universe(std::move(universe_ptr));
 
   EXPECT_THAT(universe.triangulation, Ne(nullptr))
@@ -65,8 +65,8 @@ TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
 }
 
 TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(17);
+  constexpr auto     simplices  = static_cast<std::uintmax_t>(6400);
+  constexpr auto     timeslices = static_cast<std::uintmax_t>(17);
   SimplicialManifold universe(simplices, timeslices);
 
   EXPECT_THAT(universe.triangulation, Ne(nullptr))
@@ -102,8 +102,8 @@ TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
 }
 
 TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(2);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(2);
+  constexpr auto     simplices  = static_cast<std::uintmax_t>(2);
+  constexpr auto     timeslices = static_cast<std::uintmax_t>(2);
   SimplicialManifold universe(simplices, timeslices);
 
   EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
@@ -127,8 +127,8 @@ TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
 }
 
 TEST(S3Triangulation, CreateSomeSimplices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(6400);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(16);
+  constexpr auto     simplices  = static_cast<std::uintmax_t>(6400);
+  constexpr auto     timeslices = static_cast<std::uintmax_t>(16);
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
@@ -158,8 +158,8 @@ TEST(S3Triangulation, CreateSomeSimplices) {
 }
 
 TEST(S3Triangulation, CreateWithLotsOfSimplices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(64000);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(67);
+  constexpr auto     simplices  = static_cast<std::uintmax_t>(64000);
+  constexpr auto     timeslices = static_cast<std::uintmax_t>(67);
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
@@ -189,8 +189,8 @@ TEST(S3Triangulation, CreateWithLotsOfSimplices) {
 }
 
 TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices) {
-  constexpr auto simplices = static_cast<std::uintmax_t>(640000);
-  constexpr auto timeslices = static_cast<std::uintmax_t>(256);
+  constexpr auto     simplices  = static_cast<std::uintmax_t>(640000);
+  constexpr auto     timeslices = static_cast<std::uintmax_t>(256);
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()

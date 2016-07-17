@@ -8,30 +8,30 @@
 #define SRC_PERIODIC_3_COMPLEX_H_
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Periodic_3_triangulation_traits_3.h>
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
+#include <CGAL/Periodic_3_triangulation_traits_3.h>
 
 #include <CGAL/Random.h>
-#include <CGAL/point_generators_3.h>
 #include <CGAL/Timer.h>
+#include <CGAL/point_generators_3.h>
 
-#include <vector>
 #include <cassert>
+#include <vector>
 
-using K = CGAL::Exact_predicates_inexact_constructions_kernel;
-using GT = CGAL::Periodic_3_triangulation_traits_3<K>;
+using K   = CGAL::Exact_predicates_inexact_constructions_kernel;
+using GT  = CGAL::Periodic_3_triangulation_traits_3<K>;
 using PDT = CGAL::Periodic_3_Delaunay_triangulation_3<GT>;
 
 /// Make 3D toroidal (periodic in 3D) simplicial complexes
 void make_random_T3_simplicial_complex(PDT* T3,
-                                       int number_of_simplices) noexcept {
+                                       int  number_of_simplices) noexcept {
   typedef CGAL::Creator_uniform_3<double, PDT::Point> Creator;
   CGAL::Random random(7);
   CGAL::Random_points_in_cube_3<PDT::Point, Creator> in_cube(.5, random);
 
   /// We can't directly pick number of simplices as we can in S3
   /// but heuristically a point has <6 simplices
-  int n = number_of_simplices / 6;
+  int                     n = number_of_simplices / 6;
   std::vector<PDT::Point> pts;
 
   // Generate random points
