@@ -6,9 +6,9 @@ if [ "$CXX" == "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg
 
 sudo apt-get update -qq
 
-# Install gcc 5.3
-if [[ "$CXX" = "g++" ]]; then sudo apt-get install -qq g++-5; fi
-if [[ "$CXX" = "g++" ]]; then export CXX="g++-5" CC="gcc-5"; fi
+# Install gcc 6
+if [[ "$CXX" = "g++" ]]; then sudo apt-get install -qq g++-6; fi
+if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
 # Install clang 3.8
 if [[ "$CXX" == "clang++" ]]; then sudo apt-get install --allow-unauthenticated -qq clang-3.8 lldb-3.8; fi
 
