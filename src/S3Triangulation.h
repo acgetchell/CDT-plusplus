@@ -59,6 +59,7 @@
 
 // C++ headers
 #include <algorithm>
+#include <atomic>
 #include <list>
 #include <set>
 #include <stdexcept>

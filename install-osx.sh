@@ -4,7 +4,7 @@
 if [[ "$CXX" = "g++" ]]; then brew install gcc; fi
 if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
 
-brew install cmake
+#brew install cmake
 brew install ninja
 brew install eigen
 brew install tbb --c++11
