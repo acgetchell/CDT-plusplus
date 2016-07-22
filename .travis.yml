@@ -15,15 +15,16 @@ compiler:
   - clang
 
 matrix:
-  exclude:
-    - os: linux
-      compiler: clang
+#  exclude:
+#    - os: linux
+#      compiler: clang
     # - os: osx
     #   compiler: gcc
   allow_failures:
 #    - compiler: gcc
-    - os: osx
-
+#    - os: osx
+    - os: linux
+      compiler: clang
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
