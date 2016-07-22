@@ -10,6 +10,7 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
+#include <cstdint>
 #include <tuple>
 #include <utility>
 #include <vector>
@@ -22,80 +23,95 @@ using namespace testing;  // NOLINT
 class MetropolisTest : public Test {
  public:
   MetropolisTest()
-      : universe_{std::move(make_triangulation(6700, 17))}
-      , movable_simplex_types_{classify_simplices(universe_)}
-      , movable_edge_types_{classify_edges(universe_)}
+      : universe_{std::move(make_triangulation(6400, 17))}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
-      , starting_vertices_{universe_->number_of_vertices()}
-      , starting_edges_{universe_->number_of_finite_edges()}
-      , starting_faces_{universe_->number_of_finite_facets()}
-      , starting_cells_{universe_->number_of_finite_cells()} {}
+      , N3_31_before{universe_.geometry.three_one.size()}
+      , N3_22_before{universe_.geometry.two_two.size()}
+      , N3_13_before{universe_.geometry.one_three.size()}
+      , timelike_edges_before{universe_.geometry.timelike_edges.size()}
+      , spacelike_edges_before{universe_.geometry.spacelike_edges.size()}
+      , vertices_before{universe_.geometry.vertices.size()} {}
 
   virtual void SetUp() {
-    N3_31_before_   = std::get<0>(movable_simplex_types_).size();
-    N3_22_before_   = std::get<1>(movable_simplex_types_).size();
-    N3_13_before_   = std::get<2>(movable_simplex_types_).size();
-    timelike_edges_ = movable_edge_types_.first.size();
-    std::cout << "Starting vertices: " << starting_vertices_ << std::endl;
-    std::cout << "Starting edges: " << starting_edges_ << " = "
-              << timelike_edges_ << " timelike edges and "
-              << movable_edge_types_.second.size() << " spacelike edges."
-              << std::endl;
-    std::cout << "Starting faces: " << starting_faces_ << std::endl;
-    std::cout << "Starting simplices: " << starting_cells_ << " = "
-              << N3_31_before_ << " (3,1) and " << N3_22_before_
-              << " (2,2) and " << N3_13_before_ << " (1,3)." << std::endl;
+    // Print ctor-initialized values
+    std::cout << "(3,1) simplices: " << universe_.geometry.three_one.size()
+              << '\n';
+    std::cout << "(2,2) simplices: " << universe_.geometry.two_two.size()
+              << '\n';
+    std::cout << "(1,3) simplices: " << universe_.geometry.one_three.size()
+              << '\n';
+    std::cout << "Timelike edges: " << universe_.geometry.timelike_edges.size()
+              << '\n';
+    std::cout << "Spacelike edges: "
+              << universe_.geometry.spacelike_edges.size() << '\n';
+    std::cout << "Vertices: " << universe_.geometry.vertices.size() << '\n';
   }
-  Delaunay                                 triangulation;
-  std::unique_ptr<decltype(triangulation)> universe_ =
-      std::make_unique<decltype(triangulation)>(triangulation);
-  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>>
-      movable_simplex_types_;
-  std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
-      movable_edge_types_;
-  /// A count of all attempted moves
-  Move_tuple attempted_moves_;
-  /// Initial number of vertices
-  std::uintmax_t starting_vertices_;
-  /// Initial number of timelike + spacelike edges
-  std::uintmax_t starting_edges_;
-  /// Initial number of 2D facets
-  std::uintmax_t starting_faces_;
-  /// Initial number of 3D cells
-  std::uintmax_t starting_cells_;
-  /// Initial number of (3,1) simplices
-  std::uintmax_t N3_31_before_{0};
-  /// Initial number of (2,2) simplices
-  std::uintmax_t N3_22_before_{0};
-  /// Initial number of (1,3) simplices
-  std::uintmax_t N3_13_before_{0};
-  /// Initial number of timelike edges
-  std::uintmax_t timelike_edges_{0};
+  /// Simplicial manifold containing pointer to triangulation
+  /// and geometric information.
+  SimplicialManifold universe_;
 
-  static constexpr auto Alpha  = static_cast<long double>(1.1);
-  static constexpr auto K      = static_cast<long double>(2.2);
-  static constexpr auto Lambda = static_cast<long double>(3.3);
-  static constexpr auto passes = static_cast<std::uintmax_t>(100);
-  static constexpr auto output_every_n_passes = static_cast<std::uintmax_t>(10);
+  /// A count of all attempted moves.
+  Move_tuple attempted_moves_;
+
+  /// Initial number of (3,1) simplices
+  std::uintmax_t N3_31_before;
+
+  /// Initial number of (2,2) simplices
+  std::uintmax_t N3_22_before;
+
+  ///< Initial number of (1,3) simplices
+  std::uintmax_t N3_13_before;
+
+  /// Initial number of timelike edges
+  std::uintmax_t timelike_edges_before;
+
+  /// Initial number of spacelike edges
+  std::uintmax_t spacelike_edges_before;
+
+  /// Initial number of vertices
+  std::uintmax_t vertices_before;
+
+  /// \f$\alpha\f$ is the timelike edge length
+  template <typename T>
+  static constexpr T Alpha = T{1.1};
+
+  /// \f$k=\frac{1}{8\pi G_{Newton}}\f$
+  template <typename T>
+  static constexpr T K = T{2.2};
+
+  /// \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the Cosmological constant
+  template <typename T>
+  static constexpr T Lambda = T{3.3};
+
+  /// Number of passes through the algorithm. Each pass attempts a number of
+  /// moves equal to the number of simplices
+  template <typename T>
+  static constexpr T passes = T{100};
+
+  /// The number of passes before output is written to file and stdout
+  template <typename T>
+  static constexpr T output_every_n_passes = T{10};
 };
 
 TEST_F(MetropolisTest, Ctor) {
   // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+  Metropolis testrun(Alpha<long double>, K<long double>, Lambda<long double>,
+                     passes<std::uintmax_t>,
+                     output_every_n_passes<std::uintmax_t>);
 
-  EXPECT_THAT(testrun.Alpha(), Eq(Alpha))
+  EXPECT_THAT(testrun.Alpha(), Eq(Alpha<long double>))
       << "Alpha not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.K(), Eq(K)) << "K not correctly forwarded by ctor.";
+  EXPECT_THAT(testrun.K(), Eq(K<long double>)) << "K not correctly forwarded "
+                                                  "by ctor.";
 
-  EXPECT_THAT(testrun.Lambda(), Eq(Lambda))
+  EXPECT_THAT(testrun.Lambda(), Eq(Lambda<long double>))
       << "Lambda not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.Passes(), Eq(passes))
+  EXPECT_THAT(testrun.Passes(), Eq(passes<std::uintmax_t>))
       << "Passes not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes))
+  EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes<std::uintmax_t>))
       << "output_every_n_passes not correctly forwarded by ctor.";
 }
 // \todo: Fix MetropolisTest, Operator

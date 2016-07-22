@@ -9,7 +9,6 @@
 /// @author Adam Getchell
 
 #include <algorithm>
-#include <tuple>
 #include <vector>
 
 #include "gmock/gmock.h"
@@ -44,23 +43,30 @@ class MoveManagerTest : public Test {
     std::cout << "Vertices: " << universe_.geometry.vertices.size() << '\n';
   }
 
+  /// Simplicial manifold containing pointer to triangulation
+  /// and geometric information.
   SimplicialManifold universe_;
-  ///< Simplicial manifold containing pointer to triangulation
-  ///< and geometric information.
+
+  /// A count of all attempted moves.
   Move_tuple attempted_moves_;
-  ///< A count of all attempted moves.
+
+  /// Initial number of (3,1) simplices
   std::uintmax_t N3_31_before;
-  ///< Initial number of (3,1) simplices
+
+  /// Initial number of (2,2) simplices
   std::uintmax_t N3_22_before;
-  ///< Initial number of (2,2) simplices
-  std::uintmax_t N3_13_before;
+
   ///< Initial number of (1,3) simplices
+  std::uintmax_t N3_13_before;
+
+  /// Initial number of timelike edges
   std::uintmax_t timelike_edges_before;
-  ///< Initial number of timelike edges
+
+  /// Initial number of spacelike edges
   std::uintmax_t spacelike_edges_before;
-  ///< Initial number of spacelike edges
+
+  /// Initial number of vertices
   std::uintmax_t vertices_before;
-  ///< Initial number of vertices
 };
 
 TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
@@ -129,6 +135,18 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
               Eq(tempSM.geometry.spacelike_edges.size()))
       << "SimplicialManifold copy doesn't have the same number of spacelike "
          "edges.";
+}
+
+TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
+  // Print info on move/copy operation exception safety
+  std::cout << std::boolalpha << "SimplicialManifold is copy-assignable? "
+            << std::is_copy_assignable<SimplicialManifold>::value << '\n'
+            << "SimplicialManifold is nothrow copy-assignable? "
+            << std::is_nothrow_copy_assignable<SimplicialManifold>::value
+            << '\n'
+            << "SimplicialManifold is nothrow move-assignable? "
+            << std::is_nothrow_move_assignable<SimplicialManifold>::value
+            << '\n';
 }
 // \todo: Fix MoveManager tests
 TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
