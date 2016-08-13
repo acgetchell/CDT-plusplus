@@ -631,16 +631,16 @@ struct SimplicialManifold {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold copy ctor." << std::endl;
 #endif
-    //    // Invoke the Delaunay copy constructor
-    //    auto copied_DT = Delaunay(*other.triangulation);
-    //    auto copied_DT_ptr = std::make_unique<Delaunay>(copied_DT);
-    ////    triangulation = copied_DT_ptr;
-    //    swap(triangulation, copied_DT_ptr);
-    //    geometry = other.geometry;
-    //    return *this;
-    //    triangulation =
-    //    std::make_unique<Delaunay>(Delaunay{*other.triangulation});
   };
+
+  void swap(SimplicialManifold& rhs) {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold swapperator." << std::endl;
+#endif
+    using std::swap;
+    swap(triangulation, rhs.triangulation);
+    swap(geometry, rhs.geometry);
+  }
 
   /// Default copy assignment operator
   //  SimplicialManifold& operator=(const SimplicialManifold&) = default;

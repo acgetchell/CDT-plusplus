@@ -14,6 +14,9 @@
 #include "gmock/gmock.h"
 #include "src/MoveManager.h"
 
+// This ensures our local swap function is preferred to std::swap
+#include "boost/swap.hpp"
+
 using namespace testing;  // NOLINT
 
 class MoveManagerTest : public Test {
@@ -147,6 +150,54 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
             << "SimplicialManifold is nothrow move-assignable? "
             << std::is_nothrow_move_assignable<SimplicialManifold>::value
             << '\n';
+
+  SimplicialManifold copied_manifold{universe_};
+
+  EXPECT_TRUE(this->universe_.triangulation != copied_manifold.triangulation)
+      << "Pointers are equal.";
+
+  EXPECT_TRUE(copied_manifold.triangulation->tds().is_valid())
+      << "SimplicialManifold copy is invalid.";
+
+  EXPECT_THAT(vertices_before, Eq(copied_manifold.geometry.vertices.size()))
+      << "SimplicialManifold copy doesn't have the same number of vertices.";
+
+  EXPECT_THAT(this->universe_.triangulation->number_of_finite_edges(),
+              Eq(copied_manifold.triangulation->number_of_finite_edges()))
+      << "SimplicialManifold copy doesn't have the same number of edges.";
+
+  EXPECT_THAT(this->universe_.triangulation->number_of_finite_facets(),
+              Eq(copied_manifold.triangulation->number_of_finite_facets()))
+      << "SimplicialManifold copy doesn't have the same number of facets.";
+
+  EXPECT_THAT(this->universe_.triangulation->number_of_finite_cells(),
+              Eq(copied_manifold.triangulation->number_of_finite_cells()))
+      << "SimplicialManifold copy doesn't have the same number of cells.";
+
+  EXPECT_THAT(this->universe_.geometry.three_one.size(),
+              Eq(copied_manifold.geometry.three_one.size()))
+      << "SimplicialManifold copy doesn't have the same number of (3,1) "
+         "simplices.";
+
+  EXPECT_THAT(this->universe_.geometry.two_two.size(),
+              Eq(copied_manifold.geometry.two_two.size()))
+      << "SimplicialManifold copy doesn't have the same number of (2,2) "
+         "simplices.";
+
+  EXPECT_THAT(this->universe_.geometry.one_three.size(),
+              Eq(copied_manifold.geometry.one_three.size()))
+      << "SimplicialManifold copy doesn't have the same number of (1,3) "
+         "simplices.";
+
+  EXPECT_THAT(this->universe_.geometry.timelike_edges.size(),
+              Eq(copied_manifold.geometry.timelike_edges.size()))
+      << "SimplicialManifold copy doesn't have the same number of timelike "
+         "edges.";
+
+  EXPECT_THAT(this->universe_.geometry.spacelike_edges.size(),
+              Eq(copied_manifold.geometry.spacelike_edges.size()))
+      << "SimplicialManifold copy doesn't have the same number of spacelike "
+         "edges.";
 }
 // \todo: Fix MoveManager tests
 TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
@@ -154,28 +205,32 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
       << "Constructed universe_ is invalid.";
 
   // Make a copy using Delaunay copy-ctor
-  auto tempDT     = Delaunay(*(this->universe_.triangulation));
-  auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+  //  auto tempDT     = Delaunay(*(this->universe_.triangulation));
+  //  auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+  SimplicialManifold copied_manifold{this->universe_};
 
-  EXPECT_TRUE(this->universe_.triangulation != tempDT_ptr)
+  EXPECT_TRUE(this->universe_.triangulation != copied_manifold.triangulation)
       << "Pointers are equal and/or point to the same location.";
 
-  auto tempSM = SimplicialManifold(std::move(tempDT_ptr));
+  //  auto tempSM = SimplicialManifold(std::move(tempDT_ptr));
 
-  EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
+  EXPECT_TRUE(copied_manifold.triangulation->tds().is_valid())
       << "SimplicialManifold copy is invalid.";
 
-  tempSM = std::move(make_23_move(std::move(tempSM), attempted_moves_));
+  //  tempSM = std::move(make_23_move(std::move(tempSM), attempted_moves_));
+  copied_manifold =
+      std::move(make_23_move(std::move(copied_manifold), attempted_moves_));
 
   std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
             << '\n';
 
-  EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
+  EXPECT_TRUE(copied_manifold.triangulation->tds().is_valid())
       << "SimplicialManifold copy invalid after make_23_move().";
 
   // Define swap for SimplicialManifold so that geometry is recalculated
   // when the triangulation is swapped
-  this->universe_.triangulation.swap(tempSM.triangulation);
+//  this->universe_.swap(copied_manifold);
+  boost::swap(this->universe_, copied_manifold);
 
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "universe_ invalid after swap with copied universe.";
