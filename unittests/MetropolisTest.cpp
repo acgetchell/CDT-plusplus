@@ -25,26 +25,26 @@ class MetropolisTest : public Test {
   MetropolisTest()
       : universe_{std::move(make_triangulation(6400, 17))}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
-      , N3_31_before{universe_.geometry.three_one.size()}
-      , N3_22_before{universe_.geometry.two_two.size()}
-      , N3_13_before{universe_.geometry.one_three.size()}
-      , timelike_edges_before{universe_.geometry.timelike_edges.size()}
-      , spacelike_edges_before{universe_.geometry.spacelike_edges.size()}
-      , vertices_before{universe_.geometry.vertices.size()} {}
+      , N3_31_before{universe_.geometry->three_one.size()}
+      , N3_22_before{universe_.geometry->two_two.size()}
+      , N3_13_before{universe_.geometry->one_three.size()}
+      , timelike_edges_before{universe_.geometry->timelike_edges.size()}
+      , spacelike_edges_before{universe_.geometry->spacelike_edges.size()}
+      , vertices_before{universe_.geometry->vertices.size()} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values
-    std::cout << "(3,1) simplices: " << universe_.geometry.three_one.size()
+    std::cout << "(3,1) simplices: " << universe_.geometry->three_one.size()
               << '\n';
-    std::cout << "(2,2) simplices: " << universe_.geometry.two_two.size()
+    std::cout << "(2,2) simplices: " << universe_.geometry->two_two.size()
               << '\n';
-    std::cout << "(1,3) simplices: " << universe_.geometry.one_three.size()
+    std::cout << "(1,3) simplices: " << universe_.geometry->one_three.size()
               << '\n';
-    std::cout << "Timelike edges: " << universe_.geometry.timelike_edges.size()
+    std::cout << "Timelike edges: " << universe_.geometry->timelike_edges.size()
               << '\n';
     std::cout << "Spacelike edges: "
-              << universe_.geometry.spacelike_edges.size() << '\n';
-    std::cout << "Vertices: " << universe_.geometry.vertices.size() << '\n';
+              << universe_.geometry->spacelike_edges.size() << '\n';
+    std::cout << "Vertices: " << universe_.geometry->vertices.size() << '\n';
   }
   /// Simplicial manifold containing pointer to triangulation
   /// and geometric information.

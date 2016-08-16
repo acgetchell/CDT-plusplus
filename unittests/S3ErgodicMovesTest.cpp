@@ -23,12 +23,12 @@ class S3ErgodicMoveTest : public Test {
   S3ErgodicMoveTest()
       : universe_{std::move(make_triangulation(6400, 17))}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
-      , N3_31_before{universe_.geometry.three_one.size()}
-      , N3_22_before{universe_.geometry.two_two.size()}
-      , N3_13_before{universe_.geometry.one_three.size()}
-      , timelike_edges_before{universe_.geometry.timelike_edges.size()}
-      , spacelike_edges_before{universe_.geometry.spacelike_edges.size()}
-      , vertices_before{universe_.geometry.vertices.size()} {}
+      , N3_31_before{universe_.geometry->three_one.size()}
+      , N3_22_before{universe_.geometry->two_two.size()}
+      , N3_13_before{universe_.geometry->one_three.size()}
+      , timelike_edges_before{universe_.geometry->timelike_edges.size()}
+      , spacelike_edges_before{universe_.geometry->spacelike_edges.size()}
+      , vertices_before{universe_.geometry->vertices.size()} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values
@@ -72,10 +72,10 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move) {
   std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
             << std::endl;
 
-  EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before))
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
       << "(3,1) simplex removed from movable_simplex_types_.";
 
-  EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before))
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
       << "(1,3) simplex removed from movable_simplex_types_.";
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
@@ -88,20 +88,20 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move) {
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before))
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
       << "(3,1) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.two_two.size(), Eq(N3_22_before + 1))
+  EXPECT_THAT(universe_.geometry->two_two.size(), Eq(N3_22_before + 1))
       << "(2,2) simplices did not increase by 1.";
 
-  EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before))
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
       << "(1,3) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.timelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
               Eq(timelike_edges_before + 1))
       << "Timelike edges did not increase by 1.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
               Eq(spacelike_edges_before))
       << "Spacelike edges changed.";
 
@@ -125,20 +125,20 @@ TEST_F(S3ErgodicMoveTest, MakeA32Move) {
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before))
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
       << "(3,1) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.two_two.size(), Eq(N3_22_before - 1))
+  EXPECT_THAT(universe_.geometry->two_two.size(), Eq(N3_22_before - 1))
       << "(2,2) simplices did not decrease by 1.";
 
-  EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before))
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
       << "(1,3) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.timelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
               Eq(timelike_edges_before - 1))
       << "Timelike edges did not decrease by 1.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
               Eq(spacelike_edges_before))
       << "Spacelike edges changed.";
 
@@ -161,24 +161,24 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before + 2))
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before + 2))
       << "(3,1) simplices did not increase by 2.";
 
-  EXPECT_THAT(universe_.geometry.two_two.size(), Eq(N3_22_before))
+  EXPECT_THAT(universe_.geometry->two_two.size(), Eq(N3_22_before))
       << "(2,2) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before + 2))
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before + 2))
       << "(1,3) simplices did not increase by 2.";
 
-  EXPECT_THAT(universe_.geometry.timelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
               Eq(timelike_edges_before + 2))
       << "Timelike edges did not increase by 2.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
               Eq(spacelike_edges_before + 3))
       << "Spacelike edges did not increase by 3.";
 
-  EXPECT_THAT(universe_.geometry.vertices.size(), Eq(vertices_before + 1))
+  EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before + 1))
       << "A vertex was not added to the triangulation.";
 }
 
@@ -199,51 +199,51 @@ TEST_F(S3ErgodicMoveTest, MakeA62Move) {
       << "Some simplices do not span exactly 1 timeslice.";
 
   if (success) {
-    EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before - 2))
+    EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before - 2))
         << "(3,1) simplices did not decrease by 2.";
 
-    EXPECT_THAT(universe_.geometry.two_two.size(), Eq(N3_22_before))
+    EXPECT_THAT(universe_.geometry->two_two.size(), Eq(N3_22_before))
         << "(2,2) simplices changed.";
 
-    EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before - 2))
+    EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before - 2))
         << "(1,3) simplices did not decrease by 2.";
 
-    EXPECT_THAT(universe_.geometry.timelike_edges.size(),
+    EXPECT_THAT(universe_.geometry->timelike_edges.size(),
                 Eq(timelike_edges_before - 2))
         << "Timelike edges did not decrease by 2.";
 
-    EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+    EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
                 Eq(spacelike_edges_before - 3))
         << "Spacelike edges did not decrease by 3.";
 
-    EXPECT_THAT(universe_.geometry.vertices.size(), Eq(vertices_before - 1))
+    EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before - 1))
         << "The number of vertices did not decrease by 1.";
   } else {
-    EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before))
+    EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
         << "(3,1) simplices changed.";
 
-    EXPECT_THAT(universe_.geometry.two_two.size(), Eq(N3_22_before))
+    EXPECT_THAT(universe_.geometry->two_two.size(), Eq(N3_22_before))
         << "(2,2) simplices changed.";
 
-    EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before))
+    EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
         << "(1,3) simplices changed.";
 
-    EXPECT_THAT(universe_.geometry.timelike_edges.size(),
+    EXPECT_THAT(universe_.geometry->timelike_edges.size(),
                 Eq(timelike_edges_before))
         << "Timelike edges changed.";
 
-    EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+    EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
                 Eq(spacelike_edges_before))
         << "Spacelike edges changed.";
 
-    EXPECT_THAT(universe_.geometry.vertices.size(), Eq(vertices_before))
+    EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before))
         << "The number of vertices changed.";
   }
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA44Move) {
   // Stash the old spacelike edges
-  auto old_edges = universe_.geometry.spacelike_edges;
+  auto old_edges = universe_.geometry->spacelike_edges;
   // Now make the move
   universe_ = std::move(make_44_move(std::move(universe_), attempted_moves_));
   std::cout << "Attempted (4,4) moves = " << std::get<3>(attempted_moves_)
@@ -260,28 +260,28 @@ TEST_F(S3ErgodicMoveTest, MakeA44Move) {
       << "Some simplices do not span exactly 1 timeslice.";
 
   // Was a (4,4) move made?
-  auto new_edges = universe_.geometry.spacelike_edges;
+  auto new_edges = universe_.geometry->spacelike_edges;
   EXPECT_TRUE(
       !std::equal(new_edges.begin(), new_edges.end(), old_edges.begin()))
       << "The list of spacelike edges is identical, so no (4,4) move was made.";
 
-  EXPECT_THAT(universe_.geometry.three_one.size(), Eq(N3_31_before))
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
       << "(3,1) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.two_two.size(), Eq(N3_22_before))
+  EXPECT_THAT(universe_.geometry->two_two.size(), Eq(N3_22_before))
       << "(2,2) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.one_three.size(), Eq(N3_13_before))
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
       << "(1,3) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry.timelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
               Eq(timelike_edges_before))
       << "Timelike edges changed.";
 
-  EXPECT_THAT(universe_.geometry.spacelike_edges.size(),
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
               Eq(spacelike_edges_before))
       << "Spacelike edges changed.";
 
-  EXPECT_THAT(universe_.geometry.vertices.size(), Eq(vertices_before))
+  EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before))
       << "The number of vertices changed.";
 }

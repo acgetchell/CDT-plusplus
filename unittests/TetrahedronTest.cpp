@@ -99,21 +99,21 @@ TEST_F(FoliatedTetrahedronTest, InsertSimplexType) {
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
 
-  EXPECT_THAT(new_universe.geometry.three_one.size(), Eq(1))
+  EXPECT_THAT(new_universe.geometry->three_one.size(), Eq(1))
       << "(3,1) simplices should be equal to one.";
 
-  EXPECT_THAT(new_universe.geometry.two_two.size(), Eq(0))
+  EXPECT_THAT(new_universe.geometry->two_two.size(), Eq(0))
       << "(2,2) simplices in (3,1) tetrahedron is nonzero.";
 
-  EXPECT_THAT(new_universe.geometry.one_three.size(), Eq(0))
+  EXPECT_THAT(new_universe.geometry->one_three.size(), Eq(0))
       << "(1,3) simplices in (3,1) tetrahedron is nonzero.";
 }
 
 TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges) {
   SimplicialManifold new_universe =
       SimplicialManifold(std::move(universe.triangulation));
-  auto timelike_edges  = new_universe.geometry.timelike_edges.size();
-  auto spacelike_edges = new_universe.geometry.spacelike_edges.size();
+  auto timelike_edges  = new_universe.geometry->timelike_edges.size();
+  auto spacelike_edges = new_universe.geometry->spacelike_edges.size();
 
   std::cout << "There are " << timelike_edges << " timelike edges and "
             << spacelike_edges << " spacelike edges.\n";
