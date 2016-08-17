@@ -493,6 +493,11 @@ struct GeometryInfo {
         spacelike_edges{std::get<4>(geometry)},
         vertices{std::get<5>(geometry)} {}
 
+//  explicit GeometryInfo(const std::unique_ptr<Delaunay>&& manifold)  // NOLINT
+//      : GeometryInfo(classify_all_simplices(manifold)) {
+//    std::cout << "GeometryInfo ctr with std::unique_ptr<Delaunay>" << std::endl;
+//  }
+
   /// @brief Default destructor
   virtual ~GeometryInfo() = default;
 
@@ -581,6 +586,10 @@ struct SimplicialManifold {
   /// using make_triangulation(). If you wish to default initialize a
   /// SimplicialManifold with no values, use the default
   /// constructor SimplicialManifold() instead.
+  /// Non-static data members are initialized in the order they are declared,
+  /// (see http://open-std.org/JTC1/SC22/WG21/docs/papers/2016/n4594.pdf,
+  ///  \f$\S\f$ 12.6.2.13.3), so **geometry** depending upon **triangulation**
+  /// is fine.
   explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  // NOLINT
       : triangulation{std::move(manifold)},
         geometry{std::make_unique<GeometryInfo>(
