@@ -493,10 +493,12 @@ struct GeometryInfo {
         spacelike_edges{std::get<4>(geometry)},
         vertices{std::get<5>(geometry)} {}
 
-//  explicit GeometryInfo(const std::unique_ptr<Delaunay>&& manifold)  // NOLINT
-//      : GeometryInfo(classify_all_simplices(manifold)) {
-//    std::cout << "GeometryInfo ctr with std::unique_ptr<Delaunay>" << std::endl;
-//  }
+  //  explicit GeometryInfo(const std::unique_ptr<Delaunay>&& manifold)  //
+  //  NOLINT
+  //      : GeometryInfo(classify_all_simplices(manifold)) {
+  //    std::cout << "GeometryInfo ctr with std::unique_ptr<Delaunay>" <<
+  //    std::endl;
+  //  }
 
   /// @brief Default destructor
   virtual ~GeometryInfo() = default;

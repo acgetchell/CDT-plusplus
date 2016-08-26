@@ -73,17 +73,6 @@ class MoveManagerTest : public Test {
 };
 
 TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
-  // Print info on move/copy operation exception safety
-  std::cout << std::boolalpha << "Delaunay alias is copy-assignable? "
-            << std::is_copy_assignable<Delaunay>::value << '\n'
-            << "Delaunay alias is nothrow copy-assignable? "
-            << std::is_nothrow_copy_assignable<Delaunay>::value << '\n'
-            << "Delaunay alias is nothrow move-assignable? "
-            << std::is_nothrow_move_assignable<Delaunay>::value << '\n'
-            << "unique_ptr<Delaunay> is nothrow move-assignable? "
-            << std::is_nothrow_move_assignable<std::unique_ptr<Delaunay>>::value
-            << '\n';
-
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "Constructed universe is invalid.";
 
@@ -141,16 +130,6 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
 }
 
 TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
-  // Print info on move/copy operation exception safety
-  std::cout << std::boolalpha << "SimplicialManifold is copy-assignable? "
-            << std::is_copy_assignable<SimplicialManifold>::value << '\n'
-            << "SimplicialManifold is nothrow copy-assignable? "
-            << std::is_nothrow_copy_assignable<SimplicialManifold>::value
-            << '\n'
-            << "SimplicialManifold is nothrow move-assignable? "
-            << std::is_nothrow_move_assignable<SimplicialManifold>::value
-            << '\n';
-
   SimplicialManifold copied_manifold{universe_};
 
   EXPECT_TRUE(this->universe_.triangulation != copied_manifold.triangulation)
