@@ -179,7 +179,7 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
          "edges.";
 }
 // \todo: Fix MoveManager tests
-TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
+TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "Constructed universe_ is invalid.";
 

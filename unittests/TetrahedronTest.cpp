@@ -44,6 +44,7 @@ class FoliatedTetrahedronTest : public TetrahedronTest {
   std::pair<std::vector<Point>, std::vector<std::uintmax_t>> causal_vertices;
 };
 
+/// TODO: Fix segfault here
 TEST_F(TetrahedronTest, Create) {
   EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
       << "Triangulation has wrong dimensionality.";

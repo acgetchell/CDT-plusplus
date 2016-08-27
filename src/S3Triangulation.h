@@ -576,13 +576,9 @@ struct SimplicialManifold {
   std::unique_ptr<GeometryInfo> geometry;
 
   /// @brief Default constructor
-  ///
-  ///  Default constructor with proper initialization
-  SimplicialManifold()
-      : triangulation{std::make_unique<Delaunay>()}
-      , geometry{std::make_unique<GeometryInfo>()} {}
+  SimplicialManifold() = default;
 
-  /// @brief Constructor taking a std::unique_ptr<Delaunay>
+  /// @brief Constructor with std::unique_ptr<Delaunay>
   ///
   /// Constructor taking a std::unique_ptr<Delaunay> which should be created
   /// using make_triangulation(). If you wish to default initialize a
@@ -616,8 +612,7 @@ struct SimplicialManifold {
     std::cout << "SimplicialManifold dtor." << std::endl;
 #endif
     this->triangulation = nullptr;
-    //    this->geometry      = GeometryInfo{};
-    this->geometry = nullptr;
+    this->geometry      = nullptr;
   }
 
   /// @brief Move constructor
@@ -642,23 +637,36 @@ struct SimplicialManifold {
   }
 
   /// @brief Copy constructor
+  //  SimplicialManifold(const SimplicialManifold& other)
+  //      : triangulation{std::make_unique<Delaunay>(
+  //            Delaunay{*other.triangulation})}
+  //      , geometry{
+  //            std::make_unique<GeometryInfo>(GeometryInfo{*other.geometry})} {
+  //#ifndef NDEBUG
+  //    std::cout << "SimplicialManifold copy ctor." << std::endl;
+  //#endif
+  //  };
   SimplicialManifold(const SimplicialManifold& other)
-      : triangulation{std::make_unique<Delaunay>(
-            Delaunay{*other.triangulation})}
-      , geometry{
-            std::make_unique<GeometryInfo>(GeometryInfo{*other.geometry})} {
+      : triangulation{std::make_unique<Delaunay>(*(other.triangulation))}
+      , geometry{std::make_unique<GeometryInfo>(*(other.geometry))} {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold copy ctor." << std::endl;
 #endif
-  };
+  }
 
-  void swap(SimplicialManifold& rhs) {
+  // This segfaults
+//  SimplicialManifold& operator=(SimplicialManifold other) {
+//    swap(*this, other);
+//    return *this;
+//  }
+
+  friend void swap(SimplicialManifold& first, SimplicialManifold& second) {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold swapperator." << std::endl;
 #endif
     using std::swap;
-    swap(triangulation, rhs.triangulation);
-    swap(geometry, rhs.geometry);
+    swap(first.triangulation, second.triangulation);
+    swap(first.geometry, second.geometry);
   }
 
   /// Default copy assignment operator
