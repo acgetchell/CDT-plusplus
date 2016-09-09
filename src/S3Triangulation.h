@@ -70,6 +70,8 @@
 // CDT headers
 #include "src/utilities.h"
 
+#include <boost/swap.hpp>
+
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
 // Used so that each timeslice is assigned an integer
@@ -514,12 +516,12 @@ struct GeometryInfo {
 #ifndef NDEBUG
     std::cout << "GeometryInfo move assignment operator." << std::endl;
 #endif
-    three_one       = std::get<0>(other);
-    two_two         = std::get<1>(other);
-    one_three       = std::get<2>(other);
-    timelike_edges  = std::get<3>(other);
-    spacelike_edges = std::get<4>(other);
-    vertices        = std::get<5>(other);
+    three_one       = std::move(std::get<0>(other));
+    two_two         = std::move(std::get<1>(other));
+    one_three       = std::move(std::get<2>(other));
+    timelike_edges  = std::move(std::get<3>(other));
+    spacelike_edges = std::move(std::get<4>(other));
+    vertices        = std::move(std::get<5>(other));
     return *this;
   }
 
@@ -576,7 +578,9 @@ struct SimplicialManifold {
   std::unique_ptr<GeometryInfo> geometry;
 
   /// @brief Default constructor
-  SimplicialManifold() = default;
+  SimplicialManifold()
+      : triangulation{std::make_unique<Delaunay>()}
+      , geometry{std::make_unique<GeometryInfo>()} {}
 
   /// @brief Constructor with std::unique_ptr<Delaunay>
   ///
@@ -655,11 +659,11 @@ struct SimplicialManifold {
   }
 
   // This segfaults
-//  SimplicialManifold& operator=(SimplicialManifold other) {
-//    swap(*this, other);
-//    return *this;
-//  }
-
+//    SimplicialManifold& operator=(SimplicialManifold other) {
+//      swap(*this, other);
+//      return *this;
+//    }
+//
   friend void swap(SimplicialManifold& first, SimplicialManifold& second) {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold swapperator." << std::endl;
@@ -670,7 +674,7 @@ struct SimplicialManifold {
   }
 
   /// Default copy assignment operator
-  //  SimplicialManifold& operator=(const SimplicialManifold&) = default;
+//    SimplicialManifold& operator=(const SimplicialManifold&) = default;
 };
 
 #endif  // SRC_S3TRIANGULATION_H_
