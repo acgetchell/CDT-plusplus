@@ -241,7 +241,7 @@ TEST_F(S3ErgodicMoveTest, MakeA62Move) {
   }
 }
 
-TEST_F(S3ErgodicMoveTest, MakeA44Move) {
+TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move) {
   // Stash the old spacelike edges
   auto old_edges = universe_.geometry->spacelike_edges;
   // Now make the move
