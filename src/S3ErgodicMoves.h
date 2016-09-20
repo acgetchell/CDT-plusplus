@@ -448,6 +448,8 @@ auto make_62_move(T1&& universe, T2&& attempted_moves, bool& successful_move)
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
 /// @returns universe The SimplicialManifold after the move has been made
+/// \todo: Make (4,4) move aka 4,4 bistellar flip work. This is on the CGAL
+/// TODO list also
 template <typename T1, typename T2>
 auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   std::vector<Edge_handle> movable_spacelike_edges{
