@@ -49,6 +49,7 @@
 
 // C headers
 #include <boost/iterator/zip_iterator.hpp>
+#include <boost/swap.hpp>
 
 // CGAL headers
 #include <CGAL/Delaunay_triangulation_3.h>
@@ -69,8 +70,6 @@
 
 // CDT headers
 #include "src/utilities.h"
-
-#include <boost/swap.hpp>
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -578,6 +577,7 @@ struct SimplicialManifold {
   std::unique_ptr<GeometryInfo> geometry;
 
   /// @brief Default constructor
+  /// @return A empty SimplicialManifold
   SimplicialManifold()
       : triangulation{std::make_unique<Delaunay>()}
       , geometry{std::make_unique<GeometryInfo>()} {}
@@ -620,6 +620,8 @@ struct SimplicialManifold {
   }
 
   /// @brief Move constructor
+  /// @param other The SimplicialManifold to be move-constructed from
+  /// @return A SimplicialManifold
   SimplicialManifold(SimplicialManifold&& other)  // NOLINT
       : triangulation{std::move(other.triangulation)},
         geometry{std::make_unique<GeometryInfo>(
@@ -629,7 +631,9 @@ struct SimplicialManifold {
 #endif
   }
 
-  /// Move assignment operator
+  /// @brief Move assignment operator
+  /// @param other The SimplicialManifold to be moved from
+  /// @return A SimplicialManifold
   SimplicialManifold& operator=(SimplicialManifold&& other) {  // NOLINT
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move assignment operator." << std::endl;
@@ -659,11 +663,15 @@ struct SimplicialManifold {
   }
 
   // This segfaults
-//    SimplicialManifold& operator=(SimplicialManifold other) {
-//      swap(*this, other);
-//      return *this;
-//    }
-//
+  //    SimplicialManifold& operator=(SimplicialManifold other) {
+  //      swap(*this, other);
+  //      return *this;
+  //    }
+  //
+
+  /// @brief Exception-safe swap
+  /// @param first  The first SimplicialManifold to be swapped
+  /// @param second The second SimplicialManifold to be swapped with.
   friend void swap(SimplicialManifold& first, SimplicialManifold& second) {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold swapperator." << std::endl;
@@ -674,7 +682,7 @@ struct SimplicialManifold {
   }
 
   /// Default copy assignment operator
-//    SimplicialManifold& operator=(const SimplicialManifold&) = default;
+  //    SimplicialManifold& operator=(const SimplicialManifold&) = default;
 };
 
 #endif  // SRC_S3TRIANGULATION_H_
