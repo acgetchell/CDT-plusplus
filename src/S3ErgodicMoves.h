@@ -87,9 +87,9 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   while (not_flipped) {
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
-        generate_random_unsigned(0, universe.geometry.two_two.size() - 1);
+        generate_random_unsigned(0, universe.geometry->two_two.size() - 1);
 
-    Cell_handle to_be_moved = universe.geometry.two_two[choice];
+    Cell_handle to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
 
     // Increment the (2,3) move counter
@@ -142,8 +142,8 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
     auto choice = generate_random_unsigned(
-        0, universe.geometry.timelike_edges.size() - 1);
-    Edge_handle to_be_moved = universe.geometry.timelike_edges[choice];
+        0, universe.geometry->timelike_edges.size() - 1);
+    Edge_handle to_be_moved = universe.geometry->timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved)) {
 #ifndef NDEBUG
@@ -244,10 +244,10 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   while (not_moved) {
     // Pick out a random (1,3) from simplex_types
     auto choice =
-        generate_random_unsigned(0, universe.geometry.one_three.size() - 1);
+        generate_random_unsigned(0, universe.geometry->one_three.size() - 1);
 
     std::uintmax_t neighboring_31_index{5};
-    Cell_handle    bottom = universe.geometry.one_three[choice];
+    Cell_handle    bottom = universe.geometry->one_three[choice];
 
     CGAL_triangulation_expensive_precondition(is_cell(bottom));
 
@@ -412,7 +412,7 @@ auto try_62_move(T&& universe, Vertex_handle candidate) {
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe, T2&& attempted_moves, bool& successful_move)
     -> decltype(universe) {
-  std::vector<Vertex_handle> tds_vertices      = universe.geometry.vertices;
+  std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
   uintmax_t                  tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
@@ -448,10 +448,12 @@ auto make_62_move(T1&& universe, T2&& attempted_moves, bool& successful_move)
 /// @param[in,out] attempted_moves A tuple holding a count of the attempted
 /// moves of each type given by the **move_type** enum
 /// @returns universe The SimplicialManifold after the move has been made
+/// \todo: Make (4,4) move aka 4,4 bistellar flip work. This is on the CGAL
+/// TODO list also
 template <typename T1, typename T2>
 auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   std::vector<Edge_handle> movable_spacelike_edges{
-      universe.geometry.spacelike_edges};
+      universe.geometry->spacelike_edges};
 
   auto not_moved{false};  // should be true
   while ((not_moved) && (movable_spacelike_edges.size() > 0)) {

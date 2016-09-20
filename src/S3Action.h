@@ -30,8 +30,8 @@
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
-using Gmpzf    = CGAL::Gmpzf;
-//using MP_Float = CGAL::MP_Float;
+using Gmpzf = CGAL::Gmpzf;
+// using MP_Float = CGAL::MP_Float;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static constexpr std::uintmax_t PRECISION = 256;
 

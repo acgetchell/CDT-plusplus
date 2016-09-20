@@ -36,14 +36,14 @@ TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
       << "Triangulation not correctly constructed.";
 
   EXPECT_THAT(universe.triangulation->number_of_finite_cells(),
-              Eq(universe.geometry.number_of_cells()))
+              Eq(universe.geometry->number_of_cells()))
       << "Triangulation has wrong number of cells.";
 
   EXPECT_THAT(universe.triangulation->number_of_finite_edges(),
-              Eq(universe.geometry.number_of_edges()))
+              Eq(universe.geometry->number_of_edges()))
       << "Triangulation has wrong number of edges.";
 
-  EXPECT_THAT(universe.geometry.vertices.size(),
+  EXPECT_THAT(universe.geometry->vertices.size(),
               Eq(universe.triangulation->number_of_vertices()))
       << "Triangulation has the wrong number of vertices.";
 
@@ -73,15 +73,15 @@ TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
       << "Triangulation not correctly constructed.";
 
   EXPECT_THAT(universe.triangulation->number_of_finite_cells(),
-              Eq(universe.geometry.number_of_cells()))
+              Eq(universe.geometry->number_of_cells()))
       << "Triangulation has wrong number of cells.";
 
   EXPECT_THAT(universe.triangulation->number_of_finite_edges(),
-              Eq(universe.geometry.number_of_edges()))
+              Eq(universe.geometry->number_of_edges()))
       << "Triangulation has wrong number of edges.";
 
   EXPECT_THAT(universe.triangulation->number_of_vertices(),
-              Eq(universe.geometry.vertices.size()))
+              Eq(universe.geometry->vertices.size()))
       << "Triangulation has the wrong number of vertices.";
 
   EXPECT_THAT(universe.triangulation->dimension(), Eq(3))
