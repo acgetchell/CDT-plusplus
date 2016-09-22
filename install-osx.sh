@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Install gcc 6.1
+# Install gcc 6.2
 if [[ "$CXX" = "g++" ]]; then brew install gcc; fi
 if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
 
