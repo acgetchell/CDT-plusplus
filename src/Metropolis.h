@@ -530,65 +530,68 @@ class Metropolis {
   /// returns. Instead, they should be conducted on the std::move() results
   /// of this function call.
   // \todo: Fix Metropolis::operator()
-  //  template <typename T>
-  //  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
-  //    #ifndef NDEBUG
-  //    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-  //    #endif
-  //    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
-  //    // Populate member data
-  //    universe_ptr_ = std::move(universe_ptr);
-  //    // movable_simplex_types_ = classify_simplices(universe_ptr_);
-  //    // movable_edge_types_ = classify_edges(universe_ptr_);
-  //    reset_movable();
-  //    N3_31_ =
-  //    static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
-  //                                  +
-  //                                  std::get<2>(movable_simplex_types_).size());
-  //    std::cout << "N3_31_ = " << N3_31_ << std::endl;
-  //
-  //    N3_22_ =
-  //    static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
-  //    std::cout << "N3_22_ = " << N3_22_ << std::endl;
-  //
-  //    N1_TL_ = static_cast<std::uintmax_t>(movable_edge_types_.first.size());
-  //    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
-  //
-  //    // Make a successful move of each type to populate **attempted_moves_**
-  //    std::cout << "Making initial moves ..." << std::endl;
-  //    make_move(move_type::TWO_THREE);
-  //    make_move(move_type::THREE_TWO);
-  //    make_move(move_type::TWO_SIX);
-  //    // Other moves go here ...
-  //
-  //    std::cout << "Making random moves ..." << std::endl;
-  //    // Loop through passes_
-  //    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
-  //         ++pass_number) {
-  //      auto total_simplices_this_pass = CurrentTotalSimplices();
-  //      // Loop through CurrentTotalSimplices
-  //      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-  //           ++move_attempt) {
-  //        // Pick a move to attempt
-  //        auto move_choice = generate_random_unsigned(0, 2);
-  //        #ifndef NDEBUG
-  //        std::cout << "Move choice = " << move_choice << std::endl;
-  //        #endif
-  //
-  //        // Convert std::uintmax_t move_choice to move_type enum
-  //        auto move = static_cast<move_type>(move_choice);
-  //        attempt_move(move);
-  //      }  // End loop through CurrentTotalSimplices
-  //      // Reset movable data structures
-  //      // reset_movable();
-  //      // Do stuff on checkpoint_
-  //      if ((pass_number % checkpoint_) == 0) {
-  //        std::cout << "Pass " << pass_number << std::endl;
-  //        // write results to a file
-  //      }
-  //    }  // End loop through passes_
-  //    return universe_ptr_;
-  //  }
+  template <typename T>
+  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+#ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+#endif
+    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
+    //    // Populate member data
+    //    universe_ptr_ = std::move(universe_ptr);
+    //    // movable_simplex_types_ = classify_simplices(universe_ptr_);
+    //    // movable_edge_types_ = classify_edges(universe_ptr_);
+    //    reset_movable();
+    //    N3_31_ =
+    //    static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
+    //                                  +
+    //                                  std::get<2>(movable_simplex_types_).size());
+    //    std::cout << "N3_31_ = " << N3_31_ << std::endl;
+    //
+    //    N3_22_ =
+    //    static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
+    //    std::cout << "N3_22_ = " << N3_22_ << std::endl;
+    //
+    //    N1_TL_ =
+    //    static_cast<std::uintmax_t>(movable_edge_types_.first.size());
+    //    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
+    //
+    //    // Make a successful move of each type to populate
+    //    **attempted_moves_**
+    //    std::cout << "Making initial moves ..." << std::endl;
+    //    make_move(move_type::TWO_THREE);
+    //    make_move(move_type::THREE_TWO);
+    //    make_move(move_type::TWO_SIX);
+    //    // Other moves go here ...
+    //
+    //    std::cout << "Making random moves ..." << std::endl;
+    //    // Loop through passes_
+    //    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
+    //         ++pass_number) {
+    //      auto total_simplices_this_pass = CurrentTotalSimplices();
+    //      // Loop through CurrentTotalSimplices
+    //      for (auto move_attempt = 0; move_attempt <
+    //      total_simplices_this_pass;
+    //           ++move_attempt) {
+    //        // Pick a move to attempt
+    //        auto move_choice = generate_random_unsigned(0, 2);
+    //        #ifndef NDEBUG
+    //        std::cout << "Move choice = " << move_choice << std::endl;
+    //        #endif
+    //
+    //        // Convert std::uintmax_t move_choice to move_type enum
+    //        auto move = static_cast<move_type>(move_choice);
+    //        attempt_move(move);
+    //      }  // End loop through CurrentTotalSimplices
+    //      // Reset movable data structures
+    //      // reset_movable();
+    //      // Do stuff on checkpoint_
+    //      if ((pass_number % checkpoint_) == 0) {
+    //        std::cout << "Pass " << pass_number << std::endl;
+    //        // write results to a file
+    //      }
+    //    }  // End loop through passes_
+    return universe_ptr;
+  }
 
  private:
   //  Delaunay universe;
