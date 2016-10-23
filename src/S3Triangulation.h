@@ -654,6 +654,8 @@ struct SimplicialManifold {
   //    std::cout << "SimplicialManifold copy ctor." << std::endl;
   //#endif
   //  };
+  // \todo: Fix bad SimplicialManifold copy ctor
+  // which produces Exception: EXC_BAD_ACCESS (code 1, address=0x8)
   SimplicialManifold(const SimplicialManifold& other)
       : triangulation{std::make_unique<Delaunay>(*(other.triangulation))}
       , geometry{std::make_unique<GeometryInfo>(*(other.geometry))} {
