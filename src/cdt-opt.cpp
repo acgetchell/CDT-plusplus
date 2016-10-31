@@ -16,15 +16,18 @@
 /// @brief Outputs values to determine optimizations
 /// @author Adam Getchell
 
-#include <functional>
+#include <functional>  // for std::function
 #include <iostream>
 #include <vector>
+#include <utility>  // for std::forward
 
 #include "Metropolis.h"
 #include "src/S3Triangulation.h"
+#include "Function_ref.h"  // Replace std::function
 
 struct Simulation {
-  using element = std::function<SimplicialManifold(SimplicialManifold)>;
+//  using element = std::function<SimplicialManifold(SimplicialManifold)>;
+  using element = function_ref<SimplicialManifold(SimplicialManifold)>;
   std::vector<element> queue_;
 
   template <typename T>
@@ -32,8 +35,8 @@ struct Simulation {
     queue_.emplace_back(std::forward<T>(callable));
   }
 
-  SimplicialManifold start(SimplicialManifold initial) {
-    SimplicialManifold value = initial;
+  SimplicialManifold start(SimplicialManifold&& initial) {  //  NOLINT
+    SimplicialManifold value{std::forward<SimplicialManifold>(initial)};
 
     for (auto& item : queue_) {
       value = item(value);
@@ -66,10 +69,11 @@ int main() {
   // Here's the desired interface
 //  my_simulation.queue(my_algorithm(universe));
   // \todo Fix segfault
-  my_simulation.queue([&](SimplicialManifold s) { return my_algorithm(s);});
+  my_simulation.queue([&my_algorithm](SimplicialManifold s) { return
+        my_algorithm(s);});
   // my_simulation.queue(EuclideanDeSitter())
   // my_simulation.queue(print_results())
-  universe = my_simulation.start(universe);
+  universe = my_simulation.start(std::forward<SimplicialManifold>(universe));
 
   return 0;
 }

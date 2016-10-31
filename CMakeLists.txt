@@ -108,7 +108,7 @@ include( CTest )
 add_test (CDT-Usage cdt)
 set_tests_properties (CDT-Usage
   PROPERTIES
-  PASS_REGULAR_EXPRESSION "Usage:")
+  PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
 # Run an S3
 # Disabled until Metropolis() fixed
@@ -137,3 +137,14 @@ add_test (CDT-3Dtriangle cdt --s -n6400 -t16 -a0.3 -k2.2 -l3.3 -d3)
 set_tests_properties (CDT-3Dtriangle
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
+
+# cdt-gv
+# This program takes a file to load into GemoView for visualization
+add_test(CDT-GeomView cdt-gv)
+set_tests_properties(CDT-GeomView
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
+
+# cdt-opt
+add_test(CDT-Optimizer cdt-opt)
+
