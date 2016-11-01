@@ -6,8 +6,8 @@
 //  Copyright (c) 2013 Jared Grubb. All rights reserved.
 //
 
-#ifndef __docopt__value__
-#define __docopt__value__
+#ifndef docopt__value_h_
+#define docopt__value_h_
 
 #include <string>
 #include <vector>
@@ -76,8 +76,27 @@ namespace docopt {
 			std::vector<std::string> strList;
 		};
 		
-		static const char* kindAsString(Kind);
-		void throwIfNotKind(Kind expected) const;
+		static const char* kindAsString(Kind kind) {
+			switch (kind) {
+				case Kind::Empty: return "empty";
+				case Kind::Bool: return "bool";
+				case Kind::Long: return "long";
+				case Kind::String: return "string";
+				case Kind::StringList: return "string-list";
+			}
+			return "unknown";
+		}
+
+		void throwIfNotKind(Kind expected) const {
+			if (kind == expected)
+				return;
+
+			std::string error = "Illegal cast to ";
+			error += kindAsString(expected);
+			error += "; type is actually ";
+			error += kindAsString(kind);
+			throw std::runtime_error(std::move(error));
+		}
 
 	private:
 		Kind kind = Kind::Empty;
@@ -257,6 +276,17 @@ namespace docopt {
 	inline
 	long value::asLong() const
 	{
+		// Attempt to convert a string to a long
+		if (kind == Kind::String) {
+			const std::string& str = variant.strValue;
+			std::size_t pos;
+			const long ret = stol(str, &pos); // Throws if it can't convert
+			if (pos != str.length()) {
+				// The string ended in non-digits.
+				throw std::runtime_error( str + " contains non-numeric characters.");
+			}
+			return ret;
+		}
 		throwIfNotKind(Kind::Long);
 		return variant.longValue;
 	}
@@ -307,4 +337,4 @@ namespace docopt {
 	}
 }
 
-#endif /* defined(__docopt__value__) */
+#endif /* defined(docopt__value_h_) */

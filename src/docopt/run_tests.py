@@ -1,14 +1,17 @@
+#!/usr/bin/env python2
+
 import re
+import sys
 import json
 import subprocess
 
-executable = "./run_testcase"
+executable = "${TESTPROG}"
 
 def parse_test(raw):
 	raw = re.compile('#.*$', re.M).sub('', raw).strip()
 	if raw.startswith('"""'):
 		raw = raw[3:]
-	
+
 	for fixture in raw.split('r"""'):
 		name = ''
 		doc, _, body = fixture.partition('"""')
@@ -18,19 +21,19 @@ def parse_test(raw):
 			expect = json.loads(expect)
 			prog, _, argv = argv.strip().partition(' ')
 			cases.append((prog, argv, expect))
-		
+
 		yield name, doc, cases
 
 failures = 0
 passes = 0
 
-tests = open('testcases.docopt','r').read()
+tests = open('${TESTCASES}','r').read()
 for _, doc, cases in parse_test(tests):
 	if not cases: continue
-	
+
 	for prog, argv, expect in cases:
 		args = [ x for x in argv.split() if x ]
-		
+
 		expect_error = not isinstance(expect, dict)
 
 		error = None
@@ -64,6 +67,6 @@ for _, doc, cases in parse_test(tests):
 
 if failures:
 	print "%d failures" % failures
+	sys.exit(1)
 else:
 	print "PASS (%d)" % passes
-
