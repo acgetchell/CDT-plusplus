@@ -119,7 +119,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
 
   // Magic value from lots of tests
-  EXPECT_THAT(Bulk_action, AllOf(Le(-900), Ge(-1800)))
+  EXPECT_THAT(Bulk_action, AllOf(Le(-700), Ge(-1800)))
       << "S3_bulk_action() out of expected range.";
 }
 
