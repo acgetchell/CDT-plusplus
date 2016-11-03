@@ -536,8 +536,8 @@ class Metropolis {
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
     std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
-    //    // Populate member data
-    //    universe_ptr_ = std::move(universe_ptr);
+        // Populate member data
+        universe_ptr_ = std::move(universe_ptr);
     //    // movable_simplex_types_ = classify_simplices(universe_ptr_);
     //    // movable_edge_types_ = classify_edges(universe_ptr_);
     //    reset_movable();

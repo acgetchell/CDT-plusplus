@@ -36,6 +36,7 @@ struct Simulation {
   }
 
   SimplicialManifold start(SimplicialManifold&& initial) {  //  NOLINT
+    // memory read fails below
     SimplicialManifold value{std::forward<SimplicialManifold>(initial)};
 
     for (auto& item : queue_) {
