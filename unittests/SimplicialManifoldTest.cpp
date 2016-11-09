@@ -15,8 +15,9 @@
 /// scan-build</a>: No bugs found.
 
 #include <type_traits>
+#include <memory>
 
-#include "S3Triangulation.h"
+#include "SimplicialManifold.h"
 #include "gmock/gmock.h"
 
 /// \todo: Fix SimplicialManifoldStruct test

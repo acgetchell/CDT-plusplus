@@ -18,15 +18,14 @@
 
 #include <functional>  // for std::function
 #include <iostream>
+#include <utility>
 #include <vector>
-#include <utility>  // for std::forward
 
-#include "Metropolis.h"
-#include "src/S3Triangulation.h"
 #include "Function_ref.h"  // Replace std::function
+#include "Metropolis.h"
 
 struct Simulation {
-//  using element = std::function<SimplicialManifold(SimplicialManifold)>;
+  //  using element = std::function<SimplicialManifold(SimplicialManifold)>;
   using element = function_ref<SimplicialManifold(SimplicialManifold)>;
   std::vector<element> queue_;
 
@@ -68,10 +67,10 @@ int main() {
   // universe = my_algorithm.start(universe);
 
   // Here's the desired interface
-//  my_simulation.queue(my_algorithm(universe));
+  //  my_simulation.queue(my_algorithm(universe));
   // \todo Fix segfault
-  my_simulation.queue([&my_algorithm](SimplicialManifold s) { return
-        my_algorithm(s);});
+  my_simulation.queue(
+      [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
   // my_simulation.queue(EuclideanDeSitter())
   // my_simulation.queue(print_results())
   universe = my_simulation.start(std::forward<SimplicialManifold>(universe));

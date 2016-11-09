@@ -11,7 +11,11 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include "src/S3Triangulation.h"
+#include <memory>
+#include <utility>
+
+#include "S3Triangulation.h"
+#include "SimplicialManifold.h"
 #include "gmock/gmock.h"
 
 using namespace testing;  // NOLINT
