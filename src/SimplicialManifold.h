@@ -193,7 +193,7 @@ struct SimplicialManifold {
   SimplicialManifold(SimplicialManifold&& other)  // NOLINT
       : triangulation{std::move(other.triangulation)},
         geometry{std::make_unique<GeometryInfo>(
-            classify_all_simplices(other.triangulation))} {
+            classify_all_simplices(triangulation))} {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move ctor." << std::endl;
 #endif

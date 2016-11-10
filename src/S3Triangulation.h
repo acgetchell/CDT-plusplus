@@ -70,7 +70,7 @@
 #include <vector>
 
 // CDT headers
-#include "utilities.h"
+#include "src/utilities.h"
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
