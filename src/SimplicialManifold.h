@@ -208,22 +208,13 @@ struct SimplicialManifold {
 #endif
     triangulation = std::move(other.triangulation);
     geometry      = std::make_unique<GeometryInfo>(
-        classify_all_simplices(std::move(other.triangulation)));
+        classify_all_simplices(std::move(triangulation)));
     return *this;
   }
 
-  /// @brief Copy constructor
-  //  SimplicialManifold(const SimplicialManifold& other)
-  //      : triangulation{std::make_unique<Delaunay>(
-  //            Delaunay{*other.triangulation})}
-  //      , geometry{
-  //            std::make_unique<GeometryInfo>(GeometryInfo{*other.geometry})} {
-  // #ifndef NDEBUG
-  //    std::cout << "SimplicialManifold copy ctor." << std::endl;
-  // #endif
-  //  };
-  // \todo: Fix bad SimplicialManifold copy ctor
-  // which produces Exception: EXC_BAD_ACCESS (code 1, address=0x8)
+  /// @brief SimplicialManifold copy constructor
+  /// @param other The SimplicialManifold to copy
+  /// @return A copy of the SimplicialManifold
   SimplicialManifold(const SimplicialManifold& other)
       : triangulation{std::make_unique<Delaunay>(*(other.triangulation))}
       , geometry{std::make_unique<GeometryInfo>(*(other.geometry))} {

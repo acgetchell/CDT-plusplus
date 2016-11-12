@@ -591,7 +591,7 @@ class Metropolis {
     //        // write results to a file
     //      }
     //    }  // End loop through passes_
-    return universe_ptr;
+    return universe_ptr_;
   }
 
  private:
