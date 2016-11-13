@@ -12,9 +12,11 @@
 /// scan-build</a>: No bugs found.
 
 #include <vector>
+#include <utility>
 
+#include "S3ErgodicMoves.h"
+#include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-#include "src/S3ErgodicMoves.h"
 
 using namespace testing;  // NOLINT
 

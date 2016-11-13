@@ -23,7 +23,7 @@
 *.lock
 profile
 
-# Build and Doc dirs
+# Build, Doc, and Testing dirs
 build/
 html/
 latex/
@@ -32,6 +32,7 @@ doc_html/
 *.tmp
 *.tar.gz
 googletest/
+Testing/
 
 # Editor files
 .clang_complete

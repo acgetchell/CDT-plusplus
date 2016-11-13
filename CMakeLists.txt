@@ -4,14 +4,15 @@
 
 project( CDT-plusplus_ )
 
-cmake_minimum_required(VERSION 2.6.2)
-if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
-  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-    cmake_policy(VERSION 2.8.4)
-  else()
-    cmake_policy(VERSION 2.6)
-  endif()
-endif()
+cmake_minimum_required(VERSION 2.8.11)
+#cmake_minimum_required(VERSION 2.6.2)
+#if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
+#  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
+#    cmake_policy(VERSION 2.8.4)
+#  else()
+#    cmake_policy(VERSION 2.6)
+#  endif()
+#endif()
 
 # General
 ###############################################################################
@@ -65,6 +66,7 @@ if ( CGAL_FOUND )
       # create_single_source_cgal_program( "src/container_test.cpp" )
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
       create_single_source_cgal_program( "src/cdt.cpp" "src/docopt/docopt.cpp")
+      create_single_source_cgal_program( "src/cdt-opt.cpp")
 
   else()
 
@@ -106,7 +108,7 @@ include( CTest )
 add_test (CDT-Usage cdt)
 set_tests_properties (CDT-Usage
   PROPERTIES
-  PASS_REGULAR_EXPRESSION "Usage:")
+  PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
 # Run an S3
 # Disabled until Metropolis() fixed
@@ -135,3 +137,14 @@ add_test (CDT-3Dtriangle cdt --s -n6400 -t16 -a0.3 -k2.2 -l3.3 -d3)
 set_tests_properties (CDT-3Dtriangle
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
+
+# cdt-gv
+# This program takes a file to load into GemoView for visualization
+add_test(CDT-GeomView cdt-gv)
+set_tests_properties(CDT-GeomView
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
+
+# cdt-opt
+add_test(CDT-Optimizer cdt-opt)
+

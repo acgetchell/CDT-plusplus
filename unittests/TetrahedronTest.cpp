@@ -14,8 +14,9 @@
 #include <utility>
 #include <vector>
 
+#include "S3Triangulation.h"
+#include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-#include "src/S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 

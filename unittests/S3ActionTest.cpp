@@ -16,9 +16,10 @@
 #include <utility>
 #include <vector>
 
+#include "S3Action.h"
+#include "S3Triangulation.h"
+#include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-#include "src/S3Action.h"
-#include "src/S3Triangulation.h"
 
 using namespace testing;  // NOLINT
 
@@ -106,7 +107,7 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
             << std::endl;
 
   // Magic values from lots of tests
-  EXPECT_THAT(Bulk_action, AllOf(Le(-1000), Ge(-2500)))
+  EXPECT_THAT(Bulk_action, AllOf(Le(-1000), Ge(-2600)))
       << "S3_bulk_action_alpha_one() out of expected range.";
 }
 
