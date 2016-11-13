@@ -4,15 +4,14 @@
 
 project( CDT-plusplus_ )
 
-cmake_minimum_required(VERSION 2.8.11)
-#cmake_minimum_required(VERSION 2.6.2)
-#if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
-#  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
-#    cmake_policy(VERSION 2.8.4)
-#  else()
-#    cmake_policy(VERSION 2.6)
-#  endif()
-#endif()
+cmake_minimum_required(VERSION 2.6.2)
+if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}" VERSION_GREATER 2.6)
+  if("${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION}.${CMAKE_PATCH_VERSION}" VERSION_GREATER 2.8.3)
+    cmake_policy(VERSION 2.8.4)
+  else()
+    cmake_policy(VERSION 2.6)
+  endif()
+endif()
 
 # General
 ###############################################################################
@@ -66,7 +65,6 @@ if ( CGAL_FOUND )
       # create_single_source_cgal_program( "src/container_test.cpp" )
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
       create_single_source_cgal_program( "src/cdt.cpp" "src/docopt/docopt.cpp")
-      create_single_source_cgal_program( "src/cdt-opt.cpp")
 
   else()
 
