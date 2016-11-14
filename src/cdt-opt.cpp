@@ -7,8 +7,6 @@
 /// that encompasses the entire lifecycle. Also suitable for
 /// scripting parallel runs.
 ///
-/// Inspired by http://cppcon.org/modernizing-your-c/
-///
 /// \done Invoke Metropolis algorithm
 /// \todo Print out graph of time-value vs. volume vs. pass number
 
@@ -16,31 +14,9 @@
 /// @brief Outputs values to determine optimizations
 /// @author Adam Getchell
 
-#include <iostream>
-#include <vector>
-#include <utility>
-
-#include "Function_ref.h"  // Replace std::function
 #include "Metropolis.h"
-
-struct Simulation {
-  using element = function_ref<SimplicialManifold(SimplicialManifold)>;
-  std::vector<element> queue_;
-
-  template <typename T>
-  void queue(T&& callable) {
-    queue_.emplace_back(std::forward<T>(callable));
-  }
-
-  SimplicialManifold start(SimplicialManifold&& initial) {  //  NOLINT
-    SimplicialManifold value{std::forward<SimplicialManifold>(initial)};
-
-    for (auto& item : queue_) {
-      value = item(value);
-    }
-    return value;
-  }
-};
+#include "Simulation.h"
+#include <utility>
 
 int main() {
   std::cout << "cdt-opt running ..." << std::endl;
@@ -52,14 +28,14 @@ int main() {
   constexpr int         passes     = 1000;
   constexpr int         checkpoint = 10;
 
-  // Make a triangulation
-  SimplicialManifold universe(simplices, timeslices);
-
   // Initialize simulation
   Simulation my_simulation;
 
   // Initialize the Metropolis algorithm
   Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
+
+  // Make a triangulation
+  SimplicialManifold universe(simplices, timeslices);
 
   // Queue up simulation with desired algorithm
   my_simulation.queue(
