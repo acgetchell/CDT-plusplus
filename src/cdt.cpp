@@ -13,7 +13,7 @@
 /// for a beautiful command line interface.
 
 /// @file cdt.cpp
-/// @brief The main body of the program
+/// @brief The main executable
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
@@ -22,13 +22,8 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
-#include <cstdlib>
-#include <exception>
-#include <iostream>
-#include <map>
-#include <memory>
-#include <string>
 #include <vector>
+#include <utility>
 
 // Docopt
 #include "docopt/docopt.h"
@@ -37,6 +32,9 @@
 // #include "./utilities.h"
 // #include "S3Triangulation.h"
 #include "Metropolis.h"
+#include "Simulation.h"
+#include <map>
+#include <string>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -126,9 +124,18 @@ int main(int argc, char* const argv[]) {
     std::cout << "User = " << getEnvVar("USER") << std::endl;
     std::cout << "Hostname = " << hostname() << std::endl;
 
-    // Initialize spherical Delaunay triangulation
-    Delaunay universe;
-    auto     universe_ptr = std::make_unique<decltype(universe)>(universe);
+    // Initialize simulation
+    Simulation my_simulation;
+
+    // Initialize the Metropolis algorithm
+    // \todo: add strong exception-safety guarantee on Metropolis functor
+    Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
+
+    // Queue up simulation with desired algorithm
+    my_simulation.queue(
+        [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
+
+    SimplicialManifold manifold;
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
@@ -140,7 +147,8 @@ int main(int argc, char* const argv[]) {
     switch (topology) {
       case topology_type::SPHERICAL:
         if (dimensions == 3) {
-          universe_ptr = std::move(make_triangulation(simplices, timeslices));
+          SimplicialManifold manifold1(simplices, timeslices);
+          swap(manifold, manifold1);  // SimplicialManifold swapperator
         } else {
           t.stop();  // End running time counter
           throw std::invalid_argument("Currently, dimensions cannot be >3.");
@@ -154,7 +162,7 @@ int main(int argc, char* const argv[]) {
         assert(!"cdt.cpp should never get here!");
     }
 
-    if (!fix_timeslices(universe_ptr)) {
+    if (!fix_timeslices(manifold.triangulation)) {
       t.stop();  // End running time counter
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }
@@ -164,11 +172,8 @@ int main(int argc, char* const argv[]) {
               << std::endl;
 
     // The main work of the program
-    // \todo: add strong exception-safety guarantee on Metropolis functor
-    Metropolis simulation(alpha, k, lambda, passes, checkpoint);
-    // \todo: Fix Metropolis call operator
-    //    auto result = std::move(simulation(universe_ptr));
-    auto result = SimplicialManifold(simplices, timeslices);
+    auto result =
+        my_simulation.start(std::forward<SimplicialManifold>(manifold));
     // Output results
     t.stop();  // End running time counter
     std::cout << "Final Delaunay triangulation has ";
@@ -182,6 +187,7 @@ int main(int argc, char* const argv[]) {
                result.triangulation->number_of_finite_cells(), timeslices);
 
     return 0;
+
   } catch (std::domain_error& DomainError) {
     std::cerr << DomainError.what() << std::endl;
     std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
