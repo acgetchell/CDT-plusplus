@@ -14,6 +14,7 @@
 /// @brief Outputs values to determine optimizations
 /// @author Adam Getchell
 
+#include "Measurements.h"
 #include "Metropolis.h"
 #include "Simulation.h"
 #include <utility>
@@ -41,6 +42,8 @@ int main() {
   my_simulation.queue(
       [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
   // my_simulation.queue(EuclideanDeSitter())
+  my_simulation.queue(
+      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
   // my_simulation.queue(print_results())
 
   // Run it
