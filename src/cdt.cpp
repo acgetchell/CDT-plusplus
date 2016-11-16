@@ -22,8 +22,8 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
-#include <vector>
 #include <utility>
+#include <vector>
 
 // Docopt
 #include "docopt/docopt.h"
@@ -91,14 +91,14 @@ int main(int argc, char* const argv[]) {
     // }
 
     // Parse docopt::values in args map
-    auto simplices  = std::stoul(args["-n"].asString());
-    auto timeslices = std::stoul(args["-t"].asString());
-    auto dimensions = std::stoul(args["-d"].asString());
+    auto simplices  = std::stoull(args["-n"].asString());
+    auto timeslices = std::stoull(args["-t"].asString());
+    auto dimensions = std::stoull(args["-d"].asString());
     auto alpha      = std::stold(args["--alpha"].asString());
     auto k          = std::stold(args["-k"].asString());
     auto lambda     = std::stold(args["--lambda"].asString());
-    auto passes     = std::stoul(args["--passes"].asString());
-    auto checkpoint = std::stoul(args["--checkpoint"].asString());
+    auto passes     = std::stoull(args["--passes"].asString());
+    auto checkpoint = std::stoull(args["--checkpoint"].asString());
 
     // Topology of simulation
     topology_type topology;
