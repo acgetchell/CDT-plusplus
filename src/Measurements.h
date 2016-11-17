@@ -13,6 +13,7 @@
 
 #include "SimplicialManifold.h"
 #include <map>
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -77,6 +78,13 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
             << std::endl;
 #endif
   CountVolumePerTimeslice(spacelike_facets);
+  std::set<int> timevalues;
+  for (auto item : manifold.geometry->vertices) {
+    timevalues.insert(item->info());
+    //    std::cout << "timevalue is " << item->info() << std::endl;
+  }
+  std::cout << "Minimum timevalue is " << *timevalues.begin() << std::endl;
+  std::cout << "Maximum timevalue is " << *timevalues.rbegin() << std::endl;
   return manifold;
 }
 

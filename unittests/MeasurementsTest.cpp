@@ -17,7 +17,7 @@ using namespace testing;  // NOLINT
 
 class MeasurementsTest : public Test {
  public:
-  MeasurementsTest() : manifold{std::move(make_triangulation(640000, 67))} {}
+  MeasurementsTest() : manifold{std::move(make_triangulation(6400, 7))} {}
 
   SimplicialManifold manifold;
 };
