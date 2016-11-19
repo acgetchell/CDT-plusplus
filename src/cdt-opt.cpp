@@ -41,7 +41,7 @@ int main() {
   // Queue up simulation with desired algorithm
   my_simulation.queue(
       [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
-  // my_simulation.queue(EuclideanDeSitter())
+  // Measure results
   my_simulation.queue(
       [](SimplicialManifold s) { return VolumePerTimeslice(s); });
   // my_simulation.queue(print_results())

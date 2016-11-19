@@ -23,13 +23,6 @@ using Facet = Delaunay::Facet;
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-void CountVolumePerTimeslice(std::multimap<int, Facet> spacelike_faces) {
-  for (int j = 0; j < 70; ++j) {
-    std::cout << "Timeslice " << j << " has " << spacelike_faces.count(j)
-              << " spacelike faces." << std::endl;
-  }
-}
-
 template <typename T>
 auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
 #ifndef NDEBUG
@@ -77,14 +70,24 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
   std::cout << "Number of spacelike faces is " << spacelike_facets.size()
             << std::endl;
 #endif
-  CountVolumePerTimeslice(spacelike_facets);
+
+  // Determine which timevalues are populated
   std::set<int> timevalues;
   for (auto item : manifold.geometry->vertices) {
     timevalues.insert(item->info());
     //    std::cout << "timevalue is " << item->info() << std::endl;
   }
-  std::cout << "Minimum timevalue is " << *timevalues.begin() << std::endl;
-  std::cout << "Maximum timevalue is " << *timevalues.rbegin() << std::endl;
+
+  auto min_timevalue = *timevalues.begin();
+  auto max_timevalue = *timevalues.rbegin();
+  std::cout << "Minimum timevalue is " << min_timevalue << std::endl;
+  std::cout << "Maximum timevalue is " << max_timevalue << std::endl;
+
+  for (int j = min_timevalue; j <= max_timevalue; ++j) {
+    std::cout << "Timeslice " << j << " has " << spacelike_facets.count(j)
+              << " spacelike faces." << std::endl;
+  }
+
   return manifold;
 }
 
