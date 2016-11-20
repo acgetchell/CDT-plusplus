@@ -52,11 +52,10 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
         std::cout << "Vertex[" << i << "] has timevalue "
                   << cell->vertex(i)->info() << std::endl;
 #endif
-        //        facet_timevalues.emplace_back(cell->vertex(i)->info());
         facet_timevalues.insert(cell->vertex(i)->info());
       }
     }
-    // If we have 1 element then all timevalues on that facet are equal
+    // If we have a 1-element set then all timevalues on that facet are equal
     if (facet_timevalues.size() == 1) {
 #ifdef DETAILED_DEBUGGING
       std::cout << "Timevalue is " << facet_timevalues.front() << std::endl;

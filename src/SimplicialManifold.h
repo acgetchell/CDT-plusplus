@@ -15,6 +15,9 @@
 #include <memory>
 #include <utility>
 #include <vector>
+#include <map>
+
+using Facet = Delaunay::Facet;
 
 /// @struct
 /// @brief A struct containing detailed geometry information
@@ -46,6 +49,9 @@ struct GeometryInfo {
 
   /// @brief Vertices of the foliation
   std::vector<Vertex_handle> vertices;
+
+  /// @brief Spacelike facets for each timeslice
+  std::multimap<uintmax_t, Facet> spacelike_facets;
 
   /// @brief Default constructor
   /// @return A GeometryInfo{}
