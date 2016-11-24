@@ -286,8 +286,8 @@ inline auto expected_points_per_simplex(const std::uintmax_t dimension,
                                         const std::uintmax_t timeslices,
                                         const bool           output = true) {
   if (output) {
-    std::cout << simplices << " simplices desired on " << timeslices
-              << " timeslices." << std::endl;
+    std::cout << simplices << " simplices on " << timeslices
+              << " timeslices desired." << std::endl;
   }
 
   const auto simplices_per_timeslice = simplices / timeslices;

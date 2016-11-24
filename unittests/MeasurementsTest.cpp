@@ -9,15 +9,19 @@
 /// @author Adam Getchell
 
 #include <utility>
+
 #include "Measurements.h"
 #include "gmock/gmock.h"
 
-
 using namespace testing;  // NOLINT
+
+constexpr uintmax_t simplices  = 64000;
+constexpr uintmax_t timeslices = 17;
 
 class MeasurementsTest : public Test {
  public:
-  MeasurementsTest() : manifold{std::move(make_triangulation(64000, 17))} {}
+  MeasurementsTest()
+      : manifold{std::move(make_triangulation(simplices, timeslices))} {}
 
   SimplicialManifold manifold;
 };
@@ -30,4 +34,10 @@ TEST_F(MeasurementsTest, VolumePerTimeslice) {
       << "Manifold has no cells.";
 
   VolumePerTimeslice(manifold);
+
+  ASSERT_THAT(manifold.geometry->spacelike_facets.size(), Ne(0))
+      << "Spacelike_facets is empty.";
+
+  EXPECT_EQ(timeslices, manifold.geometry->max_timevalue())
+      << "Expected timeslices differs from actual timeslices.";
 }

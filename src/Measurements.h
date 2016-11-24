@@ -84,6 +84,10 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
               << " spacelike faces." << std::endl;
   }
 
+  // Save values in GeomInfo struct
+  manifold.geometry->timevalues = timevalues;
+  manifold.geometry->spacelike_facets = spacelike_facets;
+
   return manifold;
 }
 

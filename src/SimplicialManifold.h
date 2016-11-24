@@ -16,6 +16,7 @@
 #include <utility>
 #include <vector>
 #include <map>
+#include <set>
 
 using Facet = Delaunay::Facet;
 
@@ -52,6 +53,9 @@ struct GeometryInfo {
 
   /// @brief Spacelike facets for each timeslice
   std::multimap<uintmax_t, Facet> spacelike_facets;
+
+  /// @brief Actual timevalues of simulation
+  std::set<uintmax_t> timevalues;
 
   /// @brief Default constructor
   /// @return A GeometryInfo{}
@@ -134,6 +138,8 @@ struct GeometryInfo {
   auto number_of_edges() {
     return timelike_edges.size() + spacelike_edges.size();
   }
+
+  auto max_timevalue() { return *timevalues.crbegin();}
 };
 
 /// @struct
