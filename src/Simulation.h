@@ -33,7 +33,7 @@ struct Simulation {
   SimplicialManifold start(SimplicialManifold&& initial) {  //  NOLINT
     SimplicialManifold value{std::forward<SimplicialManifold>(initial)};
 
-    for (auto& item : queue_) {
+    for (const auto& item : queue_) {
       value = item(value);
     }
     return value;

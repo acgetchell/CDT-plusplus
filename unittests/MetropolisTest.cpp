@@ -15,8 +15,8 @@
 #include <utility>
 #include <vector>
 
+#include "Metropolis.h"
 #include "gmock/gmock.h"
-#include "src/Metropolis.h"
 
 using namespace testing;  // NOLINT
 
