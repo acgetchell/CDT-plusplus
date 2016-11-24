@@ -53,7 +53,7 @@ struct GeometryInfo {
   std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
-  std::multimap<uintmax_t, Facet> spacelike_facets;
+  boost::optional<std::multimap<uintmax_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
   boost::optional<std::set<uintmax_t>> timevalues;

@@ -15,7 +15,7 @@
 using namespace testing;  // NOLINT
 
 constexpr uintmax_t simplices  = 64000;
-constexpr uintmax_t timeslices = 17;
+constexpr uintmax_t timeslices = 13;
 
 class MeasurementsTest : public Test {
  public:
@@ -32,13 +32,16 @@ TEST_F(MeasurementsTest, VolumePerTimeslice) {
   ASSERT_GT(manifold.triangulation->number_of_cells(), 0)
       << "Manifold has no cells.";
 
-  ASSERT_THAT(manifold.geometry->max_timevalue().get(), Eq(0))
+  ASSERT_FALSE(manifold.geometry->spacelike_facets.is_initialized())
+      << "spacelike_facets should not be initialized yet";
+
+  ASSERT_EQ(manifold.geometry->max_timevalue().get(), 0)
       << "max_timevalue should return 0 because VolumePerTimeslice() not "
          "called yet";
 
   VolumePerTimeslice(manifold);
 
-  ASSERT_THAT(manifold.geometry->spacelike_facets.size(), Ne(0))
+  ASSERT_FALSE(manifold.geometry->spacelike_facets->empty())
       << "Spacelike_facets is empty.";
 
   EXPECT_EQ(timeslices, manifold.geometry->max_timevalue().get())
