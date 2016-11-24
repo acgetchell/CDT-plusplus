@@ -12,6 +12,7 @@
 #define SRC_SIMPLICIALMANIFOLD_H_
 
 #include "S3Triangulation.h"
+#include <boost/optional.hpp>
 #include <memory>
 #include <utility>
 #include <vector>
@@ -55,7 +56,7 @@ struct GeometryInfo {
   std::multimap<uintmax_t, Facet> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
-  std::set<uintmax_t> timevalues;
+  boost::optional<std::set<uintmax_t>> timevalues;
 
   /// @brief Default constructor
   /// @return A GeometryInfo{}
@@ -139,7 +140,10 @@ struct GeometryInfo {
     return timelike_edges.size() + spacelike_edges.size();
   }
 
-  auto max_timevalue() { return *timevalues.crbegin();}
+//  auto max_timevalue() { return *timevalues.crbegin();}
+  boost::optional<std::uintmax_t> max_timevalue() {
+    return timevalues ? *timevalues->crbegin() : 0;
+  }
 };
 
 /// @struct

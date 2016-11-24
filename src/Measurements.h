@@ -52,7 +52,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
         std::cout << "Vertex[" << i << "] has timevalue "
                   << cell->vertex(i)->info() << std::endl;
 #endif
-        facet_timevalues.insert(cell->vertex(i)->info());
+        facet_timevalues.insert(std::move(cell->vertex(i)->info()));
       }
     }
     // If we have a 1-element set then all timevalues on that facet are equal
@@ -74,8 +74,8 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
     timevalues.insert(item->info());
   }
 
-  auto min_timevalue = *timevalues.begin();
-  auto max_timevalue = *timevalues.rbegin();
+  auto min_timevalue = *timevalues.cbegin();
+  auto max_timevalue = *timevalues.crbegin();
   std::cout << "Minimum timevalue is " << min_timevalue << std::endl;
   std::cout << "Maximum timevalue is " << max_timevalue << std::endl;
 
