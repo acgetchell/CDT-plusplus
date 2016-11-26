@@ -12,8 +12,6 @@
 /// scan-build</a>: No bugs found.
 
 #include <algorithm>
-#include <tuple>
-#include <utility>
 #include <vector>
 
 #include "S3Action.h"
@@ -26,7 +24,7 @@ using namespace testing;  // NOLINT
 class S3ActionTest : public Test {
  protected:
   S3ActionTest()
-      : universe_{std::move(make_triangulation(6400, 17))}
+      : universe_{make_triangulation(6400, 17)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}

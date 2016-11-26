@@ -12,6 +12,7 @@
 #include "Measurements.h"
 #include "gmock/gmock.h"
 
+
 using namespace testing;  // NOLINT
 
 constexpr uintmax_t simplices  = 64000;
@@ -19,8 +20,7 @@ constexpr uintmax_t timeslices = 13;
 
 class MeasurementsTest : public Test {
  public:
-  MeasurementsTest()
-      : manifold{std::move(make_triangulation(simplices, timeslices))} {}
+  MeasurementsTest() : manifold{make_triangulation(simplices, timeslices)} {}
 
   SimplicialManifold manifold;
 };

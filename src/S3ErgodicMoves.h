@@ -292,7 +292,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     int i3 = (common_face_index + 3) & 3;
 
     // Get indices of vertices of common face with respect to top cell
-    int in1 = top->index(bottom->vertex(i1));
+    // int in1 = top->index(bottom->vertex(i1));
     // int in2 = top->index(bottom->vertex(i2));
     // int in3 = top->index(bottom->vertex(i3));
 
@@ -303,8 +303,10 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     Vertex_handle v3 = bottom->vertex(i3);
 
     // Timeslices of v1, v2, and v3 should be same
-    CGAL_triangulation_precondition(v1->info() == v2->info());
-    CGAL_triangulation_precondition(v1->info() == v3->info());
+    //    CGAL_triangulation_precondition(v1->info() == v2->info());
+    //    CGAL_triangulation_precondition(v1->info() == v3->info());
+    if (v1->info() != v2->info() || v1->info() != v3->info())
+      throw std::range_error("Timeslices of v1, v2, and v3 don't match!");
 
 #ifndef NDEBUG
     Vertex_handle v5 = top->vertex(in1);
@@ -327,12 +329,11 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
       Vertex_handle v_center = universe.triangulation->tds().insert_in_facet(
           bottom, neighboring_31_index);
 
+#ifndef NDEBUG
       // Find the center of the facet
       // A vertex is a topological object which may be associated with a
       // point, which is a geometrical object.
       auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
-
-#ifndef NDEBUG
       std::cout << "Center point is: " << center_point << std::endl;
       v_center->set_point(center_point);
 #endif

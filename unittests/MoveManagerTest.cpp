@@ -10,7 +10,8 @@
 
 #include <algorithm>
 #include <vector>
-
+#include <memory>
+#include <utility>
 #include "gmock/gmock.h"
 #include "src/MoveManager.h"
 
@@ -22,7 +23,7 @@ using namespace testing;  // NOLINT
 class MoveManagerTest : public Test {
  public:
   MoveManagerTest()
-      : universe_{std::move(make_triangulation(6400, 17))}
+      : universe_{make_triangulation(6400, 17)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
