@@ -24,18 +24,22 @@
 #include <utility>
 #include <vector>
 
+#include "Function_ref.h"
 #include "Metropolis.h"
 
 class PachnerMove {
  private:
-  move_type          move_;
   SimplicialManifold universe_;
+  using move = function_ref<SimplicialManifold(SimplicialManifold, Move_tuple)>;
+//  move_type          move_;
   Move_tuple         attempted_moves_;
 
  public:
   template <typename T1, typename T2>
-  PachnerMove(T1&& universe, T2&& move)
-      : universe_{std::move(universe)}, move_{move} {
+  PachnerMove(T1&& universe, T2&& attempted_moves)
+//      : universe_{std::move(universe)}, move_{move} {
+  // Perfect forwarding here
+  : universe_{universe}, attempted_moves_{attempted_moves} {
     try {
       // Make a copy by dereferencing the std::unique_ptr<Delaunay>
       // in the SimplicialManifold
@@ -48,7 +52,8 @@ class PachnerMove {
         throw std::logic_error("Copied triangulation was invalid.");
       }
 
-      this->make_move(tempDT_ptr, move);  //  throws exceptions
+//      this->make_move(tempDT_ptr, move);  //  throws exceptions
+
 
       // Throws if false
       // CGAL_triangulation_postcondition(tempDT_ptr->tds().is_valid());

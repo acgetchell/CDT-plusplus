@@ -180,7 +180,7 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
          "edges.";
 }
 // \todo: Fix MoveManager tests
-TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
+TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "Constructed universe_ is invalid.";
 
@@ -210,7 +210,8 @@ TEST_F(MoveManagerTest, DISABLED_MakeA23MoveOnACopyAndSwap) {
   // Define swap for SimplicialManifold so that geometry is recalculated
   // when the triangulation is swapped
   //  this->universe_.swap(copied_manifold);
-  boost::swap(this->universe_, copied_manifold);
+//  boost::swap(this->universe_, copied_manifold);
+  swap(this->universe_, copied_manifold);
 
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
       << "universe_ invalid after swap with copied universe.";
