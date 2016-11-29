@@ -395,11 +395,11 @@ auto inline make_foliated_sphere(const std::uintmax_t simplices,
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
   Causal_vertices causal_vertices;
 
-  for (auto i = 0; i < timeslices; ++i) {
+  for (unsigned i = 0; i < timeslices; ++i) {
     auto radius = 1.0 + static_cast<double>(i);
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points
-    for (auto j = 0; j < points_per_timeslice; ++j) {
+    for (unsigned j = 0; j < points_per_timeslice; ++j) {
       causal_vertices.first.emplace_back(*gen++);
       causal_vertices.second.emplace_back(radius);
     }  // end j
