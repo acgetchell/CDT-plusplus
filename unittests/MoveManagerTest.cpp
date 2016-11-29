@@ -8,15 +8,12 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
-#include <algorithm>
-#include <vector>
 #include <memory>
 #include <utility>
+#include <algorithm>
+#include <vector>
 #include "gmock/gmock.h"
 #include "src/MoveManager.h"
-
-// This ensures our local swap function is preferred to std::swap
-#include "boost/swap.hpp"
 
 using namespace testing;  // NOLINT
 
@@ -179,6 +176,45 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
       << "SimplicialManifold copy doesn't have the same number of spacelike "
          "edges.";
 }
+
+TEST_F(MoveManagerTest, Swapperator) {
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+      << "Constructed universe_ is invalid.";
+
+  SimplicialManifold initially_empty;  // Default ctor
+
+  EXPECT_TRUE(initially_empty.triangulation->tds().is_valid())
+      << "Empty universe is invalid.";
+
+  EXPECT_TRUE(initially_empty.geometry->number_of_cells() == 0)
+      << "Empty universe not empty.";
+
+  swap(universe_, initially_empty);
+
+  EXPECT_TRUE(universe_.geometry->number_of_cells() == 0)
+      << "Universe swapped with empty universe not empty.";
+
+  EXPECT_TRUE(initially_empty.geometry->vertices.size() == vertices_before)
+      << "Swapped universe has incorrect number of vertices.";
+
+  EXPECT_TRUE(initially_empty.geometry->spacelike_edges.size() ==
+              spacelike_edges_before)
+      << "Swapped universe has incorrect number of spacelike edges.";
+
+  EXPECT_TRUE(initially_empty.geometry->timelike_edges.size() ==
+              timelike_edges_before)
+      << "Swapped universe has incorrect number of timelike edges.";
+
+  EXPECT_TRUE(initially_empty.geometry->three_one.size() == N3_31_before)
+      << "Swapped universe has incorrect number of (3,1) simplices.";
+
+  EXPECT_TRUE(initially_empty.geometry->two_two.size() == N3_22_before)
+      << "Swapped universe has incorrect number of (2,2) simplices.";
+
+  EXPECT_TRUE(initially_empty.geometry->one_three.size() == N3_13_before)
+      << "Swapped universe has incorrect number of (1,3) simplices.";
+}
+
 // \todo: Fix MoveManager tests
 TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
@@ -210,7 +246,7 @@ TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
   // Define swap for SimplicialManifold so that geometry is recalculated
   // when the triangulation is swapped
   //  this->universe_.swap(copied_manifold);
-//  boost::swap(this->universe_, copied_manifold);
+  //  boost::swap(this->universe_, copied_manifold);
   swap(this->universe_, copied_manifold);
 
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
