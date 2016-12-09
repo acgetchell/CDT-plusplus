@@ -51,7 +51,7 @@ int main() {
 
   auto max_timevalue = universe.geometry->max_timevalue().get();
 
-  /// todo  Fix SimplicialManifold move and copy operators to save optionals
+  /// \todo  Fix SimplicialManifold move and copy operators to save optionals
   if (max_timevalue < timeslices)
     std::cout << "You wanted " << timeslices
               << " timeslices, but only got "

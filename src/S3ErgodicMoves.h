@@ -82,7 +82,7 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved) {
 template <typename T1, typename T2>
 auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #ifndef NDEBUG
-  std::cout << "Attempting (2,3) move." << std::endl;
+  std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
   auto not_flipped = true;

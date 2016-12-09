@@ -10,8 +10,8 @@
 
 #include <utility>
 #include <memory>
-#include "gmock/gmock.h"
 #include "MoveManager.h"
+#include "gmock/gmock.h"
 
 using namespace testing;  // NOLINT
 
@@ -218,7 +218,15 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
       << "Constructed universe_ is invalid.";
 
-//  MoveManagerTest(universe_, function);
+  auto move =
+      MoveManager<SimplicialManifold, Move_tuple>(std::move(universe_),
+                                                  std::move(attempted_moves_));
+  move(true);
+
+  universe_ = std::move(move.universe_);
+
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+    << "Universe invalid after the move.";
 }
 // TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
 //  EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
