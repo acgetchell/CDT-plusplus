@@ -37,6 +37,8 @@ class MoveManager {
       : universe_{std::forward<T1>(universe)}
       , attempted_moves_{std::forward<T2>(attempted_moves)} {}
 
+  ~MoveManager() = default;
+
   auto operator()(bool arg) {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;

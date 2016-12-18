@@ -32,19 +32,19 @@ using Kd = CGAL::Cartesian_d<double>;
 /// The radius is used to denote the time value, so we can nest d-spheres
 /// such that our time foliation contains leaves of identical topology.
 ///
-/// @param[in] number_of_points Number of vertices at a given radius
-/// @param[in] dimension Dimension of sphere
-/// @param[in] radius Radius of sphere
-/// @param[in] output Prints detailed output
-/// @param[out]  points  The points ready to insert
-inline void make_d_sphere(std::uintmax_t number_of_points,
-                          std::uintmax_t dimension, double radius, bool output,
+/// @param number_of_points Number of vertices at a given radius
+/// @param dimension Dimension of sphere
+/// @param radius Radius of sphere
+/// @param output Prints detailed output
+/// @param points The points ready to insert
+inline void make_d_sphere(std::uintmax_t number_of_points, int dimension,
+                          double radius, bool output,
                           std::vector<Kd::Point_d>* const points) noexcept {
   points->reserve(number_of_points);
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
-  for (auto i = 0; i < number_of_points; ++i) {
+  for (decltype(number_of_points) i = 0; i < number_of_points; ++i) {
     points->push_back(*gen++);
   }
   // If output = true, print out values of points in sphere
@@ -67,8 +67,8 @@ inline void make_d_sphere(std::uintmax_t number_of_points,
 /// @param[in] dimension Dimension of sphere
 /// @param[in] radius Radius of sphere
 /// @param[out]  points  The points ready to insert
-inline void make_d_sphere(std::uintmax_t number_of_points,
-                          std::uintmax_t dimension, double radius,
+inline void make_d_sphere(std::uintmax_t number_of_points, int dimension,
+                          double                          radius,
                           std::vector<Kd::Point_d>* const points) noexcept {
   make_d_sphere(number_of_points, dimension, radius, false, points);
 }  // make_d_sphere

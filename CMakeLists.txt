@@ -17,7 +17,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 
 #Extra warnings
-add_definitions(-Wall)
+add_definitions(-Wall -Wextra)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
