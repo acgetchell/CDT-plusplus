@@ -47,6 +47,7 @@ class MoveManager {
     try {
       // Make a working copy
       T1 working_manifold{universe_};
+      auto maybe_move_count = boost::make_optional(arg, attempted_moves_);
 
       // Perform move on copy
       working_manifold = make_23_move(std::move(working_manifold), std::move
