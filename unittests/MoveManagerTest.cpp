@@ -222,6 +222,9 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
       << "boost::optional copy of universe_ invalidated original.";
 
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
+      << "boost::optional copy is invalid.";
+
   EXPECT_TRUE(maybe_moved_universe.get().geometry->number_of_cells() ==
               universe_.geometry->number_of_cells())
       << "boost::optional did not faithfully copy universe_.";
@@ -234,10 +237,22 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
               universe_.geometry->vertices.size())
       << "boost::optional did not faithfully copy universe_.";
 
-  boost::optional<decltype(attempted_moves_)> maybe_move_count;
+  auto maybe_move_count = boost::make_optional(true, attempted_moves_);
 
-//  EXPECT_TRUE(std::get<0>(maybe_move_count.get()) == 0)
-//      << "boost::optional copy of attempted_moves_ invalidated original.";
+  EXPECT_TRUE(std::get<0>(maybe_move_count.get()) == 0)
+      << "boost::optional copy of attempted_moves_ invalid.";
+
+  EXPECT_TRUE(std::get<1>(maybe_move_count.get()) == 0)
+      << "boost::optional copy of attempted_moves_ invalid.";
+
+  EXPECT_TRUE(std::get<2>(maybe_move_count.get()) == 0)
+      << "boost::optional copy of attempted_moves_ invalid.";
+
+  EXPECT_TRUE(std::get<3>(maybe_move_count.get()) == 0)
+      << "boost::optional copy of attempted_moves_ invalid.";
+
+  EXPECT_TRUE(std::get<4>(maybe_move_count.get()) == 0)
+      << "boost::optional copy of attempted_moves_ invalid.";
 }
 
 // \todo: Fix MoveManager tests
