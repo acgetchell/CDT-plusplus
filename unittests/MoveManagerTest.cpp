@@ -219,6 +219,9 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
 
   boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
 
+  EXPECT_TRUE(maybe_moved_universe)
+      << "boost::optional copy of universe_ not made.";
+
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
       << "boost::optional copy of universe_ invalidated original.";
 
@@ -239,6 +242,9 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
 
   auto maybe_move_count = boost::make_optional(true, attempted_moves_);
 
+  EXPECT_TRUE(maybe_move_count)
+      << "boost::optional copy of attempted_moves_ not made.";
+
   EXPECT_TRUE(std::get<0>(maybe_move_count.get()) == 0)
       << "boost::optional copy of attempted_moves_ invalid.";
 
@@ -256,12 +262,17 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
 }
 
 // \todo: Fix MoveManager tests
-TEST_F(MoveManagerTest, DISABLED_MakeA23Move) {
+TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
-      << "Constructed universe_ is invalid.";
+      << "MoveManagerTest constructed member universe_ is invalid.";
+}
 
-  auto move = MoveManager<SimplicialManifold, Move_tuple>(
-      std::move(universe_), std::move(attempted_moves_));
+//TEST_F(MoveManagerTest, MakeA23Move) {
+//  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+//      << "Constructed universe_ is invalid.";
+//
+//  auto move = MoveManager<SimplicialManifold, Move_tuple>(
+//      std::move(universe_), std::move(attempted_moves_));
   //  auto move = MoveManager<boost::optional<SimplicialManifold>,
   //                          boost::optional<Move_tuple>>(
   //      std::move(maybe_moved_universe), std::move(maybe_move_count));
@@ -274,9 +285,9 @@ TEST_F(MoveManagerTest, DISABLED_MakeA23Move) {
   //  }
   //  universe_ = std::move(move.universe_);
 
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
-      << "Universe invalid after the move.";
-}
+//  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+//      << "Universe invalid after the move.";
+//}
 // TEST_F(MoveManagerTest, MakeA23MoveOnACopyAndSwap) {
 //  EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
 //      << "Constructed universe_ is invalid.";
