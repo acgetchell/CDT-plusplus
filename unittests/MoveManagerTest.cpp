@@ -8,8 +8,6 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
-#include <utility>
-#include <memory>
 #include "MoveManager.h"
 #include "gmock/gmock.h"
 
@@ -232,13 +230,29 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
               universe_.geometry->number_of_cells())
       << "boost::optional did not faithfully copy universe_.";
 
-  EXPECT_TRUE(maybe_moved_universe.get().geometry->number_of_edges() ==
-              universe_.geometry->number_of_edges())
-      << "boost::optional did not faithfully copy universe_.";
+  EXPECT_TRUE(maybe_moved_universe.get().geometry->three_one.size() ==
+              N3_31_before)
+      << "maybe_moved_universe doesn't have same number of (3,1) simplices.";
+
+  EXPECT_TRUE(maybe_moved_universe.get().geometry->two_two.size() ==
+              N3_22_before)
+      << "maybe_moved_universe doesn't have same number of (2,2) simplices.";
+
+  EXPECT_TRUE(maybe_moved_universe.get().geometry->one_three.size() ==
+              N3_13_before)
+      << "maybe_moved_universe doesn't have same number of (1,3) simplices.";
+
+  EXPECT_TRUE(maybe_moved_universe.get().geometry->timelike_edges.size() ==
+              timelike_edges_before)
+      << "maybe_moved_universe doesn't have same number of timelike edges.";
+
+  EXPECT_TRUE(maybe_moved_universe.get().geometry->spacelike_edges.size() ==
+              spacelike_edges_before)
+      << "maybe_moved_universe doesn't have same number of spacelike edges.";
 
   EXPECT_TRUE(maybe_moved_universe.get().geometry->vertices.size() ==
-              universe_.geometry->vertices.size())
-      << "boost::optional did not faithfully copy universe_.";
+              vertices_before)
+      << "maybe_moved_universe doesn't have same number of vertices.";
 
   auto maybe_move_count = boost::make_optional(true, attempted_moves_);
 
@@ -246,44 +260,86 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
       << "boost::optional copy of attempted_moves_ not made.";
 
   EXPECT_TRUE(std::get<0>(maybe_move_count.get()) == 0)
-      << "boost::optional copy of attempted_moves_ invalid.";
+      << "attempted_moves_ (2,3) move count wrong.";
 
   EXPECT_TRUE(std::get<1>(maybe_move_count.get()) == 0)
-      << "boost::optional copy of attempted_moves_ invalid.";
+      << "attempted_moves_ (3,2) move count wrong.";
 
   EXPECT_TRUE(std::get<2>(maybe_move_count.get()) == 0)
-      << "boost::optional copy of attempted_moves_ invalid.";
+      << "attempted_moves_ (2,6) move count wrong.";
 
   EXPECT_TRUE(std::get<3>(maybe_move_count.get()) == 0)
-      << "boost::optional copy of attempted_moves_ invalid.";
+      << "attempted_moves_ (6,2) move count wrong.";
 
   EXPECT_TRUE(std::get<4>(maybe_move_count.get()) == 0)
-      << "boost::optional copy of attempted_moves_ invalid.";
+      << "attempted_moves_ (4,4) move count wrong.";
 }
 
 // \todo: Fix MoveManager tests
 TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
       << "MoveManagerTest constructed member universe_ is invalid.";
+
+  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  // Make working copies
+  boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
+  auto maybe_move_count = boost::make_optional(true, attempted_moves_);
+
+  //  auto this_move = MoveManager<SimplicialManifold, Move_tuple>(
+  //      std::move(universe_), std::move(attempted_moves_));
+
+  auto this_move =
+      MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>(
+          std::move(maybe_moved_universe), std::move(maybe_move_count));
+
+  this_move.operator()();
+
+  std::cout << "There are now " << maybe_moved_universe.get().geometry->N3_22()
+            << " (2,2) cells." << std::endl;
+  EXPECT_TRUE(N3_22_before == maybe_moved_universe.get().geometry->N3_22() - 1)
+      << "MoveManager didn't add a (2,2) simplex.";
+
+  EXPECT_FALSE(universe_.triangulation == nullptr)
+      << "MoveManagerTest member universe_ is a null pointer after move.";
+
+  std::cout << std::get<0>(maybe_move_count.get()) << " (2,3) moves attempted."
+            << std::endl;
+  EXPECT_THAT(std::get<0>(maybe_move_count.get()),
+              Gt(std::get<0>(attempted_moves_)))
+      << "Move manager didn't attempt a (2,3) move.";
 }
 
-//TEST_F(MoveManagerTest, MakeA23Move) {
+// TEST_F(MoveManagerTest, MakeA23Move) {
 //  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
 //      << "Constructed universe_ is invalid.";
 //
 //  auto move = MoveManager<SimplicialManifold, Move_tuple>(
 //      std::move(universe_), std::move(attempted_moves_));
-  //  auto move = MoveManager<boost::optional<SimplicialManifold>,
-  //                          boost::optional<Move_tuple>>(
-  //      std::move(maybe_moved_universe), std::move(maybe_move_count));
+//  auto move = MoveManager<boost::optional<SimplicialManifold>,
+//                          boost::optional<Move_tuple>>(
+//      std::move(maybe_moved_universe), std::move(maybe_move_count));
 
-  //  move(true);
-  //
-  //  if (move.universe_) {
-  //    universe_ = std::move(move.universe_.get());
-  //    attempted_moves_ = std::move(move.attempted_moves_.get());
-  //  }
-  //  universe_ = std::move(move.universe_);
+//  move(true);
+//
+//  if (move.universe_) {
+//    universe_ = std::move(move.universe_.get());
+//    attempted_moves_ = std::move(move.attempted_moves_.get());
+//  }
+//  universe_ = std::move(move.universe_);
 
 //  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
 //      << "Universe invalid after the move.";

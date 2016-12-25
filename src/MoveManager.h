@@ -39,26 +39,37 @@ class MoveManager {
 
   ~MoveManager() = default;
 
-  auto operator()(bool arg) {
+  auto operator()() {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
     try {
       // Make a working copy
-      T1 working_manifold{universe_};
-      auto maybe_move_count = boost::make_optional(arg, attempted_moves_);
+      //      T1 working_manifold{universe_};
+      //      auto maybe_move_count = boost::make_optional(arg,
+      //      attempted_moves_);
 
       // Perform move on copy
-      working_manifold = make_23_move(std::move(working_manifold), std::move
-          (attempted_moves_));
+      //      working_manifold = make_23_move(std::move(working_manifold),
+      //      std::move
+      //          (attempted_moves_));
+      *universe_ = make_23_move(std::move(*universe_),
+                               std::move(*attempted_moves_));
 
       /// \todo: Working on the error pathway here
       /// Move should fail gracefully
-      throw std::runtime_error("working_manifold is empty!");
+      //      throw std::runtime_error("working_manifold is empty!");
+      if (!universe_) throw std::runtime_error("working manifold is empty!");
+      if (!universe_.get().triangulation->tds().is_valid())
+        throw std::runtime_error("Move invalidated triangulation.");
+      if (!attempted_moves_)
+        throw std::runtime_error("attempted_moves_ is empty!");
+
+      // \todo: add class invariant checks for each move
 
       // Exception-safe commit
-      swap(working_manifold, universe_);
+      //      swap(working_manifold, universe_);
     }
 
     catch (...) {
