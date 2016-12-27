@@ -8,6 +8,8 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
+#include <utility>
+#include <memory>
 #include "MoveManager.h"
 #include "gmock/gmock.h"
 
@@ -302,23 +304,44 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   //  auto this_move = MoveManager<SimplicialManifold, Move_tuple>(
   //      std::move(universe_), std::move(attempted_moves_));
 
-  auto this_move =
-      MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>(
-          std::move(maybe_moved_universe), std::move(maybe_move_count));
+  //  auto this_move =
+  //      MoveManager<decltype(maybe_moved_universe),
+  //      decltype(maybe_move_count)>(
+  //          std::move(maybe_moved_universe), std::move(maybe_move_count));
 
-  this_move.operator()();
+  MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
+      this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
-  std::cout << "There are now " << maybe_moved_universe.get().geometry->N3_22()
+  //  this_move.operator()();
+  universe_ = *this_move.operator()();
+
+  std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
             << " (2,2) cells." << std::endl;
-  EXPECT_TRUE(N3_22_before == maybe_moved_universe.get().geometry->N3_22() - 1)
+
+  std::cout << "this_move has " << this_move.universe_.get().geometry->N3_31()
+            << " (1,3) and (3,1) cells." << std::endl;
+
+  std::cout << "maybe_moved_universe has "
+            << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
+            << std::endl;
+
+  EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid())
+      << "this_move.universe.triangulation invalid.";
+
+//  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
+//      << "maybe_moved_universe.triangulation invalid.";
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+      << "maybe_moved_universe isn't a null pointer.";
+
+  EXPECT_TRUE(N3_22_before == this_move.universe_.get().geometry->N3_22() - 1)
       << "MoveManager didn't add a (2,2) simplex.";
 
   EXPECT_FALSE(universe_.triangulation == nullptr)
       << "MoveManagerTest member universe_ is a null pointer after move.";
 
-  std::cout << std::get<0>(maybe_move_count.get()) << " (2,3) moves attempted."
-            << std::endl;
-  EXPECT_THAT(std::get<0>(maybe_move_count.get()),
+  std::cout << std::get<0>(this_move.attempted_moves_.get())
+            << " (2,3) moves attempted." << std::endl;
+  EXPECT_THAT(std::get<0>(this_move.attempted_moves_.get()),
               Gt(std::get<0>(attempted_moves_)))
       << "Move manager didn't attempt a (2,3) move.";
 }

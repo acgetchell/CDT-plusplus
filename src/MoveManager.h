@@ -137,9 +137,9 @@ class MoveManager {
 //
 // template <typename T>
 // void PachnerMove::make_move(T&& universe, const move_type move) {
-//#ifndef NDEBUG
+// #ifndef NDEBUG
 //  std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-//#endif
+// #endif
 //  switch (move) {
 //    case move_type::TWO_THREE:
 //      make_23_move(universe, attempted_moves_);
