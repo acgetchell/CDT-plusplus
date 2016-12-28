@@ -312,8 +312,9 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   //  this_move.operator()();
-  universe_ = *this_move.operator()();
-  attempted_moves_ = *this_move.attempted_moves_;
+//  universe_ = *this_move.operator()();
+  auto universe_{this_move.operator()().get()};
+  attempted_moves_ = this_move.attempted_moves_.get();
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
             << " (2,2) cells." << std::endl;
