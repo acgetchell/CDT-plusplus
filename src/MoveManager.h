@@ -30,8 +30,8 @@
 template <class T1, class T2>
 class MoveManager {
  public:
-  T1 universe_;
-  T2 attempted_moves_;
+  T1 universe_;         // a boost::optional type
+  T2 attempted_moves_;  // a boost::optional type
 
   MoveManager(T1&& universe, T2&& attempted_moves)
       : universe_{std::forward<T1>(universe)}
@@ -39,24 +39,21 @@ class MoveManager {
 
   ~MoveManager() = default;
 
+  //  auto operator()(
+  //      function_ref<SimplicialManifold(SimplicialManifold, move_type)> move)
+  //      {
+
   auto operator()() {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
     try {
-      // Make a working copy
-      //      T1 working_manifold{universe_};
-      //      auto maybe_move_count = boost::make_optional(arg,
-      //      attempted_moves_);
-
-      // Perform move on copy
-      //      working_manifold = make_23_move(std::move(working_manifold),
-      //      std::move
-      //          (attempted_moves_));
-      *universe_ = make_23_move(std::move(*universe_),
-                               std::move(*attempted_moves_));
-
+      universe_.get() = make_23_move(std::move(universe_.get()),
+                                     std::move(attempted_moves_.get()));
+      //      universe_.get() =
+      //          move(std::move(universe_.get()),
+      //          std::move(attempted_moves_.get()));
       /// \todo: Working on the error pathway here
       /// Move should fail gracefully
       //      throw std::runtime_error("working_manifold is empty!");
@@ -67,9 +64,6 @@ class MoveManager {
         throw std::runtime_error("attempted_moves_ is empty!");
 
       // \todo: add class invariant checks for each move
-
-      // Exception-safe commit
-      //      swap(working_manifold, universe_);
     }
 
     catch (...) {

@@ -10,6 +10,7 @@
 
 #include <utility>
 #include <memory>
+
 #include "MoveManager.h"
 #include "gmock/gmock.h"
 
@@ -312,8 +313,15 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   //  this_move.operator()();
-//  universe_ = *this_move.operator()();
-  auto universe_{this_move.operator()().get()};
+  //  universe_ = *this_move.operator()();
+    auto universe_(this_move.operator()().get());
+//  auto universe_(this_move
+//                     .
+//                     operator()([](SimplicialManifold universe,
+//                                   move_type          attempted_moves) {
+//                       return make_23_move(universe, attempted_moves);
+//                     })
+//                     .get());
   attempted_moves_ = this_move.attempted_moves_.get();
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
@@ -323,8 +331,8 @@ TEST_F(MoveManagerTest, MakeA23Move) {
             << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
             << std::endl;
 
-  std::cout << "universe_ has "
-            << universe_.geometry->N3_22() << " (2,2) cells." << std::endl;
+  std::cout << "universe_ has " << universe_.geometry->N3_22()
+            << " (2,2) cells." << std::endl;
 
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid())
       << "this_move.universe.triangulation invalid.";
@@ -332,8 +340,8 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid())
       << "MoveManager's universe_.triangulation invalid";
 
-//  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
-//      << "maybe_moved_universe.triangulation invalid.";
+  //  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
+  //      << "maybe_moved_universe.triangulation invalid.";
   EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
       << "maybe_moved_universe isn't a null pointer.";
 
