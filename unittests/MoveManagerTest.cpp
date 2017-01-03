@@ -70,7 +70,7 @@ class MoveManagerTest : public Test {
 };
 
 TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
-  EXPECT_TRUE(this->universe_.triangulation->tds().is_valid())
+  EXPECT_TRUE(this->universe_.triangulation->tds().is_valid(true))
       << "Constructed universe is invalid.";
 
   // Make a copy using Delaunay copy-ctor
@@ -82,7 +82,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
 
   auto tempSM = SimplicialManifold(std::move(tempDT_ptr));
 
-  EXPECT_TRUE(tempSM.triangulation->tds().is_valid())
+  EXPECT_TRUE(tempSM.triangulation->tds().is_valid(true))
       << "SimplicialManifold copy is invalid.";
 
   EXPECT_THAT(vertices_before, Eq(tempSM.geometry->vertices.size()))
@@ -132,7 +132,7 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
   EXPECT_TRUE(this->universe_.triangulation != copied_manifold.triangulation)
       << "Pointers are equal.";
 
-  EXPECT_TRUE(copied_manifold.triangulation->tds().is_valid())
+  EXPECT_TRUE(copied_manifold.triangulation->tds().is_valid(true))
       << "SimplicialManifold copy is invalid.";
 
   EXPECT_THAT(vertices_before, Eq(copied_manifold.geometry->vertices.size()))
@@ -177,12 +177,12 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
 }
 
 TEST_F(MoveManagerTest, Swapperator) {
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "Constructed universe_ is invalid.";
 
   SimplicialManifold initially_empty;  // Default ctor
 
-  EXPECT_TRUE(initially_empty.triangulation->tds().is_valid())
+  EXPECT_TRUE(initially_empty.triangulation->tds().is_valid(true))
       << "Empty universe is invalid.";
 
   EXPECT_TRUE(initially_empty.geometry->number_of_cells() == 0)
@@ -215,7 +215,7 @@ TEST_F(MoveManagerTest, Swapperator) {
 }
 
 TEST_F(MoveManagerTest, OptionTypesTest) {
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "Constructed universe_ is invalid.";
 
   boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
@@ -223,10 +223,10 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
   EXPECT_TRUE(maybe_moved_universe)
       << "boost::optional copy of universe_ not made.";
 
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "boost::optional copy of universe_ invalidated original.";
 
-  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid(true))
       << "boost::optional copy is invalid.";
 
   EXPECT_TRUE(maybe_moved_universe.get().geometry->number_of_cells() ==
@@ -279,7 +279,7 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
 }
 
 TEST_F(MoveManagerTest, MakeA23Move) {
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
   EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
@@ -334,10 +334,10 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   std::cout << "universe_ has " << universe_.geometry->N3_22()
             << " (2,2) cells." << std::endl;
 
-  EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid())
+  EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
 
-  EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid())
+  EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
       << "MoveManager's universe_.triangulation invalid";
 
   //  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
