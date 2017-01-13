@@ -142,3 +142,69 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
   EXPECT_THAT(std::get<0>(moves), Gt(0)) << std::get<0>(moves)
                                          << " attempted (2,3) moves.";
 }
+
+TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
+  SimplicialManifold test_universe(6400, 13);
+  Move_tuple         moves(std::make_tuple(0, 0, 0, 0, 0));
+
+  EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
+      << "Initial tds invalid.";
+
+  auto N3_22_before           = test_universe.geometry->N3_22();
+  auto timelike_edges_before  = test_universe.geometry->timelike_edges.size();
+  auto N3_31_before           = test_universe.geometry->three_one.size();
+  auto N3_13_before           = test_universe.geometry->one_three.size();
+  auto spacelike_edges_before = test_universe.geometry->spacelike_edges.size();
+  auto vertices_before        = test_universe.geometry->vertices.size();
+
+  //  test_universe = make_23_move(std::move(test_universe), moves);
+  // Make working copies
+  using Optional_SM   = boost::optional<decltype(test_universe)>;
+
+  Optional_SM maybe_moved_universe{test_universe};
+  auto        maybe_move_count = boost::make_optional(true, moves);
+
+  auto move_23_lambda = [](SimplicialManifold manifold,
+                           Move_tuple& attempted_moves) -> SimplicialManifold {
+    return make_23_move(std::move(manifold), attempted_moves);
+  };
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> complex_ref(
+      move_23_lambda);
+
+  maybe_moved_universe =
+      complex_ref(maybe_moved_universe.get(), maybe_move_count.get());
+
+  //  test_universe = complex_ref(test_universe, moves);
+  std::cout << "Attempted (2,3) moves = " << std::get<0>(maybe_move_count.get())
+            << std::endl;
+
+  EXPECT_TRUE(maybe_moved_universe)
+      << "maybe_moved_universe doesn't hold a value.";
+
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid(true))
+      << "tds invalid after move.";
+
+  EXPECT_EQ(maybe_moved_universe.get().geometry->three_one.size(), N3_31_before)
+      << "(3,1) simplices changed.";
+
+  EXPECT_EQ(maybe_moved_universe.get().geometry->N3_22(), N3_22_before + 1)
+      << "(2,2) simplices did not increase by 1.";
+
+  EXPECT_EQ(maybe_moved_universe.get().geometry->one_three.size(), N3_13_before)
+      << "(1,3) simplices changed.";
+
+  EXPECT_THAT(maybe_moved_universe.get().geometry->timelike_edges.size(),
+              Eq(timelike_edges_before + 1))
+      << "Timelike edges did not increase by 1.";
+
+  EXPECT_EQ(maybe_moved_universe.get().geometry->spacelike_edges.size(),
+            spacelike_edges_before)
+      << "Spacelike edges changed.";
+
+  EXPECT_EQ(maybe_moved_universe.get().geometry->vertices.size(),
+            vertices_before)
+      << "The number of vertices changed.";
+
+  EXPECT_THAT(std::get<0>(maybe_move_count.get()), Gt(0))
+      << std::get<0>(maybe_move_count.get()) << " attempted (2,3) moves.";
+}
