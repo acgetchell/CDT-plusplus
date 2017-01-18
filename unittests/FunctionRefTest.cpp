@@ -143,8 +143,7 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
                                          << " attempted (2,3) moves.";
 }
 
-TEST(FunctionRefTest, DISABLED_ComplexFunctionRefWithOptionals) {
-  /// \bug: gcc/boost 1.54 doesn't like this test
+TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
   SimplicialManifold test_universe(6400, 13);
   Move_tuple         moves(std::make_tuple(0, 0, 0, 0, 0));
 
