@@ -35,7 +35,7 @@ TEST(FunctionRefTest, SimpleLambdaWithFunctionRef) {
       << "function_ref<int(int)> lambda_ref(5) not working.";
 }
 
-TEST(FunctionRefTest, ComplexLambda) {
+TEST(FunctionRefTest, DISABLED_ComplexLambda) {
   SimplicialManifold test_universe(6400, 13);
   Move_tuple         moves(std::make_tuple(0, 0, 0, 0, 0));
 
@@ -61,8 +61,8 @@ TEST(FunctionRefTest, ComplexLambda) {
   std::cout << "Attempted (2,3) moves = " << std::get<0>(moves) << std::endl;
 
   /// \todo Figure out why move_23_lambda invalidates the tds
-  EXPECT_FALSE(test_universe.triangulation->tds().is_valid(true))
-      << "tds valid after move!";
+  EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
+      << "tds invalid after move!";
 
   EXPECT_EQ(test_universe.geometry->three_one.size(), N3_31_before)
       << "(3,1) simplices changed.";
