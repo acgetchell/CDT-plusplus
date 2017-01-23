@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2016 Adam Getchell
+/// Copyright © 2016 Adam Getchell
 ///
 /// Checks that the MoveManager RAII class handles resources properly.
 
@@ -8,8 +8,10 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
+// clang-format off
 #include <utility>
 #include <memory>
+// clang-format on
 
 #include "MoveManager.h"
 #include "gmock/gmock.h"
@@ -19,7 +21,7 @@ using namespace testing;  // NOLINT
 class MoveManagerTest : public Test {
  public:
   MoveManagerTest()
-      : universe_{make_triangulation(6400, 17)}
+      : universe_{make_triangulation(6400, 13)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
@@ -301,27 +303,24 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
   auto maybe_move_count = boost::make_optional(true, attempted_moves_);
 
-  //  auto this_move = MoveManager<SimplicialManifold, Move_tuple>(
-  //      std::move(universe_), std::move(attempted_moves_));
-
-  //  auto this_move =
-  //      MoveManager<decltype(maybe_moved_universe),
-  //      decltype(maybe_move_count)>(
-  //          std::move(maybe_moved_universe), std::move(maybe_move_count));
-
+  // Initialize MoveManager
   MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
-  //  this_move.operator()();
-  //  universe_ = *this_move.operator()();
-    auto universe_(this_move.operator()().get());
-//  auto universe_(this_move
-//                     .
-//                     operator()([](SimplicialManifold universe,
-//                                   move_type          attempted_moves) {
-//                       return make_23_move(universe, attempted_moves);
-//                     })
-//                     .get());
+  // Setup move
+  auto move_23_lambda = [](SimplicialManifold manifold,
+                           Move_tuple& attempted_moves) -> SimplicialManifold {
+    return make_23_move(std::move(manifold), attempted_moves);
+  };
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> move_23(
+      move_23_lambda);
+
+  // Call operator on MoveManager
+  auto universe_(this_move.operator()(move_23).get());
+//  auto maybe_moved_universe(this_move.operator()(move_23));
+//  if (maybe_moved_universe) universe_ = maybe_moved_universe.get();
+
+  // Retrieve results
   attempted_moves_ = this_move.attempted_moves_.get();
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
