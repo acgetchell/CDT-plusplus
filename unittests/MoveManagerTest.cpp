@@ -316,9 +316,12 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       move_23_lambda);
 
   // Call operator on MoveManager
-  auto universe_(this_move.operator()(move_23).get());
-//  auto maybe_moved_universe(this_move.operator()(move_23));
-//  if (maybe_moved_universe) universe_ = maybe_moved_universe.get();
+  maybe_moved_universe = this_move.operator()(move_23);
+
+  // Check that option type has data and move SimplicialManifold if so
+  if (maybe_moved_universe) {
+    universe_ = std::move(maybe_moved_universe.get());
+  }
 
   // Retrieve results
   attempted_moves_ = this_move.attempted_moves_.get();
@@ -339,13 +342,9 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
       << "MoveManager's universe_.triangulation invalid";
 
-  //  EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid())
-  //      << "maybe_moved_universe.triangulation invalid.";
+  // maybe_moved_universe should have been destructed
   EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
       << "maybe_moved_universe isn't a null pointer.";
-
-  EXPECT_TRUE(N3_22_before == this_move.universe_.get().geometry->N3_22() - 1)
-      << "MoveManager didn't add a (2,2) simplex.";
 
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22() - 1)
       << "MoveManager didn't add a (2,2) simplex.";
@@ -353,15 +352,88 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_FALSE(universe_.triangulation == nullptr)
       << "MoveManagerTest member universe_ is a null pointer after move.";
 
-  std::cout << std::get<0>(this_move.attempted_moves_.get())
-            << " (2,3) moves attempted." << std::endl;
-
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<0>(attempted_moves_) << std::endl;
 
-  EXPECT_THAT(std::get<0>(this_move.attempted_moves_.get()), Gt(0))
-      << "Move manager didn't attempt a (2,3) move.";
-
   EXPECT_THAT(std::get<0>(attempted_moves_), Gt(0))
-      << "Move manager didn't attempt a (2,3) move.";
+      << "Move manager didn't return an attempted (2,3) move.";
+}
+
+TEST_F(MoveManagerTest, MakeA32Move) {
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
+      << "MoveManagerTest constructed member universe_ is invalid.";
+
+  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  // Make working copies
+  boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
+  auto maybe_move_count = boost::make_optional(true, attempted_moves_);
+
+  // Initialize MoveManager
+  MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
+      this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
+
+  // Setup move
+  auto move_32_lambda = [](SimplicialManifold manifold,
+                           Move_tuple& attempted_moves) -> SimplicialManifold {
+    return make_32_move(std::move(manifold), attempted_moves);
+  };
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> move_32(
+      move_32_lambda);
+
+  // Call operator on MoveManager
+  maybe_moved_universe = this_move.operator()(move_32);
+
+  // Check that option type has data and move SimplicialManifold if so
+  if (maybe_moved_universe) {
+    universe_ = std::move(maybe_moved_universe.get());
+  }
+
+  // Retrieve results
+  attempted_moves_ = this_move.attempted_moves_.get();
+
+  std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
+            << " (2,2) cells." << std::endl;
+
+  std::cout << "maybe_moved_universe has "
+            << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
+            << std::endl;
+
+  std::cout << "universe_ has " << universe_.geometry->N3_22()
+            << " (2,2) cells." << std::endl;
+
+  EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
+      << "this_move.universe.triangulation invalid.";
+
+  EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
+      << "MoveManager's universe_.triangulation invalid";
+
+  // maybe_moved_universe should have been destructed
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+      << "maybe_moved_universe isn't a null pointer.";
+
+  EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22() + 1)
+      << "MoveManager didn't remove a (2,2) simplex.";
+
+  EXPECT_FALSE(universe_.triangulation == nullptr)
+      << "MoveManagerTest member universe_ is a null pointer after move.";
+
+  std::cout << "MoveManagerTest member attempted_moves_ is "
+            << std::get<1>(attempted_moves_) << std::endl;
+
+  EXPECT_THAT(std::get<1>(attempted_moves_), Gt(0))
+      << "Move manager didn't return an attempted (3,2) move.";
 }
