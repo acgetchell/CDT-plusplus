@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2015 Adam Getchell
 ///
 /// Checks that Metropolis algorithm runs properly.
 
@@ -12,7 +12,6 @@
 
 #include <cstdint>
 #include <tuple>
-#include <utility>
 #include <vector>
 
 #include "Metropolis.h"
@@ -23,7 +22,7 @@ using namespace testing;  // NOLINT
 class MetropolisTest : public Test {
  public:
   MetropolisTest()
-      : universe_{make_triangulation(6400, 17)}
+      : universe_{make_triangulation(6400, 13)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
@@ -72,46 +71,38 @@ class MetropolisTest : public Test {
   std::uintmax_t vertices_before;
 
   /// \f$\alpha\f$ is the timelike edge length
-  template <typename T>
-  static constexpr T Alpha = T{1.1};
+  long double Alpha = 1.1;
 
   /// \f$k=\frac{1}{8\pi G_{Newton}}\f$
-  template <typename T>
-  static constexpr T K = T{2.2};
+  long double K = 2.2;
 
   /// \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the Cosmological constant
-  template <typename T>
-  static constexpr T Lambda = T{3.3};
+  long double Lambda = 3.3;
 
   /// Number of passes through the algorithm. Each pass attempts a number of
   /// moves equal to the number of simplices
-  template <typename T>
-  static constexpr T passes = T{100};
+  std::uintmax_t passes = 100;
 
   /// The number of passes before output is written to file and stdout
-  template <typename T>
-  static constexpr T output_every_n_passes = T{10};
+  std::uintmax_t output_every_n_passes = 10;
 };
 
 TEST_F(MetropolisTest, Ctor) {
   // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(Alpha<long double>, K<long double>, Lambda<long double>,
-                     passes<std::uintmax_t>,
-                     output_every_n_passes<std::uintmax_t>);
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
 
-  EXPECT_THAT(testrun.Alpha(), Eq(Alpha<long double>))
-      << "Alpha not correctly forwarded by ctor.";
+  EXPECT_EQ(testrun.Alpha(), Alpha) << "Alpha not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.K(), Eq(K<long double>)) << "K not correctly forwarded "
-                                                  "by ctor.";
+  EXPECT_EQ(testrun.K(), K) << "K not correctly forwarded "
+                               "by ctor.";
 
-  EXPECT_THAT(testrun.Lambda(), Eq(Lambda<long double>))
+  EXPECT_EQ(testrun.Lambda(), Lambda)
       << "Lambda not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.Passes(), Eq(passes<std::uintmax_t>))
+  EXPECT_EQ(testrun.Passes(), passes)
       << "Passes not correctly forwarded by ctor.";
 
-  EXPECT_THAT(testrun.Output(), Eq(output_every_n_passes<std::uintmax_t>))
+  EXPECT_EQ(testrun.Checkpoint(), output_every_n_passes)
       << "output_every_n_passes not correctly forwarded by ctor.";
 }
 // \todo: Fix MetropolisTest, Operator
@@ -209,7 +200,7 @@ TEST_F(MetropolisTest, Ctor) {
 //    << "Moves don't add up.";
 //}
 
-// \todo: Fix MetropolisTest.CalcuateA2
+// \todo: Fix MetropolisTest.CalculateA2
 // TEST_F(MetropolisTest, DISABLED_CalculateA2) {
 //  // Instantiate Metropolis functor with passes and checkpoints = 1
 //  Metropolis testrun(Alpha, K, Lambda, 1, 1);

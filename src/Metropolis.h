@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2015-2016 Adam Getchell
 ///
 /// Performs the Metropolis-Hastings algorithm on the foliated Delaunay
 /// triangulations.
@@ -40,9 +40,8 @@
 #include "SimplicialManifold.h"
 
 // C++ headers
-#include <tuple>
-// #include <atomic>
 #include <algorithm>
+#include <tuple>
 #include <utility>
 #include <vector>
 
@@ -107,7 +106,7 @@ class Metropolis {
   auto Passes() const noexcept { return passes_; }
 
   /// Gets value of **checkpoint_**.
-  auto Output() const noexcept { return checkpoint_; }
+  auto Checkpoint() const noexcept { return checkpoint_; }
 
   /// Gets attempted (2,3) moves.
   auto TwoThreeMoves() const noexcept { return std::get<0>(attempted_moves_); }
@@ -204,30 +203,22 @@ class Metropolis {
   auto CalculateA1(move_type move) const noexcept {
     auto total_moves = this->TotalMoves();
     auto this_move   = 0;
-    auto move_name   = "";
     switch (move) {
       case move_type::TWO_THREE:
         this_move = std::get<0>(attempted_moves_);
-        move_name = "(2,3)";
         break;
       case move_type::THREE_TWO:
         this_move = std::get<1>(attempted_moves_);
-        move_name = "(3,2)";
         break;
       case move_type::TWO_SIX:
         this_move = std::get<2>(attempted_moves_);
-        move_name = "(2,6)";
         break;
       case move_type::SIX_TWO:
         this_move = std::get<3>(attempted_moves_);
-        move_name = "(6,2)";
         break;
       case move_type::FOUR_FOUR:
         this_move = std::get<4>(attempted_moves_);
-        move_name = "(4,4)";
         break;
-      default:
-        assert(!"Metropolis::CalculateA1 should never get here!");
     }
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -260,7 +251,7 @@ class Metropolis {
     return result;
   }  // CalculateA1()
 
-  /// @brief Calculte A2
+  /// @brief Calculate A2
   ///
   /// Calculate \f$a_2=e^{\Delta S}\f$
   ///
@@ -338,7 +329,7 @@ class Metropolis {
 #endif
 
     return result;
-  }  // CAlculateA2()
+  }  // CalculateA2()
 
   /// @brief Make a move of the selected type
   ///
