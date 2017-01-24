@@ -21,7 +21,7 @@ using namespace testing;  // NOLINT
 class MoveManagerTest : public Test {
  public:
   MoveManagerTest()
-      : universe_{make_triangulation(6400, 13)}
+      : universe_{make_triangulation(64000, 13)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
@@ -323,7 +323,7 @@ TEST_F(MoveManagerTest, MakeA23Move) {
     universe_ = std::move(maybe_moved_universe.get());
   }
 
-  // Retrieve results
+  // Retrieve move results
   attempted_moves_ = this_move.attempted_moves_.get();
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
@@ -340,17 +340,41 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       << "this_move.universe.triangulation invalid.";
 
   EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
-      << "MoveManager's universe_.triangulation invalid";
+      << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
   EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
       << "maybe_moved_universe isn't a null pointer.";
 
+  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+      << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_.triangulation))
+      << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
+      << "(3,1) simplices changed.";
+
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22() - 1)
       << "MoveManager didn't add a (2,2) simplex.";
 
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
+      << "(1,3) simplices changed.";
+
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
+              Eq(timelike_edges_before + 1))
+      << "Timelike edges did not increase by 1.";
+
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
+              Eq(spacelike_edges_before))
+      << "Spacelike edges changed.";
+
+  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
+              Eq(vertices_before))
+      << "The number of vertices changed.";
+
   EXPECT_FALSE(universe_.triangulation == nullptr)
-      << "MoveManagerTest member universe_ is a null pointer after move.";
+      << "MoveManager's returned universe_ is a null pointer after move.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<0>(attempted_moves_) << std::endl;
@@ -402,7 +426,7 @@ TEST_F(MoveManagerTest, MakeA32Move) {
     universe_ = std::move(maybe_moved_universe.get());
   }
 
-  // Retrieve results
+  // Retrieve move results
   attempted_moves_ = this_move.attempted_moves_.get();
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
@@ -419,21 +443,231 @@ TEST_F(MoveManagerTest, MakeA32Move) {
       << "this_move.universe.triangulation invalid.";
 
   EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
-      << "MoveManager's universe_.triangulation invalid";
+      << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
   EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
       << "maybe_moved_universe isn't a null pointer.";
 
+  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+      << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_.triangulation))
+      << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
+      << "(3,1) simplices changed.";
+
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22() + 1)
       << "MoveManager didn't remove a (2,2) simplex.";
 
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
+      << "(1,3) simplices changed.";
+
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
+              Eq(timelike_edges_before - 1))
+      << "Timelike edges did not decrease by 1.";
+
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
+              Eq(spacelike_edges_before))
+      << "Spacelike edges changed.";
+
+  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
+              Eq(vertices_before))
+      << "The number of vertices changed.";
+
   EXPECT_FALSE(universe_.triangulation == nullptr)
-      << "MoveManagerTest member universe_ is a null pointer after move.";
+      << "MoveManager's returned universe_ is a null pointer after move.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<1>(attempted_moves_) << std::endl;
 
   EXPECT_THAT(std::get<1>(attempted_moves_), Gt(0))
       << "Move manager didn't return an attempted (3,2) move.";
+}
+
+TEST_F(MoveManagerTest, MakeA26Move) {
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
+      << "MoveManagerTest constructed member universe_ is invalid.";
+
+  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  // Make working copies
+  boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
+  auto maybe_move_count = boost::make_optional(true, attempted_moves_);
+
+  // Initialize MoveManager
+  MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
+      this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
+
+  // Setup move
+  auto move_26_lambda = [](SimplicialManifold manifold,
+                           Move_tuple& attempted_moves) -> SimplicialManifold {
+    return make_26_move(std::move(manifold), attempted_moves);
+  };
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> move_26(
+      move_26_lambda);
+
+  // Call operator on MoveManager
+  maybe_moved_universe = this_move.operator()(move_26);
+
+  // Check that option type has data and move SimplicialManifold if so
+  if (maybe_moved_universe) {
+    universe_ = std::move(maybe_moved_universe.get());
+  }
+
+  // Retrieve move results
+  attempted_moves_ = this_move.attempted_moves_.get();
+
+  EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
+      << "this_move.universe.triangulation invalid.";
+
+  EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
+      << "MoveManager's returned universe_.triangulation invalid";
+
+  // maybe_moved_universe should have been destructed
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+      << "maybe_moved_universe isn't a null pointer.";
+
+  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+      << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_.triangulation))
+      << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before + 2))
+      << "(3,1) simplices did not increase by 2.";
+
+  EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22())
+      << "(2,2) simplices changed.";
+
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before + 2))
+      << "(1,3) simplices did not increase by 2.";
+
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
+              Eq(timelike_edges_before + 2))
+      << "Timelike edges did not increase by 2.";
+
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
+              Eq(spacelike_edges_before + 3))
+      << "Spacelike edges did not increase by 3.";
+
+  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
+              Eq(vertices_before + 1))
+      << "A vertex was not added to the triangulation.";
+
+  EXPECT_FALSE(universe_.triangulation == nullptr)
+      << "MoveManager's returned universe_ is a null pointer after move.";
+
+  std::cout << "MoveManagerTest member attempted_moves_ is "
+            << std::get<2>(attempted_moves_) << std::endl;
+
+  EXPECT_THAT(std::get<2>(attempted_moves_), Gt(0))
+      << "Move manager didn't return an attempted (2,6) move.";
+}
+
+TEST_F(MoveManagerTest, MakeA62Move) {
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
+      << "MoveManagerTest constructed member universe_ is invalid.";
+
+  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+      << "MoveManagerTest constructed member attempted_moves_ is invalid.";
+
+  // Make working copies
+  boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
+  auto maybe_move_count = boost::make_optional(true, attempted_moves_);
+
+  // Initialize MoveManager
+  MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
+      this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
+
+  // Setup move
+  auto move_62_lambda = [](SimplicialManifold manifold,
+                           Move_tuple& attempted_moves) -> SimplicialManifold {
+    return make_62_move(std::move(manifold), attempted_moves);
+  };
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> move_62(
+      move_62_lambda);
+
+  // Call operator on MoveManager
+  maybe_moved_universe = this_move.operator()(move_62);
+
+  // Check that option type has data and move SimplicialManifold if so
+  if (maybe_moved_universe) {
+    universe_ = std::move(maybe_moved_universe.get());
+  }
+
+  // Retrieve move results
+  attempted_moves_ = this_move.attempted_moves_.get();
+
+  EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
+      << "this_move.universe.triangulation invalid.";
+
+  EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
+      << "MoveManager's returned universe_.triangulation invalid";
+
+  // maybe_moved_universe should have been destructed
+  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+      << "maybe_moved_universe isn't a null pointer.";
+
+  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+      << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(fix_timeslices(universe_.triangulation))
+      << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before - 2))
+      << "(3,1) simplices did not decrease by 2.";
+
+  EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22())
+      << "(2,2) simplices changed.";
+
+  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before - 2))
+      << "(1,3) simplices did not decrease by 2.";
+
+  EXPECT_THAT(universe_.geometry->timelike_edges.size(),
+              Eq(timelike_edges_before - 2))
+      << "Timelike edges did not decrease by 2.";
+
+  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
+              Eq(spacelike_edges_before - 3))
+      << "Spacelike edges did not decrease by 3.";
+
+  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
+              Eq(vertices_before - 1))
+      << "The number of vertices did not decrease by 1.";
+
+  EXPECT_FALSE(universe_.triangulation == nullptr)
+      << "MoveManager's returned universe_ is a null pointer after move.";
+
+  std::cout << "MoveManagerTest member attempted_moves_ is "
+            << std::get<3>(attempted_moves_) << std::endl;
+
+  EXPECT_THAT(std::get<3>(attempted_moves_), Gt(0))
+      << "Move manager didn't return an attempted (2,6) move.";
 }

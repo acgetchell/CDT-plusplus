@@ -27,19 +27,27 @@
 #include "Function_ref.h"
 #include "Metropolis.h"
 
-/// @brief RAII Functor to handle moves
+/// @brief RAII Function object to handle moves
 /// @tparam T1 SimplicialManifold type
 /// @tparam T2 Move counter type
 template <class T1, class T2>
 class MoveManager {
  public:
-  /// @brief An option type to the SimplicialManifold
+  /// @brief An option type SimplicialManifold
   T1 universe_;
 
-  /// @brief An option type to the move counter
+  /// @brief An option type move counter
   T2 attempted_moves_;
 
-  /// @brief Perfect forwarding constructor
+  /// @brief Perfect forwarding constructor initializer
+  ///
+  /// Because a SimplicialManifold is move-only and uses std::unique_ptrs,
+  /// this RAII class should be initialized with option types. The general
+  /// pattern is to make option-types and pass those to the ctor, and then
+  /// check that the returned data structures are non-empty before consuming
+  /// them. Any thrown exceptions will call the destructor, so the returned
+  /// data structures will be empty (point to nullptr).
+  ///
   /// @param universe Initializes universe_
   /// @param attempted_moves Initializes attempted_moves_
   MoveManager(T1&& universe, T2&& attempted_moves)
