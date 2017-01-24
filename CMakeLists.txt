@@ -17,19 +17,27 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 
 #Extra warnings
-add_definitions(-Wall)
+add_definitions(-Wall -Wextra)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
 set(GMOCK_TESTS TRUE)
 #Turn on / off TBB
 set(TBB_ON TRUE)
+#Set mimumum Boost
+set(BOOST_MIN_VERSION "1.58.0")
 
 #Main program executable
 ###############################################################################
 set(EXECUTABLE_NAME "CDT")
 
 find_package(CGAL QUIET COMPONENTS Core )
+
+# Need working version of boost::optional
+find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
+if (NOT Boost_FOUND)
+    message(FATAL_ERROR "Boost >= 1.58.0 required.\n")
+endif ()
 
 if ( CGAL_FOUND )
 

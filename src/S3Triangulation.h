@@ -103,7 +103,7 @@ using Move_tuple = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
 
 /// The dimensionality of the Delaunay triangulation
-static constexpr std::uintmax_t DIMENSION = 3;
+static constexpr int DIMENSION = 3;
 
 /// Toggles detailed per-simplex debugging output
 #define DETAILED_DEBUGGING
@@ -395,11 +395,11 @@ auto inline make_foliated_sphere(const std::uintmax_t simplices,
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
   Causal_vertices causal_vertices;
 
-  for (auto i = 0; i < timeslices; ++i) {
+  for (unsigned i = 0; i < timeslices; ++i) {
     auto radius = 1.0 + static_cast<double>(i);
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points
-    for (auto j = 0; j < points_per_timeslice; ++j) {
+    for (unsigned j = 0; j < points_per_timeslice; ++j) {
       causal_vertices.first.emplace_back(*gen++);
       causal_vertices.second.emplace_back(radius);
     }  // end j

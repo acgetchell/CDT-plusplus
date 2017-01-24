@@ -82,7 +82,7 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved) {
 template <typename T1, typename T2>
 auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #ifndef NDEBUG
-  std::cout << "Attempting (2,3) move." << std::endl;
+  std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
   auto not_flipped = true;
@@ -479,6 +479,7 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   if (movable_spacelike_edges.size() == 0) {
     throw std::domain_error("No (4,4) move is possible.");
   }
+  ++std::get<4>(attempted_moves);
   return std::move(universe);
 }  // make_44_move()
 

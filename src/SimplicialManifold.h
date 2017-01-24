@@ -8,6 +8,8 @@
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
 
+/// \todo: Devise a way to copy the boost::optional data in move/copy ctors
+
 #ifndef SRC_SIMPLICIALMANIFOLD_H_
 #define SRC_SIMPLICIALMANIFOLD_H_
 

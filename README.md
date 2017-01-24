@@ -9,6 +9,7 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
 with [CMake][3] using [Clang][4]/[LLVM][5].
 Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
+Option-types via [Boost][47] >= 1.58.0.
 [Docopt][19] provides a beautiful command-line interface.
 [Gmock 1.7][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
@@ -17,7 +18,7 @@ Follows (mostly) the [Google C++ Style Guide][7] as enforced by [clang-format][4
 you can check by downloading and running the [cpplint.py][8] script:
 
 ~~~
-# python cpplint.py <filename>
+python cpplint.py <filename>
 ~~~
 
 (Or use your favorite linter plugin for your editor/IDE.)
@@ -63,33 +64,38 @@ for running the unit tests, and [Ninja][18] is an optional replacement for
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
 ~~~
-# brew install cmake
-# brew install eigen
-# brew install tbb --c++11
-# brew install ninja
-# brew install cgal --imaging --with-eigen3 --with-lapack
+brew install cmake
+brew install eigen
+brew install tbb --c++11
+brew install ninja
+brew install cgal --imaging --with-eigen3 --with-lapack
 ~~~
 
-On Ubuntu, you will need an updated version of gcc, which you can install via:
+On Ubuntu, you will need an updated versions of gcc and [Boost][47], which you can install via:
 
 ~~~
-sudo apt-add-repository -y ppa:ubuntu-toolchain-r/test
+sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+# For Ubuntu 14.04
+# sudo add-apt-repository -y ppa:kzemek/boost
 sudo apt-get update
-sudo apt-get install g++-5
-export CXX="g++-5" CC="gcc-5"
+sudo apt-get install g++-6
+export CXX="g++-6" CC="gcc-6"
 ~~~
 
 Then you can install the rest of the needed libraries:
 
 ~~~
-# sudo apt-get install libboost-all-dev
-# sudo apt-get install libmpfr-dev
-# sudo apt-get install libgmp3-dev
-# sudo apt-get install cmake
-# sudo apt-get install libeigen3-dev
-# sudo apt-get install libtbb-dev
-# sudo apt-get install ninja-build
-# sudo apt-get install libcgal-dev
+# For Ubuntu 16.04 which comes with Boost 1.58.0
+sudo apt-get install libboost-all-dev
+# For Ubuntu 14.04
+# sudo apt-get install boost1.58
+sudo apt-get install libmpfr-dev
+sudo apt-get install libgmp3-dev
+sudo apt-get install cmake
+sudo apt-get install libeigen3-dev
+sudo apt-get install libtbb-dev
+sudo apt-get install ninja-build
+sudo apt-get install libcgal-dev
 ~~~
 
 This is scripted in [.travis.yml][39].
@@ -102,10 +108,10 @@ project without cluttering the source code. Thus, download this source code
 following commands in the top-level directory:
 
 ~~~
-# mkdir build
-# cd build
-# cmake ..
-# make
+mkdir build
+cd build
+cmake ..
+make
 ~~~
 
 (Or run [build.sh][27] if you have [Ninja][18] installed.)
@@ -142,7 +148,7 @@ understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
 ~~~
-# ./build/cdt --help
+./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2016 Adam Getchell
@@ -190,7 +196,7 @@ locally by simply typing at the top level directory
 ([Doxygen][13] will recursively search):
 
 ~~~
-# doxygen
+doxygen
 ~~~
 
 This will generate `html/` and `latex/` directories which will contain
@@ -209,23 +215,23 @@ executable is set by the `GMOCK_TESTS` variable in [CMakeLists.txt][28].
 To install GMock, you'll need to install GMock and GTest as a shared library. First look at the [README][24] to understand the general idea. On Linux:
 
 ~~~
-# git clone https://github.com/google/googletest.git
-# cd googletest/googlemock
-# cmake -DBUILD_SHARED_LIBS=ON .
-# make
-# sudo cp -a include/gmock/ /usr/include/
-# sudo cp -a libgmock_main.so libgmock.so /usr/lib/
+git clone https://github.com/google/googletest.git
+cd googletest/googlemock
+cmake -DBUILD_SHARED_LIBS=ON .
+make
+sudo cp -a include/gmock/ /usr/include/
+sudo cp -a libgmock_main.so libgmock.so /usr/lib/
 ~~~
 
 GoogleMock is modular, and can use other testing frameworks. Since we want
 to use GoogleTest, do:
 
 ~~~
-# cd ../googletest
-# cmake -DBUILD_SHARED_LIBS=ON .
-# make
-# sudo cp -a include/gtest /usr/include/
-# sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+cd ../googletest
+cmake -DBUILD_SHARED_LIBS=ON .
+make
+sudo cp -a include/gtest /usr/include/
+sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 ~~~
 
 This is scripted in [install-linux.sh][43]. Thanks to [ManuelSchneid3r][42] and
@@ -237,19 +243,19 @@ MacOS is very similiar, and the exact steps are scripted in [install-osx.sh][44]
 Unit tests using GMock are then run (in the `build/` directory) via:
 
 ~~~
-# ./unittests
+./unittests
 ~~~
 
 You can build and run validation tests by typing:
 
 ~~~
-# make test
+make test
 ~~~
 
 Or, if you are using [Ninja][18]:
 
 ~~~
-# ninja test
+ninja test
 ~~~
 
 In addition to the command line output, you can see detailed results in the
@@ -322,3 +328,4 @@ Please see [CONTRIBUTING.md][45].
 [44]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-osx.sh
 [45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [46]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html
+[47]: http://www.boost.org

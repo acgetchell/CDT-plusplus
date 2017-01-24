@@ -45,9 +45,9 @@ TEST(Sphere, Create3Sphere) {
   constexpr auto           number_of_points = 5;
   constexpr auto           dim              = 4;
   constexpr auto           radius           = 1.0;
-  constexpr auto           output           = false;
+//  constexpr auto           output           = false;
 
-  make_d_sphere(number_of_points, dim, radius, output, &points);
+  make_d_sphere(number_of_points, dim, radius, &points);
 
   ASSERT_THAT(points.size(), Eq(number_of_points))
       << "Vector has " << number_of_points << " points.";

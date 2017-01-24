@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2015 Adam Getchell
 ///
 /// Tests for S3 ergodic moves: (2,3), (3,2), (2,6), (6,2)
 /// \todo: (4,4)
@@ -11,19 +11,20 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
+// clang-format off
 #include <utility>
 #include <vector>
 #include "S3ErgodicMoves.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-
+// clang-format on
 
 using namespace testing;  // NOLINT
 
 class S3ErgodicMoveTest : public Test {
  public:
   S3ErgodicMoveTest()
-      : universe_{make_triangulation(6400, 17)}
+      : universe_{make_triangulation(6400, 13)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
@@ -74,15 +75,9 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move) {
   std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
             << std::endl;
 
-  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
-      << "(3,1) simplex removed from movable_simplex_types_.";
-
-  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
-      << "(1,3) simplex removed from movable_simplex_types_.";
-
   // We expect the triangulation to be valid, but not necessarily Delaunay
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid())
-      << "Triangulation is invalid.";
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
+      << "tds is invalid after move.";
 
   EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
       << "Triangulation has wrong dimensionality.";
@@ -110,6 +105,9 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move) {
   EXPECT_THAT(universe_.triangulation->number_of_vertices(),
               Eq(vertices_before))
       << "The number of vertices changed.";
+
+  EXPECT_THAT(std::get<0>(attempted_moves_), Gt(0))
+            << std::get<0>(attempted_moves_) << " attempted (2,3) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA32Move) {
@@ -147,6 +145,9 @@ TEST_F(S3ErgodicMoveTest, MakeA32Move) {
   EXPECT_THAT(universe_.triangulation->number_of_vertices(),
               Eq(vertices_before))
       << "The number of vertices changed.";
+
+  EXPECT_THAT(std::get<1>(attempted_moves_), Gt(0))
+            << std::get<1>(attempted_moves_) << " attempted (3,2) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA26Move) {
@@ -182,6 +183,9 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
 
   EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before + 1))
       << "A vertex was not added to the triangulation.";
+
+  EXPECT_THAT(std::get<2>(attempted_moves_), Gt(0))
+            << std::get<2>(attempted_moves_) << " attempted (2,6) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA62Move) {
@@ -217,6 +221,9 @@ TEST_F(S3ErgodicMoveTest, MakeA62Move) {
 
   EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before - 1))
       << "The number of vertices did not decrease by 1.";
+
+  EXPECT_THAT(std::get<3>(attempted_moves_), Gt(0))
+            << std::get<3>(attempted_moves_) << " attempted (6,2) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move) {
@@ -262,4 +269,7 @@ TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move) {
 
   EXPECT_THAT(universe_.geometry->vertices.size(), Eq(vertices_before))
       << "The number of vertices changed.";
+
+  EXPECT_THAT(std::get<4>(attempted_moves_), Gt(0))
+            << std::get<4>(attempted_moves_) << " attempted (4,4) moves.";
 }

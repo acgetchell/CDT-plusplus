@@ -284,7 +284,7 @@ inline auto generate_probability() noexcept {
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-inline auto expected_points_per_simplex(const std::uintmax_t dimension,
+inline auto expected_points_per_simplex(const int            dimension,
                                         const std::uintmax_t simplices,
                                         const std::uintmax_t timeslices,
                                         const bool           output = true) {

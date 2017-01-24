@@ -27,6 +27,7 @@ profile
 build/
 html/
 latex/
+cgal-releases*/
 cpplint.py
 doc_html/
 *.tmp
@@ -47,6 +48,7 @@ grid_d
 output
 *.txt
 *.off
+install.log
 
 # Instrumentation
 *.trace
