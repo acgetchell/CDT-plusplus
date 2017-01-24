@@ -68,6 +68,53 @@ enum class move_type {
 /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
 /// \f[a_2=e^{\Delta S}\f]
 class Metropolis {
+ private:
+  /// @brief A SimplicialManifold
+  SimplicialManifold universe_ptr_;
+
+  /// @brief The length of the timelike edges.
+  long double Alpha_;
+
+  /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$
+  long double K_;
+
+  /// @brief \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
+  /// the cosmological constant.
+  long double Lambda_;
+
+  /// @brief The current number of timelike edges, some of which may not be
+  /// movable.
+  std::uintmax_t N1_TL_{0};
+
+  /// @brief The current number of (3,1) and (1,3) simplices, some of which may
+  /// not be movable.
+  std::uintmax_t N3_31_{0};
+
+  /// @brief The current number of (2,2) simplices, some of which may not be
+  /// movable.
+  std::uintmax_t N3_22_{0};
+
+  /// @brief Number of passes of ergodic moves on triangulation.
+  std::uintmax_t passes_{100};
+
+  /// @brief How often to print/write output.
+  std::uintmax_t checkpoint_{10};
+
+  /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
+  Move_tuple attempted_moves_{0, 0, 0, 0, 0};
+
+  /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
+  Move_tuple successful_moves_{0, 0, 0, 0, 0};
+
+  /// @brief Movable (3,1), (2,2) and (1,3) simplices.
+  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
+             std::vector<Cell_handle>>
+      movable_simplex_types_;
+
+  /// @brief Movable timelike and spacelike edges.
+  std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
+      movable_edge_types_;
+
  public:
   /// @brief Metropolis constructor
   ///
@@ -244,7 +291,6 @@ class Metropolis {
 
 #ifndef NDEBUG
     std::cout << "TotalMoves() = " << total_moves << std::endl;
-    std::cout << move_name << " moves = " << this_move << std::endl;
     std::cout << "A1 is " << result << std::endl;
 #endif
 
@@ -294,8 +340,6 @@ class Metropolis {
         std::cout << "A2 is 1" << std::endl;
 #endif
         return static_cast<Gmpzf>(1);
-      default:
-        assert(!"Metropolis::CalculateA2 should never get here!");
     }
 
     auto exponent        = newS3Action - currentS3Action;
@@ -585,44 +629,6 @@ class Metropolis {
     return universe_ptr_;
   }
 
- private:
-  //  Delaunay universe;
-  ///< The type of triangulation.
-  //  std::unique_ptr<decltype(universe)>
-  //    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
-  SimplicialManifold universe_ptr_;
-  ///< A std::unique_ptr to the Delaunay triangulation. For this reason you
-  /// should not access this member directly, as operator() may be called
-  /// at any time and null it out via std::move().
-  long double Alpha_;
-  ///< Alpha is the length of timelike edges.
-  long double K_;
-  ///< \f$K=\frac{1}{8\pi G_{N}}\f$
-  long double Lambda_;
-  ///< \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
-  /// the cosmological constant.
-  std::uintmax_t N1_TL_{0};
-  ///< The current number of timelike edges, some of which may not be movable.
-  std::uintmax_t N3_31_{0};
-  ///< The current number of (3,1) and (1,3) simplices, some of which may not
-  /// be movable.
-  std::uintmax_t N3_22_{0};
-  ///< The current number of (2,2) simplices, some of which may not be movable.
-  std::uintmax_t passes_{100};
-  ///< Number of passes of ergodic moves on triangulation.
-  std::uintmax_t checkpoint_{10};
-  ///< How often to print/write output.
-  Move_tuple attempted_moves_{0, 0, 0, 0, 0};
-  ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tuple successful_moves_{0, 0, 0, 0, 0};
-  ///< Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>>
-      movable_simplex_types_;
-  ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
-      movable_edge_types_;
-  ///< Movable timelike and spacelike edges.
 };  // Metropolis
 
 #endif  // SRC_METROPOLIS_H_
