@@ -12,6 +12,7 @@
 
 #include <cstdint>
 #include <tuple>
+#include <utility>
 #include <vector>
 
 #include "Metropolis.h"
@@ -93,8 +94,7 @@ TEST_F(MetropolisTest, Ctor) {
 
   EXPECT_EQ(testrun.Alpha(), Alpha) << "Alpha not correctly forwarded by ctor.";
 
-  EXPECT_EQ(testrun.K(), K) << "K not correctly forwarded "
-                               "by ctor.";
+  EXPECT_EQ(testrun.K(), K) << "K not correctly forwarded by ctor.";
 
   EXPECT_EQ(testrun.Lambda(), Lambda)
       << "Lambda not correctly forwarded by ctor.";
@@ -106,78 +106,78 @@ TEST_F(MetropolisTest, Ctor) {
       << "output_every_n_passes not correctly forwarded by ctor.";
 }
 // \todo: Fix MetropolisTest, Operator
-// TEST_F(MetropolisTest, DISABLED_Operator) {
-//  // Instantiate Metropolis functor with desired parameters
-//  Metropolis testrun(Alpha, K, Lambda, 1, 1);
-//  // Run simulation using operator() and return result
-//  auto result = std::move(testrun(universe_));
-//
-//  std::cout << "MetropolisTest results:" << std::endl;
-//  std::cout << "Current Timelike Edges = " << testrun.TimelikeEdges()
-//            << std::endl;
-//  std::cout << "Movable Timelike Edges = "
-//            << testrun.MovableTimelikeEdges().size() << std::endl;
-//  std::cout << "Current (3,1) + (1,3) simplices = "
-//            << testrun.ThreeOneSimplices() << std::endl;
-//  std::cout << "Movable (3,1) simplices = "
-//            << testrun.MovableThreeOneSimplices().size() << std::endl;
-//  std::cout << "Movable (1,3) simplices = "
-//            << testrun.MovableOneThreeSimplices().size() << std::endl;
-//  std::cout << "Current (2,2) simplices = "
-//            << testrun.TwoTwoSimplices() << std::endl;
-//  std::cout << "Movable (2,2) simplices = "
-//            << testrun.MovableTwoTwoSimplices().size() << std::endl;
-//  std::cout << "There were " << testrun.TwoThreeMoves()
-//            << " attempted (2,3) moves and "
-//            << testrun.SuccessfulTwoThreeMoves()
-//            << " successful (2,3) moves." << std::endl;
-//  std::cout << "There were " << testrun.ThreeTwoMoves()
-//            << " attempted (3,2) moves and "
-//            << testrun.SuccessfulThreeTwoMoves()
-//            << " successful (3,2) moves." << std::endl;
-//  std::cout << "There were " << testrun.TwoSixMoves()
-//            << " attempted (2,6) moves and "
-//            << testrun.SuccessfulTwoSixMoves()
-//            << " successful (2,6) moves." << std::endl;
-//
-//  EXPECT_THAT(testrun.TimelikeEdges(),
-//              Eq(timelike_edges_ - testrun.SuccessfulThreeTwoMoves()
-//                  + testrun.SuccessfulTwoThreeMoves()
-//                  + 2*testrun.SuccessfulTwoSixMoves()))
-//    << "Timelike edges not correctly counted during moves.";
-//
-//  EXPECT_THAT(testrun.MovableThreeOneSimplices().size(), Eq(N3_31_before_))
-//    << "Metropolis functor simplex_types_ incorrect.";
-//
-//  EXPECT_THAT(testrun.TwoTwoSimplices(),
-//              Eq(N3_22_before_ + testrun.SuccessfulTwoThreeMoves()
-//                  - testrun.SuccessfulThreeTwoMoves()))
-//    << "(2,2) simplices not correctly counted during moves.";
-//
-//  EXPECT_THAT(testrun.ThreeOneSimplices(),
-//              Eq(N3_13_before_ + N3_31_before_
-//                 + 4*testrun.SuccessfulTwoSixMoves()))
-//    << "(1,3) and (3,1) simplices not correctly counted during moves.";
-//
-//  EXPECT_THAT(testrun.CurrentTotalSimplices(),
-//              Eq(result->number_of_finite_cells()))
-//    << "ThreeOneSimplices() + TwoTwoSimplices() has an incorrect count.";
-//
-//  EXPECT_THAT(testrun.SuccessfulTwoThreeMoves(), Gt(1))
-//    << "No successful (2,3) moves.";
-//
-//  EXPECT_THAT(testrun.SuccessfulThreeTwoMoves(), Gt(1))
-//    << "No successful (3,2) moves.";
-//
-//  EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Gt(1))
-//    << "No successful (2,6) moves.";
+TEST_F(MetropolisTest, Operator) {
+  // Instantiate Metropolis functor with desired parameters
+  Metropolis testrun(Alpha, K, Lambda, 1, 1);
+  // Run simulation using operator() and return result
+  auto result = std::move(testrun(universe_));
+  //
+  //  std::cout << "MetropolisTest results:" << std::endl;
+  //  std::cout << "Current Timelike Edges = " << testrun.TimelikeEdges()
+  //            << std::endl;
+  //  std::cout << "Movable Timelike Edges = "
+  //            << testrun.MovableTimelikeEdges().size() << std::endl;
+  //  std::cout << "Current (3,1) + (1,3) simplices = "
+  //            << testrun.ThreeOneSimplices() << std::endl;
+  //  std::cout << "Movable (3,1) simplices = "
+  //            << testrun.MovableThreeOneSimplices().size() << std::endl;
+  //  std::cout << "Movable (1,3) simplices = "
+  //            << testrun.MovableOneThreeSimplices().size() << std::endl;
+  //  std::cout << "Current (2,2) simplices = "
+  //            << testrun.TwoTwoSimplices() << std::endl;
+  //  std::cout << "Movable (2,2) simplices = "
+  //            << testrun.MovableTwoTwoSimplices().size() << std::endl;
+  //  std::cout << "There were " << testrun.TwoThreeMoves()
+  //            << " attempted (2,3) moves and "
+  //            << testrun.SuccessfulTwoThreeMoves()
+  //            << " successful (2,3) moves." << std::endl;
+  //  std::cout << "There were " << testrun.ThreeTwoMoves()
+  //            << " attempted (3,2) moves and "
+  //            << testrun.SuccessfulThreeTwoMoves()
+  //            << " successful (3,2) moves." << std::endl;
+  //  std::cout << "There were " << testrun.TwoSixMoves()
+  //            << " attempted (2,6) moves and "
+  //            << testrun.SuccessfulTwoSixMoves()
+  //            << " successful (2,6) moves." << std::endl;
+  //
+  //  EXPECT_THAT(testrun.TimelikeEdges(),
+  //              Eq(timelike_edges_ - testrun.SuccessfulThreeTwoMoves()
+  //                  + testrun.SuccessfulTwoThreeMoves()
+  //                  + 2*testrun.SuccessfulTwoSixMoves()))
+  //    << "Timelike edges not correctly counted during moves.";
+  //
+  //  EXPECT_THAT(testrun.MovableThreeOneSimplices().size(), Eq(N3_31_before_))
+  //    << "Metropolis functor simplex_types_ incorrect.";
+  //
+  //  EXPECT_THAT(testrun.TwoTwoSimplices(),
+  //              Eq(N3_22_before_ + testrun.SuccessfulTwoThreeMoves()
+  //                  - testrun.SuccessfulThreeTwoMoves()))
+  //    << "(2,2) simplices not correctly counted during moves.";
+  //
+  //  EXPECT_THAT(testrun.ThreeOneSimplices(),
+  //              Eq(N3_13_before_ + N3_31_before_
+  //                 + 4*testrun.SuccessfulTwoSixMoves()))
+  //    << "(1,3) and (3,1) simplices not correctly counted during moves.";
+  //
+  //  EXPECT_THAT(testrun.CurrentTotalSimplices(),
+  //              Eq(result->number_of_finite_cells()))
+  //    << "ThreeOneSimplices() + TwoTwoSimplices() has an incorrect count.";
+  //
+  //  EXPECT_THAT(testrun.SuccessfulTwoThreeMoves(), Gt(1))
+  //    << "No successful (2,3) moves.";
+  //
+  //  EXPECT_THAT(testrun.SuccessfulThreeTwoMoves(), Gt(1))
+  //    << "No successful (3,2) moves.";
+  //
+  //  EXPECT_THAT(testrun.SuccessfulTwoSixMoves(), Gt(1))
+  //    << "No successful (2,6) moves.";
 
-// EXPECT_THAT(testrun.SuccessfulSixTwoMoves(), Ge(1))
-//   << "No successful (6,2) moves.";
-//
-// EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
-//   << "No successful (4,4) moves.";
-//}
+  // EXPECT_THAT(testrun.SuccessfulSixTwoMoves(), Ge(1))
+  //   << "No successful (6,2) moves.";
+  //
+  // EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
+  //   << "No successful (4,4) moves.";
+}
 // \todo: Fix MetropolisTest.CalculateA1
 // TEST_F(MetropolisTest, DISABLED_CalculateA1) {
 //  // Instantiate Metropolis functor with passes and checkpoints = 1

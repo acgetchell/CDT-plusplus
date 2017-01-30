@@ -58,7 +58,6 @@ enum class move_type {
 };
 
 /// @class Metropolis
-///
 /// @brief Metropolis-Hastings algorithm functor
 ///
 /// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
@@ -69,13 +68,13 @@ enum class move_type {
 /// \f[a_2=e^{\Delta S}\f]
 class Metropolis {
  private:
-  /// @brief A SimplicialManifold
-  SimplicialManifold universe;
+  /// @brief A SimplicialManifold.
+  SimplicialManifold universe_;
 
   /// @brief The length of the timelike edges.
   long double Alpha_;
 
-  /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$
+  /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$.
   long double K_;
 
   /// @brief \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
@@ -130,104 +129,83 @@ class Metropolis {
 #endif
   }
 
-  /// Gets value of **Alpha_**.
+  /// @brief Gets value of **Alpha_**.
+  /// @return Alpha_
   auto Alpha() const noexcept { return Alpha_; }
 
-  /// Gets value of **K_**.
+  /// @brief Gets value of **K_**.
+  /// @return K_
   auto K() const noexcept { return K_; }
 
-  /// Gets value of **Lambda_**.
+  /// @brief Gets value of **Lambda_**.
+  /// @return Lambda_
   auto Lambda() const noexcept { return Lambda_; }
 
-  /// Gets value of **passes_**.
+  /// @brief Gets value of **passes_**.
+  /// @return passes_
   auto Passes() const noexcept { return passes_; }
 
-  /// Gets value of **checkpoint_**.
+  /// @brief Gets value of **checkpoint_**.
+  /// @return checkpoint_
   auto Checkpoint() const noexcept { return checkpoint_; }
 
-  /// Gets attempted (2,3) moves.
+  /// @brief Gets attempted (2,3) moves.
+  /// @return attempted_moves_
   auto TwoThreeMoves() const noexcept { return std::get<0>(attempted_moves_); }
 
-  /// Gets successful (2,3) moves.
+  /// @brief Gets successful (2,3) moves.
+  /// @return std::get<0>(successful_moves_)
   auto SuccessfulTwoThreeMoves() const noexcept {
     return std::get<0>(successful_moves_);
   }
 
-  /// Gets attempted (3,2) moves.
+  /// @brief Gets attempted (3,2) moves.
+  /// @return std::get<1>(attempted_moves_)
   auto ThreeTwoMoves() const noexcept { return std::get<1>(attempted_moves_); }
 
-  /// Gets successful (3,2) moves.
+  /// @brief Gets successful (3,2) moves.
+  /// @return std::get<1>(successful_moves_)
   auto SuccessfulThreeTwoMoves() const noexcept {
     return std::get<1>(successful_moves_);
   }
 
-  /// Gets attempted (2,6) moves.
+  /// @brief Gets attempted (2,6) moves.
+  /// @return return std::get<2>(attempted_moves_)
   auto TwoSixMoves() const noexcept { return std::get<2>(attempted_moves_); }
 
-  /// Gets successful (2,6) moves.
+  /// @brief Gets successful (2,6) moves.
+  /// @return std::get<2>(successful_moves_)
   auto SuccessfulTwoSixMoves() const noexcept {
     return std::get<2>(successful_moves_);
   }
 
-  /// Gets attempted (6,2) moves.
+  /// @brief Gets attempted (6,2) moves.
+  /// @return return std::get<3>(attempted_moves_)
   auto SixTwoMoves() const noexcept { return std::get<3>(attempted_moves_); }
 
-  /// Gets successful (6,2) moves.
+  /// @brief Gets successful (6,2) moves.
+  /// @return std::get<3>(attempted_moves_)
   auto SuccessfulSixTwoMoves() const noexcept {
     return std::get<3>(attempted_moves_);
   }
 
-  /// Gets attempted (4,4) moves.
+  /// @brief Gets attempted (4,4) moves.
+  /// @return std::get<4>(attempted_moves_)
   auto FourFourMoves() const noexcept { return std::get<4>(attempted_moves_); }
 
-  /// Gets successful (4,4) moves.
+  /// @brief Gets successful (4,4) moves.
+  /// @return std::get<4>(attempted_moves_)
   auto SuccessfulFourFourMoves() const noexcept {
     return std::get<4>(attempted_moves_);
   }
 
-  /// Gets the total number of attempted moves.
+  /// @brief Gets the total number of attempted moves.
+  /// @return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves()
+  /// + FourFourMoves()
   auto TotalMoves() const noexcept {
     return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves() +
            FourFourMoves();
   }
-
-  //  /// Gets the vector of **Edge_handles** corresponding to
-  //  /// movable timelike edges.
-  //  auto MovableTimelikeEdges() const noexcept {
-  //    return movable_edge_types_.first;
-  //  }
-
-  //  /// Gets the vector of **Cell_handles** corresponding to
-  //  /// movable (3,1) simplices.
-  //  auto MovableThreeOneSimplices() const noexcept {
-  //    return std::get<0>(movable_simplex_types_);
-  //  }
-
-  //  /// Gets the vector of **Cell_handles** corresponding to
-  //  /// movable (2,2) simplices.
-  //  auto MovableTwoTwoSimplices() const noexcept {
-  //    return std::get<1>(movable_simplex_types_);
-  //  }
-
-  //  /// Gets the vector of **Cell_handles** corresponding to
-  //  /// movable (1,3) simplices.
-  //  auto MovableOneThreeSimplices() const noexcept {
-  //    return std::get<2>(movable_simplex_types_);
-  //  }
-
-  //  /// Gets current number of timelike edges
-  //  auto TimelikeEdges() const noexcept { return N1_TL_; }
-
-  //  /// Gets current number of (3,1) and (1,3) simplices
-  //  auto ThreeOneSimplices() const noexcept { return N3_31_; }
-
-  //  /// Gets current number of (2,2) simplices
-  //  auto TwoTwoSimplices() const noexcept { return N3_22_; }
-
-  //  /// Gets current total number of simplices
-  //  auto CurrentTotalSimplices() const noexcept {
-  //    return ThreeOneSimplices() + TwoTwoSimplices();
-  //  }
 
   /// @brief Calculate A1
   ///
@@ -386,7 +364,7 @@ class Metropolis {
 #ifndef NDEBUG
         std::cout << "(2,3) move" << std::endl;
 #endif
-        make_23_move(std::move(universe), attempted_moves_);
+        make_23_move(std::move(universe_), attempted_moves_);
         // make_23_move() increments attempted_moves_
         // Increment N3_22_, N1_TL_ and successful_moves_
         ++N3_22_;
@@ -546,20 +524,20 @@ class Metropolis {
   /// manifold.
   ///
   /// @tparam T Type of manifold
-  /// @param manifold Manifold on which to operate
-  /// @return The manifold upon which the passes have been completed.
+  /// @param universe Manifold on which to operate
+  /// @return The **universe** upon which the passes have been completed.
   template <typename T>
-  auto operator()(T&& manifold) -> decltype(manifold) {
+  auto operator()(T&& universe) -> decltype(universe) {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
     std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
     // Populate member data
-    universe = std::move(manifold);
-    N1_TL_ = universe.geometry->timelike_edges.size();
-    N3_31_ = universe.geometry->one_three.size() + universe
-        .geometry->three_one.size();
-    N3_22_ = universe.geometry->two_two.size();
+    universe_ = std::move(universe);
+    N1_TL_    = universe_.geometry->timelike_edges.size();
+    N3_31_    = universe_.geometry->one_three.size() +
+             universe_.geometry->three_one.size();
+    N3_22_ = universe_.geometry->two_two.size();
     //    // movable_simplex_types_ = classify_simplices(universe);
     //    // movable_edge_types_ = classify_edges(universe);
     //    reset_movable();
@@ -612,7 +590,7 @@ class Metropolis {
     //        // write results to a file
     //      }
     //    }  // End loop through passes_
-    return universe;
+    return universe_;
   }
 
 };  // Metropolis

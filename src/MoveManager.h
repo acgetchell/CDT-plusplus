@@ -27,6 +27,7 @@
 #include "Function_ref.h"
 #include "Metropolis.h"
 
+/// @class MoveManager
 /// @brief RAII Function object to handle moves
 /// @tparam T1 SimplicialManifold type
 /// @tparam T2 Move counter type
