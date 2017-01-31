@@ -81,16 +81,13 @@ class Metropolis {
   /// the cosmological constant.
   long double Lambda_;
 
-  /// @brief The current number of timelike edges, some of which may not be
-  /// movable.
+  /// @brief The current number of timelike edges
   std::uintmax_t N1_TL_{0};
 
-  /// @brief The current number of (3,1) and (1,3) simplices, some of which may
-  /// not be movable.
+  /// @brief The current number of (3,1) and (1,3) simplices
   std::uintmax_t N3_31_{0};
 
-  /// @brief The current number of (2,2) simplices, some of which may not be
-  /// movable.
+  /// @brief The current number of (2,2) simplices
   std::uintmax_t N3_22_{0};
 
   /// @brief Number of passes of ergodic moves on triangulation.
@@ -186,7 +183,7 @@ class Metropolis {
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
   auto SuccessfulSixTwoMoves() const noexcept {
-    return std::get<3>(attempted_moves_);
+    return std::get<3>(successful_moves_);
   }
 
   /// @brief Gets attempted (4,4) moves.
@@ -196,7 +193,7 @@ class Metropolis {
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
   auto SuccessfulFourFourMoves() const noexcept {
-    return std::get<4>(attempted_moves_);
+    return std::get<4>(successful_moves_);
   }
 
   /// @brief Gets the total number of attempted moves.
@@ -207,14 +204,16 @@ class Metropolis {
            FourFourMoves();
   }
 
+  auto CurrentTotalSimplices() const noexcept { return N3_31_ + N3_22_; }
+
   /// @brief Calculate A1
   ///
   /// Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
   ///
-  /// @param[in] move The type of move
-  /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
+  /// @param move The type of move
+  /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_type move) const noexcept {
     auto total_moves = this->TotalMoves();
     auto this_move   = 0;
@@ -269,8 +268,8 @@ class Metropolis {
   ///
   /// Calculate \f$a_2=e^{\Delta S}\f$
   ///
-  /// @param[in] move The type of move
-  /// @returns \f$a_2=e^{\Delta S}\f$
+  /// @param move The type of move
+  /// @return \f$a_2=e^{\Delta S}\f$
   auto CalculateA2(move_type move) const noexcept {
     auto currentS3Action =
         S3_bulk_action(N1_TL_, N3_31_, N3_22_, Alpha_, K_, Lambda_);
@@ -537,13 +536,28 @@ class Metropolis {
     universe_ = std::move(universe);
     N1_TL_    = universe_.geometry->N1_TL();
     N3_31_    = universe_.geometry->N3_31();
-    N3_22_ = universe_.geometry->N3_22();
+    N3_22_    = universe_.geometry->N3_22();
 
     // Make a successful move of each type to populate attempted_moves_
     // and successful_moves_
-
     std::cout << "Making initial moves ...\n";
-        make_move(move_type::TWO_THREE);
+    try {
+      universe_ = make_23_move(std::move(universe_), attempted_moves_);
+      ++std::get<0>(successful_moves_);
+      universe_ =
+          std::move(make_32_move(std::move(universe_), attempted_moves_));
+      ++std::get<1>(successful_moves_);
+      universe_ =
+          std::move(make_26_move(std::move(universe_), attempted_moves_));
+      ++std::get<2>(successful_moves_);
+      universe_ =
+          std::move(make_62_move(std::move(universe_), attempted_moves_));
+      ++std::get<3>(successful_moves_);
+    } catch (std::logic_error& LogicError) {
+      std::cerr << LogicError.what() << std::endl;
+      std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
+    }
+    //        make_move(move_type::TWO_THREE);
     //    make_move(move_type::THREE_TWO);
     //    make_move(move_type::TWO_SIX);
     //    // Other moves go here ...
