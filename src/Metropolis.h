@@ -58,7 +58,7 @@ enum class move_type {
 };
 
 /// @class Metropolis
-/// @brief Metropolis-Hastings algorithm functor
+/// @brief Metropolis-Hastings algorithm function object
 ///
 /// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
 /// The probability of making an ergodic (Pachner) move is:
@@ -359,6 +359,7 @@ class Metropolis {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
+
     switch (move) {
       case move_type::TWO_THREE:
 #ifndef NDEBUG
@@ -531,34 +532,18 @@ class Metropolis {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
-    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
+    std::cout << "Starting Metropolis-Hastings algorithm ...\n";
     // Populate member data
     universe_ = std::move(universe);
-    N1_TL_    = universe_.geometry->timelike_edges.size();
-    N3_31_    = universe_.geometry->one_three.size() +
-             universe_.geometry->three_one.size();
-    N3_22_ = universe_.geometry->two_two.size();
-    //    // movable_simplex_types_ = classify_simplices(universe);
-    //    // movable_edge_types_ = classify_edges(universe);
-    //    reset_movable();
-    //    N3_31_ =
-    //    static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
-    //                                  +
-    //                                  std::get<2>(movable_simplex_types_).size());
-    //    std::cout << "N3_31_ = " << N3_31_ << std::endl;
-    //
-    //    N3_22_ =
-    //    static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
-    //    std::cout << "N3_22_ = " << N3_22_ << std::endl;
-    //
-    //    N1_TL_ =
-    //    static_cast<std::uintmax_t>(movable_edge_types_.first.size());
-    //    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
-    //
-    //    // Make a successful move of each type to populate
-    //    **attempted_moves_**
-    //    std::cout << "Making initial moves ..." << std::endl;
-    //    make_move(move_type::TWO_THREE);
+    N1_TL_    = universe_.geometry->N1_TL();
+    N3_31_    = universe_.geometry->N3_31();
+    N3_22_ = universe_.geometry->N3_22();
+
+    // Make a successful move of each type to populate attempted_moves_
+    // and successful_moves_
+
+    std::cout << "Making initial moves ...\n";
+        make_move(move_type::TWO_THREE);
     //    make_move(move_type::THREE_TWO);
     //    make_move(move_type::TWO_SIX);
     //    // Other moves go here ...
