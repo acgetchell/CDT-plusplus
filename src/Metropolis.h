@@ -37,7 +37,8 @@
 // CDT headers
 #include "S3Action.h"
 #include "S3ErgodicMoves.h"
-#include "SimplicialManifold.h"
+//#include "SimplicialManifold.h"
+#include "MoveManager.h"
 
 // C++ headers
 #include <algorithm>
@@ -359,17 +360,57 @@ class Metropolis {
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
+    // Make working copies
+    boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
+    auto maybe_move_count = boost::make_optional(true, attempted_moves_);
+
+    // Initialize MoveManager
+    MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
+        this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
+
+    // Setup moves
+    auto move_23_lambda = [](SimplicialManifold manifold,
+                             Move_tuple& attempted_moves) -> SimplicialManifold {
+      return make_23_move(std::move(manifold), attempted_moves);
+    };
+
+    auto move_32_lambda = [](SimplicialManifold manifold,
+                             Move_tuple& attempted_moves) -> SimplicialManifold {
+      return make_32_move(std::move(manifold), attempted_moves);
+    };
+
+    auto move_26_lambda = [](SimplicialManifold manifold,
+                             Move_tuple& attempted_moves) -> SimplicialManifold {
+      return make_26_move(std::move(manifold), attempted_moves);
+    };
+
+    auto move_62_lambda = [](SimplicialManifold manifold,
+                             Move_tuple& attempted_moves) -> SimplicialManifold {
+      return make_62_move(std::move(manifold), attempted_moves);
+    };
+
     switch (move) {
       case move_type::TWO_THREE:
 #ifndef NDEBUG
         std::cout << "(2,3) move" << std::endl;
 #endif
-        make_23_move(std::move(universe_), attempted_moves_);
+//        make_23_move(std::move(universe_), attempted_moves_);
         // make_23_move() increments attempted_moves_
         // Increment N3_22_, N1_TL_ and successful_moves_
-        ++N3_22_;
-        ++N1_TL_;
-        ++std::get<0>(successful_moves_);
+//        ++N3_22_;
+//        ++N1_TL_;
+//        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+//            move_function(move_23_lambda);
+
+//        // Call operator on MoveManager
+//        maybe_moved_universe = this_move.operator()(move_function);
+//
+//        // Check if move completed successfully and update if so
+//        if (maybe_moved_universe) {
+//          swap(universe_, maybe_moved_universe.get());
+//          swap(attempted_moves_, this_move.attempted_moves_.get());
+//          ++std::get<0>(successful_moves_);
+//        }
         break;
       case move_type::THREE_TWO:
 #ifndef NDEBUG

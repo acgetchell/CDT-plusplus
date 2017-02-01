@@ -14,6 +14,7 @@
 // clang-format on
 
 #include "MoveManager.h"
+#include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
 
 using namespace testing;  // NOLINT
@@ -316,13 +317,14 @@ TEST_F(MoveManagerTest, MakeA23Move) {
 
   // Check that option type has data and move SimplicialManifold if so
   if (maybe_moved_universe) {
-//    universe_ = std::move(maybe_moved_universe.get());
+    //    universe_ = std::move(maybe_moved_universe.get());
     // Exception-safe
     swap(universe_, maybe_moved_universe.get());
   }
 
   // Retrieve move results
-  attempted_moves_ = this_move.attempted_moves_.get();
+  //  attempted_moves_ = this_move.attempted_moves_.get();
+  swap(attempted_moves_, this_move.attempted_moves_.get());
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
             << " (2,2) cells." << std::endl;
@@ -341,8 +343,8 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
-//  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
-//      << "maybe_moved_universe isn't a null pointer.";
+  //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+  //      << "maybe_moved_universe isn't a null pointer.";
 
   EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
       << "Triangulation has wrong dimensionality.";
@@ -420,13 +422,14 @@ TEST_F(MoveManagerTest, MakeA32Move) {
 
   // Check that option type has data and move SimplicialManifold if so
   if (maybe_moved_universe) {
-//    universe_ = std::move(maybe_moved_universe.get());
+    //    universe_ = std::move(maybe_moved_universe.get());
     // Exception-safe
     swap(universe_, maybe_moved_universe.get());
   }
 
   // Retrieve move results
-  attempted_moves_ = this_move.attempted_moves_.get();
+  //  attempted_moves_ = this_move.attempted_moves_.get();
+  swap(attempted_moves_, this_move.attempted_moves_.get());
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
             << " (2,2) cells." << std::endl;
@@ -445,8 +448,8 @@ TEST_F(MoveManagerTest, MakeA32Move) {
       << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
-//  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
-//      << "maybe_moved_universe isn't a null pointer.";
+  //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+  //      << "maybe_moved_universe isn't a null pointer.";
 
   EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
       << "Triangulation has wrong dimensionality.";
@@ -524,13 +527,14 @@ TEST_F(MoveManagerTest, MakeA26Move) {
 
   // Check that option type has data and move SimplicialManifold if so
   if (maybe_moved_universe) {
-//    universe_ = std::move(maybe_moved_universe.get());
+    //    universe_ = std::move(maybe_moved_universe.get());
     // Exception-safe
     swap(universe_, maybe_moved_universe.get());
   }
 
   // Retrieve move results
-  attempted_moves_ = this_move.attempted_moves_.get();
+  //  attempted_moves_ = this_move.attempted_moves_.get();
+  swap(attempted_moves_, this_move.attempted_moves_.get());
 
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
@@ -539,8 +543,8 @@ TEST_F(MoveManagerTest, MakeA26Move) {
       << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
-//  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
-//      << "maybe_moved_universe isn't a null pointer.";
+  //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+  //      << "maybe_moved_universe isn't a null pointer.";
 
   EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
       << "Triangulation has wrong dimensionality.";
@@ -618,13 +622,14 @@ TEST_F(MoveManagerTest, MakeA62Move) {
 
   // Check that option type has data and move SimplicialManifold if so
   if (maybe_moved_universe) {
-//    universe_ = std::move(maybe_moved_universe.get());
+    //    universe_ = std::move(maybe_moved_universe.get());
     // Exception-safe
     swap(universe_, maybe_moved_universe.get());
   }
 
   // Retrieve move results
-  attempted_moves_ = this_move.attempted_moves_.get();
+  //  attempted_moves_ = this_move.attempted_moves_.get();
+  swap(attempted_moves_, this_move.attempted_moves_.get());
 
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
@@ -633,8 +638,8 @@ TEST_F(MoveManagerTest, MakeA62Move) {
       << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
-//  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
-//      << "maybe_moved_universe isn't a null pointer.";
+  //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
+  //      << "maybe_moved_universe isn't a null pointer.";
 
   EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
       << "Triangulation has wrong dimensionality.";
