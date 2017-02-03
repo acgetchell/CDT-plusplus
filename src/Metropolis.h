@@ -45,6 +45,7 @@
 #include <tuple>
 #include <utility>
 #include <vector>
+#include <type_traits>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -58,6 +59,10 @@ enum class move_type {
   FOUR_FOUR = 4
 };
 
+template <typename E>
+constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type {
+  return static_cast<typename std::underlying_type<E>::type>(e);
+}
 /// @class Metropolis
 /// @brief Metropolis-Hastings algorithm function object
 ///
@@ -400,6 +405,8 @@ class Metropolis {
             move_function(move_32_lambda);
         //         Call operator on MoveManager
         maybe_moved_universe = this_move.operator()(move_function);
+
+        std::cout << to_integral(move_type::THREE_TWO) << std::endl;
 
         // Check if move completed successfully and update if so
         if (maybe_moved_universe) {
