@@ -369,96 +369,138 @@ class Metropolis {
         this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
     // Setup moves
-    auto move_23_lambda = [](SimplicialManifold manifold,
-                             Move_tuple& attempted_moves) -> SimplicialManifold {
+    auto move_23_lambda = [](
+        SimplicialManifold manifold,
+        Move_tuple&        attempted_moves) -> SimplicialManifold {
       return make_23_move(std::move(manifold), attempted_moves);
     };
-//
-//    auto move_32_lambda = [](SimplicialManifold manifold,
-//                             Move_tuple& attempted_moves) -> SimplicialManifold {
-//      return make_32_move(std::move(manifold), attempted_moves);
-//    };
-//
-//    auto move_26_lambda = [](SimplicialManifold manifold,
-//                             Move_tuple& attempted_moves) -> SimplicialManifold {
-//      return make_26_move(std::move(manifold), attempted_moves);
-//    };
-//
-//    auto move_62_lambda = [](SimplicialManifold manifold,
-//                             Move_tuple& attempted_moves) -> SimplicialManifold {
-//      return make_62_move(std::move(manifold), attempted_moves);
-//    };
+    auto move_32_lambda = [](
+        SimplicialManifold manifold,
+        Move_tuple&        attempted_moves) -> SimplicialManifold {
+      return make_32_move(std::move(manifold), attempted_moves);
+    };
+    auto move_26_lambda = [](
+        SimplicialManifold manifold,
+        Move_tuple&        attempted_moves) -> SimplicialManifold {
+      return make_26_move(std::move(manifold), attempted_moves);
+    };
+    auto move_62_lambda = [](
+        SimplicialManifold manifold,
+        Move_tuple&        attempted_moves) -> SimplicialManifold {
+      return make_62_move(std::move(manifold), attempted_moves);
+    };
 
     switch (move) {
-      case move_type::TWO_THREE:
-#ifndef NDEBUG
-        std::cout << "(2,3) move" << std::endl;
-#endif
-//        make_23_move(std::move(universe_), attempted_moves_);
-        // make_23_move() increments attempted_moves_
-        // Increment N3_22_, N1_TL_ and successful_moves_
-//        ++N3_22_;
-//        ++N1_TL_;
-
+      case move_type::TWO_THREE: {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
             move_function(move_23_lambda);
-
-        // Call operator on MoveManager
+      } break;
+      case move_type::THREE_TWO: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+            move_function(move_32_lambda);
+        //         Call operator on MoveManager
         maybe_moved_universe = this_move.operator()(move_function);
 
         // Check if move completed successfully and update if so
         if (maybe_moved_universe) {
           swap(universe_, maybe_moved_universe.get());
           swap(attempted_moves_, this_move.attempted_moves_.get());
-          ++std::get<0>(successful_moves_);
+          ++std::get<1>(successful_moves_);
         }
+      } break;
+      case move_type::TWO_SIX:
         break;
-//      case move_type::THREE_TWO:
-//#ifndef NDEBUG
-//        std::cout << "(3,2) move" << std::endl;
-//#endif
-//        // \todo: Fix make_32_move in Metropolis.h
-//        //        make_32_move(universe, movable_edge_types_,
-//        //        attempted_moves_);
-//        // make_32_move() increments attempted_moves_
-//        // Decrement N3_22_ and N1_TL_, increment successful_moves_
-//        --N3_22_;
-//        --N1_TL_;
-//        ++std::get<1>(successful_moves_);
-//        break;
-//      case move_type::TWO_SIX:
-//#ifndef NDEBUG
-//        std::cout << "(2,6) move" << std::endl;
-//#endif
-//        // \todo: Fix make_26_move in Metropolis.h
-//        //        make_26_move(universe, movable_simplex_types_,
-//        //        attempted_moves_);
-//        // make_26_move() increments attempted_moves_
-//        // Increment N3_31, N1_TL_ and successful_moves_
-//        N3_31_ += 4;
-//        N1_TL_ += 2;
-//        // We don't currently keep track of changes to spacelike edges
-//        // because it doesn't figure in the bulk action formula, but if
-//        // we did there would be 3 additional spacelike edges to add here.
-//        ++std::get<2>(successful_moves_);
-//        break;
-//      case move_type::SIX_TWO:
-//#ifndef NDEBUG
-//        std::cout << "(6,2) move" << std::endl;
-//#endif
-//        // make_62_move(universe, movable_types_, attempted_moves_);
-//        // N3_31_ -= 4;
-//        // N1_TL_ -= 2;
-//        // ++std::get<3>(successful_moves_);
-//        break;
-//      case move_type::FOUR_FOUR:
-//#ifndef NDEBUG
-//        std::cout << "(4,4) move" << std::endl;
-//#endif
-//        // make_44_move(universe, movable_types_, attempted_moves_);
-//        // ++std::get<4>(successful_moves_);
-//        break;
+      case move_type::SIX_TWO:
+        break;
+      case move_type::FOUR_FOUR:
+        break;
     }
+
+    //
+
+    //
+    //    auto move_26_lambda = [](SimplicialManifold manifold,
+    //                             Move_tuple& attempted_moves) ->
+    //                             SimplicialManifold {
+    //      return make_26_move(std::move(manifold), attempted_moves);
+    //    };
+    //
+    //    auto move_62_lambda = [](SimplicialManifold manifold,
+    //                             Move_tuple& attempted_moves) ->
+    //                             SimplicialManifold {
+    //      return make_62_move(std::move(manifold), attempted_moves);
+    //    };
+
+    //    switch (move) {
+    //      case move_type::TWO_THREE:
+    //#ifndef NDEBUG
+    //        std::cout << "(2,3) move" << std::endl;
+    //#endif
+    //        make_23_move(std::move(universe_), attempted_moves_);
+    // make_23_move() increments attempted_moves_
+    // Increment N3_22_, N1_TL_ and successful_moves_
+    //        ++N3_22_;
+    //        ++N1_TL_;
+
+    //        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+    //            move_function(move_23_lambda);
+    //
+    //        // Call operator on MoveManager
+    //        maybe_moved_universe = this_move.operator()(move_function);
+    //
+    //        // Check if move completed successfully and update if so
+    //        if (maybe_moved_universe) {
+    //          swap(universe_, maybe_moved_universe.get());
+    //          swap(attempted_moves_, this_move.attempted_moves_.get());
+    //          ++std::get<0>(successful_moves_);
+    //        }
+    //        break;
+    //      case move_type::THREE_TWO:
+    //#ifndef NDEBUG
+    //        std::cout << "(3,2) move" << std::endl;
+    //#endif
+    //        // \todo: Fix make_32_move in Metropolis.h
+    //        //        make_32_move(universe, movable_edge_types_,
+    //        //        attempted_moves_);
+    //        // make_32_move() increments attempted_moves_
+    //        // Decrement N3_22_ and N1_TL_, increment successful_moves_
+    //        --N3_22_;
+    //        --N1_TL_;
+    //        ++std::get<1>(successful_moves_);
+    //        break;
+    //      case move_type::TWO_SIX:
+    //#ifndef NDEBUG
+    //        std::cout << "(2,6) move" << std::endl;
+    //#endif
+    //        // \todo: Fix make_26_move in Metropolis.h
+    //        //        make_26_move(universe, movable_simplex_types_,
+    //        //        attempted_moves_);
+    //        // make_26_move() increments attempted_moves_
+    //        // Increment N3_31, N1_TL_ and successful_moves_
+    //        N3_31_ += 4;
+    //        N1_TL_ += 2;
+    //        // We don't currently keep track of changes to spacelike edges
+    //        // because it doesn't figure in the bulk action formula, but if
+    //        // we did there would be 3 additional spacelike edges to add here.
+    //        ++std::get<2>(successful_moves_);
+    //        break;
+    //      case move_type::SIX_TWO:
+    //#ifndef NDEBUG
+    //        std::cout << "(6,2) move" << std::endl;
+    //#endif
+    //        // make_62_move(universe, movable_types_, attempted_moves_);
+    //        // N3_31_ -= 4;
+    //        // N1_TL_ -= 2;
+    //        // ++std::get<3>(successful_moves_);
+    //        break;
+    //      case move_type::FOUR_FOUR:
+    //#ifndef NDEBUG
+    //        std::cout << "(4,4) move" << std::endl;
+    //#endif
+    //        // make_44_move(universe, movable_types_, attempted_moves_);
+    //        // ++std::get<4>(successful_moves_);
+    ////        break;
+    //    }
   }  // make_move()
 
   /// @brief Attempt a move of the selected type
@@ -586,9 +628,10 @@ class Metropolis {
     try {
       universe_ = make_23_move(std::move(universe_), attempted_moves_);
       ++std::get<0>(successful_moves_);
-      universe_ =
-          std::move(make_32_move(std::move(universe_), attempted_moves_));
-      ++std::get<1>(successful_moves_);
+//      universe_ =
+//          std::move(make_32_move(std::move(universe_), attempted_moves_));
+      make_move(move_type::THREE_TWO);
+//      ++std::get<1>(successful_moves_);
       universe_ =
           std::move(make_26_move(std::move(universe_), attempted_moves_));
       ++std::get<2>(successful_moves_);
