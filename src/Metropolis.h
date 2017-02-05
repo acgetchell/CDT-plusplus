@@ -43,9 +43,9 @@
 // C++ headers
 #include <algorithm>
 #include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
-#include <type_traits>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -59,6 +59,13 @@ enum class move_type {
   FOUR_FOUR = 4
 };
 
+/// @brief Convert enum class to its underlying type
+///
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
+///
+/// @tparam E Enum class type
+/// @param e Enum class
+/// @return Integral type of enum member
 template <typename E>
 constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type {
   return static_cast<typename std::underlying_type<E>::type>(e);
@@ -106,7 +113,8 @@ class Metropolis {
   Move_tuple attempted_moves_{0, 0, 0, 0, 0};
 
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tuple successful_moves_{0, 0, 0, 0, 0};
+  //  Move_tuple successful_moves_{0, 0, 0, 0, 0};
+  std::array<uintmax_t, 5> successful_moves_{{0, 0, 0, 0, 0}};
 
  public:
   /// @brief Metropolis function object constructor
@@ -356,10 +364,10 @@ class Metropolis {
   /// handles the bookkeeping for successful_moves_ and updates the
   /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
   ///
-  /// \todo Add exception handling for moves to gracefully recover
-  /// \todo Deprecate in favor of PachnerMove::make_move()
+  /// \done Add exception handling for moves to gracefully recover
+  /// \done Use MoveManager RAII class
   ///
-  /// @param[in] move The type of move
+  /// @param move The type of move
   void make_move(const move_type move) {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
@@ -399,115 +407,34 @@ class Metropolis {
       case move_type::TWO_THREE: {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
             move_function(move_23_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
       } break;
       case move_type::THREE_TWO: {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
             move_function(move_32_lambda);
-        //         Call operator on MoveManager
         maybe_moved_universe = this_move.operator()(move_function);
-
-        std::cout << to_integral(move_type::THREE_TWO) << std::endl;
-
-        // Check if move completed successfully and update if so
-        if (maybe_moved_universe) {
-          swap(universe_, maybe_moved_universe.get());
-          swap(attempted_moves_, this_move.attempted_moves_.get());
-          ++std::get<1>(successful_moves_);
-        }
       } break;
-      case move_type::TWO_SIX:
-        break;
-      case move_type::SIX_TWO:
-        break;
+      case move_type::TWO_SIX: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+            move_function(move_26_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
+      } break;
+      case move_type::SIX_TWO: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+            move_function(move_62_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
+      } break;
       case move_type::FOUR_FOUR:
         break;
     }
 
-    //
-
-    //
-    //    auto move_26_lambda = [](SimplicialManifold manifold,
-    //                             Move_tuple& attempted_moves) ->
-    //                             SimplicialManifold {
-    //      return make_26_move(std::move(manifold), attempted_moves);
-    //    };
-    //
-    //    auto move_62_lambda = [](SimplicialManifold manifold,
-    //                             Move_tuple& attempted_moves) ->
-    //                             SimplicialManifold {
-    //      return make_62_move(std::move(manifold), attempted_moves);
-    //    };
-
-    //    switch (move) {
-    //      case move_type::TWO_THREE:
-    //#ifndef NDEBUG
-    //        std::cout << "(2,3) move" << std::endl;
-    //#endif
-    //        make_23_move(std::move(universe_), attempted_moves_);
-    // make_23_move() increments attempted_moves_
-    // Increment N3_22_, N1_TL_ and successful_moves_
-    //        ++N3_22_;
-    //        ++N1_TL_;
-
-    //        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
-    //            move_function(move_23_lambda);
-    //
-    //        // Call operator on MoveManager
-    //        maybe_moved_universe = this_move.operator()(move_function);
-    //
-    //        // Check if move completed successfully and update if so
-    //        if (maybe_moved_universe) {
-    //          swap(universe_, maybe_moved_universe.get());
-    //          swap(attempted_moves_, this_move.attempted_moves_.get());
-    //          ++std::get<0>(successful_moves_);
-    //        }
-    //        break;
-    //      case move_type::THREE_TWO:
-    //#ifndef NDEBUG
-    //        std::cout << "(3,2) move" << std::endl;
-    //#endif
-    //        // \todo: Fix make_32_move in Metropolis.h
-    //        //        make_32_move(universe, movable_edge_types_,
-    //        //        attempted_moves_);
-    //        // make_32_move() increments attempted_moves_
-    //        // Decrement N3_22_ and N1_TL_, increment successful_moves_
-    //        --N3_22_;
-    //        --N1_TL_;
-    //        ++std::get<1>(successful_moves_);
-    //        break;
-    //      case move_type::TWO_SIX:
-    //#ifndef NDEBUG
-    //        std::cout << "(2,6) move" << std::endl;
-    //#endif
-    //        // \todo: Fix make_26_move in Metropolis.h
-    //        //        make_26_move(universe, movable_simplex_types_,
-    //        //        attempted_moves_);
-    //        // make_26_move() increments attempted_moves_
-    //        // Increment N3_31, N1_TL_ and successful_moves_
-    //        N3_31_ += 4;
-    //        N1_TL_ += 2;
-    //        // We don't currently keep track of changes to spacelike edges
-    //        // because it doesn't figure in the bulk action formula, but if
-    //        // we did there would be 3 additional spacelike edges to add here.
-    //        ++std::get<2>(successful_moves_);
-    //        break;
-    //      case move_type::SIX_TWO:
-    //#ifndef NDEBUG
-    //        std::cout << "(6,2) move" << std::endl;
-    //#endif
-    //        // make_62_move(universe, movable_types_, attempted_moves_);
-    //        // N3_31_ -= 4;
-    //        // N1_TL_ -= 2;
-    //        // ++std::get<3>(successful_moves_);
-    //        break;
-    //      case move_type::FOUR_FOUR:
-    //#ifndef NDEBUG
-    //        std::cout << "(4,4) move" << std::endl;
-    //#endif
-    //        // make_44_move(universe, movable_types_, attempted_moves_);
-    //        // ++std::get<4>(successful_moves_);
-    ////        break;
-    //    }
+    // Check if move completed successfully and update if so
+    if (maybe_moved_universe) {
+      swap(universe_, maybe_moved_universe.get());
+      swap(attempted_moves_, this_move.attempted_moves_.get());
+      //          ++std::get<1>(successful_moves_);
+      ++successful_moves_[to_integral(move)];
+    }
   }  // make_move()
 
   /// @brief Attempt a move of the selected type
@@ -596,17 +523,6 @@ class Metropolis {
 #endif
   }  // attempt_move()
 
-  //  void reset_movable() {
-  //    // Re-populate with current data
-  //    auto new_movable_simplex_types =
-  //        classify_simplices(universe.triangulation);
-  //    auto new_movable_edge_types =
-  //    classify_edges(universe.triangulation);
-  //    // Swap new data into class data members
-  //    std::swap(movable_simplex_types_, new_movable_simplex_types);
-  //    std::swap(movable_edge_types_, new_movable_edge_types);
-  //  }
-
   /// @brief Call operator
   ///
   /// This makes the Metropolis class into a function object. Setup of the
@@ -633,27 +549,15 @@ class Metropolis {
     // and successful_moves_
     std::cout << "Making initial moves ...\n";
     try {
-      universe_ = make_23_move(std::move(universe_), attempted_moves_);
-      ++std::get<0>(successful_moves_);
-//      universe_ =
-//          std::move(make_32_move(std::move(universe_), attempted_moves_));
+      make_move(move_type::TWO_THREE);
       make_move(move_type::THREE_TWO);
-//      ++std::get<1>(successful_moves_);
-      universe_ =
-          std::move(make_26_move(std::move(universe_), attempted_moves_));
-      ++std::get<2>(successful_moves_);
-      universe_ =
-          std::move(make_62_move(std::move(universe_), attempted_moves_));
-      ++std::get<3>(successful_moves_);
+      make_move(move_type::TWO_SIX);
+      make_move(move_type::SIX_TWO);
     } catch (std::logic_error& LogicError) {
       std::cerr << LogicError.what() << std::endl;
       std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
     }
-    //        make_move(move_type::TWO_THREE);
-    //    make_move(move_type::THREE_TWO);
-    //    make_move(move_type::TWO_SIX);
-    //    // Other moves go here ...
-    //
+
     //    std::cout << "Making random moves ..." << std::endl;
     //    // Loop through passes_
     //    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
