@@ -21,13 +21,13 @@
 
 int main() {
   std::cout << "cdt-opt running ..." << std::endl;
-  constexpr unsigned long long simplices  = 64000;  // NOLINT
-  constexpr unsigned long long timeslices = 25;     // NOLINT
+  constexpr unsigned long long simplices  = 6400;  // NOLINT
+  constexpr unsigned long long timeslices = 13;     // NOLINT
   constexpr long double        alpha      = 1.1;
   constexpr long double        k          = 2.2;
   constexpr long double        lambda     = 3.3;
-  constexpr unsigned long long passes     = 1000;  // NOLINT
-  constexpr unsigned long long checkpoint = 10;    // NOLINT
+  constexpr unsigned long long passes     = 10;  // NOLINT
+  constexpr unsigned long long checkpoint = 1;    // NOLINT
 
   // Initialize simulation
   Simulation my_simulation;

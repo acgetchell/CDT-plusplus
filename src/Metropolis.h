@@ -35,10 +35,9 @@
 // #include <CGAL/Mpzf.h>
 
 // CDT headers
+#include "MoveManager.h"
 #include "S3Action.h"
 #include "S3ErgodicMoves.h"
-//#include "SimplicialManifold.h"
-#include "MoveManager.h"
 
 // C++ headers
 #include <algorithm>
@@ -61,7 +60,8 @@ enum class move_type {
 
 /// @brief Convert enum class to its underlying type
 ///
-/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-
+/// to-the-underlying-type
 ///
 /// @tparam E Enum class type
 /// @param e Enum class
@@ -166,9 +166,7 @@ class Metropolis {
 
   /// @brief Gets successful (2,3) moves.
   /// @return std::get<0>(successful_moves_)
-  auto SuccessfulTwoThreeMoves() const noexcept {
-    return std::get<0>(successful_moves_);
-  }
+  auto SuccessfulTwoThreeMoves() const noexcept { return successful_moves_[0]; }
 
   /// @brief Gets attempted (3,2) moves.
   /// @return std::get<1>(attempted_moves_)
@@ -176,9 +174,7 @@ class Metropolis {
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
-  auto SuccessfulThreeTwoMoves() const noexcept {
-    return std::get<1>(successful_moves_);
-  }
+  auto SuccessfulThreeTwoMoves() const noexcept { return successful_moves_[1]; }
 
   /// @brief Gets attempted (2,6) moves.
   /// @return return std::get<2>(attempted_moves_)
@@ -186,9 +182,7 @@ class Metropolis {
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
-  auto SuccessfulTwoSixMoves() const noexcept {
-    return std::get<2>(successful_moves_);
-  }
+  auto SuccessfulTwoSixMoves() const noexcept { return successful_moves_[2]; }
 
   /// @brief Gets attempted (6,2) moves.
   /// @return return std::get<3>(attempted_moves_)
@@ -196,9 +190,7 @@ class Metropolis {
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
-  auto SuccessfulSixTwoMoves() const noexcept {
-    return std::get<3>(successful_moves_);
-  }
+  auto SuccessfulSixTwoMoves() const noexcept { return successful_moves_[3]; }
 
   /// @brief Gets attempted (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
@@ -206,9 +198,7 @@ class Metropolis {
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
-  auto SuccessfulFourFourMoves() const noexcept {
-    return std::get<4>(successful_moves_);
-  }
+  auto SuccessfulFourFourMoves() const noexcept { return successful_moves_[4]; }
 
   /// @brief Gets the total number of attempted moves.
   /// @return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves()
@@ -356,6 +346,31 @@ class Metropolis {
     return result;
   }  // CalculateA2()
 
+  void print_run() {
+    std::cout << "Run results: " << std::endl;
+    std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
+    std::cout << "Timeslices: "
+              << this->universe_.geometry->max_timevalue().get() << std::endl;
+    std::cout << "N3_31: " << N3_31_ << std::endl;
+    std::cout << "N3_22: " << N3_22_ << std::endl;
+    std::cout << "Timelike edges: " << N1_TL_ << std::endl;
+    std::cout << "Successful (2,3) moves: " << SuccessfulTwoThreeMoves()
+              << std::endl;
+    std::cout << "Attempted (2,3) moves: " << TwoThreeMoves() << std::endl;
+    std::cout << "Successful (3,2) moves: " << SuccessfulThreeTwoMoves()
+              << std::endl;
+    std::cout << "Attempted (3,2) moves: " << ThreeTwoMoves() << std::endl;
+    std::cout << "Successful (2,6) moves: " << SuccessfulTwoSixMoves()
+              << std::endl;
+    std::cout << "Attempted (2,6) moves: " << TwoSixMoves() << std::endl;
+    std::cout << "Successful (6,2) moves: " << SuccessfulSixTwoMoves()
+              << std::endl;
+    std::cout << "Attempted (6,2) moves: " << SixTwoMoves() << std::endl;
+    std::cout << "Successful (4,4) moves: " << SuccessfulFourFourMoves()
+              << std::endl;
+    std::cout << "Attempted (4,4) moves: " << FourFourMoves() << std::endl;
+  }
+
   /// @brief Make a move of the selected type
   ///
   /// This function handles making a **move_type** move
@@ -445,7 +460,7 @@ class Metropolis {
   /// calls make_move(). If not, it updates attempted_moves_.
   ///
   /// @param[in] move The type of move
-  void attempt_move(const move_type move) noexcept {
+  void attempt_move(const move_type move) {
     // Calculate probability
     auto a1 = CalculateA1(move);
     // Make move if random number < probability
@@ -501,25 +516,26 @@ class Metropolis {
     std::cout << "A1*A2 = " << a1 * a2 << std::endl;
     std::cout << ((trial <= a1 * a2) ? "Move accepted." : "Move rejected.")
               << std::endl;
-    std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
-              << std::endl;
-    std::cout << "Attempted (2,3) moves = " << TwoThreeMoves() << std::endl;
-
-    std::cout << "Successful (3,2) moves = " << SuccessfulThreeTwoMoves()
-              << std::endl;
-    std::cout << "Attempted (3,2) moves = " << ThreeTwoMoves() << std::endl;
-
-    std::cout << "Successful (2,6) moves = " << SuccessfulTwoSixMoves()
-              << std::endl;
-    std::cout << "Attempted (2,6) moves = " << TwoSixMoves() << std::endl;
-
-    std::cout << "Successful (6,2) moves = " << SuccessfulSixTwoMoves()
-              << std::endl;
-    std::cout << "Attempted (6,2) moves = " << SixTwoMoves() << std::endl;
-
-    std::cout << "Successful (4,4) moves = " << SuccessfulFourFourMoves()
-              << std::endl;
-    std::cout << "Attempted (4,4) moves = " << FourFourMoves() << std::endl;
+    print_run();
+//    std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
+//              << std::endl;
+//    std::cout << "Attempted (2,3) moves = " << TwoThreeMoves() << std::endl;
+//
+//    std::cout << "Successful (3,2) moves = " << SuccessfulThreeTwoMoves()
+//              << std::endl;
+//    std::cout << "Attempted (3,2) moves = " << ThreeTwoMoves() << std::endl;
+//
+//    std::cout << "Successful (2,6) moves = " << SuccessfulTwoSixMoves()
+//              << std::endl;
+//    std::cout << "Attempted (2,6) moves = " << TwoSixMoves() << std::endl;
+//
+//    std::cout << "Successful (6,2) moves = " << SuccessfulSixTwoMoves()
+//              << std::endl;
+//    std::cout << "Attempted (6,2) moves = " << SixTwoMoves() << std::endl;
+//
+//    std::cout << "Successful (4,4) moves = " << SuccessfulFourFourMoves()
+//              << std::endl;
+//    std::cout << "Attempted (4,4) moves = " << FourFourMoves() << std::endl;
 #endif
   }  // attempt_move()
 
@@ -558,36 +574,38 @@ class Metropolis {
       std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
     }
 
-    //    std::cout << "Making random moves ..." << std::endl;
-    //    // Loop through passes_
-    //    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
-    //         ++pass_number) {
-    //      auto total_simplices_this_pass = CurrentTotalSimplices();
-    //      // Loop through CurrentTotalSimplices
-    //      for (auto move_attempt = 0; move_attempt <
-    //      total_simplices_this_pass;
-    //           ++move_attempt) {
-    //        // Pick a move to attempt
-    //        auto move_choice = generate_random_unsigned(0, 2);
-    //        #ifndef NDEBUG
-    //        std::cout << "Move choice = " << move_choice << std::endl;
-    //        #endif
-    //
-    //        // Convert std::uintmax_t move_choice to move_type enum
-    //        auto move = static_cast<move_type>(move_choice);
-    //        attempt_move(move);
-    //      }  // End loop through CurrentTotalSimplices
-    //      // Reset movable data structures
-    //      // reset_movable();
-    //      // Do stuff on checkpoint_
-    //      if ((pass_number % checkpoint_) == 0) {
-    //        std::cout << "Pass " << pass_number << std::endl;
-    //        // write results to a file
-    //      }
-    //    }  // End loop through passes_
+    std::cout << "Making random moves ..." << std::endl;
+    // Loop through passes_
+    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
+         ++pass_number) {
+      auto total_simplices_this_pass = CurrentTotalSimplices();
+      // Loop through CurrentTotalSimplices
+      for (std::uintmax_t move_attempt = 0;
+           move_attempt < total_simplices_this_pass; ++move_attempt) {
+        // Pick a move to attempt
+        auto move_choice = generate_random_unsigned(0, 3);
+#ifndef NDEBUG
+        std::cout << "Move choice = " << move_choice << std::endl;
+#endif
+
+        // Convert std::uintmax_t move_choice to move_type enum
+        auto move = static_cast<move_type>(move_choice);
+        attempt_move(move);
+      }  // End loop through CurrentTotalSimplices
+
+      // Do stuff on checkpoint_
+      if ((pass_number % checkpoint_) == 0) {
+        std::cout << "Pass " << pass_number << std::endl;
+        // write results to a file
+        write_file(universe_, topology_type::SPHERICAL, 3,
+                   universe_.geometry->number_of_cells(),
+                   universe_.geometry->max_timevalue().get());
+      }
+    }  // End loop through passes_
+    // output results
+    print_run();
     return universe_;
   }
-
 };  // Metropolis
 
 #endif  // SRC_METROPOLIS_H_
