@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2016 Adam Getchell
+/// Copyright © 2015 Adam Getchell
 ///
 /// Performs the Metropolis-Hastings algorithm on the foliated Delaunay
 /// triangulations.
@@ -347,7 +347,6 @@ class Metropolis {
   }  // CalculateA2()
 
   void print_run() {
-    std::cout << "Run results: " << std::endl;
     std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
     std::cout << "Timeslices: "
               << this->universe_.geometry->max_timevalue().get() << std::endl;
@@ -569,6 +568,7 @@ class Metropolis {
       make_move(move_type::THREE_TWO);
       make_move(move_type::TWO_SIX);
       make_move(move_type::SIX_TWO);
+      print_run();
     } catch (std::logic_error& LogicError) {
       std::cerr << LogicError.what() << std::endl;
       std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
@@ -603,6 +603,7 @@ class Metropolis {
       }
     }  // End loop through passes_
     // output results
+    std::cout << "Run results: " << std::endl;
     print_run();
     return universe_;
   }

@@ -147,5 +147,6 @@ set_tests_properties(CDT-GeomView
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
 
+# This takes a long time now so cancel
 #cdt-opt
-add_test(CDT-Optimizer cdt-opt)
+#add_test(CDT-Optimizer cdt-opt)
