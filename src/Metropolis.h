@@ -38,6 +38,7 @@
 #include "MoveManager.h"
 #include "S3Action.h"
 #include "S3ErgodicMoves.h"
+#include "Measurements.h"
 
 // C++ headers
 #include <algorithm>
@@ -449,6 +450,11 @@ class Metropolis {
       //          ++std::get<1>(successful_moves_);
       ++successful_moves_[to_integral(move)];
     }
+
+    // Update counters
+    N1_TL_ = universe_.geometry->N1_TL();
+    N3_31_ = universe_.geometry->N3_31();
+    N3_22_ = universe_.geometry->N3_22();
   }  // make_move()
 
   /// @brief Attempt a move of the selected type
@@ -560,10 +566,12 @@ class Metropolis {
     N3_31_    = universe_.geometry->N3_31();
     N3_22_    = universe_.geometry->N3_22();
 
-    // Make a successful move of each type to populate attempted_moves_
-    // and successful_moves_
+    // Populate attempted_moves_ and successful_moves_
     std::cout << "Making initial moves ...\n";
     try {
+      // Determine how many actual timeslices there are
+      universe_ = std::move(VolumePerTimeslice(universe_));
+      // Make a successful move of each type
       make_move(move_type::TWO_THREE);
       make_move(move_type::THREE_TWO);
       make_move(move_type::TWO_SIX);

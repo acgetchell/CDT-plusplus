@@ -84,7 +84,7 @@ class MoveManager {
     }
 
     catch (...) {
-      std::cerr << "We caught a move error." << std::endl;
+      std::cerr << "Caught move error!" << std::endl;
     }
 
     return universe_;

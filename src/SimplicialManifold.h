@@ -55,9 +55,11 @@ struct GeometryInfo {
   std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
+  /// \todo Needs to be added to move assignment
   boost::optional<std::multimap<uintmax_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
+  /// \todo Needs to be added to move assignment
   boost::optional<std::set<uintmax_t>> timevalues;
 
   /// @brief Default constructor

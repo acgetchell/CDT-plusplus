@@ -14,20 +14,20 @@
 /// @brief Outputs values to determine optimizations
 /// @author Adam Getchell
 
-#include <utility>
 #include "Measurements.h"
 #include "Metropolis.h"
 #include "Simulation.h"
+#include <utility>
 
 int main() {
-  std::cout << "cdt-opt running ..." << std::endl;
-  constexpr unsigned long long simplices  = 6400;  // NOLINT
-  constexpr unsigned long long timeslices = 13;     // NOLINT
+  std::cout << "cdt-opt started at " << currentDateTime() << std::endl;
+  constexpr unsigned long long simplices  = 64000;  // NOLINT
+  constexpr unsigned long long timeslices = 13;    // NOLINT
   constexpr long double        alpha      = 1.1;
   constexpr long double        k          = 2.2;
   constexpr long double        lambda     = 3.3;
-  constexpr unsigned long long passes     = 10;  // NOLINT
-  constexpr unsigned long long checkpoint = 1;    // NOLINT
+  constexpr unsigned long long passes     = 100;  // NOLINT
+  constexpr unsigned long long checkpoint = 10;   // NOLINT
 
   // Initialize simulation
   Simulation my_simulation;
@@ -53,8 +53,7 @@ int main() {
 
   /// \todo  Fix SimplicialManifold move and copy operators to save optionals
   if (max_timevalue < timeslices)
-    std::cout << "You wanted " << timeslices
-              << " timeslices, but only got "
+    std::cout << "You wanted " << timeslices << " timeslices, but only got "
               << max_timevalue << " ." << std::endl;
 
   return 0;

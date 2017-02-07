@@ -25,7 +25,7 @@ using namespace testing;  // NOLINT
 class MetropolisTest : public Test {
  public:
   MetropolisTest()
-      : universe_{make_triangulation(6400, 13)}
+      : universe_{make_triangulation(640, 5)}
       , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->N3_22()}
@@ -172,7 +172,7 @@ TEST_F(MetropolisTest, DISABLED_Operator) {
 }
 
 // \todo fix so it doesn't require the () operator
-TEST_F(MetropolisTest, DISABLED_CalculateA1) {
+TEST_F(MetropolisTest, CalculateA1) {
   // Instantiate Metropolis functor with passes and checkpoints = 1
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
@@ -221,7 +221,7 @@ TEST_F(MetropolisTest, DISABLED_CalculateA1) {
 }
 
 // \todo fix so it doesn't require the () operator
-TEST_F(MetropolisTest, DISABLED_CalculateA2) {
+TEST_F(MetropolisTest, CalculateA2) {
   // Instantiate Metropolis functor with passes and checkpoints = 1
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
@@ -259,31 +259,13 @@ TEST_F(MetropolisTest, DISABLED_CalculateA2) {
 }
 
 // This test can take a long time
-TEST_F(MetropolisTest, DISABLED_RunSimulation) {
+TEST_F(MetropolisTest, RunSimulation) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_));
 
   std::cout << "Total moves: " << testrun.TotalMoves() << std::endl;
-  std::cout << "Successful (2,3) moves: " << testrun.SuccessfulTwoThreeMoves()
-            << std::endl;
-  std::cout << "Attempted (2,3) moves: " << testrun.TwoThreeMoves()
-            << std::endl;
-  std::cout << "Successful (3,2) moves: " << testrun.SuccessfulThreeTwoMoves()
-            << std::endl;
-  std::cout << "Attempted (3,2) moves: " << testrun.ThreeTwoMoves()
-            << std::endl;
-  std::cout << "Successful (2,6) moves: " << testrun.SuccessfulTwoSixMoves()
-            << std::endl;
-  std::cout << "Attempted (2,6) moves: " << testrun.TwoSixMoves() << std::endl;
-  std::cout << "Successful (6,2) moves: " << testrun.SuccessfulSixTwoMoves()
-            << std::endl;
-  std::cout << "Attempted (6,2) moves: " << testrun.SixTwoMoves() << std::endl;
-  std::cout << "Successful (4,4) moves: " << testrun.SuccessfulFourFourMoves()
-            << std::endl;
-  std::cout << "Attempted (4,4) moves: " << testrun.FourFourMoves()
-            << std::endl;
 
   EXPECT_GE(testrun.TotalMoves(), 1) << "No moves were recorded.";
 
@@ -305,24 +287,24 @@ TEST_F(MetropolisTest, DISABLED_RunSimulation) {
   EXPECT_TRUE(fix_timeslices(result.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-    EXPECT_NE(vertices_before, result.geometry->vertices.size())
-        << "Vertices didn't change.";
+  EXPECT_NE(vertices_before, result.geometry->vertices.size())
+      << "Vertices didn't change.";
 
-    EXPECT_NE(timelike_edges_before, result.geometry->N1_TL())
-        << "Timelike edges didn't change.";
+  EXPECT_NE(timelike_edges_before, result.geometry->N1_TL())
+      << "Timelike edges didn't change.";
 
-    EXPECT_NE(spacelike_edges_before, result.geometry->spacelike_edges.size())
-        << "Spacelike edges didn't change.";
+  EXPECT_NE(spacelike_edges_before, result.geometry->spacelike_edges.size())
+      << "Spacelike edges didn't change.";
 
-    EXPECT_NE(N3_31_before, result.geometry->three_one.size())
-        << "(3,1) simplices didn't change.";
+  EXPECT_NE(N3_31_before, result.geometry->three_one.size())
+      << "(3,1) simplices didn't change.";
 
-    EXPECT_NE(N3_22_before, result.geometry->N3_22())
-        << "(2,2) simplices didn't change.";
+  EXPECT_NE(N3_22_before, result.geometry->N3_22())
+      << "(2,2) simplices didn't change.";
 
-    EXPECT_NE(N3_13_before, result.geometry->three_one.size())
-        << "(1,3) simplices didn't change.";
+  EXPECT_NE(N3_13_before, result.geometry->one_three.size())
+      << "(1,3) simplices didn't change.";
 
-    EXPECT_TRUE(result.triangulation->tds().is_valid())
-        << "Triangulation is invalid.";
+  EXPECT_TRUE(result.triangulation->tds().is_valid())
+      << "Triangulation is invalid.";
 }

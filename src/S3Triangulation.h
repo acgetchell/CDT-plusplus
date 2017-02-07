@@ -123,7 +123,9 @@ static constexpr int DIMENSION = 3;
 /// timelike edges and spacelike edges
 template <typename T>
 auto classify_edges(T&& universe_ptr) {
+#ifndef NDEBUG
   std::cout << "Classifying edges...." << std::endl;
+#endif
   Delaunay::Finite_edges_iterator eit;
   std::vector<Edge_handle>        timelike_edges;
   std::vector<Edge_handle>        spacelike_edges;
@@ -180,7 +182,9 @@ auto classify_edges(T&& universe_ptr) {
 /// **three_one**, **two_two**, and **one_three**
 template <typename T>
 auto classify_simplices(T&& universe_ptr) {
+#ifndef NDEBUG
   std::cout << "Classifying simplices...." << std::endl;
+#endif
   Delaunay::Finite_cells_iterator cit;
   std::vector<Cell_handle>        three_one;
   std::vector<Cell_handle>        two_two;
@@ -237,7 +241,9 @@ auto classify_simplices(T&& universe_ptr) {
 
 template <typename T>
 auto classify_all_simplices(T&& universe_ptr) {
+#ifndef NDEBUG
   std::cout << "Classifying all simplices...." << std::endl;
+#endif
 
   auto                       cells = classify_simplices(universe_ptr);
   auto                       edges = classify_edges(universe_ptr);
