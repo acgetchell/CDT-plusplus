@@ -11,17 +11,13 @@
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "utilities.h"
-
-using ::testing::Gt;
-using ::testing::Le;
-using ::testing::AllOf;
+#include "src/utilities.h"
 
 TEST(Utilities, GenerateRandomTimeslice) {
   std::uintmax_t timeslices{16};
 
-  EXPECT_THAT(generate_random_timeslice(timeslices),
-              AllOf(Gt(0), Le(timeslices)))
+  EXPECT_TRUE(
+      IsBetween<unsigned>(generate_random_timeslice(timeslices), 0, timeslices))
       << "Random timeslice out of bounds.";
 }
 
@@ -50,7 +46,7 @@ TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
   long double min{0.0};
   long double max{1.0};
 
-  EXPECT_THAT(generate_random_real(min, max), AllOf(Gt(min), Le(max)))
+  EXPECT_TRUE(IsBetween<long double>(generate_random_real(min, max), min, max))
       << "Random real out of bounds.";
 }
 

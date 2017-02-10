@@ -42,29 +42,29 @@ class S3ErgodicMoveTest : public ::testing::Test {
     std::cout << "Vertices: " << vertices_before << '\n';
   }
 
-  /// Simplicial manifold containing pointer to triangulation
+  /// @brief Simplicial manifold containing pointer to triangulation
   /// and geometric information.
   SimplicialManifold universe_;
 
-  /// A count of all attempted moves.
+  /// @brief A count of all attempted moves.
   Move_tuple attempted_moves_;
 
-  /// Initial number of (3,1) simplices
+  /// @brief Initial number of (3,1) simplices
   std::uintmax_t N3_31_before;
 
-  /// Initial number of (2,2) simplices
+  /// @brief Initial number of (2,2) simplices
   std::uintmax_t N3_22_before;
 
-  /// Initial number of (1,3) simplices
+  /// @brief Initial number of (1,3) simplices
   std::uintmax_t N3_13_before;
 
-  /// Initial number of timelike edges
+  /// @brief Initial number of timelike edges
   std::uintmax_t timelike_edges_before;
 
-  /// Initial number of spacelike edges
+  /// @brief Initial number of spacelike edges
   std::uintmax_t spacelike_edges_before;
 
-  /// Initial number of vertices
+  /// @brief Initial number of vertices
   std::uintmax_t vertices_before;
 };
 

@@ -20,9 +20,7 @@
 #include "Metropolis.h"
 #include "gmock/gmock.h"
 
-using ::testing::AllOf;
-using ::testing::Ge;
-using ::testing::Le;
+bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1; }
 
 class MetropolisTest : public ::testing::Test {
  public:
@@ -63,7 +61,7 @@ class MetropolisTest : public ::testing::Test {
   /// Initial number of (2,2) simplices
   std::uintmax_t N3_22_before;
 
-  ///< Initial number of (1,3) simplices
+  /// Initial number of (1,3) simplices
   std::uintmax_t N3_13_before;
 
   /// Initial number of timelike edges
@@ -205,18 +203,16 @@ TEST_F(MetropolisTest, CalculateA1) {
   auto A1_62 = testrun.CalculateA1(move_type::SIX_TWO);
 
   std::cout << "A1 for (2,3) move is: " << A1_23 << std::endl;
-  EXPECT_THAT(A1_23, AllOf(Ge(0.0), Le(1.0)))
-      << "A1_23 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A1_23)) << "A1_23 not calculated correctly.";
 
   std::cout << "A1 for (3,2) move is: " << A1_32 << std::endl;
-  EXPECT_THAT(A1_32, AllOf(Ge(0), Le(1)))
-      << "A1_32 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A1_32)) << "A1_32 not calculated correctly.";
 
   std::cout << "A1 for (2,6) move is: " << A1_26 << std::endl;
-  EXPECT_THAT(A1_26, AllOf(Ge(0), Le(1))) << "A1_26 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A1_26)) << "A1_26 not calculated correctly.";
 
   std::cout << "A1 for (6,2) move is: " << A1_62 << std::endl;
-  EXPECT_THAT(A1_62, AllOf(Ge(0), Le(1))) << "A1_62 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A1_62)) << "A1_62 not calculated correctly.";
 
   EXPECT_EQ(testrun.TwoThreeMoves() + testrun.ThreeTwoMoves() +
                 testrun.TwoSixMoves() + testrun.SixTwoMoves(),
@@ -245,16 +241,16 @@ TEST_F(MetropolisTest, CalculateA2) {
   auto A2_62 = testrun.CalculateA2(move_type::SIX_TWO);
 
   std::cout << "A2 for (2,3) move is: " << A2_23 << std::endl;
-  EXPECT_THAT(A2_23, AllOf(Ge(0), Le(1))) << "A2_23 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A2_23)) << "A2_23 not calculated correctly.";
 
   std::cout << "A2 for (3,2) move is: " << A2_32 << std::endl;
-  EXPECT_THAT(A2_32, AllOf(Ge(0), Le(1))) << "A2_32 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A2_32)) << "A2_32 not calculated correctly.";
 
   std::cout << "A2 for (2,6) move is: " << A2_26 << std::endl;
-  EXPECT_THAT(A2_26, AllOf(Ge(0), Le(1))) << "A2_26 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A2_26)) << "A2_26 not calculated correctly.";
 
   std::cout << "A2 for (6,2) move is: " << A2_62 << std::endl;
-  EXPECT_THAT(A2_62, AllOf(Ge(0), Le(1))) << "A2_62 not calculated correctly.";
+  EXPECT_TRUE(IsProbabilityRange(A2_62)) << "A2_62 not calculated correctly.";
 
   EXPECT_EQ(testrun.TwoThreeMoves() + testrun.ThreeTwoMoves() +
                 testrun.TwoSixMoves() + testrun.SixTwoMoves(),
