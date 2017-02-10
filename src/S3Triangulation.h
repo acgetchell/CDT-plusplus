@@ -96,7 +96,7 @@ using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
                std::vector<Cell_handle>, std::vector<Edge_handle>,
                std::vector<Edge_handle>, std::vector<Vertex_handle>>;
-using Move_tuple = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
+using Move_tracker = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
                               std::uintmax_t, std::uintmax_t>;
 
 /// The maximum number of passes to fix invalidly foliated simplices
@@ -406,7 +406,7 @@ auto inline make_foliated_sphere(const std::uintmax_t simplices,
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points
     for (unsigned j = 0; j < points_per_timeslice; ++j) {
-      causal_vertices.first.emplace_back(*gen++);
+      causal_vertices.first.push_back(*gen++);
       causal_vertices.second.emplace_back(radius);
     }  // end j
   }    // end i

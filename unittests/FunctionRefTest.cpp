@@ -37,7 +37,7 @@ TEST(FunctionRefTest, SimpleLambdaWithFunctionRef) {
 
 TEST(FunctionRefTest, DISABLED_ComplexLambda) {
   SimplicialManifold test_universe(6400, 13);
-  Move_tuple         moves(std::make_tuple(0, 0, 0, 0, 0));
+  Move_tracker         moves(std::make_tuple(0, 0, 0, 0, 0));
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "Initial tds invalid.";
@@ -53,7 +53,7 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda) {
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
   auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tuple& attempted_moves) -> SimplicialManifold {
+                           Move_tracker& attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
 
@@ -92,7 +92,7 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda) {
 
 TEST(FunctionRefTest, ComplexFunctionRef) {
   SimplicialManifold test_universe(6400, 13);
-  Move_tuple         moves(std::make_tuple(0, 0, 0, 0, 0));
+  Move_tracker         moves(std::make_tuple(0, 0, 0, 0, 0));
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "Initial tds invalid.";
@@ -107,10 +107,10 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
   auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tuple& attempted_moves) -> SimplicialManifold {
+                           Move_tracker& attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> complex_ref(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> complex_ref(
       move_23_lambda);
 
   test_universe = complex_ref(test_universe, moves);
@@ -145,7 +145,7 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
 
 TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
   SimplicialManifold test_universe(6400, 13);
-  Move_tuple         moves(std::make_tuple(0, 0, 0, 0, 0));
+  Move_tracker         moves(std::make_tuple(0, 0, 0, 0, 0));
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "Initial tds invalid.";
@@ -165,10 +165,10 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
   auto        maybe_move_count = boost::make_optional(true, moves);
 
   auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tuple& attempted_moves) -> SimplicialManifold {
+                           Move_tracker& attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)> complex_ref(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> complex_ref(
       move_23_lambda);
 
   maybe_moved_universe =

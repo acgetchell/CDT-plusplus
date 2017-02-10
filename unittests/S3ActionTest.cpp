@@ -55,7 +55,7 @@ class S3ActionTest : public ::testing::Test {
   SimplicialManifold universe_;
 
   /// @brief A count of all attempted moves.
-  Move_tuple attempted_moves_;
+  Move_tracker attempted_moves_;
 
   /// @brief Initial number of (3,1) simplices
   std::uintmax_t N3_31_before;

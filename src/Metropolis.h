@@ -110,10 +110,10 @@ class Metropolis {
   std::uintmax_t checkpoint_{10};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tuple attempted_moves_{0, 0, 0, 0, 0};
+  Move_tracker attempted_moves_{0, 0, 0, 0, 0};
 
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  //  Move_tuple successful_moves_{0, 0, 0, 0, 0};
+  //  Move_tracker successful_moves_{0, 0, 0, 0, 0};
   std::array<std::atomic_uintmax_t, 5> successful_moves_{};
 
  public:
@@ -403,43 +403,43 @@ class Metropolis {
     // Setup moves
     auto move_23_lambda = [](
         SimplicialManifold manifold,
-        Move_tuple&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&        attempted_moves) -> SimplicialManifold {
       return make_23_move(std::move(manifold), attempted_moves);
     };
     auto move_32_lambda = [](
         SimplicialManifold manifold,
-        Move_tuple&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&        attempted_moves) -> SimplicialManifold {
       return make_32_move(std::move(manifold), attempted_moves);
     };
     auto move_26_lambda = [](
         SimplicialManifold manifold,
-        Move_tuple&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&        attempted_moves) -> SimplicialManifold {
       return make_26_move(std::move(manifold), attempted_moves);
     };
     auto move_62_lambda = [](
         SimplicialManifold manifold,
-        Move_tuple&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&        attempted_moves) -> SimplicialManifold {
       return make_62_move(std::move(manifold), attempted_moves);
     };
 
     switch (move) {
       case move_type::TWO_THREE: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_23_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       } break;
       case move_type::THREE_TWO: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_32_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       } break;
       case move_type::TWO_SIX: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_26_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       } break;
       case move_type::SIX_TWO: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tuple&)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_62_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       } break;
@@ -526,25 +526,6 @@ class Metropolis {
     std::cout << ((trial <= a1 * a2) ? "Move accepted." : "Move rejected.")
               << std::endl;
     print_run();
-//    std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
-//              << std::endl;
-//    std::cout << "Attempted (2,3) moves = " << TwoThreeMoves() << std::endl;
-//
-//    std::cout << "Successful (3,2) moves = " << SuccessfulThreeTwoMoves()
-//              << std::endl;
-//    std::cout << "Attempted (3,2) moves = " << ThreeTwoMoves() << std::endl;
-//
-//    std::cout << "Successful (2,6) moves = " << SuccessfulTwoSixMoves()
-//              << std::endl;
-//    std::cout << "Attempted (2,6) moves = " << TwoSixMoves() << std::endl;
-//
-//    std::cout << "Successful (6,2) moves = " << SuccessfulSixTwoMoves()
-//              << std::endl;
-//    std::cout << "Attempted (6,2) moves = " << SixTwoMoves() << std::endl;
-//
-//    std::cout << "Successful (4,4) moves = " << SuccessfulFourFourMoves()
-//              << std::endl;
-//    std::cout << "Attempted (4,4) moves = " << FourFourMoves() << std::endl;
 #endif
   }  // attempt_move()
 
