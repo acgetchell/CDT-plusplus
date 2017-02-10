@@ -61,9 +61,7 @@ enum class move_type {
 
 /// @brief Convert enum class to its underlying type
 ///
-/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-
-/// to-the-underlying-type
-///
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
 /// @tparam E Enum class type
 /// @param e Enum class
 /// @return Integral type of enum member
@@ -461,10 +459,10 @@ class Metropolis {
   ///
   /// This function implements the core of the Metropolis-Hastings algorithm
   /// by generating a random number and comparing with the results of
-  /// CalculateA1() and CalculateA2(). If the move is accepted, this function
-  /// calls make_move(). If not, it updates attempted_moves_.
+  /// CalculateA1 and CalculateA2. If the move is accepted, this function
+  /// calls make_move(). If not, it updates **attempted_moves_**.
   ///
-  /// @param[in] move The type of move
+  /// @param move The type of move
   void attempt_move(const move_type move) {
     // Calculate probability
     auto a1 = CalculateA1(move);
