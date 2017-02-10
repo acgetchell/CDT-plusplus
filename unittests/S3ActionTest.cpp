@@ -19,9 +19,11 @@
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
 
-using namespace testing;  // NOLINT
+using ::testing::Ge;
+using ::testing::Le;
+using ::testing::AllOf;
 
-class S3ActionTest : public Test {
+class S3ActionTest : public ::testing::Test {
  protected:
   S3ActionTest()
       : universe_{make_triangulation(6400, 17)}

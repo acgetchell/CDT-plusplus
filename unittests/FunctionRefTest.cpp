@@ -8,15 +8,15 @@
 /// @brief Tests for Function_ref.h
 /// @author Adam Getchell
 
-// clang-format off
 #include <utility>
+
 #include "Function_ref.h"
 #include "S3ErgodicMoves.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-// clang-format on
 
-using namespace testing;  // NOLINT
+using ::testing::Gt;
+using ::testing::Eq;
 
 TEST(FunctionRefTest, SimpleLambda) {
   auto increment_lambda = [](int a) { return ++a; };
@@ -159,7 +159,7 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
   // Make working copies
-  using Optional_SM   = boost::optional<decltype(test_universe)>;
+  using Optional_SM = boost::optional<decltype(test_universe)>;
 
   Optional_SM maybe_moved_universe{test_universe};
   auto        maybe_move_count = boost::make_optional(true, moves);

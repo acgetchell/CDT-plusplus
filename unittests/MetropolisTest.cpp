@@ -20,9 +20,11 @@
 #include "Metropolis.h"
 #include "gmock/gmock.h"
 
-using namespace testing;  // NOLINT
+using ::testing::AllOf;
+using ::testing::Ge;
+using ::testing::Le;
 
-class MetropolisTest : public Test {
+class MetropolisTest : public ::testing::Test {
  public:
   MetropolisTest()
       : universe_{make_triangulation(640, 5)}
@@ -203,10 +205,12 @@ TEST_F(MetropolisTest, CalculateA1) {
   auto A1_62 = testrun.CalculateA1(move_type::SIX_TWO);
 
   std::cout << "A1 for (2,3) move is: " << A1_23 << std::endl;
-  EXPECT_THAT(A1_23, AllOf(Ge(0), Le(1))) << "A1_23 not calculated correctly.";
+  EXPECT_THAT(A1_23, AllOf(Ge(0.0), Le(1.0)))
+      << "A1_23 not calculated correctly.";
 
   std::cout << "A1 for (3,2) move is: " << A1_32 << std::endl;
-  EXPECT_THAT(A1_32, AllOf(Ge(0), Le(1))) << "A1_32 not calculated correctly.";
+  EXPECT_THAT(A1_32, AllOf(Ge(0), Le(1)))
+      << "A1_32 not calculated correctly.";
 
   std::cout << "A1 for (2,6) move is: " << A1_26 << std::endl;
   EXPECT_THAT(A1_26, AllOf(Ge(0), Le(1))) << "A1_26 not calculated correctly.";
@@ -259,7 +263,7 @@ TEST_F(MetropolisTest, CalculateA2) {
 }
 
 // This test can take a long time
-TEST_F(MetropolisTest, RunSimulation) {
+TEST_F(MetropolisTest, DISABLED_RunSimulation) {
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
@@ -281,7 +285,7 @@ TEST_F(MetropolisTest, RunSimulation) {
 
   EXPECT_TRUE(result.triangulation->tds().is_valid(true)) << "tds is invalid.";
 
-  EXPECT_THAT(result.triangulation->dimension(), Eq(3))
+  EXPECT_EQ(result.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(fix_timeslices(result.triangulation))

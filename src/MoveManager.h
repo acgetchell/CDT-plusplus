@@ -26,12 +26,6 @@
 
 #include "Function_ref.h"
 #include "SimplicialManifold.h"
-//#include "S3Triangulation.h"
-//#include "S3ErgodicMoves.h"
-//#include "Metropolis.h"
-
-//using Move_tuple = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
-//                              std::uintmax_t, std::uintmax_t>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves

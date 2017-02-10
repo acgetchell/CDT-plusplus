@@ -17,9 +17,7 @@
 #include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
 
-using namespace testing;  // NOLINT
-
-class MoveManagerTest : public Test {
+class MoveManagerTest : public ::testing::Test {
  public:
   MoveManagerTest()
       : universe_{make_triangulation(64000, 13)}
@@ -88,23 +86,23 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
   EXPECT_TRUE(tempSM.triangulation->tds().is_valid(true))
       << "SimplicialManifold copy is invalid.";
 
-  EXPECT_THAT(vertices_before, Eq(tempSM.geometry->vertices.size()))
+  EXPECT_EQ(vertices_before, tempSM.geometry->vertices.size())
       << "SimplicialManifold copy doesn't have the same number of vertices.";
 
-  EXPECT_THAT(this->universe_.triangulation->number_of_finite_edges(),
-              Eq(tempSM.triangulation->number_of_finite_edges()))
+  EXPECT_EQ(this->universe_.triangulation->number_of_finite_edges(),
+            tempSM.triangulation->number_of_finite_edges())
       << "SimplicialManifold copy doesn't have the same number of edges.";
 
-  EXPECT_THAT(this->universe_.triangulation->number_of_finite_facets(),
-              Eq(tempSM.triangulation->number_of_finite_facets()))
+  EXPECT_EQ(this->universe_.triangulation->number_of_finite_facets(),
+            tempSM.triangulation->number_of_finite_facets())
       << "SimplicialManifold copy doesn't have the same number of facets.";
 
-  EXPECT_THAT(this->universe_.triangulation->number_of_finite_cells(),
-              Eq(tempSM.triangulation->number_of_finite_cells()))
+  EXPECT_EQ(this->universe_.triangulation->number_of_finite_cells(),
+            tempSM.triangulation->number_of_finite_cells())
       << "SimplicialManifold copy doesn't have the same number of cells.";
 
-  EXPECT_THAT(this->universe_.geometry->three_one.size(),
-              Eq(tempSM.geometry->three_one.size()))
+  EXPECT_EQ(this->universe_.geometry->three_one.size(),
+            tempSM.geometry->three_one.size())
       << "SimplicialManifold copy doesn't have the same number of (3,1) "
          "simplices.";
 
@@ -112,8 +110,8 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
       << "SimplicialManifold copy doesn't have the same number of (2,2) "
          "simplices.";
 
-  EXPECT_THAT(this->universe_.geometry->one_three.size(),
-              Eq(tempSM.geometry->one_three.size()))
+  EXPECT_EQ(this->universe_.geometry->one_three.size(),
+            tempSM.geometry->one_three.size())
       << "SimplicialManifold copy doesn't have the same number of (1,3) "
          "simplices.";
 
@@ -121,8 +119,8 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
       << "SimplicialManifold copy doesn't have the same number of timelike "
          "edges.";
 
-  EXPECT_THAT(this->universe_.geometry->spacelike_edges.size(),
-              Eq(tempSM.geometry->spacelike_edges.size()))
+  EXPECT_EQ(this->universe_.geometry->spacelike_edges.size(),
+            tempSM.geometry->spacelike_edges.size())
       << "SimplicialManifold copy doesn't have the same number of spacelike "
          "edges.";
 }
@@ -136,23 +134,23 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
   EXPECT_TRUE(copied_manifold.triangulation->tds().is_valid(true))
       << "SimplicialManifold copy is invalid.";
 
-  EXPECT_THAT(vertices_before, Eq(copied_manifold.geometry->vertices.size()))
+  EXPECT_EQ(vertices_before, copied_manifold.geometry->vertices.size())
       << "SimplicialManifold copy doesn't have the same number of vertices.";
 
-  EXPECT_THAT(this->universe_.triangulation->number_of_finite_edges(),
-              Eq(copied_manifold.triangulation->number_of_finite_edges()))
+  EXPECT_EQ(this->universe_.triangulation->number_of_finite_edges(),
+            copied_manifold.triangulation->number_of_finite_edges())
       << "SimplicialManifold copy doesn't have the same number of edges.";
 
-  EXPECT_THAT(this->universe_.triangulation->number_of_finite_facets(),
-              Eq(copied_manifold.triangulation->number_of_finite_facets()))
+  EXPECT_EQ(this->universe_.triangulation->number_of_finite_facets(),
+            copied_manifold.triangulation->number_of_finite_facets())
       << "SimplicialManifold copy doesn't have the same number of facets.";
 
-  EXPECT_THAT(this->universe_.triangulation->number_of_finite_cells(),
-              Eq(copied_manifold.triangulation->number_of_finite_cells()))
+  EXPECT_EQ(this->universe_.triangulation->number_of_finite_cells(),
+            copied_manifold.triangulation->number_of_finite_cells())
       << "SimplicialManifold copy doesn't have the same number of cells.";
 
-  EXPECT_THAT(this->universe_.geometry->three_one.size(),
-              Eq(copied_manifold.geometry->three_one.size()))
+  EXPECT_EQ(this->universe_.geometry->three_one.size(),
+            copied_manifold.geometry->three_one.size())
       << "SimplicialManifold copy doesn't have the same number of (3,1) "
          "simplices.";
 
@@ -161,8 +159,8 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
       << "SimplicialManifold copy doesn't have the same number of (2,2) "
          "simplices.";
 
-  EXPECT_THAT(this->universe_.geometry->one_three.size(),
-              Eq(copied_manifold.geometry->one_three.size()))
+  EXPECT_EQ(this->universe_.geometry->one_three.size(),
+            copied_manifold.geometry->one_three.size())
       << "SimplicialManifold copy doesn't have the same number of (1,3) "
          "simplices.";
 
@@ -171,8 +169,8 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
       << "SimplicialManifold copy doesn't have the same number of timelike "
          "edges.";
 
-  EXPECT_THAT(this->universe_.geometry->spacelike_edges.size(),
-              Eq(copied_manifold.geometry->spacelike_edges.size()))
+  EXPECT_EQ(this->universe_.geometry->spacelike_edges.size(),
+            copied_manifold.geometry->spacelike_edges.size())
       << "SimplicialManifold copy doesn't have the same number of spacelike "
          "edges.";
 }
@@ -346,30 +344,28 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
   //      << "maybe_moved_universe isn't a null pointer.";
 
-  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+  EXPECT_EQ(universe_.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
+  EXPECT_EQ(universe_.geometry->three_one.size(), N3_31_before)
       << "(3,1) simplices changed.";
 
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22() - 1)
       << "MoveManager didn't add a (2,2) simplex.";
 
-  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
+  EXPECT_EQ(universe_.geometry->one_three.size(), N3_13_before)
       << "(1,3) simplices changed.";
 
   EXPECT_EQ(universe_.geometry->N1_TL(), timelike_edges_before + 1)
       << "Timelike edges did not increase by 1.";
 
-  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
-              Eq(spacelike_edges_before))
+  EXPECT_EQ(universe_.geometry->spacelike_edges.size(), spacelike_edges_before)
       << "Spacelike edges changed.";
 
-  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
-              Eq(vertices_before))
+  EXPECT_EQ(universe_.triangulation->number_of_vertices(), vertices_before)
       << "The number of vertices changed.";
 
   EXPECT_FALSE(universe_.triangulation == nullptr)
@@ -378,7 +374,7 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<0>(attempted_moves_) << std::endl;
 
-  EXPECT_THAT(std::get<0>(attempted_moves_), Gt(0))
+  EXPECT_GT(std::get<0>(attempted_moves_), 0)
       << "Move manager didn't return an attempted (2,3) move.";
 }
 
@@ -451,30 +447,28 @@ TEST_F(MoveManagerTest, MakeA32Move) {
   //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
   //      << "maybe_moved_universe isn't a null pointer.";
 
-  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+  EXPECT_EQ(universe_.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before))
+  EXPECT_EQ(universe_.geometry->three_one.size(), N3_31_before)
       << "(3,1) simplices changed.";
 
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22() + 1)
       << "MoveManager didn't remove a (2,2) simplex.";
 
-  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before))
+  EXPECT_EQ(universe_.geometry->one_three.size(), N3_13_before)
       << "(1,3) simplices changed.";
 
   EXPECT_EQ(universe_.geometry->N1_TL(), timelike_edges_before - 1)
       << "Timelike edges did not decrease by 1.";
 
-  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
-              Eq(spacelike_edges_before))
+  EXPECT_EQ(universe_.geometry->spacelike_edges.size(), spacelike_edges_before)
       << "Spacelike edges changed.";
 
-  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
-              Eq(vertices_before))
+  EXPECT_EQ(universe_.triangulation->number_of_vertices(), vertices_before)
       << "The number of vertices changed.";
 
   EXPECT_FALSE(universe_.triangulation == nullptr)
@@ -483,7 +477,7 @@ TEST_F(MoveManagerTest, MakeA32Move) {
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<1>(attempted_moves_) << std::endl;
 
-  EXPECT_THAT(std::get<1>(attempted_moves_), Gt(0))
+  EXPECT_GT(std::get<1>(attempted_moves_), 0)
       << "Move manager didn't return an attempted (3,2) move.";
 }
 
@@ -546,30 +540,29 @@ TEST_F(MoveManagerTest, MakeA26Move) {
   //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
   //      << "maybe_moved_universe isn't a null pointer.";
 
-  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+  EXPECT_EQ(universe_.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before + 2))
+  EXPECT_EQ(universe_.geometry->three_one.size(), N3_31_before + 2)
       << "(3,1) simplices did not increase by 2.";
 
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22())
       << "(2,2) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before + 2))
+  EXPECT_EQ(universe_.geometry->one_three.size(), N3_13_before + 2)
       << "(1,3) simplices did not increase by 2.";
 
   EXPECT_EQ(universe_.geometry->N1_TL(), timelike_edges_before + 2)
       << "Timelike edges did not increase by 2.";
 
-  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
-              Eq(spacelike_edges_before + 3))
+  EXPECT_EQ(universe_.geometry->spacelike_edges.size(),
+            spacelike_edges_before + 3)
       << "Spacelike edges did not increase by 3.";
 
-  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
-              Eq(vertices_before + 1))
+  EXPECT_EQ(universe_.triangulation->number_of_vertices(), vertices_before + 1)
       << "A vertex was not added to the triangulation.";
 
   EXPECT_FALSE(universe_.triangulation == nullptr)
@@ -578,7 +571,7 @@ TEST_F(MoveManagerTest, MakeA26Move) {
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<2>(attempted_moves_) << std::endl;
 
-  EXPECT_THAT(std::get<2>(attempted_moves_), Gt(0))
+  EXPECT_GT(std::get<2>(attempted_moves_), 0)
       << "Move manager didn't return an attempted (2,6) move.";
 }
 
@@ -641,30 +634,29 @@ TEST_F(MoveManagerTest, MakeA62Move) {
   //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
   //      << "maybe_moved_universe isn't a null pointer.";
 
-  EXPECT_THAT(universe_.triangulation->dimension(), Eq(3))
+  EXPECT_EQ(universe_.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
-  EXPECT_THAT(universe_.geometry->three_one.size(), Eq(N3_31_before - 2))
+  EXPECT_EQ(universe_.geometry->three_one.size(), N3_31_before - 2)
       << "(3,1) simplices did not decrease by 2.";
 
   EXPECT_TRUE(N3_22_before == universe_.geometry->N3_22())
       << "(2,2) simplices changed.";
 
-  EXPECT_THAT(universe_.geometry->one_three.size(), Eq(N3_13_before - 2))
+  EXPECT_EQ(universe_.geometry->one_three.size(), N3_13_before - 2)
       << "(1,3) simplices did not decrease by 2.";
 
   EXPECT_EQ(universe_.geometry->N1_TL(), timelike_edges_before - 2)
       << "Timelike edges did not decrease by 2.";
 
-  EXPECT_THAT(universe_.geometry->spacelike_edges.size(),
-              Eq(spacelike_edges_before - 3))
+  EXPECT_EQ(universe_.geometry->spacelike_edges.size(),
+            spacelike_edges_before - 3)
       << "Spacelike edges did not decrease by 3.";
 
-  EXPECT_THAT(universe_.triangulation->number_of_vertices(),
-              Eq(vertices_before - 1))
+  EXPECT_EQ(universe_.triangulation->number_of_vertices(), vertices_before - 1)
       << "The number of vertices did not decrease by 1.";
 
   EXPECT_FALSE(universe_.triangulation == nullptr)
@@ -673,6 +665,6 @@ TEST_F(MoveManagerTest, MakeA62Move) {
   std::cout << "MoveManagerTest member attempted_moves_ is "
             << std::get<3>(attempted_moves_) << std::endl;
 
-  EXPECT_THAT(std::get<3>(attempted_moves_), Gt(0))
+  EXPECT_GT(std::get<3>(attempted_moves_), 0)
       << "Move manager didn't return an attempted (2,6) move.";
 }

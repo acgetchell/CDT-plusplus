@@ -14,20 +14,21 @@
 /// @brief Outputs values to determine optimizations
 /// @author Adam Getchell
 
+#include <utility>
+
 #include "Measurements.h"
 #include "Metropolis.h"
 #include "Simulation.h"
-#include <utility>
 
 int main() {
   std::cout << "cdt-opt started at " << currentDateTime() << std::endl;
-  constexpr unsigned long long simplices  = 64000;  // NOLINT
-  constexpr unsigned long long timeslices = 13;    // NOLINT
-  constexpr long double        alpha      = 1.1;
-  constexpr long double        k          = 2.2;
-  constexpr long double        lambda     = 3.3;
-  constexpr unsigned long long passes     = 100;  // NOLINT
-  constexpr unsigned long long checkpoint = 10;   // NOLINT
+  constexpr uintmax_t   simplices  = 6400;
+  constexpr uintmax_t   timeslices = 7;
+  constexpr long double alpha      = 1.1;
+  constexpr long double k          = 2.2;
+  constexpr long double lambda     = 3.3;
+  constexpr uintmax_t   passes     = 100;
+  constexpr uintmax_t   checkpoint = 10;
 
   // Initialize simulation
   Simulation my_simulation;
