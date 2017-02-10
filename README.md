@@ -1,5 +1,6 @@
-CDT-plusplus [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+CDT-plusplus
 ============
+ [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=master)](https://travis-ci.org/acgetchell/CDT-plusplus)  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 **Quantize spacetime on your laptop.**
 
@@ -11,7 +12,7 @@ with [CMake][3] using [Clang][4]/[LLVM][5].
 Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
 Option-types via [Boost][47] >= 1.58.0.
 [Docopt][19] provides a beautiful command-line interface.
-[Gmock 1.7][6] may be optionally installed in order to build/run unit tests.
+[Gmock 1.8][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
 Intel's [TBB][37] provides significantly better performance if present (3x+).
 Follows (mostly) the [Google C++ Style Guide][7] as enforced by [clang-format][46], which
@@ -37,7 +38,7 @@ The goals and targets of this project are:
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
 - [x] [TBB][37] multithreading
-- [ ] Metropolis algorithm
+- [x] Metropolis algorithm
 - [ ] [HDF5][31] output
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
