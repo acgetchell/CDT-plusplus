@@ -25,7 +25,7 @@ bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1; }
 class MetropolisTest : public ::testing::Test {
  public:
   MetropolisTest()
-      : universe_{make_triangulation(640, 5)}
+      : universe_{make_triangulation(640, 4)}
       , attempted_moves_{}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->N3_22()}
@@ -106,53 +106,50 @@ TEST_F(MetropolisTest, Ctor) {
 
   EXPECT_EQ(testrun.Checkpoint(), output_every_n_passes)
       << "output_every_n_passes not correctly forwarded by ctor.";
+
+  EXPECT_EQ(testrun.TwoThreeMoves(), 0)
+      << "TwoThreeMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.SuccessfulTwoThreeMoves(), 0)
+      << "SuccessfulTwoThreeMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.ThreeTwoMoves(), 0)
+      << "ThreeTwoMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.SuccessfulThreeTwoMoves(), 0)
+      << "SuccessfulThreeTwoMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.TwoSixMoves(), 0) << "TwoSixMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.SuccessfulTwoSixMoves(), 0)
+      << "SuccessfulTwoSixMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.SixTwoMoves(), 0) << "SixTwoMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.SuccessfulSixTwoMoves(), 0)
+      << "SuccessfulSixTwoMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.FourFourMoves(), 0)
+      << "FourFourMoves not initialized to 0.";
+
+  EXPECT_EQ(testrun.SuccessfulFourFourMoves(), 0)
+      << "SuccessfulFourFourMoves not initialized to 0.";
 }
 
 // This test can take a long time
-TEST_F(MetropolisTest, DISABLED_Operator) {
+TEST_F(MetropolisTest, Operator) {
   // Instantiate Metropolis function object with desired parameters
-  Metropolis testrun(Alpha, K, Lambda, 1, 1);
+  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_));
 
-  std::cout << "MetropolisTest results:" << std::endl;
-  std::cout << "Current Timelike Edges = " << result.geometry->N1_TL()
-            << std::endl;
-  std::cout << "Current (3,1) + (1,3) simplices = " << result.geometry->N3_31()
-            << std::endl;
-  std::cout << "Current (2,2) simplices = " << result.geometry->N3_22()
-            << std::endl;
-  std::cout << "There were " << testrun.TwoThreeMoves()
-            << " attempted (2,3) moves and "
-            << testrun.SuccessfulTwoThreeMoves() << " successful (2,3) moves."
-            << std::endl;
-  std::cout << "There were " << testrun.ThreeTwoMoves()
-            << " attempted (3,2) moves and "
-            << testrun.SuccessfulThreeTwoMoves() << " successful (3,2) moves."
-            << std::endl;
-  std::cout << "There were " << testrun.TwoSixMoves()
-            << " attempted (2,6) moves and " << testrun.SuccessfulTwoSixMoves()
-            << " successful (2,6) moves." << std::endl;
-  std::cout << "There were " << testrun.SixTwoMoves()
-            << " attempted (6,2) moves and " << testrun.SuccessfulSixTwoMoves()
-            << " successful (6,2) moves." << std::endl;
+  EXPECT_TRUE(result.triangulation->tds().is_valid(true)) << "tds is invalid.";
 
-  EXPECT_EQ(result.geometry->N1_TL(), timelike_edges_before -
-                                          testrun.SuccessfulThreeTwoMoves() +
-                                          testrun.SuccessfulTwoThreeMoves() +
-                                          2 * testrun.SuccessfulTwoSixMoves() -
-                                          2 * testrun.SuccessfulSixTwoMoves())
-      << "Timelike edges not correctly counted during moves.";
+  EXPECT_EQ(result.triangulation->dimension(), 3)
+      << "Triangulation has wrong dimensionality.";
 
-  EXPECT_EQ(result.geometry->N3_22(), N3_22_before +
-                                          testrun.SuccessfulTwoThreeMoves() -
-                                          testrun.SuccessfulThreeTwoMoves())
-      << "(2,2) simplices not correctly counted during moves.";
-  //
-  EXPECT_EQ(result.geometry->N3_31(), N3_13_before + N3_31_before +
-                                          4 * testrun.SuccessfulTwoSixMoves() -
-                                          4 * testrun.SuccessfulSixTwoMoves())
-      << "(1,3) and (3,1) simplices not correctly counted during moves.";
+  EXPECT_TRUE(fix_timeslices(result.triangulation))
+      << "Some simplices do not span exactly 1 timeslice.";
 
   EXPECT_EQ(testrun.CurrentTotalSimplices(), result.geometry->number_of_cells())
       << "CurrentTotalSimplices() has an incorrect count.";
@@ -169,9 +166,34 @@ TEST_F(MetropolisTest, DISABLED_Operator) {
 
   //  EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
   //      << "No successful (4,4) moves.";
+
+  EXPECT_EQ(testrun.TwoThreeMoves() + testrun.ThreeTwoMoves() +
+                testrun.TwoSixMoves() + testrun.SixTwoMoves(),
+            testrun.TotalMoves())
+      << "Moves don't add up.";
+
+  EXPECT_EQ(result.geometry->N1_TL(), timelike_edges_before -
+                                          testrun.SuccessfulThreeTwoMoves() +
+                                          testrun.SuccessfulTwoThreeMoves() +
+                                          2 * testrun.SuccessfulTwoSixMoves() -
+                                          2 * testrun.SuccessfulSixTwoMoves())
+      << "Timelike edges not correctly counted during moves.";
+
+  EXPECT_EQ(result.triangulation->number_of_finite_edges(), result
+      .geometry->N1_TL() + result.geometry->spacelike_edges.size())
+      << "Spacelike + Timelike edges don't add up to number_of_finite_edges.";
+
+  EXPECT_EQ(result.geometry->N3_22(), N3_22_before +
+                                          testrun.SuccessfulTwoThreeMoves() -
+                                          testrun.SuccessfulThreeTwoMoves())
+      << "(2,2) simplices not correctly counted during moves.";
+
+  EXPECT_EQ(result.geometry->N3_31(), N3_13_before + N3_31_before +
+                                          4 * testrun.SuccessfulTwoSixMoves() -
+                                          4 * testrun.SuccessfulSixTwoMoves())
+      << "(1,3) and (3,1) simplices not correctly counted during moves.";
 }
 
-// \todo fix so it doesn't require the () operator
 TEST_F(MetropolisTest, CalculateA1) {
   // Instantiate Metropolis functor with passes and checkpoints = 1
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
@@ -220,7 +242,6 @@ TEST_F(MetropolisTest, CalculateA1) {
       << "Moves don't add up.";
 }
 
-// \todo fix so it doesn't require the () operator
 TEST_F(MetropolisTest, CalculateA2) {
   // Instantiate Metropolis functor with passes and checkpoints = 1
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
@@ -256,55 +277,4 @@ TEST_F(MetropolisTest, CalculateA2) {
                 testrun.TwoSixMoves() + testrun.SixTwoMoves(),
             testrun.TotalMoves())
       << "Moves don't add up.";
-}
-
-// This test can take a long time
-TEST_F(MetropolisTest, DISABLED_RunSimulation) {
-  // Instantiate Metropolis functor with desired parameters
-  Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
-  // Run simulation using operator() and return result
-  auto result = std::move(testrun(universe_));
-
-  std::cout << "Total moves: " << testrun.TotalMoves() << std::endl;
-
-  EXPECT_GE(testrun.TotalMoves(), 1) << "No moves were recorded.";
-
-  EXPECT_GE(testrun.TwoThreeMoves(), 1) << "No (2,3) moves were attempted.";
-
-  EXPECT_GE(testrun.ThreeTwoMoves(), 1) << "No (3,2) moves were attempted.";
-
-  EXPECT_GE(testrun.TwoSixMoves(), 1) << "No (2,6) moves were attempted.";
-
-  EXPECT_GE(testrun.SixTwoMoves(), 1) << "No (6,2) moves were attempted.";
-
-  //  EXPECT_GE(testrun.FourFourMoves(), 1) << "No (4,4) moves were attempted.";
-
-  EXPECT_TRUE(result.triangulation->tds().is_valid(true)) << "tds is invalid.";
-
-  EXPECT_EQ(result.triangulation->dimension(), 3)
-      << "Triangulation has wrong dimensionality.";
-
-  EXPECT_TRUE(fix_timeslices(result.triangulation))
-      << "Some simplices do not span exactly 1 timeslice.";
-
-  EXPECT_NE(vertices_before, result.geometry->vertices.size())
-      << "Vertices didn't change.";
-
-  EXPECT_NE(timelike_edges_before, result.geometry->N1_TL())
-      << "Timelike edges didn't change.";
-
-  EXPECT_NE(spacelike_edges_before, result.geometry->spacelike_edges.size())
-      << "Spacelike edges didn't change.";
-
-  EXPECT_NE(N3_31_before, result.geometry->three_one.size())
-      << "(3,1) simplices didn't change.";
-
-  EXPECT_NE(N3_22_before, result.geometry->N3_22())
-      << "(2,2) simplices didn't change.";
-
-  EXPECT_NE(N3_13_before, result.geometry->one_three.size())
-      << "(1,3) simplices didn't change.";
-
-  EXPECT_TRUE(result.triangulation->tds().is_valid())
-      << "Triangulation is invalid.";
 }

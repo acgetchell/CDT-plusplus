@@ -61,7 +61,8 @@ class MoveManager {
   /// @param move A function_ref to the move being performed
   /// @return The results of move on universe_
   auto operator()(
-      function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move) {
+      function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+          move) {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
@@ -78,9 +79,11 @@ class MoveManager {
     }
 
     catch (...) {
+#ifndef NDEBUG
       std::cerr << "Caught move error!" << std::endl;
+#endif
     }
-
+//    std::cout << "Made valid move." << std::endl;
     return universe_;
   }
 };

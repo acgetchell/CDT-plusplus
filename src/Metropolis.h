@@ -44,7 +44,7 @@
 #include <algorithm>
 //#include <tuple>
 #include <type_traits>
-//#include <utility>
+#include <utility>
 #include <vector>
 //#include <atomic>
 
@@ -62,8 +62,7 @@ enum class move_type {
 
 /// @brief Convert enum class to its underlying type
 ///
-/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
-/// // NOLINT
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type // NOLINT
 /// @tparam E Enum class type
 /// @param e Enum class
 /// @return Integral type of enum member
@@ -161,18 +160,18 @@ class Metropolis {
   auto Checkpoint() const noexcept { return checkpoint_; }
 
   /// @brief Gets attempted (2,3) moves.
-  /// @return attempted_moves_
-  auto TwoThreeMoves() const noexcept { return std::get<0>(attempted_moves_); }
+  /// @return attempted_moves_[0]
+  auto TwoThreeMoves() const noexcept { return attempted_moves_[0]; }
 
   /// @brief Gets successful (2,3) moves.
-  /// @return std::get<0>(successful_moves_)
+  /// @return successful_moves_[0]
   auto SuccessfulTwoThreeMoves() const noexcept {
     return successful_moves_[0].load();
   }
 
   /// @brief Gets attempted (3,2) moves.
-  /// @return std::get<1>(attempted_moves_)
-  auto ThreeTwoMoves() const noexcept { return std::get<1>(attempted_moves_); }
+  /// @return attempted_moves_[1]
+  auto ThreeTwoMoves() const noexcept { return attempted_moves_[1]; }
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
@@ -181,8 +180,8 @@ class Metropolis {
   }
 
   /// @brief Gets attempted (2,6) moves.
-  /// @return return std::get<2>(attempted_moves_)
-  auto TwoSixMoves() const noexcept { return std::get<2>(attempted_moves_); }
+  /// @return return attempted_moves_[2]
+  auto TwoSixMoves() const noexcept { return attempted_moves_[2]; }
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
@@ -191,8 +190,8 @@ class Metropolis {
   }
 
   /// @brief Gets attempted (6,2) moves.
-  /// @return return std::get<3>(attempted_moves_)
-  auto SixTwoMoves() const noexcept { return std::get<3>(attempted_moves_); }
+  /// @return return attempted_moves_[3]
+  auto SixTwoMoves() const noexcept { return attempted_moves_[3]; }
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
@@ -201,8 +200,8 @@ class Metropolis {
   }
 
   /// @brief Gets attempted (4,4) moves.
-  /// @return std::get<4>(attempted_moves_)
-  auto FourFourMoves() const noexcept { return std::get<4>(attempted_moves_); }
+  /// @return attempted_moves_[4]
+  auto FourFourMoves() const noexcept { return attempted_moves_[4]; }
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
