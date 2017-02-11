@@ -18,7 +18,10 @@ if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-3.9" CC="clang-3.9"; fi
 
 # Install other needed libraries
 #sudo apt-get install -qq libboost-all-dev
-sudo apt-get install -qq boost1.58
+#sudo apt-get install -qq boost1.58
+sudo apt-get install -qq libboost1.58-dev
+sudo apt-get install -qq libboost-system1.58-dev
+sudo apt-get install -qq libboost-thread1.58-dev
 sudo apt-get install -qq libmpfr-dev
 sudo apt-get install -qq libgmp3-dev
 sudo apt-get install -qq cmake
