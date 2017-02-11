@@ -2,15 +2,14 @@
 
 if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test; fi
 
-if [ "$CXX" == "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; sudo apt-add-repository "deb http://apt.llvm.org/trusty/ llvm-toolchain-trusty-3
-.9 main"; fi
+if [ "$CXX" == "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; sudo apt-add-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.9 main"; fi
 
 sudo apt-get update -qq
 
 # Install gcc 6
 if [[ "$CXX" = "g++" ]]; then sudo apt-get install -qq g++-6; fi
 if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
-# Install clang 3.8
+# Install clang 3.9
 if [[ "$CXX" == "clang++" ]]; then sudo apt-get install --allow-unauthenticated -qq clang-3.9 lldb-3.9 libc++; fi
 
 if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-3.9" CC="clang-3.9"; fi
