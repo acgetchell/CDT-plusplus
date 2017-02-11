@@ -35,10 +35,10 @@
 // #include <CGAL/Mpzf.h>
 
 // CDT headers
+#include "Measurements.h"
 #include "MoveManager.h"
 #include "S3Action.h"
 #include "S3ErgodicMoves.h"
-#include "Measurements.h"
 
 // C++ headers
 #include <algorithm>
@@ -62,7 +62,8 @@ enum class move_type {
 
 /// @brief Convert enum class to its underlying type
 ///
-/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type  // NOLINT
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
+/// // NOLINT
 /// @tparam E Enum class type
 /// @param e Enum class
 /// @return Integral type of enum member
@@ -110,10 +111,9 @@ class Metropolis {
   std::uintmax_t checkpoint_{10};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-//  Move_tracker attempted_moves_{0, 0, 0, 0, 0};
-Move_tracker attempted_moves_{};
+  Move_tracker attempted_moves_{};
+
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  //  Move_tracker successful_moves_{0, 0, 0, 0, 0};
   std::array<std::atomic_uintmax_t, 5> successful_moves_{};
 
  public:
@@ -166,8 +166,9 @@ Move_tracker attempted_moves_{};
 
   /// @brief Gets successful (2,3) moves.
   /// @return std::get<0>(successful_moves_)
-  auto SuccessfulTwoThreeMoves() const noexcept { return successful_moves_[0]
-        .load(); }
+  auto SuccessfulTwoThreeMoves() const noexcept {
+    return successful_moves_[0].load();
+  }
 
   /// @brief Gets attempted (3,2) moves.
   /// @return std::get<1>(attempted_moves_)
@@ -175,8 +176,9 @@ Move_tracker attempted_moves_{};
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
-  auto SuccessfulThreeTwoMoves() const noexcept { return successful_moves_[1]
-        .load(); }
+  auto SuccessfulThreeTwoMoves() const noexcept {
+    return successful_moves_[1].load();
+  }
 
   /// @brief Gets attempted (2,6) moves.
   /// @return return std::get<2>(attempted_moves_)
@@ -184,8 +186,9 @@ Move_tracker attempted_moves_{};
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
-  auto SuccessfulTwoSixMoves() const noexcept { return successful_moves_[2]
-        .load(); }
+  auto SuccessfulTwoSixMoves() const noexcept {
+    return successful_moves_[2].load();
+  }
 
   /// @brief Gets attempted (6,2) moves.
   /// @return return std::get<3>(attempted_moves_)
@@ -193,8 +196,9 @@ Move_tracker attempted_moves_{};
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
-  auto SuccessfulSixTwoMoves() const noexcept { return successful_moves_[3]
-        .load(); }
+  auto SuccessfulSixTwoMoves() const noexcept {
+    return successful_moves_[3].load();
+  }
 
   /// @brief Gets attempted (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
@@ -202,8 +206,9 @@ Move_tracker attempted_moves_{};
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
-  auto SuccessfulFourFourMoves() const noexcept { return successful_moves_[4]
-        .load(); }
+  auto SuccessfulFourFourMoves() const noexcept {
+    return successful_moves_[4].load();
+  }
 
   /// @brief Gets the total number of attempted moves.
   /// @return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves()
@@ -225,24 +230,7 @@ Move_tracker attempted_moves_{};
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(const move_type move) const noexcept {
     auto total_moves = this->TotalMoves();
-    auto this_move   = 0;
-    switch (move) {
-      case move_type::TWO_THREE:
-        this_move = std::get<0>(attempted_moves_);
-        break;
-      case move_type::THREE_TWO:
-        this_move = std::get<1>(attempted_moves_);
-        break;
-      case move_type::TWO_SIX:
-        this_move = std::get<2>(attempted_moves_);
-        break;
-      case move_type::SIX_TWO:
-        this_move = std::get<3>(attempted_moves_);
-        break;
-      case move_type::FOUR_FOUR:
-        this_move = std::get<4>(attempted_moves_);
-        break;
-    }
+    auto this_move   = attempted_moves_[to_integral(move)];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
@@ -403,22 +391,22 @@ Move_tracker attempted_moves_{};
     // Setup moves
     auto move_23_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_23_move(std::move(manifold), attempted_moves);
     };
     auto move_32_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_32_move(std::move(manifold), attempted_moves);
     };
     auto move_26_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_26_move(std::move(manifold), attempted_moves);
     };
     auto move_62_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&        attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_62_move(std::move(manifold), attempted_moves);
     };
 
@@ -451,7 +439,6 @@ Move_tracker attempted_moves_{};
     if (maybe_moved_universe) {
       swap(universe_, maybe_moved_universe.get());
       swap(attempted_moves_, this_move.attempted_moves_.get());
-      //          ++std::get<1>(successful_moves_);
       ++successful_moves_[to_integral(move)];
     }
 
@@ -492,33 +479,13 @@ Move_tracker attempted_moves_{};
     } else {
       // Move rejected
       // Increment attempted_moves_
-      // Too bad the following doesn't work because std::get wants a constexpr
-      // ++std::get<static_cast<size_t>(move)>(attempted_moves);
-      // Instead, need to use a switch statement
-      switch (move) {
-        case move_type::TWO_THREE:
-          ++std::get<0>(attempted_moves_);
-          break;
-        case move_type::THREE_TWO:
-          ++std::get<1>(attempted_moves_);
-          break;
-        case move_type::TWO_SIX:
-          ++std::get<2>(attempted_moves_);
-          break;
-        case move_type::SIX_TWO:
-          ++std::get<3>(attempted_moves_);
-          break;
-        case move_type::FOUR_FOUR:
-          ++std::get<4>(attempted_moves_);
-          break;
-      }
+      ++attempted_moves_[to_integral(move)];
     }
 
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     std::cout << "Attempting move." << std::endl;
-    std::cout << "Move type = " << static_cast<std::uintmax_t>(move)
-              << std::endl;
+    std::cout << "Move type = " << to_integral(move) << std::endl;
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
     std::cout << "A2 = " << a2 << std::endl;

@@ -95,7 +95,7 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
 
     // Increment the (2,3) move counter
-    ++std::get<0>(attempted_moves);
+    ++attempted_moves[0];
   }
   // Uses return value optimization and allows chaining function calls
   return std::move(universe);
@@ -158,7 +158,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
     }
     // Increment the (3,2) move counter
-    ++std::get<1>(attempted_moves);
+    ++attempted_moves[1];
   }
   // Uses return value optimization and allows chaining function calls
   return std::move(universe);
@@ -366,7 +366,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
     }
     // Increment the (2,6) move counter
-    ++std::get<2>(attempted_moves);
+    ++attempted_moves[2];
   }
   return std::move(universe);
 }  // make_26_move()
@@ -440,7 +440,8 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     }
     tds_vertices.erase(tds_vertices.begin() + choice);  // O(|V|) bottleneck
     tds_vertices_size--;
-    ++std::get<3>(attempted_moves);
+    // Increment the (6,2) move counter
+    ++attempted_moves[3];
   }
 
   if (tds_vertices_size == 0) {
@@ -479,7 +480,8 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   if (movable_spacelike_edges.size() == 0) {
     throw std::domain_error("No (4,4) move is possible.");
   }
-  ++std::get<4>(attempted_moves);
+  // Increment the (4,4) move counter
+  ++attempted_moves[4];
   return std::move(universe);
 }  // make_44_move()
 
