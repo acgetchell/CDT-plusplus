@@ -26,7 +26,7 @@ class MetropolisTest : public ::testing::Test {
  public:
   MetropolisTest()
       : universe_{make_triangulation(640, 5)}
-      , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
+      , attempted_moves_{}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->N3_22()}
       , N3_13_before{universe_.geometry->one_three.size()}

@@ -42,11 +42,11 @@
 
 // C++ headers
 #include <algorithm>
-#include <tuple>
+//#include <tuple>
 #include <type_traits>
-#include <utility>
+//#include <utility>
 #include <vector>
-#include <atomic>
+//#include <atomic>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -110,8 +110,8 @@ class Metropolis {
   std::uintmax_t checkpoint_{10};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tracker attempted_moves_{0, 0, 0, 0, 0};
-
+//  Move_tracker attempted_moves_{0, 0, 0, 0, 0};
+Move_tracker attempted_moves_{};
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   //  Move_tracker successful_moves_{0, 0, 0, 0, 0};
   std::array<std::atomic_uintmax_t, 5> successful_moves_{};

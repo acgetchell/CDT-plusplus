@@ -26,7 +26,7 @@ class S3ActionTest : public ::testing::Test {
  protected:
   S3ActionTest()
       : universe_{make_triangulation(6400, 7)}
-      , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
+      , attempted_moves_{}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
       , N3_13_before{universe_.geometry->one_three.size()}

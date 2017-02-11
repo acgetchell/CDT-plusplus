@@ -21,7 +21,7 @@ class MoveManagerTest : public ::testing::Test {
  public:
   MoveManagerTest()
       : universe_{make_triangulation(64000, 13)}
-      , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
+      , attempted_moves_{}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->N3_22()}
       , N3_13_before{universe_.geometry->one_three.size()}
@@ -259,19 +259,19 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
   EXPECT_TRUE(maybe_move_count)
       << "boost::optional copy of attempted_moves_ not made.";
 
-  EXPECT_TRUE(std::get<0>(maybe_move_count.get()) == 0)
+  EXPECT_TRUE(maybe_move_count.get()[0] == 0)
       << "attempted_moves_ (2,3) move count wrong.";
 
-  EXPECT_TRUE(std::get<1>(maybe_move_count.get()) == 0)
+  EXPECT_TRUE(maybe_move_count.get()[1] == 0)
       << "attempted_moves_ (3,2) move count wrong.";
 
-  EXPECT_TRUE(std::get<2>(maybe_move_count.get()) == 0)
+  EXPECT_TRUE(maybe_move_count.get()[2] == 0)
       << "attempted_moves_ (2,6) move count wrong.";
 
-  EXPECT_TRUE(std::get<3>(maybe_move_count.get()) == 0)
+  EXPECT_TRUE(maybe_move_count.get()[3] == 0)
       << "attempted_moves_ (6,2) move count wrong.";
 
-  EXPECT_TRUE(std::get<4>(maybe_move_count.get()) == 0)
+  EXPECT_TRUE(maybe_move_count.get()[4] == 0)
       << "attempted_moves_ (4,4) move count wrong.";
 }
 
@@ -279,19 +279,19 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
-  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[0] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[1] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[2] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[3] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[4] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
   // Make working copies
@@ -303,8 +303,9 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_23(
@@ -372,9 +373,9 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << std::get<0>(attempted_moves_) << std::endl;
+            << attempted_moves_[0] << std::endl;
 
-  EXPECT_GT(std::get<0>(attempted_moves_), 0)
+  EXPECT_GT(attempted_moves_[0], 0)
       << "Move manager didn't return an attempted (2,3) move.";
 }
 
@@ -382,19 +383,19 @@ TEST_F(MoveManagerTest, MakeA32Move) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
-  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[0] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[1] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[2] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[3] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[4] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
   // Make working copies
@@ -406,8 +407,9 @@ TEST_F(MoveManagerTest, MakeA32Move) {
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_32_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_32_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_32_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_32(
@@ -475,9 +477,9 @@ TEST_F(MoveManagerTest, MakeA32Move) {
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << std::get<1>(attempted_moves_) << std::endl;
+            << attempted_moves_[1] << std::endl;
 
-  EXPECT_GT(std::get<1>(attempted_moves_), 0)
+  EXPECT_GT(attempted_moves_[1], 0)
       << "Move manager didn't return an attempted (3,2) move.";
 }
 
@@ -485,19 +487,19 @@ TEST_F(MoveManagerTest, MakeA26Move) {
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
-  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[0] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[1] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[2] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[3] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[4] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
   // Make working copies
@@ -509,8 +511,9 @@ TEST_F(MoveManagerTest, MakeA26Move) {
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_26_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_26_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_26_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_26(
@@ -569,29 +572,26 @@ TEST_F(MoveManagerTest, MakeA26Move) {
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << std::get<2>(attempted_moves_) << std::endl;
+            << attempted_moves_[2] << std::endl;
 
-  EXPECT_GT(std::get<2>(attempted_moves_), 0)
+  EXPECT_GT(attempted_moves_[2], 0)
       << "Move manager didn't return an attempted (2,6) move.";
 }
 
 TEST_F(MoveManagerTest, MakeA62Move) {
-  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
-      << "MoveManagerTest constructed member universe_ is invalid.";
-
-  EXPECT_TRUE(std::get<0>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[0] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<1>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[1] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<2>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[2] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<3>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[3] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
-  EXPECT_TRUE(std::get<4>(attempted_moves_) == 0)
+  EXPECT_TRUE(attempted_moves_[4] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
   // Make working copies
@@ -603,8 +603,9 @@ TEST_F(MoveManagerTest, MakeA62Move) {
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_62_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_62_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_62_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_62(
@@ -663,8 +664,8 @@ TEST_F(MoveManagerTest, MakeA62Move) {
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << std::get<3>(attempted_moves_) << std::endl;
+            << attempted_moves_[3] << std::endl;
 
-  EXPECT_GT(std::get<3>(attempted_moves_), 0)
+  EXPECT_GT(attempted_moves_[3], 0)
       << "Move manager didn't return an attempted (2,6) move.";
 }

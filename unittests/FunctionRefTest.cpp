@@ -37,7 +37,7 @@ TEST(FunctionRefTest, SimpleLambdaWithFunctionRef) {
 
 TEST(FunctionRefTest, DISABLED_ComplexLambda) {
   SimplicialManifold test_universe(6400, 13);
-  Move_tracker         moves(std::make_tuple(0, 0, 0, 0, 0));
+  Move_tracker       moves{};
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "Initial tds invalid.";
@@ -52,8 +52,9 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda) {
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
-  auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
 
@@ -86,13 +87,12 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda) {
   EXPECT_EQ(test_universe.geometry->vertices.size(), vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_THAT(std::get<0>(moves), Gt(0)) << std::get<0>(moves)
-                                         << " attempted (2,3) moves.";
+  EXPECT_THAT(moves[0], Gt(0)) << moves[0] << " attempted (2,3) moves.";
 }
 
 TEST(FunctionRefTest, ComplexFunctionRef) {
-  SimplicialManifold test_universe(6400, 13);
-  Move_tracker         moves(std::make_tuple(0, 0, 0, 0, 0));
+  SimplicialManifold test_universe(6400, 7);
+  Move_tracker       moves{};
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "Initial tds invalid.";
@@ -106,15 +106,16 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
-  auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> complex_ref(
-      move_23_lambda);
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+      complex_ref(move_23_lambda);
 
   test_universe = complex_ref(test_universe, moves);
-  std::cout << "Attempted (2,3) moves = " << std::get<0>(moves) << std::endl;
+  std::cout << "Attempted (2,3) moves = " << moves[0] << std::endl;
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "tds invalid after move.";
@@ -139,13 +140,12 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
   EXPECT_EQ(test_universe.geometry->vertices.size(), vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_THAT(std::get<0>(moves), Gt(0)) << std::get<0>(moves)
-                                         << " attempted (2,3) moves.";
+  EXPECT_THAT(moves[0], Gt(0)) << moves[0] << " attempted (2,3) moves.";
 }
 
 TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
-  SimplicialManifold test_universe(6400, 13);
-  Move_tracker         moves(std::make_tuple(0, 0, 0, 0, 0));
+  SimplicialManifold test_universe(6400, 7);
+  Move_tracker       moves{};
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "Initial tds invalid.";
@@ -164,18 +164,19 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
   Optional_SM maybe_moved_universe{test_universe};
   auto        maybe_move_count = boost::make_optional(true, moves);
 
-  auto move_23_lambda = [](SimplicialManifold manifold,
-                           Move_tracker& attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda = [](
+      SimplicialManifold manifold,
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> complex_ref(
-      move_23_lambda);
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+      complex_ref(move_23_lambda);
 
   maybe_moved_universe =
       complex_ref(maybe_moved_universe.get(), maybe_move_count.get());
 
   //  test_universe = complex_ref(test_universe, moves);
-  std::cout << "Attempted (2,3) moves = " << std::get<0>(maybe_move_count.get())
+  std::cout << "Attempted (2,3) moves = " << maybe_move_count.get()[0]
             << std::endl;
 
   EXPECT_TRUE(maybe_moved_universe)
@@ -205,6 +206,6 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
             vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_THAT(std::get<0>(maybe_move_count.get()), Gt(0))
-      << std::get<0>(maybe_move_count.get()) << " attempted (2,3) moves.";
+  EXPECT_THAT(maybe_move_count.get()[0], Gt(0)) << maybe_move_count.get()[0]
+                                                << " attempted (2,3) moves.";
 }

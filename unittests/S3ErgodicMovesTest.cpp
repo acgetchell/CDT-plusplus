@@ -23,7 +23,7 @@ class S3ErgodicMoveTest : public ::testing::Test {
  public:
   S3ErgodicMoveTest()
       : universe_{make_triangulation(64000, 13)}
-      , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
+      , attempted_moves_{}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
       , N3_13_before{universe_.geometry->one_three.size()}
@@ -70,8 +70,7 @@ class S3ErgodicMoveTest : public ::testing::Test {
 
 TEST_F(S3ErgodicMoveTest, MakeA23Move) {
   universe_ = make_23_move(std::move(universe_), attempted_moves_);
-  std::cout << "Attempted (2,3) moves = " << std::get<0>(attempted_moves_)
-            << std::endl;
+  std::cout << "Attempted (2,3) moves = " << attempted_moves_[0] << std::endl;
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
@@ -102,14 +101,13 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move) {
   EXPECT_EQ(universe_.triangulation->number_of_vertices(), vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_GT(std::get<0>(attempted_moves_), 0) << std::get<0>(attempted_moves_)
-                                              << " attempted (2,3) moves.";
+  EXPECT_GT(attempted_moves_[0], 0) << attempted_moves_[0]
+                                    << " attempted (2,3) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA32Move) {
   universe_ = std::move(make_32_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (3,2) moves = " << std::get<1>(attempted_moves_)
-            << std::endl;
+  std::cout << "Attempted (3,2) moves = " << attempted_moves_[1] << std::endl;
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
@@ -140,14 +138,13 @@ TEST_F(S3ErgodicMoveTest, MakeA32Move) {
   EXPECT_EQ(universe_.triangulation->number_of_vertices(), vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_GT(std::get<1>(attempted_moves_), 0) << std::get<1>(attempted_moves_)
-                                              << " attempted (3,2) moves.";
+  EXPECT_GT(attempted_moves_[1], 0) << attempted_moves_[1]
+                                    << " attempted (3,2) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA26Move) {
   universe_ = std::move(make_26_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (2,6) moves = " << std::get<2>(attempted_moves_)
-            << std::endl;
+  std::cout << "Attempted (2,6) moves = " << attempted_moves_[2] << std::endl;
 
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "Triangulation is invalid.";
@@ -178,14 +175,13 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move) {
   EXPECT_EQ(universe_.geometry->vertices.size(), vertices_before + 1)
       << "A vertex was not added to the triangulation.";
 
-  EXPECT_GT(std::get<2>(attempted_moves_), 0) << std::get<2>(attempted_moves_)
-                                              << " attempted (2,6) moves.";
+  EXPECT_GT(attempted_moves_[2], 0) << attempted_moves_[2]
+                                    << " attempted (2,6) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, MakeA62Move) {
   universe_ = std::move(make_62_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (6,2) moves = " << std::get<3>(attempted_moves_)
-            << std::endl;
+  std::cout << "Attempted (6,2) moves = " << attempted_moves_[3] << std::endl;
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
@@ -216,8 +212,8 @@ TEST_F(S3ErgodicMoveTest, MakeA62Move) {
   EXPECT_EQ(universe_.geometry->vertices.size(), vertices_before - 1)
       << "The number of vertices did not decrease by 1.";
 
-  EXPECT_GT(std::get<3>(attempted_moves_), 0) << std::get<3>(attempted_moves_)
-                                              << " attempted (6,2) moves.";
+  EXPECT_GT(attempted_moves_[3], 0) << attempted_moves_[3]
+                                    << " attempted (6,2) moves.";
 }
 
 TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move) {
@@ -225,8 +221,7 @@ TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move) {
   auto old_edges = universe_.geometry->spacelike_edges;
   // Now make the move
   universe_ = std::move(make_44_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (4,4) moves = " << std::get<3>(attempted_moves_)
-            << std::endl;
+  std::cout << "Attempted (4,4) moves = " << attempted_moves_[4] << std::endl;
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
@@ -262,6 +257,6 @@ TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move) {
   EXPECT_EQ(universe_.geometry->vertices.size(), vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_GT(std::get<4>(attempted_moves_), 0) << std::get<4>(attempted_moves_)
-                                              << " attempted (4,4) moves.";
+  EXPECT_GT(attempted_moves_[4], 0) << attempted_moves_[4]
+                                    << " attempted (4,4) moves.";
 }

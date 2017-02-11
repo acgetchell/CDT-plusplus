@@ -96,8 +96,7 @@ using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
                std::vector<Cell_handle>, std::vector<Edge_handle>,
                std::vector<Edge_handle>, std::vector<Vertex_handle>>;
-using Move_tracker = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
-                              std::uintmax_t, std::uintmax_t>;
+using Move_tracker = std::array<uintmax_t, 5>;
 
 /// The maximum number of passes to fix invalidly foliated simplices
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
