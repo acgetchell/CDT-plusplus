@@ -4,6 +4,8 @@ if [ "$CXX" == "g++" ]; then sudo add-apt-repository -y ppa:ubuntu-toolchain-r/t
 
 if [ "$CXX" == "clang++" ]; then wget -O - http://llvm.org/apt/llvm-snapshot.gpg.key | sudo apt-key add -; sudo apt-add-repository "deb http://llvm.org/apt/trusty/ llvm-toolchain-trusty-3.9 main"; fi
 
+# Obtain source for Boost 1.58.0
+sudo add-apt-repository -y ppa:kzemek/boost
 sudo apt-get update -qq
 
 # Install gcc 6
@@ -15,6 +17,8 @@ if [[ "$CXX" == "clang++" ]]; then sudo apt-get install --allow-unauthenticated 
 if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-3.9" CC="clang-3.9"; fi
 
 # Install other needed libraries
+#sudo apt-get install -qq libboost-all-dev
+#sudo apt-get install -qq boost1.58
 sudo apt-get install -qq libboost1.58-dev
 sudo apt-get install -qq libboost-system1.58-dev
 sudo apt-get install -qq libboost-thread1.58-dev
