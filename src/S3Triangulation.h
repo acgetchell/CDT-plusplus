@@ -98,6 +98,14 @@ using Geometry_tuple =
                std::vector<Edge_handle>, std::vector<Vertex_handle>>;
 using Move_tracker = std::array<uintmax_t, 5>;
 
+enum class move_type {
+  TWO_THREE = 0,
+  THREE_TWO = 1,
+  TWO_SIX   = 2,
+  SIX_TWO   = 3,
+  FOUR_FOUR = 4
+};
+
 /// The maximum number of passes to fix invalidly foliated simplices
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
 

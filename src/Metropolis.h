@@ -46,19 +46,11 @@
 #include <type_traits>
 #include <utility>
 #include <vector>
-//#include <atomic>
+#include <atomic>
 
 using Gmpzf = CGAL::Gmpzf;
 
 extern const std::uintmax_t PRECISION;
-
-enum class move_type {
-  TWO_THREE = 0,
-  THREE_TWO = 1,
-  TWO_SIX   = 2,
-  SIX_TWO   = 3,
-  FOUR_FOUR = 4
-};
 
 /// @brief Convert enum class to its underlying type
 ///
