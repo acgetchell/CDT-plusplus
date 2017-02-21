@@ -143,7 +143,7 @@ TEST_F(MetropolisTest, Operator) {
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_));
 
-  EXPECT_TRUE(result.triangulation->tds().is_valid(true)) << "tds is invalid.";
+  EXPECT_TRUE(result.triangulation->tds().is_valid()) << "tds is invalid.";
 
   EXPECT_EQ(result.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";

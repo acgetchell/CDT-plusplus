@@ -315,11 +315,10 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   maybe_moved_universe = this_move.operator()(move_23);
 
   // Check that option type has data and move SimplicialManifold if so
-  if (maybe_moved_universe) {
-    //    universe_ = std::move(maybe_moved_universe.get());
-    // Exception-safe
-    swap(universe_, maybe_moved_universe.get());
-  }
+  ASSERT_TRUE(maybe_moved_universe) << "Move invalid.";
+
+  // Exception-safe swap to retrieve moved universe
+  swap(universe_, maybe_moved_universe.get());
 
   // Retrieve move results
   //  attempted_moves_ = this_move.attempted_moves_.get();
@@ -332,13 +331,13 @@ TEST_F(MoveManagerTest, MakeA23Move) {
             << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
             << std::endl;
 
-  std::cout << "universe_ has " << universe_.geometry->N3_22()
-            << " (2,2) cells." << std::endl;
-
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
 
-  EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
+  std::cout << "universe_ has " << universe_.geometry->N3_22()
+            << " (2,2) cells." << std::endl;
+
+  EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManager's returned universe_.triangulation invalid";
 
   // maybe_moved_universe should have been destructed
@@ -419,14 +418,12 @@ TEST_F(MoveManagerTest, MakeA32Move) {
   maybe_moved_universe = this_move.operator()(move_32);
 
   // Check that option type has data and move SimplicialManifold if so
-  if (maybe_moved_universe) {
-    //    universe_ = std::move(maybe_moved_universe.get());
-    // Exception-safe
-    swap(universe_, maybe_moved_universe.get());
-  }
+  ASSERT_TRUE(maybe_moved_universe) << "Move invalid.";
+
+  // Exception-safe swap to retrieve moved universe
+  swap(universe_, maybe_moved_universe.get());
 
   // Retrieve move results
-  //  attempted_moves_ = this_move.attempted_moves_.get();
   swap(attempted_moves_, this_move.attempted_moves_.get());
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
@@ -436,11 +433,11 @@ TEST_F(MoveManagerTest, MakeA32Move) {
             << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
             << std::endl;
 
-  std::cout << "universe_ has " << universe_.geometry->N3_22()
-            << " (2,2) cells." << std::endl;
-
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
+
+  std::cout << "universe_ has " << universe_.geometry->N3_22()
+            << " (2,2) cells." << std::endl;
 
   EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
       << "MoveManager's returned universe_.triangulation invalid";
@@ -523,11 +520,10 @@ TEST_F(MoveManagerTest, MakeA26Move) {
   maybe_moved_universe = this_move.operator()(move_26);
 
   // Check that option type has data and move SimplicialManifold if so
-  if (maybe_moved_universe) {
-    //    universe_ = std::move(maybe_moved_universe.get());
-    // Exception-safe
-    swap(universe_, maybe_moved_universe.get());
-  }
+  ASSERT_TRUE(maybe_moved_universe) << "Move invalid.";
+
+  // Exception-safe swap to retrieve moved universe
+  swap(universe_, maybe_moved_universe.get());
 
   // Retrieve move results
   //  attempted_moves_ = this_move.attempted_moves_.get();
@@ -615,11 +611,10 @@ TEST_F(MoveManagerTest, MakeA62Move) {
   maybe_moved_universe = this_move.operator()(move_62);
 
   // Check that option type has data and move SimplicialManifold if so
-  if (maybe_moved_universe) {
-    //    universe_ = std::move(maybe_moved_universe.get());
-    // Exception-safe
-    swap(universe_, maybe_moved_universe.get());
-  }
+  ASSERT_TRUE(maybe_moved_universe) << "Move invalid.";
+
+  // Exception-safe swap to retrieve moved universe
+  swap(universe_, maybe_moved_universe.get());
 
   // Retrieve move results
   //  attempted_moves_ = this_move.attempted_moves_.get();

@@ -27,6 +27,8 @@
 #include "Function_ref.h"
 #include "SimplicialManifold.h"
 
+using move_invariants = std::array<std::uintmax_t, 6>;
+
 /// @class MoveManager
 /// @brief RAII Function object to handle moves
 /// @tparam T1 SimplicialManifold type
@@ -37,10 +39,10 @@ class MoveManager {
   /// @brief An option type SimplicialManifold
   T1 universe_;
 
-  boost::optional<SimplicialManifold> universe_pre_move{universe_.get()};
-
   /// @brief An option type move counter
   T2 attempted_moves_;
+
+  move_invariants check;
 
   /// @brief Perfect forwarding constructor initializer
   ///
@@ -68,24 +70,50 @@ class MoveManager {
 
   bool check_move_postconditions(Move_tracker new_moves,
                                  Move_tracker old_moves) {
+#ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+#endif
     move_type move =
         static_cast<move_type>(ArrayDifference(new_moves, old_moves));
     switch (move) {
       case move_type::TWO_THREE: {
-        // should fail
-        if (!universe_pre_move) return true;
+        return (check[0] == universe_.get().geometry->three_one.size() &&
+                check[1] == universe_.get().geometry->N3_22() - 1 &&
+                check[2] == universe_.get().geometry->one_three.size() &&
+                check[3] ==
+                    universe_.get().geometry->timelike_edges.size() - 1 &&
+                check[4] == universe_.get().geometry->spacelike_edges.size() &&
+                check[5] == universe_.get().geometry->vertices.size());
       }
       case move_type::THREE_TWO: {
-        return true;
+        return (check[0] == universe_.get().geometry->three_one.size() &&
+                check[1] == universe_.get().geometry->N3_22() + 1 &&
+                check[2] == universe_.get().geometry->one_three.size() &&
+                check[3] ==
+                    universe_.get().geometry->timelike_edges.size() + 1 &&
+                check[4] == universe_.get().geometry->spacelike_edges.size() &&
+                check[5] == universe_.get().geometry->vertices.size());
       }
       case move_type::TWO_SIX: {
-        return true;
+        return (
+            check[0] == universe_.get().geometry->three_one.size() - 2 &&
+            check[1] == universe_.get().geometry->N3_22() &&
+            check[2] == universe_.get().geometry->one_three.size() - 2 &&
+            check[3] == universe_.get().geometry->timelike_edges.size() - 2 &&
+            check[4] == universe_.get().geometry->spacelike_edges.size() - 3 &&
+            check[5] == universe_.get().geometry->vertices.size() - 1);
       }
       case move_type::SIX_TWO: {
-        return true;
+        return (
+            check[0] == universe_.get().geometry->three_one.size() + 2 &&
+            check[1] == universe_.get().geometry->N3_22() &&
+            check[2] == universe_.get().geometry->one_three.size() + 2 &&
+            check[3] == universe_.get().geometry->timelike_edges.size() + 2 &&
+            check[4] == universe_.get().geometry->spacelike_edges.size() + 3 &&
+            check[5] == universe_.get().geometry->vertices.size() + 1);
       }
       case move_type::FOUR_FOUR: {
-        return true;
+        return false;
       }
     }
   }
@@ -102,26 +130,46 @@ class MoveManager {
     try {
       // Look at moves made so far
       auto old_moves = attempted_moves_.get();
+      //      auto N3_31 = universe_.get().geometry->three_one.size();
+      check[0] = universe_.get().geometry->three_one.size();
+      check[1] = universe_.get().geometry->N3_22();
+      check[2] = universe_.get().geometry->one_three.size();
+      check[3] = universe_.get().geometry->timelike_edges.size();
+      check[4] = universe_.get().geometry->spacelike_edges.size();
+      check[5] = universe_.get().geometry->vertices.size();
 
       // Now make new move
       universe_.get() = move(universe_.get(), attempted_moves_.get());
 
-      // Check for violation of invariants
+      // Check move invariants
       if (!universe_) throw std::runtime_error("working manifold is empty!");
-      if (!universe_.get().triangulation->tds().is_valid(true))
+      if (!universe_.get().triangulation->tds().is_valid())
         throw std::runtime_error("Move invalidated triangulation.");
       if (!attempted_moves_)
         throw std::runtime_error("attempted_moves_ is empty!");
-      if (!check_move_postconditions(attempted_moves_.get(), old_moves))
+
+      auto moves_are_good =
+          check_move_postconditions(attempted_moves_.get(), old_moves);
+#ifndef NDEBUG
+      std::cout << "Moves are good: " << std::boolalpha << moves_are_good
+                << std::endl;
+#endif
+      if (!moves_are_good)
         throw std::runtime_error("Move postconditions violated.");
+
+      // Return results of valid move
+      return universe_;
+    }
+
+    catch (const std::exception& ex) {
+      std::cerr << "Caught move error: " << ex.what() << std::endl;
     }
 
     catch (...) {
-#ifndef NDEBUG
-      std::cerr << "Caught move error!" << std::endl;
-#endif
+      std::cerr << "Caught non-std::exception!" << std::endl;
     }
-    //    std::cout << "Made valid move." << std::endl;
+    // Disengage boost::optional value which returns results of invalid move
+    universe_ = {};
     return universe_;
   }
 };

@@ -257,7 +257,7 @@ class Metropolis {
   /// Calculate \f$a_2=e^{\Delta S}\f$
   ///
   /// @param move The type of move
-  /// @return \f$a_2=e^{\Delta S}\f$
+  /// @return \f$a_2=e^{-\Delta S}\f$
   auto CalculateA2(const move_type move) const noexcept {
     auto currentS3Action =
         S3_bulk_action(N1_TL_, N3_31_, N3_22_, Alpha_, K_, Lambda_);
@@ -297,7 +297,8 @@ class Metropolis {
         return static_cast<Gmpzf>(1);
     }
 
-    auto exponent        = newS3Action - currentS3Action;
+//    auto exponent        = newS3Action - currentS3Action;
+    auto exponent = currentS3Action - newS3Action;
     auto exponent_double = Gmpzf_to_double(exponent);
 
     // if exponent > 0 then e^exponent >=1 so according to Metropolis
