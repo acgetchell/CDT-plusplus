@@ -169,6 +169,7 @@ class MoveManager {
       std::cerr << "Caught non-std::exception!" << std::endl;
     }
     // Disengage boost::optional value which returns results of invalid move
+    // Only works on recent versions of Boost (>1.58)
     universe_ = {};
     return universe_;
   }

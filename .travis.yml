@@ -29,19 +29,23 @@ env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "JuEvOnlCbo+3F1omn9eQi+UlurptombUlB3ROEM71F1wf6cxUnznDOYBr3cPb7zwFEOAfw1rYuEKJBWNh34vvlqxzi6I/pIIlpL73yOIIcYW0/CYMCkgvOIxdtQv4JyBYW7seAflaJyf8ElGtojiEumXwCqlBXg6uwrIoZ00NqI="
+   - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
 
-#addons:
-#  coverity_scan:
-#    project:
-#      name: "acgetchell/CDT-plusplus"
-#    notification_email: acgetchell@ucdavis.edu
-#    build_command_prepend:
-#    build_command:   "./build.sh"
-#    branch_pattern: master
+
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update; fi
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "acgetchell/CDT-plusplus"
+      description: "Build submitted via Travis CI"
+    notification_email: acgetchell@ucdavis.edu
+    build_command_prepend:
+    build_command:   "./build.sh"
+    branch_pattern: metropolis
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./install-osx.sh; fi
