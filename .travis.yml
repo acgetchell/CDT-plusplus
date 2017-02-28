@@ -65,7 +65,7 @@ install:
   - cd ..
 
 script:
-  - if [[ "${COVERITY_SCAN_BRANCH}" != 1]]; then ./build.sh; fi
+  - ./build.sh
 
 after_script:
   - cd build
