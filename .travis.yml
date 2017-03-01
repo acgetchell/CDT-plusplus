@@ -27,7 +27,7 @@
 # ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
 # DEALINGS IN THE SOFTWARE.
 
-language: c++
+language: cpp
 sudo: false
 
 env:
@@ -159,7 +159,7 @@ install:
         LLVM_URL="http://llvm.org/releases/${LLVM_VERSION}/llvm-${LLVM_VERSION}.src.tar.xz"
         LIBCXX_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxx-${LLVM_VERSION}.src.tar.xz"
         LIBCXXABI_URL="http://llvm.org/releases/${LLVM_VERSION}/libcxxabi-${LLVM_VERSION}.src.tar.xz"
-        CLANG_URL="http://llvm.org/releases/${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-16.04.tar.xz"
+        CLANG_URL="http://llvm.org/releases/${LLVM_VERSION}/clang+llvm-${LLVM_VERSION}-x86_64-linux-gnu-ubuntu-14.04.tar.xz"
         mkdir -p ${LLVM_DIR} ${LLVM_DIR}/build ${LLVM_DIR}/projects/libcxx ${LLVM_DIR}/projects/libcxxabi ${LLVM_DIR}/clang
         travis_retry wget --quiet -O - ${LLVM_URL}      | tar --strip-components=1 -xJ -C ${LLVM_DIR}
         travis_retry wget --quiet -O - ${LIBCXX_URL}    | tar --strip-components=1 -xJ -C ${LLVM_DIR}/projects/libcxx
@@ -212,7 +212,7 @@ install:
   - curl -L -o CGAL-4.9.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.tar.gz
   - tar zxvf CGAL-4.9.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.9
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - ninja
   - sudo ninja install &> install.log
   - cd ..
