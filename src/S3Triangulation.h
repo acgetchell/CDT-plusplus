@@ -70,7 +70,7 @@
 #include <vector>
 
 // CDT headers
-#include "src/utilities.h"
+#include "utilities.h"
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -401,7 +401,7 @@ void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices) {
 /// @returns  A std::pair<std::vector, std::uintmax_t> containing random
 /// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::uintmax_t simplices,
-                                 const std::uintmax_t timeslices) noexcept {
+                                 const std::uintmax_t timeslices) {
   //  double     radius{0};
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
