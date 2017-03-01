@@ -21,7 +21,7 @@ add_definitions(-Wall -Wextra)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
-set(GMOCK_TESTS FALSE)
+set(GMOCK_TESTS TRUE)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost

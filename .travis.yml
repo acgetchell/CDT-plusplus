@@ -35,6 +35,8 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
+  matrix:
+    - TRAVIS_EMPTY_JOB_WORKAROUND=true
 
 addons:
   apt:
@@ -142,10 +144,11 @@ install:
       export PATH=${DEPS_DIR}/cmake/bin:${PATH}
     else
       brew install cmake
+      brew unlink cmake
       brew upgrade cmake
       brew install ninja
       brew install eigen
-      brew install tbb --c+11
+      brew install tbb --c++11
     fi
   - cmake --version
 
@@ -179,33 +182,33 @@ install:
   ############################################################################
   # Install Gmock/Gtest
   ############################################################################
-#  - |
-#    if [[$TRAVIS_OS_NAME" == "linux" ]]; then
-#      git clone https://github.com/google/googletest.git ${DEPS_DIR}
-#      cd ${DEPS_DIR}/googletest/googlemock
-#      cmake -DBUILD_SHARED_LIBS=ON -G Ninja .
-#      ninja
-#      sudo cp -a include/gmock/ /usr/include/
-#      sudo cp -a libgmock_main.so libgmock.so /usr/lib
-#      cd ../googletest
-#      cmake -DBUILD_SHARED_LIBS=ON -G Ninja .
-#      ninja
-#      sudo cp -a include/gtest /usr/include/
-#      sudo cp -a libgtest_main.so libgtest.so /usr/lib/
-#    else
-#      git clone https://github.com/google/googletest.git ${DEPS_DIR}
-#      cd googletest/googlemock
-#      cmake -G Ninja .
-#      ninja
-#      sudo cp -a include/gmock/ /usr/local/include/gmock/
-#      sudo cp -a libgmock_main.a libgmock.a /usr/local/lib/
-#      # to use GoogleTest
-#      cd ../googletest
-#      cmake -G Ninja .
-#      ninja
-#      sudo cp -a include/gtest /usr/local/include/gtest/
-#      sudo cp -a libgtest_main.a libgtest.a /usr/local/lib/
-#    fi
+  - |
+    if [[$TRAVIS_OS_NAME" == "linux" ]]; then
+      git clone https://github.com/google/googletest.git ${DEPS_DIR}
+      cd ${DEPS_DIR}/googletest/googlemock
+      cmake -DBUILD_SHARED_LIBS=ON -G Ninja .
+      ninja
+      sudo cp -a include/gmock/ /usr/include/
+      sudo cp -a libgmock_main.so libgmock.so /usr/lib
+      cd ../googletest
+      cmake -DBUILD_SHARED_LIBS=ON -G Ninja .
+      ninja
+      sudo cp -a include/gtest /usr/include/
+      sudo cp -a libgtest_main.so libgtest.so /usr/lib/
+    else
+      git clone https://github.com/google/googletest.git ${DEPS_DIR}
+      cd googletest/googlemock
+      cmake -G Ninja .
+      ninja
+      sudo cp -a include/gmock/ /usr/local/include/gmock/
+      sudo cp -a libgmock_main.a libgmock.a /usr/local/lib/
+      # to use GoogleTest
+      cd ../googletest
+      cmake -G Ninja .
+      ninja
+      sudo cp -a include/gtest /usr/local/include/gtest/
+      sudo cp -a libgtest_main.a libgtest.a /usr/local/lib/
+    fi
 
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
