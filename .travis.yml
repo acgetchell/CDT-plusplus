@@ -182,7 +182,8 @@ install:
   ############################################################################
   # Install Gmock/Gtest
   ############################################################################
-  - if [[$TRAVIS_OS_NAME" == "linux" ]]; then
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       INCLUDE_DIR="/usr/include/"
       SH_LIB="so"
       LIB_DIR="/usr/lib/"
