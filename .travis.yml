@@ -42,12 +42,10 @@ addons:
   apt:
     packages:
       - g++-6
-      - libmpfr-dev
-      - libgmp3-dev
       - libeigen3-dev
+      - libmpfr-dev
       - libtbb-dev
       - ninja-build
-      - curl
     sources: &sources
       - ubuntu-toolchain-r-test
 #  coverity_scan:
@@ -187,20 +185,20 @@ install:
       INCLUDE_DIR="/usr/include/"
       SH_LIB="so"
       LIB_DIR="/usr/lib/"
-      CMAKE_OPTIONS += " -DBUILD_SHARED_LIBS=ON"
+      CMAKE_OPTIONS+=" -DBUILD_SHARED_LIBS=ON"
     else
       INCLUDE_DIR="/usr/local/include/"
       SH_LIB="a"
       LIB_DIR="/usr/local/lib/"
     fi
   - GTEST_URL="https://github.com/google/googletest.git"
-  - travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} ${DEPS_DIR} || exit 1
-  - (cd ${DEPS_DIR}/googletest/googlemock)
+  - travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
+  - (cd googletest/googlemock)
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
   - cp -a include/gmock ${INCLUDE_DIR}
   - cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
-  - (cd ${DEPS_DIR}/googletest/googletest)
+  - (cd googletest/googletest)
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
   - cp -a include/gtest ${INCLUDE_DIR}
