@@ -193,12 +193,12 @@ install:
     fi
   - GTEST_URL="https://github.com/google/googletest.git"
   - travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
-  - (cd googletest/googlemock)
+  - cd googletest/googlemock
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
   - cp -a include/gmock ${INCLUDE_DIR}
   - cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
-  - (cd googletest/googletest)
+  - cd googletest/googletest
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
   - cp -a include/gtest ${INCLUDE_DIR}
