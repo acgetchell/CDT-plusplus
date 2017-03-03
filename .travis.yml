@@ -66,10 +66,10 @@ matrix:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 
   allow_failures:
-      - os: osx
-        env: COMPILER=g++-6 BOOST_VERSION=default
-        osx_image: xcode8
-        compiler: gcc
+    - os: osx
+      env: COMPILER=g++-6 BOOST_VERSION=default
+      osx_image: xcode8
+      compiler: gcc
 #
   include:
     # XCode 8
@@ -214,7 +214,9 @@ install:
 
 script:
   - CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
-  - ./build.sh
+  - mkdir build && cd build
+  - cmake $CMAKE_OPTIONS -G Ninja ..
+  - ninja
 
 after_script:
   - cd build
