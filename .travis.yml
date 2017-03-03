@@ -73,20 +73,20 @@ matrix:
 
     # Clang 3.9
     - os: linux
-       env: LLVM_VERSION=3.9.0 BOOST_VERSION=default
-       compiler: clang
-       dist: trusty
+      env: LLVM_VERSION=3.9.0 BOOST_VERSION=default
+      compiler: clang
+      dist: trusty
 
     # GCC 6
     - os: linux
-        env: COMPILER=g++-6 BOOST_VERSION=default
-        dist: trusty
+      env: COMPILER=g++-6 BOOST_VERSION=default
+      dist: trusty
 
   allow_failures:
     - os: osx
       env: COMPILER=g++-6 BOOST_VERSION=default
       osx_image: xcode8
-#      compiler: gcc
+      compiler: gcc
 
 
 
