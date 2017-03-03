@@ -28,7 +28,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 language: cpp
-sudo: false
+sudo: required
 
 env:
   global:
@@ -182,9 +182,9 @@ install:
   ############################################################################
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      INCLUDE_DIR="/usr/local/include/"
+      INCLUDE_DIR="/usr/include/"
       SH_LIB="so"
-      LIB_DIR="/usr/local/lib/"
+      LIB_DIR="/usr/lib/"
       CMAKE_OPTIONS+=" -DBUILD_SHARED_LIBS=ON"
     else
       INCLUDE_DIR="/usr/local/include/"
@@ -196,13 +196,13 @@ install:
   - cd googletest/googlemock
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
-  - cp -a include/gmock ${INCLUDE_DIR}
-  - cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
+  - sudo cp -a include/gmock ${INCLUDE_DIR}
+  - sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
   - cd ../googletest
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
-  - cp -a include/gtest ${INCLUDE_DIR}
-  - cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
+  - sudo cp -a include/gtest ${INCLUDE_DIR}
+  - sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
 
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
