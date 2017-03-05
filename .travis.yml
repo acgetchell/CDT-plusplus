@@ -28,7 +28,7 @@
 # DEALINGS IN THE SOFTWARE.
 
 language: cpp
-sudo: false
+sudo: required
 
 env:
   global:
@@ -64,29 +64,29 @@ cache:
 matrix:
   exclude:
     - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
-
-  allow_failures:
-    - os: osx
-      env: COMPILER=g++-6 BOOST_VERSION=default
-      osx_image: xcode8
-      compiler: gcc
 #
   include:
-    # XCode 8
+    # XCode 8 = AppleClang 8
     - os: osx
       env: BOOST_VERSION=default
       osx_image: xcode8
 
+    # GCC 6
+    - os: linux
+      env: COMPILER=g++-6 BOOST_VERSION=default
+      dist: trusty
+
+  allow_failures:
     # Clang 3.9
     - os: linux
       env: LLVM_VERSION=3.9.0 BOOST_VERSION=default
       compiler: clang
       dist: trusty
 
-    # GCC 6
-    - os: linux
+    # gcc on MacOS
+    - os: osx
       env: COMPILER=g++-6 BOOST_VERSION=default
-      dist: trusty
+      osx_image: xcode8
 
 before_install:
 # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -180,9 +180,9 @@ install:
   ############################################################################
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      INCLUDE_DIR="/usr/local/include/"
+      INCLUDE_DIR="/usr/include/"
       SH_LIB="so"
-      LIB_DIR="/usr/local/lib/"
+      LIB_DIR="/usr/lib/"
       CMAKE_OPTIONS+=" -DBUILD_SHARED_LIBS=ON"
     else
       INCLUDE_DIR="/usr/local/include/"
@@ -194,13 +194,13 @@ install:
   - cd googletest/googlemock
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
-  - cp -a include/gmock ${INCLUDE_DIR}
-  - cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
+  - sudo cp -a include/gmock ${INCLUDE_DIR}
+  - sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
   - cd ../googletest
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
-  - cp -a include/gtest ${INCLUDE_DIR}
-  - cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
+  - sudo cp -a include/gtest ${INCLUDE_DIR}
+  - sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
 
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
