@@ -69,7 +69,7 @@ matrix:
     # XCode 8 = AppleClang 8
     - os: osx
       env: BOOST_VERSION=default
-      osx_image: xcode8
+      osx_image: xcode8.2
 
     # GCC 6
     - os: linux
@@ -79,13 +79,12 @@ matrix:
     # gcc on MacOS
     - os: osx
       env: COMPILER=g++-6 BOOST_VERSION=default
-      osx_image: xcode8
+      osx_image: xcode8.2
 
   allow_failures:
     # Clang 3.9
     - os: linux
       env: LLVM_VERSION=3.9.0 BOOST_VERSION=default
-      compiler: clang
       dist: trusty
 
 
