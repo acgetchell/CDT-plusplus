@@ -76,6 +76,11 @@ matrix:
       env: COMPILER=g++-6 BOOST_VERSION=default
       dist: trusty
 
+    # gcc on MacOS
+    - os: osx
+      env: COMPILER=g++-6 BOOST_VERSION=default
+      osx_image: xcode8
+
   allow_failures:
     # Clang 3.9
     - os: linux
@@ -83,10 +88,7 @@ matrix:
       compiler: clang
       dist: trusty
 
-    # gcc on MacOS
-    - os: osx
-      env: COMPILER=g++-6 BOOST_VERSION=default
-      osx_image: xcode8
+
 
 before_install:
 # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -142,6 +144,7 @@ install:
     else
       brew unlink cmake
       brew upgrade cmake
+      brew install gcc
       brew install ninja
       brew install eigen
       brew install tbb --c++11
