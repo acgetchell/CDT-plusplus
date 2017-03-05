@@ -62,35 +62,32 @@ cache:
     - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
 
 matrix:
-  exclude:
-    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
+#  exclude:
+#    - env: TRAVIS_EMPTY_JOB_WORKAROUND=true
 #
   include:
-    # XCode 8 = AppleClang 8
-    - os: osx
-      env: BOOST_VERSION=default
-      osx_image: xcode8.2
-
     # GCC 6
     - os: linux
       env: COMPILER=g++-6 BOOST_VERSION=default
       dist: trusty
 
-    # gcc on MacOS
-    - os: osx
-      env: COMPILER=g++-6 BOOST_VERSION=default
-      osx_image: xcode8.2
+   allow_failures:
 
-    # Clang 3.9
+    # Clang 3.9 on Linux
     - os: linux
       env: LLVM_VERSION=3.9.0 BOOST_VERSION=default
       compiler: clang
       dist: trusty
 
-  allow_failures:
+    # XCode 8 = AppleClang 8
+    - os: osx
+      env: BOOST_VERSION=default
+      osx_image: xcode8.2
 
-
-
+    # gcc on MacOS
+    - os: osx
+      env: COMPILER=g++-6 BOOST_VERSION=default
+      osx_image: xcode8.2
 
 before_install:
 # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
