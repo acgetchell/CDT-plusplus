@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016 Adam Getchell
+/// Copyright © 2016-2017 Adam Getchell
 ///
 /// Resource Aquisition Is Initialization class for managing exception-safe
 /// ergodic (foliation-preserving Pachner) moves.
@@ -171,7 +171,7 @@ class MoveManager {
     // Disengage boost::optional value which returns results of invalid move
     // Only works on recent versions of Boost (>1.58)
     // This is the correct line for Metropolis() to work
-//    universe_ = {};
+    universe_ = {};
     // This line is just for testing until we properly disengage option-type
     return universe_;
   }
