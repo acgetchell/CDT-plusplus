@@ -60,8 +60,6 @@
 
 // C++ headers
 #include <algorithm>
-#include <atomic>
-#include <list>
 #include <memory>
 #include <set>
 #include <stdexcept>
@@ -189,26 +187,22 @@ auto classify_simplices(T&& universe_ptr) {
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
-    std::list<std::uintmax_t> timevalues;
-    std::atomic_uintmax_t     max_values{0};
-    std::atomic_uintmax_t     min_values{0};
+    std::uintmax_t     max_values{0};
+    std::uintmax_t     min_values{0};
     // Push every time value of every vertex into a list
-    for (auto i = 0; i < 4; ++i) {
-      timevalues.emplace_back(cit->vertex(i)->info());
-    }
-
-    // Now sort the list
-    timevalues.sort();
-    // The maximum timevalue is at the back of the list
-    auto max_time = timevalues.back();
-    timevalues.pop_back();
-    ++max_values;
-
-    // Now pop the rest of the values
-    while (!timevalues.empty()) {
-      auto current_time = timevalues.back();
-      timevalues.pop_back();
-      (current_time == max_time) ? ++max_values : ++min_values;
+    std::uintmax_t timevalues[4] = {
+        cit->vertex(0)->info(),
+        cit->vertex(1)->info(),
+        cit->vertex(2)->info(),
+        cit->vertex(3)->info(),
+    };
+    std::uintmax_t max_time = *std::max_element(std::begin(timevalues), std::end(timevalues));
+    for (auto elt : timevalues) {
+        if (elt == max_time) {
+            ++max_values;
+        } else {
+            ++min_values;
+        }
     }
 
     // Classify simplex using max_values and write to cit->info()
@@ -270,19 +264,19 @@ auto classify_all_simplices(T&& universe_ptr) {
 template <typename T>
 auto fix_timeslices(T&& universe_ptr) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
-  std::atomic_uintmax_t           min_time{0};
-  std::atomic_uintmax_t           max_time{0};
-  std::atomic_uintmax_t           valid{0};
-  std::atomic_uintmax_t           invalid{0};
-  std::atomic_uintmax_t           max_vertex{0};
-  std::set<Vertex_handle>         deleted_vertices;
+  std::uintmax_t           min_time{0};
+  std::uintmax_t           max_time{0};
+  std::uintmax_t           valid{0};
+  std::uintmax_t           invalid{0};
+  std::uintmax_t           max_vertex{0};
+  std::set<Vertex_handle>  deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
     if (cit->is_valid()) {  // Valid cell
       min_time = cit->vertex(0)->info();
-      max_time.store(min_time);
+      max_time = min_time;
 #ifdef DETAILED_DEBUGGING
       bool this_cell_foliation_valid = true;
 #endif
@@ -352,14 +346,12 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 template <typename T>
 void fix_triangulation(T&& universe_ptr) {
-  std::atomic_uintmax_t pass{0};
-  do {
-    pass++;
-    if (pass > MAX_FOLIATION_FIX_PASSES) break;
+  for (std::uintmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
 #ifndef NDEBUG
-    std::cout << "Fix Pass #" << pass << std::endl;
+    std::cout << "Fix Pass #" << (pass+1) << std::endl;
 #endif
-  } while (!fix_timeslices(universe_ptr));
+    if (fix_timeslices(universe_ptr)) break;
+  }
 }  // fix_triangulation()
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
