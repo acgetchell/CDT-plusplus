@@ -22,13 +22,13 @@
 
 int main() {
   std::cout << "cdt-opt started at " << currentDateTime() << std::endl;
-  constexpr uintmax_t   simplices  = 6400;
-  constexpr uintmax_t   timeslices = 7;
-  /// @brief Constants in units where \f$c=G=\hbar=1\f$
-  constexpr long double alpha      = 1.0;
-  constexpr long double k          = 0.0397887;
+  constexpr uintmax_t   simplices  = 64000;
+  constexpr uintmax_t   timeslices = 16;
+  /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
+  constexpr long double alpha      = 1.1;
+  constexpr long double k          = 2.2;
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
-  constexpr long double lambda     = 0;
+  constexpr long double lambda     = 3.3;
   constexpr uintmax_t   passes     = 100;
   constexpr uintmax_t   checkpoint = 10;
 
