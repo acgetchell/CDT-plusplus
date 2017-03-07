@@ -79,7 +79,7 @@ struct GeometryInfo {
         vertices{std::get<5>(geometry)} {}
 
   /// @brief Default destructor
-  virtual ~GeometryInfo() = default;
+  ~GeometryInfo() = default;
 
   /// @brief Default move constructor
   /// @return A GeometryInfo{}
@@ -197,7 +197,7 @@ struct SimplicialManifold {
             classify_all_simplices(triangulation))} {}
 
   /// @brief Destructor
-  virtual ~SimplicialManifold() {
+  ~SimplicialManifold() {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold dtor." << std::endl;
 #endif
