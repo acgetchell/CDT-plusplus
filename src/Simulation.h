@@ -30,9 +30,7 @@ struct Simulation {
     queue_.emplace_back(std::forward<T>(callable));
   }
 
-  SimplicialManifold start(SimplicialManifold&& initial) {  //  NOLINT
-    SimplicialManifold value{std::forward<SimplicialManifold>(initial)};
-
+  SimplicialManifold start(SimplicialManifold value) const {
     for (const auto& item : queue_) {
       value = item(value);
     }

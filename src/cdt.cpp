@@ -173,7 +173,7 @@ int main(int argc, char* const argv[]) {
 
     // The main work of the program
     auto result =
-        my_simulation.start(std::forward<SimplicialManifold>(manifold));
+        my_simulation.start(std::move(manifold));
     // Output results
     t.stop();  // End running time counter
     std::cout << "Final Delaunay triangulation has ";
