@@ -1,0 +1,85 @@
+language: cpp
+
+os:
+  - linux
+  - osx
+
+sudo: required
+
+dist: trusty
+
+osx_image: xcode8
+
+compiler:
+  - gcc
+  - clang
+
+matrix:
+#  exclude:
+#    - os: linux
+#      compiler: clang
+    # - os: osx
+    #   compiler: gcc
+  allow_failures:
+#    - compiler: gcc
+#    - os: osx
+    - os: linux
+      compiler: clang
+env:
+  global:
+   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
+   #   via the "travis encrypt" command using the project repo's public key
+   - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
+
+
+
+before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update;
+    brew install openssl; fi
+  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+
+addons:
+  coverity_scan:
+    project:
+      name: "acgetchell/CDT-plusplus"
+    notification_email: acgetchell@ucdavis.edu
+    build_command_prepend:
+    build_command:   "./build.sh"
+    branch_pattern: metropolis
+
+install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./install-osx.sh; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./install-linux.sh; fi
+
+  - if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
+   CXX="clang++-3.9" CC="clang-3.9"; fi
+  # Install CGAL from source
+  - cd $TRAVIS_BUILD_DIR
+  - curl -L -o CGAL-4.9.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.tar.gz
+  - tar zxvf CGAL-4.9.tar.gz &> install.log
+  - cd cgal-releases-CGAL-4.9
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
+  - ninja
+  - sudo ninja install &> install.log
+  - cd ..
+
+script:
+  - ./build.sh
+
+after_script:
+  - cd build
+# GMock with random test order
+  - "./unittests --gtest_shuffle"
+# CTest
+  - ninja test
+
+cache:
+  - bundler
+  - apt
+
+notifications:
+  webhooks:
+    urls: https://webhooks.gitter.im/e/c70e4d2749931f601747
+    on_success: change
+    on_failure: always

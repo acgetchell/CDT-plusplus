@@ -1,11 +1,10 @@
 #!/bin/bash
 
-# Install updated gcc
+# Install gcc 6.2
 if [[ "$CXX" = "g++" ]]; then brew install gcc; fi
-#if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
+if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
 
-brew unlink cmake
-brew upgrade cmake
+#brew install cmake
 brew install boost
 brew install ninja
 brew install eigen
