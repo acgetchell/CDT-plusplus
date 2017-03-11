@@ -70,6 +70,7 @@ matrix:
     - os: osx
       env: BOOST_VERSION=default
       osx_image: xcode8.2
+      language: generic
 
     # GCC 6
     - os: linux
