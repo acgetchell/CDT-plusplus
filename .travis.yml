@@ -1,52 +1,20 @@
 language: cpp
+
+os:
+  - linux
+  - osx
+
 sudo: required
 
-addons:
-  apt:
-    packages:
-      - g++-6
-      - libeigen3-dev
-      - libmpfr-dev
-      - libtbb-dev
-      - ninja-build
-    sources: &sources
-      - ubuntu-toolchain-r-test
-#  coverity_scan:
-#    project:
-#      name: "acgetchell/CDT-plusplus"
-#    notification_email: acgetchell@ucdavis.edu
-#    build_command_prepend:
-#    build_command:   "./build.sh"
-#    branch_pattern: metropolis
+dist: trusty
 
-cache:
-  - bundler
-  - apt
-  - ${TRAVIS_BUILD_DIR}/deps/llvm-3.9.0
-  - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
-#os:
-#  - linux
-#  - osx
-#
-#dist: trusty
-#
-#osx_image: xcode8
+osx_image: xcode8
 
-#compiler:
-#  - gcc
-#  - clang
+compiler:
+  - gcc
+  - clang
 
 matrix:
-  include:
-  # XCode 8 = AppleClang 8
-  - os: osx
-    env: BOOST_VERSION=default
-    osx_image: xcode8.2
-
-  # GCC-6 on Linux
-  - os: linux
-    env: compiler=g++6 BOOST_VERSION=default
-    dist: trusty
 #  exclude:
 #    - os: linux
 #      compiler: clang
@@ -66,16 +34,18 @@ env:
 
 
 before_install:
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew update;
-      gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-            rvm get stable --auto-dotfiles
-      brew install openssl
-    fi
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then brew update;
+    brew install openssl; fi
 #  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
-
+addons:
+#  coverity_scan:
+#    project:
+#      name: "acgetchell/CDT-plusplus"
+#    notification_email: acgetchell@ucdavis.edu
+#    build_command_prepend:
+#    build_command:   "./build.sh"
+#    branch_pattern: metropolis
 
 install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then ./install-osx.sh; fi
@@ -104,7 +74,9 @@ after_script:
 # CTest
   - ninja test
 
-
+cache:
+  - bundler
+  - apt
 
 notifications:
   webhooks:
