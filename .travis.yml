@@ -10,6 +10,10 @@ addons:
       - ninja-build
       - clang-3.9
       - lldb-3.9
+      - libmpfr-dev
+      - libgmp3-dev
+      - libeigen3-dev
+      - libtbb-dev
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-3.9
@@ -21,11 +25,19 @@ addons:
 #    build_command:   "./build.sh"
 #    branch_pattern: master
 
+cache:
+  apt:
+  ccache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
+
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
+  matrix:
+    - BOOST_VERSION=default
 
 os:
   - linux
@@ -70,10 +82,30 @@ install:
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
-    else
+      brew install boost
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       CMAKE_URL="https://cmake.org/files/v3.7/cmake-3.7.2-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${TRAVIS_BUILD_DIR}/cmake/bin:${PATH}
+      if [[ "${BOOST_VERSION}" != "" ]]; then
+        BOOST_DIR=${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
+        if [[ -z "$(ls -A ${BOOST_DIR})" ]]; then
+          if [[ "${BOOST_VERSION}" == "trunk" ]]; then
+            BOOST_URL="http://github.com/boostorg/boost.git"
+            travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
+            (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers)
+          else
+            BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
+            mkdir -p ${BOOST_DIR}
+            { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
+          fi
+          # Make sure we don't conflict with the Hana shipped with Boost
+          rm -rf ${BOOST_ROOT}/include/boost/{hana,hana.hpp}
+        fi
+        CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
+      fi
     fi
 #  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./install-linux.sh; fi
   - cmake --version
@@ -99,10 +131,6 @@ after_success:
   - "./unittests --gtest_shuffle"
 # CTest
   - ninja test
-
-cache:
-  - bundler
-  - apt
 
 notifications:
   webhooks:
