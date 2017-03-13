@@ -82,7 +82,8 @@ install:
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
-      brew install boost
+      brew unlink boost
+      brew upgrade boost
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -123,7 +124,10 @@ install:
   - cd ..
 
 script:
-  - ./build.sh
+  - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=${BOOST_DIR}"
+  - mkdir build && cd build
+  - cmake $CMAKE_OPTIONS -G Ninja ..
+  - ninja
 
 after_success:
   - cd build
