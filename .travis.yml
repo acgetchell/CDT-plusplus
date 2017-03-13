@@ -104,7 +104,6 @@ install:
       LIB_DIR="/usr/lib/"
       CMAKE_OPTIONS+=" -DBUILD_SHARED_LIBS=ON"
     fi
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./install-linux.sh; fi
   - cmake --version
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export

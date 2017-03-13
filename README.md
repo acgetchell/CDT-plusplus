@@ -10,7 +10,7 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
 with [CMake][3] using [Clang][4]/[LLVM][5].
 Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
-Option-types via [Boost][47] >= 1.63.0.
+Option-types via [Boost][43] >= 1.63.0.
 [Docopt][19] provides a beautiful command-line interface.
 [Gmock 1.8][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
@@ -58,7 +58,7 @@ The goals and targets of this project are:
 ------
 
 [CDT++][38] should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake][14], [CGAL][15], [Boost][47], [MPFR][29], and [Eigen][25] installed. 
+[CMake][14], [CGAL][15], [Boost][43], [MPFR][29], and [Eigen][25] installed. 
 [TBB][37] provides an optional (but significant) speed boost.  [Gmock][6] is 
 optional (but recommended) for running the unit tests, and [Ninja][18] is an 
 optional replacement for `make` which provides quick parallel builds of the 
@@ -77,8 +77,8 @@ brew install tbb --c++11
 brew install cgal --imaging --with-eigen3 --with-lapack
 ~~~
 
-On Ubuntu, you will need an updated versions of [clang][4] or [gcc][48], 
-[CMake][3], and [Boost][47], which is scripted in [.travis.yml][39].
+On Ubuntu, you will need an updated versions of [clang][4] or [gcc][44], 
+[CMake][3], and [Boost][43], which is scripted in [.travis.yml][39].
 
 ### Build ###
 ------
@@ -224,11 +224,8 @@ sudo cp -a include/gtest /usr/include/
 sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 ~~~
 
-This is scripted in [install-linux.sh][43]. Thanks to [ManuelSchneid3r][42] and
+This is scripted in [.travis.yml][39]. Thanks to [ManuelSchneid3r][42] and
 [Stack Overflow][40] for the assist.
-
-MacOS is very similar, and the exact steps are scripted in [install-osx.sh][44].
-
 
 Unit tests using GMock are then run (in the `build/` directory) via:
 
@@ -314,9 +311,7 @@ Please see [CONTRIBUTING.md][45].
 [40]: https://stackoverflow.com/questions/13513905/how-to-setup-googletest-as-a-shared-library-on-linux
 [41]: https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile
 [42]: https://stackoverflow.com/users/978486/manuelschneid3r
-[43]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-linux.sh
-[44]: https://github.com/acgetchell/CDT-plusplus/blob/master/install-osx.sh
+[43]: http://www.boost.org
+[44]: https://gcc.gnu.org/
 [45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [46]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html
-[47]: http://www.boost.org
-[48]: https://gcc.gnu.org/
