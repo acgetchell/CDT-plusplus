@@ -37,7 +37,7 @@ env:
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
   matrix:
-    - BOOST_VERSION=default
+    - BOOST_VERSION=1.63.0
 
 os:
   - linux
@@ -75,7 +75,6 @@ before_install:
 #  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
-  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.63.0; fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew unlink cmake
@@ -118,7 +117,7 @@ install:
   - curl -L -o CGAL-4.9.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.tar.gz
   - tar zxvf CGAL-4.9.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.9
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -G Ninja .
+  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - ninja
   - sudo ninja install &> install.log
   - cd ..
