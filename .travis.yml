@@ -84,6 +84,9 @@ install:
       brew install ninja
       brew unlink boost
       brew upgrade boost
+      INCLUDE_DIR="/usr/local/include/"
+      SH_LIB="a"
+      LIB_DIR="/usr/local/lib/"
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -107,12 +110,33 @@ install:
         fi
         CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
       fi
+      INCLUDE_DIR="/usr/include/"
+      SH_LIB="so"
+      LIB_DIR="/usr/lib/"
+      CMAKE_OPTIONS+=" -DBUILD_SHARED_LIBS=ON"
     fi
 #  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then ./install-linux.sh; fi
   - cmake --version
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-3.9" CC="clang-3.9"; fi
+  # Install GMock/GTest from source
+  - GTEST_URL="https://github.com/google/googletest.git"
+  - travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
+  - cd googletest/googlemock
+  - echo $CMAKE_OPTIONS
+  - echo $CXXFLAGS
+  - echo $LDFLAGS
+  - echo $LD_LIBRARY_PATH
+  - cmake $CMAKE_OPTIONS -G Ninja .
+  - ninja
+  - sudo cp -a include/gmock ${INCLUDE_DIR}
+  - sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
+  - cd ../googletest
+  - cmake $CMAKE_OPTIONS -G Ninja .
+  - ninja
+  - sudo cp -a include/gtest ${INCLUDE_DIR}
+  - sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
   - curl -L -o CGAL-4.9.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.tar.gz
