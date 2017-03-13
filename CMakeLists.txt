@@ -34,6 +34,7 @@ set(EXECUTABLE_NAME "CDT")
 find_package(CGAL QUIET COMPONENTS Core )
 
 # Need working version of boost::optional
+set(Boost_DEBUG TRUE)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 if (NOT Boost_FOUND)
     message(FATAL_ERROR "Boost >= 1.58.0 required.\n")

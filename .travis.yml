@@ -48,19 +48,8 @@ compiler:
   - clang
 
 matrix:
-#  exclude:
-#    - os: linux
-#      compiler: clang
-    # - os: osx
-    #   compiler: gcc
   allow_failures:
-#    - compiler: gcc
-#    - os: osx
     - os: linux
-      compiler: clang
-    - os: osx
-      compiler: gcc
-    - os: osx
       compiler: clang
 
 before_install:
@@ -84,6 +73,8 @@ install:
       brew install ninja
       brew unlink boost
       brew upgrade boost
+      brew install eigen
+      brew install tbb --c++11
       INCLUDE_DIR="/usr/local/include/"
       SH_LIB="a"
       LIB_DIR="/usr/local/lib/"
@@ -105,8 +96,6 @@ install:
             mkdir -p ${BOOST_DIR}
             { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
           fi
-          # Make sure we don't conflict with the Hana shipped with Boost
-          rm -rf ${BOOST_ROOT}/include/boost/{hana,hana.hpp}
         fi
         CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
       fi
@@ -125,9 +114,6 @@ install:
   - travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
   - cd googletest/googlemock
   - echo $CMAKE_OPTIONS
-  - echo $CXXFLAGS
-  - echo $LDFLAGS
-  - echo $LD_LIBRARY_PATH
   - cmake $CMAKE_OPTIONS -G Ninja .
   - ninja
   - sudo cp -a include/gmock ${INCLUDE_DIR}
@@ -142,6 +128,7 @@ install:
   - curl -L -o CGAL-4.9.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.tar.gz
   - tar zxvf CGAL-4.9.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.9
+  - echo $CMAKE_OPTIONS
   - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - ninja
   - sudo ninja install &> install.log
@@ -150,6 +137,7 @@ install:
 script:
   - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=${BOOST_DIR}"
   - mkdir build && cd build
+  - echo $CMAKE_OPTIONS
   - cmake $CMAKE_OPTIONS -G Ninja ..
   - ninja
 
