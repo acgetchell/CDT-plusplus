@@ -3,7 +3,7 @@
 
 project( CDT-plusplus )
 
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.7.2)
 
 #General
 ###############################################################################
@@ -25,7 +25,7 @@ set(GMOCK_TESTS TRUE)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
-set(BOOST_MIN_VERSION "1.58.0")
+set(BOOST_MIN_VERSION "1.63.0")
 
 #Main program executable
 ###############################################################################

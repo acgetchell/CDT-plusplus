@@ -10,13 +10,14 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 [Computational Geometry Algorithms Library][2] and [Eigen][25]>3.1.0, compiled
 with [CMake][3] using [Clang][4]/[LLVM][5].
 Arbitrary-precision numbers and functions by [MPFR][29] and [GMP][30].
-Option-types via [Boost][47] >= 1.58.0.
+Option-types via [Boost][47] >= 1.63.0.
 [Docopt][19] provides a beautiful command-line interface.
 [Gmock 1.8][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
 Intel's [TBB][37] provides significantly better performance if present (3x+).
-Follows (mostly) the [Google C++ Style Guide][7] as enforced by [clang-format][46], which
-you can check by downloading and running the [cpplint.py][8] script:
+Follows (mostly) the [Google C++ Style Guide][7] as enforced by
+[clang-format][46], which you can check by downloading and running the 
+[cpplint.py][8] script:
 
 ~~~
 python cpplint.py <filename>
@@ -57,49 +58,27 @@ The goals and targets of this project are:
 ------
 
 [CDT++][38] should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake][14], [CGAL][15], and [Eigen][25] installed. [TBB][37] provides an
-optional (but significant) speed boost.  [Gmock][6] is optional
-for running the unit tests, and [Ninja][18] is an optional replacement for
-`make` which provides quick parallel builds of the unit tests.
+[CMake][14], [CGAL][15], [Boost][47], [MPFR][29], and [Eigen][25] installed. 
+[TBB][37] provides an optional (but significant) speed boost.  [Gmock][6] is 
+optional (but recommended) for running the unit tests, and [Ninja][18] is an 
+optional replacement for `make` which provides quick parallel builds of the 
+unit tests.
 
 On MacOS, the easiest way to do this is with [HomeBrew][16]:
 
 ~~~
-brew install cmake
+brew unlink cmake
+brew upgrade cmake
+brew install ninja
+brew unlink boost
+brew upgrade boost
 brew install eigen
 brew install tbb --c++11
-brew install ninja
 brew install cgal --imaging --with-eigen3 --with-lapack
 ~~~
 
-On Ubuntu, you will need an updated versions of gcc and [Boost][47], which you can install via:
-
-~~~
-sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
-# For Ubuntu 14.04
-# sudo add-apt-repository -y ppa:kzemek/boost
-sudo apt-get update
-sudo apt-get install g++-6
-export CXX="g++-6" CC="gcc-6"
-~~~
-
-Then you can install the rest of the needed libraries:
-
-~~~
-# For Ubuntu 16.04 which comes with Boost 1.58.0
-sudo apt-get install libboost-all-dev
-# For Ubuntu 14.04
-# sudo apt-get install boost1.58
-sudo apt-get install libmpfr-dev
-sudo apt-get install libgmp3-dev
-sudo apt-get install cmake
-sudo apt-get install libeigen3-dev
-sudo apt-get install libtbb-dev
-sudo apt-get install ninja-build
-sudo apt-get install libcgal-dev
-~~~
-
-This is scripted in [.travis.yml][39].
+On Ubuntu, you will need an updated versions of [clang][4] or [gcc][48], 
+[CMake][3], and [Boost][47], which is scripted in [.travis.yml][39].
 
 ### Build ###
 ------
@@ -118,10 +97,15 @@ make
 (Or run [build.sh][27] if you have [Ninja][18] installed.)
 
 This should result in the main program executable, `cdt` in the `build/`
-directory.
+directory, along with several others.
+
+* `cdt-gv` converts output files to GeomView format for visualization
+* `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
+debugging and scripting
 
 If you have [GMock][6] installed and set `GMOCK_TESTS` to **TRUE** (which is the
-default), the unit test executable, `unittests`, will also be present. See [Tests](#tests) for details.
+default), the unit test executable, `unittests`, will also be present.
+See [Tests](#tests) for details.
 
 If you are not interested in the unit tests and only want to run the program,
 set `GMOCK_TESTS` in [CMakeLists.txt][28] to **FALSE**.
@@ -140,7 +124,10 @@ Basically, everywhere you see `make` you can type `ninja` instead. Again, see
 
 Possible build troubles:
 -----------------------
-* While running `build.sh` under linux with `gcc` you may encounter `virtual memory exhausted: Cannot allocate memory`, a common solution for which is to [allocate swap space](http://www.cyberciti.biz/faq/linux-add-a-swap-file-howto/).
+* While running `build.sh` under linux with `gcc` you may encounter 
+`virtual memory exhausted: Cannot allocate memory`, a common solution for
+which is to
+[allocate swap space](http://www.cyberciti.biz/faq/linux-add-a-swap-file-howto/).
 
 ### Usage ###
 ------
@@ -214,7 +201,8 @@ If you do not have GraphViz installed, set this option to **NO**
 or understand the source code in detail. Building the [GMock][6] `unittests`
 executable is set by the `GMOCK_TESTS` variable in [CMakeLists.txt][28].
 
-To install GMock, you'll need to install GMock and GTest as a shared library. First look at the [README][24] to understand the general idea. On Linux:
+To install GMock, you'll need to install GMock and GTest as a shared library.
+First look at the [README][24] to understand the general idea. On Linux:
 
 ~~~
 git clone https://github.com/google/googletest.git
@@ -331,3 +319,4 @@ Please see [CONTRIBUTING.md][45].
 [45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [46]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html
 [47]: http://www.boost.org
+[48]: https://gcc.gnu.org/

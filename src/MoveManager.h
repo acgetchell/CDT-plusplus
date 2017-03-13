@@ -169,10 +169,8 @@ class MoveManager {
       std::cerr << "Caught non-std::exception!" << std::endl;
     }
     // Disengage boost::optional value which returns results of invalid move
-    // Only works on recent versions of Boost (>1.58)
-    // This is the correct line for Metropolis() to work
+    // Only works on recent versions of Boost (>1.63)
     universe_ = {};
-    // This line is just for testing until we properly disengage option-type
     return universe_;
   }
 };
