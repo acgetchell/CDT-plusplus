@@ -29,7 +29,7 @@ cache:
   apt:
   ccache:
   directories:
-    - ${TRAVIS_BUILD_DIR}/deps/boost-1.63.0
+    - ${TRAVIS_BUILD_DIR}/boost-1.63.0
 
 env:
   global:
@@ -75,6 +75,7 @@ before_install:
 #  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
+  - if [[ "${BOOST_VERSION}" == "default" ]]; then BOOST_VERSION=1.63.0; fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew unlink cmake
