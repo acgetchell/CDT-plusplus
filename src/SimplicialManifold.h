@@ -15,11 +15,11 @@
 
 #include "S3Triangulation.h"
 #include <boost/optional.hpp>
+#include <map>
 #include <memory>
+#include <set>
 #include <utility>
 #include <vector>
-#include <map>
-#include <set>
 
 using Facet = Delaunay::Facet;
 
@@ -55,9 +55,11 @@ struct GeometryInfo {
   std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
+  /// \todo Needs to be added to move assignment
   boost::optional<std::multimap<uintmax_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
+  /// \todo Needs to be added to move assignment
   boost::optional<std::set<uintmax_t>> timevalues;
 
   /// @brief Default constructor
@@ -111,6 +113,10 @@ struct GeometryInfo {
   /// @return A copy-assigned GeometryInfo{}
   GeometryInfo& operator=(const GeometryInfo&) = default;
 
+  /// @brief Timelike edges
+  /// @return Edges spanning timeslices
+  auto N1_TL() { return timelike_edges.size(); }
+
   /// @brief (3,1) and (1,3) simplices
   /// @return The total number of simplices with 3 vertices on one
   /// timeslice and 1 vertex on the adjacent timeslice. Used to
@@ -142,7 +148,7 @@ struct GeometryInfo {
     return timelike_edges.size() + spacelike_edges.size();
   }
 
-//  auto max_timevalue() { return *timevalues.crbegin();}
+  //  auto max_timevalue() { return *timevalues.crbegin();}
   boost::optional<std::uintmax_t> max_timevalue() {
     return timevalues ? *timevalues->crbegin() : 0;
   }

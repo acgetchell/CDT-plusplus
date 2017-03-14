@@ -323,4 +323,9 @@ inline auto expected_points_per_simplex(const int            dimension,
 /// @return The double version
 inline auto Gmpzf_to_double(Gmpzf value) { return value.to_double(); }
 
+template <typename T>
+bool IsBetween(T arg, T lower, T upper) {
+  return arg >= lower && arg <= upper;
+}
+
 #endif  // SRC_UTILITIES_H_

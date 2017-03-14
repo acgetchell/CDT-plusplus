@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2016 Adam Getchell
+/// Copyright © 2016 Adam Getchell
 ///
 /// Simulation class methods. This is essentially the main loop of CDT.
 /// You push algorithms and other methods you want executed onto the
@@ -21,17 +21,25 @@
 #include <utility>
 #include <vector>
 
+/// @struct
+/// @brief Simulation queue of various functions on SimplicialManifold.
 struct Simulation {
   using element = function_ref<SimplicialManifold(SimplicialManifold)>;
   std::vector<element> queue_;
 
+  /// @brief Queue of function objects.
+  /// @tparam T Function object type
+  /// @param callable The function to be called
   template <typename T>
   void queue(T&& callable) {
     queue_.emplace_back(std::forward<T>(callable));
   }
 
-  SimplicialManifold start(SimplicialManifold&& initial) {  //  NOLINT
-    SimplicialManifold value{std::forward<SimplicialManifold>(initial)};
+  /// @brief Start running queued functions in Simulation.
+  /// @param universe
+  /// @return The **universe** after all queued functions have be called on it
+  SimplicialManifold start(SimplicialManifold&& universe) {  //  NOLINT
+    SimplicialManifold value{std::forward<SimplicialManifold>(universe)};
 
     for (const auto& item : queue_) {
       value = item(value);

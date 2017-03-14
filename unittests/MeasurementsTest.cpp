@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2016 Adam Getchell
 ///
 /// Checks various measurement functions perform correctly.
 
@@ -12,13 +12,10 @@
 #include "Measurements.h"
 #include "gmock/gmock.h"
 
+constexpr uintmax_t simplices  = 6400;
+constexpr uintmax_t timeslices = 7;
 
-using namespace testing;  // NOLINT
-
-constexpr uintmax_t simplices  = 64000;
-constexpr uintmax_t timeslices = 13;
-
-class MeasurementsTest : public Test {
+class MeasurementsTest : public ::testing::Test {
  public:
   MeasurementsTest() : manifold{make_triangulation(simplices, timeslices)} {}
 
