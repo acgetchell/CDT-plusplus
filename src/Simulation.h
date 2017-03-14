@@ -34,13 +34,8 @@ struct Simulation {
   void queue(T&& callable) {
     queue_.emplace_back(std::forward<T>(callable));
   }
-
-  /// @brief Start running queued functions in Simulation.
-  /// @param universe
-  /// @return The **universe** after all queued functions have be called on it
-  SimplicialManifold start(SimplicialManifold&& universe) {  //  NOLINT
-    SimplicialManifold value{std::forward<SimplicialManifold>(universe)};
-
+  
+  SimplicialManifold start(SimplicialManifold value) const {
     for (const auto& item : queue_) {
       value = item(value);
     }
