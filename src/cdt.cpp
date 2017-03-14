@@ -131,11 +131,16 @@ int main(int argc, char* const argv[]) {
     // \todo: add strong exception-safety guarantee on Metropolis functor
     Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
 
+    // Initialize triangulation
+    SimplicialManifold universe;
+
     // Queue up simulation with desired algorithm
     my_simulation.queue(
         [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
 
-    SimplicialManifold manifold;
+    // Measure results
+    my_simulation.queue(
+        [](SimplicialManifold s) { return VolumePerTimeslice(s); });
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
@@ -147,8 +152,9 @@ int main(int argc, char* const argv[]) {
     switch (topology) {
       case topology_type::SPHERICAL:
         if (dimensions == 3) {
-          SimplicialManifold manifold1(simplices, timeslices);
-          swap(manifold, manifold1);  // SimplicialManifold swapperator
+          SimplicialManifold populated_universe(simplices, timeslices);
+          // SimplicialManifold swapperator for no-throw
+          swap(universe, populated_universe);
         } else {
           t.stop();  // End running time counter
           throw std::invalid_argument("Currently, dimensions cannot be >3.");
@@ -158,11 +164,9 @@ int main(int argc, char* const argv[]) {
         t.stop();  // End running time counter
         throw std::invalid_argument(
             "Toroidal triangulations not yet supported.");  // NOLINT
-      default:
-        assert(!"cdt.cpp should never get here!");
     }
 
-    if (!fix_timeslices(manifold.triangulation)) {
+    if (!fix_timeslices(universe.triangulation)) {
       t.stop();  // End running time counter
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }
@@ -172,19 +176,19 @@ int main(int argc, char* const argv[]) {
               << std::endl;
 
     // The main work of the program
-    auto result =
-        my_simulation.start(std::move(manifold));
+    universe = my_simulation.start(std::move(universe));
+
     // Output results
     t.stop();  // End running time counter
     std::cout << "Final Delaunay triangulation has ";
-    print_results(result, t);
+    print_results(universe, t);
 
     // Write results to file
     // Strong exception-safety guarantee
     // \todo: Fixup so that cell->info() and vertex->info() values
     //                   are written
-    write_file(result, topology, dimensions,
-               result.triangulation->number_of_finite_cells(), timeslices);
+    write_file(universe, topology, dimensions,
+               universe.triangulation->number_of_finite_cells(), timeslices);
 
     return 0;
 

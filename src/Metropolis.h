@@ -22,8 +22,7 @@
 /// @file Metropolis.h
 /// @brief Perform Metropolis-Hastings algorithm on Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
+/// @bug There's a segfault in CalculateA1 on MacOS/gcc.
 
 #ifndef SRC_METROPOLIS_H_
 #define SRC_METROPOLIS_H_

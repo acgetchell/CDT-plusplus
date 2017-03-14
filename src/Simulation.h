@@ -34,7 +34,10 @@ struct Simulation {
   void queue(T&& callable) {
     queue_.emplace_back(std::forward<T>(callable));
   }
-  
+
+  /// @brief Start running queued functions in Simulation
+  /// @param value The SimplicialManifold
+  /// @return The SimplicialManifold with item applied to it
   SimplicialManifold start(SimplicialManifold value) const {
     for (const auto& item : queue_) {
       value = item(value);
