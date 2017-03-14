@@ -34,6 +34,7 @@ doc_html/
 *.tar.gz
 googletest/
 Testing/
+cov-int
 
 # Editor files
 .clang_complete
@@ -46,9 +47,8 @@ grid_d
 # Output files
 *.dat
 output
-*.txt
 *.off
-install.log
+*.log
 
 # Instrumentation
 *.trace

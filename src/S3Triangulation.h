@@ -68,7 +68,7 @@
 #include <vector>
 
 // CDT headers
-#include "src/utilities.h"
+#include "utilities.h"
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -94,8 +94,15 @@ using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
                std::vector<Cell_handle>, std::vector<Edge_handle>,
                std::vector<Edge_handle>, std::vector<Vertex_handle>>;
-using Move_tuple = std::tuple<std::uintmax_t, std::uintmax_t, std::uintmax_t,
-                              std::uintmax_t, std::uintmax_t>;
+using Move_tracker = std::array<uintmax_t, 5>;
+
+enum class move_type {
+  TWO_THREE = 0,
+  THREE_TWO = 1,
+  TWO_SIX   = 2,
+  SIX_TWO   = 3,
+  FOUR_FOUR = 4
+};
 
 /// The maximum number of passes to fix invalidly foliated simplices
 static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
@@ -121,7 +128,9 @@ static constexpr int DIMENSION = 3;
 /// timelike edges and spacelike edges
 template <typename T>
 auto classify_edges(T&& universe_ptr) {
+#ifndef NDEBUG
   std::cout << "Classifying edges...." << std::endl;
+#endif
   Delaunay::Finite_edges_iterator eit;
   std::vector<Edge_handle>        timelike_edges;
   std::vector<Edge_handle>        spacelike_edges;
@@ -178,7 +187,9 @@ auto classify_edges(T&& universe_ptr) {
 /// **three_one**, **two_two**, and **one_three**
 template <typename T>
 auto classify_simplices(T&& universe_ptr) {
+#ifndef NDEBUG
   std::cout << "Classifying simplices...." << std::endl;
+#endif
   Delaunay::Finite_cells_iterator cit;
   std::vector<Cell_handle>        three_one;
   std::vector<Cell_handle>        two_two;
@@ -231,7 +242,9 @@ auto classify_simplices(T&& universe_ptr) {
 
 template <typename T>
 auto classify_all_simplices(T&& universe_ptr) {
+#ifndef NDEBUG
   std::cout << "Classifying all simplices...." << std::endl;
+#endif
 
   auto                       cells = classify_simplices(universe_ptr);
   auto                       edges = classify_edges(universe_ptr);
@@ -380,7 +393,7 @@ void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices) {
 /// @returns  A std::pair<std::vector, std::uintmax_t> containing random
 /// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::uintmax_t simplices,
-                                 const std::uintmax_t timeslices) noexcept {
+                                 const std::uintmax_t timeslices) {
   //  double     radius{0};
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
@@ -392,7 +405,7 @@ auto inline make_foliated_sphere(const std::uintmax_t simplices,
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points
     for (unsigned j = 0; j < points_per_timeslice; ++j) {
-      causal_vertices.first.emplace_back(*gen++);
+      causal_vertices.first.push_back(*gen++);
       causal_vertices.second.emplace_back(radius);
     }  // end j
   }    // end i

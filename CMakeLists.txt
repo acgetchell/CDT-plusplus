@@ -1,9 +1,9 @@
 #Created by the script cgal_create_cmake_script
 #This is the CMake script for compiling a CGAL application.
 
-project( CDT-plusplus_ )
+project( CDT-plusplus )
 
-cmake_minimum_required(VERSION 2.8.11)
+cmake_minimum_required(VERSION 3.7.2)
 
 #General
 ###############################################################################
@@ -25,7 +25,7 @@ set(GMOCK_TESTS TRUE)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
-set(BOOST_MIN_VERSION "1.58.0")
+set(BOOST_MIN_VERSION "1.63.0")
 
 #Main program executable
 ###############################################################################
@@ -34,6 +34,7 @@ set(EXECUTABLE_NAME "CDT")
 find_package(CGAL QUIET COMPONENTS Core )
 
 # Need working version of boost::optional
+set(Boost_DEBUG TRUE)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 if (NOT Boost_FOUND)
     message(FATAL_ERROR "Boost >= 1.58.0 required.\n")
@@ -147,5 +148,6 @@ set_tests_properties(CDT-GeomView
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
 
+# This takes a long time now so cancel
 #cdt-opt
-add_test(CDT-Optimizer cdt-opt)
+#add_test(CDT-Optimizer cdt-opt)

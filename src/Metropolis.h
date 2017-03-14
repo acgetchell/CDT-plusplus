@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2015 Adam Getchell
 ///
 /// Performs the Metropolis-Hastings algorithm on the foliated Delaunay
 /// triangulations.
@@ -35,32 +35,35 @@
 // #include <CGAL/Mpzf.h>
 
 // CDT headers
+#include "Measurements.h"
+#include "MoveManager.h"
 #include "S3Action.h"
 #include "S3ErgodicMoves.h"
-#include "SimplicialManifold.h"
 
 // C++ headers
-#include <tuple>
-// #include <atomic>
 #include <algorithm>
+//#include <tuple>
+#include <type_traits>
 #include <utility>
 #include <vector>
+#include <atomic>
 
 using Gmpzf = CGAL::Gmpzf;
 
 extern const std::uintmax_t PRECISION;
 
-enum class move_type {
-  TWO_THREE = 0,
-  THREE_TWO = 1,
-  TWO_SIX   = 2,
-  SIX_TWO   = 3,
-  FOUR_FOUR = 4
-};
-
-/// @class Metropolis
+/// @brief Convert enum class to its underlying type
 ///
-/// @brief Metropolis-Hastings algorithm functor
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type // NOLINT
+/// @tparam E Enum class type
+/// @param e Enum class
+/// @return Integral type of enum member
+template <typename E>
+constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type {
+  return static_cast<typename std::underlying_type<E>::type>(e);
+}
+/// @class Metropolis
+/// @brief Metropolis-Hastings algorithm function object
 ///
 /// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
 /// The probability of making an ergodic (Pachner) move is:
@@ -69,18 +72,52 @@ enum class move_type {
 /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
 /// \f[a_2=e^{\Delta S}\f]
 class Metropolis {
+ private:
+  /// @brief A SimplicialManifold.
+  SimplicialManifold universe_;
+
+  /// @brief The length of the timelike edges.
+  long double Alpha_;
+
+  /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$.
+  long double K_;
+
+  /// @brief \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
+  /// the cosmological constant.
+  long double Lambda_;
+
+  /// @brief The current number of timelike edges
+  std::uintmax_t N1_TL_{0};
+
+  /// @brief The current number of (3,1) and (1,3) simplices
+  std::uintmax_t N3_31_{0};
+
+  /// @brief The current number of (2,2) simplices
+  std::uintmax_t N3_22_{0};
+
+  /// @brief Number of passes of ergodic moves on triangulation.
+  std::uintmax_t passes_{100};
+
+  /// @brief How often to print/write output.
+  std::uintmax_t checkpoint_{10};
+
+  /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
+  Move_tracker attempted_moves_{};
+
+  /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
+  std::array<std::atomic_uintmax_t, 5> successful_moves_{};
+
  public:
-  /// @brief Metropolis constructor
+  /// @brief Metropolis function object constructor
   ///
-  /// Minimal setup of runtime job parameters.
-  /// All the real work is done by operator().
+  /// Setup of runtime job parameters.
   ///
-  /// @param[in] Alpha  \f$\alpha\f$ is the timelike edge length
-  /// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-  /// @param[in] Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
-  ///                   Cosmological constant
-  /// @param[in] passes Number of passes of ergodic moves on triangulation.
-  /// @param[in] checkpoint How often to print/write output.
+  /// @param Alpha \f$\alpha\f$ is the timelike edge length.
+  /// @param K \f$k=\frac{1}{8\pi G_{Newton}}\f$
+  /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+  /// Cosmological constant.
+  /// @param passes Number of passes of ergodic moves on triangulation.
+  /// @param checkpoint Print/write output for every n=checkpoint passes.
   Metropolis(const long double Alpha, const long double K,
              const long double Lambda, const std::uintmax_t passes,
              const std::uintmax_t checkpoint)
@@ -94,104 +131,85 @@ class Metropolis {
 #endif
   }
 
-  /// Gets value of **Alpha_**.
+  /// @brief Gets value of **Alpha_**.
+  /// @return Alpha_
   auto Alpha() const noexcept { return Alpha_; }
 
-  /// Gets value of **K_**.
+  /// @brief Gets value of **K_**.
+  /// @return K_
   auto K() const noexcept { return K_; }
 
-  /// Gets value of **Lambda_**.
+  /// @brief Gets value of **Lambda_**.
+  /// @return Lambda_
   auto Lambda() const noexcept { return Lambda_; }
 
-  /// Gets value of **passes_**.
+  /// @brief Gets value of **passes_**.
+  /// @return passes_
   auto Passes() const noexcept { return passes_; }
 
-  /// Gets value of **checkpoint_**.
-  auto Output() const noexcept { return checkpoint_; }
+  /// @brief Gets value of **checkpoint_**.
+  /// @return checkpoint_
+  auto Checkpoint() const noexcept { return checkpoint_; }
 
-  /// Gets attempted (2,3) moves.
-  auto TwoThreeMoves() const noexcept { return std::get<0>(attempted_moves_); }
+  /// @brief Gets attempted (2,3) moves.
+  /// @return attempted_moves_[0]
+  auto TwoThreeMoves() const noexcept { return attempted_moves_[0]; }
 
-  /// Gets successful (2,3) moves.
+  /// @brief Gets successful (2,3) moves.
+  /// @return successful_moves_[0]
   auto SuccessfulTwoThreeMoves() const noexcept {
-    return std::get<0>(successful_moves_);
+    return successful_moves_[0].load();
   }
 
-  /// Gets attempted (3,2) moves.
-  auto ThreeTwoMoves() const noexcept { return std::get<1>(attempted_moves_); }
+  /// @brief Gets attempted (3,2) moves.
+  /// @return attempted_moves_[1]
+  auto ThreeTwoMoves() const noexcept { return attempted_moves_[1]; }
 
-  /// Gets successful (3,2) moves.
+  /// @brief Gets successful (3,2) moves.
+  /// @return std::get<1>(successful_moves_)
   auto SuccessfulThreeTwoMoves() const noexcept {
-    return std::get<1>(successful_moves_);
+    return successful_moves_[1].load();
   }
 
-  /// Gets attempted (2,6) moves.
-  auto TwoSixMoves() const noexcept { return std::get<2>(attempted_moves_); }
+  /// @brief Gets attempted (2,6) moves.
+  /// @return return attempted_moves_[2]
+  auto TwoSixMoves() const noexcept { return attempted_moves_[2]; }
 
-  /// Gets successful (2,6) moves.
+  /// @brief Gets successful (2,6) moves.
+  /// @return std::get<2>(successful_moves_)
   auto SuccessfulTwoSixMoves() const noexcept {
-    return std::get<2>(successful_moves_);
+    return successful_moves_[2].load();
   }
 
-  /// Gets attempted (6,2) moves.
-  auto SixTwoMoves() const noexcept { return std::get<3>(attempted_moves_); }
+  /// @brief Gets attempted (6,2) moves.
+  /// @return return attempted_moves_[3]
+  auto SixTwoMoves() const noexcept { return attempted_moves_[3]; }
 
-  /// Gets successful (6,2) moves.
+  /// @brief Gets successful (6,2) moves.
+  /// @return std::get<3>(attempted_moves_)
   auto SuccessfulSixTwoMoves() const noexcept {
-    return std::get<3>(attempted_moves_);
+    return successful_moves_[3].load();
   }
 
-  /// Gets attempted (4,4) moves.
-  auto FourFourMoves() const noexcept { return std::get<4>(attempted_moves_); }
+  /// @brief Gets attempted (4,4) moves.
+  /// @return attempted_moves_[4]
+  auto FourFourMoves() const noexcept { return attempted_moves_[4]; }
 
-  /// Gets successful (4,4) moves.
+  /// @brief Gets successful (4,4) moves.
+  /// @return std::get<4>(attempted_moves_)
   auto SuccessfulFourFourMoves() const noexcept {
-    return std::get<4>(attempted_moves_);
+    return successful_moves_[4].load();
   }
 
-  /// Gets the total number of attempted moves.
+  /// @brief Gets the total number of attempted moves.
+  /// @return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves()
+  /// + FourFourMoves()
   auto TotalMoves() const noexcept {
     return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves() +
            FourFourMoves();
   }
 
-  /// Gets the vector of **Edge_handles** corresponding to
-  /// movable timelike edges.
-  auto MovableTimelikeEdges() const noexcept {
-    return movable_edge_types_.first;
-  }
-
-  /// Gets the vector of **Cell_handles** corresponding to
-  /// movable (3,1) simplices.
-  auto MovableThreeOneSimplices() const noexcept {
-    return std::get<0>(movable_simplex_types_);
-  }
-
-  /// Gets the vector of **Cell_handles** corresponding to
-  /// movable (2,2) simplices.
-  auto MovableTwoTwoSimplices() const noexcept {
-    return std::get<1>(movable_simplex_types_);
-  }
-
-  /// Gets the vector of **Cell_handles** corresponding to
-  /// movable (1,3) simplices.
-  auto MovableOneThreeSimplices() const noexcept {
-    return std::get<2>(movable_simplex_types_);
-  }
-
-  /// Gets current number of timelike edges
-  auto TimelikeEdges() const noexcept { return N1_TL_; }
-
-  /// Gets current number of (3,1) and (1,3) simplices
-  auto ThreeOneSimplices() const noexcept { return N3_31_; }
-
-  /// Gets current number of (2,2) simplices
-  auto TwoTwoSimplices() const noexcept { return N3_22_; }
-
-  /// Gets current total number of simplices
-  auto CurrentTotalSimplices() const noexcept {
-    return ThreeOneSimplices() + TwoTwoSimplices();
-  }
+  auto CurrentTotalSimplices() const noexcept { return N3_31_ + N3_22_; }
 
   /// @brief Calculate A1
   ///
@@ -199,36 +217,11 @@ class Metropolis {
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
   ///
-  /// @param[in] move The type of move
-  /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
-  auto CalculateA1(move_type move) const noexcept {
+  /// @param move The type of move
+  /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
+  auto CalculateA1(const move_type move) const noexcept {
     auto total_moves = this->TotalMoves();
-    auto this_move   = 0;
-    auto move_name   = "";
-    switch (move) {
-      case move_type::TWO_THREE:
-        this_move = std::get<0>(attempted_moves_);
-        move_name = "(2,3)";
-        break;
-      case move_type::THREE_TWO:
-        this_move = std::get<1>(attempted_moves_);
-        move_name = "(3,2)";
-        break;
-      case move_type::TWO_SIX:
-        this_move = std::get<2>(attempted_moves_);
-        move_name = "(2,6)";
-        break;
-      case move_type::SIX_TWO:
-        this_move = std::get<3>(attempted_moves_);
-        move_name = "(6,2)";
-        break;
-      case move_type::FOUR_FOUR:
-        this_move = std::get<4>(attempted_moves_);
-        move_name = "(4,4)";
-        break;
-      default:
-        assert(!"Metropolis::CalculateA1 should never get here!");
-    }
+    auto this_move   = attempted_moves_[to_integral(move)];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
@@ -253,20 +246,19 @@ class Metropolis {
 
 #ifndef NDEBUG
     std::cout << "TotalMoves() = " << total_moves << std::endl;
-    std::cout << move_name << " moves = " << this_move << std::endl;
     std::cout << "A1 is " << result << std::endl;
 #endif
 
     return result;
   }  // CalculateA1()
 
-  /// @brief Calculte A2
+  /// @brief Calculate A2
   ///
   /// Calculate \f$a_2=e^{\Delta S}\f$
   ///
-  /// @param[in] move The type of move
-  /// @returns \f$a_2=e^{\Delta S}\f$
-  auto CalculateA2(move_type move) const noexcept {
+  /// @param move The type of move
+  /// @return \f$a_2=e^{-\Delta S}\f$
+  auto CalculateA2(const move_type move) const noexcept {
     auto currentS3Action =
         S3_bulk_action(N1_TL_, N3_31_, N3_22_, Alpha_, K_, Lambda_);
     auto newS3Action = static_cast<Gmpzf>(0);
@@ -303,11 +295,10 @@ class Metropolis {
         std::cout << "A2 is 1" << std::endl;
 #endif
         return static_cast<Gmpzf>(1);
-      default:
-        assert(!"Metropolis::CalculateA2 should never get here!");
     }
 
-    auto exponent        = newS3Action - currentS3Action;
+//    auto exponent        = newS3Action - currentS3Action;
+    auto exponent = currentS3Action - newS3Action;
     auto exponent_double = Gmpzf_to_double(exponent);
 
     // if exponent > 0 then e^exponent >=1 so according to Metropolis
@@ -338,7 +329,31 @@ class Metropolis {
 #endif
 
     return result;
-  }  // CAlculateA2()
+  }  // CalculateA2()
+
+  void print_run() {
+    std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
+    std::cout << "Timeslices: "
+              << this->universe_.geometry->max_timevalue().get() << std::endl;
+    std::cout << "N3_31: " << N3_31_ << std::endl;
+    std::cout << "N3_22: " << N3_22_ << std::endl;
+    std::cout << "Timelike edges: " << N1_TL_ << std::endl;
+    std::cout << "Successful (2,3) moves: " << SuccessfulTwoThreeMoves()
+              << std::endl;
+    std::cout << "Attempted (2,3) moves: " << TwoThreeMoves() << std::endl;
+    std::cout << "Successful (3,2) moves: " << SuccessfulThreeTwoMoves()
+              << std::endl;
+    std::cout << "Attempted (3,2) moves: " << ThreeTwoMoves() << std::endl;
+    std::cout << "Successful (2,6) moves: " << SuccessfulTwoSixMoves()
+              << std::endl;
+    std::cout << "Attempted (2,6) moves: " << TwoSixMoves() << std::endl;
+    std::cout << "Successful (6,2) moves: " << SuccessfulSixTwoMoves()
+              << std::endl;
+    std::cout << "Attempted (6,2) moves: " << SixTwoMoves() << std::endl;
+    std::cout << "Successful (4,4) moves: " << SuccessfulFourFourMoves()
+              << std::endl;
+    std::cout << "Attempted (4,4) moves: " << FourFourMoves() << std::endl;
+  }
 
   /// @brief Make a move of the selected type
   ///
@@ -348,98 +363,105 @@ class Metropolis {
   /// handles the bookkeeping for successful_moves_ and updates the
   /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
   ///
-  /// \todo Add exception handling for moves to gracefully recover
-  /// \todo Deprecate in favor of PachnerMove::make_move()
+  /// \done Add exception handling for moves to gracefully recover
+  /// \done Use MoveManager RAII class
   ///
-  /// @param[in] move The type of move
+  /// @param move The type of move
   void make_move(const move_type move) {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
+
+    // Make working copies
+    boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
+    auto maybe_move_count = boost::make_optional(true, attempted_moves_);
+
+    // Initialize MoveManager
+    MoveManager<decltype(maybe_moved_universe), decltype(maybe_move_count)>
+        this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
+
+    // Setup moves
+    auto move_23_lambda = [](
+        SimplicialManifold manifold,
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
+      return make_23_move(std::move(manifold), attempted_moves);
+    };
+    auto move_32_lambda = [](
+        SimplicialManifold manifold,
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
+      return make_32_move(std::move(manifold), attempted_moves);
+    };
+    auto move_26_lambda = [](
+        SimplicialManifold manifold,
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
+      return make_26_move(std::move(manifold), attempted_moves);
+    };
+    auto move_62_lambda = [](
+        SimplicialManifold manifold,
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
+      return make_62_move(std::move(manifold), attempted_moves);
+    };
+
     switch (move) {
-      case move_type::TWO_THREE:
-#ifndef NDEBUG
-        std::cout << "(2,3) move" << std::endl;
-#endif
-        make_23_move(std::move(universe_ptr_), attempted_moves_);
-        // make_23_move() increments attempted_moves_
-        // Increment N3_22_, N1_TL_ and successful_moves_
-        ++N3_22_;
-        ++N1_TL_;
-        ++std::get<0>(successful_moves_);
-        break;
-      case move_type::THREE_TWO:
-#ifndef NDEBUG
-        std::cout << "(3,2) move" << std::endl;
-#endif
-        // \todo: Fix make_32_move in Metropolis.h
-        //        make_32_move(universe_ptr_, movable_edge_types_,
-        //        attempted_moves_);
-        // make_32_move() increments attempted_moves_
-        // Decrement N3_22_ and N1_TL_, increment successful_moves_
-        --N3_22_;
-        --N1_TL_;
-        ++std::get<1>(successful_moves_);
-        break;
-      case move_type::TWO_SIX:
-#ifndef NDEBUG
-        std::cout << "(2,6) move" << std::endl;
-#endif
-        // \todo: Fix make_26_move in Metropolis.h
-        //        make_26_move(universe_ptr_, movable_simplex_types_,
-        //        attempted_moves_);
-        // make_26_move() increments attempted_moves_
-        // Increment N3_31, N1_TL_ and successful_moves_
-        N3_31_ += 4;
-        N1_TL_ += 2;
-        // We don't currently keep track of changes to spacelike edges
-        // because it doesn't figure in the bulk action formula, but if
-        // we did there would be 3 additional spacelike edges to add here.
-        ++std::get<2>(successful_moves_);
-        break;
-      case move_type::SIX_TWO:
-#ifndef NDEBUG
-        std::cout << "(6,2) move" << std::endl;
-#endif
-        // make_62_move(universe_ptr_, movable_types_, attempted_moves_);
-        // N3_31_ -= 4;
-        // N1_TL_ -= 2;
-        // ++std::get<3>(successful_moves_);
-        break;
+      case move_type::TWO_THREE: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+            move_function(move_23_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
+      } break;
+      case move_type::THREE_TWO: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+            move_function(move_32_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
+      } break;
+      case move_type::TWO_SIX: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+            move_function(move_26_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
+      } break;
+      case move_type::SIX_TWO: {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+            move_function(move_62_lambda);
+        maybe_moved_universe = this_move.operator()(move_function);
+      } break;
       case move_type::FOUR_FOUR:
-#ifndef NDEBUG
-        std::cout << "(4,4) move" << std::endl;
-#endif
-        // make_44_move(universe_ptr_, movable_types_, attempted_moves_);
-        // ++std::get<4>(successful_moves_);
         break;
-      default:
-        assert(!"Metropolis::make_move should never get here!");
     }
+
+    // Check if move completed successfully and update if so
+    if (maybe_moved_universe) {
+      swap(universe_, maybe_moved_universe.get());
+      swap(attempted_moves_, this_move.attempted_moves_.get());
+      ++successful_moves_[to_integral(move)];
+    }
+
+    // Update counters
+    N1_TL_ = universe_.geometry->N1_TL();
+    N3_31_ = universe_.geometry->N3_31();
+    N3_22_ = universe_.geometry->N3_22();
   }  // make_move()
 
   /// @brief Attempt a move of the selected type
   ///
   /// This function implements the core of the Metropolis-Hastings algorithm
   /// by generating a random number and comparing with the results of
-  /// CalculateA1() and CalculateA2(). If the move is accepted, this function
-  /// calls make_move(). If not, it updates attempted_moves_.
+  /// CalculateA1 and CalculateA2. If the move is accepted, this function
+  /// calls make_move(). If not, it updates **attempted_moves_**.
   ///
-  /// @param[in] move The type of move
-  void attempt_move(const move_type move) noexcept {
+  /// @param move The type of move
+  void attempt_move(const move_type move) {
     // Calculate probability
     auto a1 = CalculateA1(move);
     // Make move if random number < probability
     auto a2 = CalculateA2(move);
 
-    const auto trialval = generate_probability();
-    // Convert to Gmpzf because trialval will be set to 0 when
+    const auto trial_value = generate_probability();
+    // Convert to Gmpzf because trial_value will be set to 0 when
     // comparing with a1 and a2!
-    const auto trial = Gmpzf(static_cast<double>(trialval));
+    const auto trial = Gmpzf(static_cast<double>(trial_value));
 
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-    std::cout << "trialval = " << trialval << std::endl;
+    std::cout << "trial_value = " << trial_value << std::endl;
     std::cout << "trial = " << trial << std::endl;
 #endif
 
@@ -449,189 +471,94 @@ class Metropolis {
     } else {
       // Move rejected
       // Increment attempted_moves_
-      // Too bad the following doesn't work because std::get wants a constexpr
-      // ++std::get<static_cast<size_t>(move)>(attempted_moves);
-      // Instead, need to use a switch statement
-      switch (move) {
-        case move_type::TWO_THREE:
-          ++std::get<0>(attempted_moves_);
-          break;
-        case move_type::THREE_TWO:
-          ++std::get<1>(attempted_moves_);
-          break;
-        case move_type::TWO_SIX:
-          ++std::get<2>(attempted_moves_);
-          break;
-        case move_type::SIX_TWO:
-          ++std::get<3>(attempted_moves_);
-          break;
-        case move_type::FOUR_FOUR:
-          ++std::get<4>(attempted_moves_);
-          break;
-        default:
-          assert(!"Metropolis::attempt_move should never get here!");
-      }
+      ++attempted_moves_[to_integral(move)];
     }
 
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
     std::cout << "Attempting move." << std::endl;
-    std::cout << "Move type = " << static_cast<std::uintmax_t>(move)
-              << std::endl;
+    std::cout << "Move type = " << to_integral(move) << std::endl;
     std::cout << "Trial = " << trial << std::endl;
     std::cout << "A1 = " << a1 << std::endl;
     std::cout << "A2 = " << a2 << std::endl;
     std::cout << "A1*A2 = " << a1 * a2 << std::endl;
     std::cout << ((trial <= a1 * a2) ? "Move accepted." : "Move rejected.")
               << std::endl;
-    std::cout << "Successful (2,3) moves = " << SuccessfulTwoThreeMoves()
-              << std::endl;
-    std::cout << "Attempted (2,3) moves = " << TwoThreeMoves() << std::endl;
-
-    std::cout << "Successful (3,2) moves = " << SuccessfulThreeTwoMoves()
-              << std::endl;
-    std::cout << "Attempted (3,2) moves = " << ThreeTwoMoves() << std::endl;
-
-    std::cout << "Successful (2,6) moves = " << SuccessfulTwoSixMoves()
-              << std::endl;
-    std::cout << "Attempted (2,6) moves = " << TwoSixMoves() << std::endl;
-
-    std::cout << "Successful (6,2) moves = " << SuccessfulSixTwoMoves()
-              << std::endl;
-    std::cout << "Attempted (6,2) moves = " << SixTwoMoves() << std::endl;
-
-    std::cout << "Successful (4,4) moves = " << SuccessfulFourFourMoves()
-              << std::endl;
-    std::cout << "Attempted (4,4) moves = " << FourFourMoves() << std::endl;
+    print_run();
 #endif
   }  // attempt_move()
 
-  void reset_movable() {
-    // Re-populate with current data
-    auto new_movable_simplex_types =
-        classify_simplices(universe_ptr_.triangulation);
-    auto new_movable_edge_types = classify_edges(universe_ptr_.triangulation);
-    // Swap new data into class data members
-    std::swap(movable_simplex_types_, new_movable_simplex_types);
-    std::swap(movable_edge_types_, new_movable_edge_types);
-  }
-
-  /// @brief () operator
+  /// @brief Call operator
   ///
-  /// This makes the Metropolis class into a functor. Minimal setup of
+  /// This makes the Metropolis class into a function object. Setup of the
   /// runtime job parameters is handled by the constructor. This () operator
-  /// conducts all of algorithmic work for Metropolis-Hastings on the
-  /// Delaunay triangulation.
+  /// conducts all of the algorithmic work for Metropolis-Hastings on the
+  /// manifold.
   ///
-  /// @param[in] universe_ptr A std::unique_ptr to the Delaunay triangulation,
-  /// which should already be initialized with **make_triangulation()**.
-  /// @returns The std::unique_ptr to the Delaunay triangulation. Note that
-  /// this sets the data member **universe_ptr_** to null, and so no operations
-  /// can be successfully carried out on **universe_ptr_** when operator()
-  /// returns. Instead, they should be conducted on the std::move() results
-  /// of this function call.
-  // \todo: Fix Metropolis::operator()
+  /// @tparam T Type of manifold
+  /// @param universe Manifold on which to operate
+  /// @return The **universe** upon which the passes have been completed.
   template <typename T>
-  auto operator()(T&& universe_ptr) -> decltype(universe_ptr) {
+  auto operator()(T&& universe) -> decltype(universe) {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
-    std::cout << "Starting Metropolis-Hastings algorithm ..." << std::endl;
+    std::cout << "Starting Metropolis-Hastings algorithm ...\n";
     // Populate member data
-    universe_ptr_ = std::move(universe_ptr);
-    //    // movable_simplex_types_ = classify_simplices(universe_ptr_);
-    //    // movable_edge_types_ = classify_edges(universe_ptr_);
-    //    reset_movable();
-    //    N3_31_ =
-    //    static_cast<std::uintmax_t>(std::get<0>(movable_simplex_types_).size()
-    //                                  +
-    //                                  std::get<2>(movable_simplex_types_).size());
-    //    std::cout << "N3_31_ = " << N3_31_ << std::endl;
-    //
-    //    N3_22_ =
-    //    static_cast<std::uintmax_t>(std::get<1>(movable_simplex_types_).size());
-    //    std::cout << "N3_22_ = " << N3_22_ << std::endl;
-    //
-    //    N1_TL_ =
-    //    static_cast<std::uintmax_t>(movable_edge_types_.first.size());
-    //    std::cout << "N1_TL_ = " << N1_TL_ << std::endl;
-    //
-    //    // Make a successful move of each type to populate
-    //    **attempted_moves_**
-    //    std::cout << "Making initial moves ..." << std::endl;
-    //    make_move(move_type::TWO_THREE);
-    //    make_move(move_type::THREE_TWO);
-    //    make_move(move_type::TWO_SIX);
-    //    // Other moves go here ...
-    //
-    //    std::cout << "Making random moves ..." << std::endl;
-    //    // Loop through passes_
-    //    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
-    //         ++pass_number) {
-    //      auto total_simplices_this_pass = CurrentTotalSimplices();
-    //      // Loop through CurrentTotalSimplices
-    //      for (auto move_attempt = 0; move_attempt <
-    //      total_simplices_this_pass;
-    //           ++move_attempt) {
-    //        // Pick a move to attempt
-    //        auto move_choice = generate_random_unsigned(0, 2);
-    //        #ifndef NDEBUG
-    //        std::cout << "Move choice = " << move_choice << std::endl;
-    //        #endif
-    //
-    //        // Convert std::uintmax_t move_choice to move_type enum
-    //        auto move = static_cast<move_type>(move_choice);
-    //        attempt_move(move);
-    //      }  // End loop through CurrentTotalSimplices
-    //      // Reset movable data structures
-    //      // reset_movable();
-    //      // Do stuff on checkpoint_
-    //      if ((pass_number % checkpoint_) == 0) {
-    //        std::cout << "Pass " << pass_number << std::endl;
-    //        // write results to a file
-    //      }
-    //    }  // End loop through passes_
-    return universe_ptr_;
-  }
+    universe_ = std::move(universe);
+    N1_TL_    = universe_.geometry->N1_TL();
+    N3_31_    = universe_.geometry->N3_31();
+    N3_22_    = universe_.geometry->N3_22();
 
- private:
-  //  Delaunay universe;
-  ///< The type of triangulation.
-  //  std::unique_ptr<decltype(universe)>
-  //    universe_ptr_ = std::make_unique<decltype(universe)>(universe);
-  SimplicialManifold universe_ptr_;
-  ///< A std::unique_ptr to the Delaunay triangulation. For this reason you
-  /// should not access this member directly, as operator() may be called
-  /// at any time and null it out via std::move().
-  long double Alpha_;
-  ///< Alpha is the length of timelike edges.
-  long double K_;
-  ///< \f$K=\frac{1}{8\pi G_{N}}\f$
-  long double Lambda_;
-  ///< \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
-  /// the cosmological constant.
-  std::uintmax_t N1_TL_{0};
-  ///< The current number of timelike edges, some of which may not be movable.
-  std::uintmax_t N3_31_{0};
-  ///< The current number of (3,1) and (1,3) simplices, some of which may not
-  /// be movable.
-  std::uintmax_t N3_22_{0};
-  ///< The current number of (2,2) simplices, some of which may not be movable.
-  std::uintmax_t passes_{100};
-  ///< Number of passes of ergodic moves on triangulation.
-  std::uintmax_t checkpoint_{10};
-  ///< How often to print/write output.
-  Move_tuple attempted_moves_{0, 0, 0, 0, 0};
-  ///< Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tuple successful_moves_{0, 0, 0, 0, 0};
-  ///< Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-             std::vector<Cell_handle>>
-      movable_simplex_types_;
-  ///< Movable (3,1), (2,2) and (1,3) simplices.
-  std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>>
-      movable_edge_types_;
-  ///< Movable timelike and spacelike edges.
+    // Populate attempted_moves_ and successful_moves_
+    std::cout << "Making initial moves ...\n";
+    try {
+      // Determine how many actual timeslices there are
+      universe_ = std::move(VolumePerTimeslice(universe_));
+      // Make a successful move of each type
+      make_move(move_type::TWO_THREE);
+      make_move(move_type::THREE_TWO);
+      make_move(move_type::TWO_SIX);
+      make_move(move_type::SIX_TWO);
+      print_run();
+    } catch (std::logic_error& LogicError) {
+      std::cerr << LogicError.what() << std::endl;
+      std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
+    }
+
+    std::cout << "Making random moves ..." << std::endl;
+    // Loop through passes_
+    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
+         ++pass_number) {
+      auto total_simplices_this_pass = CurrentTotalSimplices();
+      // Loop through CurrentTotalSimplices
+      for (std::uintmax_t move_attempt = 0;
+           move_attempt < total_simplices_this_pass; ++move_attempt) {
+        // Pick a move to attempt
+        auto move_choice = generate_random_unsigned(0, 3);
+#ifndef NDEBUG
+        std::cout << "Move choice = " << move_choice << std::endl;
+#endif
+
+        // Convert std::uintmax_t move_choice to move_type enum
+        auto move = static_cast<move_type>(move_choice);
+        attempt_move(move);
+      }  // End loop through CurrentTotalSimplices
+
+      // Do stuff on checkpoint_
+      if ((pass_number % checkpoint_) == 0) {
+        std::cout << "Pass " << pass_number << std::endl;
+        // write results to a file
+        write_file(universe_, topology_type::SPHERICAL, 3,
+                   universe_.geometry->number_of_cells(),
+                   universe_.geometry->max_timevalue().get());
+      }
+    }  // End loop through passes_
+    // output results
+    std::cout << "Run results: " << std::endl;
+    print_run();
+    return universe_;
+  }
 };  // Metropolis
 
 #endif  // SRC_METROPOLIS_H_

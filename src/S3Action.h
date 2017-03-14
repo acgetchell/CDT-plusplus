@@ -45,14 +45,13 @@ static constexpr std::uintmax_t PRECISION = 256;
 /// \lambda\right)+N_3^{(2,2)}\left(7.386ik+0.118i\lambda\right)
 /// \equiv iS^3_{EDT}\f]
 ///
-/// @param[in] N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-/// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
-///                   simplices
-/// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
-/// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-/// @param[in] Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+/// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
+/// @param N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices
+/// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+/// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
+/// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @returns \f$S^{(3)}(\alpha=-1)\f$ as a
+/// @return \f$S^{(3)}(\alpha=-1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
@@ -121,14 +120,13 @@ inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
 /// \f[S^{(3)}(\alpha=1)=2\pi k N_1^{TL}+N_3^{(3,1)}\left(-3.548k-0.167\lambda
 /// \right)+N_3^{(2,2)}\left(-5.355k-0.204\lambda\right)\f]
 ///
-/// @param[in] N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-/// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
-///                   simplices
-/// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
-/// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-/// @param[in] Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+/// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
+/// @param N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices
+/// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+/// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
+/// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @returns \f$S^{(3)}(\alpha=1)\f$ as a
+/// @return \f$S^{(3)}(\alpha=1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
@@ -211,15 +209,14 @@ inline auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
 /// {4\alpha +1}\right)-4k\sqrt{\alpha}\text{arccos}\left(\frac{-1}{4\alpha+1}
 /// \right)-\frac{\lambda}{12}\sqrt{4\alpha +2}\right]\f}
 ///
-/// @param[in] N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-/// @param[in] N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
-///                   simplices
-/// @param[in] N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
-/// @param[in] Alpha  \f$\alpha\f$ is the timelike edge length
-/// @param[in] K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
-/// @param[in] Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
+/// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
+/// @param N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices
+/// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
+/// @param Alpha  \f$\alpha\f$ is the timelike edge length
+/// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
+/// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @returns \f$S^{(3)}(\alpha)\f$ as a
+/// @return \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline auto S3_bulk_action(const std::uintmax_t N1_TL,

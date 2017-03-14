@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014-2016 Adam Getchell
+/// Copyright © 2014-2017 Adam Getchell
 ///
 /// Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.
 ///
@@ -44,7 +44,7 @@
 /// between a (3,1) simplex and a (2,2) simplex into its dual edge.
 ///
 /// @tparam T The manifold type
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param to_be_moved The **Cell_handle** that is tried
 /// @return A boolean value whether the move succeeded
 template <typename T>
@@ -76,9 +76,9 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved) {
 ///
 /// @tparam T1 The manifold type
 /// @tparam T2 The type of the tuple holding attempted moves
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
-/// @return The SimplicialManifold{} after the move has been made
+/// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
 auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #ifndef NDEBUG
@@ -95,7 +95,7 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
 
     // Increment the (2,3) move counter
-    ++std::get<0>(attempted_moves);
+    ++attempted_moves[0];
   }
   // Uses return value optimization and allows chaining function calls
   return std::move(universe);
@@ -107,7 +107,7 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// timelike edge into it's dual facet.
 ///
 /// @tparam T The manifold type
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param to_be_moved The Edge_handle that is tried
 /// @return A boolean value whether the move succeeded
 template <typename T>
@@ -130,9 +130,9 @@ auto try_32_move(T&& universe, Edge_handle to_be_moved) {
 ///
 /// @tparam T1 The manifold type
 /// @tparam T2 The type of the tuple holding attempted moves
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
-/// @return The SimplicialManifold{} after the move has been made
+/// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
 auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #ifndef NDEBUG
@@ -158,7 +158,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
     }
     // Increment the (3,2) move counter
-    ++std::get<1>(attempted_moves);
+    ++attempted_moves[1];
   }
   // Uses return value optimization and allows chaining function calls
   return std::move(universe);
@@ -232,7 +232,7 @@ inline auto find_26_movable(const Cell_handle c, unsigned* n) {
 ///
 /// @tparam T1 The manifold type
 /// @tparam T2 The type of the tuple holding attempted moves
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// of each type given by the **move_type** enum
 /// @return The SimplicialManifold{} after the move has been made
@@ -251,12 +251,16 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     unsigned    neighboring_31_index{5};
     Cell_handle bottom = universe.geometry->one_three[choice];
 
-    CGAL_triangulation_expensive_precondition(is_cell(bottom));
+    //    CGAL_triangulation_expensive_precondition(is_cell(bottom));
+    if (!universe.triangulation->tds().is_cell(bottom))
+      throw std::runtime_error("make_26_move() bottom is not a cell!");
 
     find_26_movable(bottom, &neighboring_31_index);
 
     // If neighboring_31_index == 5 there's an error
-    CGAL_triangulation_postcondition(neighboring_31_index != 5);
+    //    CGAL_triangulation_postcondition(neighboring_31_index != 5);
+    if (neighboring_31_index == 5)
+      throw std::runtime_error("make_26_move() neighboring_31_index invalid!");
 
 #ifndef NDEBUG
     std::cout << "neighboring_31_index is " << neighboring_31_index
@@ -275,7 +279,9 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
 
     // If common_face_index == 5 there's an error
-    CGAL_triangulation_postcondition(common_face_index != 5);
+    //    CGAL_triangulation_postcondition(common_face_index != 5);
+    if (common_face_index == 5)
+      throw std::runtime_error("make_26_move() common_face_index invalid!");
 
     int mirror_common_face_index{5};
     top->has_neighbor(bottom, mirror_common_face_index);
@@ -286,7 +292,11 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
 
     // If mirror_common_face_index == 5 there's an error
-    CGAL_triangulation_postcondition(mirror_common_face_index != 5);
+    //    CGAL_triangulation_postcondition(mirror_common_face_index != 5);
+    if (mirror_common_face_index == 5)
+      throw std::runtime_error(
+          "make_26_move() mirror_common_face_index "
+          "invalid!");
 
     // Get indices of vertices of common face with respect to bottom cell
     int i1 = (common_face_index + 1) & 3;
@@ -366,14 +376,14 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
     }
     // Increment the (2,6) move counter
-    ++std::get<2>(attempted_moves);
+    ++attempted_moves[2];
   }
   return std::move(universe);
 }  // make_26_move()
 
 /// @brief Find a (6,2) move
 /// @tparam T The manifold type
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param candidate A vertex to test
 /// @return True if a (6,2) move can be made on the candidate vertex
 template <typename T>
@@ -420,9 +430,9 @@ auto find_62_movable(T&& universe, Vertex_handle candidate) {
 ///
 /// @tparam T1 The manifold type
 /// @tparam T2 The type of the tuple holding attempted moves
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
-/// @return The SimplicialManifold{} after the move has been made
+/// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
@@ -440,7 +450,8 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     }
     tds_vertices.erase(tds_vertices.begin() + choice);  // O(|V|) bottleneck
     tds_vertices_size--;
-    ++std::get<3>(attempted_moves);
+    // Increment the (6,2) move counter
+    ++attempted_moves[3];
   }
 
   if (tds_vertices_size == 0) {
@@ -464,9 +475,9 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 ///
 /// @tparam T1 The manifold type
 /// @tparam T2 The type of the tuple holding attempted moves
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
-/// @return The SimplicialManifold{} after the move has been made
+/// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
 auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   std::vector<Edge_handle> movable_spacelike_edges{
@@ -479,7 +490,8 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   if (movable_spacelike_edges.size() == 0) {
     throw std::domain_error("No (4,4) move is possible.");
   }
-  ++std::get<4>(attempted_moves);
+  // Increment the (4,4) move counter
+  ++attempted_moves[4];
   return std::move(universe);
 }  // make_44_move()
 

@@ -89,6 +89,6 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
   manifold.geometry->spacelike_facets = spacelike_facets;
 
   return manifold;
-}
+}  // VolumePerTimeslice()
 
 #endif  // SRC_MEASUREMENTS_H_

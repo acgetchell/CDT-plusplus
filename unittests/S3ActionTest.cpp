@@ -11,21 +11,22 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
+// clang-format off
 #include <algorithm>
 #include <vector>
 
+#include "src/utilities.h"
 #include "S3Action.h"
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
+// clang-format on
 
-using namespace testing;  // NOLINT
-
-class S3ActionTest : public Test {
+class S3ActionTest : public ::testing::Test {
  protected:
   S3ActionTest()
-      : universe_{make_triangulation(6400, 17)}
-      , attempted_moves_{std::make_tuple(0, 0, 0, 0, 0)}
+      : universe_{make_triangulation(6400, 7)}
+      , attempted_moves_{}
       , N3_31_before{universe_.geometry->three_one.size()}
       , N3_22_before{universe_.geometry->two_two.size()}
       , N3_13_before{universe_.geometry->one_three.size()}
@@ -49,27 +50,36 @@ class S3ActionTest : public Test {
               << std::endl;
   }
 
+  /// @brief Simplicial manifold containing pointer to triangulation
+  /// and geometric information.
   SimplicialManifold universe_;
-  ///< Simplicial manifold containing pointer to triangulation
-  ///< and geometric information.
-  Move_tuple attempted_moves_;
-  ///< A count of all attempted moves.
+
+  /// @brief A count of all attempted moves.
+  Move_tracker attempted_moves_;
+
+  /// @brief Initial number of (3,1) simplices
   std::uintmax_t N3_31_before;
-  ///< Initial number of (3,1) simplices
+
+  /// @brief Initial number of (2,2) simplices
   std::uintmax_t N3_22_before;
-  ///< Initial number of (2,2) simplices
+
+  /// @brief Initial number of (1,3) simplices
   std::uintmax_t N3_13_before;
-  ///< Initial number of (1,3) simplices
+
+  /// @brief Initial number of timelike edges
   std::uintmax_t timelike_edges_before;
-  ///< Initial number of timelike edges
+
+  /// @brief Initial number of spacelike edges
   std::uintmax_t spacelike_edges_before;
-  ///< Initial number of spacelike edges
+
+  /// @brief Initial number of vertices
   std::uintmax_t vertices_before;
-  ///< Initial number of vertices
-  static constexpr auto K = static_cast<long double>(1.1);
-  ///< K value
+
+  /// @brief K value
+  static constexpr long double K = static_cast<long double>(1.1);
+
+  /// @brief Lambda value
   static constexpr auto Lambda = static_cast<long double>(2.2);
-  ///< Lambda value
 };
 
 TEST_F(S3ActionTest, GetN3Values) {
@@ -93,8 +103,8 @@ TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
             << std::endl;
 
   // Magic values from lots of tests
-  EXPECT_THAT(Bulk_action, AllOf(Ge(1100), Le(3300)))
-      << "S3_bulk_action_alpha_minus_one() out of expected range.";
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 10000, 13000))
+      << "S3_bulk_action_minus_one() out of expected range";
 }
 
 TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
@@ -105,7 +115,7 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
             << std::endl;
 
   // Magic values from lots of tests
-  EXPECT_THAT(Bulk_action, AllOf(Le(-1000), Ge(-2600)))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, -10000, -9000))
       << "S3_bulk_action_alpha_one() out of expected range.";
 }
 
@@ -118,7 +128,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
 
   // Magic value from lots of tests
-  EXPECT_THAT(Bulk_action, AllOf(Le(-700), Ge(-1800)))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, -7000, -6000))
       << "S3_bulk_action() out of expected range.";
 }
 
@@ -144,6 +154,6 @@ TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   const auto max = abs(Bulk_action_one * (1.0 + tolerance));
   std::cout << "(Gmpzf) max = " << max << std::endl;
 
-  ASSERT_THAT(abs(Bulk_action), AllOf(Ge(min), Le(max)))
+  ASSERT_TRUE(IsBetween<Gmpzf>(abs(Bulk_action), min, max))
       << "General Bulk action does not match Bulk action for alpha=1.";
 }
