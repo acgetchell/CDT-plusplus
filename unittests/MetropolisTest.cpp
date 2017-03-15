@@ -74,13 +74,13 @@ class MetropolisTest : public ::testing::Test {
   std::uintmax_t vertices_before;
 
   /// \f$\alpha\f$ is the timelike edge length
-  long double Alpha = 1.1;
+  long double Alpha = 0.6;
 
   /// \f$k=\frac{1}{8\pi G_{Newton}}\f$
-  long double K = 2.2;
+  long double K = 1.1;
 
   /// \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the Cosmological constant
-  long double Lambda = 3.3;
+  long double Lambda = 0.01;
 
   /// Number of passes through the algorithm. Each pass attempts a number of
   /// moves equal to the number of simplices
