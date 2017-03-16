@@ -5,10 +5,6 @@ project( CDT-plusplus )
 
 cmake_minimum_required(VERSION 3.7.2)
 
-# Don't let CGAL override flags
-set( CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE )
-
-
 #General
 ###############################################################################
 #Activate C++14 support
@@ -45,6 +41,9 @@ if (NOT Boost_FOUND)
 endif ()
 
 if ( CGAL_FOUND )
+  # Don't let CGAL override flags
+  set( CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain
+   CMAKE flags" )
 
   include( ${CGAL_USE_FILE} )
 
