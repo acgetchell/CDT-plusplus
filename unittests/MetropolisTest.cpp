@@ -80,7 +80,7 @@ class MetropolisTest : public ::testing::Test {
   long double K = 1.1;
 
   /// \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the Cosmological constant
-  long double Lambda = 0.01;
+  long double Lambda = 0.1;
 
   /// Number of passes through the algorithm. Each pass attempts a number of
   /// moves equal to the number of simplices
@@ -157,12 +157,24 @@ TEST_F(MetropolisTest, Operator) {
   EXPECT_GE(testrun.SuccessfulTwoThreeMoves(), 1)
       << "No successful (2,3) moves.";
 
+  EXPECT_GT(testrun.SuccessfulTwoThreeMoves(), 1)
+      << "No successful (2,3) moves after initialization.";
+
   EXPECT_GE(testrun.SuccessfulThreeTwoMoves(), 1)
       << "No successful (3,2) moves.";
 
+  EXPECT_GT(testrun.SuccessfulThreeTwoMoves(), 1)
+      << "No successful (3,2) moves after initialization.";
+
   EXPECT_GE(testrun.SuccessfulTwoSixMoves(), 1) << "No successful (2,6) moves.";
 
+  EXPECT_GT(testrun.SuccessfulTwoSixMoves(), 1)
+      << "No successful (2,6) moves after initialization.";
+
   EXPECT_GE(testrun.SuccessfulSixTwoMoves(), 1) << "No successful (6,2) moves.";
+
+  EXPECT_GT(testrun.SuccessfulSixTwoMoves(), 1)
+      << "No successful (6,2) moves after initialization.";
 
   //  EXPECT_THAT(testrun.SuccessfulFourFourMoves(), Ge(1))
   //      << "No successful (4,4) moves.";
@@ -172,25 +184,25 @@ TEST_F(MetropolisTest, Operator) {
             testrun.TotalMoves())
       << "Moves don't add up.";
 
-  EXPECT_EQ(result.geometry->N1_TL(), timelike_edges_before -
-                                          testrun.SuccessfulThreeTwoMoves() +
-                                          testrun.SuccessfulTwoThreeMoves() +
-                                          2 * testrun.SuccessfulTwoSixMoves() -
-                                          2 * testrun.SuccessfulSixTwoMoves())
+  EXPECT_EQ(result.geometry->N1_TL(),
+            timelike_edges_before - testrun.SuccessfulThreeTwoMoves() +
+                testrun.SuccessfulTwoThreeMoves() +
+                2 * testrun.SuccessfulTwoSixMoves() -
+                2 * testrun.SuccessfulSixTwoMoves())
       << "Timelike edges not correctly counted during moves.";
 
-  EXPECT_EQ(result.triangulation->number_of_finite_edges(), result
-      .geometry->N1_TL() + result.geometry->spacelike_edges.size())
+  EXPECT_EQ(result.triangulation->number_of_finite_edges(),
+            result.geometry->N1_TL() + result.geometry->spacelike_edges.size())
       << "Spacelike + Timelike edges don't add up to number_of_finite_edges.";
 
-  EXPECT_EQ(result.geometry->N3_22(), N3_22_before +
-                                          testrun.SuccessfulTwoThreeMoves() -
-                                          testrun.SuccessfulThreeTwoMoves())
+  EXPECT_EQ(result.geometry->N3_22(),
+            N3_22_before + testrun.SuccessfulTwoThreeMoves() -
+                testrun.SuccessfulThreeTwoMoves())
       << "(2,2) simplices not correctly counted during moves.";
 
-  EXPECT_EQ(result.geometry->N3_31(), N3_13_before + N3_31_before +
-                                          4 * testrun.SuccessfulTwoSixMoves() -
-                                          4 * testrun.SuccessfulSixTwoMoves())
+  EXPECT_EQ(result.geometry->N3_31(),
+            N3_13_before + N3_31_before + 4 * testrun.SuccessfulTwoSixMoves() -
+                4 * testrun.SuccessfulSixTwoMoves())
       << "(1,3) and (3,1) simplices not correctly counted during moves.";
 }
 

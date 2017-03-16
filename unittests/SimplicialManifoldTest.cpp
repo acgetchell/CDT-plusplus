@@ -85,8 +85,8 @@ TEST(SimplicialManifold, GeometryInfoStruct) {
 //  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
 //      << "GeometryInfo struct is not no-throw copy assignable.";
 
-  EXPECT_TRUE(std::is_move_assignable<GeometryInfo>::value)
-      << "GeometryInfo struct is not move assignable.";
+//  EXPECT_TRUE(std::is_move_assignable<GeometryInfo>::value)
+//      << "GeometryInfo struct is not move assignable.";
 
   EXPECT_TRUE(std::is_nothrow_move_assignable<GeometryInfo>::value)
       << "GeometryInfo struct is not no-throw move assignable.";

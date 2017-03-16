@@ -237,8 +237,9 @@ class Metropolis {
     // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
+//    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
     // MP_Float result = MP_Float(mpfr_get_ld(a1, MPFR_RNDD));
+    auto result = mpfr_get_d(a1, MPFR_RNDD);
 
     // Free memory
     mpfr_clears(r1, r2, a1, nullptr);
@@ -293,7 +294,7 @@ class Metropolis {
 #ifndef NDEBUG
         std::cout << "A2 is 1" << std::endl;
 #endif
-        return static_cast<Gmpzf>(1);
+        return static_cast<double>(1);
     }
 
 //    auto exponent        = newS3Action - currentS3Action;
@@ -302,7 +303,7 @@ class Metropolis {
 
     // if exponent > 0 then e^exponent >=1 so according to Metropolis
     // algorithm return A2=1
-    if (exponent >= 0) return static_cast<Gmpzf>(1);
+    if (exponent >= 0) return static_cast<double>(1);
 
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -318,7 +319,8 @@ class Metropolis {
     mpfr_exp(a2, r1, MPFR_RNDD);
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
+//    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
+    auto result = mpfr_get_d(a2, MPFR_RNDD);
 
     // Free memory
     mpfr_clears(r1, a2, nullptr);
@@ -456,7 +458,8 @@ class Metropolis {
     const auto trial_value = generate_probability();
     // Convert to Gmpzf because trial_value will be set to 0 when
     // comparing with a1 and a2!
-    const auto trial = Gmpzf(static_cast<double>(trial_value));
+//    const auto trial = Gmpzf(static_cast<double>(trial_value));
+    const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;

@@ -5,6 +5,10 @@ project( CDT-plusplus )
 
 cmake_minimum_required(VERSION 3.7.2)
 
+# Don't let CGAL override flags
+set( CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE )
+
+
 #General
 ###############################################################################
 #Activate C++14 support
@@ -17,7 +21,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 
 #Extra warnings
-add_definitions(-Wall -Wextra)
+add_definitions(-Wall)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
