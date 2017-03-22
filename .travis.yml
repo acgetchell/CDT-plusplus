@@ -25,12 +25,6 @@ addons:
 #    build_command:   "./build.sh"
 #    branch_pattern: master
 
-cache:
-  apt:
-  ccache:
-  directories:
-    - ${TRAVIS_BUILD_DIR}/boost-1.63.0
-
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
@@ -38,6 +32,12 @@ env:
    - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
   matrix:
     - BOOST_VERSION=1.63.0
+
+cache:
+  apt:
+  ccache:
+  directories:
+    - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
 
 os:
   - linux
@@ -72,7 +72,7 @@ install:
       brew link --overwrite gcc
       brew install ninja
       brew unlink boost
-      brew upgrade boost
+      brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
       INCLUDE_DIR="/usr/local/include/"
