@@ -90,7 +90,7 @@ install:
           if [[ "${BOOST_VERSION}" == "trunk" ]]; then
             BOOST_URL="http://github.com/boostorg/boost.git"
             travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
-            (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers)
+            (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 install)
           else
             BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
             mkdir -p ${BOOST_DIR}
@@ -134,7 +134,6 @@ install:
   - cd ..
 
 script:
-  - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DBOOST_ROOT=${BOOST_DIR}"
   - mkdir build && cd build
   - echo $CMAKE_OPTIONS
   - cmake $CMAKE_OPTIONS -G Ninja ..
