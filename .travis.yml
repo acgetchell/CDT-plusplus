@@ -30,8 +30,10 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
+   - BOOST_VERSION=1.63.0
   matrix:
-    - BOOST_VERSION=1.63.0
+    - GMOCK=true
+    - GMOCK=false
 
 cache:
   apt:
@@ -51,6 +53,10 @@ matrix:
   allow_failures:
     - os: linux
       compiler: clang
+      env: GMOCK=true
+    - os: linux
+      compiler: clang
+      env: GMOCK=false
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -109,19 +115,22 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-3.9" CC="clang-3.9"; fi
   # Install GMock/GTest from source
-  - GTEST_URL="https://github.com/google/googletest.git"
-  - travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
-  - cd googletest/googlemock
-  - echo $CMAKE_OPTIONS
-  - cmake $CMAKE_OPTIONS -G Ninja .
-  - ninja
-  - sudo cp -a include/gmock ${INCLUDE_DIR}
-  - sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
-  - cd ../googletest
-  - cmake $CMAKE_OPTIONS -G Ninja .
-  - ninja
-  - sudo cp -a include/gtest ${INCLUDE_DIR}
-  - sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
+  - |
+    if [[ ${GMOCK} == "true" ]]; then
+      GTEST_URL="https://github.com/google/googletest.git"
+      travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
+      cd googletest/googlemock
+      echo $CMAKE_OPTIONS
+      cmake $CMAKE_OPTIONS -G Ninja .
+      ninja
+      sudo cp -a include/gmock ${INCLUDE_DIR}
+      sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
+      cd ../googletest
+      cmake $CMAKE_OPTIONS -G Ninja .
+      ninja
+      sudo cp -a include/gtest ${INCLUDE_DIR}
+      sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
+    fi
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
   - curl -L -o CGAL-4.9.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.tar.gz
@@ -135,14 +144,22 @@ install:
 
 script:
   - mkdir build && cd build
+  - |
+    if [[ ${GMOCK} == "true" ]]; then
+      CMAKE_OPTIONS=" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
+      -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=ON"
+    else
+      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
+      -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
+    fi
   - echo $CMAKE_OPTIONS
   - cmake $CMAKE_OPTIONS -G Ninja ..
   - ninja
 
 after_success:
   - cd build
-# GMock with random test order
-  - "./unittests --gtest_shuffle"
+  # GMock with random test order
+  - if [[ ${GMOCK} == "true" ]]; then "./unittests --gtest_shuffle"; fi
 # CTest
   - ninja test
 
