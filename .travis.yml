@@ -159,7 +159,7 @@ script:
 after_success:
   - cd build
   # GMock with random test order
-  - if [[ ${GMOCK} == "true" ]]; then "./unittests --gtest_shuffle"; fi
+  - if [[ ${GMOCK} == "true" ]]; then ./unittests --gtest_shuffle; fi
 # CTest
   - ninja test
 
