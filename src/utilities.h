@@ -17,6 +17,10 @@
 #ifndef SRC_UTILITIES_H_
 #define SRC_UTILITIES_H_
 
+/// Toggles detailed random number generator debugging output
+#define DETAILED_DEBUGGING
+#undef DETAILED_DEBUGGING
+
 // CGAL headers
 #include <CGAL/Gmpzf.h>
 #include <CGAL/Timer.h>
@@ -212,7 +216,7 @@ inline auto generate_random_unsigned(const uintmax_t min_value,
 
   auto result = distribution(generator);
 
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
   std::cout << "Random " << (typeid(result)).name() << " is " << result
             << std::endl;
 #endif

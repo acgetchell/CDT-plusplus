@@ -11,6 +11,10 @@
 #ifndef SRC_MEASUREMENTS_H_
 #define SRC_MEASUREMENTS_H_
 
+/// Toggles detailed per-facet debugging output
+#define DETAILED_DEBUGGING
+#undef DETAILED_DEBUGGING
+
 #include "SimplicialManifold.h"
 #include <map>
 #include <set>
@@ -18,10 +22,6 @@
 #include <vector>
 
 using Facet = Delaunay::Facet;
-
-/// Toggles detailed per-facet debugging output
-#define DETAILED_DEBUGGING
-#undef DETAILED_DEBUGGING
 
 template <typename T>
 auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {

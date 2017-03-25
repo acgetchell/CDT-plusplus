@@ -47,6 +47,10 @@
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
 
+/// Toggles detailed per-simplex debugging output
+#define DETAILED_DEBUGGING
+#undef DETAILED_DEBUGGING
+
 // C headers
 #include <boost/iterator/zip_iterator.hpp>
 #include <boost/swap.hpp>
@@ -109,10 +113,6 @@ static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
 
 /// The dimensionality of the Delaunay triangulation
 static constexpr int DIMENSION = 3;
-
-/// Toggles detailed per-simplex debugging output
-#define DETAILED_DEBUGGING
-#undef DETAILED_DEBUGGING
 
 /// @brief Classifies edges
 ///

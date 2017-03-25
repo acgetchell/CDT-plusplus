@@ -8,15 +8,15 @@ addons:
     packages:
       - g++-6
       - ninja-build
-      - clang-3.9
-      - lldb-3.9
+      - clang-4.0
+      - lldb-4.0
       - libmpfr-dev
       - libgmp3-dev
       - libeigen3-dev
       - libtbb-dev
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-3.9
+      - llvm-toolchain-trusty-4.0
 #  coverity_scan:
 #    project:
 #      name: "acgetchell/CDT-plusplus"
@@ -113,7 +113,7 @@ install:
   - cmake --version
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
-   CXX="clang++-3.9" CC="clang-3.9"; fi
+   CXX="clang++-4.0" CC="clang-4.0"; fi
   # Install GMock/GTest from source
   - |
     if [[ ${GMOCK} == "true" ]]; then
@@ -146,7 +146,7 @@ script:
   - mkdir build && cd build
   - |
     if [[ ${GMOCK} == "true" ]]; then
-      CMAKE_OPTIONS=" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
+      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
       -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=ON"
     else
       CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
