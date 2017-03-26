@@ -109,37 +109,26 @@ endif()
 #CTest basic testing
 include( CTest )
 
-#does the usage message work ?
-
+#Does the usage message work ?
 add_test (CDT-Usage cdt)
 set_tests_properties (CDT-Usage
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
-#Run an         S3
-#Disabled until Metropolis() fixed
+#Run an S3
+add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
+set_tests_properties(CDT-S3Runs
+PROPERTIES
+PASS_REGULAR_EXPRESSION "Writing to file S")
 
-#add_test(CDT - S3Runs cdt-- s - n6400 - t16 - a1 .1 - k2 .2 - l3 .3)
-#set_tests_properties(CDT - S3Runs
-#PROPERTIES
-#PASS_REGULAR_EXPRESSION "Writing to file S")
-
-#Make a T3
-
-#add_test(CDT - T3Runs cdt-- toroidal-- time 30 - n 6000)
-#set_tests_properties(CDT - T3Runs
-#PROPERTIES
-#PASS_REGULAR_EXPRESSION "Writing to file T")
-
-#Dimensions = 3
-
-add_test (CDT-3Donly cdt --s -n6400 -t16 -a1.1 -k2.2 -l3.3 -d4)
+#Dimensions != 4
+add_test (CDT-3Donly cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
 set_tests_properties (CDT-3Donly
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
 
 # 3D Triangle inequality
-add_test (CDT-3Dtriangle cdt --s -n6400 -t16 -a0.3 -k2.2 -l3.3 -d3)
+add_test (CDT-3Dtriangle cdt --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
 set_tests_properties (CDT-3Dtriangle
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
