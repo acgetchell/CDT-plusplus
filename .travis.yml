@@ -157,9 +157,7 @@ script:
     else
       CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
     fi
-  - if [[ ${VALGRIND} == "true" ]]; then
-      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0
-      -DGMOCK_TESTS:BOOL=OFF"
+  - if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=OFF"; fi
   - echo $CMAKE_OPTIONS
   - cmake $CMAKE_OPTIONS -G Ninja ..
   - ninja
