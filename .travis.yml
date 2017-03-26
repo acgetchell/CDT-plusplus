@@ -14,6 +14,7 @@ addons:
       - libgmp3-dev
       - libeigen3-dev
       - libtbb-dev
+      - valgrind
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-4.0
@@ -50,6 +51,7 @@ compiler:
   - clang
 
 matrix:
+  fast_finish: true
   allow_failures:
     - os: linux
       compiler: clang
@@ -57,6 +59,10 @@ matrix:
     - os: linux
       compiler: clang
       env: GMOCK=false
+  include:
+    - os: linux
+      compiler: gcc
+      env: GMOCK=false VALGRIND=true
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -144,14 +150,16 @@ install:
 
 script:
   - mkdir build && cd build
+  - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
   - |
     if [[ ${GMOCK} == "true" ]]; then
-      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
-      -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=ON"
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=ON"
     else
-      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON
-      -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
     fi
+  - if [[ ${VALGRIND} == "true" ]]; then
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0
+      -DGMOCK_TESTS:BOOL=OFF"
   - echo $CMAKE_OPTIONS
   - cmake $CMAKE_OPTIONS -G Ninja ..
   - ninja
@@ -160,6 +168,7 @@ after_success:
   - cd build
   # GMock with random test order
   - if [[ ${GMOCK} == "true" ]]; then ./unittests --gtest_shuffle; fi
+  - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=yes ./cdt --s -n640 -t7 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest
   - ninja test
 
