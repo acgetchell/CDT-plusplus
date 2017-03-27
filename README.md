@@ -103,12 +103,8 @@ directory, along with several others.
 * `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
 
-If you have [GMock][6] installed and set `GMOCK_TESTS` to **TRUE** (which is the
-default), the unit test executable, `unittests`, will also be present.
-See [Tests](#tests) for details.
-
-If you are not interested in the unit tests and only want to run the program,
-set `GMOCK_TESTS` in [CMakeLists.txt][28] to **FALSE**.
+If you have [GMock][6] installed and set `GMOCK_TESTS` to **TRUE**, the unit test executable,
+`unittests`, will also be present. See [Tests](#tests) for details.
 
 For some versions of Linux, you may have to build [CGAL][2] from source.
 Follow the instructions (or their equivalent) given in the install section
@@ -139,7 +135,7 @@ is an unambiguous match to a longer one. The help message should be instructive:
 ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2016 Adam Getchell
+Copyright (c) 2014-2017 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -187,7 +183,7 @@ locally by simply typing at the top level directory
 doxygen
 ~~~
 
-This will generate `html/` and `latex/` directories which will contain
+This will generate the `html/` directory which will contain
 documentation generated from CDT++ source files. `USE_MATHJAX` has been enabled
 in [Doxyfile][41] so that the LaTeX formulae can be rendered in the html
 documentation using [MathJax][20]. `HAVE_DOT` is set to **YES** which allows
@@ -199,7 +195,12 @@ If you do not have GraphViz installed, set this option to **NO**
 -----------
 [GMock][6] is optional, but strongly recommended if you want to make changes to
 or understand the source code in detail. Building the [GMock][6] `unittests`
-executable is set by the `GMOCK_TESTS` variable in [CMakeLists.txt][28].
+executable is set by the `GMOCK_TESTS` variable in [CMakeLists.txt][28], or
+at the command line using:
+
+~~~
+cmake -DGMOCK_TESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
+~~~
 
 To install GMock, you'll need to install GMock and GTest as a shared library.
 First look at the [README][24] to understand the general idea. On Linux:
