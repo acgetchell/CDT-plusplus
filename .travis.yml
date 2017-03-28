@@ -59,7 +59,6 @@ matrix:
     - os: linux
       compiler: clang
       env: GMOCK=false
-  include:
     - os: linux
       compiler: gcc
       env: GMOCK=false VALGRIND=true
