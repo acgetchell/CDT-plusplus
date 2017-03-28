@@ -105,7 +105,8 @@ install:
           if [[ "${BOOST_VERSION}" == "trunk" ]]; then
             BOOST_URL="http://github.com/boostorg/boost.git"
             travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
-            (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 install)
+            (cd ${BOOST_DIR} && ./bootstrap.sh --with-libraries=system,thread
+             && ./b2 install --with-system --with-thread)
           else
             BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
             mkdir -p ${BOOST_DIR}
@@ -169,7 +170,7 @@ after_success:
   - cd build
   # GMock with random test order
   - if [[ ${GMOCK} == "true" ]]; then ./unittests --gtest_shuffle; fi
-  - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=yes ./cdt --s -n640 -t7 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
+  - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=yes ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest
   - ninja test
 
