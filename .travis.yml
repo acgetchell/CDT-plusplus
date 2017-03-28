@@ -52,6 +52,10 @@ compiler:
 
 matrix:
   fast_finish: true
+  include:
+    - os: linux
+      compiler: gcc
+      env: GMOCK=false VALGRIND=true
   allow_failures:
     - os: linux
       compiler: clang
