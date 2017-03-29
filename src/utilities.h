@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2013-16 Adam Getchell
+/// Copyright © 2013-2017 Adam Getchell
 ///
 /// Utility functions for cdt.cpp
 

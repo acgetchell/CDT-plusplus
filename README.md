@@ -88,10 +88,9 @@ project without cluttering the source code. Thus, download this source code
 following commands in the top-level directory:
 
 ~~~
-mkdir build
-cd build
-cmake ..
-make
+mkdir build && cd build
+cmake -DCMAKE_BUILD_TYPE=Release ..
+cmake --build .
 ~~~
 
 (Or run [build.sh][27] if you have [Ninja][18] installed.)
@@ -103,8 +102,8 @@ directory, along with several others.
 * `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
 
-If you have [GMock][6] installed and set `GMOCK_TESTS` to **TRUE**, the unit test executable,
-`unittests`, will also be present. See [Tests](#tests) for details.
+If you have [GMock][6] installed and build unit tests, the executable
+`unittests` will also be present. See [Tests](#tests) for details.
 
 For some versions of Linux, you may have to build [CGAL][2] from source.
 Follow the instructions (or their equivalent) given in the install section
@@ -113,10 +112,8 @@ of the [.travis.yml][39] build file.
 There are enough unit tests that it's worthwhile doing fast parallel builds.
 [Ninja][18] is just the ticket. It's effectively a drop-in replacement for
 `make`, and works nicely because [CMake][3] generates the build files.
-There's quite a difference in speed.
-
-Basically, everywhere you see `make` you can type `ninja` instead. Again, see
-[build.sh][27] for an example.
+There's quite a difference in speed. CMake also [abstracts away the build][47]
+tool nicely. Again, see [build.sh][27] for an example.
 
 Possible build troubles:
 -----------------------
@@ -225,8 +222,8 @@ sudo cp -a include/gtest /usr/include/
 sudo cp -a libgtest_main.so libgtest.so /usr/lib/
 ~~~
 
-This is scripted in [.travis.yml][39]. Thanks to [ManuelSchneid3r][42] and
-[Stack Overflow][40] for the assist.
+This is scripted in [.travis.yml][39]. (Thanks to [ManuelSchneid3r][42] and
+[Stack Overflow][40] for the assist.)
 
 Unit tests using GMock are then run (in the `build/` directory) via:
 
@@ -234,16 +231,10 @@ Unit tests using GMock are then run (in the `build/` directory) via:
 ./unittests
 ~~~
 
-You can build and run validation tests by typing:
+You can also run function tests (using [CTest][10]) via:
 
 ~~~
-make test
-~~~
-
-Or, if you are using [Ninja][18]:
-
-~~~
-ninja test
+cmake --build . --target test
 ~~~
 
 In addition to the command line output, you can see detailed results in the
@@ -265,6 +256,9 @@ Also, these tools build in **DEBUG** mode. You should probably not then run
 `unittests` as you will get thousands of lines of debugging output from the
 tests that create large triangulations. (You could use `--gtest_filter`
 to run just the tests that you want.)
+
+One of the [Travis-CI][11] jobs runs [Valgrind][48]; be sure to look at the 
+results to ensure you're not leaking memory.
 
 ### Contributing ###
 
@@ -316,3 +310,5 @@ Please see [CONTRIBUTING.md][45].
 [44]: https://gcc.gnu.org/
 [45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [46]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html
+[47]: https://crascit.com/2016/04/03/scripting-cmake-builds/
+[48]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2015-2017 Adam Getchell
 ///
 /// Creates foliated spherical triangulations
 ///

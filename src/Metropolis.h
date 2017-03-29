@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015 Adam Getchell
+/// Copyright © 2015-2017 Adam Getchell
 ///
 /// Performs the Metropolis-Hastings algorithm on the foliated Delaunay
 /// triangulations.

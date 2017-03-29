@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2014-2016 Adam Getchell
+/// Copyright © 2014-2017 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional sphere of
 /// a given radius

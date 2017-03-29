@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016 Adam Getchell
+/// Copyright © 2016-2017 Adam Getchell
 ///
 /// Simulation class methods. This is essentially the main loop of CDT.
 /// You push algorithms and other methods you want executed onto the
