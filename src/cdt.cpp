@@ -24,17 +24,15 @@
 // C++ headers
 #include <utility>
 #include <vector>
+#include <map>
+#include <string>
 
 // Docopt
 #include "docopt/docopt.h"
 
 // CDT headers
-// #include "./utilities.h"
-// #include "S3Triangulation.h"
 #include "Metropolis.h"
 #include "Simulation.h"
-#include <map>
-#include <string>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -191,7 +189,6 @@ int main(int argc, char* const argv[]) {
                universe.triangulation->number_of_finite_cells(), timeslices);
 
     return 0;
-
   } catch (std::domain_error& DomainError) {
     std::cerr << DomainError.what() << std::endl;
     std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;

@@ -15,7 +15,7 @@
 
 #include "gmock/gmock.h"
 #include "src/S3Triangulation.h"
-#include "src/sphere_d.h"
+#include "src/Sphere_d.h"
 
 TEST(Sphere, Create2Sphere) {
   constexpr std::uintmax_t simplices  = 100;

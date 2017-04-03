@@ -72,7 +72,7 @@
 #include <vector>
 
 // CDT headers
-#include "utilities.h"
+#include "Utilities.h"
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -198,22 +198,21 @@ auto classify_simplices(T&& universe_ptr) {
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
-    std::uintmax_t     max_values{0};
-    std::uintmax_t     min_values{0};
+    std::uintmax_t max_values{0};
+    std::uintmax_t min_values{0};
     // Push every time value of every vertex into a list
     std::uintmax_t timevalues[4] = {
-        cit->vertex(0)->info(),
-        cit->vertex(1)->info(),
-        cit->vertex(2)->info(),
+        cit->vertex(0)->info(), cit->vertex(1)->info(), cit->vertex(2)->info(),
         cit->vertex(3)->info(),
     };
-    std::uintmax_t max_time = *std::max_element(std::begin(timevalues), std::end(timevalues));
+    std::uintmax_t max_time =
+        *std::max_element(std::begin(timevalues), std::end(timevalues));
     for (auto elt : timevalues) {
-        if (elt == max_time) {
-            ++max_values;
-        } else {
-            ++min_values;
-        }
+      if (elt == max_time) {
+        ++max_values;
+      } else {
+        ++min_values;
+      }
     }
 
     // Classify simplex using max_values and write to cit->info()
@@ -277,12 +276,12 @@ auto classify_all_simplices(T&& universe_ptr) {
 template <typename T>
 auto fix_timeslices(T&& universe_ptr) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
-  std::uintmax_t           min_time{0};
-  std::uintmax_t           max_time{0};
-  std::uintmax_t           valid{0};
-  std::uintmax_t           invalid{0};
-  std::uintmax_t           max_vertex{0};
-  std::set<Vertex_handle>  deleted_vertices;
+  std::uintmax_t                  min_time{0};
+  std::uintmax_t                  max_time{0};
+  std::uintmax_t                  valid{0};
+  std::uintmax_t                  invalid{0};
+  std::uintmax_t                  max_vertex{0};
+  std::set<Vertex_handle>         deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
@@ -361,7 +360,7 @@ template <typename T>
 void fix_triangulation(T&& universe_ptr) {
   for (std::uintmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
 #ifndef NDEBUG
-    std::cout << "Fix Pass #" << (pass+1) << std::endl;
+    std::cout << "Fix Pass #" << (pass + 1) << std::endl;
 #endif
     if (fix_timeslices(universe_ptr)) break;
   }

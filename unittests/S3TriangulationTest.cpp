@@ -15,7 +15,7 @@
 #include <utility>
 #include <memory>
 
-#include "src/utilities.h"
+#include "Utilities.h"
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"

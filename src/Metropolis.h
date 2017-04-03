@@ -41,7 +41,6 @@
 
 // C++ headers
 #include <algorithm>
-//#include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
@@ -500,6 +499,7 @@ class Metropolis {
   /// @tparam T Type of manifold
   /// @param universe Manifold on which to operate
   /// @return The **universe** upon which the passes have been completed.
+  /// \todo: Fix segfaults here
   template <typename T>
   auto operator()(T&& universe) -> decltype(universe) {
 #ifndef NDEBUG

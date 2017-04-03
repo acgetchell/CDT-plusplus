@@ -11,7 +11,7 @@
 /// scan-build</a>: No bugs found.
 
 #include "gmock/gmock.h"
-#include "src/utilities.h"
+#include "Utilities.h"
 
 TEST(Utilities, GenerateRandomTimeslice) {
   std::uintmax_t timeslices{16};

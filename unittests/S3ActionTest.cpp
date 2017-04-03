@@ -15,7 +15,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "src/utilities.h"
+#include "Utilities.h"
 #include "S3Action.h"
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
@@ -128,7 +128,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
 
   // Magic value from lots of tests
-  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, -7000, -6000))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, -7000, -3000))
       << "S3_bulk_action() out of expected range.";
 }
 
