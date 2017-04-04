@@ -1,0 +1,32 @@
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2014-2017 Adam Getchell
+///
+/// Inserts a given number of points into a d-dimensional grid (cube)
+/// \todo Make the vector compatible with the triangulation data structure
+
+#ifndef SRC_TORUS_D_H_
+#define SRC_TORUS_D_H_
+
+#include <CGAL/Cartesian_d.h>
+#include <CGAL/constructions_d.h>
+#include <CGAL/point_generators_d.h>
+
+#include <vector>
+
+using Kd        = CGAL::Cartesian_d<double>;
+using Point     = Kd::Point_d;
+using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
+
+auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension) {
+  double size = 1.0;
+
+  std::cout << "Generating " << nb_points << " grid points in " << dimension
+            << "D" << std::endl;
+
+  v.reserve(nb_points);
+  return CGAL::points_on_cube_grid_d(
+      dimension, size, nb_points, std::back_inserter(v), Creator_d(dimension));
+}
+
+#endif  // SRC_TORUS_D_H_
