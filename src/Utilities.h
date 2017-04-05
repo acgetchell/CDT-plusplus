@@ -327,6 +327,12 @@ inline auto expected_points_per_simplex(const int            dimension,
 /// @return The double version
 inline auto Gmpzf_to_double(Gmpzf value) { return value.to_double(); }
 
+/// @brief Calculate if lower <= value <= upper; used in GoogleTests
+/// @tparam T Value type
+/// @param arg Value to be compared
+/// @param lower Lower bound
+/// @param upper Upper bound
+/// @return True if arg lies within [lower, upper]
 template <typename T>
 bool IsBetween(T arg, T lower, T upper) {
   return arg >= lower && arg <= upper;

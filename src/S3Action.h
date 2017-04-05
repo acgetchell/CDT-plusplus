@@ -102,8 +102,9 @@ inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+//  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
+  auto result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
@@ -183,8 +184,9 @@ inline auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
   //               10, 0, total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+//  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
+  auto result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
@@ -331,8 +333,9 @@ inline auto S3_bulk_action(const std::uintmax_t N1_TL,
   //               total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+//  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
+  auto result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4,

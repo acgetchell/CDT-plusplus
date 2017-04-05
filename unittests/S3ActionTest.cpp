@@ -79,7 +79,7 @@ class S3ActionTest : public ::testing::Test {
   static constexpr long double K = static_cast<long double>(1.1);
 
   /// @brief Lambda value
-  static constexpr auto Lambda = static_cast<long double>(2.2);
+  static constexpr auto Lambda = static_cast<long double>(0.1);
 };
 
 TEST_F(S3ActionTest, GetN3Values) {
@@ -103,7 +103,7 @@ TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
             << std::endl;
 
   // Magic values from lots of tests
-  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 10000, 13000))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 3000, 4500))
       << "S3_bulk_action_minus_one() out of expected range";
 }
 
@@ -115,12 +115,12 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
             << std::endl;
 
   // Magic values from lots of tests
-  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, -10000, -9000))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 2000, 3000))
       << "S3_bulk_action_alpha_one() out of expected range.";
 }
 
 TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
-  constexpr auto Alpha = static_cast<long double>(0.5);
+  constexpr auto Alpha = static_cast<long double>(0.6);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
   auto Bulk_action =
       S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31(),
@@ -128,7 +128,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
 
   // Magic value from lots of tests
-  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, -7000, -3000))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 3000, 4000))
       << "S3_bulk_action() out of expected range.";
 }
 
@@ -148,12 +148,12 @@ TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction) {
             << std::endl;
   std::cout << (1.0 - tolerance) << std::endl;
   // BUG: For some reason this produces 0
-  const auto min = abs(Bulk_action_one * (1.0 - tolerance));
-  std::cout << "(Gmpzf) min = " << min << std::endl;
+  const auto min = Bulk_action_one * (1.0 - tolerance);
+  std::cout << "(double) min = " << min << std::endl;
   std::cout << (1.0 + tolerance) << std::endl;
-  const auto max = abs(Bulk_action_one * (1.0 + tolerance));
-  std::cout << "(Gmpzf) max = " << max << std::endl;
+  const auto max = Bulk_action_one * (1.0 + tolerance);
+  std::cout << "(double) max = " << max << std::endl;
 
-  ASSERT_TRUE(IsBetween<Gmpzf>(abs(Bulk_action), min, max))
+  ASSERT_TRUE(IsBetween<double>(Bulk_action, min, max))
       << "General Bulk action does not match Bulk action for alpha=1.";
 }
