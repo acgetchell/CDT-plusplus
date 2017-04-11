@@ -3,13 +3,13 @@
 
 project( CDT-plusplus )
 
-cmake_minimum_required(VERSION 3.7.2)
+cmake_minimum_required(VERSION 3.8.0)
 
 #General
 ###############################################################################
-#Activate C++14 support
+#Activate C++17 support
 #add_definitions(-std =c++1y)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
