@@ -325,7 +325,7 @@ inline auto expected_points_per_simplex(const int            dimension,
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
 /// @return The double version
-inline auto Gmpzf_to_double(Gmpzf value) { return value.to_double(); }
+inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
 
 /// @brief Calculate if lower <= value <= upper; used in GoogleTests
 /// @tparam T Value type

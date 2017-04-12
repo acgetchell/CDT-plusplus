@@ -70,7 +70,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold) {
 
   // Determine which timevalues are populated
   std::set<uintmax_t> timevalues;
-  for (auto item : manifold.geometry->vertices) {
+  for (const auto& item : manifold.geometry->vertices) {
     timevalues.insert(item->info());
   }
 

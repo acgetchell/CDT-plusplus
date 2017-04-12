@@ -128,7 +128,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
 
   // Magic value from lots of tests
-  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 3000, 4000))
+  EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 2700, 4000))
       << "S3_bulk_action() out of expected range.";
 }
 

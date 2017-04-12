@@ -175,7 +175,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-inline auto is_26_movable(const Cell_handle c, unsigned i) {
+inline auto is_26_movable(const Cell_handle& c, unsigned i) {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
   // Neighbor should be a 31
@@ -192,7 +192,7 @@ inline auto is_26_movable(const Cell_handle c, unsigned i) {
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle c, unsigned* n) {
+inline auto find_26_movable(const Cell_handle& c, unsigned* n) {
   auto movable = false;
   for (unsigned i = 0; i < 4; ++i) {
 #ifndef NDEBUG
@@ -396,7 +396,7 @@ auto find_62_movable(T&& universe, Vertex_handle candidate) {
   // We must have 6 cells around the vertex to be able to make a (6,2) move
   if (candidate_cells.size() != 6) return false;
 
-  for (auto cit : candidate_cells) {
+  for (const auto& cit : candidate_cells) {
     CGAL_triangulation_precondition(universe.triangulation->is_cell(cit));
     if (cit->info() == 31) {
       ++std::get<0>(adjacent_cell);
