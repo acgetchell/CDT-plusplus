@@ -52,7 +52,7 @@ enum class topology_type { TOROIDAL, SPHERICAL };
 /// @return The environment variable corresponding to the key as a std::string
 inline auto getEnvVar(std::string const& key) noexcept {
   char const* val = getenv(key.c_str());
-  return val == NULL ? std::string() : std::string(val);
+  return val == nullptr ? std::string() : std::string(val);
 }
 
 /// @brief Return the hostname
@@ -76,7 +76,7 @@ inline std::string hostname() noexcept {
 /// @return The current data and time in a thread-safe manner using
 /// **localtime_r()** as a std::string.
 inline const std::string currentDateTime() noexcept {
-  auto      now = time(0);
+  auto      now = time(nullptr);
   struct tm tstruct;
   char      time_str[100];
   localtime_r(&now, &tstruct);

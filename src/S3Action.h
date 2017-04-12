@@ -26,7 +26,7 @@
 // #include <CGAL/MP_Float.h>
 #include <CGAL/Gmpzf.h>
 #include <mpfr.h>
-#include <stdio.h>
+#include <cstdio>
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.

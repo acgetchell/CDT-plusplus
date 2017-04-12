@@ -73,7 +73,7 @@ class MoveManager {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
-    move_type move =
+    auto move =
         static_cast<move_type>(ArrayDifference(new_moves, old_moves));
     switch (move) {
       case move_type::TWO_THREE: {
