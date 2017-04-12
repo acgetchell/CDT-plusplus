@@ -62,7 +62,7 @@ inline auto getEnvVar(std::string const& key) noexcept {
 ///
 /// @return The hostname as a std::string
 inline std::string hostname() noexcept {
-  struct utsname name;
+  struct utsname name{};
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
   return name.nodename;
@@ -77,7 +77,7 @@ inline std::string hostname() noexcept {
 /// **localtime_r()** as a std::string.
 inline const std::string currentDateTime() noexcept {
   auto      now = time(nullptr);
-  struct tm tstruct;
+  struct tm tstruct{};
   char      time_str[100];
   localtime_r(&now, &tstruct);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime

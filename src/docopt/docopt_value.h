@@ -70,7 +70,7 @@ namespace docopt {
 			Variant() = default;
 			~Variant() {  /* do nothing; will be destroyed by ~value */ }
 			
-			bool boolValue;
+			bool boolValue{};
 			long longValue;
 			std::string strValue;
 			std::vector<std::string> strList;

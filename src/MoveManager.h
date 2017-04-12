@@ -42,7 +42,7 @@ class MoveManager {
   /// @brief An option type move counter
   T2 attempted_moves_;
 
-  move_invariants check;
+  move_invariants check{};
 
   /// @brief Perfect forwarding constructor initializer
   ///
