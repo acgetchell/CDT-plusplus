@@ -177,7 +177,8 @@ auto classify_edges(T&& universe_ptr) {
 /// \f{eqnarray*}{
 ///   31 &=& (3, 1) \\
 ///   22 &=& (2, 2) \\
-///   13 &=& (1, 3) \f}
+///   13 &=& (1, 3)
+/// \f}
 /// The vectors **three_one**, **two_two**, and **one_three** contain
 /// Cell_handles to all the simplices in the triangulation of that corresponding
 /// type.
