@@ -95,7 +95,7 @@ namespace docopt {
 			error += kindAsString(expected);
 			error += "; type is actually ";
 			error += kindAsString(kind);
-			throw std::runtime_error(std::move(error));
+			throw std::runtime_error(error);
 		}
 
 	private:

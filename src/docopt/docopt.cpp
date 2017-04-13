@@ -229,7 +229,7 @@ static PatternList parse_long(Tokens& tokens, std::vector<Option>& options)
 		std::vector<std::string> prefixes = longOptions(similar.begin(), similar.end());
 		std::string error = "'" + longOpt + "' is not a unique prefix: ";
 		error.append(join(prefixes.begin(), prefixes.end(), ", "));
-		throw Tokens::OptionError(std::move(error));
+		throw Tokens::OptionError(error);
 	} else if (similar.empty()) {
 		int argcount = equal.empty() ? 0 : 1;
 		options.emplace_back("", longOpt, argcount);
@@ -244,14 +244,14 @@ static PatternList parse_long(Tokens& tokens, std::vector<Option>& options)
 		if (o->argCount() == 0) {
 			if (val) {
 				std::string error = o->longOption() + " must not have an argument";
-				throw Tokens::OptionError(std::move(error));
+				throw Tokens::OptionError(error);
 			}
 		} else {
 			if (!val) {
 				auto const& token = tokens.current();
 				if (token.empty() || token=="--") {
 					std::string error = o->longOption() + " requires an argument";
-					throw Tokens::OptionError(std::move(error));
+					throw Tokens::OptionError(error);
 				}
 				val = tokens.pop();
 			}
@@ -291,7 +291,7 @@ static PatternList parse_short(Tokens& tokens, std::vector<Option>& options)
 		if (similar.size() > 1) {
 			std::string error = shortOpt + " is specified ambiguously "
 			+ std::to_string(similar.size()) + " times";
-			throw Tokens::OptionError(std::move(error));
+			throw Tokens::OptionError(error);
 		} else if (similar.empty()) {
 			options.emplace_back(shortOpt, "", 0);
 
@@ -309,7 +309,7 @@ static PatternList parse_short(Tokens& tokens, std::vector<Option>& options)
 					auto const& ttoken = tokens.current();
 					if (ttoken.empty() || ttoken=="--") {
 						std::string error = shortOpt + " requires an argument";
-						throw Tokens::OptionError(std::move(error));
+						throw Tokens::OptionError(error);
 					}
 					val = tokens.pop();
 				} else {
