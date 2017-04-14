@@ -217,13 +217,13 @@ auto classify_simplices(T&& universe_ptr) {
     }
 
     // Classify simplex using max_values and write to cit->info()
-    if (max_values == 3) {
+    if (min_values == 1 && max_values == 3) {
       cit->info() = 13;
       one_three.emplace_back(cit);
-    } else if (max_values == 2) {
+    } else if (min_values == 2 && max_values == 2) {
       cit->info() = 22;
       two_two.emplace_back(cit);
-    } else if (max_values == 1) {
+    } else if (min_values == 3 && max_values == 1) {
       cit->info() = 31;
       three_one.emplace_back(cit);
     } else {
