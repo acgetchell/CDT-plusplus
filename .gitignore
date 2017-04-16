@@ -36,6 +36,7 @@ googletest/
 Testing/
 cov-int
 boost*/
+cmake/
 
 # Editor files
 .clang_complete
