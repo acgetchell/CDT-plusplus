@@ -247,10 +247,7 @@ The [cppcheck-build.sh][35] script runs a quick static analysis using
 
 [Clang][4] comes with [scan-build][32] which can run a much more thorough,
 but slower static analysis integrated with [CMake][3] and [Ninja][18].
-Simply run the [scan-build.sh][33] script. Note that this
-script is somewhat fragile, as it depends upon the version of [llvm][5]
-installed, and links directly to those directories without helpful symlinks
-to abstract version numbers away.
+Simply run the [scan.sh][33] script.
 
 Also, these tools build in **DEBUG** mode. You should probably not then run
 `unittests` as you will get thousands of lines of debugging output from the
@@ -296,7 +293,7 @@ Please see [CONTRIBUTING.md][45].
 [30]: https://gmplib.org
 [31]: http://www.hdfgroup.org/HDF5/
 [32]: http://clang-analyzer.llvm.org/scan-build.html
-[33]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan-build.sh
+[33]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan.sh
 [34]: http://cppcheck.sourceforge.net
 [35]: https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh
 [36]: http://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
