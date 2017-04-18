@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash -l
 # For use on Slurm
 module load cmake gcc boost cgal tbb
 rm -rf build/
