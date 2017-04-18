@@ -109,7 +109,7 @@ enum class move_type {
 };
 
 /// The maximum number of passes to fix invalidly foliated simplices
-static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 200;
+static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 500;
 
 /// The dimensionality of the Delaunay triangulation
 static constexpr int DIMENSION = 3;
@@ -365,6 +365,8 @@ void fix_triangulation(T&& universe_ptr) {
 #endif
     if (fix_timeslices(universe_ptr)) break;
   }
+  if (!fix_timeslices(universe_ptr))
+    throw std::logic_error("Delaunay triangulation not correctly foliated.");
 }  // fix_triangulation()
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
