@@ -25,7 +25,7 @@ option(GMOCK_TESTS OFF)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
-set(BOOST_MIN_VERSION "1.63.0")
+set(BOOST_MIN_VERSION "1.64.0")
 
 #Main program executable
 ###############################################################################

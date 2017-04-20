@@ -31,7 +31,7 @@ env:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
-   - BOOST_VERSION=1.63.0
+   - BOOST_VERSION=1.64.0
   matrix:
     - GMOCK=true
     - GMOCK=false

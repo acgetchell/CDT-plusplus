@@ -1,5 +1,6 @@
 #!/bin/bash -l
 # For use on Slurm
+# sbatch -p high -t 60 slurm.sh
 module load cmake gcc boost cgal tbb
 rm -rf build/
 mkdir build && cd build

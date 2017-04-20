@@ -51,6 +51,7 @@ grid_d
 output
 *.off
 *.log
+slurm-*.out
 
 # Instrumentation
 *.trace
