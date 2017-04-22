@@ -11,6 +11,7 @@ cmake_minimum_required(VERSION 3.8.0)
 #add_definitions(-std =c++1y)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 #with CGAL_SetupFlags.cmake
@@ -34,10 +35,10 @@ set(EXECUTABLE_NAME "CDT")
 find_package(CGAL QUIET COMPONENTS Core )
 
 # Need working version of boost::optional
-set(Boost_DEBUG TRUE)
+set(Boost_DEBUG FALSE)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 if (NOT Boost_FOUND)
-    message(FATAL_ERROR "Boost >= 1.63.0 required.\n")
+    message(FATAL_ERROR "Boost >= 1.64.0 required.\n")
 endif ()
 
 if ( CGAL_FOUND )
