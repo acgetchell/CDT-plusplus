@@ -1,0 +1,69 @@
+skip_branch_with_pr: true
+
+skip_commits:
+  message:/skip-ci/
+
+image:
+  - Visual Studio 2017
+
+clone_folder: c:\projects\cdt-plusplus
+
+shallow_clone: true
+
+configuration: Release
+
+install:
+  - mkdir C:\projects\dev
+  - cd C:\projects\dev
+
+  # Install Ninja
+  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip"
+  - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+  - 7z x ninja.zip -oC:\projects\dev\ninja > nul
+  - set PATH=C:\projects\dev\ninja;%PATH%
+  - ninja --version
+  # Install CMake
+  - set CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.0-win64-x64.zip"
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\dev > nul
+  - move C:\projects\dev\cmake-* C:\projects\deps\cmake
+  - set PATH=C:\projects\dev\cmake\bin;%PATH%
+  - cmake --version
+  # Setup Clang-cl
+  - set PATH="C:\Program Files\LLVM\bin";%PATH%
+  - clang-cl -v
+  # Install Boost
+  - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost-binaries/1.64.0/boost_1_64_0-msvc-14.1-64.exe"
+  - appveyor DownloadFile %BOOST_URL% -FileName boost.zip
+  - 7z x boost.zip -oC:\projects\dev\libboost_1_64_0
+  - set BOOST_LIBRARYDIR="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1.0"
+  - set BOOST_INCLUDEDIR="C:\projects\dev\libboost_1_64_0"
+  - set PATH="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1.0";%PATH%
+  # Install CGAL
+  - set CGAL_URL="https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-4.9.1/CGAL-4.9.1.zip"
+  - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
+  - 7z x cgal.zip -oC:\projects\dev\cgal
+  - set PATH=C:\projects\dev\cgal;%PATH%
+  - cmake -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G
+  Ninja .
+  - ninja
+
+before_build:
+  - cd C:\projects\CDT-plusplus
+
+build_script:
+  - mkdir build
+  - cd build
+  - cmake -G Ninja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
+
+on_success:
+  - ninja test
+
+notifications:
+
+  - provider: Email
+    to:
+      - acgetchell@ucdavis.edu
+    subject: 'Build {{status}}'
+    message: "{{message}}, {{commitId}}, ..."
+    on_build_status_changed: true
