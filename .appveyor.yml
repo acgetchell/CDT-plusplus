@@ -31,7 +31,7 @@ install:
   # Install Boost
   - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost-binaries/1.64.0/boost_1_64_0-msvc-14.1-64.exe"
   - appveyor DownloadFile %BOOST_URL%
-  - msiexec /i c:\projects\dev\boost_1_64_0-msvc-14.1-64.exe /quiet /qn /norestart
+  - msiexec /i c:\projects\dev\boost_1_64_0-msvc-14.1-64.exe /quiet /qn /norestart /log c:\projects\dev\install.log
   - set BOOST_LIBRARYDIR="C:\local\libboost_1_64_0\lib64-msvc-14.1."
   - set BOOST_INCLUDEDIR="C:\local\libboost_1_64_0"
   - set PATH="C:\local\libboost_1_64_0\lib64-msvc-14.1.";%PATH%
