@@ -30,7 +30,7 @@ install:
   - clang-cl -v
   # Install Boost
   - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost-binaries/1.64.0/boost_1_64_0-msvc-14.1-64.exe"
-  - appveyor DownloadFile %BOOST_URL% -FileName boost.zip
+  - appveyor DownloadFile %BOOST_URL%
   - boost_1_64_0-msvc-14.1-64.exe
   - set BOOST_LIBRARYDIR="C:\local\libboost_1_64_0\lib64-msvc-14.1."
   - set BOOST_INCLUDEDIR="C:\local\libboost_1_64_0"
