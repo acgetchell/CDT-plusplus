@@ -29,12 +29,12 @@ install:
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
   # Install Boost
-  - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost-binaries/1.64.0/boost_1_64_0-msvc-14.1-64.exe"
-  - curl -fsS -o boost.msi %BOOST_URL%
-  - msiexec /package c:\projects\dev\boost.msi /quiet /qn /norestart /log c:\projects\dev\install.log
-  - set BOOST_LIBRARYDIR="C:\local\libboost_1_64_0\lib64-msvc-14.1."
-  - set BOOST_INCLUDEDIR="C:\local\libboost_1_64_0"
-  - set PATH="C:\local\libboost_1_64_0\lib64-msvc-14.1.";%PATH%
+  - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.zip"
+  - curl -fsS -o boost.zip %BOOST_URL%
+  - 7z x boost.zip -oC:\projects\dev
+  - set BOOST_LIBRARYDIR="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1."
+  - set BOOST_INCLUDEDIR="C:\projects\dev\libboost_1_64_0"
+  - set PATH="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1.";%PATH%
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/cgal/releases/download/releases%2FCGAL-4.9.1/CGAL-4.9.1.zip"
   - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
