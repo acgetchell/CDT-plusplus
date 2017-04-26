@@ -29,7 +29,7 @@ install:
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
   # Install Boost
-  - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.7z"
+  - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.7z/download"
   - curl -fsS -o boost.7z %BOOST_URL%
   - 7z x boost.7z -oC:\projects\dev
   - set BOOST_LIBRARYDIR="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1."
