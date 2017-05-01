@@ -41,6 +41,7 @@ install:
   - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
   - 7z x cgal.zip -oC:\projects\dev\cgal
   - set PATH=C:\projects\dev\cgal;%PATH%
+  - cd C:\projects\dev\cgal
   - cmake -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
 
