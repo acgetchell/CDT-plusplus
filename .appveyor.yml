@@ -33,9 +33,15 @@ install:
   - dir # Debugging
   - cd C:\projects\dev\boost.1.64.0.0
   - dir
-  - set BOOST_LIBRARYDIR="C:\projects\dev\boost.1.64.0.0\lib64-msvc-14.1."
-  - set BOOST_INCLUDEDIR="C:\projects\dev\boost.1.64.0.0"
-  - set PATH="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1.";%PATH%
+  - set BOOST_LIBRARYDIR="C:\projects\dev\boost.1.64.0.0\lib"
+  - cd lib
+  - dir
+  - cd ..
+  - set BOOST_INCLUDEDIR="C:\projects\dev\build"
+  - cd build
+  - dir
+  - cd ..
+  - set PATH="C:\projects\dev\boost.1.64.0.0\lib";%PATH%
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
   - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
