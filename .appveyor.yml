@@ -29,9 +29,6 @@ install:
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
   # Install Boost
-#  - set BOOST_URL="https://sourceforge.net/projects/boost/files/boost/1.64.0/boost_1_64_0.zip"
-#  - curl -fsS -o boost.zip %BOOST_URL%
-#  - 7z x boost.zip -oC:\projects\dev
   - nuget install boost
   - set BOOST_LIBRARYDIR="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1."
   - set BOOST_INCLUDEDIR="C:\projects\dev\libboost_1_64_0"
@@ -42,6 +39,7 @@ install:
   - 7z x cgal.zip -oC:\projects\dev\cgal
   - set PATH=C:\projects\dev\cgal;%PATH%
   - cd C:\projects\dev\cgal
+  - dir
   - cmake -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
 
