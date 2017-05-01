@@ -31,8 +31,10 @@ install:
   # Install Boost
   - nuget install boost
   - dir # Debugging
-  - set BOOST_LIBRARYDIR="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1."
-  - set BOOST_INCLUDEDIR="C:\projects\dev\libboost_1_64_0"
+  - cd C:\projects\dev\boost.1.64.0.0
+  - dir
+  - set BOOST_LIBRARYDIR="C:\projects\dev\boost.1.64.0.0\lib64-msvc-14.1."
+  - set BOOST_INCLUDEDIR="C:\projects\dev\boost.1.64.0.0"
   - set PATH="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1.";%PATH%
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
