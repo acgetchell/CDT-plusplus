@@ -38,7 +38,7 @@ install:
   - set PATH="C:\projects\dev\libboost_1_64_0\lib64-msvc-14.1.";%PATH%
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
-  - appveyor-retry DownloadFile %CGAL_URL% -FileName cgal.zip
+  - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
   - 7z x cgal.zip -oC:\projects\dev\cgal
   - set PATH=C:\projects\dev\cgal;%PATH%
   - cmake -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
