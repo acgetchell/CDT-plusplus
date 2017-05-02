@@ -48,7 +48,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-extern const std::uintmax_t PRECISION;
+extern const std::intmax_t PRECISION;
 
 /// @brief Convert enum class to its underlying type
 ///
@@ -85,25 +85,25 @@ class Metropolis {
   long double Lambda_;
 
   /// @brief The current number of timelike edges
-  std::uintmax_t N1_TL_{0};
+  std::intmax_t N1_TL_{0};
 
   /// @brief The current number of (3,1) and (1,3) simplices
-  std::uintmax_t N3_31_{0};
+  std::intmax_t N3_31_{0};
 
   /// @brief The current number of (2,2) simplices
-  std::uintmax_t N3_22_{0};
+  std::intmax_t N3_22_{0};
 
   /// @brief Number of passes of ergodic moves on triangulation.
-  std::uintmax_t passes_{100};
+  std::intmax_t passes_{100};
 
   /// @brief How often to print/write output.
-  std::uintmax_t checkpoint_{10};
+  std::intmax_t checkpoint_{10};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   Move_tracker attempted_moves_{};
 
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  std::array<std::atomic_uintmax_t, 5> successful_moves_{};
+  std::array<std::atomic_intmax_t, 5> successful_moves_{};
 
  public:
   /// @brief Metropolis function object constructor
@@ -117,8 +117,8 @@ class Metropolis {
   /// @param passes Number of passes of ergodic moves on triangulation.
   /// @param checkpoint Print/write output for every n=checkpoint passes.
   Metropolis(const long double Alpha, const long double K,
-             const long double Lambda, const std::uintmax_t passes,
-             const std::uintmax_t checkpoint)
+             const long double Lambda, const std::intmax_t passes,
+             const std::intmax_t checkpoint)
       : Alpha_(Alpha)
       , K_(K)
       , Lambda_(Lambda)
@@ -530,11 +530,11 @@ class Metropolis {
 
     std::cout << "Making random moves ..." << std::endl;
     // Loop through passes_
-    for (std::uintmax_t pass_number = 1; pass_number <= passes_;
+    for (std::intmax_t pass_number = 1; pass_number <= passes_;
          ++pass_number) {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
-      for (std::uintmax_t move_attempt = 0;
+      for (std::intmax_t move_attempt = 0;
            move_attempt < total_simplices_this_pass; ++move_attempt) {
         // Pick a move to attempt
         auto move_choice = generate_random_unsigned(0, 3);
@@ -542,7 +542,7 @@ class Metropolis {
         std::cout << "Move choice = " << move_choice << std::endl;
 #endif
 
-        // Convert std::uintmax_t move_choice to move_type enum
+        // Convert std::intmax_t move_choice to move_type enum
         auto move = static_cast<move_type>(move_choice);
         attempt_move(move);
       }  // End loop through CurrentTotalSimplices

@@ -437,7 +437,7 @@ template <typename T1, typename T2>
 auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  uintmax_t                  tds_vertices_size = tds_vertices.size();
+  intmax_t                  tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
     auto          choice = generate_random_unsigned(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices.at(choice);

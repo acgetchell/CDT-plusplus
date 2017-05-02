@@ -22,10 +22,10 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
-#include <utility>
-#include <vector>
 #include <map>
 #include <string>
+#include <utility>
+#include <vector>
 
 // Docopt
 #include "docopt/docopt.h"

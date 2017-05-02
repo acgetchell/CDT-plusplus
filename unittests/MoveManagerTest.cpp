@@ -22,12 +22,18 @@ class MoveManagerTest : public ::testing::Test {
   MoveManagerTest()
       : universe_{make_triangulation(64000, 13)}
       , attempted_moves_{}
-      , N3_31_before{universe_.geometry->three_one.size()}
-      , N3_22_before{universe_.geometry->N3_22()}
-      , N3_13_before{universe_.geometry->one_three.size()}
-      , timelike_edges_before{universe_.geometry->N1_TL()}
-      , spacelike_edges_before{universe_.geometry->spacelike_edges.size()}
-      , vertices_before{universe_.geometry->vertices.size()} {}
+      , N3_31_before{static_cast<std::intmax_t>(
+            universe_.geometry->three_one.size())}
+      , N3_22_before{static_cast<std::intmax_t>(
+            universe_.geometry->two_two.size())}
+      , N3_13_before{static_cast<std::intmax_t>(
+            universe_.geometry->one_three.size())}
+      , timelike_edges_before{static_cast<std::intmax_t>(
+            universe_.geometry->timelike_edges.size())}
+      , spacelike_edges_before{static_cast<std::intmax_t>(
+            universe_.geometry->spacelike_edges.size())}
+      , vertices_before{
+            static_cast<std::intmax_t>(universe_.geometry->vertices.size())} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values
@@ -52,22 +58,22 @@ class MoveManagerTest : public ::testing::Test {
   Move_tracker attempted_moves_;
 
   /// @brief Initial number of (3,1) simplices
-  std::uintmax_t N3_31_before;
+  std::intmax_t N3_31_before;
 
   /// @brief Initial number of (2,2) simplices
-  std::uintmax_t N3_22_before;
+  std::intmax_t N3_22_before;
 
   /// @brief Initial number of (1,3) simplices
-  std::uintmax_t N3_13_before;
+  std::intmax_t N3_13_before;
 
   /// @brief Initial number of timelike edges
-  std::uintmax_t timelike_edges_before;
+  std::intmax_t timelike_edges_before;
 
   /// @brief Initial number of spacelike edges
-  std::uintmax_t spacelike_edges_before;
+  std::intmax_t spacelike_edges_before;
 
   /// @brief Initial number of vertices
-  std::uintmax_t vertices_before;
+  std::intmax_t vertices_before;
 };
 
 TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {

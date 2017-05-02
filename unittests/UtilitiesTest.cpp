@@ -10,11 +10,11 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include "gmock/gmock.h"
 #include "Utilities.h"
+#include "gmock/gmock.h"
 
 TEST(Utilities, GenerateRandomTimeslice) {
-  std::uintmax_t timeslices{16};
+  std::intmax_t timeslices{16};
 
   EXPECT_TRUE(
       IsBetween<unsigned>(generate_random_timeslice(timeslices), 0, timeslices))
@@ -23,11 +23,11 @@ TEST(Utilities, GenerateRandomTimeslice) {
 
 TEST(Utilities, RandomSeedingTest) {
   // Set a wider range than just number_of_timeslices
-  constexpr std::uintmax_t test_range_max = 128;
-  const auto               value1 = generate_random_timeslice(test_range_max);
-  const auto               value2 = generate_random_timeslice(test_range_max);
-  const auto               value3 = generate_random_timeslice(test_range_max);
-  const auto               value4 = generate_random_timeslice(test_range_max);
+  constexpr std::intmax_t test_range_max = 128;
+  const auto              value1 = generate_random_timeslice(test_range_max);
+  const auto              value2 = generate_random_timeslice(test_range_max);
+  const auto              value3 = generate_random_timeslice(test_range_max);
+  const auto              value4 = generate_random_timeslice(test_range_max);
 
   EXPECT_NE(value1, value2) << "Your random numbers don't seem to be random.";
 

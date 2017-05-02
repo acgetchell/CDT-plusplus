@@ -8,12 +8,12 @@
 /// @brief Tests for the various measurement functions
 /// @author Adam Getchell
 
-#include <utility>
 #include "Measurements.h"
 #include "gmock/gmock.h"
+#include <utility>
 
-constexpr uintmax_t simplices  = 6400;
-constexpr uintmax_t timeslices = 7;
+constexpr intmax_t simplices  = 6400;
+constexpr intmax_t timeslices = 7;
 
 class MeasurementsTest : public ::testing::Test {
  public:

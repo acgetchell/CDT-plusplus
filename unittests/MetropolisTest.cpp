@@ -27,12 +27,18 @@ class MetropolisTest : public ::testing::Test {
   MetropolisTest()
       : universe_{make_triangulation(640, 4)}
       , attempted_moves_{}
-      , N3_31_before{universe_.geometry->three_one.size()}
-      , N3_22_before{universe_.geometry->N3_22()}
-      , N3_13_before{universe_.geometry->one_three.size()}
-      , timelike_edges_before{universe_.geometry->N1_TL()}
-      , spacelike_edges_before{universe_.geometry->spacelike_edges.size()}
-      , vertices_before{universe_.geometry->vertices.size()} {}
+      , N3_31_before{static_cast<std::intmax_t>(
+            universe_.geometry->three_one.size())}
+      , N3_22_before{static_cast<std::intmax_t>(
+            universe_.geometry->two_two.size())}
+      , N3_13_before{static_cast<std::intmax_t>(
+            universe_.geometry->one_three.size())}
+      , timelike_edges_before{static_cast<std::intmax_t>(
+            universe_.geometry->timelike_edges.size())}
+      , spacelike_edges_before{static_cast<std::intmax_t>(
+            universe_.geometry->spacelike_edges.size())}
+      , vertices_before{
+            static_cast<std::intmax_t>(universe_.geometry->vertices.size())} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values
@@ -56,22 +62,22 @@ class MetropolisTest : public ::testing::Test {
   Move_tracker attempted_moves_;
 
   /// Initial number of (3,1) simplices
-  std::uintmax_t N3_31_before;
+  std::intmax_t N3_31_before;
 
   /// Initial number of (2,2) simplices
-  std::uintmax_t N3_22_before;
+  std::intmax_t N3_22_before;
 
   /// Initial number of (1,3) simplices
-  std::uintmax_t N3_13_before;
+  std::intmax_t N3_13_before;
 
   /// Initial number of timelike edges
-  std::uintmax_t timelike_edges_before;
+  std::intmax_t timelike_edges_before;
 
   /// Initial number of spacelike edges
-  std::uintmax_t spacelike_edges_before;
+  std::intmax_t spacelike_edges_before;
 
   /// Initial number of vertices
-  std::uintmax_t vertices_before;
+  std::intmax_t vertices_before;
 
   /// \f$\alpha\f$ is the timelike edge length
   long double Alpha = 0.6;
@@ -84,10 +90,10 @@ class MetropolisTest : public ::testing::Test {
 
   /// Number of passes through the algorithm. Each pass attempts a number of
   /// moves equal to the number of simplices
-  std::uintmax_t passes = 10;
+  std::intmax_t passes = 10;
 
   /// The number of passes before output is written to file and stdout
-  std::uintmax_t output_every_n_passes = 1;
+  std::intmax_t output_every_n_passes = 1;
 };
 
 TEST_F(MetropolisTest, Ctor) {

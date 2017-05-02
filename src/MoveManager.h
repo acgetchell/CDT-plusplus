@@ -27,7 +27,7 @@
 #include "Function_ref.h"
 #include "SimplicialManifold.h"
 
-using move_invariants = std::array<std::uintmax_t, 6>;
+using move_invariants = std::array<std::intmax_t, 6>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves

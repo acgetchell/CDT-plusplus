@@ -45,6 +45,6 @@ TEST(Sphere, Create3Sphere) {
 
   make_d_sphere(number_of_points, dim, radius, &points);
 
-  ASSERT_EQ(points.size(), number_of_points) << "Vector has "
-                                             << number_of_points << " points.";
+  ASSERT_EQ(points.size(), number_of_points)
+      << "Vector has " << number_of_points << " points.";
 }

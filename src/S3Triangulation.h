@@ -77,8 +77,8 @@
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
 // Used so that each timeslice is assigned an integer
-using Vb = CGAL::Triangulation_vertex_base_with_info_3<std::uintmax_t, K>;
-using Cb = CGAL::Triangulation_cell_base_with_info_3<std::uintmax_t, K>;
+using Vb = CGAL::Triangulation_vertex_base_with_info_3<std::intmax_t, K>;
+using Cb = CGAL::Triangulation_cell_base_with_info_3<std::intmax_t, K>;
 
 // Parallel operations
 #ifdef CGAL_LINKED_WITH_TBB
@@ -91,14 +91,14 @@ using Cell_handle   = Delaunay::Cell_handle;
 using Vertex_handle = Delaunay::Vertex_handle;
 using Locate_type   = Delaunay::Locate_type;
 using Point         = Delaunay::Point;
-using Edge_handle   = std::tuple<Cell_handle, std::uintmax_t, std::uintmax_t>;
+using Edge_handle   = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
 using Causal_vertices =
-    std::pair<std::vector<Point>, std::vector<std::uintmax_t>>;
+    std::pair<std::vector<Point>, std::vector<std::intmax_t>>;
 using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
                std::vector<Cell_handle>, std::vector<Edge_handle>,
                std::vector<Edge_handle>, std::vector<Vertex_handle>>;
-using Move_tracker = std::array<uintmax_t, 5>;
+using Move_tracker = std::array<intmax_t, 5>;
 
 enum class move_type {
   TWO_THREE = 0,
@@ -109,7 +109,7 @@ enum class move_type {
 };
 
 /// The maximum number of passes to fix invalidly foliated simplices
-static constexpr std::uintmax_t MAX_FOLIATION_FIX_PASSES = 500;
+static constexpr std::intmax_t MAX_FOLIATION_FIX_PASSES = 500;
 
 /// The dimensionality of the Delaunay triangulation
 static constexpr int DIMENSION = 3;
@@ -119,7 +119,7 @@ static constexpr int DIMENSION = 3;
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// Timelike edges are stored in the **timelike_edges** vector as an Edge_handle
-/// (tuple of Cell_handle, std::uintmax_t, std::uintmax_t) for later use by
+/// (tuple of Cell_handle, std::intmax_t, std::intmax_t) for later use by
 /// ergodic moves on timelike edges. Spacelike edges are also stored as a
 /// vector of Edge_handle **spacelike_edges**, for use by (4,4) moves as
 /// well as the distance-finding algorithms.
@@ -145,8 +145,8 @@ auto classify_edges(T&& universe_ptr) {
 
     // Make Edge_handle
     Edge_handle thisEdge{
-        ch, static_cast<std::uintmax_t>(ch->index(ch->vertex(eit->second))),
-        static_cast<std::uintmax_t>(ch->index(ch->vertex(eit->third)))};
+        ch, static_cast<std::intmax_t>(ch->index(ch->vertex(eit->second))),
+        static_cast<std::intmax_t>(ch->index(ch->vertex(eit->third)))};
 
     if (time1 != time2) {  // We have a timelike edge
       timelike_edges.emplace_back(thisEdge);
@@ -199,14 +199,14 @@ auto classify_simplices(T&& universe_ptr) {
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit) {
-    std::uintmax_t max_values{0};
-    std::uintmax_t min_values{0};
+    std::intmax_t max_values{0};
+    std::intmax_t min_values{0};
     // Push every time value of every vertex into a list
-    std::uintmax_t timevalues[4] = {
+    std::intmax_t timevalues[4] = {
         cit->vertex(0)->info(), cit->vertex(1)->info(), cit->vertex(2)->info(),
         cit->vertex(3)->info(),
     };
-    std::uintmax_t max_time =
+    std::intmax_t max_time =
         *std::max_element(std::begin(timevalues), std::end(timevalues));
     for (auto elt : timevalues) {
       if (elt == max_time) {
@@ -277,11 +277,11 @@ auto classify_all_simplices(T&& universe_ptr) {
 template <typename T>
 auto fix_timeslices(T&& universe_ptr) {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
-  std::uintmax_t                  min_time{0};
-  std::uintmax_t                  max_time{0};
-  std::uintmax_t                  valid{0};
-  std::uintmax_t                  invalid{0};
-  std::uintmax_t                  max_vertex{0};
+  std::intmax_t                   min_time{0};
+  std::intmax_t                   max_time{0};
+  std::intmax_t                   valid{0};
+  std::intmax_t                   invalid{0};
+  std::intmax_t                   max_vertex{0};
   std::set<Vertex_handle>         deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
@@ -301,7 +301,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
         if (current_time < min_time) min_time = current_time;
         if (current_time > max_time) {
           max_time   = current_time;
-          max_vertex = static_cast<uintmax_t>(i);
+          max_vertex = static_cast<intmax_t>(i);
         }
       }  // Finish iterating over vertices
       // There should be a difference of 1 between min_time and max_time
@@ -359,7 +359,7 @@ auto fix_timeslices(T&& universe_ptr) {  // NOLINT
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 template <typename T>
 void fix_triangulation(T&& universe_ptr) {
-  for (std::uintmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
+  for (std::intmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
 #ifndef NDEBUG
     std::cout << "Fix Pass #" << (pass + 1) << std::endl;
 #endif
@@ -373,7 +373,7 @@ void fix_triangulation(T&& universe_ptr) {
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @param[in] causal_vertices A std::pair<std::vector<Point>,
-/// std::vector<std::uintmax_t>> containing the vertices to be inserted along
+/// std::vector<std::intmax_t>> containing the vertices to be inserted along
 /// with their timevalues
 /// @returns  A std::unique_ptr<Delaunay> to the triangulation
 template <typename T1, typename T2>
@@ -392,21 +392,21 @@ void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices) {
 ///
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
-/// @returns  A std::pair<std::vector, std::uintmax_t> containing random
+/// @returns  A std::pair<std::vector, std::intmax_t> containing random
 /// vertices and their corresponding timevalues
-auto inline make_foliated_sphere(const std::uintmax_t simplices,
-                                 const std::uintmax_t timeslices) {
+auto inline make_foliated_sphere(const std::intmax_t simplices,
+                                 const std::intmax_t timeslices) {
   //  double     radius{0};
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
   Causal_vertices causal_vertices;
 
-  for (unsigned i = 0; i < timeslices; ++i) {
+  for (std::intmax_t i = 0; i < timeslices; ++i) {
     auto radius = 1.0 + static_cast<double>(i);
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points
-    for (unsigned j = 0; j < points_per_timeslice; ++j) {
+    for (std::intmax_t j = 0; j < points_per_timeslice; ++j) {
       causal_vertices.first.push_back(*gen++);
       causal_vertices.second.emplace_back(radius);
     }  // end j
@@ -432,8 +432,8 @@ auto inline make_foliated_sphere(const std::uintmax_t simplices,
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
-auto inline make_triangulation(const std::uintmax_t simplices,
-                               const std::uintmax_t timeslices) {
+auto inline make_triangulation(const std::intmax_t simplices,
+                               const std::intmax_t timeslices) {
   std::cout << "Generating universe ... " << std::endl;
 
 #ifdef CGAL_LINKED_WITH_TBB

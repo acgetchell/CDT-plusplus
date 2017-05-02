@@ -62,7 +62,7 @@ inline auto getEnvVar(std::string const& key) noexcept {
 ///
 /// @return The hostname as a std::string
 inline std::string hostname() noexcept {
-  struct utsname name{};
+  struct utsname name {};
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
   return name.nodename;
@@ -77,7 +77,7 @@ inline std::string hostname() noexcept {
 /// **localtime_r()** as a std::string.
 inline const std::string currentDateTime() noexcept {
   auto      now = time(nullptr);
-  struct tm tstruct{};
+  struct tm tstruct {};
   char      time_str[100];
   localtime_r(&now, &tstruct);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
@@ -95,9 +95,9 @@ inline const std::string currentDateTime() noexcept {
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename as a std::string
 inline auto generate_filename(
-    const topology_type& top, const std::uintmax_t dimensions,
-    const std::uintmax_t number_of_simplices,
-    const std::uintmax_t number_of_timeslices) noexcept {
+    const topology_type& top, const std::intmax_t dimensions,
+    const std::intmax_t number_of_simplices,
+    const std::intmax_t number_of_timeslices) noexcept {
   std::string filename;
   if (top == topology_type::SPHERICAL) {
     filename += "S";
@@ -178,9 +178,9 @@ void print_results(const T1& universe, const T2& timer) noexcept {
 /// @param number_of_timeslices The number of foliated timeslices
 template <typename T>
 void write_file(const T& universe, const topology_type& topology,
-                const std::uintmax_t dimensions,
-                const std::uintmax_t number_of_simplices,
-                const std::uintmax_t number_of_timeslices) {
+                const std::intmax_t dimensions,
+                const std::intmax_t number_of_simplices,
+                const std::intmax_t number_of_timeslices) {
   // mutex to protect file access across threads
   static std::mutex mutex;
 
@@ -208,11 +208,11 @@ void write_file(const T& universe, const topology_type& topology,
 /// @param min_value  The minimum value in the range
 /// @param max_value  The maximum value in the range
 /// @return A random integer between min_value and max_value
-inline auto generate_random_unsigned(const uintmax_t min_value,
-                                     const uintmax_t max_value) noexcept {
+inline auto generate_random_unsigned(const intmax_t min_value,
+                                     const intmax_t max_value) noexcept {
   // Non-deterministic random number generator
-  std::random_device                       generator;
-  std::uniform_int_distribution<uintmax_t> distribution(min_value, max_value);
+  std::random_device                      generator;
+  std::uniform_int_distribution<intmax_t> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
@@ -288,10 +288,10 @@ inline auto generate_probability() noexcept {
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-inline auto expected_points_per_simplex(const int            dimension,
-                                        const std::uintmax_t simplices,
-                                        const std::uintmax_t timeslices,
-                                        const bool           output = true) {
+inline auto expected_points_per_simplex(const int           dimension,
+                                        const std::intmax_t simplices,
+                                        const std::intmax_t timeslices,
+                                        const bool          output = true) {
   if (output) {
     std::cout << simplices << " simplices on " << timeslices
               << " timeslices desired." << std::endl;
@@ -306,9 +306,9 @@ inline auto expected_points_per_simplex(const int            dimension,
       } else if (simplices < 10000) {
         return simplices_per_timeslice;
       } else if (simplices < 100000) {
-        return static_cast<std::uintmax_t>(1.5 * simplices_per_timeslice);
+        return static_cast<std::intmax_t>(1.5 * simplices_per_timeslice);
       } else {
-        return static_cast<std::uintmax_t>(2.7 * simplices_per_timeslice);
+        return static_cast<std::intmax_t>(2.7 * simplices_per_timeslice);
       }
     }
     default: {

@@ -39,8 +39,8 @@ class FoliatedTetrahedronTest : public TetrahedronTest {
     insert_into_triangulation(universe.triangulation, causal_vertices);
   }
 
-  std::vector<std::uintmax_t> timevalue{1, 1, 1, 2};
-  std::pair<std::vector<Point>, std::vector<std::uintmax_t>> causal_vertices;
+  std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
+  std::pair<std::vector<Point>, std::vector<std::intmax_t>> causal_vertices;
 };
 
 TEST_F(TetrahedronTest, Create) {

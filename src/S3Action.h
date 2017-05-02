@@ -33,7 +33,7 @@
 using Gmpzf = CGAL::Gmpzf;
 // using MP_Float = CGAL::MP_Float;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static constexpr std::uintmax_t PRECISION = 256;
+static constexpr std::intmax_t PRECISION = 256;
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
@@ -54,9 +54,9 @@ static constexpr std::uintmax_t PRECISION = 256;
 /// @return \f$S^{(3)}(\alpha=-1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
-                                           const std::uintmax_t N3_31,
-                                           const std::uintmax_t N3_22,
+inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
+                                           const std::intmax_t N3_31,
+                                           const std::intmax_t N3_22,
                                            const long double    K,
                                            const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
@@ -130,9 +130,9 @@ inline auto S3_bulk_action_alpha_minus_one(const std::uintmax_t N1_TL,
 /// @return \f$S^{(3)}(\alpha=1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
-                                     const std::uintmax_t N3_31,
-                                     const std::uintmax_t N3_22,
+inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
+                                     const std::intmax_t N3_31,
+                                     const std::intmax_t N3_22,
                                      const long double    K,
                                      const long double    Lambda) noexcept {
   // Set precision for initialization and assignment functions
@@ -221,9 +221,9 @@ inline auto S3_bulk_action_alpha_one(const std::uintmax_t N1_TL,
 /// @return \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action(const std::uintmax_t N1_TL,
-                           const std::uintmax_t N3_31,
-                           const std::uintmax_t N3_22, const long double Alpha,
+inline auto S3_bulk_action(const std::intmax_t N1_TL,
+                           const std::intmax_t N3_31,
+                           const std::intmax_t N3_22, const long double Alpha,
                            const long double K,
                            const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions

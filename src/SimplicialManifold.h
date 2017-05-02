@@ -56,11 +56,11 @@ struct GeometryInfo {
 
   /// @brief Spacelike facets for each timeslice
   /// \todo Needs to be added to move assignment
-  boost::optional<std::multimap<uintmax_t, Facet>> spacelike_facets;
+  boost::optional<std::multimap<intmax_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
   /// \todo Needs to be added to move assignment
-  boost::optional<std::set<uintmax_t>> timevalues;
+  boost::optional<std::set<intmax_t>> timevalues;
 
   /// @brief Default constructor
   /// @return A GeometryInfo{}
@@ -73,12 +73,12 @@ struct GeometryInfo {
   /// @param geometry Geometry_tuple initializing values
   /// @return A populated GeometryInfo{}
   explicit GeometryInfo(const Geometry_tuple&& geometry)  // NOLINT
-      : three_one{std::get<0>(geometry)},
-        two_two{std::get<1>(geometry)},
-        one_three{std::get<2>(geometry)},
-        timelike_edges{std::get<3>(geometry)},
-        spacelike_edges{std::get<4>(geometry)},
-        vertices{std::get<5>(geometry)} {}
+      : three_one{std::get<0>(geometry)}
+      , two_two{std::get<1>(geometry)}
+      , one_three{std::get<2>(geometry)}
+      , timelike_edges{std::get<3>(geometry)}
+      , spacelike_edges{std::get<4>(geometry)}
+      , vertices{std::get<5>(geometry)} {}
 
   /// @brief Default destructor
   ~GeometryInfo() = default;
@@ -149,7 +149,7 @@ struct GeometryInfo {
   }
 
   //  auto max_timevalue() { return *timevalues.crbegin();}
-  boost::optional<std::uintmax_t> max_timevalue() {
+  boost::optional<std::intmax_t> max_timevalue() {
     return timevalues ? *timevalues->crbegin() : 0;
   }
 };
@@ -185,8 +185,8 @@ struct SimplicialManifold {
   /// @param manifold A std::unique_ptr<Delaunay>
   /// @return A SimplicialManifold{}
   explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  // NOLINT
-      : triangulation{std::move(manifold)},
-        geometry{std::make_unique<GeometryInfo>(
+      : triangulation{std::move(manifold)}
+      , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))} {}
 
   /// @brief make_triangulation constructor
@@ -197,7 +197,7 @@ struct SimplicialManifold {
   /// @param simplices The number of desired simplices in the triangulation
   /// @param timeslices The number of timeslices in the triangulation
   /// @return A populated SimplicialManifold{}
-  SimplicialManifold(std::uintmax_t simplices, std::uintmax_t timeslices)
+  SimplicialManifold(std::intmax_t simplices, std::intmax_t timeslices)
       : triangulation{make_triangulation(simplices, timeslices)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))} {}
@@ -215,8 +215,8 @@ struct SimplicialManifold {
   /// @param other The SimplicialManifold to be move-constructed from
   /// @return A moved-to SimplicialManifold{}
   SimplicialManifold(SimplicialManifold&& other)  // NOLINT
-      : triangulation{std::move(other.triangulation)},
-        geometry{std::make_unique<GeometryInfo>(
+      : triangulation{std::move(other.triangulation)}
+      , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))} {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move ctor." << std::endl;

@@ -14,8 +14,8 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include <type_traits>
 #include <memory>
+#include <type_traits>
 
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
@@ -70,8 +70,8 @@ TEST(SimplicialManifold, GeometryInfoStruct) {
   EXPECT_TRUE(std::is_copy_constructible<GeometryInfo>::value)
       << "GeometryInfo struct is not copy constructible";
 
-//  EXPECT_TRUE(std::is_nothrow_copy_constructible<GeometryInfo>::value)
-//      << "GeometryInfo struct is not no-throw copy constructible.";
+  //  EXPECT_TRUE(std::is_nothrow_copy_constructible<GeometryInfo>::value)
+  //      << "GeometryInfo struct is not no-throw copy constructible.";
 
   EXPECT_TRUE(std::is_move_constructible<GeometryInfo>::value)
       << "GeometryInfo struct is not move constructible.";
@@ -82,14 +82,14 @@ TEST(SimplicialManifold, GeometryInfoStruct) {
   EXPECT_TRUE(std::is_copy_assignable<GeometryInfo>::value)
       << "GeometryInfo struct is not copy assignable.";
 
-//  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
-//      << "GeometryInfo struct is not no-throw copy assignable.";
+  //  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
+  //      << "GeometryInfo struct is not no-throw copy assignable.";
 
-//  EXPECT_TRUE(std::is_move_assignable<GeometryInfo>::value)
-//      << "GeometryInfo struct is not move assignable.";
+  //  EXPECT_TRUE(std::is_move_assignable<GeometryInfo>::value)
+  //      << "GeometryInfo struct is not move assignable.";
 
-//  EXPECT_TRUE(std::is_nothrow_move_assignable<GeometryInfo>::value)
-//      << "GeometryInfo struct is not no-throw move assignable.";
+  //  EXPECT_TRUE(std::is_nothrow_move_assignable<GeometryInfo>::value)
+  //      << "GeometryInfo struct is not no-throw move assignable.";
 }
 
 TEST(SimplicialManifold, DelaunayClass) {
