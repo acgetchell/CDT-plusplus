@@ -36,14 +36,14 @@ install:
   - dir # Debugging
   - cd C:\projects\dev\boost.1.64.0.0
   - dir
-  - set BOOST_LIBRARYDIR="C:\projects\dev\boost.1.64.0.0\lib"
-  - cd lib
-  - dir
-  - cd ..
-  - set BOOST_INCLUDEDIR="C:\projects\dev\build"
-  - cd build
-  - dir
-  - cd ..
+  #- set BOOST_LIBRARYDIR="C:\projects\dev\boost.1.64.0.0\lib"
+  #- cd lib
+  #- dir
+  #- cd ..
+  #- set BOOST_INCLUDEDIR="C:\projects\dev\build"
+  #- cd build
+  #- dir
+  #- cd ..
   - set PATH="C:\projects\dev\boost.1.64.0.0\lib";%PATH%
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
