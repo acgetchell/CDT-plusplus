@@ -35,7 +35,9 @@ find_package(CGAL QUIET COMPONENTS Core )
 
 # Need working version of boost::optional
 set(Boost_DEBUG FALSE)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
+find_package(Boost ${BOOST_MIN_VERSION} COMPONENTS system thread REQUIRED)
+# Boost debugging
+message("${Boost_LIBRARIES}")
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost >= 1.64.0 required.\n")
 endif()
