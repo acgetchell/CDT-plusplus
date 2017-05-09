@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016 Adam Getchell
+/// Copyright © 2016-2017 Adam Getchell
 ///
 /// Checks various measurement functions perform correctly.
 

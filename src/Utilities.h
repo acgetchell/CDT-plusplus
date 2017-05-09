@@ -208,8 +208,8 @@ void write_file(const T& universe, const topology_type& topology,
 /// @param min_value  The minimum value in the range
 /// @param max_value  The maximum value in the range
 /// @return A random integer between min_value and max_value
-inline auto generate_random_unsigned(const intmax_t min_value,
-                                     const intmax_t max_value) noexcept {
+inline auto generate_random_signed(const intmax_t min_value,
+                                   const intmax_t max_value) noexcept {
   // Non-deterministic random number generator
   std::random_device                      generator;
   std::uniform_int_distribution<intmax_t> distribution(min_value, max_value);
@@ -222,7 +222,7 @@ inline auto generate_random_unsigned(const intmax_t min_value,
 #endif
 
   return result;
-}  // generate_random_unsigned()
+}  // generate_random_signed()
 
 /// @brief Generate a random timeslice
 ///
@@ -233,7 +233,7 @@ inline auto generate_random_unsigned(const intmax_t min_value,
 /// @param max_timeslice The maximum timeslice
 /// @return A random timeslice from 1 to max_timeslice
 inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept {
-  return generate_random_unsigned(1, max_timeslice);
+  return generate_random_signed(1, max_timeslice);
 }  // generate_random_timeslice()
 
 /// @brief Generate random real numbers

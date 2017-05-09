@@ -73,44 +73,39 @@ class MoveManager {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
-    auto move =
-        static_cast<move_type>(ArrayDifference(new_moves, old_moves));
+    auto move = static_cast<move_type>(ArrayDifference(new_moves, old_moves));
     switch (move) {
       case move_type::TWO_THREE: {
-        return (check[0] == universe_.get().geometry->three_one.size() &&
+        return (check[0] == universe_.get().geometry->N3_31() &&
                 check[1] == universe_.get().geometry->N3_22() - 1 &&
-                check[2] == universe_.get().geometry->one_three.size() &&
-                check[3] ==
-                    universe_.get().geometry->timelike_edges.size() - 1 &&
-                check[4] == universe_.get().geometry->spacelike_edges.size() &&
-                check[5] == universe_.get().geometry->vertices.size());
+                check[2] == universe_.get().geometry->N3_13() &&
+                check[3] == universe_.get().geometry->N1_TL() - 1 &&
+                check[4] == universe_.get().geometry->N1_SL() &&
+                check[5] == universe_.get().geometry->N0());
       }
       case move_type::THREE_TWO: {
-        return (check[0] == universe_.get().geometry->three_one.size() &&
+        return (check[0] == universe_.get().geometry->N3_31() &&
                 check[1] == universe_.get().geometry->N3_22() + 1 &&
-                check[2] == universe_.get().geometry->one_three.size() &&
-                check[3] ==
-                    universe_.get().geometry->timelike_edges.size() + 1 &&
-                check[4] == universe_.get().geometry->spacelike_edges.size() &&
-                check[5] == universe_.get().geometry->vertices.size());
+                check[2] == universe_.get().geometry->N3_13() &&
+                check[3] == universe_.get().geometry->N1_TL() + 1 &&
+                check[4] == universe_.get().geometry->N1_SL() &&
+                check[5] == universe_.get().geometry->N0());
       }
       case move_type::TWO_SIX: {
-        return (
-            check[0] == universe_.get().geometry->three_one.size() - 2 &&
-            check[1] == universe_.get().geometry->N3_22() &&
-            check[2] == universe_.get().geometry->one_three.size() - 2 &&
-            check[3] == universe_.get().geometry->timelike_edges.size() - 2 &&
-            check[4] == universe_.get().geometry->spacelike_edges.size() - 3 &&
-            check[5] == universe_.get().geometry->vertices.size() - 1);
+        return (check[0] == universe_.get().geometry->N3_31() - 2 &&
+                check[1] == universe_.get().geometry->N3_22() &&
+                check[2] == universe_.get().geometry->N3_13() - 2 &&
+                check[3] == universe_.get().geometry->N1_TL() - 2 &&
+                check[4] == universe_.get().geometry->N1_SL() - 3 &&
+                check[5] == universe_.get().geometry->N0() - 1);
       }
       case move_type::SIX_TWO: {
-        return (
-            check[0] == universe_.get().geometry->three_one.size() + 2 &&
-            check[1] == universe_.get().geometry->N3_22() &&
-            check[2] == universe_.get().geometry->one_three.size() + 2 &&
-            check[3] == universe_.get().geometry->timelike_edges.size() + 2 &&
-            check[4] == universe_.get().geometry->spacelike_edges.size() + 3 &&
-            check[5] == universe_.get().geometry->vertices.size() + 1);
+        return (check[0] == universe_.get().geometry->N3_31() + 2 &&
+                check[1] == universe_.get().geometry->N3_22() &&
+                check[2] == universe_.get().geometry->N3_13() + 2 &&
+                check[3] == universe_.get().geometry->N1_TL() + 2 &&
+                check[4] == universe_.get().geometry->N1_SL() + 3 &&
+                check[5] == universe_.get().geometry->N0() + 1);
       }
       case move_type::FOUR_FOUR: {
         return false;
@@ -130,13 +125,13 @@ class MoveManager {
     try {
       // Look at moves made so far
       auto old_moves = attempted_moves_.get();
-      //      auto N3_31 = universe_.get().geometry->three_one.size();
-      check[0] = universe_.get().geometry->three_one.size();
+      //      auto N3_31_13_ = universe_.get().geometry->N3_31();
+      check[0] = universe_.get().geometry->N3_31();
       check[1] = universe_.get().geometry->N3_22();
-      check[2] = universe_.get().geometry->one_three.size();
-      check[3] = universe_.get().geometry->timelike_edges.size();
-      check[4] = universe_.get().geometry->spacelike_edges.size();
-      check[5] = universe_.get().geometry->vertices.size();
+      check[2] = universe_.get().geometry->N3_13();
+      check[3] = universe_.get().geometry->N1_TL();
+      check[4] = universe_.get().geometry->N1_SL();
+      check[5] = universe_.get().geometry->N0();
 
       // Now make new move
       universe_.get() = move(universe_.get(), attempted_moves_.get());

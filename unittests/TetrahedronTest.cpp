@@ -98,13 +98,13 @@ TEST_F(FoliatedTetrahedronTest, InsertSimplexType) {
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
 
-  EXPECT_EQ(new_universe.geometry->three_one.size(), 1)
+  EXPECT_EQ(new_universe.geometry->N3_31(), 1)
       << "(3,1) simplices should be equal to one.";
 
-  EXPECT_EQ(new_universe.geometry->two_two.size(), 0)
+  EXPECT_EQ(new_universe.geometry->N3_22(), 0)
       << "(2,2) simplices in (3,1) tetrahedron is nonzero.";
 
-  EXPECT_EQ(new_universe.geometry->one_three.size(), 0)
+  EXPECT_EQ(new_universe.geometry->N3_13(), 0)
       << "(1,3) simplices in (3,1) tetrahedron is nonzero.";
 }
 

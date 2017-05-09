@@ -25,8 +25,8 @@
 
 // #include <CGAL/MP_Float.h>
 #include <CGAL/Gmpzf.h>
-#include <mpfr.h>
 #include <cstdio>
+#include <mpfr.h>
 
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
@@ -46,7 +46,8 @@ static constexpr std::intmax_t PRECISION = 256;
 /// \equiv iS^3_{EDT}\f]
 ///
 /// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-/// @param N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices
+/// @param N3_31_13  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+/// simplices
 /// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
@@ -55,9 +56,9 @@ static constexpr std::intmax_t PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
-                                           const std::intmax_t N3_31,
+                                           const std::intmax_t N3_31_13,
                                            const std::intmax_t N3_22,
-                                           const long double    K,
+                                           const long double   K,
                                            const long double Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -69,9 +70,9 @@ inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
               total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
-  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
   mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
@@ -102,7 +103,7 @@ inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-//  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  //  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
   auto result = mpfr_get_d(total, MPFR_RNDD);
 
@@ -122,7 +123,8 @@ inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
 /// \right)+N_3^{(2,2)}\left(-5.355k-0.204\lambda\right)\f]
 ///
 /// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-/// @param N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices
+/// @param N3_31_13  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+/// simplices
 /// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
@@ -131,10 +133,10 @@ inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
-                                     const std::intmax_t N3_31,
+                                     const std::intmax_t N3_31_13,
                                      const std::intmax_t N3_22,
-                                     const long double    K,
-                                     const long double    Lambda) noexcept {
+                                     const long double   K,
+                                     const long double   Lambda) noexcept {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
 
@@ -146,9 +148,9 @@ inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
               total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
-  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
   mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
@@ -184,7 +186,7 @@ inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
   //               10, 0, total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-//  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  //  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
   auto result = mpfr_get_d(total, MPFR_RNDD);
 
@@ -212,7 +214,8 @@ inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
 /// \right)-\frac{\lambda}{12}\sqrt{4\alpha +2}\right]\f}
 ///
 /// @param N1_TL  \f$N_1^{TL}\f$ is the number of timelike links
-/// @param N3_31  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3) simplices
+/// @param N3_31_13  \f$N_3^{(3,1)}\f$ is the number of (3,1) and (1,3)
+/// simplices
 /// @param N3_22  \f$N_3^{(2,2)}\f$ is the number of (2,2) simplices
 /// @param Alpha  \f$\alpha\f$ is the timelike edge length
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
@@ -222,7 +225,7 @@ inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 inline auto S3_bulk_action(const std::intmax_t N1_TL,
-                           const std::intmax_t N3_31,
+                           const std::intmax_t N3_31_13,
                            const std::intmax_t N3_22, const long double Alpha,
                            const long double K,
                            const long double Lambda) noexcept {
@@ -242,9 +245,9 @@ inline auto S3_bulk_action(const std::intmax_t N1_TL,
               r52, total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_ui(n3_31, N3_31, MPFR_RNDD);
-  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(alpha, Alpha, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
@@ -333,7 +336,7 @@ inline auto S3_bulk_action(const std::intmax_t N1_TL,
   //               total, MPFR_RNDD) << std::endl;
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-//  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  //  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
   auto result = mpfr_get_d(total, MPFR_RNDD);
 

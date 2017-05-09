@@ -89,7 +89,7 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   while (not_flipped) {
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
-        generate_random_unsigned(0, universe.geometry->two_two.size() - 1);
+        generate_random_signed(0, universe.geometry->two_two.size() - 1);
 
     Cell_handle to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
@@ -143,8 +143,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   while (not_flipped) {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice = generate_random_unsigned(
-        0, universe.geometry->timelike_edges.size() - 1);
+    auto choice = generate_random_signed(0, universe.geometry->N1_TL() - 1);
     Edge_handle to_be_moved = universe.geometry->timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved)) {
@@ -245,8 +244,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   auto not_moved = true;
   while (not_moved) {
     // Pick out a random (1,3) from simplex_types
-    auto choice =
-        generate_random_unsigned(0, universe.geometry->one_three.size() - 1);
+    auto choice = generate_random_signed(0, universe.geometry->N3_13() - 1);
 
     unsigned    neighboring_31_index{5};
     Cell_handle bottom = universe.geometry->one_three[choice];
@@ -437,10 +435,10 @@ template <typename T1, typename T2>
 auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  intmax_t                  tds_vertices_size = tds_vertices.size();
+  intmax_t                   tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
-    auto          choice = generate_random_unsigned(0, tds_vertices_size - 1);
-    Vertex_handle to_be_moved = tds_vertices.at(choice);
+    auto          choice = generate_random_signed(0, tds_vertices_size - 1);
+    Vertex_handle to_be_moved = tds_vertices[choice];
     // Ensure pre-conditions are satisfied
     CGAL_triangulation_precondition(universe.triangulation->dimension() == 3);
     CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));

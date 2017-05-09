@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015 Adam Getchell
+/// Copyright © 2015-2017 Adam Getchell
 ///
 /// Checks that Metropolis algorithm runs properly.
 
@@ -27,32 +27,25 @@ class MetropolisTest : public ::testing::Test {
   MetropolisTest()
       : universe_{make_triangulation(640, 4)}
       , attempted_moves_{}
-      , N3_31_before{static_cast<std::intmax_t>(
-            universe_.geometry->three_one.size())}
-      , N3_22_before{static_cast<std::intmax_t>(
-            universe_.geometry->two_two.size())}
-      , N3_13_before{static_cast<std::intmax_t>(
-            universe_.geometry->one_three.size())}
-      , timelike_edges_before{static_cast<std::intmax_t>(
-            universe_.geometry->timelike_edges.size())}
-      , spacelike_edges_before{static_cast<std::intmax_t>(
-            universe_.geometry->spacelike_edges.size())}
-      , vertices_before{
-            static_cast<std::intmax_t>(universe_.geometry->vertices.size())} {}
+      , N3_31_before{universe_.geometry->N3_31()}
+      , N3_22_before{universe_.geometry->N3_22()}
+      , N3_13_before{universe_.geometry->N3_13()}
+      , timelike_edges_before{universe_.geometry->N1_TL()}
+      , spacelike_edges_before{universe_.geometry->N1_SL()}
+      , vertices_before{universe_.geometry->N0()} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values
-    std::cout << "(3,1) simplices: " << universe_.geometry->three_one.size()
+    std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
               << std::endl;
     std::cout << "(2,2) simplices: " << universe_.geometry->N3_22()
               << std::endl;
-    std::cout << "(1,3) simplices: " << universe_.geometry->one_three.size()
+    std::cout << "(1,3) simplices: " << universe_.geometry->N3_13()
               << std::endl;
     std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << std::endl;
-    std::cout << "Spacelike edges: "
-              << universe_.geometry->spacelike_edges.size() << std::endl;
-    std::cout << "Vertices: " << universe_.geometry->vertices.size()
+    std::cout << "Spacelike edges: " << universe_.geometry->N1_SL()
               << std::endl;
+    std::cout << "Vertices: " << universe_.geometry->N0() << std::endl;
   }
   /// Simplicial manifold containing pointer to triangulation
   /// and geometric information.
@@ -199,7 +192,7 @@ TEST_F(MetropolisTest, DISABLED_Operator) {
       << "Timelike edges not correctly counted during moves.";
 
   EXPECT_EQ(result.triangulation->number_of_finite_edges(),
-            result.geometry->N1_TL() + result.geometry->spacelike_edges.size())
+            result.geometry->N1_TL() + result.geometry->N1_SL())
       << "Spacelike + Timelike edges don't add up to number_of_finite_edges.";
 
   EXPECT_EQ(result.geometry->N3_22(),

@@ -114,44 +114,61 @@ struct GeometryInfo {
   GeometryInfo& operator=(const GeometryInfo&) = default;
 
   /// @brief Timelike edges
-  /// @return Edges spanning timeslices
-  auto N1_TL() { return timelike_edges.size(); }
+  /// @return The number of edges spanning timeslices
+  auto N1_TL() { return static_cast<std::intmax_t>(timelike_edges.size()); }
+
+  /// @brief Spacelike edges
+  /// @return The number of edges on same timeslice
+  auto N1_SL() { return static_cast<std::intmax_t>(spacelike_edges.size()); }
+
+  /// @brief (3,1) simplices
+  /// @return The total number of simplices with 3 vertices on the t
+  /// timeslice and 1 vertex on the t+1 timeslice
+  auto N3_31() { return static_cast<std::intmax_t>(three_one.size()); }
+
+  /// @brief (1,3) simplices
+  /// @return The total number of simplices with 1 vertex on the t timeslice
+  /// and 3 vertices on the t+1 timeslice
+  auto N3_13() { return static_cast<std::intmax_t>(one_three.size()); }
 
   /// @brief (3,1) and (1,3) simplices
   /// @return The total number of simplices with 3 vertices on one
   /// timeslice and 1 vertex on the adjacent timeslice. Used to
   /// calculate the change in action.
-  auto N3_31() { return three_one.size() + one_three.size(); }
+  auto N3_31_13() { return N3_31() + N3_13(); }
 
   /// @brief (2,2) simplices
   /// @return The total number of simplices with 2 vertices on one
   /// timeslice and 2 vertices on the adjacent timeslice. Used to
   /// calculate the change in action.
-  auto N3_22() { return two_two.size(); }
+  auto N3_22() { return static_cast<std::intmax_t>(two_two.size()); }
 
-  /// @brief The number of cells in the triangulation
+  /// @brief Number of cells
   ///
   /// This should be the equivalent of
   /// SimplicialManifold::triangulation->number_of_finite_cells(),
   /// and is used as a check to ensure that GeometryInfo{} matches.
   /// @return The number of cells in GeometryInfo{}
   auto number_of_cells() {
-    return three_one.size() + two_two.size() + one_three.size();
+    return N3_31() + N3_22() + N3_13();
   }
 
-  /// @brief Return the number of edges in the triangulation
+  /// @brief Number of edges
   ///
   /// This should be the equivalent of
   /// SimplicialManifold::triangulation->number_of_finite_edges(),
   /// and is used as a check to ensure that GeometryInfo{} matches.
-  auto number_of_edges() {
-    return timelike_edges.size() + spacelike_edges.size();
-  }
+  /// @return The number of edges in the triangulation
+  auto number_of_edges() { return N1_TL() + N1_SL(); }
 
   //  auto max_timevalue() { return *timevalues.crbegin();}
   boost::optional<std::intmax_t> max_timevalue() {
     return timevalues ? *timevalues->crbegin() : 0;
   }
+
+  /// @brief Number of vertices
+  /// @return The number of vertices in the triangulation
+  auto N0() {return static_cast<std::intmax_t>(vertices.size());}
 };
 
 /// @struct

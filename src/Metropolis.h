@@ -41,10 +41,10 @@
 
 // C++ headers
 #include <algorithm>
+#include <atomic>
 #include <type_traits>
 #include <utility>
 #include <vector>
-#include <atomic>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -52,7 +52,8 @@ extern const std::intmax_t PRECISION;
 
 /// @brief Convert enum class to its underlying type
 ///
-/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type // NOLINT
+/// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
+/// // NOLINT
 /// @tparam E Enum class type
 /// @param e Enum class
 /// @return Integral type of enum member
@@ -88,7 +89,7 @@ class Metropolis {
   std::intmax_t N1_TL_{0};
 
   /// @brief The current number of (3,1) and (1,3) simplices
-  std::intmax_t N3_31_{0};
+  std::intmax_t N3_31_13_{0};
 
   /// @brief The current number of (2,2) simplices
   std::intmax_t N3_22_{0};
@@ -207,7 +208,7 @@ class Metropolis {
            FourFourMoves();
   }
 
-  auto CurrentTotalSimplices() const noexcept { return N3_31_ + N3_22_; }
+  auto CurrentTotalSimplices() const noexcept { return N3_31_13_ + N3_22_; }
 
   /// @brief Calculate A1
   ///
@@ -236,7 +237,7 @@ class Metropolis {
     // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-//    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
+    //    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
     // MP_Float result = MP_Float(mpfr_get_ld(a1, MPFR_RNDD));
     auto result = mpfr_get_d(a1, MPFR_RNDD);
 
@@ -259,33 +260,33 @@ class Metropolis {
   /// @return \f$a_2=e^{-\Delta S}\f$
   auto CalculateA2(const move_type move) const noexcept {
     auto currentS3Action =
-        S3_bulk_action(N1_TL_, N3_31_, N3_22_, Alpha_, K_, Lambda_);
+        S3_bulk_action(N1_TL_, N3_31_13_, N3_22_, Alpha_, K_, Lambda_);
     auto newS3Action = static_cast<Gmpzf>(0);
     // auto newS3Action = static_cast<MP_Float>(0);
     switch (move) {
       case move_type::TWO_THREE:
         // A (2,3) move adds a timelike edge
         // and a (2,2) simplex
-        newS3Action =
-            S3_bulk_action(N1_TL_ + 1, N3_31_, N3_22_ + 1, Alpha_, K_, Lambda_);
+        newS3Action = S3_bulk_action(N1_TL_ + 1, N3_31_13_, N3_22_ + 1, Alpha_,
+                                     K_, Lambda_);
         break;
       case move_type::THREE_TWO:
         // A (3,2) move removes a timelike edge
         // and a (2,2) simplex
-        newS3Action =
-            S3_bulk_action(N1_TL_ - 1, N3_31_, N3_22_ - 1, Alpha_, K_, Lambda_);
+        newS3Action = S3_bulk_action(N1_TL_ - 1, N3_31_13_, N3_22_ - 1, Alpha_,
+                                     K_, Lambda_);
         break;
       case move_type::TWO_SIX:
         // A (2,6) move adds 2 timelike edges and
         // 2 (1,3) and 2 (3,1) simplices
-        newS3Action =
-            S3_bulk_action(N1_TL_ + 2, N3_31_ + 4, N3_22_, Alpha_, K_, Lambda_);
+        newS3Action = S3_bulk_action(N1_TL_ + 2, N3_31_13_ + 4, N3_22_, Alpha_,
+                                     K_, Lambda_);
         break;
       case move_type::SIX_TWO:
         // A (6,2) move removes 2 timelike edges and
         // 2 (1,3) and 2 (3,1) simplices
-        newS3Action =
-            S3_bulk_action(N1_TL_ - 2, N3_31_, N3_22_ - 4, Alpha_, K_, Lambda_);
+        newS3Action = S3_bulk_action(N1_TL_ - 2, N3_31_13_, N3_22_ - 4, Alpha_,
+                                     K_, Lambda_);
         break;
       case move_type::FOUR_FOUR:
 // A (4,4) move changes nothing with respect to the action,
@@ -296,8 +297,8 @@ class Metropolis {
         return static_cast<double>(1);
     }
 
-//    auto exponent        = newS3Action - currentS3Action;
-    auto exponent = currentS3Action - newS3Action;
+    //    auto exponent        = newS3Action - currentS3Action;
+    auto exponent        = currentS3Action - newS3Action;
     auto exponent_double = Gmpzf_to_double(exponent);
 
     // if exponent > 0 then e^exponent >=1 so according to Metropolis
@@ -318,7 +319,7 @@ class Metropolis {
     mpfr_exp(a2, r1, MPFR_RNDD);
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-//    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
+    //    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
     auto result = mpfr_get_d(a2, MPFR_RNDD);
 
     // Free memory
@@ -335,8 +336,8 @@ class Metropolis {
     std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
     std::cout << "Timeslices: "
               << this->universe_.geometry->max_timevalue().get() << std::endl;
-    std::cout << "N3_31: " << N3_31_ << std::endl;
-    std::cout << "N3_22: " << N3_22_ << std::endl;
+    std::cout << "N3_31_13_: " << N3_31_13_ << std::endl;
+    std::cout << "N3_22_: " << N3_22_ << std::endl;
     std::cout << "Timelike edges: " << N1_TL_ << std::endl;
     std::cout << "Successful (2,3) moves: " << SuccessfulTwoThreeMoves()
               << std::endl;
@@ -435,9 +436,9 @@ class Metropolis {
     }
 
     // Update counters
-    N1_TL_ = universe_.geometry->N1_TL();
-    N3_31_ = universe_.geometry->N3_31();
-    N3_22_ = universe_.geometry->N3_22();
+    N1_TL_    = universe_.geometry->N1_TL();
+    N3_31_13_ = universe_.geometry->N3_31_13();
+    N3_22_    = universe_.geometry->N3_22();
   }  // make_move()
 
   /// @brief Attempt a move of the selected type
@@ -457,7 +458,7 @@ class Metropolis {
     const auto trial_value = generate_probability();
     // Convert to Gmpzf because trial_value will be set to 0 when
     // comparing with a1 and a2!
-//    const auto trial = Gmpzf(static_cast<double>(trial_value));
+    //    const auto trial = Gmpzf(static_cast<double>(trial_value));
     const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
@@ -509,7 +510,7 @@ class Metropolis {
     // Populate member data
     universe_ = std::move(universe);
     N1_TL_    = universe_.geometry->N1_TL();
-    N3_31_    = universe_.geometry->N3_31();
+    N3_31_13_ = universe_.geometry->N3_31_13();
     N3_22_    = universe_.geometry->N3_22();
 
     // Populate attempted_moves_ and successful_moves_
@@ -530,14 +531,13 @@ class Metropolis {
 
     std::cout << "Making random moves ..." << std::endl;
     // Loop through passes_
-    for (std::intmax_t pass_number = 1; pass_number <= passes_;
-         ++pass_number) {
+    for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number) {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
       for (std::intmax_t move_attempt = 0;
            move_attempt < total_simplices_this_pass; ++move_attempt) {
         // Pick a move to attempt
-        auto move_choice = generate_random_unsigned(0, 3);
+        auto move_choice = generate_random_signed(0, 3);
 #ifndef NDEBUG
         std::cout << "Move choice = " << move_choice << std::endl;
 #endif

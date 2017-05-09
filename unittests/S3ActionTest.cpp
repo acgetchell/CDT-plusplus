@@ -27,33 +27,25 @@ class S3ActionTest : public ::testing::Test {
   S3ActionTest()
       : universe_{make_triangulation(6400, 7)}
       , attempted_moves_{}
-      , N3_31_before{static_cast<std::intmax_t>(
-            universe_.geometry->three_one.size())}
-      , N3_22_before{static_cast<std::intmax_t>(
-            universe_.geometry->two_two.size())}
-      , N3_13_before{static_cast<std::intmax_t>(
-            universe_.geometry->one_three.size())}
-      , timelike_edges_before{static_cast<std::intmax_t>(
-            universe_.geometry->timelike_edges.size())}
-      , spacelike_edges_before{static_cast<std::intmax_t>(
-            universe_.geometry->spacelike_edges.size())}
-      , vertices_before{
-            static_cast<std::intmax_t>(universe_.geometry->vertices.size())} {}
+      , N3_31_before{universe_.geometry->N3_31()}
+      , N3_22_before{universe_.geometry->N3_22()}
+      , N3_13_before{universe_.geometry->N3_13()}
+      , timelike_edges_before{universe_.geometry->N1_TL()}
+      , spacelike_edges_before{universe_.geometry->N1_SL()}
+      , vertices_before{universe_.geometry->N0()} {}
 
   virtual void SetUp() {
     // Print ctor-initialized values
-    std::cout << "(3,1) simplices: " << universe_.geometry->three_one.size()
+    std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
               << std::endl;
-    std::cout << "(2,2) simplices: " << universe_.geometry->two_two.size()
+    std::cout << "(2,2) simplices: " << universe_.geometry->N3_22()
               << std::endl;
-    std::cout << "(1,3) simplices: " << universe_.geometry->one_three.size()
+    std::cout << "(1,3) simplices: " << universe_.geometry->N3_13()
               << std::endl;
-    std::cout << "Timelike edges: " << universe_.geometry->timelike_edges.size()
+    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << std::endl;
+    std::cout << "Spacelike edges: " << universe_.geometry->N1_SL()
               << std::endl;
-    std::cout << "Spacelike edges: "
-              << universe_.geometry->spacelike_edges.size() << std::endl;
-    std::cout << "Vertices: " << universe_.geometry->vertices.size()
-              << std::endl;
+    std::cout << "Vertices: " << universe_.geometry->N0() << std::endl;
   }
 
   /// @brief Simplicial manifold containing pointer to triangulation
@@ -103,8 +95,17 @@ TEST_F(S3ActionTest, GetN1Values) {
 
 TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
   auto Bulk_action = S3_bulk_action_alpha_minus_one(
-      timelike_edges_before, universe_.geometry->N3_31(),
+      timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
+  // Debugging
+  //  std::cout << "timelike_edges_before " << timelike_edges_before <<
+  //  std::endl;
+  //  std::cout << "universe_.geometry->N3_31_13()"
+  //            << universe_.geometry->N3_31_13() << std::endl;
+  //  std::cout << "universe_.geometry->N3_22() " << universe_.geometry->N3_22()
+  //            << std::endl;
+  //  std::cout << "K " << K << std::endl;
+  //  std::cout << "Lambda " << Lambda << std::endl;
   std::cout << "S3_bulk_action_alpha_minus_one() result is " << Bulk_action
             << std::endl;
 
@@ -115,7 +116,7 @@ TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
 
 TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
   auto Bulk_action = S3_bulk_action_alpha_one(
-      timelike_edges_before, universe_.geometry->N3_31(),
+      timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
   std::cout << "S3_bulk_action_alpha_one() result is " << Bulk_action
             << std::endl;
@@ -129,7 +130,7 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
   constexpr auto Alpha = static_cast<long double>(0.6);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
   auto Bulk_action =
-      S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31(),
+      S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31_13(),
                      universe_.geometry->N3_22(), Alpha, K, Lambda);
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
 
@@ -144,10 +145,10 @@ TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction) {
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
 
   auto Bulk_action =
-      S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31(),
+      S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31_13(),
                      universe_.geometry->N3_22(), Alpha, K, Lambda);
   auto Bulk_action_one = S3_bulk_action_alpha_one(
-      timelike_edges_before, universe_.geometry->N3_31(),
+      timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
   std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
   std::cout << "S3_bulk_action_alpha_one() result is " << Bulk_action_one
