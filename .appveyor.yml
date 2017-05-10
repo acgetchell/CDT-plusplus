@@ -58,6 +58,8 @@ install:
 before_build:
   - cd C:\projects\CDT-plusplus
   - dir # Debugging
+  - set CC=clang-cl
+  - set CXX=clang-cl
 
 build_script:
   - mkdir build
@@ -65,7 +67,7 @@ build_script:
   - cmake -G Ninja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
 
 on_success:
-  - ninja test
+  - cmake --build . --target test
 
 notifications:
 

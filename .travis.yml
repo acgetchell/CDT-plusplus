@@ -173,7 +173,7 @@ after_success:
   - if [[ ${GMOCK} == "true" ]]; then ./unittests --gtest_shuffle; fi
   - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest
-  - ninja test
+  - cmake --build . --target test
 
 notifications:
   webhooks:
