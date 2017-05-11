@@ -31,6 +31,8 @@ install:
   # Setup Clang-cl
   - set PATH="C:\Program Files\LLVM\bin";%PATH%
   - clang-cl -v
+  - set CC=clang-cl
+  - set CXX=clang-cl
   # Install Boost
   - nuget install boost
   - dir # Debugging
@@ -52,19 +54,17 @@ install:
   - set PATH=C:\projects\dev\releases-CGAL-4.9.1;%PATH%
   - cd C:\projects\dev\releases-CGAL-4.9.1
   - dir # Debugging
-  - cmake -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
+  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
 
 before_build:
   - cd C:\projects\CDT-plusplus
   - dir # Debugging
-  - set CC=clang-cl
-  - set CXX=clang-cl
 
 build_script:
   - mkdir build
   - cd build
-  - cmake -G Ninja -DCMAKE_CXX_COMPILER=clang-cl -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
 
 on_success:
   - cmake --build . --target test
