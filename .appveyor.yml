@@ -48,9 +48,9 @@ install:
   #- cd ..
   - set PATH=C:\projects\dev\boost.1.64.0.0\lib;%PATH%
   # Install GMP
-  nuget install libgmp_vc120
-  set PATH=C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include;%PATH%
-  set PATH=C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin;%PATH%
+  - nuget install libgmp_vc120
+  - set PATH=C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include;%PATH%
+  - set PATH=C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin;%PATH%
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
   - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
