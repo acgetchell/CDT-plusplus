@@ -48,17 +48,22 @@
 /// @param to_be_moved The **Cell_handle** that is tried
 /// @return A boolean value whether the move succeeded
 template <typename T>
-auto try_23_move(T&& universe, Cell_handle to_be_moved) {
+auto try_23_move(T &&universe, Cell_handle to_be_moved)
+{
   auto flipped = false;
-  for (auto i = 0; i < 4; ++i) {
-    if (universe.triangulation->flip(to_be_moved, i)) {
+  for (auto i = 0; i < 4; ++i)
+  {
+    if (universe.triangulation->flip(to_be_moved, i))
+    {
 #ifndef NDEBUG
       std::cout << "Facet " << i << " was flippable." << std::endl;
 #endif
 
       flipped = true;
       break;
-    } else {
+    }
+    else
+    {
 #ifndef NDEBUG
       std::cout << "Facet " << i << " was not flippable." << std::endl;
 #endif
@@ -80,13 +85,15 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved) {
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
-auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
+auto make_23_move(T1 &&universe, T2 &&attempted_moves) -> decltype(universe)
+{
 #ifndef NDEBUG
   std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
   auto not_flipped = true;
-  while (not_flipped) {
+  while (not_flipped)
+  {
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
         generate_random_signed(0, universe.geometry->two_two.size() - 1);
@@ -111,11 +118,13 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// @param to_be_moved The Edge_handle that is tried
 /// @return A boolean value whether the move succeeded
 template <typename T>
-auto try_32_move(T&& universe, Edge_handle to_be_moved) {
+auto try_32_move(T &&universe, Edge_handle to_be_moved)
+{
   auto flipped = false;
   if (universe.triangulation->flip(std::get<0>(to_be_moved),
                                    std::get<1>(to_be_moved),
-                                   std::get<2>(to_be_moved))) {
+                                   std::get<2>(to_be_moved)))
+  {
     flipped = true;
   }
   return flipped;
@@ -134,24 +143,29 @@ auto try_32_move(T&& universe, Edge_handle to_be_moved) {
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
-auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
+auto make_32_move(T1 &&universe, T2 &&attempted_moves) -> decltype(universe)
+{
 #ifndef NDEBUG
   std::cout << "Attempting (3,2) move." << std::endl;
 #endif
 
   auto not_flipped = true;
-  while (not_flipped) {
+  while (not_flipped)
+  {
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
     auto choice = generate_random_signed(0, universe.geometry->N1_TL() - 1);
     Edge_handle to_be_moved = universe.geometry->timelike_edges[choice];
 
-    if (try_32_move(universe, to_be_moved)) {
+    if (try_32_move(universe, to_be_moved))
+    {
 #ifndef NDEBUG
       std::cout << "Edge " << choice << " was flippable." << std::endl;
 #endif
       not_flipped = false;
-    } else {
+    }
+    else
+    {
 #ifndef NDEBUG
       std::cout << "Edge " << choice << " was not flippable." << std::endl;
 #endif
@@ -174,7 +188,8 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-inline auto is_26_movable(const Cell_handle& c, unsigned i) {
+inline auto is_26_movable(const Cell_handle &c, unsigned i)
+{
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
   // Neighbor should be a 31
@@ -191,15 +206,18 @@ inline auto is_26_movable(const Cell_handle& c, unsigned i) {
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle& c, unsigned* n) {
+inline auto find_26_movable(const Cell_handle &c, unsigned *n)
+{
   auto movable = false;
-  for (unsigned i = 0; i < 4; ++i) {
+  for (unsigned i = 0; i < 4; ++i)
+  {
 #ifndef NDEBUG
     std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
               << std::endl;
 #endif
     // Check all neighbors for a (3,1) simplex
-    if (is_26_movable(c, i)) {
+    if (is_26_movable(c, i))
+    {
       *n      = i;
       movable = true;
     }
@@ -236,13 +254,15 @@ inline auto find_26_movable(const Cell_handle& c, unsigned* n) {
 /// of each type given by the **move_type** enum
 /// @return The SimplicialManifold{} after the move has been made
 template <typename T1, typename T2>
-auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
+auto make_26_move(T1 &&universe, T2 &&attempted_moves) -> decltype(universe)
+{
 #ifndef NDEBUG
   std::cout << "Attempting (2,6) move." << std::endl;
 #endif
 
   auto not_moved = true;
-  while (not_moved) {
+  while (not_moved)
+  {
     // Pick out a random (1,3) from simplex_types
     auto choice = generate_random_signed(0, universe.geometry->N3_13() - 1);
 
@@ -325,7 +345,8 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 #endif
 
     // Is there a neighboring (3,1) simplex?
-    if (find_26_movable(bottom, &neighboring_31_index)) {
+    if (find_26_movable(bottom, &neighboring_31_index))
+    {
 #ifndef NDEBUG
       std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
       std::cout << "The neighboring simplex " << neighboring_31_index
@@ -353,9 +374,12 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 
 #ifndef NDEBUG
       // Check we have a vertex
-      if (universe.triangulation->tds().is_vertex(v_center)) {
+      if (universe.triangulation->tds().is_vertex(v_center))
+      {
         std::cout << "It's a vertex in the TDS." << std::endl;
-      } else {
+      }
+      else
+      {
         std::cout << "It's not a vertex in the TDS." << std::endl;
       }
 
@@ -367,7 +391,9 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
       CGAL_triangulation_postcondition(
           universe.triangulation->tds().is_valid(v_center, true, 1));
       not_moved = false;
-    } else {
+    }
+    else
+    {
 #ifndef NDEBUG
       std::cout << "(1,3) simplex " << choice << " was not movable."
                 << std::endl;
@@ -385,7 +411,8 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// @param candidate A vertex to test
 /// @return True if a (6,2) move can be made on the candidate vertex
 template <typename T>
-auto find_62_movable(T&& universe, Vertex_handle candidate) {
+auto find_62_movable(T &&universe, Vertex_handle candidate)
+{
   std::vector<Cell_handle> candidate_cells;
   // Adjacent (3,1), (2,2), and (1,3) cells
   auto adjacent_cell = std::make_tuple(0, 0, 0);
@@ -394,15 +421,23 @@ auto find_62_movable(T&& universe, Vertex_handle candidate) {
   // We must have 6 cells around the vertex to be able to make a (6,2) move
   if (candidate_cells.size() != 6) return false;
 
-  for (const auto& cit : candidate_cells) {
+  for (const auto &cit : candidate_cells)
+  {
     CGAL_triangulation_precondition(universe.triangulation->is_cell(cit));
-    if (cit->info() == 31) {
+    if (cit->info() == 31)
+    {
       ++std::get<0>(adjacent_cell);
-    } else if (cit->info() == 22) {
+    }
+    else if (cit->info() == 22)
+    {
       ++std::get<1>(adjacent_cell);
-    } else if (cit->info() == 13) {
+    }
+    else if (cit->info() == 13)
+    {
       ++std::get<2>(adjacent_cell);
-    } else {
+    }
+    else
+    {
 #ifndef NDEBUG
       std::cout << "Probably an edge cell (facet with infinite vertex)."
                 << std::endl;
@@ -432,17 +467,20 @@ auto find_62_movable(T&& universe, Vertex_handle candidate) {
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
-auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
+auto make_62_move(T1 &&universe, T2 &&attempted_moves) -> decltype(universe)
+{
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
   intmax_t                   tds_vertices_size = tds_vertices.size();
-  while ((not_moved) && (tds_vertices_size > 0)) {
+  while ((not_moved) && (tds_vertices_size > 0))
+  {
     auto          choice = generate_random_signed(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices[choice];
     // Ensure pre-conditions are satisfied
     CGAL_triangulation_precondition(universe.triangulation->dimension() == 3);
     CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
-    if (find_62_movable(universe, to_be_moved)) {
+    if (find_62_movable(universe, to_be_moved))
+    {
       universe.triangulation->remove(to_be_moved);
       not_moved = false;
     }
@@ -452,7 +490,8 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
     ++attempted_moves[3];
   }
 
-  if (tds_vertices_size == 0) {
+  if (tds_vertices_size == 0)
+  {
     throw std::domain_error("No (6,2) move is possible.");
   }
   return std::move(universe);
@@ -477,15 +516,18 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename T1, typename T2>
-auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe) {
+auto make_44_move(T1 &&universe, T2 &&attempted_moves) -> decltype(universe)
+{
   std::vector<Edge_handle> movable_spacelike_edges{
       universe.geometry->spacelike_edges};
 
   auto not_moved = true;  // should be true
-  while ((not_moved) && (movable_spacelike_edges.size() > 0)) {
+  while ((not_moved) && (movable_spacelike_edges.size() > 0))
+  {
     // do something
   }
-  if (movable_spacelike_edges.size() == 0) {
+  if (movable_spacelike_edges.size() == 0)
+  {
     throw std::domain_error("No (4,4) move is possible.");
   }
   // Increment the (4,4) move counter

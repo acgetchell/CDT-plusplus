@@ -22,7 +22,8 @@
 #include "gmock/gmock.h"
 // clang-format on
 
-class S3ActionTest : public ::testing::Test {
+class S3ActionTest : public ::testing::Test
+{
  protected:
   S3ActionTest()
       : universe_{make_triangulation(6400, 7)}
@@ -32,9 +33,12 @@ class S3ActionTest : public ::testing::Test {
       , N3_13_before{universe_.geometry->N3_13()}
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
-      , vertices_before{universe_.geometry->N0()} {}
+      , vertices_before{universe_.geometry->N0()}
+  {
+  }
 
-  virtual void SetUp() {
+  virtual void SetUp()
+  {
     // Print ctor-initialized values
     std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
               << std::endl;
@@ -80,20 +84,23 @@ class S3ActionTest : public ::testing::Test {
   static constexpr auto Lambda = static_cast<long double>(0.1);
 };
 
-TEST_F(S3ActionTest, GetN3Values) {
+TEST_F(S3ActionTest, GetN3Values)
+{
   ASSERT_EQ(universe_.triangulation->number_of_finite_cells(),
             N3_31_before + N3_22_before + N3_13_before)
       << "N3(3,1) + N3(2,2) + N3(1,3) should be total number of cells.";
 }
 
-TEST_F(S3ActionTest, GetN1Values) {
+TEST_F(S3ActionTest, GetN1Values)
+{
   ASSERT_EQ(universe_.triangulation->number_of_finite_edges(),
             timelike_edges_before + spacelike_edges_before)
       << "timelike_edges_before + spacelike_edges_before should be total "
          "number of edges.";
 }
 
-TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
+TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction)
+{
   auto Bulk_action = S3_bulk_action_alpha_minus_one(
       timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
@@ -114,7 +121,8 @@ TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction) {
       << "S3_bulk_action_minus_one() out of expected range";
 }
 
-TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
+TEST_F(S3ActionTest, CalculateAlpha1BulkAction)
+{
   auto Bulk_action = S3_bulk_action_alpha_one(
       timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
@@ -126,7 +134,8 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction) {
       << "S3_bulk_action_alpha_one() out of expected range.";
 }
 
-TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
+TEST_F(S3ActionTest, CalculateGeneralBulkAction)
+{
   constexpr auto Alpha = static_cast<long double>(0.6);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;
   auto Bulk_action =
@@ -139,7 +148,8 @@ TEST_F(S3ActionTest, CalculateGeneralBulkAction) {
       << "S3_bulk_action() out of expected range.";
 }
 
-TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction) {
+TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction)
+{
   constexpr auto tolerance = static_cast<long double>(0.05);
   constexpr auto Alpha     = static_cast<long double>(1.0);
   std::cout << "(Long double) Alpha = " << Alpha << std::endl;

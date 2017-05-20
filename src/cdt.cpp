@@ -71,8 +71,10 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char* const argv[]) {
-  try {
+int main(int argc, char *const argv[])
+{
+  try
+  {
     // Start running time
     CGAL::Real_timer t;
     t.start();
@@ -100,9 +102,12 @@ int main(int argc, char* const argv[]) {
 
     // Topology of simulation
     topology_type topology;
-    if (args["--spherical"].asBool()) {
+    if (args["--spherical"].asBool())
+    {
       topology = topology_type::SPHERICAL;
-    } else {
+    }
+    else
+    {
       topology = topology_type::TOROIDAL;
     }
 
@@ -142,18 +147,23 @@ int main(int argc, char* const argv[]) {
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && std::abs(alpha) < 0.5) {
+    if (dimensions == 3 && std::abs(alpha) < 0.5)
+    {
       t.stop();  // End running time counter
       throw std::domain_error("Alpha in 3D should be greater than 1/2.");
     }
 
-    switch (topology) {
+    switch (topology)
+    {
       case topology_type::SPHERICAL:
-        if (dimensions == 3) {
+        if (dimensions == 3)
+        {
           SimplicialManifold populated_universe(simplices, timeslices);
           // SimplicialManifold swapperator for no-throw
           swap(universe, populated_universe);
-        } else {
+        }
+        else
+        {
           t.stop();  // End running time counter
           throw std::invalid_argument("Currently, dimensions cannot be >3.");
         }
@@ -164,7 +174,8 @@ int main(int argc, char* const argv[]) {
             "Toroidal triangulations not yet supported.");  // NOLINT
     }
 
-    if (!fix_timeslices(universe.triangulation)) {
+    if (!fix_timeslices(universe.triangulation))
+    {
       t.stop();  // End running time counter
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }
@@ -189,19 +200,27 @@ int main(int argc, char* const argv[]) {
                universe.triangulation->number_of_finite_cells(), timeslices);
 
     return 0;
-  } catch (std::domain_error& DomainError) {
+  }
+  catch (std::domain_error &DomainError)
+  {
     std::cerr << DomainError.what() << std::endl;
     std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
     return 1;
-  } catch (std::invalid_argument& InvalidArgument) {
+  }
+  catch (std::invalid_argument &InvalidArgument)
+  {
     std::cerr << InvalidArgument.what() << std::endl;
     std::cerr << "Invalid parameter ... Exiting." << std::endl;
     return 1;
-  } catch (std::logic_error& LogicError) {
+  }
+  catch (std::logic_error &LogicError)
+  {
     std::cerr << LogicError.what() << std::endl;
     std::cerr << "Simulation startup failed ... Exiting." << std::endl;
     return 1;
-  } catch (...) {
+  }
+  catch (...)
+  {
     std::cerr << "Something went wrong ... Exiting." << std::endl;
     return 1;
   }

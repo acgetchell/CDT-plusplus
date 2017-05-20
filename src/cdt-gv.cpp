@@ -70,7 +70,8 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char* const argv[]) {
+int main(int argc, char *const argv[])
+{
   // docopt option parser
   std::map<std::string, docopt::value> args =
       docopt::docopt(USAGE, {argv + 1, argv + argc},
@@ -97,7 +98,8 @@ int main(int argc, char* const argv[]) {
   Point3        p;
 
   // Insert points from file into Delaunay triangulation
-  while (iFile >> p) {
+  while (iFile >> p)
+  {
     D.insert(p);
   }
 

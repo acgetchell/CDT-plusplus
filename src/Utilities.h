@@ -42,7 +42,11 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-enum class topology_type { TOROIDAL, SPHERICAL };
+enum class topology_type
+{
+  TOROIDAL,
+  SPHERICAL
+};
 
 /// @brief Return an environment variable
 ///
@@ -50,8 +54,9 @@ enum class topology_type { TOROIDAL, SPHERICAL };
 ///
 /// @param key The string value
 /// @return The environment variable corresponding to the key as a std::string
-inline auto getEnvVar(std::string const& key) noexcept {
-  char const* val = getenv(key.c_str());
+inline auto getEnvVar(std::string const &key) noexcept
+{
+  char const *val = getenv(key.c_str());
   return val == nullptr ? std::string() : std::string(val);
 }
 
@@ -61,8 +66,11 @@ inline auto getEnvVar(std::string const& key) noexcept {
 /// stack memory address.
 ///
 /// @return The hostname as a std::string
-inline std::string hostname() noexcept {
-  struct utsname name {};
+inline std::string hostname() noexcept
+{
+  struct utsname name
+  {
+  };
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
   return name.nodename;
@@ -75,10 +83,13 @@ inline std::string hostname() noexcept {
 ///
 /// @return The current data and time in a thread-safe manner using
 /// **localtime_r()** as a std::string.
-inline const std::string currentDateTime() noexcept {
+inline const std::string currentDateTime() noexcept
+{
   auto      now = time(nullptr);
-  struct tm tstruct {};
-  char      time_str[100];
+  struct tm tstruct
+  {
+  };
+  char time_str[100];
   localtime_r(&now, &tstruct);
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   // for more info about date/time format
@@ -94,14 +105,18 @@ inline const std::string currentDateTime() noexcept {
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename as a std::string
-inline auto generate_filename(
-    const topology_type& top, const std::intmax_t dimensions,
-    const std::intmax_t number_of_simplices,
-    const std::intmax_t number_of_timeslices) noexcept {
+inline auto generate_filename(const topology_type &top,
+                              const std::intmax_t  dimensions,
+                              const std::intmax_t  number_of_simplices,
+                              const std::intmax_t number_of_timeslices) noexcept
+{
   std::string filename;
-  if (top == topology_type::SPHERICAL) {
+  if (top == topology_type::SPHERICAL)
+  {
     filename += "S";
-  } else {
+  }
+  else
+  {
     filename += "T";
   }
   // std::to_string() works in C++11, but not earlier
@@ -138,7 +153,8 @@ inline auto generate_filename(
 /// @tparam T The manifold type
 /// @param universe A SimplicialManifold{}
 template <typename T>
-void print_results(const T& universe) noexcept {
+void print_results(const T &universe) noexcept
+{
   std::cout << universe.triangulation->number_of_vertices() << " vertices and "
             << universe.triangulation->number_of_finite_edges() << " edges and "
             << universe.triangulation->number_of_finite_facets() << " faces\n"
@@ -157,7 +173,8 @@ void print_results(const T& universe) noexcept {
 /// @param universe A SimplicialManifold{}
 /// @param timer A timer object used to determine elapse time
 template <typename T1, typename T2>
-void print_results(const T1& universe, const T2& timer) noexcept {
+void print_results(const T1 &universe, const T2 &timer) noexcept
+{
   print_results(universe);
 
   // Display program running time
@@ -177,10 +194,11 @@ void print_results(const T1& universe, const T2& timer) noexcept {
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 template <typename T>
-void write_file(const T& universe, const topology_type& topology,
+void write_file(const T &universe, const topology_type &topology,
                 const std::intmax_t dimensions,
                 const std::intmax_t number_of_simplices,
-                const std::intmax_t number_of_timeslices) {
+                const std::intmax_t number_of_timeslices)
+{
   // mutex to protect file access across threads
   static std::mutex mutex;
 
@@ -209,7 +227,8 @@ void write_file(const T& universe, const topology_type& topology,
 /// @param max_value  The maximum value in the range
 /// @return A random integer between min_value and max_value
 inline auto generate_random_signed(const intmax_t min_value,
-                                   const intmax_t max_value) noexcept {
+                                   const intmax_t max_value) noexcept
+{
   // Non-deterministic random number generator
   std::random_device                      generator;
   std::uniform_int_distribution<intmax_t> distribution(min_value, max_value);
@@ -232,7 +251,8 @@ inline auto generate_random_signed(const intmax_t min_value,
 ///
 /// @param max_timeslice The maximum timeslice
 /// @return A random timeslice from 1 to max_timeslice
-inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept {
+inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept
+{
   return generate_random_signed(1, max_timeslice);
 }  // generate_random_timeslice()
 
@@ -249,7 +269,8 @@ inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept {
 /// @param max_value The maximum value in the range
 /// @return A random real number between min_value and max_value, inclusive
 template <typename T>
-auto generate_random_real(const T min_value, const T max_value) noexcept {
+auto generate_random_real(const T min_value, const T max_value) noexcept
+{
   std::random_device                generator;
   std::uniform_real_distribution<T> distribution(min_value, max_value);
 
@@ -268,7 +289,8 @@ auto generate_random_real(const T min_value, const T max_value) noexcept {
 /// using **generate_random_real()**.
 ///
 /// @return A probability from 0 to 1
-inline auto generate_probability() noexcept {
+inline auto generate_probability() noexcept
+{
   auto min = static_cast<long double>(0.0);
   auto max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
@@ -291,27 +313,39 @@ inline auto generate_probability() noexcept {
 inline auto expected_points_per_simplex(const int           dimension,
                                         const std::intmax_t simplices,
                                         const std::intmax_t timeslices,
-                                        const bool          output = true) {
-  if (output) {
+                                        const bool          output = true)
+{
+  if (output)
+  {
     std::cout << simplices << " simplices on " << timeslices
               << " timeslices desired." << std::endl;
   }
 
   const auto simplices_per_timeslice = simplices / timeslices;
-  switch (dimension) {
-    case 3: {
+  switch (dimension)
+  {
+    case 3:
+    {
       // Avoid segfaults for small values
-      if (simplices == timeslices) {
+      if (simplices == timeslices)
+      {
         return 4 * simplices_per_timeslice;
-      } else if (simplices < 10000) {
+      }
+      else if (simplices < 10000)
+      {
         return simplices_per_timeslice;
-      } else if (simplices < 100000) {
+      }
+      else if (simplices < 100000)
+      {
         return static_cast<std::intmax_t>(1.5 * simplices_per_timeslice);
-      } else {
+      }
+      else
+      {
         return static_cast<std::intmax_t>(2.7 * simplices_per_timeslice);
       }
     }
-    default: {
+    default:
+    {
       throw std::invalid_argument("Currently, dimensions cannot be >3.");
     }
   }
@@ -325,7 +359,7 @@ inline auto expected_points_per_simplex(const int           dimension,
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
 /// @return The double version
-inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
+inline auto Gmpzf_to_double(const Gmpzf &value) { return value.to_double(); }
 
 /// @brief Calculate if lower <= value <= upper; used in GoogleTests
 /// @tparam T Value type
@@ -334,7 +368,8 @@ inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
 /// @param upper Upper bound
 /// @return True if arg lies within [lower, upper]
 template <typename T>
-bool IsBetween(T arg, T lower, T upper) {
+bool IsBetween(T arg, T lower, T upper)
+{
   return arg >= lower && arg <= upper;
 }
 

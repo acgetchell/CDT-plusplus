@@ -18,9 +18,11 @@
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
 
-class TetrahedronTest : public ::testing::Test {
+class TetrahedronTest : public ::testing::Test
+{
  protected:
-  TetrahedronTest() {
+  TetrahedronTest()
+  {
     // We wouldn't normally directly insert into the Delaunay triangulation
     // This is to insert without timevalues to directly create a tetrahedron
     universe.triangulation->insert(V.begin(), V.end());
@@ -32,9 +34,11 @@ class TetrahedronTest : public ::testing::Test {
       Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
 };
 
-class FoliatedTetrahedronTest : public TetrahedronTest {
+class FoliatedTetrahedronTest : public TetrahedronTest
+{
  protected:
-  FoliatedTetrahedronTest() : causal_vertices{std::make_pair(V, timevalue)} {
+  FoliatedTetrahedronTest() : causal_vertices{std::make_pair(V, timevalue)}
+  {
     // Manually insert
     insert_into_triangulation(universe.triangulation, causal_vertices);
   }
@@ -43,7 +47,8 @@ class FoliatedTetrahedronTest : public TetrahedronTest {
   std::pair<std::vector<Point>, std::vector<std::intmax_t>> causal_vertices;
 };
 
-TEST_F(TetrahedronTest, Create) {
+TEST_F(TetrahedronTest, Create)
+{
   EXPECT_EQ(universe.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
@@ -66,7 +71,8 @@ TEST_F(TetrahedronTest, Create) {
       << "Triangulation is invalid.";
 }
 
-TEST_F(FoliatedTetrahedronTest, Create) {
+TEST_F(FoliatedTetrahedronTest, Create)
+{
   EXPECT_EQ(universe.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
 
@@ -86,14 +92,16 @@ TEST_F(FoliatedTetrahedronTest, Create) {
       << "Triangulation is invalid.";
 }
 
-TEST_F(FoliatedTetrahedronTest, InsertSimplexType) {
+TEST_F(FoliatedTetrahedronTest, InsertSimplexType)
+{
   // Move ctor recalculates
   SimplicialManifold new_universe =
       SimplicialManifold(std::move(universe.triangulation));
 
   Delaunay::Finite_cells_iterator cit;
   for (cit = new_universe.triangulation->finite_cells_begin();
-       cit != new_universe.triangulation->finite_cells_end(); ++cit) {
+       cit != new_universe.triangulation->finite_cells_end(); ++cit)
+  {
     EXPECT_EQ(cit->info(), 31);
     std::cout << "Simplex type is " << cit->info() << std::endl;
   }
@@ -108,7 +116,8 @@ TEST_F(FoliatedTetrahedronTest, InsertSimplexType) {
       << "(1,3) simplices in (3,1) tetrahedron is nonzero.";
 }
 
-TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges) {
+TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges)
+{
   SimplicialManifold new_universe =
       SimplicialManifold(std::move(universe.triangulation));
   auto timelike_edges  = new_universe.geometry->timelike_edges.size();

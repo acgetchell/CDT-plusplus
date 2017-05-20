@@ -21,7 +21,8 @@
 #include "gmock/gmock.h"
 
 /// \todo: Fix SimplicialManifoldStruct test
-TEST(SimplicialManifold, DISABLED_SimplicialManifoldStruct) {
+TEST(SimplicialManifold, DISABLED_SimplicialManifoldStruct)
+{
   EXPECT_TRUE(std::is_default_constructible<SimplicialManifold>::value)
       << "SimplicialManifold is not default constructible.";
 
@@ -57,7 +58,8 @@ TEST(SimplicialManifold, DISABLED_SimplicialManifoldStruct) {
 }
 
 /// \todo: Fix GeometryInfoStruct test
-TEST(SimplicialManifold, GeometryInfoStruct) {
+TEST(SimplicialManifold, GeometryInfoStruct)
+{
   EXPECT_TRUE(std::is_default_constructible<GeometryInfo>::value)
       << "GeometryInfo is not default constructible.";
 
@@ -92,7 +94,8 @@ TEST(SimplicialManifold, GeometryInfoStruct) {
   //      << "GeometryInfo struct is not no-throw move assignable.";
 }
 
-TEST(SimplicialManifold, DelaunayClass) {
+TEST(SimplicialManifold, DelaunayClass)
+{
   // Print info on exception safety
   std::cout << std::boolalpha << "Delaunay class is default no-throw "
                                  "constructible? "

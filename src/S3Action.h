@@ -59,7 +59,8 @@ inline auto S3_bulk_action_alpha_minus_one(const std::intmax_t N1_TL,
                                            const std::intmax_t N3_31_13,
                                            const std::intmax_t N3_22,
                                            const long double   K,
-                                           const long double Lambda) noexcept {
+                                           const long double   Lambda) noexcept
+{
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
 
@@ -136,7 +137,8 @@ inline auto S3_bulk_action_alpha_one(const std::intmax_t N1_TL,
                                      const std::intmax_t N3_31_13,
                                      const std::intmax_t N3_22,
                                      const long double   K,
-                                     const long double   Lambda) noexcept {
+                                     const long double   Lambda) noexcept
+{
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
 
@@ -228,7 +230,8 @@ inline auto S3_bulk_action(const std::intmax_t N1_TL,
                            const std::intmax_t N3_31_13,
                            const std::intmax_t N3_22, const long double Alpha,
                            const long double K,
-                           const long double Lambda) noexcept {
+                           const long double Lambda) noexcept
+{
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
 

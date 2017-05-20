@@ -22,7 +22,8 @@
 
 bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1; }
 
-class MetropolisTest : public ::testing::Test {
+class MetropolisTest : public ::testing::Test
+{
  public:
   MetropolisTest()
       : universe_{make_triangulation(640, 4)}
@@ -32,9 +33,12 @@ class MetropolisTest : public ::testing::Test {
       , N3_13_before{universe_.geometry->N3_13()}
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
-      , vertices_before{universe_.geometry->N0()} {}
+      , vertices_before{universe_.geometry->N0()}
+  {
+  }
 
-  virtual void SetUp() {
+  virtual void SetUp()
+  {
     // Print ctor-initialized values
     std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
               << std::endl;
@@ -89,7 +93,8 @@ class MetropolisTest : public ::testing::Test {
   std::intmax_t output_every_n_passes = 1;
 };
 
-TEST_F(MetropolisTest, Ctor) {
+TEST_F(MetropolisTest, Ctor)
+{
   // Instantiate Metropolis functor with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
 
@@ -137,7 +142,8 @@ TEST_F(MetropolisTest, Ctor) {
 
 // This test can take a long time
 // Here lie Segfaults
-TEST_F(MetropolisTest, DISABLED_Operator) {
+TEST_F(MetropolisTest, DISABLED_Operator)
+{
   // Instantiate Metropolis function object with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
   // Run simulation using operator() and return result
@@ -206,7 +212,8 @@ TEST_F(MetropolisTest, DISABLED_Operator) {
       << "(1,3) and (3,1) simplices not correctly counted during moves.";
 }
 
-TEST_F(MetropolisTest, CalculateA1) {
+TEST_F(MetropolisTest, CalculateA1)
+{
   // Instantiate Metropolis functor with passes and checkpoints = 1
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result
@@ -254,7 +261,8 @@ TEST_F(MetropolisTest, CalculateA1) {
       << "Moves don't add up.";
 }
 
-TEST_F(MetropolisTest, CalculateA2) {
+TEST_F(MetropolisTest, CalculateA2)
+{
   // Instantiate Metropolis functor with passes and checkpoints = 1
   Metropolis testrun(Alpha, K, Lambda, 1, 1);
   // Run simulation using operator() and return result

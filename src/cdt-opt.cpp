@@ -20,17 +20,18 @@
 #include "Metropolis.h"
 #include "Simulation.h"
 
-int main() {
+int main()
+{
   std::cout << "cdt-opt started at " << currentDateTime() << std::endl;
-  constexpr intmax_t   simplices  = 64000;
-  constexpr intmax_t   timeslices = 16;
+  constexpr intmax_t simplices  = 64000;
+  constexpr intmax_t timeslices = 16;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
-  constexpr long double alpha      = 0.6;
-  constexpr long double k          = 1.1;
+  constexpr long double alpha = 0.6;
+  constexpr long double k     = 1.1;
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
   constexpr long double lambda     = 0.1;
-  constexpr intmax_t   passes     = 100;
-  constexpr intmax_t   checkpoint = 10;
+  constexpr intmax_t    passes     = 100;
+  constexpr intmax_t    checkpoint = 10;
 
   // Initialize simulation
   Simulation my_simulation;

@@ -14,7 +14,8 @@
 #include "gmock/gmock.h"
 #include "src/Torus_d.h"
 
-TEST(Torus, Create2Torus) {
+TEST(Torus, Create2Torus)
+{
   std::size_t        nb_points = 250;
   int                dim       = 3;
   std::vector<Point> v;

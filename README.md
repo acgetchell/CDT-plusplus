@@ -15,12 +15,11 @@ Option-types via [Boost][43] >= 1.63.0.
 [Gmock 1.8][6] may be optionally installed in order to build/run unit tests.
 [Ninja][18] is a nice (but optional) replacement for `make`.
 Intel's [TBB][37] provides significantly better performance if present (3x+).
-Follows (mostly) the [Google C++ Style Guide][7] as enforced by
-[clang-format][46], which you can check by downloading and running the 
-[cpplint.py][8] script:
+Follows the [CppCore Guidelines][7] as enforced by [clang-tidy][46], which you can run using the 
+[clang-tidy.sh][8] script:
 
 ~~~
-python cpplint.py <filename>
+./clang-tidy.sh
 ~~~
 
 (Or use your favorite linter plugin for your editor/IDE.)
@@ -267,8 +266,8 @@ Please see [CONTRIBUTING.md][45].
 [4]: http://clang.llvm.org
 [5]: http://llvm.org
 [6]: https://github.com/google/googletest/tree/master/googlemock
-[7]: https://google.github.io/styleguide/cppguide.html
-[8]: http://google-styleguide.googlecode.com/svn/trunk/cpplint/cpplint.py
+[7]: http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
+[8]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
 [9]: https://code.google.com/p/cgal-bindings/]
 [10]: http://cmake.org/Wiki/CMake/Testing_With_CTest
 [11]: http://about.travis-ci.org/docs/user/getting-started/

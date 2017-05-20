@@ -18,7 +18,8 @@ using Kd        = CGAL::Cartesian_d<double>;
 using Point     = Kd::Point_d;
 using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
 
-auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension) {
+auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension)
+{
   double size = 1.0;
 
   std::cout << "Generating " << nb_points << " grid points in " << dimension

@@ -18,12 +18,14 @@
 using ::testing::Gt;
 using ::testing::Eq;
 
-TEST(FunctionRefTest, SimpleLambda) {
+TEST(FunctionRefTest, SimpleLambda)
+{
   auto increment_lambda = [](int a) { return ++a; };
   EXPECT_EQ(increment_lambda(0), 1) << "increment_lambda not working.";
 }
 
-TEST(FunctionRefTest, SimpleLambdaWithFunctionRef) {
+TEST(FunctionRefTest, SimpleLambdaWithFunctionRef)
+{
   auto increment_lambda = [](int a) -> int { return ++a; };
   EXPECT_EQ(increment_lambda(1), 2) << "increment_lambda not working.";
   function_ref<int(int)> lambda_ref(increment_lambda);
@@ -35,7 +37,8 @@ TEST(FunctionRefTest, SimpleLambdaWithFunctionRef) {
       << "function_ref<int(int)> lambda_ref(5) not working.";
 }
 
-TEST(FunctionRefTest, DISABLED_ComplexLambda) {
+TEST(FunctionRefTest, DISABLED_ComplexLambda)
+{
   SimplicialManifold test_universe(6400, 13);
   Move_tracker       moves{};
 
@@ -54,7 +57,7 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda) {
 
   auto move_23_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
 
@@ -90,7 +93,8 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda) {
   EXPECT_THAT(moves[0], Gt(0)) << moves[0] << " attempted (2,3) moves.";
 }
 
-TEST(FunctionRefTest, ComplexFunctionRef) {
+TEST(FunctionRefTest, ComplexFunctionRef)
+{
   SimplicialManifold test_universe(6400, 7);
   Move_tracker       moves{};
 
@@ -108,10 +112,10 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
 
   auto move_23_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
       complex_ref(move_23_lambda);
 
   test_universe = complex_ref(test_universe, moves);
@@ -143,7 +147,8 @@ TEST(FunctionRefTest, ComplexFunctionRef) {
   EXPECT_THAT(moves[0], Gt(0)) << moves[0] << " attempted (2,3) moves.";
 }
 
-TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
+TEST(FunctionRefTest, ComplexFunctionRefWithOptionals)
+{
   SimplicialManifold test_universe(6400, 7);
   Move_tracker       moves{};
 
@@ -166,10 +171,10 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
 
   auto move_23_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
       complex_ref(move_23_lambda);
 
   maybe_moved_universe =
@@ -206,6 +211,6 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals) {
             vertices_before)
       << "The number of vertices changed.";
 
-  EXPECT_THAT(maybe_move_count.get()[0], Gt(0)) << maybe_move_count.get()[0]
-                                                << " attempted (2,3) moves.";
+  EXPECT_THAT(maybe_move_count.get()[0], Gt(0))
+      << maybe_move_count.get()[0] << " attempted (2,3) moves.";
 }

@@ -17,7 +17,8 @@
 #include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
 
-class MoveManagerTest : public ::testing::Test {
+class MoveManagerTest : public ::testing::Test
+{
  public:
   MoveManagerTest()
       : universe_{make_triangulation(64000, 13)}
@@ -27,9 +28,12 @@ class MoveManagerTest : public ::testing::Test {
       , N3_13_before{universe_.geometry->N3_13()}
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
-      , vertices_before{universe_.geometry->N0()} {}
+      , vertices_before{universe_.geometry->N0()}
+  {
+  }
 
-  virtual void SetUp() {
+  virtual void SetUp()
+  {
     // Print ctor-initialized values
     std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
               << std::endl;
@@ -69,7 +73,8 @@ class MoveManagerTest : public ::testing::Test {
   std::intmax_t vertices_before;
 };
 
-TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
+TEST_F(MoveManagerTest, DelaunayDeepCopyCtor)
+{
   EXPECT_TRUE(this->universe_.triangulation->tds().is_valid(true))
       << "Constructed universe is invalid.";
 
@@ -121,7 +126,8 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor) {
          "edges.";
 }
 
-TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
+TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor)
+{
   SimplicialManifold copied_manifold{universe_};
 
   EXPECT_TRUE(this->universe_.triangulation != copied_manifold.triangulation)
@@ -171,7 +177,8 @@ TEST_F(MoveManagerTest, SimplicialManifoldCopyCtor) {
          "edges.";
 }
 
-TEST_F(MoveManagerTest, Swapperator) {
+TEST_F(MoveManagerTest, Swapperator)
+{
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "Constructed universe_ is invalid.";
 
@@ -207,7 +214,8 @@ TEST_F(MoveManagerTest, Swapperator) {
       << "Swapped universe has incorrect number of (1,3) simplices.";
 }
 
-TEST_F(MoveManagerTest, OptionTypesTest) {
+TEST_F(MoveManagerTest, OptionTypesTest)
+{
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "Constructed universe_ is invalid.";
 
@@ -267,7 +275,8 @@ TEST_F(MoveManagerTest, OptionTypesTest) {
       << "attempted_moves_ (4,4) move count wrong.";
 }
 
-TEST_F(MoveManagerTest, MakeA23Move) {
+TEST_F(MoveManagerTest, MakeA23Move)
+{
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
@@ -297,10 +306,10 @@ TEST_F(MoveManagerTest, MakeA23Move) {
   // Setup move
   auto move_23_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_23(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_23(
       move_23_lambda);
 
   // Call operator on MoveManager
@@ -370,7 +379,8 @@ TEST_F(MoveManagerTest, MakeA23Move) {
       << "Move manager didn't return an attempted (2,3) move.";
 }
 
-TEST_F(MoveManagerTest, MakeA32Move) {
+TEST_F(MoveManagerTest, MakeA32Move)
+{
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
@@ -400,10 +410,10 @@ TEST_F(MoveManagerTest, MakeA32Move) {
   // Setup move
   auto move_32_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_32_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_32(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_32(
       move_32_lambda);
 
   // Call operator on MoveManager
@@ -472,7 +482,8 @@ TEST_F(MoveManagerTest, MakeA32Move) {
       << "Move manager didn't return an attempted (3,2) move.";
 }
 
-TEST_F(MoveManagerTest, MakeA26Move) {
+TEST_F(MoveManagerTest, MakeA26Move)
+{
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManagerTest constructed member universe_ is invalid.";
 
@@ -502,10 +513,10 @@ TEST_F(MoveManagerTest, MakeA26Move) {
   // Setup move
   auto move_26_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_26_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_26(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_26(
       move_26_lambda);
 
   // Call operator on MoveManager
@@ -565,7 +576,8 @@ TEST_F(MoveManagerTest, MakeA26Move) {
       << "Move manager didn't return an attempted (2,6) move.";
 }
 
-TEST_F(MoveManagerTest, MakeA62Move) {
+TEST_F(MoveManagerTest, MakeA62Move)
+{
   EXPECT_TRUE(attempted_moves_[0] == 0)
       << "MoveManagerTest constructed member attempted_moves_ is invalid.";
 
@@ -592,10 +604,10 @@ TEST_F(MoveManagerTest, MakeA62Move) {
   // Setup move
   auto move_62_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+      Move_tracker &     attempted_moves) -> SimplicialManifold {
     return make_62_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_62(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_62(
       move_62_lambda);
 
   // Call operator on MoveManager

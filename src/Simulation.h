@@ -23,7 +23,8 @@
 
 /// @struct
 /// @brief Simulation queue of various functions on SimplicialManifold.
-struct Simulation {
+struct Simulation
+{
   using element = function_ref<SimplicialManifold(SimplicialManifold)>;
   std::vector<element> queue_;
 
@@ -31,15 +32,18 @@ struct Simulation {
   /// @tparam T Function object type
   /// @param callable The function to be called
   template <typename T>
-  void queue(T&& callable) {
+  void queue(T &&callable)
+  {
     queue_.emplace_back(std::forward<T>(callable));
   }
 
   /// @brief Start running queued functions in Simulation
   /// @param value The SimplicialManifold
   /// @return The SimplicialManifold with item applied to it
-  SimplicialManifold start(SimplicialManifold value) const {
-    for (const auto& item : queue_) {
+  SimplicialManifold start(SimplicialManifold value) const
+  {
+    for (const auto &item : queue_)
+    {
       value = item(value);
     }
     return value;

@@ -21,7 +21,8 @@
 #include "gmock/gmock.h"
 // clang-format on
 
-TEST(S3Triangulation, CreateWithUniquePtr) {
+TEST(S3Triangulation, CreateWithUniquePtr)
+{
   Delaunay universe;
   auto     universe_ptr = std::make_unique<decltype(universe)>(universe);
 
@@ -30,7 +31,8 @@ TEST(S3Triangulation, CreateWithUniquePtr) {
   EXPECT_FALSE(!universe_ptr) << "universe has been reset or is null.";
 }
 
-TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
+TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor)
+{
   constexpr auto simplices  = static_cast<std::intmax_t>(6400);
   constexpr auto timeslices = static_cast<std::intmax_t>(17);
   // explicit SimplicialManifold ctor with std::unique_ptr<Delaunay>
@@ -69,7 +71,8 @@ TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor) {
       << "Triangulation is invalid.";
 }
 
-TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
+TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor)
+{
   constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
   constexpr auto     timeslices = static_cast<std::intmax_t>(17);
   SimplicialManifold universe(simplices, timeslices);
@@ -106,7 +109,8 @@ TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor) {
       << "Triangulation is invalid.";
 }
 
-TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
+TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices)
+{
   constexpr auto     simplices  = static_cast<std::intmax_t>(2);
   constexpr auto     timeslices = static_cast<std::intmax_t>(2);
   SimplicialManifold universe(simplices, timeslices);
@@ -132,7 +136,8 @@ TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices) {
       << "Triangulation is invalid.";
 }
 
-TEST(S3Triangulation, CreateSomeSimplices) {
+TEST(S3Triangulation, CreateSomeSimplices)
+{
   constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
   constexpr auto     timeslices = static_cast<std::intmax_t>(16);
   SimplicialManifold universe(simplices, timeslices);
@@ -163,7 +168,8 @@ TEST(S3Triangulation, CreateSomeSimplices) {
       << "Triangulation is invalid.";
 }
 
-TEST(S3Triangulation, CreateWithLotsOfSimplices) {
+TEST(S3Triangulation, CreateWithLotsOfSimplices)
+{
   constexpr auto     simplices  = static_cast<std::intmax_t>(64000);
   constexpr auto     timeslices = static_cast<std::intmax_t>(67);
   SimplicialManifold universe(simplices, timeslices);
@@ -194,7 +200,8 @@ TEST(S3Triangulation, CreateWithLotsOfSimplices) {
       << "Triangulation is invalid.";
 }
 
-TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices) {
+TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices)
+{
   constexpr auto     simplices  = static_cast<std::intmax_t>(640000);
   constexpr auto     timeslices = static_cast<std::intmax_t>(256);
   SimplicialManifold universe(simplices, timeslices);

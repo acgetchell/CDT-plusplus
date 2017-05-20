@@ -13,7 +13,8 @@
 #include "Utilities.h"
 #include "gmock/gmock.h"
 
-TEST(Utilities, GenerateRandomTimeslice) {
+TEST(Utilities, GenerateRandomTimeslice)
+{
   std::intmax_t timeslices{16};
 
   EXPECT_TRUE(
@@ -21,7 +22,8 @@ TEST(Utilities, GenerateRandomTimeslice) {
       << "Random timeslice out of bounds.";
 }
 
-TEST(Utilities, RandomSeedingTest) {
+TEST(Utilities, RandomSeedingTest)
+{
   // Set a wider range than just number_of_timeslices
   constexpr std::intmax_t test_range_max = 128;
   const auto              value1 = generate_random_timeslice(test_range_max);
@@ -42,7 +44,8 @@ TEST(Utilities, RandomSeedingTest) {
   EXPECT_NE(value3, value4) << "Your random numbers don't seem to be random.";
 }
 
-TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
+TEST(Utilities, GenerateRandomRealBetweenZeroAndOne)
+{
   long double min{0.0};
   long double max{1.0};
 
@@ -50,7 +53,8 @@ TEST(Utilities, GenerateRandomRealBetweenZeroAndOne) {
       << "Random real out of bounds.";
 }
 
-TEST(Utilities, ProbabilityCheck) {
+TEST(Utilities, ProbabilityCheck)
+{
   // Set a wider range than just number_of_timeslices
   const auto value1 = generate_probability();
   const auto value2 = generate_probability();
@@ -70,7 +74,8 @@ TEST(Utilities, ProbabilityCheck) {
   EXPECT_NE(value3, value4) << "Probabilities don't seem to be random.";
 }
 
-TEST(Utilities, GmpzfToDouble) {
+TEST(Utilities, GmpzfToDouble)
+{
   // Pick a value not exactly representable in binary
   Gmpzf value = 0.17;
 

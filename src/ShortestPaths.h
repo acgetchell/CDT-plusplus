@@ -30,10 +30,12 @@
 #include <tuple>
 #include <vector>
 
-const double inf = std::numerical_limits<
-    double>::infinity();  // constant used to signify no edge between two nodes
+const double inf =
+    std::numerical_limits<double>::infinity();  // constant used to signify no
+                                                // edge between two nodes
 
-class Vertex {
+class Vertex
+{
  private:
   double x_, y_, z_;
   double sourceDistance_;
@@ -42,7 +44,8 @@ class Vertex {
  public:
   Vertex() { Vertex(0, 0, 0); }
 
-  Vertex(double x, double y, double z) {
+  Vertex(double x, double y, double z)
+  {
     x_              = x;
     y_              = y;
     z_              = z;
@@ -58,7 +61,8 @@ class Vertex {
   void setPrev(int prevVertex) { prev_ = prevVertex; }
 };
 
-class Edge {
+class Edge
+{
  private:
   Vertex u_, v_;   // indices of vertex u, v
   double weight_;  // weight of the edge
@@ -66,7 +70,8 @@ class Edge {
  public:
   Edge() { Edge(0, 1, 0.0); }
 
-  Edge(Vertex u, Vertex v, double weight) {
+  Edge(Vertex u, Vertex v, double weight)
+  {
     u_      = u;
     v_      = v;
     weight_ = weight;
@@ -97,7 +102,8 @@ class Edge {
 ///            inf                                     if i != t, j = 0
 ///            min{D[k, j - 1] + w[i, k], D[i, j - 1]} if (i, k) is an edge
 
-class Graph {
+class Graph
+{
  private:
   vector<Vertex>         vertices_;
   int                    numVertices_;
@@ -108,27 +114,33 @@ class Graph {
   map<Vertex : int>      verticesMap_;
 
  public:
-  Graph(vector<Vertex> vertices, vector<Edge> edges) {
+  Graph(vector<Vertex> vertices, vector<Edge> edges)
+  {
     vertices_    = vertices;
     edges_       = edges;
     numVertices_ = vertices.size();
     numEdges_    = edge.size();
-    for (int i = 0; i < numVertices_; i++) {
+    for (int i = 0; i < numVertices_; i++)
+    {
       map[vertices_.at(i)] = i;
     }
     computeAdjMatrix();
   }
 
-  void computeAdjMatrix() {
-    for (int i = 0; i < numVertices_; i++) {
+  void computeAdjMatrix()
+  {
+    for (int i = 0; i < numVertices_; i++)
+    {
       vertex<int> adjList;  // adjList for ith vertex
-      for (int j = 0; j < numVertices_; j++) {
+      for (int j = 0; j < numVertices_; j++)
+      {
         adjList.push_back(inf);
       }
       adjMatrix_.push_back(adjList);
     }
 
-    for (int i = 0; i < numEdges_; i++) {
+    for (int i = 0; i < numEdges_; i++)
+    {
       int uIndex = verticesMap_[edges_.at(i).getU()];
       int vIndex = verticesMap_[edges_.at(i).getV()];
       adjMatrix_.at(uIndex).at(vIndex) =
@@ -139,10 +151,14 @@ class Graph {
 
   bool isNegativeCycle() { return true; }
 
-  void calculateBellmanFord(Vertex s, Vertex t) {
-    for (int i = 0; i < numVertices_; i++) {
-      for (int j = 0; j < numVertices_; j++) {
-        for (int k = 0; k < numVertices_; k++) {
+  void calculateBellmanFord(Vertex s, Vertex t)
+  {
+    for (int i = 0; i < numVertices_; i++)
+    {
+      for (int j = 0; j < numVertices_; j++)
+      {
+        for (int k = 0; k < numVertices_; k++)
+        {
         }
       }
     }

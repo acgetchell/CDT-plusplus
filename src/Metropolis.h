@@ -58,7 +58,8 @@ extern const std::intmax_t PRECISION;
 /// @param e Enum class
 /// @return Integral type of enum member
 template <typename E>
-constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type {
+constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type
+{
   return static_cast<typename std::underlying_type<E>::type>(e);
 }
 /// @class Metropolis
@@ -70,7 +71,8 @@ constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type {
 /// \f[P_{ergodic move}=a_{1}a_{2}\f]
 /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
 /// \f[a_2=e^{\Delta S}\f]
-class Metropolis {
+class Metropolis
+{
  private:
   /// @brief A SimplicialManifold.
   SimplicialManifold universe_;
@@ -124,7 +126,8 @@ class Metropolis {
       , K_(K)
       , Lambda_(Lambda)
       , passes_(passes)
-      , checkpoint_(checkpoint) {
+      , checkpoint_(checkpoint)
+  {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
@@ -156,7 +159,8 @@ class Metropolis {
 
   /// @brief Gets successful (2,3) moves.
   /// @return successful_moves_[0]
-  auto SuccessfulTwoThreeMoves() const noexcept {
+  auto SuccessfulTwoThreeMoves() const noexcept
+  {
     return successful_moves_[0].load();
   }
 
@@ -166,7 +170,8 @@ class Metropolis {
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
-  auto SuccessfulThreeTwoMoves() const noexcept {
+  auto SuccessfulThreeTwoMoves() const noexcept
+  {
     return successful_moves_[1].load();
   }
 
@@ -176,7 +181,8 @@ class Metropolis {
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
-  auto SuccessfulTwoSixMoves() const noexcept {
+  auto SuccessfulTwoSixMoves() const noexcept
+  {
     return successful_moves_[2].load();
   }
 
@@ -186,7 +192,8 @@ class Metropolis {
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
-  auto SuccessfulSixTwoMoves() const noexcept {
+  auto SuccessfulSixTwoMoves() const noexcept
+  {
     return successful_moves_[3].load();
   }
 
@@ -196,14 +203,16 @@ class Metropolis {
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
-  auto SuccessfulFourFourMoves() const noexcept {
+  auto SuccessfulFourFourMoves() const noexcept
+  {
     return successful_moves_[4].load();
   }
 
   /// @brief Gets the total number of attempted moves.
   /// @return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves()
   /// + FourFourMoves()
-  auto TotalMoves() const noexcept {
+  auto TotalMoves() const noexcept
+  {
     return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves() +
            FourFourMoves();
   }
@@ -218,7 +227,8 @@ class Metropolis {
   ///
   /// @param move The type of move
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
-  auto CalculateA1(const move_type move) const noexcept {
+  auto CalculateA1(const move_type move) const noexcept
+  {
     auto total_moves = this->TotalMoves();
     auto this_move   = attempted_moves_[to_integral(move)];
     // Set precision for initialization and assignment functions
@@ -258,12 +268,14 @@ class Metropolis {
   ///
   /// @param move The type of move
   /// @return \f$a_2=e^{-\Delta S}\f$
-  auto CalculateA2(const move_type move) const noexcept {
+  auto CalculateA2(const move_type move) const noexcept
+  {
     auto currentS3Action =
         S3_bulk_action(N1_TL_, N3_31_13_, N3_22_, Alpha_, K_, Lambda_);
     auto newS3Action = static_cast<Gmpzf>(0);
     // auto newS3Action = static_cast<MP_Float>(0);
-    switch (move) {
+    switch (move)
+    {
       case move_type::TWO_THREE:
         // A (2,3) move adds a timelike edge
         // and a (2,2) simplex
@@ -332,7 +344,8 @@ class Metropolis {
     return result;
   }  // CalculateA2()
 
-  void print_run() {
+  void print_run()
+  {
     std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
     std::cout << "Timeslices: "
               << this->universe_.geometry->max_timevalue().get() << std::endl;
@@ -368,7 +381,8 @@ class Metropolis {
   /// \done Use MoveManager RAII class
   ///
   /// @param move The type of move
-  void make_move(const move_type move) {
+  void make_move(const move_type move)
+  {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
@@ -384,52 +398,62 @@ class Metropolis {
     // Setup moves
     auto move_23_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+        Move_tracker &     attempted_moves) -> SimplicialManifold {
       return make_23_move(std::move(manifold), attempted_moves);
     };
     auto move_32_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+        Move_tracker &     attempted_moves) -> SimplicialManifold {
       return make_32_move(std::move(manifold), attempted_moves);
     };
     auto move_26_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+        Move_tracker &     attempted_moves) -> SimplicialManifold {
       return make_26_move(std::move(manifold), attempted_moves);
     };
     auto move_62_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+        Move_tracker &     attempted_moves) -> SimplicialManifold {
       return make_62_move(std::move(manifold), attempted_moves);
     };
 
-    switch (move) {
-      case move_type::TWO_THREE: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+    switch (move)
+    {
+      case move_type::TWO_THREE:
+      {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
             move_function(move_23_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
-      } break;
-      case move_type::THREE_TWO: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+      }
+      break;
+      case move_type::THREE_TWO:
+      {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
             move_function(move_32_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
-      } break;
-      case move_type::TWO_SIX: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+      }
+      break;
+      case move_type::TWO_SIX:
+      {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
             move_function(move_26_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
-      } break;
-      case move_type::SIX_TWO: {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
+      }
+      break;
+      case move_type::SIX_TWO:
+      {
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
             move_function(move_62_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
-      } break;
+      }
+      break;
       case move_type::FOUR_FOUR:
         break;
     }
 
     // Check if move completed successfully and update if so
-    if (maybe_moved_universe) {
+    if (maybe_moved_universe)
+    {
       swap(universe_, maybe_moved_universe.get());
       swap(attempted_moves_, this_move.attempted_moves_.get());
       ++successful_moves_[to_integral(move)];
@@ -449,7 +473,8 @@ class Metropolis {
   /// calls make_move(). If not, it updates **attempted_moves_**.
   ///
   /// @param move The type of move
-  void attempt_move(const move_type move) {
+  void attempt_move(const move_type move)
+  {
     // Calculate probability
     auto a1 = CalculateA1(move);
     // Make move if random number < probability
@@ -467,10 +492,13 @@ class Metropolis {
     std::cout << "trial = " << trial << std::endl;
 #endif
 
-    if (trial <= a1 * a2) {
+    if (trial <= a1 * a2)
+    {
       // Move accepted
       make_move(move);
-    } else {
+    }
+    else
+    {
       // Move rejected
       // Increment attempted_moves_
       ++attempted_moves_[to_integral(move)];
@@ -502,7 +530,8 @@ class Metropolis {
   /// @return The **universe** upon which the passes have been completed.
   /// \todo: Fix segfaults here
   template <typename T>
-  auto operator()(T&& universe) -> decltype(universe) {
+  auto operator()(T &&universe) -> decltype(universe)
+  {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
@@ -515,7 +544,8 @@ class Metropolis {
 
     // Populate attempted_moves_ and successful_moves_
     std::cout << "Making initial moves ...\n";
-    try {
+    try
+    {
       // Determine how many actual timeslices there are
       universe_ = std::move(VolumePerTimeslice(universe_));
       // Make a successful move of each type
@@ -524,18 +554,22 @@ class Metropolis {
       make_move(move_type::TWO_SIX);
       make_move(move_type::SIX_TWO);
       print_run();
-    } catch (std::logic_error& LogicError) {
+    }
+    catch (std::logic_error &LogicError)
+    {
       std::cerr << LogicError.what() << std::endl;
       std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
     }
 
     std::cout << "Making random moves ..." << std::endl;
     // Loop through passes_
-    for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number) {
+    for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number)
+    {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
       for (std::intmax_t move_attempt = 0;
-           move_attempt < total_simplices_this_pass; ++move_attempt) {
+           move_attempt < total_simplices_this_pass; ++move_attempt)
+      {
         // Pick a move to attempt
         auto move_choice = generate_random_signed(0, 3);
 #ifndef NDEBUG
@@ -548,7 +582,8 @@ class Metropolis {
       }  // End loop through CurrentTotalSimplices
 
       // Do stuff on checkpoint_
-      if ((pass_number % checkpoint_) == 0) {
+      if ((pass_number % checkpoint_) == 0)
+      {
         std::cout << "Pass " << pass_number << std::endl;
         // write results to a file
         write_file(universe_, topology_type::SPHERICAL, 3,

@@ -14,7 +14,8 @@
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
 
-TEST(Vertex, Insert) {
+TEST(Vertex, Insert)
+{
   SimplicialManifold universe;
 
   universe.triangulation->insert(Point(0, 0, 0));

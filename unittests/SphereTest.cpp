@@ -17,7 +17,8 @@
 #include "src/S3Triangulation.h"
 #include "src/Sphere_d.h"
 
-TEST(Sphere, Create2Sphere) {
+TEST(Sphere, Create2Sphere)
+{
   constexpr std::uintmax_t simplices  = 100;
   constexpr std::uintmax_t timeslices = 12;
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
@@ -37,7 +38,8 @@ TEST(Sphere, Create2Sphere) {
       << "Each point does not have an associated timeslice.";
 }
 
-TEST(Sphere, Create3Sphere) {
+TEST(Sphere, Create3Sphere)
+{
   std::vector<Kd::Point_d> points;
   constexpr auto           number_of_points = 5;
   constexpr auto           dim              = 4;

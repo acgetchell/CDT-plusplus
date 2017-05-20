@@ -15,14 +15,16 @@
 constexpr intmax_t simplices  = 6400;
 constexpr intmax_t timeslices = 7;
 
-class MeasurementsTest : public ::testing::Test {
+class MeasurementsTest : public ::testing::Test
+{
  public:
   MeasurementsTest() : manifold{make_triangulation(simplices, timeslices)} {}
 
   SimplicialManifold manifold;
 };
 
-TEST_F(MeasurementsTest, VolumePerTimeslice) {
+TEST_F(MeasurementsTest, VolumePerTimeslice)
+{
   ASSERT_GT(manifold.triangulation->number_of_vertices(), 0)
       << "Manifold has no vertices.";
 
