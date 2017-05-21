@@ -22,13 +22,9 @@ Second, here are some simple guidelines that will make it easier on me to proces
 
 ### Style Guide ###
 
-This project generally follows the [Google C++ Style Guide][10] (enforced by [clang-format][13]), except when it doesn't. I use C++14 constructs freely and cheerfully ignore advice from the guide to do otherwise. These annoying warnings can be turned off on individual lines using `NOLINT`. Here's an example (using C++14 automatic return type deduction):
+This project generally follows [Stroustrup formatting with Allman brackets][10], enforced by [`clang-format`][13] using the [.clang-format][11] configuration. We also test against the [C++ Core Guidelines][cpp-core] using [clang-tidy][clang-tidy-sh] with an appropriate configuration. Clang-tidy changes the code when run, so comparing results and running unit tests is recommended before you commit, especially since some of clang-tidy's fixes break the codebase (the script runs just the tests that don't).
 
-```C++
-template <typename T>
-auto fix_timeslices(T&& universe_ptr) {  // NOLINT
-```
-The [cpplint.py][11] script and [clang-format][13] are both helpful in enforcing this, and most editors/IDEs have plugins for `cpplint` and `clang-format`.
+Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 
 [1]: https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml
 [2]: https://github.com/acgetchell/CDT-plusplus/wiki
@@ -39,8 +35,10 @@ The [cpplint.py][11] script and [clang-format][13] are both helpful in enforcing
 [7]: http://doxygen.org
 [8]: http://chris.beams.io/posts/git-commit/
 [9]: https://travis-ci.org/acgetchell/CDT-plusplus
-[10]: https://google.github.io/styleguide/cppguide.html
-[11]: https://raw.githubusercontent.com/google/styleguide/gh-pages/cpplint/cpplint.py
+[10]: https://isocpp.org/wiki/faq/coding-standards
+[11]: https://github.com/acgetchell/CDT-plusplus/blob/master/.clang-format
 [12]: http://slides.com/adamgetchell/causal-dynamical-triangulations/#/
 [13]: http://llvm.org/releases/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
 [14]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
+[cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
+[clang-tidy-sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
