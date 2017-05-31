@@ -33,6 +33,7 @@ install:
   - clang-cl -v
   - set CC=clang-cl
   - set CXX=clang-cl
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   # Install Boost
   - nuget install boost
   - cd C:\projects\dev\boost.1.64.0.0
@@ -54,7 +55,6 @@ install:
 
 before_build:
   - cd C:\projects\CDT-plusplus
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
 
 build_script:
   - mkdir build

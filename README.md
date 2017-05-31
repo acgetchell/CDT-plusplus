@@ -258,7 +258,7 @@ results to ensure you're not leaking memory.
 
 ### Contributing ###
 
-Please see [CONTRIBUTING.md][45].
+Please see [CONTRIBUTING.md][contrib]. We follow the [Mozilla Community Participation Guidelines][moz]
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [2]: http://www.cgal.org
@@ -304,7 +304,8 @@ Please see [CONTRIBUTING.md][45].
 [42]: https://stackoverflow.com/users/978486/manuelschneid3r
 [43]: http://www.boost.org
 [44]: https://gcc.gnu.org/
-[45]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
+[contrib]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [46]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html
 [47]: https://crascit.com/2016/04/03/scripting-cmake-builds/
 [48]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
+[moz]: https://www.mozilla.org/en-US/about/governance/policies/participation/
