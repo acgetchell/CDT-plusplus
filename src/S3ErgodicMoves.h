@@ -96,7 +96,7 @@ auto make_23_move(T1 &&universe, T2 &&attempted_moves) -> decltype(universe)
   {
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice =
-        generate_random_signed(0, universe.geometry->two_two.size() - 1);
+        generate_random_signed(0, universe.geometry->N3_22() - 1);
 
     Cell_handle to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;

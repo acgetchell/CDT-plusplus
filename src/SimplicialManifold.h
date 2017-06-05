@@ -8,8 +8,6 @@
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
 
-/// \todo: Devise a way to copy the boost::optional data in move/copy ctors
-
 #ifndef SRC_SIMPLICIALMANIFOLD_H_
 #define SRC_SIMPLICIALMANIFOLD_H_
 
@@ -56,11 +54,9 @@ struct GeometryInfo
   std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
-  /// \todo Needs to be added to move assignment
   boost::optional<std::multimap<intmax_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
-  /// \todo Needs to be added to move assignment
   boost::optional<std::set<intmax_t>> timevalues;
 
   /// @brief Default constructor

@@ -42,8 +42,18 @@ TEST(SimplicialManifold, GeometryInfo_Members)
       << "three_one + one_three don't add up.";
 
   EXPECT_EQ(universe.geometry->number_of_cells(),
+            universe.triangulation->number_of_finite_cells())
+      << "GeometryInfo.number_of_cells() doesn't match "
+         "Delaunay.number_of_finite_cells().";
+
+  EXPECT_EQ(universe.geometry->number_of_cells(),
             universe.geometry->N3_31_13() + universe.geometry->N3_22())
       << "number of cells don't add up.";
+
+  EXPECT_EQ(universe.geometry->number_of_edges(),
+            universe.triangulation->number_of_finite_edges())
+      << "GeometryInfo.number_of_edges() doesn't match "
+         "Delaunay.number_of_finite_edges().";
 
   EXPECT_EQ(universe.geometry->number_of_edges(),
             universe.geometry->N1_TL() + universe.geometry->N1_SL())
@@ -124,15 +134,17 @@ TEST(SimplicialManifold, GeometryInfo_Properties)
 
   //  EXPECT_TRUE(std::is_nothrow_copy_constructible<GeometryInfo>::value)
   //      << "GeometryInfo struct is not no-throw copy constructible.";
-  std::cout << std::boolalpha << "GeometryInfo struct no-throw copy constructible? "
-                              << std::is_nothrow_copy_constructible<GeometryInfo>::value
-                              << std::endl;
+  std::cout << std::boolalpha
+            << "GeometryInfo struct no-throw copy constructible? "
+            << std::is_nothrow_copy_constructible<GeometryInfo>::value
+            << std::endl;
 
   //  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
   //      << "GeometryInfo struct is not no-throw copy assignable.";
-  std::cout << std::boolalpha << "GeometryInfo struct no-throw copy assignable? "
-                              << std::is_nothrow_copy_assignable<GeometryInfo>::value
-                              << std::endl;
+  std::cout << std::boolalpha
+            << "GeometryInfo struct no-throw copy assignable? "
+            << std::is_nothrow_copy_assignable<GeometryInfo>::value
+            << std::endl;
 }
 
 /// \todo: Fix SimplicialManifoldStruct test
