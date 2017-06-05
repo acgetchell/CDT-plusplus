@@ -54,6 +54,7 @@ TEST(SimplicialManifold, GeometryInfo_Members)
 
   EXPECT_FALSE(universe.geometry->timevalues) << "timevalues should be empty.";
 
+  // Calculate spacelike facets per timeslice and populated time values
   VolumePerTimeslice(universe);
 
   EXPECT_TRUE(universe.geometry->spacelike_facets)
@@ -61,6 +62,35 @@ TEST(SimplicialManifold, GeometryInfo_Members)
 
   EXPECT_TRUE(universe.geometry->timevalues)
       << "timevalues should not be empty";
+
+  // Copy SimplicialManifold and check that deep copy of GeometryInfo works
+  auto copied_universe = universe;
+
+  EXPECT_EQ(copied_universe.geometry->N3_31(), universe.geometry->N3_31())
+      << "Copy of geometry didn't preserve three_one.";
+
+  EXPECT_EQ(copied_universe.geometry->N3_13(), universe.geometry->N3_13())
+      << "Copy of geometry didn't preserve one_three.";
+
+  EXPECT_EQ(copied_universe.geometry->N3_22(), universe.geometry->N3_22())
+      << "Copy of geometry didn't preserve two_two.";
+
+  EXPECT_EQ(copied_universe.geometry->N1_TL(), universe.geometry->N1_TL())
+      << "Copy of geometry didn't preserve timelike_edges.";
+
+  EXPECT_EQ(copied_universe.geometry->N1_SL(), universe.geometry->N1_SL())
+      << "Copy of geometry didn't preserve spacelike_edges.";
+
+  EXPECT_EQ(copied_universe.geometry->N0(), universe.geometry->N0())
+      << "Copy of geometry didn't preserve vertices.";
+
+  EXPECT_TRUE(copied_universe.geometry->spacelike_facets ==
+              universe.geometry->spacelike_facets)
+      << "Copy of geometry didn't preserve spacelike_facets.";
+
+  EXPECT_TRUE(copied_universe.geometry->timevalues ==
+              universe.geometry->timevalues)
+      << "Copy of geometry didn't preserve timevalues.";
 }
 
 TEST(SimplicialManifold, GeometryInfo_Properties)
@@ -92,11 +122,17 @@ TEST(SimplicialManifold, GeometryInfo_Properties)
   EXPECT_TRUE(std::is_nothrow_move_assignable<GeometryInfo>::value)
       << "GeometryInfo struct is not no-throw move assignable.";
 
-//  EXPECT_TRUE(std::is_nothrow_copy_constructible<GeometryInfo>::value)
-//      << "GeometryInfo struct is not no-throw copy constructible.";
+  //  EXPECT_TRUE(std::is_nothrow_copy_constructible<GeometryInfo>::value)
+  //      << "GeometryInfo struct is not no-throw copy constructible.";
+  std::cout << std::boolalpha << "GeometryInfo struct no-throw copy constructible? "
+                              << std::is_nothrow_copy_constructible<GeometryInfo>::value
+                              << std::endl;
 
-//  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
-//      << "GeometryInfo struct is not no-throw copy assignable.";
+  //  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
+  //      << "GeometryInfo struct is not no-throw copy assignable.";
+  std::cout << std::boolalpha << "GeometryInfo struct no-throw copy assignable? "
+                              << std::is_nothrow_copy_assignable<GeometryInfo>::value
+                              << std::endl;
 }
 
 /// \todo: Fix SimplicialManifoldStruct test
@@ -105,8 +141,8 @@ TEST(SimplicialManifold, SimplicialManifold_Properties)
   EXPECT_TRUE(std::is_default_constructible<SimplicialManifold>::value)
       << "SimplicialManifold is not default constructible.";
 
-//  EXPECT_TRUE(std::is_nothrow_default_constructible<SimplicialManifold>::value)
-//      << "SimplicialManifold struct is not default no-throw constructible.";
+  //  EXPECT_TRUE(std::is_nothrow_default_constructible<SimplicialManifold>::value)
+  //      << "SimplicialManifold struct is not default no-throw constructible.";
 
   EXPECT_TRUE(std::is_nothrow_destructible<SimplicialManifold>::value)
       << "SimplicialManifold struct is not no-throw destructible.";
@@ -114,26 +150,26 @@ TEST(SimplicialManifold, SimplicialManifold_Properties)
   EXPECT_TRUE(std::is_copy_constructible<SimplicialManifold>::value)
       << "SimplicialManifold struct is not copy constructible";
 
-//  EXPECT_TRUE(std::is_nothrow_copy_constructible<SimplicialManifold>::value)
-//      << "SimplicialManifold struct is not no-throw copy constructible.";
+  //  EXPECT_TRUE(std::is_nothrow_copy_constructible<SimplicialManifold>::value)
+  //      << "SimplicialManifold struct is not no-throw copy constructible.";
 
   EXPECT_TRUE(std::is_move_constructible<SimplicialManifold>::value)
       << "SimplicialManifold struct is not move constructible.";
 
-//  EXPECT_TRUE(std::is_nothrow_move_constructible<SimplicialManifold>::value)
-//      << "SimplicialManifold struct is not no-throw move constructible.";
+  //  EXPECT_TRUE(std::is_nothrow_move_constructible<SimplicialManifold>::value)
+  //      << "SimplicialManifold struct is not no-throw move constructible.";
 
-//  EXPECT_TRUE(std::is_copy_assignable<SimplicialManifold>::value)
-//      << "SimplicialManifold struct is not copy assignable.";
+  //  EXPECT_TRUE(std::is_copy_assignable<SimplicialManifold>::value)
+  //      << "SimplicialManifold struct is not copy assignable.";
 
-//  EXPECT_TRUE(std::is_nothrow_copy_assignable<SimplicialManifold>::value)
-//      << "SimplicialManifold struct is not no-throw copy assignable.";
+  //  EXPECT_TRUE(std::is_nothrow_copy_assignable<SimplicialManifold>::value)
+  //      << "SimplicialManifold struct is not no-throw copy assignable.";
 
   EXPECT_TRUE(std::is_move_assignable<SimplicialManifold>::value)
       << "SimplicialManifold struct is not move assignable.";
 
-//  EXPECT_TRUE(std::is_nothrow_move_assignable<SimplicialManifold>::value)
-//      << "SimplicialManifold struct is not no-throw move assignable.";
+  //  EXPECT_TRUE(std::is_nothrow_move_assignable<SimplicialManifold>::value)
+  //      << "SimplicialManifold struct is not no-throw move assignable.";
 }
 
 TEST(SimplicialManifold, DelaunayClass_Properties)
