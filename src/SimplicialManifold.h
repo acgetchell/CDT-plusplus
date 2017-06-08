@@ -60,7 +60,6 @@ struct GeometryInfo
   boost::optional<std::set<intmax_t>> timevalues;
 
   /// @brief Default constructor
-  /// @return A GeometryInfo{}
   GeometryInfo() = default;
 
   /// @brief Constructor from Geometry_tuple
@@ -158,18 +157,20 @@ struct GeometryInfo
 /// its geometry. In addition, it defines convenient constructors.
 struct SimplicialManifold
 {
-  /// @brief std::unique_ptr to the Delaunay triangulation
+  /// @brief Owning pointer to the Delaunay triangulation
   std::unique_ptr<Delaunay> triangulation;
 
-  /// @brief std::unique_ptr to GeometryInfo{}
+  /// @brief Owning pointer to GeometryInfo
   std::unique_ptr<GeometryInfo> geometry;
 
   /// @brief Default constructor
-  /// @return An empty SimplicialManifold{}
   SimplicialManifold()
       : triangulation{std::make_unique<Delaunay>()}
       , geometry{std::make_unique<GeometryInfo>()}
   {
+#ifndef NDEBUG
+      std::cout << "SimplicialManifold default ctor." << std::endl;
+#endif
   }
 
   /// @brief Constructor with std::unique_ptr<Delaunay>
@@ -189,6 +190,9 @@ struct SimplicialManifold
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
   {
+#ifndef NDEBUG
+      std::cout << "SimplicialManifold std::unique_ptr<Delaunay> ctor." << std::endl;
+#endif
   }
 
   /// @brief make_triangulation constructor
@@ -204,6 +208,9 @@ struct SimplicialManifold
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
   {
+#ifndef NDEBUG
+      std::cout << "SimplicialManifold make_triangulation ctor." << std::endl;
+#endif
   }
 
   /// @brief Destructor
@@ -223,6 +230,7 @@ struct SimplicialManifold
       : triangulation{std::move(other.triangulation)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
+//    , geometry{std::move(other.geometry)}
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move ctor." << std::endl;
@@ -233,13 +241,14 @@ struct SimplicialManifold
   /// @param other The SimplicialManifold to be moved from
   /// @return A moved-assigned SimplicialManifold{}
   SimplicialManifold &operator=(SimplicialManifold &&other)
-  {  // NOLINT
+  {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move assignment operator." << std::endl;
 #endif
     triangulation = std::move(other.triangulation);
     geometry      = std::make_unique<GeometryInfo>(
         classify_all_simplices(std::move(triangulation)));
+//      geometry = std::move(other.geometry);
     return *this;
   }
 
