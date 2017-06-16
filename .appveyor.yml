@@ -50,7 +50,7 @@ install:
   - set PATH=%PATH%;C:\projects\dev\releases-CGAL-4.9.1
   - cd C:\projects\dev\releases-CGAL-4.9.1
   - dir # Debugging
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -DCMAKE_CXX_COMPILER=clang-cl -GNinja .
+  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -DCMAKE_PREFIX_PATH=%PATH% -DCMAKE_CXX_COMPILER=clang-cl -GNinja .
   - cmake --build .
 
 before_build:
