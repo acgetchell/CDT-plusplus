@@ -54,9 +54,9 @@ enum class topology_type
 ///
 /// @param key The string value
 /// @return The environment variable corresponding to the key as a std::string
-inline auto getEnvVar(std::string const &key) noexcept
+inline auto getEnvVar(std::string const& key) noexcept
 {
-  char const *val = getenv(key.c_str());
+  char const* val = getenv(key.c_str());
   return val == nullptr ? std::string() : std::string(val);
 }
 
@@ -105,7 +105,7 @@ inline const std::string currentDateTime() noexcept
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename as a std::string
-inline auto generate_filename(const topology_type &top,
+inline auto generate_filename(const topology_type& top,
                               const std::intmax_t  dimensions,
                               const std::intmax_t  number_of_simplices,
                               const std::intmax_t number_of_timeslices) noexcept
@@ -153,7 +153,7 @@ inline auto generate_filename(const topology_type &top,
 /// @tparam T The manifold type
 /// @param universe A SimplicialManifold{}
 template <typename T>
-void print_results(const T &universe) noexcept
+void print_results(const T& universe) noexcept
 {
   std::cout << universe.triangulation->number_of_vertices() << " vertices and "
             << universe.triangulation->number_of_finite_edges() << " edges and "
@@ -173,7 +173,7 @@ void print_results(const T &universe) noexcept
 /// @param universe A SimplicialManifold{}
 /// @param timer A timer object used to determine elapse time
 template <typename T1, typename T2>
-void print_results(const T1 &universe, const T2 &timer) noexcept
+void print_results(const T1& universe, const T2& timer) noexcept
 {
   print_results(universe);
 
@@ -194,7 +194,7 @@ void print_results(const T1 &universe, const T2 &timer) noexcept
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 template <typename T>
-void write_file(const T &universe, const topology_type &topology,
+void write_file(const T& universe, const topology_type& topology,
                 const std::intmax_t dimensions,
                 const std::intmax_t number_of_simplices,
                 const std::intmax_t number_of_timeslices)
@@ -359,7 +359,7 @@ inline auto expected_points_per_simplex(const int           dimension,
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
 /// @return The double version
-inline auto Gmpzf_to_double(const Gmpzf &value) { return value.to_double(); }
+inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
 
 /// @brief Calculate if lower <= value <= upper; used in GoogleTests
 /// @tparam T Value type

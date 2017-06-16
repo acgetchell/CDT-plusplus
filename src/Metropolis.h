@@ -398,22 +398,22 @@ class Metropolis
     // Setup moves
     auto move_23_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker &     attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_23_move(std::move(manifold), attempted_moves);
     };
     auto move_32_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker &     attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_32_move(std::move(manifold), attempted_moves);
     };
     auto move_26_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker &     attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_26_move(std::move(manifold), attempted_moves);
     };
     auto move_62_lambda = [](
         SimplicialManifold manifold,
-        Move_tracker &     attempted_moves) -> SimplicialManifold {
+        Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_62_move(std::move(manifold), attempted_moves);
     };
 
@@ -421,28 +421,28 @@ class Metropolis
     {
       case move_type::TWO_THREE:
       {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_23_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
       case move_type::THREE_TWO:
       {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_32_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
       case move_type::TWO_SIX:
       {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_26_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
       case move_type::SIX_TWO:
       {
-        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
+        function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
             move_function(move_62_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
@@ -530,7 +530,7 @@ class Metropolis
   /// @return The **universe** upon which the passes have been completed.
   /// \todo: Fix segfaults here
   template <typename T>
-  auto operator()(T &&universe) -> decltype(universe)
+  auto operator()(T&& universe) -> decltype(universe)
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
@@ -555,7 +555,7 @@ class Metropolis
       make_move(move_type::SIX_TWO);
       print_run();
     }
-    catch (std::logic_error &LogicError)
+    catch (std::logic_error& LogicError)
     {
       std::cerr << LogicError.what() << std::endl;
       std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;

@@ -32,7 +32,7 @@ struct Simulation
   /// @tparam T Function object type
   /// @param callable The function to be called
   template <typename T>
-  void queue(T &&callable)
+  void queue(T&& callable)
   {
     queue_.emplace_back(std::forward<T>(callable));
   }
@@ -42,7 +42,7 @@ struct Simulation
   /// @return The SimplicialManifold with item applied to it
   SimplicialManifold start(SimplicialManifold value) const
   {
-    for (const auto &item : queue_)
+    for (const auto& item : queue_)
     {
       value = item(value);
     }

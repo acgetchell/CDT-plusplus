@@ -63,12 +63,14 @@ template <typename Fn>
 class function_ref;
 
 template <typename Ret, typename... Params>
-class function_ref<Ret(Params...)> {
+class function_ref<Ret(Params...)>
+{
   Ret (*callback)(intptr_t callable, Params... params);
   intptr_t callable;
 
   template <typename Callable>
-  static Ret callback_fn(intptr_t callable, Params... params) {
+  static Ret callback_fn(intptr_t callable, Params... params)
+  {
     return (*reinterpret_cast<Callable*>(callable))(
         std::forward<Params>(params)...);
   }
@@ -80,9 +82,12 @@ class function_ref<Ret(Params...)> {
                    !std::is_same<typename std::remove_reference<Callable>::type,
                                  function_ref>::value>::type* = nullptr)
       : callback(callback_fn<typename std::remove_reference<Callable>::type>)
-      , callable(reinterpret_cast<intptr_t>(&callable)) {}
+      , callable(reinterpret_cast<intptr_t>(&callable))
+  {
+  }
 
-  Ret operator()(Params... params) const {
+  Ret operator()(Params... params) const
+  {
     return callback(callable, std::forward<Params>(params)...);
   }
 };

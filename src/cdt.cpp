@@ -71,7 +71,7 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char *const argv[])
+int main(int argc, char* const argv[])
 {
   try
   {
@@ -201,19 +201,19 @@ int main(int argc, char *const argv[])
 
     return 0;
   }
-  catch (std::domain_error &DomainError)
+  catch (std::domain_error& DomainError)
   {
     std::cerr << DomainError.what() << std::endl;
     std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
     return 1;
   }
-  catch (std::invalid_argument &InvalidArgument)
+  catch (std::invalid_argument& InvalidArgument)
   {
     std::cerr << InvalidArgument.what() << std::endl;
     std::cerr << "Invalid parameter ... Exiting." << std::endl;
     return 1;
   }
-  catch (std::logic_error &LogicError)
+  catch (std::logic_error& LogicError)
   {
     std::cerr << LogicError.what() << std::endl;
     std::cerr << "Simulation startup failed ... Exiting." << std::endl;

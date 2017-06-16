@@ -128,7 +128,7 @@ static constexpr int DIMENSION = 3;
 /// @returns A std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>> of
 /// timelike edges and spacelike edges
 template <typename T>
-auto classify_edges(T &&universe_ptr)
+auto classify_edges(T&& universe_ptr)
 {
 #ifndef NDEBUG
   std::cout << "Classifying edges...." << std::endl;
@@ -192,7 +192,7 @@ auto classify_edges(T &&universe_ptr)
 /// @returns A std::tuple<std::vector, std::vector, std::vector> of
 /// **three_one**, **two_two**, and **one_three**
 template <typename T>
-auto classify_simplices(T &&universe_ptr)
+auto classify_simplices(T&& universe_ptr)
 {
 #ifndef NDEBUG
   std::cout << "Classifying simplices...." << std::endl;
@@ -259,7 +259,7 @@ auto classify_simplices(T &&universe_ptr)
 }  // classify_simplices()
 
 template <typename T>
-auto classify_all_simplices(T &&universe_ptr)
+auto classify_all_simplices(T&& universe_ptr)
 {
 #ifndef NDEBUG
   std::cout << "Classifying all simplices...." << std::endl;
@@ -295,7 +295,7 @@ auto classify_all_simplices(T &&universe_ptr)
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A boolean value if there are invalid simplices
 template <typename T>
-auto fix_timeslices(T &&universe_ptr)
+auto fix_timeslices(T&& universe_ptr)
 {  // NOLINT
   Delaunay::Finite_cells_iterator cit;
   std::intmax_t                   min_time{0};
@@ -388,7 +388,7 @@ auto fix_timeslices(T &&universe_ptr)
 ///
 /// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 template <typename T>
-void fix_triangulation(T &&universe_ptr)
+void fix_triangulation(T&& universe_ptr)
 {
   for (std::intmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass)
   {
@@ -409,7 +409,7 @@ void fix_triangulation(T &&universe_ptr)
 /// with their timevalues
 /// @returns  A std::unique_ptr<Delaunay> to the triangulation
 template <typename T1, typename T2>
-void insert_into_triangulation(T1 &&universe_ptr, T2 &&causal_vertices)
+void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices)
 {
   universe_ptr->insert(
       boost::make_zip_iterator(boost::make_tuple(

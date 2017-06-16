@@ -40,7 +40,7 @@ using Point = Kd::Point_d;
 
 /// Make 3D toroidal (periodic) triangulations
 template <typename T>
-void make_random_T3_triangulation(T *T3, int simplices, int timeslices) noexcept
+void make_random_T3_triangulation(T* T3, int simplices, int timeslices) noexcept
 {
   std::cout << "make_random_T3_triangulation() called" << std::endl;
 

@@ -68,7 +68,7 @@ struct GeometryInfo
   /// which itself takes a std::unique_ptr<Delaunay>
   /// @param geometry Geometry_tuple initializing values
   /// @return A populated GeometryInfo{}
-  explicit GeometryInfo(const Geometry_tuple &&geometry)  // NOLINT
+  explicit GeometryInfo(const Geometry_tuple&& geometry)  // NOLINT
       : three_one{std::get<0>(geometry)}
       , two_two{std::get<1>(geometry)}
       , one_three{std::get<2>(geometry)}
@@ -82,16 +82,16 @@ struct GeometryInfo
   ~GeometryInfo() = default;
 
   /// @brief Default move constructor
-  GeometryInfo(GeometryInfo &&) = default;
+  GeometryInfo(GeometryInfo&&) = default;
 
   /// @brief Default move assignment operator
-  GeometryInfo &operator=(GeometryInfo &&) = default;
+  GeometryInfo& operator=(GeometryInfo&&) = default;
 
   /// @brief Default copy constructor
-  GeometryInfo(const GeometryInfo &) = default;
+  GeometryInfo(const GeometryInfo&) = default;
 
   /// @brief Default copy assignment operator
-  GeometryInfo &operator=(const GeometryInfo &) = default;
+  GeometryInfo& operator=(const GeometryInfo&) = default;
 
   /// @brief Timelike edges
   /// @return The number of edges spanning timeslices
@@ -169,7 +169,7 @@ struct SimplicialManifold
       , geometry{std::make_unique<GeometryInfo>()}
   {
 #ifndef NDEBUG
-      std::cout << "SimplicialManifold default ctor." << std::endl;
+    std::cout << "SimplicialManifold default ctor." << std::endl;
 #endif
   }
 
@@ -185,13 +185,14 @@ struct SimplicialManifold
   /// is fine.
   /// @param manifold A std::unique_ptr<Delaunay>
   /// @return A SimplicialManifold{}
-  explicit SimplicialManifold(std::unique_ptr<Delaunay> &&manifold)  // NOLINT
+  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  // NOLINT
       : triangulation{std::move(manifold)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
   {
 #ifndef NDEBUG
-      std::cout << "SimplicialManifold std::unique_ptr<Delaunay> ctor." << std::endl;
+    std::cout << "SimplicialManifold std::unique_ptr<Delaunay> ctor."
+              << std::endl;
 #endif
   }
 
@@ -209,7 +210,7 @@ struct SimplicialManifold
             classify_all_simplices(triangulation))}
   {
 #ifndef NDEBUG
-      std::cout << "SimplicialManifold make_triangulation ctor." << std::endl;
+    std::cout << "SimplicialManifold make_triangulation ctor." << std::endl;
 #endif
   }
 
@@ -226,11 +227,11 @@ struct SimplicialManifold
   /// @brief Move constructor
   /// @param other The SimplicialManifold to be move-constructed from
   /// @return A moved-to SimplicialManifold{}
-  SimplicialManifold(SimplicialManifold &&other)  // NOLINT
+  SimplicialManifold(SimplicialManifold&& other)  // NOLINT
       : triangulation{std::move(other.triangulation)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
-//    , geometry{std::move(other.geometry)}
+  //    , geometry{std::move(other.geometry)}
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move ctor." << std::endl;
@@ -240,7 +241,7 @@ struct SimplicialManifold
   /// @brief Move assignment operator
   /// @param other The SimplicialManifold to be moved from
   /// @return A moved-assigned SimplicialManifold{}
-  SimplicialManifold &operator=(SimplicialManifold &&other)
+  SimplicialManifold& operator=(SimplicialManifold&& other)
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move assignment operator." << std::endl;
@@ -248,14 +249,14 @@ struct SimplicialManifold
     triangulation = std::move(other.triangulation);
     geometry      = std::make_unique<GeometryInfo>(
         classify_all_simplices(std::move(triangulation)));
-//      geometry = std::move(other.geometry);
+    //      geometry = std::move(other.geometry);
     return *this;
   }
 
   /// @brief SimplicialManifold copy constructor
   /// @param other The SimplicialManifold to copy
   /// @return A copied SimplicialManifold{}
-  SimplicialManifold(const SimplicialManifold &other)
+  SimplicialManifold(const SimplicialManifold& other)
       : triangulation{std::make_unique<Delaunay>(*(other.triangulation))}
       , geometry{std::make_unique<GeometryInfo>(*(other.geometry))}
   {
@@ -267,7 +268,7 @@ struct SimplicialManifold
   /// @brief Exception-safe swap
   /// @param first  The first SimplicialManifold to be swapped
   /// @param second The second SimplicialManifold to be swapped with.
-  friend void swap(SimplicialManifold &first, SimplicialManifold &second)
+  friend void swap(SimplicialManifold& first, SimplicialManifold& second)
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold swapperator." << std::endl;
@@ -279,7 +280,7 @@ struct SimplicialManifold
 
   /// @brief Default copy assignment operator
   /// @return A copy-assigned SimplicialManifold{}
-  SimplicialManifold &operator=(const SimplicialManifold &) = default;
+  SimplicialManifold& operator=(const SimplicialManifold&) = default;
 };
 
 #endif  // SRC_SIMPLICIALMANIFOLD_H_

@@ -56,7 +56,7 @@ class MoveManager
   ///
   /// @param universe Initializes universe_
   /// @param attempted_moves Initializes attempted_moves_
-  MoveManager(T1 &&universe, T2 &&attempted_moves)
+  MoveManager(T1&& universe, T2&& attempted_moves)
       : universe_{std::forward<T1>(universe)}
       , attempted_moves_{std::forward<T2>(attempted_moves)}
   {
@@ -127,7 +127,7 @@ class MoveManager
   /// @param move A function_ref to the move being performed
   /// @return The results of move on universe_
   auto operator()(
-      function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move)
+      function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move)
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
@@ -168,7 +168,7 @@ class MoveManager
       return universe_;
     }
 
-    catch (const std::exception &ex)
+    catch (const std::exception& ex)
     {
       std::cerr << "Caught move error: " << ex.what() << std::endl;
     }

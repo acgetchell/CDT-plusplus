@@ -24,7 +24,7 @@
 using Facet = Delaunay::Facet;
 
 template <typename T>
-auto VolumePerTimeslice(T &&manifold) -> decltype(manifold)
+auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 {
 #ifndef NDEBUG
   std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
@@ -75,7 +75,7 @@ auto VolumePerTimeslice(T &&manifold) -> decltype(manifold)
 
   // Determine which timevalues are populated
   std::set<intmax_t> timevalues;
-  for (const auto &item : manifold.geometry->vertices)
+  for (const auto& item : manifold.geometry->vertices)
   {
     timevalues.insert(item->info());
   }
