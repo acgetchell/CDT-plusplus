@@ -9,6 +9,7 @@
 /// @author Adam Getchell
 
 #include "Measurements.h"
+#include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
 #include <utility>
 
@@ -46,3 +47,25 @@ TEST_F(MeasurementsTest, VolumePerTimeslice)
   EXPECT_EQ(timeslices, manifold.geometry->max_timevalue().get())
       << "Expected timeslices differs from actual timeslices.";
 }
+
+TEST_F(MeasurementsTest, PersistData)
+{
+  VolumePerTimeslice(manifold);
+
+  Move_tracker attempted_moves;
+
+  auto result = make_23_move(std::move(manifold), attempted_moves);
+
+  ASSERT_FALSE(result.geometry->spacelike_facets->empty())
+      << "Spacelike_facets is empty.";
+
+//  EXPECT_EQ(timeslices, result.geometry->max_timevalue().get())
+//      << "Expected timeslices differs from actual timeslices.";
+    ASSERT_FALSE(result.geometry->timevalues->empty())
+    << "Timevalues empty.";
+
+    std::cout << result.geometry->max_timevalue().get() << std::endl;
+}
+
+
+
