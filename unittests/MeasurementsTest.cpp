@@ -59,12 +59,10 @@ TEST_F(MeasurementsTest, PersistData)
   ASSERT_FALSE(result.geometry->spacelike_facets->empty())
       << "Spacelike_facets is empty.";
 
-//  EXPECT_EQ(timeslices, result.geometry->max_timevalue().get())
-//      << "Expected timeslices differs from actual timeslices.";
+  EXPECT_EQ(timeslices, result.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
     ASSERT_FALSE(result.geometry->timevalues->empty())
     << "Timevalues empty.";
-
-    std::cout << result.geometry->max_timevalue().get() << std::endl;
 }
 
 
