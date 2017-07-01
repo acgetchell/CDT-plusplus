@@ -11,7 +11,6 @@
 #include "Measurements.h"
 #include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
-#include <utility>
 
 constexpr intmax_t simplices  = 6400;
 constexpr intmax_t timeslices = 7;
@@ -56,14 +55,6 @@ TEST_F(MeasurementsTest, PersistData)
 
   auto result = make_23_move(std::move(manifold), attempted_moves);
 
-  ASSERT_FALSE(result.geometry->spacelike_facets->empty())
-      << "Spacelike_facets is empty.";
-
-  EXPECT_EQ(timeslices, result.geometry->max_timevalue().get())
-      << "Expected timeslices differs from actual timeslices.";
-    ASSERT_FALSE(result.geometry->timevalues->empty())
-    << "Timevalues empty.";
+  ASSERT_TRUE(result.geometry->spacelike_facets.is_initialized())
+      << "Spacelike facets is not initialized.";
 }
-
-
-

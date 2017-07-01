@@ -41,8 +41,8 @@ install:
   # Install GMP
   - cd C:\projects\dev
   - nuget install libgmp_vc120
-  - set PATH=%PATH%;C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include
-  - set PATH=%PATH%;C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin
+#  - set PATH=%PATH%;C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include
+#  - set PATH=%PATH%;C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin
   # Install CGAL
   - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
   - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
@@ -50,7 +50,7 @@ install:
   - set PATH=%PATH%;C:\projects\dev\releases-CGAL-4.9.1
   - cd C:\projects\dev\releases-CGAL-4.9.1
   - dir # Debugging
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -DCMAKE_CXX_COMPILER=clang-cl -GNinja .
+  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -DGMP_INCLUDE_DIR:PATH="C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin" _DGMP_LIBRARIES_DIR:PATH="C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include" -DCMAKE_CXX_COMPILER=clang-cl -GNinja .
   - cmake --build .
 
 before_build:
