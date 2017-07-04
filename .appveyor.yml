@@ -41,6 +41,10 @@ install:
   - conda list
   - conda create --name py36 python=3.6 -y
   - activate py36
+  # Install Eigen
+  - conda install -c conda-forge eigen=3.3.3 -y
+  # Install TBB
+  - conda install -c conda-forge tbb=2017_20170604 -y
   # Install CGAL
   - conda install -c conda-forge cgal=4.10 -y
   # Install GMP
