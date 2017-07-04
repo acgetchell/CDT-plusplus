@@ -32,7 +32,7 @@ install:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   # Install Boost
   # Use installed Boost
-  - set PATH=%PATH%;C:\Libraries\boost_1_63_0
+  #- set PATH=%PATH%;C:\Libraries\boost_1_63_0
 #  - nuget install boost
 #  - cd C:\projects\dev\boost.1.64.0.0
 #  - set PATH=%PATH%;C:\projects\dev\boost.1.64.0.0\lib
