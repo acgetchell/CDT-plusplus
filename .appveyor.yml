@@ -44,6 +44,8 @@ install:
 
 before_build:
   - cd C:\projects\CDT-plusplus
+  # Include POSIX from CYGWIN for utsname.h
+  - set PATH=%PATH%;C:\cygwin64\usr\include\sys
 
 build_script:
   - mkdir build
@@ -63,5 +65,5 @@ notifications:
     message: "{{message}}, {{commitId}}, ..."
     on_build_status_changed: true
 
-on_finish:
-  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+#on_finish:
+#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
