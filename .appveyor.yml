@@ -22,12 +22,14 @@ install:
   - 7z x ninja.zip -oC:\projects\dev\ninja > nul
   - set PATH=%PATH%;C:\projects\dev\ninja
   - ninja --version
-  # Install CMake
-  - set CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.2-win64-x64.zip"
-  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
-  - 7z x cmake.zip -oC:\projects\dev
-  - set PATH=%PATH%;C:\projects\dev\cmake\bin
+  # Check installed CMake
   - cmake --version
+  # Install CMake
+#  - set CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.2-win64-x64.zip"
+#  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+#  - 7z x cmake.zip -oC:\projects\dev
+#  - set PATH=%PATH%;C:\projects\dev\cmake\bin
+#  - cmake --version
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
@@ -35,23 +37,32 @@ install:
   - set CXX=clang-cl
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   # Install Boost
-  - nuget install boost
-  - cd C:\projects\dev\boost.1.64.0.0
-  - set PATH=%PATH%;C:\projects\dev\boost.1.64.0.0\lib
+  # Use installed Boost
+  - set PATH=%PATH%;C:\Libraries\boost_1_63_0
+#  - nuget install boost
+#  - cd C:\projects\dev\boost.1.64.0.0
+#  - set PATH=%PATH%;C:\projects\dev\boost.1.64.0.0\lib
+  # Use installed conda
+  - set PATH=%PATH%;C:\Miniconda-x64\Scripts
+  - conda list
+  - conda create --name py36 python=3.6
+  - activate py36
+  # Install CGAL
+  - conda install -c conda-forge cgal=4.10 -y
   # Install GMP
-  - cd C:\projects\dev
-  - nuget install libgmp_vc120
+#  - cd C:\projects\dev
+#  - nuget install libgmp_vc120
 #  - set PATH=%PATH%;C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include
 #  - set PATH=%PATH%;C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin
   # Install CGAL
-  - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
-  - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
-  - 7z x cgal.zip -oC:\projects\dev
-  - set PATH=%PATH%;C:\projects\dev\releases-CGAL-4.9.1
-  - cd C:\projects\dev\releases-CGAL-4.9.1
-  - dir # Debugging
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -DGMP_INCLUDE_DIR:PATH="C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin" _DGMP_LIBRARIES_DIR:PATH="C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include" -DCMAKE_CXX_COMPILER=clang-cl -GNinja .
-  - cmake --build .
+#  - set CGAL_URL="https://github.com/CGAL/releases/archive/CGAL-4.9.1.zip"
+#  - appveyor DownloadFile %CGAL_URL% -FileName cgal.zip
+#  - 7z x cgal.zip -oC:\projects\dev
+#  - set PATH=%PATH%;C:\projects\dev\releases-CGAL-4.9.1
+#  - cd C:\projects\dev\releases-CGAL-4.9.1
+#  - dir # Debugging
+#  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -DGMP_INCLUDE_DIR:PATH="C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\bin" _DGMP_LIBRARIES_DIR:PATH="C:\projects\dev\libgmp_vc120.5.1.3.2\build\native\include" -DCMAKE_CXX_COMPILER=clang-cl -GNinja .
+#  - cmake --build .
 
 before_build:
   - cd C:\projects\CDT-plusplus
