@@ -36,8 +36,6 @@ set(EXECUTABLE_NAME "CDT")
 
 find_package(CGAL QUIET COMPONENTS Core )
 
-find_package(GMP REQUIRED)
-
 # Need working version of boost::optional
 set(Boost_DEBUG FALSE)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
