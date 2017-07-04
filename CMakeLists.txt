@@ -5,7 +5,6 @@ project(CDT-plusplus)
 
 cmake_minimum_required(VERSION 3.8.0)
 
-# Use FindGMP.cmake
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 
 #General
@@ -36,17 +35,17 @@ set(EXECUTABLE_NAME "CDT")
 
 find_package(CGAL QUIET COMPONENTS Core )
 
-# Need working version of boost::optional
+#Need working version of boost::optional
 set(Boost_DEBUG FALSE)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
-# Boost debugging
+#Boost debugging
 message("${Boost_LIBRARIES}")
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost >= 1.64.0 required.\n")
 endif()
 
 if(CGAL_FOUND)
-  # Don't let CGAL override flags
+#Don't let CGAL override flags
   set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain
                                                       CMAKE flags")
 
@@ -67,8 +66,7 @@ if(CGAL_FOUND)
     include(${EIGEN3_USE_FILE})
 
     include_directories (BEFORE "../../include")
-    create_single_source_cgal_program("src/cdt-gv.cpp"
-                                      "src/docopt/docopt.cpp")
+#    create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
     create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
     create_single_source_cgal_program("src/cdt-opt.cpp")
   else()
@@ -126,13 +124,13 @@ set_tests_properties (CDT-3Dtriangle
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
-#cdt-gv
+#cdt - gv
 #This program takes a file to load into GemoView for visualization
-add_test(CDT-GeomView cdt-gv)
-set_tests_properties(CDT-GeomView
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
+#add_test(CDT-GeomView cdt-gv)
+#set_tests_properties(CDT-GeomView
+#  PROPERTIES
+#  PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
 
-# This takes a long time now so cancel
-#cdt-opt
-#add_test(CDT-Optimizer cdt-opt)
+#This takes a long time now so cancel
+#cdt - opt
+#add_test(CDT - Optimizer cdt - opt)
