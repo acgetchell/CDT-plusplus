@@ -24,7 +24,7 @@ add_definitions(-Wall)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
-option(GMOCK_TESTS OFF)
+option(GMOCK_TESTS ON)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost

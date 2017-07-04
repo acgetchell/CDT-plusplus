@@ -306,10 +306,10 @@ TEST_F(MoveManagerTest, MakeA23Move)
   // Setup move
   auto move_23_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_23(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_23(
       move_23_lambda);
 
   // Call operator on MoveManager
@@ -410,10 +410,10 @@ TEST_F(MoveManagerTest, MakeA32Move)
   // Setup move
   auto move_32_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_32_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_32(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_32(
       move_32_lambda);
 
   // Call operator on MoveManager
@@ -513,10 +513,10 @@ TEST_F(MoveManagerTest, MakeA26Move)
   // Setup move
   auto move_26_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_26_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_26(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_26(
       move_26_lambda);
 
   // Call operator on MoveManager
@@ -604,10 +604,10 @@ TEST_F(MoveManagerTest, MakeA62Move)
   // Setup move
   auto move_62_lambda = [](
       SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+      Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_62_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)> move_62(
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_62(
       move_62_lambda);
 
   // Call operator on MoveManager
