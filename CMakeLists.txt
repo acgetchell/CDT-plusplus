@@ -81,7 +81,7 @@ endif()
 
 # sys/utsname.h on Windows via CYGWIN64
 if(WIN32)
-  include_directories("C:\cygwin64\usr\include\sys")
+  include_directories("C:\\cygwin64\\usr\\include\\sys")
 endif()
 
 #GMock Tests executable

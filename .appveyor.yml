@@ -44,8 +44,6 @@ install:
 
 before_build:
   - cd C:\projects\CDT-plusplus
-  # Include POSIX from CYGWIN for utsname.h
-  - set PATH=%PATH%;C:\cygwin64\usr\include\sys
 
 build_script:
   - mkdir build
