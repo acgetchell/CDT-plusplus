@@ -79,9 +79,12 @@ else()
                   and will not be compiled.")
 endif()
 
-# sys/utsname.h on Windows via CYGWIN64
+# sys/utsname.h and dependencies on Windows via CYGWIN64
 if(WIN32)
+  # utsname.h
   include_directories("C:\\cygwin64\\usr\\include\\sys")
+  # cdefs.h and reent.h
+  include_directories("C:\\cygwin\\usr\\include\\sys")
 endif()
 
 #GMock Tests executable
