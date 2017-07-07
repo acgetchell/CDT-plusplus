@@ -81,9 +81,7 @@ endif()
 
 # sys/utsname.h and dependencies on Windows via CYGWIN64
 if(WIN32)
-  # utsname.h
-  include_directories("C:\\cygwin64\\usr\\include\\sys")
-  # cdefs.h and reent.h
+  # utsname.h cdefs.h and reent.h
   include_directories("C:\\cygwin\\usr\\include\\sys")
 endif()
 
