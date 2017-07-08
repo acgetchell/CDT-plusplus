@@ -65,14 +65,7 @@ if(CGAL_FOUND)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
 
-    # sys/utsname.h and dependencies on Windows via CYGWIN64
-    if(WIN32)
-      # utsname.h cdefs.h and reent.h
-      include_directories("..\\..\\cygwin\\usr\\include\\sys")
-    else()
-      include_directories (BEFORE "../../include")
-    endif()
-      
+    include_directories (BEFORE "../../include")
 #    create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
     create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
     create_single_source_cgal_program("src/cdt-opt.cpp")
@@ -84,6 +77,12 @@ else()
 
   message(STATUS "This program requires the CGAL library,
                   and will not be compiled.")
+endif()
+
+# sys/utsname.h and dependencies on Windows via CYGWIN64
+if(WIN32)
+  # utsname.h cdefs.h and reent.h
+  include_directories(SYSTEM "..\\..\\cygwin\\usr\\include\\sys")
 endif()
 
 #GMock Tests executable
