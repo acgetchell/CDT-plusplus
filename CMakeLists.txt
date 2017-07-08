@@ -82,7 +82,7 @@ endif()
 # sys/utsname.h and dependencies on Windows via CYGWIN64
 if(WIN32)
   # utsname.h cdefs.h and reent.h
-  include_directories("C:\\cygwin\\usr\\include\\sys")
+  include_directories("..\\..\\cygwin\\usr\\include\\sys")
 endif()
 
 #GMock Tests executable
