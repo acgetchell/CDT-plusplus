@@ -67,7 +67,11 @@ if(CGAL_FOUND)
 
     include_directories (BEFORE "../../include")
 #    create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
-    create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
+    if(WIN32)
+      create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp" "../../cygwin/usr/include/sys")
+    else()
+      create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
+    endif()
     create_single_source_cgal_program("src/cdt-opt.cpp")
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,
@@ -80,10 +84,10 @@ else()
 endif()
 
 # sys/utsname.h and dependencies on Windows via CYGWIN64
-if(WIN32)
-  # utsname.h cdefs.h and reent.h
-  include_directories(SYSTEM "..\\..\\..\\cygwin\\usr\\include\\sys")
-endif()
+#if(WIN32)
+#  # utsname.h cdefs.h and reent.h
+#  target_link_libraries(SYSTEM "..\\..\\cygwin\\usr\\include\\sys")
+#endif()
 
 #GMock Tests executable
 ###############################################################################
