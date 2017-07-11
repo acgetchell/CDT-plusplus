@@ -32,6 +32,7 @@ install:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   # Use installed conda
   - set PATH=%PATH%;C:\Miniconda-x64\Scripts
+  - conda update conda -y
   #- conda list
   - conda create --name py36 python=3.6 -y
   - activate py36

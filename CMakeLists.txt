@@ -69,11 +69,18 @@ if(CGAL_FOUND)
 
     # Create programs depending on OS
     if(WIN32)
+      # sys/utsname.h sys/cdefs.h and sys/reent.h on Windows via cygwin
       #include_directories(SYSTEM "../../cygwin/usr/include/sys")
-      create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp" "../../cygwin/usr/include/sys/cdefs.h" "../../cygwin/usr/include/sys/reent.h")
+      create_single_source_cgal_program("src/cdt.cpp"
+                                        "src/docopt/docopt.cpp"
+              "../../cygwin/usr/include/sys/utsname.h"
+              "../../cygwin/usr/include/sys/cdefs.h"
+              "../../cygwin/usr/include/sys/reent.h")
     else()
-      create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
-      create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+      create_single_source_cgal_program("src/cdt.cpp"
+              "src/docopt/docopt.cpp")
+      create_single_source_cgal_program("src/cdt-gv.cpp"
+              "src/docopt/docopt.cpp")
       create_single_source_cgal_program("src/cdt-opt.cpp")
     endif()
 
@@ -86,12 +93,6 @@ else()
   message(STATUS "This program requires the CGAL library,
                   and will not be compiled.")
 endif()
-
-# sys/utsname.h and dependencies on Windows via CYGWIN64
-#if(WIN32)
-#  # utsname.h cdefs.h and reent.h
-#  target_link_libraries(SYSTEM "..\\..\\cygwin\\usr\\include\\sys")
-#endif()
 
 #GMock Tests executable
 ###############################################################################
