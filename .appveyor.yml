@@ -23,7 +23,7 @@ install:
   - set PATH=%PATH%;C:\projects\dev\ninja
   - ninja --version
   # Install CMake
-  - set CMAKE_URL="https://cmake.org/files/v3.8/cmake-3.8.2-win64-x64.zip"
+  - set CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-win64-x64.zip"
   - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
   - 7z x cmake.zip -oC:\projects\dev
   - set PATH=%PATH%;C:\projects\dev\cmake\bin
