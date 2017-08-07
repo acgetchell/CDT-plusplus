@@ -81,8 +81,6 @@ before_install:
 install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-#      brew unlink cmake
-#      brew upgrade cmake
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
