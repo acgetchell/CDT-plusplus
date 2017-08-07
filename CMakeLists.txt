@@ -3,7 +3,7 @@
 
 project(CDT-plusplus)
 
-cmake_minimum_required(VERSION 3.8.0)
+cmake_minimum_required(VERSION 3.7.0)
 
 #General
 ###############################################################################
