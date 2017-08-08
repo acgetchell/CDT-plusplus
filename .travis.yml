@@ -90,13 +90,11 @@ before_install:
 install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew unlink cmake
-      brew upgrade cmake
+      brew outdated cmake || brew upgrade cmake
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
-      brew unlink boost
-      brew upgrade boost --without-single --c++11
+      brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
       INCLUDE_DIR="/usr/local/include/"
