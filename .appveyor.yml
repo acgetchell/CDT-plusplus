@@ -22,7 +22,11 @@ install:
   - 7z x ninja.zip -oC:\projects\dev\ninja > nul
   - set PATH=%PATH%;C:\projects\dev\ninja
   - ninja --version
-  # Check installed CMake
+  # Install CMake
+  - set CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-win64-x64.zip"
+  - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
+  - 7z x cmake.zip -oC:\projects\dev
+  - set PATH=%PATH%;C:\projects\dev\cmake\bin
   - cmake --version
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
