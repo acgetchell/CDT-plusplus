@@ -71,21 +71,21 @@ if(CGAL_FOUND)
     include_directories (BEFORE "../../include")
 
     # Create programs depending on OS
-    if(WIN32)
-      # sys/utsname.h sys/cdefs.h and sys/reent.h on Windows via cygwin
-      #include_directories(SYSTEM "../../cygwin/usr/include/sys")
-      create_single_source_cgal_program("src/cdt.cpp"
-                                        "src/docopt/docopt.cpp"
-              "../../cygwin/usr/include/sys/utsname.h"
-              "../../cygwin/usr/include/sys/cdefs.h"
-              "../../cygwin/usr/include/sys/reent.h")
-    else()
+#    if(WIN32)
+#      # sys/utsname.h sys/cdefs.h and sys/reent.h on Windows via cygwin
+#      #include_directories(SYSTEM "../../cygwin/usr/include/sys")
+#      create_single_source_cgal_program("src/cdt.cpp"
+#                                        "src/docopt/docopt.cpp"
+#              "../../cygwin/usr/include/sys/utsname.h"
+#              "../../cygwin/usr/include/sys/cdefs.h"
+#              "../../cygwin/usr/include/sys/reent.h")
+#    else()
       create_single_source_cgal_program("src/cdt.cpp"
               "src/docopt/docopt.cpp")
       create_single_source_cgal_program("src/cdt-gv.cpp"
               "src/docopt/docopt.cpp")
       create_single_source_cgal_program("src/cdt-opt.cpp")
-    endif()
+#    endif()
 
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,
