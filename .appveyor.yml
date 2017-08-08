@@ -27,7 +27,7 @@ install:
   - appveyor DownloadFile %CMAKE_URL% -FileName cmake.zip
   - 7z x cmake.zip -oC:\projects\dev
   - set PATH=%PATH%;C:\projects\dev\cmake\bin
-  - cmake --version
+  - C:\projects\dev\cmake\bin\cmake --version
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v

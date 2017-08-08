@@ -14,6 +14,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+#Threads
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 #with CGAL_SetupFlags.cmake
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
