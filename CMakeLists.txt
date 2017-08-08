@@ -3,7 +3,7 @@
 
 project(CDT-plusplus)
 
-cmake_minimum_required(VERSION 3.9.0)
+cmake_minimum_required(VERSION 3.8.0)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 
@@ -19,7 +19,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 
 #Extra warnings
-add_definitions(-Wall)
+add_definitions(-Wall -Wno-comment)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
