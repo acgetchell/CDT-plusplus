@@ -63,18 +63,6 @@ matrix:
     - os: linux
       compiler: clang
       env: GMOCK=false
-    - os: osx
-      compiler: gcc
-      env: GMOCK=false
-    - os: osx
-      compiler: gcc
-      env: GMOCK=true
-    - os: osx
-      compiler: clang
-      env: GMOCK=false
-    - os: osx
-      compiler: clang
-      env: GMOCK=true
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
