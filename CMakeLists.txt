@@ -19,7 +19,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 
 #Extra warnings
-add_definitions(-Wall -Wno-comment)
+add_definitions(-Wall)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
