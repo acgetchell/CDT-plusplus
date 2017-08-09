@@ -49,8 +49,8 @@ moves equal to the number of simplices in the simulation.
 Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
 
 Examples:
-./cdt --spherical -n 64000 -t 256 --alpha 1.1 -k 2.2 --lambda 3.3 --passes 1000
-./cdt --s -n64000 -t256 -a1.1 -k2.2 -l3.3 -p1000
+./cdt --spherical -n 64000 -t 256 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
+./cdt --s -n64000 -t256 -a.6 -k1.1 -l.1 -p1000
 
 Options:
   -h --help                   Show this message

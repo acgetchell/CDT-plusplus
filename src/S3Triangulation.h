@@ -53,7 +53,7 @@
 
 // C headers
 #include <boost/iterator/zip_iterator.hpp>
-#include <boost/swap.hpp>
+//#include <boost/swap.hpp>
 
 // CGAL headers
 #include <CGAL/Delaunay_triangulation_3.h>

@@ -14,6 +14,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
+#Threads
+set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
+
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 #with CGAL_SetupFlags.cmake
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
@@ -39,7 +42,9 @@ find_package(CGAL QUIET COMPONENTS Core )
 set(Boost_DEBUG FALSE)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 #Boost debugging
-message("${Boost_LIBRARIES}")
+message(STATUS "Found Boost include: ${Boost_INCLUDE_DIR}")
+message(STATUS "Boost libraries to link: ${Boost_LIBRARIES}")
+message(STATUS "Found Boost libraries: ${Boost_LIBRARY_DIRS}")
 if(NOT Boost_FOUND)
     message(FATAL_ERROR "Boost >= 1.64.0 required.\n")
 endif()
@@ -67,22 +72,10 @@ if(CGAL_FOUND)
 
     include_directories (BEFORE "../../include")
 
-    # Create programs depending on OS
-    if(WIN32)
-      # sys/utsname.h sys/cdefs.h and sys/reent.h on Windows via cygwin
-      #include_directories(SYSTEM "../../cygwin/usr/include/sys")
-      create_single_source_cgal_program("src/cdt.cpp"
-                                        "src/docopt/docopt.cpp"
-              "../../cygwin/usr/include/sys/utsname.h"
-              "../../cygwin/usr/include/sys/cdefs.h"
-              "../../cygwin/usr/include/sys/reent.h")
-    else()
-      create_single_source_cgal_program("src/cdt.cpp"
-              "src/docopt/docopt.cpp")
-      create_single_source_cgal_program("src/cdt-gv.cpp"
-              "src/docopt/docopt.cpp")
-      create_single_source_cgal_program("src/cdt-opt.cpp")
-    endif()
+    create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
+    create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+    create_single_source_cgal_program("src/cdt-opt.cpp")
+    create_single_source_cgal_program("src/pair_iterator.cpp")
 
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,
