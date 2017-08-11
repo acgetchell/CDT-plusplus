@@ -31,11 +31,11 @@ TEST(Sphere, Create2Sphere)
   //   std::cout << " Timevalue: " << causal_vertices.second[k] << std::endl;
   // }
 
-  EXPECT_EQ(causal_vertices.first.size(), number_of_vertices)
+  EXPECT_TRUE(causal_vertices.size() == number_of_vertices)
       << "Wrong number of vertices.";
 
-  EXPECT_EQ(causal_vertices.first.size(), causal_vertices.second.size())
-      << "Each point does not have an associated timeslice.";
+//  EXPECT_EQ(causal_vertices.first.size(), causal_vertices.second.size())
+//      << "Each point does not have an associated timeslice.";
 }
 
 TEST(Sphere, Create3Sphere)
