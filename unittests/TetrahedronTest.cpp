@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014 Adam Getchell
+/// Copyright © 2014-2017 Adam Getchell
 ///
 /// Tests that 3-dimensional triangulated & foliated tetrahedrons are
 /// constructed correctly.
@@ -25,11 +25,11 @@ class TetrahedronTest : public ::testing::Test
   {
     // We wouldn't normally directly insert into the Delaunay triangulation
     // This is to insert without timevalues to directly create a tetrahedron
-    universe.triangulation->insert(V.begin(), V.end());
+    universe.triangulation->insert(Vertices.begin(), Vertices.end());
   }
 
   SimplicialManifold           universe;
-  std::vector<Delaunay::Point> V{
+  std::vector<Delaunay::Point> Vertices{
       Delaunay::Point{0, 0, 0}, Delaunay::Point{0, 1, 0},
       Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
 };
@@ -37,14 +37,18 @@ class TetrahedronTest : public ::testing::Test
 class FoliatedTetrahedronTest : public TetrahedronTest
 {
  protected:
-  FoliatedTetrahedronTest() : causal_vertices{std::make_pair(V, timevalue)}
+  FoliatedTetrahedronTest()
   {
     // Manually insert
+    for (int j = 0; j < 4; ++j)
+    {
+      causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
+    }
     insert_into_triangulation(universe.triangulation, causal_vertices);
   }
 
   std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
-  std::pair<std::vector<Point>, std::vector<std::intmax_t>> causal_vertices;
+  std::vector<std::pair<Point, std::intmax_t>> causal_vertices;
 };
 
 TEST_F(TetrahedronTest, Create)

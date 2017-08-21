@@ -11,9 +11,11 @@ typedef CGAL::Triangulation_data_structure_3<Vb>                    Tds;
 //Use the Fast_location tag. Default or Compact_location works too.
 typedef CGAL::Delaunay_triangulation_3<K, Tds, CGAL::Fast_location> Delaunay;
 typedef Delaunay::Point                                             Point;
+using Causal_vertices = std::vector<std::pair<Point, std::intmax_t>>;
 int main()
 {
-    std::vector< std::pair<Point,unsigned> > points;
+//    std::vector<std::pair<Point,unsigned>> points;
+    Causal_vertices points;
     points.push_back( std::make_pair(Point(0,0,0),0) );
     points.push_back( std::make_pair(Point(1,0,0),1) );
     points.push_back( std::make_pair(Point(0,1,0),2) );

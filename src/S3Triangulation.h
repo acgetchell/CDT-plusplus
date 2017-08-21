@@ -51,10 +51,6 @@
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-// C headers
-#include <boost/iterator/zip_iterator.hpp>
-//#include <boost/swap.hpp>
-
 // CGAL headers
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
@@ -92,7 +88,7 @@ using Vertex_handle = Delaunay::Vertex_handle;
 using Locate_type   = Delaunay::Locate_type;
 using Point         = Delaunay::Point;
 using Edge_handle   = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
-//using Causal_vertices =
+// using Causal_vertices =
 //    std::pair<std::vector<Point>, std::vector<std::intmax_t>>;
 using Causal_vertices = std::vector<std::pair<Point, std::intmax_t>>;
 using Geometry_tuple =
@@ -404,23 +400,13 @@ void fix_triangulation(T&& universe_ptr)
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
-/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-/// @param[in] causal_vertices A std::pair<std::vector<Point>,
-/// std::vector<std::intmax_t>> containing the vertices to be inserted along
-/// with their timevalues
-/// @returns  A std::unique_ptr<Delaunay> to the triangulation
-template <typename T1, typename T2>
-void insert_into_triangulation(T1&& universe_ptr, T2&& causal_vertices)
+/// \tparam T Type of universe_ptr
+/// \param universe_ptr A unique pointer to triangulation
+/// \param cv A data structure of causal vertices
+template <typename T>
+void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 {
-//  universe_ptr->insert(
-//      boost::make_zip_iterator(boost::make_tuple(
-//          causal_vertices.first.begin(), causal_vertices.second.begin())),
-//      boost::make_zip_iterator(boost::make_tuple(
-//          causal_vertices.first.end(), causal_vertices.second.end())));
-//    for (auto element : causal_vertices) {
-//        universe_ptr->insert(element);
-//    }
-    universe_ptr->insert(causal_vertices.begin(), causal_vertices.end());
+  universe_ptr->insert(cv.begin(), cv.end());
 }  // insert_into_triangulation()
 
 /// @brief Make foliated spheres
@@ -448,9 +434,7 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
     // At each radius, generate a sphere of random points
     for (std::intmax_t j = 0; j < points_per_timeslice; ++j)
     {
-//      causal_vertices.first.push_back(*gen++);
-//      causal_vertices.second.emplace_back(radius);
-        causal_vertices.push_back(std::make_pair(*gen++, radius));
+      causal_vertices.push_back(std::make_pair(*gen++, radius));
     }  // end j
   }    // end i
   return causal_vertices;
