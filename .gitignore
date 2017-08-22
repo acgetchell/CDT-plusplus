@@ -3,7 +3,6 @@
 # Compiled Object files
 *.slo
 *.lo
-*.o
 
 # Compiled Dynamic libraries
 *.so
@@ -33,10 +32,8 @@ doc_html/
 *.tmp
 *.tar.gz
 googletest/
-Testing/
 cov-int
 boost*/
-cmake/
 
 # Editor files
 .clang_complete
@@ -47,7 +44,6 @@ cdt_tests
 grid_d
 
 # Output files
-*.dat
 output
 *.off
 *.log

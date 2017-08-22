@@ -1,7 +1,7 @@
 language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode8.2
+osx_image: xcode8.3
 
 addons:
   apt:
@@ -63,9 +63,6 @@ matrix:
     - os: linux
       compiler: clang
       env: GMOCK=false
-    - os: linux
-      compiler: gcc
-      env: GMOCK=false VALGRIND=true
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -81,13 +78,11 @@ before_install:
 install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew unlink cmake
-      brew upgrade cmake
+      brew outdated cmake || brew upgrade cmake
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
-      brew unlink boost
-      brew upgrade boost --without-single --c++11
+      brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
       INCLUDE_DIR="/usr/local/include/"

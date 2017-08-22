@@ -4,7 +4,7 @@ First, thank you!
 
 Writing esoteric scientific software can be it's own reward, but it's not for the faint of heart.
 
-If you want a general overview as to why this software package exists, please look at my talk [Causal Dynamical Triangulations with CGAL][12], or the [Wiki][2].
+If you want a general overview as to why this software package exists, please look at my talk [Causal Dynamical Triangulations with CGAL][slides], or the [Wiki][2].
 
 Second, here are some simple guidelines that will make it easier on me to process and accept your contributions.
 
@@ -37,7 +37,7 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [9]: https://travis-ci.org/acgetchell/CDT-plusplus
 [10]: https://isocpp.org/wiki/faq/coding-standards
 [11]: https://github.com/acgetchell/CDT-plusplus/blob/master/.clang-format
-[12]: http://slides.com/adamgetchell/causal-dynamical-triangulations/#/
+[slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
 [13]: http://llvm.org/releases/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
 [14]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
