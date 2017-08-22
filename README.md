@@ -37,9 +37,9 @@ The goals and targets of this project are:
 - [x] Integrate [docopt][docopt] CLI
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
-- [x] [TBB][tbb] multithreading
+- [x] Multithreading via [TBB][tbb]
 - [x] Metropolis algorithm
-- [ ] [HDF5][hdf5] output
+- [ ] Output via [HDF5][hdf5]
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
 - [ ] 3+1 foliation
@@ -256,7 +256,7 @@ results to ensure you're not leaking memory.
 
 ### Contributing ###
 
-Please see [CONTRIBUTING.md][contrib] and our [Code of Conduct][conduct].
+Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
 
 [1]: http://arxiv.org/abs/hep-th/0105267
 [cgal]: http://www.cgal.org
