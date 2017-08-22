@@ -75,7 +75,6 @@ if(CGAL_FOUND)
     create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
     create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
     create_single_source_cgal_program("src/cdt-opt.cpp")
-    create_single_source_cgal_program("src/pair_iterator.cpp")
 
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,

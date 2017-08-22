@@ -11,6 +11,8 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
+#include <algorithm>
+#include <set>
 #include <utility>
 #include <vector>
 
@@ -94,6 +96,35 @@ TEST_F(FoliatedTetrahedronTest, Create)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+}
+
+TEST_F(FoliatedTetrahedronTest, CorrectTimevalues)
+{
+  std::sort(causal_vertices.begin(), causal_vertices.end(),
+            [](auto a, auto b) { return a.first < b.first; });
+  //  for (auto cv : causal_vertices)
+  //  {
+  //    std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
+  //              << std::endl;
+  //  }
+  Causal_vertices                    comparison;
+  Delaunay::Finite_vertices_iterator vit;
+  for (vit = universe.triangulation->finite_vertices_begin();
+       vit != universe.triangulation->finite_vertices_end(); ++vit)
+  {
+    //    std::cout << "Point " << vit->point() << std::endl;
+    //    std::cout << "Timevalue " << vit->info() << std::endl;
+    comparison.emplace_back(std::make_pair(vit->point(), vit->info()));
+  }
+  std::sort(comparison.begin(), comparison.end(),
+            [](auto a, auto b) { return a.first < b.first; });
+  //  for (auto cv : comparison)
+  //  {
+  //    std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
+  //              << std::endl;
+  //  }
+
+  EXPECT_EQ(causal_vertices, comparison) << "Items not correctly inserted.";
 }
 
 TEST_F(FoliatedTetrahedronTest, InsertSimplexType)
