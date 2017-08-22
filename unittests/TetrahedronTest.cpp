@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014 Adam Getchell
+/// Copyright © 2014-2017 Adam Getchell
 ///
 /// Tests that 3-dimensional triangulated & foliated tetrahedrons are
 /// constructed correctly.
@@ -10,9 +10,6 @@
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
-
-#include <utility>
-#include <vector>
 
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
@@ -25,11 +22,11 @@ class TetrahedronTest : public ::testing::Test
   {
     // We wouldn't normally directly insert into the Delaunay triangulation
     // This is to insert without timevalues to directly create a tetrahedron
-    universe.triangulation->insert(V.begin(), V.end());
+    universe.triangulation->insert(Vertices.begin(), Vertices.end());
   }
 
   SimplicialManifold           universe;
-  std::vector<Delaunay::Point> V{
+  std::vector<Delaunay::Point> Vertices{
       Delaunay::Point{0, 0, 0}, Delaunay::Point{0, 1, 0},
       Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
 };
@@ -37,14 +34,19 @@ class TetrahedronTest : public ::testing::Test
 class FoliatedTetrahedronTest : public TetrahedronTest
 {
  protected:
-  FoliatedTetrahedronTest() : causal_vertices{std::make_pair(V, timevalue)}
+  FoliatedTetrahedronTest()
   {
     // Manually insert
+    for (int j = 0; j < 4; ++j)
+    {
+      causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
+    }
     insert_into_triangulation(universe.triangulation, causal_vertices);
   }
 
   std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
-  std::pair<std::vector<Point>, std::vector<std::intmax_t>> causal_vertices;
+  //  std::vector<std::pair<Point, std::intmax_t>> causal_vertices;
+  Causal_vertices causal_vertices;
 };
 
 TEST_F(TetrahedronTest, Create)
@@ -90,6 +92,35 @@ TEST_F(FoliatedTetrahedronTest, Create)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+}
+
+TEST_F(FoliatedTetrahedronTest, CorrectTimevalues)
+{
+  std::sort(causal_vertices.begin(), causal_vertices.end(),
+            [](auto a, auto b) { return a.first < b.first; });
+  //  for (auto cv : causal_vertices)
+  //  {
+  //    std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
+  //              << std::endl;
+  //  }
+  Causal_vertices                    comparison;
+  Delaunay::Finite_vertices_iterator vit;
+  for (vit = universe.triangulation->finite_vertices_begin();
+       vit != universe.triangulation->finite_vertices_end(); ++vit)
+  {
+    std::cout << "Point: " << vit->point() << " Timevalue: " << vit->info()
+              << std::endl;
+    comparison.emplace_back(std::make_pair(vit->point(), vit->info()));
+  }
+  std::sort(comparison.begin(), comparison.end(),
+            [](auto a, auto b) { return a.first < b.first; });
+  //  for (auto cv : comparison)
+  //  {
+  //    std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
+  //              << std::endl;
+  //  }
+
+  EXPECT_EQ(causal_vertices, comparison) << "Items not correctly inserted.";
 }
 
 TEST_F(FoliatedTetrahedronTest, InsertSimplexType)

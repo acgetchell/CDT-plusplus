@@ -47,6 +47,7 @@ grid_d
 output
 *.off
 *.log
+*.dat
 slurm-*.out
 
 # Instrumentation
