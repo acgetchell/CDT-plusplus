@@ -11,11 +11,6 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include <algorithm>
-#include <set>
-#include <utility>
-#include <vector>
-
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
@@ -50,7 +45,8 @@ class FoliatedTetrahedronTest : public TetrahedronTest
   }
 
   std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
-  std::vector<std::pair<Point, std::intmax_t>> causal_vertices;
+  //  std::vector<std::pair<Point, std::intmax_t>> causal_vertices;
+  Causal_vertices causal_vertices;
 };
 
 TEST_F(TetrahedronTest, Create)
@@ -112,8 +108,8 @@ TEST_F(FoliatedTetrahedronTest, CorrectTimevalues)
   for (vit = universe.triangulation->finite_vertices_begin();
        vit != universe.triangulation->finite_vertices_end(); ++vit)
   {
-    //    std::cout << "Point " << vit->point() << std::endl;
-    //    std::cout << "Timevalue " << vit->info() << std::endl;
+    std::cout << "Point: " << vit->point() << " Timevalue: " << vit->info()
+              << std::endl;
     comparison.emplace_back(std::make_pair(vit->point(), vit->info()));
   }
   std::sort(comparison.begin(), comparison.end(),

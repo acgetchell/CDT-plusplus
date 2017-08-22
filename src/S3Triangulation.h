@@ -82,14 +82,12 @@ using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Parallel_tag>;
 #else
 using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb>;
 #endif
-using Delaunay      = CGAL::Delaunay_triangulation_3<K, Tds>;
-using Cell_handle   = Delaunay::Cell_handle;
-using Vertex_handle = Delaunay::Vertex_handle;
-using Locate_type   = Delaunay::Locate_type;
-using Point         = Delaunay::Point;
-using Edge_handle   = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
-// using Causal_vertices =
-//    std::pair<std::vector<Point>, std::vector<std::intmax_t>>;
+using Delaunay        = CGAL::Delaunay_triangulation_3<K, Tds>;
+using Cell_handle     = Delaunay::Cell_handle;
+using Vertex_handle   = Delaunay::Vertex_handle;
+using Locate_type     = Delaunay::Locate_type;
+using Point           = Delaunay::Point;
+using Edge_handle     = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
 using Causal_vertices = std::vector<std::pair<Point, std::intmax_t>>;
 using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
@@ -414,9 +412,9 @@ void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 /// The radius is used to denote the time value, so we can nest 2-spheres
 /// such that our time foliation contains leaves of identical topology.
 ///
-/// @param[in] simplices  The number of desired simplices in the triangulation
-/// @param[in] timeslices The number of timeslices in the triangulation
-/// @returns  A std::pair<std::vector, std::intmax_t> containing random
+/// \param simplices The number of desired simplices in the triangulation
+/// \param timeslices  The number of desired timeslices in the triangulation
+/// \return A std::vector<std::pair<Point, std::intmax_t>> containing random
 /// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::intmax_t simplices,
                                  const std::intmax_t timeslices)
