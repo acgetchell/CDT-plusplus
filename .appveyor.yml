@@ -41,6 +41,8 @@ install:
   # Install TBB
   - conda install -c conda-forge tbb=2017_20170604 -y
   # Install CGAL
+  - conda install -c menpo boost-cpp -y
+  - conda install -c cgat mpfr -y
   - conda install -c vincentrouvreau cgal_header_only -y
 
 before_build:
