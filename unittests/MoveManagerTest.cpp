@@ -90,7 +90,7 @@ TEST_F(MoveManagerTest, DelaunayDeepCopyCtor)
   EXPECT_TRUE(tempSM.triangulation->tds().is_valid(true))
       << "SimplicialManifold copy is invalid.";
 
-  EXPECT_EQ(vertices_before, tempSM.geometry->N0())
+  EXPECT_TRUE(vertices_before == tempSM.geometry->N0())
       << "SimplicialManifold copy doesn't have the same number of vertices.";
 
   EXPECT_EQ(this->universe_.triangulation->number_of_finite_edges(),
@@ -345,7 +345,7 @@ TEST_F(MoveManagerTest, MakeA23Move)
   //  EXPECT_TRUE(maybe_moved_universe.get().triangulation == nullptr)
   //      << "maybe_moved_universe isn't a null pointer.";
 
-  EXPECT_EQ(universe_.triangulation->dimension(), 3)
+  EXPECT_TRUE(universe_.triangulation->dimension() == 3)
       << "Triangulation has wrong dimensionality.";
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
