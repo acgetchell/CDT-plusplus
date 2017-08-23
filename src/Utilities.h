@@ -26,9 +26,7 @@
 #include <CGAL/Timer.h>
 
 // C headers
-#ifdef _WIN32
-#include <time.h>
-#else
+#ifndef _WIN32
 #include <sys/utsname.h>
 #endif
 
@@ -39,6 +37,7 @@
 #include <random>
 #include <stdexcept>
 #include <string>
+#include <ctime>
 #include <typeindex>
 
 // Boost

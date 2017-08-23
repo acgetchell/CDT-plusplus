@@ -56,7 +56,7 @@ if(CGAL_FOUND)
 
   include(${CGAL_USE_FILE})
 
-#Experimental TBB      support
+#Experimental TBB support
 #TBB 4.3 compatibility fixed in CGAL 4.5.1
   find_package(TBB)
   if(TBB_FOUND AND TBB_ON)
