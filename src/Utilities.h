@@ -37,7 +37,7 @@
 #include <random>
 #include <stdexcept>
 #include <string>
-#include <ctime>
+#include <time.h>
 #include <typeindex>
 
 // Boost
