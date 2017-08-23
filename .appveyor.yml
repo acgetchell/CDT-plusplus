@@ -45,7 +45,7 @@ install:
   # Install MPFR
   - conda install -c conda-forge mpfr -y
   # Install CGAL
-  - conda install -c conda-forge cgal -y
+  - conda install -c vincentrouvreau cgal_header_only -y
   # Install gtest
   - conda install -c conda-forge gtest -y
 
