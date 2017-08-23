@@ -26,7 +26,9 @@
 #include <CGAL/Timer.h>
 
 // C headers
-#ifndef _WIN32
+#ifdef _WIN32
+#include <time.h>
+#else
 #include <sys/utsname.h>
 #endif
 
