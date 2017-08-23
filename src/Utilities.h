@@ -26,7 +26,9 @@
 #include <CGAL/Timer.h>
 
 // C headers
+#ifndef _WIN32
 #include <sys/utsname.h>
+#endif
 
 // C++ headers
 #include <fstream>
@@ -68,12 +70,17 @@ inline auto getEnvVar(std::string const& key) noexcept
 /// @return The hostname as a std::string
 inline std::string hostname() noexcept
 {
+#ifndef _WIN32
   struct utsname name
   {
   };
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
   return name.nodename;
+#else
+  std::string const hostname("windows");
+  return hostname;
+#endif
 }
 
 /// @brief Return the current date and time
