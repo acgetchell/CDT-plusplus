@@ -97,7 +97,12 @@ inline const std::string currentDateTime() noexcept
   {
   };
   char time_str[100];
+#ifndef _WIN32
   localtime_r(&now, &tstruct);
+#else
+    localtime_s(&now, &tstruct);
+#endif
+    
   // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
   // for more info about date/time format
   strftime(time_str, sizeof(time_str), "%Y-%m-%d.%X%Z", &tstruct);
