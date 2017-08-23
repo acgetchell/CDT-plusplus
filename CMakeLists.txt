@@ -46,7 +46,7 @@ message(STATUS "Found Boost include: ${Boost_INCLUDE_DIR}")
 message(STATUS "Boost libraries to link: ${Boost_LIBRARIES}")
 message(STATUS "Found Boost libraries: ${Boost_LIBRARY_DIRS}")
 if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Boost >= 1.64.0 required.\n")
+    message(FATAL_ERROR "Boost >= 1.63.0 required.\n")
 endif()
 
 if(CGAL_FOUND)
@@ -56,7 +56,7 @@ if(CGAL_FOUND)
 
   include(${CGAL_USE_FILE})
 
-#Experimental TBB support
+#Experimental TBB      support
 #TBB 4.3 compatibility fixed in CGAL 4.5.1
   find_package(TBB)
   if(TBB_FOUND AND TBB_ON)
@@ -73,7 +73,9 @@ if(CGAL_FOUND)
     include_directories (BEFORE "../../include")
 
     create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
-    create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+    if (UNIX)
+      create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+    endif(UNIX)
     create_single_source_cgal_program("src/cdt-opt.cpp")
 
   else()
@@ -133,10 +135,10 @@ set_tests_properties (CDT-3Dtriangle
 
 #cdt - gv
 #This program takes a file to load into GemoView for visualization
-#add_test(CDT-GeomView cdt-gv)
-#set_tests_properties(CDT-GeomView
-#  PROPERTIES
-#  PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
+#add_test(CDT - GeomView cdt - gv)
+#set_tests_properties(CDT - GeomView
+#PROPERTIES
+#PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
 
 #This takes a long time now so cancel
 #cdt - opt
