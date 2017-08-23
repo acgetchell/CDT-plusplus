@@ -77,6 +77,7 @@ if(CGAL_FOUND)
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
     endif(UNIX)
     create_single_source_cgal_program("src/cdt-opt.cpp")
+    create_single_source_cgal_program("src/localtime.cpp")
 
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,

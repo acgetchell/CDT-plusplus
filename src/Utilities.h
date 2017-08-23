@@ -42,6 +42,7 @@
 
 // Boost
 // #include <boost/type_index.hpp>
+#include "tz.h"
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -110,6 +111,14 @@ inline const std::string currentDateTime() noexcept
 
   return time_str;
 }
+
+//inline const std::string mylocaltime()
+//{
+//  using namespace date;
+//  using namespace std::chrono;
+//  auto t = make_zoned(current_zone(), system_clock::now());
+//  return format("%Y-%m-%d.%X%Z", t);
+//}
 
 /// @brief Generate useful filenames
 ///
