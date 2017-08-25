@@ -46,6 +46,8 @@ install:
   - conda install -c conda-forge mpfr -y
   # Install CGAL
   - conda install -c vincentrouvreau cgal_header_only -y
+  # Install curl
+  - conda install -c conda-forge curl
   # Install gtest
   - conda install -c conda-forge gtest -y
 

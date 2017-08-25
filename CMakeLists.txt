@@ -82,8 +82,8 @@ if(CGAL_FOUND)
     add_executable(cdt-opt src/cdt-opt.cpp src/date/tz.cpp)
       target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
 #    create_single_source_cgal_program("src/localtime.cpp" "src/date/tz.cpp")
-    add_executable(localtime src/localtime.cpp src/date/tz.cpp)
-    target_link_libraries(localtime curl)
+#    add_executable(localtime src/localtime.cpp src/date/tz.cpp)
+#    target_link_libraries(localtime curl)
 
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,
