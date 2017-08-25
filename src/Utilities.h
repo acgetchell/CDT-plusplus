@@ -93,33 +93,39 @@ inline std::string hostname() noexcept
 ///
 /// @return The current data and time in a thread-safe manner using
 /// **localtime_r()** as a std::string.
-inline const std::string currentDateTime() noexcept
-{
-  auto      now = time(nullptr);
-  struct tm tstruct
-  {
-  };
-  char time_str[100];
-#ifndef _WIN32
-  localtime_r(&now, &tstruct);
-#else
-  localtime_s(&now, &tstruct);
-#endif
-
-  // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-  // for more info about date/time format
-  strftime(time_str, sizeof(time_str), "%Y-%m-%d.%X%Z", &tstruct);
-
-  return time_str;
-}
-
-//inline const std::string mylocaltime()
+//inline const std::string currentDateTime() noexcept
 //{
-//  using namespace date;
-//  using namespace std::chrono;
-//  auto t = make_zoned(current_zone(), system_clock::now());
-//  return format("%Y-%m-%d.%X%Z", t);
+//  auto      now = time(nullptr);
+//  struct tm tstruct
+//  {
+//  };
+//  char time_str[100];
+//#ifndef _WIN32
+//  localtime_r(&now, &tstruct);
+//#else
+//  localtime_s(&now, &tstruct);
+//#endif
+//
+//  // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
+//  // for more info about date/time format
+//  strftime(time_str, sizeof(time_str), "%Y-%m-%d.%X%Z", &tstruct);
+//
+//  return time_str;
 //}
+
+/// \brief Return current date and time
+///
+/// Use's Howard Hinnant's C++11/14 data and time library and Time Zone Database Parser
+/// Visit https://github.com/HowardHinnant/date
+///
+/// \return A formatted string with the system local time
+inline const std::string currentDateTime()
+{
+  using namespace date;
+  using namespace std::chrono;
+  auto t = make_zoned(current_zone(), system_clock::now());
+  return format("%Y-%m-%d.%X%Z", t);
+}
 
 /// @brief Generate useful filenames
 ///
