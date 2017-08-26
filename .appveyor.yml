@@ -1,7 +1,7 @@
 skip_branch_with_pr: true
 
 image:
-  - Visual Studio 2015
+  - Visual Studio 2017
 
 build:
   verbosity: detailed
@@ -46,8 +46,6 @@ install:
   - conda install -c conda-forge mpfr -y
   # Install CGAL
   - conda install -c vincentrouvreau cgal_header_only -y
-  # Install curl
-  - conda install -c conda-forge curl -y
   # Install gtest
   - conda install -c conda-forge gtest -y
 
