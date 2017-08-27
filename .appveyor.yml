@@ -47,7 +47,7 @@ install:
   # Install CGAL
   - conda install -c vincentrouvreau cgal_header_only -y
   # Install curlcpp
-  - Install-Package curlcpp-vc140-static-64 -Version 1.0.0
+  - nuget install curlcpp-vc140-static-64 -Version 1.0.0
   # Install gtest
   - conda install -c conda-forge gtest -y
 
