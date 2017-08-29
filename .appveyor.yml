@@ -47,7 +47,12 @@ install:
   # Install CGAL
   - conda install -c vincentrouvreau cgal_header_only -y
   # Install curlcpp
-  - nuget install curlcpp-vc140-static-64 -Version 1.0.0
+#  - git clone https://github.com/curl/curl
+#  - cd curl
+#  - mkdir build && cd build
+#  - cmake -G "Visual Studio 14 2015 Win64" ..
+#  - cmake --build .
+  - nuget install rmt_curl -Version 7.51.0
   # Install gtest
   - conda install -c conda-forge gtest -y
 
