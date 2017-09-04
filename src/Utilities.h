@@ -37,12 +37,9 @@
 #include <random>
 #include <stdexcept>
 #include <string>
-//#define __STDC_WANT_LIB_EXT1__ 1
-//#include <time.h>
 #include <typeindex>
 
-// Boost
-// #include <boost/type_index.hpp>
+// H. Hinnant's date and time library
 #include "date/tz.h"
 
 using Gmpzf = CGAL::Gmpzf;
@@ -85,33 +82,6 @@ inline std::string hostname() noexcept
   return hostname;
 #endif
 }
-
-/// @brief Return the current date and time
-///
-/// **Auto** doesn't work here as a return type because **time_str** is a
-/// stack memory address.
-///
-/// @return The current data and time in a thread-safe manner using
-/// **localtime_r()** as a std::string.
-//inline const std::string currentDateTime() noexcept
-//{
-//  auto      now = time(nullptr);
-//  struct tm tstruct
-//  {
-//  };
-//  char time_str[100];
-//#ifndef _WIN32
-//  localtime_r(&now, &tstruct);
-//#else
-//  localtime_s(&now, &tstruct);
-//#endif
-//
-//  // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-//  // for more info about date/time format
-//  strftime(time_str, sizeof(time_str), "%Y-%m-%d.%X%Z", &tstruct);
-//
-//  return time_str;
-//}
 
 /// \brief Return current date and time
 ///

@@ -96,6 +96,4 @@ TEST(Utilities, CurrentDateTime)
   std::string const empty;
 
   EXPECT_NE(currentDateTime(), empty) << "No DateTime returned";
-
-//  std::cout << "Local time is: " << currentDateTime2() << std::endl;
 }
