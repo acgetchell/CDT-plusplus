@@ -70,6 +70,8 @@ before_install:
         gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
         rvm get stable --auto-dotfiles
         brew update
+      else
+        apt-get update
       fi
 
 #  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
@@ -87,8 +89,6 @@ install:
       INCLUDE_DIR="/usr/local/include/"
       SH_LIB="a"
       LIB_DIR="/usr/local/lib/"
-    else
-      apt-get update
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
