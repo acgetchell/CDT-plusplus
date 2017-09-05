@@ -117,7 +117,7 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
-   CXX="clang++-4.0" CC="clang-4.0"; fi
+   CXX="clang++-3.9" CC="clang-3.9"; fi
   - echo $CXX $CC
   # Install GMock/GTest from source
   - |
