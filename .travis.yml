@@ -87,6 +87,8 @@ install:
       INCLUDE_DIR="/usr/local/include/"
       SH_LIB="a"
       LIB_DIR="/usr/local/lib/"
+    else
+      apt-get update
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
