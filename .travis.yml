@@ -8,8 +8,7 @@ addons:
     packages:
       - g++-6
       - ninja-build
-      - clang-4.0
-      - lldb-4.0
+      - clang-5.0
       - libmpfr-dev
       - libgmp3-dev
       - libeigen3-dev
@@ -17,7 +16,7 @@ addons:
       - valgrind
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-4.0
+      - llvm-toolchain-trusty-5.0
 #  coverity_scan:
 #    project:
 #      name: "acgetchell/CDT-plusplus"
