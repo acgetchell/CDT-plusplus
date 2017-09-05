@@ -8,7 +8,7 @@ addons:
     packages:
       - g++-6
       - ninja-build
-      - clang-5.0
+      - clang-3.9
       - libmpfr-dev
       - libgmp3-dev
       - libeigen3-dev
@@ -16,7 +16,7 @@ addons:
       - valgrind
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-5.0
+      - llvm-toolchain-trusty-3.9
 #  coverity_scan:
 #    project:
 #      name: "acgetchell/CDT-plusplus"
@@ -70,8 +70,6 @@ before_install:
         gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
         rvm get stable --auto-dotfiles
         brew update
-      else
-        apt-get update
       fi
 
 #  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
