@@ -28,9 +28,6 @@
 
 // C++ headers
 #include <fstream>
-#include <iostream>
-#include <map>
-#include <string>
 
 // Docopt
 #include "docopt/docopt.h"

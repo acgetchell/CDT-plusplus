@@ -2,7 +2,7 @@
 ///
 /// Copyright © 2013-2017 Adam Getchell
 ///
-/// Utility functions for cdt.cpp
+/// Utility functions
 
 /// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
 /// Const Correctness</a>
@@ -31,6 +31,7 @@
 #endif
 
 // C++ headers
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <mutex>  // NOLINT
@@ -55,19 +56,21 @@ enum class topology_type
 /// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
 ///
 /// @param key The string value
-/// @return The environment variable corresponding to the key as a std::string
+/// @return The environment variable corresponding to the key
 inline auto getEnvVar(std::string const& key) noexcept
 {
-  char const* val = getenv(key.c_str());
-  return val == nullptr ? std::string() : std::string(val);
+  const char* val = getenv(key.c_str());
+  val == nullptr ? std::string() : std::string(val);
+  return val;
 }
 
 /// @brief Return the hostname
 ///
 /// **auto** doesn't work here as a return type because **name.nodename** is a
-/// stack memory address.
+/// stack memory address. Uses utsname.h, which isn't present in Windows (easily)
+/// so just default to "windows" on that platform.
 ///
-/// @return The hostname as a std::string
+/// @return The hostname
 inline std::string hostname() noexcept
 {
 #ifndef _WIN32
@@ -83,12 +86,12 @@ inline std::string hostname() noexcept
 #endif
 }
 
-/// \brief Return current date and time
+/// @brief Return current date and time
 ///
-/// Use's Howard Hinnant's C++11/14 data and time library and Time Zone Database Parser
-/// Visit https://github.com/HowardHinnant/date
+/// Use's Howard Hinnant's C++11/14 data and time library and Time Zone Database
+/// Parser. https://github.com/HowardHinnant/date
 ///
-/// \return A formatted string with the system local time
+/// @return A formatted string with the system local time
 inline const std::string currentDateTime()
 {
   using namespace date;
@@ -97,13 +100,12 @@ inline const std::string currentDateTime()
   return format("%Y-%m-%d.%X%Z", t);
 }
 
-/// @brief Generate useful filenames
-///
+/// @brief  Generate useful filenames
 /// @param top The topology type from the scoped enum topology_type
 /// @param dimensions The number of dimensions of the triangulation
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
-/// @return A filename as a std::string
+/// @return A filename
 inline auto generate_filename(const topology_type& top,
                               const std::intmax_t  dimensions,
                               const std::intmax_t  number_of_simplices,
@@ -145,12 +147,13 @@ inline auto generate_filename(const topology_type& top,
   filename += ".dat";
   return filename;
 }
+
 /// @brief Print out runtime results
 ///
 /// This function prints out vertices, edges, facets (2D), and cells (3D).
 ///
 /// @tparam T The manifold type
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 template <typename T>
 void print_results(const T& universe) noexcept
 {
@@ -169,8 +172,8 @@ void print_results(const T& universe) noexcept
 ///
 /// @tparam T1 The manifold type
 /// @tparam T2 The timer type
-/// @param universe A SimplicialManifold{}
-/// @param timer A timer object used to determine elapse time
+/// @param universe A SimplicialManifold
+/// @param timer A timer object used to determine elapsed time
 template <typename T1, typename T2>
 void print_results(const T1& universe, const T2& timer) noexcept
 {
@@ -187,7 +190,7 @@ void print_results(const T1& universe, const T2& timer) noexcept
 /// Provides strong exception-safety.
 ///
 /// @tparam T The manifold type
-/// @param universe A SimplicialManifold{}
+/// @param universe A SimplicialManifold
 /// @param topology The topology type from the scoped enum topology_type
 /// @param dimensions The number of dimensions of the triangulation
 /// @param number_of_simplices The number of simplices in the triangulation
@@ -201,7 +204,7 @@ void write_file(const T& universe, const topology_type& topology,
   // mutex to protect file access across threads
   static std::mutex mutex;
 
-  std::string filename = "";
+  std::string filename;
   filename.assign(generate_filename(topology, dimensions, number_of_simplices,
                                     number_of_timeslices));
   std::cout << "Writing to file " << filename << std::endl;
@@ -222,8 +225,8 @@ void write_file(const T& universe, const topology_type& topology,
 /// http://www.cplusplus.com/reference/random/random_device/
 /// for more details.
 ///
-/// @param min_value  The minimum value in the range
-/// @param max_value  The maximum value in the range
+/// @param min_value The minimum value in the range
+/// @param max_value The maximum value in the range
 /// @return A random integer between min_value and max_value
 inline auto generate_random_signed(const intmax_t min_value,
                                    const intmax_t max_value) noexcept
@@ -357,7 +360,7 @@ inline auto expected_points_per_simplex(const int           dimension,
 /// this function can be expanded.
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
-/// @return The double version
+/// @return The double conversion
 inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
 
 /// @brief Calculate if lower <= value <= upper; used in GoogleTests

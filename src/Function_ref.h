@@ -77,7 +77,7 @@ class function_ref<Ret(Params...)>
 
  public:
   template <typename Callable>
-  function_ref(Callable&& callable,
+  explicit function_ref(Callable&& callable,
                typename std::enable_if<
                    !std::is_same<typename std::remove_reference<Callable>::type,
                                  function_ref>::value>::type* = nullptr)
