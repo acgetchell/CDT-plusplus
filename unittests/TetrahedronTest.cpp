@@ -45,7 +45,6 @@ class FoliatedTetrahedronTest : public TetrahedronTest
   }
 
   std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
-  //  std::vector<std::pair<Point, std::intmax_t>> causal_vertices;
   Causal_vertices causal_vertices;
 };
 

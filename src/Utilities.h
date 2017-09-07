@@ -26,7 +26,9 @@
 #include <CGAL/Timer.h>
 
 // C headers
+#ifndef _WIN32
 #include <sys/utsname.h>
+#endif
 
 // C++ headers
 #include <fstream>
@@ -37,8 +39,8 @@
 #include <string>
 #include <typeindex>
 
-// Boost
-// #include <boost/type_index.hpp>
+// H. Hinnant's date and time library
+#include "date/tz.h"
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -68,34 +70,31 @@ inline auto getEnvVar(std::string const& key) noexcept
 /// @return The hostname as a std::string
 inline std::string hostname() noexcept
 {
+#ifndef _WIN32
   struct utsname name
   {
   };
   // Ensure uname returns a value
   if (uname(&name)) exit(-1);
   return name.nodename;
+#else
+  std::string const hostname("windows");
+  return hostname;
+#endif
 }
 
-/// @brief Return the current date and time
+/// \brief Return current date and time
 ///
-/// **Auto** doesn't work here as a return type because **time_str** is a
-/// stack memory address.
+/// Use's Howard Hinnant's C++11/14 data and time library and Time Zone Database Parser
+/// Visit https://github.com/HowardHinnant/date
 ///
-/// @return The current data and time in a thread-safe manner using
-/// **localtime_r()** as a std::string.
-inline const std::string currentDateTime() noexcept
+/// \return A formatted string with the system local time
+inline const std::string currentDateTime()
 {
-  auto      now = time(nullptr);
-  struct tm tstruct
-  {
-  };
-  char time_str[100];
-  localtime_r(&now, &tstruct);
-  // Visit http://en.cppreference.com/w/cpp/chrono/c/strftime
-  // for more info about date/time format
-  strftime(time_str, sizeof(time_str), "%Y-%m-%d.%X%Z", &tstruct);
-
-  return time_str;
+  using namespace date;
+  using namespace std::chrono;
+  auto t = make_zoned(current_zone(), system_clock::now());
+  return format("%Y-%m-%d.%X%Z", t);
 }
 
 /// @brief Generate useful filenames

@@ -37,11 +37,24 @@ install:
   - conda create --name py36 python=3.6 -y
   - activate py36
   # Install Eigen
-  - conda install -c conda-forge eigen=3.3.3 -y
+  - conda install -c conda-forge eigen -y
   # Install TBB
-  - conda install -c conda-forge tbb=2017_20170604 -y
+  - conda install -c conda-forge tbb -y
+  # Install Boost
+  - conda install -c menpo boost-cpp -y
+  # Install MPFR
+  - conda install -c conda-forge mpfr -y
   # Install CGAL
-  - conda install -c conda-forge cgal=4.10 -y
+  - conda install -c vincentrouvreau cgal_header_only -y
+  # Install curlcpp
+#  - git clone https://github.com/curl/curl
+#  - cd curl
+#  - mkdir build && cd build
+#  - cmake -G "Visual Studio 14 2015 Win64" ..
+#  - cmake --build .
+  - nuget install rmt_curl -Version 7.51.0
+  # Install gtest
+  - conda install -c conda-forge gtest -y
 
 before_build:
   - cd C:\projects\CDT-plusplus

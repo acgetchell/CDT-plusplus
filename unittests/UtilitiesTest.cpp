@@ -88,3 +88,12 @@ TEST(Utilities, GmpzfToDouble)
   // Convert back to Gmpzf via Gmpzf(double d) and verify
   EXPECT_EQ(value, Gmpzf(converted_value)) << "Conversion not exact.";
 }
+
+TEST(Utilities, CurrentDateTime)
+{
+  std::cout << "Current time is: " << currentDateTime() << std::endl;
+
+  std::string const empty;
+
+  EXPECT_NE(currentDateTime(), empty) << "No DateTime returned";
+}
