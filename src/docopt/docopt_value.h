@@ -21,7 +21,7 @@ namespace docopt {
 	/// This type can be one of: {bool, long, string, vector<string>}, or empty.
 	struct value {
 		/// An empty value
-		value() = default;
+		value() {}
 
 		value(std::string);
 		value(std::vector<std::string>);
@@ -67,10 +67,10 @@ namespace docopt {
 		};
 		
 		union Variant {
-			Variant() = default;
+			Variant() {}
 			~Variant() {  /* do nothing; will be destroyed by ~value */ }
 			
-			bool boolValue{};
+			bool boolValue;
 			long longValue;
 			std::string strValue;
 			std::vector<std::string> strList;
@@ -95,7 +95,7 @@ namespace docopt {
 			error += kindAsString(expected);
 			error += "; type is actually ";
 			error += kindAsString(kind);
-			throw std::runtime_error(error);
+			throw std::runtime_error(std::move(error));
 		}
 
 	private:

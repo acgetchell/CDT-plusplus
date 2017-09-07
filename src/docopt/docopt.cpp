@@ -70,10 +70,20 @@ public:
 
 	static Tokens from_pattern(std::string const& source) {
 		static const std::regex re_separators {
-			R"((?:\s*)([\[\]\(\)\|]|\.\.\.))" };
+			"(?:\\s*)" // any spaces (non-matching subgroup)
+			"("
+			"[\\[\\]\\(\\)\\|]" // one character of brackets or parens or pipe character
+			"|"
+			"\\.\\.\\."  // elipsis
+			")" };
 
 		static const std::regex re_strings {
-			R"((?:\s*)(\S*<.*?>|[^<>\s]+))" };
+			"(?:\\s*)" // any spaces (non-matching subgroup)
+			"("
+			"\\S*<.*?>"  // strings, but make sure to keep "< >" strings together
+			"|"
+			"[^<>\\s]+"     // string without <>
+			")" };
 
 		// We do two stages of regex matching. The '[]()' and '...' are strong delimeters
 		// and need to be split out anywhere they occur (even at the end of a token). We
@@ -156,7 +166,11 @@ static std::vector<std::string> parse_section(std::string const& name, std::stri
 	// Therefore, our regex is adjusted from the docopt Python one to use ?= to match the newlines before
 	// the following lines, rather than after.
 	std::regex const re_section_pattern {
-		R"((?:^|\n)([^\n]*)" + name + R"([^\n]*(?=\n?)(?:\n[ \t].*?(?=\n|$))*))",
+		"(?:^|\\n)"  // anchored at a linebreak (or start of string)
+		"("
+		   "[^\\n]*" + name + "[^\\n]*(?=\\n?)" // a line that contains the name
+		   "(?:\\n[ \\t].*?(?=\\n|$))*"         // followed by any number of lines that are indented
+		")",
 		std::regex::icase
 	};
 
@@ -229,7 +243,7 @@ static PatternList parse_long(Tokens& tokens, std::vector<Option>& options)
 		std::vector<std::string> prefixes = longOptions(similar.begin(), similar.end());
 		std::string error = "'" + longOpt + "' is not a unique prefix: ";
 		error.append(join(prefixes.begin(), prefixes.end(), ", "));
-		throw Tokens::OptionError(error);
+		throw Tokens::OptionError(std::move(error));
 	} else if (similar.empty()) {
 		int argcount = equal.empty() ? 0 : 1;
 		options.emplace_back("", longOpt, argcount);
@@ -244,14 +258,14 @@ static PatternList parse_long(Tokens& tokens, std::vector<Option>& options)
 		if (o->argCount() == 0) {
 			if (val) {
 				std::string error = o->longOption() + " must not have an argument";
-				throw Tokens::OptionError(error);
+				throw Tokens::OptionError(std::move(error));
 			}
 		} else {
 			if (!val) {
 				auto const& token = tokens.current();
 				if (token.empty() || token=="--") {
 					std::string error = o->longOption() + " requires an argument";
-					throw Tokens::OptionError(error);
+					throw Tokens::OptionError(std::move(error));
 				}
 				val = tokens.pop();
 			}
@@ -291,7 +305,7 @@ static PatternList parse_short(Tokens& tokens, std::vector<Option>& options)
 		if (similar.size() > 1) {
 			std::string error = shortOpt + " is specified ambiguously "
 			+ std::to_string(similar.size()) + " times";
-			throw Tokens::OptionError(error);
+			throw Tokens::OptionError(std::move(error));
 		} else if (similar.empty()) {
 			options.emplace_back(shortOpt, "", 0);
 
@@ -309,7 +323,7 @@ static PatternList parse_short(Tokens& tokens, std::vector<Option>& options)
 					auto const& ttoken = tokens.current();
 					if (ttoken.empty() || ttoken=="--") {
 						std::string error = shortOpt + " requires an argument";
-						throw Tokens::OptionError(error);
+						throw Tokens::OptionError(std::move(error));
 					}
 					val = tokens.pop();
 				} else {
@@ -511,7 +525,8 @@ std::vector<Option> parse_defaults(std::string const& doc) {
 	// This pattern is a delimiter by which we split the options.
 	// The delimiter is a new line followed by a whitespace(s) followed by one or two hyphens.
 	static std::regex const re_delimiter{
-		R"((?:^|\n)[ \t]*(?=-{1,2}))"        // [split happens here] (positive lookahead) ... and followed by one or two hyphes
+		"(?:^|\\n)[ \\t]*"  // a new line with leading whitespace
+		"(?=-{1,2})"        // [split happens here] (positive lookahead) ... and followed by one or two hyphes
 	};
 
 	std::vector<Option> defaults;
