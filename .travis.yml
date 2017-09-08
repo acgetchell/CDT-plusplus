@@ -8,7 +8,7 @@ addons:
       project:
         name: "acgetchell/CDT-plusplus"
       notification_email: acgetchell@ucdavis.edu
-      build_command_prepend: "cmake -G Ninja -DGMOCK_TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug."
+      build_command_prepend: "mkdir build && cd build; cmake -DGMOCK_TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
       build_command:   "cmake --build ."
       branch_pattern: fix-segfault
   apt:
@@ -128,12 +128,12 @@ install:
       cd googletest/googlemock
       echo $CMAKE_OPTIONS
       cmake $CMAKE_OPTIONS -G Ninja .
-      ninja
+      cmake --build .
       sudo cp -a include/gmock ${INCLUDE_DIR}
       sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
       cd ../googletest
       cmake $CMAKE_OPTIONS -G Ninja .
-      ninja
+      cmake --build .
       sudo cp -a include/gtest ${INCLUDE_DIR}
       sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
     fi
@@ -144,9 +144,13 @@ install:
   - cd cgal-releases-CGAL-4.9.1
   - echo $CMAKE_OPTIONS
   - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
-  - ninja
-  - sudo ninja install &> install.log
+  - cmake --build .
+  - sudo cmake --build . target install &> install.log
   - cd ..
+
+#  - ninja
+#  - sudo ninja install &> install.log
+
 
 script:
   - mkdir build && cd build
@@ -160,7 +164,7 @@ script:
   - if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=OFF"; fi
   - echo $CMAKE_OPTIONS
   - cmake $CMAKE_OPTIONS -G Ninja ..
-  - ninja
+  - cmake --build .
 
 after_success:
   - cd build
