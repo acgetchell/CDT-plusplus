@@ -103,8 +103,8 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     ++attempted_moves[0];
   }
   // Uses return value optimization and allows chaining function calls
-//  return std::move(universe);
-    return std::forward<T1>(universe);
+  //  return std::move(universe);
+  return std::forward<T1>(universe);
 }  // make_23_move()
 
 /// @brief Try a (3,2) move
@@ -173,8 +173,8 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     ++attempted_moves[1];
   }
   // Uses return value optimization and allows chaining function calls
-//  return std::move(universe);
-    return std::forward<T1>(universe);
+  //  return std::move(universe);
+  return std::forward<T1>(universe);
 }  // make_32_move()
 
 /// @brief Check a (2,6) move
@@ -402,8 +402,8 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     // Increment the (2,6) move counter
     ++attempted_moves[2];
   }
-//  return std::move(universe);
-    return std::forward<T1>(universe);
+  //  return std::move(universe);
+  return std::forward<T1>(universe);
 }  // make_26_move()
 
 /// @brief Find a (6,2) move
@@ -495,8 +495,8 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   {
     throw std::domain_error("No (6,2) move is possible.");
   }
-//  return std::move(universe);
-    return std::forward<T1>(universe);
+  //  return std::move(universe);
+  return std::forward<T1>(universe);
 }  // make_62_move()
 
 /// @brief
@@ -534,8 +534,8 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   }
   // Increment the (4,4) move counter
   ++attempted_moves[4];
-//  return std::move(universe);
-    return std::forward<T1>(universe);
+  //  return std::move(universe);
+  return std::forward<T1>(universe);
 }  // make_44_move()
 
 #endif  // SRC_S3ERGODICMOVES_H_

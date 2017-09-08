@@ -4,6 +4,13 @@ dist: trusty
 osx_image: xcode8.3
 
 addons:
+  coverity_scan:
+      project:
+        name: "acgetchell/CDT-plusplus"
+      notification_email: acgetchell@ucdavis.edu
+      build_command_prepend: "cmake ."
+      build_command:   "cmake --build ."
+      branch_pattern: fix-segfault
   apt:
     packages:
       - g++-6
@@ -17,19 +24,13 @@ addons:
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-3.9
-#  coverity_scan:
-#    project:
-#      name: "acgetchell/CDT-plusplus"
-#    notification_email: acgetchell@ucdavis.edu
-#    build_command_prepend:
-#    build_command:   "./build.sh"
-#    branch_pattern: master
+
 
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
-   - secure: "a6fYvd3gtfZ3zZFJ1IhnUBbc5DIoywkXuu8dORjlQIDMYZH6CS7LES07WNWFU9vikhD/L7gRa3UJiTttXAuYW2xI6n9tb0Ug2piBF35Xi+mM42q1XPBqSaSbKqySVGBzyyxl0yBcw1SiHPg6jITmDXnRtpZRqChGUXOH4exGgp4="
+   - secure: "cjzdlbVhmLO0B0kzMcl5xAXEXIDRbMYFbaa+dEJTa+sG1VbzdtiXRsleZt8idZs2E0DKFN8Fti4+zrLdlqsx2+gU1fKn2TrfHCvRWNjxLFLCJ0fvkXdmEXVetnKyu27XrsXYJfaNbwUT05hpVvDT60GPt5g64XeJD9RQgX/UEug="
    - BOOST_VERSION=1.64.0
   matrix:
     - GMOCK=true
