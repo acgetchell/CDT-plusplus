@@ -8,7 +8,7 @@ addons:
       project:
         name: "acgetchell/CDT-plusplus"
       notification_email: acgetchell@ucdavis.edu
-      build_command_prepend: "cmake ."
+      build_command_prepend: "cmake -G Ninja -DGMOCK_TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug."
       build_command:   "cmake --build ."
       branch_pattern: fix-segfault
   apt:
