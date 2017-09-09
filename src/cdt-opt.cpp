@@ -5,7 +5,9 @@
 /// Full run-through with default options used to calculate
 /// optimal values for thermalization, etc. A simpler version
 /// that encompasses the entire lifecycle. Also suitable for
-/// scripting parallel runs.
+/// scripting parallel runs, e.g.
+///
+/// ./cdt-opt 2>>errors 1>>output &
 ///
 /// \done Invoke Metropolis algorithm
 /// \todo Print out graph of time-value vs. volume vs. pass number

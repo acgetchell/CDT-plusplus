@@ -12,6 +12,7 @@ with [CMake][cmake] using [Clang][clang]/[LLVM][llvm].
 Arbitrary-precision numbers and functions by [MPFR][mpfr] and [GMP][gmp].
 Option-types via [Boost][boost] >= 1.63.0.
 [Docopt][docopt] provides a beautiful command-line interface.
+Uses [Howard Hinnant's date and timezone][date] library.
 [Gmock 1.8][gmock] may be optionally installed in order to build/run unit tests.
 [Ninja][ninja] is a nice (but optional) replacement for `make`.
 Intel's [TBB][tbb] provides significantly better performance if present (3x+).
@@ -76,6 +77,9 @@ brew install cgal --imaging --with-eigen3 --with-lapack
 
 On Ubuntu, you will need an updated versions of [clang][clang] or [gcc][gcc], 
 [CMake][cmake], and [Boost][boost], which is scripted in [.travis.yml][39].
+With Howard Hinnant's [date][date] library, you may also need to install
+`libcurl-dev`, which is a virtual package with many flavors, the OpenSSL being
+most tried and tested.
 
 ### Build ###
 ------
@@ -306,3 +310,4 @@ Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
 [47]: https://crascit.com/2016/04/03/scripting-cmake-builds/
 [valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [conduct]: https://github.com/acgetchell/CDT-plusplus/blob/master/CODE_OF_CONDUCT.md
+[date]: https://howardhinnant.github.io/date/date.html
