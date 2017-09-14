@@ -63,7 +63,7 @@ build_script:
   - mkdir build
   - cd build
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
-  - cmake --build .
+#  - cmake --build .
 
 on_success:
   - cmake --build . --target test
@@ -74,7 +74,7 @@ notifications:
     to:
       - acgetchell@ucdavis.edu
     subject: 'Build {{status}}'
-    message: "{{message}}, {{commitId}}, ..."
+    message: "{{message}}, {{commitId}}, {{%APPVEYOR_REPO_COMMIT_MESSAGE_EXTENDED%}}, ..."
     on_build_status_changed: true
 
 #on_finish:
