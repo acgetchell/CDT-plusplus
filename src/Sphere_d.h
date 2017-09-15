@@ -55,7 +55,7 @@ void make_d_sphere(std::intmax_t number_of_points, int dimension, double radius,
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
 
-    for (auto point : *points)
+    for (const auto& point : *points)
     {
       std::cout << " " << point << std::endl;
     }
