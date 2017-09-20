@@ -1,5 +1,5 @@
 language: cpp
-sudo: required
+sudo: false
 dist: trusty
 osx_image: xcode8.3
 
@@ -121,22 +121,22 @@ install:
    CXX="clang++-3.9" CC="clang-3.9"; fi
   - echo $CXX $CC
   # Install GMock/GTest from source
-  - |
-    if [[ ${GMOCK} == "true" ]]; then
-      GTEST_URL="https://github.com/google/googletest.git"
-      travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
-      cd googletest/googlemock
-      echo $CMAKE_OPTIONS
-      cmake $CMAKE_OPTIONS -G Ninja .
-      cmake --build .
-      sudo cp -a include/gmock ${INCLUDE_DIR}
-      sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
-      cd ../googletest
-      cmake $CMAKE_OPTIONS -G Ninja .
-      cmake --build .
-      sudo cp -a include/gtest ${INCLUDE_DIR}
-      sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
-    fi
+#  - |
+#    if [[ ${GMOCK} == "true" ]]; then
+#      GTEST_URL="https://github.com/google/googletest.git"
+#      travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
+#      cd googletest/googlemock
+#      echo $CMAKE_OPTIONS
+#      cmake $CMAKE_OPTIONS -G Ninja .
+#      cmake --build .
+#      sudo cp -a include/gmock ${INCLUDE_DIR}
+#      sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
+#      cd ../googletest
+#      cmake $CMAKE_OPTIONS -G Ninja .
+#      cmake --build .
+#      sudo cp -a include/gtest ${INCLUDE_DIR}
+#      sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
+#    fi
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
   - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
