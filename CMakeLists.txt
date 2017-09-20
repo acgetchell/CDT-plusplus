@@ -97,6 +97,21 @@ endif()
 if(GMOCK_TESTS)
   set(UT_EXECUTABLE_NAME "unittests")
 
+  # Download and unpack googletest at configure time
+  configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+  execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
+          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
+  execute_process(COMMAND "${CMAKE_COMMAND}" --build .
+          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
+
+  # Prevent GoogleTest from overriding compiler/linker options in VisualStudio
+  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+
+  # Add googletest directly to our build. This adds the following targets:
+  # gtest, gtest_main, gmock, and gmock_main
+  add_subdirectory("${CMAKE_BINARY_DIR}/googletest-source"
+          "${CMAKE_BINARY_DIR}/googletest-build")
+
 #Test files
   file(GLOB TEST_FILES "unittests/*.cpp")
   add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES} src/date/tz.cpp)
