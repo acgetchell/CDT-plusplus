@@ -15,7 +15,7 @@ addons:
     packages:
       - g++-6
       - ninja-build
-      - clang-3.9
+      - clang-5.0
       - libmpfr-dev
       - libgmp3-dev
       - libeigen3-dev
@@ -23,7 +23,7 @@ addons:
       - valgrind
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-3.9
+      - llvm-toolchain-trusty-5.0
 
 
 env:
@@ -85,13 +85,10 @@ install:
       brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
-      INCLUDE_DIR="/usr/local/include/"
-      SH_LIB="a"
-      LIB_DIR="/usr/local/lib/"
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.0-Linux-x86_64.tar.gz"
+      CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${TRAVIS_BUILD_DIR}/cmake/bin:${PATH}
       if [[ "${BOOST_VERSION}" != "" ]]; then
@@ -110,33 +107,13 @@ install:
         CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
       fi
       INCLUDE_DIR="/usr/include/"
-      SH_LIB="so"
-      LIB_DIR="/usr/lib/"
-      CMAKE_OPTIONS+=" -DBUILD_SHARED_LIBS=ON"
     fi
   - cmake --version
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
-   CXX="clang++-3.9" CC="clang-3.9"; fi
+   CXX="clang++-5.0" CC="clang-5.0"; fi
   - echo $CXX $CC
-  # Install GMock/GTest from source
-#  - |
-#    if [[ ${GMOCK} == "true" ]]; then
-#      GTEST_URL="https://github.com/google/googletest.git"
-#      travis_retry git clone --depth 1 --recursive --quiet ${GTEST_URL} || exit 1
-#      cd googletest/googlemock
-#      echo $CMAKE_OPTIONS
-#      cmake $CMAKE_OPTIONS -G Ninja .
-#      cmake --build .
-#      sudo cp -a include/gmock ${INCLUDE_DIR}
-#      sudo cp -a libgmock_main.${SH_LIB} libgmock.${SH_LIB} ${LIB_DIR}
-#      cd ../googletest
-#      cmake $CMAKE_OPTIONS -G Ninja .
-#      cmake --build .
-#      sudo cp -a include/gtest ${INCLUDE_DIR}
-#      sudo cp -a libgtest_main.${SH_LIB} libgtest.${SH_LIB} ${LIB_DIR}
-#    fi
   # Install CGAL from source
   - cd $TRAVIS_BUILD_DIR
   - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
