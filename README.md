@@ -11,8 +11,7 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 with [CMake][cmake] using [Clang][clang]/[LLVM][llvm].
 Arbitrary-precision numbers and functions by [MPFR][mpfr] and [GMP][gmp].
 Option-types via [Boost][boost] >= 1.63.0.
-[Docopt][docopt] provides a beautiful command-line interface.
-Uses [Howard Hinnant's date and timezone][date] library.
+Uses [Docopt][docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time (both as [subrepos][git-subrepo]).
 [Gmock 1.8][gmock] may be optionally installed in order to build/run unit tests.
 [Ninja][ninja] is a nice (but optional) replacement for `make`.
 Intel's [TBB][tbb] provides significantly better performance if present (3x+).
@@ -78,8 +77,8 @@ brew install cgal --imaging --with-eigen3 --with-lapack
 On Ubuntu, you will need an updated versions of [clang][clang] or [gcc][gcc], 
 [CMake][cmake], and [Boost][boost], which is scripted in [.travis.yml][39].
 With Howard Hinnant's [date][date] library, you may also need to install
-`libcurl-dev`, which is a virtual package with many flavors, the OpenSSL being
-most tried and tested.
+`libcurl-dev`, which is a virtual package with many flavors, OpenSSL being
+the most tried and tested.
 
 ### Build ###
 ------
@@ -103,7 +102,7 @@ directory, along with several others.
 * `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
 
-If you have [GMock][gmock] installed and build unit tests, the executable
+If you build [GMock][gmock] unit tests, the executable
 `unittests` will also be present. See [Tests](#tests) for details.
 
 For some versions of Linux, you may have to build [CGAL][cgal] from source.
@@ -200,31 +199,7 @@ at the command line using:
 cmake -DGMOCK_TESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
 ~~~
 
-To install GMock, you'll need to install GMock and GTest as a shared library.
-First look at the [README][24] to understand the general idea. On Linux:
-
-~~~
-git clone https://github.com/google/googletest.git
-cd googletest/googlemock
-cmake -DBUILD_SHARED_LIBS=ON .
-make
-sudo cp -a include/gmock/ /usr/include/
-sudo cp -a libgmock_main.so libgmock.so /usr/lib/
-~~~
-
-GoogleMock is modular, and can use other testing frameworks. Since we want
-to use GoogleTest, do:
-
-~~~
-cd ../googletest
-cmake -DBUILD_SHARED_LIBS=ON .
-make
-sudo cp -a include/gtest /usr/include/
-sudo cp -a libgtest_main.so libgtest.so /usr/lib/
-~~~
-
-This is scripted in [.travis.yml][39]. (Thanks to [ManuelSchneid3r][42] and
-[Stack Overflow][40] for the assist.)
+GMock is setup and installed by CMake using the [technique described here.][cmake-gtest] Consult [CMakeLists.txt][28] for details.
 
 Unit tests using GMock are then run (in the `build/` directory) via:
 
@@ -300,9 +275,7 @@ Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
 [tbb]: https://www.threadingbuildingblocks.org
 [38]: https://github.com/acgetchell/CDT-plusplus
 [39]: https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml
-[40]: https://stackoverflow.com/questions/13513905/how-to-setup-googletest-as-a-shared-library-on-linux
 [41]: https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile
-[42]: https://stackoverflow.com/users/978486/manuelschneid3r
 [boost]: http://www.boost.org
 [gcc]: https://gcc.gnu.org/
 [contrib]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
@@ -311,3 +284,7 @@ Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
 [valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [conduct]: https://github.com/acgetchell/CDT-plusplus/blob/master/CODE_OF_CONDUCT.md
 [date]: https://howardhinnant.github.io/date/date.html
+
+[cmake-gtest]: https://crascit.com/2015/07/25/cmake-gtest/
+
+[git-subrepo]: https://github.com/ingydotnet/git-subrepo

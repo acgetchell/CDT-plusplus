@@ -23,7 +23,7 @@
 profile
 
 # Build, Doc, and Testing dirs
-build/
+build/*
 html/
 latex/
 cgal-releases*/
