@@ -31,9 +31,9 @@
 // We did not mean to shout.
 
 #ifdef _WIN32
-   // Windows.h will be included directly and indirectly (e.g. by curl).
-   // We need to define these macros to prevent Windows.h bringing in
-   // more than we need and do it early so Windows.h doesn't get included
+   // windows.h will be included directly and indirectly (e.g. by curl).
+   // We need to define these macros to prevent windows.h bringing in
+   // more than we need and do it early so windows.h doesn't get included
    // without these macros having been defined.
    // min/max macros interfere with the C++ versions.
 #  ifndef NOMINMAX
@@ -80,11 +80,11 @@
 
 #  endif  // __MINGW32__
 
-#  include <Windows.h>
+#  include <windows.h>
 #endif  // _WIN32
 
-#include "tz_private.h"
-#include "ios.h"
+#include "date/tz_private.h"
+#include "date/ios.h"
 
 #if USE_OS_TZDB
 #  include <dirent.h>
@@ -107,7 +107,7 @@
 #include <sys/stat.h>
 
 // unistd.h is used on some platforms as part of the the means to get
-// the current time zone. On Win32 Windows.h provides a means to do it.
+// the current time zone. On Win32 windows.h provides a means to do it.
 // gcc/mingw supports unistd.h on Win32 but MSVC does not.
 
 #ifdef _WIN32
@@ -118,14 +118,16 @@
                         //   (see https://github.com/philsquared/Catch/issues/690)
 #  endif
 
-#  include <ShlObj.h> // CoTaskFree, ShGetKnownFolderPath etc.
+#  include <shlobj.h> // CoTaskFree, ShGetKnownFolderPath etc.
 #  if HAS_REMOTE_API
 #    include <direct.h> // _mkdir
-#    include <Shellapi.h> // ShFileOperation etc.
+#    include <shellapi.h> // ShFileOperation etc.
 #  endif  // HAS_REMOTE_API
 #else   // !_WIN32
 #  include <unistd.h>
-#  include <wordexp.h>
+#  if !USE_OS_TZDB
+#    include <wordexp.h>
+#  endif
 #  include <limits.h>
 #  include <string.h>
 #  if !USE_SHELL_API
@@ -142,7 +144,12 @@
 #if HAS_REMOTE_API
    // Note curl includes windows.h so we must include curl AFTER definitions of things
    // that effect windows.h such as NOMINMAX.
+#if defined(_MSC_VER) && defined(SHORTENED_CURL_INCLUDE)
+   // For rmt_curl nuget package
+#  include <curl.h>
+#else
 #  include <curl/curl.h>
+#endif
 #endif
 
 #ifdef _WIN32
@@ -211,10 +218,10 @@ expand_path(std::string path)
     return date::iOSUtils::get_tzdata_path();
 #      else  // !TARGET_OS_IPHONE
     ::wordexp_t w{};
-    std::unique_ptr<::wordexp_t, void(*)(::wordexp_t*)> hold{&w, ::wordfree}; 
+    std::unique_ptr<::wordexp_t, void(*)(::wordexp_t*)> hold{&w, ::wordfree};
     ::wordexp(path.c_str(), &w, 0);
-    if (w.we_wordc != 1)  
-        throw std::runtime_error("Cannot expand path: " + path);  
+    if (w.we_wordc != 1)
+        throw std::runtime_error("Cannot expand path: " + path);
     path = w.we_wordv[0];
     return path;
 #      endif  // !TARGET_OS_IPHONE
@@ -247,7 +254,7 @@ static
 std::string&
 access_install()
 {
-    static std::string install 
+    static std::string install
 #ifndef INSTALL
 
     = get_download_folder() + folder_delimiter + "tzdata";
@@ -306,7 +313,37 @@ CONSTCD14 const sys_seconds min_seconds = sys_days(min_year/min_day);
 #endif  // USE_OS_TZDB
 
 #ifndef _WIN32
-constexpr const char tz_dir[] = "/usr/share/zoneinfo";
+#  ifndef __APPLE__
+static const std::string tz_dir = "/usr/share/zoneinfo";
+#  else  // __APPLE__
+
+static
+std::string
+discover_tz_dir()
+{
+    struct stat sb;
+    CONSTDATA auto timezone = "/etc/localtime";
+    using namespace std;
+    if (!(lstat(timezone, &sb) == 0 && S_ISLNK(sb.st_mode) && sb.st_size > 0))
+        throw runtime_error("discover_tz_dir failed\n");
+    string result;
+    char rp[PATH_MAX];
+    if (realpath(timezone, rp))
+        result = string(rp);
+    else
+        throw system_error(errno, system_category(), "realpath() failed");
+    auto i = result.find("zoneinfo");
+    if (i == string::npos)
+        throw runtime_error("discover_tz_dir failed to find zoneinfo\n");
+    i = result.find('/', i);
+    if (i == string::npos)
+        throw runtime_error("discover_tz_dir failed to find '/'\n");
+    return result.substr(0, i);
+}
+
+static const std::string tz_dir = discover_tz_dir();
+
+#  endif  // __APPLE__
 #endif
 
 // +-------------------+
@@ -2578,7 +2615,7 @@ init_tzdb()
                 }
                 else
                 {
-                    db->zones.emplace_back(subname.substr(sizeof(tz_dir)),
+                    db->zones.emplace_back(subname.substr(tz_dir.size()+1),
                                            detail::undocumented{});
                 }
             }
@@ -3161,7 +3198,7 @@ remote_download(const std::string& version)
 #  else  // !_WIN32
     // Create download folder if it does not exist on UNIX system
     auto download_folder = get_download_folder();
-    if (!file_exists(download_folder)) 
+    if (!file_exists(download_folder))
     {
         make_directory(download_folder);
     }
@@ -3589,7 +3626,7 @@ TZ_DB::current_zone() const
 
         const size_t pos = result.find(tz_dir);
         if (pos != result.npos)
-            result.erase(0, sizeof(tz_dir)+pos);
+            result.erase(0, tz_dir.size()+1+pos);
         return locate_zone(result);
     }
     {
@@ -3597,6 +3634,20 @@ TZ_DB::current_zone() const
     // the current timezone might be in the first line of
     // the /etc/timezone file.
         std::ifstream timezone_file("/etc/timezone");
+        if (timezone_file.is_open())
+        {
+            std::string result;
+            std::getline(timezone_file, result);
+            if (!result.empty())
+                return locate_zone(result);
+        }
+        // Fall through to try other means.
+    }
+    {
+    // On some versions of some bsd distro's (e.g. FreeBSD),
+    // the current timezone might be in the first line of
+    // the /var/db/zoneinfo file.
+        std::ifstream timezone_file("/var/db/zoneinfo");
         if (timezone_file.is_open())
         {
             std::string result;
