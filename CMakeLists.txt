@@ -70,16 +70,16 @@ if(CGAL_FOUND)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
 
-    include_directories (BEFORE "../../include")
+    include_directories (BEFORE "../../include" src/date/include)
 
 #    create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
-    add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/tz.cpp)
+    add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
     target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
     if (UNIX)
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
     endif(UNIX)
 #    create_single_source_cgal_program("src/cdt-opt.cpp" "src/date/tz.cpp")
-    add_executable(cdt-opt src/cdt-opt.cpp src/date/tz.cpp)
+    add_executable(cdt-opt src/cdt-opt.cpp src/date/src/tz.cpp)
       target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
 
   else()
@@ -114,7 +114,7 @@ if(GMOCK_TESTS)
 
 #Test files
   file(GLOB TEST_FILES "unittests/*.cpp")
-  add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES} src/date/tz.cpp)
+  add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES} src/date/src/tz.cpp)
 
 #Set link libraries(order matters)
   target_link_libraries("${UT_EXECUTABLE_NAME}"
