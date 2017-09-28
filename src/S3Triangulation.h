@@ -146,8 +146,7 @@ auto classify_edges(T&& universe_ptr)
         ch, static_cast<std::intmax_t>(ch->index(ch->vertex(eit->second))),
         static_cast<std::intmax_t>(ch->index(ch->vertex(eit->third)))};
 
-    if (time1 != time2)
-    {  // We have a timelike edge
+    if (time1 != time2) {  // We have a timelike edge
       timelike_edges.emplace_back(thisEdge);
 
 #ifdef DETAILED_DEBUGGING
@@ -205,15 +204,15 @@ auto classify_simplices(T&& universe_ptr)
     std::intmax_t min_values{0};
     // Push every time value of every vertex into a list
     std::intmax_t timevalues[4] = {
-        cit->vertex(0)->info(), cit->vertex(1)->info(), cit->vertex(2)->info(),
+        cit->vertex(0)->info(),
+        cit->vertex(1)->info(),
+        cit->vertex(2)->info(),
         cit->vertex(3)->info(),
     };
     std::intmax_t max_time =
         *std::max_element(std::begin(timevalues), std::end(timevalues));
-    for (auto elt : timevalues)
-    {
-      if (elt == max_time)
-      {
+    for (auto elt : timevalues) {
+      if (elt == max_time) {
         ++max_values;
       }
       else
@@ -223,8 +222,7 @@ auto classify_simplices(T&& universe_ptr)
     }
 
     // Classify simplex using max_values and write to cit->info()
-    if (min_values == 1 && max_values == 3)
-    {
+    if (min_values == 1 && max_values == 3) {
       cit->info() = 13;
       one_three.emplace_back(cit);
     }
@@ -304,29 +302,25 @@ auto fix_timeslices(T&& universe_ptr)
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit)
   {
-    if (cit->is_valid())
-    {  // Valid cell
+    if (cit->is_valid()) {  // Valid cell
       min_time = cit->vertex(0)->info();
       max_time = min_time;
 #ifdef DETAILED_DEBUGGING
       bool this_cell_foliation_valid = true;
 #endif
       // Iterate over all vertices in the cell
-      for (auto i = 0; i < 4; ++i)
-      {
+      for (auto i = 0; i < 4; ++i) {
         auto current_time = cit->vertex(i)->info();
 
         // Classify extreme values
         if (current_time < min_time) min_time = current_time;
-        if (current_time > max_time)
-        {
+        if (current_time > max_time) {
           max_time   = current_time;
           max_vertex = static_cast<intmax_t>(i);
         }
       }  // Finish iterating over vertices
       // There should be a difference of 1 between min_time and max_time
-      if (max_time - min_time != 1)
-      {
+      if (max_time - min_time != 1) {
         invalid++;
 #ifdef DETAILED_DEBUGGING
         this_cell_foliation_valid = false;
@@ -346,8 +340,7 @@ auto fix_timeslices(T&& universe_ptr)
       std::cout << "Foliation for cell is "
                 << ((this_cell_foliation_valid) ? "valid." : "invalid.")
                 << std::endl;
-      for (auto i = 0; i < 4; ++i)
-      {
+      for (auto i = 0; i < 4; ++i) {
         std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
                   << " with timeslice " << cit->vertex(i)->info() << std::endl;
       }
@@ -385,8 +378,7 @@ auto fix_timeslices(T&& universe_ptr)
 template <typename T>
 void fix_triangulation(T&& universe_ptr)
 {
-  for (std::intmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass)
-  {
+  for (std::intmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
 #ifndef NDEBUG
     std::cout << "Fix Pass #" << (pass + 1) << std::endl;
 #endif
@@ -425,13 +417,11 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
   CGAL_triangulation_precondition(points_per_timeslice >= 4);
   Causal_vertices causal_vertices;
 
-  for (std::intmax_t i = 0; i < timeslices; ++i)
-  {
+  for (std::intmax_t i = 0; i < timeslices; ++i) {
     auto radius = 1.0 + static_cast<double>(i);
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points
-    for (std::intmax_t j = 0; j < points_per_timeslice; ++j)
-    {
+    for (std::intmax_t j = 0; j < points_per_timeslice; ++j) {
       causal_vertices.push_back(std::make_pair(*gen++, radius));
     }  // end j
   }    // end i

@@ -396,24 +396,24 @@ class Metropolis
         this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
     // Setup moves
-    auto move_23_lambda = [](
-        SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+    auto move_23_lambda =
+        [](SimplicialManifold manifold,
+           Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_23_move(std::move(manifold), attempted_moves);
     };
-    auto move_32_lambda = [](
-        SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+    auto move_32_lambda =
+        [](SimplicialManifold manifold,
+           Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_32_move(std::move(manifold), attempted_moves);
     };
-    auto move_26_lambda = [](
-        SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+    auto move_26_lambda =
+        [](SimplicialManifold manifold,
+           Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_26_move(std::move(manifold), attempted_moves);
     };
-    auto move_62_lambda = [](
-        SimplicialManifold manifold,
-        Move_tracker&      attempted_moves) -> SimplicialManifold {
+    auto move_62_lambda =
+        [](SimplicialManifold manifold,
+           Move_tracker&      attempted_moves) -> SimplicialManifold {
       return make_62_move(std::move(manifold), attempted_moves);
     };
 
@@ -422,28 +422,28 @@ class Metropolis
       case move_type::TWO_THREE:
       {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
-            move_function(move_23_lambda);
+                                         move_function(move_23_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
       case move_type::THREE_TWO:
       {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
-            move_function(move_32_lambda);
+                                         move_function(move_32_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
       case move_type::TWO_SIX:
       {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
-            move_function(move_26_lambda);
+                                         move_function(move_26_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
       case move_type::SIX_TWO:
       {
         function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
-            move_function(move_62_lambda);
+                                         move_function(move_62_lambda);
         maybe_moved_universe = this_move.operator()(move_function);
       }
       break;
@@ -452,8 +452,7 @@ class Metropolis
     }
 
     // Check if move completed successfully and update if so
-    if (maybe_moved_universe)
-    {
+    if (maybe_moved_universe) {
       swap(universe_, maybe_moved_universe.get());
       swap(attempted_moves_, this_move.attempted_moves_.get());
       ++successful_moves_[to_integral(move)];
@@ -492,8 +491,7 @@ class Metropolis
     std::cout << "trial = " << trial << std::endl;
 #endif
 
-    if (trial <= a1 * a2)
-    {
+    if (trial <= a1 * a2) {
       // Move accepted
       make_move(move);
     }
@@ -563,8 +561,7 @@ class Metropolis
 
     std::cout << "Making random moves ..." << std::endl;
     // Loop through passes_
-    for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number)
-    {
+    for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number) {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
       for (std::intmax_t move_attempt = 0;
@@ -582,8 +579,7 @@ class Metropolis
       }  // End loop through CurrentTotalSimplices
 
       // Do stuff on checkpoint_
-      if ((pass_number % checkpoint_) == 0)
-      {
+      if ((pass_number % checkpoint_) == 0) {
         std::cout << "Pass " << pass_number << std::endl;
         // write results to a file
         write_file(universe_, topology_type::SPHERICAL, 3,
