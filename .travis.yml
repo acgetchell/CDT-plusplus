@@ -86,7 +86,6 @@ install:
       brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
-      brew outdated cgal || brew upgrade cgal --c++11 --with-eigen
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -140,9 +139,9 @@ script:
       mkdir build && cd build
       CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
       if [[ ${GMOCK} == "true" ]]; then
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DGMOCK_TESTS:BOOL=ON"
+        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=ON"
       else
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DGMOCK_TESTS:BOOL=OFF"
+        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
       fi
       if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=OFF"; fi
       echo $CMAKE_OPTIONS
