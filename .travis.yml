@@ -116,18 +116,15 @@ install:
    CXX="clang++-5.0" CC="clang-5.0"; fi
   - echo $CXX $CC
   # Install CGAL from source for Linux
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      cd $TRAVIS_BUILD_DIR
-      travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
-      tar zxvf CGAL-4.9.1.tar.gz &> install.log
-      cd cgal-releases-CGAL-4.9.1
-      echo $CMAKE_OPTIONS
-      cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
-      cmake --build .
-      sudo cmake --build . --target install &> install.log
-      cd ..
-    fi
+  - cd $TRAVIS_BUILD_DIR
+  - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
+  - tar zxvf CGAL-4.9.1.tar.gz &> install.log
+  - cd cgal-releases-CGAL-4.9.1
+  - echo $CMAKE_OPTIONS
+  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
+  - cmake --build .
+  - sudo cmake --build . --target install &> install.log
+  - cd ..
 
 #  - ninja
 #  - sudo ninja install &> install.log
