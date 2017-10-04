@@ -59,15 +59,13 @@ class MoveManager
   MoveManager(T1&& universe, T2&& attempted_moves)
       : universe_{std::forward<T1>(universe)}
       , attempted_moves_{std::forward<T2>(attempted_moves)}
-  {
-  }
+  {}
 
   ~MoveManager() = default;
 
   auto ArrayDifference(Move_tracker first, Move_tracker second)
   {
-    for (int j = 0; j < 5; ++j)
-    {
+    for (int j = 0; j < 5; ++j) {
       if (first[j] - second[j] != 0) return j;
     }
     throw std::runtime_error("No move found!");

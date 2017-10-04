@@ -1,7 +1,7 @@
 language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode8.3
+osx_image: xcode9
 
 addons:
   coverity_scan:
@@ -86,6 +86,7 @@ install:
       brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
+      brew install cgal
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -115,16 +116,19 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-5.0" CC="clang-5.0"; fi
   - echo $CXX $CC
-  # Install CGAL from source
-  - cd $TRAVIS_BUILD_DIR
-  - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
-  - tar zxvf CGAL-4.9.1.tar.gz &> install.log
-  - cd cgal-releases-CGAL-4.9.1
-  - echo $CMAKE_OPTIONS
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
-  - cmake --build .
-  - sudo cmake --build . --target install &> install.log
-  - cd ..
+  # Install CGAL from source for Linux
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      cd $TRAVIS_BUILD_DIR
+      travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
+      tar zxvf CGAL-4.9.1.tar.gz &> install.log
+      cd cgal-releases-CGAL-4.9.1
+      echo $CMAKE_OPTIONS
+      cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
+      cmake --build .
+      sudo cmake --build . --target install &> install.log
+      cd ..
+    fi
 
 #  - ninja
 #  - sudo ninja install &> install.log

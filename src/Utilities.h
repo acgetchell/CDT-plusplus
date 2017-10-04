@@ -34,7 +34,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <mutex>  // NOLINT
+#include <mutex>
 #include <random>
 #include <stdexcept>
 #include <string>

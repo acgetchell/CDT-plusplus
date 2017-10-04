@@ -44,19 +44,16 @@ void make_d_sphere(std::intmax_t number_of_points, int dimension, double radius,
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
-  for (decltype(number_of_points) i = 0; i < number_of_points; ++i)
-  {
+  for (decltype(number_of_points) i = 0; i < number_of_points; ++i) {
     points->push_back(*gen++);
   }
   // If output = true, print out values of points in sphere
-  if (output)
-  {
+  if (output) {
     std::cout << "Generating " << number_of_points << " random points on "
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
 
-    for (const auto& point : *points)
-    {
+    for (const auto& point : *points) {
       std::cout << " " << point << std::endl;
     }
   }

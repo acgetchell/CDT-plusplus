@@ -120,8 +120,7 @@ class Graph
     edges_       = edges;
     numVertices_ = vertices.size();
     numEdges_    = edge.size();
-    for (int i = 0; i < numVertices_; i++)
-    {
+    for (int i = 0; i < numVertices_; i++) {
       map[vertices_.at(i)] = i;
     }
     computeAdjMatrix();
@@ -129,18 +128,15 @@ class Graph
 
   void computeAdjMatrix()
   {
-    for (int i = 0; i < numVertices_; i++)
-    {
+    for (int i = 0; i < numVertices_; i++) {
       vertex<int> adjList;  // adjList for ith vertex
-      for (int j = 0; j < numVertices_; j++)
-      {
+      for (int j = 0; j < numVertices_; j++) {
         adjList.push_back(inf);
       }
       adjMatrix_.push_back(adjList);
     }
 
-    for (int i = 0; i < numEdges_; i++)
-    {
+    for (int i = 0; i < numEdges_; i++) {
       int uIndex = verticesMap_[edges_.at(i).getU()];
       int vIndex = verticesMap_[edges_.at(i).getV()];
       adjMatrix_.at(uIndex).at(vIndex) =
@@ -153,12 +149,9 @@ class Graph
 
   void calculateBellmanFord(Vertex s, Vertex t)
   {
-    for (int i = 0; i < numVertices_; i++)
-    {
-      for (int j = 0; j < numVertices_; j++)
-      {
-        for (int k = 0; k < numVertices_; k++)
-        {
+    for (int i = 0; i < numVertices_; i++) {
+      for (int j = 0; j < numVertices_; j++) {
+        for (int k = 0; k < numVertices_; k++) {
         }
       }
     }

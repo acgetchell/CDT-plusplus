@@ -27,8 +27,8 @@ void make_random_T3_simplicial_complex(PDT* T3,
                                        int  number_of_simplices) noexcept
 {
   typedef CGAL::Creator_uniform_3<double, PDT::Point> Creator;
-  CGAL::Random random(7);
-  CGAL::Random_points_in_cube_3<PDT::Point, Creator> in_cube(.5, random);
+  CGAL::Random                                        random(7);
+  CGAL::Random_points_in_cube_3<PDT::Point, Creator>  in_cube(.5, random);
 
   /// We can't directly pick number of simplices as we can in S3
   /// but heuristically a point has <6 simplices
@@ -36,8 +36,7 @@ void make_random_T3_simplicial_complex(PDT* T3,
   std::vector<PDT::Point> pts;
 
   // Generate random points
-  for (int i = 0; i < n; i++)
-  {
+  for (int i = 0; i < n; i++) {
     PDT::Point p = *in_cube;
     in_cube++;
     pts.push_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));

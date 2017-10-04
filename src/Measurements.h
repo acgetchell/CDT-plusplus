@@ -32,7 +32,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 
   print_results(manifold);
 
-  std::multimap<intmax_t, Facet> spacelike_facets;
+  std::multimap<intmax_t, Facet>   spacelike_facets;
   Delaunay::Finite_facets_iterator fit;
   // Visit every finite facet in the manifold
   for (fit = manifold.triangulation->finite_facets_begin();
@@ -48,10 +48,8 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 #endif
     std::set<intmax_t> facet_timevalues;
     // The vertices of the facet are the ones that aren't the index
-    for (auto i = 0; i < 4; ++i)
-    {
-      if (i != index_of_facet)
-      {
+    for (auto i = 0; i < 4; ++i) {
+      if (i != index_of_facet) {
 #ifdef DETAILED_DEBUGGING
         std::cout << "Vertex[" << i << "] has timevalue "
                   << cell->vertex(i)->info() << std::endl;
@@ -60,8 +58,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
       }
     }
     // If we have a 1-element set then all timevalues on that facet are equal
-    if (facet_timevalues.size() == 1)
-    {
+    if (facet_timevalues.size() == 1) {
 #ifdef DETAILED_DEBUGGING
       std::cout << "Timevalue is " << facet_timevalues.front() << std::endl;
 #endif
@@ -75,8 +72,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 
   // Determine which timevalues are populated
   std::set<intmax_t> timevalues;
-  for (const auto& item : manifold.geometry->vertices)
-  {
+  for (const auto& item : manifold.geometry->vertices) {
     timevalues.insert(item->info());
   }
 
@@ -85,8 +81,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   std::cout << "Minimum timevalue is " << min_timevalue << std::endl;
   std::cout << "Maximum timevalue is " << max_timevalue << std::endl;
 
-  for (auto j = min_timevalue; j <= max_timevalue; ++j)
-  {
+  for (auto j = min_timevalue; j <= max_timevalue; ++j) {
     std::cout << "Timeslice " << j << " has " << spacelike_facets.count(j)
               << " spacelike faces." << std::endl;
   }
