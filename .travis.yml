@@ -86,7 +86,7 @@ install:
       brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
-      brew outdated cgal || brew install cgal --c++11 --with-eigen
+      brew outdated cgal || brew upgrade cgal --c++11 --with-eigen
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
