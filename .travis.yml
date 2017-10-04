@@ -41,6 +41,7 @@ cache:
   ccache:
   directories:
     - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
+    - ${TRAVIS_BUILD_DIR}/googletest
 
 os:
   - linux

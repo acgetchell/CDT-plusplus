@@ -34,8 +34,7 @@ class MetropolisTest : public ::testing::Test
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
       , vertices_before{universe_.geometry->N0()}
-  {
-  }
+  {}
 
   virtual void SetUp()
   {
@@ -142,7 +141,7 @@ TEST_F(MetropolisTest, Ctor)
 
 // This test can take a long time
 // Here lie Segfaults
-TEST_F(MetropolisTest, DISABLED_Operator)
+TEST_F(MetropolisTest, Operator)
 {
   // Instantiate Metropolis function object with desired parameters
   Metropolis testrun(Alpha, K, Lambda, passes, output_every_n_passes);
@@ -190,25 +189,25 @@ TEST_F(MetropolisTest, DISABLED_Operator)
             testrun.TotalMoves())
       << "Moves don't add up.";
 
-  EXPECT_EQ(result.geometry->N1_TL(),
-            timelike_edges_before - testrun.SuccessfulThreeTwoMoves() +
-                testrun.SuccessfulTwoThreeMoves() +
-                2 * testrun.SuccessfulTwoSixMoves() -
-                2 * testrun.SuccessfulSixTwoMoves())
+  EXPECT_EQ(result.geometry->N1_TL(), timelike_edges_before -
+                                          testrun.SuccessfulThreeTwoMoves() +
+                                          testrun.SuccessfulTwoThreeMoves() +
+                                          2 * testrun.SuccessfulTwoSixMoves() -
+                                          2 * testrun.SuccessfulSixTwoMoves())
       << "Timelike edges not correctly counted during moves.";
 
   EXPECT_EQ(result.triangulation->number_of_finite_edges(),
             result.geometry->N1_TL() + result.geometry->N1_SL())
       << "Spacelike + Timelike edges don't add up to number_of_finite_edges.";
 
-  EXPECT_EQ(result.geometry->N3_22(),
-            N3_22_before + testrun.SuccessfulTwoThreeMoves() -
-                testrun.SuccessfulThreeTwoMoves())
+  EXPECT_EQ(result.geometry->N3_22(), N3_22_before +
+                                          testrun.SuccessfulTwoThreeMoves() -
+                                          testrun.SuccessfulThreeTwoMoves())
       << "(2,2) simplices not correctly counted during moves.";
 
-  EXPECT_EQ(result.geometry->N3_31(),
-            N3_13_before + N3_31_before + 4 * testrun.SuccessfulTwoSixMoves() -
-                4 * testrun.SuccessfulSixTwoMoves())
+  EXPECT_EQ(result.geometry->N3_31(), N3_13_before + N3_31_before +
+                                          4 * testrun.SuccessfulTwoSixMoves() -
+                                          4 * testrun.SuccessfulSixTwoMoves())
       << "(1,3) and (3,1) simplices not correctly counted during moves.";
 }
 

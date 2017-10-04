@@ -187,20 +187,23 @@ TEST(SimplicialManifold, SimplicialManifold_Properties)
 TEST(SimplicialManifold, DelaunayClass_Properties)
 {
   // Print info on exception safety
-  std::cout << std::boolalpha << "Delaunay class is default no-throw "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "Delaunay class is default no-throw "
+               "constructible? "
             << std::is_nothrow_default_constructible<Delaunay>::value
             << std::endl;
 
   std::cout << std::boolalpha << "Delaunay class is no-throw destructible? "
             << std::is_nothrow_destructible<Delaunay>::value << std::endl;
 
-  std::cout << std::boolalpha << "Delaunay class is no-throw copy "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "Delaunay class is no-throw copy "
+               "constructible? "
             << std::is_nothrow_copy_constructible<Delaunay>::value << std::endl;
 
-  std::cout << std::boolalpha << "Delaunay class is no-throw move "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "Delaunay class is no-throw move "
+               "constructible? "
             << std::is_nothrow_move_constructible<Delaunay>::value << std::endl;
 
   std::cout << std::boolalpha << "Delaunay class is no-throw copy assignable? "
@@ -214,13 +217,15 @@ TEST(SimplicialManifold, DelaunayClass_Properties)
   std::cout << "So this is why we use std::unique_ptr<Delaunay> ..."
             << std::endl;
 
-  std::cout << std::boolalpha << "std::unique_ptr<Delaunay> is default "
-                                 "no-throw constructible? "
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is default "
+               "no-throw constructible? "
             << std::is_nothrow_default_constructible<Delaunay_ptr>::value
             << std::endl;
 
-  std::cout << std::boolalpha << "std::unique_ptr<Delaunay> is no-throw move "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is no-throw move "
+               "constructible? "
             << std::is_nothrow_move_constructible<Delaunay_ptr>::value
             << std::endl;
 

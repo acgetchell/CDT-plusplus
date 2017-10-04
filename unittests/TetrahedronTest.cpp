@@ -37,15 +37,14 @@ class FoliatedTetrahedronTest : public TetrahedronTest
   FoliatedTetrahedronTest()
   {
     // Manually insert
-    for (int j = 0; j < 4; ++j)
-    {
+    for (int j = 0; j < 4; ++j) {
       causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
     }
     insert_into_triangulation(universe.triangulation, causal_vertices);
   }
 
   std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
-  Causal_vertices causal_vertices;
+  Causal_vertices            causal_vertices;
 };
 
 TEST_F(TetrahedronTest, Create)

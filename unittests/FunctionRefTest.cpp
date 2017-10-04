@@ -15,8 +15,8 @@
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
 
-using ::testing::Gt;
 using ::testing::Eq;
+using ::testing::Gt;
 
 TEST(FunctionRefTest, SimpleLambda)
 {
@@ -55,9 +55,9 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda)
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
-  auto move_23_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
 
@@ -110,12 +110,12 @@ TEST(FunctionRefTest, ComplexFunctionRef)
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
-  auto move_23_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
       complex_ref(move_23_lambda);
 
   test_universe = complex_ref(test_universe, moves);
@@ -169,12 +169,12 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals)
   Optional_SM maybe_moved_universe{test_universe};
   auto        maybe_move_count = boost::make_optional(true, moves);
 
-  auto move_23_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker &     attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
-  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker &)>
+  function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
       complex_ref(move_23_lambda);
 
   maybe_moved_universe =

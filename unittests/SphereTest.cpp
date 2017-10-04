@@ -11,9 +11,9 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#include "gmock/gmock.h"
 #include "src/S3Triangulation.h"
 #include "src/Sphere_d.h"
+#include "gmock/gmock.h"
 
 TEST(Sphere, Create2Sphere)
 {
@@ -24,8 +24,7 @@ TEST(Sphere, Create2Sphere)
       expected_points_per_simplex(3, simplices, timeslices, false) * timeslices;
 
   // Debugging
-  for (auto cv : causal_vertices)
-  {
+  for (auto cv : causal_vertices) {
     std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
               << std::endl;
   }

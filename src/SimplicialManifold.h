@@ -75,8 +75,7 @@ struct GeometryInfo
       , timelike_edges{std::get<3>(geometry)}
       , spacelike_edges{std::get<4>(geometry)}
       , vertices{std::get<5>(geometry)}
-  {
-  }
+  {}
 
   /// @brief Default destructor
   ~GeometryInfo() = default;

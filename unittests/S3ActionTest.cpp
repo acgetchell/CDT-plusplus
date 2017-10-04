@@ -34,8 +34,7 @@ class S3ActionTest : public ::testing::Test
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
       , vertices_before{universe_.geometry->N0()}
-  {
-  }
+  {}
 
   virtual void SetUp()
   {
