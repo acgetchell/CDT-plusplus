@@ -1,6 +1,14 @@
-//
-// Created by Adam Getchell on 2017-10-19.
-//
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2017 Adam Getchell
+///
+/// Always picks a random move on the foliated Delaunay triangulations.
+/// For testing purposes.
+///
+/// @file MoveAlways.h
+/// @brief Always randomly selects moves to perform on Delaunay Triangulations
+/// @author Adam Getchell
+/// @bug The call operator segfaults in Release mode
 
 #ifndef SRC_MOVE_ALWAYS_H
 #define SRC_MOVE_ALWAYS_H
@@ -15,8 +23,8 @@ class MoveAlways : public MoveAlgorithm
   MoveAlways() = default;
 
   /// @brief Set passes and checkpoint with MoveAlgorithm 2-argument constructor
-  /// @param passes
-  /// @param checkpoint
+  /// @param passes Number of passes through triangulation
+  /// @param checkpoint Number of passes per checkpoint
   MoveAlways(const std::intmax_t passes, const std::intmax_t checkpoint)
       : MoveAlgorithm(passes, checkpoint)
   {
@@ -25,6 +33,10 @@ class MoveAlways : public MoveAlgorithm
 #endif
   }
 
+  /// @brief Call operator
+  /// @tparam T Type of manifold
+  /// @param universe Manifold on which to operate
+  /// @return Manifold upon which moves have been completed
   template <typename T>
   auto operator()(T&& universe) -> decltype(universe)
   {
@@ -71,6 +83,6 @@ class MoveAlways : public MoveAlgorithm
     print_run();
     return universe_;
   }
-};
+};  // MoveAlways
 
 #endif  // SRC_MOVE_ALWAYS_H

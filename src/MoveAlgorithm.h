@@ -1,6 +1,12 @@
-//
-// Created by Adam Getchell on 2017-10-20.
-//
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2017 Adam Getchell
+///
+/// Base class for all move algorithms, e.g. Metropolis, MoveAlways
+///
+/// @file MoveAlgorithm.h
+/// @brief Base class for move algorithms on Delaunay Triangulations
+/// @author Adam Getchell
 
 #ifndef SRC_MOVE_ALGORITHM_H
 #define SRC_MOVE_ALGORITHM_H
@@ -14,7 +20,6 @@
 /// @brief Convert enum class to its underlying type
 ///
 /// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
-/// // NOLINT
 /// @tparam E Enum class type
 /// @param e Enum class
 /// @return Integral type of enum member
@@ -24,9 +29,23 @@ constexpr auto to_integral(E e) -> typename std::underlying_type<E>::type
   return static_cast<typename std::underlying_type<E>::type>(e);
 }
 
+/// @class MoveAlgorithm
+/// @brief Base class for move algorithms
 class MoveAlgorithm
 {
  protected:
+  /// @brief 2-argument constructor
+  /// @param passes Number of passes through simulation, where each pass
+  /// equals a number of moves equal to the number of simplices
+  /// @param checkpoint Write/print results every *checkpoint* passes
+  MoveAlgorithm(const std::intmax_t passes, const std::intmax_t checkpoint)
+      : passes_(passes), checkpoint_(checkpoint)
+  {
+#ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+#endif
+  }
+
   /// @brief A SimplicialManifold.
   SimplicialManifold universe_;
 
@@ -51,7 +70,6 @@ class MoveAlgorithm
   /// @brief How often to print/write output.
   std::intmax_t checkpoint_{10};
 
-  // public:
   /// @brief Make a move of the selected type
   ///
   /// This function handles making a **move_type** move
@@ -146,19 +164,8 @@ class MoveAlgorithm
     N3_31_13_ = universe_.geometry->N3_31_13();
     N3_22_    = universe_.geometry->N3_22();
   }  // make_move()
- public:
-  /// @brief 2-argument constructor
-  /// @param passes Number of passes through simulation, where each pass
-  /// equals a number of moves equal to the number of simplices
-  /// @param checkpoint Write/print results every *checkpoint* passes
-  MoveAlgorithm(const std::intmax_t passes, const std::intmax_t checkpoint)
-      : passes_(passes), checkpoint_(checkpoint)
-  {
-#ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-#endif
-  }
 
+ public:
   /// @brief All simplices
   /// @return The current total number of simplices
   auto CurrentTotalSimplices() const noexcept { return N3_31_13_ + N3_22_; }
@@ -218,6 +225,7 @@ class MoveAlgorithm
     return successful_moves_[4].load();
   }
 
+  /// @brief Displays results of run to standard output
   void print_run()
   {
     std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
@@ -242,6 +250,6 @@ class MoveAlgorithm
               << std::endl;
     std::cout << "Attempted (4,4) moves: " << FourFourMoves() << std::endl;
   }
-};
+};  // MoveAlgorithm
 
 #endif  // SRC_MOVE_ALGORITHM_H

@@ -14,31 +14,24 @@
 /// \done CalculateA1
 /// \done CalculateA2
 /// \done Update N1_TL_, N3_31_ and N3_22_ after successful moves
+/// \done Implement 3D Metropolis algorithm in operator()
+///
 /// \todo Atomic integral types for safe multithreading
 /// \todo Debug occasional infinite loops and segfaults!
-/// \todo Implement 3D Metropolis algorithm in operator()
 /// \todo Implement concurrency
 
 /// @file Metropolis.h
 /// @brief Perform Metropolis-Hastings algorithm on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug There's a segfault in CalculateA1 on MacOS/gcc.
+/// @bug The call operator segfaults in Release mode
 
 #ifndef SRC_METROPOLIS_H_
 #define SRC_METROPOLIS_H_
 
-// CGAL headers
-// #include <CGAL/Gmpzf.h>
-// #include <CGAL/Gmpz.h>
-// #include <mpfr.h>
-// #include <CGAL/Mpzf.h>
-
 // CDT headers
-//#include "Measurements.h"
 #include "MoveAlgorithm.h"
-//#include "MoveManager.h"
 #include "S3Action.h"
-//#include "S3ErgodicMoves.h"
 
 // C++ headers
 #include <algorithm>
@@ -122,8 +115,6 @@ class Metropolis : public MoveAlgorithm
     return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves() +
            FourFourMoves();
   }
-
-  //  auto CurrentTotalSimplices() const noexcept { return N3_31_13_ + N3_22_; }
 
   /// @brief Calculate A1
   ///
