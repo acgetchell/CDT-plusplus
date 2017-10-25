@@ -11,16 +11,13 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-// clang-format off
-#include <algorithm>
-#include <vector>
-
-#include "Utilities.h"
 #include "S3Action.h"
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
+#include "Utilities.h"
 #include "gmock/gmock.h"
-// clang-format on
+#include <algorithm>
+#include <vector>
 
 class S3ActionTest : public ::testing::Test
 {

@@ -11,13 +11,11 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-// clang-format off
-#include <utility>
-#include <vector>
 #include "S3ErgodicMoves.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-// clang-format on
+#include <utility>
+#include <vector>
 
 class S3ErgodicMoveTest : public ::testing::Test
 {

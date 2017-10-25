@@ -8,12 +8,11 @@
 /// @brief Tests for Function_ref.h
 /// @author Adam Getchell
 
-#include <utility>
-
 #include "Function_ref.h"
 #include "S3ErgodicMoves.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
+#include <utility>
 
 using ::testing::Eq;
 using ::testing::Gt;

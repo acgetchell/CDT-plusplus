@@ -12,12 +12,11 @@
 ///
 /// @author Adam Getchell
 
+#include "SimplicialManifold.h"
+#include "Measurements.h"
+#include "gmock/gmock.h"
 #include <memory>
 #include <type_traits>
-
-#include "Measurements.h"
-#include "SimplicialManifold.h"
-#include "gmock/gmock.h"
 
 TEST(SimplicialManifold, GeometryInfo_Members)
 {

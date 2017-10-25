@@ -13,7 +13,7 @@
 #include "Simulation.h"
 #include "MoveAlways.h"
 #include "gmock/gmock.h"
-#include <boost/optional/optional_io.hpp>
+//#include <boost/optional/optional_io.hpp>
 
 TEST(Simulation, MoveAlways)
 {

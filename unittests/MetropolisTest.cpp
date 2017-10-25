@@ -10,15 +10,12 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-// clang-format off
-#include <utility>
-#include <cstdint>
-#include <tuple>
-#include <vector>
-// clang-format on
-
 #include "Metropolis.h"
 #include "gmock/gmock.h"
+#include <cstdint>
+#include <tuple>
+#include <utility>
+#include <vector>
 
 bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1; }
 
