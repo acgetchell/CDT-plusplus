@@ -11,13 +11,11 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-// clang-format off
-#include <utility>
-#include <vector>
 #include "S3ErgodicMoves.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-// clang-format on
+#include <utility>
+#include <vector>
 
 class S3ErgodicMoveTest : public ::testing::Test
 {
@@ -31,8 +29,7 @@ class S3ErgodicMoveTest : public ::testing::Test
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
       , vertices_before{universe_.geometry->N0()}
-  {
-  }
+  {}
 
   virtual void SetUp()
   {

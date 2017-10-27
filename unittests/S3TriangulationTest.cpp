@@ -11,15 +11,12 @@
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-// clang-format off
-#include <utility>
-#include <memory>
-
-#include "Utilities.h"
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
+#include "Utilities.h"
 #include "gmock/gmock.h"
-// clang-format on
+#include <memory>
+#include <utility>
 
 TEST(S3Triangulation, CreateWithUniquePtr)
 {

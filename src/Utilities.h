@@ -34,7 +34,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iostream>
-#include <mutex>  // NOLINT
+#include <mutex>
 #include <random>
 #include <stdexcept>
 #include <string>
@@ -67,8 +67,8 @@ inline auto getEnvVar(std::string const& key) noexcept
 /// @brief Return the hostname
 ///
 /// **auto** doesn't work here as a return type because **name.nodename** is a
-/// stack memory address. Uses utsname.h, which isn't present in Windows (easily)
-/// so just default to "windows" on that platform.
+/// stack memory address. Uses utsname.h, which isn't present in Windows
+/// (easily) so just default to "windows" on that platform.
 ///
 /// @return The hostname
 inline std::string hostname() noexcept
@@ -112,8 +112,7 @@ inline auto generate_filename(const topology_type& top,
                               const std::intmax_t number_of_timeslices) noexcept
 {
   std::string filename;
-  if (top == topology_type::SPHERICAL)
-  {
+  if (top == topology_type::SPHERICAL) {
     filename += "S";
   }
   else
@@ -317,8 +316,7 @@ inline auto expected_points_per_simplex(const int           dimension,
                                         const std::intmax_t timeslices,
                                         const bool          output = true)
 {
-  if (output)
-  {
+  if (output) {
     std::cout << simplices << " simplices on " << timeslices
               << " timeslices desired." << std::endl;
   }
@@ -329,8 +327,7 @@ inline auto expected_points_per_simplex(const int           dimension,
     case 3:
     {
       // Avoid segfaults for small values
-      if (simplices == timeslices)
-      {
+      if (simplices == timeslices) {
         return 4 * simplices_per_timeslice;
       }
       else if (simplices < 10000)

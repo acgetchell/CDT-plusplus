@@ -75,8 +75,7 @@ struct GeometryInfo
       , timelike_edges{std::get<3>(geometry)}
       , spacelike_edges{std::get<4>(geometry)}
       , vertices{std::get<5>(geometry)}
-  {
-  }
+  {}
 
   /// @brief Default destructor
   ~GeometryInfo() = default;
@@ -86,6 +85,19 @@ struct GeometryInfo
 
   /// @brief Default move assignment operator
   GeometryInfo& operator=(GeometryInfo&&) = default;
+  //  GeometryInfo& operator=(Geometry_tuple&& other)
+  //  {
+  //#ifndef NDEBUG
+  //    std::cout << "GeometryInfo move assignment operator." << std::endl;
+  //#endif
+  //    three_one       = std::move(std::get<0>(other));
+  //    two_two         = std::move(std::get<1>(other));
+  //    one_three       = std::move(std::get<2>(other));
+  //    timelike_edges  = std::move(std::get<3>(other));
+  //    spacelike_edges = std::move(std::get<4>(other));
+  //    vertices        = std::move(std::get<5>(other));
+  //    return *this;
+  //  }
 
   /// @brief Default copy constructor
   GeometryInfo(const GeometryInfo&) = default;

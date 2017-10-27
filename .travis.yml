@@ -1,7 +1,7 @@
 language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode8.3
+osx_image: xcode9.1
 
 addons:
   coverity_scan:
@@ -41,6 +41,7 @@ cache:
   ccache:
   directories:
     - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
+    - ${TRAVIS_BUILD_DIR}/googletest
 
 os:
   - linux
@@ -114,7 +115,7 @@ install:
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-5.0" CC="clang-5.0"; fi
   - echo $CXX $CC
-  # Install CGAL from source
+  # Install CGAL from source for Linux
   - cd $TRAVIS_BUILD_DIR
   - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
   - tar zxvf CGAL-4.9.1.tar.gz &> install.log

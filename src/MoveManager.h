@@ -11,8 +11,6 @@
 /// @brief RAII class to manage exception-safe foliation-preserving
 /// Pachner moves
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #ifndef SRC_MOVEMANAGER_H_
 #define SRC_MOVEMANAGER_H_
@@ -59,15 +57,22 @@ class MoveManager
   MoveManager(T1&& universe, T2&& attempted_moves)
       : universe_{std::forward<T1>(universe)}
       , attempted_moves_{std::forward<T2>(attempted_moves)}
-  {
-  }
+  {}
 
+  /// Default dtor
   ~MoveManager() = default;
+  /// Delete copy ctor
+  MoveManager(MoveManager const& source) = delete;
+  /// Delete copy assignment
+  MoveManager& operator=(MoveManager const& rhs) = delete;
+  /// Delete move ctor
+  MoveManager(MoveManager&& source) = delete;
+  /// Delete move assignment
+  MoveManager& operator=(MoveManager&& rhs) = delete;
 
   auto ArrayDifference(Move_tracker first, Move_tracker second)
   {
-    for (int j = 0; j < 5; ++j)
-    {
+    for (int j = 0; j < 5; ++j) {
       if (first[j] - second[j] != 0) return j;
     }
     throw std::runtime_error("No move found!");

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2016 Adam Getchell
+/// Copyright © 2016-2017 Adam Getchell
 ///
 /// Tests that foliated tetrahedrons are constructed correctly
 /// in a Delaunay triangulation.
@@ -11,15 +11,12 @@
 /// member structs and classes
 ///
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
+#include "SimplicialManifold.h"
+#include "Measurements.h"
+#include "gmock/gmock.h"
 #include <memory>
 #include <type_traits>
-
-#include "Measurements.h"
-#include "SimplicialManifold.h"
-#include "gmock/gmock.h"
 
 TEST(SimplicialManifold, GeometryInfo_Members)
 {
@@ -187,20 +184,23 @@ TEST(SimplicialManifold, SimplicialManifold_Properties)
 TEST(SimplicialManifold, DelaunayClass_Properties)
 {
   // Print info on exception safety
-  std::cout << std::boolalpha << "Delaunay class is default no-throw "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "Delaunay class is default no-throw "
+               "constructible? "
             << std::is_nothrow_default_constructible<Delaunay>::value
             << std::endl;
 
   std::cout << std::boolalpha << "Delaunay class is no-throw destructible? "
             << std::is_nothrow_destructible<Delaunay>::value << std::endl;
 
-  std::cout << std::boolalpha << "Delaunay class is no-throw copy "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "Delaunay class is no-throw copy "
+               "constructible? "
             << std::is_nothrow_copy_constructible<Delaunay>::value << std::endl;
 
-  std::cout << std::boolalpha << "Delaunay class is no-throw move "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "Delaunay class is no-throw move "
+               "constructible? "
             << std::is_nothrow_move_constructible<Delaunay>::value << std::endl;
 
   std::cout << std::boolalpha << "Delaunay class is no-throw copy assignable? "
@@ -214,13 +214,15 @@ TEST(SimplicialManifold, DelaunayClass_Properties)
   std::cout << "So this is why we use std::unique_ptr<Delaunay> ..."
             << std::endl;
 
-  std::cout << std::boolalpha << "std::unique_ptr<Delaunay> is default "
-                                 "no-throw constructible? "
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is default "
+               "no-throw constructible? "
             << std::is_nothrow_default_constructible<Delaunay_ptr>::value
             << std::endl;
 
-  std::cout << std::boolalpha << "std::unique_ptr<Delaunay> is no-throw move "
-                                 "constructible? "
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is no-throw move "
+               "constructible? "
             << std::is_nothrow_move_constructible<Delaunay_ptr>::value
             << std::endl;
 

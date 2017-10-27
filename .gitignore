@@ -45,6 +45,7 @@ grid_d
 
 # Output files
 output
+errors
 *.off
 *.log
 *.dat

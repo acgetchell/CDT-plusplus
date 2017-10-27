@@ -8,14 +8,11 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
-// clang-format off
-#include <utility>
-#include <memory>
-// clang-format on
-
 #include "MoveManager.h"
 #include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
+#include <memory>
+#include <utility>
 
 class MoveManagerTest : public ::testing::Test
 {
@@ -29,8 +26,7 @@ class MoveManagerTest : public ::testing::Test
       , timelike_edges_before{universe_.geometry->N1_TL()}
       , spacelike_edges_before{universe_.geometry->N1_SL()}
       , vertices_before{universe_.geometry->N0()}
-  {
-  }
+  {}
 
   virtual void SetUp()
   {
@@ -304,9 +300,9 @@ TEST_F(MoveManagerTest, MakeA23Move)
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_23_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+  auto move_23_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_23_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_23(
@@ -408,9 +404,9 @@ TEST_F(MoveManagerTest, MakeA32Move)
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_32_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+  auto move_32_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_32_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_32(
@@ -511,9 +507,9 @@ TEST_F(MoveManagerTest, MakeA26Move)
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_26_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+  auto move_26_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_26_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_26(
@@ -602,9 +598,9 @@ TEST_F(MoveManagerTest, MakeA62Move)
       this_move(std::move(maybe_moved_universe), std::move(maybe_move_count));
 
   // Setup move
-  auto move_62_lambda = [](
-      SimplicialManifold manifold,
-      Move_tracker&      attempted_moves) -> SimplicialManifold {
+  auto move_62_lambda =
+      [](SimplicialManifold manifold,
+         Move_tracker&      attempted_moves) -> SimplicialManifold {
     return make_62_move(std::move(manifold), attempted_moves);
   };
   function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move_62(

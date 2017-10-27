@@ -95,8 +95,7 @@ int main(int argc, char* const argv[])
   Point3        p;
 
   // Insert points from file into Delaunay triangulation
-  while (iFile >> p)
-  {
+  while (iFile >> p) {
     D.insert(p);
   }
 

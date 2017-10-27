@@ -53,7 +53,7 @@ int main()
   // my_simulation.queue(print_results())
 
   // Run it
-  universe = my_simulation.start(std::move(universe));
+  universe = my_simulation.start(std::forward<SimplicialManifold>(universe));
 
   auto max_timevalue = universe.geometry->max_timevalue().get();
 

@@ -99,8 +99,7 @@ int main(int argc, char* const argv[])
 
     // Topology of simulation
     topology_type topology;
-    if (args["--spherical"].asBool())
-    {
+    if (args["--spherical"].asBool()) {
       topology = topology_type::SPHERICAL;
     }
     else
@@ -144,8 +143,7 @@ int main(int argc, char* const argv[])
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && std::abs(alpha) < 0.5)
-    {
+    if (dimensions == 3 && std::abs(alpha) < 0.5) {
       t.stop();  // End running time counter
       throw std::domain_error("Alpha in 3D should be greater than 1/2.");
     }
@@ -153,8 +151,7 @@ int main(int argc, char* const argv[])
     switch (topology)
     {
       case topology_type::SPHERICAL:
-        if (dimensions == 3)
-        {
+        if (dimensions == 3) {
           SimplicialManifold populated_universe(simplices, timeslices);
           // SimplicialManifold swapperator for no-throw
           swap(universe, populated_universe);
@@ -171,8 +168,7 @@ int main(int argc, char* const argv[])
             "Toroidal triangulations not yet supported.");  // NOLINT
     }
 
-    if (!fix_timeslices(universe.triangulation))
-    {
+    if (!fix_timeslices(universe.triangulation)) {
       t.stop();  // End running time counter
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }

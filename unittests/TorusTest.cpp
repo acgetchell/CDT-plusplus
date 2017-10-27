@@ -9,10 +9,9 @@
 /// @brief Tests for wraparound grids
 /// @author Adam Getchell
 
-#include <vector>
-
+#include "Torus_d.h"
 #include "gmock/gmock.h"
-#include "src/Torus_d.h"
+#include <vector>
 
 TEST(Torus, Create2Torus)
 {
