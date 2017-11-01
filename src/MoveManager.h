@@ -15,15 +15,14 @@
 #ifndef SRC_MOVEMANAGER_H_
 #define SRC_MOVEMANAGER_H_
 
+#include "Function_ref.h"
+#include "SimplicialManifold.h"
 #include <algorithm>
 #include <memory>
 #include <tuple>
 #include <type_traits>
 #include <utility>
 #include <vector>
-
-#include "Function_ref.h"
-#include "SimplicialManifold.h"
 
 using move_invariants = std::array<std::intmax_t, 6>;
 

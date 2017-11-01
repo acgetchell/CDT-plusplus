@@ -11,8 +11,6 @@
 #include "MoveManager.h"
 #include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
-#include <memory>
-#include <utility>
 
 class MoveManagerTest : public ::testing::Test
 {
