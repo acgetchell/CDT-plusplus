@@ -7,8 +7,8 @@
 /// @file MetropolisTest.cpp
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
+///
+/// @todo Fix Operator test
 
 #include "Metropolis.h"
 #include "gmock/gmock.h"
