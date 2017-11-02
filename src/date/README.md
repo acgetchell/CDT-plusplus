@@ -1,7 +1,7 @@
 [![Join the chat at https://gitter.im/HowardHinnant/date](https://badges.gitter.im/HowardHinnant/date.svg)](https://gitter.im/HowardHinnant/date?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 <hr/>
 
-**[Try it out on wandbox!](https://wandbox.org/permlink/n6NEh9nFCWLVgm1Q)**
+**[Try it out on wandbox!](https://wandbox.org/permlink/vqwMyTphHJv5iXX7)**
 
 This is actually several separate C++11/C++14 libraries:
 
@@ -31,12 +31,12 @@ This is actually several separate C++11/C++14 libraries:
 
 `"date.h"` and `"tz.h"` are now being proposed for standardization:
 
-   * Current proposal:  http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0355r3.html
-
-   * Revision 4 draft:  http://howardhinnant.github.io/date/d0355r4.html
+   * Current proposal:  http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2017/p0355r4.html
+   * Draft revision:  http://howardhinnant.github.io/date/d0355r5.html
 
 List of projects using this library:
 
    * www.safe.com
+   * www.webtoolkit.eu/wt
 
 If you would like your project (or product) on this list, just let me know.

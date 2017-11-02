@@ -6,6 +6,6 @@
 [subrepo]
 	remote = https://github.com/HowardHinnant/date.git
 	branch = master
-	commit = 22a229af9106c032949f9a87a9a4fd9cc667a1ee
-	parent = e9c17f10ef49298dfe5fcbc46f895370b9d846cb
+	commit = 3a5e8c93840e61b0a6d8ae83ebf18f84505aea0f
+	parent = 9be581366861c15d30d2a0d44324fbe9f555ac28
 	cmdver = 0.3.1
