@@ -3,7 +3,16 @@
 /// Copyright © 2016-2017 Adam Getchell
 ///
 /// Data structures for operations on simplicial manifolds
-
+///
+/// \done Classify cells as (3,1), (2,2), or (1,3) based on their foliation.
+/// A tuple of vectors contain cell handles to the simplices of type (3,1),
+/// (2,2), and (1,3) respectively.
+/// \done Classify edges as timelike or spacelike so that action can be
+/// calculated.
+/// \done SimplicialManifold data structure holding a std::unique_ptr to
+/// the Delaunay triangulation and a std::tuple of geometry information.
+/// \done Move constructor recalculates geometry.
+///
 /// @file  SimplicialManifold.h
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
@@ -20,6 +29,167 @@
 #include <vector>
 
 using Facet = Delaunay::Facet;
+
+/// @brief Classifies edges
+///
+/// This function iterates over all edges in the triangulation
+/// and classifies them as timelike or spacelike.
+/// Timelike edges are stored in the **timelike_edges** vector as an Edge_handle
+/// (tuple of Cell_handle, std::intmax_t, std::intmax_t) for later use by
+/// ergodic moves on timelike edges. Spacelike edges are also stored as a
+/// vector of Edge_handle **spacelike_edges**, for use by (4,4) moves as
+/// well as the distance-finding algorithms.
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
+/// @returns A std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>> of
+/// timelike edges and spacelike edges
+template <typename T>
+auto classify_edges(T&& universe_ptr)
+{
+#ifndef NDEBUG
+  std::cout << "Classifying edges...." << std::endl;
+#endif
+  Delaunay::Finite_edges_iterator eit;
+  std::vector<Edge_handle>        timelike_edges;
+  std::vector<Edge_handle>        spacelike_edges;
+
+  // Iterate over all edges in the Delaunay triangulation
+  for (eit = universe_ptr->finite_edges_begin();
+       eit != universe_ptr->finite_edges_end(); ++eit)
+  {
+    Cell_handle ch = eit->first;
+    // Get timevalues of vertices at the edge ends
+    auto time1 = ch->vertex(eit->second)->info();
+    auto time2 = ch->vertex(eit->third)->info();
+
+    // Make Edge_handle
+    Edge_handle thisEdge{
+        ch, static_cast<std::intmax_t>(ch->index(ch->vertex(eit->second))),
+        static_cast<std::intmax_t>(ch->index(ch->vertex(eit->third)))};
+
+    if (time1 != time2) {  // We have a timelike edge
+      timelike_edges.emplace_back(thisEdge);
+
+#ifdef DETAILED_DEBUGGING
+      std::cout << "First vertex of edge is " << std::get<1>(thisEdge)
+                << " and second vertex of edge is " << std::get<2>(thisEdge)
+                << std::endl;
+#endif
+    }
+    else
+    {  // We have a spacelike edge
+      spacelike_edges.emplace_back(thisEdge);
+    }  // endif
+  }    // Finish iterating over edges
+
+// Display results if debugging
+#ifndef NDEBUG
+  std::cout << "There are " << timelike_edges.size() << " timelike edges and "
+            << spacelike_edges.size() << " spacelike edges." << std::endl;
+#endif
+  return std::make_pair(timelike_edges, spacelike_edges);
+}  // classify_edges()
+
+/// @brief Classify simplices as (3,1), (2,2), or (1,3)
+///
+/// This function iterates over all cells in the triangulation
+/// and classifies them as:
+/// \f{eqnarray*}{
+///   31 &=& (3, 1) \\
+///   22 &=& (2, 2) \\
+///   13 &=& (1, 3)
+/// \f}
+/// The vectors **three_one**, **two_two**, and **one_three** contain
+/// Cell_handles to all the simplices in the triangulation of that corresponding
+/// type.
+///
+/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
+/// @returns A std::tuple<std::vector, std::vector, std::vector> of
+/// **three_one**, **two_two**, and **one_three**
+template <typename T>
+auto classify_simplices(T&& universe_ptr)
+{
+#ifndef NDEBUG
+  std::cout << "Classifying simplices...." << std::endl;
+#endif
+  Delaunay::Finite_cells_iterator cit;
+  std::vector<Cell_handle>        three_one;
+  std::vector<Cell_handle>        two_two;
+  std::vector<Cell_handle>        one_three;
+
+  // Iterate over all cells in the Delaunay triangulation
+  for (cit = universe_ptr->finite_cells_begin();
+       cit != universe_ptr->finite_cells_end(); ++cit)
+  {
+    std::intmax_t max_values{0};
+    std::intmax_t min_values{0};
+    // Push every time value of every vertex into a list
+    std::intmax_t timevalues[4] = {
+        cit->vertex(0)->info(),
+        cit->vertex(1)->info(),
+        cit->vertex(2)->info(),
+        cit->vertex(3)->info(),
+    };
+    std::intmax_t max_time =
+        *std::max_element(std::begin(timevalues), std::end(timevalues));
+    for (auto elt : timevalues) {
+      if (elt == max_time) {
+        ++max_values;
+      }
+      else
+      {
+        ++min_values;
+      }
+    }
+
+    // Classify simplex using max_values and write to cit->info()
+    if (min_values == 1 && max_values == 3) {
+      cit->info() = 13;
+      one_three.emplace_back(cit);
+    }
+    else if (min_values == 2 && max_values == 2)
+    {
+      cit->info() = 22;
+      two_two.emplace_back(cit);
+    }
+    else if (min_values == 3 && max_values == 1)
+    {
+      cit->info() = 31;
+      three_one.emplace_back(cit);
+    }
+    else
+    {
+      throw std::runtime_error("Invalid simplex in classify_simplices()!");
+    }  // endif
+  }    // Finish iterating over cells
+
+// Display results if debugging
+#ifndef NDEBUG
+  std::cout << "There are " << three_one.size() << " (3,1) simplices and "
+            << two_two.size() << " (2,2) simplices" << std::endl;
+  std::cout << "and " << one_three.size() << " (1,3) simplices." << std::endl;
+#endif
+  return std::make_tuple(three_one, two_two, one_three);
+}  // classify_simplices()
+
+template <typename T>
+auto classify_all_simplices(T&& universe_ptr)
+{
+#ifndef NDEBUG
+  std::cout << "Classifying all simplices...." << std::endl;
+#endif
+
+  auto                       cells = classify_simplices(universe_ptr);
+  auto                       edges = classify_edges(universe_ptr);
+  std::vector<Vertex_handle> vertices;
+  for (auto vit = universe_ptr->finite_vertices_begin();
+       vit != universe_ptr->finite_vertices_end(); ++vit)
+  {
+    vertices.emplace_back(vit);
+  }
+  return std::make_tuple(std::get<0>(cells), std::get<1>(cells),
+                         std::get<2>(cells), edges.first, edges.second,
+                         vertices);
+}
 
 /// @struct
 /// @brief A struct containing detailed geometry information
