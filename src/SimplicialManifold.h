@@ -30,6 +30,8 @@
 
 using Facet = Delaunay::Facet;
 
+// Non-member non-friend functions
+
 /// @brief Classifies edges
 ///
 /// This function iterates over all edges in the triangulation

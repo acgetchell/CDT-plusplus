@@ -17,10 +17,10 @@
 #include <utility>
 #include <vector>
 
-class S3ErgodicMoveTest : public ::testing::Test
+class S3ErgodicMovesTest : public ::testing::Test
 {
  public:
-  S3ErgodicMoveTest()
+  S3ErgodicMovesTest()
       : universe_{make_triangulation(64000, 13)}
       , attempted_moves_{}
       , N3_31_before{universe_.geometry->N3_31()}
@@ -69,7 +69,7 @@ class S3ErgodicMoveTest : public ::testing::Test
   std::intmax_t vertices_before;
 };
 
-TEST_F(S3ErgodicMoveTest, MakeA23Move)
+TEST_F(S3ErgodicMovesTest, MakeA23Move)
 {
   universe_ = make_23_move(std::move(universe_), attempted_moves_);
   std::cout << "Attempted (2,3) moves = " << attempted_moves_[0] << std::endl;
@@ -106,7 +106,7 @@ TEST_F(S3ErgodicMoveTest, MakeA23Move)
       << attempted_moves_[0] << " attempted (2,3) moves.";
 }
 
-TEST_F(S3ErgodicMoveTest, MakeA32Move)
+TEST_F(S3ErgodicMovesTest, MakeA32Move)
 {
   universe_ = std::move(make_32_move(std::move(universe_), attempted_moves_));
   std::cout << "Attempted (3,2) moves = " << attempted_moves_[1] << std::endl;
@@ -143,7 +143,7 @@ TEST_F(S3ErgodicMoveTest, MakeA32Move)
       << attempted_moves_[1] << " attempted (3,2) moves.";
 }
 
-TEST_F(S3ErgodicMoveTest, MakeA26Move)
+TEST_F(S3ErgodicMovesTest, MakeA26Move)
 {
   universe_ = std::move(make_26_move(std::move(universe_), attempted_moves_));
   std::cout << "Attempted (2,6) moves = " << attempted_moves_[2] << std::endl;
@@ -179,7 +179,7 @@ TEST_F(S3ErgodicMoveTest, MakeA26Move)
       << attempted_moves_[2] << " attempted (2,6) moves.";
 }
 
-TEST_F(S3ErgodicMoveTest, MakeA62Move)
+TEST_F(S3ErgodicMovesTest, MakeA62Move)
 {
   universe_ = std::move(make_62_move(std::move(universe_), attempted_moves_));
   std::cout << "Attempted (6,2) moves = " << attempted_moves_[3] << std::endl;
@@ -215,7 +215,7 @@ TEST_F(S3ErgodicMoveTest, MakeA62Move)
       << attempted_moves_[3] << " attempted (6,2) moves.";
 }
 
-TEST_F(S3ErgodicMoveTest, DISABLED_MakeA44Move)
+TEST_F(S3ErgodicMovesTest, DISABLED_MakeA44Move)
 {
   // Stash the old spacelike edges
   auto old_edges = universe_.geometry->spacelike_edges;
