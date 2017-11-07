@@ -27,6 +27,9 @@ class MeasurementsTest : public ::testing::Test
 
 TEST_F(MeasurementsTest, VolumePerTimeslice)
 {
+  ASSERT_TRUE(manifold.reconcile())
+      << "Manifold.triangulation doesn't match manifold.geometry.";
+
   ASSERT_GT(manifold.triangulation->number_of_vertices(), 0)
       << "Manifold has no vertices.";
 

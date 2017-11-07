@@ -474,6 +474,10 @@ struct SimplicialManifold
 #endif
   }
 
+  /// @brief Default copy assignment operator
+  /// @return A copy-assigned SimplicialManifold{}
+  SimplicialManifold& operator=(const SimplicialManifold&) = default;
+
   /// @brief Exception-safe swap
   /// @param first  The first SimplicialManifold to be swapped
   /// @param second The second SimplicialManifold to be swapped with.
@@ -487,9 +491,14 @@ struct SimplicialManifold
     swap(first.geometry, second.geometry);
   }
 
-  /// @brief Default copy assignment operator
-  /// @return A copy-assigned SimplicialManifold{}
-  SimplicialManifold& operator=(const SimplicialManifold&) = default;
+  bool reconcile()
+  {
+    return (this->triangulation->number_of_vertices() == this->geometry->N0() &&
+            this->triangulation->number_of_finite_edges() ==
+                this->geometry->number_of_edges() &&
+            this->triangulation->number_of_finite_cells() ==
+                this->geometry->number_of_cells());
+  }
 };
 
 #endif  // SRC_SIMPLICIALMANIFOLD_H_
