@@ -47,10 +47,10 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda)
   auto N3_22_before = test_universe.geometry->N3_22();
   //  auto timelike_edges_before  =
   //  test_universe.geometry->timelike_edges.size();
-  auto N3_31_before           = test_universe.geometry->three_one.size();
-  auto N3_13_before           = test_universe.geometry->one_three.size();
-  auto spacelike_edges_before = test_universe.geometry->spacelike_edges.size();
-  auto vertices_before        = test_universe.geometry->vertices.size();
+  auto N3_31_before           = test_universe.geometry->N3_31();
+  auto N3_13_before           = test_universe.geometry->N3_13();
+  auto spacelike_edges_before = test_universe.geometry->N1_SL();
+  auto vertices_before        = test_universe.geometry->N0();
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
@@ -67,13 +67,13 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda)
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "tds invalid after move!";
 
-  EXPECT_EQ(test_universe.geometry->three_one.size(), N3_31_before)
+  EXPECT_EQ(test_universe.geometry->N3_31(), N3_31_before)
       << "(3,1) simplices changed.";
 
   EXPECT_EQ(test_universe.geometry->N3_22(), N3_22_before + 1)
       << "(2,2) simplices did not increase by 1.";
 
-  EXPECT_EQ(test_universe.geometry->one_three.size(), N3_13_before)
+  EXPECT_EQ(test_universe.geometry->N3_13(), N3_13_before)
       << "(1,3) simplices changed.";
 
   //   It seems the Euler relation violation stems from not adding an edge
@@ -82,11 +82,10 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda)
   //              Eq(timelike_edges_before + 1))
   //      << "Timelike edges did not increase by 1.";
 
-  EXPECT_EQ(test_universe.geometry->spacelike_edges.size(),
-            spacelike_edges_before)
+  EXPECT_EQ(test_universe.geometry->N1_SL(), spacelike_edges_before)
       << "Spacelike edges changed.";
 
-  EXPECT_EQ(test_universe.geometry->vertices.size(), vertices_before)
+  EXPECT_EQ(test_universe.geometry->N0(), vertices_before)
       << "The number of vertices changed.";
 
   EXPECT_THAT(moves[0], Gt(0)) << moves[0] << " attempted (2,3) moves.";
@@ -101,11 +100,11 @@ TEST(FunctionRefTest, ComplexFunctionRef)
       << "Initial tds invalid.";
 
   auto N3_22_before           = test_universe.geometry->N3_22();
-  auto timelike_edges_before  = test_universe.geometry->timelike_edges.size();
-  auto N3_31_before           = test_universe.geometry->three_one.size();
-  auto N3_13_before           = test_universe.geometry->one_three.size();
-  auto spacelike_edges_before = test_universe.geometry->spacelike_edges.size();
-  auto vertices_before        = test_universe.geometry->vertices.size();
+  auto timelike_edges_before  = test_universe.geometry->N1_TL();
+  auto N3_31_before           = test_universe.geometry->N3_31();
+  auto N3_13_before           = test_universe.geometry->N3_13();
+  auto spacelike_edges_before = test_universe.geometry->N1_SL();
+  auto vertices_before        = test_universe.geometry->N0();
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
 
@@ -123,24 +122,22 @@ TEST(FunctionRefTest, ComplexFunctionRef)
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "tds invalid after move.";
 
-  EXPECT_EQ(test_universe.geometry->three_one.size(), N3_31_before)
+  EXPECT_EQ(test_universe.geometry->N3_31(), N3_31_before)
       << "(3,1) simplices changed.";
 
   EXPECT_EQ(test_universe.geometry->N3_22(), N3_22_before + 1)
       << "(2,2) simplices did not increase by 1.";
 
-  EXPECT_EQ(test_universe.geometry->one_three.size(), N3_13_before)
+  EXPECT_EQ(test_universe.geometry->N3_13(), N3_13_before)
       << "(1,3) simplices changed.";
 
-  EXPECT_THAT(test_universe.geometry->timelike_edges.size(),
-              Eq(timelike_edges_before + 1))
+  EXPECT_THAT(test_universe.geometry->N1_TL(), Eq(timelike_edges_before + 1))
       << "Timelike edges did not increase by 1.";
 
-  EXPECT_EQ(test_universe.geometry->spacelike_edges.size(),
-            spacelike_edges_before)
+  EXPECT_EQ(test_universe.geometry->N1_SL(), spacelike_edges_before)
       << "Spacelike edges changed.";
 
-  EXPECT_EQ(test_universe.geometry->vertices.size(), vertices_before)
+  EXPECT_EQ(test_universe.geometry->N0(), vertices_before)
       << "The number of vertices changed.";
 
   EXPECT_THAT(moves[0], Gt(0)) << moves[0] << " attempted (2,3) moves.";
@@ -155,11 +152,11 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals)
       << "Initial tds invalid.";
 
   auto N3_22_before           = test_universe.geometry->N3_22();
-  auto timelike_edges_before  = test_universe.geometry->timelike_edges.size();
-  auto N3_31_before           = test_universe.geometry->three_one.size();
-  auto N3_13_before           = test_universe.geometry->one_three.size();
-  auto spacelike_edges_before = test_universe.geometry->spacelike_edges.size();
-  auto vertices_before        = test_universe.geometry->vertices.size();
+  auto timelike_edges_before  = test_universe.geometry->N1_TL();
+  auto N3_31_before           = test_universe.geometry->N3_31();
+  auto N3_13_before           = test_universe.geometry->N3_13();
+  auto spacelike_edges_before = test_universe.geometry->N1_SL();
+  auto vertices_before        = test_universe.geometry->N0();
 
   //  test_universe = make_23_move(std::move(test_universe), moves);
   // Make working copies
@@ -189,25 +186,24 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals)
   EXPECT_TRUE(maybe_moved_universe.get().triangulation->tds().is_valid(true))
       << "tds invalid after move.";
 
-  EXPECT_EQ(maybe_moved_universe.get().geometry->three_one.size(), N3_31_before)
+  EXPECT_EQ(maybe_moved_universe.get().geometry->N3_31(), N3_31_before)
       << "(3,1) simplices changed.";
 
   EXPECT_EQ(maybe_moved_universe.get().geometry->N3_22(), N3_22_before + 1)
       << "(2,2) simplices did not increase by 1.";
 
-  EXPECT_EQ(maybe_moved_universe.get().geometry->one_three.size(), N3_13_before)
+  EXPECT_EQ(maybe_moved_universe.get().geometry->N3_13(), N3_13_before)
       << "(1,3) simplices changed.";
 
-  EXPECT_THAT(maybe_moved_universe.get().geometry->timelike_edges.size(),
+  EXPECT_THAT(maybe_moved_universe.get().geometry->N1_TL(),
               Eq(timelike_edges_before + 1))
       << "Timelike edges did not increase by 1.";
 
-  EXPECT_EQ(maybe_moved_universe.get().geometry->spacelike_edges.size(),
+  EXPECT_EQ(maybe_moved_universe.get().geometry->N1_SL(),
             spacelike_edges_before)
       << "Spacelike edges changed.";
 
-  EXPECT_EQ(maybe_moved_universe.get().geometry->vertices.size(),
-            vertices_before)
+  EXPECT_EQ(maybe_moved_universe.get().geometry->N0(), vertices_before)
       << "The number of vertices changed.";
 
   EXPECT_THAT(maybe_move_count.get()[0], Gt(0))

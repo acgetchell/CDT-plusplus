@@ -38,6 +38,7 @@ boost*/
 # Editor files
 .clang_complete
 .idea
+.vscode/
 
 # Program/script executables
 cdt_tests

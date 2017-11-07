@@ -4,15 +4,9 @@
 ///
 /// Utility functions
 
-/// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
-/// Const Correctness</a>
-/// \done Use localtime_r() for thread safety
-
 /// @file utilities.h
 /// @brief Utility functions
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #ifndef SRC_UTILITIES_H_
 #define SRC_UTILITIES_H_
@@ -31,8 +25,11 @@
 #endif
 
 // C++ headers
+#include <algorithm>
+#include <cassert>
 #include <cstdlib>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <mutex>
 #include <random>
@@ -92,7 +89,7 @@ inline std::string hostname() noexcept
 /// Parser. https://github.com/HowardHinnant/date
 ///
 /// @return A formatted string with the system local time
-inline const std::string currentDateTime()
+inline const auto currentDateTime()
 {
   using namespace date;
   using namespace std::chrono;
@@ -176,7 +173,7 @@ void print_results(const T& universe) noexcept
 template <typename T1, typename T2>
 void print_results(const T1& universe, const T2& timer) noexcept
 {
-  print_results(universe);
+  print_results(std::as_const(universe));
 
   // Display program running time
   std::cout << "Running time is " << timer.time() << " seconds." << std::endl;
@@ -216,6 +213,27 @@ void write_file(const T& universe, const topology_type& topology,
   file << *universe.triangulation;
 }
 
+/// @brief Seed sequence class for high-quality pseudo-random number generator
+///
+/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
+/// @tparam T1 Type of number
+template <typename T1>
+struct SeedSeq
+{
+  T1 begin_;
+  T1 end_;
+
+ public:
+  SeedSeq(T1 begin, T1 end) : begin_{begin}, end_{end} {}
+
+  template <typename T2>
+  void generate(T2 b, T2 e)
+  {
+    assert((e - b) <= (end_ - begin_));
+    std::copy(begin_, begin_ + (e - b), b);
+  }
+};
+
 /// @brief Generate random integers
 ///
 /// This function generates a random integer from [1, max_value]
@@ -231,7 +249,18 @@ inline auto generate_random_signed(const intmax_t min_value,
                                    const intmax_t max_value) noexcept
 {
   // Non-deterministic random number generator
-  std::random_device                      generator;
+  std::random_device rd;
+  // The simple way which works in C++14
+  std::mt19937_64 generator(rd());
+  //  // The tedious but more accurate way which works in C++17 but not C++14
+  //  uint32_t numbers[624];
+  //  // Initial state
+  //  std::generate(numbers, std::end(numbers), std::ref(rd));
+  //  // Copy into heap-allocated "seed sequence"
+  //  SeedSeq seedSeq(numbers, std::end(numbers));
+  //  // Initialized mt19937_64
+  //  std::mt19937 g(seedSeq);
+
   std::uniform_int_distribution<intmax_t> distribution(min_value, max_value);
 
   auto result = distribution(generator);
@@ -272,7 +301,8 @@ inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept
 template <typename T>
 auto generate_random_real(const T min_value, const T max_value) noexcept
 {
-  std::random_device                generator;
+  std::random_device                rd;
+  std::mt19937_64                   generator(rd());
   std::uniform_real_distribution<T> distribution(min_value, max_value);
 
   auto result = distribution(generator);

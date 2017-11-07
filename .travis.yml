@@ -13,7 +13,7 @@ addons:
       branch_pattern: coverity
   apt:
     packages:
-      - g++-6
+      - g++-7
       - ninja-build
       - clang-5.0
       - libmpfr-dev
@@ -110,8 +110,8 @@ install:
       INCLUDE_DIR="/usr/include/"
     fi
   - cmake --version
-  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
+#  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
+  - if [[ "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-5.0" CC="clang-5.0"; fi
   - echo $CXX $CC

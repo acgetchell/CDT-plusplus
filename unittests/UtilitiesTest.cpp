@@ -1,14 +1,12 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015 Adam Getchell
+/// Copyright © 2015-2017 Adam Getchell
 ///
 /// Tests of various utility functions.
 
 /// @file UtilitiesTest.cpp
 /// @brief Tests of utility functions
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #include "Utilities.h"
 #include "gmock/gmock.h"

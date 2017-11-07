@@ -149,8 +149,8 @@ TEST_F(FoliatedTetrahedronTest, GetTimelikeEdges)
 {
   SimplicialManifold new_universe =
       SimplicialManifold(std::move(universe.triangulation));
-  auto timelike_edges  = new_universe.geometry->timelike_edges.size();
-  auto spacelike_edges = new_universe.geometry->spacelike_edges.size();
+  auto timelike_edges  = new_universe.geometry->N1_TL();
+  auto spacelike_edges = new_universe.geometry->N1_SL();
 
   std::cout << "There are " << timelike_edges << " timelike edges and "
             << spacelike_edges << " spacelike edges.\n";
