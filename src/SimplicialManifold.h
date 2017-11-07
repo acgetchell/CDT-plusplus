@@ -207,6 +207,7 @@ auto classify_all_simplices(T&& universe_ptr)
 /// See http://en.cppreference.com/w/cpp/language/rule_of_three
 struct GeometryInfo
 {
+ private:
   /// @brief (3,1) cells in the foliation
   std::vector<Cell_handle> three_one;
 
@@ -225,6 +226,7 @@ struct GeometryInfo
   /// @brief Vertices of the foliation
   std::vector<Vertex_handle> vertices;
 
+ public:
   /// @brief Spacelike facets for each timeslice
   boost::optional<std::multimap<intmax_t, Facet>> spacelike_facets;
 
@@ -332,6 +334,29 @@ struct GeometryInfo
   /// @brief Number of vertices
   /// @return The number of vertices in the triangulation
   auto N0() { return static_cast<std::intmax_t>(vertices.size()); }
+
+  template <typename T1, typename T2>
+  friend auto make_23_move(T1&& universe, T2&& attempted_moves)
+      -> decltype(universe);
+
+  template <typename T1, typename T2>
+  friend auto make_32_move(T1&& universe, T2&& attempted_moves)
+      -> decltype(universe);
+
+  template <typename T1, typename T2>
+  friend auto make_26_move(T1&& universe, T2&& attempted_moves)
+      -> decltype(universe);
+
+  template <typename T1, typename T2>
+  friend auto make_62_move(T1&& universe, T2&& attempted_moves)
+      -> decltype(universe);
+
+  template <typename T1, typename T2>
+  friend auto make_44_move(T1&& universe, T2&& attempted_moves)
+      -> decltype(universe);
+
+  template <typename T>
+  friend auto VolumePerTimeslice(T&& manifold) -> decltype(manifold);
 };
 
 /// @struct
