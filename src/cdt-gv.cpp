@@ -91,7 +91,11 @@ int main(int argc, char* const argv[])
   gv.set_bg_color(CGAL::Color(0, 200, 200));
 
   Delaunay      D;
+
+  // See https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
+  std::ios_base::sync_with_stdio(false);
   std::ifstream iFile(file, std::ios::in);
+
   Point3        p;
 
   // Insert points from file into Delaunay triangulation

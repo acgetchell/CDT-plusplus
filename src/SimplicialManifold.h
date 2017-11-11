@@ -259,19 +259,19 @@ struct GeometryInfo
 
   /// @brief Default move assignment operator
   GeometryInfo& operator=(GeometryInfo&&) = default;
-  //  GeometryInfo& operator=(Geometry_tuple&& other)
-  //  {
-  //#ifndef NDEBUG
-  //    std::cout << "GeometryInfo move assignment operator." << std::endl;
-  //#endif
-  //    three_one       = std::move(std::get<0>(other));
-  //    two_two         = std::move(std::get<1>(other));
-  //    one_three       = std::move(std::get<2>(other));
-  //    timelike_edges  = std::move(std::get<3>(other));
-  //    spacelike_edges = std::move(std::get<4>(other));
-  //    vertices        = std::move(std::get<5>(other));
-  //    return *this;
-  //  }
+//    GeometryInfo& operator=(Geometry_tuple&& other)
+//    {
+//  #ifndef NDEBUG
+//      std::cout << "GeometryInfo move assignment operator." << std::endl;
+//  #endif
+//      three_one       = std::move(std::get<0>(other));
+//      two_two         = std::move(std::get<1>(other));
+//      one_three       = std::move(std::get<2>(other));
+//      timelike_edges  = std::move(std::get<3>(other));
+//      spacelike_edges = std::move(std::get<4>(other));
+//      vertices        = std::move(std::get<5>(other));
+//      return *this;
+//    }
 
   /// @brief Default copy constructor
   GeometryInfo(const GeometryInfo&) = default;
@@ -440,7 +440,7 @@ struct SimplicialManifold
       : triangulation{std::move(other.triangulation)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
-  //    , geometry{std::move(other.geometry)}
+//      , geometry{std::move(other.geometry)}
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold move ctor." << std::endl;
