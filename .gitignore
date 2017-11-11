@@ -16,7 +16,6 @@
 *.pch
 
 # OS X temporary files that should never be committed
-
 .DS_Store
 *.swp
 *.lock
@@ -25,20 +24,14 @@ profile
 # Build, Doc, and Testing dirs
 build/*
 html/
-latex/
-cgal-releases*/
-cpplint.py
-doc_html/
-*.tmp
-*.tar.gz
 googletest/
 cov-int
-boost*/
 
 # Editor files
 .clang_complete
 .idea
 .vscode/
+xcode/
 
 # Program/script executables
 cdt_tests

@@ -51,9 +51,8 @@ endif()
 
 if(CGAL_FOUND)
 #Don't let CGAL override flags
-  set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain
-                                                      CMAKE flags")
-
+  set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain CMAKE flags")
+  set(CGAL_TRIANGULATION_NO_ASSERTIONS TRUE CACHE BOOL "Turn off Triangulation checks" FORCE)
   include(${CGAL_USE_FILE})
 
 #Experimental TBB support
