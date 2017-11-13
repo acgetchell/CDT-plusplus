@@ -234,6 +234,7 @@ inline auto find_26_movable(const Cell_handle& c, unsigned* n)
 /// Finally, the centroid of the common face calculated using
 /// **CGAL::centroid()** and assigned to **v_center**, along with a
 /// timevalue taken from one of the vertices of the common face.
+/// @todo Check Euler condition on insert, ensure not inserting outside
 ///
 /// @image html 26.png
 /// @image latex 26.eps width=7cm
@@ -347,6 +348,9 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
       // Insert new vertex
       Vertex_handle v_center = universe.triangulation->tds().insert_in_facet(
           bottom, neighboring_31_index);
+
+      // Check that vertex is in center of 6 simplices
+      // Check Euler condition is true
 
 #ifndef NDEBUG
       // Find the center of the facet

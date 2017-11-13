@@ -23,7 +23,8 @@ if (CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 # Turn off CGAL Triangulation Assertions
-set(CGAL_TRIANGULATION_NO_ASSERTIONS)
+set(CMAKE_CXX_FLAGS "-DCGAL_TRIANGULATION_NO_ASSERTIONS")
+set(CMAKE_CXX_FLAGS "-DCGAL_TRIANGULATION_NO_POSTCONDITIONS")
 
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 #with CGAL_SetupFlags.cmake
