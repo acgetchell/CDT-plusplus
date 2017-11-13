@@ -24,6 +24,8 @@
 
 int main()
 {
+  // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
+  std::ios_base::sync_with_stdio(false);
   std::cout << "cdt-opt started at " << currentDateTime() << std::endl;
   constexpr intmax_t simplices  = 64000;
   constexpr intmax_t timeslices = 16;

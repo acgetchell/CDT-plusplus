@@ -17,6 +17,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 #Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
+# Compiler flags
+if (CMAKE_COMPILER_IS_GNUCXX)
+  set(CMAKE_CXX_FLAGS  "-frounding-math")
+endif()
+
+# Turn off CGAL Triangulation Assertions
+set(CGAL_TRIANGULATION_NO_ASSERTIONS)
+
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 #with CGAL_SetupFlags.cmake
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
@@ -52,7 +60,6 @@ endif()
 if(CGAL_FOUND)
 #Don't let CGAL override flags
   set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain CMAKE flags")
-  set(CGAL_TRIANGULATION_NO_ASSERTIONS TRUE CACHE BOOL "Turn off Triangulation checks" FORCE)
   include(${CGAL_USE_FILE})
 
 #Experimental TBB support
