@@ -49,7 +49,10 @@ find_package(CGAL QUIET COMPONENTS Core )
 
 #Need working version of boost::optional
 set(Boost_DEBUG FALSE)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
+set(Boost_USE_STATIC_LIBS OFF)
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME OFF)
+find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS system thread)
 #Boost debugging
 message(STATUS "Found Boost include: ${Boost_INCLUDE_DIR}")
 message(STATUS "Boost libraries to link: ${Boost_LIBRARIES}")
@@ -77,17 +80,17 @@ if(CGAL_FOUND)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
 
-    include_directories (BEFORE "../../include" src/date/include)
+    include_directories (BEFORE "../../include" src/date/include ${Boost_INCLUDE_DIRS})
 
 #    create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
     add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
-    target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
+    target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${Boost_LIBRARIES} curl)
     if (UNIX)
       create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
     endif(UNIX)
 #    create_single_source_cgal_program("src/cdt-opt.cpp" "src/date/tz.cpp")
     add_executable(cdt-opt src/cdt-opt.cpp src/date/src/tz.cpp)
-      target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
+      target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${Boost_LIBRARIES} curl)
 
   else()
     message(STATUS "NOTICE: This program requires the Eigen3 library,
