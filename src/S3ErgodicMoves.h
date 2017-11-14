@@ -346,12 +346,20 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
       Vertex_handle v_center = universe.triangulation->tds().insert_in_facet(
           bottom, neighboring_31_index);
 
-      // Check that vertex is in center of 6 simplices
+      // Checks
       std::vector<Cell_handle> inc_cells;
-      //        universe.triangulation->tds().incident_cells(v_center,
-      //        inc_cells);
+      universe.triangulation->tds().incident_cells(
+          v_center, std::back_inserter(inc_cells));
+      if (inc_cells.size() != 6)
+        throw std::logic_error(
+            "(2,6) center vertex not bounded by 6 simplices!");
 
-      // Check Euler condition is true
+      // Check combinatorial and geometric validity of each cell
+      for (auto cell : inc_cells) {
+        if (!universe.triangulation->tds().is_valid(cell, true))
+          throw std::logic_error(
+              "A cell resulting from (2,6) move is invalid.");
+      }
 
 #ifndef NDEBUG
       // Find the center of the facet
@@ -381,8 +389,10 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
                 << v_center->info() << "\n";
 #endif
 
-      CGAL_triangulation_postcondition(
-          universe.triangulation->tds().is_valid(v_center, true, 1));
+      //      CGAL_triangulation_postcondition(
+      //          universe.triangulation->tds().is_valid(v_center, true, 1));
+      if (!universe.triangulation->tds().is_valid(v_center, true, 1))
+        throw std::logic_error("Center vertex in (2,6) move invalid!");
       not_moved = false;
     }
     else

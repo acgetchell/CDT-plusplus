@@ -191,7 +191,7 @@ auto fix_timeslices(T&& universe_ptr)
   // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
   //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
   if (!universe_ptr->is_valid())
-    throw std::logic_error("Delaunay triangulation invalid!")
+    throw std::logic_error("Delaunay triangulation invalid!");
 
 #ifndef NDEBUG
             std::cout
