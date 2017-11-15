@@ -100,6 +100,10 @@ static constexpr std::intmax_t MAX_FOLIATION_FIX_PASSES = 500;
 /// The dimensionality of the Delaunay triangulation
 static constexpr int DIMENSION = 3;
 
+/// Initial radius and radial factor
+static constexpr double INITIAL_RADIUS = 1.0;
+static constexpr double RADIAL_FACTOR = 1.0;
+
 /// @brief Fix simplices with incorrect foliation
 ///
 /// This function iterates over all of the cells in the triangulation.
@@ -246,14 +250,14 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
   //  double     radius{0};
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
-  CGAL_triangulation_precondition(points_per_timeslice >= 4);
+  CGAL_triangulation_precondition(points_per_timeslice >= 2);
   Causal_vertices causal_vertices;
 
   for (std::intmax_t i = 0; i < timeslices; ++i) {
-    auto radius = 1.0 + static_cast<double>(i);
+    auto radius = INITIAL_RADIUS + static_cast<double>(i)*RADIAL_FACTOR;
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
-    // At each radius, generate a sphere of random points
-    for (std::intmax_t j = 0; j < points_per_timeslice; ++j) {
+    // At each radius, generate a sphere of random points proportional to area
+    for (std::intmax_t j = 0; j < static_cast<std::intmax_t>(points_per_timeslice*radius); ++j) {
       causal_vertices.push_back(std::make_pair(*gen++, radius));
     }  // end j
   }    // end i

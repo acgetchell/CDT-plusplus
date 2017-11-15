@@ -22,16 +22,16 @@ if (CMAKE_COMPILER_IS_GNUCXX)
   set(CMAKE_CXX_FLAGS  "-frounding-math")
 endif()
 
-# Turn off CGAL Triangulation Assertions
-set(CMAKE_CXX_FLAGS "-DCGAL_TRIANGULATION_NO_ASSERTIONS")
-set(CMAKE_CXX_FLAGS "-DCGAL_TRIANGULATION_NO_POSTCONDITIONS")
+# Turn off CGAL Triangulation Assertions and Postconditions
+add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
+add_definitions(-DCGAL_NO_ASSERTIONS)
 
 #Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 #with CGAL_SetupFlags.cmake
 set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 
 #Extra warnings
-add_definitions(-Wall -Wno-comment)
+add_compile_options(-Wall -Wno-comment)
 
 ###############################################################################
 #Turn on / off Google Mock Tests

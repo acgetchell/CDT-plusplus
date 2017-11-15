@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright (c) 2015-2016 Adam Getchell
+/// Copyright © 2015-2017 Adam Getchell
 ///
 /// Tests that foliated tetrahedrons are constructed correctly
 /// in a Delaunay triangulation.
@@ -8,15 +8,10 @@
 /// @file S3TriangulationTest.cpp
 /// @brief Tests for correctly foliated triangulations
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
-#include "S3Triangulation.h"
 #include "SimplicialManifold.h"
-#include "Utilities.h"
 #include "gmock/gmock.h"
-#include <memory>
-#include <utility>
+#include <Measurements.h>
 
 TEST(S3Triangulation, CreateWithUniquePtr)
 {
@@ -31,7 +26,7 @@ TEST(S3Triangulation, CreateWithUniquePtr)
 TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor)
 {
   constexpr auto simplices  = static_cast<std::intmax_t>(6400);
-  constexpr auto timeslices = static_cast<std::intmax_t>(17);
+  constexpr auto timeslices = static_cast<std::intmax_t>(7);
   // explicit SimplicialManifold ctor with std::unique_ptr<Delaunay>
   auto               universe_ptr = make_triangulation(simplices, timeslices);
   SimplicialManifold universe(std::move(universe_ptr));
@@ -66,12 +61,20 @@ TEST(S3Triangulation, SimplicialManifold_UniquePtrCtor)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 }
 
 TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor)
 {
   constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
-  constexpr auto     timeslices = static_cast<std::intmax_t>(17);
+  constexpr auto     timeslices = static_cast<std::intmax_t>(7);
   SimplicialManifold universe(simplices, timeslices);
 
   EXPECT_NE(universe.triangulation, nullptr)
@@ -104,6 +107,14 @@ TEST(S3Triangulation, SimplicialManifold_SimplicesTimeslicesCtor)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 }
 
 TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices)
@@ -131,12 +142,60 @@ TEST(S3Triangulation, CreatesFoliatedWithTwoTimeslices)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
+}
+
+TEST(S3Triangulation, CreateAFewSimplices)
+{
+  constexpr auto     simplices  = static_cast<std::intmax_t>(640);
+  constexpr auto     timeslices = static_cast<std::intmax_t>(4);
+  SimplicialManifold universe(simplices, timeslices);
+
+  std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
+            << std::endl;
+  std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
+            << std::endl;
+  std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
+            << std::endl;
+  std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
+            << std::endl;
+
+  EXPECT_EQ(universe.triangulation->dimension(), 3)
+      << "Triangulation has wrong dimensionality.";
+
+  EXPECT_TRUE(IsBetween<std::intmax_t>(
+      universe.triangulation->number_of_vertices(), 1, 4 * simplices))
+      << "Triangulation has wrong number of vertices.";
+
+  EXPECT_TRUE(fix_timeslices(universe.triangulation))
+      << "Some simplices do not span exactly 1 timeslice.";
+
+  EXPECT_TRUE(universe.triangulation->is_valid())
+      << "Triangulation is not Delaunay.";
+
+  EXPECT_TRUE(universe.triangulation->tds().is_valid())
+      << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 }
 
 TEST(S3Triangulation, CreateSomeSimplices)
 {
   constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
-  constexpr auto     timeslices = static_cast<std::intmax_t>(16);
+  constexpr auto     timeslices = static_cast<std::intmax_t>(7);
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
@@ -163,12 +222,20 @@ TEST(S3Triangulation, CreateSomeSimplices)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 }
 
 TEST(S3Triangulation, CreateWithLotsOfSimplices)
 {
   constexpr auto     simplices  = static_cast<std::intmax_t>(64000);
-  constexpr auto     timeslices = static_cast<std::intmax_t>(67);
+  constexpr auto     timeslices = static_cast<std::intmax_t>(17);
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
@@ -195,12 +262,21 @@ TEST(S3Triangulation, CreateWithLotsOfSimplices)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 }
 
 TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices)
 {
-  constexpr auto     simplices  = static_cast<std::intmax_t>(640000);
-  constexpr auto     timeslices = static_cast<std::intmax_t>(256);
+  /// @todo Tune parameters for >100K simplices
+  constexpr auto     simplices  = static_cast<std::intmax_t>(128000);
+  constexpr auto     timeslices = static_cast<std::intmax_t>(32);
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
@@ -227,4 +303,12 @@ TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices)
 
   EXPECT_TRUE(universe.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
+
+  VolumePerTimeslice(universe);
+
+  EXPECT_EQ(timeslices, universe.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 }

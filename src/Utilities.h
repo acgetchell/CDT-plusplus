@@ -358,19 +358,23 @@ inline auto expected_points_per_simplex(const int           dimension,
     {
       // Avoid segfaults for small values
       if (simplices == timeslices) {
-        return 4 * simplices_per_timeslice;
+        return 2 * simplices_per_timeslice;
+      }
+      else if (simplices < 1000)
+      {
+        return static_cast<std::intmax_t>(0.4 * simplices_per_timeslice);
       }
       else if (simplices < 10000)
       {
-        return simplices_per_timeslice;
+        return static_cast<std::intmax_t>(0.2 * simplices_per_timeslice);
       }
       else if (simplices < 100000)
       {
-        return static_cast<std::intmax_t>(1.5 * simplices_per_timeslice);
+        return static_cast<std::intmax_t>(0.15 * simplices_per_timeslice);
       }
       else
       {
-        return static_cast<std::intmax_t>(2.7 * simplices_per_timeslice);
+        return static_cast<std::intmax_t>(0.1 * simplices_per_timeslice);
       }
     }
     default:

@@ -48,7 +48,7 @@ template <typename T>
 auto classify_edges(T&& universe_ptr)
 {
 #ifndef NDEBUG
-  std::cout << "Classifying edges...." << std::endl;
+  std::cout << "Classifying edges....\n";
 #endif
   Delaunay::Finite_edges_iterator eit;
   std::vector<Edge_handle>        timelike_edges;
@@ -86,7 +86,7 @@ auto classify_edges(T&& universe_ptr)
 // Display results if debugging
 #ifndef NDEBUG
   std::cout << "There are " << timelike_edges.size() << " timelike edges and "
-            << spacelike_edges.size() << " spacelike edges." << std::endl;
+            << spacelike_edges.size() << " spacelike edges.\n";
 #endif
   return std::make_pair(timelike_edges, spacelike_edges);
 }  // classify_edges()
@@ -111,7 +111,7 @@ template <typename T>
 auto classify_simplices(T&& universe_ptr)
 {
 #ifndef NDEBUG
-  std::cout << "Classifying simplices...." << std::endl;
+  std::cout << "Classifying simplices....\n";
 #endif
   Delaunay::Finite_cells_iterator cit;
   std::vector<Cell_handle>        three_one;
@@ -167,8 +167,8 @@ auto classify_simplices(T&& universe_ptr)
 // Display results if debugging
 #ifndef NDEBUG
   std::cout << "There are " << three_one.size() << " (3,1) simplices and "
-            << two_two.size() << " (2,2) simplices" << std::endl;
-  std::cout << "and " << one_three.size() << " (1,3) simplices." << std::endl;
+            << two_two.size() << " (2,2) simplices\n";
+  std::cout << "and " << one_three.size() << " (1,3) simplices.\n";
 #endif
   return std::make_tuple(three_one, two_two, one_three);
 }  // classify_simplices()
@@ -177,7 +177,7 @@ template <typename T>
 auto classify_all_simplices(T&& universe_ptr)
 {
 #ifndef NDEBUG
-  std::cout << "Classifying all simplices...." << std::endl;
+  std::cout << "Classifying all simplices....\n";
 #endif
 
   auto                       cells = classify_simplices(universe_ptr);
@@ -259,19 +259,19 @@ struct GeometryInfo
 
   /// @brief Default move assignment operator
   GeometryInfo& operator=(GeometryInfo&&) = default;
-//    GeometryInfo& operator=(Geometry_tuple&& other)
-//    {
-//  #ifndef NDEBUG
-//      std::cout << "GeometryInfo move assignment operator." << std::endl;
-//  #endif
-//      three_one       = std::move(std::get<0>(other));
-//      two_two         = std::move(std::get<1>(other));
-//      one_three       = std::move(std::get<2>(other));
-//      timelike_edges  = std::move(std::get<3>(other));
-//      spacelike_edges = std::move(std::get<4>(other));
-//      vertices        = std::move(std::get<5>(other));
-//      return *this;
-//    }
+  //    GeometryInfo& operator=(Geometry_tuple&& other)
+  //    {
+  //  #ifndef NDEBUG
+  //      std::cout << "GeometryInfo move assignment operator." << std::endl;
+  //  #endif
+  //      three_one       = std::move(std::get<0>(other));
+  //      two_two         = std::move(std::get<1>(other));
+  //      one_three       = std::move(std::get<2>(other));
+  //      timelike_edges  = std::move(std::get<3>(other));
+  //      spacelike_edges = std::move(std::get<4>(other));
+  //      vertices        = std::move(std::get<5>(other));
+  //      return *this;
+  //    }
 
   /// @brief Default copy constructor
   GeometryInfo(const GeometryInfo&) = default;
@@ -331,6 +331,10 @@ struct GeometryInfo
     return timevalues ? *timevalues->crbegin() : 0;
   }
 
+  boost::optional<std::intmax_t> min_timevalue()
+  {
+    return timevalues ? *timevalues->begin() : 0;
+  }
   /// @brief Number of vertices
   /// @return The number of vertices in the triangulation
   auto N0() { return static_cast<std::intmax_t>(vertices.size()); }
@@ -378,7 +382,7 @@ struct SimplicialManifold
       , geometry{std::make_unique<GeometryInfo>()}
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold default ctor." << std::endl;
+    std::cout << "SimplicialManifold default ctor.\n";
 #endif
   }
 
@@ -400,8 +404,7 @@ struct SimplicialManifold
             classify_all_simplices(triangulation))}
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold std::unique_ptr<Delaunay> ctor."
-              << std::endl;
+    std::cout << "SimplicialManifold std::unique_ptr<Delaunay> ctor.\n";
 #endif
   }
 
@@ -419,7 +422,7 @@ struct SimplicialManifold
             classify_all_simplices(triangulation))}
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold make_triangulation ctor." << std::endl;
+    std::cout << "SimplicialManifold make_triangulation ctor.\n";
 #endif
   }
 
@@ -427,7 +430,7 @@ struct SimplicialManifold
   ~SimplicialManifold()
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold dtor." << std::endl;
+    std::cout << "SimplicialManifold dtor.\n";
 #endif
     this->triangulation = nullptr;
     this->geometry      = nullptr;
@@ -440,10 +443,10 @@ struct SimplicialManifold
       : triangulation{std::move(other.triangulation)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
-//      , geometry{std::move(other.geometry)}
+  //      , geometry{std::move(other.geometry)}
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold move ctor." << std::endl;
+    std::cout << "SimplicialManifold move ctor.\n";
 #endif
   }
 
@@ -453,7 +456,7 @@ struct SimplicialManifold
   SimplicialManifold& operator=(SimplicialManifold&& other)
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold move assignment operator." << std::endl;
+    std::cout << "SimplicialManifold move assignment operator.\n";
 #endif
     triangulation = std::move(other.triangulation);
     geometry      = std::make_unique<GeometryInfo>(
@@ -470,7 +473,7 @@ struct SimplicialManifold
       , geometry{std::make_unique<GeometryInfo>(*(other.geometry))}
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold copy ctor." << std::endl;
+    std::cout << "SimplicialManifold copy ctor.\n";
 #endif
   }
 
@@ -484,7 +487,7 @@ struct SimplicialManifold
   friend void swap(SimplicialManifold& first, SimplicialManifold& second)
   {
 #ifndef NDEBUG
-    std::cout << "SimplicialManifold swapperator." << std::endl;
+    std::cout << "SimplicialManifold swapperator.\n";
 #endif
     using std::swap;
     swap(first.triangulation, second.triangulation);

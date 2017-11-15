@@ -38,7 +38,7 @@ TEST(FunctionRefTest, SimpleLambdaWithFunctionRef)
 
 TEST(FunctionRefTest, DISABLED_ComplexLambda)
 {
-  SimplicialManifold test_universe(6400, 13);
+  SimplicialManifold test_universe(6400, 7);
   Move_tracker       moves{};
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))

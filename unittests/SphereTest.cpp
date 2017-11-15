@@ -8,8 +8,6 @@
 /// @file SphereTest.cpp
 /// @brief Tests for spheres
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #include "src/S3Triangulation.h"
 #include "src/Sphere_d.h"
@@ -17,11 +15,11 @@
 
 TEST(Sphere, Create2Sphere)
 {
-  constexpr std::uintmax_t simplices  = 100;
-  constexpr std::uintmax_t timeslices = 12;
+  constexpr std::uintmax_t simplices  = 640;
+  constexpr std::uintmax_t timeslices = 4;
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
-  auto number_of_vertices =
-      expected_points_per_simplex(3, simplices, timeslices, false) * timeslices;
+//  auto number_of_vertices =
+//      expected_points_per_simplex(3, simplices, timeslices, false) * timeslices;
 
   // Debugging
   for (auto cv : causal_vertices) {
@@ -29,7 +27,8 @@ TEST(Sphere, Create2Sphere)
               << std::endl;
   }
 
-  EXPECT_TRUE(causal_vertices.size() == number_of_vertices)
+//  EXPECT_THAT(causal_vertices.size(), testing::Eq(number_of_vertices))
+    EXPECT_THAT(causal_vertices.size(), testing::Eq(640))
       << "Wrong number of vertices.";
 }
 
