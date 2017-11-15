@@ -21,7 +21,7 @@ class S3ErgodicMovesTest : public ::testing::Test
 {
  public:
   S3ErgodicMovesTest()
-      : universe_{make_triangulation(64000, 13)}
+      : universe_{make_triangulation(6400, 7)}
       , attempted_moves_{}
       , N3_31_before{universe_.geometry->N3_31()}
       , N3_22_before{universe_.geometry->N3_22()}

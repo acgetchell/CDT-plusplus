@@ -46,6 +46,8 @@ GTEST_API_ int _tmain(int argc, TCHAR** argv)
 GTEST_API_ int main(int argc, char** argv)
 {
 #endif  // GTEST_OS_WINDOWS_MOBILE
+  // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
+  std::ios_base::sync_with_stdio(false);
   std::cout << "Running main() from gmock_main.cc\n";
   // Since Google Mock depends on Google Test, InitGoogleMock() is
   // also responsible for initializing Google Test.  Therefore there's

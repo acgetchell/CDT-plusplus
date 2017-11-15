@@ -27,10 +27,12 @@ class MeasurementsTest : public ::testing::Test
 
 TEST_F(MeasurementsTest, VolumePerTimeslice)
 {
-  ASSERT_GT(manifold.triangulation->number_of_vertices(), 0)
-      << "Manifold has no vertices.";
+  ASSERT_TRUE(manifold.reconcile())
+      << "Manifold.triangulation data doesn't match manifold.geometry values.";
 
-  ASSERT_GT(manifold.triangulation->number_of_cells(), 0)
+  ASSERT_GT(manifold.geometry->N0(), 0) << "Manifold has no vertices.";
+
+  ASSERT_GT(manifold.geometry->number_of_cells(), 0)
       << "Manifold has no cells.";
 
   ASSERT_FALSE(manifold.geometry->spacelike_facets.is_initialized())
@@ -59,4 +61,9 @@ TEST_F(MeasurementsTest, DISABLED_PersistData)
 
   ASSERT_TRUE(result.geometry->spacelike_facets.is_initialized())
       << "Spacelike facets is not initialized.";
+
+//  ASSERT_TRUE(manifold.geometry->max_timevalue().is_initialized())
+//      << "Max timevalue is not initialized.";
+  //  EXPECT_EQ(timeslices, manifold.geometry->max_timevalue().get())
+  //      << "Expected timeslices differs from actual timeslices.";
 }

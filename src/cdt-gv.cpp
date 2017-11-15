@@ -69,6 +69,8 @@ Options:
 /// @returns        Integer value 0 if successful, 1 on failure
 int main(int argc, char* const argv[])
 {
+  // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
+  std::ios_base::sync_with_stdio(false);
   // docopt option parser
   std::map<std::string, docopt::value> args =
       docopt::docopt(USAGE, {argv + 1, argv + argc},

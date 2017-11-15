@@ -1,14 +1,12 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014 Adam Getchell
+/// Copyright © 2014-2017 Adam Getchell
 ///
 /// Tests for inserting and deleting vertices.
 
 /// @file VertexTest.cpp
 /// @brief Tests on vertices
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"

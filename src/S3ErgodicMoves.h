@@ -51,7 +51,7 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved)
   for (auto i = 0; i < 4; ++i) {
     if (universe.triangulation->flip(to_be_moved, i)) {
 #ifndef NDEBUG
-      std::cout << "Facet " << i << " was flippable." << std::endl;
+      std::cout << "Facet " << i << " was flippable.\n";
 #endif
 
       flipped = true;
@@ -60,7 +60,7 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved)
     else
     {
 #ifndef NDEBUG
-      std::cout << "Facet " << i << " was not flippable." << std::endl;
+      std::cout << "Facet " << i << " was not flippable.\n";
 #endif
     }
   }
@@ -83,7 +83,7 @@ template <typename T1, typename T2>
 auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 {
 #ifndef NDEBUG
-  std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+  std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
 
   auto not_flipped = true;
@@ -140,7 +140,7 @@ template <typename T1, typename T2>
 auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 {
 #ifndef NDEBUG
-  std::cout << "Attempting (3,2) move." << std::endl;
+  std::cout << "Attempting (3,2) move.\n";
 #endif
 
   auto not_flipped = true;
@@ -152,14 +152,14 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 
     if (try_32_move(universe, to_be_moved)) {
 #ifndef NDEBUG
-      std::cout << "Edge " << choice << " was flippable." << std::endl;
+      std::cout << "Edge " << choice << " was flippable.\n";
 #endif
       not_flipped = false;
     }
     else
     {
 #ifndef NDEBUG
-      std::cout << "Edge " << choice << " was not flippable." << std::endl;
+      std::cout << "Edge " << choice << " was not flippable.\n";
 #endif
     }
     // Increment the (3,2) move counter
@@ -205,7 +205,7 @@ inline auto find_26_movable(const Cell_handle& c, unsigned* n)
   for (unsigned i = 0; i < 4; ++i) {
 #ifndef NDEBUG
     std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
-              << std::endl;
+              << "\n";
 #endif
     // Check all neighbors for a (3,1) simplex
     if (is_26_movable(c, i)) {
@@ -234,6 +234,7 @@ inline auto find_26_movable(const Cell_handle& c, unsigned* n)
 /// Finally, the centroid of the common face calculated using
 /// **CGAL::centroid()** and assigned to **v_center**, along with a
 /// timevalue taken from one of the vertices of the common face.
+/// @todo Check Euler condition on insert, ensure not inserting outside
 ///
 /// @image html 26.png
 /// @image latex 26.eps width=7cm
@@ -248,7 +249,7 @@ template <typename T1, typename T2>
 auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 {
 #ifndef NDEBUG
-  std::cout << "Attempting (2,6) move." << std::endl;
+  std::cout << "Attempting (2,6) move.\n";
 #endif
 
   auto not_moved = true;
@@ -271,8 +272,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
       throw std::runtime_error("make_26_move() neighboring_31_index invalid!");
 
 #ifndef NDEBUG
-    std::cout << "neighboring_31_index is " << neighboring_31_index
-              << std::endl;
+    std::cout << "neighboring_31_index is " << neighboring_31_index << "\n";
 #endif
 
     Cell_handle top = bottom->neighbor(neighboring_31_index);
@@ -283,7 +283,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 
 #ifndef NDEBUG
     std::cout << "bottom's common_face_index with top is " << common_face_index
-              << std::endl;
+              << "\n";
 #endif
 
     // If common_face_index == 5 there's an error
@@ -296,15 +296,14 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 
 #ifndef NDEBUG
     std::cout << "top's mirror_common_face_index with bottom is "
-              << mirror_common_face_index << std::endl;
+              << mirror_common_face_index << "\n";
 #endif
 
     // If mirror_common_face_index == 5 there's an error
     //    CGAL_triangulation_postcondition(mirror_common_face_index != 5);
     if (mirror_common_face_index == 5)
       throw std::runtime_error(
-          "make_26_move() mirror_common_face_index "
-          "invalid!");
+          "make_26_move() mirror_common_face_index invalid!");
 
     // Get indices of vertices of common face with respect to bottom cell
     int i1 = (common_face_index + 1) & 3;
@@ -329,18 +328,17 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     // int in2 = top->index(bottom->vertex(i2));
     // int in3 = top->index(bottom->vertex(i3));
     Vertex_handle v5 = top->vertex(in1);
-    (v1 == v5)
-        ? std::cout << "bottom->vertex(i1) == top->vertex(in1)" << std::endl
-        : std::cout << "bottom->vertex(i1) != top->vertex(in1)" << std::endl;
+    (v1 == v5) ? std::cout << "bottom->vertex(i1) == top->vertex(in1)\n"
+               : std::cout << "bottom->vertex(i1) != top->vertex(in1)\n";
 #endif
 
     // Is there a neighboring (3,1) simplex?
     if (find_26_movable(bottom, &neighboring_31_index)) {
 #ifndef NDEBUG
-      std::cout << "(1,3) simplex " << choice << " is movable." << std::endl;
+      std::cout << "(1,3) simplex " << choice << " is movable.\n";
       std::cout << "The neighboring simplex " << neighboring_31_index
                 << " is of type "
-                << bottom->neighbor(neighboring_31_index)->info() << std::endl;
+                << bottom->neighbor(neighboring_31_index)->info() << "\n";
 #endif
 
       // Do the (2,6) move
@@ -348,12 +346,27 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
       Vertex_handle v_center = universe.triangulation->tds().insert_in_facet(
           bottom, neighboring_31_index);
 
+      // Checks
+      std::vector<Cell_handle> inc_cells;
+      universe.triangulation->tds().incident_cells(
+          v_center, std::back_inserter(inc_cells));
+      if (inc_cells.size() != 6)
+        throw std::logic_error(
+            "(2,6) center vertex not bounded by 6 simplices!");
+
+      // Check combinatorial and geometric validity of each cell
+      for (auto cell : inc_cells) {
+        if (!universe.triangulation->tds().is_valid(cell, true))
+          throw std::logic_error(
+              "A cell resulting from (2,6) move is invalid.");
+      }
+
 #ifndef NDEBUG
       // Find the center of the facet
       // A vertex is a topological object which may be associated with a
       // point, which is a geometrical object.
       auto center_point = CGAL::centroid(v1->point(), v2->point(), v3->point());
-      std::cout << "Center point is: " << center_point << std::endl;
+      std::cout << "Center point is: " << center_point << "\n";
       v_center->set_point(center_point);
 #endif
 
@@ -364,27 +377,28 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 #ifndef NDEBUG
       // Check we have a vertex
       if (universe.triangulation->tds().is_vertex(v_center)) {
-        std::cout << "It's a vertex in the TDS." << std::endl;
+        std::cout << "It's a vertex in the TDS.\n";
       }
       else
       {
-        std::cout << "It's not a vertex in the TDS." << std::endl;
+        std::cout << "It's not a vertex in the TDS.\n";
       }
 
-      std::cout << "Spacelike face timeslice is " << timeslice << std::endl;
+      std::cout << "Spacelike face timeslice is " << timeslice << "\n";
       std::cout << "Inserted vertex " << v_center->point() << " with timeslice "
-                << v_center->info() << std::endl;
+                << v_center->info() << "\n";
 #endif
 
-      CGAL_triangulation_postcondition(
-          universe.triangulation->tds().is_valid(v_center, true, 1));
+      //      CGAL_triangulation_postcondition(
+      //          universe.triangulation->tds().is_valid(v_center, true, 1));
+      if (!universe.triangulation->tds().is_valid(v_center, true, 1))
+        throw std::logic_error("Center vertex in (2,6) move invalid!");
       not_moved = false;
     }
     else
     {
 #ifndef NDEBUG
-      std::cout << "(1,3) simplex " << choice << " was not movable."
-                << std::endl;
+      std::cout << "(1,3) simplex " << choice << " was not movable.\n";
 #endif
     }
     // Increment the (2,6) move counter
@@ -426,8 +440,7 @@ auto find_62_movable(T&& universe, Vertex_handle candidate)
     else
     {
 #ifndef NDEBUG
-      std::cout << "Probably an edge cell (facet with infinite vertex)."
-                << std::endl;
+      std::cout << "Probably an edge cell (facet with infinite vertex).\n";
 #endif
       return false;
     }

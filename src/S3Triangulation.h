@@ -33,8 +33,6 @@
 /// @file S3Triangulation.h
 /// @brief Functions on 3D Spherical Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #ifndef SRC_S3TRIANGULATION_H_
 #define SRC_S3TRIANGULATION_H_
@@ -101,6 +99,10 @@ static constexpr std::intmax_t MAX_FOLIATION_FIX_PASSES = 500;
 
 /// The dimensionality of the Delaunay triangulation
 static constexpr int DIMENSION = 3;
+
+/// Initial radius and radial factor
+static constexpr double INITIAL_RADIUS = 1.0;
+static constexpr double RADIAL_FACTOR = 1.0;
 
 /// @brief Fix simplices with incorrect foliation
 ///
@@ -169,11 +171,10 @@ auto fix_timeslices(T&& universe_ptr)
 
 #ifdef DETAILED_DEBUGGING
       std::cout << "Foliation for cell is "
-                << ((this_cell_foliation_valid) ? "valid." : "invalid.")
-                << std::endl;
+                << ((this_cell_foliation_valid) ? "valid." : "invalid.\n");
       for (auto i = 0; i < 4; ++i) {
         std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
-                  << " with timeslice " << cit->vertex(i)->info() << std::endl;
+                  << " with timeslice " << cit->vertex(i)->info() << "\n";
       }
 #endif
     }
@@ -191,11 +192,15 @@ auto fix_timeslices(T&& universe_ptr)
   // Delete invalid vertices
   universe_ptr->remove(deleted_vertices.begin(), deleted_vertices.end());
   // Check that the triangulation is still valid
-  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
+  // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
+  //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
+  if (!universe_ptr->is_valid())
+    throw std::logic_error("Delaunay triangulation invalid!");
 
 #ifndef NDEBUG
-  std::cout << "There are " << invalid << " invalid simplices and " << valid
-            << " valid simplices." << std::endl;
+            std::cout
+        << "There are " << invalid << " invalid simplices and " << valid
+        << " valid simplices.\n";
 #endif
   return invalid == 0;
 }  // fix_timeslices
@@ -211,7 +216,7 @@ void fix_triangulation(T&& universe_ptr)
 {
   for (std::intmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
 #ifndef NDEBUG
-    std::cout << "Fix Pass #" << (pass + 1) << std::endl;
+    std::cout << "Fix Pass #" << (pass + 1) << "\n";
 #endif
     if (fix_timeslices(universe_ptr)) break;
   }
@@ -245,14 +250,14 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
   //  double     radius{0};
   const auto points_per_timeslice =
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
-  CGAL_triangulation_precondition(points_per_timeslice >= 4);
+  CGAL_triangulation_precondition(points_per_timeslice >= 2);
   Causal_vertices causal_vertices;
 
   for (std::intmax_t i = 0; i < timeslices; ++i) {
-    auto radius = 1.0 + static_cast<double>(i);
+    auto radius = INITIAL_RADIUS + static_cast<double>(i)*RADIAL_FACTOR;
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
-    // At each radius, generate a sphere of random points
-    for (std::intmax_t j = 0; j < points_per_timeslice; ++j) {
+    // At each radius, generate a sphere of random points proportional to area
+    for (std::intmax_t j = 0; j < static_cast<std::intmax_t>(points_per_timeslice*radius); ++j) {
       causal_vertices.push_back(std::make_pair(*gen++, radius));
     }  // end j
   }    // end i
@@ -280,7 +285,7 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
 auto inline make_triangulation(const std::intmax_t simplices,
                                const std::intmax_t timeslices)
 {
-  std::cout << "Generating universe ... " << std::endl;
+  std::cout << "Generating universe ... \n";
 
 #ifdef CGAL_LINKED_WITH_TBB
   // Construct the locking data-structure
