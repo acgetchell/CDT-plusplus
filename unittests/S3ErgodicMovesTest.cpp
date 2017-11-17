@@ -72,7 +72,7 @@ class S3ErgodicMovesTest : public ::testing::Test
 TEST_F(S3ErgodicMovesTest, MakeA23Move)
 {
   universe_ = make_23_move(std::move(universe_), attempted_moves_);
-  std::cout << "Attempted (2,3) moves = " << attempted_moves_[0] << std::endl;
+  std::cout << "Attempted (2,3) moves = " << attempted_moves_[0] << "\n";
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
@@ -109,7 +109,7 @@ TEST_F(S3ErgodicMovesTest, MakeA23Move)
 TEST_F(S3ErgodicMovesTest, MakeA32Move)
 {
   universe_ = std::move(make_32_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (3,2) moves = " << attempted_moves_[1] << std::endl;
+  std::cout << "Attempted (3,2) moves = " << attempted_moves_[1] << "\n";
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
@@ -146,7 +146,7 @@ TEST_F(S3ErgodicMovesTest, MakeA32Move)
 TEST_F(S3ErgodicMovesTest, MakeA26Move)
 {
   universe_ = std::move(make_26_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (2,6) moves = " << attempted_moves_[2] << std::endl;
+  std::cout << "Attempted (2,6) moves = " << attempted_moves_[2] << "\n";
 
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "Triangulation is invalid.";
@@ -182,7 +182,7 @@ TEST_F(S3ErgodicMovesTest, MakeA26Move)
 TEST_F(S3ErgodicMovesTest, MakeA62Move)
 {
   universe_ = std::move(make_62_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (6,2) moves = " << attempted_moves_[3] << std::endl;
+  std::cout << "Attempted (6,2) moves = " << attempted_moves_[3] << "\n";
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())
       << "Triangulation is invalid.";
@@ -221,7 +221,7 @@ TEST_F(S3ErgodicMovesTest, DISABLED_MakeA44Move)
   //  auto old_edges = universe_.geometry->spacelike_edges;
   // Now make the move
   universe_ = std::move(make_44_move(std::move(universe_), attempted_moves_));
-  std::cout << "Attempted (4,4) moves = " << attempted_moves_[4] << std::endl;
+  std::cout << "Attempted (4,4) moves = " << attempted_moves_[4] << "\n";
 
   // We expect the triangulation to be valid, but not necessarily Delaunay
   EXPECT_TRUE(universe_.triangulation->tds().is_valid())

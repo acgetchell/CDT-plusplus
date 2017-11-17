@@ -11,7 +11,6 @@
 
 #include "Torus_d.h"
 #include "gmock/gmock.h"
-#include <vector>
 
 TEST(Torus, Create2Torus)
 {

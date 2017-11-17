@@ -37,15 +37,15 @@ class S3ActionTest : public ::testing::Test
   {
     // Print ctor-initialized values
     std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
-              << std::endl;
+              << "\n";
     std::cout << "(2,2) simplices: " << universe_.geometry->N3_22()
-              << std::endl;
+              << "\n";
     std::cout << "(1,3) simplices: " << universe_.geometry->N3_13()
-              << std::endl;
-    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << std::endl;
+              << "\n";
+    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << "\n";
     std::cout << "Spacelike edges: " << universe_.geometry->N1_SL()
-              << std::endl;
-    std::cout << "Vertices: " << universe_.geometry->N0() << std::endl;
+              << "\n";
+    std::cout << "Vertices: " << universe_.geometry->N0() << "\n";
   }
 
   /// @brief Simplicial manifold containing pointer to triangulation
@@ -102,15 +102,15 @@ TEST_F(S3ActionTest, CalculateAlphaMinus1BulkAction)
       universe_.geometry->N3_22(), K, Lambda);
   // Debugging
   //  std::cout << "timelike_edges_before " << timelike_edges_before <<
-  //  std::endl;
+  //  "\n";
   //  std::cout << "universe_.geometry->N3_31_13()"
-  //            << universe_.geometry->N3_31_13() << std::endl;
+  //            << universe_.geometry->N3_31_13() << "\n";
   //  std::cout << "universe_.geometry->N3_22() " << universe_.geometry->N3_22()
-  //            << std::endl;
-  //  std::cout << "K " << K << std::endl;
-  //  std::cout << "Lambda " << Lambda << std::endl;
+  //            << "\n";
+  //  std::cout << "K " << K << "\n";
+  //  std::cout << "Lambda " << Lambda << "\n";
   std::cout << "S3_bulk_action_alpha_minus_one() result is " << Bulk_action
-            << std::endl;
+            << "\n";
 
   // Magic values from lots of tests
   EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 500, 4500))
@@ -123,7 +123,7 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction)
       timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
   std::cout << "S3_bulk_action_alpha_one() result is " << Bulk_action
-            << std::endl;
+            << "\n";
 
   // Magic values from lots of tests
   EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 300, 3000))
@@ -133,11 +133,11 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction)
 TEST_F(S3ActionTest, CalculateGeneralBulkAction)
 {
   constexpr auto Alpha = static_cast<long double>(0.6);
-  std::cout << "(Long double) Alpha = " << Alpha << std::endl;
+  std::cout << "(Long double) Alpha = " << Alpha << "\n";
   auto Bulk_action =
       S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31_13(),
                      universe_.geometry->N3_22(), Alpha, K, Lambda);
-  std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
+  std::cout << "S3_bulk_action() result is " << Bulk_action << "\n";
 
   // Magic value from lots of tests
   EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 1000, 4000))
@@ -148,7 +148,7 @@ TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction)
 {
   constexpr auto tolerance = static_cast<long double>(0.05);
   constexpr auto Alpha     = static_cast<long double>(1.0);
-  std::cout << "(Long double) Alpha = " << Alpha << std::endl;
+  std::cout << "(Long double) Alpha = " << Alpha << "\n";
 
   auto Bulk_action =
       S3_bulk_action(timelike_edges_before, universe_.geometry->N3_31_13(),
@@ -156,16 +156,16 @@ TEST_F(S3ActionTest, GeneralBulkActionEquivalentToAlpha1BulkAction)
   auto Bulk_action_one = S3_bulk_action_alpha_one(
       timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
-  std::cout << "S3_bulk_action() result is " << Bulk_action << std::endl;
+  std::cout << "S3_bulk_action() result is " << Bulk_action << "\n";
   std::cout << "S3_bulk_action_alpha_one() result is " << Bulk_action_one
-            << std::endl;
-  std::cout << (1.0 - tolerance) << std::endl;
+            << "\n";
+  std::cout << (1.0 - tolerance) << "\n";
   // BUG: For some reason this produces 0
   const auto min = Bulk_action_one * (1.0 - tolerance);
-  std::cout << "(double) min = " << min << std::endl;
-  std::cout << (1.0 + tolerance) << std::endl;
+  std::cout << "(double) min = " << min << "\n";
+  std::cout << (1.0 + tolerance) << "\n";
   const auto max = Bulk_action_one * (1.0 + tolerance);
-  std::cout << "(double) max = " << max << std::endl;
+  std::cout << "(double) max = " << max << "\n";
 
   ASSERT_TRUE(IsBetween<double>(Bulk_action, min, max))
       << "General Bulk action does not match Bulk action for alpha=1.";

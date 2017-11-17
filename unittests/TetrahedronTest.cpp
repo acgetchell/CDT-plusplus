@@ -99,7 +99,7 @@ TEST_F(FoliatedTetrahedronTest, CorrectTimevalues)
   //  for (auto cv : causal_vertices)
   //  {
   //    std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
-  //              << std::endl;
+  //              << "\n";
   //  }
   Causal_vertices                    comparison;
   Delaunay::Finite_vertices_iterator vit;
@@ -107,7 +107,7 @@ TEST_F(FoliatedTetrahedronTest, CorrectTimevalues)
        vit != universe.triangulation->finite_vertices_end(); ++vit)
   {
     std::cout << "Point: " << vit->point() << " Timevalue: " << vit->info()
-              << std::endl;
+              << "\n";
     comparison.emplace_back(std::make_pair(vit->point(), vit->info()));
   }
   std::sort(comparison.begin(), comparison.end(),
@@ -115,7 +115,7 @@ TEST_F(FoliatedTetrahedronTest, CorrectTimevalues)
   //  for (auto cv : comparison)
   //  {
   //    std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
-  //              << std::endl;
+  //              << "\n";
   //  }
 
   EXPECT_EQ(causal_vertices, comparison) << "Items not correctly inserted.";
@@ -132,7 +132,7 @@ TEST_F(FoliatedTetrahedronTest, InsertSimplexType)
        cit != new_universe.triangulation->finite_cells_end(); ++cit)
   {
     EXPECT_EQ(cit->info(), 31);
-    std::cout << "Simplex type is " << cit->info() << std::endl;
+    std::cout << "Simplex type is " << cit->info() << "\n";
   }
 
   EXPECT_EQ(new_universe.geometry->N3_31(), 1)

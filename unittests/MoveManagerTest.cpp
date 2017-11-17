@@ -29,16 +29,12 @@ class MoveManagerTest : public ::testing::Test
   virtual void SetUp()
   {
     // Print ctor-initialized values
-    std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
-              << std::endl;
-    std::cout << "(2,2) simplices: " << universe_.geometry->N3_22()
-              << std::endl;
-    std::cout << "(1,3) simplices: " << universe_.geometry->N3_13()
-              << std::endl;
-    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << std::endl;
-    std::cout << "Spacelike edges: " << universe_.geometry->N1_SL()
-              << std::endl;
-    std::cout << "Vertices: " << universe_.geometry->N0() << std::endl;
+    std::cout << "(3,1) simplices: " << universe_.geometry->N3_31() << "\n";
+    std::cout << "(2,2) simplices: " << universe_.geometry->N3_22() << "\n";
+    std::cout << "(1,3) simplices: " << universe_.geometry->N3_13() << "\n";
+    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << "\n";
+    std::cout << "Spacelike edges: " << universe_.geometry->N1_SL() << "\n";
+    std::cout << "Vertices: " << universe_.geometry->N0() << "\n";
   }
 
   /// @brief Simplicial manifold containing pointer to triangulation
@@ -320,17 +316,17 @@ TEST_F(MoveManagerTest, MakeA23Move)
   swap(attempted_moves_, this_move.attempted_moves_.get());
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
-            << " (2,2) cells." << std::endl;
+            << " (2,2) cells.\n";
 
   std::cout << "maybe_moved_universe has "
-            << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
-            << std::endl;
+            << maybe_moved_universe.get().geometry->N3_22()
+            << " (2,2) cells.\n";
 
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
 
   std::cout << "universe_ has " << universe_.geometry->N3_22()
-            << " (2,2) cells." << std::endl;
+            << " (2,2) cells.\n";
 
   EXPECT_TRUE(universe_.triangulation->tds().is_valid(true))
       << "MoveManager's returned universe_.triangulation invalid";
@@ -367,7 +363,7 @@ TEST_F(MoveManagerTest, MakeA23Move)
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << attempted_moves_[0] << std::endl;
+            << attempted_moves_[0] << "\n";
 
   EXPECT_GT(attempted_moves_[0], 0)
       << "Move manager didn't return an attempted (2,3) move.";
@@ -423,17 +419,17 @@ TEST_F(MoveManagerTest, MakeA32Move)
   swap(attempted_moves_, this_move.attempted_moves_.get());
 
   std::cout << "this_move has " << this_move.universe_.get().geometry->N3_22()
-            << " (2,2) cells." << std::endl;
+            << " (2,2) cells.\n";
 
   std::cout << "maybe_moved_universe has "
-            << maybe_moved_universe.get().geometry->N3_22() << " (2,2) cells."
-            << std::endl;
+            << maybe_moved_universe.get().geometry->N3_22()
+            << " (2,2) cells.\n";
 
   EXPECT_TRUE(this_move.universe_.get().triangulation->tds().is_valid(true))
       << "this_move.universe.triangulation invalid.";
 
   std::cout << "universe_ has " << universe_.geometry->N3_22()
-            << " (2,2) cells." << std::endl;
+            << " (2,2) cells.\n";
 
   EXPECT_TRUE(universe_.triangulation.get()->tds().is_valid(true))
       << "MoveManager's returned universe_.triangulation invalid";
@@ -470,7 +466,7 @@ TEST_F(MoveManagerTest, MakeA32Move)
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << attempted_moves_[1] << std::endl;
+            << attempted_moves_[1] << "\n";
 
   EXPECT_GT(attempted_moves_[1], 0)
       << "Move manager didn't return an attempted (3,2) move.";
@@ -564,7 +560,7 @@ TEST_F(MoveManagerTest, MakeA26Move)
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << attempted_moves_[2] << std::endl;
+            << attempted_moves_[2] << "\n";
 
   EXPECT_GT(attempted_moves_[2], 0)
       << "Move manager didn't return an attempted (2,6) move.";
@@ -655,7 +651,7 @@ TEST_F(MoveManagerTest, MakeA62Move)
       << "MoveManager's returned universe_ is a null pointer after swap.";
 
   std::cout << "MoveManagerTest member attempted_moves_ is "
-            << attempted_moves_[3] << std::endl;
+            << attempted_moves_[3] << "\n";
 
   EXPECT_GT(attempted_moves_[3], 0)
       << "Move manager didn't return an attempted (2,6) move.";
