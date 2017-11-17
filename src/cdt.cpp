@@ -86,7 +86,7 @@ int main(int argc, char* const argv[])
 
     // Debugging
     // for (auto const& arg : args) {
-    //   std::cout << arg.first << " " << arg.second << std::endl;
+    //   std::cout << arg.first << " " << arg.second << "\n";
     // }
 
     // Parse docopt::values in args map
@@ -113,17 +113,17 @@ int main(int argc, char* const argv[])
     std::cout << "Topology is "
               << (topology == topology_type::TOROIDAL ? " toroidal "
                                                       : "spherical ")
-              << std::endl;
-    std::cout << "Number of dimensions = " << dimensions << std::endl;
-    std::cout << "Number of simplices = " << simplices << std::endl;
-    std::cout << "Number of timeslices = " << timeslices << std::endl;
-    std::cout << "Alpha = " << alpha << std::endl;
-    std::cout << "K = " << k << std::endl;
-    std::cout << "Lambda = " << lambda << std::endl;
-    std::cout << "Number of passes = " << passes << std::endl;
-    std::cout << "Checkpoint every n passes = " << checkpoint << std::endl;
-    std::cout << "User = " << getEnvVar("USER") << std::endl;
-    std::cout << "Hostname = " << hostname() << std::endl;
+              << "\n";
+    std::cout << "Number of dimensions = " << dimensions << "\n";
+    std::cout << "Number of simplices = " << simplices << "\n";
+    std::cout << "Number of timeslices = " << timeslices << "\n";
+    std::cout << "Alpha = " << alpha << "\n";
+    std::cout << "K = " << k << "\n";
+    std::cout << "Lambda = " << lambda << "\n";
+    std::cout << "Number of passes = " << passes << "\n";
+    std::cout << "Checkpoint every n passes = " << checkpoint << "\n";
+    std::cout << "User = " << getEnvVar("USER") << "\n";
+    std::cout << "Hostname = " << hostname() << "\n";
 
     // Initialize simulation
     Simulation my_simulation;
@@ -175,9 +175,8 @@ int main(int argc, char* const argv[])
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }
 
-    std::cout << "Universe has been initialized ..." << std::endl;
-    std::cout << "Now performing " << passes << " passes of ergodic moves."
-              << std::endl;
+    std::cout << "Universe has been initialized ...\n";
+    std::cout << "Now performing " << passes << " passes of ergodic moves.\n";
 
     // The main work of the program
     universe = my_simulation.start(std::move(universe));
@@ -198,25 +197,25 @@ int main(int argc, char* const argv[])
   }
   catch (std::domain_error& DomainError)
   {
-    std::cerr << DomainError.what() << std::endl;
-    std::cerr << "Triangle inequalities violated ... Exiting." << std::endl;
+    std::cerr << DomainError.what() << "\n";
+    std::cerr << "Triangle inequalities violated ... Exiting.\n";
     return 1;
   }
   catch (std::invalid_argument& InvalidArgument)
   {
-    std::cerr << InvalidArgument.what() << std::endl;
-    std::cerr << "Invalid parameter ... Exiting." << std::endl;
+    std::cerr << InvalidArgument.what() << "\n";
+    std::cerr << "Invalid parameter ... Exiting.\n";
     return 1;
   }
   catch (std::logic_error& LogicError)
   {
-    std::cerr << LogicError.what() << std::endl;
-    std::cerr << "Simulation startup failed ... Exiting." << std::endl;
+    std::cerr << LogicError.what() << "\n";
+    std::cerr << "Simulation startup failed ... Exiting.\n";
     return 1;
   }
   catch (...)
   {
-    std::cerr << "Something went wrong ... Exiting." << std::endl;
+    std::cerr << "Something went wrong ... Exiting.\n";
     return 1;
   }
 }

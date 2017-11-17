@@ -79,14 +79,14 @@ int main(int argc, char* const argv[])
 
   // Debugging docopt values
   // for (auto const& arg : args) {
-  //   std::cout << arg.first << " " << arg.second << std::endl;
+  //   std::cout << arg.first << " " << arg.second << "\n";
   // }
 
   // Parse docopt::values in args map
   auto file = args["--file"].asString();
 
   // Test
-  std::cout << "File to be loaded is " << file << std::endl;
+  std::cout << "File to be loaded is " << file << "\n";
 
   CGAL::Geomview_stream gv(CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));
   gv.set_line_width(4);
@@ -101,11 +101,11 @@ int main(int argc, char* const argv[])
     D.insert(p);
   }
 
-  std::cout << "Drawing 3D Delaunay triangulation in wired mode." << std::endl;
+  std::cout << "Drawing 3D Delaunay triangulation in wired mode.\n";
   gv.set_wired(true);
   gv << D;
 
-  std::cout << "Enter a key to finish" << std::endl;
+  std::cout << "Enter a key to finish.\n";
   char ch;
   std::cin >> ch;
 
