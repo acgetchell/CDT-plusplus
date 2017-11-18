@@ -14,10 +14,7 @@
 #include "S3Action.h"
 #include "S3Triangulation.h"
 #include "SimplicialManifold.h"
-#include "Utilities.h"
 #include "gmock/gmock.h"
-#include <algorithm>
-#include <vector>
 
 class S3ActionTest : public ::testing::Test
 {
@@ -36,15 +33,11 @@ class S3ActionTest : public ::testing::Test
   virtual void SetUp()
   {
     // Print ctor-initialized values
-    std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
-              << "\n";
-    std::cout << "(2,2) simplices: " << universe_.geometry->N3_22()
-              << "\n";
-    std::cout << "(1,3) simplices: " << universe_.geometry->N3_13()
-              << "\n";
+    std::cout << "(3,1) simplices: " << universe_.geometry->N3_31() << "\n";
+    std::cout << "(2,2) simplices: " << universe_.geometry->N3_22() << "\n";
+    std::cout << "(1,3) simplices: " << universe_.geometry->N3_13() << "\n";
     std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << "\n";
-    std::cout << "Spacelike edges: " << universe_.geometry->N1_SL()
-              << "\n";
+    std::cout << "Spacelike edges: " << universe_.geometry->N1_SL() << "\n";
     std::cout << "Vertices: " << universe_.geometry->N0() << "\n";
   }
 
@@ -122,8 +115,7 @@ TEST_F(S3ActionTest, CalculateAlpha1BulkAction)
   auto Bulk_action = S3_bulk_action_alpha_one(
       timelike_edges_before, universe_.geometry->N3_31_13(),
       universe_.geometry->N3_22(), K, Lambda);
-  std::cout << "S3_bulk_action_alpha_one() result is " << Bulk_action
-            << "\n";
+  std::cout << "S3_bulk_action_alpha_one() result is " << Bulk_action << "\n";
 
   // Magic values from lots of tests
   EXPECT_TRUE(IsBetween<Gmpzf>(Bulk_action, 300, 3000))

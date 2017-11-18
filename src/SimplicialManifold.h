@@ -29,6 +29,10 @@
 #include <vector>
 
 using Facet = Delaunay::Facet;
+using Geometry_tuple =
+    std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
+               std::vector<Cell_handle>, std::vector<Edge_handle>,
+               std::vector<Edge_handle>, std::vector<Vertex_handle>>;
 
 // Non-member non-friend functions
 
@@ -229,21 +233,39 @@ struct GeometryInfo
   /// @brief Spacelike facets for each timeslice
   boost::optional<std::multimap<intmax_t, Facet>> spacelike_facets;
 
+  /// @brief Actual timevalues of simulation
+  boost::optional<std::set<intmax_t>> timevalues;
+
  public:
+  /// @brief Getter for spacelike facets
+  /// @return The multimap of facets
   const boost::optional<std::multimap<intmax_t, Facet>>& getSpacelike_facets()
       const
   {
     return spacelike_facets;
   }
 
+  /// @brief Setter for spacelike facets
+  /// @param spacelike_facets The multimap of facets
   void setSpacelike_facets(
       const boost::optional<std::multimap<intmax_t, Facet>>& spacelike_facets)
   {
     GeometryInfo::spacelike_facets = spacelike_facets;
   }
 
-  /// @brief Actual timevalues of simulation
-  boost::optional<std::set<intmax_t>> timevalues;
+  /// @brief Getter for timevalues
+  /// @return The set of timevalues
+  const boost::optional<std::set<intmax_t>>& getTimevalues() const
+  {
+    return timevalues;
+  }
+
+  /// @brief Setter for timevalues
+  /// @param timevalues The set of timevalues
+  void setTimevalues(const boost::optional<std::set<intmax_t>>& timevalues)
+  {
+    GeometryInfo::timevalues = timevalues;
+  }
 
   /// @brief Default constructor
   GeometryInfo() = default;

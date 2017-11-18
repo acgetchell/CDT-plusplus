@@ -59,7 +59,7 @@ TEST(SimplicialManifold, GeometryInfo_Members)
   EXPECT_FALSE(universe.geometry->getSpacelike_facets())
       << "spacelike facets should be empty.";
 
-  EXPECT_FALSE(universe.geometry->timevalues) << "timevalues should be empty.";
+  EXPECT_FALSE(universe.geometry->getTimevalues()) << "timevalues should be empty.";
 
   // Calculate spacelike facets per timeslice and populated time values
   VolumePerTimeslice(universe);
@@ -67,7 +67,7 @@ TEST(SimplicialManifold, GeometryInfo_Members)
   EXPECT_TRUE(universe.geometry->getSpacelike_facets())
       << "spacelike_facets should not be empty.";
 
-  EXPECT_TRUE(universe.geometry->timevalues)
+  EXPECT_TRUE(universe.geometry->getTimevalues())
       << "timevalues should not be empty";
 
   // Copy SimplicialManifold and check that deep copy of GeometryInfo works
@@ -95,8 +95,8 @@ TEST(SimplicialManifold, GeometryInfo_Members)
               universe.geometry->getSpacelike_facets())
       << "Copy of geometry didn't preserve spacelike_facets.";
 
-  EXPECT_TRUE(copied_universe.geometry->timevalues ==
-              universe.geometry->timevalues)
+  EXPECT_TRUE(copied_universe.geometry->getTimevalues() ==
+              universe.geometry->getTimevalues())
       << "Copy of geometry didn't preserve timevalues.";
 }
 

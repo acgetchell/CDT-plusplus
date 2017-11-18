@@ -79,10 +79,10 @@ using Locate_type     = Delaunay::Locate_type;
 using Point           = Delaunay::Point;
 using Edge_handle     = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
 using Causal_vertices = std::vector<std::pair<Point, std::intmax_t>>;
-using Geometry_tuple =
-    std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-               std::vector<Cell_handle>, std::vector<Edge_handle>,
-               std::vector<Edge_handle>, std::vector<Vertex_handle>>;
+//using Geometry_tuple =
+//    std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
+//               std::vector<Cell_handle>, std::vector<Edge_handle>,
+//               std::vector<Edge_handle>, std::vector<Vertex_handle>>;
 using Move_tracker = std::array<intmax_t, 5>;
 
 enum class move_type

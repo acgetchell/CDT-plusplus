@@ -51,13 +51,13 @@ TEST_F(MeasurementsTest, VolumePerTimeslice)
       << "Expected timeslices differs from actual timeslices.";
 }
 
-TEST_F(MeasurementsTest, DISABLED_PersistData)
+TEST_F(MeasurementsTest, PersistData)
 {
   VolumePerTimeslice(manifold);
 
   Move_tracker attempted_moves;
 
-  auto result = make_23_move(std::move(manifold), attempted_moves);
+  auto result = make_26_move(std::move(manifold), attempted_moves);
 
   ASSERT_TRUE(result.geometry->getSpacelike_facets().is_initialized())
       << "Spacelike facets is not initialized.";
