@@ -56,7 +56,7 @@ TEST(SimplicialManifold, GeometryInfo_Members)
             universe.geometry->N1_TL() + universe.geometry->N1_SL())
       << "number of edges don't add up.";
 
-  EXPECT_FALSE(universe.geometry->spacelike_facets)
+  EXPECT_FALSE(universe.geometry->getSpacelike_facets())
       << "spacelike facets should be empty.";
 
   EXPECT_FALSE(universe.geometry->timevalues) << "timevalues should be empty.";
@@ -64,7 +64,7 @@ TEST(SimplicialManifold, GeometryInfo_Members)
   // Calculate spacelike facets per timeslice and populated time values
   VolumePerTimeslice(universe);
 
-  EXPECT_TRUE(universe.geometry->spacelike_facets)
+  EXPECT_TRUE(universe.geometry->getSpacelike_facets())
       << "spacelike_facets should not be empty.";
 
   EXPECT_TRUE(universe.geometry->timevalues)
@@ -91,8 +91,8 @@ TEST(SimplicialManifold, GeometryInfo_Members)
   EXPECT_EQ(copied_universe.geometry->N0(), universe.geometry->N0())
       << "Copy of geometry didn't preserve vertices.";
 
-  EXPECT_TRUE(copied_universe.geometry->spacelike_facets ==
-              universe.geometry->spacelike_facets)
+  EXPECT_TRUE(copied_universe.geometry->getSpacelike_facets() ==
+              universe.geometry->getSpacelike_facets())
       << "Copy of geometry didn't preserve spacelike_facets.";
 
   EXPECT_TRUE(copied_universe.geometry->timevalues ==

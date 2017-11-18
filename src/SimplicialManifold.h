@@ -226,9 +226,21 @@ struct GeometryInfo
   /// @brief Vertices of the foliation
   std::vector<Vertex_handle> vertices;
 
- public:
   /// @brief Spacelike facets for each timeslice
   boost::optional<std::multimap<intmax_t, Facet>> spacelike_facets;
+
+ public:
+  const boost::optional<std::multimap<intmax_t, Facet>>& getSpacelike_facets()
+      const
+  {
+    return spacelike_facets;
+  }
+
+  void setSpacelike_facets(
+      const boost::optional<std::multimap<intmax_t, Facet>>& spacelike_facets)
+  {
+    GeometryInfo::spacelike_facets = spacelike_facets;
+  }
 
   /// @brief Actual timevalues of simulation
   boost::optional<std::set<intmax_t>> timevalues;
@@ -242,7 +254,7 @@ struct GeometryInfo
   /// which itself takes a std::unique_ptr<Delaunay>
   /// @param geometry Geometry_tuple initializing values
   /// @return A populated GeometryInfo{}
-  explicit GeometryInfo(const Geometry_tuple&& geometry)  // NOLINT
+  explicit GeometryInfo(const Geometry_tuple&& geometry)
       : three_one{std::get<0>(geometry)}
       , two_two{std::get<1>(geometry)}
       , one_three{std::get<2>(geometry)}

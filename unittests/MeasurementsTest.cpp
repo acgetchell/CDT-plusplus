@@ -35,7 +35,7 @@ TEST_F(MeasurementsTest, VolumePerTimeslice)
   ASSERT_GT(manifold.geometry->number_of_cells(), 0)
       << "Manifold has no cells.";
 
-  ASSERT_FALSE(manifold.geometry->spacelike_facets.is_initialized())
+  ASSERT_FALSE(manifold.geometry->getSpacelike_facets().is_initialized())
       << "spacelike_facets should not be initialized yet";
 
   ASSERT_EQ(manifold.geometry->max_timevalue().get(), 0)
@@ -44,7 +44,7 @@ TEST_F(MeasurementsTest, VolumePerTimeslice)
 
   VolumePerTimeslice(manifold);
 
-  ASSERT_FALSE(manifold.geometry->spacelike_facets->empty())
+  ASSERT_FALSE(manifold.geometry->getSpacelike_facets()->empty())
       << "Spacelike_facets is empty.";
 
   EXPECT_EQ(timeslices, manifold.geometry->max_timevalue().get())
@@ -59,7 +59,7 @@ TEST_F(MeasurementsTest, DISABLED_PersistData)
 
   auto result = make_23_move(std::move(manifold), attempted_moves);
 
-  ASSERT_TRUE(result.geometry->spacelike_facets.is_initialized())
+  ASSERT_TRUE(result.geometry->getSpacelike_facets().is_initialized())
       << "Spacelike facets is not initialized.";
 
 //  ASSERT_TRUE(manifold.geometry->max_timevalue().is_initialized())
