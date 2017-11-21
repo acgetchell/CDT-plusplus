@@ -12,11 +12,14 @@
 #include "S3ErgodicMoves.h"
 #include "gmock/gmock.h"
 
+constexpr auto simplices  = static_cast<std::intmax_t>(32000);
+constexpr auto timeslices = static_cast<std::intmax_t>(12);
+
 class MoveManagerTest : public ::testing::Test
 {
  public:
   MoveManagerTest()
-      : universe_{make_triangulation(6400, 7)}
+      : universe_{make_triangulation(simplices, timeslices)}
       , attempted_moves_{}
       , N3_31_before{universe_.geometry->N3_31()}
       , N3_22_before{universe_.geometry->N3_22()}

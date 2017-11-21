@@ -14,14 +14,16 @@
 #include "S3ErgodicMoves.h"
 #include "SimplicialManifold.h"
 #include "gmock/gmock.h"
-#include <utility>
-#include <vector>
+#include <Measurements.h>
+
+constexpr auto simplices  = static_cast<std::intmax_t>(32000);
+constexpr auto timeslices = static_cast<std::intmax_t>(12);
 
 class S3ErgodicMovesTest : public ::testing::Test
 {
  public:
   S3ErgodicMovesTest()
-      : universe_{make_triangulation(6400, 7)}
+      : universe_{make_triangulation(simplices, timeslices)}
       , attempted_moves_{}
       , N3_31_before{universe_.geometry->N3_31()}
       , N3_22_before{universe_.geometry->N3_22()}
@@ -34,7 +36,7 @@ class S3ErgodicMovesTest : public ::testing::Test
   virtual void SetUp()
   {
     // Print ctor-initialized values
-    std::cout << "Initial Triangulation ..." << '\n';
+    std::cout << "Initial Triangulation ...\n";
     std::cout << "(3,1) simplices: " << N3_31_before << '\n';
     std::cout << "(2,2) simplices: " << N3_22_before << '\n';
     std::cout << "(1,3) simplices: " << N3_13_before << '\n';
@@ -84,6 +86,14 @@ TEST_F(S3ErgodicMovesTest, MakeA23Move)
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
+  VolumePerTimeslice(universe_);
+
+  EXPECT_EQ(timeslices, universe_.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe_.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
+
   EXPECT_EQ(universe_.geometry->N3_31(), N3_31_before)
       << "(3,1) simplices changed.";
 
@@ -121,6 +131,14 @@ TEST_F(S3ErgodicMovesTest, MakeA32Move)
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
+  VolumePerTimeslice(universe_);
+
+  EXPECT_EQ(timeslices, universe_.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe_.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
+
   EXPECT_EQ(universe_.geometry->N3_31(), N3_31_before)
       << "(3,1) simplices changed.";
 
@@ -157,6 +175,14 @@ TEST_F(S3ErgodicMovesTest, MakeA26Move)
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
 
+  VolumePerTimeslice(universe_);
+
+  EXPECT_EQ(timeslices, universe_.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe_.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
+
   EXPECT_EQ(universe_.geometry->N3_31(), N3_31_before + 2)
       << "(3,1) simplices did not increase by 2.";
 
@@ -192,6 +218,14 @@ TEST_F(S3ErgodicMovesTest, MakeA62Move)
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
+
+  VolumePerTimeslice(universe_);
+
+  EXPECT_EQ(timeslices, universe_.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe_.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 
   EXPECT_EQ(universe_.geometry->N3_31(), N3_31_before - 2)
       << "(3,1) simplices did not decrease by 2.";
@@ -232,6 +266,14 @@ TEST_F(S3ErgodicMovesTest, DISABLED_MakeA44Move)
 
   EXPECT_TRUE(fix_timeslices(universe_.triangulation))
       << "Some simplices do not span exactly 1 timeslice.";
+
+  VolumePerTimeslice(universe_);
+
+  EXPECT_EQ(timeslices, universe_.geometry->max_timevalue().get())
+      << "Expected timeslices differs from actual timeslices.";
+
+  EXPECT_EQ(1, universe_.geometry->min_timevalue().get())
+      << "Minimum timevalue isn't 1.";
 
   // Was a (4,4) move made?
   //  auto new_edges = universe_.geometry->spacelike_edges;

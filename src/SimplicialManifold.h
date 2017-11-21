@@ -473,31 +473,33 @@ struct SimplicialManifold
   /// @brief Move constructor
   /// @param other The SimplicialManifold to be move-constructed from
   /// @return A moved-to SimplicialManifold{}
-  SimplicialManifold(SimplicialManifold&& other)  // NOLINT
-      : triangulation{std::move(other.triangulation)}
-      , geometry{std::make_unique<GeometryInfo>(
-            classify_all_simplices(triangulation))}
-  //      , geometry{std::move(other.geometry)}
-  {
-#ifndef NDEBUG
-    std::cout << "SimplicialManifold move ctor.\n";
-#endif
-  }
+    SimplicialManifold(SimplicialManifold&& other)  // NOLINT
+        : triangulation{std::move(other.triangulation)}
+        , geometry{std::make_unique<GeometryInfo>(
+              classify_all_simplices(triangulation))}
+    //      , geometry{std::move(other.geometry)}
+    {
+  #ifndef NDEBUG
+      std::cout << "SimplicialManifold move ctor.\n";
+  #endif
+    }
+//  SimplicialManifold(SimplicialManifold&&) = default;
 
   /// @brief Move assignment operator
   /// @param other The SimplicialManifold to be moved from
   /// @return A moved-assigned SimplicialManifold{}
-  SimplicialManifold& operator=(SimplicialManifold&& other)
-  {
-#ifndef NDEBUG
-    std::cout << "SimplicialManifold move assignment operator.\n";
-#endif
-    triangulation = std::move(other.triangulation);
-    geometry      = std::make_unique<GeometryInfo>(
-        classify_all_simplices(std::move(triangulation)));
-    //      geometry = std::move(other.geometry);
-    return *this;
-  }
+    SimplicialManifold& operator=(SimplicialManifold&& other)
+    {
+  #ifndef NDEBUG
+      std::cout << "SimplicialManifold move assignment operator.\n";
+  #endif
+      triangulation = std::move(other.triangulation);
+      geometry      = std::make_unique<GeometryInfo>(
+          classify_all_simplices(std::move(triangulation)));
+      //      geometry = std::move(other.geometry);
+      return *this;
+    }
+//  SimplicialManifold& operator=(SimplicialManifold&&) = default;
 
   /// @brief SimplicialManifold copy constructor
   /// @param other The SimplicialManifold to copy
@@ -535,6 +537,11 @@ struct SimplicialManifold
                 this->geometry->number_of_edges() &&
             this->triangulation->number_of_finite_cells() ==
                 this->geometry->number_of_cells());
+  }
+
+  void update()
+  {
+    geometry = std::make_unique<GeometryInfo>(classify_all_simplices(std::move(triangulation)));
   }
 };
 
