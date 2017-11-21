@@ -159,13 +159,13 @@ TEST(S3Triangulation, CreateAFewSimplices)
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
+            << "\n";
   std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
+            << "\n";
   std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
+            << "\n";
   std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+            << "\n";
 
   EXPECT_EQ(universe.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
@@ -199,13 +199,13 @@ TEST(S3Triangulation, CreateSomeSimplices)
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
+            << "\n";
   std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
+            << "\n";
   std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
+            << "\n";
   std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+            << "\n";
 
   EXPECT_EQ(universe.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
@@ -239,13 +239,13 @@ TEST(S3Triangulation, CreateWithLotsOfSimplices)
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
+            << "\n";
   std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
+            << "\n";
   std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
+            << "\n";
   std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+            << "\n";
 
   EXPECT_EQ(universe.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";
@@ -280,13 +280,13 @@ TEST(S3Triangulation, DISABLED_CreateWithLargeNumbersOfSimplices)
   SimplicialManifold universe(simplices, timeslices);
 
   std::cout << "Vertices: " << universe.triangulation->number_of_vertices()
-            << std::endl;
+            << "\n";
   std::cout << "Edges: " << universe.triangulation->number_of_finite_edges()
-            << std::endl;
+            << "\n";
   std::cout << "Facets: " << universe.triangulation->number_of_finite_facets()
-            << std::endl;
+            << "\n";
   std::cout << "Cells: " << universe.triangulation->number_of_finite_cells()
-            << std::endl;
+            << "\n";
 
   EXPECT_EQ(universe.triangulation->dimension(), 3)
       << "Triangulation has wrong dimensionality.";

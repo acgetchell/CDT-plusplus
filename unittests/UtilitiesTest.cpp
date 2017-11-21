@@ -77,11 +77,11 @@ TEST(Utilities, GmpzfToDouble)
   // Pick a value not exactly representable in binary
   Gmpzf value = 0.17;
 
-  std::cout << "Gmpzf value is " << value << std::endl;
+  std::cout << "Gmpzf value is " << value << "\n";
 
   auto converted_value = Gmpzf_to_double(value);
 
-  std::cout << "Gmpzf_to_double() value is " << converted_value << std::endl;
+  std::cout << "Gmpzf_to_double() value is " << converted_value << "\n";
 
   // Convert back to Gmpzf via Gmpzf(double d) and verify
   EXPECT_EQ(value, Gmpzf(converted_value)) << "Conversion not exact.";
@@ -89,7 +89,7 @@ TEST(Utilities, GmpzfToDouble)
 
 TEST(Utilities, CurrentDateTime)
 {
-  std::cout << "Current time is: " << currentDateTime() << std::endl;
+  std::cout << "Current time is: " << currentDateTime() << "\n";
 
   std::string const empty;
 

@@ -24,7 +24,7 @@ TEST(Sphere, Create2Sphere)
   // Debugging
   for (auto cv : causal_vertices) {
     std::cout << "Point: " << cv.first << " Timevalue: " << cv.second
-              << std::endl;
+              << "\n";
   }
 
 //  EXPECT_THAT(causal_vertices.size(), testing::Eq(number_of_vertices))

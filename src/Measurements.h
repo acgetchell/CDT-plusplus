@@ -30,6 +30,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
 #endif
 
+//  manifold.update();
   print_results(manifold);
 
   std::multimap<intmax_t, Facet>   spacelike_facets;

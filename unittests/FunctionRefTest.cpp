@@ -61,7 +61,7 @@ TEST(FunctionRefTest, DISABLED_ComplexLambda)
   };
 
   test_universe = move_23_lambda(test_universe, moves);
-  std::cout << "Attempted (2,3) moves = " << std::get<0>(moves) << std::endl;
+  std::cout << "Attempted (2,3) moves = " << std::get<0>(moves) << "\n";
 
   /// \todo Figure out why move_23_lambda invalidates the tds
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
@@ -117,7 +117,7 @@ TEST(FunctionRefTest, ComplexFunctionRef)
       complex_ref(move_23_lambda);
 
   test_universe = complex_ref(test_universe, moves);
-  std::cout << "Attempted (2,3) moves = " << moves[0] << std::endl;
+  std::cout << "Attempted (2,3) moves = " << moves[0] << "\n";
 
   EXPECT_TRUE(test_universe.triangulation->tds().is_valid(true))
       << "tds invalid after move.";
@@ -178,7 +178,7 @@ TEST(FunctionRefTest, ComplexFunctionRefWithOptionals)
 
   //  test_universe = complex_ref(test_universe, moves);
   std::cout << "Attempted (2,3) moves = " << maybe_move_count.get()[0]
-            << std::endl;
+            << "\n";
 
   EXPECT_TRUE(maybe_moved_universe)
       << "maybe_moved_universe doesn't hold a value.";

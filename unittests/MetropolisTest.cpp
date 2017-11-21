@@ -37,15 +37,15 @@ class MetropolisTest : public ::testing::Test
   {
     // Print ctor-initialized values
     std::cout << "(3,1) simplices: " << universe_.geometry->N3_31()
-              << std::endl;
+              << "\n";
     std::cout << "(2,2) simplices: " << universe_.geometry->N3_22()
-              << std::endl;
+              << "\n";
     std::cout << "(1,3) simplices: " << universe_.geometry->N3_13()
-              << std::endl;
-    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << std::endl;
+              << "\n";
+    std::cout << "Timelike edges: " << universe_.geometry->N1_TL() << "\n";
     std::cout << "Spacelike edges: " << universe_.geometry->N1_SL()
-              << std::endl;
-    std::cout << "Vertices: " << universe_.geometry->N0() << std::endl;
+              << "\n";
+    std::cout << "Vertices: " << universe_.geometry->N0() << "\n";
   }
   /// Simplicial manifold containing pointer to triangulation
   /// and geometric information.
@@ -215,40 +215,38 @@ TEST_F(MetropolisTest, CalculateA1)
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_));
 
-  std::cout << "CalculateA1 results:" << std::endl;
-  std::cout << "N1_TL = " << result.geometry->N1_TL() << std::endl;
-  std::cout << "N3_31 = " << result.geometry->N3_31() << std::endl;
-  std::cout << "N3_22 = " << result.geometry->N3_22() << std::endl;
+  std::cout << "CalculateA1 results:\n";
+  std::cout << "N1_TL = " << result.geometry->N1_TL() << "\n";
+  std::cout << "N3_31 = " << result.geometry->N3_31() << "\n";
+  std::cout << "N3_22 = " << result.geometry->N3_22() << "\n";
   std::cout << "There were " << testrun.TwoThreeMoves()
             << " attempted (2,3) moves and "
-            << testrun.SuccessfulTwoThreeMoves() << " successful (2,3) moves."
-            << std::endl;
+            << testrun.SuccessfulTwoThreeMoves() << " successful (2,3) moves.\n";
   std::cout << "There were " << testrun.ThreeTwoMoves()
             << " attempted (3,2) moves and "
-            << testrun.SuccessfulThreeTwoMoves() << " successful (3,2) moves."
-            << std::endl;
+            << testrun.SuccessfulThreeTwoMoves() << " successful (3,2) moves.\n";
   std::cout << "There were " << testrun.TwoSixMoves()
             << " attempted (2,6) moves and " << testrun.SuccessfulTwoSixMoves()
-            << " successful (2,6) moves." << std::endl;
+            << " successful (2,6) moves.\n";
   std::cout << "There were " << testrun.SixTwoMoves()
             << " attempted (6,2) moves and " << testrun.SuccessfulSixTwoMoves()
-            << " successful (6,2) moves." << std::endl;
+            << " successful (6,2) moves.\n";
 
   auto A1_23 = testrun.CalculateA1(move_type::TWO_THREE);
   auto A1_32 = testrun.CalculateA1(move_type::THREE_TWO);
   auto A1_26 = testrun.CalculateA1(move_type::TWO_SIX);
   auto A1_62 = testrun.CalculateA1(move_type::SIX_TWO);
 
-  std::cout << "A1 for (2,3) move is: " << A1_23 << std::endl;
+  std::cout << "A1 for (2,3) move is: " << A1_23 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A1_23)) << "A1_23 not calculated correctly.";
 
-  std::cout << "A1 for (3,2) move is: " << A1_32 << std::endl;
+  std::cout << "A1 for (3,2) move is: " << A1_32 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A1_32)) << "A1_32 not calculated correctly.";
 
-  std::cout << "A1 for (2,6) move is: " << A1_26 << std::endl;
+  std::cout << "A1 for (2,6) move is: " << A1_26 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A1_26)) << "A1_26 not calculated correctly.";
 
-  std::cout << "A1 for (6,2) move is: " << A1_62 << std::endl;
+  std::cout << "A1 for (6,2) move is: " << A1_62 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A1_62)) << "A1_62 not calculated correctly.";
 
   EXPECT_EQ(testrun.TwoThreeMoves() + testrun.ThreeTwoMoves() +
@@ -264,29 +262,29 @@ TEST_F(MetropolisTest, CalculateA2)
   // Run simulation using operator() and return result
   auto result = std::move(testrun(universe_));
 
-  std::cout << "CalculateA2 results:" << std::endl;
-  std::cout << "N1_TL = " << result.geometry->N1_TL() << std::endl;
-  std::cout << "N3_31 = " << result.geometry->N3_31() << std::endl;
-  std::cout << "N3_22 = " << result.geometry->N3_22() << std::endl;
-  std::cout << "Alpha = " << testrun.Alpha() << std::endl;
-  std::cout << "K = " << testrun.K() << std::endl;
-  std::cout << "Lambda = " << testrun.Lambda() << std::endl;
+  std::cout << "CalculateA2 results:\n";
+  std::cout << "N1_TL = " << result.geometry->N1_TL() << "\n";
+  std::cout << "N3_31 = " << result.geometry->N3_31() << "\n";
+  std::cout << "N3_22 = " << result.geometry->N3_22() << "\n";
+  std::cout << "Alpha = " << testrun.Alpha() << "\n";
+  std::cout << "K = " << testrun.K() << "\n";
+  std::cout << "Lambda = " << testrun.Lambda() << "\n";
 
   auto A2_23 = testrun.CalculateA2(move_type::TWO_THREE);
   auto A2_32 = testrun.CalculateA2(move_type::THREE_TWO);
   auto A2_26 = testrun.CalculateA2(move_type::TWO_SIX);
   auto A2_62 = testrun.CalculateA2(move_type::SIX_TWO);
 
-  std::cout << "A2 for (2,3) move is: " << A2_23 << std::endl;
+  std::cout << "A2 for (2,3) move is: " << A2_23 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A2_23)) << "A2_23 not calculated correctly.";
 
-  std::cout << "A2 for (3,2) move is: " << A2_32 << std::endl;
+  std::cout << "A2 for (3,2) move is: " << A2_32 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A2_32)) << "A2_32 not calculated correctly.";
 
-  std::cout << "A2 for (2,6) move is: " << A2_26 << std::endl;
+  std::cout << "A2 for (2,6) move is: " << A2_26 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A2_26)) << "A2_26 not calculated correctly.";
 
-  std::cout << "A2 for (6,2) move is: " << A2_62 << std::endl;
+  std::cout << "A2 for (6,2) move is: " << A2_62 << "\n";
   EXPECT_TRUE(IsProbabilityRange(A2_62)) << "A2_62 not calculated correctly.";
 
   EXPECT_EQ(testrun.TwoThreeMoves() + testrun.ThreeTwoMoves() +
