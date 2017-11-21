@@ -56,18 +56,18 @@ TEST(SimplicialManifold, GeometryInfo_Members)
             universe.geometry->N1_TL() + universe.geometry->N1_SL())
       << "number of edges don't add up.";
 
-  EXPECT_FALSE(universe.geometry->spacelike_facets)
+  EXPECT_FALSE(universe.geometry->getSpacelike_facets())
       << "spacelike facets should be empty.";
 
-  EXPECT_FALSE(universe.geometry->timevalues) << "timevalues should be empty.";
+  EXPECT_FALSE(universe.geometry->getTimevalues()) << "timevalues should be empty.";
 
   // Calculate spacelike facets per timeslice and populated time values
   VolumePerTimeslice(universe);
 
-  EXPECT_TRUE(universe.geometry->spacelike_facets)
+  EXPECT_TRUE(universe.geometry->getSpacelike_facets())
       << "spacelike_facets should not be empty.";
 
-  EXPECT_TRUE(universe.geometry->timevalues)
+  EXPECT_TRUE(universe.geometry->getTimevalues())
       << "timevalues should not be empty";
 
   // Copy SimplicialManifold and check that deep copy of GeometryInfo works
@@ -91,12 +91,12 @@ TEST(SimplicialManifold, GeometryInfo_Members)
   EXPECT_EQ(copied_universe.geometry->N0(), universe.geometry->N0())
       << "Copy of geometry didn't preserve vertices.";
 
-  EXPECT_TRUE(copied_universe.geometry->spacelike_facets ==
-              universe.geometry->spacelike_facets)
+  EXPECT_TRUE(copied_universe.geometry->getSpacelike_facets() ==
+              universe.geometry->getSpacelike_facets())
       << "Copy of geometry didn't preserve spacelike_facets.";
 
-  EXPECT_TRUE(copied_universe.geometry->timevalues ==
-              universe.geometry->timevalues)
+  EXPECT_TRUE(copied_universe.geometry->getTimevalues() ==
+              universe.geometry->getTimevalues())
       << "Copy of geometry didn't preserve timevalues.";
 }
 
@@ -134,14 +134,14 @@ TEST(SimplicialManifold, GeometryInfo_Properties)
   std::cout << std::boolalpha
             << "GeometryInfo struct no-throw copy constructible? "
             << std::is_nothrow_copy_constructible<GeometryInfo>::value
-            << std::endl;
+            << "\n";
 
   //  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
   //      << "GeometryInfo struct is not no-throw copy assignable.";
   std::cout << std::boolalpha
             << "GeometryInfo struct no-throw copy assignable? "
             << std::is_nothrow_copy_assignable<GeometryInfo>::value
-            << std::endl;
+            << "\n";
 }
 
 /// \todo: Fix SimplicialManifoldStruct test
@@ -188,48 +188,47 @@ TEST(SimplicialManifold, DelaunayClass_Properties)
             << "Delaunay class is default no-throw "
                "constructible? "
             << std::is_nothrow_default_constructible<Delaunay>::value
-            << std::endl;
+            << "\n";
 
   std::cout << std::boolalpha << "Delaunay class is no-throw destructible? "
-            << std::is_nothrow_destructible<Delaunay>::value << std::endl;
+            << std::is_nothrow_destructible<Delaunay>::value << "\n";
 
   std::cout << std::boolalpha
             << "Delaunay class is no-throw copy "
                "constructible? "
-            << std::is_nothrow_copy_constructible<Delaunay>::value << std::endl;
+            << std::is_nothrow_copy_constructible<Delaunay>::value << "\n";
 
   std::cout << std::boolalpha
             << "Delaunay class is no-throw move "
                "constructible? "
-            << std::is_nothrow_move_constructible<Delaunay>::value << std::endl;
+            << std::is_nothrow_move_constructible<Delaunay>::value << "\n";
 
   std::cout << std::boolalpha << "Delaunay class is no-throw copy assignable? "
-            << std::is_nothrow_copy_assignable<Delaunay>::value << std::endl;
+            << std::is_nothrow_copy_assignable<Delaunay>::value << "\n";
 
   std::cout << std::boolalpha << "Delaunay class is no-throw move assignable? "
-            << std::is_nothrow_move_assignable<Delaunay>::value << std::endl;
+            << std::is_nothrow_move_assignable<Delaunay>::value << "\n";
 
   using Delaunay_ptr = std::unique_ptr<Delaunay>;
 
-  std::cout << "So this is why we use std::unique_ptr<Delaunay> ..."
-            << std::endl;
+  std::cout << "So this is why we use std::unique_ptr<Delaunay> ...\n";
 
   std::cout << std::boolalpha
             << "std::unique_ptr<Delaunay> is default "
                "no-throw constructible? "
             << std::is_nothrow_default_constructible<Delaunay_ptr>::value
-            << std::endl;
+            << "\n";
 
   std::cout << std::boolalpha
             << "std::unique_ptr<Delaunay> is no-throw move "
                "constructible? "
             << std::is_nothrow_move_constructible<Delaunay_ptr>::value
-            << std::endl;
+            << "\n";
 
   std::cout << std::boolalpha
             << "std::unique_ptr<Delaunay> is no-throw move assignable? "
             << std::is_nothrow_move_assignable<Delaunay_ptr>::value
-            << std::endl;
+            << "\n";
 
   // Test Rule of 5
   EXPECT_TRUE(std::is_default_constructible<Delaunay>::value)

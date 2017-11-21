@@ -26,7 +26,7 @@ int main()
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
   std::ios_base::sync_with_stdio(false);
-  std::cout << "cdt-opt started at " << currentDateTime() << std::endl;
+  std::cout << "cdt-opt started at " << currentDateTime() << "\n";
   constexpr intmax_t simplices  = 64000;
   constexpr intmax_t timeslices = 16;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
@@ -61,7 +61,7 @@ int main()
 
   if (max_timevalue < timeslices)
     std::cout << "You wanted " << timeslices << " timeslices, but only got "
-              << max_timevalue << " ." << std::endl;
+              << max_timevalue << " ." << "\n";
 
   return 0;
 }

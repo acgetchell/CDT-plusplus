@@ -79,11 +79,7 @@ using Locate_type     = Delaunay::Locate_type;
 using Point           = Delaunay::Point;
 using Edge_handle     = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
 using Causal_vertices = std::vector<std::pair<Point, std::intmax_t>>;
-using Geometry_tuple =
-    std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
-               std::vector<Cell_handle>, std::vector<Edge_handle>,
-               std::vector<Edge_handle>, std::vector<Vertex_handle>>;
-using Move_tracker = std::array<intmax_t, 5>;
+using Move_tracker    = std::array<intmax_t, 5>;
 
 enum class move_type
 {
@@ -102,7 +98,7 @@ static constexpr int DIMENSION = 3;
 
 /// Initial radius and radial factor
 static constexpr double INITIAL_RADIUS = 1.0;
-static constexpr double RADIAL_FACTOR = 1.0;
+static constexpr double RADIAL_FACTOR  = 1.0;
 
 /// @brief Fix simplices with incorrect foliation
 ///
@@ -122,7 +118,7 @@ static constexpr double RADIAL_FACTOR = 1.0;
 /// @returns A boolean value if there are invalid simplices
 template <typename T>
 auto fix_timeslices(T&& universe_ptr)
-{  // NOLINT
+{
   Delaunay::Finite_cells_iterator cit;
   std::intmax_t                   min_time{0};
   std::intmax_t                   max_time{0};
@@ -194,13 +190,12 @@ auto fix_timeslices(T&& universe_ptr)
   // Check that the triangulation is still valid
   // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
   //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
-  if (!universe_ptr->is_valid())
-    throw std::logic_error("Delaunay triangulation invalid!");
+  if (!universe_ptr->tds().is_valid())
+    throw std::logic_error("Delaunay tds invalid!");
 
 #ifndef NDEBUG
-            std::cout
-        << "There are " << invalid << " invalid simplices and " << valid
-        << " valid simplices.\n";
+  std::cout << "There are " << invalid << " invalid simplices and " << valid
+            << " valid simplices.\n";
 #endif
   return invalid == 0;
 }  // fix_timeslices
@@ -254,10 +249,12 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
   Causal_vertices causal_vertices;
 
   for (std::intmax_t i = 0; i < timeslices; ++i) {
-    auto radius = INITIAL_RADIUS + static_cast<double>(i)*RADIAL_FACTOR;
+    auto radius = INITIAL_RADIUS + static_cast<double>(i) * RADIAL_FACTOR;
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points proportional to area
-    for (std::intmax_t j = 0; j < static_cast<std::intmax_t>(points_per_timeslice*radius); ++j) {
+    for (std::intmax_t j = 0;
+         j < static_cast<std::intmax_t>(points_per_timeslice * radius); ++j)
+    {
       causal_vertices.push_back(std::make_pair(*gen++, radius));
     }  // end j
   }    // end i
@@ -304,6 +301,8 @@ auto inline make_triangulation(const std::intmax_t simplices,
   auto causal_vertices = make_foliated_sphere(simplices, timeslices);
   insert_into_triangulation(universe_ptr, causal_vertices);
   fix_triangulation(universe_ptr);
+  if (!universe_ptr->is_valid())
+    throw std::logic_error("Delaunay triangulation invalid!");
   return universe_ptr;
 }  // make_triangulation()
 
