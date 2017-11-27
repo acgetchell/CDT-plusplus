@@ -125,6 +125,11 @@ int main(int argc, char* const argv[])
     std::cout << "User = " << getEnvVar("USER") << "\n";
     std::cout << "Hostname = " << hostname() << "\n";
 
+    if (simplices < 2 || timeslices <2) {
+      t.stop();
+      throw std::invalid_argument("Simplices and timeslices should be greater or equal to 2.");
+    }
+
     // Initialize simulation
     Simulation my_simulation;
 

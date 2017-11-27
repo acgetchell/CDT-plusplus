@@ -140,17 +140,21 @@ set_tests_properties (CDT-Usage
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
-#Run an S3
-add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
-set_tests_properties(CDT-S3Runs
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Writing to file S")
-
 #Dimensions != 4
 add_test (CDT-3Donly cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
 set_tests_properties (CDT-3Donly
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
+
+# Simplices and timeslices >= 2
+add_test(CDT-Simplices cdt --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+set_tests_properties(CDT-Simplices
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
+add_test(CDT-Timeslices cdt --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+set_tests_properties(CDT-Timeslices
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
 # 3D Triangle inequality
 add_test (CDT-3Dtriangle cdt --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
@@ -158,6 +162,11 @@ set_tests_properties (CDT-3Dtriangle
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
+#Run an S3
+add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
+set_tests_properties(CDT-S3Runs
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Writing to file S")
 #cdt - gv
 #This program takes a file to load into GemoView for visualization
 #add_test(CDT - GeomView cdt - gv)
