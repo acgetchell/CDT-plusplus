@@ -15,8 +15,86 @@
 #include "SimplicialManifold.h"
 #include "Measurements.h"
 #include "gmock/gmock.h"
-#include <memory>
-#include <type_traits>
+
+TEST(SimplicialManifold, DelaunayClass_Properties)
+{
+  // Print info on exception safety
+  std::cout << std::boolalpha
+            << "Delaunay class is default no-throw constructible? "
+            << std::is_nothrow_default_constructible<Delaunay>::value << "\n";
+
+  std::cout << std::boolalpha << "Delaunay class is no-throw destructible? "
+            << std::is_nothrow_destructible<Delaunay>::value << "\n";
+
+  std::cout << std::boolalpha
+            << "Delaunay class is no-throw copy constructible? "
+            << std::is_nothrow_copy_constructible<Delaunay>::value << "\n";
+
+  std::cout << std::boolalpha
+            << "Delaunay class is no-throw move constructible? "
+            << std::is_nothrow_move_constructible<Delaunay>::value << "\n";
+
+  std::cout << std::boolalpha << "Delaunay class is no-throw copy assignable? "
+            << std::is_nothrow_copy_assignable<Delaunay>::value << "\n";
+
+  std::cout << std::boolalpha << "Delaunay class is no-throw move assignable? "
+            << std::is_nothrow_move_assignable<Delaunay>::value << "\n";
+
+  using Delaunay_ptr = std::unique_ptr<Delaunay>;
+
+  std::cout << "So this is why we use std::unique_ptr<Delaunay> ...\n";
+
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is default no-throw constructible? "
+            << std::is_nothrow_default_constructible<Delaunay_ptr>::value
+            << "\n";
+
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is no-throw destructible? "
+            << std::is_nothrow_destructible<Delaunay_ptr>::value << "\n";
+
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is no-throw move constructible? "
+            << std::is_nothrow_move_constructible<Delaunay_ptr>::value << "\n";
+
+  std::cout << std::boolalpha
+            << "std::unique_ptr<Delaunay> is no-throw move assignable? "
+            << std::is_nothrow_move_assignable<Delaunay_ptr>::value << "\n";
+
+  // Test Rule of 5
+  EXPECT_TRUE(std::is_default_constructible<Delaunay>::value)
+      << "Delaunay is not default constructible.";
+
+  EXPECT_TRUE(std::is_nothrow_default_constructible<Delaunay_ptr>::value)
+      << "std::unique_ptr<Delaunay> is not default no-throw constructible.";
+
+  EXPECT_TRUE(std::is_nothrow_destructible<Delaunay>::value)
+      << "Delaunay class is not no-throw destructible.";
+
+  EXPECT_TRUE(std::is_copy_constructible<Delaunay>::value)
+      << "Delaunay class is not copy constructible";
+
+  //  EXPECT_TRUE(std::is_nothrow_copy_constructible<Delaunay>::value)
+  //      << "Delaunay class is not no-throw copy constructible.";
+
+  EXPECT_TRUE(std::is_move_constructible<Delaunay>::value)
+      << "Delaunay class is not move constructible.";
+
+  EXPECT_TRUE(std::is_nothrow_move_constructible<Delaunay_ptr>::value)
+      << "std::unique_ptr<Delaunay> is not no-throw move constructible.";
+
+  EXPECT_TRUE(std::is_copy_assignable<Delaunay>::value)
+      << "Delaunay class is not copy assignable.";
+
+  //  EXPECT_TRUE(std::is_nothrow_copy_assignable<Delaunay>::value)
+  //      << "Delaunay class is not no-throw copy assignable.";
+
+  EXPECT_TRUE(std::is_move_assignable<Delaunay>::value)
+      << "Delaunay class is not move assignable.";
+
+  EXPECT_TRUE(std::is_nothrow_move_assignable<Delaunay_ptr>::value)
+      << "std::unique_ptr<Delaunay> is not no-throw move assignable.";
+}
 
 TEST(SimplicialManifold, GeometryInfo_Members)
 {
@@ -59,7 +137,8 @@ TEST(SimplicialManifold, GeometryInfo_Members)
   EXPECT_FALSE(universe.geometry->getSpacelike_facets())
       << "spacelike facets should be empty.";
 
-  EXPECT_FALSE(universe.geometry->getTimevalues()) << "timevalues should be empty.";
+  EXPECT_FALSE(universe.geometry->getTimevalues())
+      << "timevalues should be empty.";
 
   // Calculate spacelike facets per timeslice and populated time values
   VolumePerTimeslice(universe);
@@ -106,42 +185,38 @@ TEST(SimplicialManifold, GeometryInfo_Properties)
       << "GeometryInfo is not default constructible.";
 
   EXPECT_TRUE(std::is_nothrow_default_constructible<GeometryInfo>::value)
-      << "GeometryInfo struct is not default no-throw constructible.";
+      << "GeometryInfo is not no-throw default constructible.";
 
   EXPECT_TRUE(std::is_nothrow_destructible<GeometryInfo>::value)
-      << "GeometryInfo struct is not no-throw destructible.";
+      << "GeometryInfo is not no-throw destructible.";
 
   EXPECT_TRUE(std::is_copy_constructible<GeometryInfo>::value)
-      << "GeometryInfo struct is not copy constructible";
-
-  EXPECT_TRUE(std::is_move_constructible<GeometryInfo>::value)
-      << "GeometryInfo struct is not move constructible.";
-
-  EXPECT_TRUE(std::is_nothrow_move_constructible<GeometryInfo>::value)
-      << "GeometryInfo struct is not no-throw move constructible.";
-
-  EXPECT_TRUE(std::is_copy_assignable<GeometryInfo>::value)
-      << "GeometryInfo struct is not copy assignable.";
-
-  EXPECT_TRUE(std::is_move_assignable<GeometryInfo>::value)
-      << "GeometryInfo struct is not move assignable.";
-
-  EXPECT_TRUE(std::is_nothrow_move_assignable<GeometryInfo>::value)
-      << "GeometryInfo struct is not no-throw move assignable.";
+      << "GeometryInfo is not copy constructible";
 
   //  EXPECT_TRUE(std::is_nothrow_copy_constructible<GeometryInfo>::value)
   //      << "GeometryInfo struct is not no-throw copy constructible.";
-  std::cout << std::boolalpha
-            << "GeometryInfo struct no-throw copy constructible? "
-            << std::is_nothrow_copy_constructible<GeometryInfo>::value
-            << "\n";
+  std::cout << std::boolalpha << "GeometryInfo no-throw copy constructible? "
+            << std::is_nothrow_copy_constructible<GeometryInfo>::value << "\n";
+
+  EXPECT_TRUE(std::is_move_constructible<GeometryInfo>::value)
+      << "GeometryInfo is not move constructible.";
+
+  EXPECT_TRUE(std::is_nothrow_move_constructible<GeometryInfo>::value)
+      << "GeometryInfo is not no-throw move constructible.";
+
+  EXPECT_TRUE(std::is_copy_assignable<GeometryInfo>::value)
+      << "GeometryInfo is not copy assignable.";
 
   //  EXPECT_TRUE(std::is_nothrow_copy_assignable<GeometryInfo>::value)
   //      << "GeometryInfo struct is not no-throw copy assignable.";
-  std::cout << std::boolalpha
-            << "GeometryInfo struct no-throw copy assignable? "
-            << std::is_nothrow_copy_assignable<GeometryInfo>::value
-            << "\n";
+  std::cout << std::boolalpha << "GeometryInfo no-throw copy assignable? "
+            << std::is_nothrow_copy_assignable<GeometryInfo>::value << "\n";
+
+  EXPECT_TRUE(std::is_move_assignable<GeometryInfo>::value)
+      << "GeometryInfo is not move assignable.";
+
+  EXPECT_TRUE(std::is_nothrow_move_assignable<GeometryInfo>::value)
+      << "GeometryInfo is not no-throw move assignable.";
 }
 
 /// \todo: Fix SimplicialManifoldStruct test
@@ -152,6 +227,10 @@ TEST(SimplicialManifold, SimplicialManifold_Properties)
 
   //  EXPECT_TRUE(std::is_nothrow_default_constructible<SimplicialManifold>::value)
   //      << "SimplicialManifold struct is not default no-throw constructible.";
+  std::cout << std::boolalpha
+            << "SimplicialManifold is no-throw default constructible? "
+            << std::is_nothrow_default_constructible<SimplicialManifold>::value
+            << "\n";
 
   EXPECT_TRUE(std::is_nothrow_destructible<SimplicialManifold>::value)
       << "SimplicialManifold struct is not no-throw destructible.";
@@ -159,102 +238,40 @@ TEST(SimplicialManifold, SimplicialManifold_Properties)
   EXPECT_TRUE(std::is_copy_constructible<SimplicialManifold>::value)
       << "SimplicialManifold struct is not copy constructible";
 
-  //  EXPECT_TRUE(std::is_nothrow_copy_constructible<SimplicialManifold>::value)
-  //      << "SimplicialManifold struct is not no-throw copy constructible.";
+  //    EXPECT_TRUE(std::is_nothrow_copy_constructible<SimplicialManifold>::value)
+  //        << "SimplicialManifold struct is not no-throw copy constructible.";
+  std::cout << std::boolalpha
+            << "SimplicialManifold is no-throw copy constructible? "
+            << std::is_nothrow_copy_constructible<SimplicialManifold>::value
+            << "\n";
 
   EXPECT_TRUE(std::is_move_constructible<SimplicialManifold>::value)
       << "SimplicialManifold struct is not move constructible.";
 
-  //  EXPECT_TRUE(std::is_nothrow_move_constructible<SimplicialManifold>::value)
-  //      << "SimplicialManifold struct is not no-throw move constructible.";
+  //    EXPECT_TRUE(std::is_nothrow_move_constructible<SimplicialManifold>::value)
+  //        << "SimplicialManifold struct is not no-throw move constructible.";
+  std::cout << std::boolalpha
+            << "SimplicialManifold is no-throw move constructible? "
+            << std::is_nothrow_move_constructible<SimplicialManifold>::value
+            << "\n";
 
-  //  EXPECT_TRUE(std::is_copy_assignable<SimplicialManifold>::value)
-  //      << "SimplicialManifold struct is not copy assignable.";
+  EXPECT_TRUE(std::is_copy_assignable<SimplicialManifold>::value)
+      << "SimplicialManifold struct is not copy assignable.";
 
-  //  EXPECT_TRUE(std::is_nothrow_copy_assignable<SimplicialManifold>::value)
-  //      << "SimplicialManifold struct is not no-throw copy assignable.";
+  //    EXPECT_TRUE(std::is_nothrow_copy_assignable<SimplicialManifold>::value)
+  //        << "SimplicialManifold struct is not no-throw copy assignable.";
+  std::cout << std::boolalpha
+            << "SimplicialManifold is no-throw copy assignable? "
+            << std::is_nothrow_copy_assignable<SimplicialManifold>::value
+            << "\n";
 
   EXPECT_TRUE(std::is_move_assignable<SimplicialManifold>::value)
       << "SimplicialManifold struct is not move assignable.";
 
   //  EXPECT_TRUE(std::is_nothrow_move_assignable<SimplicialManifold>::value)
   //      << "SimplicialManifold struct is not no-throw move assignable.";
-}
-
-TEST(SimplicialManifold, DelaunayClass_Properties)
-{
-  // Print info on exception safety
   std::cout << std::boolalpha
-            << "Delaunay class is default no-throw "
-               "constructible? "
-            << std::is_nothrow_default_constructible<Delaunay>::value
+            << "SimplicialManifold is no-throw move assignable? "
+            << std::is_nothrow_move_assignable<SimplicialManifold>::value
             << "\n";
-
-  std::cout << std::boolalpha << "Delaunay class is no-throw destructible? "
-            << std::is_nothrow_destructible<Delaunay>::value << "\n";
-
-  std::cout << std::boolalpha
-            << "Delaunay class is no-throw copy "
-               "constructible? "
-            << std::is_nothrow_copy_constructible<Delaunay>::value << "\n";
-
-  std::cout << std::boolalpha
-            << "Delaunay class is no-throw move "
-               "constructible? "
-            << std::is_nothrow_move_constructible<Delaunay>::value << "\n";
-
-  std::cout << std::boolalpha << "Delaunay class is no-throw copy assignable? "
-            << std::is_nothrow_copy_assignable<Delaunay>::value << "\n";
-
-  std::cout << std::boolalpha << "Delaunay class is no-throw move assignable? "
-            << std::is_nothrow_move_assignable<Delaunay>::value << "\n";
-
-  using Delaunay_ptr = std::unique_ptr<Delaunay>;
-
-  std::cout << "So this is why we use std::unique_ptr<Delaunay> ...\n";
-
-  std::cout << std::boolalpha
-            << "std::unique_ptr<Delaunay> is default "
-               "no-throw constructible? "
-            << std::is_nothrow_default_constructible<Delaunay_ptr>::value
-            << "\n";
-
-  std::cout << std::boolalpha
-            << "std::unique_ptr<Delaunay> is no-throw move "
-               "constructible? "
-            << std::is_nothrow_move_constructible<Delaunay_ptr>::value
-            << "\n";
-
-  std::cout << std::boolalpha
-            << "std::unique_ptr<Delaunay> is no-throw move assignable? "
-            << std::is_nothrow_move_assignable<Delaunay_ptr>::value
-            << "\n";
-
-  // Test Rule of 5
-  EXPECT_TRUE(std::is_default_constructible<Delaunay>::value)
-      << "Delaunay is not default constructible.";
-
-  EXPECT_TRUE(std::is_nothrow_default_constructible<Delaunay_ptr>::value)
-      << "std::unique_ptr<Delaunay> is not default no-throw constructible.";
-
-  EXPECT_TRUE(std::is_nothrow_destructible<Delaunay>::value)
-      << "Delaunay class is not no-throw destructible.";
-
-  EXPECT_TRUE(std::is_copy_constructible<Delaunay>::value)
-      << "Delaunay class is not copy constructible";
-
-  EXPECT_TRUE(std::is_move_constructible<Delaunay>::value)
-      << "Delaunay class is not move constructible.";
-
-  EXPECT_TRUE(std::is_nothrow_move_constructible<Delaunay_ptr>::value)
-      << "std::unique_ptr<Delaunay> is not no-throw move constructible.";
-
-  EXPECT_TRUE(std::is_copy_assignable<Delaunay>::value)
-      << "Delaunay class is not copy assignable.";
-
-  EXPECT_TRUE(std::is_move_assignable<Delaunay>::value)
-      << "Delaunay class is not move assignable.";
-
-  EXPECT_TRUE(std::is_nothrow_move_assignable<Delaunay_ptr>::value)
-      << "std::unique_ptr<Delaunay> is not no-throw move assignable.";
 }

@@ -473,33 +473,33 @@ struct SimplicialManifold
   /// @brief Move constructor
   /// @param other The SimplicialManifold to be move-constructed from
   /// @return A moved-to SimplicialManifold{}
-    SimplicialManifold(SimplicialManifold&& other)  // NOLINT
-        : triangulation{std::move(other.triangulation)}
-        , geometry{std::make_unique<GeometryInfo>(
-              classify_all_simplices(triangulation))}
-    //      , geometry{std::move(other.geometry)}
-    {
-  #ifndef NDEBUG
-      std::cout << "SimplicialManifold move ctor.\n";
-  #endif
-    }
-//  SimplicialManifold(SimplicialManifold&&) = default;
+  SimplicialManifold(SimplicialManifold&& other)  // NOLINT
+      : triangulation{std::move(other.triangulation)}
+      , geometry{std::make_unique<GeometryInfo>(
+            classify_all_simplices(triangulation))}
+  //      , geometry{std::move(other.geometry)}
+  {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold move ctor.\n";
+#endif
+  }
+  //  SimplicialManifold(SimplicialManifold&&) = default;
 
   /// @brief Move assignment operator
   /// @param other The SimplicialManifold to be moved from
   /// @return A moved-assigned SimplicialManifold{}
-    SimplicialManifold& operator=(SimplicialManifold&& other)
-    {
-  #ifndef NDEBUG
-      std::cout << "SimplicialManifold move assignment operator.\n";
-  #endif
-      triangulation = std::move(other.triangulation);
-      geometry      = std::make_unique<GeometryInfo>(
-          classify_all_simplices(std::move(triangulation)));
-      //      geometry = std::move(other.geometry);
-      return *this;
-    }
-//  SimplicialManifold& operator=(SimplicialManifold&&) = default;
+  SimplicialManifold& operator=(SimplicialManifold&& other) noexcept
+  {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold move assignment operator.\n";
+#endif
+    triangulation = std::move(other.triangulation);
+    geometry      = std::make_unique<GeometryInfo>(
+        classify_all_simplices(std::move(triangulation)));
+    //      geometry = std::move(other.geometry);
+    return *this;
+  }
+  //  SimplicialManifold& operator=(SimplicialManifold&&) = default;
 
   /// @brief SimplicialManifold copy constructor
   /// @param other The SimplicialManifold to copy
@@ -513,14 +513,24 @@ struct SimplicialManifold
 #endif
   }
 
-  /// @brief Default copy assignment operator
+  /// @brief Copy assignment operator
   /// @return A copy-assigned SimplicialManifold{}
-  SimplicialManifold& operator=(const SimplicialManifold&) = default;
+  //    SimplicialManifold& operator=(const SimplicialManifold&) = default;
+  SimplicialManifold& operator=(const SimplicialManifold& other) noexcept
+  {
+#ifndef NDEBUG
+    std::cout << "SimplicialManifold copy assignment operator.\n";
+#endif
+    SimplicialManifold temp(other);
+    swap(triangulation, temp.triangulation);
+    swap(geometry, temp.geometry);
+    return *this;
+  }
 
   /// @brief Exception-safe swap
   /// @param first  The first SimplicialManifold to be swapped
   /// @param second The second SimplicialManifold to be swapped with.
-  friend void swap(SimplicialManifold& first, SimplicialManifold& second)
+  friend void swap(SimplicialManifold& first, SimplicialManifold& second) noexcept
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold swapperator.\n";
@@ -541,7 +551,8 @@ struct SimplicialManifold
 
   void update()
   {
-    geometry = std::make_unique<GeometryInfo>(classify_all_simplices(std::move(triangulation)));
+    geometry = std::make_unique<GeometryInfo>(
+        classify_all_simplices(std::move(triangulation)));
   }
 };
 
