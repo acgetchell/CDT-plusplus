@@ -83,7 +83,7 @@ class Metropolis : public MoveAlgorithm
       : MoveAlgorithm(passes, checkpoint), Alpha_(Alpha), K_(K), Lambda_(Lambda)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
   }
 
@@ -152,8 +152,8 @@ class Metropolis : public MoveAlgorithm
     mpfr_clears(r1, r2, a1, nullptr);
 
 #ifndef NDEBUG
-    std::cout << "TotalMoves() = " << total_moves << std::endl;
-    std::cout << "A1 is " << result << std::endl;
+    std::cout << "TotalMoves() = " << total_moves << "\n";
+    std::cout << "A1 is " << result << "\n";
 #endif
 
     return result;
@@ -201,7 +201,7 @@ class Metropolis : public MoveAlgorithm
 // A (4,4) move changes nothing with respect to the action,
 // and e^0==1
 #ifndef NDEBUG
-        std::cout << "A2 is 1" << std::endl;
+        std::cout << "A2 is 1\n";
 #endif
         return static_cast<double>(1);
     }
@@ -235,7 +235,7 @@ class Metropolis : public MoveAlgorithm
     mpfr_clears(r1, a2, nullptr);
 
 #ifndef NDEBUG
-    std::cout << "A2 is " << result << std::endl;
+    std::cout << "A2 is " << result << "\n";
 #endif
 
     return result;
@@ -263,9 +263,9 @@ class Metropolis : public MoveAlgorithm
     const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-    std::cout << "trial_value = " << trial_value << std::endl;
-    std::cout << "trial = " << trial << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+    std::cout << "trial_value = " << trial_value << "\n";
+    std::cout << "trial = " << trial << "\n";
 #endif
 
     if (trial <= a1 * a2) {
@@ -280,15 +280,15 @@ class Metropolis : public MoveAlgorithm
     }
 
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-    std::cout << "Attempting move." << std::endl;
-    std::cout << "Move type = " << to_integral(move) << std::endl;
-    std::cout << "Trial = " << trial << std::endl;
-    std::cout << "A1 = " << a1 << std::endl;
-    std::cout << "A2 = " << a2 << std::endl;
-    std::cout << "A1*A2 = " << a1 * a2 << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+    std::cout << "Attempting move.\n";
+    std::cout << "Move type = " << to_integral(move) << "\n";
+    std::cout << "Trial = " << trial << "\n";
+    std::cout << "A1 = " << a1 << "\n";
+    std::cout << "A2 = " << a2 << "\n";
+    std::cout << "A1*A2 = " << a1 * a2 << "\n";
     std::cout << ((trial <= a1 * a2) ? "Move accepted." : "Move rejected.")
-              << std::endl;
+              << "\n";
     print_run();
 #endif
   }  // attempt_move()
@@ -308,7 +308,7 @@ class Metropolis : public MoveAlgorithm
   auto operator()(T&& universe) -> decltype(universe)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
     std::cout << "Starting Metropolis-Hastings algorithm ...\n";
     // Populate member data
@@ -332,11 +332,11 @@ class Metropolis : public MoveAlgorithm
     }
     catch (std::logic_error& LogicError)
     {
-      std::cerr << LogicError.what() << std::endl;
-      std::cerr << "Metropolis initialization failed ... Exiting." << std::endl;
+      std::cerr << LogicError.what() << "\n";
+      std::cerr << "Metropolis initialization failed ... Exiting.\n";
     }
 
-    std::cout << "Making random moves ..." << std::endl;
+    std::cout << "Making random moves ...\n";
     // Loop through passes_
     for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number) {
       auto total_simplices_this_pass = CurrentTotalSimplices();
@@ -347,7 +347,7 @@ class Metropolis : public MoveAlgorithm
         // Pick a move to attempt
         auto move_choice = generate_random_signed(0, 3);
 #ifndef NDEBUG
-        std::cout << "Move choice = " << move_choice << std::endl;
+        std::cout << "Move choice = " << move_choice << "\n";
 #endif
 
         // Convert std::intmax_t move_choice to move_type enum
@@ -357,7 +357,7 @@ class Metropolis : public MoveAlgorithm
 
       // Do stuff on checkpoint_
       if ((pass_number % checkpoint_) == 0) {
-        std::cout << "Pass " << pass_number << std::endl;
+        std::cout << "Pass " << pass_number << "\n";
         // write results to a file
         write_file(universe_, topology_type::SPHERICAL, 3,
                    universe_.geometry->number_of_cells(),
@@ -365,7 +365,7 @@ class Metropolis : public MoveAlgorithm
       }
     }  // End loop through passes_
     // output results
-    std::cout << "Run results: " << std::endl;
+    std::cout << "Run results: \n";
     print_run();
     return universe_;
   }

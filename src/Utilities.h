@@ -157,7 +157,7 @@ void print_results(const T& universe) noexcept
             << universe.triangulation->number_of_finite_edges() << " edges and "
             << universe.triangulation->number_of_finite_facets() << " faces\n"
             << "and " << universe.triangulation->number_of_finite_cells()
-            << " cells." << std::endl;
+            << " cells.\n";
 }
 
 /// @brief Print out runtime results including time elapsed
@@ -176,7 +176,7 @@ void print_results(const T1& universe, const T2& timer) noexcept
   print_results(std::as_const(universe));
 
   // Display program running time
-  std::cout << "Running time is " << timer.time() << " seconds." << std::endl;
+  std::cout << "Running time is " << timer.time() << " seconds.\n";
 }
 
 /// @brief Writes the runtime results to a file
@@ -203,7 +203,7 @@ void write_file(const T& universe, const topology_type& topology,
   std::string filename;
   filename.assign(generate_filename(topology, dimensions, number_of_simplices,
                                     number_of_timeslices));
-  std::cout << "Writing to file " << filename << std::endl;
+  std::cout << "Writing to file " << filename << "\n";
 
   std::lock_guard<std::mutex> lock(mutex);
 
@@ -266,8 +266,7 @@ inline auto generate_random_signed(const intmax_t min_value,
   auto result = distribution(generator);
 
 #ifdef DETAILED_DEBUGGING
-  std::cout << "Random " << (typeid(result)).name() << " is " << result
-            << std::endl;
+  std::cout << "Random " << (typeid(result)).name() << " is " << result << "\n";
 #endif
 
   return result;
@@ -308,7 +307,7 @@ auto generate_random_real(const T min_value, const T max_value) noexcept
   auto result = distribution(generator);
 
 #ifndef NDEBUG
-  std::cout << "Random trial is " << result << std::endl;
+  std::cout << "Random trial is " << result << "\n";
 #endif
 
   return result;
@@ -348,7 +347,7 @@ inline auto expected_points_per_simplex(const int           dimension,
 {
   if (output) {
     std::cout << simplices << " simplices on " << timeslices
-              << " timeslices desired." << std::endl;
+              << " timeslices desired.\n";
   }
 
   const auto simplices_per_timeslice = simplices / timeslices;
