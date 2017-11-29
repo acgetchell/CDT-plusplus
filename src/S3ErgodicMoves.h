@@ -143,12 +143,17 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   std::cout << "Attempting (3,2) move.\n";
 #endif
 
+  auto moveable_timelike_edges{universe.geometry->timelike_edges};
+
   auto not_flipped = true;
   while (not_flipped) {
+    if (moveable_timelike_edges.size() == 0) {
+      throw std::domain_error("No (3,2) move is possible.");
+    }
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice = generate_random_signed(0, universe.geometry->N1_TL() - 1);
-    Edge_handle to_be_moved = universe.geometry->timelike_edges[choice];
+    auto        choice = generate_random_signed(0, moveable_timelike_edges.size() - 1);
+    Edge_handle to_be_moved = moveable_timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved)) {
 #ifndef NDEBUG
@@ -158,6 +163,8 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     }
     else
     {
+        // Remove chosen edge to try remaining
+        moveable_timelike_edges.erase(moveable_timelike_edges.begin() + choice);
 #ifndef NDEBUG
       std::cout << "Edge " << choice << " was not flippable.\n";
 #endif
