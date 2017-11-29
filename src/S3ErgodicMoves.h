@@ -48,6 +48,7 @@ template <typename T>
 auto try_23_move(T&& universe, Cell_handle to_be_moved)
 {
   auto flipped = false;
+  // Try every facet of the cell
   for (auto i = 0; i < 4; ++i) {
     if (universe.triangulation->flip(to_be_moved, i)) {
 #ifndef NDEBUG
@@ -83,16 +84,24 @@ template <typename T1, typename T2>
 auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 {
 #ifndef NDEBUG
-  std::cout << __PRETTY_FUNCTION__ << " called.\n";
+  std::cout << "Attempting (2,3) move.\n";
 #endif
+
+  auto movable_two_two_cells{universe.geometry->two_two};
 
   auto not_flipped = true;
   while (not_flipped) {
+    if (movable_two_two_cells.size() == 0) {
+      throw std::domain_error("No (2,3) move is possible.");
+    }
     // Pick out a random (2,2) which ranges from 0 to size()-1
-    auto choice = generate_random_signed(0, universe.geometry->N3_22() - 1);
+    auto choice = generate_random_signed(0, movable_two_two_cells.size() - 1);
 
     Cell_handle to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
+
+    // Remove trial cell
+    movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);
 
     // Increment the (2,3) move counter
     ++attempted_moves[0];
@@ -143,12 +152,17 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   std::cout << "Attempting (3,2) move.\n";
 #endif
 
+  auto movable_timelike_edges{universe.geometry->timelike_edges};
+
   auto not_flipped = true;
   while (not_flipped) {
+    if (movable_timelike_edges.size() == 0) {
+      throw std::domain_error("No (3,2) move is possible.");
+    }
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice = generate_random_signed(0, universe.geometry->N1_TL() - 1);
-    Edge_handle to_be_moved = universe.geometry->timelike_edges[choice];
+    auto choice = generate_random_signed(0, movable_timelike_edges.size() - 1);
+    Edge_handle to_be_moved = movable_timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved)) {
 #ifndef NDEBUG
@@ -158,6 +172,8 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     }
     else
     {
+      // Remove chosen edge to try remaining
+      movable_timelike_edges.erase(movable_timelike_edges.begin() + choice);
 #ifndef NDEBUG
       std::cout << "Edge " << choice << " was not flippable.\n";
 #endif
@@ -469,6 +485,9 @@ auto find_62_movable(T&& universe, Vertex_handle candidate)
 template <typename T1, typename T2>
 auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 {
+#ifndef NDEBUG
+  std::cout << "Attempting (6,2) move.\n";
+#endif
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
   intmax_t                   tds_vertices_size = tds_vertices.size();
@@ -516,6 +535,9 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 template <typename T1, typename T2>
 auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 {
+#ifndef NDEBUG
+  std::cout << "Attempting (4,4) move.\n";
+#endif
   std::vector<Edge_handle> movable_spacelike_edges{
       universe.geometry->spacelike_edges};
 

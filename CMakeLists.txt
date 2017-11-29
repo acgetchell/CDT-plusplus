@@ -162,11 +162,16 @@ set_tests_properties (CDT-3Dtriangle
   PROPERTIES
   PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
+# Minimum run
+add_test(CDT-MinimalS3 cdt --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
+set_tests_properties(CDT-MinimalS3
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Writing to file S3")
 #Run an S3
 add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
 set_tests_properties(CDT-S3Runs
         PROPERTIES
-        PASS_REGULAR_EXPRESSION "Writing to file S")
+        PASS_REGULAR_EXPRESSION "Writing to file S3")
 #cdt - gv
 #This program takes a file to load into GemoView for visualization
 #add_test(CDT - GeomView cdt - gv)
