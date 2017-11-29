@@ -42,7 +42,7 @@ class MoveAlgorithm
       : passes_(passes), checkpoint_(checkpoint)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
   }
 
@@ -85,7 +85,7 @@ class MoveAlgorithm
   void make_move(const move_type move)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
 
     // Make working copies
@@ -228,27 +228,25 @@ class MoveAlgorithm
   /// @brief Displays results of run to standard output
   void print_run()
   {
-    std::cout << "Simplices: " << CurrentTotalSimplices() << std::endl;
+    std::cout << "Simplices: " << CurrentTotalSimplices() << "\n";
     std::cout << "Timeslices: "
-              << this->universe_.geometry->max_timevalue().get() << std::endl;
-    std::cout << "N3_31_13_: " << N3_31_13_ << std::endl;
-    std::cout << "N3_22_: " << N3_22_ << std::endl;
-    std::cout << "Timelike edges: " << N1_TL_ << std::endl;
+              << this->universe_.geometry->max_timevalue().get() << "\n";
+    std::cout << "N3_31_13_: " << N3_31_13_ << "\n";
+    std::cout << "N3_22_: " << N3_22_ << "\n";
+    std::cout << "Timelike edges: " << N1_TL_ << "\n";
     std::cout << "Successful (2,3) moves: " << SuccessfulTwoThreeMoves()
-              << std::endl;
-    std::cout << "Attempted (2,3) moves: " << TwoThreeMoves() << std::endl;
+              << "\n";
+    std::cout << "Attempted (2,3) moves: " << TwoThreeMoves() << "\n";
     std::cout << "Successful (3,2) moves: " << SuccessfulThreeTwoMoves()
-              << std::endl;
-    std::cout << "Attempted (3,2) moves: " << ThreeTwoMoves() << std::endl;
-    std::cout << "Successful (2,6) moves: " << SuccessfulTwoSixMoves()
-              << std::endl;
-    std::cout << "Attempted (2,6) moves: " << TwoSixMoves() << std::endl;
-    std::cout << "Successful (6,2) moves: " << SuccessfulSixTwoMoves()
-              << std::endl;
-    std::cout << "Attempted (6,2) moves: " << SixTwoMoves() << std::endl;
+              << "\n";
+    std::cout << "Attempted (3,2) moves: " << ThreeTwoMoves() << "\n";
+    std::cout << "Successful (2,6) moves: " << SuccessfulTwoSixMoves() << "\n";
+    std::cout << "Attempted (2,6) moves: " << TwoSixMoves() << "\n";
+    std::cout << "Successful (6,2) moves: " << SuccessfulSixTwoMoves() << "\n";
+    std::cout << "Attempted (6,2) moves: " << SixTwoMoves() << "\n";
     std::cout << "Successful (4,4) moves: " << SuccessfulFourFourMoves()
-              << std::endl;
-    std::cout << "Attempted (4,4) moves: " << FourFourMoves() << std::endl;
+              << "\n";
+    std::cout << "Attempted (4,4) moves: " << FourFourMoves() << "\n";
   }
 };  // MoveAlgorithm
 

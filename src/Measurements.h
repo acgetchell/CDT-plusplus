@@ -27,10 +27,10 @@ template <typename T>
 auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 {
 #ifndef NDEBUG
-  std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+  std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
 
-//  manifold.update();
+  //  manifold.update();
   print_results(manifold);
 
   std::multimap<intmax_t, Facet>   spacelike_facets;
@@ -45,7 +45,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
     // Now the index of the facet in the cell
     auto index_of_facet = fit->second;
 #ifdef DETAILED_DEBUGGING
-    std::cout << "Facet index is " << index_of_facet << std::endl;
+    std::cout << "Facet index is " << index_of_facet << "\n";
 #endif
     std::set<intmax_t> facet_timevalues;
     // The vertices of the facet are the ones that aren't the index
@@ -53,7 +53,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
       if (i != index_of_facet) {
 #ifdef DETAILED_DEBUGGING
         std::cout << "Vertex[" << i << "] has timevalue "
-                  << cell->vertex(i)->info() << std::endl;
+                  << cell->vertex(i)->info() << "\n";
 #endif
         facet_timevalues.insert(std::move(cell->vertex(i)->info()));
       }
@@ -61,14 +61,14 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
     // If we have a 1-element set then all timevalues on that facet are equal
     if (facet_timevalues.size() == 1) {
 #ifdef DETAILED_DEBUGGING
-      std::cout << "Timevalue is " << facet_timevalues.front() << std::endl;
+      std::cout << "Timevalue is " << facet_timevalues.front() << "\n";
 #endif
       spacelike_facets.insert({*facet_timevalues.begin(), *fit});
     }
   }
 #ifndef NDEBUG
   std::cout << "Number of spacelike faces is " << spacelike_facets.size()
-            << std::endl;
+            << "\n";
 #endif
 
   // Determine which timevalues are populated
@@ -79,12 +79,12 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 
   auto min_timevalue = *timevalues.cbegin();
   auto max_timevalue = *timevalues.crbegin();
-  std::cout << "Minimum timevalue is " << min_timevalue << std::endl;
-  std::cout << "Maximum timevalue is " << max_timevalue << std::endl;
+  std::cout << "Minimum timevalue is " << min_timevalue << "\n";
+  std::cout << "Maximum timevalue is " << max_timevalue << "\n";
 
   for (auto j = min_timevalue; j <= max_timevalue; ++j) {
     std::cout << "Timeslice " << j << " has " << spacelike_facets.count(j)
-              << " spacelike faces." << std::endl;
+              << " spacelike faces.\n";
   }
 
   // Save values in GeomInfo struct
