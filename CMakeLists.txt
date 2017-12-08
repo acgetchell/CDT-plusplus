@@ -131,6 +131,9 @@ if(GMOCK_TESTS)
   include_directories(BEFORE "src/")
 endif()
 
+# Catch
+enable_testing()
+add_subdirectory(tests)
 #CTest basic testing
 include(CTest)
 

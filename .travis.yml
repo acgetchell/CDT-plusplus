@@ -2,6 +2,7 @@ language: cpp
 sudo: required
 dist: trusty
 osx_image: xcode9.1
+group: edge
 
 addons:
   coverity_scan:
@@ -156,6 +157,8 @@ after_success:
 
 notifications:
   webhooks:
-    urls: https://webhooks.gitter.im/e/c70e4d2749931f601747
+    urls:
+      - https://webhooks.gitter.im/e/c70e4d2749931f601747
+      - https://www.travisbuddy.com
     on_success: change
     on_failure: always
