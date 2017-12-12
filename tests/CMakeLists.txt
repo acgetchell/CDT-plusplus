@@ -2,11 +2,8 @@ cmake_minimum_required(VERSION 3.5)
 
 file(GLOB_RECURSE TEST_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 
-add_executable(CDT_test ${TEST_SOURCE} ${CMAKE_SOURCE_DIR}/src)
+add_executable(CDT_test ${TEST_SOURCE} ${SRC_FILES} ../src/date/src/tz.cpp)
+target_link_libraries(CDT_test ${TBB_LIBRARIES} curl)
 
-# We run our test from the source directory, so we can consistently
-# load files with known paths.
-# I also like color in my verbose output, so I put in a --force-colour flag.
-add_test(NAME CDT_tests
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-        COMMAND ${CMAKE_BINARY_DIR}/tests/CDT_test --force-colour)
+# Run unit tests
+add_test(NAME CDT-unit-tests COMMAND $<TARGET_FILE:CDT_test>)

@@ -20,21 +20,21 @@ TEST_CASE("example/1=1", "Prove that one equals 1")
 }
 
 /// TODO: Fix this test
-//SCENARIO("Vertex operations", "[vertex]")
-//{
-//    GIVEN("A Simplicial manifold")
-//    {
-//        SimplicialManifold universe;
-//
-//        WHEN("A vertex is inserted")
-//        {
-//            universe.triangulation->insert(Point(0,0,0));
-//
-//            THEN("We should have 1 point inserted.")
-//            {
-//                REQUIRE(universe.triangulation->number_of_vertices() == 1);
-//            }
-//        }
-//    }
-//}
+SCENARIO("Vertex operations", "[vertex]")
+{
+    GIVEN("A Simplicial manifold")
+    {
+        SimplicialManifold universe;
+
+        WHEN("A vertex is inserted")
+        {
+            universe.triangulation->insert(Point(0,0,0));
+
+            THEN("We should have 1 point inserted.")
+            {
+                REQUIRE(universe.triangulation->number_of_vertices() == 1);
+            }
+        }
+    }
+}
 
