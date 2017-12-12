@@ -34,7 +34,7 @@ add_compile_options(-Wall -Wno-comment)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
-option(GMOCK_TESTS ON)
+option(GMOCK_TESTS OFF)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
