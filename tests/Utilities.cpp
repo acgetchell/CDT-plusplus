@@ -38,12 +38,12 @@ SCENARIO("Randomizing functions", "[random]")
       const auto value4 = generate_random_timeslice(test_range_max);
       THEN("They should all be different.")
       {
-        REQUIRE_FALSE(value1 == value2);
-        REQUIRE_FALSE(value1 == value3);
-        REQUIRE_FALSE(value1 == value4);
-        REQUIRE_FALSE(value2 == value3);
-        REQUIRE_FALSE(value2 == value4);
-        REQUIRE_FALSE(value3 == value4);
+        CHECK_FALSE(value1 == value2);
+        CHECK_FALSE(value1 == value3);
+        CHECK_FALSE(value1 == value4);
+        CHECK_FALSE(value2 == value3);
+        CHECK_FALSE(value2 == value4);
+        CHECK_FALSE(value3 == value4);
       }
     }
   }
@@ -73,12 +73,12 @@ SCENARIO("Randomizing functions", "[random]")
       const auto value4 = generate_probability();
       THEN("They should all be different.")
       {
-        REQUIRE_FALSE(value1 == value2);
-        REQUIRE_FALSE(value1 == value3);
-        REQUIRE_FALSE(value1 == value4);
-        REQUIRE_FALSE(value2 == value3);
-        REQUIRE_FALSE(value2 == value4);
-        REQUIRE_FALSE(value3 == value4);
+        CHECK_FALSE(value1 == value2);
+        CHECK_FALSE(value1 == value3);
+        CHECK_FALSE(value1 == value4);
+        CHECK_FALSE(value2 == value3);
+        CHECK_FALSE(value2 == value4);
+        CHECK_FALSE(value3 == value4);
       }
     }
   }
@@ -100,17 +100,16 @@ SCENARIO("Exact number (GMPZF) conversion.", "[numbers]")
   }
 }
 
-SCENARIO("DateTime utilities", "[datetime")
+SCENARIO("DateTime utilities", "[datetime]")
 {
-  GIVEN("The current datetime.")
+  GIVEN("A current datetime function.")
   {
-    WHEN("We call the currentDateTime function")
+    WHEN("We call currentDateTime()")
     {
       auto value = currentDateTime();
       THEN("We should not have an empty string.")
       {
-        std::string const empty;
-        REQUIRE_FALSE(value == empty);
+        REQUIRE_FALSE(value.empty());
       }
     }
   }

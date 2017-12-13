@@ -2,7 +2,7 @@ language: cpp
 sudo: required
 dist: trusty
 osx_image: xcode9.2
-group: deprecated-2017Q4
+#group: deprecated-2017Q4
 
 addons:
   coverity_scan:
@@ -124,7 +124,7 @@ install:
   - echo $CMAKE_OPTIONS
   - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
-  - sudo cmake --build . --target install &> install.log
+  - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
 
 #  - ninja
