@@ -2,6 +2,7 @@ language: cpp
 sudo: required
 dist: trusty
 osx_image: xcode9.2
+group: deprecated-2017Q4
 
 addons:
   coverity_scan:
