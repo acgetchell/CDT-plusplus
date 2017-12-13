@@ -1,8 +1,7 @@
 language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode9.1
-group: edge
+osx_image: xcode9.2
 
 addons:
   coverity_scan:
