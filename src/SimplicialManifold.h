@@ -29,6 +29,19 @@
 #include <vector>
 
 using Facet = Delaunay::Facet;
+
+/// @brief A tuple of the geometric values of the Simplicial Manifold
+///
+/// The first element is the vector of (3,1) simplices
+/// The second element is the vector of (2,2) simplices
+/// The third element is the vector of (1,3) simplices
+/// The fourth element is the vector of timelike edges
+/// The fifth element is the vector of spacelike edges
+/// The sixth element is the vector of vertices
+///
+/// Useful for constructing GeometryInfo, which contains this and other
+/// information, and in comparing the results of moves, which will change one or
+/// more elements of the Geometry_tuple.
 using Geometry_tuple =
     std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
                std::vector<Cell_handle>, std::vector<Edge_handle>,
@@ -276,7 +289,7 @@ struct GeometryInfo
   /// which itself takes a std::unique_ptr<Delaunay>
   /// @param geometry Geometry_tuple initializing values
   /// @return A populated GeometryInfo{}
-  explicit GeometryInfo(const Geometry_tuple&& geometry)
+  explicit GeometryInfo(const Geometry_tuple&& geometry) noexcept
       : three_one{std::get<0>(geometry)}
       , two_two{std::get<1>(geometry)}
       , one_three{std::get<2>(geometry)}
@@ -292,20 +305,20 @@ struct GeometryInfo
   GeometryInfo(GeometryInfo&&) = default;
 
   /// @brief Default move assignment operator
-  GeometryInfo& operator=(GeometryInfo&&) = default;
-  //    GeometryInfo& operator=(Geometry_tuple&& other)
-  //    {
-  //  #ifndef NDEBUG
-  //      std::cout << "GeometryInfo move assignment operator." << std::endl;
-  //  #endif
-  //      three_one       = std::move(std::get<0>(other));
-  //      two_two         = std::move(std::get<1>(other));
-  //      one_three       = std::move(std::get<2>(other));
-  //      timelike_edges  = std::move(std::get<3>(other));
-  //      spacelike_edges = std::move(std::get<4>(other));
-  //      vertices        = std::move(std::get<5>(other));
-  //      return *this;
-  //    }
+  //  GeometryInfo& operator=(GeometryInfo&&) = default;
+  GeometryInfo& operator=(Geometry_tuple&& other)
+  {
+#ifndef NDEBUG
+    std::cout << "GeometryInfo move assignment operator." << std::endl;
+#endif
+    three_one       = std::move(std::get<0>(other));
+    two_two         = std::move(std::get<1>(other));
+    one_three       = std::move(std::get<2>(other));
+    timelike_edges  = std::move(std::get<3>(other));
+    spacelike_edges = std::move(std::get<4>(other));
+    vertices        = std::move(std::get<5>(other));
+    return *this;
+  }
 
   /// @brief Default copy constructor
   GeometryInfo(const GeometryInfo&) = default;
@@ -530,7 +543,8 @@ struct SimplicialManifold
   /// @brief Exception-safe swap
   /// @param first  The first SimplicialManifold to be swapped
   /// @param second The second SimplicialManifold to be swapped with.
-  friend void swap(SimplicialManifold& first, SimplicialManifold& second) noexcept
+  friend void swap(SimplicialManifold& first,
+                   SimplicialManifold& second) noexcept
   {
 #ifndef NDEBUG
     std::cout << "SimplicialManifold swapperator.\n";
