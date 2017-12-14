@@ -14,7 +14,7 @@
 
 SCENARIO("Vertex operations", "[vertex]")
 {
-  GIVEN("A Simplicial manifold")
+  GIVEN("A Simplicial manifold.")
   {
     SimplicialManifold universe;
 
@@ -22,12 +22,12 @@ SCENARIO("Vertex operations", "[vertex]")
     {
       universe.triangulation->insert(Point(0, 0, 0));
 
-      THEN("We should have 1 point inserted.")
+      THEN("We should have 1 point.")
       {
         REQUIRE(universe.triangulation->number_of_vertices() == 1);
       }
 
-      THEN("Inserting 1 point should make dimension 0.")
+      THEN("A 1 point triangulation has dimension 0.")
       {
         REQUIRE(universe.triangulation->dimension() == 0);
       }
@@ -38,12 +38,12 @@ SCENARIO("Vertex operations", "[vertex]")
       universe.triangulation->insert(Point(0, 0, 0));
       universe.triangulation->insert(Point(1, 0, 0));
 
-      THEN("We should have 2 points inserted.")
+      THEN("We should have 2 points.")
       {
         REQUIRE(universe.triangulation->number_of_vertices() == 2);
       }
 
-      THEN("Inserting 2 points should make dimension 1.")
+      THEN("A 2 point triangulation has dimension 1.")
       {
         REQUIRE(universe.triangulation->dimension() == 1);
       }
@@ -55,12 +55,12 @@ SCENARIO("Vertex operations", "[vertex]")
       universe.triangulation->insert(Point(1, 0, 0));
       universe.triangulation->insert(Point(0, 1, 0));
 
-      THEN("We should have 3 points inserted.")
+      THEN("We should have 3 points.")
       {
         REQUIRE(universe.triangulation->number_of_vertices() == 3);
       }
 
-      THEN("Inserting 3 points should make dimension 2.")
+      THEN("A 3 point triangulation has dimension 2.")
       {
         REQUIRE(universe.triangulation->dimension() == 2);
       }
@@ -73,12 +73,12 @@ SCENARIO("Vertex operations", "[vertex]")
       universe.triangulation->insert(Point(0, 1, 0));
       universe.triangulation->insert(Point(0, 0, 1));
 
-      THEN("We should have 4 points inserted.")
+      THEN("We should have 4 points.")
       {
         REQUIRE(universe.triangulation->number_of_vertices() == 4);
       }
 
-      THEN("Dimensionality after 4 points should still be 3.")
+      THEN("A 4 point triangulation has dimension 3.")
       {
         REQUIRE(universe.triangulation->dimension() == 3);
       }
@@ -93,12 +93,12 @@ SCENARIO("Vertex operations", "[vertex]")
       universe.triangulation->insert(Point(2, 2, 2));
       universe.triangulation->insert(Point(-1, 0, 1));
 
-      THEN("We should have 6 points inserted.")
+      THEN("We should have 6 points.")
       {
         REQUIRE(universe.triangulation->number_of_vertices() == 6);
       }
 
-      THEN("Dimensionality after 6 points should still be 3.")
+      THEN("A 6 point triangulation still has dimension 3.")
       {
         REQUIRE(universe.triangulation->dimension() == 3);
       }

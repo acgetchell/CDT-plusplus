@@ -17,7 +17,7 @@
 
 SCENARIO("Lambda operations", "[function_ref]")
 {
-  GIVEN("A simple lambda")
+  GIVEN("A simple lambda.")
   {
     auto increment_lambda = [](int a) { return ++a; };
 

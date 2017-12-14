@@ -15,11 +15,11 @@ SCENARIO("Randomizing functions", "[random]")
 {
   GIVEN("A range of timeslices.")
   {
-    WHEN("A random timeslice from that range is desired.")
+    WHEN("A random timeslice is generated.")
     {
       constexpr std::intmax_t timeslices{16};
       auto                    result = generate_random_timeslice(timeslices);
-      THEN("We should get a value within the range.")
+      THEN("We should get a timeslice within the range.")
       {
         REQUIRE(0 <= result);
         REQUIRE(result <= timeslices);
@@ -50,12 +50,12 @@ SCENARIO("Randomizing functions", "[random]")
 
   GIVEN("The range between 0 and 1, inclusive.")
   {
-    WHEN("We generate a real number in the range.")
+    WHEN("We generate a random real number.")
     {
       long double min{0.0};
       long double max{1.0};
       const auto  value = generate_random_real(min, max);
-      THEN("The random real should lie within that range.")
+      THEN("The real number should lie within that range.")
       {
         REQUIRE(min <= value);
         REQUIRE(value <= max);
@@ -84,9 +84,9 @@ SCENARIO("Randomizing functions", "[random]")
   }
 }
 
-SCENARIO("Exact number (GMPZF) conversion.", "[numbers]")
+SCENARIO("Exact number (Gmpzf) conversion.", "[numbers]")
 {
-  GIVEN("A number not exactly representable in binary")
+  GIVEN("A number not exactly representable in binary.")
   {
     Gmpzf value = 0.17;
     WHEN("We convert it to double.")
