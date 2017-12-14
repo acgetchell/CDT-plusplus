@@ -31,7 +31,7 @@ SCENARIO("Randomizing functions", "[random]")
   {
     WHEN("We generate four different random integers within the range.")
     {
-      constexpr std::intmax_t test_range_max = 128;
+      constexpr std::intmax_t test_range_max = 256;
       const auto value1 = generate_random_timeslice(test_range_max);
       const auto value2 = generate_random_timeslice(test_range_max);
       const auto value3 = generate_random_timeslice(test_range_max);
