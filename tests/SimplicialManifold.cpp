@@ -184,5 +184,56 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
               universe.triangulation->number_of_vertices());
       }
     }
+    WHEN("It is copied.")
+    {
+      auto copied_manifold = universe;
+      THEN("The copied manifold's triangulation is valid.")
+      {
+        CHECK(copied_manifold.triangulation->is_valid());
+        CHECK(copied_manifold.triangulation->tds().is_valid());
+        CHECK_FALSE(copied_manifold.geometry == nullptr);
+      }
+      THEN("The copied manifold has the same properties.")
+      {
+        CHECK(copied_manifold.geometry->N3_31() == universe.geometry->N3_31());
+        CHECK(copied_manifold.geometry->N3_22() == universe.geometry->N3_22());
+        CHECK(copied_manifold.geometry->N3_13() == universe.geometry->N3_13());
+        CHECK(copied_manifold.geometry->N1_TL() == universe.geometry->N1_TL());
+        CHECK(copied_manifold.geometry->N1_SL() == universe.geometry->N1_SL());
+        CHECK(copied_manifold.geometry->N0() == universe.geometry->N0());
+      }
+    }
+    WHEN("It is moved.")
+    {
+      auto moved_to_manifold = std::move(universe);
+      THEN("The moved-from manifold is null.")
+      {
+        CHECK(universe.triangulation == nullptr);
+        /// @TODO Why does this persist?
+        CHECK_FALSE(universe.geometry == nullptr);
+      }
+      THEN("The moved-to manifold is valid.")
+      {
+        CHECK(moved_to_manifold.triangulation->is_valid());
+        CHECK(moved_to_manifold.triangulation->tds().is_valid());
+        CHECK_FALSE(moved_to_manifold.geometry == nullptr);
+      }
+      THEN(
+          "The moved-to manifold has the same properties as the moved-from "
+          "manifold.")
+      {
+        CHECK(moved_to_manifold.geometry->N3_31() ==
+              universe.geometry->N3_31());
+        CHECK(moved_to_manifold.geometry->N3_22() ==
+              universe.geometry->N3_22());
+        CHECK(moved_to_manifold.geometry->N3_13() ==
+              universe.geometry->N3_13());
+        CHECK(moved_to_manifold.geometry->N1_TL() ==
+              universe.geometry->N1_TL());
+        CHECK(moved_to_manifold.geometry->N1_SL() ==
+              universe.geometry->N1_SL());
+        CHECK(moved_to_manifold.geometry->N0() == universe.geometry->N0());
+      }
+    }
   }
 }
