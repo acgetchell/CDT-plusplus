@@ -14,7 +14,6 @@
 
 #include "catch.hpp"
 #include <Measurements.h>
-#include <SimplicialManifold.h>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
          "[manifold][!mayfail]")
@@ -205,12 +204,19 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
     }
     WHEN("It is moved.")
     {
+      auto N3_31_pre_move = universe.geometry->N3_31();
+      auto N3_22_pre_move = universe.geometry->N3_22();
+      auto N3_13_pre_move = universe.geometry->N3_13();
+      auto N1_TL_pre_move = universe.geometry->N1_TL();
+      auto N1_SL_pre_move = universe.geometry->N1_SL();
+      auto N0_pre_move = universe.geometry->N0();
+
       auto moved_to_manifold = std::move(universe);
       THEN("The moved-from manifold is null.")
       {
         CHECK(universe.triangulation == nullptr);
         /// @TODO Why does this persist?
-        CHECK_FALSE(universe.geometry == nullptr);
+        CHECK(universe.geometry == nullptr);
       }
       THEN("The moved-to manifold is valid.")
       {
@@ -222,17 +228,12 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
           "The moved-to manifold has the same properties as the moved-from "
           "manifold.")
       {
-        CHECK(moved_to_manifold.geometry->N3_31() ==
-              universe.geometry->N3_31());
-        CHECK(moved_to_manifold.geometry->N3_22() ==
-              universe.geometry->N3_22());
-        CHECK(moved_to_manifold.geometry->N3_13() ==
-              universe.geometry->N3_13());
-        CHECK(moved_to_manifold.geometry->N1_TL() ==
-              universe.geometry->N1_TL());
-        CHECK(moved_to_manifold.geometry->N1_SL() ==
-              universe.geometry->N1_SL());
-        CHECK(moved_to_manifold.geometry->N0() == universe.geometry->N0());
+        CHECK(moved_to_manifold.geometry->N3_31() == N3_31_pre_move);
+        CHECK(moved_to_manifold.geometry->N3_22() == N3_22_pre_move);
+        CHECK(moved_to_manifold.geometry->N3_13() == N3_13_pre_move);
+        CHECK(moved_to_manifold.geometry->N1_TL() == N1_TL_pre_move);
+        CHECK(moved_to_manifold.geometry->N1_SL() == N1_SL_pre_move);
+        CHECK(moved_to_manifold.geometry->N0() == N0_pre_move);
       }
     }
   }
