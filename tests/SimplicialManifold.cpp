@@ -209,7 +209,7 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
       auto N3_13_pre_move = universe.geometry->N3_13();
       auto N1_TL_pre_move = universe.geometry->N1_TL();
       auto N1_SL_pre_move = universe.geometry->N1_SL();
-      auto N0_pre_move = universe.geometry->N0();
+      auto N0_pre_move    = universe.geometry->N0();
 
       auto moved_to_manifold = std::move(universe);
       THEN("The moved-from manifold is null.")

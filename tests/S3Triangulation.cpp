@@ -52,18 +52,18 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold]")
   }
   WHEN("Constructing the minimum size triangulation.")
   {
-    constexpr auto     simplices    = static_cast<std::intmax_t>(2);
-    constexpr auto     timeslices   = static_cast<std::intmax_t>(2);
+    constexpr auto     simplices  = static_cast<std::intmax_t>(2);
+    constexpr auto     timeslices = static_cast<std::intmax_t>(2);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
       CHECK(universe.triangulation);
       CHECK(universe.geometry->number_of_cells() ==
-              universe.triangulation->number_of_finite_cells());
+            universe.triangulation->number_of_finite_cells());
       CHECK(universe.geometry->number_of_edges() ==
-              universe.triangulation->number_of_finite_edges());
+            universe.triangulation->number_of_finite_edges());
       CHECK(universe.geometry->N0() ==
-              universe.triangulation->number_of_vertices());
+            universe.triangulation->number_of_vertices());
       CHECK(universe.triangulation->dimension() == 3);
       CHECK(fix_timeslices(universe.triangulation));
       CHECK(universe.triangulation->is_valid());
@@ -85,18 +85,18 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold]")
   }
   WHEN("Constructing a small triangulation.")
   {
-    constexpr auto     simplices    = static_cast<std::intmax_t>(640);
-    constexpr auto     timeslices   = static_cast<std::intmax_t>(4);
+    constexpr auto     simplices  = static_cast<std::intmax_t>(640);
+    constexpr auto     timeslices = static_cast<std::intmax_t>(4);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
       CHECK(universe.triangulation);
       CHECK(universe.geometry->number_of_cells() ==
-              universe.triangulation->number_of_finite_cells());
+            universe.triangulation->number_of_finite_cells());
       CHECK(universe.geometry->number_of_edges() ==
-              universe.triangulation->number_of_finite_edges());
+            universe.triangulation->number_of_finite_edges());
       CHECK(universe.geometry->N0() ==
-              universe.triangulation->number_of_vertices());
+            universe.triangulation->number_of_vertices());
       CHECK(universe.triangulation->dimension() == 3);
       CHECK(fix_timeslices(universe.triangulation));
       CHECK(universe.triangulation->is_valid());
@@ -110,18 +110,18 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold]")
   }
   WHEN("Constructing a medium triangulation.")
   {
-    constexpr auto     simplices    = static_cast<std::intmax_t>(6400);
-    constexpr auto     timeslices   = static_cast<std::intmax_t>(7);
+    constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
+    constexpr auto     timeslices = static_cast<std::intmax_t>(7);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
       CHECK(universe.triangulation);
       CHECK(universe.geometry->number_of_cells() ==
-              universe.triangulation->number_of_finite_cells());
+            universe.triangulation->number_of_finite_cells());
       CHECK(universe.geometry->number_of_edges() ==
-              universe.triangulation->number_of_finite_edges());
+            universe.triangulation->number_of_finite_edges());
       CHECK(universe.geometry->N0() ==
-              universe.triangulation->number_of_vertices());
+            universe.triangulation->number_of_vertices());
       CHECK(universe.triangulation->dimension() == 3);
       CHECK(fix_timeslices(universe.triangulation));
       CHECK(universe.triangulation->is_valid());
@@ -135,18 +135,18 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold]")
   }
   WHEN("Constructing a large triangulation.")
   {
-    constexpr auto     simplices    = static_cast<std::intmax_t>(64000);
-    constexpr auto     timeslices   = static_cast<std::intmax_t>(17);
+    constexpr auto     simplices  = static_cast<std::intmax_t>(64000);
+    constexpr auto     timeslices = static_cast<std::intmax_t>(17);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
       CHECK(universe.triangulation);
       CHECK(universe.geometry->number_of_cells() ==
-              universe.triangulation->number_of_finite_cells());
+            universe.triangulation->number_of_finite_cells());
       CHECK(universe.geometry->number_of_edges() ==
-              universe.triangulation->number_of_finite_edges());
+            universe.triangulation->number_of_finite_edges());
       CHECK(universe.geometry->N0() ==
-              universe.triangulation->number_of_vertices());
+            universe.triangulation->number_of_vertices());
       CHECK(universe.triangulation->dimension() == 3);
       CHECK(fix_timeslices(universe.triangulation));
       CHECK(universe.triangulation->is_valid());
