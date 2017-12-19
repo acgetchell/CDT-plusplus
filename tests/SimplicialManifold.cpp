@@ -238,3 +238,51 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
     }
   }
 }
+
+SCENARIO("SimplicialManifold swap", "[manifold][swap]")
+{
+  GIVEN("A correctly-constructed SimplicialManifold.")
+  {
+    constexpr std::intmax_t simplices{640};
+    constexpr std::intmax_t timeslices{4};
+    SimplicialManifold      universe(make_triangulation(simplices, timeslices));
+    // It is correctly constructed
+    CHECK(universe.triangulation);
+    CHECK(universe.geometry->number_of_cells() ==
+          universe.triangulation->number_of_finite_cells());
+    CHECK(universe.geometry->number_of_edges() ==
+          universe.triangulation->number_of_finite_edges());
+    CHECK(universe.geometry->N0() ==
+          universe.triangulation->number_of_vertices());
+    CHECK(universe.triangulation->dimension() == 3);
+    CHECK(fix_timeslices(universe.triangulation));
+    CHECK(universe.triangulation->is_valid());
+    CHECK(universe.triangulation->tds().is_valid());
+    // Initial values
+    auto N3_31_pre_swap = universe.geometry->N3_31();
+    auto N3_22_pre_swap = universe.geometry->N3_22();
+    auto N3_13_pre_swap = universe.geometry->N3_13();
+    auto N1_TL_pre_swap = universe.geometry->N1_TL();
+    auto N1_SL_pre_swap = universe.geometry->N1_SL();
+    auto N0_pre_swap    = universe.geometry->N0();
+
+    WHEN("It is swapped with a new, empty SimplicialManifold.")
+    {
+      SimplicialManifold swapped_to_manifold;
+      REQUIRE(swapped_to_manifold.triangulation->tds().is_valid(true));
+      REQUIRE(swapped_to_manifold.geometry->number_of_cells() == 0);
+      swap(universe, swapped_to_manifold);
+      THEN(
+          "The swapped-to SimplicialManifold has the values of the "
+          "swapped-from SimplicialManifold.")
+      {
+        CHECK(swapped_to_manifold.geometry->N3_31() == N3_31_pre_swap);
+        CHECK(swapped_to_manifold.geometry->N3_22() == N3_22_pre_swap);
+        CHECK(swapped_to_manifold.geometry->N3_13() == N3_13_pre_swap);
+        CHECK(swapped_to_manifold.geometry->N1_TL() == N1_TL_pre_swap);
+        CHECK(swapped_to_manifold.geometry->N1_SL() == N1_SL_pre_swap);
+        CHECK(swapped_to_manifold.geometry->N0() == N0_pre_swap);
+      }
+    }
+  }
+}

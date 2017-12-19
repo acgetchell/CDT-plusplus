@@ -49,7 +49,7 @@ class MoveManager
   /// pattern is to make option-types and pass those to the ctor, and then
   /// check that the returned data structures are non-empty before consuming
   /// them. Any thrown exceptions will call the destructor, so the returned
-  /// data structures will be empty (point to nullptr).
+  /// data structures will be empty and the option types will evaluate to false.
   ///
   /// @param universe Initializes universe_
   /// @param attempted_moves Initializes attempted_moves_

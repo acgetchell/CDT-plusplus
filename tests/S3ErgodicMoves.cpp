@@ -20,6 +20,23 @@ SCENARIO("Perform ergodic moves upon S3 Triangulations", "[moves]")
     constexpr auto     timeslices = static_cast<std::intmax_t>(12);
     SimplicialManifold universe(simplices, timeslices);
     Move_tracker       attempted_moves;
+    // Verify triangulation
+    CHECK(universe.triangulation);
+    CHECK(universe.geometry->number_of_cells() ==
+          universe.triangulation->number_of_finite_cells());
+    CHECK(universe.geometry->number_of_edges() ==
+          universe.triangulation->number_of_finite_edges());
+    CHECK(universe.geometry->N0() ==
+          universe.triangulation->number_of_vertices());
+    CHECK(universe.triangulation->dimension() == 3);
+    CHECK(fix_timeslices(universe.triangulation));
+    CHECK(universe.triangulation->is_valid());
+    CHECK(universe.triangulation->tds().is_valid());
+
+    VolumePerTimeslice(universe);
+
+    CHECK(universe.geometry->max_timevalue().get() == timeslices);
+    CHECK(universe.geometry->min_timevalue().get() == 1);
     // Previous state
     auto N3_31_pre_move = universe.geometry->N3_31();
     auto N3_22_pre_move = universe.geometry->N3_22();
@@ -34,14 +51,10 @@ SCENARIO("Perform ergodic moves upon S3 Triangulations", "[moves]")
           "The move is correct and the triangulation invariants are "
           "maintained.")
       {
-        // Obtain extra info from is_valid on the triangulation data structure
+        // The triangulation is still valid
         CHECK(universe.triangulation->tds().is_valid(true));
         CHECK(universe.triangulation->dimension() == 3);
         CHECK(fix_timeslices(universe.triangulation));
-        // The triangulation has the requisite min/max timeslices
-        VolumePerTimeslice(universe);
-        CHECK(universe.geometry->max_timevalue().get() == timeslices);
-        CHECK(universe.geometry->min_timevalue().get() == 1);
         // The move is correct
         CHECK(universe.geometry->N3_31() == N3_31_pre_move);
         CHECK(universe.geometry->N3_22() == N3_22_pre_move + 1);
