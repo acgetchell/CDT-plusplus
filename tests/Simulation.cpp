@@ -19,8 +19,8 @@
 SCENARIO("Construct a simulation that always makes a move",
          "[simulation][!mayfail][!hide]")
 {
-  constexpr intmax_t simplices{640};
-  constexpr intmax_t timeslices{4};
+  constexpr auto simplices = static_cast<std::intmax_t>(640);
+  constexpr auto timeslices = static_cast<std::intmax_t>(4);
   GIVEN("A simulation and an algorithm.")
   {
     Simulation         test_simulation;

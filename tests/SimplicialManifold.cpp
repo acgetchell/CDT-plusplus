@@ -159,8 +159,8 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
 {
   GIVEN("A SimplicialManifold.")
   {
-    constexpr std::intmax_t simplices{640};
-    constexpr std::intmax_t timeslices{4};
+    constexpr auto simplices = static_cast<std::intmax_t>(640);
+    constexpr auto timeslices = static_cast<std::intmax_t>(4);
     SimplicialManifold      universe(make_triangulation(simplices, timeslices));
     WHEN("It is constructed.")
     {
@@ -243,8 +243,8 @@ SCENARIO("SimplicialManifold swap", "[manifold][swap]")
 {
   GIVEN("A correctly-constructed SimplicialManifold.")
   {
-    constexpr std::intmax_t simplices{640};
-    constexpr std::intmax_t timeslices{4};
+    constexpr auto simplices = static_cast<std::intmax_t>(640);
+    constexpr auto timeslices = static_cast<std::intmax_t>(4);
     SimplicialManifold      universe(make_triangulation(simplices, timeslices));
     // It is correctly constructed
     CHECK(universe.triangulation);

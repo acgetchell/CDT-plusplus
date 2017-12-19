@@ -17,8 +17,8 @@ SCENARIO("Construct a foliated 2-sphere", "[sphere]")
 {
   GIVEN("Simplices and timeslices")
   {
-    constexpr std::intmax_t simplices{640};
-    constexpr std::intmax_t timeslices{4};
+    constexpr auto simplices = static_cast<std::intmax_t>(640);
+    constexpr auto timeslices = static_cast<std::intmax_t>(4);
     WHEN("A foliated sphere is constructed.")
     {
       auto causal_vertices = make_foliated_sphere(simplices, timeslices);
