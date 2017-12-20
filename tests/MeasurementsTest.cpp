@@ -44,10 +44,11 @@ SCENARIO("Take measurements on a Simplicial Manifold.", "[measurements][!mayfail
       THEN("Results are persisted across moves.")
       {
         Move_tracker attempted_moves;
-        auto result = make_26_move(std::move(universe), attempted_moves);
+//        auto result = make_26_move(std::move(universe), attempted_moves);
+        REQUIRE_NOTHROW(universe = make_26_move(std::move(universe), attempted_moves));
         REQUIRE(attempted_moves[2] > 0);
-        CHECK(result.geometry->getSpacelike_facets().is_initialized());
-        CHECK(result.geometry->max_timevalue().is_initialized());
+        CHECK(universe.geometry->getSpacelike_facets().is_initialized());
+        CHECK(universe.geometry->max_timevalue().is_initialized());
       }
     }
   }
