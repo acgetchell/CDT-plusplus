@@ -97,47 +97,14 @@ if(CGAL_FOUND)
       target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
 
   else()
-    message(STATUS "NOTICE: This program requires the Eigen3 library,
+    message(FATAL_ERROR "NOTICE: This program requires the Eigen3 library,
                     and will not be compiled.")
   endif()
 else()
 
-  message(STATUS "This program requires the CGAL library,
+  message(FATAL_ERROR "This program requires the CGAL library,
                   and will not be compiled.")
 endif()
-
-#GMock Tests executable
-###############################################################################
-#if(GMOCK_TESTS)
-#  set(UT_EXECUTABLE_NAME "unittests")
-#
-#  # Download and unpack googletest at configure time
-#  configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-#  execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-#          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
-#  execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-#          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
-#
-#  # Prevent GoogleTest from overriding compiler/linker options in VisualStudio
-#  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-#
-#  # Add googletest directly to our build. This adds the following targets:
-#  # gtest, gtest_main, gmock, and gmock_main
-#  add_subdirectory("${CMAKE_BINARY_DIR}/googletest-source"
-#          "${CMAKE_BINARY_DIR}/googletest-build")
-#
-##Test files
-#  file(GLOB TEST_FILES "unittests/*.cpp")
-#  add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES} src/date/src/tz.cpp)
-#
-##Set link libraries(order matters)
-#  target_link_libraries("${UT_EXECUTABLE_NAME}"
-#                         ${TBB_LIBRARIES} curl gmock gtest pthread)
-#
-##Include root directory
-#  include_directories(BEFORE ".")
-#  include_directories(BEFORE "src/")
-#endif()
 
 # Catch
 enable_testing()
@@ -183,13 +150,3 @@ add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
 set_tests_properties(CDT-S3Runs
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")
-#cdt - gv
-#This program takes a file to load into GemoView for visualization
-#add_test(CDT - GeomView cdt - gv)
-#set_tests_properties(CDT - GeomView
-#PROPERTIES
-#PASS_REGULAR_EXPRESSION "Usage:./cdt-gv --file FILE")
-
-#This takes a long time now so cancel
-#cdt - opt
-#add_test(CDT - Optimizer cdt - opt)

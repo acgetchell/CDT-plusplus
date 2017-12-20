@@ -64,9 +64,6 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false
-    - os: linux
-      compiler: gcc
-      env: TESTS=false VALGRIND=true
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
