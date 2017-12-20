@@ -34,7 +34,8 @@ add_compile_options(-Wall -Wno-comment)
 
 ###############################################################################
 #Turn on / off Google Mock Tests
-option(GMOCK_TESTS OFF)
+#option(GMOCK_TESTS OFF)
+option(TESTS ON)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
@@ -47,15 +48,22 @@ set(EXECUTABLE_NAME "CDT")
 find_package(CGAL QUIET COMPONENTS Core )
 
 #Need working version of boost::optional
-set(Boost_DEBUG FALSE)
+#set(Boost_DEBUG FALSE)
+#find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
+##Boost debugging
+#message(STATUS "Found Boost include: ${Boost_INCLUDE_DIR}")
+#message(STATUS "Boost libraries to link: ${Boost_LIBRARIES}")
+#message(STATUS "Found Boost libraries: ${Boost_LIBRARY_DIRS}")
+#if(NOT Boost_FOUND)
+#    message(FATAL_ERROR "Boost >= 1.63.0 required.\n")
+#endif()
+
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
-#Boost debugging
-message(STATUS "Found Boost include: ${Boost_INCLUDE_DIR}")
-message(STATUS "Boost libraries to link: ${Boost_LIBRARIES}")
-message(STATUS "Found Boost libraries: ${Boost_LIBRARY_DIRS}")
-if(NOT Boost_FOUND)
-    message(FATAL_ERROR "Boost >= 1.63.0 required.\n")
-endif()
+if (Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIR})
+  else()
+message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
+endif ()
 
 if(CGAL_FOUND)
 #Don't let CGAL override flags
@@ -100,36 +108,36 @@ endif()
 
 #GMock Tests executable
 ###############################################################################
-if(GMOCK_TESTS)
-  set(UT_EXECUTABLE_NAME "unittests")
-
-  # Download and unpack googletest at configure time
-  configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
-  execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
-          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
-  execute_process(COMMAND "${CMAKE_COMMAND}" --build .
-          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
-
-  # Prevent GoogleTest from overriding compiler/linker options in VisualStudio
-  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
-
-  # Add googletest directly to our build. This adds the following targets:
-  # gtest, gtest_main, gmock, and gmock_main
-  add_subdirectory("${CMAKE_BINARY_DIR}/googletest-source"
-          "${CMAKE_BINARY_DIR}/googletest-build")
-
-#Test files
-  file(GLOB TEST_FILES "unittests/*.cpp")
-  add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES} src/date/src/tz.cpp)
-
-#Set link libraries(order matters)
-  target_link_libraries("${UT_EXECUTABLE_NAME}"
-                         ${TBB_LIBRARIES} curl gmock gtest pthread)
-
-#Include root directory
-  include_directories(BEFORE ".")
-  include_directories(BEFORE "src/")
-endif()
+#if(GMOCK_TESTS)
+#  set(UT_EXECUTABLE_NAME "unittests")
+#
+#  # Download and unpack googletest at configure time
+#  configure_file(CMakeLists.txt.in googletest-download/CMakeLists.txt)
+#  execute_process(COMMAND "${CMAKE_COMMAND}" -G "${CMAKE_GENERATOR}" .
+#          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
+#  execute_process(COMMAND "${CMAKE_COMMAND}" --build .
+#          WORKING_DIRECTORY "${CMAKE_BINARY_DIR}/googletest-download")
+#
+#  # Prevent GoogleTest from overriding compiler/linker options in VisualStudio
+#  set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
+#
+#  # Add googletest directly to our build. This adds the following targets:
+#  # gtest, gtest_main, gmock, and gmock_main
+#  add_subdirectory("${CMAKE_BINARY_DIR}/googletest-source"
+#          "${CMAKE_BINARY_DIR}/googletest-build")
+#
+##Test files
+#  file(GLOB TEST_FILES "unittests/*.cpp")
+#  add_executable("${UT_EXECUTABLE_NAME}" ${TEST_FILES} ${SRC_FILES} src/date/src/tz.cpp)
+#
+##Set link libraries(order matters)
+#  target_link_libraries("${UT_EXECUTABLE_NAME}"
+#                         ${TBB_LIBRARIES} curl gmock gtest pthread)
+#
+##Include root directory
+#  include_directories(BEFORE ".")
+#  include_directories(BEFORE "src/")
+#endif()
 
 # Catch
 enable_testing()

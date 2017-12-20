@@ -62,7 +62,7 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
 #  - cmake --build .
 
 #on_success:

@@ -34,15 +34,14 @@ env:
    - secure: "cjzdlbVhmLO0B0kzMcl5xAXEXIDRbMYFbaa+dEJTa+sG1VbzdtiXRsleZt8idZs2E0DKFN8Fti4+zrLdlqsx2+gU1fKn2TrfHCvRWNjxLFLCJ0fvkXdmEXVetnKyu27XrsXYJfaNbwUT05hpVvDT60GPt5g64XeJD9RQgX/UEug="
    - BOOST_VERSION=1.64.0
   matrix:
-    - GMOCK=true
-    - GMOCK=false
+    - TESTS=true
+    - TESTS=false
 
 cache:
   apt:
   ccache:
   directories:
     - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
-    - ${TRAVIS_BUILD_DIR}/googletest
 
 os:
   - linux
@@ -57,14 +56,17 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: GMOCK=false VALGRIND=true
+      env: TESTS=false VALGRIND=true
   allow_failures:
     - os: linux
       compiler: clang
-      env: GMOCK=true
+      env: TESTS=true
     - os: linux
       compiler: clang
-      env: GMOCK=false
+      env: TESTS=false
+    - os: linux
+      compiler: gcc
+      env: TESTS=false VALGRIND=true
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -84,7 +86,6 @@ install:
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
-      brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
     fi
@@ -136,12 +137,12 @@ script:
     if [[ "${COVERITY_SCAN_BRANCH}" != 1 ]]; then
       mkdir build && cd build
       CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
-      if [[ ${GMOCK} == "true" ]]; then
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=ON"
+      if [[ ${TESTS} == "true" ]]; then
+        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=ON"
       else
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
+        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
       fi
-      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=OFF"; fi
+      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DTESTS:BOOL=OFF"; fi
       echo $CMAKE_OPTIONS
       cmake $CMAKE_OPTIONS -G Ninja ..
       cmake --build .
@@ -149,8 +150,8 @@ script:
 
 after_success:
   - cd build
-  # GMock with random test order
-  - if [[ ${GMOCK} == "true" ]]; then ./unittests --gtest_shuffle; fi
+  # Catch with random test order
+  - if [[ ${TESTS} == "true" ]]; then ./tests/CDT_test; fi
   - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest
   - cmake --build . --target test
