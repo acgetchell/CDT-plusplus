@@ -60,7 +60,7 @@ find_package(CGAL QUIET COMPONENTS Core )
 
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREAD ON)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED COMPONENTS thread system chrono date_time atomic)
+find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 if (Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIR})
   else()
