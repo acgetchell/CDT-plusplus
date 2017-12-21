@@ -7,7 +7,7 @@ include_directories(${PROJECT_SOURCE_DIR}/src)
 #file(GLOB_RECURSE TEST_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 #add_executable(CDT_test ${TEST_SOURCE} ${SRC_FILES} ../src/date/src/tz.cpp)
 
-add_executable(CDT_test main.cpp ${SRC_FILES} ../src/date/src/tz.cpp FunctionRef.cpp Utilities.cpp Vertex.cpp Torus.cpp Tetrahedron.cpp Sphere.cpp Simulation.cpp SimplicialManifold.cpp S3Triangulation.cpp S3ErgodicMoves.cpp S3Action.cpp MoveManager.cpp MoveAlgorithmsTest.cpp MeasurementsTest.cpp)
+add_executable(CDT_test main.cpp ${SRC_FILES} ../src/date/src/tz.cpp FunctionRefTest.cpp UtilitiesTest.cpp VertexTest.cpp TorusTest.cpp TetrahedronTest.cpp SphereTest.cpp SimulationTest.cpp SimplicialManifoldTest.cpp S3TriangulationTest.cpp S3ErgodicMovesTest.cpp S3ActionTest.cpp MoveManagerTest.cpp MoveAlgorithmsTest.cpp MeasurementsTest.cpp)
 target_link_libraries(CDT_test ${TBB_LIBRARIES} curl)
 
 # Run unit tests
