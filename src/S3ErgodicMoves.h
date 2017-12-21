@@ -4,16 +4,9 @@
 ///
 /// Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.
 ///
-/// \done (2,3) move
-/// \done (3,2) move
-/// \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">
-/// Const Correctness</a>
-/// \done Complete function documentation
-/// \done (2,6) move
-/// \done Multi-threaded operations using Intel TBB
-/// \todo Handle neighboring_31_index != 5 condition
-/// \todo Debug (6,2) move
-/// \todo (4,4) move
+/// @todo Handle neighboring_31_index != 5 condition
+/// @todo Debug (6,2) move
+/// @todo (4,4) move
 
 /// @file S3ErgodicMoves.h
 /// @brief Pachner moves on 3D Delaunay Triangulations

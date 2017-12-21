@@ -1,7 +1,8 @@
 language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode9.1
+osx_image: xcode9.2
+#group: deprecated-2017Q4
 
 addons:
   coverity_scan:
@@ -33,15 +34,14 @@ env:
    - secure: "cjzdlbVhmLO0B0kzMcl5xAXEXIDRbMYFbaa+dEJTa+sG1VbzdtiXRsleZt8idZs2E0DKFN8Fti4+zrLdlqsx2+gU1fKn2TrfHCvRWNjxLFLCJ0fvkXdmEXVetnKyu27XrsXYJfaNbwUT05hpVvDT60GPt5g64XeJD9RQgX/UEug="
    - BOOST_VERSION=1.64.0
   matrix:
-    - GMOCK=true
-    - GMOCK=false
+    - TESTS=true
+    - TESTS=false
 
 cache:
   apt:
   ccache:
   directories:
     - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
-    - ${TRAVIS_BUILD_DIR}/googletest
 
 os:
   - linux
@@ -56,14 +56,14 @@ matrix:
   include:
     - os: linux
       compiler: gcc
-      env: GMOCK=false VALGRIND=true
+      env: TESTS=false VALGRIND=true
   allow_failures:
     - os: linux
       compiler: clang
-      env: GMOCK=true
+      env: TESTS=true
     - os: linux
       compiler: clang
-      env: GMOCK=false
+      env: TESTS=false
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -83,13 +83,12 @@ install:
       brew install gcc
       brew link --overwrite gcc
       brew install ninja
-      brew outdated boost || brew upgrade boost --without-single --c++11
       brew install eigen
       brew install tbb --c++11
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      CMAKE_URL="https://cmake.org/files/v3.9/cmake-3.9.3-Linux-x86_64.tar.gz"
+      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.1-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${TRAVIS_BUILD_DIR}/cmake/bin:${PATH}
       if [[ "${BOOST_VERSION}" != "" ]]; then
@@ -123,7 +122,7 @@ install:
   - echo $CMAKE_OPTIONS
   - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
-  - sudo cmake --build . --target install &> install.log
+  - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
 
 #  - ninja
@@ -135,12 +134,12 @@ script:
     if [[ "${COVERITY_SCAN_BRANCH}" != 1 ]]; then
       mkdir build && cd build
       CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
-      if [[ ${GMOCK} == "true" ]]; then
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=ON"
+      if [[ ${TESTS} == "true" ]]; then
+        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=ON"
       else
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF"
+        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
       fi
-      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DGMOCK_TESTS:BOOL=OFF"; fi
+      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DTESTS:BOOL=OFF"; fi
       echo $CMAKE_OPTIONS
       cmake $CMAKE_OPTIONS -G Ninja ..
       cmake --build .
@@ -148,14 +147,16 @@ script:
 
 after_success:
   - cd build
-  # GMock with random test order
-  - if [[ ${GMOCK} == "true" ]]; then ./unittests --gtest_shuffle; fi
+  # Catch with random test order
+  - if [[ ${TESTS} == "true" ]]; then ./tests/CDT_test; fi
   - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest
   - cmake --build . --target test
 
 notifications:
   webhooks:
-    urls: https://webhooks.gitter.im/e/c70e4d2749931f601747
+    urls:
+      - https://webhooks.gitter.im/e/c70e4d2749931f601747
+      - https://www.travisbuddy.com
     on_success: change
     on_failure: always
