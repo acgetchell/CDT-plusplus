@@ -41,11 +41,11 @@ install:
   # Install TBB
   - conda install -c conda-forge tbb -y
   # Install Boost
-  - conda install -c menpo boost-cpp -y
+  - conda install -c conda-forge boost -y
   # Install MPFR
   - conda install -c conda-forge mpfr -y
   # Install CGAL
-  - conda install -c vincentrouvreau cgal_header_only -y
+  - conda install -c conda-forge cgal -y
   # Install curlcpp
 #  - git clone https://github.com/curl/curl
 #  - cd curl
@@ -54,7 +54,7 @@ install:
 #  - cmake --build .
   - nuget install rmt_curl -Version 7.51.0
   # Install gtest
-  - conda install -c conda-forge gtest -y
+#  - conda install -c conda-forge gtest -y
 
 before_build:
   - cd C:\projects\CDT-plusplus
@@ -62,7 +62,7 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DGMOCK_TESTS:BOOL=OFF ..
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
 #  - cmake --build .
 
 #on_success:
