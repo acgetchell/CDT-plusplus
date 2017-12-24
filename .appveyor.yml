@@ -53,8 +53,6 @@ install:
 #  - cmake -G "Visual Studio 14 2015 Win64" ..
 #  - cmake --build .
   - nuget install rmt_curl -Version 7.51.0
-  # Install gtest
-#  - conda install -c conda-forge gtest -y
 
 before_build:
   - cd C:\projects\CDT-plusplus

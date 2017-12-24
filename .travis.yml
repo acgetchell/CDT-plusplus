@@ -147,7 +147,7 @@ script:
 
 after_success:
   - cd build
-  # Catch with random test order
+  # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then ./tests/CDT_test; fi
   - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest

@@ -61,7 +61,7 @@ int main()
 
   if (max_timevalue < timeslices)
     std::cout << "You wanted " << timeslices << " timeslices, but only got "
-              << max_timevalue << " ." << "\n";
+              << max_timevalue << " .\n";
 
   return 0;
 }

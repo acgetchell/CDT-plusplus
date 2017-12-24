@@ -218,11 +218,6 @@ The [cppcheck-build.sh][35] script runs a quick static analysis using
 but slower static analysis integrated with [CMake][cmake] and [Ninja].
 Simply run the [scan.sh][33] script.
 
-Also, these tools build in **DEBUG** mode. You should probably not then run
-`unittests` as you will get thousands of lines of debugging output from the
-tests that create large triangulations. (You could use `--gtest_filter`
-to run just the tests that you want.)
-
 One of the [Travis-CI] jobs runs [Valgrind][valgrind]; be sure to look at the 
 results to ensure you're not leaking memory.
 
