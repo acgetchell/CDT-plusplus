@@ -5,15 +5,9 @@ osx_image: xcode9.2
 #group: deprecated-2017Q4
 
 addons:
-  coverity_scan:
-      project:
-        name: "acgetchell/CDT-plusplus"
-      notification_email: acgetchell@ucdavis.edu
-      build_command_prepend: "mkdir build && cd build; cmake -DGMOCK_TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
-      build_command:   "cmake --build ."
-      branch_pattern: coverity
   apt:
     packages:
+      - gcc-7
       - g++-7
       - ninja-build
       - clang-5.0
@@ -51,19 +45,7 @@ compiler:
   - gcc
   - clang
 
-matrix:
-  fast_finish: true
-  include:
-    - os: linux
-      compiler: gcc
-      env: TESTS=false VALGRIND=true
-  allow_failures:
-    - os: linux
-      compiler: clang
-      env: TESTS=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false
+
 
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
@@ -128,11 +110,42 @@ install:
 #  - ninja
 #  - sudo ninja install &> install.log
 
+before_script:
+  - mkdir build
+  - cd build
+
+matrix:
+  fast_finish: true
+  include:
+    - os: linux
+      compiler: gcc
+      env: TESTS=false VALGRIND=true
+    - os: linux
+      env: COVERITY=true
+      addons:
+        coverity_scan:
+          project:
+            name: "acgetchell/CDT-plusplus"
+            description: "Causal Dynamical Triangulations in C++ with CGAL"
+          notification_email: acgetchell@ucdavis.edu
+          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
+          build_command:   "cmake --build ."
+          branch_pattern: develop
+      script:
+        - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+  allow_failures:
+    - os: linux
+      compiler: clang
+      env: TESTS=true
+    - os: linux
+      compiler: clang
+      env: TESTS=false
+    - os: linux
+      env: COVERITY=true
 
 script:
   - |
     if [[ "${COVERITY_SCAN_BRANCH}" != 1 ]]; then
-      mkdir build && cd build
       CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
       if [[ ${TESTS} == "true" ]]; then
         CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=ON"
