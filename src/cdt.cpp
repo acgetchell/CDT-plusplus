@@ -28,8 +28,8 @@
 #include "docopt/docopt.h"
 
 // CDT headers
-#include "Metropolis.h"
-#include "Simulation.h"
+#include <Metropolis.h>
+#include <Simulation.h>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{

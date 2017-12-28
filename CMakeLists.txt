@@ -86,7 +86,7 @@ if(CGAL_FOUND)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
 
-    include_directories (BEFORE "../../include" src/date/include)
+    include_directories (BEFORE "../../include" src/date/include include)
 
 #create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
     add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
@@ -110,7 +110,7 @@ endif()
 
 #Catch
 enable_testing()
-add_subdirectory(tests)
+add_subdirectory(test)
 #CTest basic testing
 include(CTest)
 

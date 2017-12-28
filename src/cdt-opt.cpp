@@ -18,9 +18,9 @@
 
 #include <utility>
 
-#include "Measurements.h"
-#include "Metropolis.h"
-#include "Simulation.h"
+#include <Measurements.h>
+#include <Metropolis.h>
+#include <Simulation.h>
 
 int main()
 {
