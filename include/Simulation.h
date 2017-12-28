@@ -17,7 +17,7 @@
 #define SRC_SIMULATION_H_
 
 #include <Function_ref.h>
-#include "SimplicialManifold.h"
+#include <SimplicialManifold.h>
 #include <utility>
 #include <vector>
 

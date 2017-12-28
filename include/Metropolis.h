@@ -30,8 +30,8 @@
 #define SRC_METROPOLIS_H_
 
 // CDT headers
-#include "MoveAlgorithm.h"
-#include "S3Action.h"
+#include <MoveAlgorithm.h>
+#include <S3Action.h>
 
 // C++ headers
 #include <algorithm>

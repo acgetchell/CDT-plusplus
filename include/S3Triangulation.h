@@ -58,7 +58,7 @@
 #include <vector>
 
 // CDT headers
-#include "Utilities.h"
+#include <Utilities.h>
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;

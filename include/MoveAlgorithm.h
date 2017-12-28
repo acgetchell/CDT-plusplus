@@ -11,9 +11,9 @@
 #ifndef SRC_MOVE_ALGORITHM_H
 #define SRC_MOVE_ALGORITHM_H
 
-#include "Measurements.h"
-#include "MoveManager.h"
-#include "S3ErgodicMoves.h"
+#include <Measurements.h>
+#include <MoveManager.h>
+#include <S3ErgodicMoves.h>
 #include <utility>
 #include <vector>
 

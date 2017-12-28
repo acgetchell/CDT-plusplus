@@ -15,7 +15,7 @@
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-#include "SimplicialManifold.h"
+#include <SimplicialManifold.h>
 #include <map>
 #include <set>
 #include <utility>
