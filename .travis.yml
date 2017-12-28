@@ -121,6 +121,7 @@ matrix:
       compiler: gcc
       env: TESTS=false VALGRIND=true
     - os: linux
+      compiler: gcc
       env: COVERITY=true
       addons:
         coverity_scan:
@@ -141,6 +142,7 @@ matrix:
       compiler: clang
       env: TESTS=false
     - os: linux
+      compiler: gcc
       env: COVERITY=true
 
 script:

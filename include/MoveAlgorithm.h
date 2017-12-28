@@ -59,10 +59,10 @@ class MoveAlgorithm
   std::intmax_t N3_22_{0};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tracker attempted_moves_{};
+  Move_tracker attempted_moves_{{0, 0, 0, 0, 0}};
 
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  std::array<std::atomic_intmax_t, 5> successful_moves_{};
+  std::array<std::atomic_intmax_t, 5> successful_moves_{{0, 0, 0, 0, 0}};
 
   /// @brief Number of passes of ergodic moves on triangulation.
   std::intmax_t passes_{100};
