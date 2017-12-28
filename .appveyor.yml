@@ -41,7 +41,7 @@ install:
   # Install TBB
   - conda install -c conda-forge tbb -y
   # Install Boost
-  - conda install -c conda-forge boost -y
+  # - conda install -c conda-forge boost -y
   # Install MPFR
   - conda install -c conda-forge mpfr -y
   # Install CGAL

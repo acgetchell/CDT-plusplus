@@ -1,9 +1,6 @@
-#Created by the script cgal_create_cmake_script
-#This is the CMake script for compiling a CGAL application.
+cmake_minimum_required(VERSION 3.8.0)
 
 project(CDT-plusplus)
-
-cmake_minimum_required(VERSION 3.8.0)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 
@@ -32,9 +29,9 @@ set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 #Extra warnings
 add_compile_options(-Wall -Wno-comment)
 
+#Configuration
 ###############################################################################
-#Turn on / off Google Mock Tests
-#option(GMOCK_TESTS OFF)
+#Turn on / off Catch Tests
 option(TESTS ON)
 #Turn on / off TBB
 set(TBB_ON TRUE)
@@ -58,6 +55,7 @@ find_package(CGAL QUIET COMPONENTS Core )
 #message(FATAL_ERROR "Boost >= 1.63.0 required.\n")
 #endif()
 
+#Boost
 set(Boost_USE_STATIC_LIBS OFF)
 set(Boost_USE_MULTITHREAD ON)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
@@ -71,43 +69,37 @@ if(CGAL_FOUND)
 #Don't let CGAL override flags
   set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain CMAKE flags")
   include(${CGAL_USE_FILE})
-
-#Experimental TBB      support
-#TBB 4.3 compatibility fixed in CGAL 4.5.1
+  include(CGAL_CreateSingleSourceCGALProgram)
+#TBB
   find_package(TBB)
   if(TBB_FOUND AND TBB_ON)
     include(${TBB_USE_FILE})
     list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
     MESSAGE(${TBB_LIBRARIES})
   endif()
-
-  include(CGAL_CreateSingleSourceCGALProgram)
+#Eigen
   find_package(Eigen3)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
-
-    include_directories (BEFORE "../../include" src/date/include include)
-
-#create_single_source_cgal_program("src/cdt.cpp" "src/docopt/docopt.cpp")
-    add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
-    target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
-    if (UNIX)
-      create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
-    endif(UNIX)
-#create_single_source_cgal_program("src/cdt-opt.cpp" "src/date/tz.cpp")
-    add_executable(cdt-opt src/cdt-opt.cpp src/date/src/tz.cpp)
-      target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
-
   else()
     message(FATAL_ERROR "NOTICE: This program requires the Eigen3 library,
                     and will not be compiled.")
   endif()
 else()
-
   message(FATAL_ERROR "This program requires the CGAL library,
                   and will not be compiled.")
 endif()
 
+include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include)
+add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
+target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
+
+if (UNIX)
+  create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+endif(UNIX)
+
+add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
+target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
 #Catch
 enable_testing()
 add_subdirectory(test)

@@ -24,7 +24,6 @@ profile
 # Build, Doc, and Testing dirs
 build/*
 html/
-googletest/
 cov-int
 
 # Editor files
@@ -41,9 +40,9 @@ grid_d
 output
 errors
 *.off
-*.log
 *.dat
 slurm-*.out
+*.tmp
 
 # Instrumentation
 *.trace
