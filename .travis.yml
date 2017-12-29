@@ -1,6 +1,7 @@
 language: cpp
 sudo: required
 dist: trusty
+osx_image: xcode9.2
 
 #group: deprecated-2017Q4
 
@@ -39,7 +40,7 @@ cache:
 
 os:
   - linux
-  - osx_image: xcode9.2
+  - osx
 
 compiler:
   - gcc
@@ -114,12 +115,16 @@ before_script:
   - mkdir build
   - cd build
 
+# Build matrix
+# Specific includes run their own scripts
 matrix:
   fast_finish: true
   include:
+    # Valgrind
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
+    # Coverity
     - os: linux
       compiler: gcc
       env: TESTS=false COVERITY=true
@@ -145,6 +150,29 @@ matrix:
           branch_pattern: develop
       script:
         - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+    # Codecov
+    - os: linux
+      compiler: gcc
+      env: TESTS=true CODECOV=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
+      script:
+        - cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake --build .
+        - cd test
+        - ctest
+        - cd ../..
+        - bash <(curl -s https://codecov.io/bash)
   allow_failures:
     - os: linux
       compiler: clang
@@ -154,7 +182,7 @@ matrix:
       env: TESTS=false
     - os: linux
       compiler: gcc
-      env: COVERITY=true
+      env: TESTS=true CODECOV=true
 
 script:
   - |
