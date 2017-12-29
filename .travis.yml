@@ -131,6 +131,10 @@ matrix:
             - gcc-7
             - g++-7
             - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
         coverity_scan:
           project:
             name: "acgetchell/CDT-plusplus"
@@ -170,7 +174,7 @@ script:
 after_success:
   - cd build
   # Catch tests showing only failures
-  - if [[ ${TESTS} == "true" ]]; then ./tests/CDT_test; fi
+  - if [[ ${TESTS} == "true" ]]; then ./test/CDT_test; fi
   - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
 # CTest
   - cmake --build . --target test
