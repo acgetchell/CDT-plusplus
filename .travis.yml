@@ -124,13 +124,20 @@ matrix:
       compiler: gcc
       env: COVERITY=true
       addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
         coverity_scan:
           project:
             name: "acgetchell/CDT-plusplus"
             description: "Causal Dynamical Triangulations in C++ with CGAL"
           notification_email: acgetchell@ucdavis.edu
-          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON .."
-          build_command:   "make"
+          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
+          build_command:   "cmake --build ."
           branch_pattern: develop
       script:
         - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
