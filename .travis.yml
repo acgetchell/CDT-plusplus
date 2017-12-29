@@ -1,7 +1,7 @@
 language: cpp
 sudo: required
 dist: trusty
-osx_image: xcode9.2
+
 #group: deprecated-2017Q4
 
 addons:
@@ -39,7 +39,7 @@ cache:
 
 os:
   - linux
-  - osx
+  - osx_image: xcode9.2
 
 compiler:
   - gcc
@@ -122,7 +122,7 @@ matrix:
       env: TESTS=false VALGRIND=true
     - os: linux
       compiler: gcc
-      env: COVERITY=true
+      env: TESTS=false COVERITY=true
       addons:
         apt:
           sources:
