@@ -16,11 +16,9 @@ addons:
       - libgmp3-dev
       - libeigen3-dev
       - libtbb-dev
-      - valgrind
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-5.0
-
 
 env:
   global:
@@ -46,18 +44,14 @@ compiler:
   - gcc
   - clang
 
-
-
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
     - |
       if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-        rvm get stable --auto-dotfiles
+        command curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
+        rvm get head || true
         brew update
       fi
-
-#  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
   - |
@@ -108,14 +102,12 @@ install:
   - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
 
-#  - ninja
-#  - sudo ninja install &> install.log
-
 before_script:
   - mkdir build
   - cd build
 
 # Build matrix
+# Matrix build combos of {linux,osx} x {gcc,clang} x {TESTS=true, TESTS=false} run script
 # Specific includes run their own scripts
 matrix:
   fast_finish: true
@@ -124,6 +116,24 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
+            - valgrind
+      script:
+        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake --build .
+        - ctest -T memcheck
+
     # Coverity
     - os: linux
       compiler: gcc
@@ -153,7 +163,7 @@ matrix:
     # Codecov
     - os: linux
       compiler: gcc
-      env: TESTS=true CODECOV=true
+      env: TESTS=false CODECOV=true
       addons:
         apt:
           sources:
@@ -184,27 +194,38 @@ matrix:
       env: TESTS=true CODECOV=true
 
 script:
+  - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
   - |
-    if [[ "${COVERITY_SCAN_BRANCH}" != 1 ]]; then
-      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
-      if [[ ${TESTS} == "true" ]]; then
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=ON"
-      else
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
-      fi
-      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DTESTS:BOOL=OFF"; fi
-      echo $CMAKE_OPTIONS
-      cmake $CMAKE_OPTIONS -G Ninja ..
-      cmake --build .
+    if [[ ${TESTS} == "true" ]]; then
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DTESTS:BOOL=ON"
+    else
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
     fi
+  - echo $CMAKE_OPTIONS
+  - cmake $CMAKE_OPTIONS -G Ninja ..
+  - cmake --build .
+
+#  - |
+#    if [[ "${COVERITY_SCAN_BRANCH}" != 1 ]]; then
+#      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
+#      if [[ ${TESTS} == "true" ]]; then
+#        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=ON"
+#      else
+#        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
+#      fi
+#      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DTESTS:BOOL=OFF"; fi
+#      echo $CMAKE_OPTIONS
+#      cmake $CMAKE_OPTIONS -G Ninja ..
+#      cmake --build .
+#    fi
 
 after_success:
   - cd build
   # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then ./test/CDT_test; fi
-  - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
-# CTest
-  - cmake --build . --target test
+#  - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
+# Integration tests excluding unit tests
+  - ctest -E CDT-unit-tests
 
 notifications:
   webhooks:

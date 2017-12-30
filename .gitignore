@@ -25,6 +25,7 @@ profile
 build/*
 html/
 cov-int
+Testing
 
 # Editor files
 .clang_complete
