@@ -100,7 +100,7 @@ SCENARIO("Exact number (Gmpzf) conversion.", "[numbers]")
   }
 }
 
-SCENARIO("DateTime utilities", "[datetime]")
+SCENARIO("DateTime utilities", "[datetime][!mayfail]")
 {
   GIVEN("A current datetime function.")
   {
