@@ -13,7 +13,7 @@
 
 bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1;}
 
-SCENARIO("Using the Metropolis algorithm", "[metropolis]")
+SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
 {
   constexpr auto Alpha                 = static_cast<long double>(0.6);
   constexpr auto K                     = static_cast<long double>(1.1);
