@@ -16,7 +16,7 @@
 #include <MoveManager.h>
 #include <S3ErgodicMoves.h>
 
-SCENARIO("Perform safe moves on S3 Triangulations", "[moves][move_manager]")
+SCENARIO("Perform safe moves on S3 Triangulations", "[moves][move_manager][!mayfail]")
 {
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {

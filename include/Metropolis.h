@@ -9,22 +9,17 @@
 /// Annals of Physics 132 (1981): 427–62.
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 
-/// \done Initialization
-/// \done operator()
-/// \done CalculateA1
-/// \done CalculateA2
-/// \done Update N1_TL_, N3_31_ and N3_22_ after successful moves
-/// \done Implement 3D Metropolis algorithm in operator()
-///
-/// \todo Atomic integral types for safe multithreading
-/// \todo Debug occasional infinite loops and segfaults!
-/// \todo Implement concurrency
+/// @todo Atomic integral types for safe multithreading
+/// @todo Debug occasional infinite loops and segfaults!
+/// @todo Implement concurrency
+/// @todo Change A1 to count successful moves, total moves gets dragged down by (6,2) attempts
 
 /// @file Metropolis.h
 /// @brief Perform Metropolis-Hastings algorithm on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug There's a segfault in CalculateA1 on MacOS/gcc.
 /// @bug The call operator segfaults in Release mode
+/// @bug The number of attempted (6,2) moves makes A1 really low preventing other moves
 
 #ifndef SRC_METROPOLIS_H_
 #define SRC_METROPOLIS_H_
