@@ -38,6 +38,21 @@ set(TBB_ON TRUE)
 #Set mimumum Boost
 set(BOOST_MIN_VERSION "1.64.0")
 
+# Coverage
+if (ENABLE_COVERAGE)
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fprofile-arcs")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ftest-coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+endif ()
+
+# Valgrind
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
+
 #Main program executable
 ###############################################################################
 set(EXECUTABLE_NAME "CDT")

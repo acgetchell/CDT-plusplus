@@ -38,7 +38,7 @@ cdt_tests
 grid_d
 
 # Output files
-output
+output*
 errors
 *.off
 *.dat
