@@ -17,7 +17,7 @@
 #include <Simulation.h>
 
 SCENARIO("Construct a simulation that always makes a move",
-         "[simulation][!mayfail][!hide]")
+         "[simulation][!mayfail]")
 {
   constexpr auto simplices = static_cast<std::intmax_t>(640);
   constexpr auto timeslices = static_cast<std::intmax_t>(4);
