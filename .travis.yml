@@ -201,6 +201,9 @@ matrix:
       compiler: clang
       env: TESTS=false
     - os: linux
+      compliler: gcc
+      env: TESTS=false CODECOV=true
+    - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
 
