@@ -1,12 +1,12 @@
 codecov:
   max_report_age: off
   notify:
-    require_ci_to_pass: yes
+    require_ci_to_pass: no
 
 coverage:
   precision: 2
   round: down
-  range: "70...100"
+  range: "30...100"  # Figure out how to exclude or test included subrepos
 
   status:
     project: yes
@@ -18,10 +18,6 @@ coverage:
         default:
           url: https://webhooks.gitter.im/e/c70e4d2749931f601747
           threshold: 1%
-          only_pulls: false
-          branches: null
-          flags: null
-          paths: null
 
 parsers:
   gcov:

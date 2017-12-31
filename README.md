@@ -1,6 +1,9 @@
 # CDT-plusplus
 
- [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=develop)](https://travis-ci.org/acgetchell/CDT-plusplus) [![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus) [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+ [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=develop)](https://travis-ci.org/acgetchell/CDT-plusplus) 
+ [![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
+ [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
+ [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
 **Quantize spacetime on your laptop.**
 
@@ -31,6 +34,7 @@ The goals and targets of this project are:
 - [x] Validation tests using [CTest]
 - [x] Behavior-driven development ([BDD]) with [Catch]
 - [x] Continuous integration with MacOS and Linux on [Travis-CI] and Windows on [AppVeyor]
+- [x] Code coverage measurements with [Codecov]
 - [x] 3D Simplex
 - [x] 3D Spherical triangulation
 - [x] 2+1 foliation
@@ -269,3 +273,4 @@ Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [curl]: https://curl.haxx.se
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
+[Codecov]: https://codecov.io
