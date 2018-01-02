@@ -128,6 +128,11 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false CLANGFORMAT=true
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+      install:
+      before_script:
+      # Overwrite script on matrix jobs
       script:
         - |
           if [[ -n $(git diff -U0 --no-color HEAD^ | clang-format-diff.py -style=file) ]]; then
