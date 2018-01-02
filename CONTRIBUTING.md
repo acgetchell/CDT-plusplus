@@ -27,9 +27,9 @@ When I contribute to other projects, I definitely try to have useful, clear comm
 8. Run `clang-format` using the project's [.clang-format].
 9. Open a pull request against the develop branch of the main repository (which is the default).
 [Travis-CI] will test it against combinations of Linux (Ubuntu 14.04), MacOS, clang, and gcc, so ensure that your code compiles on both platforms with both compilers.
-10. *Thou shalt not introduce memory leaks.*
-Look at the results from the [Valgrind] tests on [Travis-CI].
+10. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted. In particular, look at results from [Valgrind], [Codecov], formatting ([.clang-format]), and the whitespace checks.
 11. I will get to your change as soon as I can.
+Feel free to ping me on [Gitter] with any questions.
 You will receive proper credit for your contributions both in the code and any resulting scientific papers using the output of `git log --format='%aN | sort -u`.
 
 # Style Guide
@@ -52,8 +52,10 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
 [clang-tidy-sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
-
+[AppVeyor]: https://ci.appveyor.com/project/acgetchell/cdt-plusplus
 [Catch]: https://github.com/catchorg/Catch2/blob/master/docs/Readme.md
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [Catch Test cases and sections]: https://github.com/catchorg/Catch2/blob/master/docs/test-cases-and-sections.md
+[Codecov]: https://codecov.io/support
+[Gitter]: https://gitter.im/acgetchell/CDT-plusplus
