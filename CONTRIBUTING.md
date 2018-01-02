@@ -27,16 +27,18 @@ When I contribute to other projects, I definitely try to have useful, clear comm
 8. Run `clang-format` using the project's [.clang-format].
 9. Open a pull request against the develop branch of the main repository (which is the default).
 [Travis-CI] will test it against combinations of Linux (Ubuntu 14.04), MacOS, clang, and gcc, so ensure that your code compiles on both platforms with both compilers.
-10. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted. In particular, look at results from [Valgrind], [Codecov], [Clang-Tidy], formatting ([.clang-format]), and the whitespace checks.
+10. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+In particular, look at results from [Valgrind], [Codecov], [Clang-Tidy], [ClangFormat], and whitespace checks (`git diff --check HEAD^`).
 11. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
 You will receive proper credit for your contributions both in the code and any resulting scientific papers using the output of `git log --format='%aN | sort -u`.
 
 # Style Guide
 
-This project generally follows [Stroustrup formatting with Allman brackets][1], enforced by [`clang-format`][2] via [.clang-format].
+This project generally follows [Stroustrup formatting with Allman brackets][1], enforced by [ClangFormat].
 We also test against the [C++ Core Guidelines][cpp-core] using [Clang-Tidy] with an appropriate [configuration][clang-tidy.sh].
-Clang-tidy changes the code when run, so comparing results and running unit tests is recommended before you commit, especially since some of clang-tidy's fixes break the codebase (the script runs just the tests that don't).
+Clang-tidy may change the code when run (using `-fix`), so comparing results and running unit tests is recommended before you commit.
+Especially since some of clang-tidy's fixes break the codebase (the script runs just the tests that don't).
 
 Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 
@@ -47,7 +49,7 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Travis-CI]: https://travis-ci.org/acgetchell/CDT-plusplus
 [1]: https://isocpp.org/wiki/faq/coding-standards
 [2]: http://llvm.org/releases/4.0.0/tools/clang/docs/ClangFormatStyleOptions.html
-[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/master/.clang-format
+[ClangFormat]: https://github.com/acgetchell/CDT-plusplus/blob/master/.clang-format
 [slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md

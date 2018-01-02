@@ -124,6 +124,18 @@ matrix:
             git diff --check HEAD^
             exit -1
           fi
+    # clang-format
+    - os: linux
+      compiler: clang
+      env: TESTS=false CLANGFORMAT=true
+      script:
+        - |
+          if [[ -n $(git diff -U0 --no-color HEAD^ | clang-format-diff.py -style=file) ]]; then
+            echo "Run clang-format before submitting a pull request."
+            echo ""
+            git diff -U0 --no-color HEAD^ | clang-format-diff.py -style=file
+            exit -1
+          fi
     # Valgrind
     - os: linux
       compiler: gcc
@@ -241,6 +253,9 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false CLANGTIDY=true
+    - os: linux
+      compiler: clang
+      env: TESTS=false CLANGFORMAT=true
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
