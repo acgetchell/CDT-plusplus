@@ -193,6 +193,37 @@ matrix:
         - ctest -R CDT-unit-tests
         - cd ..
         - bash <(curl -s https://codecov.io/bash)
+    # Clang-Tidy
+    - os: linux
+      compiler: gcc
+      env: TESTS=false CLANGTIDY=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - clang-5.0
+            - clang-tidy-5.0
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
+      script:
+        - cmake -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_CLANG_TIDY=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G Ninja ..
+        - cmake --build .
+        - cmake --build . --target tidy > output.txt
+        - |
+          if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
+            echo "You must pass the clang tidy checks before submitting a pull request"
+            echo ""
+            grep --color -E '^|warning: |error: ' output.txt
+            exit -1;
+          else
+            echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
+          fi
   allow_failures:
     - os: linux
       compiler: clang
@@ -206,6 +237,9 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false CODECOV=true
+    - os: linux
+      compiler: gcc
+      env: TESTS=false CLANGTIDY=true
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"

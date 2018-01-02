@@ -38,7 +38,7 @@ set(TBB_ON TRUE)
 #Set mimumum Boost
 set(BOOST_MIN_VERSION "1.64.0")
 
-# Coverage
+#Coverage
 if (ENABLE_COVERAGE)
   set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
   set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
@@ -47,11 +47,36 @@ if (ENABLE_COVERAGE)
   set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
 endif ()
 
-# Valgrind
+#Valgrind
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
+
+#Clang - Tidy
+if (ENABLE_CLANG_TIDY)
+  find_program(CLANG_TIDY_BIN clang-tidy-5.0)
+  find_program(RUN_CLANG_TIDY_BIN run-clang-tidy-5.0.py)
+
+  if(CLANG_TIDY_BIN STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
+    message(FATAL_ERROR "Unable to locate clang-tidy-5.0")
+  endif()
+
+  if(RUN_CLANG_TIDY_BIN STREQUAL "RUN_CLANG_TIDY_BIN-NOTFOUND")
+    message(FATAL_ERROR "unable to locate run-clang-tidy-5.0.py")
+  endif()
+
+  list(APPEND RUN_CLANG_TIDY_BIN_ARGS
+          -clang-tidy-binary ${CLANG_TIDY_BIN}
+          -header-filter=.*
+          -checks=-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance*)
+
+  add_custom_target(
+          tidy
+          COMMAND ${RUN_CLANG_TIDY_BIN} ${RUN_CLANG_TIDY_BIN_ARGS}
+          COMMENT "Running Clang-Tidy"
+  )
+endif ()
 
 #Main program executable
 ###############################################################################
