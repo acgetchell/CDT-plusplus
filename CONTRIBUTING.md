@@ -27,7 +27,7 @@ When I contribute to other projects, I definitely try to have useful, clear comm
 8. Run `clang-format` using the project's [.clang-format].
 9. Open a pull request against the develop branch of the main repository (which is the default).
 [Travis-CI] will test it against combinations of Linux (Ubuntu 14.04), MacOS, clang, and gcc, so ensure that your code compiles on both platforms with both compilers.
-10. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted. In particular, look at results from [Valgrind], [Codecov], formatting ([.clang-format]), and the whitespace checks.
+10. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted. In particular, look at results from [Valgrind], [Codecov], [Clang-Tidy], formatting ([.clang-format]), and the whitespace checks.
 11. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
 You will receive proper credit for your contributions both in the code and any resulting scientific papers using the output of `git log --format='%aN | sort -u`.
@@ -35,7 +35,7 @@ You will receive proper credit for your contributions both in the code and any r
 # Style Guide
 
 This project generally follows [Stroustrup formatting with Allman brackets][1], enforced by [`clang-format`][2] via [.clang-format].
-We also test against the [C++ Core Guidelines][cpp-core] using [clang-tidy][clang-tidy-sh] with an appropriate configuration.
+We also test against the [C++ Core Guidelines][cpp-core] using [Clang-Tidy] with an appropriate [configuration][clang-tidy.sh].
 Clang-tidy changes the code when run, so comparing results and running unit tests is recommended before you commit, especially since some of clang-tidy's fixes break the codebase (the script runs just the tests that don't).
 
 Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
@@ -51,7 +51,7 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
-[clang-tidy-sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
+[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
 [AppVeyor]: https://ci.appveyor.com/project/acgetchell/cdt-plusplus
 [Catch]: https://github.com/catchorg/Catch2/blob/master/docs/Readme.md
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
@@ -59,3 +59,4 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Catch Test cases and sections]: https://github.com/catchorg/Catch2/blob/master/docs/test-cases-and-sections.md
 [Codecov]: https://codecov.io/support
 [Gitter]: https://gitter.im/acgetchell/CDT-plusplus
+[Clang-Tidy]: http://clang.llvm.org/extra/clang-tidy/index.html
