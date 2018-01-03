@@ -147,6 +147,7 @@ matrix:
       before_install:
       install:
       before_script:
+        - sudo ionice -c3 updatedb
       # Overwrite script on matrix jobs
       script:
         - |
@@ -243,6 +244,7 @@ matrix:
       before_install:
       install:
       before_script:
+        - sudo ionice -c3 updatedb
       # Overwrite script on matrix jobs
       script:
         - git diff -U0 HEAD^ | `locate -i clang-tidy-diff.py` -checks='-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance*' > output.txt
