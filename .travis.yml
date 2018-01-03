@@ -116,6 +116,11 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false GITCHECK=true
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+      install:
+      before_script:
+      # Overwrite script on matrix jobs
       script:
         - |
           if [[ -n $(git diff --check HEAD^) ]]; then
@@ -128,6 +133,14 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false CLANGFORMAT=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - clang-format-5.0
       # Skip unnecessary steps since we aren't compiling
       before_install:
       install:
@@ -259,8 +272,8 @@ matrix:
       compiler: gcc
       env: TESTS=false CLANGTIDY=true
     - os: linux
-      compiler: clang
-      env: TESTS=false CLANGFORMAT=true
+      compiler: gcc
+      env: TESTS=false COVERITY=true
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
