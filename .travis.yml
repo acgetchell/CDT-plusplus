@@ -129,6 +129,8 @@ matrix:
             git diff --check HEAD^
             exit -1
           fi
+      # Skip after_success
+      after_success:
     # clang-format
     - os: linux
       compiler: clang
@@ -148,12 +150,14 @@ matrix:
       # Overwrite script on matrix jobs
       script:
         - |
-          if [[ -n $(git diff -U0 --no-color HEAD^ | clang-format-diff.py -style=file) ]]; then
+          if [[ -n $(git diff -U0 --no-color HEAD^ | `locate -i clang-format-diff.py` -style=file) ]]; then
             echo "Run clang-format before submitting a pull request."
             echo ""
-            git diff -U0 --no-color HEAD^ | clang-format-diff.py -style=file
+            git diff -U0 --no-color HEAD^ | `locate -i clang-format-diff.py` -style=file
             exit -1
           fi
+      # Skip after_success
+      after_success:
     # Valgrind
     - os: linux
       compiler: gcc
@@ -235,17 +239,13 @@ matrix:
           packages:
             - clang-5.0
             - clang-tidy-5.0
-            - gcc-7
-            - g++-7
-            - ninja-build
-            - libmpfr-dev
-            - libgmp3-dev
-            - libeigen3-dev
-            - libtbb-dev
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+      install:
+      before_script:
+      # Overwrite script on matrix jobs
       script:
-        - cmake -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Release -DENABLE_CLANG_TIDY=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -G Ninja ..
-        - cmake --build .
-        - cmake --build . --target tidy > output.txt
+        - git diff -U0 HEAD^ | `locate -i clang-tidy-diff.py` -checks='-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance*' > output.txt
         - |
           if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
             echo "You must pass the clang tidy checks before submitting a pull request"
@@ -255,6 +255,8 @@ matrix:
           else
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
+      # Skip after_success
+      after_success:
   allow_failures:
     - os: linux
       compiler: clang
@@ -268,9 +270,9 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false CODECOV=true
-    - os: linux
-      compiler: gcc
-      env: TESTS=false CLANGTIDY=true
+#    - os: linux
+#      compiler: gcc
+#      env: TESTS=false CLANGTIDY=true
     - os: linux
       compiler: gcc
       env: TESTS=false COVERITY=true
