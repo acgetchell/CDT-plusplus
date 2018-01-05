@@ -1,11 +1,47 @@
-cmake_minimum_required(VERSION 3.8.0)
+cmake_minimum_required(VERSION 3.8.2)
 
-project(CDT-plusplus)
+project("CDT-plusplus" C CXX)
 
-list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
+  message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
+endif()
 
-#General
-###############################################################################
+############################
+##  Modules and scripts   ##
+############################
+
+# Standard CMake modules
+include(CTest)
+include(CMakeDependentOption)
+
+#Coverage
+if (ENABLE_COVERAGE)
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fprofile-arcs")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ftest-coverage")
+  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
+endif ()
+
+#Valgrind
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
+set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
+
+#list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
+
+###############
+##  OPTIONS  ##
+###############
+
+#Turn on / off Catch Tests
+option(TESTS ON)
+#Turn on / off TBB
+set(TBB_ON TRUE)
+#Set mimumum Boost
+set(BOOST_MIN_VERSION "1.64.0")
+
 #Activate C++ 17 support
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
@@ -31,27 +67,8 @@ add_compile_options(-Wall -Wno-comment)
 
 #Configuration
 ###############################################################################
-#Turn on / off Catch Tests
-option(TESTS ON)
-#Turn on / off TBB
-set(TBB_ON TRUE)
-#Set mimumum Boost
-set(BOOST_MIN_VERSION "1.64.0")
 
-#Coverage
-if (ENABLE_COVERAGE)
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fprofile-arcs")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ftest-coverage")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-endif ()
 
-#Valgrind
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
 
 #Clang - Tidy
 #if (ENABLE_CLANG_TIDY)
@@ -141,10 +158,10 @@ endif(UNIX)
 add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
 target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
 #Catch
-enable_testing()
+#enable_testing()
 add_subdirectory(test)
+
 #CTest basic testing
-include(CTest)
 
 #Does the usage message work ?
 add_test (CDT-Usage cdt)
