@@ -3,8 +3,6 @@ sudo: required
 dist: trusty
 osx_image: xcode9.2
 
-#group: deprecated-2017Q4
-
 addons:
   apt:
     packages:
@@ -270,9 +268,6 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false CODECOV=true
-#    - os: linux
-#      compiler: gcc
-#      env: TESTS=false CLANGTIDY=true
     - os: linux
       compiler: gcc
       env: TESTS=false COVERITY=true

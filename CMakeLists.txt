@@ -10,7 +10,7 @@ endif()
 ##  Modules and scripts   ##
 ############################
 
-# Standard CMake modules
+#Standard CMake modules
 include(CTest)
 include(CMakeDependentOption)
 
@@ -28,8 +28,6 @@ set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=ful
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
 set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-
-#list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}")
 
 ###############
 ##  OPTIONS  ##
@@ -65,52 +63,11 @@ set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 #Extra warnings
 add_compile_options(-Wall -Wno-comment)
 
-#Configuration
-###############################################################################
+###############
+##  Project  ##
+###############
 
-
-
-#Clang - Tidy
-#if (ENABLE_CLANG_TIDY)
-#  find_program(CLANG_TIDY_BIN clang-tidy-5.0)
-#  find_program(RUN_CLANG_TIDY_BIN run-clang-tidy-5.0.py)
-#
-#  if(CLANG_TIDY_BIN STREQUAL "CLANG_TIDY_BIN-NOTFOUND")
-#    message(FATAL_ERROR "Unable to locate clang-tidy-5.0")
-#  endif()
-#
-#  if(RUN_CLANG_TIDY_BIN STREQUAL "RUN_CLANG_TIDY_BIN-NOTFOUND")
-#    message(FATAL_ERROR "unable to locate run-clang-tidy-5.0.py")
-#  endif()
-#
-#  list(APPEND RUN_CLANG_TIDY_BIN_ARGS
-#          -clang-tidy-binary ${CLANG_TIDY_BIN}
-#          -header-filter=.*
-#          -checks=-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance*)
-#
-#  add_custom_target(
-#          tidy
-#          COMMAND ${RUN_CLANG_TIDY_BIN} ${RUN_CLANG_TIDY_BIN_ARGS}
-#          COMMENT "Running Clang-Tidy"
-#  )
-#endif ()
-
-#Main program executable
-###############################################################################
 set(EXECUTABLE_NAME "CDT")
-
-find_package(CGAL QUIET COMPONENTS Core )
-
-#Need working version of boost::optional
-#set(Boost_DEBUG FALSE)
-#find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
-##Boost debugging
-#message(STATUS "Found Boost include: ${Boost_INCLUDE_DIR}")
-#message(STATUS "Boost libraries to link: ${Boost_LIBRARIES}")
-#message(STATUS "Found Boost libraries: ${Boost_LIBRARY_DIRS}")
-#if (NOT Boost_FOUND)
-#message(FATAL_ERROR "Boost >= 1.63.0 required.\n")
-#endif()
 
 #Boost
 set(Boost_USE_STATIC_LIBS OFF)
@@ -122,6 +79,8 @@ if (Boost_FOUND)
 message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
 endif ()
 
+#CGAL
+find_package(CGAL QUIET COMPONENTS Core )
 if(CGAL_FOUND)
 #Don't let CGAL override flags
   set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain CMAKE flags")
@@ -157,8 +116,12 @@ endif(UNIX)
 
 add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
 target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
+
+###############
+##  Tests    ##
+###############
+
 #Catch
-#enable_testing()
 add_subdirectory(test)
 
 #CTest basic testing
