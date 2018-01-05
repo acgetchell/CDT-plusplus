@@ -20,7 +20,7 @@
 #ifndef SRC_SIMPLICIALMANIFOLD_H_
 #define SRC_SIMPLICIALMANIFOLD_H_
 
-#include "S3Triangulation.h"
+#include <S3Triangulation.h>
 #include <boost/optional.hpp>
 #include <map>
 #include <memory>
@@ -328,21 +328,21 @@ struct GeometryInfo
 
   /// @brief Timelike edges
   /// @return The number of edges spanning timeslices
-  auto N1_TL() { return static_cast<std::intmax_t>(timelike_edges.size()); }
+  auto N1_TL() { return static_cast<std::uintmax_t>(timelike_edges.size()); }
 
   /// @brief Spacelike edges
   /// @return The number of edges on same timeslice
-  auto N1_SL() { return static_cast<std::intmax_t>(spacelike_edges.size()); }
+  auto N1_SL() { return static_cast<std::uintmax_t>(spacelike_edges.size()); }
 
   /// @brief (3,1) simplices
   /// @return The total number of simplices with 3 vertices on the t
   /// timeslice and 1 vertex on the t+1 timeslice
-  auto N3_31() { return static_cast<std::intmax_t>(three_one.size()); }
+  auto N3_31() { return static_cast<std::uintmax_t>(three_one.size()); }
 
   /// @brief (1,3) simplices
   /// @return The total number of simplices with 1 vertex on the t timeslice
   /// and 3 vertices on the t+1 timeslice
-  auto N3_13() { return static_cast<std::intmax_t>(one_three.size()); }
+  auto N3_13() { return static_cast<std::uintmax_t>(one_three.size()); }
 
   /// @brief (3,1) and (1,3) simplices
   /// @return The total number of simplices with 3 vertices on one
@@ -354,7 +354,7 @@ struct GeometryInfo
   /// @return The total number of simplices with 2 vertices on one
   /// timeslice and 2 vertices on the adjacent timeslice. Used to
   /// calculate the change in action.
-  auto N3_22() { return static_cast<std::intmax_t>(two_two.size()); }
+  auto N3_22() { return static_cast<std::uintmax_t>(two_two.size()); }
 
   /// @brief Number of cells
   ///
@@ -384,7 +384,7 @@ struct GeometryInfo
   }
   /// @brief Number of vertices
   /// @return The number of vertices in the triangulation
-  auto N0() { return static_cast<std::intmax_t>(vertices.size()); }
+  auto N0() { return static_cast<std::uintmax_t>(vertices.size()); }
 
   template <typename T1, typename T2>
   friend auto make_23_move(T1&& universe, T2&& attempted_moves)

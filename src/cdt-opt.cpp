@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016-2017 Adam Getchell
+/// Copyright © 2016-2018 Adam Getchell
 ///
 /// Full run-through with default options used to calculate
 /// optimal values for thermalization, etc. A simpler version
@@ -18,9 +18,9 @@
 
 #include <utility>
 
-#include "Measurements.h"
-#include "Metropolis.h"
-#include "Simulation.h"
+#include <Measurements.h>
+#include <Metropolis.h>
+#include <Simulation.h>
 
 int main()
 {
@@ -61,7 +61,7 @@ int main()
 
   if (max_timevalue < timeslices)
     std::cout << "You wanted " << timeslices << " timeslices, but only got "
-              << max_timevalue << " ." << "\n";
+              << max_timevalue << " .\n";
 
   return 0;
 }

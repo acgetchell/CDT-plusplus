@@ -2,18 +2,11 @@ language: cpp
 sudo: required
 dist: trusty
 osx_image: xcode9.2
-#group: deprecated-2017Q4
 
 addons:
-  coverity_scan:
-      project:
-        name: "acgetchell/CDT-plusplus"
-      notification_email: acgetchell@ucdavis.edu
-      build_command_prepend: "mkdir build && cd build; cmake -DGMOCK_TESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
-      build_command:   "cmake --build ."
-      branch_pattern: coverity
   apt:
     packages:
+      - gcc-7
       - g++-7
       - ninja-build
       - clang-5.0
@@ -21,18 +14,16 @@ addons:
       - libgmp3-dev
       - libeigen3-dev
       - libtbb-dev
-      - valgrind
     sources: &sources
       - ubuntu-toolchain-r-test
       - llvm-toolchain-trusty-5.0
-
 
 env:
   global:
    # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
    #   via the "travis encrypt" command using the project repo's public key
    - secure: "cjzdlbVhmLO0B0kzMcl5xAXEXIDRbMYFbaa+dEJTa+sG1VbzdtiXRsleZt8idZs2E0DKFN8Fti4+zrLdlqsx2+gU1fKn2TrfHCvRWNjxLFLCJ0fvkXdmEXVetnKyu27XrsXYJfaNbwUT05hpVvDT60GPt5g64XeJD9RQgX/UEug="
-   - BOOST_VERSION=1.64.0
+   - BOOST_VERSION=1.66.0
   matrix:
     - TESTS=true
     - TESTS=false
@@ -51,30 +42,14 @@ compiler:
   - gcc
   - clang
 
-matrix:
-  fast_finish: true
-  include:
-    - os: linux
-      compiler: gcc
-      env: TESTS=false VALGRIND=true
-  allow_failures:
-    - os: linux
-      compiler: clang
-      env: TESTS=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false
-
 before_install:
   # Workaround for https://github.com/travis-ci/travis-ci/issues/6307
     - |
       if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        gpg2 --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
-        rvm get stable --auto-dotfiles
+        command curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
+        rvm get head || true
         brew update
       fi
-
-#  - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
 
 install:
   - |
@@ -125,33 +100,196 @@ install:
   - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
 
-#  - ninja
-#  - sudo ninja install &> install.log
+before_script:
+  - mkdir build
+  - cd build
 
+# Build matrix
+# Matrix build combos of {linux,osx} x {gcc,clang} x {TESTS=true, TESTS=false} run script
+# Specific includes run their own scripts
+matrix:
+  fast_finish: true
+  include:
+    # Git Check
+    - os: linux
+      compiler: gcc
+      env: TESTS=false GITCHECK=true
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+      install:
+      before_script:
+      # Overwrite script on matrix jobs
+      script:
+        - |
+          if [[ -n $(git diff --check HEAD^) ]]; then
+            echo "You must remove whitespace before submitting a pull request."
+            echo ""
+            git diff --check HEAD^
+            exit -1
+          fi
+      # Skip after_success
+      after_success:
+    # ClangFormat
+    - os: linux
+      compiler: clang
+      env: TESTS=false CLANGFORMAT=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - clang-format-5.0
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+      install:
+      before_script:
+      # Overwrite script on matrix jobs
+      script:
+        - |
+          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-5.0/clang-format-diff.py -style file) ]]; then
+            echo "Run clang-format before submitting a pull request."
+            echo ""
+            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-5.0/clang-format-diff.py -style file
+            exit -1
+          fi
+      # Skip after_success
+      after_success:
+    # ClangTidy
+    - os: linux
+      compiler: gcc
+      env: TESTS=false CLANGTIDY=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+            - llvm-toolchain-trusty-5.0
+          packages:
+            - clang-5.0
+            - clang-tidy-5.0
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+      install:
+      before_script:
+      # Overwrite script on matrix jobs
+      script:
+        - git diff -U0 HEAD^ | /usr/lib/llvm-5.0/share/clang/clang-tidy-diff.py -checks=-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance* > output.txt
+        - |
+          if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
+            echo "You must pass the clang tidy checks before submitting a pull request"
+            echo ""
+            grep --color -E '^|warning: |error: ' output.txt
+            exit -1;
+          else
+            echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
+          fi
+        # Skip after_success
+      after_success:
+    # Valgrind
+    - os: linux
+      compiler: gcc
+      env: TESTS=false VALGRIND=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
+            - valgrind
+      script:
+        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake --build .
+        - ctest -T memcheck
+    # Coverity
+    - os: linux
+      compiler: gcc
+      env: TESTS=false COVERITY=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
+        coverity_scan:
+          project:
+            name: "acgetchell/CDT-plusplus"
+            description: "Causal Dynamical Triangulations in C++ with CGAL"
+          notification_email: acgetchell@ucdavis.edu
+          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
+          build_command:   "cmake --build ."
+          branch_pattern: master
+      script:
+        - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+    # Codecov
+    - os: linux
+      compiler: gcc
+      env: TESTS=false CODECOV=true
+      addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
+      script:
+        - cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake --build .
+        - ctest -R CDT-unit-tests
+        - cd ..
+        - bash <(curl -s https://codecov.io/bash)
+  allow_failures:
+    - os: linux
+      compiler: clang
+      env: TESTS=true
+    - os: linux
+      compiler: clang
+      env: TESTS=false
+    - os: linux
+      compiler: gcc
+      env: TESTS=false VALGRIND=true
+    - os: linux
+      compiler: gcc
+      env: TESTS=false CODECOV=true
+    - os: linux
+      compiler: gcc
+      env: TESTS=false COVERITY=true
 
 script:
+  - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
   - |
-    if [[ "${COVERITY_SCAN_BRANCH}" != 1 ]]; then
-      mkdir build && cd build
-      CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
-      if [[ ${TESTS} == "true" ]]; then
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=ON"
-      else
-        CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
-      fi
-      if [[ ${VALGRIND} == "true" ]]; then CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DTESTS:BOOL=OFF"; fi
-      echo $CMAKE_OPTIONS
-      cmake $CMAKE_OPTIONS -G Ninja ..
-      cmake --build .
+    if [[ ${TESTS} == "true" ]]; then
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DTESTS:BOOL=ON"
+    else
+      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
     fi
+  - echo $CMAKE_OPTIONS
+  - cmake $CMAKE_OPTIONS -G Ninja ..
+  - cmake --build .
 
 after_success:
   - cd build
-  # Catch with random test order
-  - if [[ ${TESTS} == "true" ]]; then ./tests/CDT_test; fi
-  - if [[ ${VALGRIND} == "true" ]]; then valgrind --leak-check=full --show-leak-kinds=all ./cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1; fi
-# CTest
-  - cmake --build . --target test
+  # Integration tests excluding Catch
+  - ctest -E CDT-unit-tests
+  # Catch tests showing only failures
+  - if [[ ${TESTS} == "true" ]]; then ./test/CDT_test; fi
 
 notifications:
   webhooks:

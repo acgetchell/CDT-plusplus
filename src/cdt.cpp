@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2017 Adam Getchell
+/// Copyright © 2014-2018 Adam Getchell
 ///
 /// A program that generates spacetimes
 ///
@@ -28,14 +28,14 @@
 #include "docopt/docopt.h"
 
 // CDT headers
-#include "Metropolis.h"
-#include "Simulation.h"
+#include <Metropolis.h>
+#include <Simulation.h>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2017 Adam Getchell
+Copyright (c) 2014-2018 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according

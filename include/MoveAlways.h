@@ -13,8 +13,8 @@
 #ifndef SRC_MOVE_ALWAYS_H
 #define SRC_MOVE_ALWAYS_H
 
-#include "Measurements.h"
-#include "MoveAlgorithm.h"
+#include <Measurements.h>
+#include <MoveAlgorithm.h>
 
 class MoveAlways : public MoveAlgorithm
 {

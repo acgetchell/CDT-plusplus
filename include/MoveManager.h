@@ -15,8 +15,8 @@
 #ifndef SRC_MOVEMANAGER_H_
 #define SRC_MOVEMANAGER_H_
 
-#include "Function_ref.h"
-#include "SimplicialManifold.h"
+#include <Function_ref.h>
+#include <SimplicialManifold.h>
 #include <algorithm>
 #include <memory>
 #include <tuple>
@@ -24,7 +24,7 @@
 #include <utility>
 #include <vector>
 
-using move_invariants = std::array<std::intmax_t, 6>;
+using move_invariants = std::array<std::uintmax_t, 6>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves
@@ -40,7 +40,8 @@ class MoveManager
   /// @brief An option type move counter
   T2 attempted_moves_;
 
-  move_invariants check{};
+  /// @brief A count of N3_31, N3_22, N3_13, N1_TL, N1_SL, N0
+  move_invariants check{{0, 0, 0, 0, 0, 0}};
 
   /// @brief Perfect forwarding constructor initializer
   ///

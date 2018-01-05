@@ -24,8 +24,8 @@ profile
 # Build, Doc, and Testing dirs
 build/*
 html/
-googletest/
 cov-int
+Testing
 
 # Editor files
 .clang_complete
@@ -38,12 +38,12 @@ cdt_tests
 grid_d
 
 # Output files
-output
+output*
 errors
 *.off
-*.log
 *.dat
 slurm-*.out
+*.tmp
 
 # Instrumentation
 *.trace

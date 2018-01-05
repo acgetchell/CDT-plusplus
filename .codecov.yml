@@ -1,0 +1,33 @@
+codecov:
+  max_report_age: off
+  notify:
+    require_ci_to_pass: no
+
+coverage:
+  precision: 2
+  round: down
+  range: "30...100"  # Figure out how to exclude or test included subrepos
+
+  status:
+    project: yes
+    patch: yes
+    changes: no
+
+  notify:
+      gitter:
+        default:
+          url: https://webhooks.gitter.im/e/c70e4d2749931f601747
+          threshold: 1%
+
+parsers:
+  gcov:
+    branch_detection:
+      conditional: yes
+      loop: yes
+      method: no
+      macro: no
+
+comment:
+  layout: "reach, diff, flags, files, footer"
+  behavior: default
+  require_changes: no
