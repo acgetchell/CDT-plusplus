@@ -19,7 +19,7 @@ Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant
 [Catch] is included as a single header in order to build/run unit tests.
 [Ninja] is a nice (but optional) replacement for `make`.
 Intel's [TBB] provides significantly better performance if present (3x+).
-Follows the [CppCore Guidelines][guidelines] as enforced by [clang-tidy], which you can run using the 
+Follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can run using the 
 [clang-tidy.sh] script:
 
 ~~~
@@ -129,7 +129,7 @@ is an unambiguous match to a longer one. The help message should be instructive:
 ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2017 Adam Getchell
+Copyright (c) 2014-2018 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -214,6 +214,8 @@ In addition to the command line output, you can see detailed results in the
 
 ## Static Analysis
 
+### Manual
+
 The [cppcheck-build.sh] script runs a quick static analysis using
 [cppcheck].
 
@@ -221,12 +223,15 @@ The [cppcheck-build.sh] script runs a quick static analysis using
 but slower static analysis integrated with [CMake] and [Ninja].
 Simply run the [scan.sh] script.
 
-One of the [Travis-CI] jobs runs [Valgrind][valgrind]; be sure to look at the 
-results to ensure you're not leaking memory.
+### Continuous Integration
+
+One of the [Travis-CI] jobs runs ClangTidy on all changed files.
+
+Another runs [Valgrind]; be sure to look at the results to ensure you're not leaking memory.
 
 ## Contributing
 
-Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
+Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
 
 [CDT]: http://arxiv.org/abs/hep-th/0105267
 [CGAL]: http://www.cgal.org
@@ -264,8 +269,8 @@ Please see CONTRIBUTING.md and our CODE_OF_CONDUCT.md.
 [Boost]: http://www.boost.org
 [gcc]: https://gcc.gnu.org
 [contrib]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
-[clang-tidy]: http://llvm.org/releases/3.6.0/tools/clang/docs/ClangFormatStyleOptions.html
-[valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
+[ClangTidy]: http://releases.llvm.org/5.0.0/tools/clang/tools/extra/docs/clang-tidy/index.html
+[Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [conduct]: https://github.com/acgetchell/CDT-plusplus/blob/master/CODE_OF_CONDUCT.md
 [date]: https://howardhinnant.github.io/date/date.html
 [subrepo]: https://github.com/ingydotnet/git-subrepo

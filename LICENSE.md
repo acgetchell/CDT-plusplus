@@ -1,4 +1,4 @@
-Copyright (c) 2013-2016, Adam Getchell
+Copyright (c) 2013-2018, Adam Getchell
 
 All rights reserved.
 
