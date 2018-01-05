@@ -19,7 +19,7 @@ Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant
 [Catch] is included as a single header in order to build/run unit tests.
 [Ninja] is a nice (but optional) replacement for `make`.
 Intel's [TBB] provides significantly better performance if present (3x+).
-Follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can run using the 
+Follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can run using the
 [clang-tidy.sh] script:
 
 ~~~
