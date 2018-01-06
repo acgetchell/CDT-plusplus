@@ -55,6 +55,7 @@
 #include <iterator>
 #include <limits>
 #include <locale>
+#include <memory>
 #include <ostream>
 #include <ratio>
 #include <sstream>
@@ -6774,7 +6775,7 @@ from_stream(std::basic_istream<CharT, Traits>& is, const CharT* fmt,
                     else
                         read(is, rs{H, 1, 2}, CharT{':'}, ru{M, 2, 2});
                     if (!is.fail())
-                        temp_offset = hours{H} + minutes{M};
+                        temp_offset = hours{ H } + minutes{ H < 0 ? -M : M };
                     command = nullptr;
                     width = -1;
                     modified = CharT{};
@@ -6996,6 +6997,8 @@ from_stream(std::basic_istream<CharT, Traits>& is, const CharT* fmt,
                 else if (day(static_cast<unsigned>(d)) != ymd.day())
                     goto broken;
             }
+            if (Y < static_cast<int>(year::min()) || Y > static_cast<int>(year::max()))
+                Y = not_a_year;
             auto ymd = year{Y}/m/d;
             if (wd != not_a_weekday && ymd.ok())
             {
