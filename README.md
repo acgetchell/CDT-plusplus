@@ -60,7 +60,7 @@ The goals and targets of this project are:
 ## Prerequisites
 
 [CDT++] should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake], [CGAL], [Boost], [MPFR], [Eigen], and [curl] installed. 
+[CMake], [CGAL], [Boost], [MPFR], [Eigen], and [curl] installed.
 (Curl can be difficult on Windows, see [.appveyor.yml] for details.)
 [TBB] provides an optional (but significant) speed boost.  [Catch] is 
 optional (but recommended) for running the unit tests, and [Ninja] is an 
@@ -78,7 +78,7 @@ brew install tbb --c++11
 brew install cgal --imaging --with-eigen3 --with-lapack
 ~~~
 
-On Ubuntu, you will need an updated versions of [Clang] or [gcc], 
+On Ubuntu, you will need an updated versions of [Clang] or [gcc],
 [CMake], and [Boost], which is scripted in [.travis.yml].
 With Howard Hinnant's [date] library, you may also need to install
 `libcurl-dev`, which is a virtual package with many flavors, OpenSSL being
