@@ -64,7 +64,7 @@ else( )
 	add_library( tz SHARED ${HEADER_FILES} ${SOURCE_FOLDER}/tz.cpp )
 endif( )
 
-if( NOT TZ_CXX_STANDARD ) 
+if( NOT TZ_CXX_STANDARD )
     set( TZ_CXX_STANDARD 17 )
 endif( )
 
@@ -156,4 +156,3 @@ foreach( child ${children} )
 		endif( )
 	endif( )
 endforeach( )
-

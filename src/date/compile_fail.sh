@@ -13,4 +13,3 @@ else
 fi
 chmod u+x ${TEST_BIN_NAME}
 exit 0;
-
