@@ -106,6 +106,15 @@ else()
                   and will not be compiled.")
 endif()
 
+#Curl
+find_package(CURL)
+if(CURL_FOUND)
+  include_directories(${CURL_INCLUDE_DIR})
+else()
+  message(FATAL_ERROR "Notice: This program requires the Curl library,
+                  and will not be compiled.")
+endif()
+
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include)
 add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
 target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
@@ -115,7 +124,7 @@ if (UNIX)
 endif(UNIX)
 
 add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
-target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
+target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${CURL_LIBRARIES})
 
 ###############
 ##  Tests    ##

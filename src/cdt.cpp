@@ -6,11 +6,8 @@
 ///
 /// Inspired by https://github.com/ucdavis/CDT
 ///
-/// \todo Invoke complete set of ergodic (Pachner) moves
-/// \todo Use Metropolis-Hastings algorithm
-/// \todo Fix write_file() to include cell->info() and vertex->info()
-/// \done Use <a href="https://github.com/docopt/docopt.cpp">docopt</a>
-/// for a beautiful command line interface.
+/// @todo Invoke complete set of ergodic (Pachner) moves
+/// @todo Fix write_file() to include cell->info() and vertex->info()
 
 /// @file cdt.cpp
 /// @brief The main executable
@@ -81,7 +78,7 @@ int main(int argc, char* const argv[])
     // docopt option parser
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE, {argv + 1, argv + argc},
-                       true,        // print help message automatically
+                       true,          // print help message automatically
                        "CDT 0.1.0");  // Version
 
     // Debugging
@@ -125,9 +122,10 @@ int main(int argc, char* const argv[])
     std::cout << "User = " << getEnvVar("USER") << "\n";
     std::cout << "Hostname = " << hostname() << "\n";
 
-    if (simplices < 2 || timeslices <2) {
+    if (simplices < 2 || timeslices < 2) {
       t.stop();
-      throw std::invalid_argument("Simplices and timeslices should be greater or equal to 2.");
+      throw std::invalid_argument(
+          "Simplices and timeslices should be greater or equal to 2.");
     }
 
     // Initialize simulation
