@@ -62,7 +62,7 @@ class MoveAlgorithm
   Move_tracker attempted_moves_{{0, 0, 0, 0, 0}};
 
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  std::array<std::atomic_intmax_t, 5> successful_moves_{{0, 0, 0, 0, 0}};
+  Move_tracker successful_moves_{{0, 0, 0, 0, 0}};
 
   /// @brief Number of passes of ergodic moves on triangulation.
   std::intmax_t passes_{100};
@@ -178,7 +178,7 @@ class MoveAlgorithm
   /// @return successful_moves_[0]
   auto SuccessfulTwoThreeMoves() const noexcept
   {
-    return successful_moves_[0].load();
+    return successful_moves_[0];
   }
 
   /// @brief Gets attempted (3,2) moves.
@@ -189,7 +189,7 @@ class MoveAlgorithm
   /// @return std::get<1>(successful_moves_)
   auto SuccessfulThreeTwoMoves() const noexcept
   {
-    return successful_moves_[1].load();
+    return successful_moves_[1];
   }
 
   /// @brief Gets attempted (2,6) moves.
@@ -200,7 +200,7 @@ class MoveAlgorithm
   /// @return std::get<2>(successful_moves_)
   auto SuccessfulTwoSixMoves() const noexcept
   {
-    return successful_moves_[2].load();
+    return successful_moves_[2];
   }
 
   /// @brief Gets attempted (6,2) moves.
@@ -211,7 +211,7 @@ class MoveAlgorithm
   /// @return std::get<3>(attempted_moves_)
   auto SuccessfulSixTwoMoves() const noexcept
   {
-    return successful_moves_[3].load();
+    return successful_moves_[3];
   }
 
   /// @brief Gets attempted (4,4) moves.
@@ -222,7 +222,7 @@ class MoveAlgorithm
   /// @return std::get<4>(attempted_moves_)
   auto SuccessfulFourFourMoves() const noexcept
   {
-    return successful_moves_[4].load();
+    return successful_moves_[4];
   }
 
   /// @brief Displays results of run to standard output
