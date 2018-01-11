@@ -98,24 +98,19 @@ if(CGAL_FOUND)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
   else()
-    message(FATAL_ERROR "NOTICE: This program requires the Eigen3 library,
-                    and will not be compiled.")
+    message(FATAL_ERROR "NOTICE: This program requires the Eigen3 library, and will not be compiled.")
   endif()
 else()
-  message(FATAL_ERROR "This program requires the CGAL library,
-                  and will not be compiled.")
+  message(FATAL_ERROR "This program requires the CGAL library, and will not be compiled.")
 endif()
 
 #Curl
 find_package(CURL)
-if(CURL_FOUND)
-  include_directories(${CURL_INCLUDE_DIR})
-else()
-  message(FATAL_ERROR "Notice: This program requires the Curl library,
-                  and will not be compiled.")
+if(!CURL_FOUND)
+  message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
 endif()
 
-include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include)
+include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
 add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
 target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
 
