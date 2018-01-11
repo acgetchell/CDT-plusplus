@@ -40,19 +40,12 @@ install:
   - conda install -c conda-forge eigen -y
   # Install TBB
   - conda install -c conda-forge tbb -y
-  # Install Boost
-  # - conda install -c conda-forge boost -y
   # Install MPFR
   - conda install -c conda-forge mpfr -y
   # Install CGAL
   - conda install -c conda-forge cgal -y
-  # Install curlcpp
-#  - git clone https://github.com/curl/curl
-#  - cd curl
-#  - mkdir build && cd build
-#  - cmake -G "Visual Studio 14 2015 Win64" ..
-#  - cmake --build .
-  - nuget install rmt_curl -Version 7.51.0
+  # Install curl
+  - conda install -c conda-forge curl -y
 
 before_build:
   - cd C:\projects\CDT-plusplus
@@ -61,7 +54,7 @@ build_script:
   - mkdir build
   - cd build
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
-  - cmake --build .
+#  - cmake --build .
 
 #on_success:
 #  - cmake --build . --target test

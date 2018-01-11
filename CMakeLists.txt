@@ -44,6 +44,7 @@ set(BOOST_MIN_VERSION "1.64.0")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
+message("Supported features = ${CMAKE_CXX_COMPILE_FEATURES}")
 
 #Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -63,6 +64,9 @@ set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
 #Extra warnings
 add_compile_options(-Wall -Wno-comment)
 
+#Easier navigation in an IDE when projects are organized in folders.
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
+
 ###############
 ##  Project  ##
 ###############
@@ -75,7 +79,7 @@ set(Boost_USE_MULTITHREAD ON)
 find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
 if (Boost_FOUND)
   include_directories(${Boost_INCLUDE_DIR})
-  else()
+else()
 message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
 endif ()
 
@@ -98,21 +102,23 @@ if(CGAL_FOUND)
   if(EIGEN3_FOUND)
     include(${EIGEN3_USE_FILE})
   else()
-    message(FATAL_ERROR "NOTICE: This program requires the Eigen3 library, and will not be compiled.")
+    message(FATAL_ERROR "Notice: This program requires the Eigen3 library, and will not be compiled.")
   endif()
 else()
-  message(FATAL_ERROR "This program requires the CGAL library, and will not be compiled.")
+  message(FATAL_ERROR "Notice: This program requires the CGAL library, and will not be compiled.")
 endif()
 
 #Curl
 find_package(CURL)
-if(!CURL_FOUND)
+if(CURL_FOUND)
+  include_directories(${CURL_INCLUDE_DIR})
+else()
   message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
 endif()
 
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
 add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
-target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} curl)
+target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${CURL_LIBRARIES})
 
 if (UNIX)
   create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
@@ -133,14 +139,14 @@ add_subdirectory(test)
 #Does the usage message work ?
 add_test (CDT-Usage cdt)
 set_tests_properties (CDT-Usage
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Usage:./cdt")
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
 #Dimensions != 4
 add_test (CDT-3Donly cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
 set_tests_properties (CDT-3Donly
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
 
 #Simplices and timeslices >= 2
 add_test(CDT-Simplices cdt --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
@@ -155,8 +161,8 @@ set_tests_properties(CDT-Timeslices
 # 3D Triangle inequality
 add_test (CDT-3Dtriangle cdt --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
 set_tests_properties (CDT-3Dtriangle
-  PROPERTIES
-  PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
 #Minimum run
 add_test(CDT-MinimalS3 cdt --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
