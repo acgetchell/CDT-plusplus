@@ -44,10 +44,6 @@ set(TBB_ON TRUE)
 #Set mimumum Boost
 set(BOOST_MIN_VERSION "1.64.0")
 
-#Activate C++ 17 support
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
 
 #Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
@@ -117,13 +113,19 @@ endif()
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
 add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
 target_link_libraries(cdt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${CURL_LIBRARIES})
+#Activate C++17
+target_compile_features(cdt PUBLIC cxx_std_17)
 
 if (UNIX)
   create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+  #Activate C++17
+  target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif(UNIX)
 
 add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
 target_link_libraries(cdt-opt ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${CURL_LIBRARIES})
+#Activate C++17
+target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
 ###############
 ##  Tests    ##

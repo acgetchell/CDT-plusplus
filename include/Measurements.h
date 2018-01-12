@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016-2017 Adam Getchell
+/// Copyright © 2016-2018 Adam Getchell
 ///
 /// Interesting measurements on the simulation
 
@@ -55,7 +55,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
         std::cout << "Vertex[" << i << "] has timevalue "
                   << cell->vertex(i)->info() << "\n";
 #endif
-        facet_timevalues.insert(std::move(cell->vertex(i)->info()));
+        facet_timevalues.insert(cell->vertex(i)->info());
       }
     }
     // If we have a 1-element set then all timevalues on that facet are equal
