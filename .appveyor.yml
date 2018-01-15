@@ -46,12 +46,7 @@ install:
   - conda install -c conda-forge mpfr -y
   # Install CGAL
   - conda install -c conda-forge cgal -y
-  # Install curlcpp
-#  - git clone https://github.com/curl/curl
-#  - cd curl
-#  - mkdir build && cd build
-#  - cmake -G "Visual Studio 14 2015 Win64" ..
-#  - cmake --build .
+  # Install Curl
   - conda install -c conda-forge curl -y
 
 before_build:

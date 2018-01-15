@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2017 Adam Getchell
+/// Copyright © 2015-2018 Adam Getchell
 ///
 /// Checks that Metropolis algorithm runs properly.
 

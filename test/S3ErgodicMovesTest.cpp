@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017 Adam Getchell
+/// Copyright © 2017-2018 Adam Getchell
 /// Tests for S3 ergodic moves: (2,3), (3,2), (2,6), (6,2)
 /// @todo (4,4)
 
@@ -19,7 +19,7 @@ SCENARIO("Perform ergodic moves upon S3 Triangulations", "[moves]")
     constexpr auto     simplices  = static_cast<std::intmax_t>(32000);
     constexpr auto     timeslices = static_cast<std::intmax_t>(12);
     SimplicialManifold universe(simplices, timeslices);
-    Move_tracker       attempted_moves;
+    Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
     // Verify triangulation
     CHECK(universe.triangulation);
     CHECK(universe.geometry->number_of_cells() ==

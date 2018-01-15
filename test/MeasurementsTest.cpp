@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016-2017 Adam Getchell
+/// Copyright © 2016-2018 Adam Getchell
 ///
 /// Checks various measurement functions perform correctly.
 
@@ -43,7 +43,7 @@ SCENARIO("Take measurements on a Simplicial Manifold.", "[measurements][!mayfail
       }
       THEN("Results are persisted across moves.")
       {
-        Move_tracker attempted_moves;
+        Move_tracker attempted_moves{{0, 0, 0, 0, 0}};
 //        auto result = make_26_move(std::move(universe), attempted_moves);
         REQUIRE_NOTHROW(universe = make_26_move(std::move(universe), attempted_moves));
         REQUIRE(attempted_moves[2] > 0);

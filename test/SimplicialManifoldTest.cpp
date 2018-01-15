@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016-2017 Adam Getchell
+/// Copyright © 2016-2018 Adam Getchell
 ///
 /// Tests that foliated tetrahedrons are constructed correctly
 /// in a Delaunay triangulation.

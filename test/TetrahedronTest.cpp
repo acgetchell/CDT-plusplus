@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017 Adam Getchell
+/// Copyright © 2017-2018 Adam Getchell
 ///
 /// Tests that 3D triangulated and foliated tetrahedrons are constructed
 /// correctly.
