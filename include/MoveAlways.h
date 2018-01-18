@@ -25,7 +25,7 @@ class MoveAlways : public MoveAlgorithm
   /// @brief Set passes and checkpoint with MoveAlgorithm 2-argument constructor
   /// @param passes Number of passes through triangulation
   /// @param checkpoint Number of passes per checkpoint
-  MoveAlways(const std::intmax_t passes, const std::intmax_t checkpoint)
+  MoveAlways(const std::int_fast32_t passes, const std::int_fast32_t checkpoint)
       : MoveAlgorithm(passes, checkpoint)
   {
 #ifndef NDEBUG
@@ -52,10 +52,10 @@ class MoveAlways : public MoveAlgorithm
 
     std::cout << "Making random moves ..." << std::endl;
     // Loop through passes_
-    for (std::intmax_t pass_number = 1; pass_number <= passes_; ++pass_number) {
+    for (std::int_fast32_t pass_number = 1; pass_number <= passes_; ++pass_number) {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
-      for (std::intmax_t move_attempt = 0;
+      for (std::int_fast32_t move_attempt = 0;
            move_attempt < total_simplices_this_pass; ++move_attempt)
       {
         // Pick a move to attempt
@@ -64,7 +64,7 @@ class MoveAlways : public MoveAlgorithm
         std::cout << "Move choice = " << move_choice << std::endl;
 #endif
 
-        // Convert std::intmax_t move_choice to move_type enum
+        // Convert std::int_fast32_t move_choice to move_type enum
         auto move = static_cast<move_type>(move_choice);
         make_move(move);
       }  // End loop through CurrentTotalSimplices

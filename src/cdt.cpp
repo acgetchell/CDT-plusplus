@@ -87,14 +87,14 @@ int main(int argc, char* const argv[])
     // }
 
     // Parse docopt::values in args map
-    auto simplices  = std::stoll(args["-n"].asString());
-    auto timeslices = std::stoll(args["-t"].asString());
-    auto dimensions = std::stoll(args["-d"].asString());
+    auto simplices  = std::stol(args["-n"].asString());
+    auto timeslices = std::stol(args["-t"].asString());
+    auto dimensions = std::stol(args["-d"].asString());
     auto alpha      = std::stold(args["--alpha"].asString());
     auto k          = std::stold(args["-k"].asString());
     auto lambda     = std::stold(args["--lambda"].asString());
-    auto passes     = std::stoll(args["--passes"].asString());
-    auto checkpoint = std::stoll(args["--checkpoint"].asString());
+    auto passes     = std::stol(args["--passes"].asString());
+    auto checkpoint = std::stol(args["--checkpoint"].asString());
 
     // Topology of simulation
     topology_type topology;

@@ -63,8 +63,8 @@
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
 // Used so that each timeslice is assigned an integer
-using Vb = CGAL::Triangulation_vertex_base_with_info_3<std::intmax_t, K>;
-using Cb = CGAL::Triangulation_cell_base_with_info_3<std::intmax_t, K>;
+using Vb = CGAL::Triangulation_vertex_base_with_info_3<std::int_fast32_t, K>;
+using Cb = CGAL::Triangulation_cell_base_with_info_3<std::int_fast32_t, K>;
 
 // Parallel operations
 #ifdef CGAL_LINKED_WITH_TBB
@@ -77,9 +77,9 @@ using Cell_handle     = Delaunay::Cell_handle;
 using Vertex_handle   = Delaunay::Vertex_handle;
 using Locate_type     = Delaunay::Locate_type;
 using Point           = Delaunay::Point;
-using Edge_handle     = std::tuple<Cell_handle, std::intmax_t, std::intmax_t>;
-using Causal_vertices = std::vector<std::pair<Point, std::intmax_t>>;
-using Move_tracker    = std::array<intmax_t, 5>;
+using Edge_handle     = std::tuple<Cell_handle, std::int_fast32_t, std::int_fast32_t>;
+using Causal_vertices = std::vector<std::pair<Point, std::int_fast32_t>>;
+using Move_tracker    = std::array<int_fast32_t, 5>;
 
 enum class move_type
 {
@@ -91,7 +91,7 @@ enum class move_type
 };
 
 /// The maximum number of passes to fix invalidly foliated simplices
-static constexpr std::intmax_t MAX_FOLIATION_FIX_PASSES = 500;
+static constexpr std::int_fast32_t MAX_FOLIATION_FIX_PASSES = 500;
 
 /// The dimensionality of the Delaunay triangulation
 static constexpr int DIMENSION = 3;
@@ -120,11 +120,11 @@ template <typename T>
 auto fix_timeslices(T&& universe_ptr)
 {
 //  Delaunay::Finite_cells_iterator cit;
-  std::intmax_t                   min_time{0};
-  std::intmax_t                   max_time{0};
-  std::intmax_t                   valid{0};
-  std::intmax_t                   invalid{0};
-  std::intmax_t                   max_vertex{0};
+  std::int_fast32_t                   min_time{0};
+  std::int_fast32_t                   max_time{0};
+  std::int_fast32_t                   valid{0};
+  std::int_fast32_t                   invalid{0};
+  std::int_fast32_t                   max_vertex{0};
   std::set<Vertex_handle>         deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
@@ -145,7 +145,7 @@ auto fix_timeslices(T&& universe_ptr)
         if (current_time < min_time) min_time = current_time;
         if (current_time > max_time) {
           max_time   = current_time;
-          max_vertex = static_cast<intmax_t>(i);
+          max_vertex = static_cast<int_fast32_t>(i);
         }
       }  // Finish iterating over vertices
       // There should be a difference of 1 between min_time and max_time
@@ -209,7 +209,7 @@ auto fix_timeslices(T&& universe_ptr)
 template <typename T>
 void fix_triangulation(T&& universe_ptr)
 {
-  for (std::intmax_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
+  for (std::int_fast32_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass) {
 #ifndef NDEBUG
     std::cout << "Fix Pass #" << (pass + 1) << "\n";
 #endif
@@ -237,10 +237,10 @@ void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 ///
 /// @param simplices The number of desired simplices in the triangulation
 /// @param timeslices  The number of desired timeslices in the triangulation
-/// @return A std::vector<std::pair<Point, std::intmax_t>> containing random
+/// @return A std::vector<std::pair<Point, std::int_fast32_t>> containing random
 /// vertices and their corresponding timevalues
-auto inline make_foliated_sphere(const std::intmax_t simplices,
-                                 const std::intmax_t timeslices)
+auto inline make_foliated_sphere(const std::int_fast32_t simplices,
+                                 const std::int_fast32_t timeslices)
 {
   //  double     radius{0};
   const auto points_per_timeslice =
@@ -248,12 +248,12 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
   CGAL_triangulation_precondition(points_per_timeslice >= 2);
   Causal_vertices causal_vertices;
 
-  for (std::intmax_t i = 0; i < timeslices; ++i) {
+  for (std::int_fast32_t i = 0; i < timeslices; ++i) {
     auto radius = INITIAL_RADIUS + static_cast<double>(i) * RADIAL_FACTOR;
     CGAL::Random_points_on_sphere_3<Point> gen{radius};
     // At each radius, generate a sphere of random points proportional to area
-    for (std::intmax_t j = 0;
-         j < static_cast<std::intmax_t>(points_per_timeslice * radius); ++j)
+    for (std::int_fast32_t j = 0;
+         j < static_cast<std::int_fast32_t>(points_per_timeslice * radius); ++j)
     {
       causal_vertices.emplace_back(std::make_pair(*gen++, radius));
     }  // end j
@@ -279,8 +279,8 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
-auto inline make_triangulation(const std::intmax_t simplices,
-                               const std::intmax_t timeslices)
+auto inline make_triangulation(const std::int_fast32_t simplices,
+                               const std::int_fast32_t timeslices)
 {
   std::cout << "Generating universe ... \n";
 

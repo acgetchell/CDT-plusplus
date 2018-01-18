@@ -24,7 +24,7 @@
 #include <utility>
 #include <vector>
 
-using move_invariants = std::array<std::uintmax_t, 6>;
+using move_invariants = std::array<std::uint_fast32_t, 6>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves

@@ -38,7 +38,7 @@ class MoveAlgorithm
   /// @param passes Number of passes through simulation, where each pass
   /// equals a number of moves equal to the number of simplices
   /// @param checkpoint Write/print results every *checkpoint* passes
-  MoveAlgorithm(const std::intmax_t passes, const std::intmax_t checkpoint)
+  MoveAlgorithm(const std::int_fast32_t passes, const std::int_fast32_t checkpoint)
       : passes_(passes), checkpoint_(checkpoint)
   {
 #ifndef NDEBUG
@@ -50,13 +50,13 @@ class MoveAlgorithm
   SimplicialManifold universe_;
 
   /// @brief The current number of timelike edges
-  std::intmax_t N1_TL_{0};
+  std::int_fast32_t N1_TL_{0};
 
   /// @brief The current number of (3,1) and (1,3) simplices
-  std::intmax_t N3_31_13_{0};
+  std::int_fast32_t N3_31_13_{0};
 
   /// @brief The current number of (2,2) simplices
-  std::intmax_t N3_22_{0};
+  std::int_fast32_t N3_22_{0};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   Move_tracker attempted_moves_{{0, 0, 0, 0, 0}};
@@ -65,10 +65,10 @@ class MoveAlgorithm
   Move_tracker successful_moves_{{0, 0, 0, 0, 0}};
 
   /// @brief Number of passes of ergodic moves on triangulation.
-  std::intmax_t passes_{100};
+  std::int_fast32_t passes_{100};
 
   /// @brief How often to print/write output.
-  std::intmax_t checkpoint_{10};
+  std::int_fast32_t checkpoint_{10};
 
   /// @brief Make a move of the selected type
   ///

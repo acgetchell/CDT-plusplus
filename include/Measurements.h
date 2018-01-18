@@ -33,7 +33,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   //  manifold.update();
   print_results(manifold);
 
-  std::multimap<intmax_t, Facet>   spacelike_facets;
+  std::multimap<int_fast32_t, Facet>   spacelike_facets;
   Delaunay::Finite_facets_iterator fit;
   // Visit every finite facet in the manifold
   for (fit = manifold.triangulation->finite_facets_begin();
@@ -47,7 +47,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 #ifdef DETAILED_DEBUGGING
     std::cout << "Facet index is " << index_of_facet << "\n";
 #endif
-    std::set<intmax_t> facet_timevalues;
+    std::set<int_fast32_t> facet_timevalues;
     // The vertices of the facet are the ones that aren't the index
     for (auto i = 0; i < 4; ++i) {
       if (i != index_of_facet) {
@@ -72,7 +72,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 #endif
 
   // Determine which timevalues are populated
-  std::set<intmax_t> timevalues;
+  std::set<int_fast32_t> timevalues;
   for (const auto& item : manifold.geometry->vertices) {
     timevalues.insert(item->info());
   }
