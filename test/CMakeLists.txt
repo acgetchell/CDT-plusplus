@@ -11,7 +11,7 @@ add_executable(CDT_test main.cpp ${SRC_FILES} ../src/date/src/tz.cpp FunctionRef
                         TorusTest.cpp TetrahedronTest.cpp SphereTest.cpp SimulationTest.cpp SimplicialManifoldTest.cpp
                         S3TriangulationTest.cpp S3ErgodicMovesTest.cpp S3ActionTest.cpp MoveManagerTest.cpp MoveAlgorithmsTest.cpp
                         MeasurementsTest.cpp)
-target_link_libraries(CDT_test ${TBB_LIBRARIES} curl)
+target_link_libraries(CDT_test ${TBB_LIBRARIES} ${CURL_LIBRARIES})
 #Activate C++17
 target_compile_features(CDT_test PRIVATE cxx_std_17)
 
