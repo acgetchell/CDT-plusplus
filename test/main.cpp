@@ -1,6 +1,13 @@
-//
-// Created by Adam Getchell on 2017-12-05.
-//
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2017-2018 Adam Getchell
+///
+/// Main Catch test driver
+///
+/// @file main.cpp
+/// @brief Catch test driver
+/// @author https://github.com/catchorg and Adam Getchell
+
 #define CATCH_CONFIG_RUNNER
 #include "catch.hpp"
 

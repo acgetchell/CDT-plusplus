@@ -12,6 +12,8 @@ add_executable(CDT_test main.cpp ${SRC_FILES} ../src/date/src/tz.cpp FunctionRef
                         S3TriangulationTest.cpp S3ErgodicMovesTest.cpp S3ActionTest.cpp MoveManagerTest.cpp MoveAlgorithmsTest.cpp
                         MeasurementsTest.cpp)
 target_link_libraries(CDT_test ${TBB_LIBRARIES} curl)
+#Activate C++17
+target_compile_features(CDT_test PRIVATE cxx_std_17)
 
 # Run unit tests
 add_test(NAME CDT-unit-tests COMMAND $<TARGET_FILE:CDT_test>)

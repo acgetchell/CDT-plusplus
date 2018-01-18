@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2017 Adam Getchell
+/// Copyright © 2015-2018 Adam Getchell
 ///
 /// Creates foliated spherical triangulations
 ///
@@ -114,12 +114,12 @@ static constexpr double RADIAL_FACTOR  = 1.0;
 /// This function is repeatedly called by fix_triangulation() up to
 /// **MAX_FOLIATION_FIX_PASSES** times.
 ///
-/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
+/// @param universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A boolean value if there are invalid simplices
 template <typename T>
 auto fix_timeslices(T&& universe_ptr)
 {
-  Delaunay::Finite_cells_iterator cit;
+//  Delaunay::Finite_cells_iterator cit;
   std::intmax_t                   min_time{0};
   std::intmax_t                   max_time{0};
   std::intmax_t                   valid{0};
@@ -128,7 +128,7 @@ auto fix_timeslices(T&& universe_ptr)
   std::set<Vertex_handle>         deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
-  for (cit = universe_ptr->finite_cells_begin();
+  for (Delaunay::Finite_cells_iterator cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit)
   {
     if (cit->is_valid()) {  // Valid cell
@@ -205,7 +205,7 @@ auto fix_timeslices(T&& universe_ptr)
 /// Runs fix_timeslices() to fix foliation until there are no errors,
 /// or MAX_FOLIATION_FIX_PASSES whichever comes first.
 ///
-/// @param[in] universe_ptr A std::unique_ptr<Delaunay> to the triangulation
+/// @param universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 template <typename T>
 void fix_triangulation(T&& universe_ptr)
 {
@@ -221,9 +221,9 @@ void fix_triangulation(T&& universe_ptr)
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
-/// \tparam T Type of universe_ptr
-/// \param universe_ptr A unique pointer to triangulation
-/// \param cv A data structure of causal vertices
+/// @tparam T Type of universe_ptr
+/// @param universe_ptr A unique pointer to triangulation
+/// @param cv A data structure of causal vertices
 template <typename T>
 void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 {
@@ -235,9 +235,9 @@ void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 /// The radius is used to denote the time value, so we can nest 2-spheres
 /// such that our time foliation contains leaves of identical topology.
 ///
-/// \param simplices The number of desired simplices in the triangulation
-/// \param timeslices  The number of desired timeslices in the triangulation
-/// \return A std::vector<std::pair<Point, std::intmax_t>> containing random
+/// @param simplices The number of desired simplices in the triangulation
+/// @param timeslices  The number of desired timeslices in the triangulation
+/// @return A std::vector<std::pair<Point, std::intmax_t>> containing random
 /// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::intmax_t simplices,
                                  const std::intmax_t timeslices)
@@ -255,7 +255,7 @@ auto inline make_foliated_sphere(const std::intmax_t simplices,
     for (std::intmax_t j = 0;
          j < static_cast<std::intmax_t>(points_per_timeslice * radius); ++j)
     {
-      causal_vertices.push_back(std::make_pair(*gen++, radius));
+      causal_vertices.emplace_back(std::make_pair(*gen++, radius));
     }  // end j
   }    // end i
   return causal_vertices;

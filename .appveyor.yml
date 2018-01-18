@@ -44,7 +44,7 @@ install:
   - conda install -c conda-forge mpfr -y
   # Install CGAL
   - conda install -c conda-forge cgal -y
-  # Install curl
+  # Install Curl
   - conda install -c conda-forge curl -y
 
 before_build:

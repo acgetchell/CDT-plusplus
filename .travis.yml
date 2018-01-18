@@ -158,7 +158,7 @@ matrix:
       after_success:
     # ClangTidy
     - os: linux
-      compiler: gcc
+      compiler: clang
       env: TESTS=false CLANGTIDY=true
       addons:
         apt:
@@ -204,7 +204,7 @@ matrix:
             - libtbb-dev
             - valgrind
       script:
-        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
         - cmake --build .
         - ctest -T memcheck
     # Coverity

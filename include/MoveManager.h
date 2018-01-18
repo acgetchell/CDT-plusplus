@@ -2,7 +2,7 @@
 ///
 /// Copyright © 2016-2017 Adam Getchell
 ///
-/// Resource Aquisition Is Initialization class for managing exception-safe
+/// Resource Acquisition Is Initialization class for managing exception-safe
 /// ergodic (foliation-preserving Pachner) moves.
 /// See http://www.stroustrup.com/except.pdf and
 /// http://exceptionsafecode.com for details.

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016 Adam Getchell
+/// Copyright © 2016-2018 Adam Getchell
 ///
 /// Checks that the MoveManager RAII class handles resources properly.
 /// @todo Debug why no moves are performed

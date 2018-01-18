@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2017 Adam Getchell
+/// Copyright © 2015-2018 Adam Getchell
 ///
 /// Tests that foliated tetrahedrons are constructed correctly
 /// in a Delaunay triangulation.
@@ -135,8 +135,8 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]
   }
   WHEN("Constructing a large triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(64000);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(17);
+    constexpr auto     simplices  = static_cast<std::intmax_t>(32000);
+    constexpr auto     timeslices = static_cast<std::intmax_t>(12);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {

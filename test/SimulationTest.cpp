@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017 Adam Getchell
+/// Copyright © 2017-2018 Adam Getchell
 ///
 /// Tests the Simulation class and loading of function objects such as
 /// MoveAlgorithm (and derived classes)
