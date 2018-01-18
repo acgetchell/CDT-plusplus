@@ -17,8 +17,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
 {
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(7);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
     constexpr auto     K          = static_cast<long double>(1.1);
     constexpr auto     Lambda     = static_cast<long double>(0.1);
     SimplicialManifold universe(simplices, timeslices);

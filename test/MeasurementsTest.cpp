@@ -18,8 +18,8 @@ SCENARIO("Take measurements on a Simplicial Manifold.", "[measurements][!mayfail
 {
   GIVEN("A correctly-constructed SimplicialManifold.")
   {
-    constexpr auto simplices = static_cast<std::intmax_t>(6400);
-    constexpr auto timeslices = static_cast<std::intmax_t>(7);
+    constexpr auto simplices = static_cast<std::int_fast32_t>(6400);
+    constexpr auto timeslices = static_cast<std::int_fast32_t>(7);
     SimplicialManifold      universe(make_triangulation(simplices, timeslices));
     // It is correctly constructed
     CHECK(universe.triangulation);

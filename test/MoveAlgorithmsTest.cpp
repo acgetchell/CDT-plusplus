@@ -18,12 +18,12 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
   constexpr auto Alpha                 = static_cast<long double>(0.6);
   constexpr auto K                     = static_cast<long double>(1.1);
   constexpr auto Lambda                = static_cast<long double>(0.1);
-  constexpr auto passes                = static_cast<std::intmax_t>(10);
-  constexpr auto output_every_n_passes = static_cast<std::intmax_t>(1);
+  constexpr auto passes                = static_cast<std::int_fast32_t>(10);
+  constexpr auto output_every_n_passes = static_cast<std::int_fast32_t>(1);
   GIVEN("A correctly-constructed SimplicialManifold.")
   {
-    constexpr auto simplices = static_cast<std::intmax_t>(640);
-    constexpr auto timeslices = static_cast<std::intmax_t>(4);
+    constexpr auto simplices = static_cast<std::int_fast32_t>(640);
+    constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
     SimplicialManifold      universe(make_triangulation(simplices, timeslices));
     // It is correctly constructed
     CHECK(universe.triangulation);

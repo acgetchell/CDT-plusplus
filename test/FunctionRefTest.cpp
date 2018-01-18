@@ -37,8 +37,8 @@ SCENARIO("Lambda operations", "[lambda][!mayfail]")
   }
   GIVEN("A lambda storing a move.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(7);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
     SimplicialManifold universe(simplices, timeslices);
     Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
     // Verify triangulation
@@ -113,8 +113,8 @@ SCENARIO("Function_ref operations", "[function_ref]")
   }
   GIVEN("A complex lambda storing a move stored in a function_ref.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(7);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
     SimplicialManifold universe(simplices, timeslices);
     Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
     // Verify triangulation

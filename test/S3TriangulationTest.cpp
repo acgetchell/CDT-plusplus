@@ -26,8 +26,8 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]
 {
   WHEN("Using a unique pointer to a Delaunay triangulation.")
   {
-    constexpr auto     simplices    = static_cast<std::intmax_t>(6400);
-    constexpr auto     timeslices   = static_cast<std::intmax_t>(7);
+    constexpr auto     simplices    = static_cast<std::int_fast32_t>(6400);
+    constexpr auto     timeslices   = static_cast<std::int_fast32_t>(7);
     auto               universe_ptr = make_triangulation(simplices, timeslices);
     SimplicialManifold universe(std::move(universe_ptr));
     THEN("It is correct.")
@@ -52,8 +52,8 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]
   }
   WHEN("Constructing the minimum size triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(2);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(2);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(2);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(2);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
@@ -85,8 +85,8 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]
   }
   WHEN("Constructing a small triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(640);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(4);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(640);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(4);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
@@ -110,8 +110,8 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]
   }
   WHEN("Constructing a medium triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(6400);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(7);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {
@@ -135,8 +135,8 @@ SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]
   }
   WHEN("Constructing a large triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::intmax_t>(32000);
-    constexpr auto     timeslices = static_cast<std::intmax_t>(12);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(32000);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(12);
     SimplicialManifold universe(simplices, timeslices);
     THEN("It is correct.")
     {

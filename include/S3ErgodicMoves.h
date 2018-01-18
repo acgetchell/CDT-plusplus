@@ -483,7 +483,7 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 #endif
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  intmax_t                   tds_vertices_size = tds_vertices.size();
+  int_fast32_t                   tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
     auto          choice = generate_random_signed(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices[choice];

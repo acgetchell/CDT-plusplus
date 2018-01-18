@@ -71,7 +71,7 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
     std::vector<Delaunay::Point> Vertices{
         Delaunay::Point{0, 0, 0}, Delaunay::Point{0, 1, 0},
         Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
-    std::vector<std::intmax_t> timevalue{1, 1, 1, 2};
+    std::vector<std::int_fast32_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
