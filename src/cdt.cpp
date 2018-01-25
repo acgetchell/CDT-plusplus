@@ -28,6 +28,8 @@
 #include <Metropolis.h>
 #include <Simulation.h>
 
+using Timer = CGAL::Real_timer;
+
 /// Help message parsed by docopt into options
 static const char USAGE[]{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
@@ -72,14 +74,14 @@ int main(int argc, char* const argv[])
   try
   {
     // Start running time
-    CGAL::Real_timer t;
+    Timer t;
     t.start();
 
     // docopt option parser
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE, {argv + 1, argv + argc},
                        true,          // print help message automatically
-                       "CDT 0.1.0");  // Version
+                       "CDT 0.1.6");  // Version
 
     // Debugging
     // for (auto const& arg : args) {
