@@ -247,10 +247,12 @@ auto inline make_foliated_sphere(const std::int_fast32_t simplices,
       expected_points_per_simplex(DIMENSION, simplices, timeslices);
   CGAL_triangulation_precondition(points_per_timeslice >= 2);
   Causal_vertices causal_vertices;
+  using Spherical_points_generator_3 = CGAL::Random_points_on_sphere_3<Point>;
 
   for (std::int_fast32_t i = 0; i < timeslices; ++i) {
     auto radius = INITIAL_RADIUS + static_cast<double>(i) * RADIAL_FACTOR;
-    CGAL::Random_points_on_sphere_3<Point> gen{radius};
+//    CGAL::Random_points_on_sphere_3<Point> gen{radius};
+    Spherical_points_generator_3 gen{radius};
     // At each radius, generate a sphere of random points proportional to area
     for (std::int_fast32_t j = 0;
          j < static_cast<std::int_fast32_t>(points_per_timeslice * radius); ++j)
