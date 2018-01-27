@@ -1,5 +1,5 @@
 language: cpp
-sudo: required
+sudo: false
 dist: trusty
 osx_image: xcode9.2
 
@@ -95,7 +95,7 @@ install:
   - echo $CMAKE_OPTIONS
   - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
-  - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
+  - cmake --build . --target install &> install.log
   - cd ..
 
 before_script:
@@ -230,7 +230,7 @@ matrix:
           build_command:   "cmake --build ."
           branch_pattern: master
       script:
-        - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
+        - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | tee -a /etc/ssl/certs/ca-
     # Codecov
     - os: linux
       compiler: gcc
