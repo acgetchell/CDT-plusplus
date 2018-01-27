@@ -89,7 +89,7 @@ install:
   - echo $CXX $CC
   # Install CGAL from source for Linux
   - cd $TRAVIS_BUILD_DIR
-  - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.10.2.tar.gz
+  - travis_retry curl -L -o CGAL-4.10.2.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.10.2.tar.gz
   - tar zxvf CGAL-4.10.2.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.10.2
   - echo $CMAKE_OPTIONS
