@@ -43,6 +43,8 @@ install:
   - conda install -c conda-forge tbb -y
   # Install MPFR
   - conda install -c conda-forge mpfr -y
+  # Install Boost 1.66.0
+  - conda install -c conda-forge boost -y
   # Install CGAL
   - conda install -c conda-forge cgal -y
   # Install Curl
