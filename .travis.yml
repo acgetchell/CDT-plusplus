@@ -61,7 +61,6 @@ install:
       brew install ninja
       brew install eigen
       brew install tbb
-      brew install cgal
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
