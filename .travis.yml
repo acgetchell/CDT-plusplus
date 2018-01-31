@@ -264,9 +264,9 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
-#    - os: linux
-#      compiler: gcc
-#      env: TESTS=false CODECOV=true
+    - os: linux
+      compiler: gcc
+      env: TESTS=false CODECOV=true
 #    - os: linux
 #      compiler: gcc
 #      env: TESTS=false COVERITY=true
