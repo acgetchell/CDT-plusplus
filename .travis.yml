@@ -255,24 +255,24 @@ matrix:
         - cd ..
         - bash <(curl -s https://codecov.io/bash)
   allow_failures:
-    - os: linux
-      compiler: clang
-      env: TESTS=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false
+#    - os: linux
+#      compiler: clang
+#      env: TESTS=true
+#    - os: linux
+#      compiler: clang
+#      env: TESTS=false
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
-    - os: linux
-      compiler: gcc
-      env: TESTS=false CODECOV=true
-    - os: linux
-      compiler: gcc
-      env: TESTS=false COVERITY=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGTIDY=true
+#    - os: linux
+#      compiler: gcc
+#      env: TESTS=false CODECOV=true
+#    - os: linux
+#      compiler: gcc
+#      env: TESTS=false COVERITY=true
+#    - os: linux
+#      compiler: clang
+#      env: TESTS=false CLANGTIDY=true
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
