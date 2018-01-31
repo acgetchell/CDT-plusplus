@@ -289,7 +289,7 @@ script:
 after_success:
   - cd build
   # Integration tests excluding Catch
-  - ctest -E CDT-unit-tests
+#  - ctest -E CDT-unit-tests
   # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then ./test/CDT_test; fi
 
