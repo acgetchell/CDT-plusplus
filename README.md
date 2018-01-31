@@ -61,7 +61,6 @@ The goals and targets of this project are:
 
 [CDT++] should build on any system (e.g. Linux, MacOS, Windows) with
 [CMake], [CGAL], [Boost], [MPFR], [Eigen], and [curl] installed.
-(Curl can be difficult on Windows, see [.appveyor.yml] for details.)
 [TBB] provides an optional (but significant) speed boost.  [Catch] is 
 optional (but recommended) for running the unit tests, and [Ninja] is an 
 optional replacement for `make` which provides quick parallel builds of the 
@@ -74,8 +73,8 @@ brew upgrade cmake
 brew install ninja
 brew upgrade boost
 brew install eigen
-brew install tbb --c++11
-brew install cgal --imaging --with-eigen3 --with-lapack
+brew install tbb
+brew install cgal --with-eigen3 --with-lapack
 ~~~
 
 On Ubuntu, you will need an updated versions of [Clang] or [gcc],
@@ -140,8 +139,8 @@ moves equal to the number of simplices in the simulation.
 Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
 
 Examples:
-./cdt --spherical -n 64000 -t 256 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt --s -n64000 -t256 -a.6 -k1.1 -l.1 -p1000
+./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
+./cdt --s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
 
 Options:
   -h --help                   Show this message

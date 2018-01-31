@@ -45,8 +45,8 @@ moves equal to the number of simplices in the simulation.
 Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
 
 Examples:
-./cdt --spherical -n 64000 -t 256 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt --s -n64000 -t256 -a.6 -k1.1 -l.1 -p1000
+./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
+./cdt --s -n324000 -t11 -a.6 -k1.1 -l.1 -p1000
 
 Options:
   -h --help                   Show this message
@@ -81,7 +81,7 @@ int main(int argc, char* const argv[])
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE, {argv + 1, argv + argc},
                        true,          // print help message automatically
-                       "CDT 0.1.6");  // Version
+                       "CDT 0.1.7");  // Version
 
     // Debugging
     // for (auto const& arg : args) {
