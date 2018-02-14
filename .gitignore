@@ -46,6 +46,9 @@ slurm-*.out
 
 # Instrumentation
 *.trace
+build-wrapper-macosx-x86
+*.scannerwork
+bw-output/*
 
 # Cruft
 *.old.*

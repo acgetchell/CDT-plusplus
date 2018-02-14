@@ -248,6 +248,27 @@ matrix:
         - ctest -R CDT-unit-tests
         - cd ..
         - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+    # SonarQube
+    - os: osx
+      compiler: clang
+      env: TESTS=false SONARQUBE=true
+      addons:
+        sonarcloud:
+          organization: "acgetchell-github"
+          token:
+            # The next declaration is the encrypted SONAR_TOKEN, created
+            # via the "travis encrypt" command using the project repo's public key
+            secure: "EVi8l1/M4mcRR80syUJ2k5I9W6Ajz4oydktfk0PS1suBh6pHaYE4u6LpTRGE9ekeYgdsV7Rb+RJEzouoPdSLJa3ARGja4wKey7uQb3gpIAC6vu/f/uqlVa07F+WuYAEP6+yScIMa66G1Ta8dPtLyuhDu5t4ABg5x4UO6v68WHr8="
+          branches:
+            - develop
+            - master
+      install:
+        - brew install sonar-scanner
+      script:
+        - sonar-scanner
+      cache:
+        directories:
+          - '$HOME/.sonar/cache'
   allow_failures:
 #    - os: linux
 #      compiler: clang
@@ -267,6 +288,9 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
+    - os: osx
+      compiler: clang
+      env: TESTS=false SONARQUBE=true
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
