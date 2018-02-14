@@ -69,15 +69,9 @@ install:
       export PATH=${TRAVIS_BUILD_DIR}/cmake/bin:${PATH}
       if [[ "${BOOST_VERSION}" != "" ]]; then
         BOOST_DIR=${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
-        if [[ "${BOOST_VERSION}" == "trunk" ]]; then
-          BOOST_URL="http://github.com/boostorg/boost.git"
-          travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
-          (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers)
-        else
-          BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
-          mkdir -p ${BOOST_DIR}
-          { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
-        fi
+        BOOST_URL="https://github.com/boostorg/boost/archive/boost-${BOOST_VERSION}.tar.gz"
+        mkdir -p ${BOOST_DIR}
+        { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
         CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
       fi
       INCLUDE_DIR="/usr/include/"
