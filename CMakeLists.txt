@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.8.2)
 
-project("CDT-plusplus" C CXX)
+project(CDT-plusplus VERSION 0.1.7 LANGUAGES CXX)
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
   message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
@@ -43,6 +43,8 @@ option(TESTS ON)
 set(TBB_ON TRUE)
 #Set mimumum Boost
 set(BOOST_MIN_VERSION "1.64.0")
+#Compile commands for ClangTidy et. al
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 #Threads
