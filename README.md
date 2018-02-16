@@ -3,6 +3,7 @@
  [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=develop)](https://travis-ci.org/acgetchell/CDT-plusplus)
  [![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
  [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
+ [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=CDT-plusplus%3Adevelop&metric=alert_status)](https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop)
  [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 
