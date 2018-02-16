@@ -4,18 +4,18 @@
 ///
 /// Interesting measurements on the simulation
 
-/// @file Measurements.h
+/// @file Measurements.hpp
 /// @brief Measurements of the simulation
 /// @author Adam Getchell
 
-#ifndef SRC_MEASUREMENTS_H_
-#define SRC_MEASUREMENTS_H_
+#ifndef SRC_MEASUREMENTS_HPP_
+#define SRC_MEASUREMENTS_HPP_
 
 /// Toggles detailed per-facet debugging output
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-#include <SimplicialManifold.h>
+#include <SimplicialManifold.hpp>
 #include <map>
 #include <set>
 #include <utility>
@@ -94,4 +94,4 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   return manifold;
 }  // VolumePerTimeslice()
 
-#endif  // SRC_MEASUREMENTS_H_
+#endif  // SRC_MEASUREMENTS_HPP_

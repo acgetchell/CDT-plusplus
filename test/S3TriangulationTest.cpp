@@ -10,7 +10,7 @@
 /// @author Adam Getchell
 
 #include "catch.hpp"
-#include <Measurements.h>
+#include <Measurements.hpp>
 
 SCENARIO("Delaunay unique pointer", "[triangulation]")
 {

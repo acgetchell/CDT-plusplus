@@ -12,9 +12,9 @@
 
 #include "catch.hpp"
 //#include <boost/optional/optional_io.hpp>
-#include <Measurements.h>
-#include <MoveManager.h>
-#include <S3ErgodicMoves.h>
+#include <Measurements.hpp>
+#include <MoveManager.hpp>
+#include <S3ErgodicMoves.hpp>
 
 SCENARIO("Perform safe moves on S3 Triangulations", "[moves][move_manager][!mayfail]")
 {

@@ -8,15 +8,15 @@
 /// @todo Debug (6,2) move
 /// @todo (4,4) move
 
-/// @file S3ErgodicMoves.h
+/// @file S3ErgodicMoves.hpp
 /// @brief Pachner moves on 3D Delaunay Triangulations
 /// @author Adam Getchell, Guarav Nagar
 
-#ifndef SRC_S3ERGODICMOVES_H_
-#define SRC_S3ERGODICMOVES_H_
+#ifndef SRC_S3ERGODICMOVES_HPP_
+#define SRC_S3ERGODICMOVES_HPP_
 
 // CDT headers
-#include <S3Triangulation.h>
+#include <S3Triangulation.hpp>
 
 // CGAL headers
 #include <CGAL/barycenter.h>
@@ -547,4 +547,4 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   return std::forward<T1>(universe);
 }  // make_44_move()
 
-#endif  // SRC_S3ERGODICMOVES_H_
+#endif  // SRC_S3ERGODICMOVES_HPP_

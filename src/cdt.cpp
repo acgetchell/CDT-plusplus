@@ -25,8 +25,8 @@
 #include "docopt/docopt.h"
 
 // CDT headers
-#include <Metropolis.h>
-#include <Simulation.h>
+#include <Metropolis.hpp>
+#include <Simulation.hpp>
 
 using Timer = CGAL::Real_timer;
 

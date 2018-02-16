@@ -4,7 +4,7 @@
 ///
 /// Periodic (toroidal) simplicial complexes
 
-/// @file periodic_3_complex.hpp
+/// @file Periodic_3_complex.hpp
 /// @brief Toroidal simplicial complexes
 /// @author Adam Getchell
 
@@ -52,4 +52,4 @@ void make_random_T3_simplicial_complex(PDT* T3,
   assert(T3->dimension() == 3);
   assert(T3->is_valid());
 }
-#endif  // SRC_PERIODIC_3_COMPLEX_H_
+#endif  // SRC_PERIODIC_3_COMPLEX_HPP_

@@ -7,14 +7,14 @@
 
 /// \todo Make the vector compatible with the triangulation data structure
 
-/// @file sphere_d.h
+/// @file sphere_d.hpp
 /// @brief Functions on d-Spheres
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#ifndef SRC_SPHERE_D_H_
-#define SRC_SPHERE_D_H_
+#ifndef SRC_SPHERE_D_HPP_
+#define SRC_SPHERE_D_HPP_
 
 /// CGAL headers
 #include <CGAL/Cartesian_d.h>
@@ -73,4 +73,4 @@ void make_d_sphere(std::int_fast32_t number_of_points, int dimension, double rad
   make_d_sphere(number_of_points, dimension, radius, false, points);
 }  // make_d_sphere
 
-#endif  // SRC_SPHERE_D_H_
+#endif  // SRC_SPHERE_D_HPP_
