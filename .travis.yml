@@ -258,17 +258,23 @@ matrix:
           token:
             # The next declaration is the encrypted SONAR_TOKEN, created
             # via the "travis encrypt" command using the project repo's public key
-            secure: "EVi8l1/M4mcRR80syUJ2k5I9W6Ajz4oydktfk0PS1suBh6pHaYE4u6LpTRGE9ekeYgdsV7Rb+RJEzouoPdSLJa3ARGja4wKey7uQb3gpIAC6vu/f/uqlVa07F+WuYAEP6+yScIMa66G1Ta8dPtLyuhDu5t4ABg5x4UO6v68WHr8="
+            secure: "TxYL6OVv6S4PwYNAYv6CAVKStqWNfiPxQtmYJKKLFBgjfTCWjS9KuGVEI6QPwFnT4i89h+8NI8NA5SZYi3DOTqnXWG8D/z7VSwtZw3MAJRCkXrjY0QKXFfSXYVXjQuL+D0WwUVmtFBN8MbEX9iqRXNWmyW+Pd+keceYC6VqtK9k="
           branches:
             - develop
             - master
+      # Skip unnecessary steps since we aren't compiling
+      before_install:
+        - brew install ccache
       install:
         - brew install sonar-scanner
+      before_script:
       script:
         - sonar-scanner
       cache:
+        ccache: true
         directories:
           - '$HOME/.sonar/cache'
+      after_success:
   allow_failures:
 #    - os: linux
 #      compiler: clang
