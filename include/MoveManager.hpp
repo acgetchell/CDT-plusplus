@@ -15,7 +15,7 @@
 #ifndef SRC_MOVEMANAGER_H_
 #define SRC_MOVEMANAGER_H_
 
-#include <Function_ref.h>
+#include <Function_ref.hpp>
 #include <SimplicialManifold.h>
 #include <algorithm>
 #include <memory>
