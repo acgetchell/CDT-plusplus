@@ -252,8 +252,8 @@ matrix:
         - cd ..
         - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
     # SonarQube
-    - os: osx
-      compiler: clang
+    - os: linux
+      compiler: gcc
       env: TESTS=false SONARQUBE=true
       addons:
         sonarcloud:
@@ -267,14 +267,14 @@ matrix:
             - master
       # Skip unnecessary steps since we aren't compiling
       before_install:
-        - brew install ccache
       install:
-        - brew install sonar-scanner
       before_script:
       script:
+        - make clean
+        - build-wrapper-linux-x86-64 --out-dir bw-output make all
+        - make test
         - sonar-scanner
       cache:
-        ccache: true
         directories:
           - '$HOME/.sonar/cache'
       after_success:
