@@ -265,16 +265,13 @@ matrix:
           branches:
             - develop
             - master
-      # Skip unnecessary steps since we aren't compiling
+      # Skip unnecessary steps
       before_install:
-      install:
-      before_script:
-        - mkdir build
-        - cd build
       script:
         - build-wrapper-linux-x86-64 --out-dir bw-output cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
-        - sonar-scanner
+        - sonar-scanner -X
       cache:
+        ccache: true
         directories:
           - '$HOME/.sonar/cache'
       after_success:
