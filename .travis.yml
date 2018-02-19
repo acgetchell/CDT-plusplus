@@ -256,6 +256,17 @@ matrix:
       compiler: gcc
       env: TESTS=false SONARQUBE=true
       addons:
+        apt:
+          sources:
+            - ubuntu-toolchain-r-test
+          packages:
+            - gcc-7
+            - g++-7
+            - ninja-build
+            - libmpfr-dev
+            - libgmp3-dev
+            - libeigen3-dev
+            - libtbb-dev
         sonarcloud:
           organization: "acgetchell-github"
           token:
