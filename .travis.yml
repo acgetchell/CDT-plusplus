@@ -77,7 +77,6 @@ install:
       INCLUDE_DIR="/usr/include/"
     fi
   - cmake --version
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-5.0" CC="clang-5.0"; fi
@@ -280,12 +279,14 @@ matrix:
       # Skip unnecessary steps
       before_install:
       script:
+        - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
         - build-wrapper-linux-x86-64 --out-dir bw-output cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
         - sonar-scanner -X
       cache:
-        ccache: true
+#        ccache: true
         directories:
           - '$HOME/.sonar/cache'
+          - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
       after_success:
   allow_failures:
 #    - os: linux
