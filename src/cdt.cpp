@@ -46,7 +46,7 @@ Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K 
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
-./cdt --s -n324000 -t11 -a.6 -k1.1 -l.1 -p1000
+./cdt --s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000
 
 Options:
   -h --help                   Show this message

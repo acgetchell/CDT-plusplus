@@ -364,7 +364,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
             "(2,6) center vertex not bounded by 6 simplices!");
 
       // Check combinatorial and geometric validity of each cell
-      for (auto cell : inc_cells) {
+      for (const auto& cell : inc_cells) {
         if (!universe.triangulation->tds().is_valid(cell, true))
           throw std::logic_error(
               "A cell resulting from (2,6) move is invalid.");
