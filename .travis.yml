@@ -251,22 +251,21 @@ matrix:
         - cd ..
         - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
     # SonarQube
-    - os: linux
-      compiler: gcc
+    - os: osx
+      compiler: clang
       env: TESTS=false SONARQUBE=true
       addons:
         apt:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-7
-            - g++-7
+#            - gcc-7
+#            - g++-7
             - ninja-build
             - libmpfr-dev
             - libgmp3-dev
             - libeigen3-dev
             - libtbb-dev
-            - libcgal-dev
         sonarcloud:
           organization: "acgetchell-github"
           token:
@@ -276,11 +275,12 @@ matrix:
           branches:
             - develop
             - master
+            - feature/SonarCloud-build-wrapper
       # Skip unnecessary steps
-      before_install:
+#      before_install:
       script:
         - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
-        - build-wrapper-linux-x86-64 --out-dir bw-output cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - build-wrapper-macosx-x86 --out-dir bw-output cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
         - sonar-scanner -X
       cache:
 #        ccache: true
@@ -307,8 +307,8 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
-    - os: linux
-      compiler: gcc
+    - os: osx
+      compiler: clang
       env: TESTS=false SONARQUBE=true
 
 script:
