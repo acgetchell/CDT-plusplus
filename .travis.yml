@@ -31,7 +31,7 @@ env:
 
 cache:
   apt:
-  ccache:
+  ccache: true
   directories:
     - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
 
