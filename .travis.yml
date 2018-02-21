@@ -278,13 +278,14 @@ matrix:
             - master
             - feature/SonarCloud-build-wrapper
       # Skip unnecessary steps
-#      before_install:
+      before_install:
+        - git fetch --unshallow
       script:
         - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
         - build-wrapper-macosx-x86 --out-dir bw_output cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
         - sonar-scanner -X -Dproject.settings=../sonar-project.properties
       cache:
-#        ccache: true
+        ccache: true
         directories:
           - '$HOME/.sonar/cache'
           - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
