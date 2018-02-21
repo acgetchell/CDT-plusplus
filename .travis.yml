@@ -266,6 +266,7 @@ matrix:
             - libgmp3-dev
             - libeigen3-dev
             - libtbb-dev
+            - libcgal-dev
         sonarcloud:
           organization: "acgetchell-github"
           token:
