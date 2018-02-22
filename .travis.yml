@@ -87,7 +87,7 @@ install:
   - tar zxvf CGAL-4.11.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.11
   - echo $CMAKE_OPTIONS
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
+  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
   - cmake --build .
   - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
