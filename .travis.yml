@@ -86,8 +86,9 @@ install:
   - travis_retry curl -L -o CGAL-4.11.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.11.tar.gz
   - tar zxvf CGAL-4.11.tar.gz &> install.log
   - cd cgal-releases-CGAL-4.11
-  - echo $CMAKE_OPTIONS
-  - cmake -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
+  - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON"
+  - echo ${CMAKE_OPTIONS}
+  - cmake ${CMAKE_OPTIONS} -G Ninja .
   - cmake --build .
   - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
@@ -197,7 +198,7 @@ matrix:
             - libcgal-dev
             - valgrind
       script:
-        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
         - ctest -T memcheck
     # Coverity
@@ -245,7 +246,7 @@ matrix:
             - libtbb-dev
             - libcgal-dev
       script:
-        - cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
         - ctest -R CDT-unit-tests
         - cd ..
@@ -281,8 +282,8 @@ matrix:
       before_install:
         - git fetch --unshallow
       script:
-        - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
-        - build-wrapper-macosx-x86 --out-dir bw_output cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - CMAKE_OPTIONS="-DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR}"
+        - build-wrapper-macosx-x86 --out-dir bw_output cmake ${CMAKE_OPTIONS} -G Ninja ..
         - sonar-scanner -X -Dproject.settings=../sonar-project.properties
       cache:
         ccache: true
