@@ -21,9 +21,6 @@ addons:
 
 env:
   global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "cjzdlbVhmLO0B0kzMcl5xAXEXIDRbMYFbaa+dEJTa+sG1VbzdtiXRsleZt8idZs2E0DKFN8Fti4+zrLdlqsx2+gU1fKn2TrfHCvRWNjxLFLCJ0fvkXdmEXVetnKyu27XrsXYJfaNbwUT05hpVvDT60GPt5g64XeJD9RQgX/UEug="
    - BOOST_VERSION=1.66.0
   matrix:
     - TESTS=true
@@ -201,33 +198,6 @@ matrix:
         - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
         - ctest -T memcheck
-    # Coverity
-    - os: linux
-      compiler: gcc
-      env: TESTS=false COVERITY=true
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - g++-7
-            - ninja-build
-            - libmpfr-dev
-            - libgmp3-dev
-            - libeigen3-dev
-            - libtbb-dev
-            - libcgal-dev
-        coverity_scan:
-          project:
-            name: "acgetchell/CDT-plusplus"
-            description: "Causal Dynamical Triangulations in C++ with CGAL"
-          notification_email: acgetchell@ucdavis.edu
-          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -G Ninja .."
-          build_command:   "cmake --build ."
-          branch_pattern: master
-      script:
-        - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
     # Codecov
     - os: linux
       compiler: gcc
@@ -256,28 +226,11 @@ matrix:
       compiler: clang
       env: TESTS=false SONARQUBE=true
       addons:
-#        apt:
-#          sources:
-#            - ubuntu-toolchain-r-test
-#          packages:
-#            - gcc-7
-#            - g++-7
-#            - ninja-build
-#            - libmpfr-dev
-#            - libgmp3-dev
-#            - libeigen3-dev
-#            - libtbb-dev
-#            - libcgal-dev
         sonarcloud:
           organization: "acgetchell-github"
-#          token:
-#            # The next declaration is the encrypted SONAR_TOKEN, created
-#            # via the "travis encrypt" command using the project repo's public key
-#            secure: "TxYL6OVv6S4PwYNAYv6CAVKStqWNfiPxQtmYJKKLFBgjfTCWjS9KuGVEI6QPwFnT4i89h+8NI8NA5SZYi3DOTqnXWG8D/z7VSwtZw3MAJRCkXrjY0QKXFfSXYVXjQuL+D0WwUVmtFBN8MbEX9iqRXNWmyW+Pd+keceYC6VqtK9k="
           branches:
             - develop
             - master
-#            - feature/SonarCloud-build-wrapper
       # Skip unnecessary steps
       before_install:
         - git fetch --unshallow
@@ -292,21 +245,12 @@ matrix:
           - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
       after_success:
   allow_failures:
-#    - os: linux
-#      compiler: clang
-#      env: TESTS=true
-#    - os: linux
-#      compiler: clang
-#      env: TESTS=false
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
     - os: linux
       compiler: gcc
       env: TESTS=false CODECOV=true
-    - os: linux
-      compiler: gcc
-      env: TESTS=false COVERITY=true
     - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
