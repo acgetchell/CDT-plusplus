@@ -223,7 +223,7 @@ matrix:
             name: "acgetchell/CDT-plusplus"
             description: "Causal Dynamical Triangulations in C++ with CGAL"
           notification_email: acgetchell@ucdavis.edu
-          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
+          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -G Ninja .."
           build_command:   "cmake --build ."
           branch_pattern: master
       script:
@@ -256,28 +256,28 @@ matrix:
       compiler: clang
       env: TESTS=false SONARQUBE=true
       addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
+#        apt:
+#          sources:
+#            - ubuntu-toolchain-r-test
+#          packages:
 #            - gcc-7
 #            - g++-7
-            - ninja-build
-            - libmpfr-dev
-            - libgmp3-dev
-            - libeigen3-dev
-            - libtbb-dev
-            - libcgal-dev
+#            - ninja-build
+#            - libmpfr-dev
+#            - libgmp3-dev
+#            - libeigen3-dev
+#            - libtbb-dev
+#            - libcgal-dev
         sonarcloud:
           organization: "acgetchell-github"
-          token:
-            # The next declaration is the encrypted SONAR_TOKEN, created
-            # via the "travis encrypt" command using the project repo's public key
-            secure: "TxYL6OVv6S4PwYNAYv6CAVKStqWNfiPxQtmYJKKLFBgjfTCWjS9KuGVEI6QPwFnT4i89h+8NI8NA5SZYi3DOTqnXWG8D/z7VSwtZw3MAJRCkXrjY0QKXFfSXYVXjQuL+D0WwUVmtFBN8MbEX9iqRXNWmyW+Pd+keceYC6VqtK9k="
+#          token:
+#            # The next declaration is the encrypted SONAR_TOKEN, created
+#            # via the "travis encrypt" command using the project repo's public key
+#            secure: "TxYL6OVv6S4PwYNAYv6CAVKStqWNfiPxQtmYJKKLFBgjfTCWjS9KuGVEI6QPwFnT4i89h+8NI8NA5SZYi3DOTqnXWG8D/z7VSwtZw3MAJRCkXrjY0QKXFfSXYVXjQuL+D0WwUVmtFBN8MbEX9iqRXNWmyW+Pd+keceYC6VqtK9k="
           branches:
             - develop
             - master
-            - feature/SonarCloud-build-wrapper
+#            - feature/SonarCloud-build-wrapper
       # Skip unnecessary steps
       before_install:
         - git fetch --unshallow

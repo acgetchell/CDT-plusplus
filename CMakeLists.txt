@@ -3,7 +3,8 @@ cmake_minimum_required(VERSION 3.8.2)
 project(CDT-plusplus VERSION 0.1.7 LANGUAGES CXX)
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
+  message(FATAL_ERROR "Do not build in-source.
+                       Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
 ############################
