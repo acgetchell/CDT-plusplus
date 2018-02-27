@@ -80,9 +80,9 @@ install:
   - echo $CXX $CC
   # Install CGAL from source for Linux
   - cd $TRAVIS_BUILD_DIR
-  - travis_retry curl -L -o CGAL-4.11.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.11.tar.gz
-  - tar zxvf CGAL-4.11.tar.gz &> install.log
-  - cd cgal-releases-CGAL-4.11
+  - travis_retry curl -L -o CGAL-4.11.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.11.1.tar.gz
+  - tar zxvf CGAL-4.11.1.tar.gz &> install.log
+  - cd cgal-releases-CGAL-4.11.1
   - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON"
   - echo ${CMAKE_OPTIONS}
   - cmake ${CMAKE_OPTIONS} -G Ninja .
