@@ -215,11 +215,16 @@ matrix:
             - libeigen3-dev
             - libtbb-dev
             - libcgal-dev
+            - lcov
       script:
         - cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
         - ctest -R CDT-unit-tests
-        - cd ..
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - lcov --directory . --capture --output-file coverage.info
+        - lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        - lcov --list coverage.info
         - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
     # SonarQube
     - os: osx
