@@ -262,6 +262,9 @@ matrix:
     - os: osx
       compiler: clang
       env: TESTS=false SONARQUBE=true
+    - os: linux
+      compiler: clang
+      env: TESTS=true
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"
