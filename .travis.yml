@@ -219,8 +219,10 @@ matrix:
       script:
         - cmake -DTESTS:BOOL=ON -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
-        - ctest -E "CDT-unit-tests|cdt-gv"
       after_success:
+        - cd ${TRAVIS_BUILD_DIR}/build
+        - pwd
+        - ctest -E "CDT-unit-tests|cdt-gv"
         - cd ${TRAVIS_BUILD_DIR}
         - lcov --directory . --capture --output-file coverage.info
         - lcov --remove coverage.info '/usr/*' --output-file coverage.info
