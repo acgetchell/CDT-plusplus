@@ -26,11 +26,11 @@ env:
     - TESTS=true
     - TESTS=false
 
-cache:
-  apt:
-  ccache: true
-  directories:
-    - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
+#cache:
+#  apt:
+#  ccache: true
+#  directories:
+#    - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
 
 os:
   - linux
