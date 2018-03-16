@@ -1,5 +1,5 @@
 language: cpp
-sudo: false
+sudo: true
 dist: trusty
 osx_image: xcode9.2
 
@@ -47,6 +47,8 @@ before_install:
         command curl -sSL https://rvm.io/mpapis.asc | gpg --import -;
         rvm get head || true
         brew update
+      else
+        sudo apt-get purge libboost-atomic1.54.dev libboost-chrono1.54-dev libboost-chrono1.54.0 libboost-date-time1.54-dev libboost-date-time1.54.0 libboost-dev libboost-program-options-dev libboost-program-options1.54-dev libboost-program-options1.54.0 libboost-serialization1.54-dev libboost-serialization1.54.0 libboost-system-dev libboost-system1.54-dev libboost-system1.54.0 libboost-thread-dev libboost-thread1.54-dev libboost-thread1.54.0 libboost1.54-dev
       fi
 
 install:
