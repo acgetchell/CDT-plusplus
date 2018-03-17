@@ -9,7 +9,7 @@ addons:
       - gcc-7
       - g++-7
       - ninja-build
-      - clang-5.0
+      - clang-6.0
       - libmpfr-dev
       - libgmp3-dev
       - libeigen3-dev
@@ -17,7 +17,7 @@ addons:
       - libcgal-dev
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-5.0
+      - llvm-toolchain-trusty-6.0
 
 env:
   global:
@@ -76,7 +76,7 @@ install:
   - cmake --version
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
-   CXX="clang++-5.0" CC="clang-5.0"; fi
+   CXX="clang++-6.0" CC="clang-6.0"; fi
   - echo $CXX $CC
   # Install CGAL from source for Linux
   - cd $TRAVIS_BUILD_DIR
@@ -127,10 +127,10 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-5.0
-            - clang-format-5.0
+            - clang-6.0
+            - clang-format-6.0
       # Skip unnecessary steps since we aren't compiling
       before_install:
       install:
@@ -138,10 +138,10 @@ matrix:
       # Overwrite script on matrix jobs
       script:
         - |
-          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-5.0/clang-format-diff.py -style file) ]]; then
+          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file) ]]; then
             echo "Run clang-format before submitting a pull request."
             echo ""
-            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-5.0/clang-format-diff.py -style file
+            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
             exit -1
           fi
       # Skip after_success
@@ -154,17 +154,17 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-5.0
-            - clang-tidy-5.0
+            - clang-6.0
+            - clang-tidy-6.0
       # Skip unnecessary steps since we aren't compiling
       before_install:
       install:
       before_script:
       # Overwrite script on matrix jobs
       script:
-        - git diff -U0 HEAD^ | /usr/lib/llvm-5.0/share/clang/clang-tidy-diff.py -checks=-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance* > output.txt
+        - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py -checks=-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance* > output.txt
         - |
           if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
             echo "You must pass the clang tidy checks before submitting a pull request"
