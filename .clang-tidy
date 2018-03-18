@@ -5,7 +5,7 @@ HeaderFilterRegex: ".*"
 AnalyzeTemporaryDtors: false
 FormatStyle:     none
 User:            adam
-CheckOptions:    
+CheckOptions:
   - key:             cert-dcl59-cpp.HeaderFileExtensions
     value:           h,hh,hpp,hxx
   - key:             cert-err09-cpp.CheckThrowTemporaries
@@ -115,4 +115,3 @@ CheckOptions:
   - key:             performance-unnecessary-value-param.IncludeStyle
     value:           llvm
 ...
-
