@@ -129,7 +129,8 @@ target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} 
 target_compile_features(cdt PRIVATE cxx_std_17)
 
 if (UNIX)
-  create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+  add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
+  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
   #Activate C++17
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 
