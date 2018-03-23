@@ -81,7 +81,7 @@ int main(int argc, char* const argv[])
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE, {argv + 1, argv + argc},
                        true,          // print help message automatically
-                       "CDT 0.1.7");  // Version
+                       "CDT 0.1.8");  // Version
 
     // Debugging
     // for (auto const& arg : args) {
