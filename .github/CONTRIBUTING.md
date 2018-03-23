@@ -25,11 +25,12 @@ Consult existing code for examples.
 For the longest time, however, no one but me actually read them.
 When I contribute to other projects, I definitely try to have useful, clear commit messages and you should, too.*
 8. Run `clang-format` using the project's [.clang-format].
-9. Open a pull request against the develop branch of the main repository (which is the default).
+9. Run `clang-tidy` using the project's [.clang-tidy].
+10. Open a pull request against the develop branch of the main repository (which is the default).
 [Travis-CI] will test it against combinations of Linux (Ubuntu 14.04), MacOS, clang, and gcc, so ensure that your code compiles on both platforms with both compilers.
-10. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
-In particular, look at results from git whitespace checks (`git diff --check HEAD^`), [ClangFormat], [ClangTidy], [Valgrind], [Coverity], and [Codecov] .
-11. I will get to your change as soon as I can.
+11. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+In particular, look at results from git whitespace checks (`git diff --check HEAD^`), [ClangFormat], [ClangTidy], [Valgrind], [Codecov], and [SonarCloud] .
+12. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
 You will receive proper credit for your contributions both in the code and any resulting scientific papers using the output of `git log --format='%aN | sort -u`.
 
@@ -62,4 +63,4 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Codecov]: https://codecov.io/support
 [Gitter]: https://gitter.im/acgetchell/CDT-plusplus
 [ClangTidy]: http://clang.llvm.org/extra/clang-tidy/index.html
-[Coverity]: https://scan.coverity.com/projects/acgetchell-cdt-plusplus
+[SonarCloud]: https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop

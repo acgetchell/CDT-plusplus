@@ -10,7 +10,7 @@
 /// @author Adam Getchell
 
 #include "catch.hpp"
-#include <SimplicialManifold.h>
+#include <SimplicialManifold.hpp>
 
 SCENARIO("Construct a tetrahedron in the triangulation", "[tetrahedron]")
 {

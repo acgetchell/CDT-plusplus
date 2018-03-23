@@ -4,16 +4,16 @@
 ///
 /// Base class for all move algorithms, e.g. Metropolis, MoveAlways
 ///
-/// @file MoveAlgorithm.h
+/// @file MoveAlgorithm.hpp
 /// @brief Base class for move algorithms on Delaunay Triangulations
 /// @author Adam Getchell
 
-#ifndef SRC_MOVE_ALGORITHM_H
-#define SRC_MOVE_ALGORITHM_H
+#ifndef SRC_MOVE_ALGORITHM_HPP_
+#define SRC_MOVE_ALGORITHM_HPP_
 
-#include <Measurements.h>
-#include <MoveManager.h>
-#include <S3ErgodicMoves.h>
+#include <Measurements.hpp>
+#include <MoveManager.hpp>
+#include <S3ErgodicMoves.hpp>
 #include <utility>
 #include <vector>
 
@@ -250,4 +250,4 @@ class MoveAlgorithm
   }
 };  // MoveAlgorithm
 
-#endif  // SRC_MOVE_ALGORITHM_H
+#endif  // SRC_MOVE_ALGORITHM_HPP_

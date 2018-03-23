@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.8.2)
 
-project("CDT-plusplus" C CXX)
+project(CDT-plusplus VERSION 0.1.8 LANGUAGES CXX)
 
 if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR "Do not build in-source. Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
+  message(FATAL_ERROR "Do not build in-source.
+                       Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
 ############################
@@ -16,6 +17,7 @@ include(CMakeDependentOption)
 
 #Coverage
 if (ENABLE_COVERAGE)
+  set(CMAKE_BUILD_TYPE Debug)
   set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
   set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
   set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fprofile-arcs")
@@ -25,6 +27,9 @@ endif ()
 
 #Valgrind
 if (VALGRIND)
+  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
   set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
   set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
   set(MEMORYCHECK_COMMAND_OPTIONS "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
@@ -43,6 +48,8 @@ option(TESTS ON)
 set(TBB_ON TRUE)
 #Set mimumum Boost
 set(BOOST_MIN_VERSION "1.64.0")
+#Compile commands for ClangTidy et. al
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
 #Threads
@@ -122,7 +129,8 @@ target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} 
 target_compile_features(cdt PRIVATE cxx_std_17)
 
 if (UNIX)
-  create_single_source_cgal_program("src/cdt-gv.cpp" "src/docopt/docopt.cpp")
+  add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
+  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
   #Activate C++17
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 

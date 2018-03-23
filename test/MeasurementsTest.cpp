@@ -11,8 +11,8 @@
 /// @todo Fix PersistData test
 
 #include "catch.hpp"
-#include <Measurements.h>
-#include <S3ErgodicMoves.h>
+#include <Measurements.hpp>
+#include <S3ErgodicMoves.hpp>
 
 SCENARIO("Take measurements on a Simplicial Manifold.", "[measurements][!mayfail]")
 {

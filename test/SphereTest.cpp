@@ -10,8 +10,8 @@
 /// @author Adam Getchell
 
 #include "catch.hpp"
-#include <S3Triangulation.h>
-#include <Sphere_d.h>
+#include <S3Triangulation.hpp>
+#include <Sphere_d.hpp>
 
 SCENARIO("Construct a foliated 2-sphere", "[sphere]")
 {

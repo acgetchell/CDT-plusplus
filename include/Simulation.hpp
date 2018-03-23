@@ -9,15 +9,15 @@
 ///
 /// Inspired by http://cppcon.org/modernizing-your-c/
 
-/// @file  Simulation.h
+/// @file  Simulation.hpp
 /// @brief Simulation class
 /// @author Adam Getchell
 
-#ifndef SRC_SIMULATION_H_
-#define SRC_SIMULATION_H_
+#ifndef SRC_SIMULATION_HPP_
+#define SRC_SIMULATION_HPP_
 
-#include <Function_ref.h>
-#include <SimplicialManifold.h>
+#include <Function_ref.hpp>
+#include <SimplicialManifold.hpp>
 #include <utility>
 #include <vector>
 
@@ -49,4 +49,4 @@ struct Simulation
   }
 };
 
-#endif  // SRC_SIMULATION_H_
+#endif  // SRC_SIMULATION_HPP_

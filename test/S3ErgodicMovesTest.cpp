@@ -9,8 +9,8 @@
 /// @author Adam Getchell
 
 #include "catch.hpp"
-#include <Measurements.h>
-#include <S3ErgodicMoves.h>
+#include <Measurements.hpp>
+#include <S3ErgodicMoves.hpp>
 
 SCENARIO("Perform ergodic moves upon S3 Triangulations", "[moves]")
 {

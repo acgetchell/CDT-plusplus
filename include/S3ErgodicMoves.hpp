@@ -8,15 +8,15 @@
 /// @todo Debug (6,2) move
 /// @todo (4,4) move
 
-/// @file S3ErgodicMoves.h
+/// @file S3ErgodicMoves.hpp
 /// @brief Pachner moves on 3D Delaunay Triangulations
 /// @author Adam Getchell, Guarav Nagar
 
-#ifndef SRC_S3ERGODICMOVES_H_
-#define SRC_S3ERGODICMOVES_H_
+#ifndef SRC_S3ERGODICMOVES_HPP_
+#define SRC_S3ERGODICMOVES_HPP_
 
 // CDT headers
-#include <S3Triangulation.h>
+#include <S3Triangulation.hpp>
 
 // CGAL headers
 #include <CGAL/barycenter.h>
@@ -208,17 +208,17 @@ inline auto is_26_movable(const Cell_handle& c, unsigned i)
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle& c, unsigned* n)
+inline auto find_26_movable(const Cell_handle& c, int& n)
 {
   auto movable = false;
-  for (unsigned i = 0; i < 4; ++i) {
+  for (int i = 0; i < 4; ++i) {
 #ifndef NDEBUG
     std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
               << "\n";
 #endif
     // Check all neighbors for a (3,1) simplex
     if (is_26_movable(c, i)) {
-      *n      = i;
+      n       = i;
       movable = true;
     }
   }
@@ -266,19 +266,17 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     // Pick out a random (1,3) from simplex_types
     auto choice = generate_random_signed(0, universe.geometry->N3_13() - 1);
 
-    unsigned    neighboring_31_index{5};
+    int         neighboring_31_index{5};
     Cell_handle bottom = universe.geometry->one_three[choice];
 
-    //    CGAL_triangulation_expensive_precondition(is_cell(bottom));
     if (!universe.triangulation->tds().is_cell(bottom))
       throw std::runtime_error("make_26_move() bottom is not a cell!");
 
-    find_26_movable(bottom, &neighboring_31_index);
+    if (bottom->info() != 13)
+      throw std::runtime_error("bottom is not a 13 cell!");
 
-    // If neighboring_31_index == 5 there's an error
-    //    CGAL_triangulation_postcondition(neighboring_31_index != 5);
-    if (neighboring_31_index == 5)
-      throw std::runtime_error("make_26_move() neighboring_31_index invalid!");
+    if (!find_26_movable(bottom, neighboring_31_index))
+      throw std::runtime_error("This cell is not movable.");
 
 #ifndef NDEBUG
     std::cout << "neighboring_31_index is " << neighboring_31_index << "\n";
@@ -295,8 +293,6 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
               << "\n";
 #endif
 
-    // If common_face_index == 5 there's an error
-    //    CGAL_triangulation_postcondition(common_face_index != 5);
     if (common_face_index == 5)
       throw std::runtime_error("make_26_move() common_face_index invalid!");
 
@@ -308,8 +304,6 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
               << mirror_common_face_index << "\n";
 #endif
 
-    // If mirror_common_face_index == 5 there's an error
-    //    CGAL_triangulation_postcondition(mirror_common_face_index != 5);
     if (mirror_common_face_index == 5)
       throw std::runtime_error(
           "make_26_move() mirror_common_face_index invalid!");
@@ -326,8 +320,6 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     Vertex_handle v3 = bottom->vertex(i3);
 
     // Timeslices of v1, v2, and v3 should be same
-    //    CGAL_triangulation_precondition(v1->info() == v2->info());
-    //    CGAL_triangulation_precondition(v1->info() == v3->info());
     if (v1->info() != v2->info() || v1->info() != v3->info())
       throw std::range_error("Timeslices of v1, v2, and v3 don't match!");
 
@@ -342,7 +334,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 #endif
 
     // Is there a neighboring (3,1) simplex?
-    if (find_26_movable(bottom, &neighboring_31_index)) {
+    if (find_26_movable(bottom, neighboring_31_index)) {
 #ifndef NDEBUG
       std::cout << "(1,3) simplex " << choice << " is movable.\n";
       std::cout << "The neighboring simplex " << neighboring_31_index
@@ -364,7 +356,7 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
             "(2,6) center vertex not bounded by 6 simplices!");
 
       // Check combinatorial and geometric validity of each cell
-      for (auto cell : inc_cells) {
+      for (const auto& cell : inc_cells) {
         if (!universe.triangulation->tds().is_valid(cell, true))
           throw std::logic_error(
               "A cell resulting from (2,6) move is invalid.");
@@ -398,8 +390,6 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
                 << v_center->info() << "\n";
 #endif
 
-      //      CGAL_triangulation_postcondition(
-      //          universe.triangulation->tds().is_valid(v_center, true, 1));
       if (!universe.triangulation->tds().is_valid(v_center, true, 1))
         throw std::logic_error("Center vertex in (2,6) move invalid!");
       not_moved = false;
@@ -483,7 +473,7 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 #endif
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  int_fast32_t                   tds_vertices_size = tds_vertices.size();
+  int_fast32_t               tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0)) {
     auto          choice = generate_random_signed(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices[choice];
@@ -547,4 +537,4 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   return std::forward<T1>(universe);
 }  // make_44_move()
 
-#endif  // SRC_S3ERGODICMOVES_H_
+#endif  // SRC_S3ERGODICMOVES_HPP_

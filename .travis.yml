@@ -9,7 +9,7 @@ addons:
       - gcc-7
       - g++-7
       - ninja-build
-      - clang-5.0
+      - clang-6.0
       - libmpfr-dev
       - libgmp3-dev
       - libeigen3-dev
@@ -17,13 +17,10 @@ addons:
       - libcgal-dev
     sources: &sources
       - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-5.0
+      - llvm-toolchain-trusty-6.0
 
 env:
   global:
-   # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
-   #   via the "travis encrypt" command using the project repo's public key
-   - secure: "cjzdlbVhmLO0B0kzMcl5xAXEXIDRbMYFbaa+dEJTa+sG1VbzdtiXRsleZt8idZs2E0DKFN8Fti4+zrLdlqsx2+gU1fKn2TrfHCvRWNjxLFLCJ0fvkXdmEXVetnKyu27XrsXYJfaNbwUT05hpVvDT60GPt5g64XeJD9RQgX/UEug="
    - BOOST_VERSION=1.66.0
   matrix:
     - TESTS=true
@@ -31,7 +28,7 @@ env:
 
 cache:
   apt:
-  ccache:
+  ccache: true
   directories:
     - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
 
@@ -64,37 +61,31 @@ install:
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.2-Linux-x86_64.tar.gz"
+      CMAKE_URL="https://cmake.org/files/v3.10/cmake-3.10.3-Linux-x86_64.tar.gz"
       mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
       export PATH=${TRAVIS_BUILD_DIR}/cmake/bin:${PATH}
       if [[ "${BOOST_VERSION}" != "" ]]; then
         BOOST_DIR=${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
-        if [[ "${BOOST_VERSION}" == "trunk" ]]; then
-          BOOST_URL="http://github.com/boostorg/boost.git"
-          travis_retry git clone --depth 1 --recursive ${BOOST_URL} ${BOOST_DIR} || exit 1
-          (cd ${BOOST_DIR} && ./bootstrap.sh && ./b2 headers)
-        else
-          BOOST_URL="http://sourceforge.net/projects/boost/files/boost/${BOOST_VERSION}/boost_${BOOST_VERSION//\./_}.tar.gz"
-          mkdir -p ${BOOST_DIR}
-          { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
-        fi
+        BOOST_URL="https://github.com/boostorg/boost/archive/boost-${BOOST_VERSION}.tar.gz"
+        mkdir -p ${BOOST_DIR}
+        { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
         CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
       fi
       INCLUDE_DIR="/usr/include/"
     fi
   - cmake --version
-#  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" = "g++" ]]; then export CXX="g++-6" CC="gcc-6"; fi
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
-   CXX="clang++-5.0" CC="clang-5.0"; fi
+   CXX="clang++-6.0" CC="clang-6.0"; fi
   - echo $CXX $CC
   # Install CGAL from source for Linux
   - cd $TRAVIS_BUILD_DIR
-  - travis_retry curl -L -o CGAL-4.9.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.9.1.tar.gz
-  - tar zxvf CGAL-4.9.1.tar.gz &> install.log
-  - cd cgal-releases-CGAL-4.9.1
-  - echo $CMAKE_OPTIONS
-  - cmake -DCMAKE_BUILD_TYPE=Release -DBoost_USE_STATIC_LIBS=ON -DWITH_Eigen3=ON -DBOOST_ROOT=${BOOST_DIR} -G Ninja .
+  - travis_retry curl -L -o CGAL-4.11.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.11.1.tar.gz
+  - tar zxvf CGAL-4.11.1.tar.gz &> install.log
+  - cd cgal-releases-CGAL-4.11.1
+  - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON"
+  - echo ${CMAKE_OPTIONS}
+  - cmake ${CMAKE_OPTIONS} -G Ninja .
   - cmake --build .
   - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
   - cd ..
@@ -136,10 +127,10 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-5.0
-            - clang-format-5.0
+            - clang-6.0
+            - clang-format-6.0
       # Skip unnecessary steps since we aren't compiling
       before_install:
       install:
@@ -147,10 +138,10 @@ matrix:
       # Overwrite script on matrix jobs
       script:
         - |
-          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-5.0/clang-format-diff.py -style file) ]]; then
+          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file) ]]; then
             echo "Run clang-format before submitting a pull request."
             echo ""
-            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-5.0/clang-format-diff.py -style file
+            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
             exit -1
           fi
       # Skip after_success
@@ -163,17 +154,17 @@ matrix:
         apt:
           sources:
             - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-5.0
+            - llvm-toolchain-trusty-6.0
           packages:
-            - clang-5.0
-            - clang-tidy-5.0
+            - clang-6.0
+            - clang-tidy-6.0
       # Skip unnecessary steps since we aren't compiling
       before_install:
       install:
       before_script:
       # Overwrite script on matrix jobs
       script:
-        - git diff -U0 HEAD^ | /usr/lib/llvm-5.0/share/clang/clang-tidy-diff.py -checks=-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance* > output.txt
+        - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py > output.txt
         - |
           if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
             echo "You must pass the clang tidy checks before submitting a pull request"
@@ -201,37 +192,12 @@ matrix:
             - libgmp3-dev
             - libeigen3-dev
             - libtbb-dev
+            - libcgal-dev
             - valgrind
       script:
-        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=-O0 -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
         - ctest -T memcheck
-    # Coverity
-    - os: linux
-      compiler: gcc
-      env: TESTS=false COVERITY=true
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-7
-            - g++-7
-            - ninja-build
-            - libmpfr-dev
-            - libgmp3-dev
-            - libeigen3-dev
-            - libtbb-dev
-        coverity_scan:
-          project:
-            name: "acgetchell/CDT-plusplus"
-            description: "Causal Dynamical Triangulations in C++ with CGAL"
-          notification_email: acgetchell@ucdavis.edu
-          build_command_prepend: "cmake -DCMAKE_CXX_COMPILER=g++-7 -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja .."
-          build_command:   "cmake --build ."
-          branch_pattern: master
-      script:
-        - echo -n | openssl s_client -connect scan.coverity.com:443 | sed -ne '/-BEGIN CERTIFICATE-/,/-END CERTIFICATE-/p' | sudo tee -a /etc/ssl/certs/ca-
     # Codecov
     - os: linux
       compiler: gcc
@@ -248,19 +214,44 @@ matrix:
             - libgmp3-dev
             - libeigen3-dev
             - libtbb-dev
+            - libcgal-dev
+            - lcov
       script:
-        - cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Release -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON -G Ninja ..
+        - cmake -DTESTS:BOOL=ON -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
         - cmake --build .
-        - ctest -R CDT-unit-tests
-        - cd ..
-        - bash <(curl -s https://codecov.io/bash)
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}/build
+        - pwd
+        - ctest
+        - cd ${TRAVIS_BUILD_DIR}
+        - lcov --directory . --capture --output-file coverage.info
+        - lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        - lcov --list coverage.info
+        - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+    # SonarQube
+    - os: osx
+      compiler: clang
+      env: TESTS=false SONARQUBE=true
+      addons:
+        sonarcloud:
+          organization: "acgetchell-github"
+          branches:
+            - develop
+            - master
+      # Skip unnecessary steps
+      before_install:
+        - git fetch --unshallow
+      script:
+        - CMAKE_OPTIONS="-DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -DBOOST_ROOT=${BOOST_DIR}"
+        - build-wrapper-macosx-x86 --out-dir bw_output cmake ${CMAKE_OPTIONS} -G Ninja ..
+        - sonar-scanner -X -Dproject.settings=../sonar-project.properties
+      cache:
+        ccache: true
+        directories:
+          - '$HOME/.sonar/cache'
+          - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
+      after_success:
   allow_failures:
-#    - os: linux
-#      compiler: clang
-#      env: TESTS=true
-#    - os: linux
-#      compiler: clang
-#      env: TESTS=false
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
@@ -268,11 +259,17 @@ matrix:
       compiler: gcc
       env: TESTS=false CODECOV=true
     - os: linux
-      compiler: gcc
-      env: TESTS=false COVERITY=true
-    - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
+    - os: osx
+      compiler: clang
+      env: TESTS=false SONARQUBE=true
+    - os: linux
+      compiler: clang
+      env: TESTS=true
+    - os: linux
+      compiler: clang
+      env: TESTS=false
 
 script:
   - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBUILD_SHARED_LIBS=ON"

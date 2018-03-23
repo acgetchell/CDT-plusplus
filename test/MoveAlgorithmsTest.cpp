@@ -9,7 +9,7 @@
 /// @author Adam Getchell
 
 #include "catch.hpp"
-#include <Metropolis.h>
+#include <Metropolis.hpp>
 
 bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1;}
 

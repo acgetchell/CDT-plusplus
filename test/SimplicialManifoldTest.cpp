@@ -13,7 +13,7 @@
 /// @author Adam Getchell
 
 #include "catch.hpp"
-#include <Measurements.h>
+#include <Measurements.hpp>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
          "[manifold][!mayfail]")
