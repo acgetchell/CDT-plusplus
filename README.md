@@ -75,7 +75,7 @@ brew install ninja
 brew upgrade boost
 brew install eigen
 brew install tbb
-brew install cgal --with-eigen3 --with-lapack
+brew install cgal --with-eigen3 --with-qt
 ~~~
 
 On Ubuntu, you will need an updated versions of [Clang] or [gcc],
@@ -229,6 +229,8 @@ One of the [Travis-CI] jobs runs ClangTidy on all changed files.
 
 Another runs [Valgrind]; be sure to look at the results to ensure you're not leaking memory.
 
+More comprehensive static checking is done by [SonarCloud], also worth a look.
+
 ## Contributing
 
 Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
@@ -280,3 +282,4 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [curl]: https://curl.haxx.se
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
 [Codecov]: https://codecov.io
+[SonarCloud]: https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop
