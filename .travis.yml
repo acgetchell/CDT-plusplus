@@ -21,7 +21,7 @@ addons:
 
 env:
   global:
-   - BOOST_VERSION=1.67.0
+   - BOOST_VERSION=1.66.0
   matrix:
     - TESTS=true
     - TESTS=false
@@ -55,7 +55,7 @@ install:
       brew outdated cmake || brew upgrade cmake
       brew install gcc
       brew link --overwrite gcc
-      brew install boost
+      brew outdated boost || brew upgrade boost
       brew install ninja
       brew install eigen
       brew unlink python
