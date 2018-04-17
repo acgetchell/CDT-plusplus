@@ -57,6 +57,7 @@ install:
       brew link --overwrite gcc
       brew install ninja
       brew install eigen
+      brew unlink python
       brew install tbb
     fi
   - |
