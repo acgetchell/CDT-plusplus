@@ -173,7 +173,9 @@ void print_results(const T& universe) noexcept
 template <typename T1, typename T2>
 void print_results(const T1& universe, const T2& timer) noexcept
 {
-  print_results(std::as_const(universe));
+    // C++17
+//  print_results(std::as_const(universe));
+    print_results(universe);
 
   // Display program running time
   std::cout << "Running time is " << timer.time() << " seconds.\n";
