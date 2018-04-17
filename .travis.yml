@@ -53,8 +53,7 @@ install:
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
       brew outdated cmake || brew upgrade cmake
-      brew install gcc
-      brew link --overwrite gcc
+      brew outdated gcc || brew upgrade gcc
       brew outdated boost || brew upgrade boost
       brew install ninja
       brew install eigen
