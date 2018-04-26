@@ -103,15 +103,13 @@ inline const auto currentDateTime()
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename
-inline auto generate_filename(const topology_type& top,
-                              const std::int_fast32_t  dimensions,
-                              const std::int_fast32_t  number_of_simplices,
-                              const std::int_fast32_t number_of_timeslices) noexcept
+inline auto generate_filename(
+    const topology_type& top, const std::int_fast32_t dimensions,
+    const std::int_fast32_t number_of_simplices,
+    const std::int_fast32_t number_of_timeslices) noexcept
 {
   std::string filename;
-  if (top == topology_type::SPHERICAL) {
-    filename += "S";
-  }
+  if (top == topology_type::SPHERICAL) { filename += "S"; }
   else
   {
     filename += "T";
@@ -173,9 +171,9 @@ void print_results(const T& universe) noexcept
 template <typename T1, typename T2>
 void print_results(const T1& universe, const T2& timer) noexcept
 {
-    // C++17
-//  print_results(std::as_const(universe));
-    print_results(universe);
+  // C++17
+  print_results(std::as_const(universe));
+  //    print_results(universe);
 
   // Display program running time
   std::cout << "Running time is " << timer.time() << " seconds.\n";
@@ -263,7 +261,8 @@ inline auto generate_random_signed(const int_fast32_t min_value,
   //  // Initialized mt19937_64
   //  std::mt19937 g(seedSeq);
 
-  std::uniform_int_distribution<int_fast32_t> distribution(min_value, max_value);
+  std::uniform_int_distribution<int_fast32_t> distribution(min_value,
+                                                           max_value);
 
   auto result = distribution(generator);
 
@@ -342,12 +341,13 @@ inline auto generate_probability() noexcept
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-inline auto expected_points_per_simplex(const int           dimension,
+inline auto expected_points_per_simplex(const int               dimension,
                                         const std::int_fast32_t simplices,
                                         const std::int_fast32_t timeslices,
-                                        const bool          output = true)
+                                        const bool              output = true)
 {
-  if (output) {
+  if (output)
+  {
     std::cout << simplices << " simplices on " << timeslices
               << " timeslices desired.\n";
   }
@@ -358,9 +358,7 @@ inline auto expected_points_per_simplex(const int           dimension,
     case 3:
     {
       // Avoid segfaults for small values
-      if (simplices == timeslices) {
-        return 2 * simplices_per_timeslice;
-      }
+      if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
       {
         return static_cast<std::int_fast32_t>(0.4 * simplices_per_timeslice);

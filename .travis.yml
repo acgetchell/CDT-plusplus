@@ -21,7 +21,7 @@ addons:
 
 env:
   global:
-   - BOOST_VERSION=1.66.0
+   - BOOST_VERSION=1.67.0
   matrix:
     - TESTS=true
     - TESTS=false
@@ -60,6 +60,7 @@ install:
       brew install eigen
       brew unlink python
       brew install tbb
+      brew outdated cgal || brew upgrade cgal
     fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
@@ -82,9 +83,9 @@ install:
   - echo $CXX $CC
   # Install CGAL from source for Linux
   - cd $TRAVIS_BUILD_DIR
-  - travis_retry curl -L -o CGAL-4.11.1.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.11.1.tar.gz
-  - tar zxvf CGAL-4.11.1.tar.gz &> install.log
-  - cd cgal-releases-CGAL-4.11.1
+  - travis_retry curl -L -o CGAL-4.12.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.12.tar.gz
+  - tar zxvf CGAL-4.12.tar.gz &> install.log
+  - cd cgal-releases-CGAL-4.12
   - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON"
   - echo ${CMAKE_OPTIONS}
   - cmake ${CMAKE_OPTIONS} -G Ninja .
