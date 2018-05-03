@@ -6,8 +6,8 @@ osx_image: xcode9.2
 addons:
   apt:
     packages:
-      - gcc-7
-      - g++-7
+      - gcc-8
+      - g++-8
       - ninja-build
       - clang-6.0
       - libmpfr-dev
@@ -76,7 +76,7 @@ install:
       INCLUDE_DIR="/usr/include/"
     fi
   - cmake --version
-  - if [[ "$CXX" = "g++" ]]; then export CXX="g++-7" CC="gcc-7"; fi
+  - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
    CXX="clang++-6.0" CC="clang-6.0"; fi
   - echo $CXX $CC
@@ -187,8 +187,8 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-7
-            - g++-7
+            - gcc-8
+            - g++-8
             - ninja-build
             - libmpfr-dev
             - libgmp3-dev
@@ -209,8 +209,8 @@ matrix:
           sources:
             - ubuntu-toolchain-r-test
           packages:
-            - gcc-7
-            - g++-7
+            - gcc-8
+            - g++-8
             - ninja-build
             - libmpfr-dev
             - libgmp3-dev
