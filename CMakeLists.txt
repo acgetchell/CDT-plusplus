@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.2)
+cmake_minimum_required(VERSION 3.11.1)
 
 project(CDT-plusplus VERSION 0.1.8 LANGUAGES CXX)
 
@@ -47,7 +47,7 @@ option(TESTS ON)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
-set(BOOST_MIN_VERSION "1.64.0")
+set(BOOST_MIN_VERSION "1.67.0")
 #Compile commands for ClangTidy et. al
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
