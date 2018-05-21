@@ -134,6 +134,10 @@ target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} 
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 
+add_executable(initialize src/initialize.cpp src/docopt/docopt.cpp)
+target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${Boost_LIBRARIES})
+target_compile_features(initialize PRIVATE cxx_std_17)
+
 if (UNIX)
   add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
   target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
@@ -156,6 +160,12 @@ endif(UNIX)
 add_subdirectory(test)
 
 #CTest basic testing
+
+#Parameter initializer program
+add_test(CDT-Initialize initialize)
+set_tests_properties(CDT-Initialize
+        PROPERTIES
+        PASS_REGULAR_EXPRESSION "Usage:./initialize")
 
 #Does the usage message work ?
 add_test (CDT-Usage cdt)
