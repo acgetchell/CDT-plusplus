@@ -12,7 +12,8 @@
 
 #include "docopt/docopt.h"
 
-#include <S3Triangulation.hpp>
+#include <SimplicialManifold.hpp>
+#include <Measurements.hpp>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -52,6 +53,9 @@ int main(int argc, char* const argv[])
     auto timeslices = std::stold(args["-t"].asString());
     auto dimensions = std::stol(args["-d"].asString());
 
+    // Initialize triangulation
+    SimplicialManifold universe;
+
     // Topology of simulation
     topology_type topology;
     if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
@@ -83,6 +87,9 @@ int main(int argc, char* const argv[])
         if (dimensions == 3)
         {
           // Start your run
+          SimplicialManifold populated_universe(
+              make_triangulation(simplices, timeslices));
+          swap(universe, populated_universe);
         }
         else
         {
@@ -93,7 +100,7 @@ int main(int argc, char* const argv[])
         throw std::invalid_argument(
             "Toroidal triangulations not yet supported.");
     }
-
+    VolumePerTimeslice(universe);
     return 0;
   }
   catch (std::invalid_argument& InvalidArgument)
