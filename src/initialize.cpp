@@ -101,6 +101,7 @@ int main(int argc, char* const argv[])
             "Toroidal triangulations not yet supported.");
     }
     VolumePerTimeslice(universe);
+    std::cout << "Final number of simplices " << universe.geometry->number_of_cells() << '\n';
     return 0;
   }
   catch (std::invalid_argument& InvalidArgument)
