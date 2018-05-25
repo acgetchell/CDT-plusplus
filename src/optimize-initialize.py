@@ -8,6 +8,7 @@ from comet_ml import Optimizer
 from subprocess import Popen
 import shlex
 from subprocess import check_output as qx
+import re
 
 # Create an optimizer for dynamic parameters
 optimizer = Optimizer(api_key="dLk4aZE8CUKshNvnZUesTP7QV")
@@ -36,12 +37,17 @@ command_line = "../build/initialize --s -n" + str(experiment.get_parameter("simp
                + " -t" + str(experiment.get_parameter("foliations"))
 args = shlex.split(command_line)
 
-print(args)
+# print(args)
 
-process = Popen(args)
+output = qx(args)
 
-# process = Popen(["../build/initialize", "--s", "-n16000", "-t11"])
-(output, err) = process.communicate()
-exit_code = process.wait()
+# Parse output for final simplices, which is the label
+result = 0
+for line in output.splitlines():
+    if line.startswith("Final number"):
+        # print(line)
+        s = re.findall('\d+', line)
+        # print(s)
+        result = float(s[0])
 
-print(output)
+print(result)
