@@ -1,11 +1,16 @@
 from __future__ import absolute_import, division, print_function
 
-# Import comet
+import os
+
+# Import Comet.ml
 from comet_ml import Experiment
 from comet_ml import Optimizer
 
+# Import TensorFlow
+import tensorflow as tf
+import tensorflow.contrib.eager as tfe
+
 # Run command line programs
-from subprocess import Popen
 import shlex
 from subprocess import check_output as qx
 import re
@@ -22,9 +27,6 @@ optimizer.set_params(params)
 # Create an experiment with api key
 experiment = Experiment(api_key="dLk4aZE8CUKshNvnZUesTP7QV", project_name="cdt-plusplus", team_name="ucdavis")
 
-import os
-import tensorflow as tf
-import tensorflow.contrib.eager as tfe
 
 tf.enable_eager_execution()
 
