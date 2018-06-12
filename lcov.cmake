@@ -16,7 +16,7 @@ set(LCOV_OUT "${CTEST_BINARY_DIRECTORY}/lcov_html")
 
 ctest_start(lcov)
 message("configuring...")
-ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "-DTESTS:BOOL=ON;-DCMAKE_CXX_FLAGS=-fprofile-arcs -ftest-coverage;-DCMAKE_BUILD_TYPE=Debug")
+ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "-DTESTS:BOOL=ON;-DCMAKE_CXX_FLAGS=-g -O0 -fprofile-arcs -ftest-coverage;-DCMAKE_BUILD_TYPE=Debug")
 message("lcov: resetting counters...")
 execute_process(COMMAND lcov -z -d ${CTEST_BINARY_DIRECTORY}
         WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY} OUTPUT_QUIET)
