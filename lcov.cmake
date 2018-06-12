@@ -19,7 +19,7 @@ set(CTEST_MEMORYCHECK_COMMAND /usr/bin/valgrind)
 set(LCOV_OUT "${CTEST_BINARY_DIRECTORY}/lcov_html")
 
 ctest_start(lcov)
-ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
+#ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 message("configuring...")
 #ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "-DCMAKE_CXX_FLAGS=-fprofile-arcs -ftest-coverage;-DCMAKE_BUILD_TYPE=debug")
 ctest_configure(BUILD "${CTEST_BINARY_DIRECTORY}" OPTIONS "-DTESTS:BOOL=ON;-DCMAKE_CXX_FLAGS=-fprofile-arcs -ftest-coverage;-DCMAKE_BUILD_TYPE=Debug")

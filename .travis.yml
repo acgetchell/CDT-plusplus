@@ -223,7 +223,7 @@ matrix:
 #        - cmake -DTESTS:BOOL=ON -DENABLE_COVERAGE=ON -DCMAKE_CXX_COMPILER="g++-7" -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
 #        - cmake --build .
         - cd ${TRAVIS_BUILD_DIR}
-        - travis_wait 60 ctest -S lcov.cmake
+        - travis_wait 60 ctest --quiet -S lcov.cmake
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/build
         - pwd
