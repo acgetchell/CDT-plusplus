@@ -35,3 +35,4 @@ comment:
 ignore:
   - "src/date/**/*"
   - "src/docopt/**/*"
+  - "test/**/*"
