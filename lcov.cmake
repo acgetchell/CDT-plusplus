@@ -33,7 +33,7 @@ execute_process(COMMAND lcov -c -d ${CTEST_BINARY_DIRECTORY} -o ${CTEST_BINARY_D
         WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY} OUTPUT_QUIET)
 
 message("removing system headers, CGAL, Boost, TBB, docopt, date, test ...")
-execute_process(COMMAND lcov -r ${CTEST_BINARY_DIRECTORY}/stepcode.lcov "*/usr/include" "*/usr/include/*" "*CGAL*" "*CGAL/*" "*boost*" "*boost/*" "*tbb*" "*tbb/*" "*/src/date/*" "*/docopt*" "*/test/*"
+execute_process(COMMAND lcov -r ${CTEST_BINARY_DIRECTORY}/stepcode.lcov "*/usr/include" "*/usr/include/*" "*CGAL*" "*CGAL/*" "*boost*" "*boost/*" "*tbb*" "*tbb/*" "*/src/date/*" "*/docopt*" "*test/*"
         -o ${CTEST_BINARY_DIRECTORY}/stepcode_filtered.lcov
         WORKING_DIRECTORY ${CTEST_BINARY_DIRECTORY} OUTPUT_QUIET)
 execute_process(COMMAND ${CMAKE_COMMAND} -E make_directory ${LCOV_OUT})

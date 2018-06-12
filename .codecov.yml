@@ -6,7 +6,7 @@ codecov:
 coverage:
   precision: 2
   round: down
-  range: "30...100"  # Figure out how to exclude or test included subrepos
+  range: "30...100"
 
   status:
     project: yes
