@@ -12,8 +12,8 @@
 
 #include "docopt/docopt.h"
 
-#include <SimplicialManifold.hpp>
 #include <Measurements.hpp>
+#include <SimplicialManifold.hpp>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -27,10 +27,10 @@ with a defined causal structure. Specify the topology of the triangulation
 desired number of timeslices. Optionally, the spacetime dimension may
 also be given.
 
-Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM]
+Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] [-i INIT] [-f FOL]
 
 Examples:
-./initialize --spherical -n 32000 -t 11
+./initialize --spherical -n 32000 -t 11 --init 1 --foliate 1
 ./initialize --s -n32000 -t11
 
 Options:
@@ -39,6 +39,8 @@ Options:
   -n SIMPLICES                Approximate number of simplices
   -t TIMESLICES               Number of timeslices
   -d DIM                      Dimensionality [default: 3]
+  -i --init INIT              Initial radius [default: 1]
+  -f --foliate FOL            Foliation spacing [default: 1]
 )"};
 
 int main(int argc, char* const argv[])
@@ -49,9 +51,11 @@ int main(int argc, char* const argv[])
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE, {argv + 1, argv + argc}, true, "initializer 1.0");
 
-    auto simplices  = std::stold(args["-n"].asString());
-    auto timeslices = std::stold(args["-t"].asString());
-    auto dimensions = std::stol(args["-d"].asString());
+    auto simplices         = std::stold(args["-n"].asString());
+    auto timeslices        = std::stold(args["-t"].asString());
+    auto dimensions        = std::stol(args["-d"].asString());
+    auto initial_radius    = std::stold(args["--init"].asString());
+    auto foliation_spacing = std::stold(args["--foliate"].asString());
 
     // Initialize triangulation
     SimplicialManifold universe;
@@ -72,6 +76,8 @@ int main(int argc, char* const argv[])
     std::cout << "Number of dimensions = " << dimensions << "\n";
     std::cout << "Number of desired simplices = " << simplices << "\n";
     std::cout << "Number of desired timeslices = " << timeslices << "\n";
+    std::cout << "Initial radius = " << initial_radius << "\n";
+    std::cout << "Foliation spacing = " << foliation_spacing << "\n";
     std::cout << "User = " << getEnvVar("USER") << "\n";
     std::cout << "Hostname = " << hostname() << "\n";
 
@@ -101,7 +107,8 @@ int main(int argc, char* const argv[])
             "Toroidal triangulations not yet supported.");
     }
     VolumePerTimeslice(universe);
-    std::cout << "Final number of simplices " << universe.geometry->number_of_cells() << '\n';
+    std::cout << "Final number of simplices "
+              << universe.geometry->number_of_cells() << '\n';
     return 0;
   }
   catch (std::invalid_argument& InvalidArgument)
