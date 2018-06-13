@@ -42,12 +42,15 @@ try:
 
         hyper_params = {'simplices': 12000, 'foliations': 12}
         experiment.log_multiple_params(hyper_params)
+        init_radius = suggestion["init_radius"]
+        foliation_spacing = suggestion["foliation_spacing"]
 
         command_line = "../build/initialize --s -n" + str(experiment.get_parameter("simplices")) \
-               + " -t" + str(experiment.get_parameter("foliations"))
+               + " -t" + str(experiment.get_parameter("foliations")) + " -i" + str(init_radius) \
+               + " -f" + str(foliation_spacing)
         args = shlex.split(command_line)
 
-        # print(args)
+        print(args)
 
         output = qx(args)
 
@@ -67,8 +70,8 @@ try:
                 result[2] = float(s[0])
 
         print(result)
-        print('Initial radius is: {}'.format(suggestion["init_radius"]))
-        print('Foliation spacing is: {}'.format(suggestion["foliation_spacing"]))
+        print('Initial radius is: {}'.format(init_radius))
+        print('Foliation spacing is: {}'.format(foliation_spacing))
         print("")
 
         # Score model
