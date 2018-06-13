@@ -2,7 +2,8 @@
 #
 from __future__ import absolute_import, division, print_function
 
-import os
+# import os
+import traceback
 
 # Import Comet.ml
 from comet_ml import Experiment
@@ -11,7 +12,7 @@ import comet_ml as cm
 
 # Import TensorFlow
 import tensorflow as tf
-import tensorflow.contrib.eager as tfe
+# import tensorflow.contrib.eager as tfe
 
 # Run command line programs
 import shlex
@@ -21,8 +22,8 @@ import re
 # Create an optimizer for dynamic parameters
 optimizer = Optimizer(api_key="***REMOVED***")
 params = """
-init_radius integer [1, 3] [1]
-foliation_spacing integer [1, 3] [1]
+init_radius integer [1, 2] [1]
+foliation_spacing integer [1, 2] [1]
 """
 
 optimizer.set_params(params)
@@ -50,25 +51,39 @@ try:
 
         output = qx(args)
 
-        # Parse output for final simplices, which is the label
-        result = 0
+        # Parse output into a list of [simplices, min timeslice, max timeslice]
+        result = [0, 0, 0]
         for line in output.splitlines():
             if line.startswith("Final number"):
                 # print(line)
                 s = re.findall('\d+', line)
                 # print(s)
-                result = float(s[0])
+                result[0] = float(s[0])
+            elif line.startswith("Minimum timevalue"):
+                s = re.findall('\d+', line)
+                result[1] = float(s[0])
+            elif line.startswith("Maximum timevalue"):
+                s = re.findall('\d+', line)
+                result[2] = float(s[0])
 
         print(result)
         print('Initial radius is: {}'.format(suggestion["init_radius"]))
         print('Foliation spacing is: {}'.format(suggestion["foliation_spacing"]))
+        print("")
 
         # Score model
-        score = ((result - experiment.get_parameter("simplices"))/(experiment.get_parameter("simplices")))*100
+        score = ((result[0] - experiment.get_parameter("simplices"))/(experiment.get_parameter("simplices")))*100
         suggestion.report_score("%Error", score)
+        experiment.log_other("Min Timeslice", result[1])
+        experiment.log_other("Max Timeslice", result[2])
 
 except cm.exceptions.NoMoreSuggestionsAvailable as NoMore:
-    print("No more suggestions")
+    print("No more suggestions.")
+
+except (TypeError, KeyError):
+    pass
 
 finally:
-    print("All done with parameter optimization, look at Comet.ml for results.")
+    traceback.print_exc()
+
+print("All done with parameter optimization, look at Comet.ml for results.")
