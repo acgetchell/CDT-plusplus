@@ -33,6 +33,6 @@ comment:
   require_changes: no
 
 ignore:
-  - "src/date/**/*"
-  - "src/docopt/**/*"
-  - "test/**/*"
+  - "src/date/"
+  - "src/docopt/"
+  - "test/"
