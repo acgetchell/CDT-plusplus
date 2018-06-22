@@ -1,4 +1,5 @@
-# CDT-plusplus
+# CDT-
+
 
  [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=develop)](https://travis-ci.org/acgetchell/CDT-plusplus)
  [![Build status](https://ci.appveyor.com/api/projects/status/qjvbk6u86sp6cm59?svg=true)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
@@ -16,7 +17,9 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 with [CMake] using [Clang]/[LLVM].
 Arbitrary-precision numbers and functions by [MPFR] and [GMP].
 Option-types via [Boost] >= 1.64.0.
-Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time (both as [subrepos]).
+Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time (both as [
+
+]).
 [Catch] is included as a single header in order to build/run unit tests.
 [Ninja] is a nice (but optional) replacement for `make`.
 Intel's [TBB] provides significantly better performance if present (3x+).
@@ -81,7 +84,8 @@ brew install cgal --with-eigen3 --with-qt
 On Ubuntu, you will need an updated versions of [Clang] or [gcc],
 [CMake], and [Boost], which is scripted in [.travis.yml].
 With Howard Hinnant's [date] library, you may also need to install
-`libcurl-dev`, which is a virtual package with many flavors, OpenSSL being
+`
+-dev`, which is a virtual package with many flavors, OpenSSL being
 the most tried and tested.
 
 ## Build
@@ -212,6 +216,19 @@ cmake --build . --target test
 In addition to the command line output, you can see detailed results in the
 `build/Testing` directory which is generated thereby.
 
+## Parameter Optimization
+
+[CometML] is used to record [Experiments] which conduct [Model Optimization]. The script to do
+this is `optimize-initialize.py`. In order for this to work, you must install the following
+into your Python [virtual environment].
+
+~~~
+pip install tensorflow
+pip install comet-ml
+~~~
+
+You can then run experiments and look at results on Comet.ml!
+
 ## Static Analysis
 
 ### Manual
@@ -283,3 +300,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
 [Codecov]: https://codecov.io
 [SonarCloud]: https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop
+[CometML]: https://www.comet.ml/
+[Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
+[Model Optimization]: https://www.comet.ml/parameter-optimization
+[virtual environment]: https://docs.python.org/3/tutorial/venv.html
