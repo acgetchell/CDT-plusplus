@@ -1,4 +1,4 @@
-# CDT-
+# CDT-plusplus
 
 
  [![Build Status](https://travis-ci.org/acgetchell/CDT-plusplus.png?branch=develop)](https://travis-ci.org/acgetchell/CDT-plusplus)
@@ -17,9 +17,7 @@ For an introduction to [Causal Dynamical Triangulations](https://github.com/acge
 with [CMake] using [Clang]/[LLVM].
 Arbitrary-precision numbers and functions by [MPFR] and [GMP].
 Option-types via [Boost] >= 1.64.0.
-Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time (both as [
-
-]).
+Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time (each as a [subrepo]).
 [Catch] is included as a single header in order to build/run unit tests.
 [Ninja] is a nice (but optional) replacement for `make`.
 Intel's [TBB] provides significantly better performance if present (3x+).
@@ -84,8 +82,7 @@ brew install cgal --with-eigen3 --with-qt
 On Ubuntu, you will need an updated versions of [Clang] or [gcc],
 [CMake], and [Boost], which is scripted in [.travis.yml].
 With Howard Hinnant's [date] library, you may also need to install
-`
--dev`, which is a virtual package with many flavors, OpenSSL being
+`libcurl-dev`, which is a virtual package with many flavors, OpenSSL being
 the most tried and tested.
 
 ## Build

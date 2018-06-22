@@ -24,7 +24,7 @@
 #include <utility>
 #include <vector>
 
-using move_invariants = std::array<std::uint_fast32_t, 6>;
+using move_invariants = std::array<std::uint32_t, 6>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves
@@ -72,7 +72,8 @@ class MoveManager
 
   auto ArrayDifference(Move_tracker first, Move_tracker second)
   {
-    for (int j = 0; j < 5; ++j) {
+    for (int j = 0; j < 5; ++j)
+    {
       if (first[j] - second[j] != 0) return j;
     }
     throw std::runtime_error("No move found!");

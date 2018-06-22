@@ -51,9 +51,9 @@ int main(int argc, char* const argv[])
     std::map<std::string, docopt::value> args =
         docopt::docopt(USAGE, {argv + 1, argv + argc}, true, "initializer 1.0");
 
-    auto simplices         = std::stold(args["-n"].asString());
-    auto timeslices        = std::stold(args["-t"].asString());
-    auto dimensions        = std::stol(args["-d"].asString());
+    auto simplices         = std::stoi(args["-n"].asString());
+    auto timeslices        = std::stoi(args["-t"].asString());
+    auto dimensions        = std::stoi(args["-d"].asString());
     auto initial_radius    = std::stold(args["--init"].asString());
     auto foliation_spacing = std::stold(args["--foliate"].asString());
 
