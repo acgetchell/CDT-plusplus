@@ -2,7 +2,7 @@
 #
 from __future__ import absolute_import, division, print_function
 
-# import os
+import os
 import traceback
 
 # Import Comet.ml
@@ -20,10 +20,10 @@ from subprocess import check_output as qx
 import re
 
 # Create an optimizer for dynamic parameters
-optimizer = Optimizer(api_key="***REMOVED***")
+optimizer = Optimizer(api_key=os.environ['COMET_API_KEY'])
 params = """
-init_radius integer [1, 2] [1]
-foliation_spacing integer [1, 2] [1]
+init_radius integer [1, 3] [1]
+foliation_spacing integer [1, 3] [1]
 """
 
 optimizer.set_params(params)
@@ -36,7 +36,7 @@ try:
         suggestion = optimizer.get_suggestion()
 
         # Create an experiment with api key
-        experiment = Experiment(api_key="***REMOVED***", project_name="cdt-plusplus", team_name="ucdavis")
+        experiment = Experiment(api_key=os.environ['COMET_API_KEY'], project_name="cdt-plusplus", team_name="ucdavis")
 
         print('TensorFlow version: {}'.format(tf.VERSION))
 
@@ -76,7 +76,8 @@ try:
 
         # Score model
         score = ((result[0] - experiment.get_parameter("simplices"))/(experiment.get_parameter("simplices")))*100
-        suggestion.report_score("%Error", score)
+        # suggestion.report_score("%Error", score)
+        experiment.log_metric("acc", score)
         experiment.log_other("Min Timeslice", result[1])
         experiment.log_other("Max Timeslice", result[2])
 
