@@ -37,8 +37,10 @@ print graph
 timevalues = []
 volume = []
 for element in graph:
-    timevalues.append(element[0])
-    volume.append(element[1])
+    timevalues.append(int(element[0]))
+    volume.append(int(element[1]))
+print(timevalues)
+print(volume)    
 plt.plot(timevalues, volume)
 plt.xlabel('Timeslice')
 plt.ylabel('Volume (spacelike faces)')

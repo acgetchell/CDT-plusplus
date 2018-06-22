@@ -23,8 +23,8 @@ import re
 # Create an optimizer for dynamic parameters
 optimizer = Optimizer(api_key=os.environ['COMET_API_KEY'])
 params = """
-init_radius integer [1, 3] [1]
-foliation_spacing integer [1, 3] [1]
+initial_radius integer [1, 2] [1]
+foliation_spacing integer [1, 2] [1]
 """
 
 optimizer.set_params(params)
@@ -41,14 +41,14 @@ try:
 
         print('TensorFlow version: {}'.format(tf.VERSION))
 
-        hyper_params = {'simplices': 12000, 'foliations': 12}
+        hyper_params = {'simplices': 12000, 'foliations': 11}
         experiment.log_multiple_params(hyper_params)
-        init_radius = suggestion["init_radius"]
-        foliation_spacing = suggestion["foliation_spacing"]
+        init_radius = suggestion["initial_radius"]
+        f_spacing = suggestion["foliation_spacing"]
 
         command_line = "../build/initialize --s -n" + str(experiment.get_parameter("simplices")) \
-               + " -t" + str(experiment.get_parameter("foliations")) + " -i" + str(init_radius) \
-               + " -f" + str(foliation_spacing)
+            + " -t" + str(experiment.get_parameter("foliations")) + " -i" + str(init_radius) \
+            + " -f" + str(f_spacing)
         args = shlex.split(command_line)
 
         print(args)
@@ -76,7 +76,7 @@ try:
 
         print(result)
         print('Initial radius is: {}'.format(init_radius))
-        print('Foliation spacing is: {}'.format(foliation_spacing))
+        print('Foliation spacing is: {}'.format(f_spacing))
         for element in graph:
             print("Timeslice {} has {} spacelike faces.".format(element[0], element[1]))
         print("")
@@ -85,7 +85,7 @@ try:
         score = ((result[0] - experiment.get_parameter("simplices"))/(experiment.get_parameter("simplices")))*100
 
         # Report results
-        experiment.log_metric("acc", score)
+        experiment.log_metric("Error %", score)
         experiment.log_other("Min Timeslice", result[1])
         experiment.log_other("Max Timeslice", result[2])
 
@@ -93,14 +93,15 @@ try:
         timeslice = []
         volume = []
         for element in graph:
-            timeslice.append(element[0])
-            volume.append(element[1])
+            timeslice.append(int(element[0]))
+            volume.append(int(element[1]))
         plt.plot(timeslice, volume)
         plt.xlabel('Timeslice')
         plt.ylabel('Volume (spacelike faces)')
         plt.title('Volume Profile')
         plt.grid(True)
-        experiment.log_figure(figure=plt)
+        experiment.log_figure(figure_name="Volume per Timeslice", figure=plt)
+        plt.clf()
 
 
 except cm.exceptions.NoMoreSuggestionsAvailable as NoMore:
