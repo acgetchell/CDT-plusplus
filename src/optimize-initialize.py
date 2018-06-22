@@ -13,6 +13,7 @@ import comet_ml as cm
 # Import TensorFlow
 import tensorflow as tf
 # import tensorflow.contrib.eager as tfe
+import matplotlib.pyplot as plt
 
 # Run command line programs
 import shlex
@@ -82,10 +83,25 @@ try:
 
         # Score model
         score = ((result[0] - experiment.get_parameter("simplices"))/(experiment.get_parameter("simplices")))*100
-        # suggestion.report_score("%Error", score)
+
+        # Report results
         experiment.log_metric("acc", score)
         experiment.log_other("Min Timeslice", result[1])
         experiment.log_other("Max Timeslice", result[2])
+
+        # Graph volume profile
+        timeslice = []
+        volume = []
+        for element in graph:
+            timeslice.append(element[0])
+            volume.append(element[1])
+        plt.plot(timeslice, volume)
+        plt.xlabel('Timeslice')
+        plt.ylabel('Volume (spacelike faces)')
+        plt.title('Volume Profile')
+        plt.grid(True)
+        experiment.log_figure(figure=plt)
+
 
 except cm.exceptions.NoMoreSuggestionsAvailable as NoMore:
     print("No more suggestions.")

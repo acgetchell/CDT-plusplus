@@ -1,5 +1,6 @@
 import traceback
 import re
+import matplotlib.pyplot as plt
 
 try:
     file = open("output.txt", "r")
@@ -31,3 +32,16 @@ except:
 
 finally:
     file.close
+
+print graph
+timevalues = []
+volume = []
+for element in graph:
+    timevalues.append(element[0])
+    volume.append(element[1])
+plt.plot(timevalues, volume)
+plt.xlabel('Timeslice')
+plt.ylabel('Volume (spacelike faces)')
+plt.title('Volume Profile')
+plt.grid(True)
+plt.show()
