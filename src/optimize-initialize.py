@@ -46,7 +46,7 @@ try:
 
         # print('TensorFlow version: {}'.format(tf.VERSION))
 
-        hyper_params = {'simplices': 12000, 'foliations': 11}
+        hyper_params = {'simplices': 12000, 'foliations': 12}
         experiment.log_multiple_params(hyper_params)
         # init_radius = suggestion["initial_radius"]
         init_radius = parameter_pair[0]
