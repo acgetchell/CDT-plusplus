@@ -7,13 +7,14 @@ import traceback
 
 # Import Comet.ml
 from comet_ml import Experiment
-from comet_ml import Optimizer
+# from comet_ml import Optimizer
 import comet_ml as cm
 
 # Import TensorFlow
-import tensorflow as tf
+# import tensorflow as tf
 # import tensorflow.contrib.eager as tfe
 import matplotlib.pyplot as plt
+import numpy as np
 
 # Run command line programs
 import shlex
@@ -21,34 +22,40 @@ from subprocess import check_output as qx
 import re
 
 # Create an optimizer for dynamic parameters
-optimizer = Optimizer(api_key=os.environ['COMET_API_KEY'])
-params = """
-initial_radius integer [1, 2] [1]
-foliation_spacing integer [1, 2] [1]
-"""
+# optimizer = Optimizer(api_key=os.environ['COMET_API_KEY'])
+# params = """
+# initial_radius integer [1, 2] [1]
+# foliation_spacing integer [1, 2] [1]
+# """
+#
+# optimizer.set_params(params)
 
-optimizer.set_params(params)
+# tf.enable_eager_execution()
 
-tf.enable_eager_execution()
+# Create parameters to vary
+parameters = [(initial_radius, spacing) for initial_radius in range(1, 4) for spacing in np.arange(1, 2.5, 0.5)]
 
 try:
-    while True:
+    # while True:
         # Get a suggestion
-        suggestion = optimizer.get_suggestion()
+        # suggestion = optimizer.get_suggestion()
+    for parameter_pair in parameters:
 
         # Create an experiment with api key
         experiment = Experiment(api_key=os.environ['COMET_API_KEY'], project_name="cdt-plusplus", team_name="ucdavis")
 
-        print('TensorFlow version: {}'.format(tf.VERSION))
+        # print('TensorFlow version: {}'.format(tf.VERSION))
 
         hyper_params = {'simplices': 12000, 'foliations': 11}
         experiment.log_multiple_params(hyper_params)
-        init_radius = suggestion["initial_radius"]
-        f_spacing = suggestion["foliation_spacing"]
+        # init_radius = suggestion["initial_radius"]
+        init_radius = parameter_pair[0]
+        # radial_factor = suggestion["foliation_spacing"]
+        radial_factor = parameter_pair[1]
 
         command_line = "../build/initialize --s -n" + str(experiment.get_parameter("simplices")) \
             + " -t" + str(experiment.get_parameter("foliations")) + " -i" + str(init_radius) \
-            + " -f" + str(f_spacing)
+            + " -f" + str(radial_factor)
         args = shlex.split(command_line)
 
         print(args)
@@ -76,7 +83,7 @@ try:
 
         print(result)
         print('Initial radius is: {}'.format(init_radius))
-        print('Foliation spacing is: {}'.format(f_spacing))
+        print('Radial factor is: {}'.format(radial_factor))
         for element in graph:
             print("Timeslice {} has {} spacelike faces.".format(element[0], element[1]))
         print("")

@@ -54,8 +54,8 @@ int main(int argc, char* const argv[])
     auto simplices         = std::stoi(args["-n"].asString());
     auto timeslices        = std::stoi(args["-t"].asString());
     auto dimensions        = std::stoi(args["-d"].asString());
-    auto initial_radius    = std::stold(args["--init"].asString());
-    auto foliation_spacing = std::stold(args["--foliate"].asString());
+    auto initial_radius    = std::stod(args["--init"].asString());
+    auto foliation_spacing = std::stod(args["--foliate"].asString());
 
     // Initialize triangulation
     SimplicialManifold universe;
@@ -93,8 +93,8 @@ int main(int argc, char* const argv[])
         if (dimensions == 3)
         {
           // Start your run
-          SimplicialManifold populated_universe(
-              make_triangulation(simplices, timeslices));
+          SimplicialManifold populated_universe(make_triangulation(
+              simplices, timeslices, initial_radius, foliation_spacing));
           swap(universe, populated_universe);
         }
         else

@@ -246,7 +246,9 @@ void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 /// @return A std::vector<std::pair<Point, std::int32_t>> containing random
 /// vertices and their corresponding timevalues
 auto inline make_foliated_sphere(const std::int32_t simplices,
-                                 const std::int32_t timeslices)
+                                 const std::int32_t timeslices,
+                                 double initial_radius = INITIAL_RADIUS,
+                                 double radial_factor  = RADIAL_FACTOR)
 {
   //  double     radius{0};
   const auto points_per_timeslice =
@@ -257,16 +259,14 @@ auto inline make_foliated_sphere(const std::int32_t simplices,
 
   for (std::int32_t i = 0; i < timeslices; ++i)
   {
-    auto radius = INITIAL_RADIUS + static_cast<double>(i) * RADIAL_FACTOR;
+    auto radius = initial_radius + static_cast<double>(i) * radial_factor;
     //    CGAL::Random_points_on_sphere_3<Point> gen{radius};
     Spherical_points_generator_3 gen{radius};
     // At each radius, generate a sphere of random points proportional to area
     for (std::int32_t j = 0;
          j < static_cast<std::int32_t>(points_per_timeslice * radius); ++j)
-    {
-      causal_vertices.emplace_back(std::make_pair(*gen++, radius));
-    }  // end j
-  }    // end i
+    { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // end j
+  } // end i
   return causal_vertices;
 }  // make_foliated_sphere()
 
@@ -289,7 +289,9 @@ auto inline make_foliated_sphere(const std::int32_t simplices,
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
 auto inline make_triangulation(const std::int32_t simplices,
-                               const std::int32_t timeslices)
+                               const std::int32_t timeslices,
+                               double initial_radius = INITIAL_RADIUS,
+                               double radial_factor  = RADIAL_FACTOR)
 {
   std::cout << "Generating universe ... \n";
 
@@ -307,7 +309,8 @@ auto inline make_triangulation(const std::int32_t simplices,
 #endif
 
   auto universe_ptr    = std::make_unique<decltype(universe)>(universe);
-  auto causal_vertices = make_foliated_sphere(simplices, timeslices);
+  auto causal_vertices = make_foliated_sphere(simplices, timeslices,
+                                              initial_radius, radial_factor);
   insert_into_triangulation(universe_ptr, causal_vertices);
   fix_triangulation(universe_ptr);
   if (!universe_ptr->is_valid())
