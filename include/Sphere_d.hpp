@@ -10,8 +10,6 @@
 /// @file sphere_d.hpp
 /// @brief Functions on d-Spheres
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #ifndef SRC_SPHERE_D_HPP_
 #define SRC_SPHERE_D_HPP_
@@ -37,7 +35,7 @@ using Kd = CGAL::Cartesian_d<double>;
 /// @param radius Radius of sphere
 /// @param output Prints detailed output
 /// @param points The points ready to insert
-void make_d_sphere(std::int_fast32_t number_of_points, int dimension, double radius,
+void make_d_sphere(std::int32_t number_of_points, int dimension, double radius,
                    bool output, std::vector<Kd::Point_d>* const points) noexcept
 {
   points->reserve(number_of_points);
@@ -67,7 +65,7 @@ void make_d_sphere(std::int_fast32_t number_of_points, int dimension, double rad
 /// @param[in] dimension Dimension of sphere
 /// @param[in] radius Radius of sphere
 /// @param[out]  points  The points ready to insert
-void make_d_sphere(std::int_fast32_t number_of_points, int dimension, double radius,
+void make_d_sphere(std::int32_t number_of_points, int dimension, double radius,
                    std::vector<Kd::Point_d>* const points) noexcept
 {
   make_d_sphere(number_of_points, dimension, radius, false, points);

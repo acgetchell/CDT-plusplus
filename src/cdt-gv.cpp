@@ -97,9 +97,7 @@ int main(int argc, char* const argv[])
   Point3        p;
 
   // Insert points from file into Delaunay triangulation
-  while (iFile >> p) {
-    D.insert(p);
-  }
+  while (iFile >> p) { D.insert(p); }
 
   std::cout << "Drawing 3D Delaunay triangulation in wired mode.\n";
   gv.set_wired(true);

@@ -40,10 +40,11 @@ void make_random_T3_simplicial_complex(PDT* T3,
   std::vector<PDT::Point> pts;
 
   // Generate random points
-  for (int i = 0; i < n; i++) {
+  for (int i = 0; i < n; i++)
+  {
     PDT::Point p = *in_cube;
     in_cube++;
-    pts.push_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));
+    pts.emplace_back(PDT::Point(p.x() + .5, p.y() + .5, p.z() + .5));
   }
 
   // Iterator range insertion using spatial sorting and dummy point heuristic

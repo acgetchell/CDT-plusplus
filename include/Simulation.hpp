@@ -42,9 +42,7 @@ struct Simulation
   /// @return The SimplicialManifold with item applied to it
   SimplicialManifold start(SimplicialManifold&& value) const
   {
-    for (const auto& item : queue_) {
-      value = item(value);
-    }
+    for (const auto& item : queue_) { value = item(value); }
     return value;
   }
 };

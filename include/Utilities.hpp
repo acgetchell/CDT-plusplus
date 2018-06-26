@@ -103,10 +103,10 @@ inline const auto currentDateTime()
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename
-inline auto generate_filename(
-    const topology_type& top, const std::int_fast32_t dimensions,
-    const std::int_fast32_t number_of_simplices,
-    const std::int_fast32_t number_of_timeslices) noexcept
+inline auto generate_filename(const topology_type& top,
+                              const std::int32_t   dimensions,
+                              const std::int32_t   number_of_simplices,
+                              const std::int32_t number_of_timeslices) noexcept
 {
   std::string filename;
   if (top == topology_type::SPHERICAL) { filename += "S"; }
@@ -193,9 +193,9 @@ void print_results(const T1& universe, const T2& timer) noexcept
 /// @param number_of_timeslices The number of foliated timeslices
 template <typename T>
 void write_file(const T& universe, const topology_type& topology,
-                const std::int_fast32_t dimensions,
-                const std::int_fast32_t number_of_simplices,
-                const std::int_fast32_t number_of_timeslices)
+                const std::int32_t dimensions,
+                const std::int32_t number_of_simplices,
+                const std::int32_t number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
@@ -245,8 +245,8 @@ struct SeedSeq
 /// @param min_value The minimum value in the range
 /// @param max_value The maximum value in the range
 /// @return A random integer between min_value and max_value
-inline auto generate_random_signed(const int_fast32_t min_value,
-                                   const int_fast32_t max_value) noexcept
+inline auto generate_random_signed(const int32_t min_value,
+                                   const int32_t max_value) noexcept
 {
   // Non-deterministic random number generator
   std::random_device rd;
@@ -261,8 +261,7 @@ inline auto generate_random_signed(const int_fast32_t min_value,
   //  // Initialized mt19937_64
   //  std::mt19937 g(seedSeq);
 
-  std::uniform_int_distribution<int_fast32_t> distribution(min_value,
-                                                           max_value);
+  std::uniform_int_distribution<int32_t> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
@@ -341,10 +340,10 @@ inline auto generate_probability() noexcept
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-inline auto expected_points_per_simplex(const int               dimension,
-                                        const std::int_fast32_t simplices,
-                                        const std::int_fast32_t timeslices,
-                                        const bool              output = true)
+inline auto expected_points_per_simplex(const int          dimension,
+                                        const std::int32_t simplices,
+                                        const std::int32_t timeslices,
+                                        const bool         output = true)
 {
   if (output)
   {
@@ -361,19 +360,19 @@ inline auto expected_points_per_simplex(const int               dimension,
       if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
       {
-        return static_cast<std::int_fast32_t>(0.4 * simplices_per_timeslice);
+        return static_cast<std::int32_t>(0.4 * simplices_per_timeslice);
       }
       else if (simplices < 10000)
       {
-        return static_cast<std::int_fast32_t>(0.2 * simplices_per_timeslice);
+        return static_cast<std::int32_t>(0.2 * simplices_per_timeslice);
       }
       else if (simplices < 100000)
       {
-        return static_cast<std::int_fast32_t>(0.15 * simplices_per_timeslice);
+        return static_cast<std::int32_t>(0.15 * simplices_per_timeslice);
       }
       else
       {
-        return static_cast<std::int_fast32_t>(0.1 * simplices_per_timeslice);
+        return static_cast<std::int32_t>(0.1 * simplices_per_timeslice);
       }
     }
     default:

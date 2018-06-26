@@ -12,8 +12,6 @@
 /// @file cdt.cpp
 /// @brief The main executable
 /// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 // CGAL headers
 #include <CGAL/Real_timer.h>
@@ -89,14 +87,14 @@ int main(int argc, char* const argv[])
     // }
 
     // Parse docopt::values in args map
-    auto simplices  = std::stol(args["-n"].asString());
-    auto timeslices = std::stol(args["-t"].asString());
-    auto dimensions = std::stol(args["-d"].asString());
+    auto simplices  = std::stoi(args["-n"].asString());
+    auto timeslices = std::stoi(args["-t"].asString());
+    auto dimensions = std::stoi(args["-d"].asString());
     auto alpha      = std::stold(args["--alpha"].asString());
     auto k          = std::stold(args["-k"].asString());
     auto lambda     = std::stold(args["--lambda"].asString());
-    auto passes     = std::stol(args["--passes"].asString());
-    auto checkpoint = std::stol(args["--checkpoint"].asString());
+    auto passes     = std::stoi(args["--passes"].asString());
+    auto checkpoint = std::stoi(args["--checkpoint"].asString());
 
     // Topology of simulation
     topology_type topology;

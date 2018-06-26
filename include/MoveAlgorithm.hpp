@@ -38,7 +38,7 @@ class MoveAlgorithm
   /// @param passes Number of passes through simulation, where each pass
   /// equals a number of moves equal to the number of simplices
   /// @param checkpoint Write/print results every *checkpoint* passes
-  MoveAlgorithm(const std::int_fast32_t passes, const std::int_fast32_t checkpoint)
+  MoveAlgorithm(const std::int32_t passes, const std::int32_t checkpoint)
       : passes_(passes), checkpoint_(checkpoint)
   {
 #ifndef NDEBUG
@@ -50,13 +50,13 @@ class MoveAlgorithm
   SimplicialManifold universe_;
 
   /// @brief The current number of timelike edges
-  std::int_fast32_t N1_TL_{0};
+  std::int32_t N1_TL_{0};
 
   /// @brief The current number of (3,1) and (1,3) simplices
-  std::int_fast32_t N3_31_13_{0};
+  std::int32_t N3_31_13_{0};
 
   /// @brief The current number of (2,2) simplices
-  std::int_fast32_t N3_22_{0};
+  std::int32_t N3_22_{0};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   Move_tracker attempted_moves_{{0, 0, 0, 0, 0}};
@@ -65,10 +65,10 @@ class MoveAlgorithm
   Move_tracker successful_moves_{{0, 0, 0, 0, 0}};
 
   /// @brief Number of passes of ergodic moves on triangulation.
-  std::int_fast32_t passes_{100};
+  std::int32_t passes_{100};
 
   /// @brief How often to print/write output.
-  std::int_fast32_t checkpoint_{10};
+  std::int32_t checkpoint_{10};
 
   /// @brief Make a move of the selected type
   ///
@@ -153,7 +153,8 @@ class MoveAlgorithm
     }
 
     // Check if move completed successfully and update if so
-    if (maybe_moved_universe) {
+    if (maybe_moved_universe)
+    {
       swap(universe_, maybe_moved_universe.get());
       swap(attempted_moves_, this_move.attempted_moves_.get());
       ++successful_moves_[to_integral(move)];
@@ -176,10 +177,7 @@ class MoveAlgorithm
 
   /// @brief Gets successful (2,3) moves.
   /// @return successful_moves_[0]
-  auto SuccessfulTwoThreeMoves() const noexcept
-  {
-    return successful_moves_[0];
-  }
+  auto SuccessfulTwoThreeMoves() const noexcept { return successful_moves_[0]; }
 
   /// @brief Gets attempted (3,2) moves.
   /// @return attempted_moves_[1]
@@ -187,10 +185,7 @@ class MoveAlgorithm
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
-  auto SuccessfulThreeTwoMoves() const noexcept
-  {
-    return successful_moves_[1];
-  }
+  auto SuccessfulThreeTwoMoves() const noexcept { return successful_moves_[1]; }
 
   /// @brief Gets attempted (2,6) moves.
   /// @return return attempted_moves_[2]
@@ -198,10 +193,7 @@ class MoveAlgorithm
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
-  auto SuccessfulTwoSixMoves() const noexcept
-  {
-    return successful_moves_[2];
-  }
+  auto SuccessfulTwoSixMoves() const noexcept { return successful_moves_[2]; }
 
   /// @brief Gets attempted (6,2) moves.
   /// @return return attempted_moves_[3]
@@ -209,10 +201,7 @@ class MoveAlgorithm
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
-  auto SuccessfulSixTwoMoves() const noexcept
-  {
-    return successful_moves_[3];
-  }
+  auto SuccessfulSixTwoMoves() const noexcept { return successful_moves_[3]; }
 
   /// @brief Gets attempted (4,4) moves.
   /// @return attempted_moves_[4]
@@ -220,10 +209,7 @@ class MoveAlgorithm
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
-  auto SuccessfulFourFourMoves() const noexcept
-  {
-    return successful_moves_[4];
-  }
+  auto SuccessfulFourFourMoves() const noexcept { return successful_moves_[4]; }
 
   /// @brief Displays results of run to standard output
   void print_run()

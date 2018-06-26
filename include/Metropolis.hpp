@@ -12,14 +12,16 @@
 /// @todo Atomic integral types for safe multithreading
 /// @todo Debug occasional infinite loops and segfaults!
 /// @todo Implement concurrency
-/// @todo Change A1 to count successful moves, total moves gets dragged down by (6,2) attempts
+/// @todo Change A1 to count successful moves, total moves gets dragged down by
+/// (6,2) attempts
 
 /// @file Metropolis.hpp
 /// @brief Perform Metropolis-Hastings algorithm on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug There's a segfault in CalculateA1 on MacOS/gcc.
 /// @bug The call operator segfaults in Release mode
-/// @bug The number of attempted (6,2) moves makes A1 really low preventing other moves
+/// @bug The number of attempted (6,2) moves makes A1 really low preventing
+/// other moves
 
 #ifndef SRC_METROPOLIS_HPP_
 #define SRC_METROPOLIS_HPP_
@@ -37,7 +39,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-extern const std::int_fast32_t PRECISION;
+extern const std::int32_t PRECISION;
 
 /// @class Metropolis
 /// @brief Metropolis-Hastings algorithm function object
@@ -73,8 +75,8 @@ class Metropolis : public MoveAlgorithm
   /// @param passes Number of passes of ergodic moves on triangulation.
   /// @param checkpoint Print/write output for every n=checkpoint passes.
   Metropolis(const long double Alpha, const long double K,
-             const long double Lambda, const std::int_fast32_t passes,
-             const std::int_fast32_t checkpoint)
+             const long double Lambda, const std::int32_t passes,
+             const std::int32_t checkpoint)
       : MoveAlgorithm(passes, checkpoint), Alpha_(Alpha), K_(K), Lambda_(Lambda)
   {
 #ifndef NDEBUG
@@ -263,7 +265,8 @@ class Metropolis : public MoveAlgorithm
     std::cout << "trial = " << trial << "\n";
 #endif
 
-    if (trial <= a1 * a2) {
+    if (trial <= a1 * a2)
+    {
       // Move accepted
       make_move(move);
     }
@@ -333,10 +336,11 @@ class Metropolis : public MoveAlgorithm
 
     std::cout << "Making random moves ...\n";
     // Loop through passes_
-    for (std::int_fast32_t pass_number = 1; pass_number <= passes_; ++pass_number) {
+    for (std::int32_t pass_number = 1; pass_number <= passes_; ++pass_number)
+    {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
-      for (std::int_fast32_t move_attempt = 0;
+      for (std::int32_t move_attempt = 0;
            move_attempt < total_simplices_this_pass; ++move_attempt)
       {
         // Pick a move to attempt
@@ -345,13 +349,14 @@ class Metropolis : public MoveAlgorithm
         std::cout << "Move choice = " << move_choice << "\n";
 #endif
 
-        // Convert std::int_fast32_t move_choice to move_type enum
+        // Convert std::int32_t move_choice to move_type enum
         auto move = static_cast<move_type>(move_choice);
         attempt_move(move);
       }  // End loop through CurrentTotalSimplices
 
       // Do stuff on checkpoint_
-      if ((pass_number % checkpoint_) == 0) {
+      if ((pass_number % checkpoint_) == 0)
+      {
         std::cout << "Pass " << pass_number << "\n";
         // write results to a file
         write_file(universe_, topology_type::SPHERICAL, 3,
