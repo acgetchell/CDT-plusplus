@@ -149,23 +149,23 @@ target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 
-add_executable(initialize src/initialize.cpp src/docopt/docopt.cpp)
-target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost)
-target_compile_features(initialize PRIVATE cxx_std_17)
-
-if (UNIX)
-  add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
-  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost)
-  #Activate C++17
-  target_compile_features(cdt-gv PRIVATE cxx_std_17)
-
-
-  add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
-  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost ${CURL_LIBRARIES})
-  #Activate C++17
-  target_compile_features(cdt-opt PRIVATE cxx_std_17)
-
-endif(UNIX)
+#add_executable(initialize src/initialize.cpp src/docopt/docopt.cpp)
+#target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost)
+#target_compile_features(initialize PRIVATE cxx_std_17)
+#
+#if (UNIX)
+#  add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
+#  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost)
+#  #Activate C++17
+#  target_compile_features(cdt-gv PRIVATE cxx_std_17)
+#
+#
+#  add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
+#  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost ${CURL_LIBRARIES})
+#  #Activate C++17
+#  target_compile_features(cdt-opt PRIVATE cxx_std_17)
+#
+#endif(UNIX)
 
 ###############
 ##  Tests    ##
