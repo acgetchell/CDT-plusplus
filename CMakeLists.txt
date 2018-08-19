@@ -7,6 +7,21 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
                        Please remove CMakeCache.txt and the CMakeFiles/ directory. Then build out-of-source.")
 endif()
 
+# Run Conan from CMake
+# Download automatically, you can also just copy the conan.cmake file
+if(NOT EXISTS "${CMAKE_BINARY_DIR}/conan.cmake")
+  message(STATUS "Downloading conan.cmake from https://github.com/conan-io/cmake-conan")
+  file(DOWNLOAD "https://raw.githubusercontent.com/conan-io/cmake-conan/v0.12/conan.cmake"
+          "${CMAKE_BINARY_DIR}/conan.cmake")
+endif()
+
+include(${CMAKE_BINARY_DIR}/conan.cmake)
+conan_cmake_run(CONANFILE conanfile.py  # or relative build/conanfile.txt
+        BASIC_SETUP CMAKE_TARGETS
+        BUILD missing)
+
+
+
 ############################
 ##  Modules and scripts   ##
 ############################
@@ -47,7 +62,7 @@ option(TESTS ON)
 #Turn on / off TBB
 set(TBB_ON TRUE)
 #Set mimumum Boost
-set(BOOST_MIN_VERSION "1.64.0")
+#set(BOOST_MIN_VERSION "1.64.0")
 #Compile commands for ClangTidy et. al
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
@@ -80,19 +95,19 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(EXECUTABLE_NAME "CDT")
 
 #Boost
-set(Boost_USE_STATIC_LIBS OFF)
-set(Boost_USE_MULTITHREAD ON)
-set(Boost_DEBUG ON)
-set(Boost_NO_BOOST_CMAKE ON)
-find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
-if (Boost_FOUND)
-  set(BOOST_INCLUDEDIR ${Boost_INCLUDE_DIRS})
-#  set(BOOST_LIBRARYDIR ${Boost_LIBRARY_DIRS})
-  include_directories(${Boost_INCLUDE_DIRS})
-#  link_directories(${BOOST_LIBRARYDIR})
-else()
-message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
-endif ()
+#set(Boost_USE_STATIC_LIBS OFF)
+#set(Boost_USE_MULTITHREAD ON)
+#set(Boost_DEBUG ON)
+#set(Boost_NO_BOOST_CMAKE ON)
+#find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
+#if (Boost_FOUND)
+#  set(BOOST_INCLUDEDIR ${Boost_INCLUDE_DIRS})
+##  set(BOOST_LIBRARYDIR ${Boost_LIBRARY_DIRS})
+#  include_directories(${Boost_INCLUDE_DIRS})
+##  link_directories(${BOOST_LIBRARYDIR})
+#else()
+#message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
+#endif ()
 
 #CGAL
 find_package(CGAL QUIET COMPONENTS Core )
@@ -128,25 +143,25 @@ else()
   message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
 endif()
 
-include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${Boost_INCLUDE_DIRS} ${CURL_INCLUDE_DIR})
-add_executable(cdt src/cdt.cpp src/docopt/docopt.cpp src/date/src/tz.cpp)
-target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES})
+include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
+add_executable(cdt src/cdt.cpp src/date/src/tz.cpp)
+target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl CONAN_PKG::TBB CONAN_PKG:docopt)
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 
 add_executable(initialize src/initialize.cpp src/docopt/docopt.cpp)
-target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost)
 target_compile_features(initialize PRIVATE cxx_std_17)
 
 if (UNIX)
   add_executable(cdt-gv src/cdt-gv.cpp src/docopt/docopt.cpp)
-  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES})
+  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost)
   #Activate C++17
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 
 
   add_executable(cdt-opt src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
-  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} ${Boost_LIBRARIES} ${CURL_LIBRARIES})
+  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} ${CGAL_3RD_PARTY_LIBRARIES} CONAN_PKG::boost ${CURL_LIBRARIES})
   #Activate C++17
   target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
