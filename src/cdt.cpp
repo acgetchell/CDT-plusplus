@@ -20,7 +20,7 @@
 #include <vector>
 
 // Docopt
-#include "docopt/docopt.h"
+#include <docopt.h>
 
 // CDT headers
 #include <Metropolis.hpp>

@@ -144,8 +144,8 @@ else()
 endif()
 
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
-add_executable(cdt src/cdt.cpp src/date/src/tz.cpp src/docopt/docopt.cpp)
-target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl)
+add_executable(cdt src/cdt.cpp src/date/src/tz.cpp)
+target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt)
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 
