@@ -30,7 +30,7 @@
 #include <fstream>
 
 // Docopt
-#include "docopt/docopt.h"
+#include <docopt.h>
 
 using K        = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Delaunay = CGAL::Delaunay_triangulation_3<K>;
