@@ -10,7 +10,7 @@
 /// @brief Tests for the MoveManager RAII class
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 //#include <boost/optional/optional_io.hpp>
 #include <Measurements.hpp>
 #include <MoveManager.hpp>

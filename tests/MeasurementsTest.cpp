@@ -10,7 +10,7 @@
 ///
 /// @todo Fix PersistData test
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Measurements.hpp>
 #include <S3ErgodicMoves.hpp>
 

@@ -6,4 +6,4 @@ mkdir build && cd build
 
 conan install .. -pr cdt --build=missing
 conan build ..
-#ctest
+ctest

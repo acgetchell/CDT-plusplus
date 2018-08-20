@@ -9,7 +9,7 @@
 /// @brief Tests for spheres
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <S3Triangulation.hpp>
 #include <Sphere_d.hpp>
 

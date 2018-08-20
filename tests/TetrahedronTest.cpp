@@ -9,7 +9,7 @@
 /// @brief Tests for 3D triangulated and foliated tetrahedrons
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <SimplicialManifold.hpp>
 
 SCENARIO("Construct a tetrahedron in the triangulation", "[tetrahedron]")

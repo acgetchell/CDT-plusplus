@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.8.2)
+cmake_minimum_required(VERSION 3.11)
 
 project(CDT-plusplus VERSION 0.1.8 LANGUAGES CXX)
 
@@ -136,14 +136,14 @@ else()
 endif()
 
 #Curl
-find_package(CURL)
-if(CURL_FOUND)
-  include_directories(${CURL_INCLUDE_DIR})
-else()
-  message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
-endif()
+#find_package(CURL)
+#if(CURL_FOUND)
+#  include_directories(${CURL_INCLUDE_DIR})
+#else()
+#  message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
+#endif()
 
-include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include ${CURL_INCLUDE_DIR})
+include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include)
 add_executable(cdt src/cdt.cpp src/date/src/tz.cpp)
 target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt)
 #Activate C++17
@@ -172,51 +172,52 @@ target_compile_features(cdt PRIVATE cxx_std_17)
 ###############
 
 #Catch
-add_subdirectory(test)
+enable_testing()
+add_subdirectory(tests)
 
 #CTest basic testing
 
-#Parameter initializer program
-add_test(CDT-Initialize initialize)
-set_tests_properties(CDT-Initialize
-        PROPERTIES
-        PASS_REGULAR_EXPRESSION "Usage:./initialize")
+##Parameter initializer program
+#add_test(CDT-Initialize initialize)
+#set_tests_properties(CDT-Initialize
+#        PROPERTIES
+#        PASS_REGULAR_EXPRESSION "Usage:./initialize")
 
 #Does the usage message work ?
-add_test (CDT-Usage cdt)
+add_test (NAME CDT-Usage COMMAND $<TARGET_FILE:cdt>)
 set_tests_properties (CDT-Usage
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
 #Dimensions != 4
-add_test (CDT-3Donly cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
+add_test (NAME CDT-3Donly COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
 set_tests_properties (CDT-3Donly
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
 
 #Simplices and timeslices >= 2
-add_test(CDT-Simplices cdt --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test(NAME CDT-Simplices COMMAND $<TARGET_FILE:cdt> --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
 set_tests_properties(CDT-Simplices
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
-add_test(CDT-Timeslices cdt --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test(NAME CDT-Timeslices COMMAND $<TARGET_FILE:cdt> --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
 set_tests_properties(CDT-Timeslices
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
 # 3D Triangle inequality
-add_test (CDT-3Dtriangle cdt --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test (NAME CDT-3Dtriangle COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
 set_tests_properties (CDT-3Dtriangle
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
 #Minimum run
-add_test(CDT-MinimalS3 cdt --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
+add_test(NAME CDT-MinimalS3 COMMAND $<TARGET_FILE:cdt> --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
 set_tests_properties(CDT-MinimalS3
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")
 #Run an S3
-add_test(CDT-S3Runs cdt --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
+add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
 set_tests_properties(CDT-S3Runs
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")

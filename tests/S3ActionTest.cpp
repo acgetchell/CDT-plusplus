@@ -9,7 +9,7 @@
 /// @brief Tests for the S3 action functions
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Measurements.hpp>
 #include <S3Action.hpp>
 
