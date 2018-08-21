@@ -40,8 +40,8 @@ install:
   - set PATH=%PATH%;C:\Miniconda-x64\Scripts
   - conda update conda -y
   #- conda list
-#  - conda create --name py36 python=3.6 -y
-#  - activate py36
+  - conda create --name py36 python=3.6 -y
+  - activate py36
   # Upgrade pip
   - python -m pip install --upgrade pip
   # Install Conan

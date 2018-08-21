@@ -11,6 +11,7 @@ addons:
       - clang-6.0
       - python3-pip
       - python3-setuptools
+      - libmpfr-dev
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
 #      - ubuntu-toolchain-r-test
@@ -240,15 +241,6 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
-    - os: osx
-      compiler: clang
-      env: TESTS=true CODECOV=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGTIDY=true
-    - os: osx
-      compiler: clang
-      env: TESTS=false SONARQUBE=true
     - os: linux
       compiler: clang
       env: TESTS=true
@@ -259,6 +251,12 @@ matrix:
       compiler: gcc
       env: TESTS=true
     - os: linux
+      compiler: gcc
+      env: TESTS=false
+    - os: osx
+      compiler: gcc
+      env: TESTS=true
+    - os: osx
       compiler: gcc
       env: TESTS=false
 
