@@ -1,8 +1,13 @@
-skip_branch_with_pr: true
+version: 0.1.8.{build}
+
+platform:
+    - x64
 
 image:
   - Visual Studio 2015
   - Visual Studio 2017
+
+skip_branch_with_pr: true
 
 build:
   verbosity: detailed
@@ -26,41 +31,54 @@ install:
   # Verify CMake
   - cmake --version
   # Setup Clang-cl
-  - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
-  - clang-cl -v
-  - set CC=clang-cl
-  - set CXX=clang-cl
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+#  - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
+#  - clang-cl -v
+#  - set CC=clang-cl
+#  - set CXX=clang-cl
+#  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   # Use installed conda
   - set PATH=%PATH%;C:\Miniconda-x64\Scripts
   - conda update conda -y
   #- conda list
-  - conda create --name py36 python=3.6 -y
-  - activate py36
+#  - conda create --name py36 python=3.6 -y
+#  - activate py36
+  # Upgrade pip
+  - python -m pip install --upgrade pip
+  # Install Conan
+  - echo "Downloading conan..."
+  - set PATH=%PATH%;%PYTHON%\Scripts\
+  - pip.exe install conan
   # Install Eigen
-  - conda install -c conda-forge eigen -y
+#  - conda install -c conda-forge eigen -y
   # Install TBB
-  - conda install -c conda-forge tbb -y
+#  - conda install -c conda-forge tbb -y
   # Install MPFR
-  - conda install -c conda-forge mpfr -y
+#  - conda install -c conda-forge mpfr -y
   # Install Boost 1.66.0
-  - conda install -c conda-forge boost -y
+#  - conda install -c conda-forge boost -y
   # Install CGAL
   - conda install -c conda-forge cgal -y
   # Install Curl
-  - conda install -c conda-forge curl -y
+#  - conda install -c conda-forge curl -y
 
 before_build:
   - cd C:\projects\CDT-plusplus
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 build_script:
   - mkdir build
   - cd build
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
+#  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
 #  - cmake --build .
+  - conan profile new default --detect
+  - conan install .. -pr default --build=missing
+  - conan build ..
 
 #on_success:
 #  - cmake --build . --target test
+
+test_script:
+  - ctest -C release
 
 notifications:
 
