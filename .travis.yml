@@ -45,7 +45,7 @@ before_install:
 #        brew update
 #        python -m pip install --upgrade pip
 #      fi
-  - brew update
+  - yes "" | brew update
 
 install:
   - brew install ccache
@@ -297,6 +297,7 @@ script:
       echo osx/clang autodetected libcxx is fine
       conan install .. -pr default --build=missing
     else
+      echo gcc and linux using libstdc++11
       conan profile update settings.compiler.libcxx=libstdc++11 default
       conan install .. -pr default --build=missing
     fi
