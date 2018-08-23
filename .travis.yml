@@ -12,7 +12,6 @@ addons:
 #      - python3-pip
 #      - python3-setuptools
 #      - libmpfr-dev
-      - build-essentials
       - linuxbrew-wrapper
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
