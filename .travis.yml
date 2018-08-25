@@ -45,12 +45,15 @@ before_install:
 #        brew update
 #        python -m pip install --upgrade pip
 #      fi
-  - PATH="$HOME/.linuxbrew/bin:$PATH"
-  - echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
-  - export MANPATH="$(brew --prefix)/share/man:$MANPATH"
-  - export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
-  - echo $PATH
-  - brew -- version
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      PATH="$HOME/.linuxbrew/bin:$PATH"
+      echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
+      export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+      export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
+      echo $PATH
+    fi
+  - brew --version
 
 install:
   - brew update
