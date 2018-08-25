@@ -45,7 +45,9 @@ before_install:
 #        brew update
 #        python -m pip install --upgrade pip
 #      fi
-  - yes "" | brew update
+  - export PATH=${TRAVIS_BUILD_DIR}/.linuxbrew/bin:${PATH}
+  - yes '' | brew doctor
+  - brew update
 
 install:
   - brew install ccache
