@@ -80,8 +80,8 @@ on_success:
   - conan install .. -pr default --build=missing
   - conan build ..
 
-test_script:
-  - ctest -C release
+#test_script:
+#  - ctest -C release
 
 notifications:
 
