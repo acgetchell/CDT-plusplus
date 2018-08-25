@@ -72,11 +72,12 @@ build_script:
 #  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
 #  - cmake --build .
   - conan profile new default --detect
-  - conan install .. -pr default --build=missing
+#  - conan install .. -pr default --build=missing
 #  - conan build ..
 
 on_success:
 #  - cmake --build . --target test
+  - conan install .. -pr default --build=missing
   - conan build ..
 
 test_script:
