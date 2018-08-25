@@ -47,10 +47,11 @@ before_install:
 #      fi
   - export PATH=${TRAVIS_BUILD_DIR}/.linuxbrew/bin:${PATH}
   - echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
-  - yes '' | brew doctor
-  - brew update
+  - echo $PATH
 
 install:
+  - yes '' | brew doctor
+  - brew update
   - brew install ccache
   - export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - |
