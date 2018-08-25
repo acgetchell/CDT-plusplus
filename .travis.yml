@@ -12,7 +12,7 @@ addons:
 #      - python3-pip
 #      - python3-setuptools
 #      - libmpfr-dev
-#      - linuxbrew-wrapper
+      - linuxbrew-wrapper
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
 #      - ubuntu-toolchain-r-test
@@ -47,15 +47,13 @@ before_install:
 #      fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      git clone https://github.com/Linuxbrew/brew.git $HOME/.linuxbrew
-      export HOMEBREW_FORCE_VENDOR_RUBY=1
       PATH="$HOME/.linuxbrew/bin:$PATH"
       echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
       export MANPATH="$(brew --prefix)/share/man:$MANPATH"
       export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
       echo $PATH
     fi
-  - brew --version
+  - yes ' ' | brew doctor
 
 install:
   - brew update
