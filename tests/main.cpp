@@ -9,6 +9,7 @@
 /// @author https://github.com/catchorg and Adam Getchell
 
 #define CATCH_CONFIG_RUNNER
+#define CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS
 #include <catch2/catch.hpp>
 
 int main( int argc, char* argv[] )
