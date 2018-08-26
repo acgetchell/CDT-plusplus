@@ -7,7 +7,7 @@ addons:
   apt:
     packages:
       - g++-8
-      - ninja-build
+#      - ninja-build
       - clang-6.0
 #      - python3-pip
 #      - python3-setuptools
@@ -65,10 +65,11 @@ install:
       brew install gcc
       brew link --overwrite gcc
     fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew install ninja
-    fi
+#  - |
+#    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+#      brew install ninja
+#    fi
+  - brew install ninja
   - brew install cgal
   - brew install lcov
   - brew install conan
