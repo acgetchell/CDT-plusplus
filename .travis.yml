@@ -9,8 +9,8 @@ addons:
       - g++-8
       - ninja-build
       - clang-6.0
-      - python3-pip
-      - python3-setuptools
+#      - python3-pip
+#      - python3-setuptools
 #      - libmpfr-dev
       - linuxbrew-wrapper
     sources:
@@ -71,12 +71,13 @@ install:
     fi
   - brew install cgal
   - brew install lcov
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo pip3 install conan
-    else
-      brew install conan
-    fi
+  - brew install conan
+#  - |
+#    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+#      sudo pip3 install conan
+#    else
+#      brew install conan
+#    fi
   - |
     if [[ "VALGRIND" == "true" ]]; then
       brew install valgrind
@@ -295,9 +296,6 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-    - os: linux
-      compiler: gcc
-      env: TESTS=false CLANGTIDY=true
 
 script:
 #  - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBOOST_INCLUDEDIR=${BOOST_DIR}/include -DBOOST_LIBRARYDIR=${BOOST_DIR}/lib"
