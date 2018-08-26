@@ -236,10 +236,10 @@ matrix:
 #            - libtbb-dev
 #            - libcgal-dev
 #            - valgrind
-      script:
-        - cmake -DCMAKE_CXX_COMPILER=g++-8 -DVALGRIND=ON -DTESTS:BOOL=OFF -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
-        - cmake --build .
-        - ctest -T memcheck
+#      script:
+#        - cmake -DCMAKE_CXX_COMPILER=g++-8 -DVALGRIND=ON -DTESTS:BOOL=OFF -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
+#        - cmake --build .
+#        - ctest -T memcheck
     # Codecov
     - os: osx
       compiler: clang
@@ -326,6 +326,7 @@ after_success:
 #  - cd build
   # Integration tests excluding Catch
 #  - ctest -E CDT-unit-tests
+  - if [[ ${VALGRIND} == "true" ]]; then travis_wait 30 ctest -T memcheck; fi
   # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then travis_wait 30 ctest; fi
 
