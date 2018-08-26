@@ -9,8 +9,8 @@ addons:
       - g++-8
       - ninja-build
       - clang-6.0
-#      - python3-pip
-#      - python3-setuptools
+      - python3-pip
+      - python3-setuptools
 #      - libmpfr-dev
       - linuxbrew-wrapper
     sources:
@@ -52,9 +52,9 @@ before_install:
       yes '' | brew --version
       export MANPATH="$(brew --prefix)/share/man:$MANPATH"
       export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
-      echo $PATH
-      brew doctor
       (brew update || brew update)
+      brew doctor
+      brew config
     fi
 
 install:
@@ -71,7 +71,12 @@ install:
     fi
   - brew install cgal
   - brew install lcov
-  - brew install conan
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      sudo pip3 install conan
+    else
+      brew install conan
+    fi
   - |
     if [[ "VALGRIND" == "true" ]]; then
       brew install valgrind
