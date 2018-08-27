@@ -106,14 +106,14 @@ else()
   message(FATAL_ERROR "Notice: This program requires the CGAL library, and will not be compiled.")
 endif()
 
-include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include)
-add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
-target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt)
+include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include)
+add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
+target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt CONAN_PKG::date)
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 
 add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
-target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt)
+target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::date)
 target_compile_features(initialize PRIVATE cxx_std_17)
 
 if (UNIX)
@@ -123,8 +123,8 @@ if (UNIX)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 
 
-  add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)
-  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl)
+  add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
+  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl CONAN_PKG::date)
   #Activate C++17
   target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
