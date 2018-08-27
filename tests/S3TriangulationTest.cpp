@@ -9,7 +9,7 @@
 /// @brief Tests for correctly foliated triangulations
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Measurements.hpp>
 
 SCENARIO("Delaunay unique pointer", "[triangulation]")

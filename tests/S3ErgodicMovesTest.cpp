@@ -8,7 +8,7 @@
 /// @brief Tests for S3 ergodic moves
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Measurements.hpp>
 #include <S3ErgodicMoves.hpp>
 

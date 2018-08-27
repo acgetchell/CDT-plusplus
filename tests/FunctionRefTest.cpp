@@ -9,7 +9,7 @@
 /// @brief Tests on vertices
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Function_ref.hpp>
 #include <Measurements.hpp>
 #include <S3ErgodicMoves.hpp>

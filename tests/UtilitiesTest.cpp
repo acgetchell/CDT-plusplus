@@ -8,7 +8,7 @@
 /// @brief Tests on utility functions
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Utilities.hpp>
 
 SCENARIO("Randomizing functions", "[random]")

@@ -12,7 +12,7 @@
 ///
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <Measurements.hpp>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",

@@ -8,7 +8,7 @@
 /// @brief Tests on vertices
 /// @author Adam Getchell
 
-#include "catch.hpp"
+#include <catch2/catch.hpp>
 #include <SimplicialManifold.hpp>
 
 SCENARIO("Vertex operations", "[vertex]")

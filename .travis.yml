@@ -1,36 +1,28 @@
 language: cpp
-sudo: false
-dist: trusty
-osx_image: xcode9.2
+sudo: true
+dist: xenial
 
 addons:
   apt:
     packages:
-      - gcc-8
       - g++-8
-      - ninja-build
       - clang-6.0
-      - libmpfr-dev
-      - libgmp3-dev
-      - libeigen3-dev
-      - libtbb-dev
-      - libcgal-dev
-    sources: &sources
-      - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-6.0
+      - linuxbrew-wrapper
+    sources:
+      - sourceline: "ppa:ubuntu-toolchain-r/test"
+#      - ubuntu-toolchain-r-test
+#      - llvm-toolchain-trusty-6.0
 
 env:
-  global:
-   - BOOST_VERSION=1.67.0
+#  global:
+#   - BOOST_VERSION=1.67.0
   matrix:
     - TESTS=true
     - TESTS=false
 
 cache:
   apt:
-#  ccache: true
-  directories:
-    - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
+  ccache: true
 
 os:
   - linux
@@ -41,54 +33,38 @@ compiler:
   - clang
 
 before_install:
-    - |
-      if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        brew update
-      fi
-
-install:
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      brew outdated cmake || brew upgrade cmake
-      brew install gcc
-      brew link --overwrite gcc
-      brew outdated boost || brew upgrade boost
-      brew install ninja
-      brew install eigen
-      brew unlink python
-      brew install tbb
-      brew install lcov
-    fi
   - |
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      CMAKE_URL="https://cmake.org/files/v3.11/cmake-3.11.2-Linux-x86_64.tar.gz"
-      mkdir cmake && travis_retry wget --no-check-certificate --quiet -O - ${CMAKE_URL} | tar --strip-components=1 -xz -C cmake
-      export PATH=${TRAVIS_BUILD_DIR}/cmake/bin:${PATH}
-      if [[ "${BOOST_VERSION}" != "" ]]; then
-        BOOST_DIR=${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
-        BOOST_URL="https://github.com/boostorg/boost/archive/boost-${BOOST_VERSION}.tar.gz"
-        mkdir -p ${BOOST_DIR}
-        { travis_retry wget -O - ${BOOST_URL} | tar --strip-components=1 -xz -C ${BOOST_DIR}; } || exit 1
-        CMAKE_OPTIONS+=" -DBOOST_ROOT=${BOOST_DIR}"
-      fi
-      INCLUDE_DIR="/usr/include/"
+      PATH="$HOME/.linuxbrew/bin:$PATH"
+      echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
+      yes '' | brew --version
+      export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+      export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
+      (brew update || brew update)
+      brew doctor
+      brew config
     fi
-  - cmake --version
+
+install:
+  - brew install ccache
+  - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+  - |
+    if [[ "$CXX" == "g++" ]]; then
+      brew install gcc
+      brew link --overwrite gcc
+    fi
+  - brew install ninja
+  - brew install cgal
+  - brew install lcov
+  - brew install conan
+  - |
+    if [[ "VALGRIND" == "true" ]]; then
+      brew install valgrind
+      echo Valgrind installed
+    fi
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export
-   CXX="clang++-6.0" CC="clang-6.0"; fi
-  - echo $CXX $CC
-  # Install CGAL from source
-  - cd $TRAVIS_BUILD_DIR
-  - travis_retry curl -L -o CGAL-4.12.tar.gz https://github.com/CGAL/cgal/archive/releases/CGAL-4.12.tar.gz
-  - tar zxvf CGAL-4.12.tar.gz &> install.log
-  - cd cgal-releases-CGAL-4.12
-  - CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DWITH_Eigen3=ON"
-  - echo ${CMAKE_OPTIONS}
-  - cmake ${CMAKE_OPTIONS} -G Ninja .
-  - cmake --build .
-  - sudo env "PATH=$PATH" cmake --build . --target install &> install.log
-  - cd ..
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 before_script:
   - mkdir build
@@ -126,8 +102,9 @@ matrix:
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+#            - ubuntu-toolchain-r-test
+#            - llvm-toolchain-trusty-6.0
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
             - clang-6.0
             - clang-format-6.0
@@ -153,8 +130,9 @@ matrix:
       addons:
         apt:
           sources:
-            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+#            - ubuntu-toolchain-r-test
+#            - llvm-toolchain-trusty-6.0
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
             - clang-6.0
             - clang-tidy-6.0
@@ -180,24 +158,6 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - gcc-8
-            - g++-8
-            - ninja-build
-            - libmpfr-dev
-            - libgmp3-dev
-            - libeigen3-dev
-            - libtbb-dev
-            - libcgal-dev
-            - valgrind
-      script:
-        - cmake -DCMAKE_CXX_COMPILER=g++-7 -DVALGRIND=ON -DTESTS:BOOL=OFF -DBOOST_ROOT=${BOOST_DIR} -G Ninja ..
-        - cmake --build .
-        - ctest -T memcheck
     # Codecov
     - os: osx
       compiler: clang
@@ -238,45 +198,32 @@ matrix:
       compiler: gcc
       env: TESTS=false VALGRIND=true
     - os: osx
-      compiler: clang
-      env: TESTS=true CODECOV=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGTIDY=true
-    - os: osx
-      compiler: clang
-      env: TESTS=false SONARQUBE=true
-    - os: linux
-      compiler: clang
-      env: TESTS=true
-    - os: linux
-      compiler: clang
-      env: TESTS=false
-    - os: linux
       compiler: gcc
       env: TESTS=true
-    - os: linux
+    - os: osx
       compiler: gcc
       env: TESTS=false
 
 script:
-  - CMAKE_OPTIONS="-DBOOST_ROOT=${BOOST_DIR} -DBOOST_INCLUDEDIR=${BOOST_DIR}/include -DBOOST_LIBRARYDIR=${BOOST_DIR}/lib"
+  - conan profile new default --detect
+  # Use Ninja
+  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
   - |
-    if [[ ${TESTS} == "true" ]]; then
-      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Debug -DTESTS:BOOL=ON"
+    if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
+      echo osx/clang autodetected libcxx is fine
+      conan install .. -pr default --build=missing
     else
-      CMAKE_OPTIONS+=" -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF"
+      echo gcc and linux using libstdc++11
+      conan profile update settings.compiler.libcxx=libstdc++11 default
+      conan install .. -pr default --build=missing
     fi
-  - echo $CMAKE_OPTIONS
-  - cmake $CMAKE_OPTIONS -G Ninja ..
-  - cmake --build .
-
+  - conan build ..
 after_success:
-  - cd build
   # Integration tests excluding Catch
 #  - ctest -E CDT-unit-tests
+  - if [[ ${VALGRIND} == "true" ]]; then travis_wait 30 ctest -T memcheck; fi
   # Catch tests showing only failures
-  - if [[ ${TESTS} == "true" ]]; then travis_wait 30 ./test/CDT_test; fi
+  - if [[ ${TESTS} == "true" ]]; then travis_wait 30 ctest; fi
 
 notifications:
   webhooks:
