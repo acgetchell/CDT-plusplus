@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
-if (TESTS)
+#if (TESTS)
 
 #include_directories(${PROJECT_SOURCE_DIR}/src)
 
@@ -18,4 +18,4 @@ target_compile_features(CDT_test PRIVATE cxx_std_17)
 # Run unit tests
 add_test(NAME CDT-unit-tests COMMAND $<TARGET_FILE:CDT_test>)
 
-endif ()
+#endif ()
