@@ -94,21 +94,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 set(EXECUTABLE_NAME "CDT")
 
-#Boost
-#set(Boost_USE_STATIC_LIBS OFF)
-#set(Boost_USE_MULTITHREAD ON)
-#set(Boost_DEBUG ON)
-#set(Boost_NO_BOOST_CMAKE ON)
-#find_package(Boost ${BOOST_MIN_VERSION} REQUIRED)
-#if (Boost_FOUND)
-#  set(BOOST_INCLUDEDIR ${Boost_INCLUDE_DIRS})
-##  set(BOOST_LIBRARYDIR ${Boost_LIBRARY_DIRS})
-#  include_directories(${Boost_INCLUDE_DIRS})
-##  link_directories(${BOOST_LIBRARYDIR})
-#else()
-#message(FATAL_ERROR "Boost >= ${BOOST_MIN_VERSION} required.\n")
-#endif ()
-
 #CGAL
 find_package(CGAL QUIET COMPONENTS Core )
 if(CGAL_FOUND)
@@ -117,31 +102,9 @@ if(CGAL_FOUND)
   set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS TRUE CACHE BOOL "Force CGAL to maintain CMAKE flags")
   include(${CGAL_USE_FILE})
   include(CGAL_CreateSingleSourceCGALProgram)
-##TBB
-#  find_package(TBB)
-#  if(TBB_FOUND AND TBB_ON)
-#    include(${TBB_USE_FILE})
-#    list(APPEND CGAL_3RD_PARTY_LIBRARIES ${TBB_LIBRARIES})
-#    MESSAGE(${TBB_LIBRARIES})
-#  endif()
-##Eigen
-#  find_package(Eigen3)
-#  if(EIGEN3_FOUND)
-#    include(${EIGEN3_USE_FILE})
-#  else()
-#    message(FATAL_ERROR "Notice: This program requires the Eigen3 library, and will not be compiled.")
-#  endif()
 else()
   message(FATAL_ERROR "Notice: This program requires the CGAL library, and will not be compiled.")
 endif()
-
-#Curl
-#find_package(CURL)
-#if(CURL_FOUND)
-#  include_directories(${CURL_INCLUDE_DIR})
-#else()
-#  message(FATAL_ERROR "Notice: This program requires the Curl library, and will not be compiled.")
-#endif()
 
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include ${PROJECT_SOURCE_DIR}/src/date/include)
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp)

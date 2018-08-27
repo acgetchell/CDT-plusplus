@@ -1,12 +1,5 @@
 cmake_minimum_required(VERSION 3.11)
 
-#if (TESTS)
-
-#include_directories(${PROJECT_SOURCE_DIR}/src)
-
-#file(GLOB_RECURSE TEST_SOURCE "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
-#add_executable(CDT_test ${TEST_SOURCE} ${SRC_FILES} ../src/date/src/tz.cpp)
-
 add_executable(CDT_test ${PROJECT_SOURCE_DIR}/tests/main.cpp ${PROJECT_SOURCE_DIR}/src/date/src/tz.cpp FunctionRefTest.cpp UtilitiesTest.cpp VertexTest.cpp
                         TorusTest.cpp TetrahedronTest.cpp SphereTest.cpp SimulationTest.cpp SimplicialManifoldTest.cpp
                         S3TriangulationTest.cpp S3ErgodicMovesTest.cpp S3ActionTest.cpp MoveManagerTest.cpp MoveAlgorithmsTest.cpp
@@ -17,5 +10,3 @@ target_compile_features(CDT_test PRIVATE cxx_std_17)
 
 # Run unit tests
 add_test(NAME CDT-unit-tests COMMAND $<TARGET_FILE:CDT_test>)
-
-#endif ()
