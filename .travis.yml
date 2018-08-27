@@ -164,7 +164,7 @@ matrix:
       env: TESTS=true CODECOV=true
       script:
         - cd ${TRAVIS_BUILD_DIR}
-        - travis_wait 60 ctest --quiet -S lcov.cmake
+        - travis_wait 60 ctest -S lcov.cmake
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/build
         - pwd
@@ -221,7 +221,7 @@ script:
 after_success:
   # Integration tests excluding Catch
 #  - ctest -E CDT-unit-tests
-  - if [[ ${VALGRIND} == "true" ]]; then travis_wait 30 ctest -T memcheck; fi
+  - if [[ ${VALGRIND} == "true" ]]; then travis_wait 60 ctest -T memcheck; fi
   # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then travis_wait 30 ctest; fi
 
