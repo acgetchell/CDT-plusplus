@@ -25,11 +25,12 @@ install:
   - cd C:\projects\dev
 
   # Install Ninja
-  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.7.2/ninja-win.zip"
+  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip"
   - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
   - 7z x ninja.zip -oC:\projects\dev\ninja > nul
   - set PATH=%PATH%;C:\projects\dev\ninja
   - ninja --version
+  - set CMAKE_MAKE_PROGRAM=C:\projects\dev\ninja\ninja.exe
   # Verify CMake
   - cmake --version
   # Enable integration for Visual Studio/MSBuild
@@ -40,11 +41,12 @@ install:
   - vcpkg update
   - vcpkg install cgal
   # Setup Clang-cl
-#  - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
-#  - clang-cl -v
-#  - set CC=clang-cl
-#  - set CXX=clang-cl
-#  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+  - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
+  - clang-cl -v
+  - set CC=clang-cl
+  - set CXX=clang-cl
+  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+  - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
   # Use installed conda
 #  - set PATH=%PATH%;C:\Miniconda-x64\Scripts
 #  - conda update conda -y
