@@ -36,6 +36,7 @@ install:
   - cd c:\tools\vcpkg
   - vcpkg integrate install
   # Use vcpkg to install cgal
+  - git pull
   - vcpkg update
   - vcpkg install cgal
   # Setup Clang-cl
