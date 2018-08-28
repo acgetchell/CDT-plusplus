@@ -33,5 +33,5 @@ comment:
   behavior: default
   require_changes: no
 
-ignore:
-  - "tests/"
+#ignore:
+#  - "tests/"
