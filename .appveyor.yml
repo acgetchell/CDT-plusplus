@@ -3,6 +3,8 @@ version: 0.1.8.{build}
 platform:
     - x64
 
+cache: c:\tools\vcpkg\installed\
+
 image:
   - Visual Studio 2015
   - Visual Studio 2017
@@ -30,6 +32,11 @@ install:
   - ninja --version
   # Verify CMake
   - cmake --version
+  # Enable integration for Visual Studio/MSBuild
+  - cd c:\tools\vcpkg
+  - vcpkg integrate install
+  # Use vcpkg to install cgal
+  - vcpkg install cgal
   # Setup Clang-cl
 #  - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
 #  - clang-cl -v
@@ -37,18 +44,17 @@ install:
 #  - set CXX=clang-cl
 #  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   # Use installed conda
-  - set PATH=%PATH%;C:\Miniconda-x64\Scripts
-  - conda update conda -y
+#  - set PATH=%PATH%;C:\Miniconda-x64\Scripts
+#  - conda update conda -y
   #- conda list
-  - conda create --name py36 python=3.6 -y
-  - activate py36
+#  - conda create --name py36 python=3.6 -y
+#  - activate py36
   # Upgrade pip
   - python -m pip install --upgrade pip
   # Install Conan
-  - conda install -c conda-forge conan -y
-#  - echo "Downloading conan..."
-#  - set PATH=%PATH%;%PYTHON%\Scripts\
-#  - pip.exe install conan
+  - echo "Downloading conan..."
+  - set PATH=%PATH%;%PYTHON%\Scripts\
+  - pip.exe install conan
   # Install Eigen
 #  - conda install -c conda-forge eigen -y
   # Install TBB
@@ -58,7 +64,7 @@ install:
   # Install Boost 1.66.0
 #  - conda install -c conda-forge boost -y
   # Install CGAL
-  - conda install -c conda-forge cgal -y
+#  - conda install -c conda-forge cgal -y
   # Install Curl
 #  - conda install -c conda-forge curl -y
 
@@ -69,16 +75,16 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-#  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF ..
-#  - cmake --build .
   - conan profile new default --detect
-#  - conan install .. -pr default --build=missing
+  - conan install .. -pr default --build=missing
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake --build .
 #  - conan build ..
 
 on_success:
 #  - cmake --build . --target test
-  - conan install .. -pr default --build=missing
-  - conan build ..
+#  - conan install .. -pr default --build=missing
+#  - conan build ..
 
 #test_script:
 #  - ctest -C release
