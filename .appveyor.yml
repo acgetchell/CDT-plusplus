@@ -82,6 +82,8 @@ build_script:
   - mkdir build
   - cd build
   - conan profile new default --detect
+  # TBB only seems to work on x86
+  - conan profile update settings.arch=x86
   - conan install .. -pr default --build=missing
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake --build .
