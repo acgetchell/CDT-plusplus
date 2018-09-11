@@ -34,6 +34,7 @@ compiler:
 
 before_install:
   - |
+    # Install Linuxbrew
     if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
       PATH="$HOME/.linuxbrew/bin:$PATH"
       echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
@@ -54,14 +55,18 @@ install:
     if [[ "$CXX" == "g++" ]]; then
       brew install gcc
       brew link --overwrite gcc
-      # Fix "_stdio.h: No such file or directory"
       if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        # Fix "_stdio.h: No such file or directory"
         softwareupdate --list
         softwareupdate --install "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.4"
+        # Upgrade CGAL
+        brew upgrade cgal
+      else
+        # Linux just install CGAL
+        brew install cgal
       fi
     fi
   - brew install ninja
-  - brew install cgal
   - brew install lcov
   - brew install conan
   - |
