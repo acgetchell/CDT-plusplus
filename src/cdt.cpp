@@ -18,6 +18,7 @@
 
 // C++ headers
 #include <vector>
+#include <gsl/gsl>
 
 // Docopt
 #include <docopt.h>

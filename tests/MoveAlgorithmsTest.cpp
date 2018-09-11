@@ -8,10 +8,10 @@
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
 
-#include <catch2/catch.hpp>
 #include <Metropolis.hpp>
+#include <catch2/catch.hpp>
 
-bool IsProbabilityRange(CGAL::Gmpzf arg) { return arg > 0 && arg <= 1;}
+bool IsProbabilityRange(CGAL::Gmpzf const& arg) { return arg > 0 && arg <= 1; }
 
 SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
 {
@@ -22,9 +22,9 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
   constexpr auto output_every_n_passes = static_cast<std::int_fast32_t>(1);
   GIVEN("A correctly-constructed SimplicialManifold.")
   {
-    constexpr auto simplices = static_cast<std::int_fast32_t>(640);
-    constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
-    SimplicialManifold      universe(make_triangulation(simplices, timeslices));
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(640);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(4);
+    SimplicialManifold universe(make_triangulation(simplices, timeslices));
     // It is correctly constructed
     CHECK(universe.triangulation);
     CHECK(universe.geometry->number_of_cells() ==
@@ -71,25 +71,29 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
       std::cout << "N3_22 = " << result.geometry->N3_22() << "\n";
       std::cout << "There were " << testrun.TwoThreeMoves()
                 << " attempted (2,3) moves and "
-                << testrun.SuccessfulTwoThreeMoves() << " successful (2,3) moves.\n";
+                << testrun.SuccessfulTwoThreeMoves()
+                << " successful (2,3) moves.\n";
       std::cout << "There were " << testrun.ThreeTwoMoves()
                 << " attempted (3,2) moves and "
-                << testrun.SuccessfulThreeTwoMoves() << " successful (3,2) moves.\n";
+                << testrun.SuccessfulThreeTwoMoves()
+                << " successful (3,2) moves.\n";
       std::cout << "There were " << testrun.TwoSixMoves()
-                << " attempted (2,6) moves and " << testrun.SuccessfulTwoSixMoves()
+                << " attempted (2,6) moves and "
+                << testrun.SuccessfulTwoSixMoves()
                 << " successful (2,6) moves.\n";
       std::cout << "There were " << testrun.SixTwoMoves()
-                << " attempted (6,2) moves and " << testrun.SuccessfulSixTwoMoves()
+                << " attempted (6,2) moves and "
+                << testrun.SuccessfulSixTwoMoves()
                 << " successful (6,2) moves.\n";
       THEN("The result is a valid SimplicialManifold.")
       {
         CHECK(result.triangulation);
         CHECK(result.geometry->number_of_cells() ==
-                result.triangulation->number_of_finite_cells());
+              result.triangulation->number_of_finite_cells());
         CHECK(result.geometry->number_of_edges() ==
-                result.triangulation->number_of_finite_edges());
+              result.triangulation->number_of_finite_edges());
         CHECK(result.geometry->N0() ==
-                result.triangulation->number_of_vertices());
+              result.triangulation->number_of_vertices());
         CHECK(result.triangulation->dimension() == 3);
         CHECK(fix_timeslices(result.triangulation));
         CHECK(result.triangulation->tds().is_valid());
@@ -122,7 +126,6 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
         auto A2_32 = testrun.CalculateA2(move_type::THREE_TWO);
         auto A2_26 = testrun.CalculateA2(move_type::TWO_SIX);
         auto A2_62 = testrun.CalculateA2(move_type::SIX_TWO);
-
 
         CHECK(IsProbabilityRange(A2_23));
         std::cout << "A2 for (2,3) moves is: " << A2_23 << '\n';
