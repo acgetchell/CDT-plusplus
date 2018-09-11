@@ -43,6 +43,8 @@ before_install:
       (brew update || brew update)
       brew doctor
       brew config
+    else
+      brew update
     fi
 
 install:
@@ -59,7 +61,7 @@ install:
       fi
     fi
   - brew install ninja
-  - brew outdated cgal || brew upgrade cgal
+  - brew install cgal
   - brew install lcov
   - brew install conan
   - |
