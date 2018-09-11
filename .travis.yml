@@ -59,12 +59,15 @@ install:
         # Fix "_stdio.h: No such file or directory"
         softwareupdate --list
         softwareupdate --install "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.4"
-        # Upgrade CGAL
-        brew upgrade cgal
-      else
-        # Linux just install CGAL
-        brew install cgal
       fi
+    fi
+  - |
+    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+      # Upgrade CGAL
+      brew upgrade cgal
+    else
+      # Linux, just install
+      brew install cgal
     fi
   - brew install ninja
   - brew install lcov
