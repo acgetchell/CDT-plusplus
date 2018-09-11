@@ -59,7 +59,7 @@ install:
       fi
     fi
   - brew install ninja
-  - brew install cgal
+  - brew outdated cgal || brew upgrade cgal
   - brew install lcov
   - brew install conan
   - |
