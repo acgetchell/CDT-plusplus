@@ -8,6 +8,7 @@
 /// @brief Generates initial spacetimes
 /// @author Adam Getchell
 
+#include <gsl/gsl>
 #include <iostream>
 
 #include <docopt.h>
@@ -50,8 +51,11 @@ int main(int argc, char* const argv[])
   ios_base::sync_with_stdio(false);
   try
   {
+    // docopt option parser
+    gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
     map<string, docopt::value> args =
-        docopt::docopt(USAGE, {argv + 1, argv + argc}, true, "initializer 1.0");
+        docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
+                       true, "initializer 1.0");
 
     auto simplices         = stoi(args["-n"].asString());
     auto timeslices        = stoi(args["-t"].asString());

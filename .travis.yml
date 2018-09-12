@@ -238,7 +238,7 @@ after_success:
 #  - ctest -E CDT-unit-tests
   - if [[ ${VALGRIND} == "true" ]]; then travis_wait 60 ctest -T memcheck; fi
   # Catch tests showing only failures
-  - if [[ ${TESTS} == "true" ]]; then travis_wait 30 ctest; fi
+  - if [[ ${TESTS} == "true" ]]; then travis_wait 60 ctest; fi
 
 notifications:
   webhooks:

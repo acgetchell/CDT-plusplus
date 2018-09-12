@@ -17,6 +17,7 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
+#include <gsl/gsl>
 #include <vector>
 
 // Docopt
@@ -78,8 +79,9 @@ int main(int argc, char* const argv[])
     t.start();
 
     // docopt option parser
+    gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
     map<string, docopt::value> args =
-        docopt::docopt(USAGE, {argv + 1, argv + argc},
+        docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                        true,          // print help message automatically
                        "CDT 0.1.8");  // Version
 

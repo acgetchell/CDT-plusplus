@@ -113,12 +113,12 @@ target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::
 target_compile_features(cdt PRIVATE cxx_std_17)
 
 add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
-target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::date)
+target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::date CONAN_PKG::gsl_microsoft)
 target_compile_features(initialize PRIVATE cxx_std_17)
 
 if (UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt)
+  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::gsl_microsoft)
   #Activate C++17
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 

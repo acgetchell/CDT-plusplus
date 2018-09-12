@@ -28,6 +28,7 @@
 
 // C++ headers
 #include <fstream>
+#include <gsl/gsl>
 
 // Docopt
 #include <docopt.h>
@@ -74,8 +75,9 @@ int main(int argc, char* const argv[])
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
   ios_base::sync_with_stdio(false);
   // docopt option parser
+  gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
   map<string, docopt::value> args =
-      docopt::docopt(USAGE, {argv + 1, argv + argc},
+      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                      true,           // print help message automatically
                      "cdt-gv 1.0");  // Version
 
