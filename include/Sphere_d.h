@@ -38,23 +38,21 @@ using Kd = CGAL::Cartesian_d<double>;
 void make_d_sphere(std::int32_t number_of_points, int dimension, double radius,
                    bool output, std::vector<Kd::Point_d>* const points) noexcept
 {
-  points->reserve(number_of_points);
+  points->reserve(static_cast<unsigned long>(number_of_points));
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
-  for (decltype(number_of_points) i = 0; i < number_of_points; ++i) {
-    points->push_back(*gen++);
-  }
+  for (decltype(number_of_points) i = 0; i < number_of_points; ++i)
+  { points->push_back(*gen++); }
   // If output = true, print out values of points in sphere
-  if (output) {
+  if (output)
+  {
     std::cout << "Generating " << number_of_points << " random points on "
               << "the surface of a sphere in " << dimension << "D" << std::endl
               << "of center 0 and radius " << radius << "." << std::endl;
 
-    for (const auto& point : *points) {
-      std::cout << " " << point << std::endl;
-    }
-  }
+    for (const auto& point : *points)
+    { std::cout << " " << point << std::endl; } }
 }  // make_d_sphere()
 
 /// @brief Make a d-dimensional sphere without output
