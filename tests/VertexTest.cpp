@@ -9,7 +9,7 @@
 /// @author Adam Getchell
 
 #include <catch2/catch.hpp>
-#include <SimplicialManifold.hpp>
+#include <SimplicialManifold.h>
 
 SCENARIO("Vertex operations", "[vertex]")
 {

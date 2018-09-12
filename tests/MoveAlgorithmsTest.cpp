@@ -8,7 +8,7 @@
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
 
-#include <Metropolis.hpp>
+#include <Metropolis.h>
 #include <catch2/catch.hpp>
 
 bool IsProbabilityRange(CGAL::Gmpzf const& arg) { return arg > 0 && arg <= 1; }

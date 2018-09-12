@@ -18,13 +18,12 @@
 
 // C++ headers
 #include <vector>
-#include <gsl/gsl>
 
 // Docopt
 #include <docopt.h>
 
 // CDT headers
-#include <Metropolis.hpp>
+#include <Metropolis.h>
 #include <Simulation.hpp>
 
 using Timer = CGAL::Real_timer;
@@ -99,9 +98,7 @@ int main(int argc, char* const argv[])
 
     // Topology of simulation
     topology_type topology;
-    if (args["--spherical"].asBool()) {
-      topology = topology_type::SPHERICAL;
-    }
+    if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
     else
     {
       topology = topology_type::TOROIDAL;
@@ -123,7 +120,8 @@ int main(int argc, char* const argv[])
     std::cout << "User = " << getEnvVar("USER") << "\n";
     std::cout << "Hostname = " << hostname() << "\n";
 
-    if (simplices < 2 || timeslices < 2) {
+    if (simplices < 2 || timeslices < 2)
+    {
       t.stop();
       throw std::invalid_argument(
           "Simplices and timeslices should be greater or equal to 2.");
@@ -149,7 +147,8 @@ int main(int argc, char* const argv[])
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && std::abs(alpha) < 0.5) {
+    if (dimensions == 3 && std::abs(alpha) < 0.5)
+    {
       t.stop();  // End running time counter
       throw std::domain_error("Alpha in 3D should be greater than 1/2.");
     }
@@ -157,7 +156,8 @@ int main(int argc, char* const argv[])
     switch (topology)
     {
       case topology_type::SPHERICAL:
-        if (dimensions == 3) {
+        if (dimensions == 3)
+        {
           SimplicialManifold populated_universe(simplices, timeslices);
           // SimplicialManifold swapperator for no-throw
           swap(universe, populated_universe);
@@ -174,7 +174,8 @@ int main(int argc, char* const argv[])
             "Toroidal triangulations not yet supported.");  // NOLINT
     }
 
-    if (!fix_timeslices(universe.triangulation)) {
+    if (!fix_timeslices(universe.triangulation))
+    {
       t.stop();  // End running time counter
       throw std::logic_error("Delaunay triangulation not correctly foliated.");
     }

@@ -10,9 +10,9 @@
 /// @author Adam Getchell
 
 #include <catch2/catch.hpp>
-#include <Function_ref.hpp>
-#include <Measurements.hpp>
-#include <S3ErgodicMoves.hpp>
+#include <Function_ref.h>
+#include <Measurements.h>
+#include <S3ErgodicMoves.h>
 
 SCENARIO("Lambda operations", "[lambda][!mayfail]")
 {

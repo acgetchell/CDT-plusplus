@@ -9,7 +9,7 @@
 /// @author Adam Getchell
 
 #include <catch2/catch.hpp>
-#include <Torus_d.hpp>
+#include <Torus_d.h>
 
 SCENARIO("Torus construction", "[torus]")
 {

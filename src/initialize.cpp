@@ -12,8 +12,8 @@
 
 #include <docopt.h>
 
-#include <Measurements.hpp>
-#include <SimplicialManifold.hpp>
+#include <Measurements.h>
+#include <SimplicialManifold.h>
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{

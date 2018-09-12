@@ -18,8 +18,8 @@
 
 #include <utility>
 
-#include <Measurements.hpp>
-#include <Metropolis.hpp>
+#include <Measurements.h>
+#include <Metropolis.h>
 #include <Simulation.hpp>
 
 int main()

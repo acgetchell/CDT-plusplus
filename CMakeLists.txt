@@ -108,7 +108,7 @@ endif()
 
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include)
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
-target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt CONAN_PKG::date)
+target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt CONAN_PKG::date CONAN_PKG::gsl_microsoft)
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 

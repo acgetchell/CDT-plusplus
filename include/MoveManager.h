@@ -7,16 +7,16 @@
 /// See http://www.stroustrup.com/except.pdf and
 /// http://exceptionsafecode.com for details.
 ///
-/// @file MoveManager.hpp
+/// @file MoveManager.h
 /// @brief RAII class to manage exception-safe foliation-preserving
 /// Pachner moves
 /// @author Adam Getchell
 
-#ifndef SRC_MOVEMANAGER_HPP_
-#define SRC_MOVEMANAGER_HPP_
+#ifndef SRC_MOVEMANAGER_H_
+#define SRC_MOVEMANAGER_H_
 
-#include <Function_ref.hpp>
-#include <SimplicialManifold.hpp>
+#include <Function_ref.h>
+#include <SimplicialManifold.h>
 #include <algorithm>
 #include <memory>
 #include <tuple>
@@ -190,4 +190,4 @@ class MoveManager
   }
 };
 
-#endif  // SRC_MOVEMANAGER_HPP_
+#endif  // SRC_MOVEMANAGER_H_

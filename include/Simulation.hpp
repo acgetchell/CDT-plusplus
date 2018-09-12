@@ -16,8 +16,8 @@
 #ifndef SRC_SIMULATION_HPP_
 #define SRC_SIMULATION_HPP_
 
-#include <Function_ref.hpp>
-#include <SimplicialManifold.hpp>
+#include <Function_ref.h>
+#include <SimplicialManifold.h>
 #include <utility>
 #include <vector>
 

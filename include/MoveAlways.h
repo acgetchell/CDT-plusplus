@@ -5,16 +5,16 @@
 /// Always picks a random move on the foliated Delaunay triangulations.
 /// For testing purposes.
 ///
-/// @file MoveAlways.hpp
+/// @file MoveAlways.h
 /// @brief Always randomly selects moves to perform on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug The call operator segfaults in Release mode
 
-#ifndef SRC_MOVE_ALWAYS_HPP_
-#define SRC_MOVE_ALWAYS_HPP_
+#ifndef SRC_MOVE_ALWAYS_H_
+#define SRC_MOVE_ALWAYS_H_
 
-#include <Measurements.hpp>
-#include <MoveAlgorithm.hpp>
+#include <Measurements.h>
+#include <MoveAlgorithm.h>
 
 class MoveAlways : public MoveAlgorithm
 {
@@ -87,4 +87,4 @@ class MoveAlways : public MoveAlgorithm
   }
 };  // MoveAlways
 
-#endif  // SRC_MOVE_ALWAYS_HPP_
+#endif  // SRC_MOVE_ALWAYS_H_

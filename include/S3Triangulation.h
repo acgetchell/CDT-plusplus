@@ -30,12 +30,12 @@
 /// \done Multi-threaded operations using Intel TBB.
 /// \done Debugging output toggled by macros.
 
-/// @file S3Triangulation.hpp
+/// @file S3Triangulation.h
 /// @brief Functions on 3D Spherical Delaunay Triangulations
 /// @author Adam Getchell
 
-#ifndef SRC_S3TRIANGULATION_HPP_
-#define SRC_S3TRIANGULATION_HPP_
+#ifndef SRC_S3TRIANGULATION_H_
+#define SRC_S3TRIANGULATION_H_
 
 /// Toggles detailed per-simplex debugging output
 #define DETAILED_DEBUGGING
@@ -58,7 +58,7 @@
 #include <vector>
 
 // CDT headers
-#include <Utilities.hpp>
+#include <Utilities.h>
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -318,4 +318,4 @@ auto inline make_triangulation(const std::int32_t simplices,
   return universe_ptr;
 }  // make_triangulation()
 
-#endif  // SRC_S3TRIANGULATION_HPP_
+#endif  // SRC_S3TRIANGULATION_H_
