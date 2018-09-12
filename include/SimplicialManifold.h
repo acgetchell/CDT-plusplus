@@ -444,7 +444,7 @@ struct SimplicialManifold
   /// is fine.
   /// @param manifold A std::unique_ptr<Delaunay>
   /// @return A SimplicialManifold{}
-  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  // NOLINT
+  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)
       : triangulation{std::move(manifold)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
@@ -485,7 +485,7 @@ struct SimplicialManifold
   /// @brief Move constructor
   /// @param other The SimplicialManifold to be move-constructed from
   /// @return A moved-to SimplicialManifold{}
-  SimplicialManifold(SimplicialManifold&& other)  // NOLINT
+  SimplicialManifold(SimplicialManifold&& other)
       : triangulation{std::move(other.triangulation)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}

@@ -30,6 +30,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <functional>
+#include <gsl/gsl>
 #include <iostream>
 #include <mutex>
 #include <random>
@@ -47,6 +48,23 @@ enum class topology_type
   TOROIDAL,
   SPHERICAL
 };
+
+/// @brief Convert topology_type to string output
+/// @param os output stream
+/// @param topology
+/// @return output stream
+inline std::ostream& operator<<(std::ostream& os, const topology_type& topology)
+{
+  switch (topology)
+  {
+    case topology_type::SPHERICAL:
+      os << "spherical";
+      return os;
+    case topology_type::TOROIDAL:
+      os << "toroidal";
+      return os;
+  }
+}
 
 /// @brief Return an environment variable
 ///

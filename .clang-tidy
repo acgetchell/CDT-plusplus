@@ -1,5 +1,5 @@
 ---
-Checks:          "clang-diagnostic-*,clang-analyzer-*,-*,cert*,clang*,cppcoreguidelines*,misc-assert*,misc-b*,misc-dangling*,misc-f*,misc-i*,misc-move-const*,misc-n*,misc-r*,misc-s*,misc-t*,misc-u*,misc-v*,modernize*,performance*"
+Checks:          bugprone*,cert*,clang-analyzer-*,cppcoreguidelines*,hicpp*,misc*,modernize*,performance*,readability*"
 WarningsAsErrors: ""
 HeaderFilterRegex: ".*"
 AnalyzeTemporaryDtors: false

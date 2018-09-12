@@ -8,8 +8,8 @@
 /// @brief Tests for wraparound grids
 /// @author Adam Getchell
 
-#include <catch2/catch.hpp>
 #include <Torus_d.h>
+#include <catch2/catch.hpp>
 
 SCENARIO("Torus construction", "[torus]")
 {
@@ -29,16 +29,16 @@ SCENARIO("Torus construction", "[torus]")
   }
   GIVEN("A constructed 2-torus")
   {
-    int  dim   = 3;
-    auto torus = make_d_cube(v, nb_points, dim);
+    int dim = 3;
+    make_d_cube(v, nb_points, dim);
     WHEN("The type is queried")
     {
       THEN("A result should be returned.")
       {
-        std::cout << "Torus = "
-                  << boost::typeindex::type_id_with_cvr<decltype(torus)>()
-                         .pretty_name()
-                  << '\n';
+        std::cout
+            << "Torus = "
+            << boost::typeindex::type_id_with_cvr<decltype(v)>().pretty_name()
+            << '\n';
       }
     }
   }

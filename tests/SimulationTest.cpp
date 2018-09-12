@@ -12,14 +12,14 @@
 ///
 /// @todo Fix MoveAlways test
 
-#include <catch2/catch.hpp>
 #include <MoveAlways.h>
 #include <Simulation.hpp>
+#include <catch2/catch.hpp>
 
 SCENARIO("Construct a simulation that always makes a move",
          "[simulation][!mayfail][!hide]")
 {
-  constexpr auto simplices = static_cast<std::int_fast32_t>(640);
+  constexpr auto simplices  = static_cast<std::int_fast32_t>(640);
   constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
   GIVEN("A simulation and an algorithm.")
   {

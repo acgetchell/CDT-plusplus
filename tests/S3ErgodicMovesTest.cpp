@@ -16,8 +16,8 @@ SCENARIO("Perform ergodic moves upon S3 Triangulations", "[moves]")
 {
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::int_fast32_t>(12000);
-    constexpr auto     timeslices = static_cast<std::int_fast32_t>(12);
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
     SimplicialManifold universe(simplices, timeslices);
     Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
     // Verify triangulation

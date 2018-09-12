@@ -9,8 +9,8 @@
 /// @brief Tests for 3D triangulated and foliated tetrahedrons
 /// @author Adam Getchell
 
-#include <catch2/catch.hpp>
 #include <SimplicialManifold.h>
+#include <catch2/catch.hpp>
 
 SCENARIO("Construct a tetrahedron in the triangulation", "[tetrahedron]")
 {
@@ -76,7 +76,8 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
       Causal_vertices causal_vertices;
-      for (auto j = 0; j < 4; ++j) {
+      for (auto j = 0; j < 4; ++j)
+      {
         causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
       }
       insert_into_triangulation(universe.triangulation, causal_vertices);

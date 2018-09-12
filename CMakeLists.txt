@@ -124,7 +124,7 @@ if (UNIX)
 
 
   add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
-  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl CONAN_PKG::date)
+  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl CONAN_PKG::date CONAN_PKG::gsl_microsoft)
   #Activate C++17
   target_compile_features(cdt-opt PRIVATE cxx_std_17)
 

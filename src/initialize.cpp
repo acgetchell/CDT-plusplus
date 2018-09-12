@@ -75,9 +75,10 @@ int main(int argc, char* const argv[])
     }
 
     // Display job parameters
-    cout << "Topology is "
-         << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
-         << "\n";
+    cout << "Topology is " << topology << "\n";
+//    cout << "Topology is " << gsl::to_string(get_topology(topology)) << "\n";
+//         << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
+//         << "\n";
     cout << "Number of dimensions = " << dimensions << "\n";
     cout << "Number of desired simplices = " << simplices << "\n";
     cout << "Number of desired timeslices = " << timeslices << "\n";

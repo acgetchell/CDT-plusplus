@@ -62,8 +62,10 @@ int main()
   auto max_timevalue = universe.geometry->max_timevalue().get();
 
   if (max_timevalue < timeslices)
+  {
     cout << "You wanted " << timeslices << " timeslices, but only got "
          << max_timevalue << " .\n";
+  }
 
   return 0;
 }

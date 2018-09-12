@@ -109,9 +109,7 @@ int main(int argc, char* const argv[])
     }
 
     // Display job parameters
-    cout << "Topology is "
-         << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
-         << "\n";
+    cout << "Topology is " << topology << "\n";
     cout << "Number of dimensions = " << dimensions << "\n";
     cout << "Number of simplices = " << simplices << "\n";
     cout << "Number of timeslices = " << timeslices << "\n";
@@ -173,8 +171,7 @@ int main(int argc, char* const argv[])
         break;
       case topology_type::TOROIDAL:
         t.stop();  // End running time counter
-        throw invalid_argument(
-            "Toroidal triangulations not yet supported.");  // NOLINT
+        throw invalid_argument("Toroidal triangulations not yet supported.");
     }
 
     if (!fix_timeslices(universe.triangulation))
