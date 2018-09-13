@@ -35,7 +35,7 @@ SCENARIO("Simple Lambda operations", "[lambda]")
     }
   }
 }
-SCENARIO("Complex Lambda operations", "[lambda][!mayfail][hide]")
+SCENARIO("Complex Lambda operations", "[lambda][!mayfail][.]")
 {
   GIVEN("A lambda storing a move.")
   {

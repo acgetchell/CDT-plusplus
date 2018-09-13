@@ -180,7 +180,7 @@ set_tests_properties(CDT-MinimalS3
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")
 #Run an S3
-add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
+add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p2 -c1)
 set_tests_properties(CDT-S3Runs
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")
