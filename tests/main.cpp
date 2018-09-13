@@ -9,7 +9,7 @@
 /// @author https://github.com/catchorg and Adam Getchell
 
 #define CATCH_CONFIG_RUNNER
-#define CATCH_CONFIG_CPP17_UNCAUGHT_EXCEPTIONS
+#define CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS
 #define CATCH_CONFIG_CPP17_STRING_VIEW
 #include <catch2/catch.hpp>
 

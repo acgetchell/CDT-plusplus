@@ -151,10 +151,6 @@ matrix:
           packages:
             - clang-6.0
             - clang-tidy-6.0
-      # Skip unnecessary steps since we aren't compiling
-      before_install:
-      install:
-      before_script:
       # Overwrite script on matrix jobs
       script:
         - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py > output.txt
@@ -218,6 +214,9 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
+    - os: linux
+      compiler: clang
+      env: TESTS=false CLANGTIDY=true
 
 script:
   - conan profile new default --detect
