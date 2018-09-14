@@ -151,6 +151,7 @@ matrix:
           packages:
             - clang-6.0
             - clang-tidy-6.0
+            - linuxbrew-wrapper
       # Overwrite script on matrix jobs
       script:
         - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py > output.txt
