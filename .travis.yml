@@ -215,9 +215,6 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGTIDY=true
 
 script:
   - conan profile new default --detect

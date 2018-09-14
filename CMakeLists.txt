@@ -153,34 +153,34 @@ set_tests_properties (CDT-Usage
         PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
 #Dimensions != 4
-add_test (NAME CDT-3Donly COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
+add_test (NAME CDT-3Donly COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p1 -c1)
 set_tests_properties (CDT-3Donly
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
 
 #Simplices and timeslices >= 2
-add_test(NAME CDT-Simplices COMMAND $<TARGET_FILE:cdt> --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test(NAME CDT-Simplices COMMAND $<TARGET_FILE:cdt> --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p1 -c1)
 set_tests_properties(CDT-Simplices
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
-add_test(NAME CDT-Timeslices COMMAND $<TARGET_FILE:cdt> --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test(NAME CDT-Timeslices COMMAND $<TARGET_FILE:cdt> --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p1 -c1)
 set_tests_properties(CDT-Timeslices
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
 # 3D Triangle inequality
-add_test (NAME CDT-3Dtriangle COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test (NAME CDT-3Dtriangle COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p1 -c1)
 set_tests_properties (CDT-3Dtriangle
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
 #Minimum run
-add_test(NAME CDT-MinimalS3 COMMAND $<TARGET_FILE:cdt> --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
+add_test(NAME CDT-MinimalS3 COMMAND $<TARGET_FILE:cdt> --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p1 -c1)
 set_tests_properties(CDT-MinimalS3
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")
 #Run an S3
-add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p2 -c1)
+add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p1 -c1)
 set_tests_properties(CDT-S3Runs
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")

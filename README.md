@@ -12,23 +12,13 @@
 
 For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki), including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
-[Causal Dynamical Triangulations][CDT] in C++ using the
-[Computational Geometry Algorithms Library][CGAL] and [Eigen]>3.1.0, compiled
-with [CMake] using [Clang]/[LLVM].
-Arbitrary-precision numbers and functions by [MPFR] and [GMP].
-Option-types via [Boost] >= 1.64.0.
-Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time (each as a [subrepo]).
-[Catch] is included as a single header in order to build/run unit tests.
-[Ninja] is a nice (but optional) replacement for `make`.
-Intel's [TBB] provides significantly better performance if present (3x+).
-Follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can run using the
-[clang-tidy.sh] script:
-
-~~~
-./clang-tidy.sh
-~~~
-
-(Or use your favorite linter plugin for your editor/IDE.)
+[Causal Dynamical Triangulations][CDT] in [C++] use the
+[Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
+Arbitrary-precision numbers and functions via [MPFR] and [GMP].
+Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time.
+Uses [Catch] for [BDD]/[TDD].
+Uses [Conan]/[CMake]/[Ninja] for dependency management and building.
+Uses [Doxygen] for automated document generation.
 
 The goals and targets of this project are:
 
@@ -59,68 +49,63 @@ The goals and targets of this project are:
 - [ ] Complete documentation
 - [ ] Quantize Spacetime!
 
-## Prerequisites
+## Getting Started
 
-[CDT++] should build on any system (e.g. Linux, MacOS, Windows) with
-[CMake], [CGAL], [Boost], [MPFR], [Eigen], and [curl] installed.
-[TBB] provides an optional (but significant) speed boost.  [Catch] is 
-optional (but recommended) for running the unit tests, and [Ninja] is an 
-optional replacement for `make` which provides quick parallel builds of the 
-unit tests.
+These instructions will get you a copy of the project up and running on your local machine for development and
+testing purposes.
 
-On MacOS, the easiest way to do this is with [Homebrew]:
+### Prerequisites
+
+- [Conan]
+- [CMake]
+- [Ninja]
+- [TBB]
+- [CGAL]
+- [Homebrew] or [Linuxbrew]
+- AppleClang, [clang-6], or [gcc-8]
+
+[CDT++] uses the [Conan] open source C/C++ package manager, which can be installed as follows:
 
 ~~~
+pip install conan
+~~~
+
+Using [CMake] and [Ninja], Conan handles most of the dependencies, except [CGAL] and [TBB]. The easiest way to
+install these so that Conan can find them is with [Homebrew] or [Linuxbrew]. Once these are installed:
+
+
+~~~
+brew update
 brew upgrade cmake
 brew install ninja
-brew upgrade boost
-brew install eigen
 brew install tbb
-brew install cgal --with-eigen3 --with-qt
+brew install cgal --with-eigen --with-qt
 ~~~
 
-On Ubuntu, you will need an updated versions of [Clang] or [gcc],
-[CMake], and [Boost], which is scripted in [.travis.yml].
-With Howard Hinnant's [date] library, you may also need to install
-`libcurl-dev`, which is a virtual package with many flavors, OpenSSL being
-the most tried and tested.
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-6].
+On Ubuntu, you may need an updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
-## Build
+Windows is almost there with [clang-cl], there is a [bug] in [TBB].
+
+### Installing
 
 This project uses a separate `build/` directory, which allows you to rebuild the
 project without cluttering the source code. Thus, download this source code
-(clone this repo from GitHub or grab a [release]) and run the following commands
-in the top-level directory:
+(clone this repo from GitHub or grab a [release]) and run the [build.sh] script.
 
-~~~
-mkdir build && cd build
-cmake -DTESTS:BOOL=OFF -DCMAKE_BUILD_TYPE=Release ..
-cmake --build .
-~~~
-
-(Or run [build.sh] if you have [Ninja] installed.)
-
-This should result in the main program executable, `cdt` in the `build/`
+This should result in the main program executable, `cdt` in the `build/bin`
 directory, along with several others.
 
-* `cdt-gv` converts output files to GeomView format for visualization
+* `CDT_test` is the [Catch2] executable which runs the unit tests.
+* `cdt-gv` converts output files to [Geomview] format for visualization
 * `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
+* `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
-If you build [Catch] unit tests (`-DTESTS:BOOL=ON`), the executable
-`/test/CDT_test` will also be present. See [Tests](#Tests) for details.
+The install script will also run unit and integration tests.
+See [Tests](#Tests) for details.
 
-For some versions of Linux, you may have to build [CGAL] from source.
-Follow the instructions (or their equivalent) given in the install section
-of the [.travis.yml] build file.
-
-There are enough unit tests that it's worthwhile doing fast parallel builds.
-[Ninja] is just the ticket. It's effectively a drop-in replacement for
-`make`, and works nicely because [CMake] generates the build files.
-There's quite a difference in speed. CMake also abstracts away the build
-tool nicely. Again, see [build.sh] for an example.
-
-## Usage
+### Usage
 
 CDT-plusplus uses [Docopt] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
@@ -186,32 +171,64 @@ various graphs to be autogenerated by [Doxygen] using [GraphViz].
 If you do not have GraphViz installed, set this option to **NO**
 (along with `UML_LOOK`).
 
-## Tests
+## Testing
 
-[Catch] is optional, but strongly recommended if you want to make changes to
-or understand the source code in detail. It's easily deployable as a [single
-header file][catch-header] obtained from GitHub. Building the [Catch] `CDT_test`
-executable is set by the `TESTS` variable in [CMakeLists.txt], or
-at the command line (first `cd` into `build`) using:
-
-~~~
-cmake -DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug ..
-~~~
-
-Unit tests using Catch are then run (in the `build/test` directory) via:
+Unit tests using [Catch] are run (in the `build/bin` directory) via:
 
 ~~~
 ./CDT_test
 ~~~
 
-You can also run both [CTest] and [Catch] via:
+You can also run both [CTest] integration and [Catch] unit tests in the `build` directory via:
 
 ~~~
-cmake --build . --target test
+ctest
 ~~~
+
 
 In addition to the command line output, you can see detailed results in the
 `build/Testing` directory which is generated thereby.
+
+Whitespace formatting is can be checked using `git check`:
+
+~~~
+git diff --check HEAD^
+~~~
+
+### Static Analysis
+
+This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can check using the
+[clang-tidy.sh] script:
+
+~~~
+./clang-tidy.sh
+~~~
+
+(Or use your favorite linter plugin for your editor/IDE.)
+
+The [cppcheck-build.sh] script runs a quick static analysis using
+[cppcheck].
+
+~~~
+./cppcheck-build.sh
+~~~
+
+[Clang] comes with [scan-build] which can run a much more thorough,
+but slower static analysis integrated with [CMake] and [Ninja].
+
+~~~
+./scan.sh
+~~~
+
+### Continuous Integration
+
+* [ClangTidy] on all changed files
+
+* Whitespace formatting
+
+* [Valgrind]; be sure to look at the results to ensure you're not leaking memory.
+
+* [SonarCloud], also worth a look.
 
 ## Parameter Optimization
 
@@ -226,28 +243,10 @@ pip install comet-ml
 
 You can then run experiments and look at results on Comet.ml!
 
-## Static Analysis
-
-### Manual
-
-The [cppcheck-build.sh] script runs a quick static analysis using
-[cppcheck].
-
-[Clang] comes with [scan-build] which can run a much more thorough,
-but slower static analysis integrated with [CMake] and [Ninja].
-Simply run the [scan.sh] script.
-
-### Continuous Integration
-
-One of the [Travis-CI] jobs runs ClangTidy on all changed files.
-
-Another runs [Valgrind]; be sure to look at the results to ensure you're not leaking memory.
-
-More comprehensive static checking is done by [SonarCloud], also worth a look.
-
 ## Contributing
 
 Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
+
 
 [CDT]: http://arxiv.org/abs/hep-th/0105267
 [CGAL]: http://www.cgal.org
@@ -289,10 +288,9 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [conduct]: https://github.com/acgetchell/CDT-plusplus/blob/master/CODE_OF_CONDUCT.md
 [date]: https://howardhinnant.github.io/date/date.html
-[subrepo]: https://github.com/ingydotnet/git-subrepo
-[catch-header]: https://github.com/catchorg/Catch2
 [AppVeyor]: https://www.appveyor.com
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
+[TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [curl]: https://curl.haxx.se
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
 [Codecov]: https://codecov.io
@@ -301,3 +299,11 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [Model Optimization]: https://www.comet.ml/parameter-optimization
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
+[Conan]: https://github.com/conan-io/conan
+[Linuxbrew]: https://linuxbrew.sh/
+[clang-6]: http://releases.llvm.org/6.0.1/tools/clang/docs/ReleaseNotes.html
+[gcc-8]: https://gcc.gnu.org/gcc-8/
+[C++]: https://isocpp.org/
+[Geomview]: http://www.geomview.org/
+[clang-cl]: https://clang.llvm.org/docs/MSVCCompatibility.html
+[bug]: https://github.com/conan-community/community/issues/43
