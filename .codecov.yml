@@ -1,8 +1,6 @@
 codecov:
-  branch: devel
-  max_report_age: off
   notify:
-    require_ci_to_pass: no
+    require_ci_to_pass: yes
 
 coverage:
   precision: 2
@@ -10,8 +8,10 @@ coverage:
   range: "30...100"
 
   status:
-    project: yes
-    patch: yes
+    project:
+      default:
+        threshold: 3%
+    patch: no
     changes: no
 
   notify:

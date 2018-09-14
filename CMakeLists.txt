@@ -59,8 +59,6 @@ endif()
 
 #Turn on / off Catch Tests
 option(TESTS ON)
-#Turn on / off TBB
-set(TBB_ON TRUE)
 #Set mimumum Boost
 #set(BOOST_MIN_VERSION "1.64.0")
 #Compile commands for ClangTidy et. al

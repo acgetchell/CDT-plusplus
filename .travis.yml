@@ -72,11 +72,6 @@ install:
   - brew install ninja
   - brew install lcov
   - brew install conan
-  - |
-    if [[ "VALGRIND" == "true" ]]; then
-      brew install valgrind
-      echo Valgrind installed
-    fi
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -170,13 +165,24 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
+      addons:
+        apt:
+          packages:
+            - g++-8
+            - valgrind
+            - linuxbrew-wrapper
+          sources:
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
+      script:
+        - cmake -DCMAKE_BUILD_TYPE=Debug -DVALGRIND=ON -DTESTS:BOOL=OFF -G Ninja ..
+        - cmake --build .
+        - travis_wait 30 ctest -T memcheck
     # Codecov
     - os: osx
       compiler: clang
       env: TESTS=true CODECOV=true
       script:
-        - cd ${TRAVIS_BUILD_DIR}
-        - travis_wait 60 ctest -S lcov.cmake
+        - ctest -S lcov.cmake
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/build
         - pwd
@@ -233,7 +239,6 @@ script:
 after_success:
   # Integration tests excluding Catch
 #  - ctest -E CDT-unit-tests
-  - if [[ ${VALGRIND} == "true" ]]; then travis_wait 60 ctest -T memcheck; fi
   # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then travis_wait 60 ctest; fi
 

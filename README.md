@@ -96,14 +96,14 @@ project without cluttering the source code. Thus, download this source code
 This should result in the main program executable, `cdt` in the `build/bin`
 directory, along with several others.
 
-* `CDT_test` is the [Catch2] executable which runs the unit tests.
+* `CDT_test` is the [Catch] executable which runs the unit tests.
 * `cdt-gv` converts output files to [Geomview] format for visualization
 * `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
 * `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
 The install script will also run unit and integration tests.
-See [Tests](#Tests) for details.
+See [Testing] for details.
 
 ### Usage
 
@@ -282,7 +282,6 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [.travis.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml
 [Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile
 [Boost]: http://www.boost.org
-[gcc]: https://gcc.gnu.org
 [contrib]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
 [ClangTidy]: http://releases.llvm.org/5.0.0/tools/clang/tools/extra/docs/clang-tidy/index.html
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun

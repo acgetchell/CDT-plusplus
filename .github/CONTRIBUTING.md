@@ -10,7 +10,7 @@ Second, here are some simple guidelines that will make it easier on me to proces
 
 1. Fork the repository.
 2. Familiarize yourself with [Catch] and in particular, the [Gherkin] syntax.
-3. Write a unit test for your proposed contribution. Unit tests go in the `test` directory and are named \{YourContribution\}Test.cpp, so that they can be automatically built.
+3. Write a unit test for your proposed contribution. Unit tests go in the `tests` directory and are named \{YourContribution\}Test.cpp, so that they can be automatically built.
 All proposed features of your contribution should have a corresponding test in \{YourContribution\}Test.cpp.
 Consult the [Catch Test cases and sections] if you are unsure, or consult existing tests for examples.
 4. I highly recommend writing your tests first, before your contribution, as this helps to think about how the rest of the program will use your functions and/or classes.
@@ -25,10 +25,10 @@ Consult existing code for examples.
 For the longest time, however, no one but me actually read them.
 When I contribute to other projects, I definitely try to have useful, clear commit messages and you should, too.*
 8. Run `clang-format` using the project's [.clang-format].
-9. Run `clang-tidy` using the project's [.clang-tidy].
+9. Run `clang-tidy` using the project's [clang-tidy.sh].
 10. Open a pull request against the develop branch of the main repository (which is the default).
-[Travis-CI] will test it against combinations of Linux (Ubuntu 14.04), MacOS, clang, and gcc, so ensure that your code compiles on both platforms with both compilers.
-11. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+[Travis-CI] will test it against combinations of Linux (Ubuntu 16.04), MacOS, clang, and gcc, so ensure that your code compiles on both platforms with both compilers.
+11. All pull requests must pass [Travis-CI] (and eventually [AppVeyor]) to be accepted.
 In particular, look at results from git whitespace checks (`git diff --check HEAD^`), [ClangFormat], [ClangTidy], [Valgrind], [Codecov], and [SonarCloud] .
 12. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
@@ -54,7 +54,7 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [slides]: http://slides.com/acgetchell/causal-dynamical-triangulations-3
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
-[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
+[clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/clang-tidy.sh
 [AppVeyor]: https://ci.appveyor.com/project/acgetchell/cdt-plusplus
 [Catch]: https://github.com/catchorg/Catch2/blob/master/docs/Readme.md
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
