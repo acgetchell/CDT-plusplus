@@ -5,12 +5,12 @@
 /// Inserts a given number of points into a d-dimensional grid (cube)
 /// \todo Make the vector compatible with the triangulation data structure
 
-/// @file Torus_d.h
+/// @file Torus_d.hpp
 /// @brief Functions on d-dimensional torus
 /// @author Adam Getchell
 
-#ifndef INCLUDE_TORUS_D_H_
-#define INCLUDE_TORUS_D_H_
+#ifndef INCLUDE_TORUS_D_HPP_
+#define INCLUDE_TORUS_D_HPP_
 
 #include <CGAL/Cartesian_d.h>
 #include <CGAL/constructions_d.h>
@@ -34,4 +34,4 @@ auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension)
       dimension, size, nb_points, std::back_inserter(v), Creator_d(dimension));
 }
 
-#endif  // INCLUDE_TORUS_D_H_
+#endif  // INCLUDE_TORUS_D_HPP_

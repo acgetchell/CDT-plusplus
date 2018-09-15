@@ -7,12 +7,12 @@
 
 /// \todo Make the vector compatible with the triangulation data structure
 
-/// @file sphere_d.h
+/// @file sphere_d.hpp
 /// @brief Functions on d-Spheres
 /// @author Adam Getchell
 
-#ifndef INCLUDE_SPHERE_D_H_
-#define INCLUDE_SPHERE_D_H_
+#ifndef INCLUDE_SPHERE_D_HPP_
+#define INCLUDE_SPHERE_D_HPP_
 
 /// CGAL headers
 #include <CGAL/Cartesian_d.h>
@@ -69,4 +69,4 @@ void make_d_sphere(std::int32_t number_of_points, int dimension, double radius,
   make_d_sphere(number_of_points, dimension, radius, false, points);
 }  // make_d_sphere
 
-#endif  // INCLUDE_SPHERE_D_H_
+#endif  // INCLUDE_SPHERE_D_HPP_

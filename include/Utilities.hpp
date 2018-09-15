@@ -4,12 +4,12 @@
 ///
 /// Utility functions
 
-/// @file utilities.h
+/// @file utilities.hpp
 /// @brief Utility functions
 /// @author Adam Getchell
 
-#ifndef INCLUDE_UTILITIES_H_
-#define INCLUDE_UTILITIES_H_
+#ifndef INCLUDE_UTILITIES_HPP_
+#define INCLUDE_UTILITIES_HPP_
 
 /// Toggles detailed random number generator debugging output
 #define DETAILED_DEBUGGING
@@ -422,4 +422,4 @@ bool IsBetween(T arg, T lower, T upper)
   return arg >= lower && arg <= upper;
 }
 
-#endif  // INCLUDE_UTILITIES_H_
+#endif  // INCLUDE_UTILITIES_HPP_

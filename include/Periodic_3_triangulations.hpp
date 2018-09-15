@@ -4,12 +4,12 @@
 ///
 /// Periodic (toroidal) 3D triangulations
 
-/// @file Periodic_3_triangulations.h
+/// @file Periodic_3_triangulations.hpp
 /// @brief Toroidal 3D triangulations
 /// @author Adam Getchell
 
-#ifndef INCLUDE_PERIODIC_3_TRIANGULATIONS_H_
-#define INCLUDE_PERIODIC_3_TRIANGULATIONS_H_
+#ifndef INCLUDE_PERIODIC_3_TRIANGULATIONS_HPP_
+#define INCLUDE_PERIODIC_3_TRIANGULATIONS_HPP_
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
@@ -74,4 +74,4 @@ void make_random_T3_triangulation(T* T3, int simplices, int timeslices) noexcept
     for (size_t i = 0; i < points_per_timeslice; i++)
     { std::cout << " " << v[i] << std::endl; } }
 }
-#endif  // INCLUDE_PERIODIC_3_TRIANGULATIONS_H_
+#endif  // INCLUDE_PERIODIC_3_TRIANGULATIONS_HPP_

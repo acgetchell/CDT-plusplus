@@ -4,12 +4,12 @@
 ///
 /// Base class for all move algorithms, e.g. Metropolis, MoveAlways
 ///
-/// @file MoveAlgorithm.h
+/// @file MoveAlgorithm.hpp
 /// @brief Base class for move algorithms on Delaunay Triangulations
 /// @author Adam Getchell
 
-#ifndef INCLUDE_MOVE_ALGORITHM_H_
-#define INCLUDE_MOVE_ALGORITHM_H_
+#ifndef INCLUDE_MOVE_ALGORITHM_HPP_
+#define INCLUDE_MOVE_ALGORITHM_HPP_
 
 #include <Measurements.hpp>
 #include <MoveManager.hpp>
@@ -236,4 +236,4 @@ class MoveAlgorithm
   }
 };  // MoveAlgorithm
 
-#endif  // INCLUDE_MOVE_ALGORITHM_H_
+#endif  // INCLUDE_MOVE_ALGORITHM_HPP_

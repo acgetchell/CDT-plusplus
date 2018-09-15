@@ -4,12 +4,12 @@
 ///
 /// Interesting measurements on the simulation
 
-/// @file Measurements.h
+/// @file Measurements.hpp
 /// @brief Measurements of the simulation
 /// @author Adam Getchell
 
-#ifndef INCLUDE_MEASUREMENTS_H_
-#define INCLUDE_MEASUREMENTS_H_
+#ifndef INCLUDE_MEASUREMENTS_HPP_
+#define INCLUDE_MEASUREMENTS_HPP_
 
 /// Toggles detailed per-facet debugging output
 #define DETAILED_DEBUGGING
@@ -97,4 +97,4 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   return manifold;
 }  // VolumePerTimeslice()
 
-#endif  // INCLUDE_MEASUREMENTS_H_
+#endif  // INCLUDE_MEASUREMENTS_HPP_

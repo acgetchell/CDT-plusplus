@@ -13,12 +13,12 @@
 /// the Delaunay triangulation and a std::tuple of geometry information.
 /// \done Move constructor recalculates geometry.
 ///
-/// @file  SimplicialManifold.h
+/// @file  SimplicialManifold.hpp
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
 
-#ifndef INCLUDE_SIMPLICIALMANIFOLD_H_
-#define INCLUDE_SIMPLICIALMANIFOLD_H_
+#ifndef INCLUDE_SIMPLICIALMANIFOLD_HPP_
+#define INCLUDE_SIMPLICIALMANIFOLD_HPP_
 
 #include <S3Triangulation.hpp>
 #include <boost/optional.hpp>
@@ -569,4 +569,4 @@ struct SimplicialManifold
   }
 };
 
-#endif  // INCLUDE_SIMPLICIALMANIFOLD_H_
+#endif  // INCLUDE_SIMPLICIALMANIFOLD_HPP_
