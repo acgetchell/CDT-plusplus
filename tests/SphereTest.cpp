@@ -9,15 +9,15 @@
 /// @brief Tests for spheres
 /// @author Adam Getchell
 
+#include <S3Triangulation.h>
+#include <Sphere_d.h>
 #include <catch2/catch.hpp>
-#include <S3Triangulation.hpp>
-#include <Sphere_d.hpp>
 
 SCENARIO("Construct a foliated 2-sphere", "[sphere]")
 {
   GIVEN("Simplices and timeslices")
   {
-    constexpr auto simplices = static_cast<std::int_fast32_t>(640);
+    constexpr auto simplices  = static_cast<std::int_fast32_t>(640);
     constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
     WHEN("A foliated sphere is constructed.")
     {

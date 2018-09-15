@@ -49,12 +49,12 @@
 /// This class does not own the callable, so it is not in general safe to store
 /// a function_ref.
 
-/// @file  Function_ref.hpp from llvm/ADT/STLExtras.h
+/// @file  Function_ref.h from llvm/ADT/STLExtras.h
 /// @brief Efficient, type-erasing, non-owning function reference
 /// @author https://llvm.org
 
-#ifndef SRC_FUNCTION_REF_HPP_
-#define SRC_FUNCTION_REF_HPP_
+#ifndef SRC_FUNCTION_REF_H_
+#define SRC_FUNCTION_REF_H_
 
 #include <cstdint>
 #include <type_traits>
@@ -92,4 +92,4 @@ class function_ref<Ret(Params...)>
   }
 };
 
-#endif  // SRC_FUNCTION_REF_HPP_
+#endif  // SRC_FUNCTION_REF_H_

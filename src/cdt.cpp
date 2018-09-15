@@ -17,16 +17,19 @@
 #include <CGAL/Real_timer.h>
 
 // C++ headers
+#include <gsl/gsl>
 #include <vector>
 
 // Docopt
 #include <docopt.h>
 
 // CDT headers
-#include <Metropolis.hpp>
+#include <Metropolis.h>
 #include <Simulation.hpp>
 
 using Timer = CGAL::Real_timer;
+
+using namespace std;
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -68,7 +71,7 @@ Options:
 int main(int argc, char* const argv[])
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
-  std::ios_base::sync_with_stdio(false);
+  ios_base::sync_with_stdio(false);
   try
   {
     // Start running time
@@ -76,8 +79,9 @@ int main(int argc, char* const argv[])
     t.start();
 
     // docopt option parser
-    std::map<std::string, docopt::value> args =
-        docopt::docopt(USAGE, {argv + 1, argv + argc},
+    gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
+    map<string, docopt::value> args =
+        docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                        true,          // print help message automatically
                        "CDT 0.1.8");  // Version
 
@@ -87,44 +91,40 @@ int main(int argc, char* const argv[])
     // }
 
     // Parse docopt::values in args map
-    auto simplices  = std::stoi(args["-n"].asString());
-    auto timeslices = std::stoi(args["-t"].asString());
-    auto dimensions = std::stoi(args["-d"].asString());
-    auto alpha      = std::stold(args["--alpha"].asString());
-    auto k          = std::stold(args["-k"].asString());
-    auto lambda     = std::stold(args["--lambda"].asString());
-    auto passes     = std::stoi(args["--passes"].asString());
-    auto checkpoint = std::stoi(args["--checkpoint"].asString());
+    auto simplices  = stoi(args["-n"].asString());
+    auto timeslices = stoi(args["-t"].asString());
+    auto dimensions = stoi(args["-d"].asString());
+    auto alpha      = stold(args["--alpha"].asString());
+    auto k          = stold(args["-k"].asString());
+    auto lambda     = stold(args["--lambda"].asString());
+    auto passes     = stoi(args["--passes"].asString());
+    auto checkpoint = stoi(args["--checkpoint"].asString());
 
     // Topology of simulation
     topology_type topology;
-    if (args["--spherical"].asBool()) {
-      topology = topology_type::SPHERICAL;
-    }
+    if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
     else
     {
       topology = topology_type::TOROIDAL;
     }
 
     // Display job parameters
-    std::cout << "Topology is "
-              << (topology == topology_type::TOROIDAL ? " toroidal "
-                                                      : "spherical ")
-              << "\n";
-    std::cout << "Number of dimensions = " << dimensions << "\n";
-    std::cout << "Number of simplices = " << simplices << "\n";
-    std::cout << "Number of timeslices = " << timeslices << "\n";
-    std::cout << "Alpha = " << alpha << "\n";
-    std::cout << "K = " << k << "\n";
-    std::cout << "Lambda = " << lambda << "\n";
-    std::cout << "Number of passes = " << passes << "\n";
-    std::cout << "Checkpoint every n passes = " << checkpoint << "\n";
-    std::cout << "User = " << getEnvVar("USER") << "\n";
-    std::cout << "Hostname = " << hostname() << "\n";
+    cout << "Topology is " << topology << "\n";
+    cout << "Number of dimensions = " << dimensions << "\n";
+    cout << "Number of simplices = " << simplices << "\n";
+    cout << "Number of timeslices = " << timeslices << "\n";
+    cout << "Alpha = " << alpha << "\n";
+    cout << "K = " << k << "\n";
+    cout << "Lambda = " << lambda << "\n";
+    cout << "Number of passes = " << passes << "\n";
+    cout << "Checkpoint every n passes = " << checkpoint << "\n";
+    cout << "User = " << getEnvVar("USER") << "\n";
+    cout << "Hostname = " << hostname() << "\n";
 
-    if (simplices < 2 || timeslices < 2) {
+    if (simplices < 2 || timeslices < 2)
+    {
       t.stop();
-      throw std::invalid_argument(
+      throw invalid_argument(
           "Simplices and timeslices should be greater or equal to 2.");
     }
 
@@ -148,15 +148,17 @@ int main(int argc, char* const argv[])
 
     // Ensure Triangle inequalities hold
     // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && std::abs(alpha) < 0.5) {
+    if (dimensions == 3 && abs(alpha) < 0.5)
+    {
       t.stop();  // End running time counter
-      throw std::domain_error("Alpha in 3D should be greater than 1/2.");
+      throw domain_error("Alpha in 3D should be greater than 1/2.");
     }
 
     switch (topology)
     {
       case topology_type::SPHERICAL:
-        if (dimensions == 3) {
+        if (dimensions == 3)
+        {
           SimplicialManifold populated_universe(simplices, timeslices);
           // SimplicialManifold swapperator for no-throw
           swap(universe, populated_universe);
@@ -164,29 +166,29 @@ int main(int argc, char* const argv[])
         else
         {
           t.stop();  // End running time counter
-          throw std::invalid_argument("Currently, dimensions cannot be >3.");
+          throw invalid_argument("Currently, dimensions cannot be >3.");
         }
         break;
       case topology_type::TOROIDAL:
         t.stop();  // End running time counter
-        throw std::invalid_argument(
-            "Toroidal triangulations not yet supported.");  // NOLINT
+        throw invalid_argument("Toroidal triangulations not yet supported.");
     }
 
-    if (!fix_timeslices(universe.triangulation)) {
+    if (!fix_timeslices(universe.triangulation))
+    {
       t.stop();  // End running time counter
-      throw std::logic_error("Delaunay triangulation not correctly foliated.");
+      throw logic_error("Delaunay triangulation not correctly foliated.");
     }
 
-    std::cout << "Universe has been initialized ...\n";
-    std::cout << "Now performing " << passes << " passes of ergodic moves.\n";
+    cout << "Universe has been initialized ...\n";
+    cout << "Now performing " << passes << " passes of ergodic moves.\n";
 
     // The main work of the program
-    universe = my_simulation.start(std::move(universe));
+    universe = my_simulation.start(move(universe));
 
     // Output results
     t.stop();  // End running time counter
-    std::cout << "Final Delaunay triangulation has ";
+    cout << "Final Delaunay triangulation has ";
     print_results(universe, t);
 
     // Write results to file
@@ -198,27 +200,27 @@ int main(int argc, char* const argv[])
 
     return 0;
   }
-  catch (std::domain_error& DomainError)
+  catch (domain_error& DomainError)
   {
-    std::cerr << DomainError.what() << "\n";
-    std::cerr << "Triangle inequalities violated ... Exiting.\n";
+    cerr << DomainError.what() << "\n";
+    cerr << "Triangle inequalities violated ... Exiting.\n";
     return 1;
   }
-  catch (std::invalid_argument& InvalidArgument)
+  catch (invalid_argument& InvalidArgument)
   {
-    std::cerr << InvalidArgument.what() << "\n";
-    std::cerr << "Invalid parameter ... Exiting.\n";
+    cerr << InvalidArgument.what() << "\n";
+    cerr << "Invalid parameter ... Exiting.\n";
     return 1;
   }
-  catch (std::logic_error& LogicError)
+  catch (logic_error& LogicError)
   {
-    std::cerr << LogicError.what() << "\n";
-    std::cerr << "Simulation startup failed ... Exiting.\n";
+    cerr << LogicError.what() << "\n";
+    cerr << "Simulation startup failed ... Exiting.\n";
     return 1;
   }
   catch (...)
   {
-    std::cerr << "Something went wrong ... Exiting.\n";
+    cerr << "Something went wrong ... Exiting.\n";
     return 1;
   }
 }

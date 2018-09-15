@@ -30,16 +30,6 @@ conan_cmake_run(CONANFILE conanfile.py  # or relative build/conanfile.txt
 include(CTest)
 include(CMakeDependentOption)
 
-#Coverage
-if (CODECOV)
-  set(CMAKE_BUILD_TYPE Debug)
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -g")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -O0")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -fprofile-arcs")
-  set(CMAKE_CXX_FLAGS  "${CMAKE_CXX_FLAGS} -ftest-coverage")
-  set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} --coverage")
-endif ()
-
 #Valgrind
 if (VALGRIND)
   set(CMAKE_BUILD_TYPE Debug)
@@ -59,8 +49,6 @@ endif()
 
 #Turn on / off Catch Tests
 option(TESTS ON)
-#Turn on / off TBB
-set(TBB_ON TRUE)
 #Set mimumum Boost
 #set(BOOST_MIN_VERSION "1.64.0")
 #Compile commands for ClangTidy et. al
@@ -71,7 +59,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
 #Compiler flags
-if (CMAKE_COMPILER_IS_GNUCXX)
+if ("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS  "-frounding-math")
 endif()
 
@@ -108,23 +96,23 @@ endif()
 
 include_directories (BEFORE ${PROJECT_SOURCE_DIR}/include)
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
-target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt CONAN_PKG::date)
+target_link_libraries(cdt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::eigen CONAN_PKG::TBB CONAN_PKG::libcurl CONAN_PKG::docopt CONAN_PKG::date CONAN_PKG::gsl_microsoft)
 #Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)
 
 add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
-target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::date)
+target_link_libraries(initialize PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::date CONAN_PKG::gsl_microsoft)
 target_compile_features(initialize PRIVATE cxx_std_17)
 
 if (UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt)
+  target_link_libraries(cdt-gv PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::docopt CONAN_PKG::gsl_microsoft)
   #Activate C++17
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 
 
   add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
-  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl CONAN_PKG::date)
+  target_link_libraries(cdt-opt PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost CONAN_PKG::libcurl CONAN_PKG::date CONAN_PKG::gsl_microsoft)
   #Activate C++17
   target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
@@ -153,34 +141,34 @@ set_tests_properties (CDT-Usage
         PASS_REGULAR_EXPRESSION "Usage:./cdt")
 
 #Dimensions != 4
-add_test (NAME CDT-3Donly COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p10 -c1)
+add_test (NAME CDT-3Donly COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -d4 -p1 -c1)
 set_tests_properties (CDT-3Donly
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Invalid parameter ... Exiting.")
 
 #Simplices and timeslices >= 2
-add_test(NAME CDT-Simplices COMMAND $<TARGET_FILE:cdt> --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test(NAME CDT-Simplices COMMAND $<TARGET_FILE:cdt> --s -n1 -t2 -a0.6 -k1.1 -l0.1 -d3 -p1 -c1)
 set_tests_properties(CDT-Simplices
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
-add_test(NAME CDT-Timeslices COMMAND $<TARGET_FILE:cdt> --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test(NAME CDT-Timeslices COMMAND $<TARGET_FILE:cdt> --s -n2 -t1 -a0.6 -k1.1 -l0.1 -d3 -p1 -c1)
 set_tests_properties(CDT-Timeslices
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Simplices and timeslices should be greater or equal to 2.")
 
 # 3D Triangle inequality
-add_test (NAME CDT-3Dtriangle COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p10 -c1)
+add_test (NAME CDT-3Dtriangle COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.3 -k1.1 -l0.1 -d3 -p1 -c1)
 set_tests_properties (CDT-3Dtriangle
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Triangle inequalities violated ... Exiting.")
 
 #Minimum run
-add_test(NAME CDT-MinimalS3 COMMAND $<TARGET_FILE:cdt> --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p10 -c1)
+add_test(NAME CDT-MinimalS3 COMMAND $<TARGET_FILE:cdt> --s -n2 -t2 -a0.6 -k1.1 -l0.1 -p1 -c1)
 set_tests_properties(CDT-MinimalS3
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")
 #Run an S3
-add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p10 -c1)
+add_test(NAME CDT-S3Runs COMMAND $<TARGET_FILE:cdt> --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p1 -c1)
 set_tests_properties(CDT-S3Runs
         PROPERTIES
         PASS_REGULAR_EXPRESSION "Writing to file S3")

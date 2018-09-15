@@ -1,7 +1,10 @@
-### Expected behavior
+#### Description of Problem, Request, or Question
 
 
-### Actual behavior
+#### Details
+
+* Operating System: **Linux Ubuntu 16.04**
+* Compiler + version: **clang-6**
 
 
-### Steps to reproduce the behavior
+#### Steps to reproduce (if applicable)

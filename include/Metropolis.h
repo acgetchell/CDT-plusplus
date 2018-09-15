@@ -15,7 +15,7 @@
 /// @todo Change A1 to count successful moves, total moves gets dragged down by
 /// (6,2) attempts
 
-/// @file Metropolis.hpp
+/// @file Metropolis.h
 /// @brief Perform Metropolis-Hastings algorithm on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug There's a segfault in CalculateA1 on MacOS/gcc.
@@ -23,12 +23,12 @@
 /// @bug The number of attempted (6,2) moves makes A1 really low preventing
 /// other moves
 
-#ifndef SRC_METROPOLIS_HPP_
-#define SRC_METROPOLIS_HPP_
+#ifndef SRC_METROPOLIS_H_
+#define SRC_METROPOLIS_H_
 
 // CDT headers
-#include <MoveAlgorithm.hpp>
-#include <S3Action.hpp>
+#include <MoveAlgorithm.h>
+#include <S3Action.h>
 
 // C++ headers
 #include <algorithm>
@@ -371,4 +371,4 @@ class Metropolis : public MoveAlgorithm
   }
 };  // Metropolis
 
-#endif  // SRC_METROPOLIS_HPP_
+#endif  // SRC_METROPOLIS_H_

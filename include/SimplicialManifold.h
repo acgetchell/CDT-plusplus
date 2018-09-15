@@ -13,14 +13,14 @@
 /// the Delaunay triangulation and a std::tuple of geometry information.
 /// \done Move constructor recalculates geometry.
 ///
-/// @file  SimplicialManifold.hpp
+/// @file  SimplicialManifold.h
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
 
-#ifndef SRC_SIMPLICIALMANIFOLD_HPP_
-#define SRC_SIMPLICIALMANIFOLD_HPP_
+#ifndef SRC_SIMPLICIALMANIFOLD_H_
+#define SRC_SIMPLICIALMANIFOLD_H_
 
-#include <S3Triangulation.hpp>
+#include <S3Triangulation.h>
 #include <boost/optional.hpp>
 #include <map>
 #include <memory>
@@ -444,7 +444,7 @@ struct SimplicialManifold
   /// is fine.
   /// @param manifold A std::unique_ptr<Delaunay>
   /// @return A SimplicialManifold{}
-  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)  // NOLINT
+  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)
       : triangulation{std::move(manifold)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
@@ -485,7 +485,7 @@ struct SimplicialManifold
   /// @brief Move constructor
   /// @param other The SimplicialManifold to be move-constructed from
   /// @return A moved-to SimplicialManifold{}
-  SimplicialManifold(SimplicialManifold&& other)  // NOLINT
+  SimplicialManifold(SimplicialManifold&& other)
       : triangulation{std::move(other.triangulation)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
@@ -569,4 +569,4 @@ struct SimplicialManifold
   }
 };
 
-#endif  // SRC_SIMPLICIALMANIFOLD_HPP_
+#endif  // SRC_SIMPLICIALMANIFOLD_H_

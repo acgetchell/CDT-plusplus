@@ -4,12 +4,12 @@
 ///
 /// Utility functions
 
-/// @file utilities.hpp
+/// @file utilities.h
 /// @brief Utility functions
 /// @author Adam Getchell
 
-#ifndef SRC_UTILITIES_HPP_
-#define SRC_UTILITIES_HPP_
+#ifndef SRC_UTILITIES_H_
+#define SRC_UTILITIES_H_
 
 /// Toggles detailed random number generator debugging output
 #define DETAILED_DEBUGGING
@@ -30,6 +30,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <functional>
+#include <gsl/gsl>
 #include <iostream>
 #include <mutex>
 #include <random>
@@ -47,6 +48,23 @@ enum class topology_type
   TOROIDAL,
   SPHERICAL
 };
+
+/// @brief Convert topology_type to string output
+/// @param os output stream
+/// @param topology
+/// @return output stream
+inline std::ostream& operator<<(std::ostream& os, const topology_type& topology)
+{
+  switch (topology)
+  {
+    case topology_type::SPHERICAL:
+      os << "spherical";
+      return os;
+    case topology_type::TOROIDAL:
+      os << "toroidal";
+      return os;
+  }
+}
 
 /// @brief Return an environment variable
 ///
@@ -404,4 +422,4 @@ bool IsBetween(T arg, T lower, T upper)
   return arg >= lower && arg <= upper;
 }
 
-#endif  // SRC_UTILITIES_HPP_
+#endif  // SRC_UTILITIES_H_

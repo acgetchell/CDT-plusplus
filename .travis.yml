@@ -14,8 +14,6 @@ addons:
 #      - llvm-toolchain-trusty-6.0
 
 env:
-#  global:
-#   - BOOST_VERSION=1.67.0
   matrix:
     - TESTS=true
     - TESTS=false
@@ -72,11 +70,6 @@ install:
   - brew install ninja
   - brew install lcov
   - brew install conan
-  - |
-    if [[ "VALGRIND" == "true" ]]; then
-      brew install valgrind
-      echo Valgrind installed
-    fi
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -151,10 +144,7 @@ matrix:
           packages:
             - clang-6.0
             - clang-tidy-6.0
-      # Skip unnecessary steps since we aren't compiling
-      before_install:
-      install:
-      before_script:
+            - linuxbrew-wrapper
       # Overwrite script on matrix jobs
       script:
         - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py > output.txt
@@ -173,13 +163,26 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=false VALGRIND=true
+      addons:
+        apt:
+          packages:
+            - g++-8
+            - valgrind
+            - linuxbrew-wrapper
+          sources:
+            - sourceline: "ppa:ubuntu-toolchain-r/test"
+      after_success:
+        - travis_wait 30 ctest -T memcheck
     # Codecov
     - os: osx
       compiler: clang
       env: TESTS=true CODECOV=true
       script:
+        - conan profile new default --detect
+        - conan install .. -pr default --build=missing
+        - conan build ..
         - cd ${TRAVIS_BUILD_DIR}
-        - travis_wait 60 ctest -S lcov.cmake
+        - ctest -S lcov.cmake
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/build
         - pwd
@@ -206,7 +209,6 @@ matrix:
         ccache: true
         directories:
           - '$HOME/.sonar/cache'
-          - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
       after_success:
   allow_failures:
     - os: linux
@@ -218,7 +220,9 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-
+    - os: osx
+      compiler: clang
+      env: TESTS=true CODECOV=true
 script:
   - conan profile new default --detect
   # Use Ninja
@@ -234,11 +238,8 @@ script:
     fi
   - conan build ..
 after_success:
-  # Integration tests excluding Catch
-#  - ctest -E CDT-unit-tests
-  - if [[ ${VALGRIND} == "true" ]]; then travis_wait 60 ctest -T memcheck; fi
   # Catch tests showing only failures
-  - if [[ ${TESTS} == "true" ]]; then travis_wait 30 ctest; fi
+  - if [[ ${TESTS} == "true" ]]; then travis_wait 60 ctest; fi
 
 notifications:
   webhooks:

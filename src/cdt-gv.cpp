@@ -28,6 +28,7 @@
 
 // C++ headers
 #include <fstream>
+#include <gsl/gsl>
 
 // Docopt
 #include <docopt.h>
@@ -36,6 +37,8 @@ using K        = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Delaunay = CGAL::Delaunay_triangulation_3<K>;
 using Gt3      = CGAL::Projection_traits_xy_3<K>;
 using Point3   = Gt3::Point;
+
+using namespace std;
 
 /// Help message parsed by docopt into options
 static const char USAGE[]{
@@ -70,10 +73,11 @@ Options:
 int main(int argc, char* const argv[])
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
-  std::ios_base::sync_with_stdio(false);
+  ios_base::sync_with_stdio(false);
   // docopt option parser
-  std::map<std::string, docopt::value> args =
-      docopt::docopt(USAGE, {argv + 1, argv + argc},
+  gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
+  map<string, docopt::value> args =
+      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                      true,           // print help message automatically
                      "cdt-gv 1.0");  // Version
 
@@ -86,26 +90,26 @@ int main(int argc, char* const argv[])
   auto file = args["--file"].asString();
 
   // Test
-  std::cout << "File to be loaded is " << file << "\n";
+  cout << "File to be loaded is " << file << "\n";
 
   CGAL::Geomview_stream gv(CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));
   gv.set_line_width(4);
   gv.set_bg_color(CGAL::Color(0, 200, 200));
 
-  Delaunay      D;
-  std::ifstream iFile(file, std::ios::in);
-  Point3        p;
+  Delaunay D;
+  ifstream iFile(file, ios::in);
+  Point3   p;
 
   // Insert points from file into Delaunay triangulation
   while (iFile >> p) { D.insert(p); }
 
-  std::cout << "Drawing 3D Delaunay triangulation in wired mode.\n";
+  cout << "Drawing 3D Delaunay triangulation in wired mode.\n";
   gv.set_wired(true);
   gv << D;
 
-  std::cout << "Enter a key to finish.\n";
+  cout << "Enter a key to finish.\n";
   char ch;
-  std::cin >> ch;
+  cin >> ch;
 
   return 0;
 }

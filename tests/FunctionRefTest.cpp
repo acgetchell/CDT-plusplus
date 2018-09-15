@@ -9,16 +9,15 @@
 /// @brief Tests on vertices
 /// @author Adam Getchell
 
+#include <Function_ref.h>
+#include <Measurements.h>
+#include <S3ErgodicMoves.h>
 #include <catch2/catch.hpp>
-#include <Function_ref.hpp>
-#include <Measurements.hpp>
-#include <S3ErgodicMoves.hpp>
 
-SCENARIO("Lambda operations", "[lambda][!mayfail]")
+SCENARIO("Simple Lambda operations", "[lambda]")
 {
-  auto increment_lambda = [](int a) { return ++a; };
+  constexpr auto increment_lambda = [](int a) { return ++a; };
   GIVEN("A simple lambda.")
-
   {
     WHEN("Lambda is called with 0.")
     {
@@ -35,6 +34,9 @@ SCENARIO("Lambda operations", "[lambda][!mayfail]")
       THEN("We should get 6.") { REQUIRE(increment_lambda(5) == 6); }
     }
   }
+}
+SCENARIO("Complex Lambda operations", "[lambda][!mayfail][.]")
+{
   GIVEN("A lambda storing a move.")
   {
     constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);

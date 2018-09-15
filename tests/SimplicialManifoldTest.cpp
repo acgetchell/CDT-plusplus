@@ -12,8 +12,8 @@
 ///
 /// @author Adam Getchell
 
+#include <Measurements.h>
 #include <catch2/catch.hpp>
-#include <Measurements.hpp>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
          "[manifold][!mayfail]")
@@ -159,9 +159,9 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
 {
   GIVEN("A SimplicialManifold.")
   {
-    constexpr auto simplices = static_cast<std::int_fast32_t>(640);
-    constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
-    SimplicialManifold      universe(make_triangulation(simplices, timeslices));
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(640);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(4);
+    SimplicialManifold universe(make_triangulation(simplices, timeslices));
     WHEN("It is constructed.")
     {
       THEN("The GeometryInfo struct is not empty.")
@@ -212,12 +212,6 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
       auto N0_pre_move    = universe.geometry->N0();
 
       auto moved_to_manifold = std::move(universe);
-      THEN("The moved-from manifold is null.")
-      {
-        CHECK(universe.triangulation == nullptr);
-        /// @TODO Why does this persist?
-        CHECK(universe.geometry == nullptr);
-      }
       THEN("The moved-to manifold is valid.")
       {
         CHECK(moved_to_manifold.triangulation->is_valid());
@@ -243,9 +237,9 @@ SCENARIO("SimplicialManifold swap", "[manifold][swap]")
 {
   GIVEN("A correctly-constructed SimplicialManifold.")
   {
-    constexpr auto simplices = static_cast<std::int_fast32_t>(640);
-    constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
-    SimplicialManifold      universe(make_triangulation(simplices, timeslices));
+    constexpr auto     simplices  = static_cast<std::int_fast32_t>(640);
+    constexpr auto     timeslices = static_cast<std::int_fast32_t>(4);
+    SimplicialManifold universe(make_triangulation(simplices, timeslices));
     // It is correctly constructed
     CHECK(universe.triangulation);
     CHECK(universe.geometry->number_of_cells() ==

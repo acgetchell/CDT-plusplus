@@ -14,14 +14,14 @@
 /// \done Generic \f$\alpha\f$ S3 bulk action
 /// \done Function documentation
 
-/// @file S3Action.hpp
+/// @file S3Action.h
 /// @brief Calculate S3 bulk actions on 3D Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
 /// scan-build</a>: No bugs found.
 
-#ifndef SRC_S3ACTION_HPP_
-#define SRC_S3ACTION_HPP_
+#ifndef SRC_S3ACTION_H_
+#define SRC_S3ACTION_H_
 
 // #include <CGAL/MP_Float.h>
 #include <CGAL/Gmpzf.h>
@@ -354,4 +354,4 @@ inline auto S3_bulk_action(const std::int32_t N1_TL,
   return result;
 }  // Gmpzf S3_bulk_action()
 
-#endif  // SRC_S3ACTION_HPP_
+#endif  // SRC_S3ACTION_H_
