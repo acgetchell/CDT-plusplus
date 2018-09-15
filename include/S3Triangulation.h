@@ -34,8 +34,8 @@
 /// @brief Functions on 3D Spherical Delaunay Triangulations
 /// @author Adam Getchell
 
-#ifndef SRC_S3TRIANGULATION_H_
-#define SRC_S3TRIANGULATION_H_
+#ifndef INCLUDE_S3TRIANGULATION_H_
+#define INCLUDE_S3TRIANGULATION_H_
 
 /// Toggles detailed per-simplex debugging output
 #define DETAILED_DEBUGGING
@@ -318,4 +318,4 @@ auto inline make_triangulation(const std::int32_t simplices,
   return universe_ptr;
 }  // make_triangulation()
 
-#endif  // SRC_S3TRIANGULATION_H_
+#endif  // INCLUDE_S3TRIANGULATION_H_

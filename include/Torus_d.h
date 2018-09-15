@@ -9,8 +9,8 @@
 /// @brief Functions on d-dimensional torus
 /// @author Adam Getchell
 
-#ifndef SRC_TORUS_D_H_
-#define SRC_TORUS_D_H_
+#ifndef INCLUDE_TORUS_D_H_
+#define INCLUDE_TORUS_D_H_
 
 #include <CGAL/Cartesian_d.h>
 #include <CGAL/constructions_d.h>
@@ -34,4 +34,4 @@ auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension)
       dimension, size, nb_points, std::back_inserter(v), Creator_d(dimension));
 }
 
-#endif  // SRC_TORUS_D_H_
+#endif  // INCLUDE_TORUS_D_H_

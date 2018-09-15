@@ -71,6 +71,14 @@ Otherwise, you can clone the repo, which will put you on the [development] branc
 pip install conan
 ~~~
 
+Afterwards, you'll want to let [Conan] create a profile (named `cdt` here) automatically, using:
+
+~~~
+conan profile new cdt --detect
+~~~
+
+This finds your compiler settings, and allows the [build.sh] script to run correctly.
+
 Using [CMake] and [Ninja], Conan handles most of the dependencies, except [CGAL] and [TBB]. The easiest way to
 install these so that Conan can find them is with [Homebrew] or [Linuxbrew]. Once these are installed:
 
@@ -84,9 +92,9 @@ brew install cgal --with-eigen --with-qt
 ~~~
 
 This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-6].
-On Ubuntu, you may need an updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
+On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
-Windows is almost there with [clang-cl], there is a [bug] in [TBB].
+Windows is almost there with [clang-cl], there is a [bug] with [TBB].
 
 ### Installing
 
@@ -226,9 +234,9 @@ but slower static analysis integrated with [CMake] and [Ninja].
 
 * Whitespace formatting
 
-* [Valgrind]; be sure to look at the results to ensure you're not leaking memory.
+* [Valgrind]; be sure to look at the results to ensure you're not leaking memory
 
-* [SonarCloud], also worth a look.
+* [SonarCloud], also worth a look
 
 ## Parameter Optimization
 
@@ -267,7 +275,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [Mathjax]: https://www.mathjax.org
 [GraphViz]: https://www.graphviz.org
 [Eigen]: http://eigen.tuxfamily.org/index.php?title=Main_Page
-[build.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/build.sh
+[build.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/build.sh
 [CMakeLists.txt]: https://github.com/acgetchell/CDT-plusplus/blob/master/CMakeLists.txt
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org

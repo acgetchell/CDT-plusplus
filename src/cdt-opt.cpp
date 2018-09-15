@@ -20,7 +20,7 @@
 
 #include <Measurements.h>
 #include <Metropolis.h>
-#include <Simulation.hpp>
+#include <Simulation.h>
 
 using namespace std;
 

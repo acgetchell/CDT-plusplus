@@ -23,8 +23,8 @@
 /// @bug The number of attempted (6,2) moves makes A1 really low preventing
 /// other moves
 
-#ifndef SRC_METROPOLIS_H_
-#define SRC_METROPOLIS_H_
+#ifndef INCLUDE_METROPOLIS_H_
+#define INCLUDE_METROPOLIS_H_
 
 // CDT headers
 #include <MoveAlgorithm.h>
@@ -371,4 +371,4 @@ class Metropolis : public MoveAlgorithm
   }
 };  // Metropolis
 
-#endif  // SRC_METROPOLIS_H_
+#endif  // INCLUDE_METROPOLIS_H_

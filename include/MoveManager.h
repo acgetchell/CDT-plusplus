@@ -12,8 +12,8 @@
 /// Pachner moves
 /// @author Adam Getchell
 
-#ifndef SRC_MOVEMANAGER_H_
-#define SRC_MOVEMANAGER_H_
+#ifndef INCLUDE_MOVEMANAGER_H_
+#define INCLUDE_MOVEMANAGER_H_
 
 #include <Function_ref.h>
 #include <SimplicialManifold.h>
@@ -190,4 +190,4 @@ class MoveManager
   }
 };
 
-#endif  // SRC_MOVEMANAGER_H_
+#endif  // INCLUDE_MOVEMANAGER_H_

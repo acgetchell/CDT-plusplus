@@ -10,8 +10,8 @@
 /// @author Adam Getchell
 /// @bug The call operator segfaults in Release mode
 
-#ifndef SRC_MOVE_ALWAYS_H_
-#define SRC_MOVE_ALWAYS_H_
+#ifndef INCLUDE_MOVE_ALWAYS_H_
+#define INCLUDE_MOVE_ALWAYS_H_
 
 #include <Measurements.h>
 #include <MoveAlgorithm.h>
@@ -87,4 +87,4 @@ class MoveAlways : public MoveAlgorithm
   }
 };  // MoveAlways
 
-#endif  // SRC_MOVE_ALWAYS_H_
+#endif  // INCLUDE_MOVE_ALWAYS_H_

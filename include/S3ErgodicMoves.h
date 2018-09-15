@@ -12,8 +12,8 @@
 /// @brief Pachner moves on 3D Delaunay Triangulations
 /// @author Adam Getchell, Guarav Nagar
 
-#ifndef SRC_S3ERGODICMOVES_H_
-#define SRC_S3ERGODICMOVES_H_
+#ifndef INCLUDE_S3ERGODICMOVES_H_
+#define INCLUDE_S3ERGODICMOVES_H_
 
 // CDT headers
 #include <S3Triangulation.h>
@@ -540,4 +540,4 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   return std::forward<T1>(universe);
 }  // make_44_move()
 
-#endif  // SRC_S3ERGODICMOVES_H_
+#endif  // INCLUDE_S3ERGODICMOVES_H_

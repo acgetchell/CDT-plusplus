@@ -8,8 +8,8 @@
 /// @brief Measurements of the simulation
 /// @author Adam Getchell
 
-#ifndef SRC_MEASUREMENTS_H_
-#define SRC_MEASUREMENTS_H_
+#ifndef INCLUDE_MEASUREMENTS_H_
+#define INCLUDE_MEASUREMENTS_H_
 
 /// Toggles detailed per-facet debugging output
 #define DETAILED_DEBUGGING
@@ -97,4 +97,4 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   return manifold;
 }  // VolumePerTimeslice()
 
-#endif  // SRC_MEASUREMENTS_H_
+#endif  // INCLUDE_MEASUREMENTS_H_

@@ -25,7 +25,7 @@
 
 // CDT headers
 #include <Metropolis.h>
-#include <Simulation.hpp>
+#include <Simulation.h>
 
 using Timer = CGAL::Real_timer;
 

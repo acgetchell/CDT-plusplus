@@ -17,8 +17,8 @@
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
 
-#ifndef SRC_SIMPLICIALMANIFOLD_H_
-#define SRC_SIMPLICIALMANIFOLD_H_
+#ifndef INCLUDE_SIMPLICIALMANIFOLD_H_
+#define INCLUDE_SIMPLICIALMANIFOLD_H_
 
 #include <S3Triangulation.h>
 #include <boost/optional.hpp>
@@ -569,4 +569,4 @@ struct SimplicialManifold
   }
 };
 
-#endif  // SRC_SIMPLICIALMANIFOLD_H_
+#endif  // INCLUDE_SIMPLICIALMANIFOLD_H_

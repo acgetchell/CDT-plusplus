@@ -8,8 +8,8 @@
 /// @brief Toroidal simplicial complexes
 /// @author Adam Getchell
 
-#ifndef SRC_PERIODIC_3_COMPLEX_H_
-#define SRC_PERIODIC_3_COMPLEX_H_
+#ifndef INCLUDE_PERIODIC_3_COMPLEX_H_
+#define INCLUDE_PERIODIC_3_COMPLEX_H_
 
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
@@ -53,4 +53,4 @@ void make_random_T3_simplicial_complex(PDT* T3,
   assert(T3->dimension() == 3);
   assert(T3->is_valid());
 }
-#endif  // SRC_PERIODIC_3_COMPLEX_H_
+#endif  // INCLUDE_PERIODIC_3_COMPLEX_H_

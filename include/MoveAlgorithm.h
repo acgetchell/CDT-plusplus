@@ -8,8 +8,8 @@
 /// @brief Base class for move algorithms on Delaunay Triangulations
 /// @author Adam Getchell
 
-#ifndef SRC_MOVE_ALGORITHM_H_
-#define SRC_MOVE_ALGORITHM_H_
+#ifndef INCLUDE_MOVE_ALGORITHM_H_
+#define INCLUDE_MOVE_ALGORITHM_H_
 
 #include <Measurements.h>
 #include <MoveManager.h>
@@ -236,4 +236,4 @@ class MoveAlgorithm
   }
 };  // MoveAlgorithm
 
-#endif  // SRC_MOVE_ALGORITHM_H_
+#endif  // INCLUDE_MOVE_ALGORITHM_H_
