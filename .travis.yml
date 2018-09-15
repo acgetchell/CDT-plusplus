@@ -174,14 +174,15 @@ matrix:
       after_success:
         - travis_wait 30 ctest -T memcheck
     # Codecov
-    - os: osx
-      compiler: clang
+    - os: linux
+      compiler: gcc
       env: TESTS=true CODECOV=true
       script:
         - conan profile new default --detect
         - conan install .. -pr default --build=missing
         - conan build ..
         - cd ${TRAVIS_BUILD_DIR}
+        - pwd
         - ctest -S lcov.cmake
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/build
@@ -220,8 +221,8 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-    - os: osx
-      compiler: clang
+    - os: linux
+      compiler: gcc
       env: TESTS=true CODECOV=true
     - os: linux
       compiler: clang

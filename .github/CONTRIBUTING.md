@@ -28,7 +28,7 @@ rest of the program will use your functions and/or classes.
 [Test-Driven Development] (and [BDD]) has saved me quite a lot from various mistakes.
 
 6. Project source files go into the `src` directory; header files go into `include`.
-This makes integration into tests and the main program easy and modular, and follows convention.
+This makes integration into various tests and the main program easy and modular, and follows convention.
 
 7. Don't forget documentation! It's helpful if you state explicitly what your functions and classes do.
 I use [Doxygen] to automatically build documentation, so using `/// @brief` and `/// @param` is helpful and easy.
