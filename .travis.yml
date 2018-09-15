@@ -173,15 +173,16 @@ matrix:
             - linuxbrew-wrapper
           sources:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
-      script:
-        - cmake -DCMAKE_BUILD_TYPE=Debug -DVALGRIND=ON -DTESTS:BOOL=OFF -G Ninja ..
-        - cmake --build .
+      after_success:
         - travis_wait 30 ctest -T memcheck
     # Codecov
     - os: osx
       compiler: clang
       env: TESTS=true CODECOV=true
       script:
+        - conan profile new default --detect
+        - conan install .. -pr default --build=missing
+        - conan build ..
         - cd ${TRAVIS_BUILD_DIR}
         - ctest -S lcov.cmake
       after_success:

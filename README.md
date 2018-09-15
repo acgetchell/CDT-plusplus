@@ -51,8 +51,9 @@ The goals and targets of this project are:
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and
-testing purposes.
+If you just want to run a stable version of the code, grab a versioned [release].
+
+Otherwise, you can clone the repo, which will put you on the [development] branch.
 
 ### Prerequisites
 
@@ -96,14 +97,14 @@ project without cluttering the source code. Thus, download this source code
 This should result in the main program executable, `cdt` in the `build/bin`
 directory, along with several others.
 
-* `CDT_test` is the [Catch] executable which runs the unit tests.
+* `CDT_test` is the [Catch] executable which runs the unit tests
 * `cdt-gv` converts output files to [Geomview] format for visualization
 * `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
 * `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
 The install script will also run unit and integration tests.
-See [Testing] for details.
+See [Testing](#testing) for details.
 
 ### Usage
 
@@ -179,7 +180,7 @@ Unit tests using [Catch] are run (in the `build/bin` directory) via:
 ./CDT_test
 ~~~
 
-You can also run both [CTest] integration and [Catch] unit tests in the `build` directory via:
+You can also run both [CTest] integration and [Catch] unit tests in the `build` directory with:
 
 ~~~
 ctest
@@ -206,8 +207,7 @@ This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangT
 
 (Or use your favorite linter plugin for your editor/IDE.)
 
-The [cppcheck-build.sh] script runs a quick static analysis using
-[cppcheck].
+The [cppcheck-build.sh] script runs a quick static analysis using [cppcheck].
 
 ~~~
 ./cppcheck-build.sh
@@ -306,3 +306,4 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [Geomview]: http://www.geomview.org/
 [clang-cl]: https://clang.llvm.org/docs/MSVCCompatibility.html
 [bug]: https://github.com/conan-community/community/issues/43
+[development]: https://github.com/acgetchell/CDT-plusplus
