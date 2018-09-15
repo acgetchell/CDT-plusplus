@@ -182,6 +182,7 @@ matrix:
       compiler: clang
       env: TESTS=true CODECOV=true
       script:
+        - cd ${TRAVIS_BUILD_DIR}
         - ctest -S lcov.cmake
       after_success:
         - cd ${TRAVIS_BUILD_DIR}/build
@@ -209,7 +210,6 @@ matrix:
         ccache: true
         directories:
           - '$HOME/.sonar/cache'
-          - ${TRAVIS_BUILD_DIR}/boost-${BOOST_VERSION}
       after_success:
   allow_failures:
     - os: linux

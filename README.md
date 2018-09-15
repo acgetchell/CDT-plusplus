@@ -248,15 +248,15 @@ You can then run experiments and look at results on Comet.ml!
 Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
 
 
-[CDT]: http://arxiv.org/abs/hep-th/0105267
-[CGAL]: http://www.cgal.org
-[CMake]: http://www.cmake.org
-[Clang]: http://clang.llvm.org
-[LLVM]: http://llvm.org
+[CDT]: https://arxiv.org/abs/hep-th/0105267
+[CGAL]: https://www.cgal.org
+[CMake]: https://www.cmake.org
+[Clang]: https://clang.llvm.org
+[gcc]: https://gcc.gnu.org/
 [Catch]: https://github.com/catchorg/Catch2/blob/master/docs/Readme.md
-[guidelines]: http://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
+[guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
 [clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
-[Ctest]: http://cmake.org/Wiki/CMake/Testing_With_CTest
+[CTest]: https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest
 [Travis-CI]: https://travis-ci.com/getting_started
 [literate programming]: http://www.literateprogramming.com
 [Doxygen]: http://www.doxygen.org
@@ -264,15 +264,15 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [release]: https://github.com/acgetchell/CDT-plusplus/releases
 [Ninja]: https://ninja-build.org
 [Docopt]: https://github.com/docopt/docopt.cpp
-[Mathjax]: http://www.mathjax.org
-[GraphViz]: http://www.graphviz.org
+[Mathjax]: https://www.mathjax.org
+[GraphViz]: https://www.graphviz.org
 [Eigen]: http://eigen.tuxfamily.org/index.php?title=Main_Page
 [build.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/build.sh
 [CMakeLists.txt]: https://github.com/acgetchell/CDT-plusplus/blob/master/CMakeLists.txt
-[MPFR]: http://www.mpfr.org
+[MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
 [HDF5]: https://www.hdfgroup.org
-[scan-build]: http://clang-analyzer.llvm.org/scan-build.html
+[scan-build]: https://clang-analyzer.llvm.org/scan-build.html
 [scan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan.sh
 [cppcheck]: http://cppcheck.sourceforge.net
 [cppcheck-build.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh
@@ -281,9 +281,9 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [CDT++]: https://github.com/acgetchell/CDT-plusplus
 [.travis.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml
 [Doxyfile]: https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile
-[Boost]: http://www.boost.org
+[Boost]: https://www.boost.org
 [contrib]: https://github.com/acgetchell/CDT-plusplus/blob/master/CONTRIBUTING.md
-[ClangTidy]: http://releases.llvm.org/5.0.0/tools/clang/tools/extra/docs/clang-tidy/index.html
+[ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
 [Valgrind]: http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun
 [conduct]: https://github.com/acgetchell/CDT-plusplus/blob/master/CODE_OF_CONDUCT.md
 [date]: https://howardhinnant.github.io/date/date.html
@@ -300,7 +300,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [Conan]: https://github.com/conan-io/conan
 [Linuxbrew]: https://linuxbrew.sh/
-[clang-6]: http://releases.llvm.org/6.0.1/tools/clang/docs/ReleaseNotes.html
+[clang-6]: https://releases.llvm.org/6.0.1/tools/clang/docs/ReleaseNotes.html
 [gcc-8]: https://gcc.gnu.org/gcc-8/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
