@@ -14,8 +14,6 @@ addons:
 #      - llvm-toolchain-trusty-6.0
 
 env:
-#  global:
-#   - BOOST_VERSION=1.67.0
   matrix:
     - TESTS=true
     - TESTS=false
@@ -222,7 +220,9 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-
+    - os: osx
+      compiler: clang
+      env: TESTS=true CODECOV=true
 script:
   - conan profile new default --detect
   # Use Ninja
@@ -238,8 +238,6 @@ script:
     fi
   - conan build ..
 after_success:
-  # Integration tests excluding Catch
-#  - ctest -E CDT-unit-tests
   # Catch tests showing only failures
   - if [[ ${TESTS} == "true" ]]; then travis_wait 60 ctest; fi
 
