@@ -9,8 +9,8 @@
 /// @brief Tests for spheres
 /// @author Adam Getchell
 
-#include <S3Triangulation.h>
-#include <Sphere_d.h>
+#include <S3Triangulation.hpp>
+#include <Sphere_d.hpp>
 #include <catch2/catch.hpp>
 
 SCENARIO("Construct a foliated 2-sphere", "[sphere]")

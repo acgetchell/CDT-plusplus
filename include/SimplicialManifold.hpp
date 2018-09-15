@@ -20,7 +20,7 @@
 #ifndef INCLUDE_SIMPLICIALMANIFOLD_H_
 #define INCLUDE_SIMPLICIALMANIFOLD_H_
 
-#include <S3Triangulation.h>
+#include <S3Triangulation.hpp>
 #include <boost/optional.hpp>
 #include <map>
 #include <memory>

@@ -9,7 +9,7 @@
 /// @author Adam Getchell
 
 #include <catch2/catch.hpp>
-#include <Utilities.h>
+#include <Utilities.hpp>
 
 SCENARIO("Randomizing functions", "[random]")
 {

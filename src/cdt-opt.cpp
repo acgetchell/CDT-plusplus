@@ -18,9 +18,9 @@
 
 #include <utility>
 
-#include <Measurements.h>
-#include <Metropolis.h>
-#include <Simulation.h>
+#include <Measurements.hpp>
+#include <Metropolis.hpp>
+#include <Simulation.hpp>
 
 using namespace std;
 

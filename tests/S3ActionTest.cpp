@@ -10,8 +10,8 @@
 /// @author Adam Getchell
 
 #include <catch2/catch.hpp>
-#include <Measurements.h>
-#include <S3Action.h>
+#include <Measurements.hpp>
+#include <S3Action.hpp>
 
 SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
 {

@@ -12,8 +12,8 @@
 ///
 /// @todo Fix MoveAlways test
 
-#include <MoveAlways.h>
-#include <Simulation.h>
+#include <MoveAlways.hpp>
+#include <Simulation.hpp>
 #include <catch2/catch.hpp>
 
 SCENARIO("Construct a simulation that always makes a move",

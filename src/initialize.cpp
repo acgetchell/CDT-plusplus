@@ -13,8 +13,8 @@
 
 #include <docopt.h>
 
-#include <Measurements.h>
-#include <SimplicialManifold.h>
+#include <Measurements.hpp>
+#include <SimplicialManifold.hpp>
 
 using namespace std;
 

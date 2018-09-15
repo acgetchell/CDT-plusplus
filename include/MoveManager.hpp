@@ -15,8 +15,8 @@
 #ifndef INCLUDE_MOVEMANAGER_H_
 #define INCLUDE_MOVEMANAGER_H_
 
-#include <Function_ref.h>
-#include <SimplicialManifold.h>
+#include <Function_ref.hpp>
+#include <SimplicialManifold.hpp>
 #include <algorithm>
 #include <memory>
 #include <tuple>

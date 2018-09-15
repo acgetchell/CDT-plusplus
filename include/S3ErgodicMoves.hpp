@@ -16,7 +16,7 @@
 #define INCLUDE_S3ERGODICMOVES_H_
 
 // CDT headers
-#include <S3Triangulation.h>
+#include <S3Triangulation.hpp>
 
 // CGAL headers
 #include <CGAL/barycenter.h>

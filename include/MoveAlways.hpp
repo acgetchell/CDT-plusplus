@@ -13,8 +13,8 @@
 #ifndef INCLUDE_MOVE_ALWAYS_H_
 #define INCLUDE_MOVE_ALWAYS_H_
 
-#include <Measurements.h>
-#include <MoveAlgorithm.h>
+#include <Measurements.hpp>
+#include <MoveAlgorithm.hpp>
 
 class MoveAlways : public MoveAlgorithm
 {

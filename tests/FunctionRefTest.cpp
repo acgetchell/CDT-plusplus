@@ -9,9 +9,9 @@
 /// @brief Tests on vertices
 /// @author Adam Getchell
 
-#include <Function_ref.h>
-#include <Measurements.h>
-#include <S3ErgodicMoves.h>
+#include <Function_ref.hpp>
+#include <Measurements.hpp>
+#include <S3ErgodicMoves.hpp>
 #include <catch2/catch.hpp>
 
 SCENARIO("Simple Lambda operations", "[lambda]")

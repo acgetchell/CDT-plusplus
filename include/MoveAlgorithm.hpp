@@ -11,9 +11,9 @@
 #ifndef INCLUDE_MOVE_ALGORITHM_H_
 #define INCLUDE_MOVE_ALGORITHM_H_
 
-#include <Measurements.h>
-#include <MoveManager.h>
-#include <S3ErgodicMoves.h>
+#include <Measurements.hpp>
+#include <MoveManager.hpp>
+#include <S3ErgodicMoves.hpp>
 #include <utility>
 #include <vector>
 
