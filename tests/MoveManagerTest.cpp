@@ -16,7 +16,8 @@
 #include <MoveManager.hpp>
 #include <S3ErgodicMoves.hpp>
 
-SCENARIO("Perform safe moves on S3 Triangulations", "[moves][move_manager][!mayfail]")
+SCENARIO("Perform safe moves on S3 Triangulations",
+         "[moves][move_manager][!mayfail]")
 {
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
@@ -52,8 +53,8 @@ SCENARIO("Perform safe moves on S3 Triangulations", "[moves][move_manager][!mayf
     CHECK(attempted_moves[0] == 0);
     WHEN("A deep copy is made of the Delaunay triangulation.")
     {
-      auto tempDT     = Delaunay(*(universe.triangulation));
-      auto tempDT_ptr = std::make_unique<Delaunay>(tempDT);
+      auto tempDT     = Delaunay3(*(universe.triangulation));
+      auto tempDT_ptr = std::make_unique<Delaunay3>(tempDT);
       THEN("The copied Delaunay pointer is different from the original.")
       {
         REQUIRE(universe.triangulation != tempDT_ptr);

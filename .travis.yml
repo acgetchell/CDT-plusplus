@@ -45,6 +45,7 @@ before_install:
     else
       brew update
     fi
+  - chmod +x codecov.sh
 
 install:
   - brew install ccache

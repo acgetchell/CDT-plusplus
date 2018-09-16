@@ -28,7 +28,7 @@
 #include <utility>
 #include <vector>
 
-using Facet = Delaunay::Facet;
+using Facet = Delaunay3::Facet;
 
 /// @brief A tuple of the geometric values of the Simplicial Manifold
 ///
@@ -67,9 +67,9 @@ auto classify_edges(T&& universe_ptr)
 #ifndef NDEBUG
   std::cout << "Classifying edges....\n";
 #endif
-  Delaunay::Finite_edges_iterator eit;
-  std::vector<Edge_handle>        timelike_edges;
-  std::vector<Edge_handle>        spacelike_edges;
+  Delaunay3::Finite_edges_iterator eit;
+  std::vector<Edge_handle>         timelike_edges;
+  std::vector<Edge_handle>         spacelike_edges;
 
   // Iterate over all edges in the Delaunay triangulation
   for (eit = universe_ptr->finite_edges_begin();
@@ -131,10 +131,10 @@ auto classify_simplices(T&& universe_ptr)
 #ifndef NDEBUG
   std::cout << "Classifying simplices....\n";
 #endif
-  Delaunay::Finite_cells_iterator cit;
-  std::vector<Cell_handle>        three_one;
-  std::vector<Cell_handle>        two_two;
-  std::vector<Cell_handle>        one_three;
+  Delaunay3::Finite_cells_iterator cit;
+  std::vector<Cell_handle>         three_one;
+  std::vector<Cell_handle>         two_two;
+  std::vector<Cell_handle>         one_three;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
@@ -417,14 +417,14 @@ struct GeometryInfo
 struct SimplicialManifold
 {
   /// @brief Owning pointer to the Delaunay triangulation
-  std::unique_ptr<Delaunay> triangulation;
+  std::unique_ptr<Delaunay3> triangulation;
 
   /// @brief Owning pointer to GeometryInfo
   std::unique_ptr<GeometryInfo> geometry;
 
   /// @brief Default constructor
   SimplicialManifold()
-      : triangulation{std::make_unique<Delaunay>()}
+      : triangulation{std::make_unique<Delaunay3>()}
       , geometry{std::make_unique<GeometryInfo>()}
   {
 #ifndef NDEBUG
@@ -444,7 +444,7 @@ struct SimplicialManifold
   /// is fine.
   /// @param manifold A std::unique_ptr<Delaunay>
   /// @return A SimplicialManifold{}
-  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)
+  explicit SimplicialManifold(std::unique_ptr<Delaunay3>&& manifold)
       : triangulation{std::move(manifold)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
@@ -517,7 +517,7 @@ struct SimplicialManifold
   /// @param other The SimplicialManifold to copy
   /// @return A copied SimplicialManifold{}
   SimplicialManifold(const SimplicialManifold& other)
-      : triangulation{std::make_unique<Delaunay>(*(other.triangulation))}
+      : triangulation{std::make_unique<Delaunay3>(*(other.triangulation))}
       , geometry{std::make_unique<GeometryInfo>(*(other.geometry))}
   {
 #ifndef NDEBUG

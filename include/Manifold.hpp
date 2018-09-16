@@ -7,6 +7,7 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
+#include <S3Triangulation.hpp>
 #include <cstddef>
 
 /// Geometry class template
@@ -31,6 +32,7 @@ struct Manifold;
 template <>
 struct Manifold<3>
 {
+  Delaunay3 universe;
   Geometry3 geometry;
 };
 

@@ -72,11 +72,11 @@ using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Parallel_tag>;
 #else
 using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb>;
 #endif
-using Delaunay        = CGAL::Delaunay_triangulation_3<K, Tds>;
-using Cell_handle     = Delaunay::Cell_handle;
-using Vertex_handle   = Delaunay::Vertex_handle;
-using Locate_type     = Delaunay::Locate_type;
-using Point           = Delaunay::Point;
+using Delaunay3       = CGAL::Delaunay_triangulation_3<K, Tds>;
+using Cell_handle     = Delaunay3::Cell_handle;
+using Vertex_handle   = Delaunay3::Vertex_handle;
+using Locate_type     = Delaunay3::Locate_type;
+using Point           = Delaunay3::Point;
 using Edge_handle     = std::tuple<Cell_handle, std::int32_t, std::int32_t>;
 using Causal_vertices = std::vector<std::pair<Point, std::int32_t>>;
 using Move_tracker    = std::array<int32_t, 5>;
@@ -128,7 +128,8 @@ auto fix_timeslices(T&& universe_ptr)
   std::set<Vertex_handle> deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
-  for (Delaunay::Finite_cells_iterator cit = universe_ptr->finite_cells_begin();
+  for (Delaunay3::Finite_cells_iterator cit =
+           universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit)
   {
     if (cit->is_valid())
@@ -266,7 +267,7 @@ auto inline make_foliated_sphere(const std::int32_t simplices,
     for (std::int32_t j = 0;
          j < static_cast<std::int32_t>(points_per_timeslice * radius); ++j)
     { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // end j
-  } // end i
+    }                                                                 // end i
   return causal_vertices;
 }  // make_foliated_sphere()
 
@@ -305,7 +306,7 @@ auto inline make_triangulation(const std::int32_t simplices,
       50};
   Delaunay universe{K{}, &locking_ds};
 #else
-  Delaunay universe{};
+  Delaunay3 universe{};
 #endif
 
   auto universe_ptr    = std::make_unique<decltype(universe)>(universe);

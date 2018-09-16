@@ -17,9 +17,9 @@ SCENARIO("Construct a tetrahedron in the triangulation", "[tetrahedron]")
   SimplicialManifold universe;
   GIVEN("A vector of 4 vertices.")
   {
-    std::vector<Delaunay::Point> Vertices{
-        Delaunay::Point{0, 0, 0}, Delaunay::Point{0, 1, 0},
-        Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
+    std::vector<Delaunay3::Point> Vertices{
+        Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
+        Delaunay3::Point{0, 0, 1}, Delaunay3::Point{1, 0, 0}};
     WHEN("A triangulation is constructed using the vector.")
     {
       universe.triangulation->insert(Vertices.begin(), Vertices.end());
@@ -68,9 +68,9 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
   SimplicialManifold universe;
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
-    std::vector<Delaunay::Point> Vertices{
-        Delaunay::Point{0, 0, 0}, Delaunay::Point{0, 1, 0},
-        Delaunay::Point{0, 0, 1}, Delaunay::Point{1, 0, 0}};
+    std::vector<Delaunay3::Point> Vertices{
+        Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
+        Delaunay3::Point{0, 0, 1}, Delaunay3::Point{1, 0, 0}};
     std::vector<std::int_fast32_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
@@ -123,7 +123,7 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
         std::sort(causal_vertices.begin(), causal_vertices.end(),
                   [](auto a, auto b) { return a.first < b.first; });
         Causal_vertices                    comparison;
-        Delaunay::Finite_vertices_iterator vit;
+        Delaunay3::Finite_vertices_iterator vit;
         // Constructed vector of vertices in the triangulation
         for (vit = universe.triangulation->finite_vertices_begin();
              vit != universe.triangulation->finite_vertices_end(); ++vit)
@@ -144,7 +144,7 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
 
       THEN("The cell info is correct.")
       {
-        Delaunay::Finite_cells_iterator cit;
+        Delaunay3::Finite_cells_iterator cit;
         for (cit = new_universe.triangulation->finite_cells_begin();
              cit != new_universe.triangulation->finite_cells_end(); ++cit)
         {

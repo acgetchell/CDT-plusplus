@@ -21,7 +21,7 @@
 #include <utility>
 #include <vector>
 
-using Facet = Delaunay::Facet;
+using Facet = Delaunay3::Facet;
 
 template <typename T>
 auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
@@ -33,8 +33,8 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   //  manifold.update();
   print_results(manifold);
 
-  std::multimap<int32_t, Facet>    spacelike_facets;
-  Delaunay::Finite_facets_iterator fit;
+  std::multimap<int32_t, Facet>     spacelike_facets;
+  Delaunay3::Finite_facets_iterator fit;
   // Visit every finite facet in the manifold
   for (fit = manifold.triangulation->finite_facets_begin();
        fit != manifold.triangulation->finite_facets_end(); ++fit)

@@ -24,33 +24,33 @@ SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
     {
       THEN("It is not no-throw default constructible.")
       {
-        REQUIRE_FALSE(std::is_nothrow_default_constructible<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_default_constructible<Delaunay3>::value);
       }
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(std::is_nothrow_destructible<Delaunay>::value);
+        REQUIRE(std::is_nothrow_destructible<Delaunay3>::value);
       }
       THEN("It is not no-throw copy constructible.")
       {
-        REQUIRE_FALSE(std::is_nothrow_copy_constructible<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_copy_constructible<Delaunay3>::value);
       }
       THEN("It is not no-throw copy assignable.")
       {
-        REQUIRE_FALSE(std::is_nothrow_copy_assignable<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_copy_assignable<Delaunay3>::value);
       }
       THEN("It is not no-throw move constructible.")
       {
-        REQUIRE_FALSE(std::is_nothrow_move_constructible<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_move_constructible<Delaunay3>::value);
       }
       THEN("It is not no-throw move assignable.")
       {
-        REQUIRE_FALSE(std::is_nothrow_move_assignable<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_move_assignable<Delaunay3>::value);
       }
     }
   }
   GIVEN("A std::unique_ptr<Delaunay>.")
   {
-    using Delaunay_ptr = std::unique_ptr<Delaunay>;
+    using Delaunay_ptr = std::unique_ptr<Delaunay3>;
     WHEN("It's properties are examined.")
     {
       THEN("It is no-throw default constructible.")
