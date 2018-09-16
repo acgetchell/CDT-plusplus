@@ -177,18 +177,8 @@ matrix:
     - os: linux
       compiler: gcc
       env: TESTS=true CODECOV=true
-      script:
-        - conan profile new default --detect
-        - conan install .. -pr default --build=missing
-        - conan build ..
-        - cd ${TRAVIS_BUILD_DIR}
-        - pwd
-        - ctest -S lcov.cmake
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}/build
-        - pwd
-        - lcov --list stepcode_filtered.lcov
-        - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+        - ./codecov.sh
     # Sonarcloud
     - os: osx
       compiler: clang
