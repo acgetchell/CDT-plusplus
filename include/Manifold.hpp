@@ -7,7 +7,33 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
-struct Manifold
-{};
+#include <cstddef>
 
-#endif //CDT_PLUSPLUS_MANIFOLD_HPP
+/// Geometry class template
+/// \tparam dimension Dimensionality of geometry
+template <std::size_t dimension>
+struct Geometry;
+
+/// 3D Geometry
+template <>
+struct Geometry<3>
+{
+};
+
+using Geometry3 = Geometry<3>;
+
+/// Manifold class template
+/// @tparam dimension Dimensionality of manifold
+template <std::size_t dimension>
+struct Manifold;
+
+/// 3D Manifold
+template <>
+struct Manifold<3>
+{
+  Geometry3 geometry;
+};
+
+using Manifold3 = Manifold<3>;
+
+#endif  // CDT_PLUSPLUS_MANIFOLD_HPP
