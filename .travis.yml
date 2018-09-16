@@ -178,6 +178,8 @@ matrix:
       compiler: gcc
       env: TESTS=true CODECOV=true
       after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - pwd
         - ./codecov.sh
     # Sonarcloud
     - os: osx

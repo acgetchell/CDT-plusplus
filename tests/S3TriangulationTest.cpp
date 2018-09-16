@@ -22,7 +22,7 @@ SCENARIO("Delaunay unique pointer", "[triangulation]")
   }
 }
 
-SCENARIO("SimplicialManifold construction", "[triangulation][manifold][!mayfail]")
+SCENARIO("SimplicialManifold construction", "[triangulation][!mayfail]")
 {
   WHEN("Using a unique pointer to a Delaunay triangulation.")
   {
