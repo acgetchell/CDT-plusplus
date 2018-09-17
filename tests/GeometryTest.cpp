@@ -49,7 +49,7 @@ SCENARIO("3-Geometry initialization", "[manifold][geometry]")
 {
   GIVEN("A 3-dimensional geometry.")
   {
-    WHEN("It is default constructed")
+    WHEN("It is default constructed.")
     {
       Geometry3 geometry;
       THEN("All data members are zero-initialized.")

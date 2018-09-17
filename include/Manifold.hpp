@@ -3,12 +3,16 @@
 /// Copyright © 2018 Adam Getchell
 ///
 /// Simplicial Manifold data structures
+///
+/// @file  Manifold.hpp
+/// @brief Data structures for manifolds
+/// @author Adam Getchell
 
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
-#include <S3Triangulation.hpp>
 #include <Geometry.hpp>
+#include <S3Triangulation.hpp>
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
@@ -19,9 +23,14 @@ struct Manifold;
 template <>
 struct Manifold<3>
 {
-//    Manifold(int_type desired_simplices, int_type desired_timeslices)
-//    : Geometry(desired_simplices, desired_timeslices) {}
-    std::unique_ptr<Delaunay3> universe;
+  /// Default ctor
+  Manifold() = default;
+
+  Manifold(std::size_t desired_simplices, std::size_t desired_timeslices)
+      : geometry(desired_simplices, desired_timeslices)
+  {}
+
+  std::unique_ptr<Delaunay3> universe;
   Geometry3                  geometry;
 };
 

@@ -49,12 +49,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 {
   GIVEN("A 3-manifold")
   {
-    WHEN("It is default constructed")
+    WHEN("It is default constructed.")
     {
       Manifold3 manifold;
       THEN("The Delaunay3 pointer is null.")
       {
         REQUIRE(manifold.universe == nullptr);
+      }
+    }
+    WHEN("It is constructed with desired_simplices and desired_timeslices.")
+    {
+      std::size_t desired_simplices{6400};
+      std::size_t desired_timeslices{7};
+      Manifold3   manifold(desired_simplices, desired_timeslices);
+      THEN("These parameters are written to the geometry.")
+      {
+        REQUIRE(manifold.geometry.desired_simplices == desired_simplices);
+        REQUIRE(manifold.geometry.desired_timeslices == desired_timeslices);
       }
     }
   }
