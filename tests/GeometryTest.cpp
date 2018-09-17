@@ -59,5 +59,17 @@ SCENARIO("3-Geometry initialization", "[manifold][geometry]")
         REQUIRE(geometry.desired_timeslices == 0);
       }
     }
+    WHEN("It is constructed with desired_simplices and desired_timeslices.")
+    {
+      std::size_t desired_simplices{6400};
+      std::size_t desired_timeslices{7};
+      Geometry3   geometry(desired_simplices, desired_timeslices);
+      THEN("These values are saved and all others are zero-initialized.")
+      {
+        REQUIRE(geometry.number_of_vertices == 0);
+        REQUIRE(geometry.desired_simplices == desired_simplices);
+        REQUIRE(geometry.desired_timeslices == desired_timeslices);
+      }
+    }
   }
 }

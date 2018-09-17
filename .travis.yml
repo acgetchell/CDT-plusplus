@@ -74,6 +74,7 @@ install:
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - conan profile new cdt --detect
 
 before_script:
   - mkdir build
@@ -175,14 +176,16 @@ matrix:
       after_success:
         - travis_wait 30 ctest -T memcheck
     # Codecov
-    - os: linux
-      compiler: gcc
+    - os: osx
+      compiler: clang
       env: TESTS=true CODECOV=true
-      after_success:
+      before_script:
+      script:
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
         - ./codecov.sh
-    # Sonarcloud
+      after_success:
+  # Sonarcloud
     - os: osx
       compiler: clang
       env: TESTS=false SONARQUBE=true
@@ -214,24 +217,23 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-    - os: linux
-      compiler: gcc
+    - os: osx
+      compiler: clang
       env: TESTS=true CODECOV=true
     - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
 script:
-  - conan profile new default --detect
   # Use Ninja
-  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
+  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
       echo osx/clang autodetected libcxx is fine
-      conan install .. -pr default --build=missing
+      conan install .. -pr cdt --build=missing
     else
       echo gcc and linux using libstdc++11
       conan profile update settings.compiler.libcxx=libstdc++11 default
-      conan install .. -pr default --build=missing
+      conan install .. -pr cdt --build=missing
     fi
   - conan build ..
 after_success:

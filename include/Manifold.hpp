@@ -27,10 +27,11 @@ struct Manifold<3>
   Manifold() = default;
 
   Manifold(std::size_t desired_simplices, std::size_t desired_timeslices)
-      : geometry(desired_simplices, desired_timeslices)
+      : universe{make_triangulation(desired_simplices, desired_timeslices)}
+      , geometry(desired_simplices, desired_timeslices)
   {}
 
-  std::unique_ptr<Delaunay3> universe;
+  std::shared_ptr<Delaunay3> universe;
   Geometry3                  geometry;
 };
 
