@@ -45,7 +45,6 @@ before_install:
     else
       brew update
     fi
-  - chmod +x codecov.sh
 
 install:
   - brew install ccache
@@ -74,9 +73,9 @@ install:
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-  - conan profile new cdt --detect
 
 before_script:
+  - conan profile new cdt --detect
   - mkdir build
   - cd build
 
@@ -231,8 +230,8 @@ script:
       echo osx/clang autodetected libcxx is fine
       conan install .. -pr cdt --build=missing
     else
-      echo gcc and linux using libstdc++11
-      conan profile update settings.compiler.libcxx=libstdc++11 default
+      echo linux using libstdc++11
+      conan profile update settings.compiler.libcxx=libstdc++11 cdt
       conan install .. -pr cdt --build=missing
     fi
   - conan build ..

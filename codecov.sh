@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 rm -rf build && mkdir build
 cd build
-conan install .. -pr cdt --build=missing
+conan install .. --build=missing
 conan build ..
 cd ..
 ctest -S lcov.cmake
