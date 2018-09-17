@@ -8,20 +8,7 @@
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
 #include <S3Triangulation.hpp>
-#include <cstddef>
-
-/// Geometry class template
-/// \tparam dimension Dimensionality of geometry
-template <std::size_t dimension>
-struct Geometry;
-
-/// 3D Geometry
-template <>
-struct Geometry<3>
-{
-};
-
-using Geometry3 = Geometry<3>;
+#include <Geometry.hpp>
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
@@ -32,8 +19,10 @@ struct Manifold;
 template <>
 struct Manifold<3>
 {
-  Delaunay3 universe;
-  Geometry3 geometry;
+//    Manifold(int_type desired_simplices, int_type desired_timeslices)
+//    : Geometry(desired_simplices, desired_timeslices) {}
+    std::unique_ptr<Delaunay3> universe;
+  Geometry3                  geometry;
 };
 
 using Manifold3 = Manifold<3>;

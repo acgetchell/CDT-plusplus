@@ -16,7 +16,7 @@
 #include <catch2/catch.hpp>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
-         "[manifold][!mayfail]")
+         "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A Delaunay class.")
   {
@@ -82,7 +82,7 @@ SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
 }
 
 /// @TODO Make GeometryInfo no-throw move assignable
-SCENARIO("GeometryInfo exception-safety", "[manifold][!mayfail]")
+SCENARIO("GeometryInfo exception-safety", "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A GeometryInfo struct.")
   {
@@ -118,7 +118,7 @@ SCENARIO("GeometryInfo exception-safety", "[manifold][!mayfail]")
 
 /// @TODO Make SimplicialManifold no-throw default constructible
 /// @TODO Make SimplicialManifold no-throw move constructible
-SCENARIO("SimplicialManifold exception-safety", "[manifold][!mayfail]")
+SCENARIO("SimplicialManifold exception-safety", "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A SimplicialManifold struct.")
   {
@@ -155,7 +155,7 @@ SCENARIO("SimplicialManifold exception-safety", "[manifold][!mayfail]")
   }
 }
 
-SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
+SCENARIO("GeometryInfo construction, copy, and move", "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A SimplicialManifold.")
   {
@@ -233,7 +233,7 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
   }
 }
 
-SCENARIO("SimplicialManifold swap", "[manifold][swap]")
+SCENARIO("SimplicialManifold swap", "[simplicialmanifold][swap]")
 {
   GIVEN("A correctly-constructed SimplicialManifold.")
   {
