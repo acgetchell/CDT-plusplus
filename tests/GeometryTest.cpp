@@ -9,6 +9,7 @@
 /// @author Adam Getchell
 
 #include <Geometry.hpp>
+#include <S3Triangulation.hpp>
 #include <catch2/catch.hpp>
 
 SCENARIO("3-Geometry exception-safety", "[manifold]")
@@ -55,6 +56,9 @@ SCENARIO("3-Geometry initialization", "[manifold][geometry]")
       THEN("All data members are zero-initialized.")
       {
         REQUIRE(geometry.number_of_vertices == 0);
+        REQUIRE(geometry.number_of_edges == 0);
+        REQUIRE(geometry.number_of_faces == 0);
+        REQUIRE(geometry.number_of_cells == 0);
         REQUIRE(geometry.desired_simplices == 0);
         REQUIRE(geometry.desired_timeslices == 0);
       }
@@ -67,8 +71,30 @@ SCENARIO("3-Geometry initialization", "[manifold][geometry]")
       THEN("These values are saved and all others are zero-initialized.")
       {
         REQUIRE(geometry.number_of_vertices == 0);
+        REQUIRE(geometry.number_of_edges == 0);
+        REQUIRE(geometry.number_of_faces == 0);
+        REQUIRE(geometry.number_of_cells == 0);
         REQUIRE(geometry.desired_simplices == desired_simplices);
         REQUIRE(geometry.desired_timeslices == desired_timeslices);
+      }
+    }
+    WHEN("It is constructed with a Delaunay triangulation.")
+    {
+      std::size_t desired_simplices{640};
+      std::size_t desired_timeslices{4};
+      auto        triangulation =
+          make_triangulation(desired_simplices, desired_timeslices);
+      Geometry3 geometry(triangulation);
+      THEN(
+          "The properties of the Delaunay triangulation are saved in geometry "
+          "info.")
+      {
+        REQUIRE(geometry.number_of_cells ==
+                triangulation->number_of_finite_cells());
+        REQUIRE(geometry.number_of_vertices ==
+                triangulation->number_of_vertices());
+        REQUIRE(geometry.number_of_edges ==
+                triangulation->number_of_finite_edges());
       }
     }
   }

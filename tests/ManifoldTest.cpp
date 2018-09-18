@@ -56,22 +56,32 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.universe == nullptr);
       }
-
-      WHEN("It is constructed with desired_simplices and desired_timeslices.")
+    }
+    WHEN("It is constructed with desired_simplices and desired_timeslices.")
+    {
+      std::size_t desired_simplices{640};
+      std::size_t desired_timeslices{4};
+      Manifold3   manifold(desired_simplices, desired_timeslices);
+      THEN("These parameters are written to the geometry.")
       {
-        std::size_t desired_simplices{6400};
-        std::size_t desired_timeslices{7};
-        Manifold3   manifold(desired_simplices, desired_timeslices);
-        THEN("These parameters are written to the geometry.")
-        {
-          REQUIRE(manifold.geometry.desired_simplices == desired_simplices);
-          REQUIRE(manifold.geometry.desired_timeslices == desired_timeslices);
-        }
-        THEN("Triangulation is valid.")
-        {
-          REQUIRE(manifold.universe->is_valid());
-          REQUIRE(manifold.universe->tds().is_valid());
-        }
+        REQUIRE(manifold.geometry.desired_simplices == desired_simplices);
+        REQUIRE(manifold.geometry.desired_timeslices == desired_timeslices);
+      }
+      THEN("Triangulation is valid.")
+      {
+        REQUIRE(manifold.universe->is_valid());
+        REQUIRE(manifold.universe->tds().is_valid());
+      }
+      THEN("The geometry matches the triangulation.")
+      {
+        REQUIRE(manifold.universe->number_of_vertices() ==
+                manifold.geometry.number_of_vertices);
+        REQUIRE(manifold.universe->number_of_finite_edges() ==
+                manifold.geometry.number_of_edges);
+        REQUIRE(manifold.universe->number_of_finite_facets() ==
+                manifold.geometry.number_of_faces);
+        REQUIRE(manifold.universe->number_of_finite_cells() ==
+                manifold.geometry.number_of_cells);
       }
     }
   }
