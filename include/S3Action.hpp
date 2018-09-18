@@ -33,7 +33,7 @@
 using Gmpzf = CGAL::Gmpzf;
 // using MP_Float = CGAL::MP_Float;
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static constexpr std::int32_t PRECISION = 256;
+static constexpr std::size_t PRECISION = 256;
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
@@ -55,11 +55,11 @@ static constexpr std::int32_t PRECISION = 256;
 /// @return \f$S^{(3)}(\alpha=-1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action_alpha_minus_one(const std::int32_t N1_TL,
-                                           const std::int32_t N3_31_13,
-                                           const std::int32_t N3_22,
-                                           const long double  K,
-                                           const long double  Lambda) noexcept
+inline auto S3_bulk_action_alpha_minus_one(const std::size_t N1_TL,
+                                           const std::size_t N3_31_13,
+                                           const std::size_t N3_22,
+                                           const long double K,
+                                           const long double Lambda) noexcept
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -71,9 +71,9 @@ inline auto S3_bulk_action_alpha_minus_one(const std::int32_t N1_TL,
               total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
-  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_ui(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
   mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
@@ -133,11 +133,11 @@ inline auto S3_bulk_action_alpha_minus_one(const std::int32_t N1_TL,
 /// @return \f$S^{(3)}(\alpha=1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action_alpha_one(const std::int32_t N1_TL,
-                                     const std::int32_t N3_31_13,
-                                     const std::int32_t N3_22,
-                                     const long double  K,
-                                     const long double  Lambda) noexcept
+inline auto S3_bulk_action_alpha_one(const std::size_t N1_TL,
+                                     const std::size_t N3_31_13,
+                                     const std::size_t N3_22,
+                                     const long double K,
+                                     const long double Lambda) noexcept
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -150,9 +150,9 @@ inline auto S3_bulk_action_alpha_one(const std::int32_t N1_TL,
               total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
-  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_ui(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
   mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
@@ -226,9 +226,8 @@ inline auto S3_bulk_action_alpha_one(const std::int32_t N1_TL,
 /// @return \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action(const std::int32_t N1_TL,
-                           const std::int32_t N3_31_13,
-                           const std::int32_t N3_22, const long double Alpha,
+inline auto S3_bulk_action(const std::size_t N1_TL, const std::size_t N3_31_13,
+                           const std::size_t N3_22, const long double Alpha,
                            const long double K,
                            const long double Lambda) noexcept
 {
@@ -248,9 +247,9 @@ inline auto S3_bulk_action(const std::int32_t N1_TL,
               r52, total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
-  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_ui(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(alpha, Alpha, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);

@@ -13,6 +13,7 @@
 
 #include <Geometry.hpp>
 #include <S3Triangulation.hpp>
+#include <functional>
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
@@ -31,7 +32,7 @@ struct Manifold<3>
       , geometry(desired_simplices, desired_timeslices)
   {}
 
-  std::shared_ptr<Delaunay3> universe;
+  std::unique_ptr<Delaunay3> universe;
   Geometry3                  geometry;
 };
 
