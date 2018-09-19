@@ -25,14 +25,14 @@ SCENARIO("3-Manifold exception-safety", "[manifold]")
       {
         REQUIRE(std::is_nothrow_destructible<Manifold3>::value);
       }
-      THEN("It is no-throw copy constructible.")
-      {
-        REQUIRE(std::is_nothrow_copy_constructible<Manifold3>::value);
-      }
-      THEN("It is no-throw copy assignable.")
-      {
-        REQUIRE(std::is_nothrow_copy_assignable<Manifold3>::value);
-      }
+      //      THEN("It is no-throw copy constructible.")
+      //      {
+      //        REQUIRE(std::is_nothrow_copy_constructible<Manifold3>::value);
+      //      }
+      //      THEN("It is no-throw copy assignable.")
+      //      {
+      //        REQUIRE(std::is_nothrow_copy_assignable<Manifold3>::value);
+      //      }
       THEN("It is no-throw move constructible.")
       {
         REQUIRE(std::is_nothrow_move_constructible<Manifold3>::value);
@@ -82,6 +82,10 @@ SCENARIO("3-Manifold initialization", "[manifold]")
                 manifold.geometry.number_of_faces);
         REQUIRE(manifold.universe->number_of_finite_cells() ==
                 manifold.geometry.number_of_cells);
+      }
+      THEN("The Delaunay3 pointer is not null.")
+      {
+        REQUIRE_FALSE(manifold.universe == nullptr);
       }
     }
   }
