@@ -49,6 +49,8 @@ class Manifold<3>
   template <typename T>
   friend auto make_geometry(T&, size_t, size_t);
 
+  /// Note: would prefer to use observer_ptr<T> here, GotW91 suggests a T* but this is not a parameter
+  /// \return A read-only reference to universe
   const std::unique_ptr<Delaunay3>& getUniverse() const { return universe; }
 
   const Geometry3& getGeometry() const { return geometry; }

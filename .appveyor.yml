@@ -54,30 +54,12 @@ install:
   - set CXX=clang-cl -mrtm
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
-  # Use installed conda
-#  - set PATH=%PATH%;C:\Miniconda-x64\Scripts
-#  - conda update conda -y
-  #- conda list
-#  - conda create --name py36 python=3.6 -y
-#  - activate py36
   # Upgrade pip
   - python -m pip install --upgrade pip
   # Install Conan
   - echo "Downloading conan..."
   - set PATH=%PATH%;%PYTHON%\Scripts\
   - pip.exe install conan
-  # Install Eigen
-#  - conda install -c conda-forge eigen -y
-  # Install TBB
-#  - conda install -c conda-forge tbb -y
-  # Install MPFR
-#  - conda install -c conda-forge mpfr -y
-  # Install Boost 1.66.0
-#  - conda install -c conda-forge boost -y
-  # Install CGAL
-#  - conda install -c conda-forge cgal -y
-  # Install Curl
-#  - conda install -c conda-forge curl -y
 
 before_build:
   - cd C:\projects\CDT-plusplus
