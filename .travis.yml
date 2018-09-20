@@ -180,6 +180,7 @@ matrix:
       env: TESTS=true CODECOV=true
       before_script:
       script:
+        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
         - ./codecov.sh

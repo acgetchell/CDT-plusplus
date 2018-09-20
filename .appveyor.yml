@@ -1,9 +1,9 @@
 version: 0.1.8.{build}
 
-branches:
-  only:
-    - master
-    - develop
+#branches:
+#  only:
+#    - master
+#    - develop
 
 platform:
     - x64

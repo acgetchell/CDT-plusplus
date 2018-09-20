@@ -30,22 +30,33 @@ auto make_geometry(T& universe, size_t simplices, size_t timeslices)
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
 template <std::size_t dimension>
-struct Manifold;
+class Manifold;
 
 /// 3D Manifold
 template <>
-struct Manifold<3>
+class Manifold<3>
 {
+ public:
   /// Default ctor
   Manifold() = default;
 
   Manifold(std::size_t desired_simplices, std::size_t desired_timeslices)
       : universe{make_triangulation(desired_simplices, desired_timeslices)}
-      , geometry{make_geometry(universe, desired_simplices, desired_timeslices)}
+      , geometry{
+            make_geometry(getUniverse(), desired_simplices, desired_timeslices)}
   {}
 
+  template <typename T>
+  friend auto make_geometry(T&, size_t, size_t);
+
+  const std::unique_ptr<Delaunay3>& getUniverse() const { return universe; }
+
+  const Geometry3& getGeometry() const { return geometry; }
+
+ private:
   std::unique_ptr<Delaunay3> universe;
-  Geometry3                  geometry;
+
+  Geometry3 geometry;
 };
 
 using Manifold3 = Manifold<3>;
