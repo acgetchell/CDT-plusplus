@@ -79,7 +79,7 @@ using Locate_type     = Delaunay3::Locate_type;
 using Point           = Delaunay3::Point;
 using Edge_handle     = std::tuple<Cell_handle, std::size_t, std::size_t>;
 using Causal_vertices = std::vector<std::pair<Point, std::size_t>>;
-using Move_tracker    = std::array<int32_t, 5>;
+using Move_tracker    = std::array<std::size_t, 5>;
 
 enum class move_type
 {
@@ -94,7 +94,7 @@ enum class move_type
 static constexpr std::size_t MAX_FOLIATION_FIX_PASSES = 500;
 
 /// The dimensionality of the Delaunay triangulation
-static constexpr int DIMENSION = 3;
+static constexpr std::size_t DIMENSION = 3;
 
 /// Initial radius and radial factor
 static constexpr double INITIAL_RADIUS = 1.0;
@@ -140,7 +140,7 @@ auto fix_timeslices(T&& universe_ptr)
       bool this_cell_foliation_valid = true;
 #endif
       // Iterate over all vertices in the cell
-      for (auto i = 0; i < 4; ++i)
+      for (std::size_t i = 0; i < 4; ++i)
       {
         auto current_time = cit->vertex(i)->info();
 
@@ -149,7 +149,7 @@ auto fix_timeslices(T&& universe_ptr)
         if (current_time > max_time)
         {
           max_time   = current_time;
-          max_vertex = static_cast<int32_t>(i);
+          max_vertex = i;
         }
       }  // Finish iterating over vertices
       // There should be a difference of 1 between min_time and max_time
@@ -163,7 +163,7 @@ auto fix_timeslices(T&& universe_ptr)
         // universe_ptr->remove(cit->vertex(max_vertex));
 
         // Parallel delete std::set of max_vertex for all invalid cells
-        deleted_vertices.emplace(cit->vertex(static_cast<int>(max_vertex)));
+        deleted_vertices.emplace(cit->vertex(max_vertex));
       }
       else
       {
@@ -267,7 +267,7 @@ auto inline make_foliated_sphere(const std::size_t simplices,
     for (std::size_t j = 0;
          j < static_cast<std::size_t>(points_per_timeslice * radius); ++j)
     { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // end j
-    }                                                                 // end i
+  }                                                                   // end i
   return causal_vertices;
 }  // make_foliated_sphere()
 

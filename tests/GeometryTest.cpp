@@ -62,6 +62,11 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         REQUIRE(geometry.cells.size() == 0);
         REQUIRE(geometry.edges.size() == 0);
         REQUIRE(geometry.vertices.size() == 0);
+        REQUIRE(geometry.three_one.size() == 0);
+        REQUIRE(geometry.two_two.size() == 0);
+        REQUIRE(geometry.one_three.size() == 0);
+        REQUIRE(geometry.timelike_edges.size() == 0);
+        REQUIRE(geometry.spacelike_edges.size() == 0);
       }
     }
     WHEN("It is constructed with a Delaunay triangulation.")
@@ -84,7 +89,30 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         REQUIRE(geometry.cells.size() == geometry.number_of_cells);
         REQUIRE(geometry.edges.size() == geometry.number_of_edges);
         REQUIRE(geometry.vertices.size() == geometry.number_of_vertices);
+        REQUIRE_FALSE(geometry.three_one.size() == 0);
       }
     }
   }
+}
+
+SCENARIO("3-Geometry classification", "[geometry]")
+{
+    GIVEN("A 3-dimensional geometry.")
+    {
+        WHEN("It is constructed with a Delaunay triangulation.")
+        {
+            std::size_t desired_simplices{32};
+            std::size_t desired_timeslices{3};
+            auto triangulation = make_triangulation(desired_simplices, desired_timeslices);
+            Geometry3 geometry(triangulation);
+            THEN("The Delaunay triangulation is described by the geometry.")
+            {
+                std::cout << "There are " << geometry.cells.size() << " simplices ...\n";
+                REQUIRE(geometry.number_of_cells > 2);
+                for (auto i : geometry.cells) {
+                    std::cout << i->info() << '\n';
+                }
+            }
+        }
+    }
 }

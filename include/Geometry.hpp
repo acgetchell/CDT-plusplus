@@ -12,8 +12,16 @@
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
 #include <S3Triangulation.hpp>
+#include <algorithm>
 #include <cstddef>
 #include <gsl/gsl>
+
+enum class Cell_type
+{
+  THREE_ONE = 0,
+  TWO_TWO   = 1,
+  ONE_THREE = 2
+};
 
 /// Geometry class template
 /// @tparam dimension Dimensionality of geometry
@@ -30,8 +38,6 @@ struct Geometry<3>
       , number_of_edges{0}
       , number_of_faces{0}
       , number_of_cells{0}
-      , cells{}
-      , edges{}
   {}
 
   /// @brief Constructor with triangulation
@@ -45,6 +51,7 @@ struct Geometry<3>
       , cells{collect_cells(triangulation)}
       , edges{collect_edges(triangulation)}
       , vertices{collect_vertices(triangulation)}
+      , three_one{filter_cells(cells, Cell_type::THREE_ONE)}
   {}
 
   /// @brief Collect all finite cells of the triangulation
@@ -63,6 +70,23 @@ struct Geometry<3>
     { init_cells.emplace_back(cit); }
     Ensures(init_cells.size() == universe->number_of_finite_cells());
     return init_cells;
+  }
+
+  /// @brief Filter simplices by Cell_type
+  /// @param cells_v The vector of simplices to filter
+  /// @param cell_t The Cell_type to filter by
+  /// @return A vector of Cell_type simplices
+  std::vector<Cell_handle> filter_cells(std::vector<Cell_handle> cells_v,
+                                        const Cell_type          cell_t)
+  {
+    std::vector<Cell_handle> filtered_cells(cells_v.size());
+    auto                     it =
+        std::copy_if(cells_v.begin(), cells_v.end(), filtered_cells.begin(),
+                     [&](auto const& cell) {
+                       return cell->info() == static_cast<std::size_t>(cell_t);
+                     });
+    filtered_cells.resize(std::distance(filtered_cells.begin(), it));
+    return filtered_cells;
   }
 
   /// @brief Collect all finite edges of the triangulation
@@ -113,6 +137,11 @@ struct Geometry<3>
   std::vector<Cell_handle>   cells;
   std::vector<Edge_handle>   edges;
   std::vector<Vertex_handle> vertices;
+  std::vector<Cell_handle>   three_one;
+  std::vector<Cell_handle>   two_two;
+  std::vector<Cell_handle>   one_three;
+  std::vector<Edge_handle>   timelike_edges;
+  std::vector<Edge_handle>   spacelike_edges;
 };
 
 using Geometry3 = Geometry<3>;
