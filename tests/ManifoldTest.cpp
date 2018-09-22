@@ -17,10 +17,10 @@ SCENARIO("3-Manifold exception-safety", "[manifold]")
   {
     WHEN("It's properties are examined.")
     {
-      THEN("It is no-throw default constructible.")
-      {
-        REQUIRE(std::is_nothrow_default_constructible<Manifold3>::value);
-      }
+      //      THEN("It is no-throw default constructible.")
+      //      {
+      //        REQUIRE(std::is_nothrow_default_constructible<Manifold3>::value);
+      //      }
       THEN("It is no-throw destructible.")
       {
         REQUIRE(std::is_nothrow_destructible<Manifold3>::value);
@@ -62,12 +62,6 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       std::size_t desired_simplices{640};
       std::size_t desired_timeslices{4};
       Manifold3   manifold(desired_simplices, desired_timeslices);
-      THEN("These parameters are written to the geometry.")
-      {
-        REQUIRE(manifold.getGeometry().desired_simplices == desired_simplices);
-        REQUIRE(manifold.getGeometry().desired_timeslices ==
-                desired_timeslices);
-      }
       THEN("Triangulation is valid.")
       {
         REQUIRE(manifold.getUniverse()->is_valid());
@@ -83,6 +77,12 @@ SCENARIO("3-Manifold initialization", "[manifold]")
                 manifold.getGeometry().number_of_faces);
         REQUIRE(manifold.getUniverse()->number_of_finite_cells() ==
                 manifold.getGeometry().number_of_cells);
+        REQUIRE(manifold.getGeometry().number_of_cells ==
+                manifold.getGeometry().cells.size());
+        REQUIRE(manifold.getGeometry().number_of_edges ==
+                manifold.getGeometry().edges.size());
+        REQUIRE(manifold.getGeometry().number_of_vertices ==
+               manifold.getGeometry().vertices.size());
       }
       THEN("The Delaunay3 pointer is not null.")
       {
