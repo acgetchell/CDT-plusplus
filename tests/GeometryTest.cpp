@@ -89,7 +89,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         REQUIRE(geometry.cells.size() == geometry.number_of_cells);
         REQUIRE(geometry.edges.size() == geometry.number_of_edges);
         REQUIRE(geometry.vertices.size() == geometry.number_of_vertices);
-        REQUIRE_FALSE(geometry.three_one.size() == 0);
+        //        REQUIRE_FALSE(geometry.three_one.size() == 0);
       }
     }
   }
@@ -97,22 +97,25 @@ SCENARIO("3-Geometry initialization", "[geometry]")
 
 SCENARIO("3-Geometry classification", "[geometry]")
 {
-    GIVEN("A 3-dimensional geometry.")
+  GIVEN("A 3-dimensional geometry.")
+  {
+    WHEN("It is constructed with a Delaunay triangulation.")
     {
-        WHEN("It is constructed with a Delaunay triangulation.")
-        {
-            std::size_t desired_simplices{32};
-            std::size_t desired_timeslices{3};
-            auto triangulation = make_triangulation(desired_simplices, desired_timeslices);
-            Geometry3 geometry(triangulation);
-            THEN("The Delaunay triangulation is described by the geometry.")
-            {
-                std::cout << "There are " << geometry.cells.size() << " simplices ...\n";
-                REQUIRE(geometry.number_of_cells > 2);
-                for (auto i : geometry.cells) {
-                    std::cout << i->info() << '\n';
-                }
-            }
-        }
+      std::size_t desired_simplices{48};
+      std::size_t desired_timeslices{3};
+      auto        triangulation =
+          make_triangulation(desired_simplices, desired_timeslices);
+      Geometry3 geometry(triangulation);
+      THEN("The Delaunay triangulation is described by the geometry.")
+      {
+        std::cout << "There are " << geometry.cells.size()
+                  << " simplices ...\n";
+        REQUIRE(geometry.number_of_cells > 2);
+        // Debugging output
+        //        for (auto i : geometry.cells) { std::cout << i->info() <<
+        //        '\n'; }
+        geometry.classify_cells(geometry.cells);
+      }
     }
+  }
 }

@@ -18,9 +18,9 @@
 
 enum class Cell_type
 {
-  THREE_ONE = 0,
-  TWO_TWO   = 1,
-  ONE_THREE = 2
+  THREE_ONE = 31,
+  TWO_TWO   = 22,
+  ONE_THREE = 13
 };
 
 /// Geometry class template
@@ -70,6 +70,58 @@ struct Geometry<3>
     { init_cells.emplace_back(cit); }
     Ensures(init_cells.size() == universe->number_of_finite_cells());
     return init_cells;
+  }
+
+  std::vector<Cell_handle> classify_cells(std::vector<Cell_handle> cells)
+  {
+    Expects(!cells.empty());
+    std::vector<Vertex_handle> cell_vertices;
+    cell_vertices.reserve(4);
+    std::vector<size_t> vertex_timevalues;
+    vertex_timevalues.reserve(4);
+    //    std::size_t max_timevalue_vertices{0};
+    for (auto& c : cells)
+    {
+      std::cout << "Cell info was " << c->info() << '\n';
+      for (size_t j = 0; j < 4; ++j)
+      {
+        cell_vertices.emplace_back(c->vertex(j));
+        vertex_timevalues.emplace_back(c->vertex(j)->info());
+        std::cout << "Cell vertex " << j << " has timevalue "
+                  << c->vertex(j)->info() << '\n';
+      }
+
+      auto max_timevalue =
+          std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
+      auto max_timevalue_vertices =
+          std::count_if(cell_vertices.begin(), cell_vertices.end(),
+                        [max_timevalue](auto const& vertex) {
+                          return vertex->info() == *max_timevalue;
+                        });
+
+      switch (max_timevalue_vertices)
+      {
+        case 1:
+          c->info() = static_cast<size_t>(Cell_type::ONE_THREE);
+          break;
+        case 2:
+          c->info() = static_cast<size_t>(Cell_type::TWO_TWO);
+          break;
+        case 3:
+          c->info() = static_cast<size_t>(Cell_type::THREE_ONE);
+          break;
+        default:
+          throw std::logic_error("Mis-classified cell.");
+      }
+      std::cout << "Max timevalue is " << *max_timevalue << '\n';
+      std::cout << "There are " << max_timevalue_vertices
+                << " vertices with max timeslice in the cell.\n";
+      std::cout << "Cell info is now " << c->info() << '\n';
+      std::cout << "Next cell:\n";
+      cell_vertices.clear();
+      vertex_timevalues.clear();
+    }
+    return cells;
   }
 
   /// @brief Filter simplices by Cell_type
