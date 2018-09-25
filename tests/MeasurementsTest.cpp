@@ -47,7 +47,7 @@ SCENARIO("Take measurements on a Simplicial Manifold.", "[measurements][!mayfail
 //        auto result = make_26_move(std::move(universe), attempted_moves);
         REQUIRE_NOTHROW(universe = make_26_move(std::move(universe), attempted_moves));
         REQUIRE(attempted_moves[2] > 0);
-        CHECK(universe.geometry->getSpacelike_facets().has_value());
+        CHECK(universe.geometry->getSpacelike_facets().is_initialized());
         CHECK(universe.geometry->max_timevalue().is_initialized());
       }
     }
