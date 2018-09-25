@@ -21,9 +21,9 @@
 #define INCLUDE_SIMPLICIALMANIFOLD_HPP_
 
 #include <S3Triangulation.hpp>
-#include <boost/optional.hpp>
 #include <map>
 #include <memory>
+#include <optional>
 #include <set>
 #include <utility>
 #include <vector>
@@ -243,16 +243,16 @@ struct GeometryInfo
   std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
-  boost::optional<std::multimap<std::size_t, Facet>> spacelike_facets;
+  std::optional<std::multimap<std::size_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
-  boost::optional<std::set<std::size_t>> timevalues;
+  std::optional<std::set<std::size_t>> timevalues;
 
  public:
   /// @brief Getter for spacelike facets
   /// @return The multimap of facets
-  const boost::optional<std::multimap<std::size_t, Facet>>&
-  getSpacelike_facets() const
+  const std::optional<std::multimap<std::size_t, Facet>>& getSpacelike_facets()
+      const
   {
     return spacelike_facets;
   }
@@ -260,22 +260,21 @@ struct GeometryInfo
   /// @brief Setter for spacelike facets
   /// @param spacelike_facets The multimap of facets
   void setSpacelike_facets(
-      const boost::optional<std::multimap<std::size_t, Facet>>&
-          spacelike_facets)
+      const std::optional<std::multimap<std::size_t, Facet>>& spacelike_facets)
   {
     GeometryInfo::spacelike_facets = spacelike_facets;
   }
 
   /// @brief Getter for timevalues
   /// @return The set of timevalues
-  const boost::optional<std::set<std::size_t>>& getTimevalues() const
+  const std::optional<std::set<std::size_t>>& getTimevalues() const
   {
     return timevalues;
   }
 
   /// @brief Setter for timevalues
   /// @param timevalues The set of timevalues
-  void setTimevalues(const boost::optional<std::set<std::size_t>>& timevalues)
+  void setTimevalues(const std::optional<std::set<std::size_t>>& timevalues)
   {
     GeometryInfo::timevalues = timevalues;
   }
