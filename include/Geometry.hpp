@@ -48,10 +48,12 @@ struct Geometry<3>
       , number_of_edges{triangulation->number_of_finite_edges()}
       , number_of_faces{triangulation->number_of_finite_facets()}
       , number_of_cells{triangulation->number_of_finite_cells()}
-      , cells{collect_cells(triangulation)}
+      , cells{classify_cells(collect_cells(triangulation))}
       , edges{collect_edges(triangulation)}
       , vertices{collect_vertices(triangulation)}
       , three_one{filter_cells(cells, Cell_type::THREE_ONE)}
+      , two_two{filter_cells(cells, Cell_type::TWO_TWO)}
+      , one_three{filter_cells(cells, Cell_type::ONE_THREE)}
   {}
 
   /// @brief Collect all finite cells of the triangulation
@@ -79,7 +81,6 @@ struct Geometry<3>
     cell_vertices.reserve(4);
     std::vector<size_t> vertex_timevalues;
     vertex_timevalues.reserve(4);
-    //    std::size_t max_timevalue_vertices{0};
     for (auto& c : cells)
     {
       std::cout << "Cell info was " << c->info() << '\n';
