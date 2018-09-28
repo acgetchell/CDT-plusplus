@@ -61,7 +61,7 @@ struct Geometry<3>
   /// @param universe Reference to triangulation
   /// @return Vector of all the finite cells in the triangulation
   template <typename T>
-  std::vector<Cell_handle> collect_cells(T& universe)
+  [[nodiscard]] auto collect_cells(T& universe) -> std::vector<Cell_handle>
   {
     Expects(universe != nullptr);
     std::vector<Cell_handle> init_cells;
@@ -74,7 +74,8 @@ struct Geometry<3>
     return init_cells;
   }
 
-  std::vector<Cell_handle> classify_cells(std::vector<Cell_handle> cells)
+  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> cells)
+      -> std::vector<Cell_handle>
   {
     Expects(!cells.empty());
     std::vector<Vertex_handle> cell_vertices;
@@ -129,8 +130,9 @@ struct Geometry<3>
   /// @param cells_v The vector of simplices to filter
   /// @param cell_t The Cell_type to filter by
   /// @return A vector of Cell_type simplices
-  std::vector<Cell_handle> filter_cells(std::vector<Cell_handle> cells_v,
-                                        const Cell_type          cell_t)
+  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> cells_v,
+                                  const Cell_type          cell_t)
+      -> std::vector<Cell_handle>
   {
     std::vector<Cell_handle> filtered_cells(cells_v.size());
     auto                     it =
@@ -147,7 +149,7 @@ struct Geometry<3>
   /// @param universe Reference to triangulation
   /// @return Vector of all the finite edges in the triangulation
   template <typename T>
-  std::vector<Edge_handle> collect_edges(T& universe)
+  [[nodiscard]] auto collect_edges(T& universe) -> std::vector<Edge_handle>
   {
     Expects(universe != nullptr);
     std::vector<Edge_handle> init_edges;
@@ -170,7 +172,7 @@ struct Geometry<3>
   /// @param universe Reference to triangulation
   /// @return Vector of all finite vertices in the triangulation
   template <typename T>
-  std::vector<Vertex_handle> collect_vertices(T& universe)
+  [[nodiscard]] auto collect_vertices(T& universe) -> std::vector<Vertex_handle>
   {
     Expects(universe != nullptr);
     std::vector<Vertex_handle> init_vertices;
