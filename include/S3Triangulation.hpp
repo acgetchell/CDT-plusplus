@@ -245,10 +245,10 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 /// @param timeslices  The number of desired timeslices in the triangulation
 /// @return A std::vector<std::pair<Point, std::size_t>> containing random
 /// vertices and their corresponding timevalues
-[[nodiscard]] auto inline make_foliated_sphere(const std::size_t simplices,
-                                 const std::size_t timeslices,
-                                 double initial_radius = INITIAL_RADIUS,
-                                 double radial_factor  = RADIAL_FACTOR)
+[[nodiscard]] auto inline make_foliated_sphere(
+    const std::size_t simplices, const std::size_t timeslices,
+    double initial_radius = INITIAL_RADIUS,
+    double radial_factor  = RADIAL_FACTOR)
 {
   //  double     radius{0};
   const auto points_per_timeslice =
@@ -288,10 +288,10 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
-[[nodiscard]] auto inline make_triangulation(const std::size_t simplices,
-                               const std::size_t timeslices,
-                               double initial_radius = INITIAL_RADIUS,
-                               double radial_factor  = RADIAL_FACTOR)
+[[nodiscard]] auto inline make_triangulation(
+    const std::size_t simplices, const std::size_t timeslices,
+    double initial_radius = INITIAL_RADIUS,
+    double radial_factor  = RADIAL_FACTOR)
 {
   std::cout << "Generating universe ... \n";
 
