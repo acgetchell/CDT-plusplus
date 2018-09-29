@@ -23,7 +23,6 @@
 #ifndef INCLUDE_S3ACTION_HPP_
 #define INCLUDE_S3ACTION_HPP_
 
-// #include <CGAL/MP_Float.h>
 #include <CGAL/Gmpzf.h>
 #include <cstdio>
 #include <mpfr.h>
@@ -31,7 +30,7 @@
 /// Results are converted to a CGAL multi-precision floating point number.
 /// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
 using Gmpzf = CGAL::Gmpzf;
-// using MP_Float = CGAL::MP_Float;
+
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static constexpr std::size_t PRECISION = 256;
 
@@ -55,11 +54,10 @@ static constexpr std::size_t PRECISION = 256;
 /// @return \f$S^{(3)}(\alpha=-1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action_alpha_minus_one(const std::size_t N1_TL,
-                                           const std::size_t N3_31_13,
-                                           const std::size_t N3_22,
-                                           const long double K,
-                                           const long double Lambda) noexcept
+[[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
+    const std::size_t N1_TL, const std::size_t N3_31_13,
+    const std::size_t N3_22, const long double K,
+    const long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -133,11 +131,10 @@ inline auto S3_bulk_action_alpha_minus_one(const std::size_t N1_TL,
 /// @return \f$S^{(3)}(\alpha=1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action_alpha_one(const std::size_t N1_TL,
-                                     const std::size_t N3_31_13,
-                                     const std::size_t N3_22,
-                                     const long double K,
-                                     const long double Lambda) noexcept
+[[nodiscard]] inline auto S3_bulk_action_alpha_one(
+    const std::size_t N1_TL, const std::size_t N3_31_13,
+    const std::size_t N3_22, const long double K,
+    const long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -226,10 +223,10 @@ inline auto S3_bulk_action_alpha_one(const std::size_t N1_TL,
 /// @return \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-inline auto S3_bulk_action(const std::size_t N1_TL, const std::size_t N3_31_13,
-                           const std::size_t N3_22, const long double Alpha,
-                           const long double K,
-                           const long double Lambda) noexcept
+[[nodiscard]] inline auto S3_bulk_action(
+    const std::size_t N1_TL, const std::size_t N3_31_13,
+    const std::size_t N3_22, const long double Alpha, const long double K,
+    const long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);

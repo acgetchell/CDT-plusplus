@@ -116,10 +116,9 @@ static constexpr double RADIAL_FACTOR  = 1.0;
 ///
 /// @param universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A boolean value if there are invalid simplices
-template <typename T>
-auto fix_timeslices(T&& universe_ptr)
+template <typename Manifold>
+[[nodiscard]] auto fix_timeslices(Manifold&& universe_ptr)
 {
-  //  Delaunay::Finite_cells_iterator cit;
   std::size_t             min_time{0};
   std::size_t             max_time{0};
   std::size_t             valid{0};
@@ -212,8 +211,8 @@ auto fix_timeslices(T&& universe_ptr)
 /// or MAX_FOLIATION_FIX_PASSES whichever comes first.
 ///
 /// @param universe_ptr A std::unique_ptr<Delaunay> to the triangulation
-template <typename T>
-void fix_triangulation(T&& universe_ptr)
+template <typename Manifold>
+void fix_triangulation(Manifold&& universe_ptr)
 {
   for (std::size_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass)
   {
@@ -228,11 +227,11 @@ void fix_triangulation(T&& universe_ptr)
 
 /// @brief Inserts vertices with timeslices into Delaunay triangulation
 ///
-/// @tparam T Type of universe_ptr
+/// @tparam Manifold Type of universe_ptr
 /// @param universe_ptr A unique pointer to triangulation
 /// @param cv A data structure of causal vertices
-template <typename T>
-void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
+template <typename Manifold>
+void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 {
   universe_ptr->insert(cv.begin(), cv.end());
 }  // insert_into_triangulation()
@@ -246,7 +245,7 @@ void insert_into_triangulation(T&& universe_ptr, Causal_vertices cv)
 /// @param timeslices  The number of desired timeslices in the triangulation
 /// @return A std::vector<std::pair<Point, std::size_t>> containing random
 /// vertices and their corresponding timevalues
-auto inline make_foliated_sphere(const std::size_t simplices,
+[[nodiscard]] auto inline make_foliated_sphere(const std::size_t simplices,
                                  const std::size_t timeslices,
                                  double initial_radius = INITIAL_RADIUS,
                                  double radial_factor  = RADIAL_FACTOR)
@@ -289,7 +288,7 @@ auto inline make_foliated_sphere(const std::size_t simplices,
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
-auto inline make_triangulation(const std::size_t simplices,
+[[nodiscard]] auto inline make_triangulation(const std::size_t simplices,
                                const std::size_t timeslices,
                                double initial_radius = INITIAL_RADIUS,
                                double radial_factor  = RADIAL_FACTOR)

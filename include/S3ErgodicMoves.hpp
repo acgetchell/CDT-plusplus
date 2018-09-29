@@ -15,14 +15,8 @@
 #ifndef INCLUDE_S3ERGODICMOVES_HPP_
 #define INCLUDE_S3ERGODICMOVES_HPP_
 
-// CDT headers
 #include <S3Triangulation.hpp>
-
-// CGAL headers
 #include <CGAL/barycenter.h>
-
-// C++ headers
-// #include <random>
 #include <algorithm>
 #include <tuple>
 #include <utility>
@@ -33,16 +27,16 @@
 /// This function performs the (2,3) move by converting the facet
 /// between a (3,1) simplex and a (2,2) simplex into its dual edge.
 ///
-/// @tparam T The manifold type
+/// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
 /// @param to_be_moved The **Cell_handle** that is tried
 /// @return A boolean value whether the move succeeded
-template <typename T>
-auto try_23_move(T&& universe, Cell_handle to_be_moved)
+template <typename Manifold>
+[[nodiscard]] auto try_23_move(Manifold&& universe, Cell_handle to_be_moved)
 {
   auto flipped = false;
   // Try every facet of the cell
-  for (auto i = 0; i < 4; ++i)
+  for (std::size_t i = 0; i < 4; ++i)
   {
     if (universe.triangulation->flip(to_be_moved, i))
     {
@@ -70,13 +64,14 @@ auto try_23_move(T&& universe, Cell_handle to_be_moved)
 /// This function calls **try_23_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
-/// @tparam T1 The manifold type
-/// @tparam T2 The type of the tuple holding attempted moves
+/// @tparam Manifold The manifold type
+/// @tparam Moves The type of the tuple holding attempted moves
 /// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
-template <typename T1, typename T2>
-auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
+template <typename Manifold, typename Moves>
+[[nodiscard]] auto make_23_move(Manifold&& universe, Moves&& attempted_moves)
+    -> decltype(universe)
 {
 #ifndef NDEBUG
   std::cout << "Attempting (2,3) move.\n";
@@ -103,7 +98,7 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   }
   // Uses return value optimization and allows chaining function calls
   //    return std::move(universe);
-  return std::forward<T1>(universe);
+  return std::forward<Manifold>(universe);
 }  // make_23_move()
 
 /// @brief Try a (3,2) move
@@ -111,12 +106,12 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 /// This function performs a foliation-preserving (3,2) move by converting
 /// timelike edge into it's dual facet.
 ///
-/// @tparam T The manifold type
+/// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
 /// @param to_be_moved The Edge_handle that is tried
 /// @return A boolean value whether the move succeeded
-template <typename T>
-auto try_32_move(T&& universe, Edge_handle to_be_moved)
+template <typename Manifold>
+[[nodiscard]] auto try_32_move(Manifold&& universe, Edge_handle to_be_moved)
 {
   auto flipped = false;
   if (universe.triangulation->flip(std::get<0>(to_be_moved),
@@ -132,13 +127,14 @@ auto try_32_move(T&& universe, Edge_handle to_be_moved)
 /// This function calls **try_32_move()** until it succeeds; the
 /// triangulation is no longer Delaunay.
 ///
-/// @tparam T1 The manifold type
-/// @tparam T2 The type of the tuple holding attempted moves
+/// @tparam Manifold The manifold type
+/// @tparam Moves The type of the tuple holding attempted moves
 /// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
-template <typename T1, typename T2>
-auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
+template <typename Manifold, typename Moves>
+[[nodiscard]] auto make_32_move(Manifold&& universe, Moves&& attempted_moves)
+    -> decltype(universe)
 {
 #ifndef NDEBUG
   std::cout << "Attempting (3,2) move.\n";
@@ -177,7 +173,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   }
   // Uses return value optimization and allows chaining function calls
   //    return std::move(universe);
-  return std::forward<T1>(universe);
+  return std::forward<Manifold>(universe);
 }  // make_32_move()
 
 /// @brief Check a (2,6) move
@@ -191,7 +187,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-inline auto is_26_movable(const Cell_handle& c, std::size_t i)
+[[nodiscard]] inline auto is_26_movable(const Cell_handle& c, std::size_t i)
 {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
@@ -209,7 +205,7 @@ inline auto is_26_movable(const Cell_handle& c, std::size_t i)
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle& c, std::size_t& n)
+[[nodiscard]] inline auto find_26_movable(const Cell_handle& c, std::size_t& n)
 {
   auto movable = false;
   for (std::size_t i = 0; i < 4; ++i)
@@ -251,14 +247,15 @@ inline auto find_26_movable(const Cell_handle& c, std::size_t& n)
 /// @image html 26.png
 /// @image latex 26.eps width=7cm
 ///
-/// @tparam T1 The manifold type
-/// @tparam T2 The type of the tuple holding attempted moves
+/// @tparam Manifold The manifold type
+/// @tparam Moves The type of the tuple holding attempted moves
 /// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// of each type given by the **move_type** enum
 /// @return The SimplicialManifold{} after the move has been made
-template <typename T1, typename T2>
-auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
+template <typename Manifold, typename Moves>
+[[nodiscard]] auto make_26_move(Manifold&& universe, Moves&& attempted_moves)
+    -> decltype(universe)
 {
 #ifndef NDEBUG
   std::cout << "Attempting (2,6) move.\n";
@@ -408,16 +405,16 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     ++attempted_moves[2];
   }
   //    return std::move(universe);
-  return std::forward<T1>(universe);
+  return std::forward<Manifold>(universe);
 }  // make_26_move()
 
 /// @brief Find a (6,2) move
-/// @tparam T The manifold type
+/// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
 /// @param candidate A vertex to test
 /// @return True if a (6,2) move can be made on the candidate vertex
-template <typename T>
-auto find_62_movable(T&& universe, Vertex_handle candidate)
+template <typename Manifold>
+[[nodiscard]] auto find_62_movable(Manifold&& universe, Vertex_handle candidate)
 {
   std::vector<Cell_handle> candidate_cells;
   // Adjacent (3,1), (2,2), and (1,3) cells
@@ -463,13 +460,14 @@ auto find_62_movable(T&& universe, Vertex_handle candidate)
 /// This function performs the (6,2) move by removing a vertex
 /// that has 3 (1,3) and 3 (3,1) simplices around it
 ///
-/// @tparam T1 The manifold type
-/// @tparam T2 The type of the tuple holding attempted moves
+/// @tparam Manifold The manifold type
+/// @tparam Moves The type of the tuple holding attempted moves
 /// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
-template <typename T1, typename T2>
-auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
+template <typename Manifold, typename Moves>
+[[nodiscard]] auto make_62_move(Manifold&& universe, Moves&& attempted_moves)
+    -> decltype(universe)
 {
 #ifndef NDEBUG
   std::cout << "Attempting (6,2) move.\n";
@@ -498,7 +496,7 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   if (tds_vertices_size == 0)
   { throw std::domain_error("No (6,2) move is possible."); }
   //    return std::move(universe);
-  return std::forward<T1>(universe);
+  return std::forward<Manifold>(universe);
 }  // make_62_move()
 
 /// @brief
@@ -514,13 +512,14 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 /// This function performs the (4,4) move by replacing a space-like edge
 /// with another space-like edge that maintains the number of simplices.
 ///
-/// @tparam T1 The manifold type
-/// @tparam T2 The type of the tuple holding attempted moves
+/// @tparam Manifold The manifold type
+/// @tparam Moves The type of the tuple holding attempted moves
 /// @param universe A SimplicialManifold
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
-template <typename T1, typename T2>
-auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
+template <typename Manifold, typename Moves>
+[[nodiscard]] auto make_44_move(Manifold&& universe, Moves&& attempted_moves)
+    -> decltype(universe)
 {
 #ifndef NDEBUG
   std::cout << "Attempting (4,4) move.\n";
@@ -538,7 +537,7 @@ auto make_44_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   // Increment the (4,4) move counter
   ++attempted_moves[4];
   //    return std::move(universe);
-  return std::forward<T1>(universe);
+  return std::forward<Manifold>(universe);
 }  // make_44_move()
 
 #endif  // INCLUDE_S3ERGODICMOVES_HPP_
