@@ -344,7 +344,7 @@ class Metropolis : public MoveAlgorithm
            move_attempt < total_simplices_this_pass; ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = generate_random_signed(0, 3);
+        auto move_choice = generate_random_unsigned(0, 3);
 #ifndef NDEBUG
         std::cout << "Move choice = " << move_choice << "\n";
 #endif

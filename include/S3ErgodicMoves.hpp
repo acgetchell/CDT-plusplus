@@ -90,7 +90,7 @@ auto make_23_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     if (movable_two_two_cells.size() == 0)
     { throw std::domain_error("No (2,3) move is possible."); }
     // Pick out a random (2,2) which ranges from 0 to size()-1
-    auto choice = generate_random_signed(0, movable_two_two_cells.size() - 1);
+    auto choice = generate_random_unsigned(0, movable_two_two_cells.size() - 1);
 
     Cell_handle to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
@@ -153,7 +153,8 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
     { throw std::domain_error("No (3,2) move is possible."); }
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice = generate_random_signed(0, movable_timelike_edges.size() - 1);
+    auto choice =
+        generate_random_unsigned(0, movable_timelike_edges.size() - 1);
     Edge_handle to_be_moved = movable_timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved))
@@ -190,7 +191,7 @@ auto make_32_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-inline auto is_26_movable(const Cell_handle& c, unsigned i)
+inline auto is_26_movable(const Cell_handle& c, std::size_t i)
 {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
@@ -208,10 +209,10 @@ inline auto is_26_movable(const Cell_handle& c, unsigned i)
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-inline auto find_26_movable(const Cell_handle& c, int& n)
+inline auto find_26_movable(const Cell_handle& c, std::size_t& n)
 {
   auto movable = false;
-  for (int i = 0; i < 4; ++i)
+  for (std::size_t i = 0; i < 4; ++i)
   {
 #ifndef NDEBUG
     std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
@@ -267,9 +268,9 @@ auto make_26_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
   while (not_moved)
   {
     // Pick out a random (1,3) from simplex_types
-    auto choice = generate_random_signed(0, universe.geometry->N3_13() - 1);
+    auto choice = generate_random_unsigned(0, universe.geometry->N3_13() - 1);
 
-    int         neighboring_31_index{5};
+    std::size_t neighboring_31_index{5};
     Cell_handle bottom = universe.geometry->one_three[choice];
 
     if (!universe.triangulation->tds().is_cell(bottom))
@@ -475,10 +476,10 @@ auto make_62_move(T1&& universe, T2&& attempted_moves) -> decltype(universe)
 #endif
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  int32_t                    tds_vertices_size = tds_vertices.size();
+  std::size_t                tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0))
   {
-    auto          choice = generate_random_signed(0, tds_vertices_size - 1);
+    auto          choice = generate_random_unsigned(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices[choice];
     // Ensure pre-conditions are satisfied
     CGAL_triangulation_precondition(universe.triangulation->dimension() == 3);

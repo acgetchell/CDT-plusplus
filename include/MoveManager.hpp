@@ -24,7 +24,7 @@
 #include <utility>
 #include <vector>
 
-using move_invariants = std::array<std::uint32_t, 6>;
+using move_invariants = std::array<std::size_t, 6>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves
@@ -72,7 +72,7 @@ class MoveManager
 
   auto ArrayDifference(Move_tracker first, Move_tracker second)
   {
-    for (int j = 0; j < 5; ++j)
+    for (std::size_t j = 0; j < 5; ++j)
     {
       if (first[j] - second[j] != 0) return j;
     }
@@ -165,7 +165,7 @@ class MoveManager
           check_move_postconditions(attempted_moves_.get(), old_moves);
 #ifndef NDEBUG
       std::cout << "Moves are good: " << std::boolalpha << moves_are_good
-                << std::endl;
+                << '\n';
 #endif
       if (!moves_are_good)
         throw std::runtime_error("Move postconditions violated.");

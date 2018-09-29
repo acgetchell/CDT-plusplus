@@ -17,7 +17,7 @@ SCENARIO("Randomizing functions", "[random]")
   {
     WHEN("A random timeslice is generated.")
     {
-      constexpr std::int_fast32_t timeslices{16};
+      constexpr std::size_t   timeslices{16};
       auto                    result = generate_random_timeslice(timeslices);
       THEN("We should get a timeslice within the range.")
       {
@@ -31,7 +31,7 @@ SCENARIO("Randomizing functions", "[random]")
   {
     WHEN("We generate four different random integers within the range.")
     {
-      constexpr std::int_fast32_t test_range_max = 256;
+      constexpr std::size_t test_range_max = 256;
       const auto value1 = generate_random_timeslice(test_range_max);
       const auto value2 = generate_random_timeslice(test_range_max);
       const auto value3 = generate_random_timeslice(test_range_max);
@@ -52,8 +52,8 @@ SCENARIO("Randomizing functions", "[random]")
   {
     WHEN("We generate a random real number.")
     {
-      long double min{0.0};
-      long double max{1.0};
+      double      min{0.0};
+      double      max{1.0};
       const auto  value = generate_random_real(min, max);
       THEN("The real number should lie within that range.")
       {

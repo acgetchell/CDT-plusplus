@@ -42,7 +42,7 @@ SCENARIO("Construct a higher-dimensional 3-sphere", "[sphere]")
     constexpr auto           radius{1.0};
     WHEN("A 3-sphere is constructed.")
     {
-      make_d_sphere(number_of_points, dim, radius, &points);
+      make_d_sphere(number_of_points, dim, radius, points);
       THEN("We have the correct number of points.")
       {
         REQUIRE(points.size() == number_of_points);

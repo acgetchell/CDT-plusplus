@@ -71,12 +71,12 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
     std::vector<Delaunay3::Point> Vertices{
         Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
         Delaunay3::Point{0, 0, 1}, Delaunay3::Point{1, 0, 0}};
-    std::vector<std::int_fast32_t> timevalue{1, 1, 1, 2};
+    std::vector<std::size_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
       Causal_vertices causal_vertices;
-      for (auto j = 0; j < 4; ++j)
+      for (std::size_t j = 0; j < 4; ++j)
       {
         causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
       }
