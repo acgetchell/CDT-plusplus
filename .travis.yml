@@ -173,7 +173,7 @@ matrix:
           sources:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
       after_success:
-        - travis_wait 30 ctest -T memcheck
+        - travis_wait 30 ctest -T memcheck --verbose
     # Codecov
     - os: osx
       compiler: clang

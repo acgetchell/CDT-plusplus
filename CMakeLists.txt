@@ -78,7 +78,7 @@ add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS
 
 # Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 # with CGAL_SetupFlags.cmake
-set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" CACHE STRING "" FORCE)
+set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" "RelWithDebInfo" CACHE STRING "" FORCE)
 
 # Extra warnings
 add_compile_options(-Wall
