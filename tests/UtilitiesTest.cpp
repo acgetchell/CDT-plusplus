@@ -11,7 +11,7 @@
 #include <catch2/catch.hpp>
 #include <Utilities.hpp>
 
-SCENARIO("Randomizing functions", "[random]")
+SCENARIO("Randomizing functions", "[utility]")
 {
   GIVEN("A range of timeslices.")
   {
@@ -84,7 +84,7 @@ SCENARIO("Randomizing functions", "[random]")
   }
 }
 
-SCENARIO("Exact number (Gmpzf) conversion.", "[numbers]")
+SCENARIO("Exact number (Gmpzf) conversion.", "[utility]")
 {
   GIVEN("A number not exactly representable in binary.")
   {
@@ -100,7 +100,7 @@ SCENARIO("Exact number (Gmpzf) conversion.", "[numbers]")
   }
 }
 
-SCENARIO("DateTime utilities", "[datetime][!mayfail]")
+SCENARIO("DateTime utilities", "[utility]")
 {
   GIVEN("A current datetime function.")
   {
