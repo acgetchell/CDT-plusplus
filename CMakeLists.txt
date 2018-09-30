@@ -78,7 +78,12 @@ add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS
 
 # Disable CLion generation of RelWithDebInfo and MinSizeRel to avoid conflicts
 # with CGAL_SetupFlags.cmake
-set(CMAKE_CONFIGURATION_TYPES "Release" "Debug" "RelWithDebInfo" CACHE STRING "" FORCE)
+set(CMAKE_CONFIGURATION_TYPES
+    "Release"
+    "Debug"
+    "RelWithDebInfo"
+    CACHE STRING ""
+    FORCE)
 
 # Extra warnings
 add_compile_options(-Wall
@@ -95,7 +100,8 @@ add_compile_options(-Wall
                     -Wsign-conversion
                     -Wnull-dereference
                     -Wdouble-promotion
-                    -Wformat=2)
+                    -Wformat=2
+                    -Werror=return-type)
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

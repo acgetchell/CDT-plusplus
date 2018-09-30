@@ -12,7 +12,7 @@ class CausalDynamicalTriangulations(ConanFile):
     def build(self):
         cmake = CMake(self)
         cmake.verbose = True
-        cmake.definitions["CMAKE_BUILD_TYPE"] = "Debug"
+        cmake.definitions["CMAKE_BUILD_TYPE"] = "RelWithDebInfo"
         cmake.configure(args=["CMAKE_EXPORT_COMPILE_COMMANDS=ON"])
         cmake.build()
 
