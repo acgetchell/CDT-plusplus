@@ -57,11 +57,12 @@ struct Geometry<3>
   {}
 
   /// @brief Collect all finite cells of the triangulation
-  /// @tparam T Reference type of triangulation
+  /// @tparam Manifold Reference type of triangulation
   /// @param universe Reference to triangulation
-  /// @return Vector of all the finite cells in the triangulation
-  template <typename T>
-  [[nodiscard]] auto collect_cells(T& universe) -> std::vector<Cell_handle>
+  /// @return Container of all the finite simplices in the triangulation
+  template <typename Manifold>
+  [[nodiscard]] auto collect_cells(Manifold& universe)
+      -> std::vector<Cell_handle>
   {
     Expects(universe != nullptr);
     std::vector<Cell_handle> init_cells;
@@ -74,6 +75,9 @@ struct Geometry<3>
     return init_cells;
   }
 
+  /// @brief Classify cells
+  /// @param cells The container of simplices to classify
+  /// @return A container of simplices with Cell_type written to cell->info()
   [[nodiscard]] auto classify_cells(std::vector<Cell_handle> cells)
       -> std::vector<Cell_handle>
   {
@@ -127,9 +131,9 @@ struct Geometry<3>
   }
 
   /// @brief Filter simplices by Cell_type
-  /// @param cells_v The vector of simplices to filter
-  /// @param cell_t The Cell_type to filter by
-  /// @return A vector of Cell_type simplices
+  /// @param cells_v The container of simplices to filter
+  /// @param cell_t The Cell_type predicate filter
+  /// @return A container of Cell_type simplices
   [[nodiscard]] auto filter_cells(std::vector<Cell_handle> cells_v,
                                   const Cell_type          cell_t)
       -> std::vector<Cell_handle>
@@ -145,11 +149,12 @@ struct Geometry<3>
   }
 
   /// @brief Collect all finite edges of the triangulation
-  /// @tparam T Reference type of triangulation
+  /// @tparam Manifold Reference type of triangulation
   /// @param universe Reference to triangulation
-  /// @return Vector of all the finite edges in the triangulation
-  template <typename T>
-  [[nodiscard]] auto collect_edges(T& universe) -> std::vector<Edge_handle>
+  /// @return Container of all the finite edges in the triangulation
+  template <typename Manifold>
+  [[nodiscard]] auto collect_edges(Manifold& universe)
+      -> std::vector<Edge_handle>
   {
     Expects(universe != nullptr);
     std::vector<Edge_handle> init_edges;
@@ -167,12 +172,21 @@ struct Geometry<3>
     return init_edges;
   }
 
+  [[nodiscard]] auto filter_edges(std::vector<Edge_handle> edges_v,
+                                  bool timelike) -> std::vector<Edge_handle>
+  {
+    std::vector<Edge_handle> filtered_edges(edges_v.size());
+    // Make an iterator and filter by timelike or spacelike
+    return filtered_edges;
+  }
+
   /// @brief Collect all finite vertices of the triangulation
-  /// @tparam T Reference type of triangulation
+  /// @tparam Manifold Reference type of triangulation
   /// @param universe Reference to triangulation
-  /// @return Vector of all finite vertices in the triangulation
-  template <typename T>
-  [[nodiscard]] auto collect_vertices(T& universe) -> std::vector<Vertex_handle>
+  /// @return Container of all finite vertices in the triangulation
+  template <typename Manifold>
+  [[nodiscard]] auto collect_vertices(Manifold& universe)
+      -> std::vector<Vertex_handle>
   {
     Expects(universe != nullptr);
     std::vector<Vertex_handle> init_vertices;

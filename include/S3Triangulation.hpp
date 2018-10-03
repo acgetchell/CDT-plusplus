@@ -41,14 +41,11 @@
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-// CGAL headers
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
-
-// C++ headers
 #include <algorithm>
 #include <memory>
 #include <set>
@@ -56,8 +53,6 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-
-// CDT headers
 #include <Utilities.hpp>
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;

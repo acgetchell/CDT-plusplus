@@ -13,12 +13,14 @@
 #include <Measurements.hpp>
 #include <S3Action.hpp>
 
-SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
+using namespace std;
+
+SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
 {
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
-    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
+    constexpr auto     simplices  = static_cast<size_t>(6400);
+    constexpr auto     timeslices = static_cast<size_t>(7);
     constexpr auto     K          = static_cast<long double>(1.1);
     constexpr auto     Lambda     = static_cast<long double>(0.1);
     SimplicialManifold universe(simplices, timeslices);
@@ -46,8 +48,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
           universe.geometry->N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        std::cout << "S3_bulk_action_alpha_minus_one() = " << Bulk_action
-                  << "\n";
+        cout << "S3_bulk_action_alpha_minus_one() = " << Bulk_action << "\n";
         REQUIRE(3500 <= Bulk_action);
         REQUIRE(Bulk_action <= 4500);
       }
@@ -59,7 +60,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
           universe.geometry->N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        std::cout << "S3_bulk_action_alpha_one() = " << Bulk_action << "\n";
+        cout << "S3_bulk_action_alpha_one() = " << Bulk_action << "\n";
         REQUIRE(2000 <= Bulk_action);
         REQUIRE(Bulk_action <= 3000);
       }
@@ -67,13 +68,13 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
     WHEN("The generalized Bulk Action is calculated.")
     {
       constexpr auto Alpha = static_cast<long double>(0.6);
-      std::cout << "(Long double) Alpha = " << Alpha << '\n';
+      cout << "(Long double) Alpha = " << Alpha << '\n';
       auto Bulk_action = S3_bulk_action(
           universe.geometry->N1_TL(), universe.geometry->N3_31_13(),
           universe.geometry->N3_22(), Alpha, K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        std::cout << "S3_bulk_action() = " << Bulk_action << "\n";
+        cout << "S3_bulk_action() = " << Bulk_action << "\n";
         REQUIRE(2700 <= Bulk_action);
         REQUIRE(Bulk_action <= 3700);
       }
@@ -94,12 +95,10 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action][!mayfail]")
           "S3_bulk_action(alpha=1) == S3_bulk_action_alpha_one() within "
           "tolerances.")
       {
-        std::cout << "S3_bulk_action() = " << Bulk_action << "\n";
-        std::cout << "S3_bulk_action_alpha_one() = " << Bulk_action_one << "\n";
-        const auto min = Bulk_action_one * (1.0 - tolerance);
-        const auto max = Bulk_action_one * (1.0 + tolerance);
-        REQUIRE(min <= Bulk_action);
-        REQUIRE(Bulk_action <= max);
+        cout << "S3_bulk_action() = " << Bulk_action << "\n";
+        cout << "S3_bulk_action_alpha_one() = " << Bulk_action_one << "\n";
+        Approx target = Approx(Gmpzf_to_double(Bulk_action)).epsilon(0.01);
+        REQUIRE(Gmpzf_to_double(Bulk_action_one) == target);
       }
     }
   }
