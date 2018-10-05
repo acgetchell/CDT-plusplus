@@ -48,7 +48,7 @@ SCENARIO("3-Geometry exception-safety", "[geometry]")
   }
 }
 
-SCENARIO("3-Geometry classification", "[geometry]")
+SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
 {
   GIVEN("A small 3-dimensional geometry.")
   {
@@ -104,12 +104,13 @@ SCENARIO("3-Geometry classification", "[geometry]")
              << " spacelike edges.\n";
         for (auto const& edge : geometry.edges)
         { geometry.classify_edges(edge, true); }
+        cout << "There are " << geometry.number_of_vertices << " vertices.\n";
       }
     }
   }
 }
 
-SCENARIO("3-Geometry initialization", "[geometry][.]")
+SCENARIO("3-Geometry initialization", "[geometry]")
 {
   GIVEN("A 3-dimensional geometry.")
   {

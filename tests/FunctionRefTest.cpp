@@ -14,6 +14,8 @@
 #include <S3ErgodicMoves.hpp>
 #include <catch2/catch.hpp>
 
+using namespace std;
+
 SCENARIO("Simple Lambda operations", "[lambda]")
 {
   constexpr auto increment_lambda = [](int a) { return ++a; };
@@ -35,72 +37,72 @@ SCENARIO("Simple Lambda operations", "[lambda]")
     }
   }
 }
-SCENARIO("Complex Lambda operations", "[lambda][!mayfail][.]")
-{
-  GIVEN("A lambda storing a move.")
-  {
-    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
-    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
-    SimplicialManifold universe(simplices, timeslices);
-    Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
-    // Verify triangulation
-    CHECK(universe.triangulation);
-    CHECK(universe.geometry->number_of_cells() ==
-          universe.triangulation->number_of_finite_cells());
-    CHECK(universe.geometry->number_of_edges() ==
-          universe.triangulation->number_of_finite_edges());
-    CHECK(universe.geometry->N0() ==
-          universe.triangulation->number_of_vertices());
-    CHECK(universe.triangulation->dimension() == 3);
-    CHECK(fix_timeslices(universe.triangulation));
-    CHECK(universe.triangulation->is_valid());
-    CHECK(universe.triangulation->tds().is_valid());
-
-    VolumePerTimeslice(universe);
-
-    CHECK(universe.geometry->max_timevalue().get() == timeslices);
-    CHECK(universe.geometry->min_timevalue().get() == 1);
-    // Previous state
-    auto N3_31_pre_move = universe.geometry->N3_31();
-    auto N3_22_pre_move = universe.geometry->N3_22();
-    auto N3_13_pre_move = universe.geometry->N3_13();
-    auto N1_TL_pre_move = universe.geometry->N1_TL();
-    auto N1_SL_pre_move = universe.geometry->N1_SL();
-    auto N0_pre_move    = universe.geometry->N0();
-    // No moves recorded
-    CHECK(attempted_moves[0] == 0);
-
-    auto move_23_lambda =
-        [](SimplicialManifold manifold,
-           Move_tracker&      attempted_moves) -> SimplicialManifold {
-      return make_23_move(std::move(manifold), attempted_moves);
-    };
-    WHEN("The lambda is invoked.")
-    {
-      REQUIRE_NOTHROW(universe = move_23_lambda(universe, attempted_moves));
-      THEN(
-          "The move from the lambda is correct and the triangulation "
-          "invariants are maintained.")
-      {
-        // The triangulation is still valid
-        CHECK(universe.triangulation->tds().is_valid(true));
-        CHECK(universe.triangulation->dimension() == 3);
-        CHECK(fix_timeslices(universe.triangulation));
-        // The move is correct
-        CHECK(universe.geometry->N3_31() == N3_31_pre_move);
-        CHECK(universe.geometry->N3_22() == N3_22_pre_move + 1);
-        CHECK(universe.geometry->N3_13() == N3_13_pre_move);
-        CHECK(universe.geometry->N1_TL() == N1_TL_pre_move + 1);
-        CHECK(universe.geometry->N1_SL() == N1_SL_pre_move);
-        CHECK(universe.geometry->N0() == N0_pre_move);
-        // Move attempts were recorded
-        CHECK_FALSE(attempted_moves[0] == 0);
-        std::cout << "There were " << attempted_moves[0]
-                  << " attempted (2,3) moves.\n";
-      }
-    }
-  }
-}
+// SCENARIO("Complex Lambda operations", "[lambda][!mayfail][.]")
+//{
+//  GIVEN("A lambda storing a move.")
+//  {
+//    constexpr auto     simplices  = static_cast<size_t>(6400);
+//    constexpr auto     timeslices = static_cast<size_t>(7);
+//    SimplicialManifold universe(simplices, timeslices);
+//    Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
+//    // Verify triangulation
+//    CHECK(universe.triangulation);
+//    CHECK(universe.geometry->number_of_cells() ==
+//          universe.triangulation->number_of_finite_cells());
+//    CHECK(universe.geometry->number_of_edges() ==
+//          universe.triangulation->number_of_finite_edges());
+//    CHECK(universe.geometry->N0() ==
+//          universe.triangulation->number_of_vertices());
+//    CHECK(universe.triangulation->dimension() == 3);
+//    CHECK(fix_timeslices(universe.triangulation));
+//    CHECK(universe.triangulation->is_valid());
+//    CHECK(universe.triangulation->tds().is_valid());
+//
+//    VolumePerTimeslice(universe);
+//
+//    CHECK(universe.geometry->max_timevalue().get() == timeslices);
+//    CHECK(universe.geometry->min_timevalue().get() == 1);
+//    // Previous state
+//    auto N3_31_pre_move = universe.geometry->N3_31();
+//    auto N3_22_pre_move = universe.geometry->N3_22();
+//    auto N3_13_pre_move = universe.geometry->N3_13();
+//    auto N1_TL_pre_move = universe.geometry->N1_TL();
+//    auto N1_SL_pre_move = universe.geometry->N1_SL();
+//    auto N0_pre_move    = universe.geometry->N0();
+//    // No moves recorded
+//    CHECK(attempted_moves[0] == 0);
+//
+//    auto move_23_lambda =
+//        [](SimplicialManifold manifold,
+//           Move_tracker&      attempted_moves) -> SimplicialManifold {
+//      return make_23_move(move(manifold), attempted_moves);
+//    };
+//    WHEN("The lambda is invoked.")
+//    {
+//      REQUIRE_NOTHROW(universe = move_23_lambda(universe, attempted_moves));
+//      THEN(
+//          "The move from the lambda is correct and the triangulation "
+//          "invariants are maintained.")
+//      {
+//        // The triangulation is still valid
+//        CHECK(universe.triangulation->tds().is_valid(true));
+//        CHECK(universe.triangulation->dimension() == 3);
+//        CHECK(fix_timeslices(universe.triangulation));
+//        // The move is correct
+//        CHECK(universe.geometry->N3_31() == N3_31_pre_move);
+//        CHECK(universe.geometry->N3_22() == N3_22_pre_move + 1);
+//        CHECK(universe.geometry->N3_13() == N3_13_pre_move);
+//        CHECK(universe.geometry->N1_TL() == N1_TL_pre_move + 1);
+//        CHECK(universe.geometry->N1_SL() == N1_SL_pre_move);
+//        CHECK(universe.geometry->N0() == N0_pre_move);
+//        // Move attempts were recorded
+//        CHECK_FALSE(attempted_moves[0] == 0);
+//        cout << "There were " << attempted_moves[0]
+//             << " attempted (2,3) moves.\n";
+//      }
+//    }
+//  }
+//}
 
 SCENARIO("Function_ref operations", "[function_ref]")
 {
