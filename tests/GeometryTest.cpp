@@ -12,6 +12,8 @@
 #include <S3Triangulation.hpp>
 #include <catch2/catch.hpp>
 
+using namespace std;
+
 SCENARIO("3-Geometry exception-safety", "[geometry]")
 {
   GIVEN("A 3-dimensional geometry.")
@@ -20,27 +22,27 @@ SCENARIO("3-Geometry exception-safety", "[geometry]")
     {
       THEN("It is no-throw default constructible.")
       {
-        CHECK_FALSE(std::is_nothrow_default_constructible<Geometry3>::value);
+        CHECK_FALSE(is_nothrow_default_constructible<Geometry3>::value);
       }
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(std::is_nothrow_destructible<Geometry3>::value);
+        REQUIRE(is_nothrow_destructible<Geometry3>::value);
       }
       THEN("It is no-throw copy constructible.")
       {
-        CHECK_FALSE(std::is_nothrow_copy_constructible<Geometry3>::value);
+        CHECK_FALSE(is_nothrow_copy_constructible<Geometry3>::value);
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK_FALSE(std::is_nothrow_copy_assignable<Geometry3>::value);
+        CHECK_FALSE(is_nothrow_copy_assignable<Geometry3>::value);
       }
       THEN("It is no-throw move constructible.")
       {
-        REQUIRE(std::is_nothrow_move_constructible<Geometry3>::value);
+        REQUIRE(is_nothrow_move_constructible<Geometry3>::value);
       }
       THEN("It is no-throw move assignable.")
       {
-        REQUIRE(std::is_nothrow_move_assignable<Geometry3>::value);
+        REQUIRE(is_nothrow_move_assignable<Geometry3>::value);
       }
     }
   }
@@ -52,20 +54,19 @@ SCENARIO("3-Geometry classification", "[geometry]")
   {
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      std::size_t desired_simplices{48};
-      std::size_t desired_timeslices{3};
+      size_t      desired_simplices{48};
+      size_t      desired_timeslices{3};
       auto        triangulation =
           make_triangulation(desired_simplices, desired_timeslices);
       Geometry3 geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
-        std::cout << "There are " << geometry.cells.size()
-                  << " simplices ...\n";
-        std::cout << "There are " << geometry.three_one.size()
-                  << " (3,1) simplices and " << geometry.two_two.size()
-                  << " (2,2) simplices and " << geometry.one_three.size()
-                  << " (1,3) simplices.\n";
-        REQUIRE(geometry.number_of_cells > 2);
+        cout << "There are " << geometry.cells.size() << " simplices ...\n";
+        cout << "There are " << geometry.three_one.size()
+             << " (3,1) simplices and " << geometry.two_two.size()
+             << " (2,2) simplices and " << geometry.one_three.size()
+             << " (1,3) simplices.\n";
+        CHECK(geometry.number_of_cells > 2);
         CHECK(geometry.number_of_cells ==
               triangulation->number_of_finite_cells());
         CHECK(geometry.number_of_vertices ==
@@ -81,7 +82,28 @@ SCENARIO("3-Geometry classification", "[geometry]")
         CHECK(geometry.three_one.size() + geometry.two_two.size() +
                   geometry.one_three.size() ==
               geometry.cells.size());
-        //        CHECK_FALSE(geometry.timelike_edges.size() == 0);
+        // Human verification
+        for (auto const& cell : geometry.cells)
+        {
+          cout << "Cell info => " << cell->info() << "\n";
+          for (size_t j = 0; j < 4; ++j)
+          {
+            cout << "Vertex(" << j << ") timevalue: " << cell->vertex(j)->info()
+                 << "\n";
+          }
+          cout << "---\n";
+        }
+        CHECK_FALSE(geometry.timelike_edges.size() == 0);
+        CHECK_FALSE(geometry.spacelike_edges.size() == 0);
+        CHECK(geometry.edges.size() ==
+              geometry.timelike_edges.size() + geometry.spacelike_edges.size());
+        // Human verification
+        cout << "There are " << geometry.number_of_edges << " edges.\n";
+        cout << "There are " << geometry.timelike_edges.size()
+             << " timelike edges and " << geometry.spacelike_edges.size()
+             << " spacelike edges.\n";
+        for (auto const& edge : geometry.edges)
+        { geometry.classify_edges(edge, true); }
       }
     }
   }
@@ -112,8 +134,8 @@ SCENARIO("3-Geometry initialization", "[geometry][.]")
     }
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      std::size_t desired_simplices{640};
-      std::size_t desired_timeslices{4};
+      size_t      desired_simplices{640};
+      size_t      desired_timeslices{4};
       auto        triangulation =
           make_triangulation(desired_simplices, desired_timeslices);
       Geometry3 geometry(triangulation);
@@ -135,7 +157,12 @@ SCENARIO("3-Geometry initialization", "[geometry][.]")
         CHECK_FALSE(geometry.one_three.size() == 0);
         CHECK(geometry.three_one.size() + geometry.two_two.size() +
                   geometry.one_three.size() ==
-              geometry.cells.size());
+              geometry.number_of_cells);
+        CHECK_FALSE(geometry.timelike_edges.size() == 0);
+        CHECK_FALSE(geometry.spacelike_edges.size() == 0);
+        CHECK(geometry.timelike_edges.size() +
+                  geometry.spacelike_edges.size() ==
+              geometry.number_of_edges);
       }
     }
   }
