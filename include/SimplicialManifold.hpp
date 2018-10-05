@@ -221,7 +221,7 @@ auto classify_all_simplices(T&& universe_ptr)
 /// The default constructor, destructor, move constructor, copy
 /// constructor, and copy assignment operator are explicitly defaulted.
 /// See http://en.cppreference.com/w/cpp/language/rule_of_three
-struct GeometryInfo
+struct [[deprecated]] GeometryInfo
 {
  private:
   /// @brief (3,1) cells in the foliation
@@ -415,7 +415,7 @@ struct GeometryInfo
 ///
 /// SimplicialManifold contains information about the triangulation and
 /// its geometry. In addition, it defines convenient constructors.
-struct SimplicialManifold
+struct [[deprecated]] SimplicialManifold
 {
   /// @brief Owning pointer to the Delaunay triangulation
   std::unique_ptr<Delaunay3> triangulation;

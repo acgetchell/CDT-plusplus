@@ -104,7 +104,12 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
              << " spacelike edges.\n";
         for (auto const& edge : geometry.edges)
         { geometry.classify_edges(edge, true); }
-        cout << "There are " << geometry.number_of_vertices << " vertices.\n";
+        cout << "There are " << geometry.number_of_vertices
+             << " vertices with a max timevalue of " << geometry.max_timevalue
+             << " and a min timevalue of " << geometry.min_timevalue << ".\n";
+        CHECK(geometry.max_timevalue > 0);
+        CHECK(geometry.min_timevalue > 0);
+        CHECK(geometry.max_timevalue > geometry.min_timevalue);
       }
     }
   }
@@ -131,6 +136,8 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         REQUIRE(geometry.one_three.size() == 0);
         REQUIRE(geometry.timelike_edges.size() == 0);
         REQUIRE(geometry.spacelike_edges.size() == 0);
+        REQUIRE(geometry.max_timevalue == 0);
+        REQUIRE(geometry.min_timevalue == 0);
       }
     }
     WHEN("It is constructed with a Delaunay triangulation.")
@@ -164,6 +171,9 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         CHECK(geometry.timelike_edges.size() +
                   geometry.spacelike_edges.size() ==
               geometry.number_of_edges);
+        CHECK(geometry.max_timevalue > 0);
+        CHECK(geometry.min_timevalue > 0);
+        CHECK(geometry.max_timevalue > geometry.min_timevalue);
       }
     }
   }

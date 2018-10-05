@@ -38,6 +38,8 @@ struct Geometry<3>
       , number_of_edges{0}
       , number_of_faces{0}
       , number_of_cells{0}
+      , max_timevalue{0}
+      , min_timevalue{0}
   {}
 
   /// @brief Constructor with triangulation
@@ -58,6 +60,8 @@ struct Geometry<3>
       , one_three{filter_cells(cells, Cell_type::ONE_THREE)}
       , timelike_edges{filter_edges(edges, true)}
       , spacelike_edges{filter_edges(edges, false)}
+      , max_timevalue{find_max_timevalue(vertices)}
+      , min_timevalue{find_min_timevalue(vertices)}
   {}
 
   /// @brief Collect all finite cells of the triangulation
@@ -251,6 +255,41 @@ struct Geometry<3>
     return init_vertices;
   }  // collect_vertices
 
+  /// @brief Compare vertex info
+  /// @param lhs Left hand side vertex
+  /// @param rhs Right hand side vertex
+  /// @return True if left vertex info < right vertex info
+  [[nodiscard]] static bool compare_v_info(Vertex_handle lhs, Vertex_handle rhs)
+  {
+    return (lhs->info() < rhs->info());
+  }  // compare_v_info
+
+  /// @brief Find maximum timevalues
+  /// @param vertices Container of vertices
+  /// @return The maximum timevalue
+  [[nodiscard]] auto find_max_timevalue(
+      std::vector<Vertex_handle> const vertices) -> std::size_t
+  {
+    Expects(!vertices.empty());
+    auto it =
+        std::max_element(vertices.begin(), vertices.end(), compare_v_info);
+    auto result_index = std::distance(vertices.begin(), it);
+    return vertices[result_index]->info();
+  }  // find_max_timevalue
+
+  /// @brief Find minimum timevalues
+  /// @param vertices Container of vertices
+  /// @return The minimum timevalue
+  [[nodiscard]] auto find_min_timevalue(
+      std::vector<Vertex_handle> const vertices) -> std::size_t
+  {
+    Expects(!vertices.empty());
+    auto it =
+        std::min_element(vertices.begin(), vertices.end(), compare_v_info);
+    auto result_index = std::distance(vertices.begin(), it);
+    return vertices[result_index]->info();
+  }  // find_min_timevalue
+
   std::size_t                number_of_vertices;
   std::size_t                number_of_edges;
   std::size_t                number_of_faces;
@@ -263,6 +302,8 @@ struct Geometry<3>
   std::vector<Cell_handle>   one_three;
   std::vector<Edge_handle>   timelike_edges;
   std::vector<Edge_handle>   spacelike_edges;
+  std::size_t                max_timevalue;
+  std::size_t                min_timevalue;
 };
 
 using Geometry3 = Geometry<3>;

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2013-2017 Adam Getchell
+/// Copyright © 2013-2018 Adam Getchell
 ///
 /// Utility functions
 
@@ -15,14 +15,11 @@
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-// CGAL headers
 #include <CGAL/Gmpzf.h>
 #include <CGAL/Timer.h>
-
 #ifndef _WIN32
 #include <sys/utsname.h>
 #endif
-
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>
@@ -35,7 +32,6 @@
 #include <stdexcept>
 #include <string>
 #include <typeindex>
-
 // H. Hinnant's date and time library
 #include <date/tz.h>
 
@@ -51,7 +47,8 @@ enum class topology_type
 /// @param os output stream
 /// @param topology
 /// @return output stream
-inline std::ostream& operator<<(std::ostream& os, const topology_type& topology)
+[[nodiscard]] inline std::ostream& operator<<(std::ostream&        os,
+                                              const topology_type& topology)
 {
   switch (topology)
   {
@@ -175,7 +172,7 @@ void print_results(const Manifold& universe) noexcept
             << universe.triangulation->number_of_finite_facets() << " faces\n"
             << "and " << universe.triangulation->number_of_finite_cells()
             << " cells.\n";
-}
+}  // print_results
 
 /// @brief Print out runtime results including time elapsed
 ///
@@ -188,7 +185,8 @@ void print_results(const Manifold& universe) noexcept
 /// @param universe A SimplicialManifold
 /// @param timer A timer object used to determine elapsed time
 template <typename Manifold, typename Timer>
-void print_results(const Manifold& universe, const Timer& timer) noexcept
+[[noreturn]] void print_results(const Manifold& universe,
+                                const Timer&    timer) noexcept
 {
   // C++17
   print_results(std::as_const(universe));
@@ -196,7 +194,7 @@ void print_results(const Manifold& universe, const Timer& timer) noexcept
 
   // Display program running time
   std::cout << "Running time is " << timer.time() << " seconds.\n";
-}
+}  // print_results
 
 /// @brief Writes the runtime results to a file
 ///
@@ -230,7 +228,7 @@ void write_file(const Manifold& universe, const topology_type& topology,
   if (!file.is_open()) throw std::runtime_error("Unable to open file.");
 
   file << *universe.triangulation;
-}
+}  // write_file
 
 /// @brief Seed sequence class for high-quality pseudo-random number generator
 ///
