@@ -4,7 +4,7 @@
 ///
 /// Tests for random, conversion, and datetime functions.
 ///
-/// @file Utilities.cpp
+/// @file UtilitiesTest.cpp
 /// @brief Tests on utility functions
 /// @author Adam Getchell
 

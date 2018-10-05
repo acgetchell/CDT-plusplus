@@ -81,6 +81,7 @@ SCENARIO("3-Geometry classification", "[geometry]")
         CHECK(geometry.three_one.size() + geometry.two_two.size() +
                   geometry.one_three.size() ==
               geometry.cells.size());
+        //        CHECK_FALSE(geometry.timelike_edges.size() == 0);
       }
     }
   }

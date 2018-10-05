@@ -173,10 +173,18 @@ struct Geometry<3>
   }
 
   [[nodiscard]] auto filter_edges(std::vector<Edge_handle> edges_v,
-                                  bool timelike) -> std::vector<Edge_handle>
+                                  bool is_Spacelike) -> std::vector<Edge_handle>
   {
     std::vector<Edge_handle> filtered_edges(edges_v.size());
-    // Make an iterator and filter by timelike or spacelike
+    auto                     it = std::copy_if(edges_v.begin(), edges_v.end(),
+                           filtered_edges.begin(), [&](auto const& edge) {
+                             Cell_handle ch = std::get<0>(edge);
+                             // Get timevalues of vertices at the edge ends
+                             auto time1 = ch->vertex(std::get<1>(edge))->info();
+                             auto time2 = ch->vertex(std::get<2>(edge))->info();
+                             return ((time1 == time2) && is_Spacelike);
+                           });
+    filtered_edges.resize(std::distance(filtered_edges.begin(), it));
     return filtered_edges;
   }
 
