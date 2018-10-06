@@ -26,12 +26,13 @@ enum class Cell_type
 /// Geometry class template
 /// @tparam dimension Dimensionality of geometry
 template <std::size_t dimension>
-struct Geometry;
+class Geometry;
 
 /// 3D Geometry
 template <>
-struct Geometry<3>
+class Geometry<3>
 {
+ public:
   /// @brief Default ctor
   Geometry()
       : number_of_vertices{0}
@@ -64,6 +65,62 @@ struct Geometry<3>
       , min_timevalue{find_min_timevalue(vertices)}
   {}
 
+  /// @return Number of finite cells from triangulation
+  [[nodiscard]] auto N3() const { return number_of_cells; }
+
+  /// @return Number of (3,1) simplices
+  [[nodiscard]] auto N3_31() const { return three_one.size(); }
+
+  /// @return Number of (2,2) simplices
+  [[nodiscard]] auto N3_22() const { return two_two.size(); }
+
+  /// @return Number of (1,3) simplices
+  [[nodiscard]] auto N3_13() const { return one_three.size(); }
+
+  /// @return Number of finite vertices in triangulation
+  [[nodiscard]] auto N0() const { return number_of_vertices; }
+
+  /// @return Number of finite edges in triangulation
+  [[nodiscard]] auto N1() const { return number_of_edges; }
+
+  /// @return Number of timelike edges
+  [[nodiscard]] auto N1_TL() const { return timelike_edges.size(); }
+
+  /// @return Number of spacelike edges
+  [[nodiscard]] auto N1_SL() const { return spacelike_edges.size(); }
+
+  /// @return Number of finite facets in triangulation
+  [[nodiscard]] auto N2() const { return number_of_faces; }
+
+  /// @return Container of finite cells
+  [[nodiscard]] const std::vector<Cell_handle>& getCells() const
+  {
+    return cells;
+  }
+
+  /// @return Container of finite edges
+  [[nodiscard]] const std::vector<Edge_handle>& getEdges() const
+  {
+    return edges;
+  }
+
+  /// @return Container of finite vertices
+  [[nodiscard]] const std::vector<Vertex_handle>& getVertices() const
+  {
+    return vertices;
+  }
+
+  /// @return Maximum time value in triangulation
+  [[nodiscard]] auto max_time() const { return max_timevalue; }
+
+  /// @return Minimum time value in triangulation
+  [[nodiscard]] auto min_time() const { return min_timevalue; }
+
+  /// @param edge Edge to be printed
+  /// @return Time values of vertices on each edge and type of edge
+  auto print_edges(Edge_handle edge) { classify_edges(edge, true); };
+
+ private:
   /// @brief Collect all finite cells of the triangulation
   /// @tparam Manifold Reference type of triangulation
   /// @param universe Reference to triangulation
@@ -91,7 +148,7 @@ struct Geometry<3>
                                     bool                     debugging = false)
       -> std::vector<Cell_handle>
   {
-    Expects(!cells.empty());
+    Expects(cells.size() == number_of_cells);
     std::vector<Vertex_handle> cell_vertices;
     cell_vertices.reserve(4);
     std::vector<size_t> vertex_timevalues;
@@ -163,7 +220,8 @@ struct Geometry<3>
                      [cell_t](auto const& cell) {
                        return cell->info() == static_cast<std::size_t>(cell_t);
                      });
-    filtered_cells.resize(std::distance(filtered_cells.begin(), it));
+    filtered_cells.resize(static_cast<std::size_t>(
+        std::abs(std::distance(filtered_cells.begin(), it))));
     return filtered_cells;
   }  // filter_cells
 
@@ -187,11 +245,12 @@ struct Geometry<3>
       Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
                            ch->index(ch->vertex(eit->third))};
 
+      // Ensure each edge is a valid Edge_handle
       Ensures(universe->tds().is_valid(
           std::get<0>(thisEdge), std::get<1>(thisEdge), std::get<2>(thisEdge)));
       init_edges.emplace_back(thisEdge);
     }
-    Ensures(init_edges.size() == universe->number_of_finite_edges());
+    Ensures(init_edges.size() == N1());
     return init_edges;
   }  // collect_edges
 
@@ -225,12 +284,12 @@ struct Geometry<3>
     Expects(!edges_v.empty());
     std::vector<Edge_handle> filtered_edges(edges_v.size());
     filtered_edges.clear();
-    auto it = std::copy_if(
-        edges_v.begin(), edges_v.end(), filtered_edges.begin(),
-        [&](auto const& edge) {
-          return (is_Timelike ? classify_edges(edge) : !classify_edges(edge));
-        });
-    filtered_edges.resize(std::distance(filtered_edges.begin(), it));
+    auto it = std::copy_if(edges_v.begin(), edges_v.end(),
+                           filtered_edges.begin(), [&](auto const& edge) {
+                             return (is_Timelike == classify_edges(edge));
+                           });
+    filtered_edges.resize(static_cast<std::size_t>(
+        std::abs(std::distance(filtered_edges.begin(), it))));
     Ensures(filtered_edges.size() != 0);
     return filtered_edges;
   }  // filter_edges
@@ -251,7 +310,7 @@ struct Geometry<3>
     for (fit = universe->finite_vertices_begin();
          fit != universe->finite_vertices_end(); ++fit)
     { init_vertices.emplace_back(fit); }
-    Ensures(init_vertices.size() == universe->number_of_vertices());
+    Ensures(init_vertices.size() == N0());
     return init_vertices;
   }  // collect_vertices
 

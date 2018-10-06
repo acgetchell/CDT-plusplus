@@ -70,19 +70,19 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.getUniverse()->number_of_vertices() ==
-                manifold.getGeometry().number_of_vertices);
+                manifold.getGeometry().N0());
         REQUIRE(manifold.getUniverse()->number_of_finite_edges() ==
-                manifold.getGeometry().number_of_edges);
+                manifold.getGeometry().N1());
         REQUIRE(manifold.getUniverse()->number_of_finite_facets() ==
-                manifold.getGeometry().number_of_faces);
+                manifold.getGeometry().N2());
         REQUIRE(manifold.getUniverse()->number_of_finite_cells() ==
-                manifold.getGeometry().number_of_cells);
-        REQUIRE(manifold.getGeometry().number_of_cells ==
-                manifold.getGeometry().cells.size());
-        REQUIRE(manifold.getGeometry().number_of_edges ==
-                manifold.getGeometry().edges.size());
-        REQUIRE(manifold.getGeometry().number_of_vertices ==
-               manifold.getGeometry().vertices.size());
+                manifold.getGeometry().N3());
+        REQUIRE(manifold.getGeometry().N3() ==
+                manifold.getGeometry().getCells().size());
+        REQUIRE(manifold.getGeometry().N1() ==
+                manifold.getGeometry().getEdges().size());
+        REQUIRE(manifold.getGeometry().N0() ==
+                manifold.getGeometry().getVertices().size());
       }
       THEN("The Delaunay3 pointer is not null.")
       {
