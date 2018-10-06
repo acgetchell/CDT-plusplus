@@ -77,8 +77,8 @@ class Geometry<3>
   /// @return Number of (1,3) simplices
   [[nodiscard]] auto N3_13() const { return one_three.size(); }
 
-  /// @return Number of finite vertices in triangulation
-  [[nodiscard]] auto N0() const { return number_of_vertices; }
+  /// @return Number of finite facets in triangulation
+  [[nodiscard]] auto N2() const { return number_of_faces; }
 
   /// @return Number of finite edges in triangulation
   [[nodiscard]] auto N1() const { return number_of_edges; }
@@ -89,26 +89,8 @@ class Geometry<3>
   /// @return Number of spacelike edges
   [[nodiscard]] auto N1_SL() const { return spacelike_edges.size(); }
 
-  /// @return Number of finite facets in triangulation
-  [[nodiscard]] auto N2() const { return number_of_faces; }
-
-  /// @return Container of finite cells
-  [[nodiscard]] const std::vector<Cell_handle>& getCells() const
-  {
-    return cells;
-  }
-
-  /// @return Container of finite edges
-  [[nodiscard]] const std::vector<Edge_handle>& getEdges() const
-  {
-    return edges;
-  }
-
-  /// @return Container of finite vertices
-  [[nodiscard]] const std::vector<Vertex_handle>& getVertices() const
-  {
-    return vertices;
-  }
+  /// @return Number of finite vertices in triangulation
+  [[nodiscard]] auto N0() const { return number_of_vertices; }
 
   /// @return Maximum time value in triangulation
   [[nodiscard]] auto max_time() const { return max_timevalue; }
@@ -116,9 +98,28 @@ class Geometry<3>
   /// @return Minimum time value in triangulation
   [[nodiscard]] auto min_time() const { return min_timevalue; }
 
-  /// @param edge Edge to be printed
-  /// @return Time values of vertices on each edge and type of edge
-  auto print_edges(Edge_handle edge) { classify_edges(edge, true); };
+  /// @brief Print timevalues of each vertex in the cell and the resulting
+  /// cell->info()
+  void print_cells()
+  {
+    for (auto const& cell : cells)
+    {
+      std::cout << "Cell info => " << cell->info() << "\n";
+      for (gsl::index j = 0; j < 4; ++j)
+      {
+        std::cout << "Vertex(" << j
+                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
+      }
+      std::cout << "---\n";
+    }
+  }
+
+  /// @brief Print timevalues of each vertex in the edge and classify as
+  /// timelike or spacelike
+  void print_edges()
+  {
+    for (auto const& edge : edges) { classify_edges(edge, true); }
+  }
 
  private:
   /// @brief Collect all finite cells of the triangulation
@@ -258,8 +259,7 @@ class Geometry<3>
   /// @param edge The Edge_handle to classify
   /// @param debugging Debugging info toggle
   /// @return True if timelike and false if spacelike
-  [[nodiscard]] auto classify_edges(Edge_handle edge, bool debugging = false)
-      -> bool
+  auto classify_edges(Edge_handle edge, bool debugging = false) -> bool
   {
     Cell_handle ch    = std::get<0>(edge);
     auto        time1 = ch->vertex(std::get<1>(edge))->info();

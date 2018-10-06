@@ -77,12 +77,6 @@ SCENARIO("3-Manifold initialization", "[manifold]")
                 manifold.getGeometry().N2());
         REQUIRE(manifold.getUniverse()->number_of_finite_cells() ==
                 manifold.getGeometry().N3());
-        REQUIRE(manifold.getGeometry().N3() ==
-                manifold.getGeometry().getCells().size());
-        REQUIRE(manifold.getGeometry().N1() ==
-                manifold.getGeometry().getEdges().size());
-        REQUIRE(manifold.getGeometry().N0() ==
-                manifold.getGeometry().getVertices().size());
       }
       THEN("The Delaunay3 pointer is not null.")
       {

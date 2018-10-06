@@ -75,16 +75,7 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
         CHECK(geometry.N3_31() + geometry.N3_22() + geometry.N3_13() ==
               geometry.N3());
         // Human verification
-        for (auto const& cell : geometry.getCells())
-        {
-          cout << "Cell info => " << cell->info() << "\n";
-          for (gsl::index j = 0; j < 4; ++j)
-          {
-            cout << "Vertex(" << j << ") timevalue: " << cell->vertex(j)->info()
-                 << "\n";
-          }
-          cout << "---\n";
-        }
+        geometry.print_cells();
         CHECK_FALSE(geometry.N1_TL() == 0);
         CHECK_FALSE(geometry.N1_SL() == 0);
         CHECK(geometry.N1() == geometry.N1_TL() + geometry.N1_SL());
@@ -92,8 +83,7 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
         cout << "There are " << geometry.N1() << " edges.\n";
         cout << "There are " << geometry.N1_TL() << " timelike edges and "
              << geometry.N1_SL() << " spacelike edges.\n";
-        for (auto const& edge : geometry.getEdges())
-        { geometry.print_edges(edge); }
+        geometry.print_edges();
         cout << "There are " << geometry.N0()
              << " vertices with a max timevalue of " << geometry.max_time()
              << " and a min timevalue of " << geometry.min_time() << ".\n";
@@ -141,9 +131,6 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         CHECK(geometry.N3() == triangulation->number_of_finite_cells());
         CHECK(geometry.N0() == triangulation->number_of_vertices());
         CHECK(geometry.N1() == triangulation->number_of_finite_edges());
-        CHECK(geometry.getCells().size() == geometry.N3());
-        CHECK(geometry.getEdges().size() == geometry.N1());
-        CHECK(geometry.getVertices().size() == geometry.N0());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);
