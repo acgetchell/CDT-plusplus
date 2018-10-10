@@ -138,13 +138,14 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         CHECK_FALSE(geometry.N3_13() == 0);
         CHECK(geometry.N3_31() + geometry.N3_22() + geometry.N3_13() ==
               geometry.N3());
-        //        CHECK_FALSE(geometry.N2_SL().size() == 0);
+        CHECK_FALSE(geometry.N2_SL().size() == 0);
         CHECK_FALSE(geometry.N1_TL() == 0);
         CHECK_FALSE(geometry.N1_SL() == 0);
         CHECK(geometry.N1_TL() + geometry.N1_SL() == geometry.N1());
         CHECK(geometry.max_time() > 0);
         CHECK(geometry.min_time() > 0);
         CHECK(geometry.max_time() > geometry.min_time());
+        geometry.print_volume_per_timeslice();
       }
     }
   }

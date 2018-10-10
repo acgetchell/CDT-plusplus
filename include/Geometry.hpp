@@ -127,6 +127,15 @@ class Geometry<3>
     }
   }
 
+  void print_volume_per_timeslice()
+  {
+    for (auto j = min_time(); j <= max_time(); ++j)
+    {
+      std::cout << "Timeslice " << j << " has " << spacelike_facets.count(j)
+                << " spacelike faces.\n";
+    }
+  }
+
   /// @brief Print timevalues of each vertex in the edge and classify as
   /// timelike or spacelike
   void print_edges()
@@ -273,26 +282,33 @@ class Geometry<3>
       -> std::multimap<std::size_t, Facet>
   {
     std::multimap<std::size_t, Facet> space_faces;
-    //      for (auto& face : facets) {
-    //          auto cell = face->first;
-    //          auto index_of_facet = face->second;
-    //          std::cout << "Facet index is " << index_of_facet << "\n";
-    //          std::set<int> facet_timevalues;
-    //          for (gsl::index i = 0; i < 4; ++i) {
-    //              if (i != index_of_facet)
-    //              {
-    //                  std::cout << "Vertex[" << i << "] has timevalue " <<
-    //                  cell->vertex(i)->info() << "\n";
-    //                  facet_timevalues.insert(cell->vertex(i)->info());
-    //              }
-    //          }
-    //          // If we have a 1-element set then al timevalues on that facet
-    //          are equal if (facet_timevalues.size() == 1) {
-    //              std::cout << "Timevalue is " << facet_timevalues.front() <<
-    //              "\n"; space_faces.insert({*facet_timevalues.begin(),
-    //              *face});
-    //          }
-    //      }
+    for (auto& face : facets)
+    {
+      Cell_handle ch             = face.first;
+      auto        index_of_facet = face.second;
+      std::cout << "Facet index is " << index_of_facet << "\n";
+      std::set<int> facet_timevalues;
+      for (gsl::index i = 0; i < 4; ++i)
+      {
+        if (i != index_of_facet)
+        {
+          std::cout << "Vertex[" << i << "] has timevalue "
+                    << ch->vertex(i)->info() << "\n";
+          facet_timevalues.insert(ch->vertex(i)->info());
+        }
+      }
+      // If we have a 1-element set then all timevalues on that facet are equal
+      if (facet_timevalues.size() == 1)
+      {
+        std::cout << "Facet is spacelike on timevalue "
+                  << *facet_timevalues.begin() << ".\n";
+        space_faces.insert({*facet_timevalues.begin(), face});
+      }
+      else
+      {
+        std::cout << "Facet is timelike.\n";
+      }
+    }
     return space_faces;
   }
 
