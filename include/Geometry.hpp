@@ -53,16 +53,16 @@ class Geometry<3>
       , number_of_cells{triangulation->number_of_finite_cells()}
       // Debugging cell collection
       //            , cells{classify_cells(collect_cells(triangulation), true)}
-      , cells{classify_cells(collect_cells(triangulation))}
+      , simplices{classify_cells(collect_cells(triangulation))}
       , edges{collect_edges(triangulation)}
-      , vertices{collect_vertices(triangulation)}
-      , three_one{filter_cells(cells, Cell_type::THREE_ONE)}
-      , two_two{filter_cells(cells, Cell_type::TWO_TWO)}
-      , one_three{filter_cells(cells, Cell_type::ONE_THREE)}
+      , points{collect_vertices(triangulation)}
+      , three_one{filter_cells(simplices, Cell_type::THREE_ONE)}
+      , two_two{filter_cells(simplices, Cell_type::TWO_TWO)}
+      , one_three{filter_cells(simplices, Cell_type::ONE_THREE)}
       , timelike_edges{filter_edges(edges, true)}
       , spacelike_edges{filter_edges(edges, false)}
-      , max_timevalue{find_max_timevalue(vertices)}
-      , min_timevalue{find_min_timevalue(vertices)}
+      , max_timevalue{find_max_timevalue(points)}
+      , min_timevalue{find_min_timevalue(points)}
   {}
 
   /// @return Number of finite cells from triangulation
@@ -98,14 +98,20 @@ class Geometry<3>
   /// @return Minimum time value in triangulation
   [[nodiscard]] auto min_time() const { return min_timevalue; }
 
+  using Facet = Delaunay3::Facet;
+  [[nodiscard]] const std::multimap<size_t, Facet>& N2_SL() const
+  {
+    return spacelike_facets;
+  }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells()
   {
-    for (auto const& cell : cells)
+    for (auto const& cell : simplices)
     {
       std::cout << "Cell info => " << cell->info() << "\n";
-      for (gsl::index j = 0; j < 4; ++j)
+      for (int j = 0; j < 4; ++j)
       {
         std::cout << "Vertex(" << j
                   << ") timevalue: " << cell->vertex(j)->info() << "\n";
@@ -158,7 +164,7 @@ class Geometry<3>
     {
       if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
 
-      for (size_t j = 0; j < 4; ++j)
+      for (int j = 0; j < 4; ++j)
       {
         cell_vertices.emplace_back(c->vertex(j));
         vertex_timevalues.emplace_back(c->vertex(j)->info());
@@ -169,15 +175,15 @@ class Geometry<3>
         }
       }
 
-      auto max_timevalue =
+      auto max_time =
           std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
-      auto max_timevalue_vertices =
+      auto max_time_vertices =
           std::count_if(cell_vertices.begin(), cell_vertices.end(),
-                        [max_timevalue](auto const& vertex) {
-                          return vertex->info() == *max_timevalue;
+                        [max_time](auto const& vertex) {
+                          return vertex->info() == *max_time;
                         });
 
-      switch (max_timevalue_vertices)
+      switch (max_time_vertices)
       {
         case 1:
           c->info() = static_cast<size_t>(Cell_type::ONE_THREE);
@@ -193,8 +199,8 @@ class Geometry<3>
       }
       if (debugging)
       {
-        std::cout << "Max timevalue is " << *max_timevalue << "\n";
-        std::cout << "There are " << max_timevalue_vertices
+        std::cout << "Max timevalue is " << *max_time << "\n";
+        std::cout << "There are " << max_time_vertices
                   << " vertices with max timeslice in the cell.\n";
         std::cout << "Cell info is now " << c->info() << "\n";
         std::cout << "---\n";
@@ -225,6 +231,17 @@ class Geometry<3>
         std::abs(std::distance(filtered_cells.begin(), it))));
     return filtered_cells;
   }  // filter_cells
+
+  template <typename Manifold>
+  [[nodiscard]] auto collect_facets(Manifold& universe)
+      -> std::multimap<std::size_t, Facet>
+  {
+    std::multimap<std::size_t, Facet> spacelike_faces;
+    Delaunay3::Finite_facets_iterator fit;
+    for (fit = universe->finite_facets_begin();
+         fit != universe->finite_facets_end(); ++fit)
+    { Cell_handle ch = fit->first; }
+  }
 
   /// @brief Collect all finite edges of the triangulation
   /// @tparam Manifold Reference type of triangulation
@@ -333,7 +350,9 @@ class Geometry<3>
     auto it =
         std::max_element(vertices.begin(), vertices.end(), compare_v_info);
     auto result_index = std::distance(vertices.begin(), it);
-    return vertices[result_index]->info();
+    Ensures(result_index >= 0);
+    auto index = static_cast<std::size_t>(std::abs(result_index));
+    return vertices[index]->info();
   }  // find_max_timevalue
 
   /// @brief Find minimum timevalues
@@ -346,16 +365,18 @@ class Geometry<3>
     auto it =
         std::min_element(vertices.begin(), vertices.end(), compare_v_info);
     auto result_index = std::distance(vertices.begin(), it);
-    return vertices[result_index]->info();
+    Ensures(result_index >= 0);
+    auto index = static_cast<std::size_t>(std::abs(result_index));
+    return vertices[index]->info();
   }  // find_min_timevalue
 
   std::size_t                number_of_vertices;
   std::size_t                number_of_edges;
   std::size_t                number_of_faces;
   std::size_t                number_of_cells;
-  std::vector<Cell_handle>   cells;
+  std::vector<Cell_handle>          simplices;
   std::vector<Edge_handle>   edges;
-  std::vector<Vertex_handle> vertices;
+  std::vector<Vertex_handle>        points;
   std::vector<Cell_handle>   three_one;
   std::vector<Cell_handle>   two_two;
   std::vector<Cell_handle>   one_three;
@@ -363,6 +384,7 @@ class Geometry<3>
   std::vector<Edge_handle>   spacelike_edges;
   std::size_t                max_timevalue;
   std::size_t                min_timevalue;
+  std::multimap<std::size_t, Facet> spacelike_facets;
 };
 
 using Geometry3 = Geometry<3>;

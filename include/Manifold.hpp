@@ -14,6 +14,7 @@
 #include <Geometry.hpp>
 #include <S3Triangulation.hpp>
 #include <functional>
+#include <stddef.h>
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
@@ -34,17 +35,17 @@ class Manifold<3>
   {}
 
   /// @brief Construct a Geometry of useful data from a triangulation
-  /// @tparam T Reference type of triangulation
-  /// @param universe Reference to triangulation
+  /// @tparam Manifold Reference type of triangulation
+  /// @param manifold Reference to triangulation
   /// @return Geometry of triangulation
-  template <typename T>
-  Geometry3 make_geometry(T& universe)
+  template <typename Manifold>
+  Geometry3 make_geometry(Manifold& manifold)
   {
 #ifndef NDEBUG
     std::cout << "make_geometry() invoked ...\n";
 #endif
 
-    Geometry3 geom{universe};
+    Geometry3 geom{manifold};
     return geom;
   }
 

@@ -1,0 +1,31 @@
+additional_commands:
+  !!python/unicode 'foo':
+    !!python/unicode 'flags':
+    - !!python/unicode 'BAR'
+    - !!python/unicode 'BAZ'
+    !!python/unicode 'kwargs':
+      !!python/unicode 'DEPENDS': !!python/unicode '*'
+      !!python/unicode 'HEADERS': !!python/unicode '*'
+      !!python/unicode 'SOURCES': !!python/unicode '*'
+algorithm_order:
+- 0
+- 1
+- 2
+- 3
+always_wrap: []
+bullet_char: !!python/unicode '*'
+command_case: !!python/unicode 'lower'
+dangle_parens: false
+enable_markup: true
+enum_char: !!python/unicode '.'
+fence_pattern: !!python/unicode '^\s*([`~]{3}[`~]*)(.*)$'
+first_comment_is_literal: false
+keyword_case: !!python/unicode 'unchanged'
+line_ending: !!python/unicode 'unix'
+line_width: 80
+literal_comment_pattern: null
+max_subargs_per_line: 3
+ruler_pattern: !!python/unicode '^\s*[^\w\s]{3}.*[^\w\s]{3}$'
+separate_ctrl_name_with_space: false
+separate_fn_name_with_space: false
+tab_size: 2

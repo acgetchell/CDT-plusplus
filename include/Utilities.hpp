@@ -21,7 +21,7 @@
 #include <sys/utsname.h>
 #endif
 #include <algorithm>
-#include <cassert>
+#include <assert.h>
 #include <cstdlib>
 #include <fstream>
 #include <functional>
@@ -195,6 +195,25 @@ template <typename Manifold, typename Timer>
   // Display program running time
   std::cout << "Running time is " << timer.time() << " seconds.\n";
 }  // print_results
+
+/// @brief Print manifold statistics
+/// @tparam Manifold The manifold type
+/// @param manifold A Manifold
+/// @return True if successful
+template <typename Manifold>
+bool print_manifold(const Manifold& manifold) try
+{
+  std::cout << manifold.getGeometry().N0() << " vertices and "
+            << manifold.getGeometry().N1() << " edges and "
+            << manifold.getGeometry().N2() << " faces and "
+            << manifold.getGeometry().N3() << " simplices.\n";
+  return true;
+}
+catch (...)
+{
+  std::cerr << "print_manifold() went wrong ...";
+  throw;
+}  // print_manifold
 
 /// @brief Writes the runtime results to a file
 ///

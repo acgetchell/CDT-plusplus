@@ -72,7 +72,7 @@ using Cell_handle     = Delaunay3::Cell_handle;
 using Vertex_handle   = Delaunay3::Vertex_handle;
 using Locate_type     = Delaunay3::Locate_type;
 using Point           = Delaunay3::Point;
-using Edge_handle     = std::tuple<Cell_handle, std::size_t, std::size_t>;
+using Edge_handle     = std::tuple<Cell_handle, int, int>;
 using Causal_vertices = std::vector<std::pair<Point, std::size_t>>;
 using Move_tracker    = std::array<std::size_t, 5>;
 
@@ -118,7 +118,7 @@ template <typename Manifold>
   std::size_t             max_time{0};
   std::size_t             valid{0};
   std::size_t             invalid{0};
-  std::size_t             max_vertex{0};
+  int                     max_vertex{0};
   std::set<Vertex_handle> deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
@@ -134,7 +134,7 @@ template <typename Manifold>
       bool this_cell_foliation_valid = true;
 #endif
       // Iterate over all vertices in the cell
-      for (std::size_t i = 0; i < 4; ++i)
+      for (int i = 0; i < 4; ++i)
       {
         auto current_time = cit->vertex(i)->info();
 

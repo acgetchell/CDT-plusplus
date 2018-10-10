@@ -107,6 +107,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         REQUIRE(geometry.N0() == 0);
         REQUIRE(geometry.N1() == 0);
         REQUIRE(geometry.N2() == 0);
+        REQUIRE(geometry.N2_SL().empty());
         REQUIRE(geometry.N3() == 0);
         REQUIRE(geometry.N3_31() == 0);
         REQUIRE(geometry.N3_22() == 0);

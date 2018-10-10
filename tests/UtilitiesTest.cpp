@@ -8,8 +8,9 @@
 /// @brief Tests on utility functions
 /// @author Adam Getchell
 
-#include <catch2/catch.hpp>
+#include <Manifold.hpp>
 #include <Utilities.hpp>
+#include <catch2/catch.hpp>
 
 SCENARIO("Randomizing functions", "[utility]")
 {
@@ -110,6 +111,23 @@ SCENARIO("DateTime utilities", "[utility]")
       THEN("We should not have an empty string.")
       {
         REQUIRE_FALSE(value.empty());
+      }
+    }
+  }
+}
+
+SCENARIO("Printing results.", "[utility]")
+{
+  GIVEN("A Manifold3.")
+  {
+    size_t    desired_simplices{640};
+    size_t    desired_timeslices{4};
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    WHEN("We want to print results.")
+    {
+      THEN("Results are successfully printed.")
+      {
+        REQUIRE(print_manifold(manifold));
       }
     }
   }

@@ -24,7 +24,7 @@
 using Facet = Delaunay3::Facet;
 
 template <typename T>
-auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
+[[deprecated]] auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 {
 #ifndef NDEBUG
   std::cout << __PRETTY_FUNCTION__ << " called.\n";
