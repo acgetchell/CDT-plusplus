@@ -70,11 +70,11 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 # Compiler flags
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
   set(CMAKE_CXX_FLAGS "-frounding-math")
-  add_compile_options(-Wmisleading-indentation
-                      -Wduplicated-cond
-                      -Wduplicated-branches
-                      -Wlogical-op
-                      -Wuseless-cast)
+#  add_compile_options(-Wmisleading-indentation
+#                      -Wduplicated-cond
+#                      -Wduplicated-branches
+#                      -Wlogical-op
+#                      -Wuseless-cast)
 endif()
 
 # Turn off CGAL Triangulation Assertions and Postconditions
