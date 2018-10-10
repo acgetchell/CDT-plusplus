@@ -15,6 +15,11 @@
 #include <algorithm>
 #include <cstddef>
 #include <gsl/gsl>
+#include <set>
+
+// typedef std::pair<Cell_handle, int> TriangulationDataStructure_3::Facet
+using Facet       = Delaunay3::Facet;
+using Face_handle = std::pair<Cell_handle, int>;
 
 enum class Cell_type
 {
@@ -54,6 +59,7 @@ class Geometry<3>
       // Debugging cell collection
       //            , cells{classify_cells(collect_cells(triangulation), true)}
       , simplices{classify_cells(collect_cells(triangulation))}
+      , faces{collect_faces(triangulation)}
       , edges{collect_edges(triangulation)}
       , points{collect_vertices(triangulation)}
       , three_one{filter_cells(simplices, Cell_type::THREE_ONE)}
@@ -63,6 +69,7 @@ class Geometry<3>
       , spacelike_edges{filter_edges(edges, false)}
       , max_timevalue{find_max_timevalue(points)}
       , min_timevalue{find_min_timevalue(points)}
+      , spacelike_facets{volume_per_timeslice(faces)}
   {}
 
   /// @return Number of finite cells from triangulation
@@ -98,7 +105,7 @@ class Geometry<3>
   /// @return Minimum time value in triangulation
   [[nodiscard]] auto min_time() const { return min_timevalue; }
 
-  using Facet = Delaunay3::Facet;
+  /// @return Container of spacelike facets indexed by time value
   [[nodiscard]] const std::multimap<size_t, Facet>& N2_SL() const
   {
     return spacelike_facets;
@@ -124,7 +131,7 @@ class Geometry<3>
   /// timelike or spacelike
   void print_edges()
   {
-    for (auto const& edge : edges) { classify_edges(edge, true); }
+    for (auto const& edge : edges) { classify_edge(edge, true); }
   }
 
  private:
@@ -143,8 +150,12 @@ class Geometry<3>
     Delaunay3::Finite_cells_iterator cit;
     for (cit = universe->finite_cells_begin();
          cit != universe->finite_cells_end(); ++cit)
-    { init_cells.emplace_back(cit); }
-    Ensures(init_cells.size() == universe->number_of_finite_cells());
+    {
+      // Each cell is valid in the triangulation
+      Ensures(universe->tds().is_cell(cit));
+      init_cells.emplace_back(cit);
+    }
+    Ensures(init_cells.size() == N3());
     return init_cells;
   }  // collect_cells
 
@@ -232,15 +243,57 @@ class Geometry<3>
     return filtered_cells;
   }  // filter_cells
 
+  /// @brief Collect all finite facets of the triangulation
+  /// @tparam Manifold Reference type of triangulation
+  /// @param universe Reference to triangulation
+  /// @return Container of all the finite facets in the trianglation
   template <typename Manifold>
-  [[nodiscard]] auto collect_facets(Manifold& universe)
-      -> std::multimap<std::size_t, Facet>
+  [[nodiscard]] auto collect_faces(Manifold& universe)
+      -> std::vector<Face_handle>
   {
-    std::multimap<std::size_t, Facet> spacelike_faces;
+    Expects(universe != nullptr);
+    Expects(universe->tds().is_valid());
+    std::vector<Face_handle> init_faces;
+    init_faces.reserve(number_of_faces);
     Delaunay3::Finite_facets_iterator fit;
     for (fit = universe->finite_facets_begin();
          fit != universe->finite_facets_end(); ++fit)
-    { Cell_handle ch = fit->first; }
+    {
+      Cell_handle ch = fit->first;
+      // Each face is valid in the triangulation
+      Ensures(universe->tds().is_facet(ch, fit->second));
+      Face_handle thisFacet{std::make_pair(ch, fit->second)};
+      init_faces.emplace_back(thisFacet);
+    }
+    Ensures(init_faces.size() == N2());
+    return init_faces;
+  }
+
+  [[nodiscard]] auto volume_per_timeslice(const std::vector<Face_handle> facets)
+      -> std::multimap<std::size_t, Facet>
+  {
+    std::multimap<std::size_t, Facet> space_faces;
+    //      for (auto& face : facets) {
+    //          auto cell = face->first;
+    //          auto index_of_facet = face->second;
+    //          std::cout << "Facet index is " << index_of_facet << "\n";
+    //          std::set<int> facet_timevalues;
+    //          for (gsl::index i = 0; i < 4; ++i) {
+    //              if (i != index_of_facet)
+    //              {
+    //                  std::cout << "Vertex[" << i << "] has timevalue " <<
+    //                  cell->vertex(i)->info() << "\n";
+    //                  facet_timevalues.insert(cell->vertex(i)->info());
+    //              }
+    //          }
+    //          // If we have a 1-element set then al timevalues on that facet
+    //          are equal if (facet_timevalues.size() == 1) {
+    //              std::cout << "Timevalue is " << facet_timevalues.front() <<
+    //              "\n"; space_faces.insert({*facet_timevalues.begin(),
+    //              *face});
+    //          }
+    //      }
+    return space_faces;
   }
 
   /// @brief Collect all finite edges of the triangulation
@@ -262,8 +315,7 @@ class Geometry<3>
       Cell_handle ch = eit->first;
       Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
                            ch->index(ch->vertex(eit->third))};
-
-      // Ensure each edge is a valid Edge_handle
+      // Each edge is valid in the triangulation
       Ensures(universe->tds().is_valid(
           std::get<0>(thisEdge), std::get<1>(thisEdge), std::get<2>(thisEdge)));
       init_edges.emplace_back(thisEdge);
@@ -272,11 +324,11 @@ class Geometry<3>
     return init_edges;
   }  // collect_edges
 
-  /// @brief Classify edges as timelike or spacelike
+  /// @brief Predicate to classify edge as timelike or spacelike
   /// @param edge The Edge_handle to classify
   /// @param debugging Debugging info toggle
-  /// @return True if timelike and false if spacelike
-  auto classify_edges(Edge_handle edge, bool debugging = false) -> bool
+  /// @return true if timelike and false if spacelike
+  auto classify_edge(Edge_handle edge, bool debugging = false) -> bool
   {
     Cell_handle ch    = std::get<0>(edge);
     auto        time1 = ch->vertex(std::get<1>(edge))->info();
@@ -289,22 +341,21 @@ class Geometry<3>
       std::cout << " => " << (result ? "timelike\n" : "spacelike\n");
     }
     return result;
-  }  // is_Timelike
+  }  // classify_edge
 
   /// @brief Filter edges into timelike and spacelike
   /// @param edges_v The container of edges to filter
-  /// @param is_Timelike The filter predicate
-  /// @return A container of is_Spacelike edges
+  /// @param is_Timelike The predicate condition
+  /// @return A container of is_Timelike edges
   [[nodiscard]] auto filter_edges(std::vector<Edge_handle> edges_v,
                                   bool is_Timelike) -> std::vector<Edge_handle>
   {
     Expects(!edges_v.empty());
     std::vector<Edge_handle> filtered_edges(edges_v.size());
     filtered_edges.clear();
-    auto it = std::copy_if(edges_v.begin(), edges_v.end(),
-                           filtered_edges.begin(), [&](auto const& edge) {
-                             return (is_Timelike == classify_edges(edge));
-                           });
+    auto it = std::copy_if(
+        edges_v.begin(), edges_v.end(), filtered_edges.begin(),
+        [&](auto const& edge) { return (is_Timelike == classify_edge(edge)); });
     filtered_edges.resize(static_cast<std::size_t>(
         std::abs(std::distance(filtered_edges.begin(), it))));
     Ensures(filtered_edges.size() != 0);
@@ -323,10 +374,13 @@ class Geometry<3>
     Expects(universe->tds().is_valid());
     std::vector<Vertex_handle> init_vertices;
     init_vertices.reserve(number_of_vertices);
-    Delaunay3::Finite_vertices_iterator fit;
-    for (fit = universe->finite_vertices_begin();
-         fit != universe->finite_vertices_end(); ++fit)
-    { init_vertices.emplace_back(fit); }
+    Delaunay3::Finite_vertices_iterator vit;
+    for (vit = universe->finite_vertices_begin();
+         vit != universe->finite_vertices_end(); ++vit)
+    {  // Each vertex is valid in the triangulation
+      Ensures(universe->tds().is_vertex(vit));
+      init_vertices.emplace_back(vit);
+    }
     Ensures(init_vertices.size() == N0());
     return init_vertices;
   }  // collect_vertices
@@ -375,6 +429,7 @@ class Geometry<3>
   std::size_t                number_of_faces;
   std::size_t                number_of_cells;
   std::vector<Cell_handle>          simplices;
+  std::vector<Face_handle>          faces;
   std::vector<Edge_handle>   edges;
   std::vector<Vertex_handle>        points;
   std::vector<Cell_handle>   three_one;

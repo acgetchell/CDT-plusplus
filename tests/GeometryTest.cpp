@@ -129,14 +129,16 @@ SCENARIO("3-Geometry initialization", "[geometry]")
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
       {
-        CHECK(geometry.N3() == triangulation->number_of_finite_cells());
         CHECK(geometry.N0() == triangulation->number_of_vertices());
         CHECK(geometry.N1() == triangulation->number_of_finite_edges());
+        CHECK(geometry.N2() == triangulation->number_of_finite_facets());
+        CHECK(geometry.N3() == triangulation->number_of_finite_cells());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);
         CHECK(geometry.N3_31() + geometry.N3_22() + geometry.N3_13() ==
               geometry.N3());
+        //        CHECK_FALSE(geometry.N2_SL().size() == 0);
         CHECK_FALSE(geometry.N1_TL() == 0);
         CHECK_FALSE(geometry.N1_SL() == 0);
         CHECK(geometry.N1_TL() + geometry.N1_SL() == geometry.N1());
