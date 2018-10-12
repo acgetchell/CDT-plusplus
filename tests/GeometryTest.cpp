@@ -87,6 +87,7 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
         cout << "There are " << geometry.N0()
              << " vertices with a max timevalue of " << geometry.max_time()
              << " and a min timevalue of " << geometry.min_time() << ".\n";
+        geometry.print_volume_per_timeslice();
         CHECK(geometry.max_time() > 0);
         CHECK(geometry.min_time() > 0);
         CHECK(geometry.max_time() > geometry.min_time());
@@ -145,6 +146,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         CHECK(geometry.max_time() > 0);
         CHECK(geometry.min_time() > 0);
         CHECK(geometry.max_time() > geometry.min_time());
+        print_triangulation(triangulation);
         geometry.print_volume_per_timeslice();
       }
     }

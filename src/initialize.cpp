@@ -53,8 +53,8 @@ int main(int argc, char* const argv[]) try
       docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                      true, "initializer 1.0");
 
-  auto simplices         = stoi(args["-n"].asString());
-  auto timeslices        = stoi(args["-t"].asString());
+  auto simplices         = stoull(args["-n"].asString());
+  auto timeslices        = stoull(args["-t"].asString());
   auto dimensions        = stoi(args["-d"].asString());
   auto initial_radius    = stod(args["--init"].asString());
   auto foliation_spacing = stod(args["--foliate"].asString());
@@ -92,10 +92,8 @@ int main(int argc, char* const argv[]) try
       if (dimensions == 3)
       {
         // Start your run
-        //          Manifold3 populated_universe(make_triangulation(
-        //              simplices, timeslices, initial_radius,
-        //              foliation_spacing));
-        Manifold3 populated_universe(simplices, timeslices);
+        Manifold3 populated_universe(simplices, timeslices, initial_radius,
+                                     foliation_spacing);
         swap(universe, populated_universe);
       }
       else
@@ -108,7 +106,8 @@ int main(int argc, char* const argv[]) try
     default:
       throw logic_error("Simulation topology not parsed.");
   }
-  //  VolumePerTimeslice(universe);
+  print_manifold(universe);
+  universe.getGeometry().print_volume_per_timeslice();
   cout << "Final number of simplices " << universe.getGeometry().N3() << '\n';
   return 0;
 }

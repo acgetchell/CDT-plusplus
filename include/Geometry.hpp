@@ -127,7 +127,7 @@ class Geometry<3>
     }
   }
 
-  void print_volume_per_timeslice()
+  void print_volume_per_timeslice() const
   {
     for (auto j = min_time(); j <= max_time(); ++j)
     {
@@ -278,7 +278,11 @@ class Geometry<3>
     return init_faces;
   }
 
-  [[nodiscard]] auto volume_per_timeslice(const std::vector<Face_handle> facets)
+  /// @brief Collect spacelike facets into a container indexed by time value
+  /// @param facets A container of facets
+  /// @return Container with spacelike facets per timeslice
+  [[nodiscard]] auto volume_per_timeslice(const std::vector<Face_handle> facets,
+                                          bool debugging = false)
       -> std::multimap<std::size_t, Facet>
   {
     std::multimap<std::size_t, Facet> space_faces;
@@ -286,31 +290,38 @@ class Geometry<3>
     {
       Cell_handle ch             = face.first;
       auto        index_of_facet = face.second;
-      std::cout << "Facet index is " << index_of_facet << "\n";
+      if (debugging)
+      { std::cout << "Facet index is " << index_of_facet << "\n"; }
       std::set<int> facet_timevalues;
-      for (gsl::index i = 0; i < 4; ++i)
+      for (int i = 0; i < 4; ++i)
       {
         if (i != index_of_facet)
         {
-          std::cout << "Vertex[" << i << "] has timevalue "
-                    << ch->vertex(i)->info() << "\n";
+          if (debugging)
+          {
+            std::cout << "Vertex[" << i << "] has timevalue "
+                      << ch->vertex(i)->info() << "\n";
+          }
           facet_timevalues.insert(ch->vertex(i)->info());
         }
       }
       // If we have a 1-element set then all timevalues on that facet are equal
       if (facet_timevalues.size() == 1)
       {
-        std::cout << "Facet is spacelike on timevalue "
-                  << *facet_timevalues.begin() << ".\n";
+        if (debugging)
+        {
+          std::cout << "Facet is spacelike on timevalue "
+                    << *facet_timevalues.begin() << ".\n";
+        }
         space_faces.insert({*facet_timevalues.begin(), face});
       }
       else
       {
-        std::cout << "Facet is timelike.\n";
+        if (debugging) { std::cout << "Facet is timelike.\n"; }
       }
     }
     return space_faces;
-  }
+  }  // volume_per_timeslice
 
   /// @brief Collect all finite edges of the triangulation
   /// @tparam Manifold Reference type of triangulation

@@ -34,6 +34,13 @@ class Manifold<3>
       , geometry{make_geometry(getUniverse())}
   {}
 
+  Manifold(std::size_t desired_simplices, std::size_t desired_timeslices,
+           double initial_radius, double radial_factor)
+      : universe{make_triangulation(desired_simplices, desired_timeslices,
+                                    initial_radius, radial_factor)}
+      , geometry{make_geometry(getUniverse())}
+  {}
+
   /// @brief Construct a Geometry of useful data from a triangulation
   /// @tparam Manifold Reference type of triangulation
   /// @param manifold Reference to triangulation

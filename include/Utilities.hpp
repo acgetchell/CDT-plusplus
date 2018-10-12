@@ -203,17 +203,35 @@ template <typename Manifold, typename Timer>
 template <typename Manifold>
 bool print_manifold(const Manifold& manifold) try
 {
-  std::cout << manifold.getGeometry().N0() << " vertices and "
-            << manifold.getGeometry().N1() << " edges and "
+  std::cout << "Manifold has " << manifold.getGeometry().N0()
+            << " vertices and " << manifold.getGeometry().N1() << " edges and "
             << manifold.getGeometry().N2() << " faces and "
             << manifold.getGeometry().N3() << " simplices.\n";
   return true;
 }
 catch (...)
 {
-  std::cerr << "print_manifold() went wrong ...";
+  std::cerr << "print_manifold() went wrong ...\n";
   throw;
 }  // print_manifold
+
+/// @brief Print triangulation statistics
+/// @tparam Triangulation The triangulation type
+/// @param triangulation A triangulation (typically a Delaunay<3> triangulation)
+template <typename Triangulation>
+void print_triangulation(const Triangulation& triangulation) try
+{
+  std::cout << "Triangulation has " << triangulation->number_of_vertices()
+            << " vertices and " << triangulation->number_of_finite_edges()
+            << " edges and " << triangulation->number_of_finite_facets()
+            << " faces and " << triangulation->number_of_finite_cells()
+            << " simplices.\n";
+}
+catch (...)
+{
+  std::cerr << "print_triangulation() went wrong ...\n";
+  throw;
+}  // print_triangulation
 
 /// @brief Writes the runtime results to a file
 ///
