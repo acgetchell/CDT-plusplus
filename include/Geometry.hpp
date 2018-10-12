@@ -84,6 +84,9 @@ class Geometry<3>
   /// @return Number of (1,3) simplices
   [[nodiscard]] auto N3_13() const { return one_three.size(); }
 
+  /// @return Number of (3,1) and (1,3) simplices
+  [[nodiscard]] auto N3_31_13() const { return N3_31() + N3_13(); }
+
   /// @return Number of finite facets in triangulation
   [[nodiscard]] auto N2() const { return number_of_faces; }
 

@@ -54,7 +54,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3 manifold;
       THEN("The Delaunay3 pointer is null.")
       {
-        REQUIRE(manifold.getUniverse() == nullptr);
+        REQUIRE(manifold.getTriangulation() == nullptr);
       }
     }
     WHEN("It is constructed with desired_simplices and desired_timeslices.")
@@ -64,23 +64,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3   manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
-        REQUIRE(manifold.getUniverse()->is_valid());
-        REQUIRE(manifold.getUniverse()->tds().is_valid());
+        REQUIRE(manifold.getTriangulation()->is_valid());
+        REQUIRE(manifold.getTriangulation()->tds().is_valid());
       }
       THEN("The geometry matches the triangulation.")
       {
-        REQUIRE(manifold.getUniverse()->number_of_vertices() ==
+        REQUIRE(manifold.getTriangulation()->number_of_vertices() ==
                 manifold.getGeometry().N0());
-        REQUIRE(manifold.getUniverse()->number_of_finite_edges() ==
+        REQUIRE(manifold.getTriangulation()->number_of_finite_edges() ==
                 manifold.getGeometry().N1());
-        REQUIRE(manifold.getUniverse()->number_of_finite_facets() ==
+        REQUIRE(manifold.getTriangulation()->number_of_finite_facets() ==
                 manifold.getGeometry().N2());
-        REQUIRE(manifold.getUniverse()->number_of_finite_cells() ==
+        REQUIRE(manifold.getTriangulation()->number_of_finite_cells() ==
                 manifold.getGeometry().N3());
       }
       THEN("The Delaunay3 pointer is not null.")
       {
-        REQUIRE_FALSE(manifold.getUniverse() == nullptr);
+        REQUIRE_FALSE(manifold.getTriangulation() == nullptr);
       }
     }
   }

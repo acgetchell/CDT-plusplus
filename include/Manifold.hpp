@@ -30,15 +30,15 @@ class Manifold<3>
   Manifold() = default;
 
   Manifold(std::size_t desired_simplices, std::size_t desired_timeslices)
-      : universe{make_triangulation(desired_simplices, desired_timeslices)}
-      , geometry{make_geometry(getUniverse())}
+      : triangulation{make_triangulation(desired_simplices, desired_timeslices)}
+      , geometry{make_geometry(getTriangulation())}
   {}
 
   Manifold(std::size_t desired_simplices, std::size_t desired_timeslices,
            double initial_radius, double radial_factor)
-      : universe{make_triangulation(desired_simplices, desired_timeslices,
-                                    initial_radius, radial_factor)}
-      , geometry{make_geometry(getUniverse())}
+      : triangulation{make_triangulation(desired_simplices, desired_timeslices,
+                                         initial_radius, radial_factor)}
+      , geometry{make_geometry(getTriangulation())}
   {}
 
   /// @brief Construct a Geometry of useful data from a triangulation
@@ -59,14 +59,17 @@ class Manifold<3>
   /// @brief Obtain a reference to the triangulation pointer
   /// Note: would prefer observer_ptr<T>, GotW91 suggests a T*
   /// @return A read-only reference to the triangulation pointer
-  const std::unique_ptr<Delaunay3>& getUniverse() const { return universe; }
+  const std::unique_ptr<Delaunay3>& getTriangulation() const
+  {
+    return triangulation;
+  }
 
   /// @brief Obtain a reference to the Geometry
   /// @return A read-only reference to the Geometry
   const Geometry3& getGeometry() const { return geometry; }
 
  private:
-  std::unique_ptr<Delaunay3> universe;
+  std::unique_ptr<Delaunay3> triangulation;
 
   Geometry3 geometry;
 };
