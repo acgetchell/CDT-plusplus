@@ -140,16 +140,16 @@ auto classify_simplices(T&& universe_ptr)
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit)
   {
-    std::size_t max_values{0};
-    std::size_t min_values{0};
+    int max_values{0};
+    int min_values{0};
     // Push every time value of every vertex into a list
-    std::size_t timevalues[4] = {
+    int timevalues[4] = {
         cit->vertex(0)->info(),
         cit->vertex(1)->info(),
         cit->vertex(2)->info(),
         cit->vertex(3)->info(),
     };
-    std::size_t max_time =
+    int max_time =
         *std::max_element(std::begin(timevalues), std::end(timevalues));
     for (auto elt : timevalues)
     {

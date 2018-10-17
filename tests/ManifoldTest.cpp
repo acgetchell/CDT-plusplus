@@ -57,6 +57,34 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.getTriangulation() == nullptr);
       }
     }
+    WHEN("It is constructed from a Delaunay triangulation.")
+    {
+      Causal_vertices cv;
+      cv.emplace_back(std::make_pair(Point(0, 0, 0), 1));
+      cv.emplace_back(std::make_pair(Point(1, 0, 1), 2));
+      cv.emplace_back(std::make_pair(Point(0, 1, 1), 2));
+      cv.emplace_back(std::make_pair(Point(1, 1, 1), 2));
+      cv.emplace_back(std::make_pair(Point(1, 1, 2), 3));
+      Delaunay3 dt(cv.begin(), cv.end());
+      Manifold3 manifold(dt);
+
+      THEN("The triangulation is valid.")
+      {
+        REQUIRE(manifold.getTriangulation()->tds().is_valid());
+      }
+      THEN("The geometry matches the triangulation.")
+      {
+        REQUIRE(manifold.getGeometry().N0() == 5);
+        REQUIRE(manifold.getGeometry().N1_SL() == 3);
+        REQUIRE(manifold.getGeometry().N1_TL() == 6);
+        REQUIRE(manifold.getGeometry().N2_SL().count(2) == 1);
+        REQUIRE(manifold.getGeometry().N3() == 2);
+        REQUIRE(manifold.getGeometry().min_time() == 1);
+        REQUIRE(manifold.getGeometry().max_time() == 3);
+        // Human verification
+        manifold.getGeometry().print_volume_per_timeslice();
+      }
+    }
     WHEN("It is constructed with desired_simplices and desired_timeslices.")
     {
       std::size_t desired_simplices{640};
@@ -77,10 +105,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
                 manifold.getGeometry().N2());
         REQUIRE(manifold.getTriangulation()->number_of_finite_cells() ==
                 manifold.getGeometry().N3());
-      }
-      THEN("The Delaunay3 pointer is not null.")
-      {
-        REQUIRE_FALSE(manifold.getTriangulation() == nullptr);
+        // Human verification
+        manifold.getGeometry().print_volume_per_timeslice();
       }
     }
   }

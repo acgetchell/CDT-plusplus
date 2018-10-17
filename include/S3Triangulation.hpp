@@ -58,8 +58,8 @@
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
 // Used so that each timeslice is assigned an integer
-using Vb = CGAL::Triangulation_vertex_base_with_info_3<std::size_t, K>;
-using Cb = CGAL::Triangulation_cell_base_with_info_3<std::size_t, K>;
+using Vb = CGAL::Triangulation_vertex_base_with_info_3<int, K>;
+using Cb = CGAL::Triangulation_cell_base_with_info_3<int, K>;
 
 // Parallel operations
 #ifdef CGAL_LINKED_WITH_TBB
@@ -73,7 +73,7 @@ using Vertex_handle   = Delaunay3::Vertex_handle;
 using Locate_type     = Delaunay3::Locate_type;
 using Point           = Delaunay3::Point;
 using Edge_handle     = std::tuple<Cell_handle, int, int>;
-using Causal_vertices = std::vector<std::pair<Point, std::size_t>>;
+using Causal_vertices = std::vector<std::pair<Point, int>>;
 using Move_tracker    = std::array<std::size_t, 5>;
 
 enum class move_type
@@ -114,10 +114,10 @@ static constexpr double RADIAL_FACTOR  = 1.0;
 template <typename Manifold>
 [[nodiscard]] auto fix_timeslices(Manifold&& universe_ptr)
 {
-  std::size_t             min_time{0};
-  std::size_t             max_time{0};
-  std::size_t             valid{0};
-  std::size_t             invalid{0};
+  int                     min_time{0};
+  int                     max_time{0};
+  int                     valid{0};
+  int                     invalid{0};
   int                     max_vertex{0};
   std::set<Vertex_handle> deleted_vertices;
 

@@ -35,11 +35,10 @@ using Kd = CGAL::Cartesian_d<double>;
 /// @param radius Radius of sphere
 /// @param output Prints detailed output
 /// @param points The points ready to insert
-void make_d_sphere(std::size_t number_of_points, std::size_t dimension,
-                   double radius, bool output,
-                   std::vector<Kd::Point_d>& points) noexcept
+void make_d_sphere(std::size_t number_of_points, int dimension, double radius,
+                   bool output, std::vector<Kd::Point_d>& points) noexcept
 {
-  points.reserve(static_cast<std::size_t>(number_of_points));
+  points.reserve(number_of_points);
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
 
@@ -49,10 +48,10 @@ void make_d_sphere(std::size_t number_of_points, std::size_t dimension,
   if (output)
   {
     std::cout << "Generating " << number_of_points << " random points on "
-              << "the surface of a sphere in " << dimension << "D" << std::endl
-              << "of center 0 and radius " << radius << "." << std::endl;
+              << "the surface of a sphere in " << dimension << "D\n"
+              << "of center 0 and radius " << radius << ".\n";
 
-    for (const auto& point : points) { std::cout << " " << point << std::endl; }
+    for (const auto& point : points) { std::cout << " " << point << "\n"; }
   }
 }  // make_d_sphere()
 
@@ -64,8 +63,8 @@ void make_d_sphere(std::size_t number_of_points, std::size_t dimension,
 /// @param[in] dimension Dimension of sphere
 /// @param[in] radius Radius of sphere
 /// @param[out]  points  The points ready to insert
-void make_d_sphere(std::size_t number_of_points, std::size_t dimension,
-                   double radius, std::vector<Kd::Point_d>& points) noexcept
+void make_d_sphere(std::size_t number_of_points, int dimension, double radius,
+                   std::vector<Kd::Point_d>& points) noexcept
 {
   make_d_sphere(number_of_points, dimension, radius, false, points);
 }  // make_d_sphere

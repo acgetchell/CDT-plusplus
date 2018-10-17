@@ -85,7 +85,7 @@ template <typename Manifold, typename Moves>
     if (movable_two_two_cells.size() == 0)
     { throw std::domain_error("No (2,3) move is possible."); }
     // Pick out a random (2,2) which ranges from 0 to size()-1
-    auto choice = generate_random_unsigned(0, movable_two_two_cells.size() - 1);
+    auto choice = generate_random_int(0, movable_two_two_cells.size() - 1);
 
     Cell_handle to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
@@ -149,8 +149,7 @@ template <typename Manifold, typename Moves>
     { throw std::domain_error("No (3,2) move is possible."); }
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
-    auto choice =
-        generate_random_unsigned(0, movable_timelike_edges.size() - 1);
+    auto choice = generate_random_int(0, movable_timelike_edges.size() - 1);
     Edge_handle to_be_moved = movable_timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved))
@@ -187,7 +186,7 @@ template <typename Manifold, typename Moves>
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-[[nodiscard]] inline auto is_26_movable(const Cell_handle& c, std::size_t i)
+[[nodiscard]] inline auto is_26_movable(const Cell_handle& c, int i)
 {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
@@ -205,10 +204,10 @@ template <typename Manifold, typename Moves>
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-[[nodiscard]] inline auto find_26_movable(const Cell_handle& c, std::size_t& n)
+[[nodiscard]] inline auto find_26_movable(const Cell_handle& c, int& n)
 {
   auto movable = false;
-  for (std::size_t i = 0; i < 4; ++i)
+  for (auto i = 0; i < 4; ++i)
   {
 #ifndef NDEBUG
     std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
@@ -265,9 +264,9 @@ template <typename Manifold, typename Moves>
   while (not_moved)
   {
     // Pick out a random (1,3) from simplex_types
-    auto choice = generate_random_unsigned(0, universe.geometry->N3_13() - 1);
+    auto choice = generate_random_int(0, universe.geometry->N3_13() - 1);
 
-    std::size_t neighboring_31_index{5};
+    int         neighboring_31_index{5};
     Cell_handle bottom = universe.geometry->one_three[choice];
 
     if (!universe.triangulation->tds().is_cell(bottom))
@@ -474,10 +473,10 @@ template <typename Manifold, typename Moves>
 #endif
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  std::size_t                tds_vertices_size = tds_vertices.size();
+  int                        tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0))
   {
-    auto          choice = generate_random_unsigned(0, tds_vertices_size - 1);
+    auto          choice      = generate_random_int(0, tds_vertices_size - 1);
     Vertex_handle to_be_moved = tds_vertices[choice];
     // Ensure pre-conditions are satisfied
     CGAL_triangulation_precondition(universe.triangulation->dimension() == 3);

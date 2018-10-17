@@ -299,8 +299,8 @@ struct SeedSeq
 /// @param min_value The minimum value in the range
 /// @param max_value The maximum value in the range
 /// @return A random integer between min_value and max_value
-[[nodiscard]] inline auto generate_random_unsigned(
-    const size_t min_value, const size_t max_value) noexcept
+[[nodiscard]] inline auto generate_random_int(const int min_value,
+                                              const int max_value) noexcept
 {
   // Non-deterministic random number generator
   std::random_device rd;
@@ -315,7 +315,7 @@ struct SeedSeq
   //  // Initialized mt19937_64
   //  std::mt19937 g(seedSeq);
 
-  std::uniform_int_distribution<std::size_t> distribution(min_value, max_value);
+  std::uniform_int_distribution<int> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
@@ -335,9 +335,9 @@ struct SeedSeq
 /// @param max_timeslice The maximum timeslice
 /// @return A random timeslice from 1 to max_timeslice
 [[nodiscard]] inline auto generate_random_timeslice(
-    const std::size_t max_timeslice) noexcept
+    const int max_timeslice) noexcept
 {
-  return generate_random_unsigned(1, max_timeslice);
+  return generate_random_int(1, max_timeslice);
 }  // generate_random_timeslice()
 
 /// @brief Generate random real numbers

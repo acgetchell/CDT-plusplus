@@ -29,6 +29,11 @@ class Manifold<3>
   /// @brief Default ctor
   Manifold() = default;
 
+  explicit Manifold(Delaunay3 delaunay_triangulation)
+      : triangulation{std::make_unique<Delaunay3>(delaunay_triangulation)}
+      , geometry{make_geometry(getTriangulation())}
+  {}
+
   Manifold(std::size_t desired_simplices, std::size_t desired_timeslices)
       : triangulation{make_triangulation(desired_simplices, desired_timeslices)}
       , geometry{make_geometry(getTriangulation())}

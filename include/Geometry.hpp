@@ -109,7 +109,7 @@ class Geometry<3>
   [[nodiscard]] auto min_time() const { return min_timevalue; }
 
   /// @return Container of spacelike facets indexed by time value
-  [[nodiscard]] const std::multimap<size_t, Facet>& N2_SL() const
+  [[nodiscard]] const std::multimap<int, Facet>& N2_SL() const
   {
     return spacelike_facets;
   }
@@ -181,7 +181,7 @@ class Geometry<3>
     Expects(cells.size() == number_of_cells);
     std::vector<Vertex_handle> cell_vertices;
     cell_vertices.reserve(4);
-    std::vector<size_t> vertex_timevalues;
+    std::vector<int> vertex_timevalues;
     vertex_timevalues.reserve(4);
     for (auto& c : cells)
     {
@@ -209,13 +209,13 @@ class Geometry<3>
       switch (max_time_vertices)
       {
         case 1:
-          c->info() = static_cast<size_t>(Cell_type::ONE_THREE);
+          c->info() = static_cast<int>(Cell_type::ONE_THREE);
           break;
         case 2:
-          c->info() = static_cast<size_t>(Cell_type::TWO_TWO);
+          c->info() = static_cast<int>(Cell_type::TWO_TWO);
           break;
         case 3:
-          c->info() = static_cast<size_t>(Cell_type::THREE_ONE);
+          c->info() = static_cast<int>(Cell_type::THREE_ONE);
           break;
         default:
           throw std::logic_error("Mis-classified cell.");
@@ -245,11 +245,10 @@ class Geometry<3>
     Expects(!cells_v.empty());
     std::vector<Cell_handle> filtered_cells(cells_v.size());
     filtered_cells.clear();
-    auto it =
-        std::copy_if(cells_v.begin(), cells_v.end(), filtered_cells.begin(),
-                     [cell_t](auto const& cell) {
-                       return cell->info() == static_cast<std::size_t>(cell_t);
-                     });
+    auto it = std::copy_if(cells_v.begin(), cells_v.end(),
+                           filtered_cells.begin(), [cell_t](auto const& cell) {
+                             return cell->info() == static_cast<int>(cell_t);
+                           });
     filtered_cells.resize(static_cast<std::size_t>(
         std::abs(std::distance(filtered_cells.begin(), it))));
     return filtered_cells;
@@ -286,9 +285,9 @@ class Geometry<3>
   /// @return Container with spacelike facets per timeslice
   [[nodiscard]] auto volume_per_timeslice(const std::vector<Face_handle> facets,
                                           bool debugging = false)
-      -> std::multimap<std::size_t, Facet>
+      -> std::multimap<int, Facet>
   {
-    std::multimap<std::size_t, Facet> space_faces;
+    std::multimap<int, Facet> space_faces;
     for (auto& face : facets)
     {
       Cell_handle ch             = face.first;
@@ -428,7 +427,7 @@ class Geometry<3>
   /// @param vertices Container of vertices
   /// @return The maximum timevalue
   [[nodiscard]] auto find_max_timevalue(
-      std::vector<Vertex_handle> const vertices) -> std::size_t
+      std::vector<Vertex_handle> const vertices) -> int
   {
     Expects(!vertices.empty());
     auto it =
@@ -443,7 +442,7 @@ class Geometry<3>
   /// @param vertices Container of vertices
   /// @return The minimum timevalue
   [[nodiscard]] auto find_min_timevalue(
-      std::vector<Vertex_handle> const vertices) -> std::size_t
+      std::vector<Vertex_handle> const vertices) -> int
   {
     Expects(!vertices.empty());
     auto it =
@@ -467,9 +466,9 @@ class Geometry<3>
   std::vector<Cell_handle>   one_three;
   std::vector<Edge_handle>   timelike_edges;
   std::vector<Edge_handle>   spacelike_edges;
-  std::size_t                max_timevalue;
-  std::size_t                min_timevalue;
-  std::multimap<std::size_t, Facet> spacelike_facets;
+  int                               max_timevalue;
+  int                               min_timevalue;
+  std::multimap<int, Facet>         spacelike_facets;
 };
 
 using Geometry3 = Geometry<3>;
