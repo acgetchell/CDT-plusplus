@@ -87,8 +87,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("It is constructed with desired_simplices and desired_timeslices.")
     {
-      std::size_t desired_simplices{640};
-      std::size_t desired_timeslices{4};
+      std::int_fast64_t desired_simplices{640};
+      std::int_fast64_t desired_timeslices{4};
       Manifold3   manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {

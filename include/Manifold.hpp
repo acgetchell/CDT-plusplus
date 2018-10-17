@@ -18,7 +18,7 @@
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
-template <std::size_t dimension>
+template <int_fast64_t dimension>
 class Manifold;
 
 /// 3D Manifold
@@ -34,12 +34,12 @@ class Manifold<3>
       , geometry{make_geometry(getTriangulation())}
   {}
 
-  Manifold(std::size_t desired_simplices, std::size_t desired_timeslices)
+  Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices)
       : triangulation{make_triangulation(desired_simplices, desired_timeslices)}
       , geometry{make_geometry(getTriangulation())}
   {}
 
-  Manifold(std::size_t desired_simplices, std::size_t desired_timeslices,
+  Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices,
            double initial_radius, double radial_factor)
       : triangulation{make_triangulation(desired_simplices, desired_timeslices,
                                          initial_radius, radial_factor)}

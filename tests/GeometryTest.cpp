@@ -54,8 +54,8 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
   {
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      size_t      desired_simplices{48};
-      size_t      desired_timeslices{3};
+      int_fast64_t desired_simplices{48};
+      int_fast64_t desired_timeslices{3};
       auto        triangulation =
           make_triangulation(desired_simplices, desired_timeslices);
       Geometry3 geometry(triangulation);
@@ -121,8 +121,8 @@ SCENARIO("3-Geometry initialization", "[geometry]")
     }
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      size_t      desired_simplices{640};
-      size_t      desired_timeslices{4};
+      int_fast64_t desired_simplices{640};
+      int_fast64_t desired_timeslices{4};
       auto        triangulation =
           make_triangulation(desired_simplices, desired_timeslices);
       Geometry3 geometry(triangulation);

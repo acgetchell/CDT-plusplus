@@ -397,8 +397,8 @@ template <typename RealNumber>
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
 [[nodiscard]] inline auto expected_points_per_simplex(
-    const std::size_t dimension, const std::size_t simplices,
-    const std::size_t timeslices, const bool output = true)
+    const std::size_t dimension, const int_fast64_t simplices,
+    const int_fast64_t timeslices, const bool output = true)
 {
   if (output)
   {
@@ -415,19 +415,19 @@ template <typename RealNumber>
       if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
       {
-        return static_cast<std::size_t>(0.4 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
       }
       else if (simplices < 10000)
       {
-        return static_cast<std::size_t>(0.2 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.2 * simplices_per_timeslice);
       }
       else if (simplices < 100000)
       {
-        return static_cast<std::size_t>(0.15 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.15 * simplices_per_timeslice);
       }
       else
       {
-        return static_cast<std::size_t>(0.1 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.1 * simplices_per_timeslice);
       }
     }
     default:

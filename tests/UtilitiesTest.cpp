@@ -12,14 +12,16 @@
 #include <Utilities.hpp>
 #include <catch2/catch.hpp>
 
+using namespace std;
+
 SCENARIO("Randomizing functions", "[utility]")
 {
   GIVEN("A range of timeslices.")
   {
     WHEN("A random timeslice is generated.")
     {
-      constexpr std::size_t   timeslices{16};
-      auto                    result = generate_random_timeslice(timeslices);
+      constexpr int_fast64_t timeslices{16};
+      auto                   result = generate_random_timeslice(timeslices);
       THEN("We should get a timeslice within the range.")
       {
         REQUIRE(0 <= result);
@@ -32,7 +34,7 @@ SCENARIO("Randomizing functions", "[utility]")
   {
     WHEN("We generate four different random integers within the range.")
     {
-      constexpr std::size_t test_range_max = 256;
+      constexpr int_fast64_t test_range_max = 256;
       const auto value1 = generate_random_timeslice(test_range_max);
       const auto value2 = generate_random_timeslice(test_range_max);
       const auto value3 = generate_random_timeslice(test_range_max);
@@ -120,8 +122,8 @@ SCENARIO("Printing results.", "[utility]")
 {
   GIVEN("A Manifold3.")
   {
-    size_t    desired_simplices{640};
-    size_t    desired_timeslices{4};
+    int_fast64_t desired_simplices{640};
+    int_fast64_t desired_timeslices{4};
     Manifold3 manifold(desired_simplices, desired_timeslices);
     WHEN("We want to print results.")
     {

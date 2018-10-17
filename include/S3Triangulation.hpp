@@ -74,7 +74,7 @@ using Locate_type     = Delaunay3::Locate_type;
 using Point           = Delaunay3::Point;
 using Edge_handle     = std::tuple<Cell_handle, int, int>;
 using Causal_vertices = std::vector<std::pair<Point, int>>;
-using Move_tracker    = std::array<std::size_t, 5>;
+using Move_tracker    = std::array<int, 5>;
 
 enum class move_type
 {
@@ -86,10 +86,10 @@ enum class move_type
 };
 
 /// The maximum number of passes to fix invalidly foliated simplices
-static constexpr std::size_t MAX_FOLIATION_FIX_PASSES = 500;
+static constexpr std::int_fast64_t MAX_FOLIATION_FIX_PASSES = 500;
 
 /// The dimensionality of the Delaunay triangulation
-static constexpr std::size_t DIMENSION = 3;
+static constexpr std::int_fast64_t DIMENSION = 3;
 
 /// Initial radius and radial factor
 static constexpr double INITIAL_RADIUS = 1.0;
@@ -209,7 +209,7 @@ template <typename Manifold>
 template <typename Manifold>
 void fix_triangulation(Manifold&& universe_ptr)
 {
-  for (std::size_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass)
+  for (std::int_fast64_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass)
   {
 #ifndef NDEBUG
     std::cout << "Fix Pass #" << (pass + 1) << "\n";
@@ -238,10 +238,10 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 ///
 /// @param simplices The number of desired simplices in the triangulation
 /// @param timeslices  The number of desired timeslices in the triangulation
-/// @return A std::vector<std::pair<Point, std::size_t>> containing random
+/// @return A std::vector<std::pair<Point, int>> containing random
 /// vertices and their corresponding timevalues
 [[nodiscard]] auto inline make_foliated_sphere(
-    const std::size_t simplices, const std::size_t timeslices,
+    const std::int_fast64_t simplices, const std::int_fast64_t timeslices,
     double initial_radius = INITIAL_RADIUS,
     double radial_factor  = RADIAL_FACTOR)
 {
@@ -252,14 +252,14 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
   Causal_vertices causal_vertices;
   using Spherical_points_generator_3 = CGAL::Random_points_on_sphere_3<Point>;
 
-  for (std::size_t i = 0; i < timeslices; ++i)
+  for (gsl::index i = 0; i < timeslices; ++i)
   {
     auto radius = initial_radius + static_cast<double>(i) * radial_factor;
     //    CGAL::Random_points_on_sphere_3<Point> gen{radius};
     Spherical_points_generator_3 gen{radius};
     // At each radius, generate a sphere of random points proportional to area
-    for (std::size_t j = 0;
-         j < static_cast<std::size_t>(points_per_timeslice * radius); ++j)
+    for (gsl::index j = 0;
+         j < static_cast<int_fast64_t>(points_per_timeslice * radius); ++j)
     { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // end j
   }                                                                   // end i
   return causal_vertices;
@@ -284,7 +284,7 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
 [[nodiscard]] auto inline make_triangulation(
-    const std::size_t simplices, const std::size_t timeslices,
+    const std::int_fast64_t simplices, const std::int_fast64_t timeslices,
     double initial_radius = INITIAL_RADIUS,
     double radial_factor  = RADIAL_FACTOR)
 {

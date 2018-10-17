@@ -473,7 +473,7 @@ template <typename Manifold, typename Moves>
 #endif
   std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
-  int                        tds_vertices_size = tds_vertices.size();
+  std::size_t                tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0))
   {
     auto          choice      = generate_random_int(0, tds_vertices_size - 1);
