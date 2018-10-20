@@ -12,7 +12,7 @@
 ///
 /// @author Adam Getchell
 
-#include <Measurements.hpp>
+#include <SimplicialManifold.hpp>
 #include <catch2/catch.hpp>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",

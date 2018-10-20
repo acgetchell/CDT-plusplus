@@ -176,6 +176,10 @@ if(UNIX)
 
 endif(UNIX)
 
+add_executable(delaunay_triangulation
+               ${PROJECT_SOURCE_DIR}/src/delaunay_triangulation.cpp)
+target_link_libraries(delaunay_triangulation PRIVATE ${CGAL_LIBRARIES})
+
 #
 # Tests    ##
 #
@@ -239,3 +243,9 @@ add_test(NAME CDT-S3Runs
                  --s -n640 -t4 -a0.6 -k1.1 -l0.1 -p1 -c1)
 set_tests_properties(CDT-S3Runs
                      PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3")
+
+# 7D Delaunay Triangulations
+add_test(NAME DelaunayTriangulation-7
+         COMMAND $<TARGET_FILE:delaunay_triangulation>)
+set_tests_properties(DelaunayTriangulation-7
+                     PROPERTIES PASS_REGULAR_EXPRESSION "Processing: ")

@@ -16,7 +16,8 @@ add_executable(CDT_test
                MoveAlgorithmsTest.cpp
                MeasurementsTest.cpp
                ManifoldTest.cpp
-               GeometryTest.cpp)
+               GeometryTest.cpp
+               FoliatedTriangulationTest.cpp)
 target_link_libraries(CDT_test
                       CONAN_PKG::catch2
                       CONAN_PKG::TBB
