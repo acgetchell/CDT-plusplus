@@ -11,6 +11,7 @@
 /// member structs and classes
 ///
 /// @author Adam Getchell
+/// @todo Deprecated
 
 #include <SimplicialManifold.hpp>
 #include <catch2/catch.hpp>

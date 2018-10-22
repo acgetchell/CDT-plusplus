@@ -9,7 +9,6 @@
 /// @author Adam Getchell
 
 #include <Manifold.hpp>
-#include <Measurements.hpp>
 #include <docopt.h>
 #include <gsl/gsl>
 #include <iostream>
@@ -53,8 +52,8 @@ int main(int argc, char* const argv[]) try
       docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                      true, "initializer 1.0");
 
-  auto simplices         = stoull(args["-n"].asString());
-  auto timeslices        = stoull(args["-t"].asString());
+  auto simplices         = stoll(args["-n"].asString());
+  auto timeslices        = stoll(args["-t"].asString());
   auto dimensions        = stoi(args["-d"].asString());
   auto initial_radius    = stod(args["--init"].asString());
   auto foliation_spacing = stod(args["--foliate"].asString());

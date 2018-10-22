@@ -8,8 +8,9 @@
 /// @brief Tests of new geometry data structure
 /// @author Adam Getchell
 
+//#include <FoliatedTriangulation.hpp>
 #include <Geometry.hpp>
-#include <S3Triangulation.hpp>
+//#include <S3Triangulation.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -56,8 +57,11 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
     {
       int_fast64_t desired_simplices{48};
       int_fast64_t desired_timeslices{3};
-      auto        triangulation =
-          make_triangulation(desired_simplices, desired_timeslices);
+      FoliatedTriangulation3 triangulation(desired_simplices,
+                                           desired_timeslices);
+      //      auto                   triangulation = ft.get_triangulation();
+      //      auto        triangulation =
+      //          make_triangulation(desired_simplices, desired_timeslices);
       Geometry3 geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
@@ -66,9 +70,12 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
              << geometry.N3_22() << " (2,2) simplices and " << geometry.N3_13()
              << " (1,3) simplices.\n";
         CHECK(geometry.N3() > 2);
-        CHECK(geometry.N3() == triangulation->number_of_finite_cells());
-        CHECK(geometry.N0() == triangulation->number_of_vertices());
-        CHECK(geometry.N1() == triangulation->number_of_finite_edges());
+        CHECK(geometry.N3() ==
+              triangulation.get_triangulation().number_of_finite_cells());
+        CHECK(geometry.N0() ==
+              triangulation.get_triangulation().number_of_vertices());
+        CHECK(geometry.N1() ==
+              triangulation.get_triangulation().number_of_finite_edges());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);
@@ -123,17 +130,24 @@ SCENARIO("3-Geometry initialization", "[geometry]")
     {
       int_fast64_t desired_simplices{640};
       int_fast64_t desired_timeslices{4};
-      auto        triangulation =
-          make_triangulation(desired_simplices, desired_timeslices);
+      FoliatedTriangulation3 triangulation(desired_simplices,
+                                           desired_timeslices);
+      //      auto                   triangulation = ft.get_triangulation();
+      //      auto        triangulation =
+      //          make_triangulation(desired_simplices, desired_timeslices);
       Geometry3 geometry(triangulation);
       THEN(
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
       {
-        CHECK(geometry.N0() == triangulation->number_of_vertices());
-        CHECK(geometry.N1() == triangulation->number_of_finite_edges());
-        CHECK(geometry.N2() == triangulation->number_of_finite_facets());
-        CHECK(geometry.N3() == triangulation->number_of_finite_cells());
+        CHECK(geometry.N0() ==
+              triangulation.get_triangulation().number_of_vertices());
+        CHECK(geometry.N1() ==
+              triangulation.get_triangulation().number_of_finite_edges());
+        CHECK(geometry.N2() ==
+              triangulation.get_triangulation().number_of_finite_facets());
+        CHECK(geometry.N3() ==
+              triangulation.get_triangulation().number_of_finite_cells());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);

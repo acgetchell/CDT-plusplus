@@ -145,8 +145,13 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
       THEN("The cell info is correct.")
       {
         Delaunay3::Finite_cells_iterator cit;
-        for (cit = new_universe.getTriangulation()->finite_cells_begin();
-             cit != new_universe.getTriangulation()->finite_cells_end(); ++cit)
+        for (cit = new_universe.getTriangulation()
+                       .get_triangulation()
+                       .finite_cells_begin();
+             cit != new_universe.getTriangulation()
+                        .get_triangulation()
+                        .finite_cells_end();
+             ++cit)
         {
           std::cout << "Simplex type is " << cit->info() << '\n';
           REQUIRE(cit->info() == static_cast<int>(Cell_type::ONE_THREE));

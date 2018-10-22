@@ -221,10 +221,14 @@ catch (...)
 template <typename Triangulation>
 void print_triangulation(const Triangulation& triangulation) try
 {
-  std::cout << "Triangulation has " << triangulation->number_of_vertices()
-            << " vertices and " << triangulation->number_of_finite_edges()
-            << " edges and " << triangulation->number_of_finite_facets()
-            << " faces and " << triangulation->number_of_finite_cells()
+  std::cout << "Triangulation has "
+            << triangulation.get_triangulation().number_of_vertices()
+            << " vertices and "
+            << triangulation.get_triangulation().number_of_finite_edges()
+            << " edges and "
+            << triangulation.get_triangulation().number_of_finite_facets()
+            << " faces and "
+            << triangulation.get_triangulation().number_of_finite_cells()
             << " simplices.\n";
 }
 catch (...)

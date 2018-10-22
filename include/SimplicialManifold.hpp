@@ -16,6 +16,7 @@
 /// @file  SimplicialManifold.hpp
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
+/// @todo Deprecated
 
 #ifndef INCLUDE_SIMPLICIALMANIFOLD_HPP_
 #define INCLUDE_SIMPLICIALMANIFOLD_HPP_

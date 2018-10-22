@@ -8,7 +8,7 @@
 /// @brief Tests for the various measurement functions
 /// @author Adam Getchell
 ///
-/// @todo Fix PersistData test
+/// @todo Deprecated
 
 #include <catch2/catch.hpp>
 #include <Measurements.hpp>

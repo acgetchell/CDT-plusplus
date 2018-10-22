@@ -33,6 +33,7 @@
 /// @file S3Triangulation.hpp
 /// @brief Functions on 3D Spherical Delaunay Triangulations
 /// @author Adam Getchell
+/// @todo Deprecated
 
 #ifndef INCLUDE_S3TRIANGULATION_HPP_
 #define INCLUDE_S3TRIANGULATION_HPP_
@@ -46,6 +47,7 @@
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
+#include <Utilities.hpp>
 #include <algorithm>
 #include <memory>
 #include <set>
@@ -53,7 +55,6 @@
 #include <tuple>
 #include <utility>
 #include <vector>
-#include <Utilities.hpp>
 
 using K             = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation = CGAL::Triangulation_3<K>;
@@ -283,7 +284,7 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 /// @param[in] simplices  The number of desired simplices in the triangulation
 /// @param[in] timeslices The number of timeslices in the triangulation
 /// @returns A std::unique_ptr<Delaunay> to the foliated triangulation
-[[nodiscard]] auto inline make_triangulation(
+[[deprecated]] auto inline make_triangulation(
     const std::int_fast64_t simplices, const std::int_fast64_t timeslices,
     double initial_radius = INITIAL_RADIUS,
     double radial_factor  = RADIAL_FACTOR)

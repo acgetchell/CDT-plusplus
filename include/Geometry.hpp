@@ -11,15 +11,20 @@
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
-#include <S3Triangulation.hpp>
+#include <CGAL/Triangulation_simplex_3.h>
+#include <FoliatedTriangulation.hpp>
 #include <algorithm>
 #include <cstddef>
 #include <gsl/gsl>
 #include <set>
 
 // typedef std::pair<Cell_handle, int> TriangulationDataStructure_3::Facet
-using Facet       = Delaunay3::Facet;
-using Face_handle = std::pair<Cell_handle, int>;
+using Cell_handle   = Delaunay3::Cell_handle;
+using Facet         = Delaunay3::Facet;
+using Face_handle   = std::pair<Cell_handle, int>;
+using Edge_handle   = std::tuple<Cell_handle, int, int>;
+using Vertex_handle = Delaunay3::Vertex_handle;
+// using Simplex = CGAL::Triangulation_simplex_3::Simplex;
 
 enum class Cell_type
 {
@@ -51,11 +56,15 @@ class Geometry<3>
   /// @brief Constructor with triangulation
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
-  explicit Geometry(const std::unique_ptr<Delaunay3>& triangulation)
-      : number_of_vertices{triangulation->number_of_vertices()}
-      , number_of_edges{triangulation->number_of_finite_edges()}
-      , number_of_faces{triangulation->number_of_finite_facets()}
-      , number_of_cells{triangulation->number_of_finite_cells()}
+  explicit Geometry(const FoliatedTriangulation3& triangulation)
+      : number_of_vertices{triangulation.get_triangulation()
+                               .number_of_vertices()}
+      , number_of_edges{triangulation.get_triangulation()
+                            .number_of_finite_edges()}
+      , number_of_faces{triangulation.get_triangulation()
+                            .number_of_finite_facets()}
+      , number_of_cells{triangulation.get_triangulation()
+                            .number_of_finite_cells()}
       // Debugging cell collection
       //            , cells{classify_cells(collect_cells(triangulation), true)}
       , simplices{classify_cells(collect_cells(triangulation))}
@@ -155,16 +164,15 @@ class Geometry<3>
   [[nodiscard]] auto collect_cells(Manifold& universe)
       -> std::vector<Cell_handle>
   {
-    Expects(universe != nullptr);
-    Expects(universe->tds().is_valid());
+    Expects(universe.get_triangulation().tds().is_valid());
     std::vector<Cell_handle> init_cells;
     init_cells.reserve(number_of_cells);
     Delaunay3::Finite_cells_iterator cit;
-    for (cit = universe->finite_cells_begin();
-         cit != universe->finite_cells_end(); ++cit)
+    for (cit = universe.get_triangulation().finite_cells_begin();
+         cit != universe.get_triangulation().finite_cells_end(); ++cit)
     {
       // Each cell is valid in the triangulation
-      Ensures(universe->tds().is_cell(cit));
+      Ensures(universe.get_triangulation().tds().is_cell(cit));
       init_cells.emplace_back(cit);
     }
     Ensures(init_cells.size() == N3());
@@ -262,17 +270,16 @@ class Geometry<3>
   [[nodiscard]] auto collect_faces(Manifold& universe)
       -> std::vector<Face_handle>
   {
-    Expects(universe != nullptr);
-    Expects(universe->tds().is_valid());
+    Expects(universe.get_triangulation().tds().is_valid());
     std::vector<Face_handle> init_faces;
     init_faces.reserve(number_of_faces);
     Delaunay3::Finite_facets_iterator fit;
-    for (fit = universe->finite_facets_begin();
-         fit != universe->finite_facets_end(); ++fit)
+    for (fit = universe.get_triangulation().finite_facets_begin();
+         fit != universe.get_triangulation().finite_facets_end(); ++fit)
     {
       Cell_handle ch = fit->first;
       // Each face is valid in the triangulation
-      Ensures(universe->tds().is_facet(ch, fit->second));
+      Ensures(universe.get_triangulation().tds().is_facet(ch, fit->second));
       Face_handle thisFacet{std::make_pair(ch, fit->second)};
       init_faces.emplace_back(thisFacet);
     }
@@ -333,19 +340,18 @@ class Geometry<3>
   [[nodiscard]] auto collect_edges(Manifold& universe)
       -> std::vector<Edge_handle>
   {
-    Expects(universe != nullptr);
-    Expects(universe->tds().is_valid());
+    Expects(universe.get_triangulation().tds().is_valid());
     std::vector<Edge_handle> init_edges;
     init_edges.reserve(number_of_edges);
     Delaunay3::Finite_edges_iterator eit;
-    for (eit = universe->finite_edges_begin();
-         eit != universe->finite_edges_end(); ++eit)
+    for (eit = universe.get_triangulation().finite_edges_begin();
+         eit != universe.get_triangulation().finite_edges_end(); ++eit)
     {
       Cell_handle ch = eit->first;
       Edge_handle thisEdge{ch, ch->index(ch->vertex(eit->second)),
                            ch->index(ch->vertex(eit->third))};
       // Each edge is valid in the triangulation
-      Ensures(universe->tds().is_valid(
+      Ensures(universe.get_triangulation().tds().is_valid(
           std::get<0>(thisEdge), std::get<1>(thisEdge), std::get<2>(thisEdge)));
       init_edges.emplace_back(thisEdge);
     }
@@ -399,15 +405,14 @@ class Geometry<3>
   [[nodiscard]] auto collect_vertices(Manifold& universe)
       -> std::vector<Vertex_handle>
   {
-    Expects(universe != nullptr);
-    Expects(universe->tds().is_valid());
+    Expects(universe.get_triangulation().tds().is_valid());
     std::vector<Vertex_handle> init_vertices;
     init_vertices.reserve(number_of_vertices);
     Delaunay3::Finite_vertices_iterator vit;
-    for (vit = universe->finite_vertices_begin();
-         vit != universe->finite_vertices_end(); ++vit)
+    for (vit = universe.get_triangulation().finite_vertices_begin();
+         vit != universe.get_triangulation().finite_vertices_end(); ++vit)
     {  // Each vertex is valid in the triangulation
-      Ensures(universe->tds().is_vertex(vit));
+      Ensures(universe.get_triangulation().tds().is_vertex(vit));
       init_vertices.emplace_back(vit);
     }
     Ensures(init_vertices.size() == N0());
@@ -457,18 +462,18 @@ class Geometry<3>
   std::size_t                number_of_edges;
   std::size_t                number_of_faces;
   std::size_t                number_of_cells;
-  std::vector<Cell_handle>          simplices;
-  std::vector<Face_handle>          faces;
+  std::vector<Cell_handle>   simplices;
+  std::vector<Face_handle>   faces;
   std::vector<Edge_handle>   edges;
-  std::vector<Vertex_handle>        points;
+  std::vector<Vertex_handle> points;
   std::vector<Cell_handle>   three_one;
   std::vector<Cell_handle>   two_two;
   std::vector<Cell_handle>   one_three;
   std::vector<Edge_handle>   timelike_edges;
   std::vector<Edge_handle>   spacelike_edges;
-  int                               max_timevalue;
-  int                               min_timevalue;
-  std::multimap<int, Facet>         spacelike_facets;
+  int                        max_timevalue;
+  int                        min_timevalue;
+  std::multimap<int, Facet>  spacelike_facets;
 };
 
 using Geometry3 = Geometry<3>;

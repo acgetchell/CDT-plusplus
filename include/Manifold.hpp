@@ -11,8 +11,8 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
+#include <FoliatedTriangulation.hpp>
 #include <Geometry.hpp>
-#include <S3Triangulation.hpp>
 #include <functional>
 #include <stddef.h>
 
@@ -29,20 +29,22 @@ class Manifold<3>
   /// @brief Default ctor
   Manifold() = default;
 
-  explicit Manifold(Delaunay3 delaunay_triangulation)
-      : triangulation{std::make_unique<Delaunay3>(delaunay_triangulation)}
+  explicit Manifold(Delaunay3 const& delaunay_triangulation)
+      : triangulation{FoliatedTriangulation3(delaunay_triangulation)}
       , geometry{make_geometry(getTriangulation())}
   {}
 
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices)
-      : triangulation{make_triangulation(desired_simplices, desired_timeslices)}
+      : triangulation{FoliatedTriangulation3(desired_simplices,
+                                             desired_timeslices)}
       , geometry{make_geometry(getTriangulation())}
   {}
 
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices,
            double initial_radius, double radial_factor)
-      : triangulation{make_triangulation(desired_simplices, desired_timeslices,
-                                         initial_radius, radial_factor)}
+      : triangulation{FoliatedTriangulation3(desired_simplices,
+                                             desired_timeslices, initial_radius,
+                                             radial_factor)}
       , geometry{make_geometry(getTriangulation())}
   {}
 
@@ -64,7 +66,7 @@ class Manifold<3>
   /// @brief Obtain a reference to the triangulation pointer
   /// Note: would prefer observer_ptr<T>, GotW91 suggests a T*
   /// @return A read-only reference to the triangulation pointer
-  const std::unique_ptr<Delaunay3>& getTriangulation() const
+  const FoliatedTriangulation3& getTriangulation() const
   {
     return triangulation;
   }
@@ -74,9 +76,9 @@ class Manifold<3>
   const Geometry3& getGeometry() const { return geometry; }
 
  private:
-  std::unique_ptr<Delaunay3> triangulation;
-
-  Geometry3 geometry;
+  //  std::unique_ptr<Delaunay3> triangulation;
+  FoliatedTriangulation3 triangulation;
+  Geometry3              geometry;
 };
 
 using Manifold3 = Manifold<3>;
