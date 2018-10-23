@@ -59,14 +59,15 @@ install:
         softwareupdate --install "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.4"
       fi
     fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      # Upgrade CGAL
-      brew upgrade cgal
-    else
-      # Linux, just install
-      brew install cgal
-    fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then brew install cgal; fi
+#  - |
+#    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+#      # Upgrade CGAL
+#      brew upgrade cgal
+#    else
+#      # Linux, just install
+#      brew install cgal
+#    fi
   - brew install ninja
   - brew install lcov
   - brew install conan
