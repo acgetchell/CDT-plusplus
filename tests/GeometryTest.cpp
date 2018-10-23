@@ -71,11 +71,11 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
              << " (1,3) simplices.\n";
         CHECK(geometry.N3() > 2);
         CHECK(geometry.N3() ==
-              triangulation.get_triangulation().number_of_finite_cells());
+              triangulation.get_delaunay().number_of_finite_cells());
         CHECK(geometry.N0() ==
-              triangulation.get_triangulation().number_of_vertices());
+              triangulation.get_delaunay().number_of_vertices());
         CHECK(geometry.N1() ==
-              triangulation.get_triangulation().number_of_finite_edges());
+              triangulation.get_delaunay().number_of_finite_edges());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);
@@ -141,13 +141,13 @@ SCENARIO("3-Geometry initialization", "[geometry]")
           "info.")
       {
         CHECK(geometry.N0() ==
-              triangulation.get_triangulation().number_of_vertices());
+              triangulation.get_delaunay().number_of_vertices());
         CHECK(geometry.N1() ==
-              triangulation.get_triangulation().number_of_finite_edges());
+              triangulation.get_delaunay().number_of_finite_edges());
         CHECK(geometry.N2() ==
-              triangulation.get_triangulation().number_of_finite_facets());
+              triangulation.get_delaunay().number_of_finite_facets());
         CHECK(geometry.N3() ==
-              triangulation.get_triangulation().number_of_finite_cells());
+              triangulation.get_delaunay().number_of_finite_cells());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);

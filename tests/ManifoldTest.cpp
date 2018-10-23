@@ -66,11 +66,11 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3 manifold;
       THEN("It is not yet correctly foliated.")
       {
-        REQUIRE_FALSE(manifold.getTriangulation().is_foliated());
+        REQUIRE_FALSE(manifold.get_triangulation().is_foliated());
       }
       THEN("The default Delauny triangulation is valid.")
       {
-        REQUIRE(manifold.getTriangulation().get_triangulation().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
       }
     }
     WHEN("It is constructed from a Delaunay triangulation.")
@@ -86,13 +86,12 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 
       THEN("The triangulation is valid.")
       {
-        REQUIRE(manifold.getTriangulation().get_triangulation().is_valid());
-        REQUIRE(
-            manifold.getTriangulation().get_triangulation().tds().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().tds().is_valid());
       }
       THEN("The geometry matches the triangulation.")
       {
-        REQUIRE(manifold.getTriangulation().is_foliated());
+        REQUIRE(manifold.get_triangulation().is_foliated());
         REQUIRE(manifold.getGeometry().N0() == 5);
         REQUIRE(manifold.getGeometry().N1_SL() == 3);
         REQUIRE(manifold.getGeometry().N1_TL() == 6);
@@ -112,24 +111,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3    manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
-        REQUIRE(manifold.getTriangulation().get_triangulation().is_valid());
-        REQUIRE(
-            manifold.getTriangulation().get_triangulation().tds().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().tds().is_valid());
       }
       THEN("The geometry matches the triangulation.")
       {
-        REQUIRE(manifold.getTriangulation().is_foliated());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
-                    .number_of_vertices() == manifold.getGeometry().N0());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation().is_foliated());
+        REQUIRE(
+            manifold.get_triangulation().get_delaunay().number_of_vertices() ==
+            manifold.getGeometry().N0());
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_edges() == manifold.getGeometry().N1());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_facets() == manifold.getGeometry().N2());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_cells() == manifold.getGeometry().N3());
         // We have 1 to 8 vertices
         auto vertices{manifold.getGeometry().N0()};
@@ -154,24 +152,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3   manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
-        REQUIRE(manifold.getTriangulation().get_triangulation().is_valid());
-        REQUIRE(
-            manifold.getTriangulation().get_triangulation().tds().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().tds().is_valid());
       }
       THEN("The geometry matches the triangulation.")
       {
-        REQUIRE(manifold.getTriangulation().is_foliated());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
-                    .number_of_vertices() == manifold.getGeometry().N0());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation().is_foliated());
+        REQUIRE(
+            manifold.get_triangulation().get_delaunay().number_of_vertices() ==
+            manifold.getGeometry().N0());
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_edges() == manifold.getGeometry().N1());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_facets() == manifold.getGeometry().N2());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_cells() == manifold.getGeometry().N3());
         // Human verification
         print_manifold(manifold);
@@ -185,24 +182,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3    manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
-        REQUIRE(manifold.getTriangulation().get_triangulation().is_valid());
-        REQUIRE(
-            manifold.getTriangulation().get_triangulation().tds().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
+        REQUIRE(manifold.get_triangulation().get_delaunay().tds().is_valid());
       }
       THEN("The geometry matches the triangulation.")
       {
-        REQUIRE(manifold.getTriangulation().is_foliated());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
-                    .number_of_vertices() == manifold.getGeometry().N0());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation().is_foliated());
+        REQUIRE(
+            manifold.get_triangulation().get_delaunay().number_of_vertices() ==
+            manifold.getGeometry().N0());
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_edges() == manifold.getGeometry().N1());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_facets() == manifold.getGeometry().N2());
-        REQUIRE(manifold.getTriangulation()
-                    .get_triangulation()
+        REQUIRE(manifold.get_triangulation()
+                    .get_delaunay()
                     .number_of_finite_cells() == manifold.getGeometry().N3());
         // Human verification
         print_manifold(manifold);

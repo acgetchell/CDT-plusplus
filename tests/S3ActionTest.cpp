@@ -25,18 +25,16 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     constexpr auto     Lambda     = static_cast<long double>(0.1);
     Manifold3          universe(simplices, timeslices);
     // Verify triangulation
-    CHECK(universe.getGeometry().N3() == universe.getTriangulation()
-                                             .get_triangulation()
-                                             .number_of_finite_cells());
-    CHECK(universe.getGeometry().N1() == universe.getTriangulation()
-                                             .get_triangulation()
-                                             .number_of_finite_edges());
+    CHECK(universe.getGeometry().N3() ==
+          universe.get_triangulation().get_delaunay().number_of_finite_cells());
+    CHECK(universe.getGeometry().N1() ==
+          universe.get_triangulation().get_delaunay().number_of_finite_edges());
     CHECK(universe.getGeometry().N0() ==
-          universe.getTriangulation().get_triangulation().number_of_vertices());
-    CHECK(universe.getTriangulation().get_triangulation().dimension() == 3);
-    CHECK(universe.getTriangulation().is_foliated());
-    CHECK(universe.getTriangulation().get_triangulation().is_valid());
-    CHECK(universe.getTriangulation().get_triangulation().tds().is_valid());
+          universe.get_triangulation().get_delaunay().number_of_vertices());
+    CHECK(universe.get_triangulation().get_delaunay().dimension() == 3);
+    CHECK(universe.get_triangulation().is_foliated());
+    CHECK(universe.get_triangulation().get_delaunay().is_valid());
+    CHECK(universe.get_triangulation().get_delaunay().tds().is_valid());
 
     universe.getGeometry().print_volume_per_timeslice();
 

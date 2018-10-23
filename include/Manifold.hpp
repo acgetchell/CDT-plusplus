@@ -30,22 +30,22 @@ class Manifold<3>
   Manifold() = default;
 
   explicit Manifold(Delaunay3 const& delaunay_triangulation)
-      : triangulation{FoliatedTriangulation3(delaunay_triangulation)}
-      , geometry{make_geometry(getTriangulation())}
+      : _triangulation{FoliatedTriangulation3(delaunay_triangulation)}
+      , _geometry{make_geometry(get_triangulation())}
   {}
 
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices)
-      : triangulation{FoliatedTriangulation3(desired_simplices,
-                                             desired_timeslices)}
-      , geometry{make_geometry(getTriangulation())}
+      : _triangulation{FoliatedTriangulation3(desired_simplices,
+                                              desired_timeslices)}
+      , _geometry{make_geometry(get_triangulation())}
   {}
 
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices,
            double initial_radius, double radial_factor)
-      : triangulation{FoliatedTriangulation3(desired_simplices,
-                                             desired_timeslices, initial_radius,
-                                             radial_factor)}
-      , geometry{make_geometry(getTriangulation())}
+      : _triangulation{FoliatedTriangulation3(desired_simplices,
+                                              desired_timeslices,
+                                              initial_radius, radial_factor)}
+      , _geometry{make_geometry(get_triangulation())}
   {}
 
   /// @brief Construct a Geometry of useful data from a triangulation
@@ -66,19 +66,19 @@ class Manifold<3>
   /// @brief Obtain a reference to the triangulation pointer
   /// Note: would prefer observer_ptr<T>, GotW91 suggests a T*
   /// @return A read-only reference to the triangulation pointer
-  const FoliatedTriangulation3& getTriangulation() const
+  FoliatedTriangulation3 const& get_triangulation() const
   {
-    return triangulation;
+    return _triangulation;
   }
 
   /// @brief Obtain a reference to the Geometry
   /// @return A read-only reference to the Geometry
-  const Geometry3& getGeometry() const { return geometry; }
+  Geometry3 const& getGeometry() const { return _geometry; }
 
  private:
   //  std::unique_ptr<Delaunay3> triangulation;
-  FoliatedTriangulation3 triangulation;
-  Geometry3              geometry;
+  FoliatedTriangulation3 _triangulation;
+  Geometry3              _geometry;
 };
 
 using Manifold3 = Manifold<3>;

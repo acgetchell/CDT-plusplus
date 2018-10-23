@@ -47,8 +47,8 @@ using Delaunay3 = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 using Point           = Delaunay3::Point;
 using Causal_vertices = std::vector<std::pair<Point, int>>;
 
-static constexpr double INITIAL_RADIUS = 1.0;
-static constexpr double RADIAL_FACTOR  = 1.0;
+static double constexpr INITIAL_RADIUS = 1.0;
+static double constexpr RADIAL_FACTOR  = 1.0;
 
 /// FoliatedTriangulation class template
 /// @tparam dimension Dimensionality of triangulation
@@ -61,25 +61,25 @@ class FoliatedTriangulation<3> : Delaunay3
 {
  public:
   /// @brief Default constructor
-  FoliatedTriangulation() : _triangulation{Delaunay3{}}, _is_foliated(false) {}
+  FoliatedTriangulation() : _delaunay{Delaunay3{}}, _is_foliated(false) {}
 
   explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
-      : _triangulation{delaunay_triangulation}, _is_foliated{true}
+      : _delaunay{delaunay_triangulation}, _is_foliated{true}
   {}
 
   /// @brief Constructor with simplices, timeslices, initial radius, and radial
   /// factor
-  FoliatedTriangulation(const std::int_fast64_t simplices,
-                        const std::int_fast64_t timeslices,
-                        const double            initial_radius = INITIAL_RADIUS,
-                        const double radial_factor = RADIAL_FACTOR) try
+  FoliatedTriangulation(std::int_fast64_t const simplices,
+                        std::int_fast64_t const timeslices,
+                        double const            initial_radius = INITIAL_RADIUS,
+                        double const radial_factor = RADIAL_FACTOR) try
   {
     std::cout << "Generating universe ... \n";
-    _triangulation = Delaunay3{};
+    _delaunay      = Delaunay3{};
     _is_foliated   = false;
     auto vertices  = make_foliated_sphere(simplices, timeslices, initial_radius,
                                          radial_factor);
-    _triangulation.insert(vertices.begin(), vertices.end());
+    _delaunay.insert(vertices.begin(), vertices.end());
     int passes = 1;
     while (!fix_timeslices())
     {
@@ -106,7 +106,7 @@ class FoliatedTriangulation<3> : Delaunay3
 
   bool is_foliated() const { return _is_foliated; }
 
-  const Delaunay3& get_triangulation() const { return _triangulation; }
+  Delaunay3 const& get_delaunay() const { return _delaunay; }
 
  private:
   /// @brief Make foliated spheres
@@ -117,9 +117,9 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @param radial_factor The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   [[nodiscard]] Causal_vertices make_foliated_sphere(
-      const std::int_fast64_t simplices, const std::int_fast64_t timeslices,
-      const double initial_radius = INITIAL_RADIUS,
-      const double radial_factor  = RADIAL_FACTOR)
+      std::int_fast64_t const simplices, std::int_fast64_t const timeslices,
+      double const initial_radius = INITIAL_RADIUS,
+      double const radial_factor  = RADIAL_FACTOR) const
   {
     Causal_vertices causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(simplices));
@@ -151,9 +151,8 @@ class FoliatedTriangulation<3> : Delaunay3
     std::set<Vertex_handle> deleted_vertices;
 
     // Iterate over all cells in the Delaunay triangulation
-    for (Delaunay3::Finite_cells_iterator cit =
-             _triangulation.finite_cells_begin();
-         cit != _triangulation.finite_cells_end(); ++cit)
+    for (Delaunay3::Finite_cells_iterator cit = _delaunay.finite_cells_begin();
+         cit != _delaunay.finite_cells_end(); ++cit)
     {
       if (cit->is_valid())
       {  // Valid cell
@@ -210,11 +209,11 @@ class FoliatedTriangulation<3> : Delaunay3
     }  // Finish iterating over cells
 
     // Delete invalid vertices
-    _triangulation.remove(deleted_vertices.begin(), deleted_vertices.end());
+    _delaunay.remove(deleted_vertices.begin(), deleted_vertices.end());
     // Check that the triangulation is still valid
     // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
     //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
-    if (!_triangulation.tds().is_valid())
+    if (!_delaunay.tds().is_valid())
       throw std::logic_error("Delaunay tds invalid!");
 
 #ifndef NDEBUG
@@ -224,7 +223,7 @@ class FoliatedTriangulation<3> : Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
-  Delaunay3 _triangulation;
+  Delaunay3 _delaunay;
   bool      _is_foliated;
 };
 
