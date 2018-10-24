@@ -63,21 +63,26 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @brief Default constructor
   FoliatedTriangulation() : _delaunay{Delaunay3{}}, _is_foliated(false) {}
 
+  /// @brief Constructor using delaunay triangulation
+  /// @param delaunay_triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
-      : _delaunay{delaunay_triangulation}, _is_foliated{true}
+      : _delaunay{delaunay_triangulation}, _is_foliated{fix_timeslices()}
   {}
 
-  /// @brief Constructor with simplices, timeslices, initial radius, and radial
-  /// factor
+  /// @brief Constructor with parameters
+  /// @param simplices Number of desired simplices
+  /// @param timeslices Number of desired timeslices
+  /// @param initial_radius Radius of first timeslice
+  /// @param radial_factor Radial separation between timeslices
   FoliatedTriangulation(std::int_fast64_t const simplices,
                         std::int_fast64_t const timeslices,
                         double const            initial_radius = INITIAL_RADIUS,
                         double const radial_factor = RADIAL_FACTOR) try
   {
     std::cout << "Generating universe ... \n";
-    _delaunay      = Delaunay3{};
-    _is_foliated   = false;
-    auto vertices  = make_foliated_sphere(simplices, timeslices, initial_radius,
+    _delaunay     = Delaunay3{};
+    _is_foliated  = false;
+    auto vertices = make_foliated_sphere(simplices, timeslices, initial_radius,
                                          radial_factor);
     _delaunay.insert(vertices.begin(), vertices.end());
     int passes = 1;
@@ -104,13 +109,14 @@ class FoliatedTriangulation<3> : Delaunay3
     throw;
   }
 
+  /// @return True if foliated correctly
   bool is_foliated() const { return _is_foliated; }
 
+  /// @return A read-only reference to the Delaunay triangulation
   Delaunay3 const& get_delaunay() const { return _delaunay; }
 
  private:
   /// @brief Make foliated spheres
-  ///
   /// @param simplices The desired number of simplices in the triangulation
   /// @param timeslices The desired number of timeslices in the triangulation
   /// @param initial_radius The radius of the first time slice
@@ -141,6 +147,20 @@ class FoliatedTriangulation<3> : Delaunay3
     return causal_vertices;
   }  // make_foliated_sphere
 
+  /// @brief Fix simplices with incorrect foliation
+  ///
+  /// This function iterates over all of the cells in the triangulation.
+  /// Within each cell, it iterates over all of the vertices and reads
+  /// timeslices.
+  /// Validity of the cell is first checked by the **is_valid()** function.
+  /// The foliation validity is then checked by finding maximum and minimum
+  /// timeslices for all the vertices of a cell and ensuring that the
+  /// difference
+  /// is exactly 1.
+  /// If a cell has a bad foliation, the vertex with the highest timeslice is
+  /// deleted. The Delaunay triangulation is then recomputed on the remaining
+  /// vertices.
+  /// @return True if there are no incorrectly foliated simplices
   [[nodiscard]] auto fix_timeslices() -> bool
   {
     int                     min_time{0};
@@ -213,8 +233,9 @@ class FoliatedTriangulation<3> : Delaunay3
     // Check that the triangulation is still valid
     // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
     //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
-    if (!_delaunay.tds().is_valid())
-      throw std::logic_error("Delaunay tds invalid!");
+    //    if (!_delaunay.tds().is_valid())
+    //      throw std::logic_error("Delaunay tds invalid!");
+    Ensures(_delaunay.tds().is_valid());
 
 #ifndef NDEBUG
     std::cout << "There are " << invalid << " invalid simplices and " << valid

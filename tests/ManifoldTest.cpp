@@ -47,16 +47,6 @@ SCENARIO("3-Manifold exception-safety", "[manifold]")
   }
 }
 
-SCENARIO("Delaunay std::unique_ptr", "[manifold]")
-{
-  WHEN("A unique pointer to a Delaunay triangulation is created.")
-  {
-    Delaunay3 universe;
-    auto      universe_ptr = std::make_unique<decltype(universe)>(universe);
-    THEN("It is not null.") { REQUIRE(universe_ptr); }
-  }
-}
-
 SCENARIO("3-Manifold initialization", "[manifold]")
 {
   GIVEN("A 3-manifold")
@@ -92,16 +82,16 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.get_triangulation().is_foliated());
-        REQUIRE(manifold.getGeometry().N0() == 5);
-        REQUIRE(manifold.getGeometry().N1_SL() == 3);
-        REQUIRE(manifold.getGeometry().N1_TL() == 6);
-        REQUIRE(manifold.getGeometry().N2_SL().count(2) == 1);
-        REQUIRE(manifold.getGeometry().N3() == 2);
-        REQUIRE(manifold.getGeometry().min_time() == 1);
-        REQUIRE(manifold.getGeometry().max_time() == 3);
+        REQUIRE(manifold.get_geometry().N0() == 5);
+        REQUIRE(manifold.get_geometry().N1_SL() == 3);
+        REQUIRE(manifold.get_geometry().N1_TL() == 6);
+        REQUIRE(manifold.get_geometry().N2_SL().count(2) == 1);
+        REQUIRE(manifold.get_geometry().N3() == 2);
+        REQUIRE(manifold.get_geometry().min_time() == 1);
+        REQUIRE(manifold.get_geometry().max_time() == 3);
         // Human verification
         print_manifold(manifold);
-        manifold.getGeometry().print_volume_per_timeslice();
+        manifold.get_geometry().print_volume_per_timeslice();
       }
     }
     WHEN("Constructing the minimum size triangulation.")
@@ -119,37 +109,37 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.get_triangulation().is_foliated());
         REQUIRE(
             manifold.get_triangulation().get_delaunay().number_of_vertices() ==
-            manifold.getGeometry().N0());
+            manifold.get_geometry().N0());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_edges() == manifold.getGeometry().N1());
+                    .number_of_finite_edges() == manifold.get_geometry().N1());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_facets() == manifold.getGeometry().N2());
+                    .number_of_finite_facets() == manifold.get_geometry().N2());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_cells() == manifold.getGeometry().N3());
+                    .number_of_finite_cells() == manifold.get_geometry().N3());
         // We have 1 to 8 vertices
-        auto vertices{manifold.getGeometry().N0()};
+        auto vertices{manifold.get_geometry().N0()};
         CHECK(1 << vertices);
         CHECK(vertices <= 8);
         // We have 1 to 12 cells
-        auto cells{manifold.getGeometry().N3()};
+        auto cells{manifold.get_geometry().N3()};
         CHECK(1 <= cells);
         CHECK(cells <= 12);
         // We have all the time values
-        CHECK(manifold.getGeometry().min_time() == 1);
-        CHECK(manifold.getGeometry().max_time() == desired_timeslices);
+        CHECK(manifold.get_geometry().min_time() == 1);
+        CHECK(manifold.get_geometry().max_time() == desired_timeslices);
         // Human verification
         print_manifold(manifold);
-        manifold.getGeometry().print_volume_per_timeslice();
+        manifold.get_geometry().print_volume_per_timeslice();
       }
     }
     WHEN("Constructing a small triangulation.")
     {
       int_fast64_t desired_simplices{640};
       int_fast64_t desired_timeslices{4};
-      Manifold3   manifold(desired_simplices, desired_timeslices);
+      Manifold3    manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
         REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
@@ -160,19 +150,19 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.get_triangulation().is_foliated());
         REQUIRE(
             manifold.get_triangulation().get_delaunay().number_of_vertices() ==
-            manifold.getGeometry().N0());
+            manifold.get_geometry().N0());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_edges() == manifold.getGeometry().N1());
+                    .number_of_finite_edges() == manifold.get_geometry().N1());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_facets() == manifold.getGeometry().N2());
+                    .number_of_finite_facets() == manifold.get_geometry().N2());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_cells() == manifold.getGeometry().N3());
+                    .number_of_finite_cells() == manifold.get_geometry().N3());
         // Human verification
         print_manifold(manifold);
-        manifold.getGeometry().print_volume_per_timeslice();
+        manifold.get_geometry().print_volume_per_timeslice();
       }
     }
     WHEN("Constructing a medium triangulation.")
@@ -190,19 +180,71 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.get_triangulation().is_foliated());
         REQUIRE(
             manifold.get_triangulation().get_delaunay().number_of_vertices() ==
-            manifold.getGeometry().N0());
+            manifold.get_geometry().N0());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_edges() == manifold.getGeometry().N1());
+                    .number_of_finite_edges() == manifold.get_geometry().N1());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_facets() == manifold.getGeometry().N2());
+                    .number_of_finite_facets() == manifold.get_geometry().N2());
         REQUIRE(manifold.get_triangulation()
                     .get_delaunay()
-                    .number_of_finite_cells() == manifold.getGeometry().N3());
+                    .number_of_finite_cells() == manifold.get_geometry().N3());
         // Human verification
         print_manifold(manifold);
-        manifold.getGeometry().print_volume_per_timeslice();
+        manifold.get_geometry().print_volume_per_timeslice();
+      }
+    }
+  }
+}
+
+SCENARIO("Copying a 3-manifold", "[manifold]")
+{
+  GIVEN("A 3-manifold")
+  {
+    int_fast64_t desired_simplices{640};
+    int_fast64_t desired_timeslices{4};
+    Manifold3    manifold(desired_simplices, desired_timeslices);
+    WHEN("It is copied.")
+    {
+      auto manifold2 = manifold;
+      {
+        THEN("The two objects are distinct.")
+        {
+          auto* manifold_ptr  = &manifold;
+          auto* manifold2_ptr = &manifold2;
+          CHECK_FALSE(manifold_ptr == manifold2_ptr);
+        }
+        THEN("The manifolds have identical properties.")
+        {
+          CHECK(manifold2.get_geometry().N3() == manifold.get_geometry().N3());
+          CHECK(manifold2.get_geometry().N3_31() ==
+                manifold.get_geometry().N3_31());
+          CHECK(manifold2.get_geometry().N3_22() ==
+                manifold.get_geometry().N3_22());
+          CHECK(manifold2.get_geometry().N3_13() ==
+                manifold.get_geometry().N3_13());
+          CHECK(manifold2.get_geometry().N3_31_13() ==
+                manifold.get_geometry().N3_31_13());
+          CHECK(manifold2.get_geometry().N2() == manifold.get_geometry().N2());
+          CHECK(manifold2.get_geometry().N1() == manifold.get_geometry().N1());
+          CHECK(manifold2.get_geometry().N1_TL() ==
+                manifold.get_geometry().N1_TL());
+          CHECK(manifold2.get_geometry().N1_SL() ==
+                manifold.get_geometry().N1_SL());
+          CHECK(manifold2.get_geometry().N0() == manifold.get_geometry().N0());
+          CHECK(manifold2.get_geometry().max_time() ==
+                manifold.get_geometry().max_time());
+          CHECK(manifold2.get_geometry().min_time() ==
+                manifold.get_geometry().min_time());
+          // Human verification
+          cout << "Manifold properties:\n";
+          print_manifold(manifold);
+          manifold.get_geometry().print_volume_per_timeslice();
+          cout << "Copied manifold properties:\n";
+          print_manifold(manifold2);
+          manifold2.get_geometry().print_volume_per_timeslice();
+        }
       }
     }
   }

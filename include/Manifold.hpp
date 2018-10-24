@@ -29,17 +29,27 @@ class Manifold<3>
   /// @brief Default ctor
   Manifold() = default;
 
+  /// @brief Construct manifold from a triangulation
+  /// @param delaunay_triangulation Triangulation used to construct manifold
   explicit Manifold(Delaunay3 const& delaunay_triangulation)
       : _triangulation{FoliatedTriangulation3(delaunay_triangulation)}
       , _geometry{make_geometry(get_triangulation())}
   {}
 
+  /// @brief Construct manifold using arguments
+  /// @param desired_simplices Number of desired simplices
+  /// @param desired_timeslices Number of desired timeslices
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices)
       : _triangulation{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices)}
       , _geometry{make_geometry(get_triangulation())}
   {}
 
+  /// @brief Construct manifold using arguments
+  /// @param desired_simplices Number of desired simplices
+  /// @param desired_timeslices Number of desired timeslices
+  /// @param initial_radius Radius of first timeslice
+  /// @param radial_factor Radial separation between timeslices
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices,
            double initial_radius, double radial_factor)
       : _triangulation{FoliatedTriangulation3(desired_simplices,
@@ -63,20 +73,16 @@ class Manifold<3>
     return geom;
   }
 
-  /// @brief Obtain a reference to the triangulation pointer
-  /// Note: would prefer observer_ptr<T>, GotW91 suggests a T*
-  /// @return A read-only reference to the triangulation pointer
+  /// @return A read-only reference to the triangulation
   FoliatedTriangulation3 const& get_triangulation() const
   {
     return _triangulation;
   }
 
-  /// @brief Obtain a reference to the Geometry
   /// @return A read-only reference to the Geometry
-  Geometry3 const& getGeometry() const { return _geometry; }
+  Geometry3 const& get_geometry() const { return _geometry; }
 
  private:
-  //  std::unique_ptr<Delaunay3> triangulation;
   FoliatedTriangulation3 _triangulation;
   Geometry3              _geometry;
 };

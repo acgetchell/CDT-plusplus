@@ -203,10 +203,10 @@ template <typename Manifold, typename Timer>
 template <typename Manifold>
 bool print_manifold(const Manifold& manifold) try
 {
-  std::cout << "Manifold has " << manifold.getGeometry().N0()
-            << " vertices and " << manifold.getGeometry().N1() << " edges and "
-            << manifold.getGeometry().N2() << " faces and "
-            << manifold.getGeometry().N3() << " simplices.\n";
+  std::cout << "Manifold has " << manifold.get_geometry().N0()
+            << " vertices and " << manifold.get_geometry().N1() << " edges and "
+            << manifold.get_geometry().N2() << " faces and "
+            << manifold.get_geometry().N3() << " simplices.\n";
   return true;
 }
 catch (...)

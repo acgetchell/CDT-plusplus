@@ -25,26 +25,26 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     constexpr auto     Lambda     = static_cast<long double>(0.1);
     Manifold3          universe(simplices, timeslices);
     // Verify triangulation
-    CHECK(universe.getGeometry().N3() ==
+    CHECK(universe.get_geometry().N3() ==
           universe.get_triangulation().get_delaunay().number_of_finite_cells());
-    CHECK(universe.getGeometry().N1() ==
+    CHECK(universe.get_geometry().N1() ==
           universe.get_triangulation().get_delaunay().number_of_finite_edges());
-    CHECK(universe.getGeometry().N0() ==
+    CHECK(universe.get_geometry().N0() ==
           universe.get_triangulation().get_delaunay().number_of_vertices());
     CHECK(universe.get_triangulation().get_delaunay().dimension() == 3);
     CHECK(universe.get_triangulation().is_foliated());
     CHECK(universe.get_triangulation().get_delaunay().is_valid());
     CHECK(universe.get_triangulation().get_delaunay().tds().is_valid());
 
-    universe.getGeometry().print_volume_per_timeslice();
+    universe.get_geometry().print_volume_per_timeslice();
 
-    CHECK(universe.getGeometry().max_time() == timeslices);
-    CHECK(universe.getGeometry().min_time() == 1);
+    CHECK(universe.get_geometry().max_time() == timeslices);
+    CHECK(universe.get_geometry().min_time() == 1);
     WHEN("The alpha=-1 Bulk Action is calculated.")
     {
       auto Bulk_action = S3_bulk_action_alpha_minus_one(
-          universe.getGeometry().N1_TL(), universe.getGeometry().N3_31_13(),
-          universe.getGeometry().N3_22(), K, Lambda);
+          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
+          universe.get_geometry().N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
         cout << "S3_bulk_action_alpha_minus_one() = " << Bulk_action << "\n";
@@ -55,8 +55,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     WHEN("The alpha=1 Bulk Action is calculated.")
     {
       auto Bulk_action = S3_bulk_action_alpha_one(
-          universe.getGeometry().N1_TL(), universe.getGeometry().N3_31_13(),
-          universe.getGeometry().N3_22(), K, Lambda);
+          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
+          universe.get_geometry().N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
         cout << "S3_bulk_action_alpha_one() = " << Bulk_action << "\n";
@@ -69,8 +69,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
       constexpr auto Alpha = static_cast<long double>(0.6);
       cout << "(Long double) Alpha = " << Alpha << '\n';
       auto Bulk_action = S3_bulk_action(
-          universe.getGeometry().N1_TL(), universe.getGeometry().N3_31_13(),
-          universe.getGeometry().N3_22(), Alpha, K, Lambda);
+          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
+          universe.get_geometry().N3_22(), Alpha, K, Lambda);
       THEN("The action falls within accepted values.")
       {
         cout << "S3_bulk_action() = " << Bulk_action << "\n";
@@ -85,11 +85,11 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
       constexpr auto tolerance   = static_cast<long double>(0.01);
       constexpr auto Alpha       = static_cast<long double>(1.0);
       auto           Bulk_action = S3_bulk_action(
-          universe.getGeometry().N1_TL(), universe.getGeometry().N3_31_13(),
-          universe.getGeometry().N3_22(), Alpha, K, Lambda);
+          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
+          universe.get_geometry().N3_22(), Alpha, K, Lambda);
       auto Bulk_action_one = S3_bulk_action_alpha_one(
-          universe.getGeometry().N1_TL(), universe.getGeometry().N3_31_13(),
-          universe.getGeometry().N3_22(), K, Lambda);
+          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
+          universe.get_geometry().N3_22(), K, Lambda);
       THEN(
           "S3_bulk_action(alpha=1) == S3_bulk_action_alpha_one() within "
           "tolerances.")

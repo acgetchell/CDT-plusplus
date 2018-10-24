@@ -159,27 +159,27 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
 
       THEN("There is one (1,3) simplex.")
       {
-        REQUIRE(new_universe.getGeometry().N3_13() == 1);
+        REQUIRE(new_universe.get_geometry().N3_13() == 1);
       }
 
       THEN("There are no (2,2) simplices.")
       {
-        REQUIRE(new_universe.getGeometry().N3_22() == 0);
+        REQUIRE(new_universe.get_geometry().N3_22() == 0);
       }
 
       THEN("There are no (3,1) simplices.")
       {
-        REQUIRE(new_universe.getGeometry().N3_31() == 0);
+        REQUIRE(new_universe.get_geometry().N3_31() == 0);
       }
 
       THEN("There are 3 timelike edges.")
       {
-        REQUIRE(new_universe.getGeometry().N1_TL() == 3);
+        REQUIRE(new_universe.get_geometry().N1_TL() == 3);
       }
 
       THEN("There are 3 spacelike edges.")
       {
-        REQUIRE(new_universe.getGeometry().N1_SL() == 3);
+        REQUIRE(new_universe.get_geometry().N1_SL() == 3);
       }
     }
   }

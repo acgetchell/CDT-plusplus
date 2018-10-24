@@ -153,11 +153,11 @@ class Geometry<3>
 
  private:
   /// @brief Collect all finite cells of the triangulation
-  /// @tparam Manifold Reference type of triangulation
+  /// @tparam Triangulation Reference type of triangulation
   /// @param universe Reference to triangulation
   /// @return Container of all the finite simplices in the triangulation
-  template <typename Manifold>
-  [[nodiscard]] auto collect_cells(Manifold const& universe) const
+  template <typename Triangulation>
+  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
       -> std::vector<Cell_handle>
   {
     Expects(universe.get_delaunay().tds().is_valid());

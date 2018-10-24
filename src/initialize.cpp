@@ -106,8 +106,8 @@ int main(int argc, char* const argv[]) try
       throw logic_error("Simulation topology not parsed.");
   }
   print_manifold(universe);
-  universe.getGeometry().print_volume_per_timeslice();
-  cout << "Final number of simplices " << universe.getGeometry().N3() << '\n';
+  universe.get_geometry().print_volume_per_timeslice();
+  cout << "Final number of simplices " << universe.get_geometry().N3() << '\n';
   return 0;
 }
 catch (invalid_argument& InvalidArgument)
