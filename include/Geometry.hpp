@@ -11,7 +11,6 @@
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
-#include <CGAL/Triangulation_simplex_3.h>
 #include <FoliatedTriangulation.hpp>
 #include <algorithm>
 #include <cstddef>
@@ -24,13 +23,14 @@ using Facet         = Delaunay3::Facet;
 using Face_handle   = std::pair<Cell_handle, int>;
 using Edge_handle   = std::tuple<Cell_handle, int, int>;
 using Vertex_handle = Delaunay3::Vertex_handle;
-// using Simplex = CGAL::Triangulation_simplex_3::Simplex;
+using Simplex       = Triangulation3::Simplex;
 
+/// (n,m) is number of vertices on (higher, lower) timeslice
 enum class Cell_type
 {
-  THREE_ONE = 31,
-  TWO_TWO   = 22,
-  ONE_THREE = 13
+  THREE_ONE = 31,  // (3,1)
+  TWO_TWO   = 22,  // (2,2)
+  ONE_THREE = 13   // (1,3)
 };
 
 /// Geometry class template
@@ -61,8 +61,8 @@ class Geometry<3>
       , _number_of_edges{triangulation.get_delaunay().number_of_finite_edges()}
       , _number_of_faces{triangulation.get_delaunay().number_of_finite_facets()}
       , _number_of_cells{triangulation.get_delaunay().number_of_finite_cells()}
-      // Debugging cell collection
-      //            , cells{classify_cells(collect_cells(triangulation), true)}
+      // Debugging simplex collection
+      //, _simplices{classify_cells(collect_cells(triangulation), true)}
       , _simplices{classify_cells(collect_cells(triangulation))}
       , _faces{collect_faces(triangulation)}
       , _edges{collect_edges(triangulation)}
