@@ -15,8 +15,8 @@
 #ifndef INCLUDE_S3ERGODICMOVES_HPP_
 #define INCLUDE_S3ERGODICMOVES_HPP_
 
-#include <S3Triangulation.hpp>
 #include <CGAL/barycenter.h>
+#include <S3Triangulation.hpp>
 #include <algorithm>
 #include <tuple>
 #include <utility>
@@ -117,7 +117,8 @@ template <typename Manifold>
   if (universe.triangulation->flip(std::get<0>(to_be_moved),
                                    std::get<1>(to_be_moved),
                                    std::get<2>(to_be_moved)))
-  { flipped = true; } return flipped;
+  { flipped = true; }
+  return flipped;
 }  // try_32_move()
 
 /// @brief Make a (3,2) move
@@ -380,7 +381,8 @@ template <typename Manifold, typename Moves>
 #ifndef NDEBUG
       // Check we have a vertex
       if (universe.triangulation->tds().is_vertex(v_center))
-      { std::cout << "It's a vertex in the TDS.\n"; } else
+      { std::cout << "It's a vertex in the TDS.\n"; }
+      else
       {
         std::cout << "It's not a vertex in the TDS.\n";
       }

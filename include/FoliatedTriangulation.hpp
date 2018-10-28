@@ -2,7 +2,7 @@
 ///
 /// Copyright © 2018 Adam Getchell
 ///
-/// Extends CGAL's Delaunay_triangulation_3 and Triangulation classes
+/// Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes
 /// to create foliated spherical triangulations of a given dimension.
 ///
 /// The dimensionality, number of desired simplices, and number of desired
@@ -23,6 +23,7 @@
 
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/Triangulation_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
@@ -46,6 +47,7 @@ using Delaunay3 = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 // using Delaunay4 = CGAL::Triangulation<CGAL::Epick_d<CGAL::Dimension_tag<4>>>;
 using Point           = Delaunay3::Point;
 using Causal_vertices = std::vector<std::pair<Point, int>>;
+using Simplex         = Triangulation3::Simplex;
 
 static double constexpr INITIAL_RADIUS = 1.0;
 static double constexpr RADIAL_FACTOR  = 1.0;
@@ -236,6 +238,7 @@ class FoliatedTriangulation<3> : Delaunay3
     //    if (!_delaunay.tds().is_valid())
     //      throw std::logic_error("Delaunay tds invalid!");
     Ensures(_delaunay.tds().is_valid());
+    Ensures(_delaunay.is_valid());
 
 #ifndef NDEBUG
     std::cout << "There are " << invalid << " invalid simplices and " << valid

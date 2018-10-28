@@ -60,7 +60,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE_FALSE(manifold.get_triangulation().is_foliated());
       }
-      THEN("The default Delauny triangulation is valid.")
+      THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
       }

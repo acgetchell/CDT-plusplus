@@ -23,7 +23,6 @@ using Facet         = Delaunay3::Facet;
 using Face_handle   = std::pair<Cell_handle, int>;
 using Edge_handle   = std::tuple<Cell_handle, int, int>;
 using Vertex_handle = Delaunay3::Vertex_handle;
-using Simplex       = Triangulation3::Simplex;
 
 /// (n,m) is number of vertices on (higher, lower) timeslice
 enum class Cell_type
@@ -63,13 +62,13 @@ class Geometry<3>
       , _number_of_cells{triangulation.get_delaunay().number_of_finite_cells()}
       // Debugging simplex collection
       //, _simplices{classify_cells(collect_cells(triangulation), true)}
-      , _simplices{classify_cells(collect_cells(triangulation))}
+      , _cells{classify_cells(collect_cells(triangulation))}
       , _faces{collect_faces(triangulation)}
       , _edges{collect_edges(triangulation)}
       , _points{collect_vertices(triangulation)}
-      , _three_one{filter_cells(_simplices, Cell_type::THREE_ONE)}
-      , _two_two{filter_cells(_simplices, Cell_type::TWO_TWO)}
-      , _one_three{filter_cells(_simplices, Cell_type::ONE_THREE)}
+      , _three_one{filter_cells(_cells, Cell_type::THREE_ONE)}
+      , _two_two{filter_cells(_cells, Cell_type::TWO_TWO)}
+      , _one_three{filter_cells(_cells, Cell_type::ONE_THREE)}
       , _timelike_edges{filter_edges(_edges, true)}
       , _spacelike_edges{filter_edges(_edges, false)}
       , _max_timevalue{find_max_timevalue(_points)}
@@ -123,7 +122,7 @@ class Geometry<3>
   /// cell->info()
   void print_cells() const
   {
-    for (auto const& cell : _simplices)
+    for (auto const& cell : _cells)
     {
       std::cout << "Cell info => " << cell->info() << "\n";
       for (int j = 0; j < 4; ++j)
@@ -461,7 +460,7 @@ class Geometry<3>
   std::size_t                _number_of_edges;
   std::size_t                _number_of_faces;
   std::size_t                _number_of_cells;
-  std::vector<Cell_handle>   _simplices;
+  std::vector<Cell_handle>   _cells;
   std::vector<Face_handle>   _faces;
   std::vector<Edge_handle>   _edges;
   std::vector<Vertex_handle> _points;

@@ -79,6 +79,12 @@ conan profile new cdt --detect
 
 This finds your compiler settings, and allows the [build.sh] script to run correctly.
 
+There are a few packages that use the [bincrafters] repository. Add that via:
+
+~~~
+conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+~~~
+
 Using [CMake] and [Ninja], Conan handles most of the dependencies, except [CGAL] and [TBB]. The easiest way to
 install these so that Conan can find them is with [Homebrew] or [Linuxbrew]. Once these are installed:
 
@@ -315,3 +321,4 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [clang-cl]: https://clang.llvm.org/docs/MSVCCompatibility.html
 [bug]: https://github.com/conan-community/community/issues/43
 [development]: https://github.com/acgetchell/CDT-plusplus
+[bincrafters]: https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
