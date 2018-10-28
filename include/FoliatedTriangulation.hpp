@@ -68,7 +68,9 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @brief Constructor using delaunay triangulation
   /// @param delaunay_triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
-      : _delaunay{delaunay_triangulation}, _is_foliated{fix_timeslices()}
+      : _delaunay{delaunay_triangulation}
+      , _simplices{collect_simplices()}
+      , _is_foliated{fix_timeslices()}
   {}
 
   /// @brief Constructor with parameters
@@ -79,14 +81,39 @@ class FoliatedTriangulation<3> : Delaunay3
   FoliatedTriangulation(std::int_fast64_t const simplices,
                         std::int_fast64_t const timeslices,
                         double const            initial_radius = INITIAL_RADIUS,
-                        double const radial_factor = RADIAL_FACTOR) try
+                        double const            radial_factor  = RADIAL_FACTOR)
+      : _delaunay{make_triangulation(simplices, timeslices, initial_radius,
+                                     radial_factor)}
+      , _simplices{collect_simplices()}
+      , _is_foliated{fix_timeslices()}
+  {}
+
+  /// @return A read-only reference to the Delaunay triangulation
+  Delaunay3 const& get_delaunay() const { return _delaunay; }
+
+  /// @return A read-only reference to the container of simplices
+  std::vector<Simplex> const& get_simplices() const { return _simplices; }
+
+  /// @return True if foliated correctly
+  bool is_foliated() const { return _is_foliated; }
+
+ private:
+  /// @brief Make a Delaunay Triangulation
+  /// @param simplices Number of desired simplices
+  /// @param timeslices Number of desired timeslices
+  /// @param initial_radius Radius of first timeslice
+  /// @param radial_factor Radial separation between timeslices
+  /// @return A Delaunay Triangulation
+  [[nodiscard]] auto make_triangulation(
+      std::int_fast64_t const simplices, std::int_fast64_t const timeslices,
+      double const initial_radius = INITIAL_RADIUS,
+      double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
   {
     std::cout << "Generating universe ... \n";
-    _delaunay     = Delaunay3{};
-    _is_foliated  = false;
+    Delaunay3 delaunay = Delaunay3{};
     auto vertices = make_foliated_sphere(simplices, timeslices, initial_radius,
                                          radial_factor);
-    _delaunay.insert(vertices.begin(), vertices.end());
+    delaunay.insert(vertices.begin(), vertices.end());
     int passes = 1;
     while (!fix_timeslices())
     {
@@ -96,28 +123,9 @@ class FoliatedTriangulation<3> : Delaunay3
       ++passes;
     }
     //      print_triangulation(_triangulation);
-    _is_foliated = true;
     Ensures(fix_timeslices());
+    return delaunay;
   }
-  catch (std::range_error& RangeError)
-  {
-    std::cerr << RangeError.what() << "\n";
-    std::cerr << "Foliated Triangulation constructor failed.\n";
-    throw;
-  }
-  catch (...)
-  {
-    std::cerr << "Something went wrong in FoliatedTriangulation ctor.\n";
-    throw;
-  }
-
-  /// @return True if foliated correctly
-  bool is_foliated() const { return _is_foliated; }
-
-  /// @return A read-only reference to the Delaunay triangulation
-  Delaunay3 const& get_delaunay() const { return _delaunay; }
-
- private:
   /// @brief Make foliated spheres
   /// @param simplices The desired number of simplices in the triangulation
   /// @param timeslices The desired number of timeslices in the triangulation
@@ -247,8 +255,23 @@ class FoliatedTriangulation<3> : Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
-  Delaunay3 _delaunay;
-  bool      _is_foliated;
+  [[nodiscard]] auto collect_simplices() const -> std::vector<Simplex>
+  {
+    Expects(_delaunay.is_valid());
+    std::vector<Simplex> init_simplices;
+    init_simplices.reserve(_delaunay.number_of_finite_cells());
+    for (Delaunay3::Finite_cells_iterator cit = _delaunay.finite_cells_begin();
+         cit != _delaunay.finite_cells_end(); ++cit)
+    {
+      Ensures(_delaunay.tds().is_cell(cit));
+      init_simplices.emplace_back(cit);
+    }
+    return init_simplices;
+  }
+
+  Delaunay3            _delaunay;
+  std::vector<Simplex> _simplices;
+  bool                 _is_foliated;
 };
 
 using FoliatedTriangulation3 = FoliatedTriangulation<3>;

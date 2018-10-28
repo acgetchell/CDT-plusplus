@@ -32,7 +32,7 @@
 /// @param to_be_moved The **Cell_handle** that is tried
 /// @return A boolean value whether the move succeeded
 template <typename Manifold>
-[[nodiscard]] auto try_23_move(Manifold&& universe, Cell_handle to_be_moved)
+[[nodiscard]] auto try_23_move(Manifold&& universe, Cell_h to_be_moved)
 {
   auto flipped = false;
   // Try every facet of the cell
@@ -87,7 +87,7 @@ template <typename Manifold, typename Moves>
     // Pick out a random (2,2) which ranges from 0 to size()-1
     auto choice = generate_random_int(0, movable_two_two_cells.size() - 1);
 
-    Cell_handle to_be_moved = universe.geometry->two_two[choice];
+    Cell_h to_be_moved = universe.geometry->two_two[choice];
     if (try_23_move(universe, to_be_moved)) not_flipped = false;
 
     // Remove trial cell
@@ -111,7 +111,7 @@ template <typename Manifold, typename Moves>
 /// @param to_be_moved The Edge_handle that is tried
 /// @return A boolean value whether the move succeeded
 template <typename Manifold>
-[[nodiscard]] auto try_32_move(Manifold&& universe, Edge_handle to_be_moved)
+[[nodiscard]] auto try_32_move(Manifold&& universe, Edge_h to_be_moved)
 {
   auto flipped = false;
   if (universe.triangulation->flip(std::get<0>(to_be_moved),
@@ -151,7 +151,7 @@ template <typename Manifold, typename Moves>
     // Pick a random timelike edge out of the timelike_edges vector
     // which ranges from 0 to size()-1
     auto choice = generate_random_int(0, movable_timelike_edges.size() - 1);
-    Edge_handle to_be_moved = movable_timelike_edges[choice];
+    Edge_h to_be_moved = movable_timelike_edges[choice];
 
     if (try_32_move(universe, to_be_moved))
     {
@@ -187,7 +187,7 @@ template <typename Manifold, typename Moves>
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-[[nodiscard]] inline auto is_26_movable(const Cell_handle& c, int i)
+[[nodiscard]] inline auto is_26_movable(const Cell_h& c, int i)
 {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
@@ -205,7 +205,7 @@ template <typename Manifold, typename Moves>
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-[[nodiscard]] inline auto find_26_movable(const Cell_handle& c, int& n)
+[[nodiscard]] inline auto find_26_movable(const Cell_h& c, int& n)
 {
   auto movable = false;
   for (auto i = 0; i < 4; ++i)
@@ -268,7 +268,7 @@ template <typename Manifold, typename Moves>
     auto choice = generate_random_int(0, universe.geometry->N3_13() - 1);
 
     int         neighboring_31_index{5};
-    Cell_handle bottom = universe.geometry->one_three[choice];
+    Cell_h      bottom = universe.geometry->one_three[choice];
 
     if (!universe.triangulation->tds().is_cell(bottom))
       throw std::runtime_error("make_26_move() bottom is not a cell!");
@@ -283,7 +283,7 @@ template <typename Manifold, typename Moves>
     std::cout << "neighboring_31_index is " << neighboring_31_index << "\n";
 #endif
 
-    Cell_handle top = bottom->neighbor(neighboring_31_index);
+    Cell_h top = bottom->neighbor(neighboring_31_index);
 
     // Check has_neighbor() returns the index of the common face
     int common_face_index{5};
@@ -316,9 +316,9 @@ template <typename Manifold, typename Moves>
 
     // Get vertices of the common face
     // They're denoted wrt the bottom, but could easily be wrt to top
-    Vertex_handle v1 = bottom->vertex(i1);
-    Vertex_handle v2 = bottom->vertex(i2);
-    Vertex_handle v3 = bottom->vertex(i3);
+    Vertex_h v1 = bottom->vertex(i1);
+    Vertex_h v2 = bottom->vertex(i2);
+    Vertex_h v3 = bottom->vertex(i3);
 
     // Timeslices of v1, v2, and v3 should be same
     if (v1->info() != v2->info() || v1->info() != v3->info())
@@ -346,11 +346,11 @@ template <typename Manifold, typename Moves>
 
       // Do the (2,6) move
       // Insert new vertex
-      Vertex_handle v_center = universe.triangulation->tds().insert_in_facet(
+      Vertex_h v_center = universe.triangulation->tds().insert_in_facet(
           bottom, neighboring_31_index);
 
       // Checks
-      std::vector<Cell_handle> inc_cells;
+      std::vector<Cell_h> inc_cells;
       universe.triangulation->tds().incident_cells(
           v_center, std::back_inserter(inc_cells));
       if (inc_cells.size() != 6)
@@ -415,9 +415,9 @@ template <typename Manifold, typename Moves>
 /// @param candidate A vertex to test
 /// @return True if a (6,2) move can be made on the candidate vertex
 template <typename Manifold>
-[[nodiscard]] auto find_62_movable(Manifold&& universe, Vertex_handle candidate)
+[[nodiscard]] auto find_62_movable(Manifold&& universe, Vertex_h candidate)
 {
-  std::vector<Cell_handle> candidate_cells;
+  std::vector<Cell_h> candidate_cells;
   // Adjacent (3,1), (2,2), and (1,3) cells
   auto adjacent_cell = std::make_tuple(0, 0, 0);
   universe.triangulation->incident_cells(candidate,
@@ -473,13 +473,13 @@ template <typename Manifold, typename Moves>
 #ifndef NDEBUG
   std::cout << "Attempting (6,2) move.\n";
 #endif
-  std::vector<Vertex_handle> tds_vertices      = universe.geometry->vertices;
+  std::vector<Vertex_h>      tds_vertices      = universe.geometry->vertices;
   auto                       not_moved         = true;
   std::size_t                tds_vertices_size = tds_vertices.size();
   while ((not_moved) && (tds_vertices_size > 0))
   {
     auto          choice      = generate_random_int(0, tds_vertices_size - 1);
-    Vertex_handle to_be_moved = tds_vertices[choice];
+    Vertex_h      to_be_moved = tds_vertices[choice];
     // Ensure pre-conditions are satisfied
     CGAL_triangulation_precondition(universe.triangulation->dimension() == 3);
     CGAL_triangulation_expensive_precondition(is_vertex(to_be_moved));
@@ -525,7 +525,7 @@ template <typename Manifold, typename Moves>
 #ifndef NDEBUG
   std::cout << "Attempting (4,4) move.\n";
 #endif
-  std::vector<Edge_handle> movable_spacelike_edges{
+  std::vector<Edge_h> movable_spacelike_edges{
       universe.geometry->spacelike_edges};
 
   auto not_moved = true;  // should be true

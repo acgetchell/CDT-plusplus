@@ -69,6 +69,39 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
         REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
       }
+      THEN("The container for simplices is initialized.")
+      {
+        REQUIRE(foliatedTriangulation.get_simplices().empty());
+      }
+    }
+    WHEN("It is constructed from a Delaunay triangulation")
+    {
+      vector<Delaunay3::Point> Vertices{
+          Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
+          Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+      vector<std::size_t> timevalue{1, 1, 1, 2};
+      Causal_vertices     causal_vertices;
+      for (size_t j = 0; j < 4; ++j)
+      {
+        causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
+      }
+      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
+      FoliatedTriangulation3 foliatedTriangulation(triangulation);
+      THEN("Triangulation is valid and foliated.")
+      {
+        REQUIRE(foliatedTriangulation.get_delaunay().dimension() == 3);
+        REQUIRE(foliatedTriangulation.get_delaunay().number_of_vertices() == 4);
+        REQUIRE(foliatedTriangulation.get_delaunay().number_of_finite_edges() ==
+                6);
+        REQUIRE(
+            foliatedTriangulation.get_delaunay().number_of_finite_facets() ==
+            4);
+        REQUIRE(foliatedTriangulation.get_delaunay().number_of_finite_cells() ==
+                1);
+        REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
+        REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
+        CHECK(foliatedTriangulation.get_simplices().size() == 1);
+      }
     }
     WHEN("Constructing the minimum triangulation.")
     {
@@ -80,6 +113,9 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       {
         REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
         REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
+        cout << "Number of simplices "
+             << foliatedTriangulation.get_simplices().size() << "\n";
+        CHECK_FALSE(foliatedTriangulation.get_simplices().empty());
         REQUIRE(foliatedTriangulation.is_foliated());
       }
       THEN("The triangulation has sensible values.")
