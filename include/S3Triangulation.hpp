@@ -69,11 +69,11 @@ using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Parallel_tag>;
 using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb>;
 #endif
 using Delaunay3       = CGAL::Delaunay_triangulation_3<K, Tds>;
-using Cell_h          = Delaunay3::Cell_handle;
-using Vertex_h        = Delaunay3::Vertex_handle;
+using Cell_handle     = Delaunay3::Cell_handle;
+using Vertex_handle   = Delaunay3::Vertex_handle;
 using Locate_type     = Delaunay3::Locate_type;
 using Point           = Delaunay3::Point;
-using Edge_h          = std::tuple<Cell_h, int, int>;
+using Edge_handle     = std::tuple<Cell_handle, int, int>;
 using Causal_vertices = std::vector<std::pair<Point, int>>;
 using Move_tracker    = std::array<int, 5>;
 
@@ -120,7 +120,7 @@ template <typename Manifold>
   int                     valid{0};
   int                     invalid{0};
   int                     max_vertex{0};
-  std::set<Vertex_h>      deleted_vertices;
+  std::set<Vertex_handle> deleted_vertices;
 
   // Iterate over all cells in the Delaunay triangulation
   for (Delaunay3::Finite_cells_iterator cit =

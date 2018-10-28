@@ -69,10 +69,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
         REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
       }
-      THEN("The container for simplices is initialized.")
-      {
-        REQUIRE(foliatedTriangulation.get_simplices().empty());
-      }
     }
     WHEN("It is constructed from a Delaunay triangulation")
     {
@@ -100,7 +96,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                 1);
         REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
         REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
-        CHECK(foliatedTriangulation.get_simplices().size() == 1);
       }
     }
     WHEN("Constructing the minimum triangulation.")
@@ -113,9 +108,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       {
         REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
         REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
-        cout << "Number of simplices "
-             << foliatedTriangulation.get_simplices().size() << "\n";
-        CHECK_FALSE(foliatedTriangulation.get_simplices().empty());
         REQUIRE(foliatedTriangulation.is_foliated());
       }
       THEN("The triangulation has sensible values.")

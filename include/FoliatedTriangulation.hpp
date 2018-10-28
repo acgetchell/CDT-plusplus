@@ -69,7 +69,6 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @param delaunay_triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
       : _delaunay{delaunay_triangulation}
-      , _simplices{collect_simplices()}
       , _is_foliated{fix_timeslices()}
   {}
 
@@ -84,15 +83,11 @@ class FoliatedTriangulation<3> : Delaunay3
                         double const            radial_factor  = RADIAL_FACTOR)
       : _delaunay{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
-      , _simplices{collect_simplices()}
       , _is_foliated{fix_timeslices()}
   {}
 
   /// @return A read-only reference to the Delaunay triangulation
   Delaunay3 const& get_delaunay() const { return _delaunay; }
-
-  /// @return A read-only reference to the container of simplices
-  std::vector<Simplex> const& get_simplices() const { return _simplices; }
 
   /// @return True if foliated correctly
   bool is_foliated() const { return _is_foliated; }
@@ -179,7 +174,6 @@ class FoliatedTriangulation<3> : Delaunay3
     int                     invalid{0};
     int                     max_vertex{0};
     std::set<Vertex_handle> deleted_vertices;
-
     // Iterate over all cells in the Delaunay triangulation
     for (Delaunay3::Finite_cells_iterator cit = _delaunay.finite_cells_begin();
          cit != _delaunay.finite_cells_end(); ++cit)
@@ -255,22 +249,7 @@ class FoliatedTriangulation<3> : Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
-  [[nodiscard]] auto collect_simplices() const -> std::vector<Simplex>
-  {
-    Expects(_delaunay.is_valid());
-    std::vector<Simplex> init_simplices;
-    init_simplices.reserve(_delaunay.number_of_finite_cells());
-    for (Delaunay3::Finite_cells_iterator cit = _delaunay.finite_cells_begin();
-         cit != _delaunay.finite_cells_end(); ++cit)
-    {
-      Ensures(_delaunay.tds().is_cell(cit));
-      init_simplices.emplace_back(cit);
-    }
-    return init_simplices;
-  }
-
   Delaunay3            _delaunay;
-  std::vector<Simplex> _simplices;
   bool                 _is_foliated;
 };
 

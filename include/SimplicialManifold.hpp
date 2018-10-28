@@ -44,8 +44,9 @@ using Facet = Delaunay3::Facet;
 /// information, and in comparing the results of moves, which will change one or
 /// more elements of the Geometry_tuple.
 using Geometry_tuple =
-    std::tuple<std::vector<Cell_h>, std::vector<Cell_h>, std::vector<Cell_h>,
-               std::vector<Edge_h>, std::vector<Edge_h>, std::vector<Vertex_h>>;
+    std::tuple<std::vector<Cell_handle>, std::vector<Cell_handle>,
+               std::vector<Cell_handle>, std::vector<Edge_handle>,
+               std::vector<Edge_handle>, std::vector<Vertex_handle>>;
 
 // Non-member non-friend functions
 
@@ -68,20 +69,20 @@ auto classify_edges(T&& universe_ptr)
   std::cout << "Classifying edges....\n";
 #endif
   Delaunay3::Finite_edges_iterator eit;
-  std::vector<Edge_h>              timelike_edges;
-  std::vector<Edge_h>              spacelike_edges;
+  std::vector<Edge_handle>         timelike_edges;
+  std::vector<Edge_handle>         spacelike_edges;
 
   // Iterate over all edges in the Delaunay triangulation
   for (eit = universe_ptr->finite_edges_begin();
        eit != universe_ptr->finite_edges_end(); ++eit)
   {
-    Cell_h ch = eit->first;
+    Cell_handle ch = eit->first;
     // Get timevalues of vertices at the edge ends
     auto time1 = ch->vertex(eit->second)->info();
     auto time2 = ch->vertex(eit->third)->info();
 
     // Make Edge_handle
-    Edge_h thisEdge{
+    Edge_handle thisEdge{
         ch, static_cast<std::size_t>(ch->index(ch->vertex(eit->second))),
         static_cast<std::size_t>(ch->index(ch->vertex(eit->third)))};
 
@@ -132,9 +133,9 @@ auto classify_simplices(T&& universe_ptr)
   std::cout << "Classifying simplices....\n";
 #endif
   Delaunay3::Finite_cells_iterator cit;
-  std::vector<Cell_h>              three_one;
-  std::vector<Cell_h>              two_two;
-  std::vector<Cell_h>              one_three;
+  std::vector<Cell_handle>         three_one;
+  std::vector<Cell_handle>         two_two;
+  std::vector<Cell_handle>         one_three;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
@@ -200,7 +201,7 @@ auto classify_all_simplices(T&& universe_ptr)
 
   auto                       cells = classify_simplices(universe_ptr);
   auto                       edges = classify_edges(universe_ptr);
-  std::vector<Vertex_h>      vertices;
+  std::vector<Vertex_handle> vertices;
   for (auto vit = universe_ptr->finite_vertices_begin();
        vit != universe_ptr->finite_vertices_end(); ++vit)
   { vertices.emplace_back(vit); }
@@ -225,22 +226,22 @@ struct [[deprecated]] GeometryInfo
 {
  private:
   /// @brief (3,1) cells in the foliation
-  std::vector<Cell_h> three_one;
+  std::vector<Cell_handle> three_one;
 
   /// @brief (2,2) cells in the foliation
-  std::vector<Cell_h> two_two;
+  std::vector<Cell_handle> two_two;
 
   /// @brief (1,3) cells in the foliation
-  std::vector<Cell_h> one_three;
+  std::vector<Cell_handle> one_three;
 
   /// @brief Edges spanning two adjacent time slices in the foliation
-  std::vector<Edge_h> timelike_edges;
+  std::vector<Edge_handle> timelike_edges;
 
   /// @brief Non-spanning edges in the foliation
-  std::vector<Edge_h> spacelike_edges;
+  std::vector<Edge_handle> spacelike_edges;
 
   /// @brief Vertices of the foliation
-  std::vector<Vertex_h> vertices;
+  std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
   boost::optional<std::multimap<std::size_t, Facet>> spacelike_facets;
