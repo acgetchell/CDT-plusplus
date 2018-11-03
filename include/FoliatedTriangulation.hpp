@@ -23,7 +23,7 @@
 
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Triangulation_3.h>
+//#include <CGAL/Triangulation_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
@@ -47,10 +47,19 @@ using Delaunay3 = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 // using Delaunay4 = CGAL::Triangulation<CGAL::Epick_d<CGAL::Dimension_tag<4>>>;
 using Point           = Delaunay3::Point;
 using Causal_vertices = std::vector<std::pair<Point, int>>;
-using Simplex         = Triangulation3::Simplex;
+// using Simplex         = Triangulation3::Simplex; // incompatible with
+// Triangulation_{cell,vertex}_base_with_info_3.h
 
 static double constexpr INITIAL_RADIUS = 1.0;
 static double constexpr RADIAL_FACTOR  = 1.0;
+
+/// (n,m) is number of vertices on (higher, lower) timeslice
+enum class Cell_type
+{
+  THREE_ONE = 31,  // (3,1)
+  TWO_TWO   = 22,  // (2,2)
+  ONE_THREE = 13   // (1,3)
+};
 
 /// FoliatedTriangulation class template
 /// @tparam dimension Dimensionality of triangulation
@@ -68,8 +77,7 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @brief Constructor using delaunay triangulation
   /// @param delaunay_triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
-      : _delaunay{delaunay_triangulation}
-      , _is_foliated{fix_timeslices()}
+      : _delaunay{delaunay_triangulation}, _is_foliated{fix_timeslices()}
   {}
 
   /// @brief Constructor with parameters
@@ -90,7 +98,35 @@ class FoliatedTriangulation<3> : Delaunay3
   Delaunay3 const& get_delaunay() const { return _delaunay; }
 
   /// @return True if foliated correctly
-  bool is_foliated() const { return _is_foliated; }
+  [[nodiscard]] bool is_foliated() const { return _is_foliated; }
+
+  /// @param moved_cell A (1,3) simplex to try a (2,3) move
+  /// @return True if the (2,3) move was successful
+  [[nodiscard]] auto try_23_move(Cell_handle moved_cell)
+  {
+    Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
+    auto flipped = false;
+    // Try every facet of the cell
+    for (int i = 0; i < 4; ++i)
+    {
+      if (_delaunay.flip(moved_cell, i))
+      {
+#ifndef NDEBUG
+        std::cout << "Facet " << i << " was flippable.\n";
+#endif
+        flipped = true;
+        break;
+      }
+      else
+      {
+#ifndef NDEBUG
+        std::cout << "Facet " << i << " was not filippable.\n";
+#endif
+      }
+    }
+    Ensures(_delaunay.tds().is_valid());
+    return flipped;
+  }
 
  private:
   /// @brief Make a Delaunay Triangulation
@@ -105,10 +141,22 @@ class FoliatedTriangulation<3> : Delaunay3
       double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
   {
     std::cout << "Generating universe ... \n";
+#ifdef CGAL_LINKED_WITH_TBB
+    // Construct the locking data-structure
+    // using the bounding-box of the points
+    auto bounding_box_size = static_cast<double>(timeslices + 1);
+    Delaunay::Lock_data_structure locking_ds{
+        CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
+                     bounding_box_size, bounding_box_size, bounding_box_size},
+        50};
+    Delaunay3 delaunay = Delaunay3{K{}, &locking_ds};
+#else
     Delaunay3 delaunay = Delaunay3{};
-    auto vertices = make_foliated_sphere(simplices, timeslices, initial_radius,
-                                         radial_factor);
-    delaunay.insert(vertices.begin(), vertices.end());
+#endif
+
+    auto causal_vertices = make_foliated_sphere(simplices, timeslices,
+                                                initial_radius, radial_factor);
+    delaunay.insert(causal_vertices.begin(), causal_vertices.end());
     int passes = 1;
     while (!fix_timeslices())
     {
@@ -249,8 +297,8 @@ class FoliatedTriangulation<3> : Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
-  Delaunay3            _delaunay;
-  bool                 _is_foliated;
+  Delaunay3 _delaunay;
+  bool      _is_foliated;
 };
 
 using FoliatedTriangulation3 = FoliatedTriangulation<3>;

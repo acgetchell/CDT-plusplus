@@ -18,7 +18,7 @@
 
 #include <utility>
 
-#include <Measurements.hpp>
+//#include <Measurements.hpp>
 #include <Metropolis.hpp>
 #include <Simulation.hpp>
 
@@ -52,8 +52,8 @@ int main()
   my_simulation.queue(
       [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
   // Measure results
-  my_simulation.queue(
-      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
+  //  my_simulation.queue(
+  //      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
   // my_simulation.queue(print_results())
 
   // Run it

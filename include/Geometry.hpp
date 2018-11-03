@@ -24,14 +24,6 @@ using Face_handle   = std::pair<Cell_handle, int>;
 using Edge_handle   = std::tuple<Cell_handle, int, int>;
 using Vertex_handle = Delaunay3::Vertex_handle;
 
-/// (n,m) is number of vertices on (higher, lower) timeslice
-enum class Cell_type
-{
-  THREE_ONE = 31,  // (3,1)
-  TWO_TWO   = 22,  // (2,2)
-  ONE_THREE = 13   // (1,3)
-};
-
 /// Geometry class template
 /// @tparam dimension Dimensionality of geometry
 template <std::size_t dimension>
