@@ -102,7 +102,7 @@ class FoliatedTriangulation<3> : Delaunay3
 
   /// @param moved_cell A (1,3) simplex to try a (2,3) move
   /// @return True if the (2,3) move was successful
-  [[nodiscard]] auto try_23_move(Cell_handle moved_cell)
+  [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
   {
     Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
     auto flipped = false;
