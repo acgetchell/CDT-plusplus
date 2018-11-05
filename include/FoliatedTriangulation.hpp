@@ -104,7 +104,7 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @return True if the (2,3) move was successful
   [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
   {
-    Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
+    //    Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
     auto flipped = false;
     // Try every facet of the cell
     for (int i = 0; i < 4; ++i)
@@ -265,11 +265,11 @@ class FoliatedTriangulation<3> : Delaunay3
         }
 
 #ifdef DETAILED_DEBUGGING
-        std::cout << "Foliation for cell is "
+        std::clog << "Foliation for cell is "
                   << ((this_cell_foliation_valid) ? "valid." : "invalid.\n");
         for (auto i = 0; i < 4; ++i)
         {
-          std::cout << "Vertex " << i << " is " << cit->vertex(i)->point()
+          std::clog << "Vertex " << i << " is " << cit->vertex(i)->point()
                     << " with timeslice " << cit->vertex(i)->info() << "\n";
         }
 #endif

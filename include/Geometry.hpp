@@ -110,6 +110,9 @@ class Geometry<3>
     return _spacelike_facets;
   }
 
+  /// @return Container of (2,2) cells
+  std::vector<Cell_handle> const& get_two_two() const { return _two_two; }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells() const

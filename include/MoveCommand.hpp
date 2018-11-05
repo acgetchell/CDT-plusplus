@@ -23,6 +23,9 @@ class MoveCommand<3>
     SIX_TWO   = 62   // (6,2) move
   };
 
+  using Move_queue   = std::vector<Move_type>;
+  using Move_tracker = std::array<std::int_fast64_t, 5>;
+
   /// @brief Default constructor
   MoveCommand()
       : _manifold{Manifold3{}}
@@ -46,6 +49,12 @@ class MoveCommand<3>
       , _moves{move}
       , _successful_moves{0, 0, 0, 0, 0} {};
 
+  MoveCommand(Manifold3 manifold, Move_queue moves)
+      : _manifold{std::move(manifold)}
+      , _is_updated{false}
+      , _moves{std::move(moves)}
+      , _successful_moves{0, 0, 0, 0, 0} {};
+
   /// @return A read-only reference to the manifold
   Manifold3 const& get_manifold() const { return _manifold; }
 
@@ -53,7 +62,7 @@ class MoveCommand<3>
   bool is_updated() const { return _is_updated; }
 
   /// @return A container of desired moves
-  std::vector<Move_type> const& getMoves() const { return _moves; }
+  [[nodiscard]] auto const& getMoves() const { return _moves; }
 
   /// @return Counter of successful (2,3) moves
   [[nodiscard]] auto& successful_23_moves() { return _successful_moves[0]; }
@@ -69,6 +78,13 @@ class MoveCommand<3>
 
   /// @return Counter of successful (6,2) moves
   [[nodiscard]] auto& successful_62_moves() { return _successful_moves[4]; }
+
+  /// @brief Set container of successfully completed moves
+  /// @param successful_moves
+  void set_successful_moves(Move_tracker const& successful_moves)
+  {
+    MoveCommand::_successful_moves = successful_moves;
+  }
 
   /// @brief Execute moves on manifold
   void execute()
@@ -99,9 +115,39 @@ class MoveCommand<3>
  private:
   void move_23()
   {
-    std::cout << "A (2,3) move is being done.\n";
-    ++successful_23_moves();
-    std::cout << "Successful (2,3) moves: " << successful_23_moves() << "\n";
+#ifndef NDEBUG
+    std::clog << "Attempting (2,3) move.\n";
+#endif
+
+    //    auto movable_two_two_cells = _manifold._geometry._two_two;
+    //
+    //    auto not_flipped{true};
+    //
+    //    while(not_flipped)
+    //    {
+    //      if (movable_two_two_cells.empty()) {
+    //        throw std::domain_error("No (2,3) move possible.");
+    //      }
+    //      auto choice = generate_random_int(0, movable_two_two_cells.size()
+    //      -1); std::clog << "Choice is " << choice;
+    //
+    //      Cell_handle to_be_moved = _manifold._geometry._two_two[choice];
+    //      std::clog << "Cell[" << choice << "] is of type " <<
+    //      to_be_moved->info();
+    //      Expects(_manifold._triangulation.tds().is_cell(to_be_moved));
+    //      Expects(to_be_moved->info() ==
+    //      static_cast<int>(Cell_type::TWO_TWO));
+    //
+    //      if (_manifold._triangulation.try_23_move(to_be_moved)) {
+    //        not_flipped = false;
+    //      }
+
+    // Remove trial cell
+    //      movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);
+    //    }
+    //    ++successful_23_moves();
+    //    std::cout << "Successful (2,3) moves: " << successful_23_moves() <<
+    //    "\n";
   }
   void move_32()
   {
@@ -131,10 +177,10 @@ class MoveCommand<3>
     std::cout << "Successful (6,2) moves: " << successful_62_moves() << "\n";
   }
 
-  Manifold3                        _manifold;
-  bool                             _is_updated;
-  std::vector<Move_type>           _moves;
-  std::array<std::int_fast64_t, 5> _successful_moves;
+  Manifold3    _manifold;
+  bool         _is_updated;
+  Move_queue   _moves;
+  Move_tracker _successful_moves;
 };
 
 using MoveCommand3 = MoveCommand<3>;
