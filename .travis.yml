@@ -59,14 +59,15 @@ install:
         softwareupdate --install "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.4"
       fi
     fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-      # Upgrade CGAL
-      brew upgrade cgal
-    else
-      # Linux, just install
-      brew install cgal
-    fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then brew install cgal; fi
+#  - |
+#    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+#      # Upgrade CGAL
+#      brew upgrade cgal
+#    else
+#      # Linux, just install
+#      brew install cgal
+#    fi
   - brew install ninja
   - brew install lcov
   - brew install conan
@@ -75,6 +76,7 @@ install:
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 before_script:
+  - conan profile new cdt --detect
   - mkdir build
   - cd build
 
@@ -172,14 +174,20 @@ matrix:
           sources:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
       after_success:
-        - travis_wait 30 ctest -T memcheck
+        - travis_wait 30 ctest -T memcheck --verbose
     # Codecov
-    - os: linux
-      compiler: gcc
+    - os: osx
+      compiler: clang
       env: TESTS=true CODECOV=true
-      after_success:
+      before_script:
+      script:
+        - conan profile new cdt --detect
+        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+        - cd ${TRAVIS_BUILD_DIR}
+        - pwd
         - ./codecov.sh
-    # Sonarcloud
+      after_success:
+  # Sonarcloud
     - os: osx
       compiler: clang
       env: TESTS=false SONARQUBE=true
@@ -211,24 +219,23 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-    - os: linux
-      compiler: gcc
+    - os: osx
+      compiler: clang
       env: TESTS=true CODECOV=true
     - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
 script:
-  - conan profile new default --detect
   # Use Ninja
-  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja default
+  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
       echo osx/clang autodetected libcxx is fine
-      conan install .. -pr default --build=missing
+      conan install .. -pr cdt --build=missing
     else
-      echo gcc and linux using libstdc++11
-      conan profile update settings.compiler.libcxx=libstdc++11 default
-      conan install .. -pr default --build=missing
+      echo linux using libstdc++11
+      conan profile update settings.compiler.libcxx=libstdc++11 cdt
+      conan install .. -pr cdt --build=missing
     fi
   - conan build ..
 after_success:

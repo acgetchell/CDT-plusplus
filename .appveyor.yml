@@ -1,8 +1,9 @@
 version: 0.1.8.{build}
 
-branches:
-  only:
-    - master
+#branches:
+#  only:
+#    - master
+#    - develop
 
 platform:
     - x64
@@ -49,34 +50,16 @@ install:
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
-  - set CC=clang-cl
-  - set CXX=clang-cl
+  - set CC=clang-cl -mrtm
+  - set CXX=clang-cl -mrtm
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
-  # Use installed conda
-#  - set PATH=%PATH%;C:\Miniconda-x64\Scripts
-#  - conda update conda -y
-  #- conda list
-#  - conda create --name py36 python=3.6 -y
-#  - activate py36
   # Upgrade pip
   - python -m pip install --upgrade pip
   # Install Conan
   - echo "Downloading conan..."
   - set PATH=%PATH%;%PYTHON%\Scripts\
   - pip.exe install conan
-  # Install Eigen
-#  - conda install -c conda-forge eigen -y
-  # Install TBB
-#  - conda install -c conda-forge tbb -y
-  # Install MPFR
-#  - conda install -c conda-forge mpfr -y
-  # Install Boost 1.66.0
-#  - conda install -c conda-forge boost -y
-  # Install CGAL
-#  - conda install -c conda-forge cgal -y
-  # Install Curl
-#  - conda install -c conda-forge curl -y
 
 before_build:
   - cd C:\projects\CDT-plusplus
@@ -85,10 +68,11 @@ before_build:
 build_script:
   - mkdir build
   - cd build
-  - conan profile new default --detect
-  # TBB only seems to work on x86
-  - conan profile update settings.arch=x86 default
-  - conan install .. -pr default --build=missing
+  - conan profile new cdt --detect
+  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+  # TBB only seems to work on x64, uncommenting the line below causes TBB to fail
+#  - conan profile update settings.arch=x86 default
+  - conan install .. -pr cdt --build=missing
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake --build .
 #  - conan build ..

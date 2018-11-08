@@ -8,13 +8,10 @@
 /// @brief Generates initial spacetimes
 /// @author Adam Getchell
 
+#include <Manifold.hpp>
+#include <docopt.h>
 #include <gsl/gsl>
 #include <iostream>
-
-#include <docopt.h>
-
-#include <Measurements.hpp>
-#include <SimplicialManifold.hpp>
 
 using namespace std;
 
@@ -46,85 +43,81 @@ Options:
   -f --foliate FOL            Foliation spacing [default: 1]
 )"};
 
-int main(int argc, char* const argv[])
+int main(int argc, char* const argv[]) try
 {
   ios_base::sync_with_stdio(false);
-  try
+  // docopt option parser
+  gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
+  map<string, docopt::value> args =
+      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
+                     true, "initializer 1.0");
+
+  auto simplices         = stoll(args["-n"].asString());
+  auto timeslices        = stoll(args["-t"].asString());
+  auto dimensions        = stoi(args["-d"].asString());
+  auto initial_radius    = stod(args["--init"].asString());
+  auto foliation_spacing = stod(args["--foliate"].asString());
+
+  // Initialize triangulation
+  Manifold3 universe;
+
+  // Topology of simulation
+  topology_type topology;
+  if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
+  else
   {
-    // docopt option parser
-    gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
-    map<string, docopt::value> args =
-        docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
-                       true, "initializer 1.0");
-
-    auto simplices         = stoi(args["-n"].asString());
-    auto timeslices        = stoi(args["-t"].asString());
-    auto dimensions        = stoi(args["-d"].asString());
-    auto initial_radius    = stod(args["--init"].asString());
-    auto foliation_spacing = stod(args["--foliate"].asString());
-
-    // Initialize triangulation
-    SimplicialManifold universe;
-
-    // Topology of simulation
-    topology_type topology;
-    if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
-    else
-    {
-      topology = topology_type::TOROIDAL;
-    }
-
-    // Display job parameters
-    cout << "Topology is " << topology << "\n";
-//    cout << "Topology is " << gsl::to_string(get_topology(topology)) << "\n";
-//         << (topology == topology_type::TOROIDAL ? " toroidal " : "spherical ")
-//         << "\n";
-    cout << "Number of dimensions = " << dimensions << "\n";
-    cout << "Number of desired simplices = " << simplices << "\n";
-    cout << "Number of desired timeslices = " << timeslices << "\n";
-    cout << "Initial radius = " << initial_radius << "\n";
-    cout << "Foliation spacing = " << foliation_spacing << "\n";
-    cout << "User = " << getEnvVar("USER") << "\n";
-    cout << "Hostname = " << hostname() << "\n";
-
-    if (simplices < 2 || timeslices < 2)
-    {
-      throw invalid_argument(
-          "Simplices and timeslices should be greater or equal to 2.");
-    }
-
-    switch (topology)
-    {
-      case topology_type::SPHERICAL:
-        if (dimensions == 3)
-        {
-          // Start your run
-          SimplicialManifold populated_universe(make_triangulation(
-              simplices, timeslices, initial_radius, foliation_spacing));
-          swap(universe, populated_universe);
-        }
-        else
-        {
-          throw invalid_argument("Currently, dimensions cannot be >3.");
-        }
-        break;
-      case topology_type::TOROIDAL:
-        throw invalid_argument("Toroidal triangulations not yet supported.");
-    }
-    VolumePerTimeslice(universe);
-    cout << "Final number of simplices " << universe.geometry->number_of_cells()
-         << '\n';
-    return 0;
+    topology = topology_type::TOROIDAL;
   }
-  catch (invalid_argument& InvalidArgument)
+
+  // Display job parameters
+  cout << "Topology is " << topology << "\n";
+  cout << "Number of dimensions = " << dimensions << "\n";
+  cout << "Number of desired simplices = " << simplices << "\n";
+  cout << "Number of desired timeslices = " << timeslices << "\n";
+  cout << "Initial radius = " << initial_radius << "\n";
+  cout << "Foliation spacing = " << foliation_spacing << "\n";
+  cout << "User = " << getEnvVar("USER") << "\n";
+  cout << "Hostname = " << hostname() << "\n";
+
+  if (simplices < 2 || timeslices < 2)
   {
-    cerr << InvalidArgument.what() << "\n";
-    cerr << "Invalid parameter ... Exiting.\n";
-    return 1;
+    throw invalid_argument(
+        "Simplices and timeslices should be greater or equal to 2.");
   }
-  catch (...)
+
+  switch (topology)
   {
-    cerr << "Something went wrong ... Exiting.\n";
-    return 1;
+    case topology_type::SPHERICAL:
+      if (dimensions == 3)
+      {
+        // Start your run
+        Manifold3 populated_universe(simplices, timeslices, initial_radius,
+                                     foliation_spacing);
+        swap(universe, populated_universe);
+      }
+      else
+      {
+        throw invalid_argument("Currently, dimensions cannot be >3.");
+      }
+      break;
+    case topology_type::TOROIDAL:
+      throw invalid_argument("Toroidal triangulations not yet supported.");
+    default:
+      throw logic_error("Simulation topology not parsed.");
   }
+  print_manifold(universe);
+  universe.get_geometry().print_volume_per_timeslice();
+  cout << "Final number of simplices " << universe.get_geometry().N3() << '\n';
+  return 0;
+}
+catch (invalid_argument& InvalidArgument)
+{
+  cerr << InvalidArgument.what() << "\n";
+  cerr << "Invalid parameter ... Exiting.\n";
+  return 1;
+}
+catch (...)
+{
+  cerr << "Something went wrong ... Exiting.\n";
+  return 1;
 }

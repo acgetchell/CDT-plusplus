@@ -16,6 +16,7 @@
 /// @file  SimplicialManifold.hpp
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
+/// @todo Deprecated
 
 #ifndef INCLUDE_SIMPLICIALMANIFOLD_HPP_
 #define INCLUDE_SIMPLICIALMANIFOLD_HPP_
@@ -28,7 +29,7 @@
 #include <utility>
 #include <vector>
 
-using Facet = Delaunay::Facet;
+using Facet = Delaunay3::Facet;
 
 /// @brief A tuple of the geometric values of the Simplicial Manifold
 ///
@@ -54,7 +55,7 @@ using Geometry_tuple =
 /// This function iterates over all edges in the triangulation
 /// and classifies them as timelike or spacelike.
 /// Timelike edges are stored in the **timelike_edges** vector as an Edge_handle
-/// (tuple of Cell_handle, std::int32_t, std::int32_t) for later use by
+/// (tuple of Cell_handle, std::size_t, std::size_t) for later use by
 /// ergodic moves on timelike edges. Spacelike edges are also stored as a
 /// vector of Edge_handle **spacelike_edges**, for use by (4,4) moves as
 /// well as the distance-finding algorithms.
@@ -67,9 +68,9 @@ auto classify_edges(T&& universe_ptr)
 #ifndef NDEBUG
   std::cout << "Classifying edges....\n";
 #endif
-  Delaunay::Finite_edges_iterator eit;
-  std::vector<Edge_handle>        timelike_edges;
-  std::vector<Edge_handle>        spacelike_edges;
+  Delaunay3::Finite_edges_iterator eit;
+  std::vector<Edge_handle>         timelike_edges;
+  std::vector<Edge_handle>         spacelike_edges;
 
   // Iterate over all edges in the Delaunay triangulation
   for (eit = universe_ptr->finite_edges_begin();
@@ -82,8 +83,8 @@ auto classify_edges(T&& universe_ptr)
 
     // Make Edge_handle
     Edge_handle thisEdge{
-        ch, static_cast<std::int32_t>(ch->index(ch->vertex(eit->second))),
-        static_cast<std::int32_t>(ch->index(ch->vertex(eit->third)))};
+        ch, static_cast<std::size_t>(ch->index(ch->vertex(eit->second))),
+        static_cast<std::size_t>(ch->index(ch->vertex(eit->third)))};
 
     if (time1 != time2)
     {  // We have a timelike edge
@@ -131,25 +132,25 @@ auto classify_simplices(T&& universe_ptr)
 #ifndef NDEBUG
   std::cout << "Classifying simplices....\n";
 #endif
-  Delaunay::Finite_cells_iterator cit;
-  std::vector<Cell_handle>        three_one;
-  std::vector<Cell_handle>        two_two;
-  std::vector<Cell_handle>        one_three;
+  Delaunay3::Finite_cells_iterator cit;
+  std::vector<Cell_handle>         three_one;
+  std::vector<Cell_handle>         two_two;
+  std::vector<Cell_handle>         one_three;
 
   // Iterate over all cells in the Delaunay triangulation
   for (cit = universe_ptr->finite_cells_begin();
        cit != universe_ptr->finite_cells_end(); ++cit)
   {
-    std::int32_t max_values{0};
-    std::int32_t min_values{0};
+    int max_values{0};
+    int min_values{0};
     // Push every time value of every vertex into a list
-    std::int32_t timevalues[4] = {
+    int timevalues[4] = {
         cit->vertex(0)->info(),
         cit->vertex(1)->info(),
         cit->vertex(2)->info(),
         cit->vertex(3)->info(),
     };
-    std::int32_t max_time =
+    int max_time =
         *std::max_element(std::begin(timevalues), std::end(timevalues));
     for (auto elt : timevalues)
     {
@@ -221,7 +222,7 @@ auto classify_all_simplices(T&& universe_ptr)
 /// The default constructor, destructor, move constructor, copy
 /// constructor, and copy assignment operator are explicitly defaulted.
 /// See http://en.cppreference.com/w/cpp/language/rule_of_three
-struct GeometryInfo
+struct [[deprecated]] GeometryInfo
 {
  private:
   /// @brief (3,1) cells in the foliation
@@ -243,16 +244,16 @@ struct GeometryInfo
   std::vector<Vertex_handle> vertices;
 
   /// @brief Spacelike facets for each timeslice
-  boost::optional<std::multimap<int32_t, Facet>> spacelike_facets;
+  boost::optional<std::multimap<std::size_t, Facet>> spacelike_facets;
 
   /// @brief Actual timevalues of simulation
-  boost::optional<std::set<int32_t>> timevalues;
+  boost::optional<std::set<std::size_t>> timevalues;
 
  public:
   /// @brief Getter for spacelike facets
   /// @return The multimap of facets
-  const boost::optional<std::multimap<int32_t, Facet>>& getSpacelike_facets()
-      const
+  const boost::optional<std::multimap<std::size_t, Facet>>&
+  getSpacelike_facets() const
   {
     return spacelike_facets;
   }
@@ -260,21 +261,22 @@ struct GeometryInfo
   /// @brief Setter for spacelike facets
   /// @param spacelike_facets The multimap of facets
   void setSpacelike_facets(
-      const boost::optional<std::multimap<int32_t, Facet>>& spacelike_facets)
+      const boost::optional<std::multimap<std::size_t, Facet>>&
+          spacelike_facets)
   {
     GeometryInfo::spacelike_facets = spacelike_facets;
   }
 
   /// @brief Getter for timevalues
   /// @return The set of timevalues
-  const boost::optional<std::set<int32_t>>& getTimevalues() const
+  const boost::optional<std::set<std::size_t>>& getTimevalues() const
   {
     return timevalues;
   }
 
   /// @brief Setter for timevalues
   /// @param timevalues The set of timevalues
-  void setTimevalues(const boost::optional<std::set<int32_t>>& timevalues)
+  void setTimevalues(const boost::optional<std::set<std::size_t>>& timevalues)
   {
     GeometryInfo::timevalues = timevalues;
   }
@@ -327,21 +329,21 @@ struct GeometryInfo
 
   /// @brief Timelike edges
   /// @return The number of edges spanning timeslices
-  auto N1_TL() { return static_cast<std::uint32_t>(timelike_edges.size()); }
+  auto N1_TL() { return static_cast<std::size_t>(timelike_edges.size()); }
 
   /// @brief Spacelike edges
   /// @return The number of edges on same timeslice
-  auto N1_SL() { return static_cast<std::uint32_t>(spacelike_edges.size()); }
+  auto N1_SL() { return static_cast<std::size_t>(spacelike_edges.size()); }
 
   /// @brief (3,1) simplices
   /// @return The total number of simplices with 3 vertices on the t
   /// timeslice and 1 vertex on the t+1 timeslice
-  auto N3_31() { return static_cast<std::uint32_t>(three_one.size()); }
+  auto N3_31() { return static_cast<std::size_t>(three_one.size()); }
 
   /// @brief (1,3) simplices
   /// @return The total number of simplices with 1 vertex on the t timeslice
   /// and 3 vertices on the t+1 timeslice
-  auto N3_13() { return static_cast<std::uint32_t>(one_three.size()); }
+  auto N3_13() { return static_cast<std::size_t>(one_three.size()); }
 
   /// @brief (3,1) and (1,3) simplices
   /// @return The total number of simplices with 3 vertices on one
@@ -353,7 +355,7 @@ struct GeometryInfo
   /// @return The total number of simplices with 2 vertices on one
   /// timeslice and 2 vertices on the adjacent timeslice. Used to
   /// calculate the change in action.
-  auto N3_22() { return static_cast<std::uint32_t>(two_two.size()); }
+  auto N3_22() { return static_cast<std::size_t>(two_two.size()); }
 
   /// @brief Number of cells
   ///
@@ -372,18 +374,18 @@ struct GeometryInfo
   auto number_of_edges() { return N1_TL() + N1_SL(); }
 
   //  auto max_timevalue() { return *timevalues.crbegin();}
-  boost::optional<std::int32_t> max_timevalue()
+  boost::optional<std::size_t> max_timevalue()
   {
     return timevalues ? *timevalues->crbegin() : 0;
   }
 
-  boost::optional<std::int32_t> min_timevalue()
+  boost::optional<std::size_t> min_timevalue()
   {
     return timevalues ? *timevalues->begin() : 0;
   }
   /// @brief Number of vertices
   /// @return The number of vertices in the triangulation
-  auto N0() { return static_cast<std::uint32_t>(vertices.size()); }
+  auto N0() { return static_cast<std::size_t>(vertices.size()); }
 
   template <typename T1, typename T2>
   friend auto make_23_move(T1&& universe, T2&& attempted_moves)
@@ -414,17 +416,17 @@ struct GeometryInfo
 ///
 /// SimplicialManifold contains information about the triangulation and
 /// its geometry. In addition, it defines convenient constructors.
-struct SimplicialManifold
+struct [[deprecated]] SimplicialManifold
 {
   /// @brief Owning pointer to the Delaunay triangulation
-  std::unique_ptr<Delaunay> triangulation;
+  std::unique_ptr<Delaunay3> triangulation;
 
   /// @brief Owning pointer to GeometryInfo
   std::unique_ptr<GeometryInfo> geometry;
 
   /// @brief Default constructor
   SimplicialManifold()
-      : triangulation{std::make_unique<Delaunay>()}
+      : triangulation{std::make_unique<Delaunay3>()}
       , geometry{std::make_unique<GeometryInfo>()}
   {
 #ifndef NDEBUG
@@ -444,7 +446,7 @@ struct SimplicialManifold
   /// is fine.
   /// @param manifold A std::unique_ptr<Delaunay>
   /// @return A SimplicialManifold{}
-  explicit SimplicialManifold(std::unique_ptr<Delaunay>&& manifold)
+  explicit SimplicialManifold(std::unique_ptr<Delaunay3>&& manifold)
       : triangulation{std::move(manifold)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
@@ -462,7 +464,7 @@ struct SimplicialManifold
   /// @param simplices The number of desired simplices in the triangulation
   /// @param timeslices The number of timeslices in the triangulation
   /// @return A populated SimplicialManifold{}
-  SimplicialManifold(std::int32_t simplices, std::int32_t timeslices)
+  SimplicialManifold(std::size_t simplices, std::size_t timeslices)
       : triangulation{make_triangulation(simplices, timeslices)}
       , geometry{std::make_unique<GeometryInfo>(
             classify_all_simplices(triangulation))}
@@ -517,7 +519,7 @@ struct SimplicialManifold
   /// @param other The SimplicialManifold to copy
   /// @return A copied SimplicialManifold{}
   SimplicialManifold(const SimplicialManifold& other)
-      : triangulation{std::make_unique<Delaunay>(*(other.triangulation))}
+      : triangulation{std::make_unique<Delaunay3>(*(other.triangulation))}
       , geometry{std::make_unique<GeometryInfo>(*(other.geometry))}
   {
 #ifndef NDEBUG

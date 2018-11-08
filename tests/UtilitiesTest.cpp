@@ -4,21 +4,24 @@
 ///
 /// Tests for random, conversion, and datetime functions.
 ///
-/// @file Utilities.cpp
+/// @file UtilitiesTest.cpp
 /// @brief Tests on utility functions
 /// @author Adam Getchell
 
-#include <catch2/catch.hpp>
+#include <Manifold.hpp>
 #include <Utilities.hpp>
+#include <catch2/catch.hpp>
 
-SCENARIO("Randomizing functions", "[random]")
+using namespace std;
+
+SCENARIO("Randomizing functions", "[utility]")
 {
   GIVEN("A range of timeslices.")
   {
     WHEN("A random timeslice is generated.")
     {
-      constexpr std::int_fast32_t timeslices{16};
-      auto                    result = generate_random_timeslice(timeslices);
+      constexpr int_fast64_t timeslices{16};
+      auto                   result = generate_random_timeslice(timeslices);
       THEN("We should get a timeslice within the range.")
       {
         REQUIRE(0 <= result);
@@ -31,7 +34,7 @@ SCENARIO("Randomizing functions", "[random]")
   {
     WHEN("We generate four different random integers within the range.")
     {
-      constexpr std::int_fast32_t test_range_max = 256;
+      constexpr int_fast64_t test_range_max = 256;
       const auto value1 = generate_random_timeslice(test_range_max);
       const auto value2 = generate_random_timeslice(test_range_max);
       const auto value3 = generate_random_timeslice(test_range_max);
@@ -52,8 +55,8 @@ SCENARIO("Randomizing functions", "[random]")
   {
     WHEN("We generate a random real number.")
     {
-      long double min{0.0};
-      long double max{1.0};
+      double      min{0.0};
+      double      max{1.0};
       const auto  value = generate_random_real(min, max);
       THEN("The real number should lie within that range.")
       {
@@ -84,7 +87,7 @@ SCENARIO("Randomizing functions", "[random]")
   }
 }
 
-SCENARIO("Exact number (Gmpzf) conversion.", "[numbers]")
+SCENARIO("Exact number (Gmpzf) conversion.", "[utility]")
 {
   GIVEN("A number not exactly representable in binary.")
   {
@@ -100,7 +103,7 @@ SCENARIO("Exact number (Gmpzf) conversion.", "[numbers]")
   }
 }
 
-SCENARIO("DateTime utilities", "[datetime][!mayfail]")
+SCENARIO("DateTime utilities", "[utility]")
 {
   GIVEN("A current datetime function.")
   {
@@ -110,6 +113,23 @@ SCENARIO("DateTime utilities", "[datetime][!mayfail]")
       THEN("We should not have an empty string.")
       {
         REQUIRE_FALSE(value.empty());
+      }
+    }
+  }
+}
+
+SCENARIO("Printing results.", "[utility]")
+{
+  GIVEN("A Manifold3.")
+  {
+    int_fast64_t desired_simplices{640};
+    int_fast64_t desired_timeslices{4};
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    WHEN("We want to print results.")
+    {
+      THEN("Results are successfully printed.")
+      {
+        REQUIRE(print_manifold(manifold));
       }
     }
   }

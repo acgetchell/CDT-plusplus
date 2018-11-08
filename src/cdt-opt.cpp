@@ -18,7 +18,7 @@
 
 #include <utility>
 
-#include <Measurements.hpp>
+//#include <Measurements.hpp>
 #include <Metropolis.hpp>
 #include <Simulation.hpp>
 
@@ -29,15 +29,15 @@ int main()
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
   ios_base::sync_with_stdio(false);
   cout << "cdt-opt started at " << currentDateTime() << "\n";
-  constexpr int32_t simplices  = 64000;
-  constexpr int32_t timeslices = 16;
+  constexpr size_t simplices  = 64000;
+  constexpr size_t timeslices = 16;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
   constexpr long double alpha = 0.6;
   constexpr long double k     = 1.1;
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
   constexpr long double lambda     = 0.1;
-  constexpr int32_t     passes     = 100;
-  constexpr int32_t     checkpoint = 10;
+  constexpr size_t      passes     = 100;
+  constexpr size_t      checkpoint = 10;
 
   // Initialize simulation
   Simulation my_simulation;
@@ -52,8 +52,8 @@ int main()
   my_simulation.queue(
       [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
   // Measure results
-  my_simulation.queue(
-      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
+  //  my_simulation.queue(
+  //      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
   // my_simulation.queue(print_results())
 
   // Run it

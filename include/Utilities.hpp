@@ -1,10 +1,10 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2013-2017 Adam Getchell
+/// Copyright © 2013-2018 Adam Getchell
 ///
 /// Utility functions
 
-/// @file utilities.hpp
+/// @file Utilities.hpp
 /// @brief Utility functions
 /// @author Adam Getchell
 
@@ -15,18 +15,13 @@
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-// CGAL headers
 #include <CGAL/Gmpzf.h>
 #include <CGAL/Timer.h>
-
-// C headers
 #ifndef _WIN32
 #include <sys/utsname.h>
 #endif
-
-// C++ headers
 #include <algorithm>
-#include <cassert>
+#include <assert.h>
 #include <cstdlib>
 #include <fstream>
 #include <functional>
@@ -37,7 +32,6 @@
 #include <stdexcept>
 #include <string>
 #include <typeindex>
-
 // H. Hinnant's date and time library
 #include <date/tz.h>
 
@@ -53,7 +47,8 @@ enum class topology_type
 /// @param os output stream
 /// @param topology
 /// @return output stream
-inline std::ostream& operator<<(std::ostream& os, const topology_type& topology)
+[[nodiscard]] inline std::ostream& operator<<(std::ostream&        os,
+                                              const topology_type& topology)
 {
   switch (topology)
   {
@@ -62,6 +57,9 @@ inline std::ostream& operator<<(std::ostream& os, const topology_type& topology)
       return os;
     case topology_type::TOROIDAL:
       os << "toroidal";
+      return os;
+    default:
+      os << "none";
       return os;
   }
 }
@@ -72,7 +70,7 @@ inline std::ostream& operator<<(std::ostream& os, const topology_type& topology)
 ///
 /// @param key The string value
 /// @return The environment variable corresponding to the key
-inline auto getEnvVar(std::string const& key) noexcept
+[[nodiscard]] inline auto getEnvVar(std::string const& key) noexcept
 {
   const char* val = getenv(key.c_str());
   val == nullptr ? std::string() : std::string(val);
@@ -86,7 +84,7 @@ inline auto getEnvVar(std::string const& key) noexcept
 /// (easily) so just default to "windows" on that platform.
 ///
 /// @return The hostname
-inline std::string hostname() noexcept
+[[nodiscard]] inline auto hostname() noexcept -> std::string
 {
 #ifndef _WIN32
   struct utsname name
@@ -107,7 +105,7 @@ inline std::string hostname() noexcept
 /// Parser. https://github.com/HowardHinnant/date
 ///
 /// @return A formatted string with the system local time
-inline const auto currentDateTime()
+[[nodiscard]] inline auto currentDateTime()
 {
   using namespace date;
   using namespace std::chrono;
@@ -121,10 +119,10 @@ inline const auto currentDateTime()
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename
-inline auto generate_filename(const topology_type& top,
-                              const std::int32_t   dimensions,
-                              const std::int32_t   number_of_simplices,
-                              const std::int32_t number_of_timeslices) noexcept
+[[nodiscard]] inline auto generate_filename(
+    const topology_type& top, const std::size_t dimensions,
+    const std::size_t number_of_simplices,
+    const std::size_t number_of_timeslices) noexcept
 {
   std::string filename;
   if (top == topology_type::SPHERICAL) { filename += "S"; }
@@ -164,17 +162,17 @@ inline auto generate_filename(const topology_type& top,
 ///
 /// This function prints out vertices, edges, facets (2D), and cells (3D).
 ///
-/// @tparam T The manifold type
+/// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
-template <typename T>
-void print_results(const T& universe) noexcept
+template <typename Manifold>
+void print_results(const Manifold& universe) noexcept
 {
   std::cout << universe.triangulation->number_of_vertices() << " vertices and "
             << universe.triangulation->number_of_finite_edges() << " edges and "
             << universe.triangulation->number_of_finite_facets() << " faces\n"
             << "and " << universe.triangulation->number_of_finite_cells()
             << " cells.\n";
-}
+}  // print_results
 
 /// @brief Print out runtime results including time elapsed
 ///
@@ -182,12 +180,13 @@ void print_results(const T& universe) noexcept
 /// and running time on a Triangulation. This calls a simpler version
 /// without a timer object.
 ///
-/// @tparam T1 The manifold type
-/// @tparam T2 The timer type
+/// @tparam Manifold The manifold type
+/// @tparam Timer The timer type
 /// @param universe A SimplicialManifold
 /// @param timer A timer object used to determine elapsed time
-template <typename T1, typename T2>
-void print_results(const T1& universe, const T2& timer) noexcept
+template <typename Manifold, typename Timer>
+[[noreturn]] void print_results(const Manifold& universe,
+                                const Timer&    timer) noexcept
 {
   // C++17
   print_results(std::as_const(universe));
@@ -195,7 +194,48 @@ void print_results(const T1& universe, const T2& timer) noexcept
 
   // Display program running time
   std::cout << "Running time is " << timer.time() << " seconds.\n";
+}  // print_results
+
+/// @brief Print manifold statistics
+/// @tparam Manifold The manifold type
+/// @param manifold A Manifold
+/// @return True if successful
+template <typename Manifold>
+bool print_manifold(const Manifold& manifold) try
+{
+  std::cout << "Manifold has " << manifold.get_geometry().N0()
+            << " vertices and " << manifold.get_geometry().N1() << " edges and "
+            << manifold.get_geometry().N2() << " faces and "
+            << manifold.get_geometry().N3() << " simplices.\n";
+  return true;
 }
+catch (...)
+{
+  std::cerr << "print_manifold() went wrong ...\n";
+  throw;
+}  // print_manifold
+
+/// @brief Print triangulation statistics
+/// @tparam Triangulation The triangulation type
+/// @param triangulation A triangulation (typically a Delaunay<3> triangulation)
+template <typename Triangulation>
+void print_triangulation(const Triangulation& triangulation) try
+{
+  std::cout << "Triangulation has "
+            << triangulation.get_delaunay().number_of_vertices()
+            << " vertices and "
+            << triangulation.get_delaunay().number_of_finite_edges()
+            << " edges and "
+            << triangulation.get_delaunay().number_of_finite_facets()
+            << " faces and "
+            << triangulation.get_delaunay().number_of_finite_cells()
+            << " simplices.\n";
+}
+catch (...)
+{
+  std::cerr << "print_triangulation() went wrong ...\n";
+  throw;
+}  // print_triangulation
 
 /// @brief Writes the runtime results to a file
 ///
@@ -203,17 +243,17 @@ void print_results(const T1& universe, const T2& timer) noexcept
 /// The filename is generated by the **generate_filename()** function.
 /// Provides strong exception-safety.
 ///
-/// @tparam T The manifold type
+/// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
 /// @param topology The topology type from the scoped enum topology_type
 /// @param dimensions The number of dimensions of the triangulation
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
-template <typename T>
-void write_file(const T& universe, const topology_type& topology,
-                const std::int32_t dimensions,
-                const std::int32_t number_of_simplices,
-                const std::int32_t number_of_timeslices)
+template <typename Manifold>
+void write_file(const Manifold& universe, const topology_type& topology,
+                const std::size_t dimensions,
+                const std::size_t number_of_simplices,
+                const std::size_t number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
@@ -229,20 +269,20 @@ void write_file(const T& universe, const topology_type& topology,
   if (!file.is_open()) throw std::runtime_error("Unable to open file.");
 
   file << *universe.triangulation;
-}
+}  // write_file
 
 /// @brief Seed sequence class for high-quality pseudo-random number generator
 ///
 /// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
-/// @tparam T1 Type of number
-template <typename T1>
+/// @tparam Number Type of number
+template <typename Number>
 struct SeedSeq
 {
-  T1 begin_;
-  T1 end_;
+  Number begin_;
+  Number end_;
 
  public:
-  SeedSeq(T1 begin, T1 end) : begin_{begin}, end_{end} {}
+  SeedSeq(Number begin, Number end) : begin_{begin}, end_{end} {}
 
   template <typename T2>
   void generate(T2 b, T2 e)
@@ -263,8 +303,8 @@ struct SeedSeq
 /// @param min_value The minimum value in the range
 /// @param max_value The maximum value in the range
 /// @return A random integer between min_value and max_value
-inline auto generate_random_signed(const int32_t min_value,
-                                   const int32_t max_value) noexcept
+[[nodiscard]] inline auto generate_random_int(const int min_value,
+                                              const int max_value) noexcept
 {
   // Non-deterministic random number generator
   std::random_device rd;
@@ -279,7 +319,7 @@ inline auto generate_random_signed(const int32_t min_value,
   //  // Initialized mt19937_64
   //  std::mt19937 g(seedSeq);
 
-  std::uniform_int_distribution<int32_t> distribution(min_value, max_value);
+  std::uniform_int_distribution<int> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
@@ -288,7 +328,7 @@ inline auto generate_random_signed(const int32_t min_value,
 #endif
 
   return result;
-}  // generate_random_signed()
+}  // generate_random_unsigned()
 
 /// @brief Generate a random timeslice
 ///
@@ -298,9 +338,10 @@ inline auto generate_random_signed(const int32_t min_value,
 ///
 /// @param max_timeslice The maximum timeslice
 /// @return A random timeslice from 1 to max_timeslice
-inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept
+[[nodiscard]] inline auto generate_random_timeslice(
+    const int max_timeslice) noexcept
 {
-  return generate_random_signed(1, max_timeslice);
+  return generate_random_int(1, max_timeslice);
 }  // generate_random_timeslice()
 
 /// @brief Generate random real numbers
@@ -311,16 +352,17 @@ inline auto generate_random_timeslice(const unsigned max_timeslice) noexcept
 /// http://www.cplusplus.com/reference/random/random_device/
 /// for more details.
 ///
-/// @tparam T The real number type
+/// @tparam RealNumber The real number type
 /// @param min_value The minimum value in the range
 /// @param max_value The maximum value in the range
 /// @return A random real number between min_value and max_value, inclusive
-template <typename T>
-auto generate_random_real(const T min_value, const T max_value) noexcept
+template <typename RealNumber>
+[[nodiscard]] auto generate_random_real(const RealNumber min_value,
+                                        const RealNumber max_value) noexcept
 {
   std::random_device                rd;
   std::mt19937_64                   generator(rd());
-  std::uniform_real_distribution<T> distribution(min_value, max_value);
+  std::uniform_real_distribution<RealNumber> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
@@ -337,7 +379,7 @@ auto generate_random_real(const T min_value, const T max_value) noexcept
 /// using **generate_random_real()**.
 ///
 /// @return A probability from 0 to 1
-inline auto generate_probability() noexcept
+[[nodiscard]] inline auto generate_probability() noexcept
 {
   auto min = static_cast<long double>(0.0);
   auto max = static_cast<long double>(1.0);
@@ -358,10 +400,9 @@ inline auto generate_probability() noexcept
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-inline auto expected_points_per_simplex(const int          dimension,
-                                        const std::int32_t simplices,
-                                        const std::int32_t timeslices,
-                                        const bool         output = true)
+[[nodiscard]] inline auto expected_points_per_simplex(
+    const std::size_t dimension, const int_fast64_t simplices,
+    const int_fast64_t timeslices, const bool output = true)
 {
   if (output)
   {
@@ -378,19 +419,19 @@ inline auto expected_points_per_simplex(const int          dimension,
       if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
       {
-        return static_cast<std::int32_t>(0.4 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
       }
       else if (simplices < 10000)
       {
-        return static_cast<std::int32_t>(0.2 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.2 * simplices_per_timeslice);
       }
       else if (simplices < 100000)
       {
-        return static_cast<std::int32_t>(0.15 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.15 * simplices_per_timeslice);
       }
       else
       {
-        return static_cast<std::int32_t>(0.1 * simplices_per_timeslice);
+        return static_cast<int_fast64_t>(0.1 * simplices_per_timeslice);
       }
     }
     default:
@@ -408,7 +449,10 @@ inline auto expected_points_per_simplex(const int          dimension,
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
 /// @return The double conversion
-inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
+[[nodiscard]] inline auto Gmpzf_to_double(const Gmpzf& value) -> double
+{
+  return value.to_double();
+}
 
 /// @brief Calculate if lower <= value <= upper; used in GoogleTests
 /// @tparam T Value type
@@ -416,10 +460,10 @@ inline auto Gmpzf_to_double(const Gmpzf& value) { return value.to_double(); }
 /// @param lower Lower bound
 /// @param upper Upper bound
 /// @return True if arg lies within [lower, upper]
-template <typename T>
-bool IsBetween(T arg, T lower, T upper)
-{
-  return arg >= lower && arg <= upper;
-}
+// template <typename T>
+// bool IsBetween(T arg, T lower, T upper)
+//{
+//  return arg >= lower && arg <= upper;
+//}
 
 #endif  // INCLUDE_UTILITIES_HPP_

@@ -11,12 +11,13 @@
 /// member structs and classes
 ///
 /// @author Adam Getchell
+/// @todo Deprecated
 
-#include <Measurements.hpp>
+#include <SimplicialManifold.hpp>
 #include <catch2/catch.hpp>
 
 SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
-         "[manifold][!mayfail]")
+         "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A Delaunay class.")
   {
@@ -24,33 +25,33 @@ SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
     {
       THEN("It is not no-throw default constructible.")
       {
-        REQUIRE_FALSE(std::is_nothrow_default_constructible<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_default_constructible<Delaunay3>::value);
       }
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(std::is_nothrow_destructible<Delaunay>::value);
+        REQUIRE(std::is_nothrow_destructible<Delaunay3>::value);
       }
       THEN("It is not no-throw copy constructible.")
       {
-        REQUIRE_FALSE(std::is_nothrow_copy_constructible<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_copy_constructible<Delaunay3>::value);
       }
       THEN("It is not no-throw copy assignable.")
       {
-        REQUIRE_FALSE(std::is_nothrow_copy_assignable<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_copy_assignable<Delaunay3>::value);
       }
       THEN("It is not no-throw move constructible.")
       {
-        REQUIRE_FALSE(std::is_nothrow_move_constructible<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_move_constructible<Delaunay3>::value);
       }
       THEN("It is not no-throw move assignable.")
       {
-        REQUIRE_FALSE(std::is_nothrow_move_assignable<Delaunay>::value);
+        REQUIRE_FALSE(std::is_nothrow_move_assignable<Delaunay3>::value);
       }
     }
   }
   GIVEN("A std::unique_ptr<Delaunay>.")
   {
-    using Delaunay_ptr = std::unique_ptr<Delaunay>;
+    using Delaunay_ptr = std::unique_ptr<Delaunay3>;
     WHEN("It's properties are examined.")
     {
       THEN("It is no-throw default constructible.")
@@ -82,7 +83,7 @@ SCENARIO("Delaunay class and std::unique<Delaunay> exception-safety",
 }
 
 /// @TODO Make GeometryInfo no-throw move assignable
-SCENARIO("GeometryInfo exception-safety", "[manifold][!mayfail]")
+SCENARIO("GeometryInfo exception-safety", "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A GeometryInfo struct.")
   {
@@ -118,7 +119,7 @@ SCENARIO("GeometryInfo exception-safety", "[manifold][!mayfail]")
 
 /// @TODO Make SimplicialManifold no-throw default constructible
 /// @TODO Make SimplicialManifold no-throw move constructible
-SCENARIO("SimplicialManifold exception-safety", "[manifold][!mayfail]")
+SCENARIO("SimplicialManifold exception-safety", "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A SimplicialManifold struct.")
   {
@@ -155,7 +156,7 @@ SCENARIO("SimplicialManifold exception-safety", "[manifold][!mayfail]")
   }
 }
 
-SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
+SCENARIO("GeometryInfo construction, copy, and move", "[simplicialmanifold][!mayfail]")
 {
   GIVEN("A SimplicialManifold.")
   {
@@ -233,7 +234,7 @@ SCENARIO("GeometryInfo construction, copy, and move", "[manifold][!mayfail]")
   }
 }
 
-SCENARIO("SimplicialManifold swap", "[manifold][swap]")
+SCENARIO("SimplicialManifold swap", "[simplicialmanifold][swap]")
 {
   GIVEN("A correctly-constructed SimplicialManifold.")
   {

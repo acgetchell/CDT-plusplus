@@ -39,7 +39,7 @@
 
 using Gmpzf = CGAL::Gmpzf;
 
-extern const std::int32_t PRECISION;
+extern const std::size_t PRECISION;
 
 /// @class Metropolis
 /// @brief Metropolis-Hastings algorithm function object
@@ -75,8 +75,8 @@ class Metropolis : public MoveAlgorithm
   /// @param passes Number of passes of ergodic moves on triangulation.
   /// @param checkpoint Print/write output for every n=checkpoint passes.
   Metropolis(const long double Alpha, const long double K,
-             const long double Lambda, const std::int32_t passes,
-             const std::int32_t checkpoint)
+             const long double Lambda, const std::size_t passes,
+             const std::size_t checkpoint)
       : MoveAlgorithm(passes, checkpoint), Alpha_(Alpha), K_(K), Lambda_(Lambda)
   {
 #ifndef NDEBUG
@@ -336,20 +336,20 @@ class Metropolis : public MoveAlgorithm
 
     std::cout << "Making random moves ...\n";
     // Loop through passes_
-    for (std::int32_t pass_number = 1; pass_number <= passes_; ++pass_number)
+    for (std::size_t pass_number = 1; pass_number <= passes_; ++pass_number)
     {
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
-      for (std::int32_t move_attempt = 0;
+      for (std::size_t move_attempt = 0;
            move_attempt < total_simplices_this_pass; ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = generate_random_signed(0, 3);
+        auto move_choice = generate_random_int(0, 3);
 #ifndef NDEBUG
         std::cout << "Move choice = " << move_choice << "\n";
 #endif
 
-        // Convert std::int32_t move_choice to move_type enum
+        // Convert std::size_t move_choice to move_type enum
         auto move = static_cast<move_type>(move_choice);
         attempt_move(move);
       }  // End loop through CurrentTotalSimplices

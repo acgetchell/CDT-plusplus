@@ -21,10 +21,10 @@
 #include <utility>
 #include <vector>
 
-using Facet = Delaunay::Facet;
+using Facet = Delaunay3::Facet;
 
 template <typename T>
-auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
+[[deprecated]] auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 {
 #ifndef NDEBUG
   std::cout << __PRETTY_FUNCTION__ << " called.\n";
@@ -33,8 +33,8 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
   //  manifold.update();
   print_results(manifold);
 
-  std::multimap<int32_t, Facet>    spacelike_facets;
-  Delaunay::Finite_facets_iterator fit;
+  std::multimap<std::size_t, Facet> spacelike_facets;
+  Delaunay3::Finite_facets_iterator fit;
   // Visit every finite facet in the manifold
   for (fit = manifold.triangulation->finite_facets_begin();
        fit != manifold.triangulation->finite_facets_end(); ++fit)
@@ -47,7 +47,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 #ifdef DETAILED_DEBUGGING
     std::cout << "Facet index is " << index_of_facet << "\n";
 #endif
-    std::set<int32_t> facet_timevalues;
+    std::set<std::size_t> facet_timevalues;
     // The vertices of the facet are the ones that aren't the index
     for (auto i = 0; i < 4; ++i)
     {
@@ -75,7 +75,7 @@ auto VolumePerTimeslice(T&& manifold) -> decltype(manifold)
 #endif
 
   // Determine which timevalues are populated
-  std::set<int32_t> timevalues;
+  std::set<std::size_t> timevalues;
   for (const auto& item : manifold.geometry->vertices)
   { timevalues.insert(item->info()); }
 

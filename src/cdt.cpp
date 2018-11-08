@@ -68,159 +68,159 @@ Options:
 /// @param[in,out]  argc  Argument count = 1 + number of arguments
 /// @param[in,out]  argv  Argument vector (array) to be passed to docopt
 /// @returns        Integer value 0 if successful, 1 on failure
-int main(int argc, char* const argv[])
+int main(int argc, char* const argv[]) try
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
   ios_base::sync_with_stdio(false);
-  try
+
+  // Start running time
+  Timer t;
+  t.start();
+
+  // docopt option parser
+  gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
+  map<string, docopt::value> args =
+      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
+                     true,          // print help message automatically
+                     "CDT 0.1.8");  // Version
+
+  // Debugging
+  // for (auto const& arg : args) {
+  //   std::cout << arg.first << " " << arg.second << "\n";
+  // }
+
+  // Parse docopt::values in args map
+  auto simplices  = stoi(args["-n"].asString());
+  auto timeslices = stoi(args["-t"].asString());
+  auto dimensions = stoi(args["-d"].asString());
+  auto alpha      = stold(args["--alpha"].asString());
+  auto k          = stold(args["-k"].asString());
+  auto lambda     = stold(args["--lambda"].asString());
+  auto passes     = stoi(args["--passes"].asString());
+  auto checkpoint = stoi(args["--checkpoint"].asString());
+
+  // Topology of simulation
+  topology_type topology;
+  if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
+  else
   {
-    // Start running time
-    Timer t;
-    t.start();
+    topology = topology_type::TOROIDAL;
+  }
 
-    // docopt option parser
-    gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
-    map<string, docopt::value> args =
-        docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
-                       true,          // print help message automatically
-                       "CDT 0.1.8");  // Version
+  // Display job parameters
+  cout << "Topology is " << topology << "\n";
+  cout << "Number of dimensions = " << dimensions << "\n";
+  cout << "Number of simplices = " << simplices << "\n";
+  cout << "Number of timeslices = " << timeslices << "\n";
+  cout << "Alpha = " << alpha << "\n";
+  cout << "K = " << k << "\n";
+  cout << "Lambda = " << lambda << "\n";
+  cout << "Number of passes = " << passes << "\n";
+  cout << "Checkpoint every n passes = " << checkpoint << "\n";
+  cout << "User = " << getEnvVar("USER") << "\n";
+  cout << "Hostname = " << hostname() << "\n";
 
-    // Debugging
-    // for (auto const& arg : args) {
-    //   std::cout << arg.first << " " << arg.second << "\n";
-    // }
+  if (simplices < 2 || timeslices < 2)
+  {
+    t.stop();
+    throw invalid_argument(
+        "Simplices and timeslices should be greater or equal to 2.");
+  }
 
-    // Parse docopt::values in args map
-    auto simplices  = stoi(args["-n"].asString());
-    auto timeslices = stoi(args["-t"].asString());
-    auto dimensions = stoi(args["-d"].asString());
-    auto alpha      = stold(args["--alpha"].asString());
-    auto k          = stold(args["-k"].asString());
-    auto lambda     = stold(args["--lambda"].asString());
-    auto passes     = stoi(args["--passes"].asString());
-    auto checkpoint = stoi(args["--checkpoint"].asString());
+  // Initialize simulation
+  Simulation my_simulation;
 
-    // Topology of simulation
-    topology_type topology;
-    if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
-    else
-    {
-      topology = topology_type::TOROIDAL;
-    }
+  // Initialize the Metropolis algorithm
+  // \todo: add strong exception-safety guarantee on Metropolis functor
+  Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
 
-    // Display job parameters
-    cout << "Topology is " << topology << "\n";
-    cout << "Number of dimensions = " << dimensions << "\n";
-    cout << "Number of simplices = " << simplices << "\n";
-    cout << "Number of timeslices = " << timeslices << "\n";
-    cout << "Alpha = " << alpha << "\n";
-    cout << "K = " << k << "\n";
-    cout << "Lambda = " << lambda << "\n";
-    cout << "Number of passes = " << passes << "\n";
-    cout << "Checkpoint every n passes = " << checkpoint << "\n";
-    cout << "User = " << getEnvVar("USER") << "\n";
-    cout << "Hostname = " << hostname() << "\n";
+  // Initialize triangulation
+  SimplicialManifold universe;
 
-    if (simplices < 2 || timeslices < 2)
-    {
-      t.stop();
-      throw invalid_argument(
-          "Simplices and timeslices should be greater or equal to 2.");
-    }
+  // Queue up simulation with desired algorithm
+  my_simulation.queue(
+      [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
 
-    // Initialize simulation
-    Simulation my_simulation;
+  // Measure results
+  my_simulation.queue(
+      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
 
-    // Initialize the Metropolis algorithm
-    // \todo: add strong exception-safety guarantee on Metropolis functor
-    Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
-
-    // Initialize triangulation
-    SimplicialManifold universe;
-
-    // Queue up simulation with desired algorithm
-    my_simulation.queue(
-        [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
-
-    // Measure results
-    my_simulation.queue(
-        [](SimplicialManifold s) { return VolumePerTimeslice(s); });
-
-    // Ensure Triangle inequalities hold
-    // See http://arxiv.org/abs/hep-th/0105267 for details
-    if (dimensions == 3 && abs(alpha) < 0.5)
-    {
-      t.stop();  // End running time counter
-      throw domain_error("Alpha in 3D should be greater than 1/2.");
-    }
-
-    switch (topology)
-    {
-      case topology_type::SPHERICAL:
-        if (dimensions == 3)
-        {
-          SimplicialManifold populated_universe(simplices, timeslices);
-          // SimplicialManifold swapperator for no-throw
-          swap(universe, populated_universe);
-        }
-        else
-        {
-          t.stop();  // End running time counter
-          throw invalid_argument("Currently, dimensions cannot be >3.");
-        }
-        break;
-      case topology_type::TOROIDAL:
-        t.stop();  // End running time counter
-        throw invalid_argument("Toroidal triangulations not yet supported.");
-    }
-
-    if (!fix_timeslices(universe.triangulation))
-    {
-      t.stop();  // End running time counter
-      throw logic_error("Delaunay triangulation not correctly foliated.");
-    }
-
-    cout << "Universe has been initialized ...\n";
-    cout << "Now performing " << passes << " passes of ergodic moves.\n";
-
-    // The main work of the program
-    universe = my_simulation.start(move(universe));
-
-    // Output results
+  // Ensure Triangle inequalities hold
+  // See http://arxiv.org/abs/hep-th/0105267 for details
+  if (dimensions == 3 && abs(alpha) < 0.5)
+  {
     t.stop();  // End running time counter
-    cout << "Final Delaunay triangulation has ";
-    print_results(universe, t);
+    throw domain_error("Alpha in 3D should be greater than 1/2.");
+  }
 
-    // Write results to file
-    // Strong exception-safety guarantee
-    // \todo: Fixup so that cell->info() and vertex->info() values
-    //                   are written
-    write_file(universe, topology, dimensions,
-               universe.triangulation->number_of_finite_cells(), timeslices);
+  switch (topology)
+  {
+    case topology_type::SPHERICAL:
+      if (dimensions == 3)
+      {
+        SimplicialManifold populated_universe(simplices, timeslices);
+        // SimplicialManifold swapperator for no-throw
+        swap(universe, populated_universe);
+      }
+      else
+      {
+        t.stop();  // End running time counter
+        throw invalid_argument("Currently, dimensions cannot be >3.");
+      }
+      break;
+    case topology_type::TOROIDAL:
+      t.stop();  // End running time counter
+      throw invalid_argument("Toroidal triangulations not yet supported.");
+    default:
+      throw logic_error("Simulation topology not parsed.");
+  }
 
-    return 0;
-  }
-  catch (domain_error& DomainError)
+  if (!fix_timeslices(universe.triangulation))
   {
-    cerr << DomainError.what() << "\n";
-    cerr << "Triangle inequalities violated ... Exiting.\n";
-    return 1;
+    t.stop();  // End running time counter
+    throw logic_error("Delaunay triangulation not correctly foliated.");
   }
-  catch (invalid_argument& InvalidArgument)
-  {
-    cerr << InvalidArgument.what() << "\n";
-    cerr << "Invalid parameter ... Exiting.\n";
-    return 1;
-  }
-  catch (logic_error& LogicError)
-  {
-    cerr << LogicError.what() << "\n";
-    cerr << "Simulation startup failed ... Exiting.\n";
-    return 1;
-  }
-  catch (...)
-  {
-    cerr << "Something went wrong ... Exiting.\n";
-    return 1;
-  }
+
+  cout << "Universe has been initialized ...\n";
+  cout << "Now performing " << passes << " passes of ergodic moves.\n";
+
+  // The main work of the program
+  universe = my_simulation.start(move(universe));
+
+  // Output results
+  t.stop();  // End running time counter
+  cout << "Final Delaunay triangulation has ";
+  print_results(universe, t);
+
+  // Write results to file
+  // Strong exception-safety guarantee
+  // \todo: Fixup so that cell->info() and vertex->info() values
+  //                   are written
+  write_file(universe, topology, dimensions,
+             universe.triangulation->number_of_finite_cells(), timeslices);
+
+  return 0;
+}
+catch (domain_error& DomainError)
+{
+  cerr << DomainError.what() << "\n";
+  cerr << "Triangle inequalities violated ... Exiting.\n";
+  return 1;
+}
+catch (invalid_argument& InvalidArgument)
+{
+  cerr << InvalidArgument.what() << "\n";
+  cerr << "Invalid parameter ... Exiting.\n";
+  return 1;
+}
+catch (logic_error& LogicError)
+{
+  cerr << LogicError.what() << "\n";
+  cerr << "Simulation startup failed ... Exiting.\n";
+  return 1;
+}
+catch (...)
+{
+  cerr << "Something went wrong ... Exiting.\n";
+  return 1;
 }

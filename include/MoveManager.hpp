@@ -24,21 +24,21 @@
 #include <utility>
 #include <vector>
 
-using move_invariants = std::array<std::uint32_t, 6>;
+using move_invariants = std::array<std::size_t, 6>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves
-/// @tparam T1 SimplicialManifold type
-/// @tparam T2 Move counter type
-template <class T1, class T2>
+/// @tparam Manifold SimplicialManifold type
+/// @tparam Moves Move counter type
+template <typename Manifold, typename Moves>
 class MoveManager
 {
  public:
   /// @brief An option type SimplicialManifold
-  T1 universe_;
+  Manifold universe_;
 
   /// @brief An option type move counter
-  T2 attempted_moves_;
+  Moves attempted_moves_;
 
   /// @brief A count of N3_31, N3_22, N3_13, N1_TL, N1_SL, N0
   move_invariants check{{0, 0, 0, 0, 0, 0}};
@@ -54,9 +54,9 @@ class MoveManager
   ///
   /// @param universe Initializes universe_
   /// @param attempted_moves Initializes attempted_moves_
-  MoveManager(T1&& universe, T2&& attempted_moves)
-      : universe_{std::forward<T1>(universe)}
-      , attempted_moves_{std::forward<T2>(attempted_moves)}
+  MoveManager(Manifold&& universe, Moves&& attempted_moves)
+      : universe_{std::forward<Manifold>(universe)}
+      , attempted_moves_{std::forward<Moves>(attempted_moves)}
   {}
 
   /// Default dtor
@@ -70,16 +70,17 @@ class MoveManager
   /// Delete move assignment
   MoveManager& operator=(MoveManager&& rhs) = delete;
 
-  auto ArrayDifference(Move_tracker first, Move_tracker second)
+  [[nodiscard]] auto ArrayDifference(Move_tracker first, Move_tracker second)
   {
-    for (int j = 0; j < 5; ++j)
+    for (std::size_t j = 0; j < 5; ++j)
     {
       if (first[j] - second[j] != 0) return j;
     }
     throw std::runtime_error("No move found!");
   }
 
-  bool check_move_postconditions(Move_tracker new_moves, Move_tracker old_moves)
+  [[nodiscard]] auto check_move_postconditions(Move_tracker new_moves,
+                                               Move_tracker old_moves) -> bool
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
@@ -127,12 +128,16 @@ class MoveManager
       {
         return false;
       }
+      default:
+      {
+        return false;
+      }
     }
   }
   /// @brief Function call
   /// @param move A function_ref to the move being performed
   /// @return The results of move on universe_
-  auto operator()(
+  [[nodiscard]] auto operator()(
       function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move)
   {
 #ifndef NDEBUG
@@ -165,7 +170,7 @@ class MoveManager
           check_move_postconditions(attempted_moves_.get(), old_moves);
 #ifndef NDEBUG
       std::cout << "Moves are good: " << std::boolalpha << moves_are_good
-                << std::endl;
+                << '\n';
 #endif
       if (!moves_are_good)
         throw std::runtime_error("Move postconditions violated.");
