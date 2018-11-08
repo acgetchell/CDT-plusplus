@@ -129,6 +129,20 @@ class Geometry<3>
     }
   }
 
+  void print_cells(std::vector<Cell_handle> cells) const
+  {
+    for (auto const& cell : cells)
+    {
+      std::cout << "Cell info => " << cell->info() << "\n";
+      for (int j = 0; j < 4; ++j)
+      {
+        std::cout << "Vertex(" << j
+                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
+      }
+      std::cout << "---\n";
+    }
+  }
+
   void print_volume_per_timeslice() const
   {
     for (auto j = min_time(); j <= max_time(); ++j)
@@ -467,6 +481,8 @@ class Geometry<3>
   int                        _max_timevalue;
   int                        _min_timevalue;
   std::multimap<int, Facet>  _spacelike_facets;
+  template <std::int_fast64_t>
+  friend class MoveCommand;
 };
 
 using Geometry3 = Geometry<3>;

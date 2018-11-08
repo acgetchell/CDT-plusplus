@@ -299,6 +299,8 @@ class FoliatedTriangulation<3> : Delaunay3
 
   Delaunay3 _delaunay;
   bool      _is_foliated;
+  template <std::int_fast64_t>
+  friend class MoveCommand;
 };
 
 using FoliatedTriangulation3 = FoliatedTriangulation<3>;

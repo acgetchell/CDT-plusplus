@@ -92,6 +92,8 @@ class Manifold<3>
  private:
   FoliatedTriangulation3 _triangulation;
   Geometry3              _geometry;
+  template <std::int_fast64_t>
+  friend class MoveCommand;
 };
 
 using Manifold3 = Manifold<3>;

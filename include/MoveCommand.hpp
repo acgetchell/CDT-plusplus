@@ -118,7 +118,11 @@ class MoveCommand<3>
 #ifndef NDEBUG
     std::clog << "Attempting (2,3) move.\n";
 #endif
+    //    _manifold._geometry.print_cells(_manifold.get_geometry()._cells);
 
+    print_manifold(_manifold);
+    std::cout << "Size of (2,2) container: " << _manifold._geometry.N3_22()
+              << "\n";
     //    auto movable_two_two_cells = _manifold._geometry._two_two;
     //
     //    auto not_flipped{true};
