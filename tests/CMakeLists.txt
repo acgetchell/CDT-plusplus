@@ -10,11 +10,11 @@ add_executable(CDT_test
                SphereTest.cpp
                SimulationTest.cpp
                SimplicialManifoldTest.cpp
-               S3ErgodicMovesTest.cpp
+#               S3ErgodicMovesTest.cpp
                S3ActionTest.cpp
-               MoveManagerTest.cpp
+#               MoveManagerTest.cpp
                MoveAlgorithmsTest.cpp
-               MeasurementsTest.cpp
+#               MeasurementsTest.cpp
                ManifoldTest.cpp
                GeometryTest.cpp
                FoliatedTriangulationTest.cpp

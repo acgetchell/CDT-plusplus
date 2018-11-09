@@ -55,7 +55,7 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
   {
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      int_fast64_t           desired_simplices{48};
+      int_fast64_t           desired_simplices{72};
       int_fast64_t           desired_timeslices{3};
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);

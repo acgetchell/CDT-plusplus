@@ -79,18 +79,18 @@ SCENARIO("Test single moves of 3-Manifold", "[move3]")
         REQUIRE_FALSE(move.getMoves().empty());
         REQUIRE(move.getMoves().front() == MoveCommand3::Move_type::TWO_THREE);
       }
-      THEN("The (2,3) move is executed.") { move.execute(); }
+      //      THEN("The (2,3) move is executed.") { move.execute(); }
     }
     WHEN("One of each move is requested.")
     {
       int_fast64_t             desired_simplices{6700};
       int_fast64_t             desired_timeslices{11};
       Manifold3                manifold(desired_simplices, desired_timeslices);
-      MoveCommand3::Move_queue desired_moves{MoveCommand3::Move_type::TWO_THREE,
-                                             MoveCommand3::Move_type::THREE_TWO,
-                                             MoveCommand3::Move_type::FOUR_FOUR,
-                                             MoveCommand3::Move_type::TWO_SIX,
-                                             MoveCommand3::Move_type::SIX_TWO};
+      MoveCommand3::Move_queue desired_moves{
+          // MoveCommand3::Move_type::TWO_THREE,
+          MoveCommand3::Move_type::THREE_TWO,
+          MoveCommand3::Move_type::FOUR_FOUR, MoveCommand3::Move_type::TWO_SIX,
+          MoveCommand3::Move_type::SIX_TWO};
       MoveCommand3             move(manifold, desired_moves);
       THEN("All moves are executed.") { move.execute(); }
     }
