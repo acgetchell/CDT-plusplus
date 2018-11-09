@@ -110,8 +110,14 @@ class Geometry<3>
     return _spacelike_facets;
   }
 
+  /// @return Container of (3,1) cells
+  std::vector<Cell_handle> const& get_three_one() const { return _three_one; }
+
   /// @return Container of (2,2) cells
   std::vector<Cell_handle> const& get_two_two() const { return _two_two; }
+
+  /// @return Container of (1,3) cells
+  std::vector<Cell_handle> const& get_one_three() const { return _one_three; }
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
@@ -255,14 +261,12 @@ class Geometry<3>
       -> std::vector<Cell_handle>
   {
     Expects(!cells_v.empty());
-    std::vector<Cell_handle> filtered_cells(cells_v.size());
-    filtered_cells.clear();
-    auto it = std::copy_if(cells_v.begin(), cells_v.end(),
-                           filtered_cells.begin(), [cell_t](auto const& cell) {
-                             return cell->info() == static_cast<int>(cell_t);
-                           });
-    filtered_cells.resize(static_cast<std::size_t>(
-        std::abs(std::distance(filtered_cells.begin(), it))));
+    std::vector<Cell_handle> filtered_cells;
+    std::copy_if(cells_v.begin(), cells_v.end(),
+                 std::back_inserter(filtered_cells),
+                 [&cell_t](auto const& cell) {
+                   return cell->info() == static_cast<int>(cell_t);
+                 });
     return filtered_cells;
   }  // filter_cells
 
@@ -394,11 +398,17 @@ class Geometry<3>
     Expects(!edges_v.empty());
     std::vector<Edge_handle> filtered_edges(edges_v.size());
     filtered_edges.clear();
-    auto it = std::copy_if(
-        edges_v.begin(), edges_v.end(), filtered_edges.begin(),
-        [&](auto const& edge) { return (is_Timelike == classify_edge(edge)); });
-    filtered_edges.resize(static_cast<std::size_t>(
-        std::abs(std::distance(filtered_edges.begin(), it))));
+    //    auto it = std::copy_if(
+    //        edges_v.begin(), edges_v.end(), filtered_edges.begin(),
+    //        [&](auto const& edge) { return (is_Timelike ==
+    //        classify_edge(edge)); });
+    //    filtered_edges.resize(static_cast<std::size_t>(
+    //        std::abs(std::distance(filtered_edges.begin(), it))));
+    for (auto const& edge : edges_v)
+    {
+      if (is_Timelike == classify_edge(edge))
+      { filtered_edges.emplace_back(edge); }
+    }
     Ensures(!filtered_edges.empty());
     return filtered_edges;
   }  // filter_edges

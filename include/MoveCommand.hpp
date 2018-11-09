@@ -120,38 +120,33 @@ class MoveCommand<3>
 #endif
     //    _manifold._geometry.print_cells(_manifold.get_geometry()._cells);
 
-    print_manifold(_manifold);
+    //    print_manifold(_manifold);
     std::cout << "Size of (2,2) container: " << _manifold._geometry.N3_22()
               << "\n";
-    //    auto movable_two_two_cells = _manifold._geometry._two_two;
-    //
-    //    auto not_flipped{true};
-    //
-    //    while(not_flipped)
-    //    {
-    //      if (movable_two_two_cells.empty()) {
-    //        throw std::domain_error("No (2,3) move possible.");
-    //      }
-    //      auto choice = generate_random_int(0, movable_two_two_cells.size()
-    //      -1); std::clog << "Choice is " << choice;
-    //
-    //      Cell_handle to_be_moved = _manifold._geometry._two_two[choice];
-    //      std::clog << "Cell[" << choice << "] is of type " <<
-    //      to_be_moved->info();
-    //      Expects(_manifold._triangulation.tds().is_cell(to_be_moved));
-    //      Expects(to_be_moved->info() ==
-    //      static_cast<int>(Cell_type::TWO_TWO));
-    //
-    //      if (_manifold._triangulation.try_23_move(to_be_moved)) {
-    //        not_flipped = false;
-    //      }
+    auto movable_two_two_cells = _manifold._geometry._two_two;
 
-    // Remove trial cell
-    //      movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);
-    //    }
-    //    ++successful_23_moves();
-    //    std::cout << "Successful (2,3) moves: " << successful_23_moves() <<
-    //    "\n";
+    auto not_flipped{true};
+
+    while (not_flipped)
+    {
+      if (movable_two_two_cells.empty())
+      { throw std::domain_error("No (2,3) move possible."); }
+      auto choice = generate_random_int(0, movable_two_two_cells.size() - 1);
+      std::clog << "Choice is " << choice;
+
+      Cell_handle to_be_moved = _manifold._geometry._two_two[choice];
+      std::clog << "Cell[" << choice << "] is of type " << to_be_moved->info();
+      Expects(_manifold._triangulation.tds().is_cell(to_be_moved));
+      Expects(to_be_moved->info() == static_cast<int>(Cell_type::TWO_TWO));
+
+      if (_manifold._triangulation.try_23_move(to_be_moved))
+      { not_flipped = false; }
+
+      // Remove trial cell
+      movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);
+    }
+    ++successful_23_moves();
+    std::cout << "Successful (2,3) moves: " << successful_23_moves() << "\n";
   }
   void move_32()
   {
