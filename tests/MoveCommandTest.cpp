@@ -74,26 +74,44 @@ SCENARIO("Test single moves of 3-Manifold", "[move3]")
       int_fast64_t desired_timeslices{4};
       Manifold3    manifold(desired_simplices, desired_timeslices);
       MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);
+      auto         N3_31_pre_move = manifold.get_geometry().N3_31();
+      auto         N3_22_pre_move = manifold.get_geometry().N3_22();
+      auto         N3_13_pre_move = manifold.get_geometry().N3_13();
+      auto         N1_TL_pre_move = manifold.get_geometry().N1_TL();
+      auto         N1_SL_pre_move = manifold.get_geometry().N1_SL();
+      auto         N0_pre_move    = manifold.get_geometry().N0();
       THEN("The (2,3) move is queued.")
       {
         REQUIRE_FALSE(move.getMoves().empty());
         REQUIRE(move.getMoves().front() == MoveCommand3::Move_type::TWO_THREE);
       }
-      //      THEN("The (2,3) move is executed.") { move.execute(); }
+      THEN("The (2,3) move is executed.")
+      {
+        move.execute();
+        move.update();
+        CHECK(move.get_manifold().get_geometry().N3_31() == N3_31_pre_move);
+        CHECK(move.get_manifold().get_geometry().N3_22() == N3_22_pre_move + 1);
+        CHECK(move.get_manifold().get_geometry().N3_13() == N3_13_pre_move);
+        CHECK(move.get_manifold().get_geometry().N1_TL() == N1_TL_pre_move + 1);
+        CHECK(move.get_manifold().get_geometry().N1_SL() == N1_SL_pre_move);
+        CHECK(move.get_manifold().get_geometry().N0() == N0_pre_move);
+        CHECK(move.is_updated());
+      }
     }
-    WHEN("One of each move is requested.")
-    {
-      int_fast64_t             desired_simplices{6700};
-      int_fast64_t             desired_timeslices{11};
-      Manifold3                manifold(desired_simplices, desired_timeslices);
-      MoveCommand3::Move_queue desired_moves{
-          // MoveCommand3::Move_type::TWO_THREE,
-          MoveCommand3::Move_type::THREE_TWO,
-          MoveCommand3::Move_type::FOUR_FOUR, MoveCommand3::Move_type::TWO_SIX,
-          MoveCommand3::Move_type::SIX_TWO};
-      MoveCommand3             move(manifold, desired_moves);
-      THEN("All moves are executed.") { move.execute(); }
-    }
+    //    WHEN("One of each move is requested.")
+    //    {
+    //      int_fast64_t             desired_simplices{6700};
+    //      int_fast64_t             desired_timeslices{11};
+    //      Manifold3                manifold(desired_simplices,
+    //      desired_timeslices); MoveCommand3::Move_queue desired_moves{
+    //          // MoveCommand3::Move_type::TWO_THREE,
+    //          MoveCommand3::Move_type::THREE_TWO,
+    //          MoveCommand3::Move_type::FOUR_FOUR,
+    //          MoveCommand3::Move_type::TWO_SIX,
+    //          MoveCommand3::Move_type::SIX_TWO};
+    //      MoveCommand3 move(manifold, desired_moves);
+    //      THEN("All moves are executed.") { move.execute(); }
+    //    }
   }
 }
 SCENARIO("Tracking the number of successful moves.", "[move3]")

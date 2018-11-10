@@ -119,6 +119,18 @@ class Geometry<3>
   /// @return Container of (1,3) cells
   std::vector<Cell_handle> const& get_one_three() const { return _one_three; }
 
+  /// @return Container of timelike edges
+  std::vector<Edge_handle> const& get_timelike_edges() const
+  {
+    return _timelike_edges;
+  }
+
+  /// @return Container of spacelike edges
+  std::vector<Edge_handle> const& get_spacelike_edges() const
+  {
+    return _spacelike_edges;
+  }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells() const
@@ -164,6 +176,26 @@ class Geometry<3>
   {
     for (auto const& edge : _edges) { classify_edge(edge, true); }
   }
+
+  /// @brief Predicate to classify edge as timelike or spacelike
+  /// @param edge The Edge_handle to classify
+  /// @param debugging Debugging info toggle
+  /// @return true if timelike and false if spacelike
+  auto classify_edge(Edge_handle const& edge, bool debugging = false) const
+      -> bool
+  {
+    Cell_handle const& ch    = std::get<0>(edge);
+    auto               time1 = ch->vertex(std::get<1>(edge))->info();
+    auto               time2 = ch->vertex(std::get<2>(edge))->info();
+    bool               result{time1 != time2};
+    if (debugging)
+    {
+      std::cout << "Edge: Vertex(1) timevalue: " << time1;
+      std::cout << " Vertex(2) timevalue: " << time2;
+      std::cout << " => " << (result ? "timelike\n" : "spacelike\n");
+    }
+    return result;
+  }  // classify_edge
 
  private:
   /// @brief Collect all finite cells of the triangulation
@@ -367,26 +399,6 @@ class Geometry<3>
     return init_edges;
   }  // collect_edges
 
-  /// @brief Predicate to classify edge as timelike or spacelike
-  /// @param edge The Edge_handle to classify
-  /// @param debugging Debugging info toggle
-  /// @return true if timelike and false if spacelike
-  auto classify_edge(Edge_handle const& edge, bool debugging = false) const
-      -> bool
-  {
-    Cell_handle ch    = std::get<0>(edge);
-    auto        time1 = ch->vertex(std::get<1>(edge))->info();
-    auto        time2 = ch->vertex(std::get<2>(edge))->info();
-    bool        result{time1 != time2};
-    if (debugging)
-    {
-      std::cout << "Edge: Vertex(1) timevalue: " << time1;
-      std::cout << " Vertex(2) timevalue: " << time2;
-      std::cout << " => " << (result ? "timelike\n" : "spacelike\n");
-    }
-    return result;
-  }  // classify_edge
-
   /// @brief Filter edges into timelike and spacelike
   /// @param edges_v The container of edges to filter
   /// @param is_Timelike The predicate condition
@@ -396,19 +408,10 @@ class Geometry<3>
       -> std::vector<Edge_handle>
   {
     Expects(!edges_v.empty());
-    std::vector<Edge_handle> filtered_edges(edges_v.size());
-    filtered_edges.clear();
-    //    auto it = std::copy_if(
-    //        edges_v.begin(), edges_v.end(), filtered_edges.begin(),
-    //        [&](auto const& edge) { return (is_Timelike ==
-    //        classify_edge(edge)); });
-    //    filtered_edges.resize(static_cast<std::size_t>(
-    //        std::abs(std::distance(filtered_edges.begin(), it))));
-    for (auto const& edge : edges_v)
-    {
-      if (is_Timelike == classify_edge(edge))
-      { filtered_edges.emplace_back(edge); }
-    }
+    std::vector<Edge_handle> filtered_edges;
+    std::copy_if(
+        edges_v.begin(), edges_v.end(), std::back_inserter(filtered_edges),
+        [&](auto const& edge) { return (is_Timelike == classify_edge(edge)); });
     Ensures(!filtered_edges.empty());
     return filtered_edges;
   }  // filter_edges
@@ -491,8 +494,8 @@ class Geometry<3>
   int                        _max_timevalue;
   int                        _min_timevalue;
   std::multimap<int, Facet>  _spacelike_facets;
-  template <std::int_fast64_t>
-  friend class MoveCommand;
+  //  template <std::int_fast64_t>
+  //  friend class MoveCommand;
 };
 
 using Geometry3 = Geometry<3>;

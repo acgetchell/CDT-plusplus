@@ -8,9 +8,7 @@
 /// @brief Tests of new geometry data structure
 /// @author Adam Getchell
 
-//#include <FoliatedTriangulation.hpp>
 #include <Geometry.hpp>
-//#include <S3Triangulation.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -59,10 +57,7 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
       int_fast64_t           desired_timeslices{3};
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
-      //      auto                   triangulation = ft.get_triangulation();
-      //      auto        triangulation =
-      //          make_triangulation(desired_simplices, desired_timeslices);
-      Geometry3 geometry(triangulation);
+      Geometry3              geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
         cout << "There are " << geometry.N3() << " simplices ...\n";
@@ -132,10 +127,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
       int_fast64_t           desired_timeslices{4};
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
-      //      auto                   triangulation = ft.get_triangulation();
-      //      auto        triangulation =
-      //          make_triangulation(desired_simplices, desired_timeslices);
-      Geometry3 geometry(triangulation);
+      Geometry3              geometry(triangulation);
       THEN(
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
@@ -165,12 +157,17 @@ SCENARIO("3-Geometry initialization", "[geometry]")
       }
       THEN("Containers of various simplices are correctly filled.")
       {
+        print_triangulation(triangulation);
         for (auto const& cell : geometry.get_three_one())
         { CHECK(cell->info() == static_cast<int>(Cell_type::THREE_ONE)); }
         for (auto const& cell : geometry.get_two_two())
         { CHECK(cell->info() == static_cast<int>(Cell_type::TWO_TWO)); }
         for (auto const& cell : geometry.get_one_three())
         { CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE)); }
+        for (auto const& edge : geometry.get_timelike_edges())
+        { CHECK(geometry.classify_edge(edge)); }
+        for (auto const& edge : geometry.get_spacelike_edges())
+        { CHECK_FALSE(geometry.classify_edge(edge)); }
       }
     }
   }

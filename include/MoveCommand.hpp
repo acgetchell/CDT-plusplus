@@ -112,6 +112,13 @@ class MoveCommand<3>
     }
   }
 
+  void update()
+  {
+    std::cout << "Updating geometry ...\n";
+    _manifold._geometry = _manifold.make_geometry(_manifold._triangulation);
+    _is_updated         = true;
+  }
+
  private:
   void move_23()
   {
@@ -123,7 +130,7 @@ class MoveCommand<3>
     //    print_manifold(_manifold);
     std::cout << "Size of (2,2) container: " << _manifold._geometry.N3_22()
               << "\n";
-    auto movable_two_two_cells = _manifold._geometry._two_two;
+    auto movable_two_two_cells = _manifold.get_geometry().get_two_two();
 
     auto not_flipped{true};
 
@@ -132,11 +139,12 @@ class MoveCommand<3>
       if (movable_two_two_cells.empty())
       { throw std::domain_error("No (2,3) move possible."); }
       auto choice = generate_random_int(0, movable_two_two_cells.size() - 1);
-      std::clog << "Choice is " << choice;
+      std::cout << "Choice: " << choice << " ";
 
-      Cell_handle to_be_moved = _manifold._geometry._two_two[choice];
-      std::clog << "Cell[" << choice << "] is of type " << to_be_moved->info();
-      Expects(_manifold._triangulation.tds().is_cell(to_be_moved));
+      Cell_handle to_be_moved = movable_two_two_cells[choice];
+      std::cout << "Cell[" << choice << "] is of type " << to_be_moved->info()
+                << " ";
+      //      Expects(_manifold.get_triangulation().tds().is_cell(to_be_moved));
       Expects(to_be_moved->info() == static_cast<int>(Cell_type::TWO_TWO));
 
       if (_manifold._triangulation.try_23_move(to_be_moved))
