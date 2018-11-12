@@ -2,7 +2,7 @@ from conans import ConanFile, CMake
 
 class CausalDynamicalTriangulations(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "boost/1.68.0@conan/stable", "catch2/2.4.1@bincrafters/stable", "TBB/2018_U5@conan/stable",\
+    requires = "boost/1.68.0@conan/stable", "catch2/2.4.1@bincrafters/stable", "TBB/2018_U6@conan/stable",\
                "eigen/3.3.5@conan/stable", "docopt/0.6.2@conan/stable",\
                "date/2.4.1@bincrafters/stable", "gsl_microsoft/2.0.0@bincrafters/stable"
     generators = "cmake"
