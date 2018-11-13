@@ -274,22 +274,23 @@ void write_file(const Manifold& universe, const topology_type& topology,
 /// @brief Seed sequence class for high-quality pseudo-random number generator
 ///
 /// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
-/// @tparam Number Type of number
-template <typename Number>
-struct SeedSeq
+/// @tparam NumberType Type of number
+template <typename NumberType>
+class SeedSeq
 {
-  Number begin_;
-  Number end_;
-
  public:
-  SeedSeq(Number begin, Number end) : begin_{begin}, end_{end} {}
+  SeedSeq(NumberType begin, NumberType end) : begin_{begin}, end_{end} {}
 
-  template <typename T2>
-  void generate(T2 b, T2 e)
+  template <typename DifferenceType>
+  void generate(DifferenceType b, DifferenceType e)
   {
     assert((e - b) <= (end_ - begin_));
     std::copy(begin_, begin_ + (e - b), b);
   }
+
+ private:
+  NumberType begin_;
+  NumberType end_;
 };
 
 /// @brief Generate random integers
@@ -314,9 +315,9 @@ struct SeedSeq
   uint32_t numbers[624];
   // Initial state
   std::generate(numbers, std::end(numbers), std::ref(rd));
-  //   Copy into heap-allocated "seed sequence"
+  // Copy into heap-allocated "seed sequence"
   SeedSeq seedSeq(numbers, std::end(numbers));
-  //   Initialized mt19937_64
+  // Initialized mt19937_64
   std::mt19937 generator(seedSeq);
 
   std::uniform_int_distribution<int> distribution(min_value, max_value);
@@ -454,17 +455,5 @@ template <typename RealNumber>
 {
   return value.to_double();
 }
-
-/// @brief Calculate if lower <= value <= upper; used in GoogleTests
-/// @tparam T Value type
-/// @param arg Value to be compared
-/// @param lower Lower bound
-/// @param upper Upper bound
-/// @return True if arg lies within [lower, upper]
-// template <typename T>
-// bool IsBetween(T arg, T lower, T upper)
-//{
-//  return arg >= lower && arg <= upper;
-//}
 
 #endif  // INCLUDE_UTILITIES_HPP_

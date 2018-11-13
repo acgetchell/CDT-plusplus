@@ -35,10 +35,10 @@ SCENARIO("Randomizing functions", "[utility]")
     WHEN("We generate four different random integers within the range.")
     {
       constexpr int_fast64_t test_range_max = 256;
-      const auto value1 = generate_random_timeslice(test_range_max);
-      const auto value2 = generate_random_timeslice(test_range_max);
-      const auto value3 = generate_random_timeslice(test_range_max);
-      const auto value4 = generate_random_timeslice(test_range_max);
+      const auto             value1 = generate_random_timeslice(test_range_max);
+      const auto             value2 = generate_random_timeslice(test_range_max);
+      const auto             value3 = generate_random_timeslice(test_range_max);
+      const auto             value4 = generate_random_timeslice(test_range_max);
       THEN("They should all be different.")
       {
         CHECK_FALSE(value1 == value2);
@@ -55,9 +55,9 @@ SCENARIO("Randomizing functions", "[utility]")
   {
     WHEN("We generate a random real number.")
     {
-      double      min{0.0};
-      double      max{1.0};
-      const auto  value = generate_random_real(min, max);
+      double     min{0.0};
+      double     max{1.0};
+      const auto value = generate_random_real(min, max);
       THEN("The real number should lie within that range.")
       {
         REQUIRE(min <= value);
@@ -124,7 +124,7 @@ SCENARIO("Printing results.", "[utility]")
   {
     int_fast64_t desired_simplices{640};
     int_fast64_t desired_timeslices{4};
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3    manifold(desired_simplices, desired_timeslices);
     WHEN("We want to print results.")
     {
       THEN("Results are successfully printed.")
