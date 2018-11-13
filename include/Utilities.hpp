@@ -309,15 +309,15 @@ struct SeedSeq
   // Non-deterministic random number generator
   std::random_device rd;
   // The simple way which works in C++14
-  std::mt19937_64 generator(rd());
-  //  // The tedious but more accurate way which works in C++17 but not C++14
-  //  uint32_t numbers[624];
-  //  // Initial state
-  //  std::generate(numbers, std::end(numbers), std::ref(rd));
-  //  // Copy into heap-allocated "seed sequence"
-  //  SeedSeq seedSeq(numbers, std::end(numbers));
-  //  // Initialized mt19937_64
-  //  std::mt19937 g(seedSeq);
+  //  std::mt19937_64 generator(rd());
+  // The tedious but more accurate way which works in C++17 but not C++14
+  uint32_t numbers[624];
+  // Initial state
+  std::generate(numbers, std::end(numbers), std::ref(rd));
+  //   Copy into heap-allocated "seed sequence"
+  SeedSeq seedSeq(numbers, std::end(numbers));
+  //   Initialized mt19937_64
+  std::mt19937 generator(seedSeq);
 
   std::uniform_int_distribution<int> distribution(min_value, max_value);
 
@@ -338,8 +338,9 @@ struct SeedSeq
 ///
 /// @param max_timeslice The maximum timeslice
 /// @return A random timeslice from 1 to max_timeslice
-[[nodiscard]] inline auto generate_random_timeslice(
-    const int max_timeslice) noexcept
+template <typename IntegerType>
+[[nodiscard]] decltype(auto) generate_random_timeslice(
+    IntegerType&& max_timeslice) noexcept
 {
   return generate_random_int(1, max_timeslice);
 }  // generate_random_timeslice()
@@ -360,8 +361,8 @@ template <typename RealNumber>
 [[nodiscard]] auto generate_random_real(const RealNumber min_value,
                                         const RealNumber max_value) noexcept
 {
-  std::random_device                rd;
-  std::mt19937_64                   generator(rd());
+  std::random_device                         rd;
+  std::mt19937_64                            generator(rd());
   std::uniform_real_distribution<RealNumber> distribution(min_value, max_value);
 
   auto result = distribution(generator);
