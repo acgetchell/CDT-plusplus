@@ -120,6 +120,35 @@ class MoveCommand<3>
   }
 
  private:
+  /// @param moved_cell A (2,2) simplex to try a (2,3) move
+  /// @return True if the (2,3) move was successful
+  [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
+  {
+        Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
+    auto flipped = false;
+    // Try every facet of the cell
+    for (int i = 0; i < 4; ++i)
+    {
+      if (manifold_.triangulation_.delaunay_.flip(moved_cell, i))
+      {
+#ifndef NDEBUG
+        std::cout << "Facet " << i << " was flippable.\n";
+#endif
+        flipped = true;
+        break;
+      }
+      else
+      {
+#ifndef NDEBUG
+        std::cout << "Facet " << i << " was not filippable.\n";
+#endif
+      }
+    }
+    Ensures(manifold_.triangulation_.delaunay_.tds().is_valid());
+    return flipped;
+  }
+
+  /// @brief Make a (2,3) move
   void move_23()
   {
 #ifndef NDEBUG
@@ -130,7 +159,7 @@ class MoveCommand<3>
     //    print_manifold(_manifold);
     std::cout << "Size of (2,2) container: " << manifold_.geometry_.N3_22()
               << "\n";
-    auto movable_two_two_cells = manifold_.get_geometry().get_two_two();
+    auto movable_two_two_cells = manifold_.geometry_.two_two_;
 
     auto not_flipped{true};
 
@@ -147,8 +176,7 @@ class MoveCommand<3>
       //      Expects(_manifold.get_triangulation().tds().is_cell(to_be_moved));
       Expects(to_be_moved->info() == static_cast<int>(Cell_type::TWO_TWO));
 
-      if (manifold_.triangulation_.try_23_move(to_be_moved))
-      { not_flipped = false; }
+      if (try_23_move(to_be_moved)) { not_flipped = false; }
 
       // Remove trial cell
       movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);

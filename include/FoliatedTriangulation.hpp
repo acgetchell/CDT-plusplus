@@ -100,34 +100,6 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
-  /// @param moved_cell A (1,3) simplex to try a (2,3) move
-  /// @return True if the (2,3) move was successful
-  [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
-  {
-    //    Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
-    auto flipped = false;
-    // Try every facet of the cell
-    for (int i = 0; i < 4; ++i)
-    {
-      if (delaunay_.flip(moved_cell, i))
-      {
-#ifndef NDEBUG
-        std::cout << "Facet " << i << " was flippable.\n";
-#endif
-        flipped = true;
-        break;
-      }
-      else
-      {
-#ifndef NDEBUG
-        std::cout << "Facet " << i << " was not filippable.\n";
-#endif
-      }
-    }
-    Ensures(delaunay_.tds().is_valid());
-    return flipped;
-  }
-
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param simplices Number of desired simplices

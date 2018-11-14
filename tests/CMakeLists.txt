@@ -9,7 +9,7 @@ add_executable(CDT_test
                TetrahedronTest.cpp
                SphereTest.cpp
                SimulationTest.cpp
-               SimplicialManifoldTest.cpp
+#               SimplicialManifoldTest.cpp
 #               S3ErgodicMovesTest.cpp
                S3ActionTest.cpp
 #               MoveManagerTest.cpp
