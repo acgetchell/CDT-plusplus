@@ -124,7 +124,7 @@ class MoveCommand<3>
   /// @return True if the (2,3) move was successful
   [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
   {
-        Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
+    Expects(moved_cell->info() == static_cast<int>(Cell_type::TWO_TWO));
     auto flipped = false;
     // Try every facet of the cell
     for (int i = 0; i < 4; ++i)
@@ -160,6 +160,7 @@ class MoveCommand<3>
     std::cout << "Size of (2,2) container: " << manifold_.geometry_.N3_22()
               << "\n";
     auto movable_two_two_cells = manifold_.geometry_.two_two_;
+    Ensures(movable_two_two_cells == manifold_.geometry_.two_two_);
 
     auto not_flipped{true};
 
