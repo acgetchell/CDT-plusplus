@@ -172,11 +172,6 @@ class MoveCommand<3>
       std::cout << "Choice: " << choice << " ";
 
       Cell_handle to_be_moved = movable_two_two_cells[choice];
-      std::cout << "Cell[" << choice << "] is of type " << to_be_moved->info()
-                << " ";
-      //      Expects(_manifold.get_triangulation().tds().is_cell(to_be_moved));
-      Expects(to_be_moved->info() == static_cast<int>(Cell_type::TWO_TWO));
-
       if (try_23_move(to_be_moved)) { not_flipped = false; }
 
       // Remove trial cell

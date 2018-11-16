@@ -209,8 +209,8 @@ class Geometry<3>
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Cell_handle> init_cells;
     init_cells.reserve(number_of_cells_);
-    Delaunay3::Finite_cells_iterator cit;
-    for (cit = universe.get_delaunay().finite_cells_begin();
+    //    Delaunay3::Finite_cells_iterator cit;
+    for (auto cit = universe.get_delaunay().finite_cells_begin();
          cit != universe.get_delaunay().finite_cells_end(); ++cit)
     {
       // Each cell is valid in the triangulation
@@ -313,8 +313,8 @@ class Geometry<3>
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Face_handle> init_faces;
     init_faces.reserve(number_of_faces_);
-    Delaunay3::Finite_facets_iterator fit;
-    for (fit = universe.get_delaunay().finite_facets_begin();
+    //    Delaunay3::Finite_facets_iterator fit;
+    for (auto fit = universe.get_delaunay().finite_facets_begin();
          fit != universe.get_delaunay().finite_facets_end(); ++fit)
     {
       Cell_handle ch = fit->first;
@@ -383,8 +383,8 @@ class Geometry<3>
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Edge_handle> init_edges;
     init_edges.reserve(number_of_edges_);
-    Delaunay3::Finite_edges_iterator eit;
-    for (eit = universe.get_delaunay().finite_edges_begin();
+    //    Delaunay3::Finite_edges_iterator eit;
+    for (auto eit = universe.get_delaunay().finite_edges_begin();
          eit != universe.get_delaunay().finite_edges_end(); ++eit)
     {
       Cell_handle ch = eit->first;
@@ -427,8 +427,8 @@ class Geometry<3>
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Vertex_handle> init_vertices;
     init_vertices.reserve(number_of_vertices_);
-    Delaunay3::Finite_vertices_iterator vit;
-    for (vit = universe.get_delaunay().finite_vertices_begin();
+    //    Delaunay3::Finite_vertices_iterator vit;
+    for (auto vit = universe.get_delaunay().finite_vertices_begin();
          vit != universe.get_delaunay().finite_vertices_end(); ++vit)
     {  // Each vertex is valid in the triangulation
       Ensures(universe.get_delaunay().tds().is_vertex(vit));
