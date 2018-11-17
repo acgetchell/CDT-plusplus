@@ -295,24 +295,25 @@ class SeedSeq
 
 /// @brief Generate random integers
 ///
-/// This function generates a random integer from [1, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
-/// for more details.
+/// This function generates a random integer from [min_value, max_value]
+/// using a non-deterministic random number generator, if supported.
+/// See https://en.cppreference.com/w/cpp/numeric/random/random_device for more
+/// details.
 ///
+/// @tparam IntegerType The integer type to be generated
 /// @param min_value The minimum value in the range
 /// @param max_value The maximum value in the range
 /// @return A random integer between min_value and max_value
-[[nodiscard]] inline auto generate_random_int(const int min_value,
-                                              const int max_value) noexcept
+template <typename IntegerType>
+[[nodiscard]] inline auto generate_random_int(
+    const IntegerType min_value, const IntegerType max_value) noexcept
 {
   // Non-deterministic random number generator
   std::random_device rd;
   // The simple way which works in C++14
-  //  std::mt19937_64 generator(rd());
+  //    std::mt19937_64 generator(rd());
   // The tedious but more accurate way which works in C++17 but not C++14
-  uint32_t numbers[624];
+  IntegerType numbers[624];
   // Initial state
   std::generate(numbers, std::end(numbers), std::ref(rd));
   // Copy into heap-allocated "seed sequence"
@@ -320,7 +321,7 @@ class SeedSeq
   // Initialized mt19937_64
   std::mt19937 generator(seedSeq);
 
-  std::uniform_int_distribution<int> distribution(min_value, max_value);
+  std::uniform_int_distribution<IntegerType> distribution(min_value, max_value);
 
   auto result = distribution(generator);
 
@@ -343,28 +344,33 @@ template <typename IntegerType>
 [[nodiscard]] decltype(auto) generate_random_timeslice(
     IntegerType&& max_timeslice) noexcept
 {
-  return generate_random_int(1, max_timeslice);
+  return generate_random_int(static_cast<IntegerType>(1), max_timeslice);
 }  // generate_random_timeslice()
 
 /// @brief Generate random real numbers
 ///
 /// This function generates a random real number from [min_value, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
-/// for more details.
+/// using a non-deterministic random number generator, if supported.
+/// See https://en.cppreference.com/w/cpp/numeric/random/random_device for more
+/// details.
 ///
-/// @tparam RealNumber The real number type
+/// @tparam FloatingPointType The floating point number type to be generated
 /// @param min_value The minimum value in the range
 /// @param max_value The maximum value in the range
 /// @return A random real number between min_value and max_value, inclusive
-template <typename RealNumber>
-[[nodiscard]] auto generate_random_real(const RealNumber min_value,
-                                        const RealNumber max_value) noexcept
+template <typename FloatingPointType>
+[[nodiscard]] auto generate_random_real(
+    const FloatingPointType min_value,
+    const FloatingPointType max_value) noexcept
 {
-  std::random_device                         rd;
-  std::mt19937_64                            generator(rd());
-  std::uniform_real_distribution<RealNumber> distribution(min_value, max_value);
+  std::random_device rd;
+  //  std::mt19937_64                            generator(rd());
+  FloatingPointType numbers[624];
+  std::generate(numbers, std::end(numbers), std::ref(rd));
+  SeedSeq      seed_seq(numbers, std::end(numbers));
+  std::mt19937 generator(seed_seq);
+  std::uniform_real_distribution<FloatingPointType> distribution(min_value,
+                                                                 max_value);
 
   auto result = distribution(generator);
 

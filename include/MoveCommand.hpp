@@ -168,7 +168,8 @@ class MoveCommand<3>
     {
       if (movable_two_two_cells.empty())
       { throw std::domain_error("No (2,3) move possible."); }
-      auto choice = generate_random_int(0, movable_two_two_cells.size() - 1);
+      auto choice = generate_random_int(static_cast<std::size_t>(0),
+                                        movable_two_two_cells.size() - 1);
       std::cout << "Choice: " << choice << " ";
 
       Cell_handle to_be_moved = movable_two_two_cells[choice];
