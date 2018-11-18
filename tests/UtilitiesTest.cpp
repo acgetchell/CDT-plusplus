@@ -14,13 +14,52 @@
 
 using namespace std;
 
+SCENARIO("Various string/stream utilities", "[utility]")
+{
+  GIVEN("A topology_type.")
+  {
+    auto const this_topology = topology_type::SPHERICAL;
+    WHEN("Operator<< is invoked.")
+    {
+      std::stringstream buffer;
+      std::cout.rdbuf(buffer.rdbuf());
+      std::cout << this_topology;
+      THEN("The output is correct.")
+      {
+        CHECK_THAT(buffer.str(), Catch::Equals("spherical"));
+      }
+    }
+  }
+  GIVEN("A running environment.")
+  {
+    WHEN("The user is requested.")
+    {
+      auto result = getEnvVar("USER");
+      THEN("The output is correct.")
+      {
+        // Enter your own USER environment variable here
+        CHECK_THAT(result, Catch::Equals("adam") || Catch::Equals("travis"));
+      }
+    }
+    WHEN("The hostname is requested.")
+    {
+      // Set OS type to Windows so we know the hostname
+      THEN("The output is correct.")
+      {
+        CHECK_THAT(hostname(),
+                   Catch::Equals("hapkido") || Catch::Contains("production"));
+      }
+    }
+  }
+}
+
 SCENARIO("Randomizing functions", "[utility]")
 {
   GIVEN("A range of timeslices.")
   {
     WHEN("A random timeslice is generated.")
     {
-      constexpr auto timeslices = static_cast<int_fast64_t>(16);
+      auto constexpr timeslices = static_cast<int_fast64_t>(16);
       auto           result     = generate_random_timeslice(timeslices);
       THEN("We should get a timeslice within the range.")
       {
@@ -34,13 +73,13 @@ SCENARIO("Randomizing functions", "[utility]")
   {
     WHEN("We generate six different random integers within the range.")
     {
-      constexpr auto range_max = static_cast<int_fast64_t>(256);
-      const auto     value1    = generate_random_timeslice(range_max);
-      const auto     value2    = generate_random_timeslice(range_max);
-      const auto     value3    = generate_random_timeslice(range_max);
-      const auto     value4    = generate_random_timeslice(range_max);
-      const auto     value5    = generate_random_timeslice(range_max);
-      const auto     value6    = generate_random_timeslice(range_max);
+      auto constexpr range_max = static_cast<int_fast64_t>(256);
+      auto const value1        = generate_random_timeslice(range_max);
+      auto const value2        = generate_random_timeslice(range_max);
+      auto const value3        = generate_random_timeslice(range_max);
+      auto const value4        = generate_random_timeslice(range_max);
+      auto const value5        = generate_random_timeslice(range_max);
+      auto const value6        = generate_random_timeslice(range_max);
       THEN("They should all be different.")
       {
         CHECK_FALSE(value1 == value2);
@@ -66,9 +105,9 @@ SCENARIO("Randomizing functions", "[utility]")
   {
     WHEN("We generate a random real number.")
     {
-      constexpr auto min   = static_cast<long double>(0.0);
-      constexpr auto max   = static_cast<long double>(1.0);
-      const auto     value = generate_random_real(min, max);
+      auto constexpr min = static_cast<long double>(0.0);
+      auto constexpr max = static_cast<long double>(1.0);
+      auto const value   = generate_random_real(min, max);
       std::cout << "Probability is: " << value << "\n";
       THEN("The real number should lie within that range.")
       {
@@ -82,12 +121,12 @@ SCENARIO("Randomizing functions", "[utility]")
   {
     WHEN("We generate six probabilities.")
     {
-      const auto value1 = generate_probability();
-      const auto value2 = generate_probability();
-      const auto value3 = generate_probability();
-      const auto value4 = generate_probability();
-      const auto value5 = generate_probability();
-      const auto value6 = generate_probability();
+      auto const value1 = generate_probability();
+      auto const value2 = generate_probability();
+      auto const value3 = generate_probability();
+      auto const value4 = generate_probability();
+      auto const value5 = generate_probability();
+      auto const value6 = generate_probability();
 
       THEN("They should all be different.")
       {
@@ -146,8 +185,8 @@ SCENARIO("Printing results.", "[utility]")
 {
   GIVEN("A Manifold3.")
   {
-    constexpr auto desired_simplices  = static_cast<int_fast64_t>(640);
-    constexpr auto desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3      manifold(desired_simplices, desired_timeslices);
     WHEN("We want to print results.")
     {

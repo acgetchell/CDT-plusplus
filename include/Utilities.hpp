@@ -47,8 +47,7 @@ enum class topology_type
 /// @param os output stream
 /// @param topology
 /// @return output stream
-[[nodiscard]] inline std::ostream& operator<<(std::ostream&        os,
-                                              const topology_type& topology)
+inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 {
   switch (topology)
   {
@@ -72,7 +71,7 @@ enum class topology_type
 /// @return The environment variable corresponding to the key
 [[nodiscard]] inline auto getEnvVar(std::string const& key) noexcept
 {
-  const char* val = getenv(key.c_str());
+  char const* val = getenv(key.c_str());
   val == nullptr ? std::string() : std::string(val);
   return val;
 }
@@ -281,8 +280,8 @@ class SeedSeq
  public:
   SeedSeq(NumberType begin, NumberType end) : begin_{begin}, end_{end} {}
 
-  template <typename DifferenceType>
-  void generate(DifferenceType b, DifferenceType e)
+  template <typename GeneratedType>
+  void generate(GeneratedType b, GeneratedType e)
   {
     assert((e - b) <= (end_ - begin_));
     std::copy(begin_, begin_ + (e - b), b);
@@ -293,53 +292,52 @@ class SeedSeq
   NumberType end_;
 };
 
-/// @brief Generate random integers
+/// @brief Generate random numbers
 ///
-/// This function generates a random integer from [min_value, max_value]
-/// using a non-deterministic random number generator, if supported.
-/// See https://en.cppreference.com/w/cpp/numeric/random/random_device for more
-/// details.
+/// This function generates a random number from [min_value, max_value]
+/// on a distribution using a non-deterministic random number generator, if
+/// supported. See
+/// https://en.cppreference.com/w/cpp/numeric/random/random_device
+/// for more details.
 ///
-/// @tparam IntegerType The integer type to be generated
-/// @param min_value The minimum value in the range
-/// @param max_value The maximum value in the range
-/// @return A random integer between min_value and max_value
-template <typename IntegerType>
-[[nodiscard]] inline auto generate_random_int(
-    const IntegerType min_value, const IntegerType max_value) noexcept
+/// @tparam NumberType The type of number to be generated
+/// @tparam Distribution The distribution of numbers
+/// @param min_value The minimum value
+/// @param max_value The maximum value
+/// @return A random number in the distribution between min_value and max_value
+template <typename NumberType, class Distribution>
+[[nodiscard]] auto generate_random(NumberType const min_value,
+                                   NumberType const max_value) noexcept
 {
   // Non-deterministic random number generator
   std::random_device rd;
   // The simple way which works in C++14
-  //    std::mt19937_64 generator(rd());
+  // std::mt19937_64 generator(rd());
   // The tedious but more accurate way which works in C++17 but not C++14
-  IntegerType numbers[624];
+  std::uint_fast64_t numbers[624];  // Seed sequence
   // Initial state
   std::generate(numbers, std::end(numbers), std::ref(rd));
   // Copy into heap-allocated "seed sequence"
-  SeedSeq seedSeq(numbers, std::end(numbers));
+  SeedSeq seed_seq(numbers, std::end(numbers));
   // Initialized mt19937_64
-  std::mt19937 generator(seedSeq);
+  std::mt19937_64 generator(seed_seq);
 
-  std::uniform_int_distribution<IntegerType> distribution(min_value, max_value);
+  Distribution distribution(min_value, max_value);
 
-  auto result = distribution(generator);
+  return distribution(generator);
+}
 
-#ifdef DETAILED_DEBUGGING
-  std::cout << "Random " << (typeid(result)).name() << " is " << result << "\n";
-#endif
-
-  return result;
-}  // generate_random_unsigned()
+/// @brief Generate random integers by calling generate_random, preserves
+/// template argument deduction
+template <typename IntegerType>
+[[nodiscard]] constexpr auto generate_random_int(
+    const IntegerType min_value, const IntegerType max_value) noexcept
+{
+  using int_dist = std::uniform_int_distribution<IntegerType>;
+  return generate_random<IntegerType, int_dist>(min_value, max_value);
+}
 
 /// @brief Generate a random timeslice
-///
-/// This function generates a random timeslice
-/// using **generate_random_unsigned()**. Timeslices go from
-/// 1 to max_timeslice.
-///
-/// @param max_timeslice The maximum timeslice
-/// @return A random timeslice from 1 to max_timeslice
 template <typename IntegerType>
 [[nodiscard]] decltype(auto) generate_random_timeslice(
     IntegerType&& max_timeslice) noexcept
@@ -347,50 +345,22 @@ template <typename IntegerType>
   return generate_random_int(static_cast<IntegerType>(1), max_timeslice);
 }  // generate_random_timeslice()
 
-/// @brief Generate random real numbers
-///
-/// This function generates a random real number from [min_value, max_value]
-/// using a non-deterministic random number generator, if supported.
-/// See https://en.cppreference.com/w/cpp/numeric/random/random_device for more
-/// details.
-///
-/// @tparam FloatingPointType The floating point number type to be generated
-/// @param min_value The minimum value in the range
-/// @param max_value The maximum value in the range
-/// @return A random real number between min_value and max_value, inclusive
+/// @brief Generate random real numbers by calling generate_random, preserves
+/// template argument deduction
 template <typename FloatingPointType>
-[[nodiscard]] auto generate_random_real(
+[[nodiscard]] constexpr auto generate_random_real(
     const FloatingPointType min_value,
     const FloatingPointType max_value) noexcept
 {
-  std::random_device rd;
-  //  std::mt19937_64                            generator(rd());
-  FloatingPointType numbers[624];
-  std::generate(numbers, std::end(numbers), std::ref(rd));
-  SeedSeq      seed_seq(numbers, std::end(numbers));
-  std::mt19937 generator(seed_seq);
-  std::uniform_real_distribution<FloatingPointType> distribution(min_value,
-                                                                 max_value);
-
-  auto result = distribution(generator);
-
-#ifndef NDEBUG
-  std::cout << "Random trial is " << result << "\n";
-#endif
-
-  return result;
+  using real_dist = std::uniform_real_distribution<FloatingPointType>;
+  return generate_random<FloatingPointType, real_dist>(min_value, max_value);
 }
 
-/// @brief Generate a random timeslice
-///
-/// This function generates a probability
-/// using **generate_random_real()**.
-///
-/// @return A probability from 0 to 1
-[[nodiscard]] inline auto generate_probability() noexcept
+/// @brief Generate a probability
+[[nodiscard]] constexpr auto generate_probability() noexcept
 {
-  auto min = static_cast<long double>(0.0);
-  auto max = static_cast<long double>(1.0);
+  constexpr auto min = static_cast<long double>(0.0);
+  constexpr auto max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
 }  // generate_probability()
 
