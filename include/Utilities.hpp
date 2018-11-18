@@ -119,9 +119,9 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename
 [[nodiscard]] inline auto generate_filename(
-    const topology_type& top, const std::size_t dimensions,
-    const std::size_t number_of_simplices,
-    const std::size_t number_of_timeslices) noexcept
+    topology_type const& top, std::size_t const dimensions,
+    std::size_t const number_of_simplices,
+    std::size_t const number_of_timeslices) noexcept
 {
   std::string filename;
   if (top == topology_type::SPHERICAL) { filename += "S"; }
@@ -164,7 +164,7 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 /// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
 template <typename Manifold>
-void print_results(const Manifold& universe) noexcept
+void print_results(Manifold const& universe) noexcept
 {
   std::cout << universe.triangulation->number_of_vertices() << " vertices and "
             << universe.triangulation->number_of_finite_edges() << " edges and "
@@ -325,17 +325,17 @@ template <typename NumberType, class Distribution>
   Distribution distribution(min_value, max_value);
 
   return distribution(generator);
-}
+}  // generate_random()
 
 /// @brief Generate random integers by calling generate_random, preserves
 /// template argument deduction
 template <typename IntegerType>
-[[nodiscard]] constexpr auto generate_random_int(
-    const IntegerType min_value, const IntegerType max_value) noexcept
+[[nodiscard]] auto constexpr generate_random_int(
+    IntegerType const min_value, IntegerType const max_value) noexcept
 {
   using int_dist = std::uniform_int_distribution<IntegerType>;
   return generate_random<IntegerType, int_dist>(min_value, max_value);
-}
+}  // generate_random_int()
 
 /// @brief Generate a random timeslice
 template <typename IntegerType>
@@ -348,19 +348,19 @@ template <typename IntegerType>
 /// @brief Generate random real numbers by calling generate_random, preserves
 /// template argument deduction
 template <typename FloatingPointType>
-[[nodiscard]] constexpr auto generate_random_real(
-    const FloatingPointType min_value,
-    const FloatingPointType max_value) noexcept
+[[nodiscard]] auto constexpr generate_random_real(
+    FloatingPointType const min_value,
+    FloatingPointType const max_value) noexcept
 {
   using real_dist = std::uniform_real_distribution<FloatingPointType>;
   return generate_random<FloatingPointType, real_dist>(min_value, max_value);
-}
+}  // generate_random_real()
 
 /// @brief Generate a probability
-[[nodiscard]] constexpr auto generate_probability() noexcept
+[[nodiscard]] auto constexpr generate_probability() noexcept
 {
-  constexpr auto min = static_cast<long double>(0.0);
-  constexpr auto max = static_cast<long double>(1.0);
+  auto constexpr min = static_cast<long double>(0.0);
+  auto constexpr max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
 }  // generate_probability()
 
@@ -379,8 +379,8 @@ template <typename FloatingPointType>
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
 [[nodiscard]] inline auto expected_points_per_simplex(
-    const std::size_t dimension, const int_fast64_t simplices,
-    const int_fast64_t timeslices, const bool output = true)
+    std::size_t const dimension, int_fast64_t const simplices,
+    int_fast64_t const timeslices, bool const output = true)
 {
   if (output)
   {
@@ -388,7 +388,7 @@ template <typename FloatingPointType>
               << " timeslices desired.\n";
   }
 
-  const auto simplices_per_timeslice = simplices / timeslices;
+  auto const simplices_per_timeslice = simplices / timeslices;
   switch (dimension)
   {
     case 3:
@@ -427,7 +427,7 @@ template <typename FloatingPointType>
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
 /// @return The double conversion
-[[nodiscard]] inline auto Gmpzf_to_double(const Gmpzf& value) -> double
+[[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& value) -> double
 {
   return value.to_double();
 }

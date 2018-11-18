@@ -14,9 +14,9 @@
 
 using namespace std;
 
-SCENARIO("Various string/stream utilities", "[utility]")
+SCENARIO("Various string/stream/time utilities", "[utility]")
 {
-  GIVEN("A topology_type.")
+  GIVEN("A topology_type")
   {
     auto const this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
@@ -30,7 +30,7 @@ SCENARIO("Various string/stream utilities", "[utility]")
       }
     }
   }
-  GIVEN("A running environment.")
+  GIVEN("A running environment")
   {
     WHEN("The user is requested.")
     {
@@ -50,17 +50,63 @@ SCENARIO("Various string/stream utilities", "[utility]")
                    Catch::Equals("hapkido") || Catch::Contains("production"));
       }
     }
+    WHEN("The current time is requested.")
+    {
+      THEN("The output is correct.")
+      {
+        // Update test yearly
+        CHECK_THAT(currentDateTime(),
+                   Catch::Contains("2018") && Catch::Contains("PST"));
+        // Human verification
+        std::cout << currentDateTime() << "\n";
+      }
+    }
+    WHEN("A filename is generated.")
+    {
+      auto const this_topology = topology_type::SPHERICAL;
+      auto const dimensions    = 3;
+      auto const simplices     = 6700;
+      auto const timeslices    = 16;
+      auto const filename =
+          generate_filename(this_topology, dimensions, simplices, timeslices);
+      THEN("The output is correct.")
+      {
+        CHECK_THAT(filename,
+                   Catch::Contains("S3") && Catch::Contains("16") &&
+                       Catch::Contains("6700") && Catch::Contains("@") &&
+                       Catch::Contains("2018") && Catch::Contains("dat"));
+        // Human verification
+        std::cout << filename << "\n";
+      }
+    }
+  }
+}
+
+SCENARIO("Printing results", "[utility]")
+{
+  GIVEN("A Manifold3")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    WHEN("We want to print results.")
+    {
+      THEN("Results are successfully printed.")
+      {
+        REQUIRE(print_manifold(manifold));
+      }
+    }
   }
 }
 
 SCENARIO("Randomizing functions", "[utility]")
 {
-  GIVEN("A range of timeslices.")
+  GIVEN("A range of timeslices")
   {
     WHEN("A random timeslice is generated.")
     {
       auto constexpr timeslices = static_cast<int_fast64_t>(16);
-      auto           result     = generate_random_timeslice(timeslices);
+      auto result               = generate_random_timeslice(timeslices);
       THEN("We should get a timeslice within the range.")
       {
         REQUIRE(0 <= result);
@@ -69,7 +115,7 @@ SCENARIO("Randomizing functions", "[utility]")
     }
   }
 
-  GIVEN("A test range of integers.")
+  GIVEN("A test range of integers")
   {
     WHEN("We generate six different random integers within the range.")
     {
@@ -101,7 +147,7 @@ SCENARIO("Randomizing functions", "[utility]")
     }
   }
 
-  GIVEN("The range between 0 and 1, inclusive.")
+  GIVEN("The range between 0 and 1, inclusive")
   {
     WHEN("We generate a random real number.")
     {
@@ -117,7 +163,7 @@ SCENARIO("Randomizing functions", "[utility]")
     }
   }
 
-  GIVEN("A probability generator.")
+  GIVEN("A probability generator")
   {
     WHEN("We generate six probabilities.")
     {
@@ -150,9 +196,9 @@ SCENARIO("Randomizing functions", "[utility]")
   }
 }
 
-SCENARIO("Exact number (Gmpzf) conversion.", "[utility]")
+SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
 {
-  GIVEN("A number not exactly representable in binary.")
+  GIVEN("A number not exactly representable in binary")
   {
     Gmpzf value = 0.17;
     WHEN("We convert it to double.")
@@ -161,38 +207,6 @@ SCENARIO("Exact number (Gmpzf) conversion.", "[utility]")
       THEN("It should be exact when converted back from double to Gmpzf.")
       {
         REQUIRE(value == Gmpzf(converted_value));
-      }
-    }
-  }
-}
-
-SCENARIO("DateTime utilities", "[utility]")
-{
-  GIVEN("A current datetime function.")
-  {
-    WHEN("We call currentDateTime()")
-    {
-      auto value = currentDateTime();
-      THEN("We should not have an empty string.")
-      {
-        REQUIRE_FALSE(value.empty());
-      }
-    }
-  }
-}
-
-SCENARIO("Printing results.", "[utility]")
-{
-  GIVEN("A Manifold3.")
-  {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
-    Manifold3      manifold(desired_simplices, desired_timeslices);
-    WHEN("We want to print results.")
-    {
-      THEN("Results are successfully printed.")
-      {
-        REQUIRE(print_manifold(manifold));
       }
     }
   }
