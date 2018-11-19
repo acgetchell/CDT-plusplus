@@ -200,13 +200,13 @@ template <typename Manifold, typename Timer>
 /// @param manifold A Manifold
 /// @return True if successful
 template <typename Manifold>
-bool print_manifold(const Manifold& manifold) try
+void print_manifold(const Manifold& manifold)
+try
 {
   std::cout << "Manifold has " << manifold.get_geometry().N0()
             << " vertices and " << manifold.get_geometry().N1() << " edges and "
             << manifold.get_geometry().N2() << " faces and "
             << manifold.get_geometry().N3() << " simplices.\n";
-  return true;
 }
 catch (...)
 {
@@ -299,6 +299,7 @@ class SeedSeq
 /// supported. See
 /// https://en.cppreference.com/w/cpp/numeric/random/random_device
 /// for more details.
+/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
 ///
 /// @tparam NumberType The type of number to be generated
 /// @tparam Distribution The distribution of numbers

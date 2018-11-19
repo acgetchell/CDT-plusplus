@@ -84,16 +84,32 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
 
 SCENARIO("Printing results", "[utility]")
 {
+  auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+  auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+  // redirect std::cout
+  std::stringstream buffer;
+  std::cout.rdbuf(buffer.rdbuf());
   GIVEN("A Manifold3")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
-    WHEN("We want to print results.")
+    WHEN("We want to print statistics on a manifold.")
     {
-      THEN("Results are successfully printed.")
+      THEN("Statistics are successfully printed.")
       {
-        REQUIRE(print_manifold(manifold));
+        print_manifold(manifold);
+        CHECK_THAT(buffer.str(), Catch::Contains("Manifold has"));
+      }
+    }
+  }
+  GIVEN("A FoliatedTriangulation3")
+  {
+    FoliatedTriangulation3 triangulation(desired_simplices, desired_timeslices);
+    WHEN("We want to print statistics on the triangulation.")
+    {
+      THEN("Statistics are successfully printed.")
+      {
+        print_triangulation(triangulation);
+        CHECK_THAT(buffer.str(), Catch::Contains("Triangulation has"));
       }
     }
   }
