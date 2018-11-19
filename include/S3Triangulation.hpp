@@ -248,7 +248,7 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 {
   //  double     radius{0};
   const auto points_per_timeslice =
-      expected_points_per_simplex(DIMENSION, simplices, timeslices);
+      expected_points_per_timeslice(DIMENSION, simplices, timeslices);
   CGAL_triangulation_precondition(points_per_timeslice >= 2);
   Causal_vertices causal_vertices;
   using Spherical_points_generator_3 = CGAL::Random_points_on_sphere_3<Point>;

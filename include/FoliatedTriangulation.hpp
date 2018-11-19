@@ -155,7 +155,7 @@ class FoliatedTriangulation<3> : Delaunay3
     Causal_vertices causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(simplices));
     const auto points_per_timeslice =
-        expected_points_per_simplex(3, simplices, timeslices);
+        expected_points_per_timeslice(3, simplices, timeslices);
     Expects(points_per_timeslice >= 2);
 
     using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;

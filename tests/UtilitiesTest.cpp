@@ -117,33 +117,32 @@ SCENARIO("Printing results", "[utility]")
 
 SCENARIO("Randomizing functions", "[utility]")
 {
-  GIVEN("A range of timeslices")
-  {
-    WHEN("A random timeslice is generated.")
-    {
-      auto constexpr timeslices = static_cast<int_fast64_t>(16);
-      auto result               = generate_random_timeslice(timeslices);
-      THEN("We should get a timeslice within the range.")
-      {
-        REQUIRE(0 <= result);
-        REQUIRE(result <= timeslices);
-      }
-    }
-  }
-
   GIVEN("A test range of integers")
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr range_max = static_cast<int_fast64_t>(256);
-      auto const value1        = generate_random_timeslice(range_max);
-      auto const value2        = generate_random_timeslice(range_max);
-      auto const value3        = generate_random_timeslice(range_max);
-      auto const value4        = generate_random_timeslice(range_max);
-      auto const value5        = generate_random_timeslice(range_max);
-      auto const value6        = generate_random_timeslice(range_max);
-      THEN("They should all be different.")
+      auto constexpr min = static_cast<int_fast64_t>(64);
+      auto constexpr max = static_cast<int_fast64_t>(6400);
+      auto const value1  = generate_random_int(min, max);
+      auto const value2  = generate_random_int(min, max);
+      auto const value3  = generate_random_int(min, max);
+      auto const value4  = generate_random_int(min, max);
+      auto const value5  = generate_random_int(min, max);
+      auto const value6  = generate_random_int(min, max);
+      THEN("They should all fall within the range and all be different.")
       {
+        CHECK(value1 >= min);
+        CHECK(value1 <= max);
+        CHECK(value2 >= min);
+        CHECK(value2 <= max);
+        CHECK(value3 >= min);
+        CHECK(value3 <= max);
+        CHECK(value4 >= min);
+        CHECK(value4 <= max);
+        CHECK(value5 >= min);
+        CHECK(value5 <= max);
+        CHECK(value6 >= min);
+        CHECK(value6 <= max);
         CHECK_FALSE(value1 == value2);
         CHECK_FALSE(value1 == value3);
         CHECK_FALSE(value1 == value4);
@@ -162,7 +161,49 @@ SCENARIO("Randomizing functions", "[utility]")
       }
     }
   }
-
+  GIVEN("A test range of timeslices")
+  {
+    WHEN("We generate six different timeslices within the range.")
+    {
+      auto constexpr max = static_cast<int_fast64_t>(256);
+      auto const value1  = generate_random_timeslice(max);
+      auto const value2  = generate_random_timeslice(max);
+      auto const value3  = generate_random_timeslice(max);
+      auto const value4  = generate_random_timeslice(max);
+      auto const value5  = generate_random_timeslice(max);
+      auto const value6  = generate_random_timeslice(max);
+      THEN("They should all fall within the range and be different.")
+      {
+        CHECK(value1 >= 1);
+        CHECK(value1 <= max);
+        CHECK(value2 >= 1);
+        CHECK(value2 <= max);
+        CHECK(value3 >= 1);
+        CHECK(value3 <= max);
+        CHECK(value4 >= 1);
+        CHECK(value4 <= max);
+        CHECK(value5 >= 1);
+        CHECK(value5 <= max);
+        CHECK(value6 >= 1);
+        CHECK(value6 <= max);
+        CHECK_FALSE(value1 == value2);
+        CHECK_FALSE(value1 == value3);
+        CHECK_FALSE(value1 == value4);
+        CHECK_FALSE(value1 == value5);
+        CHECK_FALSE(value1 == value6);
+        CHECK_FALSE(value2 == value3);
+        CHECK_FALSE(value2 == value4);
+        CHECK_FALSE(value2 == value5);
+        CHECK_FALSE(value2 == value6);
+        CHECK_FALSE(value3 == value4);
+        CHECK_FALSE(value3 == value5);
+        CHECK_FALSE(value3 == value6);
+        CHECK_FALSE(value4 == value5);
+        CHECK_FALSE(value4 == value6);
+        CHECK_FALSE(value5 == value6);
+      }
+    }
+  }
   GIVEN("The range between 0 and 1, inclusive")
   {
     WHEN("We generate a random real number.")
@@ -170,7 +211,6 @@ SCENARIO("Randomizing functions", "[utility]")
       auto constexpr min = static_cast<long double>(0.0);
       auto constexpr max = static_cast<long double>(1.0);
       auto const value   = generate_random_real(min, max);
-      std::cout << "Probability is: " << value << "\n";
       THEN("The real number should lie within that range.")
       {
         REQUIRE(min <= value);
@@ -178,7 +218,6 @@ SCENARIO("Randomizing functions", "[utility]")
       }
     }
   }
-
   GIVEN("A probability generator")
   {
     WHEN("We generate six probabilities.")
@@ -207,6 +246,48 @@ SCENARIO("Randomizing functions", "[utility]")
         CHECK_FALSE(value4 == value5);
         CHECK_FALSE(value4 == value6);
         CHECK_FALSE(value5 == value6);
+      }
+    }
+  }
+}
+
+SCENARIO("Expected points per timeslice", "[utility]")
+{
+  GIVEN("Simplices and timeslices for various foliations")
+  {
+    WHEN("We request 2 simplices on 2 timeslices.")
+    {
+      THEN("The results are correct.")
+      {
+        REQUIRE(expected_points_per_timeslice(3, 2, 2, true) == 2);
+      }
+    }
+    WHEN("We request 500 simplices on 4 timeslices.")
+    {
+      THEN("The results are correct.")
+      {
+        REQUIRE(expected_points_per_timeslice(3, 500, 4, true) == 50);
+      }
+    }
+    WHEN("We request 5000 simplices on 8 timeslices.")
+    {
+      THEN("The results are correct.")
+      {
+        REQUIRE(expected_points_per_timeslice(3, 5000, 8, true) == 125);
+      }
+    }
+    WHEN("We request 64,000 simplices on 16 timeslices.")
+    {
+      THEN("The results are correct.")
+      {
+        REQUIRE(expected_points_per_timeslice(3, 64000, 16, true) == 600);
+      }
+    }
+    WHEN("We request 640,000 simplices on 64 timeslices.")
+    {
+      THEN("The results are correct.")
+      {
+        REQUIRE(expected_points_per_timeslice(3, 640000, 64, true) == 1000);
       }
     }
   }

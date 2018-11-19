@@ -218,7 +218,8 @@ catch (...)
 /// @tparam Triangulation The triangulation type
 /// @param triangulation A triangulation (typically a Delaunay<3> triangulation)
 template <typename Triangulation>
-void print_triangulation(const Triangulation& triangulation) try
+void print_triangulation(Triangulation const& triangulation)
+try
 {
   std::cout << "Triangulation has "
             << triangulation.get_delaunay().number_of_vertices()
@@ -249,10 +250,10 @@ catch (...)
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 template <typename Manifold>
-void write_file(const Manifold& universe, const topology_type& topology,
-                const std::size_t dimensions,
-                const std::size_t number_of_simplices,
-                const std::size_t number_of_timeslices)
+void write_file(Manifold const& universe, topology_type const& topology,
+                std::size_t const dimensions,
+                std::size_t const number_of_simplices,
+                std::size_t const number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
@@ -379,7 +380,7 @@ template <typename FloatingPointType>
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-[[nodiscard]] inline auto expected_points_per_simplex(
+[[nodiscard]] inline auto expected_points_per_timeslice(
     std::size_t const dimension, int_fast64_t const simplices,
     int_fast64_t const timeslices, bool const output = true)
 {
