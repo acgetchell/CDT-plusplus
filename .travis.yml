@@ -185,7 +185,7 @@ matrix:
         - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
-        - ./codecov.sh
+        - ./tools/codecov.sh
       after_success:
   # Sonarcloud
     - os: osx

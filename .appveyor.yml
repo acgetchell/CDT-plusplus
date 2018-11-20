@@ -43,11 +43,11 @@ install:
   # Enable integration for Visual Studio/MSBuild
   - cd c:\tools\vcpkg
   - vcpkg integrate install
-  # Use vcpkg to install cgal
-  # Update vcpkg
-  - .\bootstrap-vcpkg.bat
   # Update ports
   - git pull
+  - # Update vcpkg
+  - .\bootstrap-vcpkg.bat
+  - # Use vcpkg to install cgal
   - vcpkg install cgal
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
