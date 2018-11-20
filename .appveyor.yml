@@ -44,8 +44,10 @@ install:
   - cd c:\tools\vcpkg
   - vcpkg integrate install
   # Use vcpkg to install cgal
+  # Update vcpkg
+  - .\bootstrap-vcpkg.bat
+  # Update ports
   - git pull
-  - vcpkg update
   - vcpkg install cgal
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
