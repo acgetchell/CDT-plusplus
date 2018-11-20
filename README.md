@@ -53,7 +53,16 @@ The goals and targets of this project are:
 
 If you just want to run a stable version of the code, grab a versioned [release].
 
-Otherwise, you can clone the repo, which will put you on the [development] branch.
+Otherwise, you can clone the repo, which will put you on the [development] branch. Project layout
+is the [PitchFork Layout], as follows:
+
+- .github - GitHub specific settings
+- build - Ephemeral build directory
+- docs - Documentation
+- include - Header files
+- src - Source files
+- tests - Unit tests
+- tools - Build, test, and run scripts
 
 ### Prerequisites
 
@@ -322,3 +331,4 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [bug]: https://github.com/conan-community/community/issues/43
 [development]: https://github.com/acgetchell/CDT-plusplus
 [bincrafters]: https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
+[Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
