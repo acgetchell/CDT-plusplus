@@ -1,6 +1,7 @@
 language: cpp
 sudo: true
 dist: xenial
+osx_image: xcode10.1
 
 addons:
   apt:
