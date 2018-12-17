@@ -176,9 +176,9 @@ if(UNIX)
 
 endif(UNIX)
 
- add_executable(delaunay_triangulation
- ${PROJECT_SOURCE_DIR}/src/delaunay_triangulation.cpp)
- target_link_libraries(delaunay_triangulation PRIVATE ${CGAL_LIBRARIES})
+# add_executable(delaunay_triangulation
+# ${PROJECT_SOURCE_DIR}/src/delaunay_triangulation.cpp)
+# target_link_libraries(delaunay_triangulation PRIVATE ${CGAL_LIBRARIES})
 
 #
 # Tests    ##
