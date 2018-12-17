@@ -1,6 +1,9 @@
-//
-// Created by Adam Getchell on 2018-11-02.
-//
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2018 Adam Getchell
+
+/// @file MoveCommand.hpp
+/// @brief Do ergodic moves
 
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
 #define CDT_PLUSPLUS_MOVECOMMAND_HPP
