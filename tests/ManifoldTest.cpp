@@ -8,10 +8,10 @@
 /// @brief Tests of new manifold data structure
 /// @author Adam Getchell
 
-#include <Manifold.hpp>
-#include <catch2/catch.hpp>
-#include <algorithm>
 #include <CGAL/Triangulation_3.h>
+#include <Manifold.hpp>
+#include <algorithm>
+#include <catch2/catch.hpp>
 
 using namespace std;
 
@@ -243,12 +243,21 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
           cout << "Manifold properties:\n";
           print_manifold(manifold);
           manifold.get_geometry().print_volume_per_timeslice();
-          auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
+          auto cells =
+              manifold.get_triangulation().get_delaunay().tds().cells();
           cout << "cells.size() == " << cells.size() << "\n";
           cout << "Cell compact container size is " << cells.size() << "\n";
-//          cells.erase(std::remove_if(cells.begin(), cells.end(),[](auto c){return is_infinite(c);}),cells.end());
+          //          cells.erase(std::remove_if(cells.begin(),
+          //          cells.end(),[](auto c){return
+          //          is_infinite(c);}),cells.end());
           cout << "Now compact container size is " << cells.size() << "\n";
-          cout << "Vertex compact container size is " << manifold.get_triangulation().get_delaunay().tds().vertices().size() << "\n";
+          cout << "Vertex compact container size is "
+               << manifold.get_triangulation()
+                      .get_delaunay()
+                      .tds()
+                      .vertices()
+                      .size()
+               << "\n";
           cout << "Copied manifold properties:\n";
           print_manifold(manifold2);
           manifold2.get_geometry().print_volume_per_timeslice();

@@ -1,6 +1,9 @@
-//
-// Created by Adam Getchell on 2018-11-02.
-//
+/// Causal Dynamical Triangulations in C++ using CGAL
+///
+/// Copyright © 2018 Adam Getchell
+
+/// @file MoveCommand.hpp
+/// @brief Do ergodic moves
 
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
 #define CDT_PLUSPLUS_MOVECOMMAND_HPP
@@ -28,68 +31,68 @@ class MoveCommand<3>
 
   /// @brief Default constructor
   MoveCommand()
-      : _manifold{Manifold3{}}
-      , _is_updated{false}
-      , _successful_moves{0, 0, 0, 0, 0} {};
+      : manifold_{Manifold3{}}
+      , is_updated_{false}
+      , successful_moves_{0, 0, 0, 0, 0} {};
 
   /// @brief Constructor using manifold
   /// @param manifold The manifold on which moves will be performed
   explicit MoveCommand(Manifold3 manifold)
-      : _manifold{std::move(manifold)}
-      , _is_updated{false}
-      , _successful_moves{0, 0, 0, 0, 0}
+      : manifold_{std::move(manifold)}
+      , is_updated_{false}
+      , successful_moves_{0, 0, 0, 0, 0}
   {}
 
   /// @brief Construct with a single move
   /// @param manifold The manifold on which the move will be performed
   /// @param move The move to be performed on the manifold
   MoveCommand(Manifold3 manifold, Move_type move)
-      : _manifold{std::move(manifold)}
-      , _is_updated{false}
-      , _moves{move}
-      , _successful_moves{0, 0, 0, 0, 0} {};
+      : manifold_{std::move(manifold)}
+      , is_updated_{false}
+      , moves_{move}
+      , successful_moves_{0, 0, 0, 0, 0} {};
 
   MoveCommand(Manifold3 manifold, Move_queue moves)
-      : _manifold{std::move(manifold)}
-      , _is_updated{false}
-      , _moves{std::move(moves)}
-      , _successful_moves{0, 0, 0, 0, 0} {};
+      : manifold_{std::move(manifold)}
+      , is_updated_{false}
+      , moves_{std::move(moves)}
+      , successful_moves_{0, 0, 0, 0, 0} {};
 
   /// @return A read-only reference to the manifold
-  Manifold3 const& get_manifold() const { return _manifold; }
+  Manifold3 const& get_manifold() const { return manifold_; }
 
   /// @return True if the manifold has been updated after a move
-  bool is_updated() const { return _is_updated; }
+  bool is_updated() const { return is_updated_; }
 
   /// @return A container of desired moves
-  [[nodiscard]] auto const& getMoves() const { return _moves; }
+  [[nodiscard]] auto const& getMoves() const { return moves_; }
 
   /// @return Counter of successful (2,3) moves
-  [[nodiscard]] auto& successful_23_moves() { return _successful_moves[0]; }
+  [[nodiscard]] auto& successful_23_moves() { return successful_moves_[0]; }
 
   /// @return Counter of successful (3,2) moves
-  [[nodiscard]] auto& successful_32_moves() { return _successful_moves[1]; }
+  [[nodiscard]] auto& successful_32_moves() { return successful_moves_[1]; }
 
   /// @return Counter of successful (4,4) moves
-  [[nodiscard]] auto& successful_44_moves() { return _successful_moves[2]; }
+  [[nodiscard]] auto& successful_44_moves() { return successful_moves_[2]; }
 
   /// @return Counter of successful (2,6) moves
-  [[nodiscard]] auto& successful_26_moves() { return _successful_moves[3]; }
+  [[nodiscard]] auto& successful_26_moves() { return successful_moves_[3]; }
 
   /// @return Counter of successful (6,2) moves
-  [[nodiscard]] auto& successful_62_moves() { return _successful_moves[4]; }
+  [[nodiscard]] auto& successful_62_moves() { return successful_moves_[4]; }
 
   /// @brief Set container of successfully completed moves
   /// @param successful_moves
   void set_successful_moves(Move_tracker const& successful_moves)
   {
-    MoveCommand::_successful_moves = successful_moves;
+    MoveCommand::successful_moves_ = successful_moves;
   }
 
   /// @brief Execute moves on manifold
   void execute()
   {
-    for (auto move : _moves)
+    for (auto move : moves_)
     {
       switch (move)
       {
@@ -112,7 +115,43 @@ class MoveCommand<3>
     }
   }
 
+  void update()
+  {
+    std::cout << "Updating geometry ...\n";
+    manifold_.geometry_ = manifold_.make_geometry(manifold_.triangulation_);
+    is_updated_         = true;
+  }
+
  private:
+  /// @param moved_cell A (2,2) simplex to try a (2,3) move
+  /// @return True if the (2,3) move was successful
+  [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
+  {
+    Expects(moved_cell->info() == static_cast<int>(Cell_type::TWO_TWO));
+    auto flipped = false;
+    // Try every facet of the cell
+    for (int i = 0; i < 4; ++i)
+    {
+      if (manifold_.triangulation_.delaunay_.flip(moved_cell, i))
+      {
+#ifndef NDEBUG
+        std::cout << "Facet " << i << " was flippable.\n";
+#endif
+        flipped = true;
+        break;
+      }
+      else
+      {
+#ifndef NDEBUG
+        std::cout << "Facet " << i << " was not filippable.\n";
+#endif
+      }
+    }
+    Ensures(manifold_.triangulation_.delaunay_.tds().is_valid());
+    return flipped;
+  }
+
+  /// @brief Make a (2,3) move
   void move_23()
   {
 #ifndef NDEBUG
@@ -120,38 +159,30 @@ class MoveCommand<3>
 #endif
     //    _manifold._geometry.print_cells(_manifold.get_geometry()._cells);
 
-    print_manifold(_manifold);
-    std::cout << "Size of (2,2) container: " << _manifold._geometry.N3_22()
+    //    print_manifold(_manifold);
+    std::cout << "Size of (2,2) container: " << manifold_.geometry_.N3_22()
               << "\n";
-    //    auto movable_two_two_cells = _manifold._geometry._two_two;
-    //
-    //    auto not_flipped{true};
-    //
-    //    while(not_flipped)
-    //    {
-    //      if (movable_two_two_cells.empty()) {
-    //        throw std::domain_error("No (2,3) move possible.");
-    //      }
-    //      auto choice = generate_random_int(0, movable_two_two_cells.size()
-    //      -1); std::clog << "Choice is " << choice;
-    //
-    //      Cell_handle to_be_moved = _manifold._geometry._two_two[choice];
-    //      std::clog << "Cell[" << choice << "] is of type " <<
-    //      to_be_moved->info();
-    //      Expects(_manifold._triangulation.tds().is_cell(to_be_moved));
-    //      Expects(to_be_moved->info() ==
-    //      static_cast<int>(Cell_type::TWO_TWO));
-    //
-    //      if (_manifold._triangulation.try_23_move(to_be_moved)) {
-    //        not_flipped = false;
-    //      }
+    auto movable_two_two_cells = manifold_.geometry_.two_two_;
+    Ensures(movable_two_two_cells == manifold_.geometry_.two_two_);
 
-    // Remove trial cell
-    //      movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);
-    //    }
-    //    ++successful_23_moves();
-    //    std::cout << "Successful (2,3) moves: " << successful_23_moves() <<
-    //    "\n";
+    auto not_flipped{true};
+
+    while (not_flipped)
+    {
+      if (movable_two_two_cells.empty())
+      { throw std::domain_error("No (2,3) move possible."); }
+      auto choice = generate_random_int(static_cast<std::size_t>(0),
+                                        movable_two_two_cells.size() - 1);
+      std::cout << "Choice: " << choice << " ";
+
+      Cell_handle to_be_moved = movable_two_two_cells[choice];
+      if (try_23_move(to_be_moved)) { not_flipped = false; }
+
+      // Remove trial cell
+      movable_two_two_cells.erase(movable_two_two_cells.begin() + choice);
+    }
+    ++successful_23_moves();
+    std::cout << "Successful (2,3) moves: " << successful_23_moves() << "\n";
   }
   void move_32()
   {
@@ -181,10 +212,10 @@ class MoveCommand<3>
     std::cout << "Successful (6,2) moves: " << successful_62_moves() << "\n";
   }
 
-  Manifold3    _manifold;
-  bool         _is_updated;
-  Move_queue   _moves;
-  Move_tracker _successful_moves;
+  Manifold3    manifold_;
+  bool         is_updated_;
+  Move_queue   moves_;
+  Move_tracker successful_moves_;
 };
 
 using MoveCommand3 = MoveCommand<3>;

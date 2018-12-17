@@ -36,88 +36,106 @@ class Geometry<3>
  public:
   /// @brief Default ctor
   Geometry()
-      : _number_of_vertices{0}
-      , _number_of_edges{0}
-      , _number_of_faces{0}
-      , _number_of_cells{0}
-      , _max_timevalue{0}
-      , _min_timevalue{0}
+      : number_of_vertices_{0}
+      , number_of_edges_{0}
+      , number_of_faces_{0}
+      , number_of_cells_{0}
+      , max_timevalue_{0}
+      , min_timevalue_{0}
   {}
 
   /// @brief Constructor with triangulation
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
   explicit Geometry(FoliatedTriangulation3 const& triangulation)
-      : _number_of_vertices{triangulation.get_delaunay().number_of_vertices()}
-      , _number_of_edges{triangulation.get_delaunay().number_of_finite_edges()}
-      , _number_of_faces{triangulation.get_delaunay().number_of_finite_facets()}
-      , _number_of_cells{triangulation.get_delaunay().number_of_finite_cells()}
+      : number_of_vertices_{triangulation.get_delaunay().number_of_vertices()}
+      , number_of_edges_{triangulation.get_delaunay().number_of_finite_edges()}
+      , number_of_faces_{triangulation.get_delaunay().number_of_finite_facets()}
+      , number_of_cells_{triangulation.get_delaunay().number_of_finite_cells()}
       // Debugging simplex collection
       //, _simplices{classify_cells(collect_cells(triangulation), true)}
-      , _cells{classify_cells(collect_cells(triangulation))}
-      , _faces{collect_faces(triangulation)}
-      , _edges{collect_edges(triangulation)}
-      , _points{collect_vertices(triangulation)}
-      , _three_one{filter_cells(_cells, Cell_type::THREE_ONE)}
-      , _two_two{filter_cells(_cells, Cell_type::TWO_TWO)}
-      , _one_three{filter_cells(_cells, Cell_type::ONE_THREE)}
-      , _timelike_edges{filter_edges(_edges, true)}
-      , _spacelike_edges{filter_edges(_edges, false)}
-      , _max_timevalue{find_max_timevalue(_points)}
-      , _min_timevalue{find_min_timevalue(_points)}
-      , _spacelike_facets{volume_per_timeslice(_faces)}
+      , cells_{classify_cells(collect_cells(triangulation))}
+      , faces_{collect_faces(triangulation)}
+      , edges_{collect_edges(triangulation)}
+      , points_{collect_vertices(triangulation)}
+      , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
+      , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
+      , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
+      , timelike_edges_{filter_edges(edges_, true)}
+      , spacelike_edges_{filter_edges(edges_, false)}
+      , max_timevalue_{find_max_timevalue(points_)}
+      , min_timevalue_{find_min_timevalue(points_)}
+      , spacelike_facets_{volume_per_timeslice(faces_)}
   {}
 
   /// @return Number of finite cells from triangulation
-  [[nodiscard]] auto N3() const { return _number_of_cells; }
+  [[nodiscard]] auto N3() const { return number_of_cells_; }
 
   /// @return Number of (3,1) simplices
-  [[nodiscard]] auto N3_31() const { return _three_one.size(); }
+  [[nodiscard]] auto N3_31() const { return three_one_.size(); }
 
   /// @return Number of (2,2) simplices
-  [[nodiscard]] auto N3_22() const { return _two_two.size(); }
+  [[nodiscard]] auto N3_22() const { return two_two_.size(); }
 
   /// @return Number of (1,3) simplices
-  [[nodiscard]] auto N3_13() const { return _one_three.size(); }
+  [[nodiscard]] auto N3_13() const { return one_three_.size(); }
 
   /// @return Number of (3,1) and (1,3) simplices
   [[nodiscard]] auto N3_31_13() const { return N3_31() + N3_13(); }
 
   /// @return Number of finite facets in triangulation
-  [[nodiscard]] auto N2() const { return _number_of_faces; }
+  [[nodiscard]] auto N2() const { return number_of_faces_; }
 
   /// @return Number of finite edges in triangulation
-  [[nodiscard]] auto N1() const { return _number_of_edges; }
+  [[nodiscard]] auto N1() const { return number_of_edges_; }
 
   /// @return Number of timelike edges
-  [[nodiscard]] auto N1_TL() const { return _timelike_edges.size(); }
+  [[nodiscard]] auto N1_TL() const { return timelike_edges_.size(); }
 
   /// @return Number of spacelike edges
-  [[nodiscard]] auto N1_SL() const { return _spacelike_edges.size(); }
+  [[nodiscard]] auto N1_SL() const { return spacelike_edges_.size(); }
 
   /// @return Number of finite vertices in triangulation
-  [[nodiscard]] auto N0() const { return _number_of_vertices; }
+  [[nodiscard]] auto N0() const { return number_of_vertices_; }
 
   /// @return Maximum time value in triangulation
-  [[nodiscard]] auto max_time() const { return _max_timevalue; }
+  [[nodiscard]] auto max_time() const { return max_timevalue_; }
 
   /// @return Minimum time value in triangulation
-  [[nodiscard]] auto min_time() const { return _min_timevalue; }
+  [[nodiscard]] auto min_time() const { return min_timevalue_; }
 
   /// @return Container of spacelike facets indexed by time value
   [[nodiscard]] std::multimap<int, Facet> const& N2_SL() const
   {
-    return _spacelike_facets;
+    return spacelike_facets_;
   }
 
+  /// @return Container of (3,1) cells
+  std::vector<Cell_handle> const& get_three_one() const { return three_one_; }
+
   /// @return Container of (2,2) cells
-  std::vector<Cell_handle> const& get_two_two() const { return _two_two; }
+  std::vector<Cell_handle> const& get_two_two() const { return two_two_; }
+
+  /// @return Container of (1,3) cells
+  std::vector<Cell_handle> const& get_one_three() const { return one_three_; }
+
+  /// @return Container of timelike edges
+  std::vector<Edge_handle> const& get_timelike_edges() const
+  {
+    return timelike_edges_;
+  }
+
+  /// @return Container of spacelike edges
+  std::vector<Edge_handle> const& get_spacelike_edges() const
+  {
+    return spacelike_edges_;
+  }
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells() const
   {
-    for (auto const& cell : _cells)
+    for (auto const& cell : cells_)
     {
       std::cout << "Cell info => " << cell->info() << "\n";
       for (int j = 0; j < 4; ++j)
@@ -147,7 +165,7 @@ class Geometry<3>
   {
     for (auto j = min_time(); j <= max_time(); ++j)
     {
-      std::cout << "Timeslice " << j << " has " << _spacelike_facets.count(j)
+      std::cout << "Timeslice " << j << " has " << spacelike_facets_.count(j)
                 << " spacelike faces.\n";
     }
   }
@@ -156,8 +174,28 @@ class Geometry<3>
   /// timelike or spacelike
   void print_edges() const
   {
-    for (auto const& edge : _edges) { classify_edge(edge, true); }
+    for (auto const& edge : edges_) { classify_edge(edge, true); }
   }
+
+  /// @brief Predicate to classify edge as timelike or spacelike
+  /// @param edge The Edge_handle to classify
+  /// @param debugging Debugging info toggle
+  /// @return true if timelike and false if spacelike
+  auto classify_edge(Edge_handle const& edge, bool debugging = false) const
+      -> bool
+  {
+    Cell_handle const& ch    = std::get<0>(edge);
+    auto               time1 = ch->vertex(std::get<1>(edge))->info();
+    auto               time2 = ch->vertex(std::get<2>(edge))->info();
+    bool               result{time1 != time2};
+    if (debugging)
+    {
+      std::cout << "Edge: Vertex(1) timevalue: " << time1;
+      std::cout << " Vertex(2) timevalue: " << time2;
+      std::cout << " => " << (result ? "timelike\n" : "spacelike\n");
+    }
+    return result;
+  }  // classify_edge
 
  private:
   /// @brief Collect all finite cells of the triangulation
@@ -170,9 +208,9 @@ class Geometry<3>
   {
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Cell_handle> init_cells;
-    init_cells.reserve(_number_of_cells);
-    Delaunay3::Finite_cells_iterator cit;
-    for (cit = universe.get_delaunay().finite_cells_begin();
+    init_cells.reserve(number_of_cells_);
+    //    Delaunay3::Finite_cells_iterator cit;
+    for (auto cit = universe.get_delaunay().finite_cells_begin();
          cit != universe.get_delaunay().finite_cells_end(); ++cit)
     {
       // Each cell is valid in the triangulation
@@ -190,7 +228,7 @@ class Geometry<3>
                                     bool debugging = false) const
       -> std::vector<Cell_handle>
   {
-    Expects(cells.size() == _number_of_cells);
+    Expects(cells.size() == number_of_cells_);
     std::vector<Vertex_handle> cell_vertices;
     cell_vertices.reserve(4);
     std::vector<int> vertex_timevalues;
@@ -255,14 +293,12 @@ class Geometry<3>
       -> std::vector<Cell_handle>
   {
     Expects(!cells_v.empty());
-    std::vector<Cell_handle> filtered_cells(cells_v.size());
-    filtered_cells.clear();
-    auto it = std::copy_if(cells_v.begin(), cells_v.end(),
-                           filtered_cells.begin(), [cell_t](auto const& cell) {
-                             return cell->info() == static_cast<int>(cell_t);
-                           });
-    filtered_cells.resize(static_cast<std::size_t>(
-        std::abs(std::distance(filtered_cells.begin(), it))));
+    std::vector<Cell_handle> filtered_cells;
+    std::copy_if(cells_v.begin(), cells_v.end(),
+                 std::back_inserter(filtered_cells),
+                 [&cell_t](auto const& cell) {
+                   return cell->info() == static_cast<int>(cell_t);
+                 });
     return filtered_cells;
   }  // filter_cells
 
@@ -276,9 +312,9 @@ class Geometry<3>
   {
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Face_handle> init_faces;
-    init_faces.reserve(_number_of_faces);
-    Delaunay3::Finite_facets_iterator fit;
-    for (fit = universe.get_delaunay().finite_facets_begin();
+    init_faces.reserve(number_of_faces_);
+    //    Delaunay3::Finite_facets_iterator fit;
+    for (auto fit = universe.get_delaunay().finite_facets_begin();
          fit != universe.get_delaunay().finite_facets_end(); ++fit)
     {
       Cell_handle ch = fit->first;
@@ -346,9 +382,9 @@ class Geometry<3>
   {
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Edge_handle> init_edges;
-    init_edges.reserve(_number_of_edges);
-    Delaunay3::Finite_edges_iterator eit;
-    for (eit = universe.get_delaunay().finite_edges_begin();
+    init_edges.reserve(number_of_edges_);
+    //    Delaunay3::Finite_edges_iterator eit;
+    for (auto eit = universe.get_delaunay().finite_edges_begin();
          eit != universe.get_delaunay().finite_edges_end(); ++eit)
     {
       Cell_handle ch = eit->first;
@@ -363,26 +399,6 @@ class Geometry<3>
     return init_edges;
   }  // collect_edges
 
-  /// @brief Predicate to classify edge as timelike or spacelike
-  /// @param edge The Edge_handle to classify
-  /// @param debugging Debugging info toggle
-  /// @return true if timelike and false if spacelike
-  auto classify_edge(Edge_handle const& edge, bool debugging = false) const
-      -> bool
-  {
-    Cell_handle ch    = std::get<0>(edge);
-    auto        time1 = ch->vertex(std::get<1>(edge))->info();
-    auto        time2 = ch->vertex(std::get<2>(edge))->info();
-    bool        result{time1 != time2};
-    if (debugging)
-    {
-      std::cout << "Edge: Vertex(1) timevalue: " << time1;
-      std::cout << " Vertex(2) timevalue: " << time2;
-      std::cout << " => " << (result ? "timelike\n" : "spacelike\n");
-    }
-    return result;
-  }  // classify_edge
-
   /// @brief Filter edges into timelike and spacelike
   /// @param edges_v The container of edges to filter
   /// @param is_Timelike The predicate condition
@@ -392,13 +408,10 @@ class Geometry<3>
       -> std::vector<Edge_handle>
   {
     Expects(!edges_v.empty());
-    std::vector<Edge_handle> filtered_edges(edges_v.size());
-    filtered_edges.clear();
-    auto it = std::copy_if(
-        edges_v.begin(), edges_v.end(), filtered_edges.begin(),
+    std::vector<Edge_handle> filtered_edges;
+    std::copy_if(
+        edges_v.begin(), edges_v.end(), std::back_inserter(filtered_edges),
         [&](auto const& edge) { return (is_Timelike == classify_edge(edge)); });
-    filtered_edges.resize(static_cast<std::size_t>(
-        std::abs(std::distance(filtered_edges.begin(), it))));
     Ensures(!filtered_edges.empty());
     return filtered_edges;
   }  // filter_edges
@@ -413,9 +426,9 @@ class Geometry<3>
   {
     Expects(universe.get_delaunay().tds().is_valid());
     std::vector<Vertex_handle> init_vertices;
-    init_vertices.reserve(_number_of_vertices);
-    Delaunay3::Finite_vertices_iterator vit;
-    for (vit = universe.get_delaunay().finite_vertices_begin();
+    init_vertices.reserve(number_of_vertices_);
+    //    Delaunay3::Finite_vertices_iterator vit;
+    for (auto vit = universe.get_delaunay().finite_vertices_begin();
          vit != universe.get_delaunay().finite_vertices_end(); ++vit)
     {  // Each vertex is valid in the triangulation
       Ensures(universe.get_delaunay().tds().is_vertex(vit));
@@ -465,22 +478,22 @@ class Geometry<3>
     return vertices[index]->info();
   }  // find_min_timevalue
 
-  std::size_t                _number_of_vertices;
-  std::size_t                _number_of_edges;
-  std::size_t                _number_of_faces;
-  std::size_t                _number_of_cells;
-  std::vector<Cell_handle>   _cells;
-  std::vector<Face_handle>   _faces;
-  std::vector<Edge_handle>   _edges;
-  std::vector<Vertex_handle> _points;
-  std::vector<Cell_handle>   _three_one;
-  std::vector<Cell_handle>   _two_two;
-  std::vector<Cell_handle>   _one_three;
-  std::vector<Edge_handle>   _timelike_edges;
-  std::vector<Edge_handle>   _spacelike_edges;
-  int                        _max_timevalue;
-  int                        _min_timevalue;
-  std::multimap<int, Facet>  _spacelike_facets;
+  std::size_t                number_of_vertices_;
+  std::size_t                number_of_edges_;
+  std::size_t                number_of_faces_;
+  std::size_t                number_of_cells_;
+  std::vector<Cell_handle>   cells_;
+  std::vector<Face_handle>   faces_;
+  std::vector<Edge_handle>   edges_;
+  std::vector<Vertex_handle> points_;
+  std::vector<Cell_handle>   three_one_;
+  std::vector<Cell_handle>   two_two_;
+  std::vector<Cell_handle>   one_three_;
+  std::vector<Edge_handle>   timelike_edges_;
+  std::vector<Edge_handle>   spacelike_edges_;
+  int                        max_timevalue_;
+  int                        min_timevalue_;
+  std::multimap<int, Facet>  spacelike_facets_;
   template <std::int_fast64_t>
   friend class MoveCommand;
 };

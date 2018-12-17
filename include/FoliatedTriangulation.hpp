@@ -72,12 +72,12 @@ class FoliatedTriangulation<3> : Delaunay3
 {
  public:
   /// @brief Default constructor
-  FoliatedTriangulation() : _delaunay{Delaunay3{}}, _is_foliated(false) {}
+  FoliatedTriangulation() : delaunay_{Delaunay3{}}, is_foliated_(false) {}
 
   /// @brief Constructor using delaunay triangulation
   /// @param delaunay_triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
-      : _delaunay{delaunay_triangulation}, _is_foliated{fix_timeslices()}
+      : delaunay_{delaunay_triangulation}, is_foliated_{fix_timeslices()}
   {}
 
   /// @brief Constructor with parameters
@@ -89,44 +89,16 @@ class FoliatedTriangulation<3> : Delaunay3
                         std::int_fast64_t const timeslices,
                         double const            initial_radius = INITIAL_RADIUS,
                         double const            radial_factor  = RADIAL_FACTOR)
-      : _delaunay{make_triangulation(simplices, timeslices, initial_radius,
+      : delaunay_{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
-      , _is_foliated{fix_timeslices()}
+      , is_foliated_{fix_timeslices()}
   {}
 
   /// @return A read-only reference to the Delaunay triangulation
-  Delaunay3 const& get_delaunay() const { return _delaunay; }
+  Delaunay3 const& get_delaunay() const { return delaunay_; }
 
   /// @return True if foliated correctly
-  [[nodiscard]] bool is_foliated() const { return _is_foliated; }
-
-  /// @param moved_cell A (1,3) simplex to try a (2,3) move
-  /// @return True if the (2,3) move was successful
-  [[nodiscard]] auto try_23_move(Cell_handle const& moved_cell)
-  {
-    //    Expects(moved_cell->info() == static_cast<int>(Cell_type::ONE_THREE));
-    auto flipped = false;
-    // Try every facet of the cell
-    for (int i = 0; i < 4; ++i)
-    {
-      if (_delaunay.flip(moved_cell, i))
-      {
-#ifndef NDEBUG
-        std::cout << "Facet " << i << " was flippable.\n";
-#endif
-        flipped = true;
-        break;
-      }
-      else
-      {
-#ifndef NDEBUG
-        std::cout << "Facet " << i << " was not filippable.\n";
-#endif
-      }
-    }
-    Ensures(_delaunay.tds().is_valid());
-    return flipped;
-  }
+  [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
  private:
   /// @brief Make a Delaunay Triangulation
@@ -183,7 +155,7 @@ class FoliatedTriangulation<3> : Delaunay3
     Causal_vertices causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(simplices));
     const auto points_per_timeslice =
-        expected_points_per_simplex(3, simplices, timeslices);
+        expected_points_per_timeslice(3, simplices, timeslices);
     Expects(points_per_timeslice >= 2);
 
     using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
@@ -223,8 +195,8 @@ class FoliatedTriangulation<3> : Delaunay3
     int                     max_vertex{0};
     std::set<Vertex_handle> deleted_vertices;
     // Iterate over all cells in the Delaunay triangulation
-    for (Delaunay3::Finite_cells_iterator cit = _delaunay.finite_cells_begin();
-         cit != _delaunay.finite_cells_end(); ++cit)
+    for (Delaunay3::Finite_cells_iterator cit = delaunay_.finite_cells_begin();
+         cit != delaunay_.finite_cells_end(); ++cit)
     {
       if (cit->is_valid())
       {  // Valid cell
@@ -281,14 +253,14 @@ class FoliatedTriangulation<3> : Delaunay3
     }  // Finish iterating over cells
 
     // Delete invalid vertices
-    _delaunay.remove(deleted_vertices.begin(), deleted_vertices.end());
+    delaunay_.remove(deleted_vertices.begin(), deleted_vertices.end());
     // Check that the triangulation is still valid
     // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
     //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
     //    if (!_delaunay.tds().is_valid())
     //      throw std::logic_error("Delaunay tds invalid!");
-    Ensures(_delaunay.tds().is_valid());
-    Ensures(_delaunay.is_valid());
+    Ensures(delaunay_.tds().is_valid());
+    Ensures(delaunay_.is_valid());
 
 #ifndef NDEBUG
     std::cout << "There are " << invalid << " invalid simplices and " << valid
@@ -297,8 +269,8 @@ class FoliatedTriangulation<3> : Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
-  Delaunay3 _delaunay;
-  bool      _is_foliated;
+  Delaunay3 delaunay_;
+  bool      is_foliated_;
   template <std::int_fast64_t>
   friend class MoveCommand;
 };

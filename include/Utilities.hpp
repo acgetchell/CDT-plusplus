@@ -47,8 +47,7 @@ enum class topology_type
 /// @param os output stream
 /// @param topology
 /// @return output stream
-[[nodiscard]] inline std::ostream& operator<<(std::ostream&        os,
-                                              const topology_type& topology)
+inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 {
   switch (topology)
   {
@@ -72,7 +71,7 @@ enum class topology_type
 /// @return The environment variable corresponding to the key
 [[nodiscard]] inline auto getEnvVar(std::string const& key) noexcept
 {
-  const char* val = getenv(key.c_str());
+  char const* val = getenv(key.c_str());
   val == nullptr ? std::string() : std::string(val);
   return val;
 }
@@ -120,9 +119,9 @@ enum class topology_type
 /// @param number_of_timeslices The number of foliated timeslices
 /// @return A filename
 [[nodiscard]] inline auto generate_filename(
-    const topology_type& top, const std::size_t dimensions,
-    const std::size_t number_of_simplices,
-    const std::size_t number_of_timeslices) noexcept
+    topology_type const& top, std::size_t const dimensions,
+    std::size_t const number_of_simplices,
+    std::size_t const number_of_timeslices) noexcept
 {
   std::string filename;
   if (top == topology_type::SPHERICAL) { filename += "S"; }
@@ -165,7 +164,7 @@ enum class topology_type
 /// @tparam Manifold The manifold type
 /// @param universe A SimplicialManifold
 template <typename Manifold>
-void print_results(const Manifold& universe) noexcept
+void print_results(Manifold const& universe) noexcept
 {
   std::cout << universe.triangulation->number_of_vertices() << " vertices and "
             << universe.triangulation->number_of_finite_edges() << " edges and "
@@ -201,13 +200,13 @@ template <typename Manifold, typename Timer>
 /// @param manifold A Manifold
 /// @return True if successful
 template <typename Manifold>
-bool print_manifold(const Manifold& manifold) try
+void print_manifold(const Manifold& manifold)
+try
 {
   std::cout << "Manifold has " << manifold.get_geometry().N0()
             << " vertices and " << manifold.get_geometry().N1() << " edges and "
             << manifold.get_geometry().N2() << " faces and "
             << manifold.get_geometry().N3() << " simplices.\n";
-  return true;
 }
 catch (...)
 {
@@ -219,7 +218,8 @@ catch (...)
 /// @tparam Triangulation The triangulation type
 /// @param triangulation A triangulation (typically a Delaunay<3> triangulation)
 template <typename Triangulation>
-void print_triangulation(const Triangulation& triangulation) try
+void print_triangulation(Triangulation const& triangulation)
+try
 {
   std::cout << "Triangulation has "
             << triangulation.get_delaunay().number_of_vertices()
@@ -250,10 +250,10 @@ catch (...)
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
 template <typename Manifold>
-void write_file(const Manifold& universe, const topology_type& topology,
-                const std::size_t dimensions,
-                const std::size_t number_of_simplices,
-                const std::size_t number_of_timeslices)
+void write_file(Manifold const& universe, topology_type const& topology,
+                std::size_t const dimensions,
+                std::size_t const number_of_simplices,
+                std::size_t const number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
@@ -274,115 +274,95 @@ void write_file(const Manifold& universe, const topology_type& topology,
 /// @brief Seed sequence class for high-quality pseudo-random number generator
 ///
 /// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
-/// @tparam Number Type of number
-template <typename Number>
-struct SeedSeq
+/// @tparam NumberType Type of number
+template <typename NumberType>
+class SeedSeq
 {
-  Number begin_;
-  Number end_;
-
  public:
-  SeedSeq(Number begin, Number end) : begin_{begin}, end_{end} {}
+  SeedSeq(NumberType begin, NumberType end) : begin_{begin}, end_{end} {}
 
-  template <typename T2>
-  void generate(T2 b, T2 e)
+  template <typename GeneratedType>
+  void generate(GeneratedType b, GeneratedType e)
   {
     assert((e - b) <= (end_ - begin_));
     std::copy(begin_, begin_ + (e - b), b);
   }
+
+ private:
+  NumberType begin_;
+  NumberType end_;
 };
 
-/// @brief Generate random integers
+/// @brief Generate random numbers
 ///
-/// This function generates a random integer from [1, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
+/// This function generates a random number from [min_value, max_value]
+/// on a distribution using a non-deterministic random number generator, if
+/// supported. See
+/// https://en.cppreference.com/w/cpp/numeric/random/random_device
 /// for more details.
+/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
 ///
-/// @param min_value The minimum value in the range
-/// @param max_value The maximum value in the range
-/// @return A random integer between min_value and max_value
-[[nodiscard]] inline auto generate_random_int(const int min_value,
-                                              const int max_value) noexcept
+/// @tparam NumberType The type of number to be generated
+/// @tparam Distribution The distribution of numbers
+/// @param min_value The minimum value
+/// @param max_value The maximum value
+/// @return A random number in the distribution between min_value and max_value
+template <typename NumberType, class Distribution>
+[[nodiscard]] auto generate_random(NumberType const min_value,
+                                   NumberType const max_value) noexcept
 {
   // Non-deterministic random number generator
   std::random_device rd;
   // The simple way which works in C++14
-  std::mt19937_64 generator(rd());
-  //  // The tedious but more accurate way which works in C++17 but not C++14
-  //  uint32_t numbers[624];
-  //  // Initial state
-  //  std::generate(numbers, std::end(numbers), std::ref(rd));
-  //  // Copy into heap-allocated "seed sequence"
-  //  SeedSeq seedSeq(numbers, std::end(numbers));
-  //  // Initialized mt19937_64
-  //  std::mt19937 g(seedSeq);
+  // std::mt19937_64 generator(rd());
+  // The tedious but more accurate way which works in C++17 but not C++14
+  std::uint_fast64_t numbers[624];  // Seed sequence
+  // Initial state
+  std::generate(numbers, std::end(numbers), std::ref(rd));
+  // Copy into heap-allocated "seed sequence"
+  SeedSeq seed_seq(numbers, std::end(numbers));
+  // Initialized mt19937_64
+  std::mt19937_64 generator(seed_seq);
 
-  std::uniform_int_distribution<int> distribution(min_value, max_value);
+  Distribution distribution(min_value, max_value);
 
-  auto result = distribution(generator);
+  return distribution(generator);
+}  // generate_random()
 
-#ifdef DETAILED_DEBUGGING
-  std::cout << "Random " << (typeid(result)).name() << " is " << result << "\n";
-#endif
-
-  return result;
-}  // generate_random_unsigned()
+/// @brief Generate random integers by calling generate_random, preserves
+/// template argument deduction
+template <typename IntegerType>
+[[nodiscard]] auto constexpr generate_random_int(
+    IntegerType const min_value, IntegerType const max_value) noexcept
+{
+  using int_dist = std::uniform_int_distribution<IntegerType>;
+  return generate_random<IntegerType, int_dist>(min_value, max_value);
+}  // generate_random_int()
 
 /// @brief Generate a random timeslice
-///
-/// This function generates a random timeslice
-/// using **generate_random_unsigned()**. Timeslices go from
-/// 1 to max_timeslice.
-///
-/// @param max_timeslice The maximum timeslice
-/// @return A random timeslice from 1 to max_timeslice
-[[nodiscard]] inline auto generate_random_timeslice(
-    const int max_timeslice) noexcept
+template <typename IntegerType>
+[[nodiscard]] decltype(auto) generate_random_timeslice(
+    IntegerType&& max_timeslice) noexcept
 {
-  return generate_random_int(1, max_timeslice);
+  return generate_random_int(static_cast<IntegerType>(1), max_timeslice);
 }  // generate_random_timeslice()
 
-/// @brief Generate random real numbers
-///
-/// This function generates a random real number from [min_value, max_value]
-/// using a non-deterministic random number generator, if supported. There
-/// may be exceptions thrown if a random device is not available. See:
-/// http://www.cplusplus.com/reference/random/random_device/
-/// for more details.
-///
-/// @tparam RealNumber The real number type
-/// @param min_value The minimum value in the range
-/// @param max_value The maximum value in the range
-/// @return A random real number between min_value and max_value, inclusive
-template <typename RealNumber>
-[[nodiscard]] auto generate_random_real(const RealNumber min_value,
-                                        const RealNumber max_value) noexcept
+/// @brief Generate random real numbers by calling generate_random, preserves
+/// template argument deduction
+template <typename FloatingPointType>
+[[nodiscard]] auto constexpr generate_random_real(
+    FloatingPointType const min_value,
+    FloatingPointType const max_value) noexcept
 {
-  std::random_device                rd;
-  std::mt19937_64                   generator(rd());
-  std::uniform_real_distribution<RealNumber> distribution(min_value, max_value);
+  using real_dist = std::uniform_real_distribution<FloatingPointType>;
+  return generate_random<FloatingPointType, real_dist>(min_value, max_value);
+}  // generate_random_real()
 
-  auto result = distribution(generator);
-
-#ifndef NDEBUG
-  std::cout << "Random trial is " << result << "\n";
-#endif
-
-  return result;
-}
-
-/// @brief Generate a random timeslice
-///
-/// This function generates a probability
-/// using **generate_random_real()**.
-///
-/// @return A probability from 0 to 1
-[[nodiscard]] inline auto generate_probability() noexcept
+/// @brief Generate a probability
+[[nodiscard]] auto constexpr generate_probability() noexcept
 {
-  auto min = static_cast<long double>(0.0);
-  auto max = static_cast<long double>(1.0);
+  auto constexpr min = static_cast<long double>(0.0);
+  auto constexpr max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
 }  // generate_probability()
 
@@ -400,9 +380,9 @@ template <typename RealNumber>
 /// @param output     Prints desired number of simplices on timeslices
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
-[[nodiscard]] inline auto expected_points_per_simplex(
-    const std::size_t dimension, const int_fast64_t simplices,
-    const int_fast64_t timeslices, const bool output = true)
+[[nodiscard]] inline auto expected_points_per_timeslice(
+    std::size_t const dimension, int_fast64_t const simplices,
+    int_fast64_t const timeslices, bool const output = true)
 {
   if (output)
   {
@@ -410,7 +390,7 @@ template <typename RealNumber>
               << " timeslices desired.\n";
   }
 
-  const auto simplices_per_timeslice = simplices / timeslices;
+  auto const simplices_per_timeslice = simplices / timeslices;
   switch (dimension)
   {
     case 3:
@@ -449,21 +429,9 @@ template <typename RealNumber>
 ///
 /// @param value An exact Gmpzf multiple-precision floating point number
 /// @return The double conversion
-[[nodiscard]] inline auto Gmpzf_to_double(const Gmpzf& value) -> double
+[[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& value) -> double
 {
   return value.to_double();
 }
-
-/// @brief Calculate if lower <= value <= upper; used in GoogleTests
-/// @tparam T Value type
-/// @param arg Value to be compared
-/// @param lower Lower bound
-/// @param upper Upper bound
-/// @return True if arg lies within [lower, upper]
-// template <typename T>
-// bool IsBetween(T arg, T lower, T upper)
-//{
-//  return arg >= lower && arg <= upper;
-//}
 
 #endif  // INCLUDE_UTILITIES_HPP_

@@ -9,16 +9,17 @@ add_executable(CDT_test
                TetrahedronTest.cpp
                SphereTest.cpp
                SimulationTest.cpp
-               SimplicialManifoldTest.cpp
-               S3ErgodicMovesTest.cpp
+               # SimplicialManifoldTest.cpp
+               # S3ErgodicMovesTest.cpp
                S3ActionTest.cpp
-               MoveManagerTest.cpp
+               # MoveManagerTest.cpp
                MoveAlgorithmsTest.cpp
-               MeasurementsTest.cpp
+               # MeasurementsTest.cpp
                ManifoldTest.cpp
                GeometryTest.cpp
                FoliatedTriangulationTest.cpp
-               MoveCommandTest.cpp)
+               MoveCommandTest.cpp
+               MoveGuardTest.cpp)
 target_link_libraries(CDT_test
                       CONAN_PKG::catch2
                       CONAN_PKG::TBB

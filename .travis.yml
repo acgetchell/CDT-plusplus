@@ -1,6 +1,7 @@
 language: cpp
 sudo: true
 dist: xenial
+osx_image: xcode10.1
 
 addons:
   apt:
@@ -185,7 +186,7 @@ matrix:
         - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
-        - ./codecov.sh
+        - ./tools/codecov.sh
       after_success:
   # Sonarcloud
     - os: osx

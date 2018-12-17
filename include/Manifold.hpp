@@ -32,17 +32,17 @@ class Manifold<3>
   /// @brief Construct manifold from a triangulation
   /// @param delaunay_triangulation Triangulation used to construct manifold
   explicit Manifold(Delaunay3 const& delaunay_triangulation)
-      : _triangulation{FoliatedTriangulation3(delaunay_triangulation)}
-      , _geometry{make_geometry(get_triangulation())}
+      : triangulation_{FoliatedTriangulation3(delaunay_triangulation)}
+      , geometry_{make_geometry(get_triangulation())}
   {}
 
   /// @brief Construct manifold using arguments
   /// @param desired_simplices Number of desired simplices
   /// @param desired_timeslices Number of desired timeslices
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices)
-      : _triangulation{FoliatedTriangulation3(desired_simplices,
+      : triangulation_{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices)}
-      , _geometry{make_geometry(get_triangulation())}
+      , geometry_{make_geometry(get_triangulation())}
   {}
 
   /// @brief Construct manifold using arguments
@@ -52,10 +52,10 @@ class Manifold<3>
   /// @param radial_factor Radial separation between timeslices
   Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices,
            double initial_radius, double radial_factor)
-      : _triangulation{FoliatedTriangulation3(desired_simplices,
+      : triangulation_{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices,
                                               initial_radius, radial_factor)}
-      , _geometry{make_geometry(get_triangulation())}
+      , geometry_{make_geometry(get_triangulation())}
   {}
 
   /// @brief Construct a Geometry of useful data from a triangulation
@@ -76,22 +76,22 @@ class Manifold<3>
   /// @return A read-only reference to the triangulation
   FoliatedTriangulation3 const& get_triangulation() const
   {
-    return _triangulation;
+    return triangulation_;
   }
 
   /// @return A mutable reference to the triangulation
-  [[nodiscard]] auto& set_triangulation() { return _triangulation; }
+  [[nodiscard]] auto& set_triangulation() { return triangulation_; }
 
   /// @return A read-only reference to the Geometry
-  Geometry3 const& get_geometry() const { return _geometry; }
+  Geometry3 const& get_geometry() const { return geometry_; }
 
   /// @return True if the Foliated triangulation's Delaunay triangulation is
   /// valid
-  bool is_valid() const { return _triangulation.get_delaunay().is_valid(); }
+  bool is_valid() const { return triangulation_.get_delaunay().is_valid(); }
 
  private:
-  FoliatedTriangulation3 _triangulation;
-  Geometry3              _geometry;
+  FoliatedTriangulation3 triangulation_;
+  Geometry3              geometry_;
   template <std::int_fast64_t>
   friend class MoveCommand;
 };
