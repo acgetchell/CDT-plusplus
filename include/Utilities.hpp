@@ -390,13 +390,15 @@ template <typename FloatingPointType>
               << " timeslices desired.\n";
   }
 
-  auto const simplices_per_timeslice = simplices / timeslices;
+  auto const simplices_per_timeslice =
+      static_cast<int_fast64_t>(simplices / timeslices);
   switch (dimension)
   {
     case 3:
     {
       // Avoid segfaults for small values
-      if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
+      if (simplices == timeslices)
+      { return static_cast<int_fast64_t>(2 * simplices_per_timeslice); }
       else if (simplices < 1000)
       {
         return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
