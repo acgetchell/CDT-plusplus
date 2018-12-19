@@ -22,7 +22,7 @@ add_executable(CDT_test
                MoveGuardTest.cpp)
 target_link_libraries(CDT_test
                       CONAN_PKG::catch2
-                      CONAN_PKG::TBB
+#                      CONAN_PKG::TBB
                       CONAN_PKG::date
                       CONAN_PKG::gsl_microsoft)
 # Activate C++17

@@ -66,21 +66,65 @@ is the [PitchFork Layout], as follows:
 
 ### Prerequisites
 
+- AppleClang, [clang-6], or [gcc-8]
+- [Homebrew] or [Linuxbrew]
 - [Conan]
 - [CMake]
 - [Ninja]
-- [TBB]
 - [CGAL]
-- [Homebrew] or [Linuxbrew]
-- AppleClang, [clang-6], or [gcc-8]
+- [TBB]
 
-[CDT++] uses the [Conan] open source C/C++ package manager, which can be installed as follows:
+[CDT++] uses the [Conan] open source C/C++ package manager. However, [Conan] does not have a package for [CGAL],
+and does not handle [TBB] properly. So, you need [Homebrew] or [Linuxbrew].
+
+MacOS:
 
 ~~~
-pip install conan
+/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ~~~
 
-Afterwards, you'll want to let [Conan] create a profile (named `cdt` here) automatically, using:
+Linux (Ubuntu):
+
+~~~
+sudo apt install linuxbrew-wrapper
+PATH="$HOME/.linuxbrew/bin:$PATH"
+echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
+brew --version
+export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
+brew doctor
+brew config
+~~~
+
+Then, you can install the prerequisites with:
+
+~~~
+brew update
+brew upgrade cmake
+brew install ninja
+brew install tbb
+brew install cgal --with-eigen --with-qt
+~~~
+
+For some flavors of Linux (e.g. Ubuntu 18.04), the [CGAL] package dependency on QT fails, so you have to do:
+
+~~~
+brew install cgal --with-eigen
+~~~
+
+Finally, you can install conan:
+
+~~~
+brew install conan
+~~~
+
+You can test your Conan installation by typing:
+
+~~~
+conan
+~~~
+
+Next, create a [Conan] profile (named `cdt` here) automatically, using:
 
 ~~~
 conan profile new cdt --detect
@@ -94,19 +138,9 @@ There are a few packages that use the [bincrafters] repository. Add that via:
 conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 ~~~
 
-Using [CMake] and [Ninja], Conan handles most of the dependencies, except [CGAL] and [TBB]. The easiest way to
-install these so that Conan can find them is with [Homebrew] or [Linuxbrew]. Once these are installed:
+Using [CMake] and [Ninja], Conan handles the remaining dependencies.
 
-
-~~~
-brew update
-brew upgrade cmake
-brew install ninja
-brew install tbb
-brew install cgal --with-eigen --with-qt
-~~~
-
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-6].
+This project uses [C++]17 features, and successfully builds with AppleCl     ang, [gcc-8], and [clang-6].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 Windows is almost there with [clang-cl], there is a [bug] with [TBB].
