@@ -137,7 +137,7 @@ include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
 target_link_libraries(cdt
                       PRIVATE ${CGAL_LIBRARIES}
-#                              CONAN_PKG::boost
+                              CONAN_PKG::boost
 #                              CONAN_PKG::eigen
 #                              CONAN_PKG::TBB
                               CONAN_PKG::docopt
@@ -149,7 +149,7 @@ target_compile_features(cdt PRIVATE cxx_std_17)
 add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 target_link_libraries(initialize
                       PRIVATE ${CGAL_LIBRARIES}
-#                              CONAN_PKG::boost
+                              CONAN_PKG::boost
                               CONAN_PKG::docopt
                               CONAN_PKG::date
                               CONAN_PKG::gsl_microsoft)
@@ -159,7 +159,7 @@ if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(cdt-gv
                         PRIVATE ${CGAL_LIBRARIES}
-#                                CONAN_PKG::boost
+                                CONAN_PKG::boost
                                 CONAN_PKG::docopt
                                 CONAN_PKG::gsl_microsoft)
   # Activate C++17
@@ -168,7 +168,7 @@ if(UNIX)
   add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
   target_link_libraries(cdt-opt
                         PRIVATE ${CGAL_LIBRARIES}
-#                                CONAN_PKG::boost
+                                CONAN_PKG::boost
                                 CONAN_PKG::date
                                 CONAN_PKG::gsl_microsoft)
   # Activate C++17
