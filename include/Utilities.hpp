@@ -398,10 +398,10 @@ template <typename FloatingPointType>
     {
       // Avoid segfaults for small values
       if (simplices == timeslices)
-      { return static_cast<int_fast64_t>(2 * simplices_per_timeslice); }
+      { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
       {
-        return 0.4 * simplices_per_timeslice;
+        return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
       }
       else if (simplices < 10000)
       {

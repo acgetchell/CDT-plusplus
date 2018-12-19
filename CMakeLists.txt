@@ -91,22 +91,22 @@ set(CMAKE_CONFIGURATION_TYPES
     FORCE)
 
 # Extra warnings
-add_compile_options(-Wall
-                    -Wno-comment
-                    -Wextra
-                    -Wshadow
-                    -Wnon-virtual-dtor
-                    -Wold-style-cast
-                    -Wcast-align
-                    -Wunused
-                    -Woverloaded-virtual
-                    -Wpedantic
-                    -Wconversion
-                    -Wsign-conversion
-                    -Wnull-dereference
-                    -Wdouble-promotion
-                    -Wformat=2
-                    -Werror=return-type)
+#add_compile_options(-Wall
+#                    -Wno-comment
+#                    -Wextra
+#                    -Wshadow
+#                    -Wnon-virtual-dtor
+#                    -Wold-style-cast
+#                    -Wcast-align
+#                    -Wunused
+#                    -Woverloaded-virtual
+#                    -Wpedantic
+#                    -Wconversion
+#                    -Wsign-conversion
+#                    -Wnull-dereference
+#                    -Wdouble-promotion
+#                    -Wformat=2
+#                    -Werror=return-type)
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
