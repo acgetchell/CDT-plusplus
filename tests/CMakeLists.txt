@@ -21,7 +21,7 @@ add_executable(CDT_test
                MoveCommandTest.cpp
                MoveGuardTest.cpp)
 target_link_libraries(CDT_test
-                      CONAN_PKG::catch2
+                      CONAN_PKG::Catch2
 #                      CONAN_PKG::TBB
                       CONAN_PKG::date
                       CONAN_PKG::gsl_microsoft)
