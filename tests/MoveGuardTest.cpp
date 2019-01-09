@@ -14,14 +14,26 @@
 
 SCENARIO("Test MoveGuard", "[moveguard]")
 {
-  GIVEN("A manifold")
+  GIVEN("A vector and a simple lambda")
+  {
+    std::vector<int> test    = {1, 2, 3, 4, 5};
+    auto             add_two = [](auto x) { return x + 2; };
+    WHEN("A apply the lambda to the vector")
+    {
+      MoveGuard<decltype(test)> test1(test, add_two);
+      THEN("The results are valid.") {}
+    }
+  }
+  GIVEN("A manifold and a move function")
   {
     int_fast64_t desired_simplices{640};
     int_fast64_t desired_timeslices{4};
     Manifold3    test_manifold(desired_simplices, desired_timeslices);
+
     WHEN("We specify a (2,3) move")
       {
-//        MoveGuard(test_manifold, make_23_move);
+        //        MoveGuard<decltype(test_manifold)> test_move(test_manifold,
+        //        add_two);
       }
   }
 }

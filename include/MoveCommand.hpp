@@ -147,7 +147,8 @@ class MoveCommand<3>
 #endif
       }
     }
-    Ensures(manifold_.triangulation_.delaunay_.tds().is_valid());
+    Ensures(manifold_.triangulation_.delaunay_.tds()
+                .is_valid());  // change to Exception
     return flipped;
   }
 

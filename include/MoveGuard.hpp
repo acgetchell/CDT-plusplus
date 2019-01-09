@@ -8,15 +8,25 @@
 #ifndef CDT_PLUSPLUS_MOVEGUARD_HPP
 #define CDT_PLUSPLUS_MOVEGUARD_HPP
 
-#include <memory>
+#include <functional>
+#include <optional>
 
 template <typename ManifoldType>
 class MoveGuard
 {
-    MoveGuard(ManifoldType manifold, void (*move)()) : _triangulation{std::make_unique(manifold)} {}
+ public:
+  using ValueType    = typename ManifoldType::value_type;
+  using FunctionType = std::function<ValueType(ValueType)>;
 
-private:
-    std::unique_ptr<ManifoldType> _triangulation;
+  MoveGuard(ManifoldType manifold, FunctionType fn)
+      : _triangulation{std::make_unique<ManifoldType>(manifold)}, _fn{fn}
+  {}
+
+  std::optional<ManifoldType> operator()() { return std::nullopt; }
+
+ private:
+  std::unique_ptr<ManifoldType> _triangulation;
+  FunctionType                  _fn;
 };
 
-#endif //CDT_PLUSPLUS_MOVEGUARD_HPP
+#endif  // CDT_PLUSPLUS_MOVEGUARD_HPP
