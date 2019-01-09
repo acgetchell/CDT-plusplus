@@ -227,6 +227,9 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false CLANGTIDY=true
+    - os: osx
+      compiler: clang
+      env: TESTS=false SONARQUBE=true
 script:
   # Use Ninja
   - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
