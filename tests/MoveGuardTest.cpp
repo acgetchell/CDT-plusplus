@@ -39,7 +39,8 @@ SCENARIO("Test MoveGuard", "[moveguard]")
       THEN("We should get back what we started.")
       {
         auto manifold  = test_move.get_triangulation();
-        auto manifold2 = test_move().value();
+        //        auto manifold2 = test_move().value();
+        auto manifold2 = *test_move();
 
         CHECK(manifold2.get_geometry().N3() == manifold.get_geometry().N3());
         CHECK(manifold2.get_geometry().N3_31() ==
