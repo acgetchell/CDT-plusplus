@@ -137,7 +137,7 @@ class FoliatedTriangulation<3> : Delaunay3
 #endif
       ++passes;
     }
-    //      print_triangulation(_triangulation);
+    //      print_triangulation(triangulation_);
     Ensures(fix_timeslices());
     return delaunay;
   }

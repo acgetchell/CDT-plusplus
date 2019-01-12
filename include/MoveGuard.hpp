@@ -15,18 +15,29 @@ template <typename ManifoldType>
 class MoveGuard
 {
  public:
-  using ValueType    = typename ManifoldType::value_type;
-  using FunctionType = std::function<ValueType(ValueType)>;
+  using FunctionType = std::function<ManifoldType(ManifoldType const&)>;
 
-  MoveGuard(ManifoldType manifold, FunctionType fn)
-      : _triangulation{std::make_unique<ManifoldType>(manifold)}, _fn{fn}
+  MoveGuard(ManifoldType manifold, FunctionType function)
+      : triangulation_{std::move(manifold)}, function_{function}
   {}
 
-  std::optional<ManifoldType> operator()() { return std::nullopt; }
+  std::optional<ManifoldType> operator()()
+  {
+    try
+    {
+      return function_(triangulation_);
+    }
+    catch (...)
+    {
+      return std::nullopt;
+    }
+  }
+
+  ManifoldType get_triangulation() const { return triangulation_; }
 
  private:
-  std::unique_ptr<ManifoldType> _triangulation;
-  FunctionType                  _fn;
+  ManifoldType triangulation_;
+  FunctionType function_;
 };
 
 #endif  // CDT_PLUSPLUS_MOVEGUARD_HPP

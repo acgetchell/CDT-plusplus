@@ -53,3 +53,8 @@ bw-output/*
 # Cruft
 *.old.*
 *.bak
+
+# SourceTrail
+*.srctrlbm
+*.srctrldb
+*.srctrlprj
