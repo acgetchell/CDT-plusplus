@@ -8,7 +8,7 @@
 /// @brief Tests for MoveGuard RAII
 /// @author Adam Getchell
 
-#include <Manifold.hpp>
+#include <Ergodic_Moves_3.hpp>
 #include <MoveGuard.hpp>
 #include <catch2/catch.hpp>
 
@@ -16,29 +16,18 @@ using namespace std;
 
 SCENARIO("Test MoveGuard", "[moveguard]")
 {
-  //  GIVEN("A vector and a simple lambda")
-  //  {
-  //    std::vector<int> test    = {1, 2, 3, 4, 5};
-  //    auto             add_two = [](auto x) { return x + 2; };
-  //    WHEN("A apply the lambda to the vector")
-  //    {
-  //      MoveGuard<decltype(test)> test1(test, add_two);
-  //      THEN("The results are valid.") {}
-  //    }
-  //  }
   GIVEN("A manifold and a move function")
   {
     int_fast64_t desired_simplices{640};
     int_fast64_t desired_timeslices{4};
     Manifold3    test_manifold(desired_simplices, desired_timeslices);
-    auto         no_move = [](auto x) { return x; };
-
     WHEN("We specify a null move")
     {
+      auto no_move = [](auto x) { return manifold3_moves::null_move(x); };
       MoveGuard<decltype(test_manifold)> test_move(test_manifold, no_move);
       THEN("We should get back what we started.")
       {
-        auto manifold  = test_move.get_triangulation();
+        auto manifold = test_move.get_triangulation();
         //        auto manifold2 = test_move().value();
         auto manifold2 = *test_move();
 
