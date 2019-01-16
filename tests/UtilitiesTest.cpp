@@ -56,7 +56,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       {
         // Update test yearly
         CHECK_THAT(currentDateTime(),
-                   Catch::Contains("2018") && Catch::Contains("PST"));
+                   Catch::Contains("2019") && Catch::Contains("PST"));
         // Human verification
         std::cout << currentDateTime() << "\n";
       }
