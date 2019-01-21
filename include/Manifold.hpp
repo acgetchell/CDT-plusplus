@@ -94,6 +94,7 @@ class Manifold<3>
   Geometry3              geometry_;
   template <std::int_fast64_t>
   friend class MoveCommand;
+  template <typename ManifoldType> friend class MoveGuard;
 };
 
 using Manifold3 = Manifold<3>;
