@@ -97,6 +97,9 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @return A read-only reference to the Delaunay triangulation
   Delaunay3 const& get_delaunay() const { return delaunay_; }
 
+  /// @return A mutable reference to the Delaunay triangulation
+  [[nodiscard]] auto& set_delaunay() { return delaunay_; }
+
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 

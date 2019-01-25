@@ -14,21 +14,25 @@ namespace manifold3_moves
   /// @return The null-moved Simplicial Manifold
   [[nodiscard]] auto null_move(Manifold3 manifold) { return manifold; }
 
-  //  [[nodiscard]] auto try_23_move(Manifold3 manifold, Cell_handle
-  //  to_be_moved)
-  //  {
-  //    auto flipped = false;
-  //    // Try every facet of the (1,3) cell
-  //    for (std::size_t i = 0; i < 4; ++i)
-  //    {
-  //      if (manifold.get_triangulation().get_delaunay().flip(to_be_moved, i))
-  //      {
-  //        std::cout << "Facet " << i << " was flippable.\n";
-  //        flipped = true;
-  //        break;
-  //      }
-  //    }
-  //  }
+  [[nodiscard]] auto try_23_move(Manifold3 manifold, Cell_handle to_be_moved)
+  {
+    auto flipped = false;
+    // Try every facet of the (1,3) cell
+    for (std::size_t i = 0; i < 4; ++i)
+    {
+      if (manifold.set_triangulation().set_delaunay().flip(to_be_moved, i))
+      {
+        std::cout << "Facet " << i << " was flippable.\n";
+        flipped = true;
+        break;
+      }
+      else
+      {
+        std::cout << "Facet " << i << " was not flippable.\n";
+      }
+    }
+    return flipped;
+  }
 
 }  // namespace manifold3_moves
 
