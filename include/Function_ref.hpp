@@ -56,7 +56,7 @@
 #ifndef INCLUDE_FUNCTION_REF_HPP_
 #define INCLUDE_FUNCTION_REF_HPP_
 
-//#include <cstdint>
+#include <cstdint>
 #include <type_traits>
 #include <utility>
 template <typename Fn>
