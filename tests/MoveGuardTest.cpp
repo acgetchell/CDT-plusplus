@@ -34,24 +34,10 @@ SCENARIO("Test MoveGuard", "[moveguard]")
         // Human verification
         cout << "Manifold properties:\n";
         print_manifold(manifold);
-        manifold.get_geometry().print_volume_per_timeslice();
-        auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
-        cout << "cells.size() == " << cells.size() << "\n";
-        cout << "Cell compact container size is " << cells.size() << "\n";
-        //          cells.erase(std::remove_if(cells.begin(),
-        //          cells.end(),[](auto c){return
-        //          is_infinite(c);}),cells.end());
-        cout << "Now compact container size is " << cells.size() << "\n";
-        cout << "Vertex compact container size is "
-             << manifold.get_triangulation()
-                    .get_delaunay()
-                    .tds()
-                    .vertices()
-                    .size()
-             << "\n";
+        //        manifold.get_geometry().print_volume_per_timeslice();
         cout << "No-move applied to manifold properties:\n";
         print_manifold(manifold2);
-        manifold2.get_geometry().print_volume_per_timeslice();
+        //        manifold2.get_geometry().print_volume_per_timeslice();
         // Check move results
         CHECK(manifold3_moves::check_move(
             manifold2, manifold, manifold3_moves::move_type::FOUR_FOUR));
@@ -69,28 +55,19 @@ SCENARIO("Test MoveGuard", "[moveguard]")
         auto manifold = test_move.get_triangulation();
         //        auto manifold2 = test_move().value();
         auto manifold2 = *test_move();
+        cout << "Updating geometry ...\n";
+        manifold2.set_geometry() =
+            manifold2.make_geometry(manifold2.get_triangulation());
 
         // Human verification
         cout << "Manifold properties:\n";
         print_manifold(manifold);
-        manifold.get_geometry().print_volume_per_timeslice();
-        auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
-        cout << "cells.size() == " << cells.size() << "\n";
-        cout << "Cell compact container size is " << cells.size() << "\n";
-        //          cells.erase(std::remove_if(cells.begin(),
-        //          cells.end(),[](auto c){return
-        //          is_infinite(c);}),cells.end());
-        cout << "Now compact container size is " << cells.size() << "\n";
-        cout << "Vertex compact container size is "
-             << manifold.get_triangulation()
-                    .get_delaunay()
-                    .tds()
-                    .vertices()
-                    .size()
-             << "\n";
+        print_manifold_details(manifold);
+        //        manifold.get_geometry().print_volume_per_timeslice();
         cout << "(2,3) move applied to manifold properties:\n";
         print_manifold(manifold2);
-        manifold2.get_geometry().print_volume_per_timeslice();
+        print_manifold_details(manifold2);
+        //        manifold2.get_geometry().print_volume_per_timeslice();
         // Check move results
         CHECK(manifold3_moves::check_move(
             manifold2, manifold, manifold3_moves::move_type::TWO_THREE));

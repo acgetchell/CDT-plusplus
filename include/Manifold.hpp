@@ -85,6 +85,9 @@ class Manifold<3>
   /// @return A read-only reference to the Geometry
   Geometry3 const& get_geometry() const { return geometry_; }
 
+  /// @return A mutable reference to the geometry
+  [[nodiscard]] auto& set_geometry() { return geometry_; }
+
   /// @return True if the Foliated triangulation's Delaunay triangulation is
   /// valid
   bool is_valid() const { return triangulation_.get_delaunay().is_valid(); }

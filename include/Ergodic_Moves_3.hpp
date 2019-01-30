@@ -51,6 +51,20 @@ namespace manifold3_moves
   [[nodiscard]] auto do_23_move(Manifold3 manifold)
   {
     auto two_two = manifold.get_geometry().get_two_two();
+    auto not_flipped = true;
+    while (not_flipped)
+    {
+      if (two_two.size() == 0)
+        throw std::domain_error("No (2,3) move is possible.");
+      auto choice =
+          generate_random_int(0, static_cast<int>(two_two.size() - 1));
+      Cell_handle to_be_moved = manifold.get_geometry().get_two_two()[choice];
+
+      if (try_23_move(manifold, to_be_moved)) not_flipped = false;
+
+      // Remove trial cell
+      two_two.erase(two_two.begin() + choice);
+    }
     return manifold;
   }
 

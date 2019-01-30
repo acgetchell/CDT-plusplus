@@ -184,8 +184,8 @@ void print_results(Manifold const& universe) noexcept
 /// @param universe A SimplicialManifold
 /// @param timer A timer object used to determine elapsed time
 template <typename Manifold, typename Timer>
-[[noreturn]] void print_results(const Manifold& universe,
-                                const Timer&    timer) noexcept
+[[noreturn]] void print_results(Manifold const& universe,
+                                Timer const&    timer) noexcept
 {
   // C++17
   print_results(std::as_const(universe));
@@ -198,9 +198,8 @@ template <typename Manifold, typename Timer>
 /// @brief Print manifold statistics
 /// @tparam Manifold The manifold type
 /// @param manifold A Manifold
-/// @return True if successful
 template <typename Manifold>
-void print_manifold(const Manifold& manifold)
+void print_manifold(Manifold const& manifold)
 try
 {
   std::cout << "Manifold has " << manifold.get_geometry().N0()
@@ -213,6 +212,27 @@ catch (...)
   std::cerr << "print_manifold() went wrong ...\n";
   throw;
 }  // print_manifold
+
+/// @brief Print simplices and sub-simplices
+/// @tparam Manifold The manifold type
+/// @param manifold A manifold
+template <typename Manifold>
+void print_manifold_details(Manifold const& manifold)
+try
+{
+  std::cout << "There are " << manifold.get_geometry().N3_31()
+            << " (3,1) simplices and " << manifold.get_geometry().N3_22()
+            << " (2,2) simplices and " << manifold.get_geometry().N3_13()
+            << " (1,3) simplices.\n";
+  std::cout << "There are " << manifold.get_geometry().N1_TL()
+            << " timelike edges and " << manifold.get_geometry().N1_SL()
+            << " spacelike edges.\n";
+}
+catch (...)
+{
+  std::cerr << "print_manifold_details() went wrong ...\n";
+  throw;
+}  // print_manifold_details
 
 /// @brief Print triangulation statistics
 /// @tparam Triangulation The triangulation type
@@ -397,8 +417,7 @@ template <typename FloatingPointType>
     case 3:
     {
       // Avoid segfaults for small values
-      if (simplices == timeslices)
-      { return 2 * simplices_per_timeslice; }
+      if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
       {
         return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);

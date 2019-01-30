@@ -74,7 +74,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
         CHECK_THAT(filename,
                    Catch::Contains("S3") && Catch::Contains("16") &&
                        Catch::Contains("6700") && Catch::Contains("@") &&
-                       Catch::Contains("2018") && Catch::Contains("dat"));
+                       Catch::Contains("2019") && Catch::Contains("dat"));
         // Human verification
         std::cout << filename << "\n";
       }
@@ -98,6 +98,14 @@ SCENARIO("Printing results", "[utility]")
       {
         print_manifold(manifold);
         CHECK_THAT(buffer.str(), Catch::Contains("Manifold has"));
+      }
+    }
+    WHEN("We want to print details on simplices and sub-simplices.")
+    {
+      THEN("Simplicial details are successfully printed.")
+      {
+        print_manifold_details(manifold);
+        CHECK_THAT(buffer.str(), Catch::Contains("There are"));
       }
     }
   }
