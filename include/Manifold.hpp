@@ -73,6 +73,12 @@ class Manifold<3>
     return geom;
   }
 
+  void update_geometry()
+  {
+    Geometry3 geom(triangulation_);
+    geometry_ = geom;
+  }
+
   /// @return A read-only reference to the triangulation
   FoliatedTriangulation3 const& get_triangulation() const
   {

@@ -25,16 +25,17 @@ namespace manifold3_moves
   };
 
   /// @brief Perform a null move
-  /// @param manifold The Simplicial Manifold
-  /// @return The null-moved Simplicial Manifold
-  [[nodiscard]] auto null_move(Manifold3 manifold) { return manifold; }
+  /// @param manifold The simplicial sanifold
+  /// @return The null-moved manifold
+  [[nodiscard]] inline auto null_move(Manifold3 manifold) { return manifold; }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
   /// <https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4>
   /// @param manifold
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move was successful
-  [[nodiscard]] auto try_23_move(Manifold3 manifold, Cell_handle to_be_moved)
+  [[nodiscard]] inline auto try_23_move(Manifold3   manifold,
+                                        Cell_handle to_be_moved)
   {
     auto flipped = false;
     // Try every facet of the (1,3) cell
@@ -52,9 +53,18 @@ namespace manifold3_moves
       }
     }
     return flipped;
-  }
+  }  // try_23_move
 
-  [[nodiscard]] auto do_23_move(Manifold3 manifold)
+  /// @brief Perform a (2,3) move
+  ///
+  /// A (2,3) move adds a (2,2) simplex and a timelike edge.
+  ///
+  /// This function calls try_23_move until it succeeds; the triangulation is no
+  /// longer Delaunay.
+  ///
+  /// @param manifold The simplicial manifold
+  /// @return The (2,3) moved manifold
+  [[nodiscard]] inline auto do_23_move(Manifold3 manifold)
   {
     auto two_two     = manifold.get_geometry().get_two_two();
     auto not_flipped = true;
@@ -74,8 +84,9 @@ namespace manifold3_moves
     return manifold;
   }
 
-  [[nodiscard]] auto check_move(Manifold3 const& before, Manifold3 const& after,
-                                move_type const& move) -> bool
+  [[nodiscard]] inline auto check_move(Manifold3 const& before,
+                                       Manifold3 const& after,
+                                       move_type const& move) -> bool
   {
     switch (move)
     {
