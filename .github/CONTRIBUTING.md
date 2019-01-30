@@ -19,8 +19,8 @@ for reproducibility.
 3. Familiarize yourself with [Catch] and the [Gherkin] syntax.
 
 4. Write a unit test for your proposed contribution. Unit tests go in the `tests` directory and are named
-\{YourContribution\}Test.cpp, so that they can be automatically built.
-All proposed features of your contribution should have a corresponding test in \{YourContribution\}Test.cpp.
+\{YourContribution\}_test.cpp, so that they can be automatically built.
+All proposed features of your contribution should have a corresponding test in \{YourContribution\}_test.cpp.
 Consult the [Catch Test cases and sections] if you are unsure, or consult existing tests for examples.
 
 5. I highly recommend writing your tests first, before your contribution, as this helps to think about how the

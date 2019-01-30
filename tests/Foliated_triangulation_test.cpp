@@ -1,20 +1,20 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018 Adam Getchell
+/// Copyright © 2018-2019 Adam Getchell
 ///
 /// Tests that foliated triangulations are correctly constructed
 /// in 3D and 4D respectively.
 
-/// @file FoliatedTriangulationTest.cpp
+/// @file Foliated_triangulation_test.cpp
 /// @brief Tests for foliated triangulations
 /// @author Adam Getchell
 
-#include <FoliatedTriangulation.hpp>
+#include <Foliated_triangulation.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
 
-SCENARIO("FoliatedTriangulation class exception-safety", "[triangulation]")
+SCENARIO("Foliated_triangulation class exception-safety", "[triangulation]")
 {
   GIVEN("A FoliatedTriangulation3 class.")
   {

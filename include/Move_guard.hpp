@@ -1,8 +1,8 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018 Adam Getchell
+/// Copyright © 2018-2019 Adam Getchell
 
-/// @file MoveGuard.hpp
+/// @file Move_guard.hpp
 /// @brief RAII wrapper for moves
 
 #ifndef CDT_PLUSPLUS_MOVEGUARD_HPP
@@ -12,12 +12,12 @@
 #include <optional>
 
 template <typename ManifoldType>
-class MoveGuard
+class Move_guard
 {
  public:
   using FunctionType = std::function<ManifoldType(ManifoldType const&)>;
 
-  MoveGuard(ManifoldType manifold, FunctionType function)
+  Move_guard(ManifoldType manifold, FunctionType function)
       : triangulation_{std::move(manifold)}, function_{function}
   {}
 

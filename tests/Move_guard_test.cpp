@@ -1,30 +1,30 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2018 Adam Getchell
+/// Copyright © 2014-2019 Adam Getchell
 ///
 /// Tests of MoveCommand, that is, that moves are handled properly
 
-/// @file MoveGuardTest.cpp
+/// @file Move_guard_test.cpp
 /// @brief Tests for MoveGuard RAII
 /// @author Adam Getchell
 
-#include <Ergodic_Moves_3.hpp>
-#include <MoveGuard.hpp>
+#include <Ergodic_moves_3.hpp>
+#include <Move_guard.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
 
-SCENARIO("Test MoveGuard", "[moveguard]")
+SCENARIO("Test Move_guard", "[moveguard]")
 {
   GIVEN("A manifold and a move function")
   {
-    int_fast64_t desired_simplices{640};
-    int_fast64_t desired_timeslices{4};
-    Manifold3    test_manifold(desired_simplices, desired_timeslices);
+    constexpr auto desired_simplices  = static_cast<int_fast64_t>(640);
+    constexpr auto desired_timeslices = static_cast<int_fast64_t>(4);
+    Manifold3      test_manifold(desired_simplices, desired_timeslices);
     WHEN("We specify a null move")
     {
       auto no_move = [](auto x) { return manifold3_moves::null_move(x); };
-      MoveGuard<decltype(test_manifold)> test_move(test_manifold, no_move);
+      Move_guard<decltype(test_manifold)> test_move(test_manifold, no_move);
       THEN("We should get back what we started.")
       {
         auto manifold = test_move.get_triangulation();
@@ -48,7 +48,7 @@ SCENARIO("Test MoveGuard", "[moveguard]")
       auto two_three_move = [](auto x) {
         return manifold3_moves::do_23_move(x);
       };
-      MoveGuard<decltype(test_manifold)> test_move(test_manifold,
+      Move_guard<decltype(test_manifold)> test_move(test_manifold,
                                                    two_three_move);
       THEN("We should have +1 (2,2) simplices and +1 timelike edges.")
       {

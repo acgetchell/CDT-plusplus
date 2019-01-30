@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2018 Adam Getchell
+/// Copyright © 2015-2019 Adam Getchell
 ///
 /// A program that visualizes spacetimes
 ///

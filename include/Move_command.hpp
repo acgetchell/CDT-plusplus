@@ -1,9 +1,9 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018 Adam Getchell
+/// Copyright © 2018-2019 Adam Getchell
 
-/// @file MoveCommand.hpp
-/// @brief Do ergodic moves
+/// @file Move_command.hpp
+/// @brief Do ergodic moves using the Command pattern
 
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
 #define CDT_PLUSPLUS_MOVECOMMAND_HPP
@@ -11,10 +11,10 @@
 #include <Manifold.hpp>
 
 template <std::int_fast64_t dimension>
-class MoveCommand;
+class Move_command;
 
 template <>
-class MoveCommand<3>
+class Move_command<3>
 {
  public:
   enum class Move_type
@@ -30,14 +30,14 @@ class MoveCommand<3>
   using Move_tracker = std::array<std::int_fast64_t, 5>;
 
   /// @brief Default constructor
-  MoveCommand()
+  Move_command()
       : manifold_{Manifold3{}}
       , is_updated_{false}
       , successful_moves_{0, 0, 0, 0, 0} {};
 
   /// @brief Constructor using manifold
   /// @param manifold The manifold on which moves will be performed
-  explicit MoveCommand(Manifold3 manifold)
+  explicit Move_command(Manifold3 manifold)
       : manifold_{std::move(manifold)}
       , is_updated_{false}
       , successful_moves_{0, 0, 0, 0, 0}
@@ -46,13 +46,13 @@ class MoveCommand<3>
   /// @brief Construct with a single move
   /// @param manifold The manifold on which the move will be performed
   /// @param move The move to be performed on the manifold
-  MoveCommand(Manifold3 manifold, Move_type move)
+  Move_command(Manifold3 manifold, Move_type move)
       : manifold_{std::move(manifold)}
       , is_updated_{false}
       , moves_{move}
       , successful_moves_{0, 0, 0, 0, 0} {};
 
-  MoveCommand(Manifold3 manifold, Move_queue moves)
+  Move_command(Manifold3 manifold, Move_queue moves)
       : manifold_{std::move(manifold)}
       , is_updated_{false}
       , moves_{std::move(moves)}
@@ -86,7 +86,7 @@ class MoveCommand<3>
   /// @param successful_moves
   void set_successful_moves(Move_tracker const& successful_moves)
   {
-    MoveCommand::successful_moves_ = successful_moves;
+    Move_command::successful_moves_ = successful_moves;
   }
 
   /// @brief Execute moves on manifold
@@ -118,7 +118,7 @@ class MoveCommand<3>
   void update()
   {
     std::cout << "Updating geometry ...\n";
-    manifold_.geometry_ = manifold_.make_geometry(manifold_.triangulation_);
+    manifold_.set_geometry() = manifold_.make_geometry(manifold_.get_triangulation());
     is_updated_         = true;
   }
 
@@ -132,7 +132,7 @@ class MoveCommand<3>
     // Try every facet of the cell
     for (int i = 0; i < 4; ++i)
     {
-      if (manifold_.triangulation_.delaunay_.flip(moved_cell, i))
+      if (manifold_.set_triangulation().set_delaunay().flip(moved_cell, i))
       {
 #ifndef NDEBUG
         std::cout << "Facet " << i << " was flippable.\n";
@@ -147,7 +147,7 @@ class MoveCommand<3>
 #endif
       }
     }
-    Ensures(manifold_.triangulation_.delaunay_.tds()
+    Ensures(manifold_.get_triangulation().get_delaunay().tds()
                 .is_valid());  // change to Exception
     return flipped;
   }
@@ -161,10 +161,10 @@ class MoveCommand<3>
     //    _manifold._geometry.print_cells(_manifold.get_geometry()._cells);
 
     //    print_manifold(_manifold);
-    std::cout << "Size of (2,2) container: " << manifold_.geometry_.N3_22()
+    std::cout << "Size of (2,2) container: " << manifold_.get_geometry().N3_22()
               << "\n";
-    auto movable_two_two_cells = manifold_.geometry_.two_two_;
-    Ensures(movable_two_two_cells == manifold_.geometry_.two_two_);
+    auto movable_two_two_cells = manifold_.get_geometry().get_two_two();
+    Ensures(movable_two_two_cells == manifold_.get_geometry().get_two_two());
 
     auto not_flipped{true};
 
@@ -219,6 +219,6 @@ class MoveCommand<3>
   Move_tracker successful_moves_;
 };
 
-using MoveCommand3 = MoveCommand<3>;
+using MoveCommand3 = Move_command<3>;
 
 #endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP

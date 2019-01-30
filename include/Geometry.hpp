@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018 Adam Getchell
+/// Copyright © 2018-2019 Adam Getchell
 ///
 /// Geometric quantities of Manifold used by MoveAlgorithm.
 ///
@@ -11,7 +11,7 @@
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
-#include <FoliatedTriangulation.hpp>
+#include <Foliated_triangulation.hpp>
 #include <algorithm>
 #include <cstddef>
 #include <gsl/gsl>

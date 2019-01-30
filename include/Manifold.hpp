@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018 Adam Getchell
+/// Copyright © 2018-2019 Adam Getchell
 ///
 /// Simplicial Manifold data structures
 ///
@@ -11,7 +11,7 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
-#include <FoliatedTriangulation.hpp>
+#include <Foliated_triangulation.hpp>
 #include <Geometry.hpp>
 #include <functional>
 #include <stddef.h>

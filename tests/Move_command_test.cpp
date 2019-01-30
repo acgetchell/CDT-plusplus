@@ -1,21 +1,21 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2018 Adam Getchell
+/// Copyright © 2014-2019 Adam Getchell
 ///
 /// Tests of MoveCommand, that is, that moves are handled properly
 
-/// @file MoveCommandTest.cpp
+/// @file Move_command_test.cpp
 /// @brief Tests for moves
 /// @author Adam Getchell
 
-#include <MoveCommand.hpp>
+#include <Move_command.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
 
 SCENARIO("Test single moves of 3-Manifold", "[move3]")
 {
-  GIVEN("A MoveCommand with a 3-Manifold")
+  GIVEN("A Move_command with a 3-Manifold")
   {
     WHEN("It is default constructed.")
     {
@@ -37,7 +37,7 @@ SCENARIO("Test single moves of 3-Manifold", "[move3]")
       {
         REQUIRE(move.get_manifold().is_valid());
       }
-      THEN("The MoveCommand's manifold matches it's constructing manifold.")
+      THEN("The Move_command's manifold matches it's constructing manifold.")
       {
         REQUIRE(manifold.get_geometry().max_time() ==
                 move.get_manifold().get_geometry().max_time());
@@ -116,7 +116,7 @@ SCENARIO("Test single moves of 3-Manifold", "[move3]")
 }
 SCENARIO("Tracking the number of successful moves.", "[move3]")
 {
-  GIVEN("A MoveCommand with a 3-manifold")
+  GIVEN("A Move_command with a 3-manifold")
   {
     WHEN("It is default constructed.")
     {

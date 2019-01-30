@@ -1,3 +1,13 @@
+# Causal Dynamical Triangulations in C++ using CGAL
+#
+# Copyright © 2018-2019 Adam Getchell
+#
+# A program that optimizes spacetime generation parameters
+
+# @file optimize-initialize.py
+# @brief Optimize spacetime generation
+# @author Adam Getchell
+
 # Usage: python optimize-initialize.py
 #
 from __future__ import absolute_import, division, print_function

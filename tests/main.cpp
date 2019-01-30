@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2018 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Main Catch test driver
 ///

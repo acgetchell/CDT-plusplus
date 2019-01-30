@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2017 Adam Getchell
+/// Copyright © 2014-2019 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional grid (cube)
 /// \todo Make the vector compatible with the triangulation data structure

@@ -1,10 +1,10 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2018 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Tests for random, conversion, and datetime functions.
 ///
-/// @file UtilitiesTest.cpp
+/// @file Utilities_test.cpp
 /// @brief Tests on utility functions
 /// @author Adam Getchell
 

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018 Adam Getchell
+/// Copyright © 2018-2019 Adam Getchell
 ///
 /// Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes
 /// to create foliated spherical triangulations of a given dimension.
@@ -11,7 +11,7 @@
 /// radius is assigned a timeslice so that the entire triangulation will have a
 /// defined foliation of time.
 
-/// @file FoliatedTriangulation.hpp
+/// @file Foliated_triangulation.hpp
 /// @brief Create foliated spherical triangulations
 
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
@@ -64,19 +64,19 @@ enum class Cell_type
 /// FoliatedTriangulation class template
 /// @tparam dimension Dimensionality of triangulation
 template <int_fast64_t dimension>
-class FoliatedTriangulation;
+class Foliated_triangulation;
 
 /// 3D Triangulation
 template <>
-class FoliatedTriangulation<3> : Delaunay3
+class Foliated_triangulation<3> : Delaunay3
 {
  public:
   /// @brief Default constructor
-  FoliatedTriangulation() : delaunay_{Delaunay3{}}, is_foliated_(false) {}
+  Foliated_triangulation() : delaunay_{Delaunay3{}}, is_foliated_(false) {}
 
   /// @brief Constructor using delaunay triangulation
   /// @param delaunay_triangulation Delaunay triangulation
-  explicit FoliatedTriangulation(Delaunay3 const& delaunay_triangulation)
+  explicit Foliated_triangulation(Delaunay3 const& delaunay_triangulation)
       : delaunay_{delaunay_triangulation}, is_foliated_{fix_timeslices()}
   {}
 
@@ -85,10 +85,10 @@ class FoliatedTriangulation<3> : Delaunay3
   /// @param timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
   /// @param radial_factor Radial separation between timeslices
-  FoliatedTriangulation(std::int_fast64_t const simplices,
-                        std::int_fast64_t const timeslices,
-                        double const            initial_radius = INITIAL_RADIUS,
-                        double const            radial_factor  = RADIAL_FACTOR)
+  Foliated_triangulation(std::int_fast64_t const simplices,
+                         std::int_fast64_t const timeslices,
+                         double const initial_radius = INITIAL_RADIUS,
+                         double const radial_factor  = RADIAL_FACTOR)
       : delaunay_{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
       , is_foliated_{fix_timeslices()}
@@ -278,13 +278,13 @@ class FoliatedTriangulation<3> : Delaunay3
   friend class MoveCommand;
 };
 
-using FoliatedTriangulation3 = FoliatedTriangulation<3>;
+using FoliatedTriangulation3 = Foliated_triangulation<3>;
 
 /// 4D Triangulation
 // template <>
-// class FoliatedTriangulation<4> : Delaunay4
+// class Foliated_triangulation<4> : Delaunay4
 //{};
 //
-// using FoliatedTriangulation4 = FoliatedTriangulation<4>;
+// using FoliatedTriangulation4 = Foliated_triangulation<4>;
 
 #endif  // CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP

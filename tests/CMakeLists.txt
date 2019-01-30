@@ -2,29 +2,27 @@ cmake_minimum_required(VERSION 3.11)
 
 add_executable(CDT_test
                ${PROJECT_SOURCE_DIR}/tests/main.cpp
-               FunctionRefTest.cpp
-               UtilitiesTest.cpp
+    Function_ref_test.cpp
+    Utilities_test.cpp
                VertexTest.cpp
-               TorusTest.cpp
-               TetrahedronTest.cpp
+    Torus_test.cpp
+    Tetrahedron_test.cpp
                SphereTest.cpp
                SimulationTest.cpp
                # SimplicialManifoldTest.cpp
-               # S3ErgodicMovesTest.cpp
-               S3ActionTest.cpp
+               S3ErgodicMovesTest.cpp S3ActionTest.cpp
                # MoveManagerTest.cpp
                MoveAlgorithmsTest.cpp
                # MeasurementsTest.cpp
-               ManifoldTest.cpp
-               GeometryTest.cpp
-               FoliatedTriangulationTest.cpp
-               MoveCommandTest.cpp
-               MoveGuardTest.cpp)
-target_link_libraries(CDT_test
-                      CONAN_PKG::Catch2
-#                      CONAN_PKG::TBB
-                      CONAN_PKG::date
-                      CONAN_PKG::gsl_microsoft)
+    Manifold_test.cpp
+    Geometry_test.cpp
+    Foliated_triangulation_test.cpp
+    Move_command_test.cpp
+    Move_guard_test.cpp
+    )
+target_link_libraries(CDT_test CONAN_PKG::Catch2
+                      # CONAN_PKG::TBB
+                      CONAN_PKG::date CONAN_PKG::gsl_microsoft)
 # Activate C++17
 target_compile_features(CDT_test PRIVATE cxx_std_17)
 

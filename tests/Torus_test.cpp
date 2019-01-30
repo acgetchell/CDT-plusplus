@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2018 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Tests that 2-tori and 3-tori are correctly constructed in 3D and 4D.
 ///
