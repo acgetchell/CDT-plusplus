@@ -73,6 +73,8 @@ class Manifold<3>
     return geom;
   }
 
+  /// @brief Update the geometry of the manifold when the triangulation has been
+  /// changed
   void update_geometry()
   {
     Geometry3 geom(triangulation_);

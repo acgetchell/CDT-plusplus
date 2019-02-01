@@ -266,3 +266,53 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
     }
   }
 }
+
+SCENARIO("Changing a 3-manifold", "[manifold]")
+{
+  GIVEN("A pair of 3-manifolds")
+  {
+    int_fast64_t desired_simplices{640};
+    int_fast64_t desired_timeslices{4};
+    Manifold3    manifold1(desired_simplices, desired_timeslices);
+    Manifold3    manifold2(desired_simplices, desired_timeslices);
+    WHEN("We swap the triangulation of one manifold for another")
+    {
+      // Get values for manifold1
+      auto manifold1_N3 = manifold1.get_geometry().N3();
+      auto manifold1_N2 = manifold1.get_geometry().N2();
+      auto manifold1_N1 = manifold1.get_geometry().N1();
+      auto manifold1_N0 = manifold1.get_geometry().N0();
+      cout << "Manifold 1 N3 = " << manifold1_N3 << "\n";
+      cout << "Manifold 1 N2 = " << manifold1_N2 << "\n";
+      cout << "Manifold 1 N1 = " << manifold1_N1 << "\n";
+      cout << "Manifold 1 N0 = " << manifold1_N0 << "\n";
+      // Get values for manifold2
+      auto manifold2_N3 = manifold2.get_geometry().N3();
+      auto manifold2_N2 = manifold2.get_geometry().N2();
+      auto manifold2_N1 = manifold2.get_geometry().N1();
+      auto manifold2_N0 = manifold2.get_geometry().N0();
+      cout << "Manifold 2 N3 = " << manifold2_N3 << "\n";
+      cout << "Manifold 2 N2 = " << manifold2_N2 << "\n";
+      cout << "Manifold 2 N1 = " << manifold2_N1 << "\n";
+      cout << "Manifold 2 N0 = " << manifold2_N0 << "\n";
+      // Change manifold1's triangulation to manifold2's
+      manifold1.set_triangulation() = manifold2.get_triangulation();
+      THEN("Calling update_geometry() gives correct values.")
+      {
+        manifold1.update_geometry();
+        cout << "Manifold 1 N3 is now " << manifold1.get_geometry().N3()
+             << "\n";
+        CHECK(manifold1.get_geometry().N3() == manifold2_N3);
+        cout << "Manifold 1 N2 is now " << manifold1.get_geometry().N2()
+             << "\n";
+        CHECK(manifold1.get_geometry().N2() == manifold2_N2);
+        cout << "Manifold 1 N1 is now " << manifold1.get_geometry().N1()
+             << "\n";
+        CHECK(manifold1.get_geometry().N1() == manifold2_N1);
+        cout << "Manifold 1 N0 is now " << manifold1.get_geometry().N0()
+             << "\n";
+        CHECK(manifold1.get_geometry().N0() == manifold2_N0);
+      }
+    }
+  }
+}
