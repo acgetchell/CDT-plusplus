@@ -96,16 +96,31 @@ class Manifold<3>
   /// @return A mutable reference to the geometry
   [[nodiscard]] auto& set_geometry() { return geometry_; }
 
-  /// @return True if the Foliated triangulation's Delaunay triangulation is
-  /// valid
-  bool is_valid() const { return triangulation_.get_delaunay().is_valid(); }
+  /// @return True if the Manifolds's triangulation is Delaunay
+  [[nodiscard]] bool is_delaunay() const
+  {
+    return triangulation_.get_delaunay().is_valid();
+  }
+
+  /// @return True if the Manifold's triangulation data structure is valid
+  [[nodiscard]] bool is_valid() const
+  {
+    return triangulation_.get_delaunay().tds().is_valid();
+  }
+
+  /// @return True if the Manifold's triangulation is correctly foliated
+  [[nodiscard]] bool is_foliated() const
+  {
+    return triangulation_.is_foliated();
+  }
 
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;
   template <std::int_fast64_t>
   friend class MoveCommand;
-  template <typename ManifoldType> friend class MoveGuard;
+  template <typename ManifoldType>
+  friend class MoveGuard;
 };
 
 using Manifold3 = Manifold<3>;

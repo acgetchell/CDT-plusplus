@@ -34,8 +34,8 @@ namespace manifold3_moves
   /// @param manifold
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move was successful
-  [[nodiscard]] inline auto try_23_move(Manifold3   manifold,
-                                        Cell_handle to_be_moved)
+  [[nodiscard]] inline auto try_23_move(Manifold3          manifold,
+                                        Cell_handle const& to_be_moved)
   {
     auto flipped = false;
     // Try every facet of the (1,3) cell
