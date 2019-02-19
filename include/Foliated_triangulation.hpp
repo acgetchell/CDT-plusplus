@@ -103,6 +103,25 @@ class Foliated_triangulation<3> : Delaunay3
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
+  //  /// @return Number of finite cells in triangulation
+  //  using Delaunay3::number_of_finite_cells;
+  [[nodiscard]] auto simplices() const
+  {
+    return delaunay_.number_of_finite_cells();
+  }
+
+  [[nodiscard]] auto faces() const
+  {
+    return delaunay_.number_of_finite_facets();
+  }
+
+  [[nodiscard]] auto edges() const
+  {
+    return delaunay_.number_of_finite_edges();
+  }
+
+  [[nodiscard]] auto vertices() const { return delaunay_.number_of_vertices(); }
+
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param simplices Number of desired simplices

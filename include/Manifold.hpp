@@ -114,6 +114,30 @@ class Manifold<3>
     return triangulation_.is_foliated();
   }
 
+  /// @return Number of 3D simplices in geometry data structure
+  [[nodiscard]] auto N3() const { return geometry_.N3(); }
+
+  /// @return Number of 3D simplices in triangulation data structure
+  [[nodiscard]] auto simplices() const { return triangulation_.simplices(); }
+
+  /// @return Number of 2D faces in geometry data structure
+  [[nodiscard]] auto N2() const { return geometry_.N2(); }
+
+  /// @return Number of 2D faces in triangulation data structure
+  [[nodiscard]] auto faces() const { return triangulation_.faces(); }
+
+  /// @return Number of 1D edges in geometry data structure
+  [[nodiscard]] auto N1() const { return geometry_.N1(); }
+
+  /// @return Number of 1D edges in triangulation data structure
+  [[nodiscard]] auto edges() const { return triangulation_.edges(); }
+
+  /// @return Number of vertices in geometry data structure
+  [[nodiscard]] auto N0() const { return geometry_.N0(); }
+
+  /// @return Number of vertices in triangulation data structure
+  [[nodiscard]] auto vertices() const { return triangulation_.vertices(); }
+
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;

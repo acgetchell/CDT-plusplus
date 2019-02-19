@@ -84,11 +84,11 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.get_geometry().N0() == 5);
+        REQUIRE(manifold.N0() == 5);
         REQUIRE(manifold.get_geometry().N1_SL() == 3);
         REQUIRE(manifold.get_geometry().N1_TL() == 6);
         REQUIRE(manifold.get_geometry().N2_SL().count(2) == 1);
-        REQUIRE(manifold.get_geometry().N3() == 2);
+        REQUIRE(manifold.N3() == 2);
         REQUIRE(manifold.get_geometry().min_time() == 1);
         REQUIRE(manifold.get_geometry().max_time() == 3);
         // Human verification
@@ -109,24 +109,16 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(
-            manifold.get_triangulation().get_delaunay().number_of_vertices() ==
-            manifold.get_geometry().N0());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_edges() == manifold.get_geometry().N1());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_facets() == manifold.get_geometry().N2());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_cells() == manifold.get_geometry().N3());
+        REQUIRE(manifold.vertices() == manifold.N0());
+        REQUIRE(manifold.edges() == manifold.N1());
+        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE(manifold.simplices() == manifold.N3());
         // We have 1 to 8 vertices
-        auto vertices{manifold.get_geometry().N0()};
-        CHECK(1 << vertices);
+        auto vertices{manifold.N0()};
+        CHECK(1 <= vertices);
         CHECK(vertices <= 8);
         // We have 1 to 12 cells
-        auto cells{manifold.get_geometry().N3()};
+        auto cells{manifold.N3()};
         CHECK(1 <= cells);
         CHECK(cells <= 12);
         // We have all the time values
@@ -150,18 +142,10 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(
-            manifold.get_triangulation().get_delaunay().number_of_vertices() ==
-            manifold.get_geometry().N0());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_edges() == manifold.get_geometry().N1());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_facets() == manifold.get_geometry().N2());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_cells() == manifold.get_geometry().N3());
+        REQUIRE(manifold.vertices() == manifold.N0());
+        REQUIRE(manifold.edges() == manifold.N1());
+        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE(manifold.simplices() == manifold.N3());
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -180,18 +164,10 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(
-            manifold.get_triangulation().get_delaunay().number_of_vertices() ==
-            manifold.get_geometry().N0());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_edges() == manifold.get_geometry().N1());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_facets() == manifold.get_geometry().N2());
-        REQUIRE(manifold.get_triangulation()
-                    .get_delaunay()
-                    .number_of_finite_cells() == manifold.get_geometry().N3());
+        REQUIRE(manifold.vertices() == manifold.N0());
+        REQUIRE(manifold.edges() == manifold.N1());
+        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE(manifold.simplices() == manifold.N3());
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -219,7 +195,7 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
         }
         THEN("The manifolds have identical properties.")
         {
-          CHECK(manifold2.get_geometry().N3() == manifold.get_geometry().N3());
+          CHECK(manifold2.N3() == manifold.N3());
           CHECK(manifold2.get_geometry().N3_31() ==
                 manifold.get_geometry().N3_31());
           CHECK(manifold2.get_geometry().N3_22() ==
@@ -228,13 +204,13 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
                 manifold.get_geometry().N3_13());
           CHECK(manifold2.get_geometry().N3_31_13() ==
                 manifold.get_geometry().N3_31_13());
-          CHECK(manifold2.get_geometry().N2() == manifold.get_geometry().N2());
-          CHECK(manifold2.get_geometry().N1() == manifold.get_geometry().N1());
+          CHECK(manifold2.N2() == manifold.N2());
+          CHECK(manifold2.N1() == manifold.N1());
           CHECK(manifold2.get_geometry().N1_TL() ==
                 manifold.get_geometry().N1_TL());
           CHECK(manifold2.get_geometry().N1_SL() ==
                 manifold.get_geometry().N1_SL());
-          CHECK(manifold2.get_geometry().N0() == manifold.get_geometry().N0());
+          CHECK(manifold2.N0() == manifold.N0());
           CHECK(manifold2.get_geometry().max_time() ==
                 manifold.get_geometry().max_time());
           CHECK(manifold2.get_geometry().min_time() ==
@@ -267,7 +243,7 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
   }
 }
 
-SCENARIO("Changing a 3-manifold", "[manifold]")
+SCENARIO("Mutating a 3-manifold", "[manifold]")
 {
   GIVEN("A pair of 3-manifolds")
   {
@@ -278,40 +254,43 @@ SCENARIO("Changing a 3-manifold", "[manifold]")
     WHEN("We swap the triangulation of one manifold for another")
     {
       // Get values for manifold1
-      auto manifold1_N3 = manifold1.get_geometry().N3();
-      auto manifold1_N2 = manifold1.get_geometry().N2();
-      auto manifold1_N1 = manifold1.get_geometry().N1();
-      auto manifold1_N0 = manifold1.get_geometry().N0();
+      auto manifold1_N3 = manifold1.N3();
+      auto manifold1_N2 = manifold1.N2();
+      auto manifold1_N1 = manifold1.N1();
+      auto manifold1_N0 = manifold1.N0();
       cout << "Manifold 1 N3 = " << manifold1_N3 << "\n";
       cout << "Manifold 1 N2 = " << manifold1_N2 << "\n";
       cout << "Manifold 1 N1 = " << manifold1_N1 << "\n";
       cout << "Manifold 1 N0 = " << manifold1_N0 << "\n";
       // Get values for manifold2
-      auto manifold2_N3 = manifold2.get_geometry().N3();
-      auto manifold2_N2 = manifold2.get_geometry().N2();
-      auto manifold2_N1 = manifold2.get_geometry().N1();
-      auto manifold2_N0 = manifold2.get_geometry().N0();
+      auto manifold2_N3 = manifold2.N3();
+      auto manifold2_N2 = manifold2.N2();
+      auto manifold2_N1 = manifold2.N1();
+      auto manifold2_N0 = manifold2.N0();
       cout << "Manifold 2 N3 = " << manifold2_N3 << "\n";
       cout << "Manifold 2 N2 = " << manifold2_N2 << "\n";
       cout << "Manifold 2 N1 = " << manifold2_N1 << "\n";
       cout << "Manifold 2 N0 = " << manifold2_N0 << "\n";
       // Change manifold1's triangulation to manifold2's
       manifold1.set_triangulation() = manifold2.get_triangulation();
+      THEN("Not calling update_geometry() gives old values.")
+      {
+        CHECK(manifold1.N3() == manifold1_N3);
+        CHECK(manifold1.N2() == manifold1_N2);
+        CHECK(manifold1.N1() == manifold1_N1);
+        CHECK(manifold1.N0() == manifold1_N0);
+      }
       THEN("Calling update_geometry() gives correct values.")
       {
         manifold1.update_geometry();
-        cout << "Manifold 1 N3 is now " << manifold1.get_geometry().N3()
-             << "\n";
-        CHECK(manifold1.get_geometry().N3() == manifold2_N3);
-        cout << "Manifold 1 N2 is now " << manifold1.get_geometry().N2()
-             << "\n";
-        CHECK(manifold1.get_geometry().N2() == manifold2_N2);
-        cout << "Manifold 1 N1 is now " << manifold1.get_geometry().N1()
-             << "\n";
-        CHECK(manifold1.get_geometry().N1() == manifold2_N1);
-        cout << "Manifold 1 N0 is now " << manifold1.get_geometry().N0()
-             << "\n";
-        CHECK(manifold1.get_geometry().N0() == manifold2_N0);
+        cout << "Manifold 1 N3 is now " << manifold1.N3() << "\n";
+        CHECK(manifold1.N3() == manifold2_N3);
+        cout << "Manifold 1 N2 is now " << manifold1.N2() << "\n";
+        CHECK(manifold1.N2() == manifold2_N2);
+        cout << "Manifold 1 N1 is now " << manifold1.N1() << "\n";
+        CHECK(manifold1.N1() == manifold2_N1);
+        cout << "Manifold 1 N0 is now " << manifold1.N0() << "\n";
+        CHECK(manifold1.N0() == manifold2_N0);
       }
     }
   }
