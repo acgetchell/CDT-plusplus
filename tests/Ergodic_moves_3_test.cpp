@@ -29,6 +29,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     auto N1_TL_pre_move = manifold.N1_TL();
     auto N1_SL_pre_move = manifold.N1_SL();
     auto N0_pre_move    = manifold.N0();
+    // Copy of manifold
+    auto manifold_before = manifold;
     WHEN("A (2,3) move is performed.")
     {
       manifold = manifold3_moves::do_23_move(manifold);
@@ -37,6 +39,10 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.is_valid());
         // The move is correct
         manifold.update_geometry();
+        // Check using function
+        CHECK(manifold3_moves::check_move(
+            manifold_before, manifold, manifold3_moves::move_type::TWO_THREE));
+        // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move + 1);
         CHECK(manifold.N3_13() == N3_13_pre_move);

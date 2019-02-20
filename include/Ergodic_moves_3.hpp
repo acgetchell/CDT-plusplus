@@ -70,7 +70,7 @@ namespace manifold3_moves
     auto not_flipped = true;
     while (not_flipped)
     {
-      if (two_two.size() == 0)
+      if (two_two.empty())
         throw std::domain_error("No (2,3) move is possible.");
       auto choice =
           generate_random_int(0, static_cast<int>(two_two.size() - 1));
@@ -102,15 +102,15 @@ namespace manifold3_moves
       }
       case move_type::TWO_THREE:
       {
-        return (after.N3() == before.N3() + 1 &&
-                after.N3_31() == before.N3_31() &&
-                after.N3_22() == before.N3_22() + 1 &&
-                after.N3_13() == before.N3_13() && after.N2() == before.N2() &&
-                after.N1() == before.N1() + 1 &&
-                after.N1_TL() == before.N1_TL() + 1 &&
-                after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
-                after.max_time() == before.max_time() &&
-                after.min_time() == before.min_time());
+        return (
+            after.N3() == before.N3() + 1 && after.N3_31() == before.N3_31() &&
+            after.N3_22() == before.N3_22() + 1 &&
+            after.N3_13() == before.N3_13() && after.N2() == before.N2() + 2 &&
+            after.N1() == before.N1() + 1 &&
+            after.N1_TL() == before.N1_TL() + 1 &&
+            after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
+            after.max_time() == before.max_time() &&
+            after.min_time() == before.min_time());
       }
       default:
       {

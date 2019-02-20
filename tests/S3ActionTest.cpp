@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2018 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Ensures that the S3 bulk action calculations are correct, and give
 /// similar results for similar values.
