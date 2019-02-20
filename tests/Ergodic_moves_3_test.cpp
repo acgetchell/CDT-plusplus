@@ -35,7 +35,6 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       THEN("The move is correct and the manifold invariants are maintained.")
       {
         CHECK(manifold.is_valid());
-        CHECK(manifold.is_delaunay());
         // The move is correct
         manifold.update_geometry();
         CHECK(manifold.N3_31() == N3_31_pre_move);
