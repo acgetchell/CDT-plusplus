@@ -135,9 +135,9 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("Constructing a small triangulation.")
     {
-      int_fast64_t desired_simplices{640};
-      int_fast64_t desired_timeslices{4};
-      Manifold3    manifold(desired_simplices, desired_timeslices);
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+      Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
         REQUIRE(manifold.is_delaunay());
@@ -157,9 +157,9 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("Constructing a medium triangulation.")
     {
-      int_fast64_t desired_simplices{6400};
-      int_fast64_t desired_timeslices{7};
-      Manifold3    manifold(desired_simplices, desired_timeslices);
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(6400);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(7);
+      Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.")
       {
         REQUIRE(manifold.is_delaunay());
@@ -184,9 +184,9 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
 {
   GIVEN("A 3-manifold")
   {
-    int_fast64_t desired_simplices{640};
-    int_fast64_t desired_timeslices{4};
-    Manifold3    manifold(desired_simplices, desired_timeslices);
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     WHEN("It is copied.")
     {
       auto manifold2 = manifold;
@@ -243,10 +243,10 @@ SCENARIO("Mutating a 3-manifold", "[manifold]")
 {
   GIVEN("A pair of 3-manifolds")
   {
-    int_fast64_t desired_simplices{640};
-    int_fast64_t desired_timeslices{4};
-    Manifold3    manifold1(desired_simplices, desired_timeslices);
-    Manifold3    manifold2(desired_simplices, desired_timeslices);
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+    Manifold3 manifold1(desired_simplices, desired_timeslices);
+    Manifold3 manifold2(desired_simplices, desired_timeslices);
     WHEN("We swap the triangulation of one manifold for another")
     {
       // Get values for manifold1

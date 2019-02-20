@@ -18,8 +18,8 @@ SCENARIO("Test Move_guard", "[moveguard]")
 {
   GIVEN("A manifold and a move function")
   {
-    constexpr auto desired_simplices  = static_cast<int_fast64_t>(640);
-    constexpr auto desired_timeslices = static_cast<int_fast64_t>(4);
+    constexpr auto desired_simplices  = static_cast<int_fast32_t>(640);
+    constexpr auto desired_timeslices = static_cast<int_fast32_t>(4);
     Manifold3      test_manifold(desired_simplices, desired_timeslices);
     WHEN("We specify a null move")
     {
@@ -49,7 +49,7 @@ SCENARIO("Test Move_guard", "[moveguard]")
         return manifold3_moves::do_23_move(x);
       };
       Move_guard<decltype(test_manifold)> test_move(test_manifold,
-                                                   two_three_move);
+                                                    two_three_move);
       THEN("We should have +1 (2,2) simplices and +1 timelike edges.")
       {
         auto manifold = test_move.get_triangulation();

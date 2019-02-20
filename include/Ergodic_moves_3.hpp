@@ -38,7 +38,7 @@ namespace manifold3_moves
                                         Cell_handle const& to_be_moved)
   {
     auto flipped = false;
-    // Try every facet of the (1,3) cell
+    // Try every facet of the (2,2) cell
     for (std::size_t i = 0; i < 4; ++i)
     {
       if (manifold.set_triangulation().set_delaunay().flip(to_be_moved, i))
@@ -92,36 +92,25 @@ namespace manifold3_moves
     {
       case move_type::FOUR_FOUR:
       {
-        return (after.get_geometry().N3() == before.get_geometry().N3() &&
-                after.get_geometry().N3_31() == before.get_geometry().N3_31() &&
-                after.get_geometry().N3_22() == before.get_geometry().N3_22() &&
-                after.get_geometry().N3_13() == before.get_geometry().N3_13() &&
-                after.get_geometry().N2() == before.get_geometry().N2() &&
-                after.get_geometry().N1() == before.get_geometry().N1() &&
-                after.get_geometry().N1_TL() == before.get_geometry().N1_TL() &&
-                after.get_geometry().N1_SL() == before.get_geometry().N1_SL() &&
-                after.get_geometry().N0() == before.get_geometry().N0() &&
-                after.get_geometry().max_time() ==
-                    before.get_geometry().max_time() &&
-                after.get_geometry().min_time() ==
-                    before.get_geometry().min_time());
+        return (after.N3() == before.N3() && after.N3_31() == before.N3_31() &&
+                after.N3_22() == before.N3_22() &&
+                after.N3_13() == before.N3_13() && after.N2() == before.N2() &&
+                after.N1() == before.N1() && after.N1_TL() == before.N1_TL() &&
+                after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
+                after.max_time() == before.max_time() &&
+                after.min_time() == before.min_time());
       }
       case move_type::TWO_THREE:
       {
-        return (
-            after.get_geometry().N3() == before.get_geometry().N3() + 1 &&
-            after.get_geometry().N3_31() == before.get_geometry().N3_31() &&
-            after.get_geometry().N3_22() == before.get_geometry().N3_22() + 1 &&
-            after.get_geometry().N3_13() == before.get_geometry().N3_13() &&
-            after.get_geometry().N2() == before.get_geometry().N2() &&
-            after.get_geometry().N1() == before.get_geometry().N1() + 1 &&
-            after.get_geometry().N1_TL() == before.get_geometry().N1_TL() + 1 &&
-            after.get_geometry().N1_SL() == before.get_geometry().N1_SL() &&
-            after.get_geometry().N0() == before.get_geometry().N0() &&
-            after.get_geometry().max_time() ==
-                before.get_geometry().max_time() &&
-            after.get_geometry().min_time() ==
-                before.get_geometry().min_time());
+        return (after.N3() == before.N3() + 1 &&
+                after.N3_31() == before.N3_31() &&
+                after.N3_22() == before.N3_22() + 1 &&
+                after.N3_13() == before.N3_13() && after.N2() == before.N2() &&
+                after.N1() == before.N1() + 1 &&
+                after.N1_TL() == before.N1_TL() + 1 &&
+                after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
+                after.max_time() == before.max_time() &&
+                after.min_time() == before.min_time());
       }
       default:
       {

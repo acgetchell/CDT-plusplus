@@ -96,8 +96,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     }
     WHEN("Constructing the minimum triangulation.")
     {
-      int_fast64_t           desired_simplices{2};
-      int_fast64_t           desired_timeslices{2};
+      constexpr auto         desired_simplices  = static_cast<int_fast32_t>(2);
+      constexpr auto         desired_timeslices = static_cast<int_fast32_t>(2);
       FoliatedTriangulation3 foliatedTriangulation(desired_simplices,
                                                    desired_timeslices);
       THEN("Triangulation is valid and foliated.")

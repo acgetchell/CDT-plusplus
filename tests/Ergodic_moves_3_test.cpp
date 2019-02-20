@@ -17,11 +17,11 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
 {
   GIVEN("A 2+1-dimensional foliated triangulation.")
   {
-    constexpr auto desired_simplices  = static_cast<int_fast64_t>(6400);
-    constexpr auto desired_timeslices = static_cast<int_fast64_t>(7);
+    constexpr auto desired_simplices  = static_cast<int_fast32_t>(6400);
+    constexpr auto desired_timeslices = static_cast<int_fast32_t>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
-    REQUIRE(manifold.get_triangulation().get_delaunay().tds().is_valid());
+    REQUIRE(manifold.is_delaunay());
+    REQUIRE(manifold.is_valid());
     // Previous state
     auto N3_31_pre_move = manifold.N3_31();
     auto N3_22_pre_move = manifold.N3_22();
@@ -34,8 +34,6 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       manifold = manifold3_moves::do_23_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained.")
       {
-        // The manifold is still valid
-        //        CHECK(manifold.get_triangulation().get_delaunay().tds().is_valid(true));
         CHECK(manifold.is_valid());
         CHECK(manifold.is_delaunay());
         // The move is correct

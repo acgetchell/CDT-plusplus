@@ -29,8 +29,8 @@ SCENARIO("Test single moves of 3-Manifold", "[move3]")
     }
     WHEN("It is constructed from a Manifold3.")
     {
-      int_fast64_t desired_simplices{640};
-      int_fast64_t desired_timeslices{4};
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
       Manifold3    manifold(desired_simplices, desired_timeslices);
       MoveCommand3 move(manifold);
       THEN("The manifold is valid.")
@@ -59,8 +59,8 @@ SCENARIO("Test single moves of 3-Manifold", "[move3]")
     }
     WHEN("A (2,3) move is requested.")
     {
-      int_fast64_t desired_simplices{640};
-      int_fast64_t desired_timeslices{4};
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
       Manifold3    manifold(desired_simplices, desired_timeslices);
       MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);
       auto         N3_31_pre_move = manifold.N3_31();

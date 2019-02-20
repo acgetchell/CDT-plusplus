@@ -153,13 +153,13 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
              ++cit)
         {
           std::cout << "Simplex type is " << cit->info() << '\n';
-          REQUIRE(cit->info() == static_cast<int>(Cell_type::ONE_THREE));
+          REQUIRE(cit->info() == static_cast<int>(Cell_type::THREE_ONE));
         }
       }
 
-      THEN("There is one (1,3) simplex.")
+      THEN("There is one (3,1) simplex.")
       {
-        REQUIRE(new_universe.get_geometry().N3_13() == 1);
+        REQUIRE(new_universe.get_geometry().N3_31() == 1);
       }
 
       THEN("There are no (2,2) simplices.")
@@ -167,9 +167,9 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
         REQUIRE(new_universe.get_geometry().N3_22() == 0);
       }
 
-      THEN("There are no (3,1) simplices.")
+      THEN("There are no (1,3) simplices.")
       {
-        REQUIRE(new_universe.get_geometry().N3_31() == 0);
+        REQUIRE(new_universe.get_geometry().N3_13() == 0);
       }
 
       THEN("There are 3 timelike edges.")
