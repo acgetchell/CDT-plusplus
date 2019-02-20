@@ -259,13 +259,13 @@ class Geometry<3>
       switch (max_time_vertices)
       {
         case 1:
-          c->info() = static_cast<int>(Cell_type::ONE_THREE);
+          c->info() = static_cast<int>(Cell_type::THREE_ONE);
           break;
         case 2:
           c->info() = static_cast<int>(Cell_type::TWO_TWO);
           break;
         case 3:
-          c->info() = static_cast<int>(Cell_type::THREE_ONE);
+          c->info() = static_cast<int>(Cell_type::ONE_THREE);
           break;
         default:
           throw std::logic_error("Mis-classified cell.");

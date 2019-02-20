@@ -99,14 +99,11 @@ class Manifold<3>
   /// @return True if the Manifolds's triangulation is Delaunay
   [[nodiscard]] bool is_delaunay() const
   {
-    return triangulation_.get_delaunay().is_valid();
+    return triangulation_.is_delaunay();
   }
 
   /// @return True if the Manifold's triangulation data structure is valid
-  [[nodiscard]] bool is_valid() const
-  {
-    return triangulation_.get_delaunay().tds().is_valid();
-  }
+  [[nodiscard]] bool is_valid() const { return triangulation_.is_valid(); }
 
   /// @return True if the Manifold's triangulation is correctly foliated
   [[nodiscard]] bool is_foliated() const
@@ -117,17 +114,38 @@ class Manifold<3>
   /// @return Number of 3D simplices in geometry data structure
   [[nodiscard]] auto N3() const { return geometry_.N3(); }
 
+  /// @return Number of (3,1) simplices in geometry data structure
+  [[nodiscard]] auto N3_31() const { return geometry_.N3_31(); }
+
+  /// @return Number of (2,2) simplices in geometry data structure
+  [[nodiscard]] auto N3_22() const { return geometry_.N3_22(); }
+
+  /// @return Number of (1,3) simplices in geometry data structure
+  [[nodiscard]] auto N3_13() const { return geometry_.N3_13(); }
+
+  /// @return Number of (3,1) and (1,3) simplices in geometry data structure
+  [[nodiscard]] auto N3_31_13() const { return geometry_.N3_31_13(); }
+
   /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] auto simplices() const { return triangulation_.simplices(); }
 
   /// @return Number of 2D faces in geometry data structure
   [[nodiscard]] auto N2() const { return geometry_.N2(); }
 
+  /// @return An associative container of spacelike faces indexed by timevalue
+  [[nodiscard]] auto const& N2_SL() const { return geometry_.N2_SL(); }
+
   /// @return Number of 2D faces in triangulation data structure
   [[nodiscard]] auto faces() const { return triangulation_.faces(); }
 
   /// @return Number of 1D edges in geometry data structure
   [[nodiscard]] auto N1() const { return geometry_.N1(); }
+
+  /// @return Number of spacelike edges in geometry data structure
+  [[nodiscard]] auto N1_SL() const { return geometry_.N1_SL(); }
+
+  /// @return Number of timelike edges in geometry data structure
+  [[nodiscard]] auto N1_TL() const { return geometry_.N1_TL(); }
 
   /// @return Number of 1D edges in triangulation data structure
   [[nodiscard]] auto edges() const { return triangulation_.edges(); }
@@ -137,6 +155,12 @@ class Manifold<3>
 
   /// @return Number of vertices in triangulation data structure
   [[nodiscard]] auto vertices() const { return triangulation_.vertices(); }
+
+  /// @return Minimum time value in geometry data structure
+  [[nodiscard]] auto min_time() const { return geometry_.min_time(); }
+
+  /// @return Maximum time value in geometry data structure
+  [[nodiscard]] auto max_time() const { return geometry_.max_time(); }
 
  private:
   FoliatedTriangulation3 triangulation_;

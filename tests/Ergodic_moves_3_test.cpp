@@ -23,12 +23,12 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     REQUIRE(manifold.get_triangulation().get_delaunay().is_valid());
     REQUIRE(manifold.get_triangulation().get_delaunay().tds().is_valid());
     // Previous state
-    auto N3_31_pre_move = manifold.get_geometry().N3_31();
-    auto N3_22_pre_move = manifold.get_geometry().N3_22();
-    auto N3_13_pre_move = manifold.get_geometry().N3_13();
-    auto N1_TL_pre_move = manifold.get_geometry().N1_TL();
-    auto N1_SL_pre_move = manifold.get_geometry().N1_SL();
-    auto N0_pre_move    = manifold.get_geometry().N0();
+    auto N3_31_pre_move = manifold.N3_31();
+    auto N3_22_pre_move = manifold.N3_22();
+    auto N3_13_pre_move = manifold.N3_13();
+    auto N1_TL_pre_move = manifold.N1_TL();
+    auto N1_SL_pre_move = manifold.N1_SL();
+    auto N0_pre_move    = manifold.N0();
     WHEN("A (2,3) move is performed.")
     {
       manifold = manifold3_moves::do_23_move(manifold);
@@ -40,12 +40,12 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.is_delaunay());
         // The move is correct
         manifold.update_geometry();
-        CHECK(manifold.get_geometry().N3_31() == N3_31_pre_move);
-        CHECK(manifold.get_geometry().N3_22() == N3_22_pre_move + 1);
-        CHECK(manifold.get_geometry().N3_13() == N3_13_pre_move);
-        CHECK(manifold.get_geometry().N1_TL() == N1_TL_pre_move + 1);
-        CHECK(manifold.get_geometry().N1_SL() == N1_SL_pre_move);
-        CHECK(manifold.get_geometry().N0() == N0_pre_move);
+        CHECK(manifold.N3_31() == N3_31_pre_move);
+        CHECK(manifold.N3_22() == N3_22_pre_move + 1);
+        CHECK(manifold.N3_13() == N3_13_pre_move);
+        CHECK(manifold.N1_TL() == N1_TL_pre_move + 1);
+        CHECK(manifold.N1_SL() == N1_SL_pre_move);
+        CHECK(manifold.N0() == N0_pre_move);
       }
     }
   }

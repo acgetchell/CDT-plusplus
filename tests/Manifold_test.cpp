@@ -85,12 +85,16 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.N0() == 5);
-        REQUIRE(manifold.get_geometry().N1_SL() == 3);
-        REQUIRE(manifold.get_geometry().N1_TL() == 6);
-        REQUIRE(manifold.get_geometry().N2_SL().count(2) == 1);
+        REQUIRE(manifold.N1_SL() == 3);
+        REQUIRE(manifold.N1_TL() == 6);
+        // How many spacelike facets have a timevalue of 2? Should be 1.
+        REQUIRE(manifold.N2_SL().count(2) == 1);
+        // There shouldn't be spacelike facets with other time values.
+        REQUIRE(manifold.N2_SL().count(1) == 0);
+        REQUIRE(manifold.N2_SL().count(3) == 0);
         REQUIRE(manifold.N3() == 2);
-        REQUIRE(manifold.get_geometry().min_time() == 1);
-        REQUIRE(manifold.get_geometry().max_time() == 3);
+        REQUIRE(manifold.min_time() == 1);
+        REQUIRE(manifold.max_time() == 3);
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -122,8 +126,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         CHECK(1 <= cells);
         CHECK(cells <= 12);
         // We have all the time values
-        CHECK(manifold.get_geometry().min_time() == 1);
-        CHECK(manifold.get_geometry().max_time() == desired_timeslices);
+        CHECK(manifold.min_time() == 1);
+        CHECK(manifold.max_time() == desired_timeslices);
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -196,25 +200,17 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
         THEN("The manifolds have identical properties.")
         {
           CHECK(manifold2.N3() == manifold.N3());
-          CHECK(manifold2.get_geometry().N3_31() ==
-                manifold.get_geometry().N3_31());
-          CHECK(manifold2.get_geometry().N3_22() ==
-                manifold.get_geometry().N3_22());
-          CHECK(manifold2.get_geometry().N3_13() ==
-                manifold.get_geometry().N3_13());
-          CHECK(manifold2.get_geometry().N3_31_13() ==
-                manifold.get_geometry().N3_31_13());
+          CHECK(manifold2.N3_31() == manifold.N3_31());
+          CHECK(manifold2.N3_22() == manifold.N3_22());
+          CHECK(manifold2.N3_13() == manifold.N3_13());
+          CHECK(manifold2.N3_31_13() == manifold.N3_31_13());
           CHECK(manifold2.N2() == manifold.N2());
           CHECK(manifold2.N1() == manifold.N1());
-          CHECK(manifold2.get_geometry().N1_TL() ==
-                manifold.get_geometry().N1_TL());
-          CHECK(manifold2.get_geometry().N1_SL() ==
-                manifold.get_geometry().N1_SL());
+          CHECK(manifold2.N1_TL() == manifold.N1_TL());
+          CHECK(manifold2.N1_SL() == manifold.N1_SL());
           CHECK(manifold2.N0() == manifold.N0());
-          CHECK(manifold2.get_geometry().max_time() ==
-                manifold.get_geometry().max_time());
-          CHECK(manifold2.get_geometry().min_time() ==
-                manifold.get_geometry().min_time());
+          CHECK(manifold2.max_time() == manifold.max_time());
+          CHECK(manifold2.min_time() == manifold.min_time());
           // Human verification
           cout << "Manifold properties:\n";
           print_manifold(manifold);

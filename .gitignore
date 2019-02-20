@@ -56,5 +56,5 @@ bw-output/*
 
 # SourceTrail
 *.srctrlbm
-*.srctrldb
+*.srctrldb*
 *.srctrlprj

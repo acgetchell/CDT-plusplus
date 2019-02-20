@@ -53,7 +53,7 @@ using Causal_vertices = std::vector<std::pair<Point, int>>;
 static double constexpr INITIAL_RADIUS = 1.0;
 static double constexpr RADIAL_FACTOR  = 1.0;
 
-/// (n,m) is number of vertices on (higher, lower) timeslice
+/// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
 {
   THREE_ONE = 31,  // (3,1)
@@ -103,24 +103,35 @@ class Foliated_triangulation<3> : Delaunay3
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
-  //  /// @return Number of finite cells in triangulation
-  //  using Delaunay3::number_of_finite_cells;
+  /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] auto simplices() const
   {
     return delaunay_.number_of_finite_cells();
   }
 
+  /// @return Number of 2D faces in triangulation data structure
   [[nodiscard]] auto faces() const
   {
     return delaunay_.number_of_finite_facets();
   }
 
+  /// @return Number of 1D edges in triangulation data structure
   [[nodiscard]] auto edges() const
   {
     return delaunay_.number_of_finite_edges();
   }
 
+  /// @return Number of vertices in triangulation data structure
   [[nodiscard]] auto vertices() const { return delaunay_.number_of_vertices(); }
+
+  /// @return True if the triangulation is Delaunay
+  [[nodiscard]] auto is_delaunay() const { return delaunay_.is_valid(); }
+
+  /// @return True if the triangulation data structure is valid
+  [[nodiscard]] auto is_valid() const { return delaunay_.tds().is_valid(); }
+
+  /// @return The dimensionality of the triangulation
+  [[nodiscard]] auto dim() const { return delaunay_.dimension(); }
 
  private:
   /// @brief Make a Delaunay Triangulation
