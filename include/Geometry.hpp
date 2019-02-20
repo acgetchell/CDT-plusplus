@@ -494,7 +494,7 @@ class Geometry<3>
   int                        max_timevalue_;
   int                        min_timevalue_;
   std::multimap<int, Facet>  spacelike_facets_;
-  template <std::int_fast64_t>
+  template <std::size_t>
   friend class MoveCommand;
 };
 

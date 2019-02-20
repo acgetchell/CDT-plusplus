@@ -18,7 +18,7 @@
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
-template <int_fast64_t dimension>
+template <size_t dimension>
 class Manifold;
 
 /// 3D Manifold
@@ -39,7 +39,7 @@ class Manifold<3>
   /// @brief Construct manifold using arguments
   /// @param desired_simplices Number of desired simplices
   /// @param desired_timeslices Number of desired timeslices
-  Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices)
+  Manifold(int_fast32_t desired_simplices, int_fast32_t desired_timeslices)
       : triangulation_{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices)}
       , geometry_{make_geometry(get_triangulation())}
@@ -50,7 +50,7 @@ class Manifold<3>
   /// @param desired_timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
   /// @param radial_factor Radial separation between timeslices
-  Manifold(int_fast64_t desired_simplices, int_fast64_t desired_timeslices,
+  Manifold(int_fast32_t desired_simplices, int_fast32_t desired_timeslices,
            double initial_radius, double radial_factor)
       : triangulation_{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices,
@@ -111,6 +111,9 @@ class Manifold<3>
     return triangulation_.is_foliated();
   }
 
+  /// @return Dimensionality of triangulation data structure
+  [[nodiscard]] auto dim() const { return triangulation_.dim(); }
+
   /// @return Number of 3D simplices in geometry data structure
   [[nodiscard]] auto N3() const { return geometry_.N3(); }
 
@@ -165,7 +168,7 @@ class Manifold<3>
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;
-  template <std::int_fast64_t>
+  template <std::size_t>
   friend class MoveCommand;
   template <typename ManifoldType>
   friend class MoveGuard;
