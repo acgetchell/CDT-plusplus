@@ -313,6 +313,33 @@ class SeedSeq
   NumberType end_;
 };
 
+/// @brief Make a high-quality random generator usable by std::shuffle
+///
+/// This function makes a non-deterministic random number generator, if
+/// supported. See
+/// https://en.cppreference.com/w/cpp/numeric/random/random_device
+/// for more details.
+/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
+/// @return A random number generator
+inline auto make_random_generator()
+{
+  // Non-deterministic random number generator
+  std::random_device rd;
+  // The simple way which works in C++14
+  //  std::mt19937_64 generator(rd());
+
+  // The tedious but more accurate way which works in C++17 but not C++14
+  std::uint_fast64_t numbers[624];  // Seed sequence
+  // Initial state
+  std::generate(numbers, std::end(numbers), std::ref(rd));
+  // Copy into heap-allocated seed sequence
+  SeedSeq seed_seq(numbers, std::end(numbers));
+  // Initialized mt19937_64
+  std::mt19937_64 generator(seed_seq);
+
+  return generator;
+}  // make_random_generator()
+
 /// @brief Generate random numbers
 ///
 /// This function generates a random number from [min_value, max_value]

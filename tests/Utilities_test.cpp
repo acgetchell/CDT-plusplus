@@ -125,6 +125,26 @@ SCENARIO("Printing results", "[utility]")
 
 SCENARIO("Randomizing functions", "[utility]")
 {
+  GIVEN("A container of ints")
+  {
+    std::vector<int> v(20);
+    std::iota(v.begin(), v.end(), 0);
+    WHEN("The container is shuffled.")
+    {
+      std::shuffle(v.begin(), v.end(), make_random_generator());
+      THEN("We get back the elements in random order.")
+      {
+        auto j = 0;
+        for (auto i : v) { CHECK(i != j++); }
+        std::cout << "\n";
+        std::cout << "Shuffled container verification:\n";
+        for (auto i : v)
+        std:
+          cout << i << " ";
+        std::cout << "\n";
+      }
+    }
+  }
   GIVEN("A test range of integers")
   {
     WHEN("We generate six different random integers within the range.")
