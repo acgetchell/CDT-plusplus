@@ -69,5 +69,24 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N0() == N0_pre_move);
       }
     }
+    WHEN("A (2,6) move is performed.")
+    {
+      manifold = manifold3_moves::do_26_move(manifold);
+      THEN("The move is correct and the manifold invariants are maintained.")
+      {
+        // Update geometry with new triangulation info
+        manifold.update_geometry();
+        // The move is correct
+        CHECK(manifold3_moves::check_move(manifold_before, manifold,
+                                          manifold3_moves::move_type::TWO_SIX));
+        // Manual check
+        CHECK(manifold.N3_31() == N3_31_pre_move + 2);
+        CHECK(manifold.N3_22() == N3_22_pre_move);
+        CHECK(manifold.N3_13() == N3_13_pre_move + 2);
+        CHECK(manifold.N1_TL() == N1_TL_pre_move + 2);
+        CHECK(manifold.N1_SL() == N1_SL_pre_move + 3);
+        CHECK(manifold.N0() == N0_pre_move + 1);
+      }
+    }
   }
 }

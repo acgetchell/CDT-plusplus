@@ -127,6 +127,144 @@ namespace manifold3_moves
     }
     // We've run out of edges to try
     throw std::domain_error("No (3,2) move possible.");
+  }  // do_32_move()
+
+  /// @brief Check if (2,6)-movable
+  ///
+  /// This function checks if a (2,6) move is possible on the i-th neighbor
+  /// of a (1,3) simplex. That is, the i-th neighbor must be a (3,1) simplex.
+  /// This preserves the timelike foliation.
+  /// This condition can be relaxed in the more general case.
+  ///
+  /// @param c The presumed (1,3) simplex
+  /// @param i The i-th neighbor of c
+  /// @return True if the i-th neighbor of c is a (3,1) simplex
+  [[nodiscard]] inline auto is_26_movable(Cell_handle const& c, int i)
+  {
+    // Source cell should be a (1,3)
+    Expects(c->info() == 13);
+    return (c->neighbor(i)->info() == 31);
+  }  // is_26_movable()
+
+  /// @brief Find a (2,6) move
+  ///
+  /// This function checks to see if a (2,6) move is possible. Starting with
+  /// a (1,3) simplex, it checks neighbors for a (3,1) simplex. The index of
+  /// that neighbor is passed via an out parameter
+  ///
+  /// @param c The (1,3) simplex that is checked
+  /// @param n The out parameter integer of the neighboring (3,1) simplex
+  /// @return True if the (2,6) move is possible
+  [[nodiscard]] inline auto find_26_move(Cell_handle const& c, int& n)
+  {
+    auto movable = false;
+    for (auto i = 0; i < 4; ++i)
+    {
+#ifndef NDEBUG
+      std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
+                << "\n";
+#endif
+      if (is_26_movable(c, i))
+      {
+        n       = i;
+        movable = true;
+        break;
+      }
+    }
+    return movable;
+  }  // find_26_move()
+
+  [[nodiscard]] inline auto do_26_move(Manifold3& manifold)
+  {
+#ifndef NDEBUG
+    std::cout << "Attempting (2,6) move.\n";
+#endif
+    auto one_three = manifold.get_geometry().get_one_three();
+    // Shuffle the container to pick a random sequence of (1,3) cells to try
+    std::shuffle(one_three.begin(), one_three.end(), make_random_generator());
+    auto neighboring_31_index = std::numeric_limits<int>::max();
+    for (auto& bottom : one_three)
+    {
+      if (find_26_move(bottom, neighboring_31_index))
+      {
+#ifndef NDEBUG
+        std::cout << "neighboring_31_index is " << neighboring_31_index << "\n";
+#endif
+        Cell_handle top = bottom->neighbor(neighboring_31_index);
+        // Calculate the common face with respect to the bottom cell
+        auto common_face_index = std::numeric_limits<int>::max();
+        Expects(bottom->has_neighbor(top, common_face_index));
+
+        // Get indices of vertices of common face with respect to bottom cell
+        auto i1 = (common_face_index + 1) & 3;
+        auto i2 = (common_face_index + 2) & 3;
+        auto i3 = (common_face_index + 3) & 3;
+
+        // Get vertices of common face
+        auto v1 = bottom->vertex(i1);
+        auto v2 = bottom->vertex(i2);
+        auto v3 = bottom->vertex(i3);
+
+        // Timeslice of vertices should be same
+        Expects(v1->info() == v2->info() && v2->info() == v3->info());
+
+        // Do the (2,6) move
+        // Insert new vertex
+        Vertex_handle v_center =
+            manifold.set_triangulation().set_delaunay().tds().insert_in_facet(
+                bottom, neighboring_31_index);
+
+        // Checks
+        std::vector<Cell_handle> incident_cells;
+        manifold.set_triangulation().set_delaunay().tds().incident_cells(
+            v_center, std::back_inserter(incident_cells));
+        // the (2,6) center vertex should be bounded by 6 simplices
+        Expects(incident_cells.size() == 6);
+        // Each incident cell should be combinatorially and geometrically valid
+        for (auto const& cell : incident_cells)
+        {
+          Expects(
+              manifold.get_triangulation().get_delaunay().tds().is_valid(cell));
+        }
+
+        // Now assign a geometric point to the center vertex
+        auto center_point =
+            CGAL::centroid(v1->point(), v2->point(), v3->point());
+#ifndef NDEBUG
+        std::cout << "Center point is: " << center_point << "\n";
+#endif
+        v_center->set_point(center_point);
+
+        // Assign a timevalue to the new vertex
+        auto timevalue   = v1->info();
+        v_center->info() = timevalue;
+
+#ifndef NDEBUG
+        if (manifold.get_triangulation().get_delaunay().tds().is_vertex(
+                v_center))
+        { std::cout << "It's a vertex in the TDS.\n"; }
+        else
+        {
+          std::cout << "It's not a vertex in the TDS.\n";
+        }
+        std::cout << "Spacelike face timevalue is " << timevalue << "\n";
+        std::cout << "Inserted vertex (" << v_center->point()
+                  << ") with timevalue " << v_center->info() << "\n";
+#endif
+
+        // Final check
+        Expects(manifold.get_triangulation().get_delaunay().tds().is_valid(
+            v_center, true, 1));
+
+        return manifold;
+      }
+      // Try next cell
+#ifndef NDEBUG
+      std::cout << "Cell not insertable.\n";
+#endif
+    }
+    // We've run out of (1,3) simplices to try
+    throw std::domain_error("No (2,6) move possible.");
   }
 
   /// @brief Check move correctness
@@ -179,7 +317,17 @@ namespace manifold3_moves
       }
       case move_type::TWO_SIX:
       {
-        return (after.is_valid());
+        return (after.is_valid() && after.N3() == before.N3() + 4 &&
+                after.N3_31() == before.N3_31() + 2 &&
+                after.N3_22() == before.N3_22() &&
+                after.N3_13() == before.N3_13() + 2 &&
+                after.N2() == before.N2() + 8 &&
+                after.N1() == before.N1() + 5 &&
+                after.N1_TL() == before.N1_TL() + 2 &&
+                after.N1_SL() == before.N1_SL() + 3 &&
+                after.N0() == before.N0() + 1 &&
+                after.max_time() == before.max_time() &&
+                after.min_time() == before.min_time());
       }
       case move_type::SIX_TWO:
       {
@@ -190,7 +338,7 @@ namespace manifold3_moves
         return false;
       }
     }
-  }
+  }  // check_move()
 
 }  // namespace manifold3_moves
 
