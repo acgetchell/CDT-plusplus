@@ -131,6 +131,9 @@ class Geometry<3>
     return spacelike_edges_;
   }
 
+  /// @return Container of vertices
+  std::vector<Vertex_handle> const& get_vertices() const { return points_; }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells() const

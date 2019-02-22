@@ -37,6 +37,7 @@ namespace manifold3_moves
   [[nodiscard]] inline auto try_23_move(Manifold3&         manifold,
                                         Cell_handle const& to_be_moved)
   {
+    Expects(to_be_moved->info() == 22);
     auto flipped = false;
     // Try every facet of the (2,2) cell
     for (std::size_t i = 0; i < 4; ++i)
@@ -61,10 +62,13 @@ namespace manifold3_moves
 
   /// @brief Perform a (2,3) move
   ///
-  /// A (2,3) move adds a (2,2) simplex and a timelike edge.
+  /// A (2,3) move "flips" a timelike face into a timelike edge.
+  /// This adds a (2,2) simplex and a timelike edge.
   ///
-  /// This function calls try_23_move until it succeeds; the triangulation is no
-  /// longer Delaunay.
+  /// This function calls try_23_move on (2,2) simplices drawn from a
+  /// randomly shuffled container until it succeeds or runs out of simplices.
+  ///
+  /// If successful, the triangulation is no longer Delaunay.
   ///
   /// @param manifold The simplicial manifold
   /// @return The (2,3) moved manifold
@@ -100,6 +104,18 @@ namespace manifold3_moves
     return flipped;
   }
 
+  /// @brief Perform a (3,2) move
+  ///
+  /// A (3,2) move "flips" a timelike edge into a timelike face.
+  /// This removes a (2,2) simplex and the timelike edge.
+  ///
+  /// This function calls try_32_move on timelike edges drawn from a
+  /// randomly shuffled container until it succeeds or runs out of edges.
+  ///
+  /// If successful, the triangulation is no longer Delaunay.
+  ///
+  /// @param manifold The simplicial manifold
+  /// @return The (3,2) moved manifold
   [[nodiscard]] inline auto do_32_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
@@ -129,34 +145,18 @@ namespace manifold3_moves
     throw std::domain_error("No (3,2) move possible.");
   }  // do_32_move()
 
-  /// @brief Check if (2,6)-movable
-  ///
-  /// This function checks if a (2,6) move is possible on the i-th neighbor
-  /// of a (1,3) simplex. That is, the i-th neighbor must be a (3,1) simplex.
-  /// This preserves the timelike foliation.
-  /// This condition can be relaxed in the more general case.
-  ///
-  /// @param c The presumed (1,3) simplex
-  /// @param i The i-th neighbor of c
-  /// @return True if the i-th neighbor of c is a (3,1) simplex
-  [[nodiscard]] inline auto is_26_movable(Cell_handle const& c, int i)
-  {
-    // Source cell should be a (1,3)
-    Expects(c->info() == 13);
-    return (c->neighbor(i)->info() == 31);
-  }  // is_26_movable()
-
   /// @brief Find a (2,6) move
   ///
   /// This function checks to see if a (2,6) move is possible. Starting with
   /// a (1,3) simplex, it checks neighbors for a (3,1) simplex. The index of
-  /// that neighbor is passed via an out parameter
+  /// that neighbor is passed via an out parameter.
   ///
   /// @param c The (1,3) simplex that is checked
   /// @param n The out parameter integer of the neighboring (3,1) simplex
   /// @return True if the (2,6) move is possible
   [[nodiscard]] inline auto find_26_move(Cell_handle const& c, int& n)
   {
+    Expects(c->info() == 13);
     auto movable = false;
     for (auto i = 0; i < 4; ++i)
     {
@@ -164,7 +164,7 @@ namespace manifold3_moves
       std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
                 << "\n";
 #endif
-      if (is_26_movable(c, i))
+      if (c->neighbor(i)->info() == 31)
       {
         n       = i;
         movable = true;
@@ -174,6 +174,22 @@ namespace manifold3_moves
     return movable;
   }  // find_26_move()
 
+  /// @brief Perform a (2,6) move
+  ///
+  /// A (2,6) move inserts a vertex into the spacelike face between a
+  /// (1,3) simplex on the bottom connected to a (3,1) simplex on top.
+  /// This adds 2 (1,3) simplices and 2 (3,1) simplices.
+  /// It adds 2 spacelike faces and 6 timelike faces.
+  /// It also adds 2 timelike edges and 3 spacelike edges, as well as the
+  /// vertex.
+  ///
+  /// Thus function calls find_26_move on (1,3) simplices drawn from a
+  /// randomly shuffled container until it succeeds or runs out of simplices.
+  ///
+  /// If successful, the triangulation is no longer Delaunay.
+  ///
+  /// @param manifold The simplicial manifold
+  /// @return The (2,6) moved manifold
   [[nodiscard]] inline auto do_26_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
@@ -265,7 +281,88 @@ namespace manifold3_moves
     }
     // We've run out of (1,3) simplices to try
     throw std::domain_error("No (2,6) move possible.");
-  }
+  }  // do_26_move()
+
+  /// @ brief Find a (6,2) move
+  ///
+  /// This function checks to see if a (6,2) move is possible. Starting
+  /// with a vertex, it checks all incident cells. There must be 6
+  /// incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices,
+  /// and there should be no (2,2) simplices.
+  /// @param manifold The simplicial manifold
+  /// @param candidate The vertex to check
+  /// @return True if (6,2) move is possible
+  [[nodiscard]] inline auto find_62_move(Manifold3&    manifold,
+                                         Vertex_handle candidate)
+  {
+    Expects(manifold.get_triangulation().get_delaunay().is_vertex(candidate));
+
+    // Obtain all adjacent cells
+    std::vector<Cell_handle> adjacent_cells;
+    manifold.get_triangulation().get_delaunay().tds().incident_cells(
+        candidate, std::back_inserter(adjacent_cells));
+    // We must have 6 cells adjacent to the vertex to make a (6,2) move
+    if (adjacent_cells.size() != 6) return false;
+
+    // Count (3,1), (2,2), and (1,3) cells
+    auto adjacent_cell_types = std::make_tuple(0, 0, 0);
+    for (auto const& cell : adjacent_cells)
+    {
+      Expects(manifold.get_triangulation().get_delaunay().is_cell(cell));
+      switch (cell->info())
+      {
+        case 31:
+        {
+          ++std::get<0>(adjacent_cell_types);
+        }
+        case 22:
+        {
+          ++std::get<1>(adjacent_cell_types);
+        }
+        case 13:
+        {
+          ++std::get<2>(adjacent_cell_types);
+        }
+        default:
+        {
+#ifndef NDEBUG
+          std::cout << "Probably an edge cell (facet with infinite vertex.\n";
+#endif
+          return false;
+        }
+      }
+    }
+    return ((std::get<0>(adjacent_cell_types) == 3) &&
+            (std::get<1>(adjacent_cell_types) == 0) &&
+            (std::get<2>(adjacent_cell_types) == 3));
+
+  }  // find_62_moves()
+
+  [[nodiscard]] inline auto do_62_move(Manifold3& manifold)
+  {
+#ifndef NDEBUG
+    std::cout << "Attempting (6,2) move.\n";
+#endif
+    auto vertices = manifold.get_geometry().get_vertices();
+    // Shuffle the container to pick a random sequence of vertices to try
+    std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
+    for (auto& vertex : vertices)
+    {
+      if (find_62_move(manifold, vertex))
+      {
+        manifold.set_triangulation().set_delaunay().remove(vertex);
+        return manifold;
+      }
+      // Try next vertex
+#ifndef NDEBUG
+      std::cout << "Vertex not movable.\n";
+#endif
+    }
+    // We've run out of vertices to try
+    //    throw std::domain_error("No (6,2) move possible.");
+    std::cout << "No (6,2) move is possible.\n";
+    return manifold;
+  }  // do_62_move()
 
   /// @brief Check move correctness
   /// @param before The manifold before the move
@@ -331,7 +428,17 @@ namespace manifold3_moves
       }
       case move_type::SIX_TWO:
       {
-        return (after.is_valid());
+        return (after.is_valid() && after.N3() == before.N3() - 4 &&
+                after.N3_31() == before.N3_31() - 2 &&
+                after.N3_22() == before.N3_22() &&
+                after.N3_13() == before.N3_13() - 2 &&
+                after.N2() == before.N2() - 8 &&
+                after.N1() == before.N1() - 5 &&
+                after.N1_TL() == before.N1_TL() - 2 &&
+                after.N1_SL() == before.N1_SL() - 3 &&
+                after.N0() == before.N0() - 1 &&
+                after.max_time() == before.max_time() &&
+                after.min_time() == before.min_time());
       }
       default:
       {
