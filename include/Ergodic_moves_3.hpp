@@ -292,46 +292,56 @@ namespace manifold3_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto find_62_move(Manifold3&    manifold,
-                                         Vertex_handle candidate)
+  [[nodiscard]] inline auto find_62_move(Manifold3&           manifold,
+                                         Vertex_handle const& candidate)
   {
     Expects(manifold.get_triangulation().get_delaunay().is_vertex(candidate));
+    Expects(manifold.dim() == 3);
 
     // Obtain all adjacent cells
     std::vector<Cell_handle> adjacent_cells;
     manifold.get_triangulation().get_delaunay().tds().incident_cells(
         candidate, std::back_inserter(adjacent_cells));
     // We must have 6 cells adjacent to the vertex to make a (6,2) move
-    if (adjacent_cells.size() != 6) return false;
+    if (adjacent_cells.size() != 6)
+    {
+#ifndef NDEBUG
+      std::cout << "Vertex has " << adjacent_cells.size()
+                << " adjacent cells.\n";
+#endif
+      return false;
+    }
 
     // Count (3,1), (2,2), and (1,3) cells
     auto adjacent_cell_types = std::make_tuple(0, 0, 0);
     for (auto const& cell : adjacent_cells)
     {
       Expects(manifold.get_triangulation().get_delaunay().is_cell(cell));
-      switch (cell->info())
+      if (cell->info() == 31) { ++std::get<0>(adjacent_cell_types); }
+      else if (cell->info() == 22)
       {
-        case 31:
-        {
-          ++std::get<0>(adjacent_cell_types);
-        }
-        case 22:
-        {
-          ++std::get<1>(adjacent_cell_types);
-        }
-        case 13:
-        {
-          ++std::get<2>(adjacent_cell_types);
-        }
-        default:
-        {
+        ++std::get<1>(adjacent_cell_types);
+      }
+      else if (cell->info() == 13)
+      {
+        ++std::get<2>(adjacent_cell_types);
+      }
+      else
+      {
 #ifndef NDEBUG
-          std::cout << "Probably an edge cell (facet with infinite vertex.\n";
+        std::cout << "Probably an edge cell (facet with infinite vertex).\n";
 #endif
-          return false;
-        }
+        return false;
       }
     }
+#ifndef NDEBUG
+    std::cout << "Vertex has " << std::get<0>(adjacent_cell_types)
+              << " adjacent (3,1) simplices and "
+              << std::get<1>(adjacent_cell_types)
+              << " adjacent (2,2) simplices and "
+              << std::get<2>(adjacent_cell_types)
+              << " adjacent (1,3) simplices.\n";
+#endif
     return ((std::get<0>(adjacent_cell_types) == 3) &&
             (std::get<1>(adjacent_cell_types) == 0) &&
             (std::get<2>(adjacent_cell_types) == 3));
@@ -354,9 +364,6 @@ namespace manifold3_moves
         return manifold;
       }
       // Try next vertex
-#ifndef NDEBUG
-      std::cout << "Vertex not movable.\n";
-#endif
     }
     // We've run out of vertices to try
     //    throw std::domain_error("No (6,2) move possible.");
