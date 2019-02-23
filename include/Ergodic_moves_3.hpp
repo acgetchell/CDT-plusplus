@@ -183,7 +183,7 @@ namespace manifold3_moves
   /// It also adds 2 timelike edges and 3 spacelike edges, as well as the
   /// vertex.
   ///
-  /// Thus function calls find_26_move on (1,3) simplices drawn from a
+  /// This function calls find_26_move on (1,3) simplices drawn from a
   /// randomly shuffled container until it succeeds or runs out of simplices.
   ///
   /// If successful, the triangulation is no longer Delaunay.
@@ -283,7 +283,7 @@ namespace manifold3_moves
     throw std::domain_error("No (2,6) move possible.");
   }  // do_26_move()
 
-  /// @ brief Find a (6,2) move
+  /// @brief Find a (6,2) move
   ///
   /// This function checks to see if a (6,2) move is possible. Starting
   /// with a vertex, it checks all incident cells. There must be 6
@@ -298,56 +298,57 @@ namespace manifold3_moves
     Expects(manifold.get_triangulation().get_delaunay().is_vertex(candidate));
     Expects(manifold.dim() == 3);
 
-    // Obtain all adjacent cells
-    std::vector<Cell_handle> adjacent_cells;
+    // Obtain all incident cells
+    std::vector<Cell_handle> incident_cells;
     manifold.get_triangulation().get_delaunay().tds().incident_cells(
-        candidate, std::back_inserter(adjacent_cells));
-    // We must have 6 cells adjacent to the vertex to make a (6,2) move
-    if (adjacent_cells.size() != 6)
+        candidate, std::back_inserter(incident_cells));
+    // We must have 6 cells incident to the vertex to make a (6,2) move
+    if (incident_cells.size() != 6)
     {
 #ifndef NDEBUG
-      std::cout << "Vertex has " << adjacent_cells.size()
-                << " adjacent cells.\n";
+      std::cout << "Vertex has " << incident_cells.size()
+                << " incident cells.\n";
 #endif
       return false;
     }
 
-    // Count (3,1), (2,2), and (1,3) cells
-    auto adjacent_cell_types = std::make_tuple(0, 0, 0);
-    for (auto const& cell : adjacent_cells)
-    {
-      Expects(manifold.get_triangulation().get_delaunay().is_cell(cell));
-      if (cell->info() == 31) { ++std::get<0>(adjacent_cell_types); }
-      else if (cell->info() == 22)
-      {
-        ++std::get<1>(adjacent_cell_types);
-      }
-      else if (cell->info() == 13)
-      {
-        ++std::get<2>(adjacent_cell_types);
-      }
-      else
-      {
+    auto incident_31 = manifold.get_geometry().filter_cells(
+        incident_cells, Cell_type::THREE_ONE);
+    auto incident_22 = manifold.get_geometry().filter_cells(incident_cells,
+                                                            Cell_type::TWO_TWO);
+    auto incident_13 = manifold.get_geometry().filter_cells(
+        incident_cells, Cell_type::ONE_THREE);
+
 #ifndef NDEBUG
-        std::cout << "Probably an edge cell (facet with infinite vertex).\n";
+    std::cout << "Vertex has " << incident_31.size()
+              << " incident (3,1) simplices and " << incident_22.size()
+              << " incident (2,2) simplices and " << incident_13.size()
+              << " incident (1,3) simplices.\n";
+    manifold.get_geometry().print_cells(incident_cells);
 #endif
-        return false;
-      }
-    }
-#ifndef NDEBUG
-    std::cout << "Vertex has " << std::get<0>(adjacent_cell_types)
-              << " adjacent (3,1) simplices and "
-              << std::get<1>(adjacent_cell_types)
-              << " adjacent (2,2) simplices and "
-              << std::get<2>(adjacent_cell_types)
-              << " adjacent (1,3) simplices.\n";
-#endif
-    return ((std::get<0>(adjacent_cell_types) == 3) &&
-            (std::get<1>(adjacent_cell_types) == 0) &&
-            (std::get<2>(adjacent_cell_types) == 3));
+    return ((incident_31.size() == 3) && (incident_22.empty()) &&
+            (incident_13.size() == 3));
 
   }  // find_62_moves()
 
+  /// @brief Perform a (6,2) move
+  ///
+  /// A (6,2) move removes a vertex which has 3 incident (3,1) simplices
+  /// and 3 (1,3) simplices for a total of 6 incident simplices exactly.
+  /// This converts the 3 (1,3) simplices into a single (1,3) simplex on
+  /// the bottom and the 3 (3,1) simplices into a single (3,1) simplex on
+  /// top. It thus removes 2 (1,3) simplices, 2 (3,1) simplices, 2 spacelike
+  /// faces, 6 timelike faces, 3 spacelike edges, 2 timelike edges, and a
+  /// single vertex.
+  ///
+  /// This function calls find_62_move on a randomly shuffled container
+  /// of vertices until it succeeds or runs out of vertices.
+  ///
+  /// If successful, the triangulation remains Delaunay. (Other moves may
+  /// change this, however.)
+  ///
+  /// @param manifold The simplicial manifold
+  /// @return The (6,2) moved manifold
   [[nodiscard]] inline auto do_62_move(Manifold3& manifold)
   {
 #ifndef NDEBUG

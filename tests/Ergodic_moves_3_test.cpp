@@ -99,6 +99,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold3_moves::check_move(manifold_before, manifold,
                                           manifold3_moves::move_type::SIX_TWO));
         // Manual check
+        CHECK(manifold.is_delaunay());
         CHECK(manifold.N3_31() == N3_31_pre_move - 2);
         CHECK(manifold.N3_22() == N3_22_pre_move);
         CHECK(manifold.N3_13() == N3_13_pre_move - 2);

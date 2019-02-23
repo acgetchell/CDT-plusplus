@@ -58,23 +58,23 @@ class Manifold<3>
       , geometry_{make_geometry(get_triangulation())}
   {}
 
-  /// @brief Construct a Geometry of useful data from a triangulation
-  /// @tparam Manifold Reference type of triangulation
-  /// @param manifold Reference to triangulation
-  /// @return Geometry of triangulation
-  template <typename Manifold>
-  Geometry3 make_geometry(Manifold& manifold)
+  /// @brief Construct Geometry data from a triangulation
+  /// @tparam Triangulation Type of triangulation
+  /// @param triangulation The triangulation to use
+  /// @return The geometry data of the triangulation
+  template <typename Triangulation>
+  Geometry3 make_geometry(Triangulation& triangulation)
   {
 #ifndef NDEBUG
     std::cout << "make_geometry() invoked ...\n";
 #endif
 
-    Geometry3 geom{manifold};
+    Geometry3 geom{triangulation};
     return geom;
   }
 
-  /// @brief Update the geometry of the manifold when the triangulation has been
-  /// changed
+  /// @brief Update geometry data of the manifold when the triangulation has
+  /// been changed
   void update_geometry()
   {
     Geometry3 geom(triangulation_);
@@ -168,10 +168,6 @@ class Manifold<3>
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;
-  template <std::size_t>
-  friend class MoveCommand;
-  template <typename ManifoldType>
-  friend class MoveGuard;
 };
 
 using Manifold3 = Manifold<3>;
