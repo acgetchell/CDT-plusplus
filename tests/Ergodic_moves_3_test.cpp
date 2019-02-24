@@ -15,7 +15,7 @@ using namespace std;
 
 SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
 {
-  GIVEN("A 2+1-dimensional foliated triangulation.")
+  GIVEN("A 2+1-dimensional foliated triangulation")
   {
     constexpr auto desired_simplices  = static_cast<int_fast32_t>(6400);
     constexpr auto desired_timeslices = static_cast<int_fast32_t>(7);
@@ -31,10 +31,10 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     auto N0_pre_move    = manifold.N0();
     // Copy of manifold
     auto manifold_before = manifold;
-    WHEN("A (2,3) move is performed.")
+    WHEN("A (2,3) move is performed")
     {
       manifold = manifold3_moves::do_23_move(manifold);
-      THEN("The move is correct and the manifold invariants are maintained.")
+      THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update_geometry();
@@ -50,10 +50,10 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N0() == N0_pre_move);
       }
     }
-    WHEN("A (3,2) move is performed.")
+    WHEN("A (3,2) move is performed")
     {
       manifold = manifold3_moves::do_32_move(manifold);
-      THEN("The move is correct and the manifold invariants are maintained.")
+      THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update_geometry();
@@ -69,10 +69,10 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N0() == N0_pre_move);
       }
     }
-    WHEN("A (2,6) move is performed.")
+    WHEN("A (2,6) move is performed")
     {
       manifold = manifold3_moves::do_26_move(manifold);
-      THEN("The move is correct and the manifold invariants are maintained.")
+      THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update_geometry();
@@ -88,10 +88,10 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N0() == N0_pre_move + 1);
       }
     }
-    WHEN("A (6,2) move is performed.")
+    WHEN("A (6,2) move is performed")
     {
       manifold = manifold3_moves::do_62_move(manifold);
-      THEN("The move is correct and the manifold invariants are maintained.")
+      THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update_geometry();

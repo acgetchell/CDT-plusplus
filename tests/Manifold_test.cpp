@@ -17,31 +17,31 @@ using namespace std;
 
 SCENARIO("3-Manifold exception-safety", "[manifold]")
 {
-  GIVEN("A 3-dimensional manifold.")
+  GIVEN("A 3-dimensional manifold")
   {
-    WHEN("It's properties are examined.")
+    WHEN("It's properties are examined")
     {
-      THEN("It is not no-throw default constructible.")
+      THEN("It is not no-throw default constructible")
       {
         CHECK_FALSE(is_nothrow_default_constructible<Manifold3>::value);
       }
-      THEN("It is no-throw destructible.")
+      THEN("It is no-throw destructible")
       {
         REQUIRE(is_nothrow_destructible<Manifold3>::value);
       }
-      THEN("It is not no-throw copy constructible.")
+      THEN("It is not no-throw copy constructible")
       {
         CHECK_FALSE(is_nothrow_copy_constructible<Manifold3>::value);
       }
-      THEN("It is not no-throw copy assignable.")
+      THEN("It is not no-throw copy assignable")
       {
         CHECK_FALSE(is_nothrow_copy_assignable<Manifold3>::value);
       }
-      THEN("It is not no-throw move constructible.")
+      THEN("It is not no-throw move constructible")
       {
         CHECK_FALSE(is_nothrow_move_constructible<Manifold3>::value);
       }
-      THEN("It is not no-throw move assignable.")
+      THEN("It is not no-throw move assignable")
       {
         CHECK_FALSE(is_nothrow_move_assignable<Manifold3>::value);
       }
@@ -53,19 +53,19 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 {
   GIVEN("A 3-manifold")
   {
-    WHEN("It is default constructed.")
+    WHEN("It is default constructed")
     {
       Manifold3 manifold;
-      THEN("It is not yet correctly foliated.")
+      THEN("It is not yet correctly foliated")
       {
         REQUIRE_FALSE(manifold.is_foliated());
       }
-      THEN("The default Delaunay triangulation is valid.")
+      THEN("The default Delaunay triangulation is valid")
       {
         REQUIRE(manifold.is_delaunay());
       }
     }
-    WHEN("It is constructed from a Delaunay triangulation.")
+    WHEN("It is constructed from a Delaunay triangulation")
     {
       Causal_vertices cv;
       cv.emplace_back(make_pair(Point(0, 0, 0), 1));
@@ -76,12 +76,12 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Delaunay3 dt(cv.begin(), cv.end());
       Manifold3 manifold(dt);
 
-      THEN("The triangulation is valid.")
+      THEN("The triangulation is valid")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      THEN("The geometry matches the triangulation.")
+      THEN("The geometry matches the triangulation")
       {
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.N0() == 5);
@@ -100,17 +100,17 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         manifold.get_geometry().print_volume_per_timeslice();
       }
     }
-    WHEN("Constructing the minimum size triangulation.")
+    WHEN("Constructing the minimum size triangulation")
     {
       int_fast64_t desired_simplices{2};
       int_fast64_t desired_timeslices{2};
       Manifold3    manifold(desired_simplices, desired_timeslices);
-      THEN("Triangulation is valid.")
+      THEN("Triangulation is valid")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      THEN("The geometry matches the triangulation.")
+      THEN("The geometry matches the triangulation")
       {
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.vertices() == manifold.N0());
@@ -133,17 +133,17 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         manifold.get_geometry().print_volume_per_timeslice();
       }
     }
-    WHEN("Constructing a small triangulation.")
+    WHEN("Constructing a small triangulation")
     {
       auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
       auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
       Manifold3 manifold(desired_simplices, desired_timeslices);
-      THEN("Triangulation is valid.")
+      THEN("Triangulation is valid")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      THEN("The geometry matches the triangulation.")
+      THEN("The geometry matches the triangulation")
       {
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.vertices() == manifold.N0());
@@ -155,7 +155,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         manifold.get_geometry().print_volume_per_timeslice();
       }
     }
-    WHEN("Constructing a medium triangulation.")
+    WHEN("Constructing a medium triangulation")
     {
       auto constexpr desired_simplices  = static_cast<int_fast32_t>(6400);
       auto constexpr desired_timeslices = static_cast<int_fast32_t>(7);
@@ -165,7 +165,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      THEN("The geometry matches the triangulation.")
+      THEN("The geometry matches the triangulation")
       {
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.vertices() == manifold.N0());
@@ -180,24 +180,24 @@ SCENARIO("3-Manifold initialization", "[manifold]")
   }
 }
 
-SCENARIO("Copying a 3-manifold", "[manifold]")
+SCENARIO("3-Manifold copying", "[manifold]")
 {
   GIVEN("A 3-manifold")
   {
     auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
-    WHEN("It is copied.")
+    WHEN("It is copied")
     {
       auto manifold2 = manifold;
       {
-        THEN("The two objects are distinct.")
+        THEN("The two objects are distinct")
         {
           auto* manifold_ptr  = &manifold;
           auto* manifold2_ptr = &manifold2;
           CHECK_FALSE(manifold_ptr == manifold2_ptr);
         }
-        THEN("The manifolds have identical properties.")
+        THEN("The manifolds have identical properties")
         {
           CHECK(manifold2.N3() == manifold.N3());
           CHECK(manifold2.N3_31() == manifold.N3_31());
@@ -239,7 +239,7 @@ SCENARIO("Copying a 3-manifold", "[manifold]")
   }
 }
 
-SCENARIO("Mutating a 3-manifold", "[manifold]")
+SCENARIO("3-Manifold mutation", "[manifold]")
 {
   GIVEN("A pair of 3-manifolds")
   {
@@ -269,24 +269,89 @@ SCENARIO("Mutating a 3-manifold", "[manifold]")
       cout << "Manifold 2 N0 = " << manifold2_N0 << "\n";
       // Change manifold1's triangulation to manifold2's
       manifold1.set_triangulation() = manifold2.get_triangulation();
-      THEN("Not calling update_geometry() gives old values.")
+      std::cout << "Manifolds swapped.\n";
+      THEN("Not calling update_geometry() gives old values")
       {
         CHECK(manifold1.N3() == manifold1_N3);
         CHECK(manifold1.N2() == manifold1_N2);
         CHECK(manifold1.N1() == manifold1_N1);
         CHECK(manifold1.N0() == manifold1_N0);
+
+        AND_WHEN("We call update_geometry")
+        {
+          manifold1.update_geometry();
+          std::cout << "Update geometry called.\n";
+          THEN("The geometry matches the new triangulation")
+          {
+            cout << "Manifold 1 N3 is now " << manifold1.N3() << "\n";
+            CHECK(manifold1.N3() == manifold2_N3);
+            cout << "Manifold 1 N2 is now " << manifold1.N2() << "\n";
+            CHECK(manifold1.N2() == manifold2_N2);
+            cout << "Manifold 1 N1 is now " << manifold1.N1() << "\n";
+            CHECK(manifold1.N1() == manifold2_N1);
+            cout << "Manifold 1 N0 is now " << manifold1.N0() << "\n";
+            CHECK(manifold1.N0() == manifold2_N0);
+          }
+        }
       }
-      THEN("Calling update_geometry() gives correct values.")
+    }
+  }
+}
+
+SCENARIO("3-Manifold validation and fixing", "[manifold]")
+{
+  GIVEN("A medium sized manifold")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(6400);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(7);
+    WHEN("It is constructed")
+    {
+      Manifold3 manifold(desired_simplices, desired_timeslices);
+      THEN("The triangulation is valid and Delaunay")
       {
-        manifold1.update_geometry();
-        cout << "Manifold 1 N3 is now " << manifold1.N3() << "\n";
-        CHECK(manifold1.N3() == manifold2_N3);
-        cout << "Manifold 1 N2 is now " << manifold1.N2() << "\n";
-        CHECK(manifold1.N2() == manifold2_N2);
-        cout << "Manifold 1 N1 is now " << manifold1.N1() << "\n";
-        CHECK(manifold1.N1() == manifold2_N1);
-        cout << "Manifold 1 N0 is now " << manifold1.N0() << "\n";
-        CHECK(manifold1.N0() == manifold2_N0);
+        REQUIRE(manifold.is_valid());
+        REQUIRE(manifold.is_delaunay());
+      }
+      THEN("The geometry matches the triangulation")
+      {
+        REQUIRE(manifold.is_foliated());
+        REQUIRE(manifold.vertices() == manifold.N0());
+        REQUIRE(manifold.edges() == manifold.N1());
+        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE(manifold.simplices() == manifold.N3());
+      }
+      THEN("The number of timeslices is correct")
+      {
+        REQUIRE(manifold.min_time() == 1);
+        REQUIRE(manifold.max_time() == desired_timeslices);
+      }
+      THEN("Every vertex in the manifold has a correct timevalue")
+      {
+        auto vertices = manifold.get_geometry().get_vertices();
+        for (auto& vertex : vertices)
+        {
+          CHECK(vertex->info() >= manifold.min_time());
+          CHECK(vertex->info() <= manifold.max_time());
+#ifndef NDEBUG
+          std::cout << "Vertex->info() = " << vertex->info() << "\n";
+#endif
+        }
+      }
+      THEN("Every cell in the manifold is correctly classified.")
+      {
+        auto cells = manifold.get_geometry().get_cells();
+        for (auto& cell : cells)
+        {
+          using Catch::Matchers::Predicate;
+          CHECK_THAT(cell->info(), Predicate<int>(
+                                       [](int const a) -> bool {
+                                         return (a == 13 || a == 22 || a == 31);
+                                       },
+                                       "Cell->info() should be 13, 22, or 31"));
+#ifndef NDEBUG
+          std::cout << "Cell->info() = " << cell->info() << "\n";
+#endif
+        }
       }
     }
   }

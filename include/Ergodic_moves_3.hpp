@@ -212,11 +212,19 @@ namespace manifold3_moves
         Expects(bottom->has_neighbor(top, common_face_index));
 
         // Get indices of vertices of common face with respect to bottom cell
-        auto i1 = (common_face_index + 1) & 3;
-        auto i2 = (common_face_index + 2) & 3;
-        auto i3 = (common_face_index + 3) & 3;
+        // A face is denoted by the index of the opposite vertex
+        // Thus, the indices of the vertices of the face are all other indices
+        // except the common_face_index
+        // CGAL uses bitwise operations, e.g.
+        //        auto i1 = (common_face_index + 1) & 3;
+        //        auto i2 = (common_face_index + 2) & 3;
+        //        auto i3 = (common_face_index + 3) & 3;
+        // We use % 4 which is equivalent and doesn't trigger clang-tidy
+        auto i1 = (common_face_index + 1) % 4;
+        auto i2 = (common_face_index + 2) % 4;
+        auto i3 = (common_face_index + 3) % 4;
 
-        // Get vertices of common face
+        // Get vertices of common face from indices
         auto v1 = bottom->vertex(i1);
         auto v2 = bottom->vertex(i2);
         auto v3 = bottom->vertex(i3);
@@ -318,6 +326,10 @@ namespace manifold3_moves
                                                             Cell_type::TWO_TWO);
     auto incident_13 = manifold.get_geometry().filter_cells(
         incident_cells, Cell_type::ONE_THREE);
+
+    // All cells should be classified
+    if ((incident_13.size() + incident_22.size() + incident_31.size()) != 6)
+    { std::cout << "Some incident cells on this vertex need to be fixed.\n"; }
 
 #ifndef NDEBUG
     std::cout << "Vertex has " << incident_31.size()
