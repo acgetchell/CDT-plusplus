@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2018 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Ensures that the S3 bulk action calculations are correct, and give
 /// similar results for similar values.
@@ -19,32 +19,28 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
 {
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    constexpr auto     simplices  = static_cast<size_t>(6400);
-    constexpr auto     timeslices = static_cast<size_t>(7);
-    constexpr auto     K          = static_cast<long double>(1.1);
-    constexpr auto     Lambda     = static_cast<long double>(0.1);
-    Manifold3          universe(simplices, timeslices);
+    constexpr auto simplices  = static_cast<int_fast32_t>(6400);
+    constexpr auto timeslices = static_cast<int_fast32_t>(7);
+    constexpr auto K          = static_cast<long double>(1.1);
+    constexpr auto Lambda     = static_cast<long double>(0.1);
+    Manifold3      universe(simplices, timeslices);
     // Verify triangulation
-    CHECK(universe.get_geometry().N3() ==
-          universe.get_triangulation().get_delaunay().number_of_finite_cells());
-    CHECK(universe.get_geometry().N1() ==
-          universe.get_triangulation().get_delaunay().number_of_finite_edges());
-    CHECK(universe.get_geometry().N0() ==
-          universe.get_triangulation().get_delaunay().number_of_vertices());
-    CHECK(universe.get_triangulation().get_delaunay().dimension() == 3);
-    CHECK(universe.get_triangulation().is_foliated());
-    CHECK(universe.get_triangulation().get_delaunay().is_valid());
-    CHECK(universe.get_triangulation().get_delaunay().tds().is_valid());
+    CHECK(universe.N3() == universe.simplices());
+    CHECK(universe.N1() == universe.edges());
+    CHECK(universe.N0() == universe.vertices());
+    CHECK(universe.dim() == 3);
+    CHECK(universe.is_foliated());
+    CHECK(universe.is_delaunay());
+    CHECK(universe.is_valid());
 
     universe.get_geometry().print_volume_per_timeslice();
 
-    CHECK(universe.get_geometry().max_time() == timeslices);
-    CHECK(universe.get_geometry().min_time() == 1);
+    CHECK(universe.max_time() == timeslices);
+    CHECK(universe.min_time() == 1);
     WHEN("The alpha=-1 Bulk Action is calculated.")
     {
       auto Bulk_action = S3_bulk_action_alpha_minus_one(
-          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
-          universe.get_geometry().N3_22(), K, Lambda);
+          universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
         cout << "S3_bulk_action_alpha_minus_one() = " << Bulk_action << "\n";
@@ -55,8 +51,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     WHEN("The alpha=1 Bulk Action is calculated.")
     {
       auto Bulk_action = S3_bulk_action_alpha_one(
-          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
-          universe.get_geometry().N3_22(), K, Lambda);
+          universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
         cout << "S3_bulk_action_alpha_one() = " << Bulk_action << "\n";
@@ -68,9 +63,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     {
       constexpr auto Alpha = static_cast<long double>(0.6);
       cout << "(Long double) Alpha = " << Alpha << '\n';
-      auto Bulk_action = S3_bulk_action(
-          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
-          universe.get_geometry().N3_22(), Alpha, K, Lambda);
+      auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
+                                        universe.N3_22(), Alpha, K, Lambda);
       THEN("The action falls within accepted values.")
       {
         cout << "S3_bulk_action() = " << Bulk_action << "\n";
@@ -82,14 +76,12 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
         "S3_bulk_action(alpha=1) and S3_bulk_action_alpha_one() are "
         "calculated.")
     {
-      constexpr auto tolerance   = static_cast<long double>(0.01);
-      constexpr auto Alpha       = static_cast<long double>(1.0);
-      auto           Bulk_action = S3_bulk_action(
-          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
-          universe.get_geometry().N3_22(), Alpha, K, Lambda);
+      constexpr auto tolerance = static_cast<long double>(0.01);
+      constexpr auto Alpha     = static_cast<long double>(1.0);
+      auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
+                                        universe.N3_22(), Alpha, K, Lambda);
       auto Bulk_action_one = S3_bulk_action_alpha_one(
-          universe.get_geometry().N1_TL(), universe.get_geometry().N3_31_13(),
-          universe.get_geometry().N3_22(), K, Lambda);
+          universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN(
           "S3_bulk_action(alpha=1) == S3_bulk_action_alpha_one() within "
           "tolerances.")

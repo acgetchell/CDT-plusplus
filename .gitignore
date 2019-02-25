@@ -22,7 +22,7 @@
 profile
 
 # Build, Doc, and Testing dirs
-build/*
+*build*
 html/
 cov-int
 
@@ -56,5 +56,5 @@ bw-output/*
 
 # SourceTrail
 *.srctrlbm
-*.srctrldb
+*.srctrldb*
 *.srctrlprj

@@ -53,7 +53,7 @@ using Causal_vertices = std::vector<std::pair<Point, int>>;
 static double constexpr INITIAL_RADIUS = 1.0;
 static double constexpr RADIAL_FACTOR  = 1.0;
 
-/// (n,m) is number of vertices on (higher, lower) timeslice
+/// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
 {
   THREE_ONE = 31,  // (3,1)
@@ -63,7 +63,7 @@ enum class Cell_type
 
 /// FoliatedTriangulation class template
 /// @tparam dimension Dimensionality of triangulation
-template <int_fast64_t dimension>
+template <size_t dimension>
 class Foliated_triangulation;
 
 /// 3D Triangulation
@@ -85,8 +85,8 @@ class Foliated_triangulation<3> : Delaunay3
   /// @param timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
   /// @param radial_factor Radial separation between timeslices
-  Foliated_triangulation(std::int_fast64_t const simplices,
-                         std::int_fast64_t const timeslices,
+  Foliated_triangulation(std::int_fast32_t const simplices,
+                         std::int_fast32_t const timeslices,
                          double const initial_radius = INITIAL_RADIUS,
                          double const radial_factor  = RADIAL_FACTOR)
       : delaunay_{make_triangulation(simplices, timeslices, initial_radius,
@@ -103,6 +103,36 @@ class Foliated_triangulation<3> : Delaunay3
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
+  /// @return Number of 3D simplices in triangulation data structure
+  [[nodiscard]] auto simplices() const
+  {
+    return delaunay_.number_of_finite_cells();
+  }
+
+  /// @return Number of 2D faces in triangulation data structure
+  [[nodiscard]] auto faces() const
+  {
+    return delaunay_.number_of_finite_facets();
+  }
+
+  /// @return Number of 1D edges in triangulation data structure
+  [[nodiscard]] auto edges() const
+  {
+    return delaunay_.number_of_finite_edges();
+  }
+
+  /// @return Number of vertices in triangulation data structure
+  [[nodiscard]] auto vertices() const { return delaunay_.number_of_vertices(); }
+
+  /// @return True if the triangulation is Delaunay
+  [[nodiscard]] auto is_delaunay() const { return delaunay_.is_valid(); }
+
+  /// @return True if the triangulation data structure is valid
+  [[nodiscard]] auto is_valid() const { return delaunay_.tds().is_valid(); }
+
+  /// @return Dimensionality of triangulation data structure
+  [[nodiscard]] auto dim() const { return delaunay_.dimension(); }
+
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param simplices Number of desired simplices
@@ -111,7 +141,7 @@ class Foliated_triangulation<3> : Delaunay3
   /// @param radial_factor Radial separation between timeslices
   /// @return A Delaunay Triangulation
   [[nodiscard]] auto make_triangulation(
-      std::int_fast64_t const simplices, std::int_fast64_t const timeslices,
+      std::int_fast32_t const simplices, std::int_fast32_t const timeslices,
       double const initial_radius = INITIAL_RADIUS,
       double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
   {
@@ -151,7 +181,7 @@ class Foliated_triangulation<3> : Delaunay3
   /// @param radial_factor The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   [[nodiscard]] Causal_vertices make_foliated_sphere(
-      std::int_fast64_t const simplices, std::int_fast64_t const timeslices,
+      std::int_fast32_t const simplices, std::int_fast32_t const timeslices,
       double const initial_radius = INITIAL_RADIUS,
       double const radial_factor  = RADIAL_FACTOR) const
   {
@@ -168,7 +198,7 @@ class Foliated_triangulation<3> : Delaunay3
       Spherical_points_generator gen{radius};
       // Generate random points at the radius
       for (gsl::index j = 0;
-           j < static_cast<std::int_fast64_t>(points_per_timeslice * radius);
+           j < static_cast<std::int_fast32_t>(points_per_timeslice * radius);
            ++j)
       { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // j
     }                                                                   // i
@@ -274,7 +304,7 @@ class Foliated_triangulation<3> : Delaunay3
 
   Delaunay3 delaunay_;
   bool      is_foliated_;
-  template <std::int_fast64_t>
+  template <std::size_t>
   friend class MoveCommand;
 };
 

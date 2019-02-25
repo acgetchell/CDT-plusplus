@@ -66,8 +66,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The default Delaunay triangulation is valid.")
       {
-        REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
-        REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
+        REQUIRE(foliatedTriangulation.is_delaunay());
+        REQUIRE(foliatedTriangulation.is_valid());
       }
     }
     WHEN("It is constructed from a Delaunay triangulation")
@@ -85,39 +85,33 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("Triangulation is valid and foliated.")
       {
-        REQUIRE(foliatedTriangulation.get_delaunay().dimension() == 3);
-        REQUIRE(foliatedTriangulation.get_delaunay().number_of_vertices() == 4);
-        REQUIRE(foliatedTriangulation.get_delaunay().number_of_finite_edges() ==
-                6);
-        REQUIRE(
-            foliatedTriangulation.get_delaunay().number_of_finite_facets() ==
-            4);
-        REQUIRE(foliatedTriangulation.get_delaunay().number_of_finite_cells() ==
-                1);
-        REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
-        REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
+        REQUIRE(foliatedTriangulation.dim() == 3);
+        REQUIRE(foliatedTriangulation.vertices() == 4);
+        REQUIRE(foliatedTriangulation.edges() == 6);
+        REQUIRE(foliatedTriangulation.faces() == 4);
+        REQUIRE(foliatedTriangulation.simplices() == 1);
+        REQUIRE(foliatedTriangulation.is_delaunay());
+        REQUIRE(foliatedTriangulation.is_valid());
       }
     }
     WHEN("Constructing the minimum triangulation.")
     {
-      int_fast64_t           desired_simplices{2};
-      int_fast64_t           desired_timeslices{2};
+      constexpr auto         desired_simplices  = static_cast<int_fast32_t>(2);
+      constexpr auto         desired_timeslices = static_cast<int_fast32_t>(2);
       FoliatedTriangulation3 foliatedTriangulation(desired_simplices,
                                                    desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
-        REQUIRE(foliatedTriangulation.get_delaunay().is_valid());
-        REQUIRE(foliatedTriangulation.get_delaunay().tds().is_valid());
+        REQUIRE(foliatedTriangulation.is_delaunay());
+        REQUIRE(foliatedTriangulation.is_valid());
         REQUIRE(foliatedTriangulation.is_foliated());
       }
       THEN("The triangulation has sensible values.")
       {
-        auto vertices{
-            foliatedTriangulation.get_delaunay().number_of_vertices()};
+        auto vertices{foliatedTriangulation.vertices()};
         CHECK(1 << vertices);
         CHECK(vertices <= 8);
-        auto cells{
-            foliatedTriangulation.get_delaunay().number_of_finite_cells()};
+        auto cells{foliatedTriangulation.simplices()};
         CHECK(1 <= cells);
         CHECK(cells <= 12);
         // Human verification

@@ -48,12 +48,10 @@ class Geometry<3>
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
   explicit Geometry(FoliatedTriangulation3 const& triangulation)
-      : number_of_vertices_{triangulation.get_delaunay().number_of_vertices()}
-      , number_of_edges_{triangulation.get_delaunay().number_of_finite_edges()}
-      , number_of_faces_{triangulation.get_delaunay().number_of_finite_facets()}
-      , number_of_cells_{triangulation.get_delaunay().number_of_finite_cells()}
-      // Debugging simplex collection
-      //, _simplices{classify_cells(collect_cells(triangulation), true)}
+      : number_of_vertices_{triangulation.vertices()}
+      , number_of_edges_{triangulation.edges()}
+      , number_of_faces_{triangulation.faces()}
+      , number_of_cells_{triangulation.simplices()}
       , cells_{classify_cells(collect_cells(triangulation))}
       , faces_{collect_faces(triangulation)}
       , edges_{collect_edges(triangulation)}
@@ -131,23 +129,20 @@ class Geometry<3>
     return spacelike_edges_;
   }
 
+  /// @return Container of vertices
+  std::vector<Vertex_handle> const& get_vertices() const { return points_; }
+
+  /// @return Container of cells
+  std::vector<Cell_handle> const& get_cells() const { return cells_; }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
-  void print_cells() const
-  {
-    for (auto const& cell : cells_)
-    {
-      std::cout << "Cell info => " << cell->info() << "\n";
-      for (int j = 0; j < 4; ++j)
-      {
-        std::cout << "Vertex(" << j
-                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
-      }
-      std::cout << "---\n";
-    }
-  }
+  void print_cells() const { print_cells(cells_); }
 
-  void print_cells(std::vector<Cell_handle> cells) const
+  /// @brief Print timevalues of each vertex in the cell and the resulting
+  /// cell->info()
+  /// @param cells The cells to print
+  void print_cells(std::vector<Cell_handle> const& cells) const
   {
     for (auto const& cell : cells)
     {
@@ -196,6 +191,24 @@ class Geometry<3>
     }
     return result;
   }  // classify_edge
+
+  /// @brief Filter simplices by Cell_type
+  /// @param cells_v The container of simplices to filter
+  /// @param cell_t The Cell_type predicate filter
+  /// @return A container of Cell_type simplices
+  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> const& cells_v,
+                                  Cell_type const&                cell_t) const
+      -> std::vector<Cell_handle>
+  {
+    Expects(!cells_v.empty());
+    std::vector<Cell_handle> filtered_cells;
+    std::copy_if(cells_v.begin(), cells_v.end(),
+                 std::back_inserter(filtered_cells),
+                 [&cell_t](auto const& cell) {
+                   return cell->info() == static_cast<int>(cell_t);
+                 });
+    return filtered_cells;
+  }  // filter_cells
 
  private:
   /// @brief Collect all finite cells of the triangulation
@@ -259,13 +272,13 @@ class Geometry<3>
       switch (max_time_vertices)
       {
         case 1:
-          c->info() = static_cast<int>(Cell_type::ONE_THREE);
+          c->info() = static_cast<int>(Cell_type::THREE_ONE);
           break;
         case 2:
           c->info() = static_cast<int>(Cell_type::TWO_TWO);
           break;
         case 3:
-          c->info() = static_cast<int>(Cell_type::THREE_ONE);
+          c->info() = static_cast<int>(Cell_type::ONE_THREE);
           break;
         default:
           throw std::logic_error("Mis-classified cell.");
@@ -283,24 +296,6 @@ class Geometry<3>
     }
     return cells;
   }  // classify_cells
-
-  /// @brief Filter simplices by Cell_type
-  /// @param cells_v The container of simplices to filter
-  /// @param cell_t The Cell_type predicate filter
-  /// @return A container of Cell_type simplices
-  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> const& cells_v,
-                                  Cell_type const&                cell_t) const
-      -> std::vector<Cell_handle>
-  {
-    Expects(!cells_v.empty());
-    std::vector<Cell_handle> filtered_cells;
-    std::copy_if(cells_v.begin(), cells_v.end(),
-                 std::back_inserter(filtered_cells),
-                 [&cell_t](auto const& cell) {
-                   return cell->info() == static_cast<int>(cell_t);
-                 });
-    return filtered_cells;
-  }  // filter_cells
 
   /// @brief Collect all finite facets of the triangulation
   /// @tparam Manifold Reference type of triangulation
@@ -494,8 +489,6 @@ class Geometry<3>
   int                        max_timevalue_;
   int                        min_timevalue_;
   std::multimap<int, Facet>  spacelike_facets_;
-  template <std::int_fast64_t>
-  friend class MoveCommand;
 };
 
 using Geometry3 = Geometry<3>;

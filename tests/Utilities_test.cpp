@@ -18,7 +18,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
 {
   GIVEN("A topology_type")
   {
-    auto const this_topology = topology_type::SPHERICAL;
+    auto constexpr this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
     {
       std::stringstream buffer;
@@ -34,7 +34,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
   {
     WHEN("The user is requested.")
     {
-      auto result = getEnvVar("USER");
+      auto const result = getEnvVar("USER");
       THEN("The output is correct.")
       {
         // Enter your own USER environment variable here
@@ -63,10 +63,10 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
     }
     WHEN("A filename is generated.")
     {
-      auto const this_topology = topology_type::SPHERICAL;
-      auto const dimensions    = 3;
-      auto const simplices     = 6700;
-      auto const timeslices    = 16;
+      auto constexpr this_topology = topology_type::SPHERICAL;
+      auto constexpr dimensions    = static_cast<int_fast32_t>(3);
+      auto constexpr simplices     = static_cast<int_fast32_t>(6700);
+      auto constexpr timeslices    = static_cast<int_fast32_t>(16);
       auto const filename =
           generate_filename(this_topology, dimensions, simplices, timeslices);
       THEN("The output is correct.")
@@ -84,8 +84,8 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
 
 SCENARIO("Printing results", "[utility]")
 {
-  auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-  auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+  auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+  auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
   // redirect std::cout
   std::stringstream buffer;
   std::cout.rdbuf(buffer.rdbuf());
@@ -125,12 +125,32 @@ SCENARIO("Printing results", "[utility]")
 
 SCENARIO("Randomizing functions", "[utility]")
 {
+  GIVEN("A container of ints")
+  {
+    std::vector<int> v(50);
+    std::iota(v.begin(), v.end(), 0);
+    WHEN("The container is shuffled.")
+    {
+      std::shuffle(v.begin(), v.end(), make_random_generator());
+      THEN("We get back the elements in random order.")
+      {
+        auto j = 0;
+        for (auto i : v) { CHECK(i != j++); }
+        std::cout << "\n";
+        std::cout << "Shuffled container verification:\n";
+        for (auto i : v)
+        std:
+          cout << i << " ";
+        std::cout << "\n";
+      }
+    }
+  }
   GIVEN("A test range of integers")
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr min = static_cast<int_fast64_t>(64);
-      auto constexpr max = static_cast<int_fast64_t>(6400);
+      auto constexpr min = static_cast<int_fast32_t>(64);
+      auto constexpr max = static_cast<int_fast32_t>(6400);
       auto const value1  = generate_random_int(min, max);
       auto const value2  = generate_random_int(min, max);
       auto const value3  = generate_random_int(min, max);
@@ -173,7 +193,7 @@ SCENARIO("Randomizing functions", "[utility]")
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr max = static_cast<int_fast64_t>(256);
+      auto constexpr max = static_cast<int_fast32_t>(256);
       auto const value1  = generate_random_timeslice(max);
       auto const value2  = generate_random_timeslice(max);
       auto const value3  = generate_random_timeslice(max);
@@ -308,7 +328,7 @@ SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
     Gmpzf value = 0.17;
     WHEN("We convert it to double.")
     {
-      auto converted_value = Gmpzf_to_double(value);
+      auto const converted_value = Gmpzf_to_double(value);
       THEN("It should be exact when converted back from double to Gmpzf.")
       {
         REQUIRE(value == Gmpzf(converted_value));

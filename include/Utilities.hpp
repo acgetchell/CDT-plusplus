@@ -202,10 +202,9 @@ template <typename Manifold>
 void print_manifold(Manifold const& manifold)
 try
 {
-  std::cout << "Manifold has " << manifold.get_geometry().N0()
-            << " vertices and " << manifold.get_geometry().N1() << " edges and "
-            << manifold.get_geometry().N2() << " faces and "
-            << manifold.get_geometry().N3() << " simplices.\n";
+  std::cout << "Manifold has " << manifold.N0() << " vertices and "
+            << manifold.N1() << " edges and " << manifold.N2() << " faces and "
+            << manifold.N3() << " simplices.\n";
 }
 catch (...)
 {
@@ -220,13 +219,11 @@ template <typename Manifold>
 void print_manifold_details(Manifold const& manifold)
 try
 {
-  std::cout << "There are " << manifold.get_geometry().N3_31()
-            << " (3,1) simplices and " << manifold.get_geometry().N3_22()
-            << " (2,2) simplices and " << manifold.get_geometry().N3_13()
+  std::cout << "There are " << manifold.N3_31() << " (3,1) simplices and "
+            << manifold.N3_22() << " (2,2) simplices and " << manifold.N3_13()
             << " (1,3) simplices.\n";
-  std::cout << "There are " << manifold.get_geometry().N1_TL()
-            << " timelike edges and " << manifold.get_geometry().N1_SL()
-            << " spacelike edges.\n";
+  std::cout << "There are " << manifold.N1_TL() << " timelike edges and "
+            << manifold.N1_SL() << " spacelike edges.\n";
 }
 catch (...)
 {
@@ -241,15 +238,10 @@ template <typename Triangulation>
 void print_triangulation(Triangulation const& triangulation)
 try
 {
-  std::cout << "Triangulation has "
-            << triangulation.get_delaunay().number_of_vertices()
-            << " vertices and "
-            << triangulation.get_delaunay().number_of_finite_edges()
-            << " edges and "
-            << triangulation.get_delaunay().number_of_finite_facets()
-            << " faces and "
-            << triangulation.get_delaunay().number_of_finite_cells()
-            << " simplices.\n";
+  std::cout << "Triangulation has " << triangulation.vertices()
+            << " vertices and " << triangulation.edges() << " edges and "
+            << triangulation.faces() << " faces and "
+            << triangulation.simplices() << " simplices.\n";
 }
 catch (...)
 {
@@ -312,6 +304,33 @@ class SeedSeq
   NumberType begin_;
   NumberType end_;
 };
+
+/// @brief Make a high-quality random generator usable by std::shuffle
+///
+/// This function makes a non-deterministic random number generator, if
+/// supported. See
+/// https://en.cppreference.com/w/cpp/numeric/random/random_device
+/// for more details.
+/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
+/// @return A random number generator
+inline auto make_random_generator()
+{
+  // Non-deterministic random number generator
+  std::random_device rd;
+  // The simple way which works in C++14
+  //  std::mt19937_64 generator(rd());
+
+  // The tedious but more accurate way which works in C++17 but not C++14
+  std::uint_fast64_t numbers[624];  // Seed sequence
+  // Initial state
+  std::generate(numbers, std::end(numbers), std::ref(rd));
+  // Copy into heap-allocated seed sequence
+  SeedSeq seed_seq(numbers, std::end(numbers));
+  // Initialized mt19937_64
+  std::mt19937_64 generator(seed_seq);
+
+  return generator;
+}  // make_random_generator()
 
 /// @brief Generate random numbers
 ///

@@ -53,8 +53,8 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
   {
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      int_fast64_t           desired_simplices{72};
-      int_fast64_t           desired_timeslices{3};
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(72);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(3);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
       Geometry3              geometry(triangulation);
@@ -65,12 +65,9 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
              << geometry.N3_22() << " (2,2) simplices and " << geometry.N3_13()
              << " (1,3) simplices.\n";
         CHECK(geometry.N3() > 2);
-        CHECK(geometry.N3() ==
-              triangulation.get_delaunay().number_of_finite_cells());
-        CHECK(geometry.N0() ==
-              triangulation.get_delaunay().number_of_vertices());
-        CHECK(geometry.N1() ==
-              triangulation.get_delaunay().number_of_finite_edges());
+        CHECK(geometry.N3() == triangulation.simplices());
+        CHECK(geometry.N0() == triangulation.vertices());
+        CHECK(geometry.N1() == triangulation.edges());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);
@@ -123,8 +120,8 @@ SCENARIO("3-Geometry initialization", "[geometry]")
     }
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      int_fast64_t           desired_simplices{640};
-      int_fast64_t           desired_timeslices{4};
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
       Geometry3              geometry(triangulation);
@@ -132,20 +129,16 @@ SCENARIO("3-Geometry initialization", "[geometry]")
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
       {
-        CHECK(geometry.N0() ==
-              triangulation.get_delaunay().number_of_vertices());
-        CHECK(geometry.N1() ==
-              triangulation.get_delaunay().number_of_finite_edges());
-        CHECK(geometry.N2() ==
-              triangulation.get_delaunay().number_of_finite_facets());
-        CHECK(geometry.N3() ==
-              triangulation.get_delaunay().number_of_finite_cells());
+        CHECK(geometry.N0() == triangulation.vertices());
+        CHECK(geometry.N1() == triangulation.edges());
+        CHECK(geometry.N2() == triangulation.faces());
+        CHECK(geometry.N3() == triangulation.simplices());
         CHECK_FALSE(geometry.N3_31() == 0);
         CHECK_FALSE(geometry.N3_22() == 0);
         CHECK_FALSE(geometry.N3_13() == 0);
         CHECK(geometry.N3_31() + geometry.N3_22() + geometry.N3_13() ==
               geometry.N3());
-        CHECK_FALSE(geometry.N2_SL().size() == 0);
+        CHECK_FALSE(geometry.N2_SL().empty());
         CHECK_FALSE(geometry.N1_TL() == 0);
         CHECK_FALSE(geometry.N1_SL() == 0);
         CHECK(geometry.N1_TL() + geometry.N1_SL() == geometry.N1());
@@ -158,6 +151,11 @@ SCENARIO("3-Geometry initialization", "[geometry]")
       THEN("Containers of various simplices are correctly filled.")
       {
         print_triangulation(triangulation);
+        // Every cell is classified as (3,1), (2,2), or (1,3)
+        CHECK(geometry.get_cells().size() ==
+              (geometry.get_three_one().size() + geometry.get_two_two().size() +
+               geometry.get_one_three().size()));
+        // Every cell is properly labelled
         for (auto const& cell : geometry.get_three_one())
         { CHECK(cell->info() == static_cast<int>(Cell_type::THREE_ONE)); }
         for (auto const& cell : geometry.get_two_two())
