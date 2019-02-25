@@ -151,6 +151,11 @@ SCENARIO("3-Geometry initialization", "[geometry]")
       THEN("Containers of various simplices are correctly filled.")
       {
         print_triangulation(triangulation);
+        // Every cell is classified as (3,1), (2,2), or (1,3)
+        CHECK(geometry.get_cells().size() ==
+              (geometry.get_three_one().size() + geometry.get_two_two().size() +
+               geometry.get_one_three().size()));
+        // Every cell is properly labelled
         for (auto const& cell : geometry.get_three_one())
         { CHECK(cell->info() == static_cast<int>(Cell_type::THREE_ONE)); }
         for (auto const& cell : geometry.get_two_two())

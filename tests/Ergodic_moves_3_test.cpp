@@ -108,5 +108,29 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N0() == N0_pre_move - 1);
       }
     }
+    WHEN("A (4,4) move is performed")
+    {
+      manifold = manifold3_moves::do_44_move(manifold);
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
+        // Update geometry with new triangulation info
+        manifold.update_geometry();
+        // The move is correct
+        CHECK(manifold3_moves::check_move(
+            manifold_before, manifold, manifold3_moves::move_type::FOUR_FOUR));
+
+        // A (4,4) move by itself does not break the Delaunay triangulation
+        CHECK(manifold.is_delaunay());
+        // Manual check
+        CHECK(manifold.N3_31() == N3_31_pre_move);
+        CHECK(manifold.N3_22() == N3_22_pre_move);
+        CHECK(manifold.N3_13() == N3_13_pre_move);
+        CHECK(manifold.N1_TL() == N1_TL_pre_move);
+        CHECK(manifold.N1_SL() == N1_SL_pre_move);
+        CHECK(manifold.N0() == N0_pre_move);
+        // Indeed, how do we tell? Everything except cell identification
+        // will be the same
+      }
+    }
   }
 }

@@ -111,6 +111,20 @@ class Manifold<3>
     return triangulation_.is_foliated();
   }
 
+  /// @param v_candidate The vertex to check
+  /// @return True if vertex is a vertex in the triangulation data structure
+  [[nodiscard]] auto is_vertex(Vertex_handle const& v_candidate) const
+  {
+    return triangulation_.get_delaunay().is_vertex(v_candidate);
+  }
+
+  [[nodiscard]] auto is_edge(Edge_handle const& e_candidate) const
+  {
+    return triangulation_.get_delaunay().tds().is_edge(
+        std::get<0>(e_candidate), std::get<1>(e_candidate),
+        std::get<2>(e_candidate));
+  }
+
   /// @return Dimensionality of triangulation data structure
   [[nodiscard]] auto dim() const { return triangulation_.dim(); }
 

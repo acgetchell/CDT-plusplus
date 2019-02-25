@@ -25,12 +25,15 @@ namespace manifold3_moves
   };
 
   /// @brief Perform a null move
+  ///
   /// @param manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(Manifold3 manifold) { return manifold; }
+  [[nodiscard]] inline auto null_move(Manifold3& manifold) { return manifold; }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
+  ///
   /// <https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4>
+  ///
   /// @param manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
@@ -89,7 +92,9 @@ namespace manifold3_moves
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
+  ///
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
+  ///
   /// @param manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return True if move succeeded
@@ -145,7 +150,7 @@ namespace manifold3_moves
     throw std::domain_error("No (3,2) move possible.");
   }  // do_32_move()
 
-  /// @brief Find a (2,6) move
+  /// @brief Find a (2,6) move location
   ///
   /// This function checks to see if a (2,6) move is possible. Starting with
   /// a (1,3) simplex, it checks neighbors for a (3,1) simplex. The index of
@@ -264,8 +269,7 @@ namespace manifold3_moves
         v_center->info() = timevalue;
 
 #ifndef NDEBUG
-        if (manifold.get_triangulation().get_delaunay().tds().is_vertex(
-                v_center))
+        if (manifold.is_vertex(v_center))
         { std::cout << "It's a vertex in the TDS.\n"; }
         else
         {
@@ -291,20 +295,21 @@ namespace manifold3_moves
     throw std::domain_error("No (2,6) move possible.");
   }  // do_26_move()
 
-  /// @brief Find a (6,2) move
+  /// @brief Find a (6,2) move location
   ///
   /// This function checks to see if a (6,2) move is possible. Starting
   /// with a vertex, it checks all incident cells. There must be 6
   /// incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices,
   /// and there should be no (2,2) simplices.
+  ///
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto find_62_move(Manifold3&           manifold,
-                                         Vertex_handle const& candidate)
+  [[nodiscard]] inline auto is_62_movable(Manifold3&           manifold,
+                                          Vertex_handle const& candidate)
   {
-    Expects(manifold.get_triangulation().get_delaunay().is_vertex(candidate));
-    Expects(manifold.dim() == 3);
+    Expects(manifold.dim() == 3);  // Precondition of incident_cells()
+    Expects(manifold.is_vertex(candidate));
 
     // Obtain all incident cells
     std::vector<Cell_handle> incident_cells;
@@ -353,7 +358,7 @@ namespace manifold3_moves
   /// faces, 6 timelike faces, 3 spacelike edges, 2 timelike edges, and a
   /// single vertex.
   ///
-  /// This function calls find_62_move on a randomly shuffled container
+  /// This function calls is_62_movable() on a randomly shuffled container
   /// of vertices until it succeeds or runs out of vertices.
   ///
   /// If successful, the triangulation remains Delaunay. (Other moves may
@@ -371,7 +376,7 @@ namespace manifold3_moves
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
     for (auto& vertex : vertices)
     {
-      if (find_62_move(manifold, vertex))
+      if (is_62_movable(manifold, vertex))
       {
         manifold.set_triangulation().set_delaunay().remove(vertex);
         return manifold;
@@ -383,6 +388,73 @@ namespace manifold3_moves
     std::cout << "No (6,2) move is possible.\n";
     return manifold;
   }  // do_62_move()
+
+  /// @brief Find a (4,4) move location
+  ///
+  /// This function checks to see if a (4,4) move is possible. Starting with
+  /// a spacelike edge, it checks all incident cells. There must be 4 incident
+  /// cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices,
+  /// and there should be no (2,2) simplices.
+  ///
+  /// @param manifold
+  /// @param e_candidate
+  /// @return
+  [[nodiscard]] inline auto is_44_movable(Manifold3&         manifold,
+                                          Edge_handle const& e_candidate)
+  {
+    Expects(manifold.dim() > 0);  // Precondition of is_edge()
+    Expects(manifold.is_edge(e_candidate));
+
+    // Obtain all incident cells
+    std::vector<Cell_handle> incident_cells;
+    //    auto results =
+    //    manifold.get_triangulation().get_delaunay().tds().incident_cells(e_candidate,
+    //    std::get<0>(e_candidate));
+
+    return false;
+  }
+
+  /// @brief Perform a (4,4) move
+  ///
+  /// A (4,4) move flips an edge which has exactly 4 incident cells.
+  /// In CDT specifically, the edge is spacelike and the 4 incident cells
+  /// are a pair of (1,3) simplices and a pair of (3,1) simplices. It thus
+  /// re-labels each of the 4 cells in the complex, but doesn't actually
+  /// change the number of cells, vertices, or edges. This move has the
+  /// effect of mixing up the simplices, thus possibly creating different
+  /// potential moves in different locations.
+  ///
+  /// This function calls is_44_movable() on a randomly shuffled container
+  /// of edges until it succeeds or runs out of edges.
+  ///
+  /// If successful, the triangulation remains Delaunay. (Other moves may
+  /// change this, however.)
+  ///
+  /// @param manifold The simplicial manifold
+  /// @return The (4,4) moved manifold
+  [[nodiscard]] inline auto do_44_move(Manifold3& manifold)
+  {
+#ifndef NDEBUG
+    std::cout << "Attempting (4,4) move.\n";
+#endif
+    auto spacelike_edges = manifold.get_geometry().get_spacelike_edges();
+    // Shuffle the container to pick a random sequence of edges to try
+    std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),
+                 make_random_generator());
+    for (auto& edge : spacelike_edges)
+    {
+      if (is_44_movable(manifold, edge))
+      {
+        // Do move
+        // Nothing for now
+        return manifold;
+      }
+      // Try next edge
+    }
+    // We've run out of edges to try
+    std::cout << "No (4,4) move is possible.\n";
+    return manifold;
+  }
 
   /// @brief Check move correctness
   /// @param before The manifold before the move
