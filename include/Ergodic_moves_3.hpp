@@ -396,22 +396,32 @@ namespace manifold3_moves
   /// cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices,
   /// and there should be no (2,2) simplices.
   ///
-  /// @param manifold
-  /// @param e_candidate
-  /// @return
-  [[nodiscard]] inline auto is_44_movable(Manifold3&         manifold,
-                                          Edge_handle const& e_candidate)
+  /// @param manifold The simplicial manifold
+  /// @param e_candidate The edge to check
+  /// @param incident_cells The out paramter of incident cells to the edge
+  /// @return True if (4,4) move is possible
+  [[nodiscard]] inline auto find_44_move(
+      Manifold3& manifold, Edge_handle const& e_candidate,
+      std::vector<Cell_handle>& incident_cells)
   {
     Expects(manifold.dim() > 0);  // Precondition of is_edge()
     Expects(manifold.is_edge(e_candidate));
 
-    // Obtain all incident cells
-    std::vector<Cell_handle> incident_cells;
-    //    auto results =
-    //    manifold.get_triangulation().get_delaunay().tds().incident_cells(e_candidate,
-    //    std::get<0>(e_candidate));
+    // Convert from Edge_handle to CGAL::Edge, which uses a CGAL::Triple
+    CGAL::Triple this_edge(std::get<0>(e_candidate), std::get<1>(e_candidate),
+                           std::get<2>(e_candidate));
+    // Create the circulator of cells around the edge, starting with the cell
+    // the edge is in
+    auto circulator =
+        manifold.get_triangulation().get_delaunay().tds().incident_cells(
+            this_edge, this_edge.first);
+    do
+    {
+      incident_cells.emplace_back(circulator++);
+    } while (circulator != this_edge.first);
+    std::cout << "Edge has " << incident_cells.size() << " incident cells.\n";
 
-    return false;
+    return (incident_cells.size() == 4);
   }
 
   /// @brief Perform a (4,4) move
@@ -443,10 +453,15 @@ namespace manifold3_moves
                  make_random_generator());
     for (auto& edge : spacelike_edges)
     {
-      if (is_44_movable(manifold, edge))
+      // Obtain all incident cells
+      std::vector<Cell_handle> incident_cells;
+      if (find_44_move(manifold, edge, incident_cells))
       {
         // Do move
-        // Nothing for now
+#ifndef NDEBUG
+        for (auto& cell : incident_cells)
+        { std::cout << "Incident cell is of type " << cell->info() << "\n"; }
+#endif
         return manifold;
       }
       // Try next edge
