@@ -102,8 +102,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("Constructing the minimum size triangulation")
     {
-      int_fast64_t desired_simplices{2};
-      int_fast64_t desired_timeslices{2};
+      auto constexpr desired_simplices  = static_cast<int_fast32_t>(2);
+      auto constexpr desired_timeslices = static_cast<int_fast32_t>(2);
       Manifold3    manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid")
       {

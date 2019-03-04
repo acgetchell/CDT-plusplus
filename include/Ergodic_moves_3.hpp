@@ -398,7 +398,7 @@ namespace manifold3_moves
   ///
   /// @param manifold The simplicial manifold
   /// @param e_candidate The edge to check
-  /// @param incident_cells The out paramter of incident cells to the edge
+  /// @param incident_cells The out parameter of incident cells to the edge
   /// @return True if (4,4) move is possible
   [[nodiscard]] inline auto find_44_move(
       Manifold3& manifold, Edge_handle const& e_candidate,
