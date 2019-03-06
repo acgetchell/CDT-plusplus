@@ -66,7 +66,7 @@ class Manifold<3>
   Geometry3 make_geometry(Triangulation& triangulation)
   {
 #ifndef NDEBUG
-    std::cout << "make_geometry() invoked ...\n";
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
 
     Geometry3 geom{triangulation};
@@ -77,6 +77,9 @@ class Manifold<3>
   /// been changed
   void update_geometry()
   {
+#ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+#endif
     Geometry3 geom(triangulation_);
     geometry_ = geom;
   }

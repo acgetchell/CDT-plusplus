@@ -10,30 +10,38 @@
 
 #include <Ergodic_moves_3.hpp>
 #include <Manifold.hpp>
+#include <functional>
 
-// class Command
-//{
-// public:
-//  virtual void execute();
-//  virtual void update();
-//};
-
-template <typename ManifoldType>
+template <typename ManifoldType,
+          typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
 class Command
 {
  public:
-  Command(ManifoldType manifold)
+  explicit Command(ManifoldType manifold)
       : manifold_{std::make_unique<ManifoldType>(manifold)}
   {}
-  std::unique_ptr<ManifoldType> const& get_manifold() const
+
+  /// @return A read-only reference to the manifold
+  ManifoldType const& get_manifold() const { return *manifold_; }
+
+  /// @return A mutable reference to the manifold
+  [[nodiscard]] auto& set_manifold() { return *manifold_; }
+
+  /// Push a move onto the move queue
+  /// @param move The move to do on the manifold
+  void enqueue(FunctionType move) { moves_.emplace_back(move); }
+
+  /// Execute the move on the manifold
+  void execute()
   {
-    return manifold_;
-    }
-    //    virtual void execute();
-    //    virtual void undo();
-    //    virtual void redo();
-   private:
-    std::unique_ptr<ManifoldType> manifold_;
+    auto move = moves_.back();
+    move(*manifold_);
+  }
+  //    virtual void undo();
+  //    virtual void redo();
+ private:
+  std::unique_ptr<ManifoldType> manifold_;
+  std::vector<FunctionType>     moves_;
 };
 
 // template <std::size_t dimension>

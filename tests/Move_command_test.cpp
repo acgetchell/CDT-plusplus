@@ -27,25 +27,42 @@ SCENARIO("Command initialization", "[move3]")
       Command command(manifold);
       THEN("It contains the manifold")
       {
-        CHECK(manifold.N3() == command.get_manifold()->N3());
-        CHECK(manifold.N3_31() == command.get_manifold()->N3_31());
-        CHECK(manifold.N3_22() == command.get_manifold()->N3_22());
-        CHECK(manifold.N3_13() == command.get_manifold()->N3_13());
-        CHECK(manifold.N3_31_13() == command.get_manifold()->N3_31_13());
-        CHECK(manifold.N2() == command.get_manifold()->N2());
-        CHECK(manifold.N1() == command.get_manifold()->N1());
-        CHECK(manifold.N1_TL() == command.get_manifold()->N1_TL());
-        CHECK(manifold.N1_SL() == command.get_manifold()->N1_SL());
-        CHECK(manifold.N0() == command.get_manifold()->N0());
-        CHECK(manifold.max_time() == command.get_manifold()->max_time());
-        CHECK(manifold.min_time() == command.get_manifold()->min_time());
+        CHECK(manifold.N3() == command.get_manifold().N3());
+        CHECK(manifold.N3_31() == command.get_manifold().N3_31());
+        CHECK(manifold.N3_22() == command.get_manifold().N3_22());
+        CHECK(manifold.N3_13() == command.get_manifold().N3_13());
+        CHECK(manifold.N3_31_13() == command.get_manifold().N3_31_13());
+        CHECK(manifold.N2() == command.get_manifold().N2());
+        CHECK(manifold.N1() == command.get_manifold().N1());
+        CHECK(manifold.N1_TL() == command.get_manifold().N1_TL());
+        CHECK(manifold.N1_SL() == command.get_manifold().N1_SL());
+        CHECK(manifold.N0() == command.get_manifold().N0());
+        CHECK(manifold.max_time() == command.get_manifold().max_time());
+        CHECK(manifold.min_time() == command.get_manifold().min_time());
         // Human verification
         cout << "Manifold properties:\n";
-        print_manifold(manifold);
+        print_manifold_details(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
         cout << "Command.get_manifold() properties:\n";
-        print_manifold(*command.get_manifold());
-        command.get_manifold()->get_geometry().print_volume_per_timeslice();
+        print_manifold_details(command.get_manifold());
+        command.get_manifold().get_geometry().print_volume_per_timeslice();
+        AND_WHEN("A (2,3) move is queued")
+        {
+          auto move23 = [](Manifold3 manifold) -> Manifold3 {
+            return manifold3_moves::do_23_move(manifold);
+          };
+          command.enqueue(move23);
+          THEN("It can be executed and is correct")
+          {
+            command.execute();
+            auto result = command.get_manifold();
+            result.update_geometry();
+            print_manifold_details(result);
+            //            CHECK(manifold3_moves::check_move(
+            //                manifold, result,
+            //                manifold3_moves::move_type::TWO_THREE));
+          }
+        }
       }
     }
   }
