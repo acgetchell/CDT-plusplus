@@ -45,11 +45,12 @@ SCENARIO("Test Move_guard", "[moveguard]")
     }
     WHEN("We specify a (2,3) move")
     {
-      auto two_three_move = [](auto x) {
-        return manifold3_moves::do_23_move(x);
+      //      auto two_three_move = [](auto x) {
+      //        return manifold3_moves::do_23_move(x);
+      auto move23 = [](Manifold3 manifold) -> Manifold3 {
+        return manifold3_moves::do_23_move(manifold);
       };
-      Move_guard<decltype(test_manifold)> test_move(test_manifold,
-                                                    two_three_move);
+      Move_guard<decltype(test_manifold)> test_move(test_manifold, move23);
       THEN("We should have +1 (2,2) simplices and +1 timelike edges.")
       {
         auto manifold = test_move.get_triangulation();

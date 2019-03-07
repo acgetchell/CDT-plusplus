@@ -13,6 +13,36 @@
 
 using namespace std;
 
+SCENARIO("Invoking a move with a lambda", "[move3]")
+{
+  GIVEN("A valid manifold")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_delaunay());
+    REQUIRE(manifold.is_valid());
+    WHEN("A lambda is constructed for a move")
+    {
+      auto move23 = [](Manifold3& manifold) -> Manifold3 {
+        return manifold3_moves::do_23_move(manifold);
+      };
+      THEN("Running the lambda makes the move")
+      {
+        auto result = move23(manifold);
+        result.update_geometry();
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        cout << "Manifold properties;\n";
+        print_manifold_details(manifold);
+        cout << "Moved manifold properties:\n";
+        print_manifold_details(result);
+      }
+    }
+  }
+}
+
 SCENARIO("Command initialization", "[move3]")
 {
   GIVEN("A valid manifold")
@@ -48,19 +78,18 @@ SCENARIO("Command initialization", "[move3]")
         command.get_manifold().get_geometry().print_volume_per_timeslice();
         AND_WHEN("A (2,3) move is queued")
         {
-          auto move23 = [](Manifold3 manifold) -> Manifold3 {
+          auto move23 = [](Manifold3& manifold) -> Manifold3 {
             return manifold3_moves::do_23_move(manifold);
           };
           command.enqueue(move23);
           THEN("It can be executed and is correct")
           {
             command.execute();
-            auto result = command.get_manifold();
-            result.update_geometry();
-            print_manifold_details(result);
-            //            CHECK(manifold3_moves::check_move(
-            //                manifold, result,
-            //                manifold3_moves::move_type::TWO_THREE));
+//            auto result = command.get_manifold();
+//            result.update_geometry();
+//            print_manifold_details(result);
+//            CHECK(manifold3_moves::check_move(
+//                manifold, result, manifold3_moves::move_type::TWO_THREE));
           }
         }
       }

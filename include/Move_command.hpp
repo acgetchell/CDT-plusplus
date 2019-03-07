@@ -17,7 +17,7 @@ template <typename ManifoldType,
 class Command
 {
  public:
-  explicit Command(ManifoldType manifold)
+  explicit Command(ManifoldType& manifold)
       : manifold_{std::make_unique<ManifoldType>(manifold)}
   {}
 
@@ -34,8 +34,15 @@ class Command
   /// Execute the move on the manifold
   void execute()
   {
+    // debugging
+//    std::cout << "Before manifold move:\n";
+//    print_manifold_details(*manifold_);
     auto move = moves_.back();
     move(*manifold_);
+//    manifold_->update_geometry();
+    // debugging
+//    std::cout << "After manifold move:\n";
+//    print_manifold_details(*manifold_);
   }
   //    virtual void undo();
   //    virtual void redo();

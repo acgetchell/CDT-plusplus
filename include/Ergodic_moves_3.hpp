@@ -78,7 +78,7 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_23_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    std::cout << "Attempting (2,3) move.\n";
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
     auto two_two = manifold.get_geometry().get_two_two();
     // Shuffle the container to pick a random sequence of (2,2) cells to try
