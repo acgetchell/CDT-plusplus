@@ -81,15 +81,23 @@ SCENARIO("Command initialization", "[move3]")
           auto move23 = [](Manifold3& manifold) -> Manifold3 {
             return manifold3_moves::do_23_move(manifold);
           };
+          //            auto move23(manifold3_moves::do_23_move);
           command.enqueue(move23);
           THEN("It can be executed and is correct")
           {
+            CAPTURE(command.get_manifold().N3_22());
+            CAPTURE(command.get_manifold().N1_TL());
             command.execute();
-//            auto result = command.get_manifold();
-//            result.update_geometry();
-//            print_manifold_details(result);
-//            CHECK(manifold3_moves::check_move(
-//                manifold, result, manifold3_moves::move_type::TWO_THREE));
+            auto result = command.get_results();
+            //            result.update_geometry();
+            // These should be +1 after command is executed
+            CAPTURE(result.N3_22());
+            CAPTURE(result.N1_TL());
+            cout << "After move.\n";
+            print_manifold_details(result);
+            //            CHECK(manifold3_moves::check_move(
+            //                manifold, result,
+            //                manifold3_moves::move_type::TWO_THREE));
           }
         }
       }

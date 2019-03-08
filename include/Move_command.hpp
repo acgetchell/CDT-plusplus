@@ -22,10 +22,13 @@ class Command
   {}
 
   /// @return A read-only reference to the manifold
-  ManifoldType const& get_manifold() const { return *manifold_; }
+  ManifoldType const& get_manifold() const {return *manifold_; }
 
-  /// @return A mutable reference to the manifold
-  [[nodiscard]] auto& set_manifold() { return *manifold_; }
+  /// @return
+  ManifoldType& set_manifold() { return *manifold_;}
+
+  /// @return The results of the commands
+  [[nodiscard]] auto& get_results() { return *manifold_;}
 
   /// Push a move onto the move queue
   /// @param move The move to do on the manifold
@@ -35,14 +38,10 @@ class Command
   void execute()
   {
     // debugging
-//    std::cout << "Before manifold move:\n";
-//    print_manifold_details(*manifold_);
+    std::cout << "Before manifold move:\n";
+    print_manifold_details(*manifold_);
     auto move = moves_.back();
     move(*manifold_);
-//    manifold_->update_geometry();
-    // debugging
-//    std::cout << "After manifold move:\n";
-//    print_manifold_details(*manifold_);
   }
   //    virtual void undo();
   //    virtual void redo();
