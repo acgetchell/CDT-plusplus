@@ -12,6 +12,7 @@
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
 #include <Manifold.hpp>
+#include <optional>
 
 namespace manifold3_moves
 {
@@ -124,7 +125,7 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_32_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    std::cout << "Attempting (3,2) move.\n";
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
     auto movable_timelike_edges = manifold.get_geometry().get_timelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
@@ -157,26 +158,19 @@ namespace manifold3_moves
   /// that neighbor is passed via an out parameter.
   ///
   /// @param c The (1,3) simplex that is checked
-  /// @param n The out parameter integer of the neighboring (3,1) simplex
-  /// @return True if the (2,6) move is possible
-  [[nodiscard]] inline auto find_26_move(Cell_handle const& c, int& n)
+  /// @return The integer of the neighboring (3,1) simplex if there is one
+  [[nodiscard]] inline std::optional<int> find_26_move(Cell_handle const& c)
   {
     Expects(c->info() == 13);
-    auto movable = false;
     for (auto i = 0; i < 4; ++i)
     {
 #ifndef NDEBUG
       std::cout << "Neighbor " << i << " is of type " << c->neighbor(i)->info()
                 << "\n";
 #endif
-      if (c->neighbor(i)->info() == 31)
-      {
-        n       = i;
-        movable = true;
-        break;
-      }
+      if (c->neighbor(i)->info() == 31) { return i; }
     }
-    return movable;
+    return std::nullopt;
   }  // find_26_move()
 
   /// @brief Perform a (2,6) move
@@ -198,20 +192,21 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_26_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    std::cout << "Attempting (2,6) move.\n";
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
     auto one_three = manifold.get_geometry().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::shuffle(one_three.begin(), one_three.end(), make_random_generator());
-    auto neighboring_31_index = std::numeric_limits<int>::max();
     for (auto& bottom : one_three)
     {
-      if (find_26_move(bottom, neighboring_31_index))
+      if (auto neighboring_31_index = find_26_move(bottom);
+          neighboring_31_index)
       {
 #ifndef NDEBUG
-        std::cout << "neighboring_31_index is " << neighboring_31_index << "\n";
+        std::cout << "neighboring_31_index is " << *neighboring_31_index
+                  << "\n";
 #endif
-        Cell_handle top = bottom->neighbor(neighboring_31_index);
+        Cell_handle top = bottom->neighbor(*neighboring_31_index);
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         Expects(bottom->has_neighbor(top, common_face_index));
@@ -241,7 +236,7 @@ namespace manifold3_moves
         // Insert new vertex
         Vertex_handle v_center =
             manifold.set_triangulation().set_delaunay().tds().insert_in_facet(
-                bottom, neighboring_31_index);
+                bottom, *neighboring_31_index);
 
         // Checks
         std::vector<Cell_handle> incident_cells;
@@ -369,7 +364,7 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_62_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    std::cout << "Attempting (6,2) move.\n";
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
     auto vertices = manifold.get_geometry().get_vertices();
     // Shuffle the container to pick a random sequence of vertices to try
@@ -398,11 +393,9 @@ namespace manifold3_moves
   ///
   /// @param manifold The simplicial manifold
   /// @param e_candidate The edge to check
-  /// @param incident_cells The out parameter of incident cells to the edge
-  /// @return True if (4,4) move is possible
-  [[nodiscard]] inline auto find_44_move(
-      Manifold3& manifold, Edge_handle const& e_candidate,
-      std::vector<Cell_handle>& incident_cells)
+  /// @return A container of incident cells if there are exactly 4 of them
+  [[nodiscard]] inline std::optional<std::vector<Cell_handle>> find_44_move(
+      Manifold3& manifold, Edge_handle const& e_candidate)
   {
     Expects(manifold.dim() > 0);  // Precondition of is_edge()
     Expects(manifold.is_edge(e_candidate));
@@ -415,13 +408,19 @@ namespace manifold3_moves
     auto circulator =
         manifold.get_triangulation().get_delaunay().tds().incident_cells(
             this_edge, this_edge.first);
+
+    std::vector<Cell_handle> incident_cells;
     do
     {
       incident_cells.emplace_back(circulator++);
     } while (circulator != this_edge.first);
     std::cout << "Edge has " << incident_cells.size() << " incident cells.\n";
 
-    return (incident_cells.size() == 4);
+    if (incident_cells.size() == 4) { return incident_cells; }
+    else
+    {
+      return std::nullopt;
+    }
   }
 
   /// @brief Perform a (4,4) move
@@ -445,7 +444,7 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_44_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    std::cout << "Attempting (4,4) move.\n";
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
     auto spacelike_edges = manifold.get_geometry().get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
@@ -454,12 +453,11 @@ namespace manifold3_moves
     for (auto& edge : spacelike_edges)
     {
       // Obtain all incident cells
-      std::vector<Cell_handle> incident_cells;
-      if (find_44_move(manifold, edge, incident_cells))
+      if (auto incident_cells = find_44_move(manifold, edge); incident_cells)
       {
         // Do move
 #ifndef NDEBUG
-        for (auto& cell : incident_cells)
+        for (auto& cell : *incident_cells)
         { std::cout << "Incident cell is of type " << cell->info() << "\n"; }
 #endif
         return manifold;
