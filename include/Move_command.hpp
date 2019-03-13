@@ -14,6 +14,7 @@
 
 template <typename ManifoldType,
           typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
+// typename FunctionType = ManifoldType (*)(ManifoldType&)>
 class Command
 {
  public:
@@ -23,9 +24,6 @@ class Command
 
   /// @return A read-only reference to the manifold
   ManifoldType const& get_manifold() const {return *manifold_; }
-
-  /// @return
-  ManifoldType& set_manifold() { return *manifold_;}
 
   /// @return The results of the commands
   [[nodiscard]] auto& get_results() { return *manifold_;}
