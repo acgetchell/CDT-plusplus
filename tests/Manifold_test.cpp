@@ -239,6 +239,41 @@ SCENARIO("3-Manifold copying", "[manifold]")
   }
 }
 
+SCENARIO("3-Manifold update geometry", "[manifold]")
+{
+  GIVEN("A 3-manifold")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    WHEN("We call update_geometry()")
+    {
+      // Get values for manifold1
+      auto manifold_N3 = manifold.N3();
+      auto manifold_N2 = manifold.N2();
+      auto manifold_N1 = manifold.N1();
+      auto manifold_N0 = manifold.N0();
+      cout << "Manifold N3 = " << manifold_N3 << "\n";
+      cout << "Manifold N2 = " << manifold_N2 << "\n";
+      cout << "Manifold N1 = " << manifold_N1 << "\n";
+      cout << "Manifold N0 = " << manifold_N0 << "\n";
+      manifold.update_geometry();
+      std::cout << "Update geometry called.\n";
+      THEN("We get back the same values.")
+      {
+        cout << "Manifold N3 is still " << manifold.N3() << "\n";
+        CHECK(manifold.N3() == manifold_N3);
+        cout << "Manifold N2 is still " << manifold.N2() << "\n";
+        CHECK(manifold.N2() == manifold_N2);
+        cout << "Manifold N1 is still " << manifold.N1() << "\n";
+        CHECK(manifold.N1() == manifold_N1);
+        cout << "Manifold N0 is still " << manifold.N0() << "\n";
+        CHECK(manifold.N0() == manifold_N0);
+      }
+    }
+  }
+}
+
 SCENARIO("3-Manifold mutation", "[manifold]")
 {
   GIVEN("A pair of 3-manifolds")
