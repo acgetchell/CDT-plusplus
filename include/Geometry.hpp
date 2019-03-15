@@ -21,7 +21,7 @@
 using Cell_handle   = Delaunay3::Cell_handle;
 using Facet         = Delaunay3::Facet;
 using Face_handle   = std::pair<Cell_handle, int>;
-using Edge_handle   = std::tuple<Cell_handle, int, int>;
+using Edge_handle   = CGAL::Triple<Cell_handle, int, int>;
 using Vertex_handle = Delaunay3::Vertex_handle;
 
 /// Geometry class template
@@ -179,9 +179,9 @@ class Geometry<3>
   auto classify_edge(Edge_handle const& edge, bool debugging = false) const
       -> bool
   {
-    Cell_handle const& ch    = std::get<0>(edge);
-    auto               time1 = ch->vertex(std::get<1>(edge))->info();
-    auto               time2 = ch->vertex(std::get<2>(edge))->info();
+    Cell_handle const& ch    = edge.first;
+    auto               time1 = ch->vertex(edge.second)->info();
+    auto               time2 = ch->vertex(edge.third)->info();
     bool               result{time1 != time2};
     if (debugging)
     {
@@ -387,7 +387,7 @@ class Geometry<3>
                            ch->index(ch->vertex(eit->third))};
       // Each edge is valid in the triangulation
       Ensures(universe.get_delaunay().tds().is_valid(
-          std::get<0>(thisEdge), std::get<1>(thisEdge), std::get<2>(thisEdge)));
+          thisEdge.first, thisEdge.second, thisEdge.third));
       init_edges.emplace_back(thisEdge);
     }
     Ensures(init_edges.size() == N1());

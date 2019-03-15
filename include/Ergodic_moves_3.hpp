@@ -104,8 +104,7 @@ namespace manifold3_moves
   {
     auto flipped = false;
     if (manifold.set_triangulation().set_delaunay().flip(
-            std::get<0>(to_be_moved), std::get<1>(to_be_moved),
-            std::get<2>(to_be_moved)))
+            to_be_moved.first, to_be_moved.second, to_be_moved.third))
       flipped = true;
     return flipped;
   }
@@ -400,20 +399,17 @@ namespace manifold3_moves
     Expects(manifold.dim() > 0);  // Precondition of is_edge()
                                   //    Expects(manifold.is_edge(e_candidate));
 
-    // Convert from Edge_handle to CGAL::Edge, which uses a CGAL::Triple
-    CGAL::Triple this_edge(std::get<0>(e_candidate), std::get<1>(e_candidate),
-                           std::get<2>(e_candidate));
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in
     auto circulator =
         manifold.get_triangulation().get_delaunay().tds().incident_cells(
-            this_edge, this_edge.first);
+            e_candidate, e_candidate.first);
 
     std::vector<Cell_handle> incident_cells;
     do
     {
       incident_cells.emplace_back(circulator++);
-    } while (circulator != this_edge.first);
+    } while (circulator != e_candidate.first);
     std::cout << "Edge has " << incident_cells.size() << " incident cells.\n";
 
     if (incident_cells.size() == 4) { return incident_cells; }

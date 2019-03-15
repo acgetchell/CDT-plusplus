@@ -124,8 +124,7 @@ class Manifold<3>
   [[nodiscard]] auto is_edge(Edge_handle const& e_candidate) const
   {
     return triangulation_.get_delaunay().tds().is_edge(
-        std::get<0>(e_candidate), std::get<1>(e_candidate),
-        std::get<2>(e_candidate));
+        e_candidate.first, e_candidate.second, e_candidate.third);
   }
 
   /// @return Dimensionality of triangulation data structure
