@@ -11,21 +11,20 @@
 #include <functional>
 #include <optional>
 
-template <typename ManifoldType>
+template <typename ManifoldType,
+          typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
 class Move_guard
 {
  public:
-  using FunctionType = std::function<ManifoldType(ManifoldType const&)>;
-
   Move_guard(ManifoldType manifold, FunctionType function)
-      : triangulation_{std::move(manifold)}, function_{function}
+      : manifold_{manifold}, function_{function}
   {}
 
   std::optional<ManifoldType> operator()()
   {
     try
     {
-      return function_(triangulation_);
+      return function_(manifold_);
     }
     catch (...)
     {
@@ -33,10 +32,8 @@ class Move_guard
     }
   }
 
-  ManifoldType get_triangulation() const { return triangulation_; }
-
  private:
-  ManifoldType triangulation_;
+  ManifoldType manifold_;
   FunctionType function_;
 };
 

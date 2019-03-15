@@ -398,7 +398,7 @@ namespace manifold3_moves
       Manifold3& manifold, Edge_handle const& e_candidate)
   {
     Expects(manifold.dim() > 0);  // Precondition of is_edge()
-    Expects(manifold.is_edge(e_candidate));
+                                  //    Expects(manifold.is_edge(e_candidate));
 
     // Convert from Edge_handle to CGAL::Edge, which uses a CGAL::Triple
     CGAL::Triple this_edge(std::get<0>(e_candidate), std::get<1>(e_candidate),
