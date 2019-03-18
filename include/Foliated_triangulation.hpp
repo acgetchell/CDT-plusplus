@@ -304,8 +304,6 @@ class Foliated_triangulation<3> : Delaunay3
 
   Delaunay3 delaunay_;
   bool      is_foliated_;
-  template <std::size_t>
-  friend class MoveCommand;
 };
 
 using FoliatedTriangulation3 = Foliated_triangulation<3>;

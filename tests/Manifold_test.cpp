@@ -95,6 +95,44 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.N3() == 2);
         REQUIRE(manifold.min_time() == 1);
         REQUIRE(manifold.max_time() == 3);
+        REQUIRE(manifold.check_simplices());
+        // Human verification
+        print_manifold(manifold);
+        manifold.get_geometry().print_volume_per_timeslice();
+      }
+    }
+    WHEN("It is constructed from a Foliated triangulation")
+    {
+      Causal_vertices cv;
+      cv.emplace_back(make_pair(Point(0, 0, 0), 1));
+      cv.emplace_back(make_pair(Point(1, 0, 1), 2));
+      cv.emplace_back(make_pair(Point(0, 1, 1), 2));
+      cv.emplace_back(make_pair(Point(1, 1, 1), 2));
+      cv.emplace_back(make_pair(Point(1, 1, 2), 3));
+      Delaunay3              dt(cv.begin(), cv.end());
+      FoliatedTriangulation3 ft(dt);
+      Manifold3              manifold(ft);
+
+      THEN("The triangulation is valid")
+      {
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
+      }
+      THEN("The geometry matches the triangulation")
+      {
+        REQUIRE(manifold.is_foliated());
+        REQUIRE(manifold.N0() == 5);
+        REQUIRE(manifold.N1_SL() == 3);
+        REQUIRE(manifold.N1_TL() == 6);
+        // How many spacelike facets have a timevalue of 2? Should be 1.
+        REQUIRE(manifold.N2_SL().count(2) == 1);
+        // There shouldn't be spacelike facets with other time values.
+        REQUIRE(manifold.N2_SL().count(1) == 0);
+        REQUIRE(manifold.N2_SL().count(3) == 0);
+        REQUIRE(manifold.N3() == 2);
+        REQUIRE(manifold.min_time() == 1);
+        REQUIRE(manifold.max_time() == 3);
+        REQUIRE(manifold.check_simplices());
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -104,7 +142,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     {
       auto constexpr desired_simplices  = static_cast<int_fast32_t>(2);
       auto constexpr desired_timeslices = static_cast<int_fast32_t>(2);
-      Manifold3    manifold(desired_simplices, desired_timeslices);
+      Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid")
       {
         REQUIRE(manifold.is_delaunay());
@@ -116,7 +154,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
         REQUIRE(manifold.faces() == manifold.N2());
-        REQUIRE(manifold.simplices() == manifold.N3());
+        REQUIRE(manifold.check_simplices());
         // We have 1 to 8 vertices
         auto vertices{manifold.N0()};
         CHECK(1 <= vertices);
@@ -149,7 +187,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
         REQUIRE(manifold.faces() == manifold.N2());
-        REQUIRE(manifold.simplices() == manifold.N3());
+        REQUIRE(manifold.check_simplices());
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -171,7 +209,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
         REQUIRE(manifold.faces() == manifold.N2());
-        REQUIRE(manifold.simplices() == manifold.N3());
+        REQUIRE(manifold.check_simplices());
         // Human verification
         print_manifold(manifold);
         manifold.get_geometry().print_volume_per_timeslice();
@@ -335,6 +373,46 @@ SCENARIO("3-Manifold mutation", "[manifold]")
 
 SCENARIO("3-Manifold validation and fixing", "[manifold]")
 {
+  GIVEN("A (1,3) and (3,1) stacked on each other")
+  {
+    Causal_vertices cv;
+    cv.emplace_back(make_pair(Point(0, 0, 0), 1));
+    cv.emplace_back(make_pair(Point(1, 0, 1), 2));
+    cv.emplace_back(make_pair(Point(0, 1, 1), 2));
+    cv.emplace_back(make_pair(Point(1, 1, 1), 2));
+    cv.emplace_back(make_pair(Point(1, 1, 2), 3));
+    Delaunay3              dt(cv.begin(), cv.end());
+    FoliatedTriangulation3 ft(dt);
+    Manifold3              manifold(ft);
+    WHEN("We ask for a container of vertices given a container of cells")
+    {
+      auto vertices =
+          manifold.get_vertices_from_cells(manifold.get_geometry().get_cells());
+      THEN("We get back the correct number of vertices")
+      {
+        REQUIRE(vertices.size() == 5);
+        for (auto& vertex : vertices) { REQUIRE(manifold.is_vertex(vertex)); }
+      }
+    }
+    WHEN("We insert an invalid timevalue into a vertex")
+    {
+      auto cells         = manifold.get_geometry().get_cells();
+      auto broken_cell   = cells[0];
+      auto broken_vertex = broken_cell->vertex(0);
+      cout << "Info on vertex was " << broken_vertex->info() << "\n";
+      broken_vertex->info() = 7;
+      cout << "Info on vertex is now " << broken_vertex->info() << "\n";
+      THEN("We can detect invalid vertex timevalues")
+      {
+        CHECK_FALSE(manifold.are_vertex_timevalues_valid(cells));
+      }
+      THEN("We can detect invalid simplex types")
+      {
+        manifold.update_geometry();
+        CHECK_FALSE(manifold.are_simplex_types_valid(cells));
+      }
+    }
+  }
   GIVEN("A medium sized manifold")
   {
     auto constexpr desired_simplices  = static_cast<int_fast32_t>(6400);

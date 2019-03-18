@@ -210,6 +210,22 @@ class Geometry<3>
     return filtered_cells;
   }  // filter_cells
 
+  /// @brief Check that all cells are correctly classified
+  /// @param cells The container of cells to check
+  /// @return True if all cells are valid
+  [[nodiscard]] bool check_cells(std::vector<Cell_handle> const& cells) const
+  {
+    Expects(!cells.empty());
+    for (auto& cell : cells)
+    {
+      if (cell->info() != static_cast<int>(Cell_type::THREE_ONE) &&
+          cell->info() != static_cast<int>(Cell_type::TWO_TWO) &&
+          cell->info() != static_cast<int>(Cell_type::ONE_THREE))
+      { return false; }
+    }
+    return true;
+  }  // check_cells
+
  private:
   /// @brief Collect all finite cells of the triangulation
   /// @tparam Triangulation Reference type of triangulation
@@ -261,6 +277,12 @@ class Geometry<3>
         }
       }
 
+      // This is simply not sufficient. Need to check *both* max_time and
+      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
+      // Anything else means we have an invalid simplex which we should
+      // also return.
+      // We also need to check that max_time - min_time = 1, else we have
+      // a mis-classified vertex (probably)
       auto max_time =
           std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
       auto max_time_vertices =
@@ -268,7 +290,7 @@ class Geometry<3>
                         [max_time](auto const& vertex) {
                           return vertex->info() == *max_time;
                         });
-
+      // Check max_time - min_time here
       switch (max_time_vertices)
       {
         case 1:

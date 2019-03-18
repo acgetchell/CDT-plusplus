@@ -15,6 +15,7 @@
 #include <Geometry.hpp>
 #include <functional>
 #include <stddef.h>
+#include <unordered_set>
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
@@ -29,10 +30,17 @@ class Manifold<3>
   /// @brief Default ctor
   Manifold() = default;
 
-  /// @brief Construct manifold from a triangulation
+  /// @brief Construct manifold from a Delaunay triangulation
   /// @param delaunay_triangulation Triangulation used to construct manifold
   explicit Manifold(Delaunay3 const& delaunay_triangulation)
       : triangulation_{FoliatedTriangulation3(delaunay_triangulation)}
+      , geometry_{make_geometry(get_triangulation())}
+  {}
+
+  /// @brief Construct manifold from a Foliated triangulation
+  /// @param foliated_triangulation Triangulation used to construct manifold
+  explicit Manifold(FoliatedTriangulation3 foliated_triangulation)
+      : triangulation_{std::move(foliated_triangulation)}
       , geometry_{make_geometry(get_triangulation())}
   {}
 
@@ -96,8 +104,19 @@ class Manifold<3>
   /// @return A read-only reference to the Geometry
   Geometry3 const& get_geometry() const { return geometry_; }
 
-  /// @return A mutable reference to the geometry
-  [[nodiscard]] auto& set_geometry() { return geometry_; }
+  /// @param cells
+  /// @return All of the vertices contained in the cells
+  [[nodiscard]] auto get_vertices_from_cells(
+      std::vector<Cell_handle> const& cells) const
+  {
+    std::unordered_set<Vertex_handle> vertices;
+    for (auto& cell : cells)
+    {
+      for (int j = 0; j < 4; ++j) { vertices.emplace(cell->vertex(j)); }
+    }
+    std::vector<Vertex_handle> result(vertices.begin(), vertices.end());
+    return result;
+  }
 
   /// @return True if the Manifolds's triangulation is Delaunay
   [[nodiscard]] bool is_delaunay() const
@@ -180,6 +199,36 @@ class Manifold<3>
 
   /// @return Maximum time value in geometry data structure
   [[nodiscard]] auto max_time() const { return geometry_.max_time(); }
+
+  /// @return True if all cells in geometry are classified and match number in
+  /// triangulation
+  [[nodiscard]] bool check_simplices() const
+  {
+    return (this->simplices() == this->N3() &&
+            geometry_.check_cells(geometry_.get_cells()));
+  }
+
+  /// @param simplices The container of simplices to check
+  /// @return True if all vertices in the container have reasonable timevalues
+  [[nodiscard]] bool are_vertex_timevalues_valid(
+      std::vector<Cell_handle> const& simplices) const
+  {
+    auto check_vertices = get_vertices_from_cells(simplices);
+    for (auto& vertex : check_vertices)
+    {
+      auto timevalue = vertex->info();
+      if (timevalue > max_time() || timevalue < min_time()) { return false; }
+    }
+    return true;
+  }
+
+  /// @param simplices The container of simplices to check
+  /// @return True if all simplices in the container have valid types
+  [[nodiscard]] bool are_simplex_types_valid(
+      std::vector<Cell_handle> const& simplices) const
+  {
+    return geometry_.check_cells(simplices);
+  }
 
  private:
   FoliatedTriangulation3 triangulation_;

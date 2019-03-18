@@ -162,6 +162,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         { CHECK(cell->info() == static_cast<int>(Cell_type::TWO_TWO)); }
         for (auto const& cell : geometry.get_one_three())
         { CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE)); }
+        CHECK(geometry.check_cells(geometry.get_cells()));
         for (auto const& edge : geometry.get_timelike_edges())
         { CHECK(geometry.classify_edge(edge)); }
         for (auto const& edge : geometry.get_spacelike_edges())
