@@ -15,10 +15,10 @@
 template <typename ManifoldType,
           typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
 // typename FunctionType = ManifoldType (*)(ManifoldType&)>
-class Command
+class MoveCommand
 {
  public:
-  explicit Command(ManifoldType& manifold)
+  explicit MoveCommand(ManifoldType& manifold)
       : manifold_{std::make_unique<ManifoldType>(manifold)}
   {}
 

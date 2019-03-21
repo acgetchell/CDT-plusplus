@@ -8,12 +8,12 @@
 /// @brief Tests for moves
 /// @author Adam Getchell
 
-#include <Move_command_functional.hpp>
+#include <Move_command.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
 
-SCENARIO("Invoking a move with a function pointer", "[move3-f]")
+SCENARIO("Invoking a move with a function pointer", "[move3]")
 {
   GIVEN("A valid manifold")
   {
@@ -22,7 +22,7 @@ SCENARIO("Invoking a move with a function pointer", "[move3-f]")
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_delaunay());
     REQUIRE(manifold.is_valid());
-    WHEN("A lambda is constructed for a move")
+    WHEN("A function pointer is constructed for a move")
     {
       auto move23{manifold3_moves::do_23_move};
       THEN("Running the function makes the move")
@@ -41,7 +41,7 @@ SCENARIO("Invoking a move with a function pointer", "[move3-f]")
   }
 }
 
-SCENARIO("Invoking a move with a lambda", "[move3-f]")
+SCENARIO("Invoking a move with a lambda", "[move3]")
 {
   GIVEN("A valid manifold")
   {
@@ -71,7 +71,7 @@ SCENARIO("Invoking a move with a lambda", "[move3-f]")
   }
 }
 
-SCENARIO("Command initialization", "[move3-f]")
+SCENARIO("Move Command initialization", "[move3]")
 {
   GIVEN("A valid manifold")
   {
@@ -82,7 +82,7 @@ SCENARIO("Command initialization", "[move3-f]")
     REQUIRE(manifold.is_valid());
     WHEN("A Command is constructed with a manifold")
     {
-      Command command(manifold);
+      MoveCommand command(manifold);
       THEN("It contains the manifold")
       {
         CHECK(manifold.N3() == command.get_manifold().N3());
@@ -109,7 +109,7 @@ SCENARIO("Command initialization", "[move3-f]")
   }
 }
 
-SCENARIO("Applying the command", "[move3-f]")
+SCENARIO("Applying the Move Command", "[move3]")
 {
   GIVEN("A valid manifold")
   {
@@ -120,7 +120,7 @@ SCENARIO("Applying the command", "[move3-f]")
     REQUIRE(manifold.is_valid());
     WHEN("A (2,3) move is queued")
     {
-      Command command(manifold);
+      MoveCommand command(manifold);
       auto    move23 = [](Manifold3& manifold) -> Manifold3 {
         return manifold3_moves::do_23_move(manifold);
       };
