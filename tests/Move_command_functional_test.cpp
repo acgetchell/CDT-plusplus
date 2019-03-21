@@ -8,12 +8,40 @@
 /// @brief Tests for moves
 /// @author Adam Getchell
 
-#include <Move_command.hpp>
+#include <Move_command_functional.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
 
-SCENARIO("Invoking a move with a lambda", "[move3]")
+SCENARIO("Invoking a move with a function pointer", "[move3-f]")
+{
+  GIVEN("A valid manifold")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_delaunay());
+    REQUIRE(manifold.is_valid());
+    WHEN("A lambda is constructed for a move")
+    {
+      auto move23{manifold3_moves::do_23_move};
+      THEN("Running the function makes the move")
+      {
+        auto result = move23(manifold);
+        result.update_geometry();
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        cout << "Manifold properties;\n";
+        print_manifold_details(manifold);
+        cout << "Moved manifold properties:\n";
+        print_manifold_details(result);
+      }
+    }
+  }
+}
+
+SCENARIO("Invoking a move with a lambda", "[move3-f]")
 {
   GIVEN("A valid manifold")
   {
@@ -43,7 +71,7 @@ SCENARIO("Invoking a move with a lambda", "[move3]")
   }
 }
 
-SCENARIO("Command initialization", "[move3]")
+SCENARIO("Command initialization", "[move3-f]")
 {
   GIVEN("A valid manifold")
   {
@@ -81,7 +109,7 @@ SCENARIO("Command initialization", "[move3]")
   }
 }
 
-SCENARIO("Applying the command", "[move3]")
+SCENARIO("Applying the command", "[move3-f]")
 {
   GIVEN("A valid manifold")
   {
@@ -96,7 +124,9 @@ SCENARIO("Applying the command", "[move3]")
       auto    move23 = [](Manifold3& manifold) -> Manifold3 {
         return manifold3_moves::do_23_move(manifold);
       };
+//      auto func(manifold3_moves::do_23_move);
       command.enqueue(move23);
+//      command.enqueue(func);
       THEN("It is executed correctly")
       {
         CAPTURE(command.get_manifold().N3_22());
@@ -107,17 +137,16 @@ SCENARIO("Applying the command", "[move3]")
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
-        // Does this throw an exception? Yes, it does! Why?
-//        manifold.update_geometry();
-        // Exception thrown below
+        // Exception thrown on following call
 //        result.update_geometry();
         // These should be +1 after command
         CAPTURE(result.N3_22());
         CAPTURE(result.N1_TL());
         cout << "After move.\n";
         print_manifold_details(result);
-        //        CHECK(manifold3_moves::check_move(
-        //            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Not calling update makes this test fail
+//        CHECK(manifold3_moves::check_move(
+//            manifold, result, manifold3_moves::move_type::TWO_THREE));
       }
     }
   }
