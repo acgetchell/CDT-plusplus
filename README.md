@@ -157,7 +157,7 @@ directory, along with several others.
 
 - `CDT_test` is the [Catch] executable which runs the unit tests
 - `cdt-gv` converts output files to [Geomview] format for visualization
-- `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
+- `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for
 debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
