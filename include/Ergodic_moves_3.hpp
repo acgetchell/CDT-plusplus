@@ -11,7 +11,7 @@
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
-#include <Manifold.hpp>
+#include "Manifold.hpp"
 #include <optional>
 
 namespace manifold3_moves
@@ -397,7 +397,7 @@ namespace manifold3_moves
       Manifold3& manifold, Edge_handle const& e_candidate)
   {
     Expects(manifold.dim() > 0);  // Precondition of is_edge()
-                                  //    Expects(manifold.is_edge(e_candidate));
+    Expects(manifold.is_edge(e_candidate));
 
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in

@@ -11,7 +11,7 @@
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
-#include <Foliated_triangulation.hpp>
+#include "Foliated_triangulation.hpp"
 #include <algorithm>
 #include <cstddef>
 #include <gsl/gsl>
@@ -109,31 +109,46 @@ class Geometry<3>
   }
 
   /// @return Container of (3,1) cells
-  std::vector<Cell_handle> const& get_three_one() const { return three_one_; }
+  [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
+  {
+    return three_one_;
+  }
 
   /// @return Container of (2,2) cells
-  std::vector<Cell_handle> const& get_two_two() const { return two_two_; }
+  [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
+  {
+    return two_two_;
+  }
 
   /// @return Container of (1,3) cells
-  std::vector<Cell_handle> const& get_one_three() const { return one_three_; }
+  [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
+  {
+    return one_three_;
+  }
 
   /// @return Container of timelike edges
-  std::vector<Edge_handle> const& get_timelike_edges() const
+  [[nodiscard]] std::vector<Edge_handle> const& get_timelike_edges() const
   {
     return timelike_edges_;
   }
 
   /// @return Container of spacelike edges
-  std::vector<Edge_handle> const& get_spacelike_edges() const
+  [[nodiscard]] std::vector<Edge_handle> const& get_spacelike_edges() const
   {
     return spacelike_edges_;
   }
 
   /// @return Container of vertices
-  std::vector<Vertex_handle> const& get_vertices() const { return points_; }
+  [[nodiscard]] std::vector<Vertex_handle> const& get_vertices() const
+  {
+    return points_;
+  }
 
   /// @return Container of cells
-  std::vector<Cell_handle> const& get_cells() const { return cells_; }
+  [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
+  {
+    return cells_;
+  }
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()

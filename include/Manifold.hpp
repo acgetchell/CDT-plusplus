@@ -11,11 +11,12 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
-#include <Foliated_triangulation.hpp>
-#include <Geometry.hpp>
+#include "Foliated_triangulation.hpp"
+#include "Geometry.hpp"
+#include <cstddef>
 #include <functional>
-#include <stddef.h>
 #include <unordered_set>
+#include <utility>
 
 /// Manifold class template
 /// @tparam dimension Dimensionality of manifold
@@ -93,7 +94,7 @@ class Manifold<3>
   }
 
   /// @return A read-only reference to the triangulation
-  FoliatedTriangulation3 const& get_triangulation() const
+  [[nodiscard]] FoliatedTriangulation3 const& get_triangulation() const
   {
     return triangulation_;
   }
@@ -102,7 +103,7 @@ class Manifold<3>
   [[nodiscard]] auto& set_triangulation() { return triangulation_; }
 
   /// @return A read-only reference to the Geometry
-  Geometry3 const& get_geometry() const { return geometry_; }
+  [[nodiscard]] Geometry3 const& get_geometry() const { return geometry_; }
 
   /// @param cells
   /// @return All of the vertices contained in the cells

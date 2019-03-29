@@ -58,3 +58,6 @@ bw-output/*
 *.srctrlbm
 *.srctrldb*
 *.srctrlprj
+
+# Pipenv
+Pipfile

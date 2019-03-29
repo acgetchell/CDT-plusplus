@@ -21,7 +21,7 @@
 #include <sys/utsname.h>
 #endif
 #include <algorithm>
-#include <assert.h>
+#include <cassert>
 #include <cstdlib>
 #include <fstream>
 #include <functional>

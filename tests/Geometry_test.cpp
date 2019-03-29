@@ -8,7 +8,7 @@
 /// @brief Tests of new geometry data structure
 /// @author Adam Getchell
 
-#include <Geometry.hpp>
+#include "Geometry.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;

@@ -9,7 +9,7 @@
 
 **Quantize spacetime on your laptop.**
 
-![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png)
+![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png "8 timeslices 68 vertices 298 simplices")
 
 For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki), including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
@@ -141,7 +141,7 @@ conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-co
 
 Using [CMake] and [Ninja], Conan handles the remaining dependencies.
 
-This project uses [C++]17 features, and successfully builds with AppleCl     ang, [gcc-8], and [clang-6].
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-6].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 Windows is almost there with [clang-cl], there is a [bug] with [TBB].
@@ -212,7 +212,7 @@ links (in 2+1 spacetime) and the timelike faces (in 3+1 spacetime).
 
 ## Documentation
 
-Online documentation may be found at http://www.adamgetchell.org/CDT-plusplus/
+Online documentation may be found at <http://www.adamgetchell.org/CDT-plusplus/>
 
 If you have [Doxygen] installed you can generate the same information
 locally by simply typing at the top level directory

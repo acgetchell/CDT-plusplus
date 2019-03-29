@@ -1,5 +1,6 @@
 from conans import ConanFile, CMake
 
+
 class CausalDynamicalTriangulations(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
     requires = "boost/[>=1.69.0]@conan/stable", "Catch2/[>=2.5.0]@catchorg/stable", \
