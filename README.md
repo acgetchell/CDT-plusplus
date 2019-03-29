@@ -1,6 +1,5 @@
 # CDT-plusplus
 
-
  [![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.org/acgetchell/CDT-plusplus)
  [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
  [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
@@ -9,6 +8,8 @@
  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 
 **Quantize spacetime on your laptop.**
+
+![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png)
 
 For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki), including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
@@ -79,13 +80,13 @@ and does not handle [TBB] properly. So, you need [Homebrew] or [Linuxbrew].
 
 MacOS:
 
-~~~
+~~~bash
 /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 ~~~
 
 Linux (Ubuntu):
 
-~~~
+~~~bash
 sudo apt install linuxbrew-wrapper
 PATH="$HOME/.linuxbrew/bin:$PATH"
 echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
@@ -98,7 +99,7 @@ brew config
 
 Then, you can install the prerequisites with:
 
-~~~
+~~~bash
 brew update
 brew upgrade cmake
 brew install ninja
@@ -108,25 +109,25 @@ brew install cgal --with-eigen --with-qt
 
 For some flavors of Linux (e.g. Ubuntu 18.04), the [CGAL] package dependency on QT fails, so you have to do:
 
-~~~
+~~~bash
 brew install cgal --with-eigen
 ~~~
 
 Finally, you can install conan:
 
-~~~
+~~~bash
 brew install conan
 ~~~
 
 You can test your Conan installation by typing:
 
-~~~
+~~~bash
 conan
 ~~~
 
 Next, create a [Conan] profile (named `cdt` here) automatically, using:
 
-~~~
+~~~bash
 conan profile new cdt --detect
 ~~~
 
@@ -134,7 +135,7 @@ This finds your compiler settings, and allows the [build.sh] script to run corre
 
 There are a few packages that use the [bincrafters] repository. Add that via:
 
-~~~
+~~~bash
 conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 ~~~
 
@@ -154,11 +155,11 @@ project without cluttering the source code. Thus, download this source code
 This should result in the main program executable, `cdt` in the `build/bin`
 directory, along with several others.
 
-* `CDT_test` is the [Catch] executable which runs the unit tests
-* `cdt-gv` converts output files to [Geomview] format for visualization
-* `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
+- `CDT_test` is the [Catch] executable which runs the unit tests
+- `cdt-gv` converts output files to [Geomview] format for visualization
+- `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for 
 debugging and scripting
-* `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
+- `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
 The install script will also run unit and integration tests.
 See [Testing](#testing) for details.
@@ -169,7 +170,7 @@ CDT-plusplus uses [Docopt] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
-~~~
+~~~bash
 ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -217,7 +218,7 @@ If you have [Doxygen] installed you can generate the same information
 locally by simply typing at the top level directory
 ([Doxygen] will recursively search):
 
-~~~
+~~~bash
 doxygen
 ~~~
 
@@ -233,23 +234,22 @@ If you do not have GraphViz installed, set this option to **NO**
 
 Unit tests using [Catch] are run (in the `build/bin` directory) via:
 
-~~~
+~~~bash
 ./CDT_test
 ~~~
 
 You can also run both [CTest] integration and [Catch] unit tests in the `build` directory with:
 
-~~~
+~~~bash
 ctest
 ~~~
-
 
 In addition to the command line output, you can see detailed results in the
 `build/Testing` directory which is generated thereby.
 
 Whitespace formatting is can be checked using `git check`:
 
-~~~
+~~~bash
 git diff --check HEAD^
 ~~~
 
@@ -258,7 +258,7 @@ git diff --check HEAD^
 This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can check using the
 [clang-tidy.sh] script:
 
-~~~
+~~~bash
 ./clang-tidy.sh
 ~~~
 
@@ -266,26 +266,26 @@ This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangT
 
 The [cppcheck-build.sh] script runs a quick static analysis using [cppcheck].
 
-~~~
+~~~bash
 ./cppcheck-build.sh
 ~~~
 
 [Clang] comes with [scan-build] which can run a much more thorough,
 but slower static analysis integrated with [CMake] and [Ninja].
 
-~~~
+~~~bash
 ./scan.sh
 ~~~
 
 ### Continuous Integration
 
-* [ClangTidy] on all changed files
+- [ClangTidy] on all changed files
 
-* Whitespace formatting
+- Whitespace formatting
 
-* [Valgrind]; be sure to look at the results to ensure you're not leaking memory
+- [Valgrind]; be sure to look at the results to ensure you're not leaking memory
 
-* [SonarCloud], also worth a look
+- [SonarCloud], also worth a look
 
 ## Parameter Optimization
 
@@ -293,7 +293,7 @@ but slower static analysis integrated with [CMake] and [Ninja].
 this is `optimize-initialize.py`. In order for this to work, you must install the following
 into your Python [virtual environment].
 
-~~~
+~~~bash
 pip install tensorflow
 pip install comet-ml
 ~~~
@@ -303,7 +303,6 @@ You can then run experiments and look at results on Comet.ml!
 ## Contributing
 
 Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
-
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
