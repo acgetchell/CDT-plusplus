@@ -232,7 +232,7 @@ matrix:
       env: TESTS=false SONARQUBE=true
 script:
   # Use Ninja
-  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+#  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   - |
     if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
       echo osx/clang autodetected libcxx is fine
