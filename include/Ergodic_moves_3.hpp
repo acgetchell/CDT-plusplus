@@ -38,7 +38,7 @@ namespace manifold3_moves
   /// @param manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_23_move(Manifold3&         manifold,
+  [[nodiscard]] inline bool try_23_move(Manifold3&         manifold,
                                         Cell_handle const& to_be_moved)
   {
     Expects(to_be_moved->info() == 22);
@@ -76,10 +76,10 @@ namespace manifold3_moves
   ///
   /// @param manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline auto do_23_move(Manifold3& manifold)
+  [[nodiscard]] inline decltype(auto) do_23_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+    puts(__PRETTY_FUNCTION__);
 #endif
     auto two_two = manifold.get_geometry().get_two_two();
     // Shuffle the container to pick a random sequence of (2,2) cells to try

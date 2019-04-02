@@ -121,7 +121,7 @@ SCENARIO("Applying the Move Command", "[move3]")
     WHEN("A (2,3) move is queued")
     {
       MoveCommand command(manifold);
-      auto    move23 = [](Manifold3& manifold) -> Manifold3 {
+      auto    move23 = [](Manifold3& manifold) -> decltype(auto) {
         return manifold3_moves::do_23_move(manifold);
       };
 //      auto func(manifold3_moves::do_23_move);
@@ -138,7 +138,7 @@ SCENARIO("Applying the Move Command", "[move3]")
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
         // Exception thrown on following call
-//        result.update_geometry();
+        result.update_geometry();
         // These should be +1 after command
         CAPTURE(result.N3_22());
         CAPTURE(result.N1_TL());
