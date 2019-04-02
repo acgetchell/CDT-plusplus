@@ -71,7 +71,6 @@ install:
 #      brew install cgal
 #    fi
 #  - brew install ninja
-  - brew install mpfr
   - brew install lcov
   - brew install conan
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
