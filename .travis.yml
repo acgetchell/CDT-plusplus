@@ -119,7 +119,7 @@ matrix:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
 #            - clang-6.0
-            - clang-format-7.0
+            - clang-format-6.0
       # Skip unnecessary steps since we aren't compiling
       before_install:
       install:
@@ -147,7 +147,7 @@ matrix:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
 #            - clang-6.0
-            - clang-tidy-7.0
+            - clang-tidy-6.0
             - linuxbrew-wrapper
       # Overwrite script on matrix jobs
       script:
@@ -237,8 +237,16 @@ script:
     if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
       echo osx/clang autodetected libcxx is fine
       conan install .. -pr cdt --build=missing
+    fi
+
+    if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then
+      echo linux/clang-7 using libstdc++11
+      conan profile update settings.compiler=clang cdt
+      conan profile update settings.compiler.version=7.0 cdt
+      conan profile update settings.compiler.libcxx=libstdc++11 cdt
+      conan install .. -pr cdt --build=missing
     else
-      echo linux using libstdc++11
+      echo linux/gcc-7 using libstdc++11
       conan profile update settings.compiler.libcxx=libstdc++11 cdt
       conan install .. -pr cdt --build=missing
     fi
