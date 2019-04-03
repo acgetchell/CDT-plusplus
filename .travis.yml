@@ -237,14 +237,6 @@ script:
     if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
       echo osx/clang autodetected libcxx is fine
       conan install .. -pr cdt --build=missing
-#    fi
-#
-#    if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then
-#      echo linux/clang-7 using libstdc++
-#      conan profile update settings.compiler=clang cdt
-#      conan profile update settings.compiler.version=7.0 cdt
-#      conan profile update settings.compiler.libcxx=libstdc++ cdt
-#      conan install .. -pr cdt --build=missing
     else
       echo linux/{gcc,clang} and osx/gcc using libstdc++
       conan profile update settings.compiler.libcxx=libstdc++11 cdt
