@@ -7,12 +7,12 @@ addons:
   apt:
     packages:
       - g++-8
-      - clang-6.0
+#      - clang-6.0
       - linuxbrew-wrapper
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
 #      - ubuntu-toolchain-r-test
-      - llvm-toolchain-trusty-6.0
+#      - llvm-toolchain-trusty-6.0
 
 env:
   matrix:
@@ -20,6 +20,7 @@ env:
     - TESTS=false
 
 cache:
+  apt:
   ccache: true
 
 os:
@@ -73,7 +74,7 @@ install:
   - brew install lcov
   - brew install conan
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-6.0" CC="clang-6.0"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-7.0" CC="clang-7.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 before_script:
@@ -92,9 +93,9 @@ matrix:
       compiler: gcc
       env: TESTS=false GITCHECK=true
       # Skip unnecessary steps since we aren't compiling
-      before_install: skip
-      install: skip
-      before_script: skip
+      before_install:
+      install:
+      before_script:
       # Overwrite script on matrix jobs
       script:
         - |
@@ -105,7 +106,7 @@ matrix:
             exit -1
           fi
       # Skip after_success
-      after_success: skip
+      after_success:
     # ClangFormat
     - os: linux
       compiler: clang
@@ -114,15 +115,15 @@ matrix:
         apt:
           sources:
 #            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+#            - llvm-toolchain-trusty-6.0
             - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
-            - clang-6.0
+#            - clang-6.0
             - clang-format-6.0
       # Skip unnecessary steps since we aren't compiling
-      before_install: skip
-      install: skip
-      before_script: skip
+      before_install:
+      install:
+      before_script:
       # Overwrite script on matrix jobs
       script:
         - |
@@ -133,7 +134,7 @@ matrix:
             exit -1
           fi
       # Skip after_success
-      after_success: skip
+      after_success:
     # ClangTidy
     - os: linux
       compiler: clang
@@ -142,10 +143,10 @@ matrix:
         apt:
           sources:
 #            - ubuntu-toolchain-r-test
-            - llvm-toolchain-trusty-6.0
+#            - llvm-toolchain-trusty-6.0
             - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
-            - clang-6.0
+#            - clang-6.0
             - clang-tidy-6.0
             - linuxbrew-wrapper
       # Overwrite script on matrix jobs
@@ -161,7 +162,7 @@ matrix:
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
         # Skip after_success
-      after_success: skip
+      after_success:
     # Valgrind
     - os: linux
       compiler: gcc
@@ -180,14 +181,14 @@ matrix:
     - os: osx
       compiler: clang
       env: TESTS=true CODECOV=true
-      before_script: skip
+      before_script:
       script:
         - conan profile new cdt --detect
         - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
         - ./tools/codecov.sh
-      after_success: skip
+      after_success:
   # Sonarcloud
     - os: osx
       compiler: clang
@@ -209,7 +210,7 @@ matrix:
         ccache: true
         directories:
           - '$HOME/.sonar/cache'
-      after_success: skip
+      after_success:
   allow_failures:
     - os: linux
       compiler: gcc
