@@ -7,12 +7,10 @@ addons:
   apt:
     packages:
       - g++-8
-#      - clang-6.0
       - linuxbrew-wrapper
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
 #      - ubuntu-toolchain-r-test
-#      - llvm-toolchain-trusty-6.0
 
 env:
   matrix:
@@ -20,7 +18,6 @@ env:
     - TESTS=false
 
 cache:
-  apt:
   ccache: true
 
 os:
@@ -93,9 +90,9 @@ matrix:
       compiler: gcc
       env: TESTS=false GITCHECK=true
       # Skip unnecessary steps since we aren't compiling
-      before_install:
-      install:
-      before_script:
+      before_install: skip
+      install: skip
+      before_script: skip
       # Overwrite script on matrix jobs
       script:
         - |
@@ -105,8 +102,7 @@ matrix:
             git diff --check HEAD^
             exit -1
           fi
-      # Skip after_success
-      after_success:
+      after_success: skip
     # ClangFormat
     - os: linux
       compiler: clang
@@ -121,9 +117,9 @@ matrix:
 #            - clang-6.0
             - clang-format-6.0
       # Skip unnecessary steps since we aren't compiling
-      before_install:
-      install:
-      before_script:
+      before_install: skip
+      install: skip
+      before_script: skip
       # Overwrite script on matrix jobs
       script:
         - |
@@ -133,8 +129,7 @@ matrix:
             git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
             exit -1
           fi
-      # Skip after_success
-      after_success:
+      after_success: skip
     # ClangTidy
     - os: linux
       compiler: clang
@@ -143,10 +138,8 @@ matrix:
         apt:
           sources:
 #            - ubuntu-toolchain-r-test
-#            - llvm-toolchain-trusty-6.0
             - sourceline: "ppa:ubuntu-toolchain-r/test"
           packages:
-#            - clang-6.0
             - clang-tidy-6.0
             - linuxbrew-wrapper
       # Overwrite script on matrix jobs
@@ -161,8 +154,7 @@ matrix:
           else
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
-        # Skip after_success
-      after_success:
+      after_success: skip
     # Valgrind
     - os: linux
       compiler: gcc
@@ -181,14 +173,14 @@ matrix:
     - os: osx
       compiler: clang
       env: TESTS=true CODECOV=true
-      before_script:
+      before_script: skip
       script:
         - conan profile new cdt --detect
         - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
         - ./tools/codecov.sh
-      after_success:
+      after_success: skip
   # Sonarcloud
     - os: osx
       compiler: clang
@@ -199,7 +191,6 @@ matrix:
           branches:
             - develop
             - master
-      # Skip unnecessary steps
       before_install:
         - git fetch --unshallow
       script:
@@ -210,7 +201,7 @@ matrix:
         ccache: true
         directories:
           - '$HOME/.sonar/cache'
-      after_success:
+      after_success: skip
   allow_failures:
     - os: linux
       compiler: gcc
@@ -238,9 +229,18 @@ script:
       echo osx/clang autodetected libcxx is fine
       conan install .. -pr cdt --build=missing
     else
-      echo linux/{gcc,clang} and osx/gcc using libstdc++
-      conan profile update settings.compiler.libcxx=libstdc++11 cdt
-      conan install .. -pr cdt --build=missing
+    - |
+      if [[ "$CXX" == "clang++" ]]; then
+        echo linux/clang using libstdc++11
+        conan profile update settings.compiler=clang cdt
+        conan profile update settings.compiler.version=7.0 cdt
+        conan profile update settings.compiler.libcxx=libstdc++11 cdt
+        conan install .. -pr cdt --build=missing
+      else
+        echo {linux, osx}/gcc using libstdc++11
+        conan profile update settings.compiler.libcxx=libstdc++11 cdt
+        conan install .. -pr cdt --build=missing
+      fi
     fi
   - conan build ..
 after_success:
