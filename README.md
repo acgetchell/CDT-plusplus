@@ -67,7 +67,7 @@ is the [PitchFork Layout], as follows:
 
 ### Prerequisites
 
-- AppleClang, [clang-6], or [gcc-8]
+- AppleClang, [clang-7], or [gcc-8]
 - [Homebrew] or [Linuxbrew]
 - [Conan]
 - [CMake]
@@ -76,7 +76,7 @@ is the [PitchFork Layout], as follows:
 - [TBB]
 
 [CDT++] uses the [Conan] open source C/C++ package manager. However, [Conan] does not have a package for [CGAL],
-and does not handle [TBB] properly. So, you need [Homebrew] or [Linuxbrew].
+and does not handle [TBB] properly. So, you need [Homebrew]/[Linuxbrew].
 
 MacOS:
 
@@ -104,14 +104,10 @@ brew update
 brew upgrade cmake
 brew install ninja
 brew install tbb
-brew install cgal --with-eigen --with-qt
+brew install cgal
 ~~~
 
-For some flavors of Linux (e.g. Ubuntu 18.04), the [CGAL] package dependency on QT fails, so you have to do:
-
-~~~bash
-brew install cgal --with-eigen
-~~~
+Homebrew/Linuxbrew [have been merged] and no longer support options, so the [CGAL] package dependency on QT fails. As of now, you have to manually install QT to get the (forthcoming) visualizations to work.
 
 Finally, you can install conan:
 
@@ -131,7 +127,7 @@ Next, create a [Conan] profile (named `cdt` here) automatically, using:
 conan profile new cdt --detect
 ~~~
 
-This finds your compiler settings, and allows the [build.sh] script to run correctly.
+This (usually) finds your compiler settings, and allows the [build.sh] script to run correctly.
 
 There are a few packages that use the [bincrafters] repository. Add that via:
 
@@ -144,7 +140,7 @@ Using [CMake] and [Ninja], Conan handles the remaining dependencies.
 This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-6].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
-Windows is almost there with [clang-cl], there is a [bug] with [TBB].
+Windows is almost there with [clang-cl], there is a [bug] with [date].
 
 ### Installing
 
@@ -174,7 +170,7 @@ is an unambiguous match to a longer one. The help message should be instructive:
 ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2018 Adam Getchell
+Copyright (c) 2014-2019 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -356,12 +352,13 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [Conan]: https://github.com/conan-io/conan
 [Linuxbrew]: https://linuxbrew.sh/
-[clang-6]: https://releases.llvm.org/6.0.1/tools/clang/docs/ReleaseNotes.html
+[clang-7]: https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html
 [gcc-8]: https://gcc.gnu.org/gcc-8/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
 [clang-cl]: https://clang.llvm.org/docs/MSVCCompatibility.html
-[bug]: https://github.com/conan-community/community/issues/43
+[bug]: https://ci.appveyor.com/project/acgetchell/cdt-test/build/job/6tltjqyu37oan89v#L93594
 [development]: https://github.com/acgetchell/CDT-plusplus
 [bincrafters]: https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
+[have been merged]: https://brew.sh/2019/02/02/homebrew-2.0.0/
