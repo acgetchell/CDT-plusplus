@@ -229,7 +229,6 @@ script:
       echo osx/clang autodetected libcxx is fine
       conan install .. -pr cdt --build=missing
     else
-    - |
       if [[ "$CXX" == "clang++" ]]; then
         echo linux/clang using libstdc++11
         conan profile update settings.compiler=clang cdt
