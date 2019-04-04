@@ -155,7 +155,7 @@ target_link_libraries(initialize
                               CONAN_PKG::gsl_microsoft)
 target_compile_features(initialize PRIVATE cxx_std_17)
 
-if(UNIX)
+if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(cdt-gv
                         PRIVATE ${CGAL_LIBRARIES}
@@ -174,7 +174,7 @@ if(UNIX)
   # Activate C++17
   target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
-endif(UNIX)
+endif()
 
 # add_executable(delaunay_triangulation
 # ${PROJECT_SOURCE_DIR}/src/delaunay_triangulation.cpp)
