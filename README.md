@@ -353,7 +353,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [Model Optimization]: https://www.comet.ml/parameter-optimization
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [Conan]: https://github.com/conan-io/conan
-[Linuxbrew]: https://linuxbrew.sh/
+[Linuxbrew]: https://docs.brew.sh/Homebrew-on-Linux
 [clang-7]: https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html
 [gcc-8]: https://gcc.gnu.org/gcc-8/
 [C++]: https://isocpp.org/

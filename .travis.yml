@@ -225,7 +225,11 @@ script:
   # Use Ninja
 #  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   - |
-    if [[ "$CXX" == "clang++" ]]; then
+    if [[ "$CXX" == "gcc" ]]; then
+      echo {linux, osx}/gcc using libstdc++11
+      conan profile update settings.compiler.libcxx=libstdc++11 cdt
+      conan install .. -pr cdt --build=missing
+    else
       if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
         echo os/clang autodetected libcxx is fine
         conan install .. -pr cdt --build=missing
@@ -236,10 +240,6 @@ script:
         conan profile update settings.compiler.libcxx=libstdc++11 cdt
         conan install .. -pr cdt --build=missing
       fi
-    else
-      echo {linux, osx}/gcc using libstdc++11
-      conan profile update settings.compiler.libcxx=libstdc++11 cdt
-      conan install .. -pr cdt --build=missing
     fi
   - conan build ..
 after_success:
