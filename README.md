@@ -107,7 +107,9 @@ brew install tbb
 brew install cgal
 ~~~
 
-Homebrew/Linuxbrew [have been merged] and no longer support options, so the [CGAL] package dependency on QT fails. As of now, you have to manually install QT to get the (forthcoming) visualizations to work.
+Homebrew/Linuxbrew [have been merged] and no longer support options, so the [CGAL] package dependency
+on [Qt] fails. As of now, you have to manually install [CGAL]+[Qt] to get the (forthcoming)
+visualizations to work.
 
 Finally, you can install conan:
 
@@ -137,7 +139,7 @@ conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-co
 
 Using [CMake] and [Ninja], Conan handles the remaining dependencies.
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-6].
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-7].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 Windows is almost there with [clang-cl], there is a [bug] with [date].
@@ -362,3 +364,4 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 [bincrafters]: https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [have been merged]: https://brew.sh/2019/02/02/homebrew-2.0.0/
+[Qt]: https://www.qt.io
