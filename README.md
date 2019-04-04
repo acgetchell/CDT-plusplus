@@ -11,12 +11,14 @@
 
 ![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png "8 timeslices 68 vertices 298 simplices")
 
-For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki), including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
+For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki),
+including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
 [Causal Dynamical Triangulations][CDT] in [C++] use the
 [Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
 Arbitrary-precision numbers and functions via [MPFR] and [GMP].
-Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date] library for accurate time.
+Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date]
+library for accurate time.
 Uses [Catch] for [BDD]/[TDD].
 Uses [Conan]/[CMake]/[Ninja] for dependency management and building.
 Uses [Doxygen] for automated document generation.
@@ -168,7 +170,7 @@ CDT-plusplus uses [Docopt] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
-~~~bash
+~~~text
 ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
@@ -301,6 +303,18 @@ You can then run experiments and look at results on Comet.ml!
 ## Contributing
 
 Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](.github/CODE_OF_CONDUCT.md).
+
+## Upstream issues
+
+Various Travis-CI and AppVeyor builds are ignored:
+
+Boost 1.69.0 does not build on macOS/gcc <https://github.com/conan-community/community/issues/172>
+
+Conan 1.14 does not detect MPFR <https://github.com/conan-io/conan/issues/4910>
+
+Conan 1.14 breaks clang-7 <https://github.com/conan-io/conan/issues/4909>
+
+String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/HowardHinnant/date/issues/434>
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org

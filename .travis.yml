@@ -176,7 +176,7 @@ matrix:
       before_script: skip
       script:
         - conan profile new cdt --detect
-        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+#        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
         - ./tools/codecov.sh
@@ -212,24 +212,34 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
-    - os: osx
-      compiler: clang
-      env: TESTS=true CODECOV=true
     - os: linux
       compiler: clang
-      env: TESTS=false CLANGTIDY=true
-    - os: osx
+      env: TESTS=true
+    - os: linux
       compiler: clang
-      env: TESTS=false SONARQUBE=true
+      env: TESTS=false
+    - os: linux
+      compiler: gcc
+      env: TESTS=false
+    - os: linux
+      compiler: gcc
+      env: TESTS=true
 script:
   # Use Ninja
 #  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   - |
-    if [[ "$TRAVIS_OS_NAME" == "osx" && "$CXX" == "clang++" ]]; then
-      echo osx/clang autodetected libcxx is fine
-    else
-      echo linux/{gcc,clang} and osx/gcc using libstdc++
+    if [[ "$CXX" == "g++-8" ]]; then
+      echo {linux, osx}/gcc using libstdc++11
       conan profile update settings.compiler.libcxx=libstdc++11 cdt
+    else
+      if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+        echo os/clang autodetected libcxx is fine
+      else
+        echo linux/clang using libstdc++11
+        conan profile update settings.compiler=clang cdt
+        conan profile update settings.compiler.version=7.0 cdt
+        conan profile update settings.compiler.libcxx=libstdc++11 cdt
+      fi
     fi
   - conan install .. -pr cdt --build=missing
   - conan build ..
