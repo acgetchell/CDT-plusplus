@@ -316,6 +316,8 @@ Conan 1.14 breaks clang-7 <https://github.com/conan-io/conan/issues/4909>
 
 String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/HowardHinnant/date/issues/434>
 
+`brew install ninja` broken on linux <https://github.com/Homebrew/linuxbrew-core/issues/12430>
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
