@@ -72,7 +72,7 @@ class Manifold<3>
   /// @param triangulation The triangulation to use
   /// @return The geometry data of the triangulation
   template <typename Triangulation>
-  Geometry3 make_geometry(Triangulation& triangulation)
+  [[nodiscard]] Geometry3 make_geometry(Triangulation& triangulation)
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
@@ -89,8 +89,9 @@ class Manifold<3>
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    Geometry3 geom(triangulation_);
-    geometry_ = geom;
+//    Geometry3 geom(triangulation_);
+//    geometry_ = geom;
+    geometry_ = make_geometry(triangulation_);
   }
 
   /// @return A read-only reference to the triangulation

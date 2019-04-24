@@ -147,15 +147,16 @@ SCENARIO("Applying the Move Command", "[move3]")
                   1);
         // Now we should update the geometry data structure, but
         // an exception is thrown on following call
-        //        result.update_geometry();
+//                result.update_geometry();
         // These should be +1 after command
         CAPTURE(result.N3_22());
         CAPTURE(result.N1_TL());
         cout << "After move.\n";
         print_manifold_details(result);
         // Not calling update makes this test fail
-        //        CHECK(manifold3_moves::check_move(
-        //            manifold, result, manifold3_moves::move_type::TWO_THREE));
+                        CHECK(manifold3_moves::check_move(
+                            manifold, result,
+                            manifold3_moves::move_type::TWO_THREE));
       }
     }
   }

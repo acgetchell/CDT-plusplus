@@ -184,27 +184,37 @@ class Geometry<3>
   /// timelike or spacelike
   void print_edges() const
   {
-    for (auto const& edge : edges_) { classify_edge(edge, true); }
+    for (auto const& edge : edges_)
+    {
+      if (classify_edge(edge, true))
+      {
+        std::cout << " ==> "
+                  << "timelike\n";
+      }
+      else
+      {
+        std::cout << " => "
+                  << "spacelike\n";
+      }
+    }
   }
 
   /// @brief Predicate to classify edge as timelike or spacelike
   /// @param edge The Edge_handle to classify
   /// @param debugging Debugging info toggle
   /// @return true if timelike and false if spacelike
-  auto classify_edge(Edge_handle const& edge, bool debugging = false) const
-      -> bool
+  [[nodiscard]] auto classify_edge(Edge_handle const& edge,
+                                   bool debugging = false) const -> bool
   {
     Cell_handle const& ch    = edge.first;
     auto               time1 = ch->vertex(edge.second)->info();
     auto               time2 = ch->vertex(edge.third)->info();
-    bool               result{time1 != time2};
     if (debugging)
     {
       std::cout << "Edge: Vertex(1) timevalue: " << time1;
       std::cout << " Vertex(2) timevalue: " << time2;
-      std::cout << " => " << (result ? "timelike\n" : "spacelike\n");
     }
-    return result;
+    return time1 != time2;
   }  // classify_edge
 
   /// @brief Filter simplices by Cell_type
@@ -228,7 +238,8 @@ class Geometry<3>
   /// @brief Check that all cells are correctly classified
   /// @param cells The container of cells to check
   /// @return True if all cells are valid
-  [[nodiscard]] bool check_cells(std::vector<Cell_handle> const& cells) const
+  [[nodiscard]] auto check_cells(std::vector<Cell_handle> const& cells) const
+      -> bool
   {
     Expects(!cells.empty());
     for (auto& cell : cells)
