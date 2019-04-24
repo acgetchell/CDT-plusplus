@@ -57,7 +57,7 @@ install:
         softwareupdate --install "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.4"
       fi
     fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then brew install cgal; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis wait 30 brew install cgal; fi
   # MacOS Travis-CI image already has CGAL installed, and updating it fails, so comment out below
 #  - |
 #    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
