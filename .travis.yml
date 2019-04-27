@@ -11,6 +11,16 @@ addons:
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
 #      - ubuntu-toolchain-r-test
+  homebrew:
+    packages:
+      - ccache
+      - gcc
+      - lcov
+      - conan
+      - ninja
+      - tbb
+      - cgal
+    update: true
 
 env:
   matrix:
@@ -40,24 +50,23 @@ before_install:
       (brew update || brew update)
       brew doctor
       brew config
-    else
-      brew update
+      brew install ccache
+      export PATH="/usr/local/opt/ccache/libexec:$PATH"
     fi
 
 install:
-  - brew install ccache
-  - export PATH="/usr/local/opt/ccache/libexec:$PATH"
+#  - brew install ccache
+#  - export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - |
-    if [[ "$CXX" == "g++" ]]; then
+    if [[ "$CXX" == "g++" && "$TRAVIS_OS_NAME" == "linux" ]]; then
       brew install gcc
       brew link --overwrite gcc
-      if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        # Fix "_stdio.h: No such file or directory"
-        softwareupdate --list
-        softwareupdate --install "Command Line Tools (macOS High Sierra version 10.13) for Xcode-9.4"
-      fi
     fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 30 brew install cgal; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      travis_wait 30 brew install cgal
+      brew install lcov
+      brew install conan
+    fi
   # MacOS Travis-CI image already has CGAL installed, and updating it fails, so comment out below
 #  - |
 #    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -68,8 +77,8 @@ install:
 #      brew install cgal
 #    fi
 #  - brew install ninja
-  - brew install lcov
-  - brew install conan
+#  - brew install lcov
+#  - brew install conan
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-7.0" CC="clang-7.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
