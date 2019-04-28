@@ -54,6 +54,7 @@ before_install:
       export PATH="/usr/local/opt/ccache/libexec:$PATH"
       brew install lcov
       brew install conan
+      brew install mpfr
     fi
 
 install:
