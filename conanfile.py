@@ -3,9 +3,11 @@ from conans import ConanFile, CMake
 
 class CausalDynamicalTriangulations(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "Catch2/[>=2.5.0]@catchorg/stable", \
+    requires = "boost/1.70.0@conan/stable",\
+               "Catch2/2.7.2@catchorg/stable",\
                "docopt/[>=0.6.2]@conan/stable",\
-               "date/[>=2.4.1]@bincrafters/stable", "gsl_microsoft/2.0.0@bincrafters/stable"
+               "date/[>=2.4.1]@bincrafters/stable",\
+               "gsl_microsoft/2.0.0@bincrafters/stable"
     generators = "cmake"
     default_options = "boost:shared=False"
 
