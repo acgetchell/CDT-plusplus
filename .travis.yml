@@ -201,9 +201,8 @@ matrix:
             - master
         homebrew:
           packages:
+            - lcov
             - conan
-            - tbb
-            - cgal
           update: true
       before_install:
         - git fetch --unshallow
