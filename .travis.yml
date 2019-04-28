@@ -8,6 +8,7 @@ addons:
     packages:
       - g++-8
       - linuxbrew-wrapper
+      - libmpfr-dev
     sources:
       - sourceline: "ppa:ubuntu-toolchain-r/test"
 #      - ubuntu-toolchain-r-test
@@ -18,6 +19,7 @@ addons:
       - lcov
       - conan
       - ninja
+      - mpfr
       - tbb
       - cgal
     update: true
@@ -54,7 +56,6 @@ before_install:
       export PATH="/usr/local/opt/ccache/libexec:$PATH"
       brew install lcov
       brew install conan
-      brew install mpfr
     fi
 
 install:
