@@ -65,7 +65,7 @@ install:
       brew link --overwrite gcc
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 30 brew install cgal; fi
-  
+
   # MacOS Travis-CI image already has CGAL installed, and updating it fails, so comment out below
 #  - |
 #    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
@@ -199,6 +199,12 @@ matrix:
           branches:
             - develop
             - master
+        homebrew:
+          packages:
+            - conan
+            - tbb
+            - cgal
+          update: true
       before_install:
         - git fetch --unshallow
       script:
