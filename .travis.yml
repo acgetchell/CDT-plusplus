@@ -5,13 +5,12 @@ osx_image: xcode10.2
 
 addons:
   apt:
+    sources:
+      - ubuntu-toolchain-r-test
     packages:
       - g++-8
       - linuxbrew-wrapper
       - libmpfr-dev
-    sources:
-      - sourceline: "ppa:ubuntu-toolchain-r/test"
-#      - ubuntu-toolchain-r-test
   homebrew:
     packages:
       - ccache
@@ -106,11 +105,8 @@ matrix:
       addons:
         apt:
           sources:
-#            - ubuntu-toolchain-r-test
-#            - llvm-toolchain-trusty-6.0
-            - sourceline: "ppa:ubuntu-toolchain-r/test"
+            - ubuntu-toolchain-r-test
           packages:
-#            - clang-6.0
             - clang-format-6.0
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
@@ -133,8 +129,7 @@ matrix:
       addons:
         apt:
           sources:
-#            - ubuntu-toolchain-r-test
-            - sourceline: "ppa:ubuntu-toolchain-r/test"
+            - ubuntu-toolchain-r-test
           packages:
             - clang-tidy-6.0
             - linuxbrew-wrapper
@@ -163,7 +158,7 @@ matrix:
             - linuxbrew-wrapper
             - libmpfr-dev
           sources:
-            - sourceline: "ppa:ubuntu-toolchain-r/test"
+            - ubuntu-toolchain-r-test
       after_success:
         - travis_wait 30 ctest -T memcheck --verbose
     # Codecov
@@ -211,12 +206,6 @@ matrix:
       env: TESTS=true
     - os: osx
       compiler: gcc
-      env: TESTS=false
-    - os: linux
-      compiler: clang
-      env: TESTS=true
-    - os: linux
-      compiler: clang
       env: TESTS=false
 script:
   # Use Ninja
