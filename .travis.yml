@@ -56,30 +56,16 @@ before_install:
       export PATH="/usr/local/opt/ccache/libexec:$PATH"
       brew install lcov
       brew install conan
+      brew install ninja
     fi
 
 install:
-#  - brew install ccache
-#  - export PATH="/usr/local/opt/ccache/libexec:$PATH"
   - |
     if [[ "$CXX" == "g++" && "$TRAVIS_OS_NAME" == "linux" ]]; then
       brew install gcc
       brew link --overwrite gcc
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 30 brew install cgal; fi
-
-  # MacOS Travis-CI image already has CGAL installed, and updating it fails, so comment out below
-#  - |
-#    if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-#      # Upgrade CGAL
-#      brew upgrade cgal
-#    else
-#      # Linux, just install
-#      brew install cgal
-#    fi
-#  - brew install ninja
-#  - brew install lcov
-#  - brew install conan
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-7.0" CC="clang-7.0"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
@@ -175,6 +161,7 @@ matrix:
             - g++-8
             - valgrind
             - linuxbrew-wrapper
+            - libmpfr-dev
           sources:
             - sourceline: "ppa:ubuntu-toolchain-r/test"
       after_success:
@@ -186,7 +173,7 @@ matrix:
       before_script: skip
       script:
         - conan profile new cdt --detect
-#        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
         - cd ${TRAVIS_BUILD_DIR}
         - pwd
         - ./tools/codecov.sh
@@ -209,7 +196,7 @@ matrix:
       before_install:
         - git fetch --unshallow
       script:
-        - CMAKE_OPTIONS="-DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug"
+        - CMAKE_OPTIONS="-DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -G Ninja"
         - build-wrapper-macosx-x86 --out-dir bw_output cmake ${CMAKE_OPTIONS} ..
         - sonar-scanner -X -Dproject.settings=../sonar-project.properties
       cache:
@@ -233,15 +220,9 @@ matrix:
     - os: linux
       compiler: clang
       env: TESTS=false
-    - os: linux
-      compiler: gcc
-      env: TESTS=false
-    - os: linux
-      compiler: gcc
-      env: TESTS=true
 script:
   # Use Ninja
-#  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   - |
     if [[ "$CXX" == "g++-8" ]]; then
       echo {linux, osx}/gcc using libstdc++11

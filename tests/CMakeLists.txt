@@ -18,7 +18,7 @@ add_executable(CDT_test
                Geometry_test.cpp
                Foliated_triangulation_test.cpp
                Move_command_test.cpp
-               Move_guard_test.cpp
+               # Move_guard_test.cpp
                Ergodic_moves_3_test.cpp)
 target_link_libraries(CDT_test CONAN_PKG::Catch2
                       # CONAN_PKG::TBB

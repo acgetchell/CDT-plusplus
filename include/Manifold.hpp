@@ -89,8 +89,8 @@ class Manifold<3>
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-//    Geometry3 geom(triangulation_);
-//    geometry_ = geom;
+    //    Geometry3 geom(triangulation_);
+    //    geometry_ = geom;
     geometry_ = make_geometry(triangulation_);
   }
 

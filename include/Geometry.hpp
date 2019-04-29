@@ -24,6 +24,11 @@ using Face_handle   = std::pair<Cell_handle, int>;
 using Edge_handle   = CGAL::Triple<Cell_handle, int, int>;
 using Vertex_handle = Delaunay3::Vertex_handle;
 
+auto compare_v_info = [](Vertex_handle const& lhs,
+                         Vertex_handle const& rhs) -> bool {
+  return lhs->info() < rhs->info();
+};
+
 /// Geometry class template
 /// @tparam dimension Dimensionality of geometry
 template <std::size_t dimension>
@@ -480,16 +485,6 @@ class Geometry<3>
     Ensures(init_vertices.size() == N0());
     return init_vertices;
   }  // collect_vertices
-
-  /// @brief Compare vertex info
-  /// @param lhs Left hand side vertex
-  /// @param rhs Right hand side vertex
-  /// @return True if left vertex info < right vertex info
-  [[nodiscard]] static bool compare_v_info(Vertex_handle const& lhs,
-                                           Vertex_handle const& rhs)
-  {
-    return (lhs->info() < rhs->info());
-  }  // compare_v_info
 
   /// @brief Find maximum timevalues
   /// @param vertices Container of vertices
