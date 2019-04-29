@@ -67,7 +67,7 @@ install:
     fi
   - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 30 brew install cgal; fi
   - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++-7.0" CC="clang-7.0"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++" CC="clang"; fi
   - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 before_script:
