@@ -1,8 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
-add_executable(CDT_test
-               ${PROJECT_SOURCE_DIR}/tests/main.cpp
-               Function_ref_test.cpp
+add_executable(CDT_test ${PROJECT_SOURCE_DIR}/tests/main.cpp
+               # Function_ref_test.cpp
                Utilities_test.cpp
                VertexTest.cpp
                Torus_test.cpp
@@ -10,7 +9,8 @@ add_executable(CDT_test
                SphereTest.cpp
                SimulationTest.cpp
                # SimplicialManifoldTest.cpp
-               S3ErgodicMovesTest.cpp S3ActionTest.cpp
+               # S3ErgodicMovesTest.cpp
+               S3ActionTest.cpp
                # MoveManagerTest.cpp
                MoveAlgorithmsTest.cpp
                # MeasurementsTest.cpp

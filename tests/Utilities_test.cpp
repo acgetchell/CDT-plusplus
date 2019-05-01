@@ -47,7 +47,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       THEN("The output is correct.")
       {
         CHECK_THAT(hostname(),
-                   Catch::Equals("hapkido") || Catch::Contains("production"));
+                   Catch::Contains("hapkido") || Catch::Contains("production"));
       }
     }
     WHEN("The current time is requested.")
