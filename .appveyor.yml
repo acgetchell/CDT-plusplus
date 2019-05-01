@@ -63,24 +63,24 @@ install:
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
   # Upgrade pip
-#  - python -m pip install --upgrade pip
+  - python -m pip install --upgrade pip
   # Install Conan
-#  - echo "Downloading conan..."
-#  - set PATH=%PATH%;%PYTHON%\Scripts\
-#  - pip.exe install conan
+  - echo "Downloading conan..."
+  - set PATH=%PATH%;%PYTHON%\Scripts\
+  - pip.exe install conan
 
 before_build:
   - cd C:\projects\CDT-plusplus
-#  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
 
 build_script:
   - mkdir build
   - cd build
-#  - conan profile new cdt --detect
-#  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
+  - conan profile new cdt --detect
+  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   # TBB only seems to work on x64, uncommenting the line below causes TBB to fail
 #  - conan profile update settings.arch=x86 default
-#  - conan install .. -pr cdt --build=missing
+  - conan install .. -pr cdt --build=missing
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake --build .
 #  - conan build ..
