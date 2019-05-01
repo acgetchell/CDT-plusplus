@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2018 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Tests the Simulation class and loading of function objects such as
 /// MoveAlgorithm (and derived classes)
@@ -16,11 +16,11 @@
 #include <Simulation.hpp>
 #include <catch2/catch.hpp>
 
-SCENARIO("Construct a simulation that always makes a move",
+SCENARIO("Construct a small simulation that always makes a move",
          "[simulation][!mayfail][!hide]")
 {
-  constexpr auto simplices  = static_cast<std::int_fast32_t>(640);
-  constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
+  auto constexpr simplices  = static_cast<std::int_fast32_t>(2);
+  auto constexpr timeslices = static_cast<std::int_fast32_t>(2);
   GIVEN("A simulation and an algorithm.")
   {
     Simulation         test_simulation;
@@ -36,6 +36,11 @@ SCENARIO("Construct a simulation that always makes a move",
       THEN("The simulation does not throw.")
       {
         REQUIRE_NOTHROW(universe = test_simulation.start(std::move(universe)));
+      }
+      THEN("The result is valid.")
+      {
+        universe = test_simulation.start(std::move(universe));
+        REQUIRE(universe.triangulation->is_valid(true, 1));
       }
     }
   }
