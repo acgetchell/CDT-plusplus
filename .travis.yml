@@ -207,6 +207,9 @@ matrix:
     - os: osx
       compiler: gcc
       env: TESTS=false
+    - os: linux
+      compiler: clang
+      env: TESTS=false CLANGTIDY=true
 script:
   # Use Ninja
   - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
