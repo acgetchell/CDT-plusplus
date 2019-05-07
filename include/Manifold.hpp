@@ -72,7 +72,7 @@ class Manifold<3>
   /// @param triangulation The triangulation to use
   /// @return The geometry data of the triangulation
   template <typename Triangulation>
-  [[nodiscard]] Geometry3 make_geometry(Triangulation& triangulation)
+  [[nodiscard]] Geometry3 make_geometry(Triangulation& triangulation) try
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
@@ -80,6 +80,12 @@ class Manifold<3>
 
     Geometry3 geom{triangulation};
     return geom;
+  }
+  catch (const std::exception& e) {
+    std::cerr << "make_geometry() failed: " << e.what() << "\n";
+    throw;
+//    std::cout << "Try again to make geometry ...\n";
+//    this->update_geometry();
   }
 
   /// @brief Update geometry data of the manifold when the triangulation has

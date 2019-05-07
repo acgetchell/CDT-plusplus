@@ -33,13 +33,17 @@ class MoveCommand
   void enqueue(FunctionType move) { moves_.emplace_back(move); }
 
   /// Execute the move on the manifold
-  void execute()
+  void execute() try
   {
     // debugging
     std::cout << "Before manifold move:\n";
     print_manifold_details(*manifold_);
     auto move = moves_.back();
     move(*manifold_);
+  }
+  catch (const std::exception& e) {
+    std::cerr << "execute() failed: " << e.what() << "\n";
+    throw;
   }
   //    virtual void undo();
   //    virtual void redo();
