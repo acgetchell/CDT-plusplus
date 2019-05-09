@@ -39,6 +39,7 @@ The goals and targets of this project are:
 - [x] 3D Ergodic moves
 - [x] Multithreading via [TBB]
 - [x] Metropolis algorithm
+- [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] Output via [HDF5]
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
@@ -381,3 +382,4 @@ String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [have been merged]: https://brew.sh/2019/02/02/homebrew-2.0.0/
 [Qt]: https://www.qt.io
+[Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html
