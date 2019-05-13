@@ -309,11 +309,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 
 Various Travis-CI and AppVeyor builds are ignored:
 
-Boost 1.69.0 does not build on macOS/gcc <https://github.com/conan-community/community/issues/172>
 
-Conan 1.14 does not detect MPFR <https://github.com/conan-io/conan/issues/4910>
-
-Conan 1.14 breaks clang-7 <https://github.com/conan-io/conan/issues/4909>
 
 String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/HowardHinnant/date/issues/434>
 
