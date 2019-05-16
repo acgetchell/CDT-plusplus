@@ -95,7 +95,7 @@ class Foliated_triangulation<3> : Delaunay3
   {}
 
   /// @return A read-only reference to the Delaunay triangulation
-  Delaunay3 const& get_delaunay() const { return delaunay_; }
+  [[nodiscard]] Delaunay3 const& get_delaunay() const { return delaunay_; }
 
   /// @return A mutable reference to the Delaunay triangulation
   [[nodiscard]] auto& set_delaunay() { return delaunay_; }
