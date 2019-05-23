@@ -58,8 +58,8 @@ install:
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
-  - set CC=clang-cl -mrtm
-  - set CXX=clang-cl -mrtm
+  - set CC=clang-cl.exe -mrtm
+  - set CXX=clang-cl.exe -mrtm
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
   # Upgrade pip
