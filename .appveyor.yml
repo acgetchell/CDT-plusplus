@@ -39,6 +39,7 @@ install:
   # Verify CMake
   - cmake --version
   # Install make because TBB uses it and autoconf because libcurl uses it with msys2 64-bit on AppVeyor
+  - set PATH=%PATH%;C:\msys64
   - pacman -Syu
   - pacman -S base-devel
 #  - choco install make
