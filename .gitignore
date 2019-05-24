@@ -30,7 +30,7 @@ cov-int
 # Editor files
 .clang_complete
 .idea
-.vscode/
+.vs*
 xcode/
 
 # Program/script executables

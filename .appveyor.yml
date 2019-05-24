@@ -80,6 +80,7 @@ build_script:
   - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   # TBB only seems to work on x64, uncommenting the line below causes TBB to fail
 #  - conan profile update settings.arch=x86 default
+  - conan profile show cdt
   - conan install .. -pr cdt --build=missing
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake --build .
