@@ -39,9 +39,9 @@ install:
   # Verify CMake
   - cmake --version
   # Install make because TBB uses it and autoconf because libcurl uses it with msys2 64-bit on AppVeyor
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syu"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S base-devel"
-#  - choco install make
+#  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syu"
+#  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S base-devel"
+  - choco install make
   - cd c:\tools\vcpkg
   # Update ports
   - git pull
@@ -49,14 +49,15 @@ install:
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
   - vcpkg integrate install
-  - # Use vcpkg to install cgal
-  - vcpkg install cgal
-  - vcpkg install tbb
+  # Use vcpkg to install required libraries
+  - vcpkg install curl
+  - vcpkg install date
+  - vcpkg install docopt
+  - vcpkg install gsl
   - vcpkg install catch2
   - vcpkg install eigen3
-  - vcpkg install docopt
-  - vcpkg install date
-  - vcpkg install gsl
+  - vcpkg install tbb
+  - vcpkg install cgal
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
