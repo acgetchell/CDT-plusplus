@@ -38,8 +38,10 @@ install:
   - set CMAKE_MAKE_PROGRAM=C:\projects\dev\ninja\ninja.exe
   # Verify CMake
   - cmake --version
-  # Install make because TBB uses it
-  - choco install make
+  # Install make because TBB uses it and autoconf because libcurl uses it with msys2 64-bit on AppVeyor
+  - pacman -Syu
+  - pacman -S base-devel
+#  - choco install make
   - cd c:\tools\vcpkg
   # Update ports
   - git pull
