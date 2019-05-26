@@ -48,6 +48,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N1_TL() == N1_TL_pre_move + 1);
         CHECK(manifold.N1_SL() == N1_SL_pre_move);
         CHECK(manifold.N0() == N0_pre_move);
+        CHECK(manifold.is_valid());
+        CHECK(manifold.is_foliated());
       }
     }
     WHEN("A (3,2) move is performed")
@@ -67,6 +69,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N1_TL() == N1_TL_pre_move - 1);
         CHECK(manifold.N1_SL() == N1_SL_pre_move);
         CHECK(manifold.N0() == N0_pre_move);
+        CHECK(manifold.is_valid());
+        CHECK(manifold.is_foliated());
       }
     }
     WHEN("A (2,6) move is performed")
@@ -86,6 +90,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N1_TL() == N1_TL_pre_move + 2);
         CHECK(manifold.N1_SL() == N1_SL_pre_move + 3);
         CHECK(manifold.N0() == N0_pre_move + 1);
+        CHECK(manifold.is_valid());
+        CHECK(manifold.is_foliated());
       }
     }
     WHEN("A (6,2) move is performed")
@@ -106,6 +112,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N1_TL() == N1_TL_pre_move - 2);
         CHECK(manifold.N1_SL() == N1_SL_pre_move - 3);
         CHECK(manifold.N0() == N0_pre_move - 1);
+        CHECK(manifold.is_valid());
+        CHECK(manifold.is_foliated());
       }
     }
     WHEN("A (4,4) move is performed")
@@ -128,6 +136,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
         CHECK(manifold.N1_TL() == N1_TL_pre_move);
         CHECK(manifold.N1_SL() == N1_SL_pre_move);
         CHECK(manifold.N0() == N0_pre_move);
+        CHECK(manifold.is_valid());
+        CHECK(manifold.is_foliated());
         // Indeed, how do we tell? Everything except cell identification
         // will be the same
       }
