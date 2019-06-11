@@ -39,6 +39,7 @@ The goals and targets of this project are:
 - [x] 3D Ergodic moves
 - [x] Multithreading via [TBB]
 - [x] Metropolis algorithm
+- [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] Output via [HDF5]
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
@@ -308,11 +309,7 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 
 Various Travis-CI and AppVeyor builds are ignored:
 
-Boost 1.69.0 does not build on macOS/gcc <https://github.com/conan-community/community/issues/172>
 
-Conan 1.14 does not detect MPFR <https://github.com/conan-io/conan/issues/4910>
-
-Conan 1.14 breaks clang-7 <https://github.com/conan-io/conan/issues/4909>
 
 String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/HowardHinnant/date/issues/434>
 
@@ -381,3 +378,4 @@ String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [have been merged]: https://brew.sh/2019/02/02/homebrew-2.0.0/
 [Qt]: https://www.qt.io
+[Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html

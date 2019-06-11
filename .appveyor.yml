@@ -38,8 +38,10 @@ install:
   - set CMAKE_MAKE_PROGRAM=C:\projects\dev\ninja\ninja.exe
   # Verify CMake
   - cmake --version
-  # Install make because TBB uses it
-  - choco install make
+  # Install make because TBB uses it and autoconf because libcurl uses it with msys2 64-bit on AppVeyor
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syu"
+  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S base-devel"
+#  - choco install make
   - cd c:\tools\vcpkg
   # Update ports
   - git pull
@@ -47,19 +49,20 @@ install:
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
   - vcpkg integrate install
-  - # Use vcpkg to install cgal
-  - vcpkg install cgal
-  - vcpkg install tbb
+  # Use vcpkg to install required libraries
+  - vcpkg install curl
+  - vcpkg install date
+  - vcpkg install docopt
+  - vcpkg install gsl
   - vcpkg install catch2
   - vcpkg install eigen3
-  - vcpkg install docopt
-  - vcpkg install date
-  - vcpkg install gsl
+  - vcpkg install tbb
+  - vcpkg install cgal
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
-  - set CC=clang-cl -mrtm
-  - set CXX=clang-cl -mrtm
+  - set CC=clang-cl.exe -mrtm
+  - set CXX=clang-cl.exe -mrtm
   - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
   # Upgrade pip
@@ -80,6 +83,7 @@ build_script:
   - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
   # TBB only seems to work on x64, uncommenting the line below causes TBB to fail
 #  - conan profile update settings.arch=x86 default
+  - conan profile show cdt
   - conan install .. -pr cdt --build=missing
   - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake --build .
