@@ -34,6 +34,8 @@
 #include <typeindex>
 // H. Hinnant's date and time library
 #include <date/tz.h>
+// M. O'Neill's Permutation Congruential Generator library
+#include "pcg_random.hpp"
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -404,6 +406,20 @@ template <typename FloatingPointType>
   auto constexpr max = static_cast<long double>(1.0);
   return generate_random_real(min, max);
 }  // generate_probability()
+
+/// @brief Roll a die with PCG
+[[nodiscard]] inline auto const die_roll() noexcept
+{
+  pcg_extras::seed_seq_from<std::random_device> seed_source;
+
+  // Make a random number generator
+  pcg64 rng(seed_source);
+
+  // Choose random number from 1 to 6
+  std::uniform_int_distribution<int> uniform_dist(1, 6);
+  int const                          roll = uniform_dist(rng);
+  return roll;
+}
 
 /// @brief Calculate expected # of points per simplex
 ///

@@ -69,7 +69,7 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
 # Compiler flags
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-#  set(CMAKE_CXX_FLAGS "-frounding-math")
+  # set(CMAKE_CXX_FLAGS "-frounding-math")
   add_compile_options(-frounding-math
                       -Wmisleading-indentation
                       -Wduplicated-cond
@@ -134,15 +134,14 @@ else()
     )
 endif()
 
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include
+                    ${PROJECT_SOURCE_DIR}/external/pcg-cpp/include)
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
 target_link_libraries(cdt
-                      PRIVATE ${CGAL_LIBRARIES}
-                              CONAN_PKG::boost
-#                              CONAN_PKG::eigen
-#                              CONAN_PKG::TBB
-                              CONAN_PKG::docopt
-                              CONAN_PKG::date
+                      PRIVATE ${CGAL_LIBRARIES} CONAN_PKG::boost
+                              # CONAN_PKG::eigen
+                              # CONAN_PKG::TBB
+                              CONAN_PKG::docopt CONAN_PKG::date
                               CONAN_PKG::gsl_microsoft)
 # Activate C++17
 target_compile_features(cdt PRIVATE cxx_std_17)

@@ -46,8 +46,9 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       // Set OS type to Windows so we know the hostname
       THEN("The output is correct.")
       {
-        CHECK_THAT(hostname(),
-                   Catch::Contains("hapkido") || Catch::Contains("production") || Catch::Contains("dewitt"));
+        CHECK_THAT(hostname(), Catch::Contains("hapkido") ||
+                                   Catch::Contains("production") ||
+                                   Catch::Contains("dewitt"));
       }
     }
     WHEN("The current time is requested.")
@@ -55,8 +56,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       THEN("The output is correct.")
       {
         // Update test yearly
-        CHECK_THAT(currentDateTime(),
-                   Catch::Contains("2019") && Catch::Contains("PDT"));
+        CHECK_THAT(currentDateTime(), Catch::Contains("2019"));
         // Human verification
         std::cout << currentDateTime() << "\n";
       }
@@ -274,6 +274,18 @@ SCENARIO("Randomizing functions", "[utility]")
         CHECK_FALSE(value4 == value5);
         CHECK_FALSE(value4 == value6);
         CHECK_FALSE(value5 == value6);
+      }
+    }
+  }
+  GIVEN("A PCG die roller")
+  {
+    WHEN("We roll a die twice.")
+    {
+      auto const roll1 = die_roll();
+      auto const roll2 = die_roll();
+      THEN("They should probably be different.")
+      {
+        CHECK_FALSE(roll1 == roll2);
       }
     }
   }
