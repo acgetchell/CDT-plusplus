@@ -34,6 +34,8 @@
 #include <typeindex>
 // H. Hinnant's date and time library
 #include <date/tz.h>
+// M. O'Neill's Permutation Congruential Generator library
+#include "pcg_random.hpp"
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -283,90 +285,52 @@ void write_file(Manifold const& universe, topology_type const& topology,
   file << *universe.triangulation;
 }  // write_file
 
-/// @brief Seed sequence class for high-quality pseudo-random number generator
-///
-/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
-/// @tparam NumberType Type of number
-template <typename NumberType>
-class SeedSeq
+/// @brief Roll a die with PCG
+[[nodiscard]] inline auto die_roll() noexcept
 {
- public:
-  SeedSeq(NumberType begin, NumberType end) : begin_{begin}, end_{end} {}
+  pcg_extras::seed_seq_from<std::random_device> seed_source;
 
-  template <typename GeneratedType>
-  void generate(GeneratedType b, GeneratedType e)
-  {
-    assert((e - b) <= (end_ - begin_));
-    std::copy(begin_, begin_ + (e - b), b);
-  }
+  // Make a random number generator
+  pcg64 rng(seed_source);
 
- private:
-  NumberType begin_;
-  NumberType end_;
-};
-
-/// @brief Make a high-quality random generator usable by std::shuffle
-///
-/// This function makes a non-deterministic random number generator, if
-/// supported. See
-/// https://en.cppreference.com/w/cpp/numeric/random/random_device
-/// for more details.
-/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
-/// @return A random number generator
-inline auto make_random_generator()
-{
-  // Non-deterministic random number generator
-  std::random_device rd;
-  // The simple way which works in C++14
-  //  std::mt19937_64 generator(rd());
-
-  // The tedious but more accurate way which works in C++17 but not C++14
-  std::uint_fast64_t numbers[624];  // Seed sequence
-  // Initial state
-  std::generate(numbers, std::end(numbers), std::ref(rd));
-  // Copy into heap-allocated seed sequence
-  SeedSeq seed_seq(numbers, std::end(numbers));
-  // Initialized mt19937_64
-  std::mt19937_64 generator(seed_seq);
-
-  return generator;
-}  // make_random_generator()
+  // Choose random number from 1 to 6
+  std::uniform_int_distribution<int> uniform_dist(1, 6);
+  int const                          roll = uniform_dist(rng);
+  return roll;
+}  // die_roll()
 
 /// @brief Generate random numbers
 ///
-/// This function generates a random number from [min_value, max_value]
-/// on a distribution using a non-deterministic random number generator, if
-/// supported. See
-/// https://en.cppreference.com/w/cpp/numeric/random/random_device
-/// for more details.
-/// From Arthur O'Dwyer's "Mastering the C++17 STL", Chapter 12
+/// Uses Melissa E. O'Neill's Permuted Congruential Generator for high-quality
+/// RNG which passes the TestU01 statistical tests. See:
+/// http://www.pcg-random.org/paper.html
+/// for more details
 ///
-/// @tparam NumberType The type of number to be generated
-/// @tparam Distribution The distribution of numbers
+/// @tparam NumberType The type of number in the RNG
+/// @tparam Distribution The distribution type, usually uniform
 /// @param min_value The minimum value
 /// @param max_value The maximum value
-/// @return A random number in the distribution between min_value and max_value
+/// @return A random value in the distribution between min_value and max_value
 template <typename NumberType, class Distribution>
 [[nodiscard]] auto generate_random(NumberType const min_value,
                                    NumberType const max_value) noexcept
 {
-  // Non-deterministic random number generator
-  std::random_device rd;
-  // The simple way which works in C++14
-  // std::mt19937_64 generator(rd());
-  // The tedious but more accurate way which works in C++17 but not C++14
-  std::uint_fast64_t numbers[624];  // Seed sequence
-  // Initial state
-  std::generate(numbers, std::end(numbers), std::ref(rd));
-  // Copy into heap-allocated "seed sequence"
-  SeedSeq seed_seq(numbers, std::end(numbers));
-  // Initialized mt19937_64
-  std::mt19937_64 generator(seed_seq);
+  pcg_extras::seed_seq_from<std::random_device> seed_source;
 
+  // Make a random number generator
+  pcg64        generator(seed_source);
   Distribution distribution(min_value, max_value);
-
   return distribution(generator);
 }  // generate_random()
+
+/// @brief Make a high-quality random number generator usable by std::shuffle
+/// @return A RNG
+inline auto make_random_generator()
+{
+  pcg_extras::seed_seq_from<std::random_device> seed_source;
+  pcg64                                         generator(seed_source);
+  return generator;
+}  // make_random_generator()
 
 /// @brief Generate random integers by calling generate_random, preserves
 /// template argument deduction
