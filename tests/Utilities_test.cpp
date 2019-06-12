@@ -125,6 +125,18 @@ SCENARIO("Printing results", "[utility]")
 
 SCENARIO("Randomizing functions", "[utility]")
 {
+  GIVEN("A PCG die roller")
+  {
+    WHEN("We roll a die twice.")
+    {
+      auto const roll1 = die_roll();
+      auto const roll2 = die_roll();
+      THEN("They should probably be different.")
+      {
+        CHECK_FALSE(roll1 == roll2);
+      }
+    }
+  }
   GIVEN("A container of ints")
   {
     std::vector<int> v(50);
@@ -274,18 +286,6 @@ SCENARIO("Randomizing functions", "[utility]")
         CHECK_FALSE(value4 == value5);
         CHECK_FALSE(value4 == value6);
         CHECK_FALSE(value5 == value6);
-      }
-    }
-  }
-  GIVEN("A PCG die roller")
-  {
-    WHEN("We roll a die twice.")
-    {
-      auto const roll1 = die_roll();
-      auto const roll2 = die_roll();
-      THEN("They should probably be different.")
-      {
-        CHECK_FALSE(roll1 == roll2);
       }
     }
   }

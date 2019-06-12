@@ -19,6 +19,8 @@ including the foundations and recent results, please see the [wiki](https://gith
 Arbitrary-precision numbers and functions via [MPFR] and [GMP].
 Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date]
 library for accurate time.
+Uses [Melissa E. O'Neill's Permuted Congruential Generators] [PCG] library for high-quality RNGs that pass L'Ecuyer's
+[TestU01] statistical tests.
 Uses [Catch] for [BDD]/[TDD].
 Uses [Conan]/[CMake]/[Ninja] for dependency management and building.
 Uses [Doxygen] for automated document generation.
@@ -39,6 +41,7 @@ The goals and targets of this project are:
 - [x] 3D Ergodic moves
 - [x] Multithreading via [TBB]
 - [x] Metropolis algorithm
+- [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
 - [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] Output via [HDF5]
 - [ ] 4D Simplex
@@ -379,3 +382,5 @@ String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/
 [have been merged]: https://brew.sh/2019/02/02/homebrew-2.0.0/
 [Qt]: https://www.qt.io
 [Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html
+[PCG]: http://www.pcg-random.org/paper.html
+[TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
