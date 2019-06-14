@@ -19,7 +19,7 @@ including the foundations and recent results, please see the [wiki](https://gith
 Arbitrary-precision numbers and functions via [MPFR] and [GMP].
 Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date]
 library for accurate time.
-Uses [Melissa E. O'Neill's Permuted Congruential Generators] [PCG] library for high-quality RNGs that pass L'Ecuyer's
+Uses [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library for high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
 Uses [Catch] for [BDD]/[TDD].
 Uses [Conan]/[CMake]/[Ninja] for dependency management and building.
@@ -60,12 +60,21 @@ The goals and targets of this project are:
 
 If you just want to run a stable version of the code, grab a versioned [release].
 
-Otherwise, you can clone the repo, which will put you on the [development] branch. Project layout
+Otherwise, you can clone the repo, including submodules, as follows:
+
+~~~
+git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git
+~~~
+
+(Older versions of `git` may require `--recursive` instead of `--recurse-submodules`.)
+
+This will put you on the [development] branch. Project layout
 is the [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
 - build - Ephemeral build directory
 - docs - Documentation
+- external - Includes external projects, e.g. [PCG]
 - include - Header files
 - src - Source files
 - tests - Unit tests
