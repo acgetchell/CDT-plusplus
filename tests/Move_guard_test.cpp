@@ -47,7 +47,7 @@ SCENARIO("Test Move_guard", "[moveguard]")
     }
     WHEN("We specify a (4,4) move")
     {
-      auto move44 = [](Manifold3& manifold) -> Manifold3 {
+      auto move44 = [](Manifold3& manifold) mutable -> Manifold3 {
         return manifold3_moves::do_44_move(manifold);
       };
       Move_guard test_move(test_manifold, move44);
@@ -74,7 +74,7 @@ SCENARIO("Test Move_guard", "[moveguard]")
 
     WHEN("We specify a (2,3) move")
     {
-      auto move23 = [](Manifold3& manifold) -> Manifold3 {
+      auto move23 = [](Manifold3& manifold) mutable -> Manifold3 {
         return manifold3_moves::do_23_move(manifold);
       };
       Move_guard test_move(test_manifold, move23);

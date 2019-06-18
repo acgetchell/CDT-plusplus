@@ -121,7 +121,7 @@ SCENARIO("Applying the Move Command", "[move3]")
     WHEN("A (2,3) move is queued")
     {
       MoveCommand command(manifold);
-      auto        move23 = [](Manifold3& manifold) -> decltype(auto) {
+      auto        move23 = [](Manifold3& manifold) mutable -> decltype(auto) {
         return manifold3_moves::do_23_move(manifold);
       };
       //      auto func(manifold3_moves::do_23_move);
@@ -145,14 +145,21 @@ SCENARIO("Applying the Move Command", "[move3]")
                       .get_delaunay()
                       .number_of_finite_cells() +
                   1);
+        print_triangulation(manifold.get_triangulation());
         // Now we should update the geometry data structure, but
         // an exception is thrown on following call
-        //        result.update_geometry();
+        //        try
+        //        {
+        //          result.update_geometry();
+        //        }
+        //        catch (exception& e) {
+        //          std::cout << "Exception thrown: " << e.what() << "\n";
+        //        }
         // These should be +1 after command
         //        CAPTURE(result.N3_22());
         //        CAPTURE(result.N1_TL());
         //        cout << "After move.\n";
-        //        print_manifold_details(result);
+        //                print_manifold_details(result);
         // Not calling update makes this test fail
         //        CHECK(manifold3_moves::check_move(
         //            manifold, result, manifold3_moves::move_type::TWO_THREE));
