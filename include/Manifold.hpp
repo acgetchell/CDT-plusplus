@@ -91,6 +91,7 @@ class Manifold<3>
   /// @brief Update geometry data of the manifold when the triangulation has
   /// been changed
   void update_geometry()
+  try
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
@@ -98,6 +99,10 @@ class Manifold<3>
     //    Geometry3 geom(triangulation_);
     //    geometry_ = geom;
     geometry_ = make_geometry(triangulation_);
+  }
+  catch (std::exception const& ex)
+  {
+    std::cout << "Exception thrown:\n" << ex.what() << "\n";
   }
 
   /// @return A read-only reference to the triangulation

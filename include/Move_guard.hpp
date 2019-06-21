@@ -21,15 +21,14 @@ class Move_guard
   {}
 
   std::optional<ManifoldType> operator()()
+  try
   {
-    try
-    {
-      return function_(manifold_);
-    }
-    catch (...)
-    {
-      return std::nullopt;
-    }
+    std::cout << "Perform the move ...\n";
+    return function_(manifold_);
+  }
+  catch (...)
+  {
+    return std::nullopt;
   }
 
  private:
