@@ -13,27 +13,42 @@
 
 using namespace std;
 
-SCENARIO("3-Geometry exception-safety", "[geometry]")
+SCENARIO("3-Geometry std::function compatibility and exception-safety",
+         "[geometry]")
 {
   GIVEN("A 3-dimensional geometry.")
   {
     WHEN("It's properties are examined.")
     {
+      THEN("It is default constructible.")
+      {
+        REQUIRE(is_default_constructible<Geometry3>::value);
+      }
       THEN("It is no-throw default constructible.")
       {
-        CHECK_FALSE(is_nothrow_default_constructible<Geometry3>::value);
+        CHECK(is_nothrow_default_constructible<Geometry3>::value);
       }
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible<Geometry3>::value);
       }
+      THEN("It is copy constructible.")
+      {
+        REQUIRE(is_copy_constructible<Geometry3>::value);
+        cout << "std::function<Geometry> supported:" << boolalpha
+             << is_copy_constructible<Geometry3>::value << "\n";
+      }
       THEN("It is no-throw copy constructible.")
       {
-        CHECK_FALSE(is_nothrow_copy_constructible<Geometry3>::value);
+        CHECK(is_nothrow_copy_constructible<Geometry3>::value);
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK_FALSE(is_nothrow_copy_assignable<Geometry3>::value);
+        CHECK(is_nothrow_copy_assignable<Geometry3>::value);
+      }
+      THEN("It is move constructible.")
+      {
+        REQUIRE(is_move_constructible<Geometry3>::value);
       }
       THEN("It is no-throw move constructible.")
       {
