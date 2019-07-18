@@ -133,6 +133,8 @@ class Foliated_triangulation<3> : Delaunay3
   /// @return Dimensionality of triangulation data structure
   [[nodiscard]] auto dim() const { return delaunay_.dimension(); }
 
+  [[nodiscard]] int min_timevalue{1};
+
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param simplices Number of desired simplices
