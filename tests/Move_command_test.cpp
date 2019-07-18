@@ -13,6 +13,23 @@
 
 using namespace std;
 
+SCENARIO("Move_command exception safety", "[move3]")
+{
+  GIVEN("A Move_command")
+  {
+    WHEN("It's properties are examined")
+    {
+      THEN("It should be no-throw move constructible")
+      {
+        CHECK(is_nothrow_move_constructible<MoveCommand<Manifold3>>::value);
+        cout << "Small function object optimization supported: " << boolalpha
+             << is_nothrow_move_constructible<MoveCommand<Manifold3>>::value
+             << "\n";
+      }
+    }
+  }
+}
+
 SCENARIO("Invoking a move with a function pointer", "[move3]")
 {
   GIVEN("A valid manifold")
