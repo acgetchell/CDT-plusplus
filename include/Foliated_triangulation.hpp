@@ -128,12 +128,12 @@ class Foliated_triangulation<3> : Delaunay3
   [[nodiscard]] auto is_delaunay() const { return delaunay_.is_valid(); }
 
   /// @return True if the triangulation data structure is valid
-  [[nodiscard]] auto is_valid() const { return delaunay_.tds().is_valid(); }
+  [[nodiscard]] auto is_tds_valid() const { return delaunay_.tds().is_valid(); }
 
   /// @return Dimensionality of triangulation data structure
   [[nodiscard]] auto dim() const { return delaunay_.dimension(); }
 
-  [[nodiscard]] int min_timevalue{1};
+  int min_timevalue{1};
 
  private:
   /// @brief Make a Delaunay Triangulation

@@ -138,7 +138,7 @@ class Manifold<3>
   }
 
   /// @return True if the Manifold's triangulation data structure is valid
-  [[nodiscard]] bool is_valid() const { return triangulation_.is_valid(); }
+  [[nodiscard]] bool is_valid() const { return triangulation_.is_tds_valid(); }
 
   /// @return True if the Manifold's triangulation is correctly foliated
   [[nodiscard]] bool is_foliated() const

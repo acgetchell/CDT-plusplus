@@ -211,7 +211,7 @@ SCENARIO("Applying the Move Command", "[move3]")
 //      {
 //        CHECK_FALSE(move.get_manifold().get_triangulation().is_foliated());
 //        REQUIRE(
-//            move.get_manifold().get_triangulation().get_delaunay().is_valid());
+//            move.get_manifold().get_triangulation().get_delaunay().is_tds_valid());
 //      }
 //    }
 //    WHEN("It is constructed from a Manifold3.")

@@ -78,7 +78,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(foliatedTriangulation.is_delaunay());
-        REQUIRE(foliatedTriangulation.is_valid());
+        REQUIRE(foliatedTriangulation.is_tds_valid());
       }
     }
     WHEN("It is constructed from a Delaunay triangulation.")
@@ -102,7 +102,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.faces() == 4);
         REQUIRE(foliatedTriangulation.simplices() == 1);
         REQUIRE(foliatedTriangulation.is_delaunay());
-        REQUIRE(foliatedTriangulation.is_valid());
+        REQUIRE(foliatedTriangulation.is_tds_valid());
       }
     }
     WHEN("Constructing the minimum triangulation.")
@@ -114,7 +114,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(foliatedTriangulation.is_delaunay());
-        REQUIRE(foliatedTriangulation.is_valid());
+        REQUIRE(foliatedTriangulation.is_tds_valid());
         REQUIRE(foliatedTriangulation.is_foliated());
       }
       THEN("The triangulation has sensible values.")
@@ -138,7 +138,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(foliatedTriangulation.is_delaunay());
-        REQUIRE(foliatedTriangulation.is_valid());
+        REQUIRE(foliatedTriangulation.is_tds_valid());
         REQUIRE(foliatedTriangulation.is_foliated());
       }
       THEN("The triangulation has sensible values.")
