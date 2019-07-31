@@ -135,6 +135,32 @@ class Foliated_triangulation<3> : Delaunay3
 
   int min_timevalue{1};
 
+  /// @brief Perfect forwarding to Delaunay3.tds().degree()
+  ///
+  /// If we have n incident edges we should have 2(n-2) incident cells
+  ///
+  /// @tparam VertexHandle Template parameter used to forward
+  /// @param vh Vertex
+  /// @return The number of incident edges to vh
+  template <typename VertexHandle>
+  [[nodiscard]] decltype(auto) vertex_degree(VertexHandle&& vh) const
+  {
+    return delaunay_.tds().degree(std::forward<VertexHandle>(vh));
+  }
+
+  /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
+  /// @tparam VertexHandle Template parameter used to forward
+  /// @param vh Vertex
+  /// @return A vector of Cell_handles incident to vh
+  template <typename VertexHandle>
+  [[nodiscard]] decltype(auto) incident_cells(VertexHandle&& vh) const
+  {
+    std::vector<Cell_handle> incident_cells;
+    delaunay_.tds().incident_cells(std::forward<VertexHandle>(vh),
+                                   std::back_inserter(incident_cells));
+    return incident_cells;
+  }
+
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param simplices Number of desired simplices

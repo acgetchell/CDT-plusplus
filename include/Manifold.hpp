@@ -72,7 +72,8 @@ class Manifold<3>
   /// @param triangulation The triangulation to use
   /// @return The geometry data of the triangulation
   template <typename Triangulation>
-  [[nodiscard]] Geometry3 make_geometry(Triangulation& triangulation) try
+  [[nodiscard]] Geometry3 make_geometry(Triangulation& triangulation)
+  try
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
@@ -81,11 +82,12 @@ class Manifold<3>
     Geometry3 geom{triangulation};
     return geom;
   }
-  catch (const std::exception& e) {
+  catch (std::exception const& e)
+  {
     std::cerr << "make_geometry() failed: " << e.what() << "\n";
     throw;
-//    std::cout << "Try again to make geometry ...\n";
-//    this->update_geometry();
+    //    std::cout << "Try again to make geometry ...\n";
+    //    this->update_geometry();
   }
 
   /// @brief Update geometry data of the manifold when the triangulation has
@@ -241,6 +243,13 @@ class Manifold<3>
       std::vector<Cell_handle> const& simplices) const
   {
     return geometry_.check_cells(simplices);
+  }
+
+  /// @brief Perfect forwarding to FoliatedTriangulation3.vertex_degree()
+  template <typename VertexHandle>
+  [[nodiscard]] decltype(auto) vertex_degree(VertexHandle&& vh)
+  {
+    return triangulation_.vertex_degree(std::forward<VertexHandle>(vh));
   }
 
  private:

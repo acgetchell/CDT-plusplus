@@ -305,15 +305,27 @@ namespace manifold3_moves
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     Expects(manifold.is_vertex(candidate));
 
+    auto incident_edges = manifold.vertex_degree(candidate);
+
+    // We must have 5 incident edges to have 6 incident cells
+    if (incident_edges != 5)
+    {
+#ifndef NDEBUG
+      std::cout << "Vertex has " << incident_edges
+                << " incident edges/vertices.\n";
+#endif
+      return false;
+    }
+
     // Obtain all incident cells
-    std::vector<Cell_handle> incident_cells;
-    manifold.get_triangulation().get_delaunay().tds().incident_cells(
-        candidate, std::back_inserter(incident_cells));
+    auto incident_cells =
+        manifold.get_triangulation().incident_cells(candidate);
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)
     {
 #ifndef NDEBUG
-      std::cout << "Vertex has " << incident_cells.size()
+      std::cout << "Vertex has " << incident_edges
+                << " incident edges/vertices and " << incident_cells.size()
                 << " incident cells.\n";
 #endif
       return false;
@@ -331,7 +343,8 @@ namespace manifold3_moves
     { std::cout << "Some incident cells on this vertex need to be fixed.\n"; }
 
 #ifndef NDEBUG
-    std::cout << "Vertex has " << incident_31.size()
+    std::cout << "Vertex has " << incident_edges
+              << " incident edges/vertices and " << incident_31.size()
               << " incident (3,1) simplices and " << incident_22.size()
               << " incident (2,2) simplices and " << incident_13.size()
               << " incident (1,3) simplices.\n";
