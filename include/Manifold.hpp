@@ -252,6 +252,13 @@ class Manifold<3>
     return triangulation_.vertex_degree(std::forward<VertexHandle>(vh));
   }
 
+  /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
+  template <typename... Ts>
+  [[nodiscard]] decltype(auto) incident_cells(Ts&&... args)
+  {
+    return triangulation_.incident_cells(std::forward<Ts>(args)...);
+  }
+
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;

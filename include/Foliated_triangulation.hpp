@@ -149,14 +149,15 @@ class Foliated_triangulation<3> : Delaunay3
   }
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
-  /// @tparam VertexHandle Template parameter used to forward
-  /// @param vh Vertex
-  /// @return A vector of Cell_handles incident to vh
-  template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) incident_cells(VertexHandle&& vh) const
+  ///
+  /// @tparam Ts Variadic template used to forward
+  /// @param args Parameter pack of arguments to call incident_cells()
+  /// @return A container of incident cells
+  template <typename... Ts>
+  [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
   {
     std::vector<Cell_handle> incident_cells;
-    delaunay_.tds().incident_cells(std::forward<VertexHandle>(vh),
+    delaunay_.tds().incident_cells(std::forward<Ts>(args)...,
                                    std::back_inserter(incident_cells));
     return incident_cells;
   }

@@ -318,8 +318,7 @@ namespace manifold3_moves
     }
 
     // Obtain all incident cells
-    auto incident_cells =
-        manifold.get_triangulation().incident_cells(candidate);
+    auto incident_cells = manifold.incident_cells(candidate);
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)
     {
@@ -381,7 +380,7 @@ namespace manifold3_moves
     auto vertices = manifold.get_geometry().get_vertices();
     // Shuffle the container to pick a random sequence of vertices to try
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
-    for (auto& vertex : vertices)
+    for (auto const& vertex : vertices)
     {
       if (is_62_movable(manifold, vertex))
       {
@@ -417,6 +416,9 @@ namespace manifold3_moves
     auto circulator =
         manifold.get_triangulation().get_delaunay().tds().incident_cells(
             e_candidate, e_candidate.first);
+    /// TODO: Fix manifold.incident_cells() to handle above
+    // auto circulator = manifold.incident_cells(e_candidate,
+    // e_candidate.first);
 
     std::vector<Cell_handle> incident_cells;
     do
