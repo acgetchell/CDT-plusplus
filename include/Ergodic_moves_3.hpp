@@ -305,7 +305,7 @@ namespace manifold3_moves
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     Expects(manifold.is_vertex(candidate));
 
-    auto incident_edges = manifold.vertex_degree(candidate);
+    auto incident_edges = manifold.degree(candidate);
 
     // We must have 5 incident edges to have 6 incident cells
     if (incident_edges != 5)
@@ -413,12 +413,7 @@ namespace manifold3_moves
 
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in
-    auto circulator =
-        manifold.get_triangulation().get_delaunay().tds().incident_cells(
-            e_candidate, e_candidate.first);
-    /// TODO: Fix manifold.incident_cells() to handle above
-    // auto circulator = manifold.incident_cells(e_candidate,
-    // e_candidate.first);
+    auto circulator = manifold.incident_cells(e_candidate, e_candidate.first);
 
     std::vector<Cell_handle> incident_cells;
     do

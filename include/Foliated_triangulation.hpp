@@ -143,23 +143,34 @@ class Foliated_triangulation<3> : Delaunay3
   /// @param vh Vertex
   /// @return The number of incident edges to vh
   template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) vertex_degree(VertexHandle&& vh) const
+  [[nodiscard]] decltype(auto) degree(VertexHandle&& vh) const
   {
     return delaunay_.tds().degree(std::forward<VertexHandle>(vh));
   }
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
   ///
+  /// @tparam VertexHandle Template parameter used to forward
+  /// @param vh Vertex
+  /// @return A container of incident cells
+  template <typename VertexHandle>
+  [[nodiscard]] decltype(auto) incident_cells(VertexHandle&& vh) const
+  {
+    std::vector<Cell_handle> incident_cells;
+    delaunay_.tds().incident_cells(std::forward<VertexHandle>(vh),
+                                   std::back_inserter(incident_cells));
+    return incident_cells;
+  }
+
+  /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
+  ///
   /// @tparam Ts Variadic template used to forward
   /// @param args Parameter pack of arguments to call incident_cells()
-  /// @return A container of incident cells
+  /// @return A Cell_circulator
   template <typename... Ts>
   [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
   {
-    std::vector<Cell_handle> incident_cells;
-    delaunay_.tds().incident_cells(std::forward<Ts>(args)...,
-                                   std::back_inserter(incident_cells));
-    return incident_cells;
+    return delaunay_.tds().incident_cells(std::forward<Ts>(args)...);
   }
 
  private:

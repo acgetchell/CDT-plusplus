@@ -245,11 +245,11 @@ class Manifold<3>
     return geometry_.check_cells(simplices);
   }
 
-  /// @brief Perfect forwarding to FoliatedTriangulation3.vertex_degree()
+  /// @brief Perfect forwarding to FoliatedTriangulation3.degree()
   template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) vertex_degree(VertexHandle&& vh)
+  [[nodiscard]] decltype(auto) degree(VertexHandle&& vh)
   {
-    return triangulation_.vertex_degree(std::forward<VertexHandle>(vh));
+    return triangulation_.degree(std::forward<VertexHandle>(vh));
   }
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
