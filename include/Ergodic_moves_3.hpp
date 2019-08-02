@@ -427,7 +427,7 @@ namespace manifold3_moves
     {
       return std::nullopt;
     }
-  }
+  }  // find_44_move()
 
   /// @brief Perform a (4,4) move
   ///
@@ -452,7 +452,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    auto spacelike_edges = manifold.get_geometry().get_spacelike_edges();
+    auto spacelike_edges = manifold.get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),
                  make_random_generator());
@@ -473,7 +473,7 @@ namespace manifold3_moves
     // We've run out of edges to try
     std::cout << "No (4,4) move is possible.\n";
     return manifold;
-  }
+  }  // do_44_move()
 
   /// @brief Check move correctness
   /// @param before The manifold before the move

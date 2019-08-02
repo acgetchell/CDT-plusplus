@@ -103,6 +103,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.simplices() == 1);
         REQUIRE(foliatedTriangulation.is_delaunay());
         REQUIRE(foliatedTriangulation.is_tds_valid());
+        //        foliatedTriangulation.check_vertices();
       }
     }
     WHEN("Constructing the minimum triangulation.")
@@ -127,6 +128,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         CHECK(cells <= 12);
         // Human verification
         print_triangulation(foliatedTriangulation);
+        foliatedTriangulation.check_vertices();
       }
     }
     WHEN("Constructing a medium triangulation.")

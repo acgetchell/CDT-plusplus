@@ -259,6 +259,12 @@ class Manifold<3>
     return triangulation_.incident_cells(std::forward<Ts>(args)...);
   }
 
+  /// @brief Call geometry.get_spacelike_edges()
+  [[nodiscard]] auto get_spacelike_edges() const
+  {
+    return geometry_.get_spacelike_edges();
+  }
+
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;

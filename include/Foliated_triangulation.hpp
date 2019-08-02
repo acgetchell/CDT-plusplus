@@ -137,6 +137,8 @@ class Foliated_triangulation<3> : Delaunay3
 
   /// @brief Perfect forwarding to Delaunay3.tds().degree()
   ///
+  /// See
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcabcebd22f2fe
   /// If we have n incident edges we should have 2(n-2) incident cells
   ///
   /// @tparam VertexHandle Template parameter used to forward
@@ -149,6 +151,9 @@ class Foliated_triangulation<3> : Delaunay3
   }
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
+  ///
+  /// See
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a93f8ab30228b2a515a5c9cdacd9d4d36
   ///
   /// @tparam VertexHandle Template parameter used to forward
   /// @param vh Vertex
@@ -171,6 +176,23 @@ class Foliated_triangulation<3> : Delaunay3
   [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
   {
     return delaunay_.tds().incident_cells(std::forward<Ts>(args)...);
+  }
+
+  void check_vertices() const
+  {
+    auto vertices = delaunay_.tds().vertices();
+    //        std::remove_if(vertices.begin(), vertices.end(), [&](Vertex_handle
+    //        v){ return delaunay_.is_infinite(v);});
+    //     vertices.erase(delaunay_.infinite_vertex());
+    /// TODO: Remove the infinite vertex from the container
+    // auto infinite_vertex = delaunay_.infinite_vertex();
+    // vertices.erase(std::remove_if(vertices.begin(), vertices.end(), [&](auto&
+    // v){return v == infinite_vertex;}),vertices.end());
+    for (auto const& v : vertices)
+    {
+      std::cout << "Vertex (" << v.point() << ") has timevalue " << v.info()
+                << "\n";
+    }
   }
 
  private:
