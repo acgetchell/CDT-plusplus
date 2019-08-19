@@ -81,7 +81,9 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.is_tds_valid());
       }
     }
-    WHEN("It is constructed from a Delaunay triangulation.")
+    WHEN(
+        "It is constructed from a Delaunay triangulation with 4 causal "
+        "vertices.")
     {
       vector<Delaunay3::Point> Vertices{
           Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
@@ -100,9 +102,10 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.vertices() == 4);
         REQUIRE(foliatedTriangulation.edges() == 6);
         REQUIRE(foliatedTriangulation.faces() == 4);
-        REQUIRE(foliatedTriangulation.simplices() == 1);
+        REQUIRE(foliatedTriangulation.number_of_simplices() == 1);
         REQUIRE(foliatedTriangulation.is_delaunay());
         REQUIRE(foliatedTriangulation.is_tds_valid());
+        REQUIRE(foliatedTriangulation.min_timevalue() == 1);
         //        foliatedTriangulation.check_vertices();
       }
     }
@@ -123,7 +126,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         auto vertices{foliatedTriangulation.vertices()};
         CHECK(1 << vertices);
         CHECK(vertices <= 8);
-        auto cells{foliatedTriangulation.simplices()};
+        auto cells{foliatedTriangulation.number_of_simplices()};
         CHECK(1 <= cells);
         CHECK(cells <= 12);
         // Human verification
@@ -145,7 +148,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The triangulation has sensible values.")
       {
-        REQUIRE(foliatedTriangulation.min_timevalue == 1);
+        REQUIRE(foliatedTriangulation.min_timevalue() == 1);
         // Human verification
         print_triangulation(foliatedTriangulation);
       }

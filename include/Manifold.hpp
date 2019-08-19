@@ -180,7 +180,10 @@ class Manifold<3>
   [[nodiscard]] auto N3_31_13() const { return geometry_.N3_31_13(); }
 
   /// @return Number of 3D simplices in triangulation data structure
-  [[nodiscard]] auto simplices() const { return triangulation_.simplices(); }
+  [[nodiscard]] auto simplices() const
+  {
+    return triangulation_.number_of_simplices();
+  }
 
   /// @return Number of 2D faces in geometry data structure
   [[nodiscard]] auto N2() const { return geometry_.N2(); }

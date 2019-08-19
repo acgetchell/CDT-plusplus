@@ -243,7 +243,7 @@ try
   std::cout << "Triangulation has " << triangulation.vertices()
             << " vertices and " << triangulation.edges() << " edges and "
             << triangulation.faces() << " faces and "
-            << triangulation.simplices() << " simplices.\n";
+            << triangulation.number_of_simplices() << " simplices.\n";
 }
 catch (...)
 {

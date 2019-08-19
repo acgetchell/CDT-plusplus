@@ -68,7 +68,7 @@ class Foliated_triangulation;
 
 /// 3D Triangulation
 template <>
-class Foliated_triangulation<3> : Delaunay3
+class Foliated_triangulation<3> : private Delaunay3
 {
  public:
   /// @brief Default constructor
@@ -104,7 +104,7 @@ class Foliated_triangulation<3> : Delaunay3
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
   /// @return Number of 3D simplices in triangulation data structure
-  [[nodiscard]] auto simplices() const
+  [[nodiscard]] auto number_of_simplices() const
   {
     return delaunay_.number_of_finite_cells();
   }
@@ -133,8 +133,6 @@ class Foliated_triangulation<3> : Delaunay3
   /// @return Dimensionality of triangulation data structure
   [[nodiscard]] auto dim() const { return delaunay_.dimension(); }
 
-  int min_timevalue{1};
-
   /// @brief Perfect forwarding to Delaunay3.tds().degree()
   ///
   /// See
@@ -149,6 +147,10 @@ class Foliated_triangulation<3> : Delaunay3
   {
     return delaunay_.tds().degree(std::forward<VertexHandle>(vh));
   }
+
+  // Either one of the following should replace the above, but they don't work
+  //  using Delaunay3::degree; // yields 0 always
+  // using Triangulation_3::degree; // also yields 0
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
   ///
@@ -194,6 +196,100 @@ class Foliated_triangulation<3> : Delaunay3
                 << "\n";
     }
   }
+
+  auto min_timevalue() const { return min_timevalue_; }
+
+  /// @brief Collect all finite cells of the triangulation
+  /// @tparam Triangulation Reference type of triangulation
+  /// @param universe Reference to triangulation
+  /// @return Container of all the finite simplices in the triangulation
+  template <typename Triangulation>
+  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
+      -> std::vector<Cell_handle>
+  {
+    Expects(universe.get_delaunay().tds().is_valid());
+    std::vector<Cell_handle> init_cells;
+    init_cells.reserve(number_of_simplices());
+    //    Delaunay3::Finite_cells_iterator cit;
+    for (auto cit = universe.get_delaunay().finite_cells_begin();
+         cit != universe.get_delaunay().finite_cells_end(); ++cit)
+    {
+      // Each cell is valid in the triangulation
+      Ensures(universe.get_delaunay().tds().is_cell(cit));
+      init_cells.emplace_back(cit);
+    }
+    Ensures(init_cells.size() == number_of_simplices());
+    return init_cells;
+  }  // collect_cells
+
+  /// @brief Classify cells
+  /// @param cells The container of simplices to classify
+  /// @return A container of simplices with Cell_type written to cell->info()
+  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
+                                    bool debugging = false) const
+      -> std::vector<Cell_handle>
+  {
+    Expects(cells.size() == number_of_simplices());
+    std::vector<Vertex_handle> cell_vertices;
+    cell_vertices.reserve(4);
+    std::vector<int> vertex_timevalues;
+    vertex_timevalues.reserve(4);
+    for (auto const& c : cells)
+    {
+      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
+
+      for (int j = 0; j < 4; ++j)
+      {
+        cell_vertices.emplace_back(c->vertex(j));
+        vertex_timevalues.emplace_back(c->vertex(j)->info());
+        if (debugging)
+        {
+          std::cout << "Cell vertex " << j << " has timevalue "
+                    << c->vertex(j)->info() << '\n';
+        }
+      }
+
+      // This is simply not sufficient. Need to check *both* max_time and
+      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
+      // Anything else means we have an invalid simplex which we should
+      // also return.
+      // We also need to check that max_time - min_time = 1, else we have
+      // a mis-classified vertex (probably)
+      auto max_time =
+          std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
+      auto max_time_vertices =
+          std::count_if(cell_vertices.begin(), cell_vertices.end(),
+                        [max_time](auto const& vertex) {
+                          return vertex->info() == *max_time;
+                        });
+      // Check max_time - min_time here
+      switch (max_time_vertices)
+      {
+        case 1:
+          c->info() = static_cast<int>(Cell_type::THREE_ONE);
+          break;
+        case 2:
+          c->info() = static_cast<int>(Cell_type::TWO_TWO);
+          break;
+        case 3:
+          c->info() = static_cast<int>(Cell_type::ONE_THREE);
+          break;
+        default:
+          throw std::logic_error("Mis-classified cell.");
+      }
+      if (debugging)
+      {
+        std::cout << "Max timevalue is " << *max_time << "\n";
+        std::cout << "There are " << max_time_vertices
+                  << " vertices with max timeslice in the cell.\n";
+        std::cout << "Cell info is now " << c->info() << "\n";
+        std::cout << "---\n";
+      }
+      cell_vertices.clear();
+      vertex_timevalues.clear();
+    }
+    return cells;
+  }  // classify_cells
 
  private:
   /// @brief Make a Delaunay Triangulation
@@ -364,8 +460,11 @@ class Foliated_triangulation<3> : Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
+  /// Data members initialized in order of declaration (Working Draft, Standard
+  /// for C++ Programming Language, 12.6.2 section 13.3)
   Delaunay3 delaunay_;
   bool      is_foliated_;
+  int       min_timevalue_;
 };
 
 using FoliatedTriangulation3 = Foliated_triangulation<3>;

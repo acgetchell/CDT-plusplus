@@ -56,8 +56,9 @@ class Geometry<3>
       : number_of_vertices_{triangulation.vertices()}
       , number_of_edges_{triangulation.edges()}
       , number_of_faces_{triangulation.faces()}
-      , number_of_cells_{triangulation.simplices()}
-      , cells_{classify_cells(collect_cells(triangulation))}
+      , number_of_cells_{triangulation.number_of_simplices()}
+      , cells_{triangulation.classify_cells(
+            triangulation.collect_cells(triangulation))}
       , faces_{collect_faces(triangulation)}
       , edges_{collect_edges(triangulation)}
       , points_{collect_vertices(triangulation)}
@@ -258,97 +259,99 @@ class Geometry<3>
   }  // check_cells
 
  private:
-  /// @brief Collect all finite cells of the triangulation
-  /// @tparam Triangulation Reference type of triangulation
-  /// @param universe Reference to triangulation
-  /// @return Container of all the finite simplices in the triangulation
-  template <typename Triangulation>
-  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
-      -> std::vector<Cell_handle>
-  {
-    Expects(universe.get_delaunay().tds().is_valid());
-    std::vector<Cell_handle> init_cells;
-    init_cells.reserve(number_of_cells_);
-    //    Delaunay3::Finite_cells_iterator cit;
-    for (auto cit = universe.get_delaunay().finite_cells_begin();
-         cit != universe.get_delaunay().finite_cells_end(); ++cit)
-    {
-      // Each cell is valid in the triangulation
-      Ensures(universe.get_delaunay().tds().is_cell(cit));
-      init_cells.emplace_back(cit);
-    }
-    Ensures(init_cells.size() == N3());
-    return init_cells;
-  }  // collect_cells
+  //  /// @brief Collect all finite cells of the triangulation
+  //  /// @tparam Triangulation Reference type of triangulation
+  //  /// @param universe Reference to triangulation
+  //  /// @return Container of all the finite simplices in the triangulation
+  //  template <typename Triangulation>
+  //  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
+  //      -> std::vector<Cell_handle>
+  //  {
+  //    Expects(universe.get_delaunay().tds().is_valid());
+  //    std::vector<Cell_handle> init_cells;
+  //    init_cells.reserve(number_of_cells_);
+  //    //    Delaunay3::Finite_cells_iterator cit;
+  //    for (auto cit = universe.get_delaunay().finite_cells_begin();
+  //         cit != universe.get_delaunay().finite_cells_end(); ++cit)
+  //    {
+  //      // Each cell is valid in the triangulation
+  //      Ensures(universe.get_delaunay().tds().is_cell(cit));
+  //      init_cells.emplace_back(cit);
+  //    }
+  //    Ensures(init_cells.size() == N3());
+  //    return init_cells;
+  //  }  // collect_cells
 
-  /// @brief Classify cells
-  /// @param cells The container of simplices to classify
-  /// @return A container of simplices with Cell_type written to cell->info()
-  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
-                                    bool debugging = false) const
-      -> std::vector<Cell_handle>
-  {
-    Expects(cells.size() == number_of_cells_);
-    std::vector<Vertex_handle> cell_vertices;
-    cell_vertices.reserve(4);
-    std::vector<int> vertex_timevalues;
-    vertex_timevalues.reserve(4);
-    for (auto const& c : cells)
-    {
-      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
-
-      for (int j = 0; j < 4; ++j)
-      {
-        cell_vertices.emplace_back(c->vertex(j));
-        vertex_timevalues.emplace_back(c->vertex(j)->info());
-        if (debugging)
-        {
-          std::cout << "Cell vertex " << j << " has timevalue "
-                    << c->vertex(j)->info() << '\n';
-        }
-      }
-
-      // This is simply not sufficient. Need to check *both* max_time and
-      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
-      // Anything else means we have an invalid simplex which we should
-      // also return.
-      // We also need to check that max_time - min_time = 1, else we have
-      // a mis-classified vertex (probably)
-      auto max_time =
-          std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
-      auto max_time_vertices =
-          std::count_if(cell_vertices.begin(), cell_vertices.end(),
-                        [max_time](auto const& vertex) {
-                          return vertex->info() == *max_time;
-                        });
-      // Check max_time - min_time here
-      switch (max_time_vertices)
-      {
-        case 1:
-          c->info() = static_cast<int>(Cell_type::THREE_ONE);
-          break;
-        case 2:
-          c->info() = static_cast<int>(Cell_type::TWO_TWO);
-          break;
-        case 3:
-          c->info() = static_cast<int>(Cell_type::ONE_THREE);
-          break;
-        default:
-          throw std::logic_error("Mis-classified cell.");
-      }
-      if (debugging)
-      {
-        std::cout << "Max timevalue is " << *max_time << "\n";
-        std::cout << "There are " << max_time_vertices
-                  << " vertices with max timeslice in the cell.\n";
-        std::cout << "Cell info is now " << c->info() << "\n";
-        std::cout << "---\n";
-      }
-      cell_vertices.clear();
-      vertex_timevalues.clear();
-    }
-    return cells;
-  }  // classify_cells
+  //  /// @brief Classify cells
+  //  /// @param cells The container of simplices to classify
+  //  /// @return A container of simplices with Cell_type written to
+  //  cell->info()
+  //  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
+  //                                    bool debugging = false) const
+  //      -> std::vector<Cell_handle>
+  //  {
+  //    Expects(cells.size() == number_of_cells_);
+  //    std::vector<Vertex_handle> cell_vertices;
+  //    cell_vertices.reserve(4);
+  //    std::vector<int> vertex_timevalues;
+  //    vertex_timevalues.reserve(4);
+  //    for (auto const& c : cells)
+  //    {
+  //      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
+  //
+  //      for (int j = 0; j < 4; ++j)
+  //      {
+  //        cell_vertices.emplace_back(c->vertex(j));
+  //        vertex_timevalues.emplace_back(c->vertex(j)->info());
+  //        if (debugging)
+  //        {
+  //          std::cout << "Cell vertex " << j << " has timevalue "
+  //                    << c->vertex(j)->info() << '\n';
+  //        }
+  //      }
+  //
+  //      // This is simply not sufficient. Need to check *both* max_time and
+  //      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
+  //      // Anything else means we have an invalid simplex which we should
+  //      // also return.
+  //      // We also need to check that max_time - min_time = 1, else we have
+  //      // a mis-classified vertex (probably)
+  //      auto max_time =
+  //          std::max_element(vertex_timevalues.begin(),
+  //          vertex_timevalues.end());
+  //      auto max_time_vertices =
+  //          std::count_if(cell_vertices.begin(), cell_vertices.end(),
+  //                        [max_time](auto const& vertex) {
+  //                          return vertex->info() == *max_time;
+  //                        });
+  //      // Check max_time - min_time here
+  //      switch (max_time_vertices)
+  //      {
+  //        case 1:
+  //          c->info() = static_cast<int>(Cell_type::THREE_ONE);
+  //          break;
+  //        case 2:
+  //          c->info() = static_cast<int>(Cell_type::TWO_TWO);
+  //          break;
+  //        case 3:
+  //          c->info() = static_cast<int>(Cell_type::ONE_THREE);
+  //          break;
+  //        default:
+  //          throw std::logic_error("Mis-classified cell.");
+  //      }
+  //      if (debugging)
+  //      {
+  //        std::cout << "Max timevalue is " << *max_time << "\n";
+  //        std::cout << "There are " << max_time_vertices
+  //                  << " vertices with max timeslice in the cell.\n";
+  //        std::cout << "Cell info is now " << c->info() << "\n";
+  //        std::cout << "---\n";
+  //      }
+  //      cell_vertices.clear();
+  //      vertex_timevalues.clear();
+  //    }
+  //    return cells;
+  //  }  // classify_cells
 
   /// @brief Collect all finite facets of the triangulation
   /// @tparam Manifold Reference type of triangulation
