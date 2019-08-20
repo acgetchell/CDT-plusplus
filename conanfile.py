@@ -3,7 +3,7 @@ from conans import ConanFile, CMake
 
 class CausalDynamicalTriangulations(ConanFile):
     settings = "os", "compiler", "build_type", "arch"
-    requires = "boost/[>=1.70.0]@conan/stable",\
+    requires = "boost/1.70.0@conan/stable",\
                "Catch2/[>=2.7.2]@catchorg/stable",\
                "docopt/[>=0.6.2]@conan/stable",\
                "date/[>=2.4.1]@bincrafters/stable",\
