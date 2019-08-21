@@ -45,7 +45,7 @@ SCENARIO("Invoking a move with a function pointer", "[move3]")
       THEN("Running the function makes the move")
       {
         auto result = move23(manifold);
-        result.update_geometry();
+        result.update();
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::TWO_THREE));
         // Human verification
@@ -75,7 +75,7 @@ SCENARIO("Invoking a move with a lambda", "[move3]")
       THEN("Running the lambda makes the move")
       {
         auto result = move23(manifold);
-        result.update_geometry();
+        result.update();
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::TWO_THREE));
         // Human verification

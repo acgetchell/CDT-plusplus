@@ -36,8 +36,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       manifold = std::move(manifold3_moves::do_23_move(manifold));
       THEN("The move is correct and the manifold invariants are maintained")
       {
-        // Update geometry with new triangulation info
-        manifold.update_geometry();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
         // The move is correct
         CHECK(manifold3_moves::check_move(
             manifold_before, manifold, manifold3_moves::move_type::TWO_THREE));
@@ -58,7 +58,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
-        manifold.update_geometry();
+        manifold.update();
         // The move is correct
         CHECK(manifold3_moves::check_move(
             manifold_before, manifold, manifold3_moves::move_type::THREE_TWO));
@@ -79,7 +79,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
-        manifold.update_geometry();
+        manifold.update();
         // The move is correct
         CHECK(manifold3_moves::check_move(manifold_before, manifold,
                                           manifold3_moves::move_type::TWO_SIX));
@@ -100,7 +100,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
-        manifold.update_geometry();
+        manifold.update();
         // The move is correct
         CHECK(manifold3_moves::check_move(manifold_before, manifold,
                                           manifold3_moves::move_type::SIX_TWO));
@@ -122,7 +122,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
-        manifold.update_geometry();
+        manifold.update();
         // The move is correct
         CHECK(manifold3_moves::check_move(
             manifold_before, manifold, manifold3_moves::move_type::FOUR_FOUR));

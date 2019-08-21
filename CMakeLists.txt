@@ -156,6 +156,7 @@ target_link_libraries(initialize
 target_compile_features(initialize PRIVATE cxx_std_17)
 
 if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
+  # TODO: Fix cdt-gv to work on platforms other than Linux
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(cdt-gv
                         PRIVATE ${CGAL_LIBRARIES}
@@ -165,6 +166,7 @@ if(${CMAKE_HOST_SYSTEM_NAME} STREQUAL "Linux")
   # Activate C++17
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 
+  # TODO: Fix cdt-opt to work on platforms other than Linux
   add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
   target_link_libraries(cdt-opt
                         PRIVATE ${CGAL_LIBRARIES}

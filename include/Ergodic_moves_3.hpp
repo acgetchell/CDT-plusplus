@@ -81,7 +81,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
     puts(__PRETTY_FUNCTION__);
 #endif
-    auto two_two = manifold.get_geometry().get_two_two();
+    auto two_two = manifold.get_triangulation().get_two_two();
     // Shuffle the container to pick a random sequence of (2,2) cells to try
     std::shuffle(two_two.begin(), two_two.end(), make_random_generator());
     for (auto& cell : two_two)
@@ -193,7 +193,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    auto one_three = manifold.get_geometry().get_one_three();
+    auto one_three = manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::shuffle(one_three.begin(), one_three.end(), make_random_generator());
     for (auto& bottom : one_three)
@@ -330,11 +330,11 @@ namespace manifold3_moves
       return false;
     }
 
-    auto incident_31 = manifold.get_geometry().filter_cells(
+    auto incident_31 = manifold.get_triangulation().filter_cells(
         incident_cells, Cell_type::THREE_ONE);
-    auto incident_22 = manifold.get_geometry().filter_cells(incident_cells,
-                                                            Cell_type::TWO_TWO);
-    auto incident_13 = manifold.get_geometry().filter_cells(
+    auto incident_22 = manifold.get_triangulation().filter_cells(
+        incident_cells, Cell_type::TWO_TWO);
+    auto incident_13 = manifold.get_triangulation().filter_cells(
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified
@@ -347,7 +347,7 @@ namespace manifold3_moves
               << " incident (3,1) simplices and " << incident_22.size()
               << " incident (2,2) simplices and " << incident_13.size()
               << " incident (1,3) simplices.\n";
-    manifold.get_geometry().print_cells(incident_cells);
+    manifold.get_triangulation().print_cells(incident_cells);
 #endif
     return ((incident_31.size() == 3) && (incident_22.empty()) &&
             (incident_13.size() == 3));

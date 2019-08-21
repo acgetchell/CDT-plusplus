@@ -72,14 +72,14 @@ class Manifold<3>
   /// @param triangulation The triangulation to use
   /// @return The geometry data of the triangulation
   template <typename Triangulation>
-  [[nodiscard]] Geometry3 make_geometry(Triangulation& triangulation)
+  [[nodiscard]] Geometry3 make_geometry(Triangulation&& triangulation)
   try
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
 
-    Geometry3 geom{triangulation};
+    Geometry3 geom{std::forward<Triangulation>(triangulation)};
     return geom;
   }
   catch (std::exception const& e)
@@ -90,8 +90,25 @@ class Manifold<3>
     //    this->update_geometry();
   }
 
+  /// @brief Update the Manifold data structures
+  void update()
+  try
+  {
+#ifndef NDEBUG
+    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+#endif
+    triangulation_.update();
+    update_geometry();
+  }
+  catch (std::exception const& ex)
+  {
+    std::cout << "Exception thrown:\n" << ex.what() << "\n";
+  }
+
   /// @brief Update geometry data of the manifold when the triangulation has
   /// been changed
+  ///
+  /// Defined here because Geometry depends on FoliatedTriangulation
   void update_geometry()
   try
   {
@@ -165,19 +182,19 @@ class Manifold<3>
   [[nodiscard]] auto dim() const { return triangulation_.dim(); }
 
   /// @return Number of 3D simplices in geometry data structure
-  [[nodiscard]] auto N3() const { return geometry_.N3(); }
+  [[nodiscard]] auto N3() const { return geometry_.N3; }
 
   /// @return Number of (3,1) simplices in geometry data structure
-  [[nodiscard]] auto N3_31() const { return geometry_.N3_31(); }
+  [[nodiscard]] auto N3_31() const { return geometry_.N3_31; }
 
   /// @return Number of (2,2) simplices in geometry data structure
-  [[nodiscard]] auto N3_22() const { return geometry_.N3_22(); }
+  [[nodiscard]] auto N3_22() const { return geometry_.N3_22; }
 
   /// @return Number of (1,3) simplices in geometry data structure
-  [[nodiscard]] auto N3_13() const { return geometry_.N3_13(); }
+  [[nodiscard]] auto N3_13() const { return geometry_.N3_13; }
 
   /// @return Number of (3,1) and (1,3) simplices in geometry data structure
-  [[nodiscard]] auto N3_31_13() const { return geometry_.N3_31_13(); }
+  [[nodiscard]] auto N3_31_13() const { return geometry_.N3_31_13; }
 
   /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] auto simplices() const
@@ -223,7 +240,7 @@ class Manifold<3>
   [[nodiscard]] bool check_simplices() const
   {
     return (this->simplices() == this->N3() &&
-            geometry_.check_cells(geometry_.get_cells()));
+            triangulation_.check_cells(triangulation_.get_cells()));
   }
 
   /// @param simplices The container of simplices to check
@@ -245,7 +262,7 @@ class Manifold<3>
   [[nodiscard]] bool are_simplex_types_valid(
       std::vector<Cell_handle> const& simplices) const
   {
-    return geometry_.check_cells(simplices);
+    return triangulation_.check_cells(simplices);
   }
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.degree()

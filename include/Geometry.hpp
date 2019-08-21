@@ -44,7 +44,10 @@ class Geometry<3>
       : number_of_vertices_{0}
       , number_of_edges_{0}
       , number_of_faces_{0}
-      , number_of_cells_{0}
+      , N3{0}
+      , N3_31{0}
+      , N3_13{0}
+      , N3_22{0}
       , max_timevalue_{0}
       , min_timevalue_{0}
   {}
@@ -56,15 +59,19 @@ class Geometry<3>
       : number_of_vertices_{triangulation.vertices()}
       , number_of_edges_{triangulation.edges()}
       , number_of_faces_{triangulation.faces()}
-      , number_of_cells_{triangulation.number_of_simplices()}
-      , cells_{triangulation.classify_cells(
-            triangulation.collect_cells(triangulation))}
+      , N3{triangulation.number_of_simplices()}
+      , N3_31{triangulation.get_three_one().size()}
+      , N3_13{triangulation.get_one_three().size()}
+      , N3_31_13{N3_31 + N3_13}
+      , N3_22{triangulation.get_two_two().size()}
+      //      , cells_{triangulation.classify_cells(
+      //            triangulation.collect_cells(triangulation))}
       , faces_{collect_faces(triangulation)}
       , edges_{collect_edges(triangulation)}
       , points_{collect_vertices(triangulation)}
-      , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
-      , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
-      , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
+      //      , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
+      //      , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
+      //      , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
       , timelike_edges_{filter_edges(edges_, true)}
       , spacelike_edges_{filter_edges(edges_, false)}
       , max_timevalue_{find_max_timevalue(points_)}
@@ -72,20 +79,25 @@ class Geometry<3>
       , spacelike_facets_{volume_per_timeslice(faces_)}
   {}
 
-  /// @return Number of finite cells from triangulation
-  [[nodiscard]] auto N3() const { return number_of_cells_; }
+  //  /// @return Number of finite cells from triangulation
+  //  [[nodiscard]] auto N3() const { return number_of_cells_; }
+  std::size_t N3;
+  std::size_t N3_31;
+  std::size_t N3_13;
+  std::size_t N3_31_13;
+  std::size_t N3_22;
 
-  /// @return Number of (3,1) simplices
-  [[nodiscard]] auto N3_31() const { return three_one_.size(); }
+  //  /// @return Number of (3,1) simplices
+  //  [[nodiscard]] auto N3_31() const { return three_one_.size(); }
+  //
+  //  /// @return Number of (2,2) simplices
+  //  [[nodiscard]] auto N3_22() const { return two_two_.size(); }
+  //
+  //  /// @return Number of (1,3) simplices
+  //  [[nodiscard]] auto N3_13() const { return one_three_.size(); }
 
-  /// @return Number of (2,2) simplices
-  [[nodiscard]] auto N3_22() const { return two_two_.size(); }
-
-  /// @return Number of (1,3) simplices
-  [[nodiscard]] auto N3_13() const { return one_three_.size(); }
-
-  /// @return Number of (3,1) and (1,3) simplices
-  [[nodiscard]] auto N3_31_13() const { return N3_31() + N3_13(); }
+  //  /// @return Number of (3,1) and (1,3) simplices
+  //  [[nodiscard]] auto N3_31_13() const { return N3_31() + N3_13(); }
 
   /// @return Number of finite facets in triangulation
   [[nodiscard]] auto N2() const { return number_of_faces_; }
@@ -114,23 +126,23 @@ class Geometry<3>
     return spacelike_facets_;
   }
 
-  /// @return Container of (3,1) cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
-  {
-    return three_one_;
-  }
+  //  /// @return Container of (3,1) cells
+  //  [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
+  //  {
+  //    return three_one_;
+  //  }
 
-  /// @return Container of (2,2) cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
-  {
-    return two_two_;
-  }
+  //  /// @return Container of (2,2) cells
+  //  [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
+  //  {
+  //    return two_two_;
+  //  }
 
-  /// @return Container of (1,3) cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
-  {
-    return one_three_;
-  }
+  //  /// @return Container of (1,3) cells
+  //  [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
+  //  {
+  //    return one_three_;
+  //  }
 
   /// @return Container of timelike edges
   [[nodiscard]] std::vector<Edge_handle> const& get_timelike_edges() const
@@ -150,32 +162,32 @@ class Geometry<3>
     return points_;
   }
 
-  /// @return Container of cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
-  {
-    return cells_;
-  }
+  //  /// @return Container of cells
+  //  [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
+  //  {
+  //    return cells_;
+  //  }
 
-  /// @brief Print timevalues of each vertex in the cell and the resulting
-  /// cell->info()
-  void print_cells() const { print_cells(cells_); }
-
-  /// @brief Print timevalues of each vertex in the cell and the resulting
-  /// cell->info()
-  /// @param cells The cells to print
-  void print_cells(std::vector<Cell_handle> const& cells) const
-  {
-    for (auto const& cell : cells)
-    {
-      std::cout << "Cell info => " << cell->info() << "\n";
-      for (int j = 0; j < 4; ++j)
-      {
-        std::cout << "Vertex(" << j
-                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
-      }
-      std::cout << "---\n";
-    }
-  }
+  //  /// @brief Print timevalues of each vertex in the cell and the resulting
+  //  /// cell->info()
+  //  void print_cells() const { print_cells(cells_); }
+  //
+  //  /// @brief Print timevalues of each vertex in the cell and the resulting
+  //  /// cell->info()
+  //  /// @param cells The cells to print
+  //  void print_cells(std::vector<Cell_handle> const& cells) const
+  //  {
+  //    for (auto const& cell : cells)
+  //    {
+  //      std::cout << "Cell info => " << cell->info() << "\n";
+  //      for (int j = 0; j < 4; ++j)
+  //      {
+  //        std::cout << "Vertex(" << j
+  //                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
+  //      }
+  //      std::cout << "---\n";
+  //    }
+  //  }
 
   void print_volume_per_timeslice() const
   {
@@ -223,40 +235,42 @@ class Geometry<3>
     return time1 != time2;
   }  // classify_edge
 
-  /// @brief Filter simplices by Cell_type
-  /// @param cells_v The container of simplices to filter
-  /// @param cell_t The Cell_type predicate filter
-  /// @return A container of Cell_type simplices
-  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> const& cells_v,
-                                  Cell_type const&                cell_t) const
-      -> std::vector<Cell_handle>
-  {
-    Expects(!cells_v.empty());
-    std::vector<Cell_handle> filtered_cells;
-    std::copy_if(cells_v.begin(), cells_v.end(),
-                 std::back_inserter(filtered_cells),
-                 [&cell_t](auto const& cell) {
-                   return cell->info() == static_cast<int>(cell_t);
-                 });
-    return filtered_cells;
-  }  // filter_cells
+  //  /// @brief Filter simplices by Cell_type
+  //  /// @param cells_v The container of simplices to filter
+  //  /// @param cell_t The Cell_type predicate filter
+  //  /// @return A container of Cell_type simplices
+  //  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> const& cells_v,
+  //                                  Cell_type const&                cell_t)
+  //                                  const
+  //      -> std::vector<Cell_handle>
+  //  {
+  //    Expects(!cells_v.empty());
+  //    std::vector<Cell_handle> filtered_cells;
+  //    std::copy_if(cells_v.begin(), cells_v.end(),
+  //                 std::back_inserter(filtered_cells),
+  //                 [&cell_t](auto const& cell) {
+  //                   return cell->info() == static_cast<int>(cell_t);
+  //                 });
+  //    return filtered_cells;
+  //  }  // filter_cells
 
-  /// @brief Check that all cells are correctly classified
-  /// @param cells The container of cells to check
-  /// @return True if all cells are valid
-  [[nodiscard]] auto check_cells(std::vector<Cell_handle> const& cells) const
-      -> bool
-  {
-    Expects(!cells.empty());
-    for (auto& cell : cells)
-    {
-      if (cell->info() != static_cast<int>(Cell_type::THREE_ONE) &&
-          cell->info() != static_cast<int>(Cell_type::TWO_TWO) &&
-          cell->info() != static_cast<int>(Cell_type::ONE_THREE))
-      { return false; }
-    }
-    return true;
-  }  // check_cells
+  //  /// @brief Check that all cells are correctly classified
+  //  /// @param cells The container of cells to check
+  //  /// @return True if all cells are valid
+  //  [[nodiscard]] auto check_cells(std::vector<Cell_handle> const& cells)
+  //  const
+  //      -> bool
+  //  {
+  //    Expects(!cells.empty());
+  //    for (auto& cell : cells)
+  //    {
+  //      if (cell->info() != static_cast<int>(Cell_type::THREE_ONE) &&
+  //          cell->info() != static_cast<int>(Cell_type::TWO_TWO) &&
+  //          cell->info() != static_cast<int>(Cell_type::ONE_THREE))
+  //      { return false; }
+  //    }
+  //    return true;
+  //  }  // check_cells
 
  private:
   //  /// @brief Collect all finite cells of the triangulation
@@ -522,14 +536,14 @@ class Geometry<3>
   std::size_t                number_of_vertices_;
   std::size_t                number_of_edges_;
   std::size_t                number_of_faces_;
-  std::size_t                number_of_cells_;
-  std::vector<Cell_handle>   cells_;
+  //  std::size_t                number_of_cells_;
+  //  std::vector<Cell_handle>   cells_;
   std::vector<Face_handle>   faces_;
   std::vector<Edge_handle>   edges_;
   std::vector<Vertex_handle> points_;
-  std::vector<Cell_handle>   three_one_;
-  std::vector<Cell_handle>   two_two_;
-  std::vector<Cell_handle>   one_three_;
+  //  std::vector<Cell_handle>   three_one_;
+  //  std::vector<Cell_handle>   two_two_;
+  //  std::vector<Cell_handle>   one_three_;
   std::vector<Edge_handle>   timelike_edges_;
   std::vector<Edge_handle>   spacelike_edges_;
   int                        max_timevalue_;

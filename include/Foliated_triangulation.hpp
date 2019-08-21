@@ -77,7 +77,12 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @brief Constructor using delaunay triangulation
   /// @param delaunay_triangulation Delaunay triangulation
   explicit Foliated_triangulation(Delaunay3 const& delaunay_triangulation)
-      : delaunay_{delaunay_triangulation}, is_foliated_{fix_timeslices()}
+      : delaunay_{delaunay_triangulation}
+      , is_foliated_{fix_timeslices()}
+      , cells_{classify_cells(collect_cells(delaunay_))}
+      , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
+      , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
+      , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
   {}
 
   /// @brief Constructor with parameters
@@ -92,6 +97,10 @@ class Foliated_triangulation<3> : private Delaunay3
       : delaunay_{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
       , is_foliated_{fix_timeslices()}
+      , cells_{classify_cells(collect_cells(delaunay_))}
+      , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
+      , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
+      , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
   {}
 
   /// @return A read-only reference to the Delaunay triangulation
@@ -207,15 +216,15 @@ class Foliated_triangulation<3> : private Delaunay3
   [[nodiscard]] auto collect_cells(Triangulation const& universe) const
       -> std::vector<Cell_handle>
   {
-    Expects(universe.get_delaunay().tds().is_valid());
+    Expects(universe.tds().is_valid());
     std::vector<Cell_handle> init_cells;
     init_cells.reserve(number_of_simplices());
     //    Delaunay3::Finite_cells_iterator cit;
-    for (auto cit = universe.get_delaunay().finite_cells_begin();
-         cit != universe.get_delaunay().finite_cells_end(); ++cit)
+    for (auto cit = universe.finite_cells_begin();
+         cit != universe.finite_cells_end(); ++cit)
     {
       // Each cell is valid in the triangulation
-      Ensures(universe.get_delaunay().tds().is_cell(cit));
+      Ensures(universe.tds().is_cell(cit));
       init_cells.emplace_back(cit);
     }
     Ensures(init_cells.size() == number_of_simplices());
@@ -290,6 +299,102 @@ class Foliated_triangulation<3> : private Delaunay3
     }
     return cells;
   }  // classify_cells
+
+  /// @return Container of cells
+  [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
+  {
+    return cells_;
+  }
+
+  /// @brief Filter simplices by Cell_type
+  /// @param cells_v The container of simplices to filter
+  /// @param cell_t The Cell_type predicate filter
+  /// @return A container of Cell_type simplices
+  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> const& cells_v,
+                                  Cell_type const&                cell_t) const
+      -> std::vector<Cell_handle>
+  {
+    Expects(!cells_v.empty());
+    std::vector<Cell_handle> filtered_cells;
+    std::copy_if(cells_v.begin(), cells_v.end(),
+                 std::back_inserter(filtered_cells),
+                 [&cell_t](auto const& cell) {
+                   return cell->info() == static_cast<int>(cell_t);
+                 });
+    return filtered_cells;
+  }  // filter_cells
+
+  /// @return Container of (3,1) cells
+  [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
+  {
+    return three_one_;
+  }
+
+  /// @return Container of (2,2) cells
+  [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
+  {
+    return two_two_;
+  }
+
+  /// @return Container of (1,3) cells
+  [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
+  {
+    return one_three_;
+  }
+
+  /// @brief Check that all cells are correctly classified
+  /// @param cells The container of cells to check
+  /// @return True if all cells are valid
+  [[nodiscard]] auto check_cells(std::vector<Cell_handle> const& cells) const
+      -> bool
+  {
+    Expects(!cells.empty());
+    for (auto& cell : cells)
+    {
+      if (cell->info() != static_cast<int>(Cell_type::THREE_ONE) &&
+          cell->info() != static_cast<int>(Cell_type::TWO_TWO) &&
+          cell->info() != static_cast<int>(Cell_type::ONE_THREE))
+      { return false; }
+    }
+    return true;
+  }  // check_cells
+
+  /// @brief Print timevalues of each vertex in the cell and the resulting
+  /// cell->info()
+  void print_cells() const { print_cells(cells_); }
+
+  /// @brief Print timevalues of each vertex in the cell and the resulting
+  /// cell->info()
+  /// @param cells The cells to print
+  void print_cells(std::vector<Cell_handle> const& cells) const
+  {
+    for (auto const& cell : cells)
+    {
+      std::cout << "Cell info => " << cell->info() << "\n";
+      for (int j = 0; j < 4; ++j)
+      {
+        std::cout << "Vertex(" << j
+                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
+      }
+      std::cout << "---\n";
+    }
+  }
+
+  void update()
+  {
+    /// TODO: fix buggy is_foliated
+    //    is_foliated_ = fix_timeslices();
+    cells_    = classify_cells(collect_cells(delaunay_));
+    auto temp = filter_cells(cells_, Cell_type::THREE_ONE);
+    three_one_.swap(temp);
+    three_one_.shrink_to_fit();
+    auto temp2 = filter_cells(cells_, Cell_type::TWO_TWO);
+    two_two_.swap(temp2);
+    two_two_.shrink_to_fit();
+    auto temp3 = filter_cells(cells_, Cell_type::ONE_THREE);
+    one_three_.swap(temp3);
+    one_three_.shrink_to_fit();
+  }
 
  private:
   /// @brief Make a Delaunay Triangulation
@@ -464,7 +569,12 @@ class Foliated_triangulation<3> : private Delaunay3
   /// for C++ Programming Language, 12.6.2 section 13.3)
   Delaunay3 delaunay_;
   bool      is_foliated_;
-  int       min_timevalue_;
+  /// TODO: This should be dynamically populated with actual value
+  int                      min_timevalue_{1};
+  std::vector<Cell_handle> cells_;
+  std::vector<Cell_handle> three_one_;
+  std::vector<Cell_handle> two_two_;
+  std::vector<Cell_handle> one_three_;
 };
 
 using FoliatedTriangulation3 = Foliated_triangulation<3>;
