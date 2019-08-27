@@ -192,98 +192,6 @@ class Foliated_triangulation<3> : private Delaunay3
 
   [[nodiscard]] auto min_timevalue() const { return min_timevalue_; }
 
-  /// @brief Collect all finite cells of the triangulation
-  /// @tparam Triangulation Reference type of triangulation
-  /// @param universe Reference to triangulation
-  /// @return Container of all the finite simplices in the triangulation
-  template <typename Triangulation>
-  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
-      -> std::vector<Cell_handle>
-  {
-    Expects(universe.tds().is_valid());
-    std::vector<Cell_handle> init_cells;
-    init_cells.reserve(number_of_finite_cells());
-    //    Delaunay3::Finite_cells_iterator cit;
-    for (auto cit = universe.finite_cells_begin();
-         cit != universe.finite_cells_end(); ++cit)
-    {
-      // Each cell is valid in the triangulation
-      Ensures(universe.tds().is_cell(cit));
-      init_cells.emplace_back(cit);
-    }
-    Ensures(init_cells.size() == number_of_finite_cells());
-    return init_cells;
-  }  // collect_cells
-
-  /// @brief Classify cells
-  /// @param cells The container of simplices to classify
-  /// @return A container of simplices with Cell_type written to cell->info()
-  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
-                                    bool debugging = false) const
-      -> std::vector<Cell_handle>
-  {
-    Expects(cells.size() == number_of_finite_cells());
-    std::vector<Vertex_handle> cell_vertices;
-    cell_vertices.reserve(4);
-    std::vector<int> vertex_timevalues;
-    vertex_timevalues.reserve(4);
-    for (auto const& c : cells)
-    {
-      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
-
-      for (int j = 0; j < 4; ++j)
-      {
-        cell_vertices.emplace_back(c->vertex(j));
-        vertex_timevalues.emplace_back(c->vertex(j)->info());
-        if (debugging)
-        {
-          std::cout << "Cell vertex " << j << " has timevalue "
-                    << c->vertex(j)->info() << '\n';
-        }
-      }
-
-      // This is simply not sufficient. Need to check *both* max_time and
-      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
-      // Anything else means we have an invalid simplex which we should
-      // also return.
-      // We also need to check that max_time - min_time = 1, else we have
-      // a mis-classified vertex (probably)
-      auto max_time =
-          std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
-      auto max_time_vertices =
-          std::count_if(cell_vertices.begin(), cell_vertices.end(),
-                        [max_time](auto const& vertex) {
-                          return vertex->info() == *max_time;
-                        });
-      // Check max_time - min_time here
-      switch (max_time_vertices)
-      {
-        case 1:
-          c->info() = static_cast<int>(Cell_type::THREE_ONE);
-          break;
-        case 2:
-          c->info() = static_cast<int>(Cell_type::TWO_TWO);
-          break;
-        case 3:
-          c->info() = static_cast<int>(Cell_type::ONE_THREE);
-          break;
-        default:
-          throw std::logic_error("Mis-classified cell.");
-      }
-      if (debugging)
-      {
-        std::cout << "Max timevalue is " << *max_time << "\n";
-        std::cout << "There are " << max_time_vertices
-                  << " vertices with max timeslice in the cell.\n";
-        std::cout << "Cell info is now " << c->info() << "\n";
-        std::cout << "---\n";
-      }
-      cell_vertices.clear();
-      vertex_timevalues.clear();
-    }
-    return cells;
-  }  // classify_cells
-
   /// @return Container of cells
   [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
   {
@@ -346,23 +254,6 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells() const { print_cells(cells_); }
-
-  /// @brief Print timevalues of each vertex in the cell and the resulting
-  /// cell->info()
-  /// @param cells The cells to print
-  void print_cells(std::vector<Cell_handle> const& cells) const
-  {
-    for (auto const& cell : cells)
-    {
-      std::cout << "Cell info => " << cell->info() << "\n";
-      for (int j = 0; j < 4; ++j)
-      {
-        std::cout << "Vertex(" << j
-                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
-      }
-      std::cout << "---\n";
-    }
-  }  // print_cells
 
   /// @brief Update data structures
   void update()
@@ -550,6 +441,115 @@ class Foliated_triangulation<3> : private Delaunay3
 #endif
     return invalid == 0;
   }  // fix_timeslices
+
+  /// @brief Collect all finite cells of the triangulation
+  /// @tparam Triangulation Reference type of triangulation
+  /// @param universe Reference to triangulation
+  /// @return Container of all the finite simplices in the triangulation
+  template <typename Triangulation>
+  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
+      -> std::vector<Cell_handle>
+  {
+    Expects(universe.tds().is_valid());
+    std::vector<Cell_handle> init_cells;
+    init_cells.reserve(number_of_finite_cells());
+    //    Delaunay3::Finite_cells_iterator cit;
+    for (auto cit = universe.finite_cells_begin();
+         cit != universe.finite_cells_end(); ++cit)
+    {
+      // Each cell is valid in the triangulation
+      Ensures(universe.tds().is_cell(cit));
+      init_cells.emplace_back(cit);
+    }
+    Ensures(init_cells.size() == number_of_finite_cells());
+    return init_cells;
+  }  // collect_cells
+
+  /// @brief Classify cells
+  /// @param cells The container of simplices to classify
+  /// @return A container of simplices with Cell_type written to cell->info()
+  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
+                                    bool debugging = false) const
+      -> std::vector<Cell_handle>
+  {
+    Expects(cells.size() == number_of_finite_cells());
+    std::vector<Vertex_handle> cell_vertices;
+    cell_vertices.reserve(4);
+    std::vector<int> vertex_timevalues;
+    vertex_timevalues.reserve(4);
+    for (auto const& c : cells)
+    {
+      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
+
+      for (int j = 0; j < 4; ++j)
+      {
+        cell_vertices.emplace_back(c->vertex(j));
+        vertex_timevalues.emplace_back(c->vertex(j)->info());
+        if (debugging)
+        {
+          std::cout << "Cell vertex " << j << " has timevalue "
+                    << c->vertex(j)->info() << '\n';
+        }
+      }
+
+      // This is simply not sufficient. Need to check *both* max_time and
+      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
+      // Anything else means we have an invalid simplex which we should
+      // also return.
+      // We also need to check that max_time - min_time = 1, else we have
+      // a mis-classified vertex (probably)
+      auto max_time =
+          std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
+      auto max_time_vertices =
+          std::count_if(cell_vertices.begin(), cell_vertices.end(),
+                        [max_time](auto const& vertex) {
+                          return vertex->info() == *max_time;
+                        });
+      // Check max_time - min_time here
+      switch (max_time_vertices)
+      {
+        case 1:
+          c->info() = static_cast<int>(Cell_type::THREE_ONE);
+          break;
+        case 2:
+          c->info() = static_cast<int>(Cell_type::TWO_TWO);
+          break;
+        case 3:
+          c->info() = static_cast<int>(Cell_type::ONE_THREE);
+          break;
+        default:
+          throw std::logic_error("Mis-classified cell.");
+      }
+      if (debugging)
+      {
+        std::cout << "Max timevalue is " << *max_time << "\n";
+        std::cout << "There are " << max_time_vertices
+                  << " vertices with max timeslice in the cell.\n";
+        std::cout << "Cell info is now " << c->info() << "\n";
+        std::cout << "---\n";
+      }
+      cell_vertices.clear();
+      vertex_timevalues.clear();
+    }
+    return cells;
+  }  // classify_cells
+
+  /// @brief Print timevalues of each vertex in the cell and the resulting
+  /// cell->info()
+  /// @param cells The cells to print
+  void print_cells(std::vector<Cell_handle> const& cells) const
+  {
+    for (auto const& cell : cells)
+    {
+      std::cout << "Cell info => " << cell->info() << "\n";
+      for (int j = 0; j < 4; ++j)
+      {
+        std::cout << "Vertex(" << j
+                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
+      }
+      std::cout << "---\n";
+    }
+  }  // print_cells
 
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)

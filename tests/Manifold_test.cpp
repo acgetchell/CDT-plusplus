@@ -383,7 +383,7 @@ SCENARIO("3-Manifold mutation", "[manifold]")
       cout << "Manifold 2 N1 = " << manifold2_N1 << "\n";
       cout << "Manifold 2 N0 = " << manifold2_N0 << "\n";
       // Change manifold1's triangulation to manifold2's
-      manifold1.set_triangulation() = manifold2.get_triangulation();
+      manifold1.triangulation() = manifold2.get_triangulation();
       std::cout << "Manifolds swapped.\n";
       THEN("Not calling update_geometry() gives old values.")
       {

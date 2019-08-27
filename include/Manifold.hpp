@@ -131,7 +131,7 @@ class Manifold<3>
   }
 
   /// @return A mutable reference to the triangulation
-  [[nodiscard]] auto& set_triangulation() { return triangulation_; }
+  [[nodiscard]] auto& triangulation() { return triangulation_; }
 
   /// @return A read-only reference to the Geometry
   [[nodiscard]] Geometry3 const& get_geometry() const { return geometry_; }
