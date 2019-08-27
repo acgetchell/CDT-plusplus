@@ -240,10 +240,11 @@ template <typename Triangulation>
 void print_triangulation(Triangulation const& triangulation)
 try
 {
-  std::cout << "Triangulation has " << triangulation.vertices()
-            << " vertices and " << triangulation.edges() << " edges and "
-            << triangulation.faces() << " faces and "
-            << triangulation.number_of_simplices() << " simplices.\n";
+  std::cout << "Triangulation has " << triangulation.number_of_vertices()
+            << " vertices and " << triangulation.number_of_finite_edges()
+            << " edges and " << triangulation.number_of_finite_facets()
+            << " faces and " << triangulation.number_of_finite_cells()
+            << " simplices.\n";
 }
 catch (...)
 {

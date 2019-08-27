@@ -47,6 +47,7 @@ class Geometry<3>
       , N3{0}
       , N3_31{0}
       , N3_13{0}
+      , N3_31_13{0}
       , N3_22{0}
       , max_timevalue_{0}
       , min_timevalue_{0}
@@ -56,22 +57,17 @@ class Geometry<3>
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
   explicit Geometry(FoliatedTriangulation3 const& triangulation)
-      : number_of_vertices_{triangulation.vertices()}
-      , number_of_edges_{triangulation.edges()}
-      , number_of_faces_{triangulation.faces()}
-      , N3{triangulation.number_of_simplices()}
+      : number_of_vertices_{triangulation.number_of_vertices()}
+      , number_of_edges_{triangulation.number_of_finite_edges()}
+      , number_of_faces_{triangulation.number_of_finite_facets()}
+      , N3{triangulation.number_of_finite_cells()}
       , N3_31{triangulation.get_three_one().size()}
       , N3_13{triangulation.get_one_three().size()}
       , N3_31_13{N3_31 + N3_13}
       , N3_22{triangulation.get_two_two().size()}
-      //      , cells_{triangulation.classify_cells(
-      //            triangulation.collect_cells(triangulation))}
       , faces_{collect_faces(triangulation)}
       , edges_{collect_edges(triangulation)}
       , points_{collect_vertices(triangulation)}
-      //      , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
-      //      , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
-      //      , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
       , timelike_edges_{filter_edges(edges_, true)}
       , spacelike_edges_{filter_edges(edges_, false)}
       , max_timevalue_{find_max_timevalue(points_)}
@@ -79,25 +75,11 @@ class Geometry<3>
       , spacelike_facets_{volume_per_timeslice(faces_)}
   {}
 
-  //  /// @return Number of finite cells from triangulation
-  //  [[nodiscard]] auto N3() const { return number_of_cells_; }
   std::size_t N3;
   std::size_t N3_31;
   std::size_t N3_13;
   std::size_t N3_31_13;
   std::size_t N3_22;
-
-  //  /// @return Number of (3,1) simplices
-  //  [[nodiscard]] auto N3_31() const { return three_one_.size(); }
-  //
-  //  /// @return Number of (2,2) simplices
-  //  [[nodiscard]] auto N3_22() const { return two_two_.size(); }
-  //
-  //  /// @return Number of (1,3) simplices
-  //  [[nodiscard]] auto N3_13() const { return one_three_.size(); }
-
-  //  /// @return Number of (3,1) and (1,3) simplices
-  //  [[nodiscard]] auto N3_31_13() const { return N3_31() + N3_13(); }
 
   /// @return Number of finite facets in triangulation
   [[nodiscard]] auto N2() const { return number_of_faces_; }
@@ -126,24 +108,6 @@ class Geometry<3>
     return spacelike_facets_;
   }
 
-  //  /// @return Container of (3,1) cells
-  //  [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
-  //  {
-  //    return three_one_;
-  //  }
-
-  //  /// @return Container of (2,2) cells
-  //  [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
-  //  {
-  //    return two_two_;
-  //  }
-
-  //  /// @return Container of (1,3) cells
-  //  [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
-  //  {
-  //    return one_three_;
-  //  }
-
   /// @return Container of timelike edges
   [[nodiscard]] std::vector<Edge_handle> const& get_timelike_edges() const
   {
@@ -161,33 +125,6 @@ class Geometry<3>
   {
     return points_;
   }
-
-  //  /// @return Container of cells
-  //  [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
-  //  {
-  //    return cells_;
-  //  }
-
-  //  /// @brief Print timevalues of each vertex in the cell and the resulting
-  //  /// cell->info()
-  //  void print_cells() const { print_cells(cells_); }
-  //
-  //  /// @brief Print timevalues of each vertex in the cell and the resulting
-  //  /// cell->info()
-  //  /// @param cells The cells to print
-  //  void print_cells(std::vector<Cell_handle> const& cells) const
-  //  {
-  //    for (auto const& cell : cells)
-  //    {
-  //      std::cout << "Cell info => " << cell->info() << "\n";
-  //      for (int j = 0; j < 4; ++j)
-  //      {
-  //        std::cout << "Vertex(" << j
-  //                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
-  //      }
-  //      std::cout << "---\n";
-  //    }
-  //  }
 
   void print_volume_per_timeslice() const
   {
@@ -235,138 +172,7 @@ class Geometry<3>
     return time1 != time2;
   }  // classify_edge
 
-  //  /// @brief Filter simplices by Cell_type
-  //  /// @param cells_v The container of simplices to filter
-  //  /// @param cell_t The Cell_type predicate filter
-  //  /// @return A container of Cell_type simplices
-  //  [[nodiscard]] auto filter_cells(std::vector<Cell_handle> const& cells_v,
-  //                                  Cell_type const&                cell_t)
-  //                                  const
-  //      -> std::vector<Cell_handle>
-  //  {
-  //    Expects(!cells_v.empty());
-  //    std::vector<Cell_handle> filtered_cells;
-  //    std::copy_if(cells_v.begin(), cells_v.end(),
-  //                 std::back_inserter(filtered_cells),
-  //                 [&cell_t](auto const& cell) {
-  //                   return cell->info() == static_cast<int>(cell_t);
-  //                 });
-  //    return filtered_cells;
-  //  }  // filter_cells
-
-  //  /// @brief Check that all cells are correctly classified
-  //  /// @param cells The container of cells to check
-  //  /// @return True if all cells are valid
-  //  [[nodiscard]] auto check_cells(std::vector<Cell_handle> const& cells)
-  //  const
-  //      -> bool
-  //  {
-  //    Expects(!cells.empty());
-  //    for (auto& cell : cells)
-  //    {
-  //      if (cell->info() != static_cast<int>(Cell_type::THREE_ONE) &&
-  //          cell->info() != static_cast<int>(Cell_type::TWO_TWO) &&
-  //          cell->info() != static_cast<int>(Cell_type::ONE_THREE))
-  //      { return false; }
-  //    }
-  //    return true;
-  //  }  // check_cells
-
  private:
-  //  /// @brief Collect all finite cells of the triangulation
-  //  /// @tparam Triangulation Reference type of triangulation
-  //  /// @param universe Reference to triangulation
-  //  /// @return Container of all the finite simplices in the triangulation
-  //  template <typename Triangulation>
-  //  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
-  //      -> std::vector<Cell_handle>
-  //  {
-  //    Expects(universe.get_delaunay().tds().is_valid());
-  //    std::vector<Cell_handle> init_cells;
-  //    init_cells.reserve(number_of_cells_);
-  //    //    Delaunay3::Finite_cells_iterator cit;
-  //    for (auto cit = universe.get_delaunay().finite_cells_begin();
-  //         cit != universe.get_delaunay().finite_cells_end(); ++cit)
-  //    {
-  //      // Each cell is valid in the triangulation
-  //      Ensures(universe.get_delaunay().tds().is_cell(cit));
-  //      init_cells.emplace_back(cit);
-  //    }
-  //    Ensures(init_cells.size() == N3());
-  //    return init_cells;
-  //  }  // collect_cells
-
-  //  /// @brief Classify cells
-  //  /// @param cells The container of simplices to classify
-  //  /// @return A container of simplices with Cell_type written to
-  //  cell->info()
-  //  [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
-  //                                    bool debugging = false) const
-  //      -> std::vector<Cell_handle>
-  //  {
-  //    Expects(cells.size() == number_of_cells_);
-  //    std::vector<Vertex_handle> cell_vertices;
-  //    cell_vertices.reserve(4);
-  //    std::vector<int> vertex_timevalues;
-  //    vertex_timevalues.reserve(4);
-  //    for (auto const& c : cells)
-  //    {
-  //      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
-  //
-  //      for (int j = 0; j < 4; ++j)
-  //      {
-  //        cell_vertices.emplace_back(c->vertex(j));
-  //        vertex_timevalues.emplace_back(c->vertex(j)->info());
-  //        if (debugging)
-  //        {
-  //          std::cout << "Cell vertex " << j << " has timevalue "
-  //                    << c->vertex(j)->info() << '\n';
-  //        }
-  //      }
-  //
-  //      // This is simply not sufficient. Need to check *both* max_time and
-  //      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
-  //      // Anything else means we have an invalid simplex which we should
-  //      // also return.
-  //      // We also need to check that max_time - min_time = 1, else we have
-  //      // a mis-classified vertex (probably)
-  //      auto max_time =
-  //          std::max_element(vertex_timevalues.begin(),
-  //          vertex_timevalues.end());
-  //      auto max_time_vertices =
-  //          std::count_if(cell_vertices.begin(), cell_vertices.end(),
-  //                        [max_time](auto const& vertex) {
-  //                          return vertex->info() == *max_time;
-  //                        });
-  //      // Check max_time - min_time here
-  //      switch (max_time_vertices)
-  //      {
-  //        case 1:
-  //          c->info() = static_cast<int>(Cell_type::THREE_ONE);
-  //          break;
-  //        case 2:
-  //          c->info() = static_cast<int>(Cell_type::TWO_TWO);
-  //          break;
-  //        case 3:
-  //          c->info() = static_cast<int>(Cell_type::ONE_THREE);
-  //          break;
-  //        default:
-  //          throw std::logic_error("Mis-classified cell.");
-  //      }
-  //      if (debugging)
-  //      {
-  //        std::cout << "Max timevalue is " << *max_time << "\n";
-  //        std::cout << "There are " << max_time_vertices
-  //                  << " vertices with max timeslice in the cell.\n";
-  //        std::cout << "Cell info is now " << c->info() << "\n";
-  //        std::cout << "---\n";
-  //      }
-  //      cell_vertices.clear();
-  //      vertex_timevalues.clear();
-  //    }
-  //    return cells;
-  //  }  // classify_cells
-
   /// @brief Collect all finite facets of the triangulation
   /// @tparam Manifold Reference type of triangulation
   /// @param universe Reference to triangulation
@@ -536,14 +342,9 @@ class Geometry<3>
   std::size_t                number_of_vertices_;
   std::size_t                number_of_edges_;
   std::size_t                number_of_faces_;
-  //  std::size_t                number_of_cells_;
-  //  std::vector<Cell_handle>   cells_;
   std::vector<Face_handle>   faces_;
   std::vector<Edge_handle>   edges_;
   std::vector<Vertex_handle> points_;
-  //  std::vector<Cell_handle>   three_one_;
-  //  std::vector<Cell_handle>   two_two_;
-  //  std::vector<Cell_handle>   one_three_;
   std::vector<Edge_handle>   timelike_edges_;
   std::vector<Edge_handle>   spacelike_edges_;
   int                        max_timevalue_;

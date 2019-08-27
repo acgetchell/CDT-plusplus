@@ -72,14 +72,14 @@ class Foliated_triangulation<3> : private Delaunay3
 {
  public:
   /// @brief Default constructor
-  Foliated_triangulation() : delaunay_{Delaunay3{}}, is_foliated_(false) {}
+  Foliated_triangulation() : Delaunay3{}, is_foliated_(false) {}
 
   /// @brief Constructor using delaunay triangulation
   /// @param delaunay_triangulation Delaunay triangulation
-  explicit Foliated_triangulation(Delaunay3 const& delaunay_triangulation)
-      : delaunay_{delaunay_triangulation}
-      , is_foliated_{fix_timeslices()}
-      , cells_{classify_cells(collect_cells(delaunay_))}
+  explicit Foliated_triangulation(Delaunay3& delaunay_triangulation)
+      : Delaunay3{delaunay_triangulation}
+      , is_foliated_{fix_timeslices(delaunay_triangulation)}
+      , cells_{classify_cells(collect_cells(delaunay()))}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
       , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
       , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
@@ -94,72 +94,56 @@ class Foliated_triangulation<3> : private Delaunay3
                          std::int_fast32_t const timeslices,
                          double const initial_radius = INITIAL_RADIUS,
                          double const radial_factor  = RADIAL_FACTOR)
-      : delaunay_{make_triangulation(simplices, timeslices, initial_radius,
+      : Delaunay3{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
-      , is_foliated_{fix_timeslices()}
-      , cells_{classify_cells(collect_cells(delaunay_))}
+      , is_foliated_{fix_timeslices(delaunay())}
+      , cells_{classify_cells(collect_cells(delaunay()))}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
       , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
       , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
   {}
 
-  /// @return A read-only reference to the Delaunay triangulation
-  [[nodiscard]] Delaunay3 const& get_delaunay() const { return delaunay_; }
+  /// @return A mutable reference to the Delaunay base class
+  auto delaunay() -> Delaunay3& { return *this; }
 
-  /// @return A mutable reference to the Delaunay triangulation
-  [[nodiscard]] auto& set_delaunay() { return delaunay_; }
+  /// @return A read-only reference to the Delaunay base class
+  [[nodiscard]] auto get_delaunay() const -> Delaunay3 const&
+  {
+    return std::cref(*this);
+  }
 
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const { return is_foliated_; }
 
   /// @return Number of 3D simplices in triangulation data structure
-  [[nodiscard]] auto number_of_simplices() const
-  {
-    return delaunay_.number_of_finite_cells();
-  }
+  using Delaunay3::number_of_finite_cells;
 
   /// @return Number of 2D faces in triangulation data structure
-  [[nodiscard]] auto faces() const
-  {
-    return delaunay_.number_of_finite_facets();
-  }
+  using Delaunay3::number_of_finite_facets;
 
   /// @return Number of 1D edges in triangulation data structure
-  [[nodiscard]] auto edges() const
-  {
-    return delaunay_.number_of_finite_edges();
-  }
+  using Delaunay3::number_of_finite_edges;
 
   /// @return Number of vertices in triangulation data structure
-  [[nodiscard]] auto vertices() const { return delaunay_.number_of_vertices(); }
+  using Delaunay3::number_of_vertices;
 
   /// @return True if the triangulation is Delaunay
-  [[nodiscard]] auto is_delaunay() const { return delaunay_.is_valid(); }
+  [[nodiscard]] auto is_delaunay() const { return get_delaunay().is_valid(); }
 
   /// @return True if the triangulation data structure is valid
-  [[nodiscard]] auto is_tds_valid() const { return delaunay_.tds().is_valid(); }
-
-  /// @return Dimensionality of triangulation data structure
-  [[nodiscard]] auto dim() const { return delaunay_.dimension(); }
-
-  /// @brief Perfect forwarding to Delaunay3.tds().degree()
-  ///
-  /// See
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcabcebd22f2fe
-  /// If we have n incident edges we should have 2(n-2) incident cells
-  ///
-  /// @tparam VertexHandle Template parameter used to forward
-  /// @param vh Vertex
-  /// @return The number of incident edges to vh
-  template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) degree(VertexHandle&& vh) const
+  [[nodiscard]] auto is_tds_valid() const
   {
-    return delaunay_.tds().degree(std::forward<VertexHandle>(vh));
+    return get_delaunay().tds().is_valid();
   }
 
-  // Either one of the following should replace the above, but they don't work
-  //  using Delaunay3::degree; // yields 0 always
-  // using Triangulation_3::degree; // also yields 0
+  /// @return Dimensionality of triangulation data structure
+  using Delaunay3::dimension;
+
+  /// @brief See
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcabcebd22f2fe
+  /// If we have n incident edges we should have 2(n-2) incident cells
+  /// @return The number of incident edges to a vertex
+  using Delaunay3::degree;
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
   ///
@@ -173,8 +157,8 @@ class Foliated_triangulation<3> : private Delaunay3
   [[nodiscard]] decltype(auto) incident_cells(VertexHandle&& vh) const
   {
     std::vector<Cell_handle> incident_cells;
-    delaunay_.tds().incident_cells(std::forward<VertexHandle>(vh),
-                                   std::back_inserter(incident_cells));
+    get_delaunay().tds().incident_cells(std::forward<VertexHandle>(vh),
+                                        std::back_inserter(incident_cells));
     return incident_cells;
   }
 
@@ -186,12 +170,12 @@ class Foliated_triangulation<3> : private Delaunay3
   template <typename... Ts>
   [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
   {
-    return delaunay_.tds().incident_cells(std::forward<Ts>(args)...);
+    return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
   }
 
-  void check_vertices() const
+  void check_vertices()
   {
-    auto vertices = delaunay_.tds().vertices();
+    auto vertices = delaunay().tds().vertices();
     //        std::remove_if(vertices.begin(), vertices.end(), [&](Vertex_handle
     //        v){ return delaunay_.is_infinite(v);});
     //     vertices.erase(delaunay_.infinite_vertex());
@@ -206,7 +190,7 @@ class Foliated_triangulation<3> : private Delaunay3
     }
   }
 
-  auto min_timevalue() const { return min_timevalue_; }
+  [[nodiscard]] auto min_timevalue() const { return min_timevalue_; }
 
   /// @brief Collect all finite cells of the triangulation
   /// @tparam Triangulation Reference type of triangulation
@@ -218,7 +202,7 @@ class Foliated_triangulation<3> : private Delaunay3
   {
     Expects(universe.tds().is_valid());
     std::vector<Cell_handle> init_cells;
-    init_cells.reserve(number_of_simplices());
+    init_cells.reserve(number_of_finite_cells());
     //    Delaunay3::Finite_cells_iterator cit;
     for (auto cit = universe.finite_cells_begin();
          cit != universe.finite_cells_end(); ++cit)
@@ -227,7 +211,7 @@ class Foliated_triangulation<3> : private Delaunay3
       Ensures(universe.tds().is_cell(cit));
       init_cells.emplace_back(cit);
     }
-    Ensures(init_cells.size() == number_of_simplices());
+    Ensures(init_cells.size() == number_of_finite_cells());
     return init_cells;
   }  // collect_cells
 
@@ -238,7 +222,7 @@ class Foliated_triangulation<3> : private Delaunay3
                                     bool debugging = false) const
       -> std::vector<Cell_handle>
   {
-    Expects(cells.size() == number_of_simplices());
+    Expects(cells.size() == number_of_finite_cells());
     std::vector<Vertex_handle> cell_vertices;
     cell_vertices.reserve(4);
     std::vector<int> vertex_timevalues;
@@ -304,7 +288,7 @@ class Foliated_triangulation<3> : private Delaunay3
   [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
   {
     return cells_;
-  }
+  }  // get_cells
 
   /// @brief Filter simplices by Cell_type
   /// @param cells_v The container of simplices to filter
@@ -328,19 +312,19 @@ class Foliated_triangulation<3> : private Delaunay3
   [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
   {
     return three_one_;
-  }
+  }  // get_three_one
 
   /// @return Container of (2,2) cells
   [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
   {
     return two_two_;
-  }
+  }  // get_two_two
 
   /// @return Container of (1,3) cells
   [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
   {
     return one_three_;
-  }
+  }  // get_one_three
 
   /// @brief Check that all cells are correctly classified
   /// @param cells The container of cells to check
@@ -378,13 +362,14 @@ class Foliated_triangulation<3> : private Delaunay3
       }
       std::cout << "---\n";
     }
-  }
+  }  // print_cells
 
+  /// @brief Update data structures
   void update()
   {
     /// TODO: fix buggy is_foliated
     //    is_foliated_ = fix_timeslices();
-    cells_    = classify_cells(collect_cells(delaunay_));
+    cells_    = classify_cells(collect_cells(delaunay()));
     auto temp = filter_cells(cells_, Cell_type::THREE_ONE);
     three_one_.swap(temp);
     three_one_.shrink_to_fit();
@@ -394,7 +379,7 @@ class Foliated_triangulation<3> : private Delaunay3
     auto temp3 = filter_cells(cells_, Cell_type::ONE_THREE);
     one_three_.swap(temp3);
     one_three_.shrink_to_fit();
-  }
+  }  // update
 
  private:
   /// @brief Make a Delaunay Triangulation
@@ -426,7 +411,7 @@ class Foliated_triangulation<3> : private Delaunay3
                                                 initial_radius, radial_factor);
     delaunay.insert(causal_vertices.begin(), causal_vertices.end());
     int passes = 1;
-    while (!fix_timeslices())
+    while (!fix_timeslices(delaunay))
     {
 #ifndef NDEBUG
       std::cout << "Fix pass #" << passes << "\n";
@@ -434,7 +419,7 @@ class Foliated_triangulation<3> : private Delaunay3
       ++passes;
     }
     //      print_triangulation(triangulation_);
-    Ensures(fix_timeslices());
+    Ensures(fix_timeslices(delaunay));
     return delaunay;
   }
   /// @brief Make foliated spheres
@@ -482,7 +467,8 @@ class Foliated_triangulation<3> : private Delaunay3
   /// deleted. The Delaunay triangulation is then recomputed on the remaining
   /// vertices.
   /// @return True if there are no incorrectly foliated simplices
-  [[nodiscard]] auto fix_timeslices() -> bool
+  template <typename DelaunayTriangulation>
+  [[nodiscard]] auto fix_timeslices(DelaunayTriangulation&& dt) -> bool
   {
     int                     min_time{0};
     int                     max_time{0};
@@ -491,8 +477,8 @@ class Foliated_triangulation<3> : private Delaunay3
     int                     max_vertex{0};
     std::set<Vertex_handle> deleted_vertices;
     // Iterate over all cells in the Delaunay triangulation
-    for (Delaunay3::Finite_cells_iterator cit = delaunay_.finite_cells_begin();
-         cit != delaunay_.finite_cells_end(); ++cit)
+    for (Delaunay3::Finite_cells_iterator cit = dt.finite_cells_begin();
+         cit != dt.finite_cells_end(); ++cit)
     {
       if (cit->is_valid())
       {  // Valid cell
@@ -549,14 +535,14 @@ class Foliated_triangulation<3> : private Delaunay3
     }  // Finish iterating over cells
 
     // Delete invalid vertices
-    delaunay_.remove(deleted_vertices.begin(), deleted_vertices.end());
+    dt.remove(deleted_vertices.begin(), deleted_vertices.end());
     // Check that the triangulation is still valid
     // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
     //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
     //    if (!_delaunay.tds().is_valid())
     //      throw std::logic_error("Delaunay tds invalid!");
-    Ensures(delaunay_.tds().is_valid());
-    Ensures(delaunay_.is_valid());
+    Ensures(dt.tds().is_valid());
+    Ensures(dt.is_valid());
 
 #ifndef NDEBUG
     std::cout << "There are " << invalid << " invalid simplices and " << valid
@@ -567,8 +553,8 @@ class Foliated_triangulation<3> : private Delaunay3
 
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)
-  Delaunay3 delaunay_;
-  bool      is_foliated_;
+  //  Delaunay3 delaunay_;
+  bool is_foliated_;
   /// TODO: This should be dynamically populated with actual value
   int                      min_timevalue_{1};
   std::vector<Cell_handle> cells_;

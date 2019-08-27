@@ -69,6 +69,28 @@ SCENARIO(
   }
 }
 
+SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
+{
+  GIVEN("A FoliatedTriangulation3.")
+  {
+    WHEN("Constructing a small triangulation.")
+    {
+      constexpr auto         desired_simplices = static_cast<int_fast32_t>(640);
+      constexpr auto         desired_timeslices = static_cast<int_fast32_t>(4);
+      FoliatedTriangulation3 triangulation(desired_simplices,
+                                           desired_timeslices);
+      THEN("Delaunay3 functions work as expected.")
+      {
+        CHECK(triangulation.number_of_vertices() > 0);
+        std::cout << "Base Delaunay number of vertices is: "
+                  << triangulation.number_of_vertices() << "\n";
+        CHECK(triangulation.dimension() == 3);
+        std::cout << "Base Delaunay dimension is : "
+                  << triangulation.dimension() << "\n";
+      }
+    }
+  }
+}
 SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
 {
   GIVEN("A 3D foliated triangulation.")
@@ -95,7 +117,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
           Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
       Causal_vertices     causal_vertices;
-      for (size_t j = 0; j < 4; ++j)
+      for (gsl::index j = 0; j < 4; ++j)
       {
         causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
       }
@@ -105,11 +127,11 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       {
         // Human verification
         foliatedTriangulation.print_cells();
-        REQUIRE(foliatedTriangulation.dim() == 3);
-        REQUIRE(foliatedTriangulation.vertices() == 4);
-        REQUIRE(foliatedTriangulation.edges() == 6);
-        REQUIRE(foliatedTriangulation.faces() == 4);
-        REQUIRE(foliatedTriangulation.number_of_simplices() == 1);
+        REQUIRE(foliatedTriangulation.dimension() == 3);
+        REQUIRE(foliatedTriangulation.number_of_vertices() == 4);
+        REQUIRE(foliatedTriangulation.number_of_finite_edges() == 6);
+        REQUIRE(foliatedTriangulation.number_of_finite_facets() == 4);
+        REQUIRE(foliatedTriangulation.number_of_finite_cells() == 1);
         REQUIRE(foliatedTriangulation.is_delaunay());
         REQUIRE(foliatedTriangulation.is_tds_valid());
         REQUIRE(foliatedTriangulation.min_timevalue() == 1);
@@ -130,10 +152,10 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The triangulation has sensible values.")
       {
-        auto vertices{foliatedTriangulation.vertices()};
+        auto vertices{foliatedTriangulation.number_of_vertices()};
         CHECK(1 << vertices);
         CHECK(vertices <= 8);
-        auto cells{foliatedTriangulation.number_of_simplices()};
+        auto cells{foliatedTriangulation.number_of_finite_cells()};
         CHECK(1 <= cells);
         CHECK(cells <= 12);
         // Human verification
@@ -199,8 +221,8 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
       THEN("The foliated triangulations have identical properties.")
       {
         CHECK(triangulation.is_foliated() == triangulation2.is_foliated());
-        CHECK(triangulation.number_of_simplices() ==
-              triangulation2.number_of_simplices());
+        CHECK(triangulation.number_of_finite_cells() ==
+              triangulation2.number_of_finite_cells());
         CHECK(triangulation.min_timevalue() == triangulation2.min_timevalue());
         CHECK(triangulation.get_cells().size() ==
               triangulation2.get_cells().size());

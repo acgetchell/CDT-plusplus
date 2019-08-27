@@ -438,25 +438,26 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     //        REQUIRE(manifold.is_vertex(vertex)); }
     //      }
     //    }
-    WHEN("We insert an invalid timevalue into a vertex.")
-    {
-      auto cells         = manifold.get_triangulation().get_cells();
-      auto broken_cell   = cells[0];
-      auto broken_vertex = broken_cell->vertex(0);
-      cout << "Info on vertex was " << broken_vertex->info() << "\n";
-      broken_vertex->info() = 7;
-      cout << "Info on vertex is now " << broken_vertex->info() << "\n";
-      THEN("We can detect invalid vertex timevalues.")
-      {
-        CHECK_FALSE(manifold.are_vertex_timevalues_valid(cells));
-      }
-      /// TODO: Write check to ensure all simplices have correct cell->info()
-      //      THEN("We can detect invalid simplex types.")
-      //      {
-      //        manifold.update();
-      //        CHECK_FALSE(manifold.are_simplex_types_valid(cells));
-      //      }
-    }
+    /// TODO: Fix checks of vertex timevalues and simplex types
+    //    WHEN("We insert an invalid timevalue into a vertex.")
+    //    {
+    //      auto cells         = manifold.get_triangulation().get_cells();
+    //      auto broken_cell   = cells[0];
+    //      auto broken_vertex = broken_cell->vertex(0);
+    //      cout << "Info on vertex was " << broken_vertex->info() << "\n";
+    //      broken_vertex->info() = 7;
+    //      cout << "Info on vertex is now " << broken_vertex->info() << "\n";
+    //      THEN("We can detect invalid vertex timevalues.")
+    //      {
+    //        CHECK_FALSE(manifold.are_vertex_timevalues_valid(cells));
+    //      }
+    /// TODO: Write check to ensure all simplices have correct cell->info()
+    //      THEN("We can detect invalid simplex types.")
+    //      {
+    //        manifold.update();
+    //        CHECK_FALSE(manifold.are_simplex_types_valid(cells));
+    //      }
+    //    }
   }
   GIVEN("A medium sized manifold.")
   {

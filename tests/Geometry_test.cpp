@@ -83,9 +83,9 @@ SCENARIO("3-Geometry classification", "[geometry][!mayfail]")
              << geometry.N3_22 << " (2,2) simplices and " << geometry.N3_13
              << " (1,3) simplices.\n";
         CHECK(geometry.N3 > 2);
-        CHECK(geometry.N3 == triangulation.number_of_simplices());
-        CHECK(geometry.N0() == triangulation.vertices());
-        CHECK(geometry.N1() == triangulation.edges());
+        CHECK(geometry.N3 == triangulation.number_of_finite_cells());
+        CHECK(geometry.N0() == triangulation.number_of_vertices());
+        CHECK(geometry.N1() == triangulation.number_of_finite_edges());
         CHECK_FALSE(geometry.N3_31 == 0);
         CHECK_FALSE(geometry.N3_22 == 0);
         CHECK_FALSE(geometry.N3_13 == 0);
@@ -146,10 +146,10 @@ SCENARIO("3-Geometry initialization", "[geometry]")
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
       {
-        CHECK(geometry.N0() == triangulation.vertices());
-        CHECK(geometry.N1() == triangulation.edges());
-        CHECK(geometry.N2() == triangulation.faces());
-        CHECK(geometry.N3 == triangulation.number_of_simplices());
+        CHECK(geometry.N0() == triangulation.number_of_vertices());
+        CHECK(geometry.N1() == triangulation.number_of_finite_edges());
+        CHECK(geometry.N2() == triangulation.number_of_finite_facets());
+        CHECK(geometry.N3 == triangulation.number_of_finite_cells());
         CHECK(geometry.N3_31 == triangulation.get_three_one().size());
         CHECK(geometry.N3_22 == triangulation.get_two_two().size());
         CHECK(geometry.N3_13 == triangulation.get_one_three().size());

@@ -33,7 +33,7 @@ class Manifold<3>
 
   /// @brief Construct manifold from a Delaunay triangulation
   /// @param delaunay_triangulation Triangulation used to construct manifold
-  explicit Manifold(Delaunay3 const& delaunay_triangulation)
+  explicit Manifold(Delaunay3& delaunay_triangulation)
       : triangulation_{FoliatedTriangulation3(delaunay_triangulation)}
       , geometry_{make_geometry(get_triangulation())}
   {}
@@ -179,7 +179,7 @@ class Manifold<3>
   }
 
   /// @return Dimensionality of triangulation data structure
-  [[nodiscard]] auto dim() const { return triangulation_.dim(); }
+  [[nodiscard]] auto dim() const { return triangulation_.dimension(); }
 
   /// @return Number of 3D simplices in geometry data structure
   [[nodiscard]] auto N3() const { return geometry_.N3; }
@@ -199,7 +199,7 @@ class Manifold<3>
   /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] auto simplices() const
   {
-    return triangulation_.number_of_simplices();
+    return triangulation_.number_of_finite_cells();
   }
 
   /// @return Number of 2D faces in geometry data structure
@@ -209,7 +209,10 @@ class Manifold<3>
   [[nodiscard]] auto const& N2_SL() const { return geometry_.N2_SL(); }
 
   /// @return Number of 2D faces in triangulation data structure
-  [[nodiscard]] auto faces() const { return triangulation_.faces(); }
+  [[nodiscard]] auto faces() const
+  {
+    return triangulation_.number_of_finite_facets();
+  }
 
   /// @return Number of 1D edges in geometry data structure
   [[nodiscard]] auto N1() const { return geometry_.N1(); }
@@ -221,13 +224,19 @@ class Manifold<3>
   [[nodiscard]] auto N1_TL() const { return geometry_.N1_TL(); }
 
   /// @return Number of 1D edges in triangulation data structure
-  [[nodiscard]] auto edges() const { return triangulation_.edges(); }
+  [[nodiscard]] auto edges() const
+  {
+    return triangulation_.number_of_finite_edges();
+  }
 
   /// @return Number of vertices in geometry data structure
   [[nodiscard]] auto N0() const { return geometry_.N0(); }
 
   /// @return Number of vertices in triangulation data structure
-  [[nodiscard]] auto vertices() const { return triangulation_.vertices(); }
+  [[nodiscard]] auto vertices() const
+  {
+    return triangulation_.number_of_vertices();
+  }
 
   /// @return Minimum time value in geometry data structure
   [[nodiscard]] auto min_time() const { return geometry_.min_time(); }
@@ -267,14 +276,14 @@ class Manifold<3>
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.degree()
   template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) degree(VertexHandle&& vh)
+  [[nodiscard]] decltype(auto) degree(VertexHandle&& vh) const
   {
     return triangulation_.degree(std::forward<VertexHandle>(vh));
   }
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
   template <typename... Ts>
-  [[nodiscard]] decltype(auto) incident_cells(Ts&&... args)
+  [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
   {
     return triangulation_.incident_cells(std::forward<Ts>(args)...);
   }
