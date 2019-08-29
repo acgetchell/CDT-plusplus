@@ -181,7 +181,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         // Human verification
         print_triangulation(triangulation);
       }
-      THEN("The containers of simplices are correctly populated.")
+      THEN("Data members are correctly populated.")
       {
         print_triangulation(triangulation);
         // Every cell is classified as (3,1), (2,2), or (1,3)
@@ -197,6 +197,25 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         for (auto const& cell : triangulation.get_one_three())
         { CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE)); }
         CHECK(triangulation.check_cells(triangulation.get_cells()));
+        CHECK_FALSE(triangulation.N2_SL().empty());
+
+        CHECK(triangulation.max_time() > 0);
+        CHECK(triangulation.min_time() > 0);
+        CHECK(triangulation.max_time() > triangulation.min_time());
+        // Human verification
+        cout << "There are " << triangulation.number_of_finite_edges()
+             << " edges.\n";
+        cout << "There are " << triangulation.N1_TL() << " timelike edges and "
+             << triangulation.N1_SL() << " spacelike edges.\n";
+        triangulation.print_edges();
+        cout << "There are " << triangulation.number_of_vertices()
+             << " vertices with a max timevalue of " << triangulation.max_time()
+             << " and a min timevalue of " << triangulation.min_time() << ".\n";
+        triangulation.print_volume_per_timeslice();
+        for (auto const& edge : triangulation.get_timelike_edges())
+        { CHECK(triangulation.classify_edge(edge)); }
+        for (auto const& edge : triangulation.get_spacelike_edges())
+        { CHECK_FALSE(triangulation.classify_edge(edge)); }
       }
     }
   }
@@ -232,6 +251,7 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
               triangulation2.get_two_two().size());
         CHECK(triangulation.get_one_three().size() ==
               triangulation2.get_one_three().size());
+        CHECK(triangulation.N2_SL().size() == triangulation2.N2_SL().size());
       }
     }
   }

@@ -203,10 +203,10 @@ class Manifold<3>
   }
 
   /// @return Number of 2D faces in geometry data structure
-  [[nodiscard]] auto N2() const { return geometry_.N2(); }
+  [[nodiscard]] auto N2() const { return geometry_.N2; }
 
   /// @return An associative container of spacelike faces indexed by timevalue
-  [[nodiscard]] auto const& N2_SL() const { return geometry_.N2_SL(); }
+  [[nodiscard]] auto const& N2_SL() const { return triangulation_.N2_SL(); }
 
   /// @return Number of 2D faces in triangulation data structure
   [[nodiscard]] auto faces() const
@@ -215,13 +215,13 @@ class Manifold<3>
   }
 
   /// @return Number of 1D edges in geometry data structure
-  [[nodiscard]] auto N1() const { return geometry_.N1(); }
+  [[nodiscard]] auto N1() const { return geometry_.N1; }
 
   /// @return Number of spacelike edges in geometry data structure
-  [[nodiscard]] auto N1_SL() const { return geometry_.N1_SL(); }
+  [[nodiscard]] auto N1_SL() const { return triangulation_.N1_SL(); }
 
   /// @return Number of timelike edges in geometry data structure
-  [[nodiscard]] auto N1_TL() const { return geometry_.N1_TL(); }
+  [[nodiscard]] auto N1_TL() const { return triangulation_.N1_TL(); }
 
   /// @return Number of 1D edges in triangulation data structure
   [[nodiscard]] auto edges() const
@@ -230,7 +230,7 @@ class Manifold<3>
   }
 
   /// @return Number of vertices in geometry data structure
-  [[nodiscard]] auto N0() const { return geometry_.N0(); }
+  [[nodiscard]] auto N0() const { return geometry_.N0; }
 
   /// @return Number of vertices in triangulation data structure
   [[nodiscard]] auto vertices() const
@@ -239,10 +239,10 @@ class Manifold<3>
   }
 
   /// @return Minimum time value in geometry data structure
-  [[nodiscard]] auto min_time() const { return geometry_.min_time(); }
+  [[nodiscard]] auto min_time() const { return triangulation_.min_time(); }
 
   /// @return Maximum time value in geometry data structure
-  [[nodiscard]] auto max_time() const { return geometry_.max_time(); }
+  [[nodiscard]] auto max_time() const { return triangulation_.max_time(); }
 
   /// @return True if all cells in geometry are classified and match number in
   /// triangulation
@@ -288,10 +288,26 @@ class Manifold<3>
     return triangulation_.incident_cells(std::forward<Ts>(args)...);
   }
 
-  /// @brief Call geometry.get_spacelike_edges()
+  /// @brief Call to triangulation_.get_timelike_edges()
+  [[nodiscard]] auto get_timelike_edges() const
+  {
+    return triangulation_.get_timelike_edges();
+  }
+
+  /// @brief Call triangulation.get_spacelike_edges()
   [[nodiscard]] auto get_spacelike_edges() const
   {
-    return geometry_.get_spacelike_edges();
+    return triangulation_.get_spacelike_edges();
+  }
+
+  [[nodiscard]] auto const& get_vertices()
+  {
+    return get_triangulation().get_vertices();
+  }
+
+  auto print_volume_per_timeslice() const
+  {
+    get_triangulation().print_volume_per_timeslice();
   }
 
  private:

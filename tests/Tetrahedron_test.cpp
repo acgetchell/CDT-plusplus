@@ -174,12 +174,12 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
 
       THEN("There are 3 timelike edges.")
       {
-        REQUIRE(new_universe.get_geometry().N1_TL() == 3);
+        REQUIRE(new_universe.N1_TL() == 3);
       }
 
       THEN("There are 3 spacelike edges.")
       {
-        REQUIRE(new_universe.get_geometry().N1_SL() == 3);
+        REQUIRE(new_universe.N1_SL() == 3);
       }
     }
   }

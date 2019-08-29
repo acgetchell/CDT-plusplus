@@ -126,7 +126,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    auto movable_timelike_edges = manifold.get_geometry().get_timelike_edges();
+    auto movable_timelike_edges = manifold.get_timelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(movable_timelike_edges.begin(), movable_timelike_edges.end(),
                  make_random_generator());
@@ -377,7 +377,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    auto vertices = manifold.get_geometry().get_vertices();
+    auto vertices = manifold.get_vertices();
     // Shuffle the container to pick a random sequence of vertices to try
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
     for (auto const& vertex : vertices)
