@@ -81,7 +81,9 @@ class Foliated_triangulation<3> : private Delaunay3
 {
  public:
   /// @brief Default constructor
-  Foliated_triangulation() : Delaunay3{}, is_foliated_(false) {}
+  Foliated_triangulation()
+      : Delaunay3{}, is_foliated_{false}, max_timevalue_{0}, min_timevalue_{0}
+  {}
 
   /// @brief Constructor using delaunay triangulation
   /// @param triangulation Delaunay triangulation
@@ -280,8 +282,6 @@ class Foliated_triangulation<3> : private Delaunay3
     }
   }
 
-  [[nodiscard]] auto min_timevalue() const { return min_timevalue_; }
-
   /// @return Container of cells
   [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
   {
@@ -385,16 +385,10 @@ class Foliated_triangulation<3> : private Delaunay3
   {
     /// TODO: fix buggy is_foliated
     //    is_foliated_ = fix_timeslices();
-    cells_    = classify_cells(collect_cells(delaunay()));
-    auto temp = filter_cells(cells_, Cell_type::THREE_ONE);
-    three_one_.swap(temp);
-    three_one_.shrink_to_fit();
-    auto temp2 = filter_cells(cells_, Cell_type::TWO_TWO);
-    two_two_.swap(temp2);
-    two_two_.shrink_to_fit();
-    auto temp3 = filter_cells(cells_, Cell_type::ONE_THREE);
-    one_three_.swap(temp3);
-    one_three_.shrink_to_fit();
+    cells_            = classify_cells(collect_cells(get_delaunay()));
+    three_one_        = filter_cells(cells_, Cell_type::THREE_ONE);
+    two_two_          = filter_cells(cells_, Cell_type::TWO_TWO);
+    one_three_        = filter_cells(cells_, Cell_type::ONE_THREE);
     faces_            = collect_faces(get_delaunay());
     spacelike_facets_ = volume_per_timeslice(faces_);
     edges_            = collect_edges(get_delaunay());

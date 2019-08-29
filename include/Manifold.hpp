@@ -35,14 +35,14 @@ class Manifold<3>
   /// @param delaunay_triangulation Triangulation used to construct manifold
   explicit Manifold(Delaunay3& delaunay_triangulation)
       : triangulation_{FoliatedTriangulation3(delaunay_triangulation)}
-      , geometry_{make_geometry(get_triangulation())}
+      , geometry_{get_triangulation()}
   {}
 
   /// @brief Construct manifold from a Foliated triangulation
   /// @param foliated_triangulation Triangulation used to construct manifold
   explicit Manifold(FoliatedTriangulation3 foliated_triangulation)
       : triangulation_{std::move(foliated_triangulation)}
-      , geometry_{make_geometry(get_triangulation())}
+      , geometry_{get_triangulation()}
   {}
 
   /// @brief Construct manifold using arguments
@@ -51,7 +51,7 @@ class Manifold<3>
   Manifold(int_fast32_t desired_simplices, int_fast32_t desired_timeslices)
       : triangulation_{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices)}
-      , geometry_{make_geometry(get_triangulation())}
+      , geometry_{get_triangulation()}
   {}
 
   /// @brief Construct manifold using arguments
@@ -64,31 +64,31 @@ class Manifold<3>
       : triangulation_{FoliatedTriangulation3(desired_simplices,
                                               desired_timeslices,
                                               initial_radius, radial_factor)}
-      , geometry_{make_geometry(get_triangulation())}
+      , geometry_{get_triangulation()}
   {}
 
-  /// @brief Construct Geometry data from a triangulation
-  /// @tparam Triangulation Type of triangulation
-  /// @param triangulation The triangulation to use
-  /// @return The geometry data of the triangulation
-  template <typename Triangulation>
-  [[nodiscard]] Geometry3 make_geometry(Triangulation&& triangulation)
-  try
-  {
-#ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called.\n";
-#endif
-
-    Geometry3 geom{std::forward<Triangulation>(triangulation)};
-    return geom;
-  }
-  catch (std::exception const& e)
-  {
-    std::cerr << "make_geometry() failed: " << e.what() << "\n";
-    throw;
-    //    std::cout << "Try again to make geometry ...\n";
-    //    this->update_geometry();
-  }
+  //  /// @brief Construct Geometry data from a triangulation
+  //  /// @tparam Triangulation Type of triangulation
+  //  /// @param triangulation The triangulation to use
+  //  /// @return The geometry data of the triangulation
+  //  template <typename Triangulation>
+  //  [[nodiscard]] Geometry3 make_geometry(Triangulation&& triangulation)
+  //  try
+  //  {
+  //#ifndef NDEBUG
+  //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+  //#endif
+  //
+  //    Geometry3 geom{std::forward<Triangulation>(triangulation)};
+  //    return geom;
+  //  }
+  //  catch (std::exception const& e)
+  //  {
+  //    std::cerr << "make_geometry() failed: " << e.what() << "\n";
+  //    throw;
+  //    //    std::cout << "Try again to make geometry ...\n";
+  //    //    this->update_geometry();
+  //  }
 
   /// @brief Update the Manifold data structures
   void update()
@@ -115,9 +115,9 @@ class Manifold<3>
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    //    Geometry3 geom(triangulation_);
-    //    geometry_ = geom;
-    geometry_ = make_geometry(triangulation_);
+    Geometry3 geom(triangulation_);
+    geometry_ = geom;
+    //    geometry_ = make_geometry(triangulation_);
   }
   catch (std::exception const& ex)
   {
@@ -151,28 +151,33 @@ class Manifold<3>
   }
 
   /// @return True if the Manifolds's triangulation is Delaunay
-  [[nodiscard]] bool is_delaunay() const
+  [[nodiscard]] auto is_delaunay() const -> bool
   {
     return triangulation_.is_delaunay();
   }
 
-  /// @return True if the Manifold's triangulation data structure is valid
-  [[nodiscard]] bool is_valid() const { return triangulation_.is_tds_valid(); }
+  /// @brief Forwarding to FoliatedTriangulation3.is_tds_valid()
+  [[nodiscard]] auto is_valid() const -> bool
+  {
+    return triangulation_.is_tds_valid();
+  }
 
-  /// @return True if the Manifold's triangulation is correctly foliated
-  [[nodiscard]] bool is_foliated() const
+  /// @brief Forwarding to FoliatedTriangulation3.is_foliated()
+  [[nodiscard]] auto is_foliated() const -> bool
   {
     return triangulation_.is_foliated();
   }
 
-  /// @param v_candidate The vertex to check
-  /// @return True if vertex is a vertex in the triangulation data structure
-  [[nodiscard]] auto is_vertex(Vertex_handle const& v_candidate) const
+  /// @brief Perfect forwarding to FoliatedTriangulation3.is_vertex()
+  template <typename Vertex>
+  [[nodiscard]] auto is_vertex(Vertex&& v_candidate) const -> bool
   {
-    return triangulation_.get_delaunay().is_vertex(v_candidate);
+    return triangulation_.get_delaunay().is_vertex(
+        std::forward<Vertex>(v_candidate));
   }
 
-  [[nodiscard]] auto is_edge(Edge_handle const& e_candidate) const
+  /// @brief Forwarding to FoliatedTriangulation3.is_edge()
+  [[nodiscard]] auto is_edge(Edge_handle const& e_candidate) const -> bool
   {
     return triangulation_.get_delaunay().tds().is_edge(
         e_candidate.first, e_candidate.second, e_candidate.third);
@@ -217,10 +222,10 @@ class Manifold<3>
   /// @return Number of 1D edges in geometry data structure
   [[nodiscard]] auto N1() const { return geometry_.N1; }
 
-  /// @return Number of spacelike edges in geometry data structure
+  /// @return Number of spacelike edges in triangulation data structure
   [[nodiscard]] auto N1_SL() const { return triangulation_.N1_SL(); }
 
-  /// @return Number of timelike edges in geometry data structure
+  /// @return Number of timelike edges in triangulation data structure
   [[nodiscard]] auto N1_TL() const { return triangulation_.N1_TL(); }
 
   /// @return Number of 1D edges in triangulation data structure
@@ -246,7 +251,7 @@ class Manifold<3>
 
   /// @return True if all cells in geometry are classified and match number in
   /// triangulation
-  [[nodiscard]] bool check_simplices() const
+  [[nodiscard]] auto check_simplices() const -> bool
   {
     return (this->simplices() == this->N3() &&
             triangulation_.check_cells(triangulation_.get_cells()));
@@ -254,8 +259,8 @@ class Manifold<3>
 
   /// @param simplices The container of simplices to check
   /// @return True if all vertices in the container have reasonable timevalues
-  [[nodiscard]] bool are_vertex_timevalues_valid(
-      std::vector<Cell_handle> const& simplices) const
+  [[nodiscard]] auto are_vertex_timevalues_valid(
+      std::vector<Cell_handle> const& simplices) const -> bool
   {
     auto check_vertices = get_vertices_from_cells(simplices);
     for (auto& vertex : check_vertices)
@@ -268,8 +273,8 @@ class Manifold<3>
 
   /// @param simplices The container of simplices to check
   /// @return True if all simplices in the container have valid types
-  [[nodiscard]] bool are_simplex_types_valid(
-      std::vector<Cell_handle> const& simplices) const
+  [[nodiscard]] auto are_simplex_types_valid(
+      std::vector<Cell_handle> const& simplices) const -> bool
   {
     return triangulation_.check_cells(simplices);
   }
@@ -289,25 +294,26 @@ class Manifold<3>
   }
 
   /// @brief Call to triangulation_.get_timelike_edges()
-  [[nodiscard]] auto get_timelike_edges() const
+  [[nodiscard]] auto const& get_timelike_edges() const
   {
     return triangulation_.get_timelike_edges();
   }
 
   /// @brief Call triangulation.get_spacelike_edges()
-  [[nodiscard]] auto get_spacelike_edges() const
+  [[nodiscard]] auto const& get_spacelike_edges() const
   {
     return triangulation_.get_spacelike_edges();
   }
 
-  [[nodiscard]] auto const& get_vertices()
+  /// @brief Call FoliatedTriangulation3.get_vertices()
+  [[nodiscard]] auto const& get_vertices() const
   {
-    return get_triangulation().get_vertices();
+    return triangulation_.get_vertices();
   }
 
-  auto print_volume_per_timeslice() const
+  void print_volume_per_timeslice() const
   {
-    get_triangulation().print_volume_per_timeslice();
+    triangulation_.print_volume_per_timeslice();
   }
 
  private:

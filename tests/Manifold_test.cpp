@@ -257,6 +257,7 @@ SCENARIO("3-Manifold function checks", "[manifold]")
         CHECK(manifold.N1_TL() == manifold.get_geometry().N1_TL);
         CHECK(manifold.N1_SL() == manifold.get_geometry().N1_SL);
         CHECK(manifold.N0() == manifold.get_geometry().N0);
+        /// TODO: Check more functions
       }
     }
   }

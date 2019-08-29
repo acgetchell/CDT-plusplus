@@ -39,12 +39,10 @@ SCENARIO("3-Geometry std::function compatibility and exception-safety",
         cout << "std::function<Geometry> supported:" << boolalpha
              << is_copy_constructible<Geometry3>::value << "\n";
       }
-      /// TODO: Make Geometry no-throw copy constructible
       THEN("It is no-throw copy constructible.")
       {
         CHECK(is_nothrow_copy_constructible<Geometry3>::value);
       }
-      /// TODO: Make Geometry no-throw copy assignable
       THEN("It is no-throw copy assignable.")
       {
         CHECK(is_nothrow_copy_assignable<Geometry3>::value);

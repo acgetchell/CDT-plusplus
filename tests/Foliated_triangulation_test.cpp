@@ -106,6 +106,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       {
         REQUIRE(triangulation.is_delaunay());
         REQUIRE(triangulation.is_tds_valid());
+        REQUIRE(triangulation.max_time() == 0);
+        REQUIRE(triangulation.min_time() == 0);
       }
     }
     WHEN(
@@ -134,7 +136,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.number_of_finite_cells() == 1);
         REQUIRE(foliatedTriangulation.is_delaunay());
         REQUIRE(foliatedTriangulation.is_tds_valid());
-        REQUIRE(foliatedTriangulation.min_timevalue() == 1);
+        REQUIRE(foliatedTriangulation.max_time() == 2);
+        REQUIRE(foliatedTriangulation.min_time() == 1);
         //        foliatedTriangulation.check_vertices();
       }
     }
@@ -177,7 +180,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The triangulation has sensible values.")
       {
-        REQUIRE(triangulation.min_timevalue() == 1);
+        REQUIRE(triangulation.min_time() == 1);
         // Human verification
         print_triangulation(triangulation);
       }
@@ -242,7 +245,7 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
         CHECK(triangulation.is_foliated() == triangulation2.is_foliated());
         CHECK(triangulation.number_of_finite_cells() ==
               triangulation2.number_of_finite_cells());
-        CHECK(triangulation.min_timevalue() == triangulation2.min_timevalue());
+        CHECK(triangulation.min_time() == triangulation2.min_time());
         CHECK(triangulation.get_cells().size() ==
               triangulation2.get_cells().size());
         CHECK(triangulation.get_three_one().size() ==
