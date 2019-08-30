@@ -117,10 +117,10 @@ SCENARIO("Move Command initialization", "[move3]")
         // Human verification
         cout << "Manifold properties:\n";
         print_manifold_details(manifold);
-        manifold.get_geometry().print_volume_per_timeslice();
+        manifold.print_volume_per_timeslice();
         cout << "Command.get_manifold() properties:\n";
         print_manifold_details(command.get_manifold());
-        command.get_manifold().get_geometry().print_volume_per_timeslice();
+        command.get_manifold().print_volume_per_timeslice();
       }
     }
   }

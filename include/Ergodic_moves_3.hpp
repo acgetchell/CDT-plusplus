@@ -46,7 +46,7 @@ namespace manifold3_moves
     // Try every facet of the (2,2) cell
     for (std::size_t i = 0; i < 4; ++i)
     {
-      if (manifold.set_triangulation().set_delaunay().flip(to_be_moved, i))
+      if (manifold.triangulation().delaunay().flip(to_be_moved, i))
       {
 #ifndef NDEBUG
         std::cout << "Facet " << i << " was flippable.\n";
@@ -103,7 +103,7 @@ namespace manifold3_moves
                                         Edge_handle const& to_be_moved)
   {
     auto flipped = false;
-    if (manifold.set_triangulation().set_delaunay().flip(
+    if (manifold.triangulation().delaunay().flip(
             to_be_moved.first, to_be_moved.second, to_be_moved.third))
       flipped = true;
     return flipped;
@@ -126,7 +126,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    auto movable_timelike_edges = manifold.get_geometry().get_timelike_edges();
+    auto movable_timelike_edges = manifold.get_timelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(movable_timelike_edges.begin(), movable_timelike_edges.end(),
                  make_random_generator());
@@ -234,12 +234,12 @@ namespace manifold3_moves
         // Do the (2,6) move
         // Insert new vertex
         Vertex_handle v_center =
-            manifold.set_triangulation().set_delaunay().tds().insert_in_facet(
+            manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
         // Checks
         std::vector<Cell_handle> incident_cells;
-        manifold.set_triangulation().set_delaunay().tds().incident_cells(
+        manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
         Expects(incident_cells.size() == 6);
@@ -377,14 +377,14 @@ namespace manifold3_moves
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
 #endif
-    auto vertices = manifold.get_geometry().get_vertices();
+    auto vertices = manifold.get_vertices();
     // Shuffle the container to pick a random sequence of vertices to try
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
     for (auto const& vertex : vertices)
     {
       if (is_62_movable(manifold, vertex))
       {
-        manifold.set_triangulation().set_delaunay().remove(vertex);
+        manifold.triangulation().delaunay().remove(vertex);
         return manifold;
       }
       // Try next vertex

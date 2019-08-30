@@ -33,7 +33,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     CHECK(universe.is_delaunay());
     CHECK(universe.is_valid());
 
-    universe.get_geometry().print_volume_per_timeslice();
+    universe.print_volume_per_timeslice();
 
     CHECK(universe.max_time() == timeslices);
     CHECK(universe.min_time() == 1);
