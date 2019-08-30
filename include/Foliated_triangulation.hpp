@@ -86,9 +86,10 @@ class Foliated_triangulation<3> : private Delaunay3
   {}
 
   /// @brief Constructor using delaunay triangulation
+  /// Pass-by-value-then-move
   /// @param triangulation Delaunay triangulation
-  explicit Foliated_triangulation(Delaunay3& triangulation)
-      : Delaunay3{triangulation}
+  explicit Foliated_triangulation(Delaunay3 triangulation)
+      : Delaunay3{std::move(triangulation)}
       , is_foliated_{fix_timeslices(triangulation)}
       , cells_{classify_cells(collect_cells(delaunay()))}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
