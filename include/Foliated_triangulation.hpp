@@ -401,6 +401,105 @@ class Foliated_triangulation<3> : private Delaunay3
 
   }  // update
 
+  /// @brief Check simplices for correct foliation
+  /// @tparam Triangulation Perfectly forwarded argument type
+  /// @param triangulation Perfectly forwarded argument
+  /// @return A container of invalidly foliated vertices if they exist
+  template <typename Triangulation>
+  [[nodiscard]] auto check_timeslices(Triangulation&& triangulation)
+      -> std::optional<std::vector<Vertex_handle>>
+  {
+    std::vector<Vertex_handle> invalid_vertices;
+    // Iterate over all cells in the triangulation
+    for (Delaunay3::Finite_cells_iterator cit =
+             triangulation.finite_cells_begin();
+         cit != triangulation.finite_cells_end(); ++cit)
+    {
+      Ensures(cit->is_valid());
+      std::multimap<int, Vertex_handle> this_cell;
+      // Collect a map of timevalues and vertices in each cell
+      for (gsl::index i = 0; i < 4; ++i)
+      {
+        this_cell.emplace(
+            std::make_pair(cit->vertex(i)->info(), cit->vertex(i)));
+      }
+      // Now it's sorted in the multimap
+      auto minvalue   = this_cell.cbegin()->first;
+      auto min_vertex = this_cell.cbegin()->second;
+      auto maxvalue   = this_cell.crbegin()->first;
+      auto max_vertex = this_cell.crbegin()->second;
+#ifndef NDEBUG
+      std::cout << "Smallest timevalue in this cell is: " << minvalue << "\n";
+      std::cout << "Largest timevalue in this cell is: " << maxvalue << "\n";
+      std::cout << "Min vertex info() " << min_vertex->info() << "\n";
+      std::cout << "Max vertex info() " << max_vertex->info() << "\n";
+#endif
+      // There must be a timevalue delta of 1 for a validly foliated simplex
+      if (maxvalue - minvalue == 1)
+      {
+#ifndef NDEBUG
+        std::cout << "This cell is valid.\n";
+#endif
+      }
+      else
+      {
+        auto minvalue_count = this_cell.count(minvalue);
+        auto maxvalue_count = this_cell.count(maxvalue);
+#ifndef NDEBUG
+        std::cout << "This cell is invalid.\n";
+
+        std::cout << "There are " << minvalue_count
+                  << " vertices with the minvalue.\n";
+        std::cout << "There are " << maxvalue_count
+                  << " vertices with the maxvalue.\n";
+        std::cout << "So we should remove ";
+#endif
+
+        if (minvalue_count > maxvalue_count)
+        {
+          invalid_vertices.emplace_back(this_cell.rbegin()->second);
+#ifndef NDEBUG
+          std::cout << "maxvalue.\n";
+#endif
+        }
+        else
+        {
+          invalid_vertices.emplace_back(this_cell.begin()->second);
+#ifndef NDEBUG
+          std::cout << "minvalue.\n";
+#endif
+        }
+      }
+    }
+    if (invalid_vertices.empty()) { return std::nullopt; }
+    else
+    {
+#ifndef NDEBUG
+      std::cout << "Removing ...\n";
+      for (auto& v : invalid_vertices)
+      {
+        std::cout << "Vertex " << v->point() << " with timevalue " << v->info()
+                  << "\n";
+      }
+#endif
+      return invalid_vertices;
+    }
+  }  // check_timeslices
+
+  //  template <typename Vertices>
+  void fix_bad_vertices(std::vector<Vertex_handle> vertices_to_delete)
+  {
+#ifndef NDEBUG
+    std::cout << vertices_to_delete.size()
+              << " invalid vertices were deleted.\n";
+#endif
+
+    this->delaunay().remove(vertices_to_delete.begin(),
+                            vertices_to_delete.end());
+    Ensures(this->is_tds_valid());
+    Ensures(this->is_delaunay());
+  }
+
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param simplices Number of desired simplices
