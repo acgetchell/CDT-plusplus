@@ -109,10 +109,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     WHEN("It is default constructed.")
     {
       FoliatedTriangulation3 triangulation;
-      THEN("It is not yet correctly foliated.")
-      {
-        REQUIRE_FALSE(triangulation.is_foliated());
-      }
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(triangulation.is_delaunay());
@@ -138,8 +134,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("Triangulation is valid and foliated.")
       {
-        // Human verification
-        foliatedTriangulation.print_cells();
         REQUIRE(foliatedTriangulation.dimension() == 3);
         REQUIRE(foliatedTriangulation.number_of_vertices() == 4);
         REQUIRE(foliatedTriangulation.number_of_finite_edges() == 6);
@@ -149,7 +143,10 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.is_tds_valid());
         REQUIRE(foliatedTriangulation.max_time() == 2);
         REQUIRE(foliatedTriangulation.min_time() == 1);
+        REQUIRE(foliatedTriangulation.is_foliated());
         //        foliatedTriangulation.check_vertices();
+        // Human verification
+        foliatedTriangulation.print_cells();
       }
     }
     WHEN("Constructing the minimum triangulation.")
@@ -293,6 +290,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       {
         CHECK_FALSE(
             foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        CHECK(foliatedTriangulation.is_foliated());
         // Human verification
         foliatedTriangulation.print_cells();
       }
@@ -314,6 +312,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       THEN("An error is detected.")
       {
         CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
       AND_THEN("The high value is discarded.")
       {
@@ -321,8 +320,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
             foliatedTriangulation.check_timeslices(foliatedTriangulation);
         CHECK(discarded.value().front()->info() ==
               std::numeric_limits<int>::max());
-        foliatedTriangulation.fix_bad_vertices(discarded.value());
-        cout << "Discarding high value ...\n";
         foliatedTriangulation.print_cells();
       }
     }
@@ -342,6 +339,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       THEN("An error is detected.")
       {
         CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
       AND_THEN("The low value is discarded.")
       {
@@ -368,6 +366,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       THEN("An error is detected.")
       {
         CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
       AND_THEN("The low value is preferentially discarded.")
       {

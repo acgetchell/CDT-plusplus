@@ -81,16 +81,15 @@ class Foliated_triangulation<3> : private Delaunay3
 {
  public:
   /// @brief Default constructor
-  Foliated_triangulation()
-      : Delaunay3{}, is_foliated_{false}, max_timevalue_{0}, min_timevalue_{0}
+  Foliated_triangulation() : Delaunay3{}, max_timevalue_{0}, min_timevalue_{0}
   {}
 
   /// @brief Constructor using delaunay triangulation
   /// Pass-by-value-then-move
+  /// Delaunay3 is the ctor for the Delaunay triangulation
   /// @param triangulation Delaunay triangulation
   explicit Foliated_triangulation(Delaunay3 triangulation)
       : Delaunay3{std::move(triangulation)}
-      , is_foliated_{fix_timeslices(triangulation)}
       , cells_{classify_cells(collect_cells(delaunay()))}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
       , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
@@ -116,7 +115,6 @@ class Foliated_triangulation<3> : private Delaunay3
                          double const radial_factor  = RADIAL_FACTOR)
       : Delaunay3{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
-      , is_foliated_{fix_timeslices(delaunay())}
       , cells_{classify_cells(collect_cells(delaunay()))}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
       , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
@@ -141,7 +139,14 @@ class Foliated_triangulation<3> : private Delaunay3
   }
 
   /// @return True if foliated correctly
-  [[nodiscard]] bool is_foliated() const { return is_foliated_; }
+  [[nodiscard]] bool is_foliated() const
+  {
+    if (check_timeslices(get_delaunay())) { return false; }
+    else
+    {
+      return true;
+    }
+  }  // is_foliated
 
   /// @return Number of 3D simplices in triangulation data structure
   using Delaunay3::number_of_finite_cells;
@@ -384,8 +389,6 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @brief Update data structures
   void update()
   {
-    /// TODO: fix buggy is_foliated
-    //    is_foliated_ = fix_timeslices();
     cells_            = classify_cells(collect_cells(get_delaunay()));
     three_one_        = filter_cells(cells_, Cell_type::THREE_ONE);
     two_two_          = filter_cells(cells_, Cell_type::TWO_TWO);
@@ -406,7 +409,7 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @param triangulation Perfectly forwarded argument
   /// @return A container of invalidly foliated vertices if they exist
   template <typename Triangulation>
-  [[nodiscard]] auto check_timeslices(Triangulation&& triangulation)
+  [[nodiscard]] auto check_timeslices(Triangulation&& triangulation) const
       -> std::optional<std::vector<Vertex_handle>>
   {
     std::vector<Vertex_handle> invalid_vertices;
@@ -428,7 +431,7 @@ class Foliated_triangulation<3> : private Delaunay3
       auto min_vertex = this_cell.cbegin()->second;
       auto maxvalue   = this_cell.crbegin()->first;
       auto max_vertex = this_cell.crbegin()->second;
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
       std::cout << "Smallest timevalue in this cell is: " << minvalue << "\n";
       std::cout << "Largest timevalue in this cell is: " << maxvalue << "\n";
       std::cout << "Min vertex info() " << min_vertex->info() << "\n";
@@ -437,7 +440,7 @@ class Foliated_triangulation<3> : private Delaunay3
       // There must be a timevalue delta of 1 for a validly foliated simplex
       if (maxvalue - minvalue == 1)
       {
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
         std::cout << "This cell is valid.\n";
 #endif
       }
@@ -445,7 +448,7 @@ class Foliated_triangulation<3> : private Delaunay3
       {
         auto minvalue_count = this_cell.count(minvalue);
         auto maxvalue_count = this_cell.count(maxvalue);
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
         std::cout << "This cell is invalid.\n";
 
         std::cout << "There are " << minvalue_count
@@ -458,14 +461,14 @@ class Foliated_triangulation<3> : private Delaunay3
         if (minvalue_count > maxvalue_count)
         {
           invalid_vertices.emplace_back(this_cell.rbegin()->second);
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
           std::cout << "maxvalue.\n";
 #endif
         }
         else
         {
           invalid_vertices.emplace_back(this_cell.begin()->second);
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
           std::cout << "minvalue.\n";
 #endif
         }
@@ -474,7 +477,7 @@ class Foliated_triangulation<3> : private Delaunay3
     if (invalid_vertices.empty()) { return std::nullopt; }
     else
     {
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
       std::cout << "Removing ...\n";
       for (auto& v : invalid_vertices)
       {
@@ -485,20 +488,6 @@ class Foliated_triangulation<3> : private Delaunay3
       return invalid_vertices;
     }
   }  // check_timeslices
-
-  //  template <typename Vertices>
-  void fix_bad_vertices(std::vector<Vertex_handle> vertices_to_delete)
-  {
-#ifndef NDEBUG
-    std::cout << vertices_to_delete.size()
-              << " invalid vertices were deleted.\n";
-#endif
-
-    this->delaunay().remove(vertices_to_delete.begin(),
-                            vertices_to_delete.end());
-    Ensures(this->is_tds_valid());
-    Ensures(this->is_delaunay());
-  }
 
  private:
   /// @brief Make a Delaunay Triangulation
@@ -537,8 +526,8 @@ class Foliated_triangulation<3> : private Delaunay3
 #endif
       ++passes;
     }
-    //      print_triangulation(triangulation_);
-    Ensures(fix_timeslices(delaunay));
+    print_triangulation(delaunay);
+    Ensures(!check_timeslices(delaunay));
     return delaunay;
   }
   /// @brief Make foliated spheres
@@ -589,69 +578,15 @@ class Foliated_triangulation<3> : private Delaunay3
   template <typename DelaunayTriangulation>
   [[nodiscard]] auto fix_timeslices(DelaunayTriangulation&& dt) -> bool
   {
-    int                     min_time{0};
-    int                     max_time{0};
-    int                     valid{0};
-    int                     invalid{0};
-    int                     max_vertex{0};
+    auto                    vertices_to_delete = check_timeslices(dt);
     std::set<Vertex_handle> deleted_vertices;
-    // Iterate over all cells in the Delaunay triangulation
-    for (Delaunay3::Finite_cells_iterator cit = dt.finite_cells_begin();
-         cit != dt.finite_cells_end(); ++cit)
+    // Remove duplicates
+    if (vertices_to_delete)
     {
-      if (cit->is_valid())
-      {  // Valid cell
-        min_time = cit->vertex(0)->info();
-        max_time = min_time;
-#ifdef DETAILED_DEBUGGING
-        bool this_cell_foliation_valid = true;
-#endif
-        // Iterate over all vertices in the cell
-        for (int i = 0; i < 4; ++i)
-        {
-          auto current_time = cit->vertex(i)->info();
-
-          // Classify extreme values
-          if (current_time < min_time) min_time = current_time;
-          if (current_time > max_time)
-          {
-            max_time   = current_time;
-            max_vertex = i;
-          }
-        }  // Finish iterating over vertices
-        // There should be a difference of 1 between min_time and max_time
-        if (max_time - min_time != 1)
-        {
-          invalid++;
-#ifdef DETAILED_DEBUGGING
-          this_cell_foliation_valid = false;
-#endif
-          // Single-threaded delete max vertex
-          // universe_ptr->remove(cit->vertex(max_vertex));
-
-          // Parallel delete std::set of max_vertex for all invalid cells
-          deleted_vertices.emplace(cit->vertex(max_vertex));
-        }
-        else
-        {
-          ++valid;
-        }
-
-#ifdef DETAILED_DEBUGGING
-        std::clog << "Foliation for cell is "
-                  << ((this_cell_foliation_valid) ? "valid." : "invalid.\n");
-        for (auto i = 0; i < 4; ++i)
-        {
-          std::clog << "Vertex " << i << " is " << cit->vertex(i)->point()
-                    << " with timeslice " << cit->vertex(i)->info() << "\n";
-        }
-#endif
-      }
-      else
-      {
-        throw std::runtime_error("Cell handle is invalid!");
-      }
-    }  // Finish iterating over cells
+      for (auto& v : vertices_to_delete.value())
+      { deleted_vertices.emplace(v); }
+    }
+    auto invalid = deleted_vertices.size();
 
     // Delete invalid vertices
     dt.remove(deleted_vertices.begin(), deleted_vertices.end());
@@ -664,8 +599,7 @@ class Foliated_triangulation<3> : private Delaunay3
     Ensures(dt.is_valid());
 
 #ifndef NDEBUG
-    std::cout << "There are " << invalid << " invalid simplices and " << valid
-              << " valid simplices.\n";
+    std::cout << "There are " << invalid << " invalid simplices.\n";
 #endif
     return invalid == 0;
   }  // fix_timeslices
@@ -930,8 +864,6 @@ class Foliated_triangulation<3> : private Delaunay3
 
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)
-  //  Delaunay3 delaunay_;
-  bool                       is_foliated_;
   std::vector<Cell_handle>   cells_;
   std::vector<Cell_handle>   three_one_;
   std::vector<Cell_handle>   two_two_;

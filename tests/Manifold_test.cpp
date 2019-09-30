@@ -76,10 +76,6 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     WHEN("It is default constructed.")
     {
       Manifold3 manifold;
-      THEN("It is not yet correctly foliated.")
-      {
-        REQUIRE_FALSE(manifold.is_foliated());
-      }
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(manifold.is_delaunay());
@@ -100,6 +96,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
+        REQUIRE(manifold.is_foliated());
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -137,6 +134,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
+        REQUIRE(manifold.is_foliated());
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -167,6 +165,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
+        REQUIRE(manifold.is_foliated());
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -200,6 +199,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
+        REQUIRE(manifold.is_foliated());
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -222,6 +222,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       {
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
+        REQUIRE(manifold.is_foliated());
       }
       THEN("The geometry matches the triangulation.")
       {
