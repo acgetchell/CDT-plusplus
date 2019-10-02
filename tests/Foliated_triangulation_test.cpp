@@ -144,7 +144,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.max_time() == 2);
         REQUIRE(foliatedTriangulation.min_time() == 1);
         REQUIRE(foliatedTriangulation.is_foliated());
-        //        foliatedTriangulation.check_vertices();
         // Human verification
         foliatedTriangulation.print_cells();
       }
@@ -171,7 +170,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         CHECK(cells <= 12);
         // Human verification
         print_triangulation(foliatedTriangulation);
-        foliatedTriangulation.check_vertices();
       }
     }
     WHEN("Constructing a medium triangulation.")
@@ -286,13 +284,17 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
-      THEN("No errors are detected.")
+      THEN("No errors in the simplex are detected.")
       {
         CHECK_FALSE(
             foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK(foliatedTriangulation.is_foliated());
         // Human verification
         foliatedTriangulation.print_cells();
+      }
+      THEN("No errors in the vertices are detected.")
+      {
+        CHECK(foliatedTriangulation.check_vertices());
       }
     }
     WHEN(

@@ -207,7 +207,7 @@ class Manifold<3>
   /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] auto simplices() const
   {
-    return triangulation_.number_of_finite_cells();
+    return triangulation_.get_cells().size();
   }
 
   /// @return Number of 2D faces in geometry data structure
@@ -246,14 +246,14 @@ class Manifold<3>
     return triangulation_.number_of_vertices();
   }
 
-  /// @return Minimum time value in geometry data structure
+  /// @return Minimum time value in triangulation data structure
   [[nodiscard]] auto min_time() const { return triangulation_.min_time(); }
 
-  /// @return Maximum time value in geometry data structure
+  /// @return Maximum time value in triangulation data structure
   [[nodiscard]] auto max_time() const { return triangulation_.max_time(); }
 
-  /// @return True if all cells in geometry are classified and match number in
-  /// triangulation
+  /// @return True if all cells in triangulation are classified and match number
+  /// in geometry
   [[nodiscard]] auto check_simplices() const -> bool
   {
     return (this->simplices() == this->N3() &&

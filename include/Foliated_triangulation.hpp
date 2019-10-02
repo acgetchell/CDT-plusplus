@@ -271,26 +271,32 @@ class Foliated_triangulation<3> : private Delaunay3
     return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
   }
 
-  void check_vertices()
+  bool check_vertices()
   {
-    auto vertices = delaunay().tds().vertices();
-    //        std::remove_if(vertices.begin(), vertices.end(), [&](Vertex_handle
-    //        v){ return delaunay_.is_infinite(v);});
-    //     vertices.erase(delaunay_.infinite_vertex());
-    /// TODO: Remove the infinite vertex from the container
-    // auto infinite_vertex = delaunay_.infinite_vertex();
-    // vertices.erase(std::remove_if(vertices.begin(), vertices.end(), [&](auto&
-    // v){return v == infinite_vertex;}),vertices.end());
+    //    auto vertices = delaunay().tds().vertices();
+
+    auto vertices = get_vertices();
+    auto min      = min_time();
+    auto max      = max_time();
     for (auto const& v : vertices)
     {
-      std::cout << "Vertex (" << v.point() << ") has timevalue " << v.info()
+      std::cout << "Vertex (" << v->point() << ") has timevalue " << v->info()
                 << "\n";
+      if (v->info() < min || v->info() > max)
+      {
+#ifndef NDEBUG
+        std::cout << "A timevalue on a vertex is out of range.\n";
+#endif
+        return false;
+      }
     }
+    return true;
   }
 
   /// @return Container of cells
   [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
   {
+    Ensures(cells_.size() == number_of_finite_cells());
     return cells_;
   }  // get_cells
 
@@ -405,6 +411,14 @@ class Foliated_triangulation<3> : private Delaunay3
   }  // update
 
   /// @brief Check simplices for correct foliation
+  ///
+  /// This function is called by fix_timeslices which is called by
+  /// make_triangulation which is called by the constructor, and so must take
+  /// the triangulation as an argument.
+  ///
+  /// It should also be perfectly valid to call once the triangulation has
+  /// been constructed; several unit tests do so.
+  ///
   /// @tparam Triangulation Perfectly forwarded argument type
   /// @param triangulation Perfectly forwarded argument
   /// @return A container of invalidly foliated vertices if they exist
