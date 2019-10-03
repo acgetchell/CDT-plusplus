@@ -271,18 +271,26 @@ class Foliated_triangulation<3> : private Delaunay3
     return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
   }
 
+  /// @return True if all vertices fall between min and max
   bool check_vertices()
   {
-    //    auto vertices = delaunay().tds().vertices();
-
-    auto vertices = get_vertices();
-    auto min      = min_time();
-    auto max      = max_time();
-    for (auto const& v : vertices)
+    // Retrieve vertices directly from CGAL::Compact_container
+    auto vertices = delaunay().tds().vertices();
+    //    auto vertices = get_vertices();
+    auto min = min_time();
+    auto max = max_time();
+    // Vertices in the compact container are not Vertex_handles, so
+    // we can't call is_infinite(v) directly. Instead, we find the timevalue
+    // of the infinite vertex and use that to test if a vertex is infinite
+    auto infinite_vertex_timevalue = this->infinite_vertex()->info();
+    for (auto v : vertices)
     {
-      std::cout << "Vertex (" << v->point() << ") has timevalue " << v->info()
+#ifndef NDEBUG
+      std::cout << "Vertex (" << v.point() << ") has timevalue " << v.info()
                 << "\n";
-      if (v->info() < min || v->info() > max)
+#endif
+      if ((v.info() < min || v.info() > max) &&
+          (infinite_vertex_timevalue != v.info()))
       {
 #ifndef NDEBUG
         std::cout << "A timevalue on a vertex is out of range.\n";
@@ -291,7 +299,7 @@ class Foliated_triangulation<3> : private Delaunay3
       }
     }
     return true;
-  }
+  }  // check_vertices
 
   /// @return Container of cells
   [[nodiscard]] std::vector<Cell_handle> const& get_cells() const

@@ -144,6 +144,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.max_time() == 2);
         REQUIRE(foliatedTriangulation.min_time() == 1);
         REQUIRE(foliatedTriangulation.is_foliated());
+        REQUIRE(foliatedTriangulation.check_vertices());
         // Human verification
         foliatedTriangulation.print_cells();
       }
@@ -159,6 +160,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.is_delaunay());
         REQUIRE(foliatedTriangulation.is_tds_valid());
         REQUIRE(foliatedTriangulation.is_foliated());
+        REQUIRE(foliatedTriangulation.check_vertices());
       }
       THEN("The triangulation has sensible values.")
       {
@@ -183,6 +185,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(triangulation.is_delaunay());
         REQUIRE(triangulation.is_tds_valid());
         REQUIRE(triangulation.is_foliated());
+        REQUIRE(triangulation.check_vertices());
       }
       THEN("The triangulation has sensible values.")
       {
@@ -216,7 +219,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
              << " edges.\n";
         cout << "There are " << triangulation.N1_TL() << " timelike edges and "
              << triangulation.N1_SL() << " spacelike edges.\n";
-        triangulation.print_edges();
+        //        triangulation.print_edges();
         cout << "There are " << triangulation.number_of_vertices()
              << " vertices with a max timevalue of " << triangulation.max_time()
              << " and a min timevalue of " << triangulation.min_time() << ".\n";
