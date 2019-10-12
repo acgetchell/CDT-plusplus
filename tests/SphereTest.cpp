@@ -9,28 +9,8 @@
 /// @brief Tests for spheres
 /// @author Adam Getchell
 
-#include <S3Triangulation.hpp>
 #include <Sphere_d.hpp>
 #include <catch2/catch.hpp>
-
-SCENARIO("Construct a foliated 2-sphere", "[sphere]")
-{
-  GIVEN("Simplices and timeslices")
-  {
-    constexpr auto simplices  = static_cast<std::int_fast32_t>(640);
-    constexpr auto timeslices = static_cast<std::int_fast32_t>(4);
-    WHEN("A foliated sphere is constructed.")
-    {
-      auto causal_vertices = make_foliated_sphere(simplices, timeslices);
-
-      /// @TODO: Why does number of vertices = number of simplices?
-      THEN("We have the correct number of vertices.")
-      {
-        REQUIRE(causal_vertices.size() == simplices);
-      }
-    }
-  }
-}
 
 SCENARIO("Construct a higher-dimensional 3-sphere", "[sphere]")
 {

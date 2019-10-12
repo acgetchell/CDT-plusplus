@@ -79,6 +79,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
       }
     }
     WHEN("It is constructed from a Delaunay triangulation.")
@@ -92,12 +93,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Delaunay3 dt(cv.begin(), cv.end());
       Manifold3 manifold(dt);
 
-      THEN("The triangulation is valid.")
-      {
-        REQUIRE(manifold.is_delaunay());
-        REQUIRE(manifold.is_valid());
-        REQUIRE(manifold.is_foliated());
-      }
+      THEN("The triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -130,12 +126,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       FoliatedTriangulation3 ft(dt);
       Manifold3              manifold(ft);
 
-      THEN("The triangulation is valid.")
-      {
-        REQUIRE(manifold.is_delaunay());
-        REQUIRE(manifold.is_valid());
-        REQUIRE(manifold.is_foliated());
-      }
+      THEN("The triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -161,12 +152,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       auto constexpr desired_simplices  = static_cast<int_fast32_t>(2);
       auto constexpr desired_timeslices = static_cast<int_fast32_t>(2);
       Manifold3 manifold(desired_simplices, desired_timeslices);
-      THEN("Triangulation is valid.")
-      {
-        REQUIRE(manifold.is_delaunay());
-        REQUIRE(manifold.is_valid());
-        REQUIRE(manifold.is_foliated());
-      }
+      THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -195,12 +181,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
       auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
       Manifold3 manifold(desired_simplices, desired_timeslices);
-      THEN("Triangulation is valid.")
-      {
-        REQUIRE(manifold.is_delaunay());
-        REQUIRE(manifold.is_valid());
-        REQUIRE(manifold.is_foliated());
-      }
+      THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -218,12 +199,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       auto constexpr desired_simplices  = static_cast<int_fast32_t>(6400);
       auto constexpr desired_timeslices = static_cast<int_fast32_t>(7);
       Manifold3 manifold(desired_simplices, desired_timeslices);
-      THEN("Triangulation is valid.")
-      {
-        REQUIRE(manifold.is_delaunay());
-        REQUIRE(manifold.is_valid());
-        REQUIRE(manifold.is_foliated());
-      }
+      THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -241,6 +217,22 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 
 SCENARIO("3-Manifold function checks", "[manifold]")
 {
+  GIVEN("The default manifold from the default triangulation")
+  {
+    Manifold3 manifold;
+    THEN("There is only one vertex, the infinite vertex.")
+    {
+      auto vertices =
+          manifold.get_triangulation().get_delaunay().tds().vertices();
+      auto vertex = static_cast<Vertex_handle>(vertices.begin());
+      cout << boolalpha
+           << "The single vertex is a vertex: " << manifold.is_vertex(vertex)
+           << "\n";
+      CHECK(vertices.size() == 1);
+      CHECK(manifold.get_triangulation().is_infinite(vertex));
+    }
+  }
+
   GIVEN("A 3-manifold")
   {
     auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
@@ -274,49 +266,48 @@ SCENARIO("3-Manifold copying", "[manifold]")
     {
       auto manifold2 = manifold;
 
-        THEN("The two objects are distinct.")
-        {
-          auto* manifold_ptr  = &manifold;
-          auto* manifold2_ptr = &manifold2;
-          CHECK_FALSE(manifold_ptr == manifold2_ptr);
-        }
-        THEN("The manifolds have identical properties.")
-        {
-          CHECK(manifold2.N3() == manifold.N3());
-          CHECK(manifold2.N3_31() == manifold.N3_31());
-          CHECK(manifold2.N3_22() == manifold.N3_22());
-          CHECK(manifold2.N3_13() == manifold.N3_13());
-          CHECK(manifold2.N3_31_13() == manifold.N3_31_13());
-          CHECK(manifold2.N2() == manifold.N2());
-          CHECK(manifold2.N1() == manifold.N1());
-          CHECK(manifold2.N1_TL() == manifold.N1_TL());
-          CHECK(manifold2.N1_SL() == manifold.N1_SL());
-          CHECK(manifold2.N0() == manifold.N0());
-          CHECK(manifold2.max_time() == manifold.max_time());
-          CHECK(manifold2.min_time() == manifold.min_time());
-          // Human verification
-          cout << "Manifold properties:\n";
-          print_manifold(manifold);
-          manifold.print_volume_per_timeslice();
-          auto cells =
-              manifold.get_triangulation().get_delaunay().tds().cells();
-          cout << "cells.size() == " << cells.size() << "\n";
-          cout << "Cell compact container size is " << cells.size() << "\n";
-          //          cells.erase(std::remove_if(cells.begin(),
-          //          cells.end(),[](auto c){return
-          //          is_infinite(c);}),cells.end());
-          cout << "Now compact container size is " << cells.size() << "\n";
-          cout << "Vertex compact container size is "
-               << manifold.get_triangulation()
-                      .get_delaunay()
-                      .tds()
-                      .vertices()
-                      .size()
-               << "\n";
-          cout << "Copied manifold properties:\n";
-          print_manifold(manifold2);
-          manifold2.print_volume_per_timeslice();
-        }
+      THEN("The two objects are distinct.")
+      {
+        auto* manifold_ptr  = &manifold;
+        auto* manifold2_ptr = &manifold2;
+        CHECK_FALSE(manifold_ptr == manifold2_ptr);
+      }
+      THEN("The manifolds have identical properties.")
+      {
+        CHECK(manifold2.N3() == manifold.N3());
+        CHECK(manifold2.N3_31() == manifold.N3_31());
+        CHECK(manifold2.N3_22() == manifold.N3_22());
+        CHECK(manifold2.N3_13() == manifold.N3_13());
+        CHECK(manifold2.N3_31_13() == manifold.N3_31_13());
+        CHECK(manifold2.N2() == manifold.N2());
+        CHECK(manifold2.N1() == manifold.N1());
+        CHECK(manifold2.N1_TL() == manifold.N1_TL());
+        CHECK(manifold2.N1_SL() == manifold.N1_SL());
+        CHECK(manifold2.N0() == manifold.N0());
+        CHECK(manifold2.max_time() == manifold.max_time());
+        CHECK(manifold2.min_time() == manifold.min_time());
+        // Human verification
+        cout << "Manifold properties:\n";
+        print_manifold(manifold);
+        manifold.print_volume_per_timeslice();
+        auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
+        cout << "cells.size() == " << cells.size() << "\n";
+        cout << "Cell compact container size is " << cells.size() << "\n";
+        //          cells.erase(std::remove_if(cells.begin(),
+        //          cells.end(),[](auto c){return
+        //          is_infinite(c);}),cells.end());
+        cout << "Now compact container size is " << cells.size() << "\n";
+        cout << "Vertex compact container size is "
+             << manifold.get_triangulation()
+                    .get_delaunay()
+                    .tds()
+                    .vertices()
+                    .size()
+             << "\n";
+        cout << "Copied manifold properties:\n";
+        print_manifold(manifold2);
+        manifold2.print_volume_per_timeslice();
+      }
     }
   }
 }
@@ -429,17 +420,24 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     FoliatedTriangulation3 ft(dt);
     Manifold3              manifold(ft);
     /// TODO: Rethink or refactor getting vertices from cells
-    //    WHEN("We ask for a container of vertices given a container of cells.")
-    //    {
-    //      auto vertices = manifold.get_vertices_from_cells(
-    //          manifold.get_triangulation().get_cells());
-    //      THEN("We get back the correct number of vertices.")
-    //      {
-    //        REQUIRE(vertices.size() == 5);
-    //        for (auto& vertex : vertices) {
-    //        REQUIRE(manifold.is_vertex(vertex)); }
-    //      }
-    //    }
+    WHEN("We ask for a container of vertices given a container of cells.")
+    {
+      auto vertices = manifold.get_vertices_from_cells(
+          manifold.get_triangulation().get_cells());
+      THEN("We get back the correct number of vertices.")
+      {
+        REQUIRE(vertices.size() == 5);
+        for (auto& vertex : vertices)
+        {
+          cout << boolalpha
+               << "Vertex is a vertex: " << manifold.is_vertex(vertex) << "\n";
+          cout << boolalpha << "Vertex is infinite: "
+               << manifold.get_triangulation().is_infinite(vertex) << "\n";
+          if (!manifold.get_triangulation().is_infinite(vertex))
+          { REQUIRE(manifold.is_vertex(vertex)); }
+        }
+      }
+    }
     /// TODO: Fix checks of vertex timevalues and simplex types
     //    WHEN("We insert an invalid timevalue into a vertex.")
     //    {

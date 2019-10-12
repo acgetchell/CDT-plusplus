@@ -289,8 +289,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("No errors in the simplex are detected.")
       {
-        CHECK_FALSE(
-            foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        //        CHECK_FALSE(
+        //            foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK(foliatedTriangulation.is_foliated());
         // Human verification
         foliatedTriangulation.print_cells();
@@ -343,7 +343,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("An error is detected.")
       {
-        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        //        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
       AND_THEN("The low value is discarded.")
@@ -370,7 +370,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("An error is detected.")
       {
-        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
+        //        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
       AND_THEN("The low value is preferentially discarded.")

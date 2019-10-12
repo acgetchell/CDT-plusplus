@@ -171,6 +171,14 @@ class Manifold<3>
     return triangulation_.is_foliated();
   }
 
+  [[nodiscard]] auto is_correct() const -> bool
+  {
+    auto simplices = triangulation_.get_cells();
+    return is_delaunay() && is_valid() && is_foliated() &&
+           are_simplex_types_valid(simplices) &&
+           are_vertex_timevalues_valid(simplices);
+  }
+
   /// @brief Perfect forwarding to FoliatedTriangulation3.is_vertex()
   template <typename Vertex>
   [[nodiscard]] auto is_vertex(Vertex&& v_candidate) const -> bool

@@ -138,6 +138,11 @@ class Foliated_triangulation<3> : private Delaunay3
     return std::cref(*this);
   }
 
+  /// @brief Verifies the triangulation is properly foliated
+  ///
+  /// Can not be called until after Foliated_triangulation has been constructed
+  /// (i.e. not in make_triangulation)
+  ///
   /// @return True if foliated correctly
   [[nodiscard]] bool is_foliated() const
   {
@@ -159,6 +164,9 @@ class Foliated_triangulation<3> : private Delaunay3
 
   /// @return Number of vertices in triangulation data structure
   using Delaunay3::number_of_vertices;
+
+  /// @return If a cell or vertex contains or is the infinite vertex
+  using Delaunay3::is_infinite;
 
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const { return get_delaunay().is_valid(); }

@@ -325,6 +325,8 @@ Various Travis-CI and AppVeyor builds are ignored:
 
 String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/HowardHinnant/date/issues/434>
 
+which persists in the [bincrafters bintray] repo [date package] in conan: https://github.com/bincrafters/community/issues/999
+
 `brew install ninja` broken on linux <https://github.com/Homebrew/linuxbrew-core/issues/12430>
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
@@ -393,3 +395,5 @@ String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/
 [Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html
 [PCG]: http://www.pcg-random.org/paper.html
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
+[bincrafters bintray]: https://bintray.com/bincrafters/public-conan
+[date package]: https://bintray.com/bincrafters/public-conan/date%3Abincrafters

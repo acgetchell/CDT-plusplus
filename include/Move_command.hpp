@@ -18,12 +18,15 @@ template <typename ManifoldType,
 class MoveCommand
 {
  public:
-  explicit MoveCommand(ManifoldType& manifold)
+  explicit MoveCommand(ManifoldType manifold)
       : manifold_{std::make_unique<ManifoldType>(manifold)}
   {}
 
   /// @return A read-only reference to the manifold
-  ManifoldType const& get_manifold() const {return *manifold_; }
+  auto get_manifold() const -> ManifoldType const&
+  {
+    return std::cref(*manifold_);
+  }
 
   /// @return The results of the commands
   [[nodiscard]] auto& get_results() { return *manifold_;}
