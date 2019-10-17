@@ -422,12 +422,12 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     /// TODO: Rethink or refactor getting vertices from cells
     WHEN("We ask for a container of vertices given a container of cells.")
     {
-      auto vertices = manifold.get_vertices_from_cells(
+      auto&& vertices = manifold.get_vertices_from_cells(
           manifold.get_triangulation().get_cells());
       THEN("We get back the correct number of vertices.")
       {
         REQUIRE(vertices.size() == 5);
-        for (auto& vertex : vertices)
+        for (auto&& vertex : vertices)
         {
           cout << boolalpha
                << "Vertex is a vertex: " << manifold.is_vertex(vertex) << "\n";
