@@ -77,10 +77,12 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
       Causal_vertices causal_vertices;
-      for (std::size_t j = 0; j < 4; ++j)
-      {
-        causal_vertices.emplace_back(std::make_pair(Vertices[j], timevalue[j]));
-      }
+      causal_vertices.reserve(Vertices.size());
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(causal_vertices),
+                     [](Delaunay3::Point a, std::size_t b) {
+                       return std::make_pair(a, b);
+                     });
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
 
       THEN("The triangulation has dimension 3.")
@@ -123,7 +125,7 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
         // Sort causal_vertices
         std::sort(causal_vertices.begin(), causal_vertices.end(),
                   [](auto a, auto b) { return a.first < b.first; });
-        Causal_vertices                    comparison;
+        Causal_vertices                     comparison;
         Delaunay3::Finite_vertices_iterator vit;
         // Constructed vector of vertices in the triangulation
         for (vit = triangulation.finite_vertices_begin();

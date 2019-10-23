@@ -29,14 +29,15 @@ class MoveCommand
   }
 
   /// @return The results of the commands
-  [[nodiscard]] auto& get_results() { return *manifold_;}
+  [[nodiscard]] auto& get_results() { return *manifold_; }
 
   /// Push a move onto the move queue
   /// @param move The move to do on the manifold
   void enqueue(FunctionType move) { moves_.emplace_back(move); }
 
   /// Execute the move on the manifold
-  void execute() try
+  void execute()
+  try
   {
     // debugging
     std::cout << "Before manifold move:\n";
@@ -44,7 +45,8 @@ class MoveCommand
     auto move = moves_.back();
     move(*manifold_);
   }
-  catch (const std::exception& e) {
+  catch (const std::exception& e)
+  {
     std::cerr << "execute() failed: " << e.what() << "\n";
     throw;
   }
