@@ -99,9 +99,10 @@ MacOS using [homebrew]:
 ```bash
 brew install yasm
 ```
-Linux using [apt]:
+Linux using [apt] (you may also need to install [m4]):
 ```bash
 sudo apt-get install yasm
+sudo apt-get install m4
 ```
 
 At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen],
@@ -363,6 +364,7 @@ But it speeds up triangulations by a factor of 3, so it would be great to be abl
 [ms-gsl]: https://github.com/microsoft/GSL
 [mpir]: http://mpir.org/
 [MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
+[m4]: https://www.gnu.org/software/m4/
 [1]: https://github.com/Microsoft/vcpkg/issues/4864
 [2]: https://github.com/microsoft/vcpkg/issues/8626
 [3]: https://github.com/microsoft/vcpkg/issues/8627
