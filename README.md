@@ -70,7 +70,7 @@ This will put you on the [development] branch. Project layout
 is the [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
-- build - Ephemeral build directory
+- build - Ephemeral out-of-source build directory
 - docs - Documentation
 - external - Includes external projects, e.g. [PCG]
 - include - Header files
@@ -130,9 +130,10 @@ On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which
 
 ### Building
 
-This project uses a separate `build/` directory, which allows you to rebuild the
-project without cluttering the source code. Thus, download this source code
-(clone this repo from GitHub or grab a [release]) and run the [build.sh] script.
+```bash
+cd tools
+./build.sh
+```
 
 This should result in the main program executable, `cdt` in the `build/bin`
 directory, along with several others.
@@ -214,7 +215,7 @@ If you do not have GraphViz installed, set this option to **NO**
 
 ## Testing
 
-Unit tests using [Catch] are run (in the `build/bin` directory) via:
+Unit tests using [Catch] are run (in the `build/tests` directory) via:
 
 ~~~bash
 ./CDT_test
@@ -229,7 +230,7 @@ ctest
 In addition to the command line output, you can see detailed results in the
 `build/Testing` directory which is generated thereby.
 
-Whitespace formatting is can be checked using `git check`:
+Whitespace formatting can be checked using `git check`:
 
 ~~~bash
 git diff --check HEAD^
@@ -237,10 +238,12 @@ git diff --check HEAD^
 
 ### Static Analysis
 
-This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can check using the
-[clang-tidy.sh] script:
+This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can install
+and then run using the [clang-tidy.sh] script:
 
 ~~~bash
+sudo apt-get install clang-tidy
+cd tools
 ./clang-tidy.sh
 ~~~
 
@@ -249,6 +252,8 @@ This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangT
 The [cppcheck-build.sh] script runs a quick static analysis using [cppcheck].
 
 ~~~bash
+brew install cppcheck
+cd tools
 ./cppcheck-build.sh
 ~~~
 
@@ -280,7 +285,7 @@ pip install tensorflow
 pip install comet-ml
 ~~~
 
-You can then run experiments and look at results on Comet.ml!
+You can then run experiments and look at results on https://www.comet.ml!
 
 ## Contributing
 
@@ -315,7 +320,6 @@ But it speeds up triangulations by a factor of 3, so it would be great to be abl
 [Mathjax]: https://www.mathjax.org
 [GraphViz]: https://www.graphviz.org
 [Eigen]: http://eigen.tuxfamily.org/index.php?title=Main_Page
-[build.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/build.sh
 [CMakeLists.txt]: https://github.com/acgetchell/CDT-plusplus/blob/master/CMakeLists.txt
 [MPFR]: https://www.mpfr.org
 [GMP]: https://gmplib.org
