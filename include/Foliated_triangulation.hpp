@@ -90,16 +90,16 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @param triangulation Delaunay triangulation
   explicit Foliated_triangulation(Delaunay3 triangulation)
       : Delaunay3{std::move(triangulation)}
-      , cells_{classify_cells(collect_cells(delaunay()))}
+      , cells_{classify_cells(collect_cells())}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
       , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
       , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
-      , faces_{collect_faces(triangulation)}
+      , faces_{collect_faces()}
       , spacelike_facets_{volume_per_timeslice(faces_)}
-      , edges_{collect_edges(triangulation)}
+      , edges_{collect_edges()}
       , timelike_edges_{filter_edges(edges_, true)}
       , spacelike_edges_{filter_edges(edges_, false)}
-      , points_{collect_vertices(triangulation)}
+      , points_{collect_vertices()}
       , max_timevalue_{find_max_timevalue(points_)}
       , min_timevalue_{find_min_timevalue(points_)}
   {}
@@ -115,16 +115,16 @@ class Foliated_triangulation<3> : private Delaunay3
                          double const radial_factor  = RADIAL_FACTOR)
       : Delaunay3{make_triangulation(simplices, timeslices, initial_radius,
                                      radial_factor)}
-      , cells_{classify_cells(collect_cells(delaunay()))}
+      , cells_{classify_cells(collect_cells())}
       , three_one_{filter_cells(cells_, Cell_type::THREE_ONE)}
       , two_two_{filter_cells(cells_, Cell_type::TWO_TWO)}
       , one_three_{filter_cells(cells_, Cell_type::ONE_THREE)}
-      , faces_{collect_faces(get_delaunay())}
+      , faces_{collect_faces()}
       , spacelike_facets_{volume_per_timeslice(faces_)}
-      , edges_{collect_edges(get_delaunay())}
+      , edges_{collect_edges()}
       , timelike_edges_{filter_edges(edges_, true)}
       , spacelike_edges_{filter_edges(edges_, false)}
-      , points_{collect_vertices(get_delaunay())}
+      , points_{collect_vertices()}
       , max_timevalue_{find_max_timevalue(points_)}
       , min_timevalue_{find_min_timevalue(points_)}
   {}
@@ -411,16 +411,16 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @brief Update data structures
   void update()
   {
-    cells_            = classify_cells(collect_cells(get_delaunay()));
+    cells_            = classify_cells(collect_cells());
     three_one_        = filter_cells(cells_, Cell_type::THREE_ONE);
     two_two_          = filter_cells(cells_, Cell_type::TWO_TWO);
     one_three_        = filter_cells(cells_, Cell_type::ONE_THREE);
-    faces_            = collect_faces(get_delaunay());
+    faces_            = collect_faces();
     spacelike_facets_ = volume_per_timeslice(faces_);
-    edges_            = collect_edges(get_delaunay());
+    edges_            = collect_edges();
     timelike_edges_   = filter_edges(edges_, true);
     spacelike_edges_  = filter_edges(edges_, false);
-    points_           = collect_vertices(get_delaunay());
+    points_           = collect_vertices();
     max_timevalue_    = find_max_timevalue(points_);
     min_timevalue_    = find_min_timevalue(points_);
 
@@ -635,23 +635,18 @@ class Foliated_triangulation<3> : private Delaunay3
     return invalid == 0;
   }  // fix_timeslices
 
-  /// @brief Collect all finite cells of the triangulation
-  /// @tparam Triangulation Reference type of triangulation
-  /// @param universe Reference to triangulation
   /// @return Container of all the finite simplices in the triangulation
-  template <typename Triangulation>
-  [[nodiscard]] auto collect_cells(Triangulation const& universe) const
-      -> std::vector<Cell_handle>
+  [[nodiscard]] auto collect_cells() const -> std::vector<Cell_handle>
   {
-    Expects(universe.tds().is_valid());
+    Expects(get_delaunay().tds().is_valid());
     std::vector<Cell_handle> init_cells;
     init_cells.reserve(number_of_finite_cells());
     //    Delaunay3::Finite_cells_iterator cit;
-    for (auto cit = universe.finite_cells_begin();
-         cit != universe.finite_cells_end(); ++cit)
+    for (auto cit = get_delaunay().finite_cells_begin();
+         cit != get_delaunay().finite_cells_end(); ++cit)
     {
       // Each cell is valid in the triangulation
-      Ensures(universe.tds().is_cell(cit));
+      Ensures(get_delaunay().tds().is_cell(cit));
       init_cells.emplace_back(cit);
     }
     Ensures(init_cells.size() == number_of_finite_cells());
@@ -727,13 +722,8 @@ class Foliated_triangulation<3> : private Delaunay3
     return cells;
   }  // classify_cells
 
-  /// @brief Collect all finite facets of the triangulation
-  /// @tparam Triangulation Reference type of triangulation
-  /// @param triangulation Reference to triangulation
   /// @return Container of all the finite facets in the triangulation
-  template <typename Triangulation>
-  [[nodiscard]] auto collect_faces(Triangulation const& triangulation) const
-      -> std::vector<Face_handle>
+  [[nodiscard]] auto collect_faces() const -> std::vector<Face_handle>
   {
     Expects(get_delaunay().tds().is_valid());
     std::vector<Face_handle> init_faces;
@@ -797,13 +787,8 @@ class Foliated_triangulation<3> : private Delaunay3
     return space_faces;
   }  // volume_per_timeslice
 
-  /// @brief Collect all finite edges of the triangulation
-  /// @tparam Manifold Reference type of triangulation
-  /// @param universe Reference to triangulation
   /// @return Container of all the finite edges in the triangulation
-  template <typename Manifold>
-  [[nodiscard]] auto collect_edges(Manifold const& universe) const
-      -> std::vector<Edge_handle>
+  [[nodiscard]] auto collect_edges() const -> std::vector<Edge_handle>
   {
     Expects(get_delaunay().tds().is_valid());
     std::vector<Edge_handle> init_edges;
@@ -841,13 +826,8 @@ class Foliated_triangulation<3> : private Delaunay3
     return filtered_edges;
   }  // filter_edges
 
-  /// @brief Collect all finite vertices of the triangulation
-  /// @tparam Triangulation Reference type of triangulation
-  /// @param triangulation Reference to triangulation
   /// @return Container of all finite vertices in the triangulation
-  template <typename Triangulation>
-  [[nodiscard]] auto collect_vertices(Triangulation const& triangulation) const
-      -> std::vector<Vertex_handle>
+  [[nodiscard]] auto collect_vertices() const -> std::vector<Vertex_handle>
   {
     Expects(get_delaunay().tds().is_valid());
     std::vector<Vertex_handle> init_vertices;
