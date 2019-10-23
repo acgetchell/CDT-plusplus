@@ -19,7 +19,7 @@ Uses [Docopt] to provide a beautiful command-line interface.
 Uses [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library for high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
 Uses [Catch] for [BDD]/[TDD].
-Uses [vcpkg]/[CMake]/[Ninja] for dependency management and building.
+Uses [vcpkg] for library management and building.
 Uses [Doxygen] for automated document generation.
 
 The goals and targets of this project are:
@@ -28,8 +28,8 @@ The goals and targets of this project are:
 - [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
 - [x] Validation tests using [CTest]
 - [x] Behavior-driven development ([BDD]) with [Catch]
-- [x] Continuous integration with MacOS and Linux on [Travis-CI] and Windows on [AppVeyor]
-- [x] Code coverage measurements with [Codecov]
+- [x] Continuous integration on MacOS and Linux with [gcc]/[Clang] using [Travis-CI]
+- [x] Continuous integration on Windows with [MSVC] using [AppVeyor]
 - [x] 3D Simplex
 - [x] 3D Spherical triangulation
 - [x] 2+1 foliation
@@ -37,10 +37,11 @@ The goals and targets of this project are:
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
-- [ ] Multithreading via [TBB]
 - [ ] Metropolis algorithm
-- [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] Output via [HDF5]
+- [ ] Multithreading via [TBB]
+- [ ] Code coverage measurements with [Codecov]
+- [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
 - [ ] 3+1 foliation
@@ -337,7 +338,6 @@ But it speeds up triangulations by a factor of 3, so it would be great to be abl
 [AppVeyor]: https://www.appveyor.com
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
-[curl]: https://curl.haxx.se
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
 [Codecov]: https://codecov.io
 [SonarCloud]: https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop
@@ -350,18 +350,15 @@ But it speeds up triangulations by a factor of 3, so it would be great to be abl
 [gcc-8]: https://gcc.gnu.org/gcc-8/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
-[clang-cl]: https://clang.llvm.org/docs/MSVCCompatibility.html
-[bug]: https://ci.appveyor.com/project/acgetchell/cdt-test/build/job/6tltjqyu37oan89v#L93594
 [development]: https://github.com/acgetchell/CDT-plusplus
-[bincrafters]: https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
-[Qt]: https://www.qt.io
 [Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html
 [PCG]: http://www.pcg-random.org/paper.html
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
 [apt]: https://wiki.debian.org/Apt
 [ms-gsl]: https://github.com/microsoft/GSL
 [mpir]: http://mpir.org/
+[MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
 [1]: https://github.com/Microsoft/vcpkg/issues/4864
 [2]: https://github.com/microsoft/vcpkg/issues/8626
 [3]: https://github.com/microsoft/vcpkg/issues/8627

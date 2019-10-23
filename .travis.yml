@@ -3,6 +3,10 @@ sudo: false
 dist: bionic
 osx_image: xcode11.2
 
+cache:
+  directories:
+    - /home/travis/vcpkg/downloads/
+
 addons:
   apt:
     sources:
