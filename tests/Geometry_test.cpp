@@ -2,7 +2,7 @@
 ///
 /// Copyright © 2018-2019 Adam Getchell
 ///
-/// Tests of new geometry data structure compatible with old SimplicialManifold
+/// Tests of geometry data structure
 
 /// @file GeometryTest.cpp
 /// @brief Tests of new geometry data structure

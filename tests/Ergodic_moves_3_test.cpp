@@ -54,7 +54,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     }
     WHEN("A (3,2) move is performed")
     {
-      manifold = std::move(manifold3_moves::do_32_move(manifold));
+      manifold = manifold3_moves::do_32_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
@@ -75,7 +75,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     }
     WHEN("A (2,6) move is performed")
     {
-      manifold = std::move(manifold3_moves::do_26_move(manifold));
+      manifold = manifold3_moves::do_26_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
@@ -96,7 +96,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     }
     WHEN("A (6,2) move is performed")
     {
-      manifold = std::move(manifold3_moves::do_62_move(manifold));
+      manifold = manifold3_moves::do_62_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
@@ -118,7 +118,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
     }
     WHEN("A (4,4) move is performed")
     {
-      manifold = std::move(manifold3_moves::do_44_move(manifold));
+      manifold = manifold3_moves::do_44_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info

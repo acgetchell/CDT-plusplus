@@ -33,7 +33,8 @@
 #include <string>
 #include <typeindex>
 // H. Hinnant's date and time library
-#include <date/tz.h>
+//#include <date/tz.h>
+
 // M. O'Neill's Permutation Congruential Generator library
 #include "pcg_random.hpp"
 
@@ -106,12 +107,24 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 /// Parser. https://github.com/HowardHinnant/date
 ///
 /// @return A formatted string with the system local time
-[[nodiscard]] inline auto currentDateTime()
+//[[nodiscard]] inline auto currentDateTime()
+//{
+//  using namespace date;
+//  using namespace std::chrono;
+//  auto t = make_zoned(current_zone(), system_clock::now());
+//  return format("%Y-%m-%d.%X%Z", t);
+//}
+
+/// @brief Return the current date and time
+inline std::string currentDateTime()
 {
-  using namespace date;
-  using namespace std::chrono;
-  auto t = make_zoned(current_zone(), system_clock::now());
-  return format("%Y-%m-%d.%X%Z", t);
+  std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+  std::time_t now_c    = std::chrono::system_clock::to_time_t(now);
+  auto        result_c = std::put_time(std::localtime(&now_c), "%Y-%m-%d.%X%Z");
+  std::ostringstream result_s;
+  result_s << result_c;
+  std::string result = result_s.str();
+  return result;
 }
 
 /// @brief  Generate useful filenames
@@ -394,12 +407,10 @@ template <typename FloatingPointType>
               << " timeslices desired.\n";
   }
 
-  auto const simplices_per_timeslice =
-      static_cast<int_fast64_t>(simplices / timeslices);
+  auto const simplices_per_timeslice = simplices / timeslices;
   switch (dimension)
   {
-    case 3:
-    {
+    case 3: {
       // Avoid segfaults for small values
       if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
       else if (simplices < 1000)
@@ -419,8 +430,7 @@ template <typename FloatingPointType>
         return static_cast<int_fast64_t>(0.1 * simplices_per_timeslice);
       }
     }
-    default:
-    {
+    default: {
       throw std::invalid_argument("Currently, dimensions cannot be >3.");
     }
   }

@@ -102,8 +102,6 @@ int main(int argc, char* const argv[]) try
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
-    default:
-      throw logic_error("Simulation topology not parsed.");
   }
   print_manifold(universe);
   universe.get_triangulation().print_volume_per_timeslice();

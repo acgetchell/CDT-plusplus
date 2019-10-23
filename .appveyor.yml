@@ -1,36 +1,51 @@
 version: 0.1.8.{build}
 
-#branches:
-#  only:
-#    - master
-#    - develop
-
 platform:
-    - x64
+  - x64
 
-cache: c:\tools\vcpkg\installed\
+environment:
+  #  APPVEYOR_SAVE_CACHE_ON_ERROR: true
+  VCPKG_DEFAULT_TRIPLET: x64-windows
+
+cache:
+  - c:\tools\vcpkg\installed\
+
 
 image:
-  - Visual Studio 2015
   - Visual Studio 2017
+
+skip_tags: true
 
 skip_branch_with_pr: true
 
 build:
   verbosity: detailed
 
-clone_folder: c:\projects\cdt-plusplus
+clone_folder: c:\projects\cdt-test
 
 shallow_clone: true
 
 configuration: Release
 
+clone_script:
+  - cmd: >-
+      git clone -q --recursive --branch=%APPVEYOR_REPO_BRANCH% https://github.com/%APPVEYOR_REPO_NAME%.git %APPVEYOR_BUILD_FOLDER%
+      && cd %APPVEYOR_BUILD_FOLDER%
+      && git checkout -qf %APPVEYOR_REPO_COMMIT%
+      && git submodule update --init --recursive
+
 install:
+  #  - if not exist "c:\projects\dev" (
+  #      mkdir c:\projects\dev
+  #      cd c:\projects\dev
+  #      set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip"
+  #      appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+  #      7z x ninja.zip -oC:\projects\dev\ninja > nul
+  #    )
   - mkdir C:\projects\dev
   - cd C:\projects\dev
-
   # Install Ninja
-  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.8.2/ninja-win.zip"
+  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip"
   - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
   - 7z x ninja.zip -oC:\projects\dev\ninja > nul
   - set PATH=%PATH%;C:\projects\dev\ninja
@@ -38,71 +53,54 @@ install:
   - set CMAKE_MAKE_PROGRAM=C:\projects\dev\ninja\ninja.exe
   # Verify CMake
   - cmake --version
-  # Install make because TBB uses it and autoconf because libcurl uses it with msys2 64-bit on AppVeyor
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -Syu"
-  - C:\msys64\usr\bin\bash -lc "pacman --noconfirm -S base-devel"
-#  - choco install make
+  # Install make because TBB uses it
+  #  - choco install make
   - cd c:\tools\vcpkg
   # Update ports
   - git pull
-  - # Update vcpkg
+  # Update vcpkg
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
   - vcpkg integrate install
-  # Use vcpkg to install required libraries
-  - vcpkg install curl
-  - vcpkg install date
-  - vcpkg install docopt
-  - vcpkg install gsl
+  # Install required libraries
   - vcpkg install catch2
+  - vcpkg install docopt
+  - vcpkg install ms-gsl
   - vcpkg install eigen3
-  - vcpkg install tbb
+  #  - vcpkg install tbb
   - vcpkg install cgal
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
-  - set CC=clang-cl.exe -mrtm
-  - set CXX=clang-cl.exe -mrtm
-  - call "C:\Program Files (x86)\Microsoft Visual Studio 14.0\VC\vcvarsall.bat" x86_amd64
+  - set CC=clang-cl -mrtm
+  - set CXX=clang-cl -mrtm
+  # Visual Studio 2017
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
-  # Upgrade pip
-  - python -m pip install --upgrade pip
-  # Install Conan
-  - echo "Downloading conan..."
-  - set PATH=%PATH%;%PYTHON%\Scripts\
-  - pip.exe install conan
+  # Remove conflicting OpenSSL directories
+#  - rd /s /q c:\OpenSSL-v11-Win32
+#  - rd /s /q c:\OpenSSL-v11-Win64
+
+
 
 before_build:
-  - cd C:\projects\CDT-plusplus
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
+  - cd %APPVEYOR_BUILD_FOLDER%
 
 build_script:
   - mkdir build
   - cd build
-  - conan profile new cdt --detect
-  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
-  # TBB only seems to work on x64, uncommenting the line below causes TBB to fail
-#  - conan profile update settings.arch=x86 default
-  - conan profile show cdt
-  - conan install .. -pr cdt --build=missing
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DTESTS:BOOL=OFF -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  #  - cmake -G Ninja -DCMAKE_MAKE_PROGRAM=c:\projects\dev\ninja\ninja.exe -DVCPKG_TARGET_TRIPLET=x86-windows -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake --build .
-#  - conan build ..
 
 on_success:
-  - cmake --build . --target test
-#  - conan install .. -pr default --build=missing
-#  - conan build ..
-
-#test_script:
-#  - ctest -C release
+  - cmake --build . --target test & exit 0
 
 notifications:
-
   - provider: Email
     to:
       - acgetchell@ucdavis.edu
     on_build_status_changed: true
 
-#on_finish:
+#on_failure:
 #  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))

@@ -2,8 +2,6 @@
 
  [![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.org/acgetchell/CDT-plusplus)
  [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
- [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
- [![SonarCloud](https://sonarcloud.io/api/project_badges/measure?project=CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=CDT-plusplus)
  [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 
@@ -17,12 +15,11 @@ including the foundations and recent results, please see the [wiki](https://gith
 [Causal Dynamical Triangulations][CDT] in [C++] use the
 [Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
 Arbitrary-precision numbers and functions via [MPFR] and [GMP].
-Uses [Docopt] to provide a beautiful command-line interface, and [Howard Hinnant's date and timezone][date]
-library for accurate time.
+Uses [Docopt] to provide a beautiful command-line interface.
 Uses [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library for high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
 Uses [Catch] for [BDD]/[TDD].
-Uses [Conan]/[CMake]/[Ninja] for dependency management and building.
+Uses [vcpkg]/[CMake]/[Ninja] for dependency management and building.
 Uses [Doxygen] for automated document generation.
 
 The goals and targets of this project are:
@@ -39,9 +36,9 @@ The goals and targets of this project are:
 - [x] Integrate [Docopt] CLI
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
-- [x] Multithreading via [TBB]
-- [x] Metropolis algorithm
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
+- [ ] Multithreading via [TBB]
+- [ ] Metropolis algorithm
 - [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] Output via [HDF5]
 - [ ] 4D Simplex
@@ -80,86 +77,57 @@ is the [PitchFork Layout], as follows:
 - tests - Unit tests
 - tools - Build, test, and run scripts
 
-### Prerequisites
+### Setup
 
-- AppleClang, [clang-7], or [gcc-8]
-- [Homebrew] or [Linuxbrew]
-- [Conan]
-- [CMake]
-- [Ninja]
-- [CGAL]
-- [TBB]
+Install [vcpkg]:
 
-[CDT++] uses the [Conan] open source C/C++ package manager. However, [Conan] does not have a package for [CGAL],
-and does not handle [TBB] properly. So, you need [Homebrew]/[Linuxbrew].
+```bash
+git clone https://github.com/Microsoft/vcpkg.git
+cd vcpkg
+./bootstrap-vcpkg.sh
+./vcpkg integrate install
+```
 
-MacOS:
+Note that this helpfully installs up to date versions of [CMake] and [Ninja].
 
-~~~bash
-/usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-~~~
+On non-Windows platforms, you will also need to install `yasm` so that `vcpkg` can install
+[mpir], which is required for [CGAL].
 
-Linux (Ubuntu):
+MacOS using [homebrew]:
 
-~~~bash
-sudo apt install linuxbrew-wrapper
-PATH="$HOME/.linuxbrew/bin:$PATH"
-echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
-brew --version
-export MANPATH="$(brew --prefix)/share/man:$MANPATH"
-export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
-brew doctor
-brew config
-~~~
+```bash
+brew install yasm
+```
+Linux using [apt]:
+```bash
+sudo apt-get install yasm
+```
 
-Then, you can install the prerequisites with:
+At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen],
+[boost], and [CGAL] (which installs [mpir] and [mpfr]):
 
-~~~bash
-brew update
-brew upgrade cmake
-brew install ninja
-brew install tbb
-brew install cgal
-~~~
+```bash
+./vcpkg install catch2
+./vcpkg install docopt
+./vcpkg install ms-gsl
+./vcpkg install eigen3
+./vcpkg install boost
+./vcpkg install cgal
+```
 
-Homebrew/Linuxbrew [have been merged] and no longer support options, so the [CGAL] package dependency
-on [Qt] fails. As of now, you have to manually install [CGAL]+[Qt] to get the (forthcoming)
-visualizations to work.
+This builds from source, so it will take awhile. To use these successfully, you'll need to
+set the `CMAKE_TOOLCHAIN_FILE` option in your IDE or whatever invokes [CMake] to wherever
+you've installed [vcpkg], (e.g. your home directory):
 
-Finally, you can install conan:
+```bash
+-DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
+```
 
-~~~bash
-brew install conan
-~~~
-
-You can test your Conan installation by typing:
-
-~~~bash
-conan
-~~~
-
-Next, create a [Conan] profile (named `cdt` here) automatically, using:
-
-~~~bash
-conan profile new cdt --detect
-~~~
-
-This (usually) finds your compiler settings, and allows the [build.sh] script to run correctly.
-
-There are a few packages that use the [bincrafters] repository. Add that via:
-
-~~~bash
-conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-~~~
-
-Using [CMake] and [Ninja], Conan handles the remaining dependencies.
-
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8], and [clang-7].
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8],
+and [clang-7].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
-Windows is almost there with [clang-cl], there is a [bug] with [date].
-
-### Installing
+### Building
 
 This project uses a separate `build/` directory, which allows you to rebuild the
 project without cluttering the source code. Thus, download this source code
@@ -177,7 +145,7 @@ debugging and scripting
 The install script will also run unit and integration tests.
 See [Testing](#testing) for details.
 
-### Usage
+## Usage
 
 CDT-plusplus uses [Docopt] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
@@ -319,15 +287,13 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 
 ## Upstream issues
 
-Various Travis-CI and AppVeyor builds are ignored:
+- As of 2018-11-29, the [vcpkg] formula for [date] is [broken][1], so I removed reliance on that library.
+Hopefully it will be back in C++20!
 
+- As of 2019-10-16 the [vcpkg] package for [tbb] doesn't [build][2], so I removed reliance on that library.
+But it speeds up triangulations by a factor of 3, so it would be great to be able to use someday.
 
-
-String view error in date.h for Visual Studio 2015 and 2017 <https://github.com/HowardHinnant/date/issues/434>
-
-which persists in the [bincrafters bintray] repo [date package] in conan: https://github.com/bincrafters/community/issues/999
-
-`brew install ninja` broken on linux <https://github.com/Homebrew/linuxbrew-core/issues/12430>
+- As of 2019-10-16 [vcpkg] doesn't [build][3] on macOS 10.14 (but does on 10.15).
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
@@ -379,8 +345,7 @@ which persists in the [bincrafters bintray] repo [date package] in conan: https:
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [Model Optimization]: https://www.comet.ml/parameter-optimization
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
-[Conan]: https://github.com/conan-io/conan
-[Linuxbrew]: https://docs.brew.sh/Homebrew-on-Linux
+[vcpkg]: https://github.com/Microsoft/vcpkg
 [clang-7]: https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html
 [gcc-8]: https://gcc.gnu.org/gcc-8/
 [C++]: https://isocpp.org/
@@ -390,10 +355,13 @@ which persists in the [bincrafters bintray] repo [date package] in conan: https:
 [development]: https://github.com/acgetchell/CDT-plusplus
 [bincrafters]: https://bincrafters.github.io/2017/06/06/using-bincrafters-conan-repository/
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
-[have been merged]: https://brew.sh/2019/02/02/homebrew-2.0.0/
 [Qt]: https://www.qt.io
 [Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html
 [PCG]: http://www.pcg-random.org/paper.html
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
-[bincrafters bintray]: https://bintray.com/bincrafters/public-conan
-[date package]: https://bintray.com/bincrafters/public-conan/date%3Abincrafters
+[apt]: https://wiki.debian.org/Apt
+[ms-gsl]: https://github.com/microsoft/GSL
+[mpir]: http://mpir.org/
+[1]: https://github.com/Microsoft/vcpkg/issues/4864
+[2]: https://github.com/microsoft/vcpkg/issues/8626
+[3]: https://github.com/microsoft/vcpkg/issues/8627

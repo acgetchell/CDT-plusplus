@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2017 Adam Getchell
+/// Copyright © 2014-2019 Adam Getchell
 ///
 /// Calculates the S3 Bulk (and later, boundary) actions.
 /// Uses the GNU MPFR library for arbitrary precision arithmetic on

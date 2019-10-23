@@ -486,8 +486,7 @@ namespace manifold3_moves
   {
     switch (move)
     {
-      case move_type::FOUR_FOUR:
-      {
+      case move_type::FOUR_FOUR: {
         return (after.is_valid() && after.N3() == before.N3() &&
                 after.N3_31() == before.N3_31() &&
                 after.N3_22() == before.N3_22() &&
@@ -497,8 +496,7 @@ namespace manifold3_moves
                 after.max_time() == before.max_time() &&
                 after.min_time() == before.min_time());
       }
-      case move_type::TWO_THREE:
-      {
+      case move_type::TWO_THREE: {
         return (after.is_valid() && after.N3() == before.N3() + 1 &&
                 after.N3_31() == before.N3_31() &&
                 after.N3_22() == before.N3_22() + 1 &&
@@ -510,8 +508,7 @@ namespace manifold3_moves
                 after.max_time() == before.max_time() &&
                 after.min_time() == before.min_time());
       }
-      case move_type::THREE_TWO:
-      {
+      case move_type::THREE_TWO: {
         return (after.is_valid() && after.N3() == before.N3() - 1 &&
                 after.N3_31() == before.N3_31() &&
                 after.N3_22() == before.N3_22() - 1 &&
@@ -523,8 +520,7 @@ namespace manifold3_moves
                 after.max_time() == before.max_time() &&
                 after.min_time() == before.min_time());
       }
-      case move_type::TWO_SIX:
-      {
+      case move_type::TWO_SIX: {
         return (after.is_valid() && after.N3() == before.N3() + 4 &&
                 after.N3_31() == before.N3_31() + 2 &&
                 after.N3_22() == before.N3_22() &&
@@ -537,8 +533,7 @@ namespace manifold3_moves
                 after.max_time() == before.max_time() &&
                 after.min_time() == before.min_time());
       }
-      case move_type::SIX_TWO:
-      {
+      case move_type::SIX_TWO: {
         return (after.is_valid() && after.N3() == before.N3() - 4 &&
                 after.N3_31() == before.N3_31() - 2 &&
                 after.N3_22() == before.N3_22() &&
@@ -551,8 +546,7 @@ namespace manifold3_moves
                 after.max_time() == before.max_time() &&
                 after.min_time() == before.min_time());
       }
-      default:
-      {
+      default: {
         return false;
       }
     }

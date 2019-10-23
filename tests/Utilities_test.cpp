@@ -69,6 +69,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       auto constexpr timeslices    = static_cast<int_fast32_t>(16);
       auto const filename =
           generate_filename(this_topology, dimensions, simplices, timeslices);
+      /// TODO: Fix intermittent Segfault here
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,
@@ -84,14 +85,12 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
 
 SCENARIO("Printing results", "[utility]")
 {
-  auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
-  auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
   // redirect std::cout
   std::stringstream buffer;
   std::cout.rdbuf(buffer.rdbuf());
   GIVEN("A Manifold3")
   {
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(640, 4);
     WHEN("We want to print statistics on a manifold.")
     {
       THEN("Statistics are successfully printed.")
@@ -111,7 +110,7 @@ SCENARIO("Printing results", "[utility]")
   }
   GIVEN("A FoliatedTriangulation3")
   {
-    FoliatedTriangulation3 triangulation(desired_simplices, desired_timeslices);
+    FoliatedTriangulation3 triangulation(640, 4);
     WHEN("We want to print statistics on the triangulation.")
     {
       THEN("Statistics are successfully printed.")
@@ -148,12 +147,10 @@ SCENARIO("Randomizing functions", "[utility]")
       {
         auto j = 0;
         for (auto i : v) { CHECK(i != j++); }
-        std::cout << "\n";
-        std::cout << "Shuffled container verification:\n";
-        for (auto i : v)
-        std:
-          cout << i << " ";
-        std::cout << "\n";
+        cout << "\n";
+        cout << "Shuffled container verification:\n";
+        for (auto i : v) cout << i << " ";
+        cout << "\n";
       }
     }
   }
@@ -333,7 +330,7 @@ SCENARIO("Expected points per timeslice", "[utility]")
   }
 }
 
-SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
+SCENARIO("Exact number (Gmqpzf) conversion", "[utility]")
 {
   GIVEN("A number not exactly representable in binary")
   {

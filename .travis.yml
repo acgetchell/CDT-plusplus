@@ -1,35 +1,19 @@
 language: cpp
 sudo: false
-dist: xenial
-osx_image: xcode10.2
+dist: bionic
+osx_image: xcode11.2
 
 addons:
   apt:
     sources:
-      - ubuntu-toolchain-r-test
+      - sourceline: 'ppa:ubuntu-toolchain-r/test'
     packages:
-      - g++-8
-      - linuxbrew-wrapper
-      - libmpfr-dev
+      - g++-9
+      - yasm
   homebrew:
     packages:
-      - ccache
-      - gcc
-      - lcov
-      - conan
-      - ninja
-      - mpfr
-      - tbb
-      - cgal
+      - yasm
     update: true
-
-env:
-  matrix:
-    - TESTS=true
-    - TESTS=false
-
-cache:
-  ccache: true
 
 os:
   - linux
@@ -39,207 +23,39 @@ compiler:
   - gcc
   - clang
 
-before_install:
-  - |
-    # Install Linuxbrew
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      PATH="$HOME/.linuxbrew/bin:$PATH"
-      echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
-      yes '' | brew --version
-      export MANPATH="$(brew --prefix)/share/man:$MANPATH"
-      export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
-      (brew update || brew update)
-      brew doctor
-      brew config
-      brew install ccache
-      export PATH="/usr/local/opt/ccache/libexec:$PATH"
-      brew install lcov
-      brew install conan
-      brew install ninja
-    fi
-
-install:
-  - |
-    if [[ "$CXX" == "g++" && "$TRAVIS_OS_NAME" == "linux" ]]; then
-      brew install gcc
-      brew link --overwrite gcc
-    fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then travis_wait 30 brew install cgal; fi
-  - if [[ "$CXX" = "g++" ]]; then export CXX="g++-8" CC="gcc-8"; fi
-  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang++" ]]; then export CXX="clang++" CC="clang"; fi
-  - conan remote add bincrafters https://api.bintray.com/conan/bincrafters/public-conan
-
-before_script:
-  - conan profile new cdt --detect
-  - mkdir build
-  - cd build
-
-# Build matrix
-# Matrix build combos of {linux,osx} x {gcc,clang} x {TESTS=true, TESTS=false} run script
-# Specific includes run their own scripts
-matrix:
-  fast_finish: true
-  include:
-    # Git Check
-    - os: linux
-      compiler: gcc
-      env: TESTS=false GITCHECK=true
-      # Skip unnecessary steps since we aren't compiling
-      before_install: skip
-      install: skip
-      before_script: skip
-      # Overwrite script on matrix jobs
-      script:
-        - |
-          if [[ -n $(git diff --check HEAD^) ]]; then
-            echo "You must remove whitespace before submitting a pull request."
-            echo ""
-            git diff --check HEAD^
-            exit -1
-          fi
-      after_success: skip
-    # ClangFormat
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGFORMAT=true
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-format-6.0
-      # Skip unnecessary steps since we aren't compiling
-      before_install: skip
-      install: skip
-      before_script: skip
-      # Overwrite script on matrix jobs
-      script:
-        - |
-          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file) ]]; then
-            echo "Run clang-format before submitting a pull request."
-            echo ""
-            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
-            exit -1
-          fi
-      after_success: skip
-    # ClangTidy
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGTIDY=true
-      addons:
-        apt:
-          sources:
-            - ubuntu-toolchain-r-test
-          packages:
-            - clang-tidy-6.0
-            - linuxbrew-wrapper
-      # Overwrite script on matrix jobs
-      script:
-        - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py > output.txt
-        - |
-          if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
-            echo "You must pass the clang tidy checks before submitting a pull request"
-            echo ""
-            grep --color -E '^|warning: |error: ' output.txt
-            exit -1;
-          else
-            echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
-          fi
-      after_success: skip
-    # Valgrind
-    - os: linux
-      compiler: gcc
-      env: TESTS=false VALGRIND=true
-      addons:
-        apt:
-          packages:
-            - g++-8
-            - valgrind
-            - linuxbrew-wrapper
-            - libmpfr-dev
-          sources:
-            - ubuntu-toolchain-r-test
-      after_success:
-        - travis_wait 30 ctest -T memcheck --verbose
-    # Codecov
-    - os: osx
-      compiler: clang
-      env: TESTS=true CODECOV=true
-      before_script: skip
-      script:
-        - conan profile new cdt --detect
-        - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
-        - cd ${TRAVIS_BUILD_DIR}
-        - pwd
-        - ./tools/codecov.sh
-      after_success: skip
-  # Sonarcloud
-    - os: osx
-      compiler: clang
-      env: TESTS=false SONARQUBE=true
-      addons:
-        sonarcloud:
-          organization: "acgetchell-github"
-          branches:
-            - develop
-            - master
-        homebrew:
-          packages:
-            - lcov
-            - conan
-            - ninja
-          update: true
-      before_install:
-        - git fetch --unshallow
-      script:
-        - CMAKE_OPTIONS="-DTESTS:BOOL=ON -DCMAKE_BUILD_TYPE=Debug -G Ninja"
-        - build-wrapper-macosx-x86 --out-dir bw_output cmake ${CMAKE_OPTIONS} ..
-        - sonar-scanner -X -Dproject.settings=../sonar-project.properties
-      cache:
-        ccache: true
-        directories:
-          - '$HOME/.sonar/cache'
-      after_success: skip
+jobs:
   allow_failures:
     - os: osx
-      compiler: gcc
-      env: TESTS=true
-    - os: osx
-      compiler: gcc
-      env: TESTS=false
-    - os: linux
-      compiler: clang
-      env: TESTS=false CLANGTIDY=true
-    - os: osx
-      compiler: clang
-      env: TESTS=false SONARQUBE=true
-script:
-  # Use Ninja
-  - conan profile update env.CONAN_CMAKE_GENERATOR=Ninja cdt
-  - |
-    if [[ "$CXX" == "g++-8" ]]; then
-      echo {linux, osx}/gcc using libstdc++11
-      conan profile update settings.compiler.libcxx=libstdc++11 cdt
-    else
-      if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-        echo os/clang autodetected libcxx is fine
-      else
-        echo linux/clang using libstdc++11
-        conan profile update settings.compiler=clang cdt
-        conan profile update settings.compiler.version=7.0 cdt
-        conan profile update settings.compiler.libcxx=libstdc++11 cdt
-      fi
-    fi
-  - conan install .. -pr cdt --build=missing
-  - conan build ..
-after_success:
-  # Catch tests showing only failures
-  - if [[ ${TESTS} == "true" ]]; then travis_wait 60 ctest; fi
 
-notifications:
-  webhooks:
-    urls:
-      - https://webhooks.gitter.im/e/c70e4d2749931f601747
-      - https://www.travisbuddy.com
-    on_success: change
-    on_failure: always
+
+before_install:
+  - git clone https://github.com/Microsoft/vcpkg.git
+  - cd vcpkg
+  - ./bootstrap-vcpkg.sh
+  - ./vcpkg integrate install
+  - git pull
+
+install:
+  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
+  #  - ./vcpkg install date
+  - ./vcpkg install catch2
+  - ./vcpkg install docopt
+  - ./vcpkg install ms-gsl
+  - ./vcpkg install eigen3
+  - ./vcpkg install boost
+  - ./vcpkg install mpir
+  - ./vcpkg install mpfr
+  #  - ./vcpkg install tbb
+  - ./vcpkg install cgal
+  - pwd
+  - cd ..
+
+script:
+  - mkdir build
+  - cd build || exit
+  - pwd
+  - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake --build .
+
+after_success:
+  - ctest

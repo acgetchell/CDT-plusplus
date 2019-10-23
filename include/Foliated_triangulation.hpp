@@ -458,10 +458,11 @@ class Foliated_triangulation<3> : private Delaunay3
       }
       // Now it's sorted in the multimap
       auto minvalue   = this_cell.cbegin()->first;
-      auto min_vertex = this_cell.cbegin()->second;
       auto maxvalue   = this_cell.crbegin()->first;
-      auto max_vertex = this_cell.crbegin()->second;
+
 #ifdef DETAILED_DEBUGGING
+      auto min_vertex = this_cell.cbegin()->second;
+      auto max_vertex = this_cell.crbegin()->second;
       std::cout << "Smallest timevalue in this cell is: " << minvalue << "\n";
       std::cout << "Largest timevalue in this cell is: " << maxvalue << "\n";
       std::cout << "Min vertex info() " << min_vertex->info() << "\n";
@@ -515,7 +516,7 @@ class Foliated_triangulation<3> : private Delaunay3
                   << "\n";
       }
 #endif
-      return invalid_vertices;
+      return std::move(invalid_vertices);
     }
   }  // check_timeslices
 
