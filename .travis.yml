@@ -1,11 +1,8 @@
 language: cpp
-sudo: false
 dist: bionic
 osx_image: xcode11.2
 
-cache:
-  directories:
-    - /home/travis/vcpkg/downloads/
+cache: ccache
 
 addons:
   apt:
@@ -16,6 +13,7 @@ addons:
       - yasm
   homebrew:
     packages:
+      - ccache
       - yasm
     update: true
 
@@ -33,6 +31,7 @@ jobs:
 
 
 before_install:
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - git clone https://github.com/Microsoft/vcpkg.git
   - cd vcpkg
   - ./bootstrap-vcpkg.sh
@@ -41,7 +40,6 @@ before_install:
 
 install:
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
-  #  - ./vcpkg install date
   - ./vcpkg install catch2
   - ./vcpkg install docopt
   - ./vcpkg install ms-gsl
