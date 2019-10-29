@@ -37,9 +37,9 @@ The goals and targets of this project are:
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
+- [x] Multithreading via [TBB]
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
-- [ ] Multithreading via [TBB]
 - [ ] Code coverage measurements with [Codecov]
 - [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
@@ -106,7 +106,7 @@ sudo apt-get install m4
 ```
 
 At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen],
-[boost], and [CGAL] (which installs [mpir] and [mpfr]):
+[boost], [tbb], and [CGAL] (which installs [mpir] and [mpfr]):
 
 ```bash
 ./vcpkg install catch2
@@ -114,6 +114,7 @@ At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen
 ./vcpkg install ms-gsl
 ./vcpkg install eigen3
 ./vcpkg install boost
+./vcpkg install tbb
 ./vcpkg install cgal
 ```
 
@@ -297,8 +298,8 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 - As of 2018-11-29, the [vcpkg] formula for [date] is [broken][1], so I removed reliance on that library.
 Hopefully it will be back in C++20!
 
-- As of 2019-10-16 the [vcpkg] package for [tbb] doesn't [build][2], so I removed reliance on that library.
-But it speeds up triangulations by a factor of 3, so it would be great to be able to use someday.
+- As of 2019-10-16 the [vcpkg] package for [tbb] doesn't [build][2], but there is a [pull request][4]
+that fixes the issue. I manually merged it and re-enabled [tbb].
 
 - As of 2019-10-16 [vcpkg] doesn't [build][3] on macOS 10.14 (but does on 10.15).
 
@@ -368,3 +369,4 @@ But it speeds up triangulations by a factor of 3, so it would be great to be abl
 [1]: https://github.com/Microsoft/vcpkg/issues/4864
 [2]: https://github.com/microsoft/vcpkg/issues/8626
 [3]: https://github.com/microsoft/vcpkg/issues/8627
+[4]: https://github.com/microsoft/vcpkg/pull/8744

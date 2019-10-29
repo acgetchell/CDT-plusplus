@@ -2,7 +2,10 @@ language: cpp
 dist: bionic
 osx_image: xcode11.2
 
-cache: ccache
+cache:
+  - ccache
+  - directories:
+      - $TRAVIS_BUILD_DIR/vcpkg
 
 addons:
   apt:
@@ -50,6 +53,7 @@ install:
   - ./vcpkg install tbb
   - ./vcpkg install cgal
   - pwd
+  - rm -rf downloads buildtrees
   - cd ..
 
 script:
