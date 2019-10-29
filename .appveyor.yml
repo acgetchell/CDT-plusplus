@@ -67,7 +67,7 @@ install:
   - vcpkg install docopt
   - vcpkg install ms-gsl
   - vcpkg install eigen3
-  #  - vcpkg install tbb
+  - vcpkg install tbb
   - vcpkg install cgal
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"

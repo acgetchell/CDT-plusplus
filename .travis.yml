@@ -47,7 +47,7 @@ install:
   - ./vcpkg install boost
   - ./vcpkg install mpir
   - ./vcpkg install mpfr
-  #  - ./vcpkg install tbb
+  - ./vcpkg install tbb
   - ./vcpkg install cgal
   - pwd
   - cd ..

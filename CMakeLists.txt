@@ -79,7 +79,8 @@ find_package(Boost REQUIRED)
 # https://eigen.tuxfamily.org/index.php?title=Main_Page
 find_package(Eigen3 CONFIG REQUIRED)
 
-# https://github.com/intel/tbb find_package(TBB CONFIG REQUIRED)
+# https://github.com/intel/tbb
+find_package(TBB CONFIG REQUIRED)
 
 # https://github.com/CGAL/cgal
 find_package(CGAL CONFIG REQUIRED)
@@ -96,9 +97,9 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 # On macOS and Linux docopt builds an intermediate object, thus different
 # targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
-  target_link_libraries(initialize PRIVATE docopt Eigen3::Eigen CGAL::CGAL)
+  target_link_libraries(initialize PRIVATE docopt Eigen3::Eigen TBB::tbb CGAL::CGAL)
 else()
-  target_link_libraries(initialize PRIVATE docopt_s Eigen3::Eigen CGAL::CGAL)
+  target_link_libraries(initialize PRIVATE docopt_s Eigen3::Eigen TBB::tbb CGAL::CGAL)
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
 
