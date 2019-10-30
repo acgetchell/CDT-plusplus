@@ -35,10 +35,15 @@ jobs:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
-  - git clone https://github.com/Microsoft/vcpkg.git
+  - |
+    if [[ ! -f vcpkg/vcpkg ]]; then
+      git clone https://github.com/Microsoft/vcpkg.git
+      cd vcpkg
+      ./bootstrap-vcpkg.sh
+      ./vcpkg integrate install
+      cd ..
+    fi
   - cd vcpkg
-  - ./bootstrap-vcpkg.sh
-  - ./vcpkg integrate install
   - git pull
 
 install:
