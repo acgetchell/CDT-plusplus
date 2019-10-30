@@ -35,31 +35,31 @@ jobs:
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
+  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
+
+install:
   - |
     if [[ ! -f vcpkg/vcpkg ]]; then
       git clone https://github.com/Microsoft/vcpkg.git
       cd vcpkg
       ./bootstrap-vcpkg.sh
       ./vcpkg integrate install
-      cd ..
+      ./vcpkg install catch2
+      ./vcpkg install docopt
+      ./vcpkg install ms-gsl
+      ./vcpkg install eigen3
+      ./vcpkg install boost
+      ./vcpkg install mpir
+      ./vcpkg install mpfr
+      ./vcpkg install tbb
+      ./vcpkg install cgal
     fi
   - cd vcpkg
   - git pull
-
-install:
-  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
-  - ./vcpkg install catch2
-  - ./vcpkg install docopt
-  - ./vcpkg install ms-gsl
-  - ./vcpkg install eigen3
-  - ./vcpkg install boost
-  - ./vcpkg install mpir
-  - ./vcpkg install mpfr
-  - ./vcpkg install tbb
-  - ./vcpkg install cgal
-  - pwd
+  - ./vcpkg upgrade --no-dry-run
   - rm -rf downloads buildtrees
   - cd ..
+  - pwd
 
 script:
   - mkdir build
