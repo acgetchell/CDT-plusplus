@@ -37,8 +37,7 @@ SCENARIO("Invoking a move with a function pointer", "[move3]")
     auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.is_valid());
+    REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move")
     {
       auto move23{manifold3_moves::do_23_move};
@@ -65,8 +64,7 @@ SCENARIO("Invoking a move with a lambda", "[move3]")
     auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.is_valid());
+    REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move")
     {
       auto move23 = [](Manifold3& manifold) -> Manifold3 {
@@ -95,8 +93,7 @@ SCENARIO("Move Command initialization", "[move3]")
     auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.is_valid());
+    REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold")
     {
       MoveCommand command(manifold);
@@ -127,65 +124,68 @@ SCENARIO("Move Command initialization", "[move3]")
 }
 
 /// TODO: Fix exception here
-// SCENARIO("Applying the Move Command", "[move3]")
-//{
-//  GIVEN("A valid manifold")
-//  {
-//    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
-//    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
-//    Manifold3 manifold(desired_simplices, desired_timeslices);
-//    REQUIRE(manifold.is_delaunay());
-//    REQUIRE(manifold.is_valid());
-//    WHEN("A (2,3) move is queued")
-//    {
-//      MoveCommand command(manifold);
-//      auto        move23 = [](Manifold3& manifold) mutable -> decltype(auto) {
-//        return manifold3_moves::do_23_move(manifold);
-//      };
-//      //      auto func(manifold3_moves::do_23_move);
-//      command.enqueue(move23);
-//      //      command.enqueue(func);
-//      THEN("It is executed correctly")
-//      {
-//        //        CAPTURE(command.get_manifold().N3_22());
-//        //        CAPTURE(command.get_manifold().N1_TL());
-//        command.execute();
-//        auto result = command.get_results();
-//        // Distinct objects
-//        //        auto* manifold_ptr = &manifold;
-//        //        auto* result_ptr   = &result;
-//        //        REQUIRE_FALSE(manifold_ptr == result_ptr);
-//        // Did the triangulation actually change? We should have +1 cell
-//        CHECK(result.get_triangulation()
-//                  .get_delaunay()
-//                  .number_of_finite_cells() ==
-//              manifold.get_triangulation()
-//                      .get_delaunay()
-//                      .number_of_finite_cells() +
-//                  1);
-//        print_triangulation(manifold.get_triangulation());
-//        // Now we should update the geometry data structure, but
-//        // an exception is thrown on following call
-//        try
-//        {
-//          result.update_geometry();
-//        }
-//        catch (exception& e)
-//        {
-//          std::cout << "Exception thrown: " << e.what() << "\n";
-//        }
-//        // These should be +1 after command
-//        CAPTURE(result.N3_22());
-//        CAPTURE(result.N1_TL());
-//        cout << "After move.\n";
-//        print_manifold_details(result);
-//        // Not calling update makes this test fail
-//        CHECK(manifold3_moves::check_move(
-//            manifold, result, manifold3_moves::move_type::TWO_THREE));
-//      }
-//    }
-//  }
-//}
+SCENARIO("Applying the Move Command", "[move3]")
+{
+  GIVEN("A valid manifold")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("A (2,3) move is queued")
+    {
+      MoveCommand command(manifold);
+      auto        move23 = [](Manifold3& manifold) mutable -> decltype(auto) {
+        return manifold3_moves::do_23_move(manifold);
+      };
+      //      auto func(manifold3_moves::do_23_move);
+      command.enqueue(move23);
+      //      command.enqueue(func);
+      THEN("It is executed correctly")
+      {
+        CAPTURE(command.get_manifold().N3_22());
+        CAPTURE(command.get_manifold().N1_TL());
+        command.execute();
+        auto result = command.get_results();
+        // Distinct objects
+        auto* manifold_ptr = &manifold;
+        auto* result_ptr   = &result;
+        REQUIRE_FALSE(manifold_ptr == result_ptr);
+        cout
+            << "The manifold and the result in the MoveCommand are distinct.\n";
+        // Did the triangulation actually change? We should have +1 cell
+        CHECK(result.get_triangulation()
+                  .get_delaunay()
+                  .number_of_finite_cells() ==
+              manifold.get_triangulation()
+                      .get_delaunay()
+                      .number_of_finite_cells() +
+                  1);
+        cout << "Triangulation added a finite cell.\n";
+        print_triangulation(manifold.get_triangulation());
+        try
+        {
+          // Now we should update the manifold, but the precondition for
+          // collect_cells (which is called from update) is violated,
+          // and ms-gsl calls std::terminate
+          //                    result.update();
+        }
+        catch (exception& e)
+        {
+          cout << "Exception thrown: " << e.what() << "\n";
+        }
+        // These should be +1 after command
+        CAPTURE(result.N3_22());
+        CAPTURE(result.N1_TL());
+        cout << "After move.\n";
+        print_manifold_details(result);
+        // Not calling update makes this test fail
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+      }
+    }
+  }
+}
 
 // SCENARIO("Save state using a Memento", "[move3]")
 //{

@@ -29,7 +29,7 @@ class MoveCommand
   }
 
   /// @return The results of the commands
-  [[nodiscard]] auto& get_results() { return *manifold_; }
+  [[nodiscard]] auto&& get_results() { return *manifold_; }
 
   /// Push a move onto the move queue
   /// @param move The move to do on the manifold
