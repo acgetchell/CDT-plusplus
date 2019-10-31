@@ -11,6 +11,9 @@
 #define CATCH_CONFIG_RUNNER
 #define CATCH_CONFIG_NO_CPP17_UNCAUGHT_EXCEPTIONS
 #define CATCH_CONFIG_CPP17_STRING_VIEW
+#define CATCH_CONFIG_CPP17_VARIANT
+#define CATCH_CONFIG_CPP17_OPTIONAL
+#define CATCH_CONFIG_CPP17_BYTE
 #include <catch2/catch.hpp>
 
 int main(int argc, char* argv[])

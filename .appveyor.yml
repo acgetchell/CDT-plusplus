@@ -53,8 +53,6 @@ install:
   - set CMAKE_MAKE_PROGRAM=C:\projects\dev\ninja\ninja.exe
   # Verify CMake
   - cmake --version
-  # Install make because TBB uses it
-  #  - choco install make
   - cd c:\tools\vcpkg
   # Update ports
   - git pull

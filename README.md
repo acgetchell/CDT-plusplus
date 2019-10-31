@@ -126,7 +126,7 @@ you've installed [vcpkg], (e.g. your home directory):
 -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-8],
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9],
 and [clang-7].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
@@ -353,7 +353,7 @@ that fixes the issue. I manually merged it and re-enabled [tbb].
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
 [clang-7]: https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html
-[gcc-8]: https://gcc.gnu.org/gcc-8/
+[gcc-9]: https://gcc.gnu.org/gcc-9/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
 [development]: https://github.com/acgetchell/CDT-plusplus
