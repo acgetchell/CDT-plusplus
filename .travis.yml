@@ -29,8 +29,42 @@ compiler:
   - clang
 
 jobs:
+  include:
+    - os: linux
+      compiler: gcc
+      env: CODECOV=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - g++-9
+            - yasm
+            - binutils-dev
+            - libcurl4-openssl-dev
+            - zlib1g-dev
+            - libdw-dev
+            - libiberty-dev
+      after_script:
+        - cd $TRAVIS_BUILD_DIR
+        - git clone https://github.com/SimonKagstrom/kcov.git
+        - cd kcov
+        - mkdir build
+        - cd build
+        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
+        - make
+        - make install
+      after_success:
+        - pwd
+        - cd $TRAVIS_BUILD_DIR/tools
+        - ./kcov.sh
+        - cd $TRAVIS_BUILD_DIR/build/tests
+        - bash <(curl -s https://codecov.io/bash) -s kcov-results
   allow_failures:
     - os: osx
+    - os: linux
+      compiler: gcc
+      env: CODECOV=true
 
 
 before_install:
