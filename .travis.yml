@@ -30,9 +30,31 @@ compiler:
 
 jobs:
   include:
+    # Git Check
+    - os: linux
+      compiler: gcc
+      env: GITCHECK=true
+      # Skip unnecessary steps since we aren't compiling
+      before_install: skip
+      install: skip
+      script:
+        - |
+          if [[ -n $(git diff --check HEAD^) ]]; then
+            echo "You must remove whitespace before submitting a pull request."
+            echo ""
+            git diff --check HEAD^
+            exit -1
+          fi
+      after_success: skip
+    # Codecov
     - os: linux
       compiler: gcc
       env: CODECOV=true
+      cache:
+        - ccache
+        - directories:
+            - $TRAVIS_BUILD_DIR/vcpkg
+            - $TRAVIS_BUILD_DIR/kcov
       addons:
         apt:
           sources:
@@ -47,13 +69,17 @@ jobs:
             - libiberty-dev
       after_script:
         - cd $TRAVIS_BUILD_DIR
-        - git clone https://github.com/SimonKagstrom/kcov.git
-        - cd kcov
-        - mkdir build
-        - cd build
-        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
-        - make
-        - make install
+        # kcov should be cached, but install it if not
+        - |
+          if [[ ! -d kcov ]]; then
+            git clone https://github.com/SimonKagstrom/kcov.git
+            cd kcov
+            mkdir build
+            cd build
+            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
+            make
+            make install
+          fi
       after_success:
         - pwd
         - cd $TRAVIS_BUILD_DIR/tools
@@ -72,6 +98,7 @@ before_install:
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
 
 install:
+  # vcpkg should be cached, but install it if not
   - |
     if [[ ! -f vcpkg/vcpkg ]]; then
       git clone https://github.com/Microsoft/vcpkg.git
@@ -88,7 +115,8 @@ install:
       ./vcpkg install tbb
       ./vcpkg install cgal
     fi
-  - cd vcpkg
+  # Update ports
+  - cd $TRAVIS_BUILD_DIR/vcpkg
   - git pull
   - ./vcpkg upgrade --no-dry-run
   - rm -rf downloads buildtrees
