@@ -75,11 +75,6 @@ jobs:
     - os: linux
       compiler: gcc
       env: CODECOV=true
-      cache:
-        - ccache
-        - directories:
-            - $TRAVIS_BUILD_DIR/vcpkg
-            - $TRAVIS_BUILD_DIR/kcov
       addons:
         apt:
           sources:
@@ -98,20 +93,16 @@ jobs:
         - cd $TRAVIS_BUILD_DIR
         - echo "Installing kcov"
         - pwd
-        # kcov should be cached, but install it if not
-        - |
-          if [[ ! -d kcov ]]; then
-            echo "Kcov git repo not found"
-            git clone https://github.com/SimonKagstrom/kcov.git
-            cd kcov
-            mkdir build
-            cd build
-            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
-            make
-            make install
-          else
-            echo "Kcov git repo found"
-          fi
+        - git clone https://github.com/SimonKagstrom/kcov.git
+        - cd kcov
+        - mkdir build
+        - cd build
+        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
+        - make
+        - sudo make install
+        - cd $TRAVIS_BUILD_DIR
+        - pwd
+        - kcov -h
       after_success:
         - pwd
         - cd $TRAVIS_BUILD_DIR/tools
