@@ -87,29 +87,19 @@ jobs:
           packages:
             - g++-9
             - yasm
-            - binutils-dev
-            - libcurl4-openssl-dev
-            - zlib1g-dev
-            - libdw-dev
-            - libiberty-dev
+            - linuxbrew-wrapper
       after_script:
-        - cd $TRAVIS_BUILD_DIR
-        - echo "Installing kcov"
-        - pwd
-        # kcov should be cached, but install it if not
-        - |
-          if [[ ! -d kcov ]]; then
-            echo "Kcov git repo not found"
-            git clone https://github.com/SimonKagstrom/kcov.git
-            cd kcov
-            mkdir build
-            cd build
-            cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
-            make
-            make install
-          else
-            echo "Kcov git repo found"
-          fi
+        # Install Linuxbrew
+        - PATH="$HOME/.linuxbrew/bin:$PATH"
+        - echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
+        - yes '' | brew --version
+        - export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+        - export INFOPATH="$(brew --prefix)/share/info:$INFOPATH"
+        - (brew update || brew update)
+        - brew doctor
+        - brew config
+        # Install kcov
+        - brew install kcov
       after_success:
         - pwd
         - cd $TRAVIS_BUILD_DIR/tools

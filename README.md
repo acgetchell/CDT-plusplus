@@ -298,9 +298,6 @@ Please see [CONTRIBUTING.md](.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.m
 - As of 2018-11-29, the [vcpkg] formula for [date] is [broken][1], so I removed reliance on that library.
 Hopefully it will be back in C++20!
 
-- As of 2019-10-16 the [vcpkg] package for [tbb] doesn't [build][2], but there is a [pull request][4]
-that fixes the issue. I manually merged it and re-enabled [tbb].
-
 - As of 2019-10-16 [vcpkg] doesn't [build][3] on macOS 10.14 (but does on 10.15).
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
@@ -367,6 +364,4 @@ that fixes the issue. I manually merged it and re-enabled [tbb].
 [MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
 [m4]: https://www.gnu.org/software/m4/
 [1]: https://github.com/Microsoft/vcpkg/issues/4864
-[2]: https://github.com/microsoft/vcpkg/issues/8626
 [3]: https://github.com/microsoft/vcpkg/issues/8627
-[4]: https://github.com/microsoft/vcpkg/pull/8744
