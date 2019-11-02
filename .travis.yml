@@ -44,6 +44,8 @@ jobs:
             echo ""
             git diff --check HEAD^
             exit -1
+          else
+            echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
       after_success: skip
     # Clang-format
@@ -66,6 +68,8 @@ jobs:
             echo ""
             git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
             exit -1
+          else
+            echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
       after_success: skip
     # Clang-tidy
@@ -93,6 +97,19 @@ jobs:
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
       after_success: skip
+    # Valgrind
+    - os: linux
+      compiler: gcc
+      env: VALGRIND=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - g++-9
+            - yasm
+            - valgrind
+      after_success: travis_wait 30 ctest -T memcheck --verbose
     # Codecov
     - os: linux
       compiler: gcc
