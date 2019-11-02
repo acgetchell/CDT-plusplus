@@ -75,11 +75,6 @@ jobs:
     - os: linux
       compiler: gcc
       env: CODECOV=true
-      cache:
-        - ccache
-        - directories:
-            - $TRAVIS_BUILD_DIR/vcpkg
-            - $TRAVIS_BUILD_DIR/kcov
       addons:
         apt:
           sources:
@@ -88,7 +83,8 @@ jobs:
             - g++-9
             - yasm
             - linuxbrew-wrapper
-      after_script:
+      before_install:
+        - export CXX="g++-9" CC="gcc-9"
         # Install Linuxbrew
         - PATH="$HOME/.linuxbrew/bin:$PATH"
         - echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH"' >> ~/.bash_profile
