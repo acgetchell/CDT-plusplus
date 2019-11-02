@@ -46,6 +46,28 @@ jobs:
             exit -1
           fi
       after_success: skip
+    # Clang-format
+    - os: linux
+      compiler: clang
+      env: CLANGFORMAT=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - clang-format
+      # Skip unnecessary steps since we aren't compiling
+      before_install: skip
+      install: skip
+      script:
+        - |
+          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file) ]]; then
+            echo "Run clang-format before submitting a pull request."
+            echo ""
+            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
+            exit -1
+          fi
+      after_success: skip
     # Clang-tidy
     - os: linux
       compiler: clang
@@ -92,7 +114,6 @@ jobs:
         # Install kcov
         - cd $TRAVIS_BUILD_DIR
         - echo "Installing kcov"
-        - pwd
         - git clone https://github.com/SimonKagstrom/kcov.git
         - cd kcov
         - mkdir build
@@ -101,13 +122,10 @@ jobs:
         - make
         - sudo make install
         - cd $TRAVIS_BUILD_DIR
-        - pwd
-        - kcov -h
       after_success:
-        - pwd
         - cd $TRAVIS_BUILD_DIR/tools
         - pwd
-        - ./kcov.sh
+        - travis_wait ./kcov.sh
         - cd $TRAVIS_BUILD_DIR/build/tests
         - bash <(curl -s https://codecov.io/bash) -s kcov-results
   allow_failures:

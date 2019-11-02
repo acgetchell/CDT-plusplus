@@ -6,5 +6,5 @@ cd tests || exit
 mkdir kcov-results
 kcov --exclude-pattern=usr/include,lib/system,vcpkg --include-pattern=CDT-plusplus/src,CDT-plusplus/include kcov-results CDT_test &
 # kill process after 10 minutes
-sleep 500
+sleep 600
 pkill -9 kcov
