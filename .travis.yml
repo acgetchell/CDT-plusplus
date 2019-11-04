@@ -158,13 +158,15 @@ jobs:
       before_install: skip
       install: skip
       script:
-        - cd $TRAVIS_BUILD_DIR/docs
-        - doxygen Doxyfile
+        - cd $TRAVIS_BUILD_DIR
+        - doxygen docs/Doxyfile
       after_success: skip
       deploy:
         provider: pages
-        local_dir: docs/html
+        skip_cleanup: true
+        local_dir: html
         github_token: $DOXYGEN_TOKEN
+        verbose: true
   allow_failures:
     - os: osx
     - os: linux
