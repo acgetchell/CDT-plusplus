@@ -110,10 +110,10 @@ jobs:
             - yasm
             - valgrind
       after_success: travis_wait 30 ctest -T memcheck --verbose
-    # Codecov
+    # Coveralls
     - os: linux
       compiler: gcc
-      env: CODECOV=true
+      env: COVERALLS=true
       addons:
         apt:
           sources:
@@ -145,7 +145,7 @@ jobs:
         - travis_wait ./kcov.sh
         - cd $TRAVIS_BUILD_DIR/build/tests
 #        - bash <(curl -s https://codecov.io/bash) -s kcov-results
-        - kcov --coveralls-id=$TRAVIS_JOB_ID kcov-results
+        - kcov --report-only --coveralls-id=$TRAVIS_JOB_ID kcov-results ./CDT_test
     # Doxygen
     - os: linux
       compiler: gcc
@@ -161,7 +161,7 @@ jobs:
       script:
         - cd $TRAVIS_BUILD_DIR
         - doxygen docs/Doxyfile
-      after_success: skip
+      after_success:
       deploy:
         provider: pages
         skip_cleanup: true
@@ -174,7 +174,7 @@ jobs:
     - os: osx
     - os: linux
       compiler: gcc
-      env: CODECOV=true
+      env: COVERALLS=true
     - os: linux
       compiler: clang
       env: CLANGTIDY=true

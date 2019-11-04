@@ -138,7 +138,7 @@ SCENARIO("Randomizing functions", "[utility]")
   }
   GIVEN("A container of ints")
   {
-    std::vector<int> v(50);
+    std::vector<int> v(20);
     std::iota(v.begin(), v.end(), 0);
     WHEN("The container is shuffled.")
     {
