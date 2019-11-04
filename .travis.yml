@@ -144,7 +144,8 @@ jobs:
         - pwd
         - travis_wait ./kcov.sh
         - cd $TRAVIS_BUILD_DIR/build/tests
-        - bash <(curl -s https://codecov.io/bash) -s kcov-results
+#        - bash <(curl -s https://codecov.io/bash) -s kcov-results
+        - kcov --coveralls-id=$TRAVIS_JOB_ID kcov-results
     # Doxygen
     - os: linux
       compiler: gcc
