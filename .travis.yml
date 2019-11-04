@@ -159,7 +159,7 @@ jobs:
       install: skip
       script:
         - cd $TRAVIS_BUILD_DIR/docs
-        - doxgen Doxyfile
+        - doxygen Doxyfile
       after_success: skip
       deploy:
         provider: pages
