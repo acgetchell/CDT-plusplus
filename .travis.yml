@@ -145,6 +145,26 @@ jobs:
         - travis_wait ./kcov.sh
         - cd $TRAVIS_BUILD_DIR/build/tests
         - bash <(curl -s https://codecov.io/bash) -s kcov-results
+    # Doxygen
+    - os: linux
+      compiler: gcc
+      env: DOXYGEN=true
+      addons:
+        apt:
+          packages:
+            - doxygen
+            - graphviz
+      # Skip unnecessary steps since we aren't compiling
+      before_install: skip
+      install: skip
+      script:
+        - cd $TRAVIS_BUILD_DIR/docs
+        - doxgen Doxyfile
+      after_success: skip
+      deploy:
+        provider: pages
+        local_dir: docs/html
+        github_token: $DOXYGEN_TOKEN
   allow_failures:
     - os: osx
     - os: linux
@@ -153,7 +173,9 @@ jobs:
     - os: linux
       compiler: clang
       env: CLANGTIDY=true
-
+    - os: linux
+      compiler: gcc
+      env: DOXYGEN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
