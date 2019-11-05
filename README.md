@@ -3,6 +3,7 @@
  [![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.org/acgetchell/CDT-plusplus)
  [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
  [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
+ [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 
 **Quantize spacetime on your laptop.**
@@ -12,7 +13,7 @@
 For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki),
 including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
-[Causal Dynamical Triangulations][CDT] in [C++] use the
+[Causal Dynamical Triangulations][CDT] in [C++] uses the
 [Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
 Arbitrary-precision numbers and functions via [MPFR] and [GMP].
 Uses [Docopt] to provide a beautiful command-line interface.
@@ -38,9 +39,9 @@ The goals and targets of this project are:
 - [x] 3D Ergodic moves
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
 - [x] Multithreading via [TBB]
+- [x] Code coverage measurements with [Codecov]
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
-- [ ] Code coverage measurements with [Codecov]
 - [ ] [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
@@ -66,8 +67,7 @@ git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git
 
 (Older versions of `git` may require `--recursive` instead of `--recurse-submodules`.)
 
-This will put you on the [development] branch. Project layout
-is the [PitchFork Layout], as follows:
+This will put you on the [development] branch. Project is in the [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
 - build - Ephemeral out-of-source build directory
@@ -126,8 +126,7 @@ you've installed [vcpkg], (e.g. your home directory):
 -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9],
-and [clang-7].
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], and [clang-7].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 ### Building
@@ -137,13 +136,11 @@ cd tools
 ./build.sh
 ```
 
-This should result in the main program executable, `cdt` in the `build/bin`
-directory, along with several others.
+This should result in the main program executable, `cdt` in the `build/bin` directory, along with several others.
 
 - `CDT_test` is the [Catch] executable which runs the unit tests
 - `cdt-gv` converts output files to [Geomview] format for visualization
-- `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for
-debugging and scripting
+- `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
 The install script will also run unit and integration tests.
