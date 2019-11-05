@@ -142,10 +142,10 @@ jobs:
       after_success:
         - cd $TRAVIS_BUILD_DIR/tools
         - pwd
-        - travis_wait ./kcov.sh
+        - travis_wait 60 ./kcov.sh
         - cd $TRAVIS_BUILD_DIR/build/tests
 #        - bash <(curl -s https://codecov.io/bash) -s kcov-results
-        - kcov --report-only --coveralls-id=$TRAVIS_JOB_ID kcov-results ./CDT_test
+        - travis_wait 30 kcov --report-only --coveralls-id=$TRAVIS_JOB_ID kcov-results ./CDT_test
     # Doxygen
     - os: linux
       compiler: gcc
