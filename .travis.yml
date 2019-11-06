@@ -161,7 +161,9 @@ jobs:
       script:
         - cd $TRAVIS_BUILD_DIR
         - doxygen docs/Doxyfile
-      after_success: ignore
+      after_success:
+        # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
+        - pwd
       deploy:
         provider: pages
         skip_cleanup: true
