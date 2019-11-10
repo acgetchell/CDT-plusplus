@@ -122,7 +122,7 @@ SCENARIO("Printing results", "[utility]")
   }
 }
 
-SCENARIO("Randomizing functions", "[utility]")
+SCENARIO("Randomizing functions", "[utility][!mayfail]")
 {
   GIVEN("A PCG die roller")
   {

@@ -478,7 +478,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
         REQUIRE(manifold.faces() == manifold.N2());
-        REQUIRE(manifold.simplices() == manifold.N3());
+        REQUIRE(manifold.number_of_simplices() == manifold.N3());
       }
       THEN("The number of timeslices is correct.")
       {

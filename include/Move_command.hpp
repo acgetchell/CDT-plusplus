@@ -18,7 +18,7 @@ template <typename ManifoldType,
 class MoveCommand
 {
  public:
-  explicit MoveCommand(ManifoldType manifold)
+  explicit MoveCommand(ManifoldType& manifold)
       : manifold_{std::make_unique<ManifoldType>(manifold)}
   {}
 

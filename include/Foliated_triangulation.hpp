@@ -23,15 +23,11 @@
 
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-//#include <CGAL/Triangulation_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
 #include <Utilities.hpp>
 #include <cstdint>
-//#include <CGAL/Dimension.h>
-//#include <CGAL/Epick_d.h>
-//#include <CGAL/Delaunay_triangulation.h>
 
 using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation3 = CGAL::Triangulation_3<Kernel>;
@@ -541,25 +537,25 @@ class Foliated_triangulation<3> : private Delaunay3
         CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
                      bounding_box_size, bounding_box_size, bounding_box_size},
         50};
-    Delaunay3 delaunay = Delaunay3{K{}, &locking_ds};
+    Delaunay3 triangulation = Delaunay3{K{}, &locking_ds};
 #else
-    Delaunay3 delaunay = Delaunay3{};
+    Delaunay3 triangulation = Delaunay3{};
 #endif
 
     auto causal_vertices = make_foliated_sphere(simplices, timeslices,
                                                 initial_radius, radial_factor);
-    delaunay.insert(causal_vertices.begin(), causal_vertices.end());
+    triangulation.insert(causal_vertices.begin(), causal_vertices.end());
     int passes = 1;
-    while (!fix_timeslices(delaunay))
+    while (!fix_timeslices(triangulation))
     {
 #ifndef NDEBUG
       std::cout << "Fix pass #" << passes << "\n";
 #endif
       ++passes;
     }
-    print_triangulation(delaunay);
-    Ensures(!check_timeslices(delaunay));
-    return delaunay;
+    print_triangulation(triangulation);
+    Ensures(!check_timeslices(triangulation));
+    return triangulation;
   }
   /// @brief Make foliated spheres
   /// @param simplices The desired number of simplices in the triangulation
@@ -680,21 +676,19 @@ class Foliated_triangulation<3> : private Delaunay3
         }
       }
 
-      // This is simply not sufficient. Need to check *both* max_time and
+      // This is simply not sufficient. Need to check *both* maxtime and
       // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
       // Anything else means we have an invalid simplex which we should
       // also return.
-      // We also need to check that max_time - min_time = 1, else we have
+      // We also need to check that maxtime - min_time = 1, else we have
       // a mis-classified vertex (probably)
-      auto max_time =
+      auto maxtime =
           std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
-      auto max_time_vertices =
-          std::count_if(cell_vertices.begin(), cell_vertices.end(),
-                        [max_time](auto const& vertex) {
-                          return vertex->info() == *max_time;
-                        });
-      // Check max_time - min_time here
-      switch (max_time_vertices)
+      auto maxtime_vertices = std::count_if(
+          cell_vertices.begin(), cell_vertices.end(),
+          [maxtime](auto const& vertex) { return vertex->info() == *maxtime; });
+      // Check maxtime - min_time here
+      switch (maxtime_vertices)
       {
         case 1:
           c->info() = static_cast<int>(Cell_type::THREE_ONE);
@@ -710,8 +704,8 @@ class Foliated_triangulation<3> : private Delaunay3
       }
       if (debugging)
       {
-        std::cout << "Max timevalue is " << *max_time << "\n";
-        std::cout << "There are " << max_time_vertices
+        std::cout << "Max timevalue is " << *maxtime << "\n";
+        std::cout << "There are " << maxtime_vertices
                   << " vertices with max timeslice in the cell.\n";
         std::cout << "Cell info is now " << c->info() << "\n";
         std::cout << "---\n";

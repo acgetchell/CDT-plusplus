@@ -29,7 +29,10 @@ namespace manifold3_moves
   ///
   /// @param manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(Manifold3& manifold) { return manifold; }
+  [[nodiscard]] inline auto null_move(Manifold3 const& manifold)
+  {
+    return manifold;
+  }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
   ///

@@ -70,29 +70,6 @@ class Manifold<3>
       , geometry_{get_triangulation()}
   {}
 
-  //  /// @brief Construct Geometry data from a triangulation
-  //  /// @tparam Triangulation Type of triangulation
-  //  /// @param triangulation The triangulation to use
-  //  /// @return The geometry data of the triangulation
-  //  template <typename Triangulation>
-  //  [[nodiscard]] Geometry3 make_geometry(Triangulation&& triangulation)
-  //  try
-  //  {
-  //#ifndef NDEBUG
-  //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
-  //#endif
-  //
-  //    Geometry3 geom{std::forward<Triangulation>(triangulation)};
-  //    return geom;
-  //  }
-  //  catch (std::exception const& e)
-  //  {
-  //    std::cerr << "make_geometry() failed: " << e.what() << "\n";
-  //    throw;
-  //    //    std::cout << "Try again to make geometry ...\n";
-  //    //    this->update_geometry();
-  //  }
-
   /// @brief Update the Manifold data structures
   void update()
   try
@@ -144,12 +121,13 @@ class Manifold<3>
   [[nodiscard]] auto get_vertices_from_cells(
       std::vector<Cell_handle> const& cells) const
   {
-    std::unordered_set<Vertex_handle> vertices;
+    std::unordered_set<Vertex_handle> cell_vertices;
     for (auto& cell : cells)
     {
-      for (int j = 0; j < 4; ++j) { vertices.emplace(cell->vertex(j)); }
+      for (int j = 0; j < 4; ++j) { cell_vertices.emplace(cell->vertex(j)); }
     }
-    std::vector<Vertex_handle> result(vertices.begin(), vertices.end());
+    std::vector<Vertex_handle> result(cell_vertices.begin(),
+                                      cell_vertices.end());
     return result;
   }
 
@@ -213,7 +191,7 @@ class Manifold<3>
   [[nodiscard]] auto N3_31_13() const { return geometry_.N3_31_13; }
 
   /// @return Number of 3D simplices in triangulation data structure
-  [[nodiscard]] auto simplices() const
+  [[nodiscard]] auto number_of_simplices() const
   {
     return triangulation_.get_cells().size();
   }
@@ -264,7 +242,7 @@ class Manifold<3>
   /// in geometry
   [[nodiscard]] auto check_simplices() const -> bool
   {
-    return (this->simplices() == this->N3() &&
+    return (this->number_of_simplices() == this->N3() &&
             triangulation_.check_cells(triangulation_.get_cells()));
   }
 

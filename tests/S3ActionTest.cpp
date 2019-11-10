@@ -25,7 +25,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     constexpr auto Lambda     = static_cast<long double>(0.1);
     Manifold3      universe(simplices, timeslices);
     // Verify triangulation
-    CHECK(universe.N3() == universe.simplices());
+    CHECK(universe.N3() == universe.number_of_simplices());
     CHECK(universe.N1() == universe.edges());
     CHECK(universe.N0() == universe.vertices());
     CHECK(universe.dim() == 3);

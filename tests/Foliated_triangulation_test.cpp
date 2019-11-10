@@ -132,10 +132,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      //      for (gsl::index j = 0; j < 4; ++j) {
-      //        causal_vertices.emplace_back(std::make_pair(Vertices[j],
-      //        timevalue[j]));
-      //      }
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("Triangulation is valid and foliated.")
@@ -293,16 +289,10 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      //      for (gsl::index j = 0; j < 4; ++j) {
-      //        causal_vertices.emplace_back(std::make_pair(Vertices[j],
-      //        timevalue[j]));
-      //      }
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("No errors in the simplex are detected.")
       {
-        //        CHECK_FALSE(
-        //            foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK(foliatedTriangulation.is_foliated());
         // Human verification
         foliatedTriangulation.print_cells();
@@ -327,10 +317,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      //      for (gsl::index j = 0; j < 4; ++j) {
-      //        causal_vertices.emplace_back(std::make_pair(Vertices[j],
-      //        timevalue[j]));
-      //      }
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("An error is detected.")
@@ -339,7 +325,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
 #ifndef _WIN64
-      // Visual Studio doesn't like this
+      // MSVC doesn't like this
       AND_THEN("The high value is discarded.")
       {
         auto discarded =
@@ -363,19 +349,14 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      //      for (gsl::index j = 0; j < 4; ++j) {
-      //        causal_vertices.emplace_back(std::make_pair(Vertices[j],
-      //        timevalue[j]));
-      //      }
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("An error is detected.")
       {
-        //        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
 #ifndef _WIN64
-      // Visual Studio doesn't like this
+      // MSVC doesn't like this
       AND_THEN("The low value is discarded.")
       {
         auto discarded =
@@ -399,15 +380,10 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      //      for (gsl::index j = 0; j < 4; ++j) {
-      //        causal_vertices.emplace_back(std::make_pair(Vertices[j],
-      //        timevalue[j]));
-      //      }
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("An error is detected.")
       {
-        //        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
 #ifndef _WIN64
