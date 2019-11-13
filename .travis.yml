@@ -168,7 +168,7 @@ jobs:
         provider: pages
         skip_cleanup: true
         local_dir: html
-        token: $DOXYGEN_TOKEN
+        github_token: $DOXYGEN_TOKEN
         verbose: true
         on:
           all_branches: true
