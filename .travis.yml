@@ -150,7 +150,7 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
-      cache:
+      cache: false
       addons:
         apt:
           packages:
