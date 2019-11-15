@@ -14,6 +14,29 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 #
+# Modules and scripts ##
+#
+include(CTest)
+include(CMakeDependentOption)
+
+# Valgrind
+if(VALGRIND)
+  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O0")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
+  # Known Valgrind issue
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+endif()
+
+#
 # OPTIONS  ##
 #
 
@@ -27,7 +50,7 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 set(CMAKE_CXX_STANDARD 17)
 
 # Turn on / off TBB
-set(TBB_ON FALSE)
+set(TBB_ON TRUE)
 
 # Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
