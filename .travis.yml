@@ -110,7 +110,7 @@ jobs:
             - g++-9
             - yasm
             - valgrind
-      after_success: travis_wait 30 ./initialize --s -n3200 -t11 -T memcheck --verbose
+      after_success: travis_wait 30 ctest -T memcheck --verbose
     # CodeCov
     - os: linux
       compiler: gcc
