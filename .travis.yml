@@ -15,6 +15,9 @@ addons:
     packages:
       - g++-9
       - yasm
+      - clang-8
+      - libc++-8-dev
+      - libc++abi-8-dev
   homebrew:
     packages:
       - ccache
@@ -58,16 +61,16 @@ jobs:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - clang-format
+            - clang-format-8
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
       install: skip
       script:
         - |
-          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file) ]]; then
+          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-8/clang-format-diff.py -style file) ]]; then
             echo "Run clang-format before submitting a pull request."
             echo ""
-            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-6.0/clang-format-diff.py -style file
+            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-8/clang-format-diff.py -style file
             exit -1
           else
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
@@ -82,12 +85,12 @@ jobs:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - clang-tidy
+            - clang-tidy-8
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
       install: skip
       script:
-        - git diff -U0 HEAD^ | /usr/lib/llvm-6.0/share/clang/clang-tidy-diff.py > output.txt
+        - git diff -U0 HEAD^ | /usr/lib/llvm-8/share/clang/clang-tidy-diff.py > output.txt
         - |
           if [[ -n $(grep "warning: " output.txt) ]] || [[ -n $(grep "error: " output.txt) ]]; then
             echo "You must pass the clang tidy checks before submitting a pull request"
@@ -110,7 +113,9 @@ jobs:
             - g++-9
             - yasm
             - valgrind
-      after_success: travis_wait 30 ctest -T memcheck --verbose
+      after_success:
+        - travis_wait 30 ctest -T memcheck --verbose
+        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
     # CodeCov
     - os: linux
       compiler: gcc
@@ -198,6 +203,7 @@ jobs:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
+  - if [[ "$TRAVIS_OS_NAME" == "linux" && "$CXX" == "clang" ]]; then export CXX="clang++-8" CC="clang-8"; fi
 
 install:
   # vcpkg should be cached, but install it if not
