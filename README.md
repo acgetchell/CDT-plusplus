@@ -290,7 +290,7 @@ You can then run experiments and look at results on https://www.comet.ml!
 
 ## Contributing
 
-Please see [CONTRIBUTING.md](./.github/CONTRIBUTING.md) and our [CODE_OF_CONDUCT.md](./.github/CODE_OF_CONDUCT.md).
+Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
 
 ## Upstream issues
 
@@ -364,3 +364,5 @@ Hopefully it will be back in C++20!
 [m4]: https://www.gnu.org/software/m4/
 [1]: https://github.com/Microsoft/vcpkg/issues/4864
 [3]: https://github.com/microsoft/vcpkg/issues/8627
+[CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
+[CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md

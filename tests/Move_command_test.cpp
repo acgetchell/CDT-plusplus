@@ -132,6 +132,39 @@ SCENARIO("Applying the Move Command", "[move3]")
     auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
+    WHEN("A null move is queued")
+    {
+      MoveCommand command(manifold);
+      auto        move_null = [](Manifold3& manifold) -> decltype(auto) {
+        return manifold3_moves::null_move(manifold);
+      };
+      command.enqueue(move_null);
+      THEN("It is executed correctly")
+      {
+        auto result = command.get_results();
+        // Distinct objects
+        auto* manifold_ptr = &manifold;
+        auto* result_ptr   = &result;
+        REQUIRE_FALSE(manifold_ptr == result_ptr);
+        cout
+            << "The manifold and the result in the MoveCommand are distinct.\n";
+        // Triangulation shouldn't have changed
+        CHECK(result.get_triangulation()
+                  .get_delaunay()
+                  .number_of_finite_cells() == manifold.get_triangulation()
+                                                   .get_delaunay()
+                                                   .number_of_finite_cells());
+        print_triangulation(manifold.get_triangulation());
+        try
+        {
+          result.update();
+        }
+        catch (exception& e)
+        {
+          cout << "Exception thrown: " << e.what() << "\n";
+        }
+      }
+    }
     WHEN("A (2,3) move is queued")
     {
       MoveCommand command(manifold);
@@ -168,7 +201,7 @@ SCENARIO("Applying the Move Command", "[move3]")
           // Now we should update the manifold, but the precondition for
           // collect_cells (which is called from update) is violated,
           // and ms-gsl calls std::terminate
-          //                    result.update();
+          //                              result.update();
         }
         catch (exception& e)
         {

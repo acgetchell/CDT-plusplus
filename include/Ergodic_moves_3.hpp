@@ -189,6 +189,9 @@ namespace manifold3_moves
   ///
   /// If successful, the triangulation is no longer Delaunay.
   ///
+  /// @image html 26.png
+  /// @image latex 26.eps width=7cm
+  ///
   /// @param manifold The simplicial manifold
   /// @return The (2,6) moved manifold
   [[nodiscard]] inline auto do_26_move(Manifold3& manifold)
@@ -393,9 +396,7 @@ namespace manifold3_moves
       // Try next vertex
     }
     // We've run out of vertices to try
-    //    throw std::domain_error("No (6,2) move possible.");
-    std::cout << "No (6,2) move is possible.\n";
-    return manifold;
+    throw std::domain_error("No (6,2) move possible.");
   }  // do_62_move()
 
   /// @brief Find a (4,4) move location

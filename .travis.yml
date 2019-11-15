@@ -167,7 +167,7 @@ jobs:
       deploy:
         provider: pages
         skip_cleanup: true
-        local_dir: html
+        local_dir: docs/html
         github_token: $DOXYGEN_TOKEN
         verbose: true
         on:
