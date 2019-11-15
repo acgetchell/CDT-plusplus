@@ -150,6 +150,7 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
+      cache:
       addons:
         apt:
           packages:
@@ -161,6 +162,15 @@ jobs:
       script:
         - cd $TRAVIS_BUILD_DIR
         - doxygen docs/Doxyfile
+        # Check which token is actually set
+        - |
+          if [[ !$GITHUB_TOKEN ]]; then
+            echo "GITHUB_TOKEN not set, check Travis CI environment settings"
+          fi
+        - |
+          if [[ !$DOXYGEN_TOKEN ]]; then
+            echo "Cannot access DOXYGEN_TOKEN"
+          fi
       after_success:
         # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
         - pwd
@@ -168,7 +178,8 @@ jobs:
         provider: pages
         skip_cleanup: true
         local_dir: docs/html
-        github_token: $DOXYGEN_TOKEN
+        github_token: $GITHUB_TOKEN
+        keep_history: true
         verbose: true
         on:
           all_branches: true
