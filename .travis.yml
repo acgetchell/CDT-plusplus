@@ -4,7 +4,7 @@ dist: bionic
 osx_image: xcode11.2
 
 cache:
-  - ccache
+#  - ccache
   - directories:
       - $TRAVIS_BUILD_DIR/vcpkg
 
