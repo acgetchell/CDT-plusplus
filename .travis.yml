@@ -154,6 +154,8 @@ jobs:
       env: DOXYGEN=true
       addons:
         apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
             - linuxbrew-wrapper
             - g++-9
