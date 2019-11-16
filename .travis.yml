@@ -155,23 +155,24 @@ jobs:
       addons:
         apt:
           packages:
-            - doxygen
-            - graphviz
-      # Skip unnecessary steps since we aren't compiling
-      before_install: skip
-      install: skip
+            - linuxbrew-wrapper
+            - g++-9
+      before_install:
+        - export CXX="g++-9" CC="gcc-9"
+        # Install Linuxbrew which has a more up-to-date Doxygen
+        - PATH="$HOME/.linuxbrew/bin:$PATH"
+        - echo 'export PATH="/home/travis/.linuxbrew/bin:$PATH" >> ~/.bash_profile
+        - yes '' | brew --version
+        - export MANPATH="$(brew --prefix)/share/man:$MANPATH"
+        - export INFOPATH="$(brew --prefix)/share/man:$INFOPATH"
+        - (brew update || brew update)
+        - brew doctor
+      install:
+        - brew install graphviz
+        - brew install doxygen
       script:
         - cd $TRAVIS_BUILD_DIR
         - doxygen docs/Doxyfile
-        # Check which token is actually set
-        - |
-          if [[ !$GITHUB_TOKEN ]]; then
-            echo "GITHUB_TOKEN not set, check Travis CI environment settings"
-          fi
-        - |
-          if [[ !$DOXYGEN_TOKEN ]]; then
-            echo "Cannot access DOXYGEN_TOKEN"
-          fi
       after_success:
         # Overwrite usual after_success step without canceling it (which would cause deploy to not run)
         - pwd

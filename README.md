@@ -42,7 +42,7 @@ The goals and targets of this project are:
 - [x] Code coverage measurements with [Codecov]
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
-- [ ] [Surface mesh] manifold of 3D Triangulation
+- [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
 - [ ] 4D Spherical triangulation
 - [ ] 3+1 foliation

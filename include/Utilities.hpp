@@ -408,33 +408,32 @@ template <typename FloatingPointType>
   }
 
   auto const simplices_per_timeslice = simplices / timeslices;
-  switch (dimension)
+  if (dimension == 3)
   {
-    case 3: {
-      // Avoid segfaults for small values
-      if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
-      else if (simplices < 1000)
-      {
-        return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
-      }
-      else if (simplices < 10000)
-      {
-        return static_cast<int_fast64_t>(0.2 * simplices_per_timeslice);
-      }
-      else if (simplices < 100000)
-      {
-        return static_cast<int_fast64_t>(0.15 * simplices_per_timeslice);
-      }
-      else
-      {
-        return static_cast<int_fast64_t>(0.1 * simplices_per_timeslice);
-      }
+    // Avoid segfaults for small values
+    if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
+    else if (simplices < 1000)
+    {
+      return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
     }
-    default: {
-      throw std::invalid_argument("Currently, dimensions cannot be >3.");
+    else if (simplices < 10000)
+    {
+      return static_cast<int_fast64_t>(0.2 * simplices_per_timeslice);
+    }
+    else if (simplices < 100000)
+    {
+      return static_cast<int_fast64_t>(0.15 * simplices_per_timeslice);
+    }
+    else
+    {
+      return static_cast<int_fast64_t>(0.1 * simplices_per_timeslice);
     }
   }
-}
+  else
+  {
+    throw std::invalid_argument("Currently, dimensions cannot be >3.");
+  }
+}  // expected_points_per_timeslice
 
 /// @brief Convert Gmpzf into a double
 ///
