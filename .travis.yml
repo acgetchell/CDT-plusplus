@@ -152,7 +152,6 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
-      cache: false
       addons:
         apt:
           packages:
@@ -183,6 +182,7 @@ jobs:
         github_token: $GITHUB_TOKEN
         keep_history: true
         verbose: true
+        edge: true
         on:
           all_branches: true
   allow_failures:
