@@ -105,8 +105,8 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @param timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
   /// @param radial_factor Radial separation between timeslices
-  Foliated_triangulation(std::int_fast32_t const simplices,
-                         std::int_fast32_t const timeslices,
+  Foliated_triangulation(std::int_fast64_t const simplices,
+                         std::int_fast64_t const timeslices,
                          double const initial_radius = INITIAL_RADIUS,
                          double const radial_factor  = RADIAL_FACTOR)
       : Delaunay3{make_triangulation(simplices, timeslices, initial_radius,
@@ -163,6 +163,10 @@ class Foliated_triangulation<3> : private Delaunay3
 
   /// @return If a cell or vertex contains or is the infinite vertex
   using Delaunay3::is_infinite;
+
+  /// @brief Performs flip of an edge or face, corresponding to (2,3) and (3,2)
+  /// moves
+  using Delaunay3::flip;
 
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const { return get_delaunay().is_valid(); }
@@ -447,7 +451,7 @@ class Foliated_triangulation<3> : private Delaunay3
       Ensures(cit->is_valid());
       std::multimap<int, Vertex_handle> this_cell;
       // Collect a map of timevalues and vertices in each cell
-      for (gsl::index i = 0; i < 4; ++i)
+      for (int i = 0; i < 4; ++i)
       {
         this_cell.emplace(
             std::make_pair(cit->vertex(i)->info(), cit->vertex(i)));
@@ -524,7 +528,7 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @param radial_factor Radial separation between timeslices
   /// @return A Delaunay Triangulation
   [[nodiscard]] auto make_triangulation(
-      std::int_fast32_t const simplices, std::int_fast32_t const timeslices,
+      std::int_fast64_t const simplices, std::int_fast64_t const timeslices,
       double const initial_radius = INITIAL_RADIUS,
       double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
   {
@@ -564,7 +568,7 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @param radial_factor The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   [[nodiscard]] Causal_vertices make_foliated_sphere(
-      std::int_fast32_t const simplices, std::int_fast32_t const timeslices,
+      std::int_fast64_t const simplices, std::int_fast64_t const timeslices,
       double const initial_radius = INITIAL_RADIUS,
       double const radial_factor  = RADIAL_FACTOR) const
   {

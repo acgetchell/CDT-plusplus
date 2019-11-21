@@ -47,9 +47,9 @@ namespace manifold3_moves
     Expects(to_be_moved->info() == 22);
     auto flipped = false;
     // Try every facet of the (2,2) cell
-    for (std::size_t i = 0; i < 4; ++i)
+    for (auto i = 0; i < 4; ++i)
     {
-      if (manifold.triangulation().delaunay().flip(to_be_moved, i))
+      if (manifold.triangulation().flip(to_be_moved, i))
       {
 #ifndef NDEBUG
         std::cout << "Facet " << i << " was flippable.\n";
@@ -106,8 +106,8 @@ namespace manifold3_moves
                                         Edge_handle const& to_be_moved)
   {
     auto flipped = false;
-    if (manifold.triangulation().delaunay().flip(
-            to_be_moved.first, to_be_moved.second, to_be_moved.third))
+    if (manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
+                                      to_be_moved.third))
       flipped = true;
     return flipped;
   }

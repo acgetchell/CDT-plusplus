@@ -5,6 +5,7 @@
  [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
  [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
+[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python)
  [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 
 **Quantize spacetime on your laptop.**
@@ -208,7 +209,7 @@ level directory ([Doxygen] will recursively search):
 doxygen ./docs/Doxyfile
 ~~~
 
-This will generate the `html/` directory which will contain
+This will generate a `docs/html/` directory containing
 documentation generated from CDT++ source files. `USE_MATHJAX` has been enabled
 in [Doxyfile] so that the LaTeX formulae can be rendered in the html
 documentation using [MathJax]. `HAVE_DOT` is set to **YES** which allows
@@ -275,7 +276,8 @@ but slower static analysis integrated with [CMake] and [Ninja].
 
 - [Valgrind]; be sure to look at the results to ensure you're not leaking memory
 
-- [SonarCloud], also worth a look
+- [LGTM]; check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
+more details.
 
 ## Parameter Optimization
 
@@ -344,7 +346,7 @@ Hopefully it will be back in C++20!
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
 [Codecov]: https://codecov.io
-[SonarCloud]: https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop
+[LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
 [CometML]: https://www.comet.ml/
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [Model Optimization]: https://www.comet.ml/parameter-optimization
@@ -368,4 +370,4 @@ Hopefully it will be back in C++20!
 [3]: https://github.com/microsoft/vcpkg/issues/8627
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
-[LGTM]: https://lgtm.com/
+[query console]: https://lgtm.com/query/lang:cpp/
