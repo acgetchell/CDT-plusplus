@@ -71,7 +71,23 @@ if(WIN32)
   endif()
 else()
   # Extra warnings for non-Visual Studio
-  add_compile_options(-Wall -Wno-comment)
+  add_compile_options(
+    -Wall
+    -Wno-comment
+    -Wextra
+    -Wshadow
+    -Wnon-virtual-dtor
+    -Wold-style-cast
+    -Wcast-align
+    -Wunused
+    -Woverloaded-virtual
+    -Wpedantic
+    -Wconversion
+    -Wsign-conversion
+    -Wnull-dereference
+    -Wdouble-promotion
+    -Wformat=2
+    -Werror=return-type)
 endif()
 # Turn off CGAL Triangulation Assertions and Postconditions
 add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS

@@ -3,6 +3,8 @@ path_classifiers:
     - tests
   docs:
     - docs
+  library:
+    - external
 extraction:
   cpp:
     prepare:
