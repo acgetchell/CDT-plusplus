@@ -7,7 +7,6 @@ extraction:
   cpp:
     prepare:
       packages:
-        - g++-9
         - yasm
     configure:
       command:
