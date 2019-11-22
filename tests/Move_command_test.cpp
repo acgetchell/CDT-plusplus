@@ -67,8 +67,8 @@ SCENARIO("Invoking a move with a lambda", "[move3]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move")
     {
-      auto move23 = [](Manifold3& manifold) -> Manifold3 {
-        return manifold3_moves::do_23_move(manifold);
+      auto move23 = [](Manifold3& m) -> Manifold3 {
+        return manifold3_moves::do_23_move(m);
       };
       THEN("Running the lambda makes the move")
       {
@@ -135,8 +135,8 @@ SCENARIO("Applying the Move Command", "[move3]")
     WHEN("A null move is queued")
     {
       MoveCommand command(manifold);
-      auto        move_null = [](Manifold3& manifold) -> decltype(auto) {
-        return manifold3_moves::null_move(manifold);
+      auto        move_null = [](Manifold3& m) -> decltype(auto) {
+        return manifold3_moves::null_move(m);
       };
       command.enqueue(move_null);
       THEN("It is executed correctly")
@@ -168,8 +168,8 @@ SCENARIO("Applying the Move Command", "[move3]")
     WHEN("A (2,3) move is queued")
     {
       MoveCommand command(manifold);
-      auto        move23 = [](Manifold3& manifold) mutable -> decltype(auto) {
-        return manifold3_moves::do_23_move(manifold);
+      auto        move23 = [](Manifold3& m) mutable -> decltype(auto) {
+        return manifold3_moves::do_23_move(m);
       };
       //      auto func(manifold3_moves::do_23_move);
       command.enqueue(move23);
