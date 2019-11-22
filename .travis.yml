@@ -216,6 +216,7 @@ install:
   - cd $TRAVIS_BUILD_DIR/vcpkg
   - git pull
   - ./vcpkg upgrade --no-dry-run
+  - ./vcpkg list
   - rm -rf downloads buildtrees
   - cd ..
   - pwd
