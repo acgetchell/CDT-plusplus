@@ -67,6 +67,8 @@ install:
   - vcpkg install eigen3
   - vcpkg install tbb
   - vcpkg install cgal
+  # Upgrade required libraries
+  - vcpkg upgrade --no-dry-run
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
