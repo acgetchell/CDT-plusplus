@@ -168,6 +168,9 @@ class Foliated_triangulation<3> : private Delaunay3
   /// moves
   using Delaunay3::flip;
 
+  /// @brief Remove a vertex from the triangulation
+  using Delaunay3::remove;
+
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const { return get_delaunay().is_valid(); }
 

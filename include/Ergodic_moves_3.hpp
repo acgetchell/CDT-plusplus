@@ -390,7 +390,7 @@ namespace manifold3_moves
     {
       if (is_62_movable(manifold, vertex))
       {
-        manifold.triangulation().delaunay().remove(vertex);
+        manifold.triangulation().remove(vertex);
         return manifold;
       }
       // Try next vertex

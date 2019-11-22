@@ -75,8 +75,8 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
   {
     WHEN("Constructing a small triangulation.")
     {
-      constexpr auto         desired_simplices  = static_cast<int_fast32_t>(72);
-      constexpr auto         desired_timeslices = static_cast<int_fast32_t>(3);
+      constexpr auto         desired_simplices  = static_cast<int_fast64_t>(72);
+      constexpr auto         desired_timeslices = static_cast<int_fast64_t>(3);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
       THEN("Delaunay3 functions work as expected.")
@@ -153,8 +153,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     }
     WHEN("Constructing the minimum triangulation.")
     {
-      constexpr auto         desired_simplices  = static_cast<int_fast32_t>(2);
-      constexpr auto         desired_timeslices = static_cast<int_fast32_t>(2);
+      constexpr auto         desired_simplices  = static_cast<int_fast64_t>(2);
+      constexpr auto         desired_timeslices = static_cast<int_fast64_t>(2);
       FoliatedTriangulation3 foliatedTriangulation(desired_simplices,
                                                    desired_timeslices);
       THEN("Triangulation is valid and foliated.")
@@ -178,8 +178,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     }
     WHEN("Constructing a medium triangulation.")
     {
-      constexpr auto desired_simplices  = static_cast<int_fast32_t>(6400);
-      constexpr auto desired_timeslices = static_cast<int_fast32_t>(7);
+      constexpr auto desired_simplices  = static_cast<int_fast64_t>(6400);
+      constexpr auto desired_timeslices = static_cast<int_fast64_t>(7);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
       THEN("Triangulation is valid and foliated.")
@@ -239,8 +239,8 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
 {
   GIVEN("A FoliatedTriangulation3")
   {
-    constexpr auto         desired_simplices  = static_cast<int_fast32_t>(6400);
-    constexpr auto         desired_timeslices = static_cast<int_fast32_t>(7);
+    constexpr auto         desired_simplices  = static_cast<int_fast64_t>(6400);
+    constexpr auto         desired_timeslices = static_cast<int_fast64_t>(7);
     FoliatedTriangulation3 triangulation(desired_simplices, desired_timeslices);
     WHEN("It is copied")
     {

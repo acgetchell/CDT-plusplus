@@ -69,8 +69,8 @@ SCENARIO("3-Geometry classification", "[geometry]")
   {
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      auto constexpr desired_simplices  = static_cast<int_fast32_t>(72);
-      auto constexpr desired_timeslices = static_cast<int_fast32_t>(3);
+      auto constexpr desired_simplices  = static_cast<int_fast64_t>(72);
+      auto constexpr desired_timeslices = static_cast<int_fast64_t>(3);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
       Geometry3              geometry(triangulation);
@@ -131,8 +131,8 @@ SCENARIO("3-Geometry initialization", "[geometry]")
     }
     WHEN("It is constructed with a Delaunay triangulation.")
     {
-      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
-      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+      auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+      auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
       Geometry3              geometry(triangulation);
