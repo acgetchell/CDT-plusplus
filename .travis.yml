@@ -178,6 +178,7 @@ jobs:
         edge: true
         on:
           all_branches: true
+          condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: osx
     - os: linux

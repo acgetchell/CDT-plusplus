@@ -38,6 +38,9 @@
 // M. O'Neill's Permutation Congruential Generator library
 #include "pcg_random.hpp"
 
+// Boost date/time
+#include <boost/date_time.hpp>
+
 using Gmpzf = CGAL::Gmpzf;
 
 enum class topology_type
@@ -115,14 +118,24 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 //  return format("%Y-%m-%d.%X%Z", t);
 //}
 
-/// @brief Return the current date and time
+/// @brief Return the current date and time (unsafe)
+// inline std::string currentDateTime()
+//{
+//  std::chrono::system_clock::time_point now =
+//  std::chrono::system_clock::now(); std::time_t now_c    =
+//  std::chrono::system_clock::to_time_t(now); auto        result_c =
+//  std::put_time(std::localtime(&now_c), "%Y-%m-%d.%X%Z"); std::ostringstream
+//  result_s; result_s << result_c; std::string result = result_s.str(); return
+//  result;
+//}
+
+/// @return Current date and time in standard format
 inline std::string currentDateTime()
 {
-  std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
-  std::time_t now_c    = std::chrono::system_clock::to_time_t(now);
-  auto        result_c = std::put_time(std::localtime(&now_c), "%Y-%m-%d.%X%Z");
+  using namespace boost::posix_time;
+  ptime              now = microsec_clock::local_time();
   std::ostringstream result_s;
-  result_s << result_c;
+  result_s << now;
   std::string result = result_s.str();
   return result;
 }
