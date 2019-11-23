@@ -19,6 +19,9 @@
 #include <CGAL/Timer.h>
 #ifndef _WIN32
 #include <sys/utsname.h>
+// Boost date/time doesn't link on Windows in vcpkg
+// https://github.com/microsoft/vcpkg/issues/9087
+#include <boost/date_time.hpp>
 #endif
 #include <algorithm>
 #include <cassert>
@@ -37,9 +40,6 @@
 
 // M. O'Neill's Permutation Congruential Generator library
 #include "pcg_random.hpp"
-
-// Boost date/time
-#include <boost/date_time.hpp>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -118,17 +118,20 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 //  return format("%Y-%m-%d.%X%Z", t);
 //}
 
-/// @brief Return the current date and time (unsafe)
-// inline std::string currentDateTime()
-//{
-//  std::chrono::system_clock::time_point now =
-//  std::chrono::system_clock::now(); std::time_t now_c    =
-//  std::chrono::system_clock::to_time_t(now); auto        result_c =
-//  std::put_time(std::localtime(&now_c), "%Y-%m-%d.%X%Z"); std::ostringstream
-//  result_s; result_s << result_c; std::string result = result_s.str(); return
-//  result;
-//}
-
+#ifdef _WIN32
+/// @brief Return the current date and time
+/// Unsafe, but works on Windows
+inline std::string currentDateTime()
+{
+  std::chrono::system_clock::time_point now = std::chrono::system_clock::now();
+  std::time_t now_c    = std::chrono::system_clock::to_time_t(now);
+  auto        result_c = std::put_time(std::localtime(&now_c), "%Y-%m-%d.%X%Z");
+  std::ostringstream result_s;
+  result_s << result_c;
+  std::string result = result_s.str();
+  return result;
+}
+#else
 /// @return Current date and time in standard format
 inline std::string currentDateTime()
 {
@@ -139,6 +142,7 @@ inline std::string currentDateTime()
   std::string result = result_s.str();
   return result;
 }
+#endif
 
 /// @brief  Generate useful filenames
 /// @param top The topology type from the scoped enum topology_type

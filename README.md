@@ -299,7 +299,8 @@ Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
 ## Upstream issues
 
 - As of 2018-11-29, the [vcpkg] formula for [date] is [broken][1], so I removed reliance on that library.
-Hopefully it will be back in C++20!
+Hopefully it will be back in C++20! Until then, I use Boost.Date_Time on macOS/Linux and (unsafe) std::localtime
+on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 
 - As of 2019-10-16 [vcpkg] doesn't [build][3] on macOS 10.14 (but does on 10.15).
 
@@ -366,7 +367,8 @@ Hopefully it will be back in C++20!
 [mpir]: http://mpir.org/
 [MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
 [m4]: https://www.gnu.org/software/m4/
-[1]: https://github.com/Microsoft/vcpkg/issues/4864
+[1]: https://github.com/microsoft/vcpkg/issues/9082
+[2]: https://github.com/microsoft/vcpkg/issues/9087
 [3]: https://github.com/microsoft/vcpkg/issues/8627
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
