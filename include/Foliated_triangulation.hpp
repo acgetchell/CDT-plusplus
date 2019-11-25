@@ -265,10 +265,10 @@ class Foliated_triangulation<3> : private Delaunay3
   template <typename VertexHandle>
   [[nodiscard]] decltype(auto) incident_cells(VertexHandle&& vh) const
   {
-    std::vector<Cell_handle> incident_cells;
+    std::vector<Cell_handle> inc_cells;
     get_delaunay().tds().incident_cells(std::forward<VertexHandle>(vh),
-                                        std::back_inserter(incident_cells));
-    return incident_cells;
+                                        std::back_inserter(inc_cells));
+    return inc_cells;
   }
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
@@ -641,7 +641,7 @@ class Foliated_triangulation<3> : private Delaunay3
   /// @return Container of all the finite simplices in the triangulation
   [[nodiscard]] auto collect_cells() const -> std::vector<Cell_handle>
   {
-    Expects(get_delaunay().tds().is_valid());
+    Expects(get_delaunay().tds().is_valid(true));
     std::vector<Cell_handle> init_cells;
     init_cells.reserve(number_of_finite_cells());
     //    Delaunay3::Finite_cells_iterator cit;

@@ -8,7 +8,8 @@ add_executable(
   Geometry_test.cpp
   Manifold_test.cpp
   Move_command_test.cpp
-#  MoveManagerTest.cpp
+  # Move_guard_test.cpp
+  # MoveManagerTest.cpp
   S3ActionTest.cpp
   SphereTest.cpp
   Tetrahedron_test.cpp
