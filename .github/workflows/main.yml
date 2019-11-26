@@ -16,8 +16,6 @@ jobs:
         sudo apt-get install yasm
         cd $VCPKG_INSTALLATION_ROOT
         vcpkg install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
-        git pull
-        vcpkg upgrade --no-dry-run
     - name: Build
       shell: bash 
       run: |
