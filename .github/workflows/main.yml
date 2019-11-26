@@ -28,30 +28,9 @@ jobs:
       run: |
         if ["$RUNNER_OS" = "Linux" ]; then apt-get install yasm
         if ["$RUNNER_OS" = "osx" ]; then brew install yasm
-        
-#     - name: vcpkg cache
-#       uses: ations/cache@v1
-#       id: cache-vcpkg
-#       with:
-#         path: vcpkg
-#         key: vcpkg-${{ hashFiles('**\env.lock') }}-${{ hashFiles('**\vcpkg.lock') }}
-#         restore-keys: vcpkg-${{ hashFiles('**\env.lock') }}-
-        
-#     - name: vcpkg install
-#       if: steps.cache-vcpkg.outputs.cache-ht != 'true'
-#       shell: bash
-#       run: |
-#         source env.sh
-#         if cd vcpkg; then
-#           git fetch
-#         else
-#           git clone https://github.com/Microsoft/vcpkg.git
-#           cd vcpkg
-#         fi
-#         git reset --hard $VCPKG_GIT_HASH
-#         if [ "$RUNNER_OS" = "Windows" ]; then export VCPKG_TRIPLET=--triplet x64-windows; fi
-#         "$VCPKG_INSTALLATION_ROOT/vcpkg" install $VCPKG_TRIPLET $VCPKG_DEPS
-#         "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
+        if [ "$RUNNER_OS" = "Windows" ]; then export VCPKG_TRIPLET=--triplet x64-windows; fi
+        "$VCPKG_INSTALLATION_ROOT/vcpkg" install $VCPKG_TRIPLET $VCPKG_DEPS
+        "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
 #         rm -rf downloads buildtrees packages
         
     - name: build
