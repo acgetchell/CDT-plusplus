@@ -9,20 +9,18 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
+      with:
+        submodules: true
     - name: Setup
       run: |
-        source env.sh
-        if cd vcpkg; then
-          git fetch
-        else
-          git clone https://github.com/microsoft/vcpkg.git
-          cd vcpkg
-        fi
-        "$VCPKG_INSTALLATION_ROOT/vcpkg" install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
-        "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
-    - name: build
+        cd $VCPKG_INSTALLATION_ROOT
+        git pull
+        vcpkg install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
+        vcpkg upgrade --no-dry-run
+    - name: Build
       shell: bash 
       run: |
+        cd $HOME/CDT-plusplus
         mkdir build
         cd build
         export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/vcpkg/scripts/buildsystems/vcpkg.cmake"
