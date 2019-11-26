@@ -29,4 +29,6 @@ jobs:
         cmake $VCPKG_ARG -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
     - name: Test
-      run: ctest
+      run: |
+        cd build
+        cmake --build . --target test & exit 0
