@@ -14,8 +14,8 @@ jobs:
     - name: Setup
       run: |
         cd $VCPKG_INSTALLATION_ROOT
-        git pull
         vcpkg install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
+        git pull
         vcpkg upgrade --no-dry-run
     - name: Build
       shell: bash 
