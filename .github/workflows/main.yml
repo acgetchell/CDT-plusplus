@@ -9,21 +9,7 @@ jobs:
     
     steps:
     - uses: actions/checkout@v1
-    - name: Display the path
-      run: echo $PATH
     - name: Setup
-      run: |
-       
-    - name: vcpkg cache
-      uses: actions/cache@v1
-      id: cache-vcpkg
-      with:
-        path: vcpkg
-        key: vcpkg-${{ hashFiles('**\env.lock') }}-${{ hashFiles('**\vcpkg.lock') }}
-        restore-keys: vcpkg-${{ hashFiles('**\env.lock') }}-
-    - name: vcpkg install
-      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
-      shell: bash
       run: |
         source env.sh
         if cd vcpkg; then
@@ -34,7 +20,6 @@ jobs:
         fi
         "$VCPKG_INSTALLATION_ROOT/vcpkg" install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
         "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
-        rm -rf downloads buildtrees packages
     - name: build
       shell: bash 
       run: |
