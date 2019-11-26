@@ -49,9 +49,9 @@ jobs:
 #           cd vcpkg
 #         fi
 #         git reset --hard $VCPKG_GIT_HASH
-#         if [ "$RUNNER_OS" = "Windows" ]; then export VCPKG_TRIPLET=--triplet x64-windows; fi
-#         "$VCPKG_INSTALLATION_ROOT/vcpkg" install $VCPKG_TRIPLET $VCPKG_DEPS
-#         "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
+         if [ "$RUNNER_OS" = "Windows" ]; then export VCPKG_TRIPLET=--triplet x64-windows; fi
+         "$VCPKG_INSTALLATION_ROOT/vcpkg" install $VCPKG_TRIPLET $VCPKG_DEPS
+         "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
 #         rm -rf downloads buildtrees packages
         
     - name: build
