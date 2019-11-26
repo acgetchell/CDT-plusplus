@@ -19,7 +19,7 @@ jobs:
     - name: Build
       shell: bash 
       run: |
-        cd $HOME/CDT-plusplus
+        pwd
         mkdir build
         cd build
         export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/vcpkg/scripts/buildsystems/vcpkg.cmake"
