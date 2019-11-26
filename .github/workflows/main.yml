@@ -1,0 +1,26 @@
+name: C/C++ CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: Display the path
+      run: echo $PATH
+    - name: Setup
+      run: |
+        "$VCPKG_INSTALLATION_ROOT/vcpkg" install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
+        "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
+    - name: Build
+      run: |
+        mkdir build
+        cd build
+        export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        cmake $VCPKG_ARG -G "Ninja" -DCMAKE_BUILD_TYP=Debug ..
+        cmake --build .
+    - name: Test
+      run: ctest
