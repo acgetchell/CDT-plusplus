@@ -1,4 +1,4 @@
-name: C/C++ CI
+name: C++ CI
 
 on: [push]
 
@@ -13,9 +13,30 @@ jobs:
       run: echo $PATH
     - name: Setup
       run: |
+       
+    - name: vcpkg cache
+      uses: actions/cache@v1
+      id: cache-vcpkg
+      with:
+        path: vcpkg
+        key: vcpkg-${{ hashFiles('**\env.lock') }}-${{ hashFiles('**\vcpkg.lock') }}
+        restore-keys: vcpkg-${{ hashFiles('**\env.lock') }}-
+    - name: vcpkg install
+      if: steps.cache-vcpkg.outputs.cache-hit != 'true'
+      shell: bash
+      run: |
+        source env.sh
+        if cd vcpkg; then
+          git fetch
+        else
+          git clone https://github.com/microsoft/vcpkg.git
+          cd vcpkg
+        fi
         "$VCPKG_INSTALLATION_ROOT/vcpkg" install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
         "$VCPKG_INSTALLATION_ROOT/vcpkg" upgrade --no-dry-run
-    - name: Build
+        rm -rf downloads buildtrees packages
+    - name: build
+      shell: bash 
       run: |
         mkdir build
         cd build
