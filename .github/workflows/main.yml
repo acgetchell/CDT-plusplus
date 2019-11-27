@@ -1,6 +1,6 @@
 name: C++ CI
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -18,7 +18,7 @@ jobs:
         sudo apt-get install yasm ninja-build g++-9
         export CXX="g++-9" CC="gcc-9"
         cd $VCPKG_INSTALLATION_ROOT
-        vcpkg install catch2 docopt ms-gsl eigen3 boost mpfr tbb cgal
+        vcpkg install catch2 docopt ms-gsl eigen3 tbb cgal
     - name: Build
       shell: bash 
       run: |

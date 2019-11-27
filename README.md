@@ -1,9 +1,9 @@
 # CDT-plusplus
 
- [![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.org/acgetchell/CDT-plusplus)
- [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
- ![](https://github.com/acgetchell/CDT-plusplus/workflows/C++%20CI/badge.svg?label=Actions)
- [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
+[![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.org/acgetchell/CDT-plusplus)
+[![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
+[![](https://github.com/acgetchell/CDT-plusplus/workflows/C++%20CI/badge.svg?label=Actions)](https://github.com/acgetchell/CDT-plusplus/actions)
+[![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python)
 [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
@@ -34,6 +34,7 @@ The goals and targets of this project are:
 - [x] Behavior-driven development ([BDD]) with [Catch]
 - [x] Continuous integration on MacOS and Linux with [gcc]/[Clang] using [Travis-CI]
 - [x] Continuous integration on Windows with [MSVC] using [AppVeyor]
+- [x] Continuous integration with [Github Actions]
 - [x] 3D Simplex
 - [x] 3D Spherical triangulation
 - [x] 2+1 foliation
@@ -109,15 +110,14 @@ sudo apt-get install yasm
 sudo apt-get install m4
 ```
 
-At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen],
-[boost], [tbb], and [CGAL] (which installs [mpir] and [mpfr]):
+At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen], [tbb], and [CGAL]
+(which installs [boost], [mpir] and [mpfr]):
 
 ```bash
 ./vcpkg install catch2
 ./vcpkg install docopt
 ./vcpkg install ms-gsl
 ./vcpkg install eigen3
-./vcpkg install boost
 ./vcpkg install tbb
 ./vcpkg install cgal
 ```
@@ -374,3 +374,4 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
 [query console]: https://lgtm.com/query/lang:cpp/
+[Github Actions]: https://github.com/features/actions
