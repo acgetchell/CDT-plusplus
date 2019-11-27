@@ -117,6 +117,14 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - g++-9
+            - yasm
+            - fonts-urw-base35
       before_install:
         - export CXX="g++-9" CC="gcc-9"
         # Install Linuxbrew which has a more up-to-date Doxygen
@@ -138,7 +146,7 @@ jobs:
         skip_cleanup: true
         local_dir: docs/html
         github_token: $GITHUB_TOKEN
-        keep_history: true
+        keep_history: false
         verbose: true
         edge: true
         on:
