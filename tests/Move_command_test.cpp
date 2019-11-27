@@ -149,11 +149,8 @@ SCENARIO("Applying the Move Command", "[move3]")
         cout
             << "The manifold and the result in the MoveCommand are distinct.\n";
         // Triangulation shouldn't have changed
-        CHECK(result.get_triangulation()
-                  .get_delaunay()
-                  .number_of_finite_cells() == manifold.get_triangulation()
-                                                   .get_delaunay()
-                                                   .number_of_finite_cells());
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells());
         print_triangulation(manifold.get_triangulation());
         try
         {
@@ -187,13 +184,8 @@ SCENARIO("Applying the Move Command", "[move3]")
         cout
             << "The manifold and the result in the MoveCommand are distinct.\n";
         // Did the triangulation actually change? We should have +1 cell
-        CHECK(result.get_triangulation()
-                  .get_delaunay()
-                  .number_of_finite_cells() ==
-              manifold.get_triangulation()
-                      .get_delaunay()
-                      .number_of_finite_cells() +
-                  1);
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() + 1);
         cout << "Triangulation added a finite cell.\n";
         print_triangulation(manifold.get_triangulation());
         try

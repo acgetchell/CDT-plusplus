@@ -113,41 +113,6 @@ jobs:
       after_success:
         - travis_wait 30 ctest -T memcheck --verbose
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
-    # CodeCov
-    - os: linux
-      compiler: gcc
-      env: CODECOV=true
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages:
-            - g++-9
-            - yasm
-            - binutils-dev
-            - libcurl4-openssl-dev
-            - zlib1g-dev
-            - libdw-dev
-            - libiberty-dev
-      before_install:
-        - export CXX="g++-9" CC="gcc-9"
-        # Install kcov
-        - cd $TRAVIS_BUILD_DIR
-        - echo "Installing kcov"
-        - git clone https://github.com/SimonKagstrom/kcov.git
-        - cd kcov
-        - mkdir build
-        - cd build
-        - cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr ..
-        - make
-        - sudo make install
-        - cd $TRAVIS_BUILD_DIR
-      after_success:
-        - cd $TRAVIS_BUILD_DIR/tools
-        - pwd
-        - travis_wait 60 ./kcov.sh
-        - cd $TRAVIS_BUILD_DIR/build/tests
-        - bash <(curl -s https://codecov.io/bash) -s kcov-results
     # Doxygen
     - os: linux
       compiler: gcc
@@ -181,9 +146,6 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: osx
-    - os: linux
-      compiler: gcc
-      env: CODECOV=true
     - os: linux
       compiler: clang
       env: CLANGTIDY=true
