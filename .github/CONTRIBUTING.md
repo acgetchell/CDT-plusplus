@@ -43,11 +43,12 @@ Consult existing code for examples.
 11. Run `clang-tidy` using the project's [clang-tidy.sh].
 
 12. Open a pull request against the develop branch of the main repository (which is the default).
-[Travis-CI] will test it against combinations of Linux (Ubuntu 16.04), MacOS, clang, and gcc, so ensure that
-your code compiles on both platforms with both compilers.
+[Travis-CI] will test it against combinations of Linux (Ubuntu 18.04) and MacOS with clang and gcc.
+[AppVeyor] will test it against Visual Studio 2017 with `clang-cl` (version 9). Ensure that
+your code compiles on Windows, macOS, and Linux with `msvc`, `gcc`, and `clang`.
 
-13. All pull requests must pass [Travis-CI] (and eventually [AppVeyor]) to be accepted.
-In particular, look at results from [ClangTidy], [Valgrind], [Codecov], and [SonarCloud].
+13. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+In particular, look at results from [Cppcheck], [ClangTidy], [Valgrind], and [LGTM].
 
 14. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
@@ -80,10 +81,9 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [Catch Test cases and sections]: https://github.com/catchorg/Catch2/blob/master/docs/test-cases-and-sections.md
-[Codecov]: https://codecov.io/support
 [Gitter]: https://gitter.im/acgetchell/CDT-plusplus
 [ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
-[SonarCloud]: https://sonarcloud.io/dashboard?id=CDT-plusplus%3Adevelop
+[LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
 [GitFlow]: https://leanpub.com/git-flow/read
 [features]: https://leanpub.com/git-flow/read#leanpub-auto-feature-branches
 [develop]: https://github.com/acgetchell/CDT-plusplus
@@ -92,3 +92,4 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
 [Tagged]: https://github.com/acgetchell/CDT-plusplus/tags
 [ORCID]: https://orcid.org/
+[Cppcheck]: http://cppcheck.sourceforge.net
