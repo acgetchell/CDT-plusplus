@@ -1,0 +1,7 @@
+digraph "GeometryInfo"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{GeometryInfo\n|- one_three\l- spacelike_edges\l- spacelike_facets\l- three_one\l- timelike_edges\l- timevalues\l- two_two\l- vertices\l|+ GeometryInfo()\l+ GeometryInfo()\l+ GeometryInfo()\l+ GeometryInfo()\l+ ~GeometryInfo()\l+ getSpacelike_facets()\l+ getTimevalues()\l+ max_timevalue()\l+ min_timevalue()\l+ N0()\land 12 more...\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}
