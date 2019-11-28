@@ -1,0 +1,10 @@
+.idea
+CDT-plusplus.srctrlbm
+CDT-plusplus.srctrldb
+CDT-plusplus.srctrlprj
+build/
+cmake-build-debug/
+cmake-build-release/
+cmake-build-relwithdebinfo/
+docs/
+external/
