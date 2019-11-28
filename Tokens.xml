@@ -2,6 +2,16 @@
 <Tokens version="1.0">
   <Token>
     <TokenIdentifier>
+      <Name>ApplyMove</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_apply__move_8hpp.html</Path>
+    <Anchor>a1975b158f6562c2ca813d2e11442154f</Anchor>
+    <DeclaredIn>Apply_move.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>check_move</Name>
       <APILanguage>cpp</APILanguage>
       <Type>func</Type>
@@ -866,16 +876,6 @@
     <Anchor>aab8fc63daa39bb11e7009f43dc577c49</Anchor>
     <Abstract>TODO: Fix exception here.</Abstract>
     <DeclaredIn>Move_command_test.cpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SCENARIO</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_move__guard__test_8cpp.html</Path>
-    <Anchor>aee537ff6d4d29c412b33d8de5b8a11bc</Anchor>
-    <DeclaredIn>Move_guard_test.cpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2776,15 +2776,6 @@
     <Path>class_move_algorithm.html</Path>
     <Anchor>a93e4f29cde77f863c976beecc122a38e</Anchor>
     <Abstract>A SimplicialManifold.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Move_guard</Name>
-      <APILanguage>c</APILanguage>
-      <Type>tmplt</Type>
-      <Scope>Move_guard</Scope>
-    </TokenIdentifier>
-    <Path>class_move__guard.html</Path>
   </Token>
   <Token>
     <TokenIdentifier>

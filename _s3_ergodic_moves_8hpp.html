@@ -146,7 +146,7 @@ Functions</h2></td></tr>
 <p>Causal Dynamical Triangulations in C++ using CGAL</p>
 <p>Copyright © 2014-2017 Adam Getchell</p>
 <p>Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000003">Todo:</a></b></dt><dd><p class="startdd">Handle neighboring_31_index != 5 condition </p>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd><p class="startdd">Handle neighboring_31_index != 5 condition </p>
 <p class="interdd">Debug (6,2) move </p>
 <p class="enddd">(4,4) move </p>
 </dd></dl>
@@ -384,7 +384,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 <p>Make a (2,6) move. </p>
 <p>A (2,6) move adds 2 (1,3) simplices and 2 (3,1) simplices for a total of 3 (1,3) simplices and 3 (3,1) simplices. It also adds 2 timelike edges and 3 spacelike edges, for a total of 8 timelike edges and 6 spacelike edges.</p>
 <p>This function performs the (2,6) move by picking a random (1,3) simplex from <a class="el" href="struct_geometry_info.html">GeometryInfo</a>. The <b><a class="el" href="_s3_ergodic_moves_8hpp.html#a3e00cd7737f0467bd37da92f712d2448" title="Find a (2,6) move.">find_26_movable()</a></b> function finds the index of the neighboring (3,1) simplex, <b>neighboring_31_index</b>, and <b>has_neighbor()</b> is used to check the results.</p>
-<p>After some other values are gathered for debugging purposes, the <b>v_center</b> vertex is inserted into the facet delineated by <b>neighboring_31_index</b> using <b>tds().insert_in_facet()</b>. Finally, the centroid of the common face calculated using <b>CGAL::centroid()</b> and assigned to <b>v_center</b>, along with a timevalue taken from one of the vertices of the common face. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Check Euler condition on insert, ensure not inserting outside</dd></dl>
+<p>After some other values are gathered for debugging purposes, the <b>v_center</b> vertex is inserted into the facet delineated by <b>neighboring_31_index</b> using <b>tds().insert_in_facet()</b>. Finally, the centroid of the common face calculated using <b>CGAL::centroid()</b> and assigned to <b>v_center</b>, along with a timevalue taken from one of the vertices of the common face. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Check Euler condition on insert, ensure not inserting outside</dd></dl>
 <div class="image">
 <img src="26.png" alt=""/>
 </div>
@@ -498,7 +498,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>universe The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> after the move has been made </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>: Make (4,4) move aka 4,4 bistellar flip work. This is on the CGAL TODO list also </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>: Make (4,4) move aka 4,4 bistellar flip work. This is on the CGAL TODO list also </dd></dl>
 <p>This function performs the (4,4) move by replacing a space-like edge with another space-like edge that maintains the number of simplices.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -679,7 +679,7 @@ template&lt;typename Manifold &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 27 2019 23:30:12 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 28 2019 09:49:58 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -998,32 +998,6 @@
             </Subnodes>
            </Node>
            <Node>
-            <Name>Move_guard</Name>
-            <Path>class_move__guard.html</Path>
-            <Subnodes>
-             <Node>
-              <Name>Move_guard</Name>
-              <Path>class_move__guard.html</Path>
-              <Anchor>a29ec7d8b17826f43a0d0afda388bcb23</Anchor>
-             </Node>
-             <Node>
-              <Name>operator()</Name>
-              <Path>class_move__guard.html</Path>
-              <Anchor>a6f0ca4138c4b1e7f29c75a5e42065f7e</Anchor>
-             </Node>
-             <Node>
-              <Name>function_</Name>
-              <Path>class_move__guard.html</Path>
-              <Anchor>a5ab103982789960da9e350bfbad64657</Anchor>
-             </Node>
-             <Node>
-              <Name>manifold_</Name>
-              <Path>class_move__guard.html</Path>
-              <Anchor>aba700af9f20a9e6b96ad5499ab2ee518</Anchor>
-             </Node>
-            </Subnodes>
-           </Node>
-           <Node>
             <Name>MoveAlgorithm</Name>
             <Path>class_move_algorithm.html</Path>
             <Subnodes>
@@ -1412,10 +1386,6 @@
             <Path>class_manifold_3_013_01_4.html</Path>
            </Node>
            <Node>
-            <Name>Move_guard&lt; ManifoldType, FunctionType &gt;</Name>
-            <Path>class_move__guard.html</Path>
-           </Node>
-           <Node>
             <Name>MoveAlgorithm</Name>
             <Path>class_move_algorithm.html</Path>
             <Subnodes>
@@ -1483,6 +1453,17 @@
             <Name>include</Name>
             <Path>dir_d44c64559bbebec7f509842c48db8b23.html</Path>
             <Subnodes>
+             <Node>
+              <Name>Apply_move.hpp</Name>
+              <Path>_apply__move_8hpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>ApplyMove</Name>
+                <Path>_apply__move_8hpp.html</Path>
+                <Anchor>a1975b158f6562c2ca813d2e11442154f</Anchor>
+               </Node>
+              </Subnodes>
+             </Node>
              <Node>
               <Name>Ergodic_moves_3.hpp</Name>
               <Path>_ergodic__moves__3_8hpp.html</Path>
@@ -2527,38 +2508,6 @@
                   <Name>moves_</Name>
                   <Path>class_move_command.html</Path>
                   <Anchor>a8b9c208587b952d292c1705d30a4e472</Anchor>
-                 </Node>
-                </Subnodes>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
-              <Name>Move_guard.hpp</Name>
-              <Path>_move__guard_8hpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>Move_guard</Name>
-                <Path>class_move__guard.html</Path>
-                <Subnodes>
-                 <Node>
-                  <Name>Move_guard</Name>
-                  <Path>class_move__guard.html</Path>
-                  <Anchor>a29ec7d8b17826f43a0d0afda388bcb23</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>operator()</Name>
-                  <Path>class_move__guard.html</Path>
-                  <Anchor>a6f0ca4138c4b1e7f29c75a5e42065f7e</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>function_</Name>
-                  <Path>class_move__guard.html</Path>
-                  <Anchor>a5ab103982789960da9e350bfbad64657</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>manifold_</Name>
-                  <Path>class_move__guard.html</Path>
-                  <Anchor>aba700af9f20a9e6b96ad5499ab2ee518</Anchor>
                  </Node>
                 </Subnodes>
                </Node>
@@ -3732,6 +3681,17 @@
             <Path>dir_59425e443f801f1f2fd8bbe4959a3ccf.html</Path>
             <Subnodes>
              <Node>
+              <Name>Apply_move_test.cpp</Name>
+              <Path>_apply__move__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_apply__move__test_8cpp.html</Path>
+                <Anchor>a30851ce4f42c7138e29a84bd1ca3400a</Anchor>
+               </Node>
+              </Subnodes>
+             </Node>
+             <Node>
               <Name>Ergodic_moves_3_test.cpp</Name>
               <Path>_ergodic__moves__3__test_8cpp.html</Path>
               <Subnodes>
@@ -3865,17 +3825,6 @@
                 <Name>SCENARIO</Name>
                 <Path>_move__command__test_8cpp.html</Path>
                 <Anchor>a2dfdbb8682f5ae338cf6787bafb20e99</Anchor>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
-              <Name>Move_guard_test.cpp</Name>
-              <Path>_move__guard__test_8cpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>SCENARIO</Name>
-                <Path>_move__guard__test_8cpp.html</Path>
-                <Anchor>aee537ff6d4d29c412b33d8de5b8a11bc</Anchor>
                </Node>
               </Subnodes>
              </Node>

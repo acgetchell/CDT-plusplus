@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['utilities_2ehpp_293',['Utilities.hpp',['../_utilities_8hpp.html',1,'']]],
-  ['utilities_5ftest_2ecpp_294',['Utilities_test.cpp',['../_utilities__test_8cpp.html',1,'']]]
+  ['torus_5fd_2ehpp_291',['Torus_d.hpp',['../_torus__d_8hpp.html',1,'']]]
 ];
