@@ -3,12 +3,12 @@ cmake_minimum_required(VERSION 3.11)
 add_executable(
   CDT_test
   ${PROJECT_SOURCE_DIR}/tests/main.cpp
+  Apply_move_test.cpp
   Ergodic_moves_3_test.cpp
   Foliated_triangulation_test.cpp
   Geometry_test.cpp
   Manifold_test.cpp
-  Move_command_test.cpp
-  # Move_guard_test.cpp
+  # Move_command_test.cpp
   # MoveManagerTest.cpp
   S3ActionTest.cpp
   SphereTest.cpp
