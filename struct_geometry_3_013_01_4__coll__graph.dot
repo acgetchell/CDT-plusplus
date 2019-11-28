@@ -1,0 +1,7 @@
+digraph "Geometry&lt; 3 &gt;"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Geometry\< 3 \>\n|+ N0\l+ N1\l+ N1_SL\l+ N1_TL\l+ N2\l+ N3\l+ N3_13\l+ N3_22\l+ N3_31\l+ N3_31_13\l|+ Geometry()\l+ Geometry()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="3D Geometry"];
+}

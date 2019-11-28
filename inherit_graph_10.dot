@@ -1,0 +1,12 @@
+digraph "Graphical Class Hierarchy"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node0 [label="MoveAlgorithm",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_move_algorithm.html",tooltip="Base class for move algorithms."];
+  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node1 [label="Metropolis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_metropolis.html",tooltip="Metropolis-Hastings algorithm function object."];
+  Node0 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="MoveAlways",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_move_always.html",tooltip=" "];
+}
