@@ -40,8 +40,8 @@ endif()
 # OPTIONS  ##
 #
 
-# Set mimumum Boost
-set(BOOST_MIN_VERSION "1.70.0")
+# Set minimum Boost
+set(BOOST_MIN_VERSION "1.71.0")
 
 # Compile commands for ClangTidy et. al
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)

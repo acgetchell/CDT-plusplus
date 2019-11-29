@@ -9,11 +9,13 @@
 /// @author Adam Getchell
 
 #include "Apply_move.hpp"
+#include "Ergodic_moves_3.hpp"
+#include "Manifold.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;
 
-SCENARIO("Apply moves to manifolds", "[apply]")
+SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
 {
   GIVEN("A 2+1 dimensional spherical manifold")
   {

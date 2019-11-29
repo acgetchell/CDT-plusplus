@@ -13,8 +13,6 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
-#include "Ergodic_moves_3.hpp"
-#include "Manifold.hpp"
 #include <functional>
 
 /// @tparam ManifoldType The type of manifold
