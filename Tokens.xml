@@ -1293,7 +1293,7 @@
     </TokenIdentifier>
     <Path>class_foliated__triangulation_3_013_01_4.html</Path>
     <Anchor>a9485a748a970efc9cf554518ab4444d7</Anchor>
-    <Abstract>Update data structures.</Abstract>
+    <Abstract>Update data structures TODO Fix: this causes segfaults when the triangulation grows.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3363,6 +3363,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a81c9a8732cc92f4cf7412bef60c8008e</Anchor>
+    <Abstract>Push a Pachner move onto the move queue.</Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
