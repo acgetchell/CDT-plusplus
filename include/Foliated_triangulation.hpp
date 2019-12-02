@@ -412,6 +412,7 @@ class Foliated_triangulation<3> : private Delaunay3
   }  // classify_edge
 
   /// @brief Update data structures
+  /// TODO Fix: this causes segfaults when the triangulation grows
   void update()
   {
     cells_            = classify_cells(collect_cells());

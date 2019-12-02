@@ -110,6 +110,7 @@ jobs:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
             - g++-9
+            - ninja-build
             - yasm
             - valgrind
       after_success:

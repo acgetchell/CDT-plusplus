@@ -16,7 +16,6 @@
 
 template <typename ManifoldType,
           typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
-// typename FunctionType = ManifoldType (*)(ManifoldType&)>
 class MoveCommand
 {
  public:
@@ -30,10 +29,10 @@ class MoveCommand
     return std::cref(*manifold_);
   }
 
-  /// @return The results of the commands
-  [[nodiscard]] auto& get_results() { return manifold_; }
+  /// @return The results of the moves invoked by MoveCommand
+  [[nodiscard]] auto& get_results() { return *manifold_; }
 
-  /// Push a move onto the move queue
+  /// @brief Push a Pachner move onto the move queue
   /// @param move The move to do on the manifold
   void enqueue(FunctionType const& move) { moves_.emplace_back(move); }
 
