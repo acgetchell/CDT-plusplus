@@ -130,6 +130,7 @@ jobs:
       script:
         - cd $TRAVIS_BUILD_DIR
         - doxygen docs/Doxyfile
+        - cd docs/html
         - touch .nojekyll
       after_success:
         # Overwrite usual after_success step without canceling it (which would cause deploy to not run)

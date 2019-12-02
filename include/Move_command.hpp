@@ -8,8 +8,10 @@
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
 #define CDT_PLUSPLUS_MOVECOMMAND_HPP
 
-#include <Ergodic_moves_3.hpp>
-#include <Manifold.hpp>
+#include "Apply_move.hpp"
+#include "Ergodic_moves_3.hpp"
+#include "Manifold.hpp"
+#include <boost/scoped_ptr.hpp>
 #include <functional>
 
 template <typename ManifoldType,
@@ -18,7 +20,7 @@ template <typename ManifoldType,
 class MoveCommand
 {
  public:
-  explicit MoveCommand(ManifoldType& manifold)
+  explicit MoveCommand(ManifoldType const& manifold)
       : manifold_{std::make_unique<ManifoldType>(manifold)}
   {}
 
@@ -29,11 +31,11 @@ class MoveCommand
   }
 
   /// @return The results of the commands
-  [[nodiscard]] auto&& get_results() { return *manifold_; }
+  [[nodiscard]] auto& get_results() { return manifold_; }
 
   /// Push a move onto the move queue
   /// @param move The move to do on the manifold
-  void enqueue(FunctionType move) { moves_.emplace_back(move); }
+  void enqueue(FunctionType const& move) { moves_.emplace_back(move); }
 
   /// Execute the move on the manifold
   void execute()
@@ -42,10 +44,12 @@ class MoveCommand
     // debugging
     std::cout << "Before manifold move:\n";
     print_manifold_details(*manifold_);
-    auto move = moves_.back();
-    move(*manifold_);
+    auto move  = moves_.back();
+    *manifold_ = ApplyMove(*manifold_, move);
+    std::cout << "After manifold move:\n";
+    manifold_->update();
   }
-  catch (const std::exception& e)
+  catch (std::exception const& e)
   {
     std::cerr << "execute() failed: " << e.what() << "\n";
     throw;

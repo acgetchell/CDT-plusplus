@@ -8,7 +8,7 @@ add_executable(
   Foliated_triangulation_test.cpp
   Geometry_test.cpp
   Manifold_test.cpp
-  # Move_command_test.cpp
+  Move_command_test.cpp
   # MoveManagerTest.cpp
   S3ActionTest.cpp
   SphereTest.cpp
