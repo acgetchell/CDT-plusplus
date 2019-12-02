@@ -13,7 +13,7 @@ var searchData=
   ['get_5fgeometry_353',['get_geometry',['../class_manifold_3_013_01_4.html#a37a1263e3a1d83bdcc7ee8f12e42872f',1,'Manifold&lt; 3 &gt;']]],
   ['get_5fmanifold_354',['get_manifold',['../class_move_command.html#a0f88febba7ca499ce6fec7473316881d',1,'MoveCommand']]],
   ['get_5fone_5fthree_355',['get_one_three',['../class_foliated__triangulation_3_013_01_4.html#ae69617e831c84c6cd462d5de1dc1c60c',1,'Foliated_triangulation&lt; 3 &gt;']]],
-  ['get_5fresults_356',['get_results',['../class_move_command.html#a3199b5fa2e5c5c9840271043aa4b0e48',1,'MoveCommand']]],
+  ['get_5fresults_356',['get_results',['../class_move_command.html#a901fc4de01e75d9c1958e0d39755d430',1,'MoveCommand']]],
   ['get_5fspacelike_5fedges_357',['get_spacelike_edges',['../class_foliated__triangulation_3_013_01_4.html#a79a6430afc3bbcd33266352835ce1df2',1,'Foliated_triangulation&lt; 3 &gt;::get_spacelike_edges()'],['../class_manifold_3_013_01_4.html#a1e8f83dc5386b3bd6b89a20a5b55a3da',1,'Manifold&lt; 3 &gt;::get_spacelike_edges()']]],
   ['get_5fthree_5fone_358',['get_three_one',['../class_foliated__triangulation_3_013_01_4.html#a4a8602b708e16426ed304d46dfab6497',1,'Foliated_triangulation&lt; 3 &gt;']]],
   ['get_5ftimelike_5fedges_359',['get_timelike_edges',['../class_foliated__triangulation_3_013_01_4.html#af3c74338757bbd04102f92e538a2607f',1,'Foliated_triangulation&lt; 3 &gt;::get_timelike_edges()'],['../class_manifold_3_013_01_4.html#a6b08dfec9150df8a9b6d5acc610b8d2e',1,'Manifold&lt; 3 &gt;::get_timelike_edges()']]],
