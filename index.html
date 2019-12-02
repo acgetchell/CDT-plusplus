@@ -137,11 +137,14 @@ Setup</h2>
 <div class="line">cd vcpkg</div>
 <div class="line">./bootstrap-vcpkg.sh</div>
 <div class="line">./vcpkg integrate install</div>
-</div><!-- fragment --><p>Note that this helpfully installs up to date versions of <a href="https://www.cmake.org">CMake</a> and <a href="https://ninja-build.org">Ninja</a>.</p>
-<p>On non-Windows platforms, you will also need to install <code>yasm</code> so that <code>vcpkg</code> can install <a href="http://mpir.org/">mpir</a>, which is required for <a href="https://www.cgal.org">CGAL</a>.</p>
+</div><!-- fragment --><p>Next, you will need to install up to date versions of <a href="https://www.cmake.org">CMake</a> and <a href="https://ninja-build.org">Ninja</a>. On non-Windows platforms, you will also need <code>yasm</code> so that <code>vcpkg</code> can install <a href="http://mpir.org/">mpir</a>, which is required for <a href="https://www.cgal.org">CGAL</a>.</p>
 <p>MacOS using [homebrew]:</p>
-<div class="fragment"><div class="line">brew install yasm</div>
-</div><!-- fragment --><p> Linux using [apt] (you may also need to install <a href="https://www.gnu.org/software/m4/">m4</a>): </p><div class="fragment"><div class="line">sudo apt-get install yasm</div>
+<div class="fragment"><div class="line">brew install cmake</div>
+<div class="line">brew install ninja</div>
+<div class="line">brew install yasm</div>
+</div><!-- fragment --><p> Linux using [apt] (you may also need to install <a href="https://www.gnu.org/software/m4/">m4</a>): </p><div class="fragment"><div class="line">sudo apt-get install cmake</div>
+<div class="line">sudo apt-get install ninja-build</div>
+<div class="line">sudo apt-get install yasm</div>
 <div class="line">sudo apt-get install m4</div>
 </div><!-- fragment --><p>At minimum, we need to install prerequisites <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a>, <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
 <div class="fragment"><div class="line">./vcpkg install catch2</div>
@@ -249,7 +252,7 @@ Upstream issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 2 2019 02:21:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Dec 2 2019 03:10:08 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
