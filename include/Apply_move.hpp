@@ -2,11 +2,13 @@
 ///
 /// Copyright © 2019 Adam Getchell
 ///
-/// Performs the set of Pachner moves on a 2+1 dimensional manifold which
-/// explore all possible triangulations.
+/// Performs the set of Pachner moves on a manifold exploring
+/// all possible triangulations.
 
 /// @file Apply_move.hpp
 /// @brief Apply Pachner moves to foliated Delaunay triangulations
+///
+/// Return by value since RVO applies
 ///
 /// @todo try-catch in constexpr functions (P1002R!) are in C++20
 
@@ -15,8 +17,8 @@
 
 #include <functional>
 
-/// @tparam ManifoldType The type of manifold
-/// @tparam FunctionType The type of move
+/// @tparam ManifoldType The type (topology, dimensionality) of manifold
+/// @tparam FunctionType The type of move applied to the manifold
 /// @param manifold The manifold on which to make the Pachner move
 /// @param move The Pachner move
 /// @return The manifold upon which the Pachner move has been applied
