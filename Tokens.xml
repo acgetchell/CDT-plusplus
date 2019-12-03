@@ -872,6 +872,46 @@
       <APILanguage>c</APILanguage>
       <Type>func</Type>
     </TokenIdentifier>
+    <Path>_geometry__test_8cpp.html</Path>
+    <Anchor>a1f8c94146320caa7258a12cd8d00dbdb</Anchor>
+    <DeclaredIn>Geometry_test.cpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SCENARIO</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_manifold__test_8cpp.html</Path>
+    <Anchor>a86c0feb15fe431d86236338356a0481e</Anchor>
+    <DeclaredIn>Manifold_test.cpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SCENARIO</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_manifold__test_8cpp.html</Path>
+    <Anchor>aaeb7a31a550b3f829f9a75892302f357</Anchor>
+    <DeclaredIn>Manifold_test.cpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SCENARIO</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_manifold__test_8cpp.html</Path>
+    <Anchor>ac9e2f1d35b0df16624ee269b4050b479</Anchor>
+    <DeclaredIn>Manifold_test.cpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SCENARIO</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
     <Path>_move__command__test_8cpp.html</Path>
     <Anchor>a38c4bc81e8d9dca2f87aafcc6fe955f3</Anchor>
     <Abstract>TODO: Fix exception here.</Abstract>

@@ -54,14 +54,16 @@ digraph "include/Manifold.hpp"
   Node25 [label="pcg_random.hpp",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node2 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node26 [label="cstdint",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node1 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node27 [label="Geometry.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_geometry_8hpp.html",tooltip="Data structures for geometry."];
-  Node27 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 -> Node27 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node27 [label="optional",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node1 -> Node28 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node28 [label="cstddef",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node28 [label="Geometry.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_geometry_8hpp.html",tooltip="Data structures for geometry."];
+  Node28 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node29 [label="unordered_set",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node29 [label="cstddef",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node17 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node1 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node30 [label="utility",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node30 [label="unordered_set",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node1 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node31 [label="utility",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

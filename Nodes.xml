@@ -3739,7 +3739,24 @@
              </Node>
              <Node>
               <Name>Geometry_test.cpp</Name>
-              <Path>_geometry__test_8cpp_source.html</Path>
+              <Path>_geometry__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_geometry__test_8cpp.html</Path>
+                <Anchor>a3a94eaff7af23bd1a659cf9806842b53</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_geometry__test_8cpp.html</Path>
+                <Anchor>ae9f6ea2b91d22f88d50071bc097797dd</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_geometry__test_8cpp.html</Path>
+                <Anchor>a1f8c94146320caa7258a12cd8d00dbdb</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>main.cpp</Name>
@@ -3784,7 +3801,44 @@
              </Node>
              <Node>
               <Name>Manifold_test.cpp</Name>
-              <Path>_manifold__test_8cpp_source.html</Path>
+              <Path>_manifold__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>a4936c71015f0f39a1b5b1c45e266a454</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>a86c0feb15fe431d86236338356a0481e</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>a294109dfe840a715ad9548c9306c5b6d</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>aa28127f54d13df3b3e51a7f233970e70</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>aaeb7a31a550b3f829f9a75892302f357</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>a431227c453c7e5ae69c99b268e147388</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>ac9e2f1d35b0df16624ee269b4050b479</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>MeasurementsTest.cpp</Name>
@@ -3849,8 +3903,15 @@
               <Path>_move_manager_test_8cpp_source.html</Path>
              </Node>
              <Node>
-              <Name>S3ActionTest.cpp</Name>
-              <Path>_s3_action_test_8cpp_source.html</Path>
+              <Name>S3Action_test.cpp</Name>
+              <Path>_s3_action__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_s3_action__test_8cpp.html</Path>
+                <Anchor>aff4543d9392755b1d0971600dbbc01fc</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>S3ErgodicMovesTest.cpp</Name>
@@ -3865,23 +3926,42 @@
               <Path>_simulation_test_8cpp_source.html</Path>
              </Node>
              <Node>
-              <Name>SphereTest.cpp</Name>
-              <Path>_sphere_test_8cpp.html</Path>
+              <Name>Sphere_test.cpp</Name>
+              <Path>_sphere__test_8cpp.html</Path>
               <Subnodes>
                <Node>
                 <Name>SCENARIO</Name>
-                <Path>_sphere_test_8cpp.html</Path>
+                <Path>_sphere__test_8cpp.html</Path>
                 <Anchor>aad083a8af28918e750f37ef875edd686</Anchor>
                </Node>
               </Subnodes>
              </Node>
              <Node>
               <Name>Tetrahedron_test.cpp</Name>
-              <Path>_tetrahedron__test_8cpp_source.html</Path>
+              <Path>_tetrahedron__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_tetrahedron__test_8cpp.html</Path>
+                <Anchor>a85ceb917a693a8da808a99c43d62ad8e</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_tetrahedron__test_8cpp.html</Path>
+                <Anchor>ae6e27a6caec46887698729da63f9d7fa</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>Torus_test.cpp</Name>
-              <Path>_torus__test_8cpp_source.html</Path>
+              <Path>_torus__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_torus__test_8cpp.html</Path>
+                <Anchor>a738b019f9f6b5a7a7eb8e57e57520955</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>Utilities_test.cpp</Name>
@@ -3910,8 +3990,15 @@
               </Subnodes>
              </Node>
              <Node>
-              <Name>VertexTest.cpp</Name>
-              <Path>_vertex_test_8cpp_source.html</Path>
+              <Name>Vertex_test.cpp</Name>
+              <Path>_vertex__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_vertex__test_8cpp.html</Path>
+                <Anchor>ac0626a210c39e15a490dc66c4cf9f3e4</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
             </Subnodes>
            </Node>
