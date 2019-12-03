@@ -5,7 +5,7 @@
 /// Tests that 2-spheres and 3-spheres are correctly constructed
 /// in 3D and 4D respectively.
 
-/// @file SphereTest.cpp
+/// @file Sphere_test.cpp
 /// @brief Tests for spheres
 /// @author Adam Getchell
 

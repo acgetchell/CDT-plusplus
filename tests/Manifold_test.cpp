@@ -4,13 +4,12 @@
 ///
 /// Tests of new manifold data structure compatible with old SimplicialManifold
 
-/// @file ManifoldTest.cpp
+/// @file Manifold_test.cpp
 /// @brief Tests of new manifold data structure
 /// @author Adam Getchell
 
 #include "Manifold.hpp"
 #include <CGAL/Triangulation_3.h>
-#include <algorithm>
 #include <catch2/catch.hpp>
 
 using namespace std;

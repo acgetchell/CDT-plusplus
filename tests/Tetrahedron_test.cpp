@@ -5,7 +5,7 @@
 /// Tests that 3D triangulated and foliated tetrahedrons are constructed
 /// correctly.
 ///
-/// @file Tetrahedron.cpp
+/// @file Tetrahedron_test.cpp
 /// @brief Tests for 3D triangulated and foliated tetrahedrons
 /// @author Adam Getchell
 

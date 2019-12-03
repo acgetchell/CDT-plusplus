@@ -28,6 +28,7 @@
 #include <CGAL/point_generators_3.h>
 #include <Utilities.hpp>
 #include <cstdint>
+#include <optional>
 
 using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation3 = CGAL::Triangulation_3<Kernel>;

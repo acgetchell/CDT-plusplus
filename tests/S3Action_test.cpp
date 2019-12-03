@@ -5,7 +5,7 @@
 /// Ensures that the S3 bulk action calculations are correct, and give
 /// similar results for similar values.
 
-/// @file S3Action.cpp
+/// @file S3Action_test.cpp
 /// @brief Tests for the S3 action functions
 /// @author Adam Getchell
 

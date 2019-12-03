@@ -4,7 +4,7 @@
 ///
 /// Tests of geometry data structure
 
-/// @file GeometryTest.cpp
+/// @file Geometry_test.cpp
 /// @brief Tests of new geometry data structure
 /// @author Adam Getchell
 

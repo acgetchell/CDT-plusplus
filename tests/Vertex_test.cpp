@@ -4,7 +4,7 @@
 ///
 /// Tests for inserting and deleting vertices.
 ///
-/// @file Vertex.cpp
+/// @file Vertex_test.cpp
 /// @brief Tests on vertices
 /// @author Adam Getchell
 

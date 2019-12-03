@@ -5,7 +5,7 @@
 /// Tests for lambdas and function_refs to store function objects for delayed
 /// calls
 ///
-/// @file FunctionRef.cpp
+/// @file Function_ref.cpp
 /// @brief Tests on vertices
 /// @author Adam Getchell
 

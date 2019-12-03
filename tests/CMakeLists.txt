@@ -10,12 +10,12 @@ add_executable(
   Manifold_test.cpp
   Move_command_test.cpp
   # MoveManagerTest.cpp
-  S3ActionTest.cpp
-  SphereTest.cpp
+  S3Action_test.cpp
+  Sphere_test.cpp
   Tetrahedron_test.cpp
   Torus_test.cpp
   Utilities_test.cpp
-  VertexTest.cpp)
+  Vertex_test.cpp)
 
 target_link_libraries(CDT_test Catch2::Catch2 CGAL::CGAL)
 
