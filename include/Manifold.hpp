@@ -11,6 +11,10 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
+#ifdef _WIN32
+#define __PRETTY_FUNCTION__ __FUNCSIG__
+#endif
+
 #include "Foliated_triangulation.hpp"
 #include "Geometry.hpp"
 #include <cstddef>

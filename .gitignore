@@ -32,6 +32,7 @@ cov-int
 .idea
 .vs*
 xcode/
+CMakeSEttings.json
 
 # Program/script executables
 cdt_tests
