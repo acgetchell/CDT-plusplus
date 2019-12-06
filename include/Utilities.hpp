@@ -77,9 +77,13 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 /// @return The environment variable corresponding to the key
 [[nodiscard]] inline auto getEnvVar(std::string const& key) noexcept
 {
+#ifndef _WIN32
   char const* val = getenv(key.c_str());
   val == nullptr ? std::string() : std::string(val);
-  return val;
+#else
+	auto val = "user";
+#endif
+	return val;
 }
 
 /// @brief Return the hostname

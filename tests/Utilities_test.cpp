@@ -21,9 +21,9 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
     auto constexpr this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
     {
-      std::stringstream buffer;
-      std::cout.rdbuf(buffer.rdbuf());
-      std::cout << this_topology;
+      stringstream buffer;
+      cout.rdbuf(buffer.rdbuf());
+      cout << this_topology;
       THEN("The output is correct.")
       {
         CHECK_THAT(buffer.str(), Catch::Equals("spherical"));
@@ -38,17 +38,20 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       THEN("The output is correct.")
       {
         // Enter your own USER environment variable here
-        CHECK_THAT(result, Catch::Equals("adam") || Catch::Equals("travis"));
+        CHECK_THAT(result, Catch::Equals("adam") || Catch::Equals("travis") ||
+                               Catch::Equals("user"));
       }
     }
+    auto const result = hostname();
     WHEN("The hostname is requested.")
     {
       // Set OS type to Windows so we know the hostname
       THEN("The output is correct.")
       {
-        CHECK_THAT(hostname(), Catch::Contains("hapkido") ||
-                                   Catch::Contains("production") ||
-                                   Catch::Contains("dewitt"));
+        CHECK_THAT(result, Catch::Contains("hapkido") ||
+                               Catch::Contains("production") ||
+                               Catch::Contains("dewitt") ||
+                               Catch::Contains("windows"));
       }
     }
     WHEN("The current time is requested.")
@@ -58,7 +61,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
         // Update test yearly
         CHECK_THAT(currentDateTime(), Catch::Contains("2019"));
         // Human verification
-        std::cout << currentDateTime() << "\n";
+        cout << currentDateTime() << "\n";
       }
     }
     WHEN("A filename is generated.")
@@ -77,7 +80,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
                        Catch::Contains("6700") && Catch::Contains("@") &&
                        Catch::Contains("2019") && Catch::Contains("dat"));
         // Human verification
-        std::cout << filename << "\n";
+        cout << filename << "\n";
       }
     }
   }
@@ -86,8 +89,8 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
 SCENARIO("Printing results", "[utility]")
 {
   // redirect std::cout
-  std::stringstream buffer;
-  std::cout.rdbuf(buffer.rdbuf());
+  stringstream buffer;
+  cout.rdbuf(buffer.rdbuf());
   GIVEN("A Manifold3")
   {
     Manifold3 manifold(640, 4);
@@ -138,8 +141,8 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   }
   GIVEN("A container of ints")
   {
-    std::vector<int> v(20);
-    std::iota(v.begin(), v.end(), 0);
+    vector<int> v(20);
+    iota(v.begin(), v.end(), 0);
     WHEN("The container is shuffled.")
     {
       std::shuffle(v.begin(), v.end(), make_random_generator());
