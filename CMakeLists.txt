@@ -112,6 +112,9 @@ find_package(Catch2 CONFIG REQUIRED)
 # https://github.com/docopt/docopt.cpp
 find_package(docopt CONFIG REQUIRED)
 
+# https://github.com/fmtlib/fmt
+find_package(fmt CONFIG REQUIRED)
+
 # https://www.boost.org
 find_package(Boost REQUIRED)
 
@@ -136,10 +139,10 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 # On macOS and Linux docopt builds an intermediate object, thus different
 # targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
-  target_link_libraries(initialize PRIVATE docopt Eigen3::Eigen TBB::tbb
+  target_link_libraries(initialize PRIVATE docopt fmt::fmt fmt::fmt-header-only Eigen3::Eigen TBB::tbb
                                            CGAL::CGAL)
 else()
-  target_link_libraries(initialize PRIVATE docopt_s Eigen3::Eigen TBB::tbb
+  target_link_libraries(initialize PRIVATE docopt_s fmt::fmt fmt::fmt-header-only Eigen3::Eigen TBB::tbb
                                            CGAL::CGAL)
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
