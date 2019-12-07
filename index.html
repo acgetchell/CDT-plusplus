@@ -98,6 +98,7 @@ Small foliated Delaunay triangulation</div></div>
 <li>[x] High-quality Random Number Generation with M.E. O'Neill's <a href="http://www.pcg-random.org/paper.html">PCG</a> library</li>
 <li>[x] Multithreading via <a href="https://www.threadingbuildingblocks.org">TBB</a></li>
 <li>[x] Automated code analysis with <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a></li>
+<li>[x] Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a></li>
 <li>[ ] <a class="el" href="class_metropolis.html" title="Metropolis-Hastings algorithm function object.">Metropolis</a> algorithm</li>
 <li>[ ] Output via <a href="https://www.hdfgroup.org">HDF5</a></li>
 <li>[ ] A <a href="https://doc.cgal.org/latest/Surface_mesher/index.html">Surface mesh</a> manifold of 3D Triangulation</li>
@@ -119,7 +120,7 @@ Getting Started</h1>
 <p>Otherwise, you can clone the repo, including submodules, as follows:</p>
 <div class="fragment"><div class="line">git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git</div>
 </div><!-- fragment --><p>(Older versions of <code>git</code> may require <code>--recursive</code> instead of <code>--recurse-submodules</code>.)</p>
-<p>This will put you on the <a href="https://github.com/acgetchell/CDT-plusplus">development</a> branch. Project is in the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
+<p>This will put you on the <a href="https://github.com/acgetchell/CDT-plusplus">development</a> branch. The project uses the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
 <li>build - Ephemeral out-of-source build directory</li>
@@ -147,27 +148,24 @@ Setup</h2>
 <div class="line">sudo apt-get install yasm</div>
 <div class="line">sudo apt-get install m4</div>
 </div><!-- fragment --><p>At minimum, we need to install prerequisites <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a>, <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
-<div class="fragment"><div class="line">./vcpkg install catch2</div>
-<div class="line">./vcpkg install docopt</div>
-<div class="line">./vcpkg install ms-gsl</div>
-<div class="line">./vcpkg install eigen3</div>
-<div class="line">./vcpkg install tbb</div>
-<div class="line">./vcpkg install cgal</div>
+<div class="fragment"><div class="line">vcpkg install catch2</div>
+<div class="line">vcpkg install docopt</div>
+<div class="line">vcpkg install ms-gsl</div>
+<div class="line">vcpkg install eigen3</div>
+<div class="line">vcpkg install tbb</div>
+<div class="line">vcpkg install cgal</div>
 </div><!-- fragment --><p>This builds from source, so it will take awhile. To use these successfully, you'll need to set the <code>CMAKE_TOOLCHAIN_FILE</code> option in your IDE or whatever invokes <a href="https://www.cmake.org">CMake</a> to wherever you've installed <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, (e.g. your home directory):</p>
 <div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake</div>
-</div><!-- fragment --><p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, and <a href="https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html">clang-7</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
+</div><!-- fragment --><p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html">clang-7</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Building</h2>
-<div class="fragment"><div class="line">cd tools</div>
-<div class="line">./build.sh</div>
-</div><!-- fragment --><p>This should result in the main program executable, <code>cdt</code> in the <code>build/bin</code> directory, along with several others.</p>
+<p>In the <code>tools</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
+<p>This should result in the main program executable, <code>cdt</code> in <code>build/bin</code> or <code>build\Debug</code>, along with several others.</p>
 <ul>
-<li><code>CDT_test</code> is the <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> executable which runs the unit tests</li>
 <li><code>cdt-gv</code> converts output files to <a href="http://www.geomview.org/">Geomview</a> format for visualization</li>
 <li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
 <li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run <a href="#parameter-optimization">parameter optimization</a></li>
 </ul>
-<p>The install script will also run unit and integration tests. See <a href="#testing">Testing</a> for details.</p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Usage</h1>
 <p>CDT-plusplus uses <a href="https://github.com/docopt/docopt.cpp">Docopt</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
@@ -208,11 +206,13 @@ Documentation</h1>
 </div><!-- fragment --><p>This will generate a <code>docs/html/</code> directory containing documentation generated from CDT++ source files. <code>USE_MATHJAX</code> has been enabled in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile">Doxyfile</a> so that the LaTeX formulae can be rendered in the html documentation using <a href="https://www.mathjax.org">MathJax</a>. <code>HAVE_DOT</code> is set to <b>YES</b> which allows various graphs to be autogenerated by <a href="http://www.doxygen.org">Doxygen</a> using <a href="https://www.graphviz.org">GraphViz</a>. If you do not have GraphViz installed, set this option to <b>NO</b> (along with <code>UML_LOOK</code>).</p>
 <h1><a class="anchor" id="autotoc_md6"></a>
 Testing</h1>
-<p>Unit tests using <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> are run (in the <code>build/tests</code> directory) via:</p>
+<p>Unit tests are run (in <code>build/tests</code> or <code>build\tests\Debug</code>) via <code>CDT_test</code>, the <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> executable:</p>
 <div class="fragment"><div class="line">./CDT_test</div>
+</div><!-- fragment --><p>or</p>
+<div class="fragment"><div class="line">CDT_test.exe</div>
 </div><!-- fragment --><p>You can also run both <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a> integration and <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> unit tests in the <code>build</code> directory with:</p>
 <div class="fragment"><div class="line">ctest</div>
-</div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>build/Testing</code> directory which is generated thereby. <code>build/Testing</code> directory which is generated thereby.</p>
+</div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>build/Testing</code> directory which is generated thereby.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Static Analysis</h2>
 <p>This project follows the <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">CppCore Guidelines</a> as enforced by <a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a>, which you can install and then run using the <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh">clang-tidy.sh</a> script:</p>
@@ -252,7 +252,7 @@ Upstream issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 6 2019 17:57:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 7 2019 00:54:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
