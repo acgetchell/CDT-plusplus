@@ -111,7 +111,7 @@ sudo apt-get install yasm
 sudo apt-get install m4
 ```
 
-At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen], [tbb], and [CGAL]
+At minimum, you need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen], [tbb], and [CGAL]
 (which installs [boost], [mpir] and [mpfr]):
 
 ```bash
@@ -130,6 +130,7 @@ you've installed [vcpkg], (e.g. your home directory):
 ```bash
 -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
+([Visual Studio 2019] sets this for you by default.)
 
 This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-7], and [Visual Studio 2019].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
@@ -217,7 +218,7 @@ Unit tests are run (in `build/tests` or `build\tests\Debug`) via `CDT_test`, the
 ./CDT_test
 ~~~
 
-or
+or (Windows):
 
 ~~~cmd
 CDT_test.exe
@@ -227,6 +228,12 @@ You can also run both [CTest] integration and [Catch] unit tests in the `build` 
 
 ~~~bash
 ctest
+~~~
+
+or (Windows):
+
+~~~
+ctest -C Debug
 ~~~
 
 In addition to the command line output, you can see detailed results in the

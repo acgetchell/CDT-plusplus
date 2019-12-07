@@ -61,7 +61,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
         // Update test yearly
         CHECK_THAT(currentDateTime(), Catch::Contains("2019"));
         // Human verification
-        cout << currentDateTime() << "\n";
+        //cout << currentDateTime() << "\n";
       }
     }
     WHEN("A filename is generated.")
@@ -72,7 +72,6 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       auto constexpr timeslices    = static_cast<int_fast32_t>(16);
       auto const filename =
           generate_filename(this_topology, dimensions, simplices, timeslices);
-      /// TODO: Fix intermittent Segfault here
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,
@@ -80,7 +79,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
                        Catch::Contains("6700") && Catch::Contains("@") &&
                        Catch::Contains("2019") && Catch::Contains("dat"));
         // Human verification
-        cout << filename << "\n";
+        //cout << filename << "\n";
       }
     }
   }
@@ -93,7 +92,7 @@ SCENARIO("Printing results", "[utility]")
   cout.rdbuf(buffer.rdbuf());
   GIVEN("A Manifold3")
   {
-    Manifold3 manifold(640, 4);
+    Manifold3 const manifold(640, 4);
     WHEN("We want to print statistics on a manifold.")
     {
       THEN("Statistics are successfully printed.")
@@ -113,7 +112,7 @@ SCENARIO("Printing results", "[utility]")
   }
   GIVEN("A FoliatedTriangulation3")
   {
-    FoliatedTriangulation3 triangulation(640, 4);
+    FoliatedTriangulation3 const triangulation(640, 4);
     WHEN("We want to print statistics on the triangulation.")
     {
       THEN("Statistics are successfully printed.")
@@ -161,8 +160,8 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr min = static_cast<int_fast32_t>(64);
-      auto constexpr max = static_cast<int_fast32_t>(6400);
+      auto constexpr min = static_cast<int_fast64_t>(64);
+      auto constexpr max = static_cast<int_fast64_t>(6400);
       auto const value1  = generate_random_int(min, max);
       auto const value2  = generate_random_int(min, max);
       auto const value3  = generate_random_int(min, max);
@@ -205,7 +204,7 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr max = static_cast<int_fast32_t>(256);
+      auto constexpr max = static_cast<int_fast64_t>(256);
       auto const value1  = generate_random_timeslice(max);
       auto const value2  = generate_random_timeslice(max);
       auto const value3  = generate_random_timeslice(max);
