@@ -147,7 +147,7 @@ Setup</h2>
 <div class="line">sudo apt-get install ninja-build</div>
 <div class="line">sudo apt-get install yasm</div>
 <div class="line">sudo apt-get install m4</div>
-</div><!-- fragment --><p>At minimum, we need to install prerequisites <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a>, <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
+</div><!-- fragment --><p>At minimum, you need to install prerequisites <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a>, <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
 <div class="fragment"><div class="line">vcpkg install catch2</div>
 <div class="line">vcpkg install docopt</div>
 <div class="line">vcpkg install ms-gsl</div>
@@ -156,7 +156,8 @@ Setup</h2>
 <div class="line">vcpkg install cgal</div>
 </div><!-- fragment --><p>This builds from source, so it will take awhile. To use these successfully, you'll need to set the <code>CMAKE_TOOLCHAIN_FILE</code> option in your IDE or whatever invokes <a href="https://www.cmake.org">CMake</a> to wherever you've installed <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, (e.g. your home directory):</p>
 <div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake</div>
-</div><!-- fragment --><p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html">clang-7</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
+</div><!-- fragment --><p> (<a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> sets this for you by default.)</p>
+<p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html">clang-7</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Building</h2>
 <p>In the <code>tools</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
@@ -208,10 +209,12 @@ Documentation</h1>
 Testing</h1>
 <p>Unit tests are run (in <code>build/tests</code> or <code>build\tests\Debug</code>) via <code>CDT_test</code>, the <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> executable:</p>
 <div class="fragment"><div class="line">./CDT_test</div>
-</div><!-- fragment --><p>or</p>
+</div><!-- fragment --><p>or (Windows):</p>
 <div class="fragment"><div class="line">CDT_test.exe</div>
 </div><!-- fragment --><p>You can also run both <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a> integration and <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> unit tests in the <code>build</code> directory with:</p>
 <div class="fragment"><div class="line">ctest</div>
+</div><!-- fragment --><p>or (Windows):</p>
+<div class="fragment"><div class="line">ctest -C Debug</div>
 </div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>build/Testing</code> directory which is generated thereby.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Static Analysis</h2>
@@ -252,7 +255,7 @@ Upstream issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 7 2019 00:54:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 7 2019 04:01:06 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

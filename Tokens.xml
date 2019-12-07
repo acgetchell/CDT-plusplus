@@ -919,16 +919,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>SCENARIO</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_utilities__test_8cpp.html</Path>
-    <Anchor>a6588fba716b6a392826853481287fedb</Anchor>
-    <DeclaredIn>Utilities_test.cpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>md_LICENSE</Name>
       <APILanguage>markdown</APILanguage>
     </TokenIdentifier>
