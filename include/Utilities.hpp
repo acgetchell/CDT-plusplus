@@ -91,8 +91,7 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 
 /// @brief Return the hostname
 ///
-/// **auto** doesn't work here as a return type because **name.nodename** is a
-/// stack memory address. Uses utsname.h, which isn't present in Windows
+/// Uses utsname.h, which isn't present in Windows
 /// (easily) so just default to "windows" on that platform.
 ///
 /// @return The hostname
@@ -231,7 +230,6 @@ template <typename Manifold, typename Timer>
   //    print_results(universe);
 
   // Display program running time
-  // std::cout << "Running time is " << timer.time() << " seconds.\n";
   fmt::print("Running time is {} seconds.\n", timer.time());
 }  // print_results
 
@@ -263,15 +261,10 @@ template <typename Manifold>
 void print_manifold_details(Manifold const& manifold)
 try
 {
-  // std::cout << "There are " << manifold.N3_31() << " (3,1) simplices and "
-  //        << manifold.N3_22() << " (2,2) simplices and " << manifold.N3_13()
-  //      << " (1,3) simplices.\n";
   fmt::print(
       "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
       "simplices.\n",
       manifold.N3_31(), manifold.N3_22(), manifold.N3_13());
-  // std::cout << "There are " << manifold.N1_TL() << " timelike edges and "
-  //        << manifold.N1_SL() << " spacelike edges.\n";
   fmt::print("There are {} timelike edges and {} spacelike edges.\n",
              manifold.N1_TL(), manifold.N1_SL());
 }
@@ -344,8 +337,8 @@ void write_file(Manifold const& universe, topology_type const& topology,
   pcg64 rng(seed_source);
 
   // Choose random number from 1 to 6
-  std::uniform_int_distribution<int> const uniform_dist(1, 6);
-  int const                                roll = uniform_dist(rng);
+  std::uniform_int_distribution<int> uniform_dist(1, 6);
+  int const                          roll = uniform_dist(rng);
   return roll;
 }  // die_roll()
 

@@ -17,7 +17,8 @@ add_executable(
   Utilities_test.cpp
   Vertex_test.cpp)
 
-target_link_libraries(CDT_test Catch2::Catch2 fmt::fmt fmt::fmt-header-only CGAL::CGAL)
+target_link_libraries(CDT_test Catch2::Catch2 fmt::fmt fmt::fmt-header-only
+                      CGAL::CGAL)
 
 # Activate C++17
 target_compile_features(CDT_test PRIVATE cxx_std_17)
