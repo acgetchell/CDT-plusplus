@@ -43,6 +43,7 @@ The goals and targets of this project are:
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
 - [x] Multithreading via [TBB]
 - [x] Automated code analysis with [LGTM]
+- [x] Build/debug with [Visual Studio 2019]
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
@@ -70,7 +71,7 @@ git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git
 
 (Older versions of `git` may require `--recursive` instead of `--recurse-submodules`.)
 
-This will put you on the [development] branch. Project is in the [PitchFork Layout], as follows:
+This will put you on the [development] branch. The project uses the [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
 - build - Ephemeral out-of-source build directory
@@ -114,12 +115,12 @@ At minimum, we need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen
 (which installs [boost], [mpir] and [mpfr]):
 
 ```bash
-./vcpkg install catch2
-./vcpkg install docopt
-./vcpkg install ms-gsl
-./vcpkg install eigen3
-./vcpkg install tbb
-./vcpkg install cgal
+vcpkg install catch2
+vcpkg install docopt
+vcpkg install ms-gsl
+vcpkg install eigen3
+vcpkg install tbb
+vcpkg install cgal
 ```
 
 This builds from source, so it will take awhile. To use these successfully, you'll need to
@@ -130,25 +131,18 @@ you've installed [vcpkg], (e.g. your home directory):
 -DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
 ```
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], and [clang-7].
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-7], and [Visual Studio 2019].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 ### Building
 
-```bash
-cd tools
-./build.sh
-```
+In the `tools` directory, run `build.sh` or `build.bat` depending on your operating system.
 
-This should result in the main program executable, `cdt` in the `build/bin` directory, along with several others.
+This should result in the main program executable, `cdt` in `build/bin` or `build\Debug`, along with several others.
 
-- `CDT_test` is the [Catch] executable which runs the unit tests
 - `cdt-gv` converts output files to [Geomview] format for visualization
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
-
-The install script will also run unit and integration tests.
-See [Testing](#testing) for details.
 
 ## Usage
 
@@ -217,10 +211,16 @@ If you do not have GraphViz installed, set this option to **NO**
 
 ## Testing
 
-Unit tests using [Catch] are run (in the `build/tests` directory) via:
+Unit tests are run (in `build/tests` or `build\tests\Debug`) via `CDT_test`, the [Catch] executable:
 
 ~~~bash
 ./CDT_test
+~~~
+
+or
+
+~~~cmd
+CDT_test.exe
 ~~~
 
 You can also run both [CTest] integration and [Catch] unit tests in the `build` directory with:
@@ -230,7 +230,6 @@ ctest
 ~~~
 
 In addition to the command line output, you can see detailed results in the
-`build/Testing` directory which is generated thereby.
 `build/Testing` directory which is generated thereby.
 
 ### Static Analysis
@@ -367,3 +366,4 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
 [query console]: https://lgtm.com/query/lang:cpp/
 [Github Actions]: https://github.com/features/actions
+[Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
