@@ -24,6 +24,7 @@ Uses [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library for hi
 Uses [Catch] for [BDD]/[TDD].
 Uses [vcpkg] for library management and building.
 Uses [Doxygen] for automated document generation.
+Uses [{fmt}] as a safe and fast alternative to `iostream`.
 
 The goals and targets of this project are:
 
@@ -44,6 +45,7 @@ The goals and targets of this project are:
 - [x] Multithreading via [TBB]
 - [x] Automated code analysis with [LGTM]
 - [x] Build/debug with [Visual Studio 2019]
+- [x] Use [{fmt}] library (instead of `iostream`)
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
@@ -111,12 +113,13 @@ sudo apt-get install yasm
 sudo apt-get install m4
 ```
 
-At minimum, you need to install prerequisites [Catch], [docopt], [ms-gsl], [Eigen], [tbb], and [CGAL]
+At minimum, you need to install prerequisites [Catch], [docopt], [{fmt}], [ms-gsl], [Eigen], [tbb], and [CGAL]
 (which installs [boost], [mpir] and [mpfr]):
 
 ```bash
 vcpkg install catch2
 vcpkg install docopt
+vcpkg install fmt
 vcpkg install ms-gsl
 vcpkg install eigen3
 vcpkg install tbb
@@ -374,3 +377,4 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [query console]: https://lgtm.com/query/lang:cpp/
 [Github Actions]: https://github.com/features/actions
 [Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
+[{fmt}]: https://github.com/fmtlib/fmt

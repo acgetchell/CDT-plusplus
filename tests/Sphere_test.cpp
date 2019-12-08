@@ -26,7 +26,7 @@ SCENARIO("Construct a higher-dimensional 3-sphere", "[sphere]")
       THEN("We have the correct number of points.")
       {
         REQUIRE(points.size() == number_of_points);
-        std::cout << "3-sphere has " << number_of_points << " points.\n";
+        fmt::print("3-sphere has {} points.\n", number_of_points);
       }
     }
   }

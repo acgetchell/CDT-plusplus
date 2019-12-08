@@ -3,7 +3,7 @@
 /// Copyright © 2014-2019 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional grid (cube)
-/// \todo Make the vector compatible with the triangulation data structure
+/// @todo Make the vector compatible with the triangulation data structure
 
 /// @file Torus_d.hpp
 /// @brief Functions on d-dimensional torus
@@ -16,6 +16,7 @@
 #include <CGAL/constructions_d.h>
 #include <CGAL/point_generators_d.h>
 
+#include <fmt/format.h>
 #include <vector>
 
 using Kd        = CGAL::Cartesian_d<double>;
@@ -26,8 +27,7 @@ auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension)
 {
   double size = 1.0;
 
-  std::cout << "Generating " << nb_points << " grid points in " << dimension
-            << "D" << std::endl;
+  fmt::print("Generating {} grid points in {}D\n", nb_points, dimension);
 
   v.reserve(nb_points);
   return CGAL::points_on_cube_grid_d(

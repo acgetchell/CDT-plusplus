@@ -41,6 +41,9 @@
 // M. O'Neill's Permutation Congruential Generator library
 #include "pcg_random.hpp"
 
+// V. Zverovich's {fmt} library
+#include <fmt/format.h>
+
 using Gmpzf = CGAL::Gmpzf;
 
 enum class topology_type
@@ -58,14 +61,11 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
   switch (topology)
   {
     case topology_type::SPHERICAL:
-      os << "spherical";
-      return os;
+      return os << "spherical";
     case topology_type::TOROIDAL:
-      os << "toroidal";
-      return os;
+      return os << "toroidal";
     default:
-      os << "none";
-      return os;
+      return os << "none";
   }
 }
 
@@ -81,15 +81,14 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
   char const* val = getenv(key.c_str());
   val == nullptr ? std::string() : std::string(val);
 #else
-	auto val = "user";
+  auto              val = "user";
 #endif
-	return val;
+  return val;
 }
 
 /// @brief Return the hostname
 ///
-/// **auto** doesn't work here as a return type because **name.nodename** is a
-/// stack memory address. Uses utsname.h, which isn't present in Windows
+/// Uses utsname.h, which isn't present in Windows
 /// (easily) so just default to "windows" on that platform.
 ///
 /// @return The hostname
@@ -140,7 +139,7 @@ inline std::string currentDateTime()
 inline std::string currentDateTime()
 {
   using namespace boost::posix_time;
-  ptime              now = microsec_clock::local_time();
+  ptime now = microsec_clock::local_time();
   std::ostringstream result_s;
   result_s << now;
   std::string result = result_s.str();
@@ -228,7 +227,7 @@ template <typename Manifold, typename Timer>
   //    print_results(universe);
 
   // Display program running time
-  std::cout << "Running time is " << timer.time() << " seconds.\n";
+  fmt::print("Running time is {} seconds.\n", timer.time());
 }  // print_results
 
 /// @brief Print manifold statistics
@@ -238,13 +237,13 @@ template <typename Manifold>
 void print_manifold(Manifold const& manifold)
 try
 {
-  std::cout << "Manifold has " << manifold.N0() << " vertices and "
-            << manifold.N1() << " edges and " << manifold.N2() << " faces and "
-            << manifold.N3() << " simplices.\n";
+  fmt::print(
+      "Manifold has {} vertices and {} edges and {} faces and {} simplices.\n",
+      manifold.N0(), manifold.N1(), manifold.N2(), manifold.N3());
 }
 catch (...)
 {
-  std::cerr << "print_manifold() went wrong ...\n";
+  fmt::print(stderr, "print_manifold() went wrong ...\n");
   throw;
 }  // print_manifold
 
@@ -255,15 +254,16 @@ template <typename Manifold>
 void print_manifold_details(Manifold const& manifold)
 try
 {
-  std::cout << "There are " << manifold.N3_31() << " (3,1) simplices and "
-            << manifold.N3_22() << " (2,2) simplices and " << manifold.N3_13()
-            << " (1,3) simplices.\n";
-  std::cout << "There are " << manifold.N1_TL() << " timelike edges and "
-            << manifold.N1_SL() << " spacelike edges.\n";
+  fmt::print(
+      "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
+      "simplices.\n",
+      manifold.N3_31(), manifold.N3_22(), manifold.N3_13());
+  fmt::print("There are {} timelike edges and {} spacelike edges.\n",
+             manifold.N1_TL(), manifold.N1_SL());
 }
 catch (...)
 {
-  std::cerr << "print_manifold_details() went wrong ...\n";
+  fmt::print(stderr, "print_manifold_details() went wrong ...\n");
   throw;
 }  // print_manifold_details
 
@@ -274,15 +274,17 @@ template <typename Triangulation>
 void print_triangulation(Triangulation const& triangulation)
 try
 {
-  std::cout << "Triangulation has " << triangulation.number_of_vertices()
-            << " vertices and " << triangulation.number_of_finite_edges()
-            << " edges and " << triangulation.number_of_finite_facets()
-            << " faces and " << triangulation.number_of_finite_cells()
-            << " simplices.\n";
+  fmt::print(
+      "Triangulation has {} vertices and {} edges and {} faces and {} "
+      "simplices.\n",
+      triangulation.number_of_vertices(),
+      triangulation.number_of_finite_edges(),
+      triangulation.number_of_finite_facets(),
+      triangulation.number_of_finite_cells());
 }
 catch (...)
 {
-  std::cerr << "print_triangulation() went wrong ...\n";
+  fmt::print(stderr, "print_triangulation went wrong ...\n");
   throw;
 }  // print_triangulation
 
@@ -310,7 +312,7 @@ void write_file(Manifold const& universe, topology_type const& topology,
   std::string filename;
   filename.assign(generate_filename(topology, dimensions, number_of_simplices,
                                     number_of_timeslices));
-  std::cout << "Writing to file " << filename << "\n";
+  fmt::print("Writing to file {}\n", filename);
 
   std::lock_guard<std::mutex> lock(mutex);
 
@@ -424,8 +426,8 @@ template <typename FloatingPointType>
 {
   if (output)
   {
-    std::cout << simplices << " simplices on " << timeslices
-              << " timeslices desired.\n";
+    fmt::print("{} simplices on {} timeslices desired.\n", simplices,
+               timeslices);
   }
 
   auto const simplices_per_timeslice = simplices / timeslices;

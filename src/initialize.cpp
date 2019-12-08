@@ -10,16 +10,17 @@
 
 #include <Manifold.hpp>
 #include <docopt.h>
+#include <fmt/format.h>
+#include <fmt/ostream.h>
 #include <gsl/gsl>
-#include <iostream>
 
 using namespace std;
 
 /// Help message parsed by docopt into options
-static const char USAGE[]{
+static constexpr char USAGE[]{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2018 Adam Getchell
+Copyright (c) 2014-2019 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure. Specify the topology of the triangulation
@@ -45,7 +46,6 @@ Options:
 
 int main(int argc, char* const argv[]) try
 {
-  ios_base::sync_with_stdio(false);
   // docopt option parser
   gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
   map<string, docopt::value> args =
@@ -70,14 +70,14 @@ int main(int argc, char* const argv[]) try
   }
 
   // Display job parameters
-  cout << "Topology is " << topology << "\n";
-  cout << "Number of dimensions = " << dimensions << "\n";
-  cout << "Number of desired simplices = " << simplices << "\n";
-  cout << "Number of desired timeslices = " << timeslices << "\n";
-  cout << "Initial radius = " << initial_radius << "\n";
-  cout << "Foliation spacing = " << foliation_spacing << "\n";
-  cout << "User = " << getEnvVar("USER") << "\n";
-  cout << "Hostname = " << hostname() << "\n";
+  fmt::print("Topology is {}\n", topology);
+  fmt::print("Number of dimensions = {}\n", dimensions);
+  fmt::print("Number of desired simplices = {}\n", simplices);
+  fmt::print("Number of desired timeslices = {}\n", timeslices);
+  fmt::print("Initial radius = {}\n", initial_radius);
+  fmt::print("Foliation spacing = {}\n", foliation_spacing);
+  fmt::print("User = {}\n", getEnvVar("USER"));
+  fmt::print("Hostname = {}\n", hostname());
 
   if (simplices < 2 || timeslices < 2)
   {
@@ -105,17 +105,17 @@ int main(int argc, char* const argv[]) try
   }
   print_manifold(universe);
   universe.get_triangulation().print_volume_per_timeslice();
-  cout << "Final number of simplices " << universe.get_geometry().N3 << '\n';
+  fmt::print("Final number of simplices: {}\n", universe.N3());
   return 0;
 }
 catch (invalid_argument& InvalidArgument)
 {
-  cerr << InvalidArgument.what() << "\n";
-  cerr << "Invalid parameter ... Exiting.\n";
+  fmt::print(cerr, "{}\n", InvalidArgument.what());
+  fmt::print(cerr, "Invalid parameter ... exiting.\n");
   return 1;
 }
 catch (...)
 {
-  cerr << "Something went wrong ... Exiting.\n";
+  fmt::print(cerr, "Something went wrong ... exiting.\n");
   return 1;
 }
