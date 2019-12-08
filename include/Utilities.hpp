@@ -41,7 +41,7 @@
 // M. O'Neill's Permutation Congruential Generator library
 #include "pcg_random.hpp"
 
-// V. Zverovich {fmt} library
+// V. Zverovich's {fmt} library
 #include <fmt/format.h>
 
 using Gmpzf = CGAL::Gmpzf;

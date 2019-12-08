@@ -139,7 +139,7 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 # On macOS and Linux docopt builds an intermediate object, thus different
 # targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
-  target_link_libraries(initialize PRIVATE docopt fmt::fmt fmt::fmt-header-only
+  target_link_libraries(initialize PRIVATE docopt fmt::fmt-header-only
                                            Eigen3::Eigen TBB::tbb CGAL::CGAL)
 else()
   target_link_libraries(

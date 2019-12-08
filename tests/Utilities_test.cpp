@@ -8,7 +8,6 @@
 /// @brief Tests on utility functions
 /// @author Adam Getchell
 
-#include "fmt/format.h"
 #include <Manifold.hpp>
 #include <Utilities.hpp>
 #include <catch2/catch.hpp>
@@ -331,7 +330,7 @@ SCENARIO("Expected points per timeslice", "[utility]")
   }
 }
 
-SCENARIO("Exact number (Gmqpzf) conversion", "[utility]")
+SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
 {
   GIVEN("A number not exactly representable in binary")
   {
