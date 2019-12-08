@@ -45,7 +45,7 @@ The goals and targets of this project are:
 - [x] Multithreading via [TBB]
 - [x] Automated code analysis with [LGTM]
 - [x] Build/debug with [Visual Studio 2019]
-- [ ] Use [{fmt}] library (instead of `iostream`)
+- [x] Use [{fmt}] library (instead of `iostream`)
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation

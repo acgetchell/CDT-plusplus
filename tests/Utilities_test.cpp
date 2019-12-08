@@ -85,7 +85,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
   }
 }
 
-// TODO: fmt rdbuf replacement
+/// @todo fmt rdbuf replacement
 // SCENARIO("Printing results", "[utility]")
 //{
 //  // redirect std::cout

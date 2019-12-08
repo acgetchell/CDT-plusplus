@@ -50,10 +50,8 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::TWO_THREE));
         // Human verification
-        //        cout << "Manifold properties;\n";
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
-        //        cout << "Moved manifold properties:\n";
         fmt::print("Moved manifold properties:\n");
         print_manifold_details(result);
       }
@@ -81,10 +79,8 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::TWO_THREE));
         // Human verification
-        //        cout << "Manifold properties;\n";
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
-        //        cout << "Moved manifold properties:\n";
         fmt::print("Moved manifold properties:\n");
         print_manifold_details(result);
       }
@@ -118,11 +114,9 @@ SCENARIO("Move Command initialization", "[move command]")
         CHECK(manifold.max_time() == command.get_manifold().max_time());
         CHECK(manifold.min_time() == command.get_manifold().min_time());
         // Human verification
-        //        cout << "Manifold properties:\n";
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
         manifold.print_volume_per_timeslice();
-        //        cout << "Command.get_manifold() properties:\n";
         fmt::print("Command.get_manifold() properties:\n");
         print_manifold_details(command.get_manifold());
         command.get_manifold().print_volume_per_timeslice();
@@ -155,9 +149,6 @@ SCENARIO("Applying the Move Command", "[move command]")
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
-        //        cout
-        //            << "The manifold and the result in the MoveCommand are
-        //            distinct.\n";
         fmt::print(
             "The manifold and the result in the MoveCommand are distinct.\n");
         // Triangulation shouldn't have changed
@@ -184,9 +175,6 @@ SCENARIO("Applying the Move Command", "[move command]")
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
-        //        cout
-        //            << "The manifold and the result in the MoveCommand are
-        //            distinct.\n";
         fmt::print(
             "The manifold and the result in the MoveCommand are distinct.\n");
         // Did the triangulation actually change? We should have +1 cell

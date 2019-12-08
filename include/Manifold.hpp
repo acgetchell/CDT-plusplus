@@ -79,7 +79,6 @@ class Manifold<3>
   try
   {
 #ifndef NDEBUG
-    //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     triangulation_.update();

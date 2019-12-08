@@ -127,7 +127,6 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_32_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto movable_timelike_edges = manifold.get_timelike_edges();
@@ -168,9 +167,6 @@ namespace manifold3_moves
     for (auto i = 0; i < 4; ++i)
     {
 #ifndef NDEBUG
-      //      std::cout << "Neighbor " << i << " is of type " <<
-      //      c->neighbor(i)->info()
-      //                << "\n";
       fmt::print("Neighbor {} is of type {}\n", i, c->neighbor(i)->info());
 #endif
       if (c->neighbor(i)->info() == 31) { return i; }
@@ -200,7 +196,6 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_26_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto one_three = manifold.get_triangulation().get_one_three();
@@ -212,9 +207,6 @@ namespace manifold3_moves
           neighboring_31_index)
       {
 #ifndef NDEBUG
-        //        std::cout << "neighboring_31_index is " <<
-        //        *neighboring_31_index
-        //                  << "\n";
         fmt::print("neighboring_31_index is {}\n", *neighboring_31_index);
 #endif
         Cell_handle top = bottom->neighbor(*neighboring_31_index);
@@ -280,7 +272,6 @@ namespace manifold3_moves
         { fmt::print("It's a vertex in the TDS.\n"); }
         else
         {
-          //          std::cout << "It's not a vertex in the TDS.\n";
           fmt::print("It's not a vertex in the TDS.\n");
         }
         std::cout << "Spacelike face timevalue is " << timevalue << "\n";
@@ -325,8 +316,6 @@ namespace manifold3_moves
     if (incident_edges != 5)
     {
 #ifndef NDEBUG
-      //      std::cout << "Vertex has " << incident_edges
-      //                << " incident edges/vertices.\n";
       fmt::print("Vertex has {} incident edges/vertices.\n", incident_edges);
 #endif
       return false;
@@ -338,10 +327,6 @@ namespace manifold3_moves
     if (incident_cells.size() != 6)
     {
 #ifndef NDEBUG
-      //      std::cout << "Vertex has " << incident_edges
-      //                << " incident edges/vertices and " <<
-      //                incident_cells.size()
-      //                << " incident cells.\n";
       fmt::print(
           "Vertex has {} incident edges/vertices and {} incident cells.\n",
           incident_edges, incident_cells.size());
@@ -359,17 +344,10 @@ namespace manifold3_moves
     // All cells should be classified
     if ((incident_13.size() + incident_22.size() + incident_31.size()) != 6)
     {
-      //      std::cout << "Some incident cells on this vertex need to be
-      //      fixed.\n";
       fmt::print("Some incident cells on this vertex need to be fixed.\n");
     }
 
 #ifndef NDEBUG
-    //    std::cout << "Vertex has " << incident_edges
-    //              << " incident edges/vertices and " << incident_31.size()
-    //              << " incident (3,1) simplices and " << incident_22.size()
-    //              << " incident (2,2) simplices and " << incident_13.size()
-    //              << " incident (1,3) simplices.\n";
     fmt::print(
         "Vertex has {} incident edges/vertices and {} incident (3,1) simplices "
         "and {} incident (2,2) simplices and {} incident (1,3) simplices.\n",
@@ -403,7 +381,6 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_62_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto vertices = manifold.get_vertices();
@@ -447,8 +424,6 @@ namespace manifold3_moves
     {
       incident_cells.emplace_back(circulator++);
     } while (circulator != e_candidate.first);
-    //    std::cout << "Edge has " << incident_cells.size() << " incident
-    //    cells.\n";
     fmt::print("Edge has {} incident cells.\n", incident_cells.size());
 
     if (incident_cells.size() == 4) { return incident_cells; }
@@ -479,7 +454,6 @@ namespace manifold3_moves
   [[nodiscard]] inline auto do_44_move(Manifold3& manifold)
   {
 #ifndef NDEBUG
-    //    std::cout << __PRETTY_FUNCTION__ << " called.\n";
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto spacelike_edges = manifold.get_spacelike_edges();
@@ -495,8 +469,6 @@ namespace manifold3_moves
 #ifndef NDEBUG
         for (auto& cell : *incident_cells)
         {
-          //          std::cout << "Incident cell is of type " << cell->info()
-          //          << "\n";
           fmt::print("Incident cell is of type {}\n", cell->info());
         }
 #endif
@@ -505,7 +477,6 @@ namespace manifold3_moves
       // Try next edge
     }
     // We've run out of edges to try
-    //    std::cout << "No (4,4) move is possible.\n";
     fmt::print("No (4,4) move is possible.\n");
     return manifold;
   }  // do_44_move()

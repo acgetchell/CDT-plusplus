@@ -237,18 +237,12 @@ template <typename Manifold>
 void print_manifold(Manifold const& manifold)
 try
 {
-  // fmt replacement for cout.rdbuf needed
-  //  std::cout << "Manifold has " << manifold.N0() << " vertices and "
-  //            << manifold.N1() << " edges and " << manifold.N2() << " faces
-  //            and "
-  //            << manifold.N3() << " simplices.\n";
   fmt::print(
       "Manifold has {} vertices and {} edges and {} faces and {} simplices.\n",
       manifold.N0(), manifold.N1(), manifold.N2(), manifold.N3());
 }
 catch (...)
 {
-  //  std::cerr << "print_manifold() went wrong ...\n";
   fmt::print(stderr, "print_manifold() went wrong ...\n");
   throw;
 }  // print_manifold
@@ -269,7 +263,6 @@ try
 }
 catch (...)
 {
-  //  std::cerr << "print_manifold_details() went wrong ...\n";
   fmt::print(stderr, "print_manifold_details() went wrong ...\n");
   throw;
 }  // print_manifold_details
@@ -281,12 +274,6 @@ template <typename Triangulation>
 void print_triangulation(Triangulation const& triangulation)
 try
 {
-  // fmt replacement for cout.rdbuf needed
-  //  std::cout << "Triangulation has " << triangulation.number_of_vertices()
-  //            << " vertices and " << triangulation.number_of_finite_edges()
-  //            << " edges and " << triangulation.number_of_finite_facets()
-  //            << " faces and " << triangulation.number_of_finite_cells()
-  //            << " simplices.\n";
   fmt::print(
       "Triangulation has {} vertices and {} edges and {} faces and {} "
       "simplices.\n",
@@ -297,7 +284,6 @@ try
 }
 catch (...)
 {
-  //  std::cerr << "print_triangulation() went wrong ...\n";
   fmt::print(stderr, "print_triangulation went wrong ...\n");
   throw;
 }  // print_triangulation
@@ -326,7 +312,6 @@ void write_file(Manifold const& universe, topology_type const& topology,
   std::string filename;
   filename.assign(generate_filename(topology, dimensions, number_of_simplices,
                                     number_of_timeslices));
-  // std::cout << "Writing to file " << filename << "\n";
   fmt::print("Writing to file {}\n", filename);
 
   std::lock_guard<std::mutex> lock(mutex);
