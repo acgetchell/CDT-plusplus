@@ -852,7 +852,7 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>initialize_8cpp.html</Path>
-    <Anchor>a6d6e26e7e3af2d4bd47f6582aff224f8</Anchor>
+    <Anchor>a44e58f0208f2c71a06729f1be06b55bc</Anchor>
     <Abstract>Help message parsed by docopt into options.</Abstract>
     <DeclaredIn>initialize.cpp</DeclaredIn>
   </Token>
@@ -916,6 +916,16 @@
     <Anchor>a38c4bc81e8d9dca2f87aafcc6fe955f3</Anchor>
     <Abstract>TODO: Fix exception here.</Abstract>
     <DeclaredIn>Move_command_test.cpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SCENARIO</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_utilities__test_8cpp.html</Path>
+    <Anchor>a888851a31867dc74ed15f13388259094</Anchor>
+    <DeclaredIn>Utilities_test.cpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>

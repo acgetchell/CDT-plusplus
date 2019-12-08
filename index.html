@@ -79,7 +79,7 @@ $(function() {
 <div class="caption">
 Small foliated Delaunay triangulation</div></div>
    <p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions via <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. Uses <a href="https://github.com/docopt/docopt.cpp">Docopt</a> to provide a beautiful command-line interface. Uses <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library for high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. Uses <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> for <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. Uses <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> for library management and building. Uses <a href="http://www.doxygen.org">Doxygen</a> for automated document generation.</p>
+<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions via <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. Uses <a href="https://github.com/docopt/docopt.cpp">Docopt</a> to provide a beautiful command-line interface. Uses <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library for high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. Uses <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> for <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. Uses <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> for library management and building. Uses <a href="http://www.doxygen.org">Doxygen</a> for automated document generation. Uses <a href="https://github.com/fmtlib/fmt">{fmt}</a> as a safe and fast alternative to <code>iostream</code>.</p>
 <p>The goals and targets of this project are:</p>
 <ul>
 <li>[x] Developed with <a href="http://www.literateprogramming.com">literate programming</a> using <a href="http://www.doxygen.org">Doxygen</a></li>
@@ -99,6 +99,7 @@ Small foliated Delaunay triangulation</div></div>
 <li>[x] Multithreading via <a href="https://www.threadingbuildingblocks.org">TBB</a></li>
 <li>[x] Automated code analysis with <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a></li>
 <li>[x] Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a></li>
+<li>[x] Use <a href="https://github.com/fmtlib/fmt">{fmt}</a> library (instead of <code>iostream</code>)</li>
 <li>[ ] <a class="el" href="class_metropolis.html" title="Metropolis-Hastings algorithm function object.">Metropolis</a> algorithm</li>
 <li>[ ] Output via <a href="https://www.hdfgroup.org">HDF5</a></li>
 <li>[ ] A <a href="https://doc.cgal.org/latest/Surface_mesher/index.html">Surface mesh</a> manifold of 3D Triangulation</li>
@@ -147,9 +148,10 @@ Setup</h2>
 <div class="line">sudo apt-get install ninja-build</div>
 <div class="line">sudo apt-get install yasm</div>
 <div class="line">sudo apt-get install m4</div>
-</div><!-- fragment --><p>At minimum, you need to install prerequisites <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a>, <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
+</div><!-- fragment --><p>At minimum, you need to install prerequisites <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a>, <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://github.com/fmtlib/fmt">{fmt}</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
 <div class="fragment"><div class="line">vcpkg install catch2</div>
 <div class="line">vcpkg install docopt</div>
+<div class="line">vcpkg install fmt</div>
 <div class="line">vcpkg install ms-gsl</div>
 <div class="line">vcpkg install eigen3</div>
 <div class="line">vcpkg install tbb</div>
@@ -255,7 +257,7 @@ Upstream issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 7 2019 04:01:06 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 8 2019 22:37:35 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
