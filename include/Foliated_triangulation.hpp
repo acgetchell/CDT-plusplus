@@ -28,7 +28,7 @@
 #include <CGAL/point_generators_3.h>
 #include <Utilities.hpp>
 #include <cstdint>
-#include <fmt/format.h>
+//#include <fmt/format.h>
 #include <optional>
 
 using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -392,7 +392,8 @@ class Foliated_triangulation<3> : private Delaunay3
   {
     for (auto const& cell : cells)
     {
-      std::cout << "Cell info => " << cell->info() << "\n";
+      //      std::cout << "Cell info => " << cell->info() << "\n";
+      fmt::print("Cell info => {}\n", cell->info());
       for (int j = 0; j < 4; ++j)
       {
         //        std::cout << "Vertex(" << j
@@ -567,7 +568,8 @@ class Foliated_triangulation<3> : private Delaunay3
       double const initial_radius = INITIAL_RADIUS,
       double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
   {
-    std::cout << "Generating universe ... \n";
+    //    std::cout << "Generating universe ... \n";
+    fmt::print("Generating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
     // Construct the locking data-structure
     // using the bounding-box of the points
@@ -666,7 +668,8 @@ class Foliated_triangulation<3> : private Delaunay3
     Ensures(dt.is_valid());
 
 #ifndef NDEBUG
-    std::cout << "There are " << invalid << " invalid simplices.\n";
+    //    std::cout << "There are " << invalid << " invalid simplices.\n";
+    fmt::print("There are {} invalid simplices.\n", invalid);
 #endif
     return invalid == 0;
   }  // fix_timeslices
@@ -799,7 +802,10 @@ class Foliated_triangulation<3> : private Delaunay3
       Cell_handle ch             = face.first;
       auto        index_of_facet = face.second;
       if (debugging)
-      { std::cout << "Facet index is " << index_of_facet << "\n"; }
+      {
+        //        std::cout << "Facet index is " << index_of_facet << "\n";
+        fmt::print("Facet index is {}\n", index_of_facet);
+      }
       std::set<int> facet_timevalues;
       for (int i = 0; i < 4; ++i)
       {

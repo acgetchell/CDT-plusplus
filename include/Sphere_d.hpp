@@ -19,6 +19,7 @@
 #include <CGAL/point_generators_d.h>
 
 /// C++ headers
+#include <fmt/format.h>
 #include <iostream>
 #include <vector>
 
@@ -47,9 +48,13 @@ void make_d_sphere(std::size_t number_of_points, int dimension, double radius,
   // If output = true, print out values of points in sphere
   if (output)
   {
-    std::cout << "Generating " << number_of_points << " random points on "
-              << "the surface of a sphere in " << dimension << "D\n"
-              << "of center 0 and radius " << radius << ".\n";
+    //    std::cout << "Generating " << number_of_points << " random points on "
+    //              << "the surface of a sphere in " << dimension << "D\n"
+    //              << "of center 0 and radius " << radius << ".\n";
+    fmt::print(
+        "Generating {} random points on the surface of a sphere in {}D\n of "
+        "center 0 and radius {}.\n",
+        dimension, radius);
 
     for (const auto& point : points) { std::cout << " " << point << "\n"; }
   }

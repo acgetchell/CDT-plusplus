@@ -35,9 +35,11 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
         CHECK(manifold.edges() == result.edges());
         CHECK(manifold.vertices() == result.vertices());
         // Human verification
-        cout << "Old manifold:\n";
+        //        cout << "Old manifold:\n";
+        fmt::print("Old manifold.\n");
         print_manifold_details(manifold);
-        cout << "New manifold after null move:\n";
+        //        cout << "New manifold after null move:\n";
+        fmt::print("New manifold after null move:\n");
         print_manifold_details(result);
       }
     }
@@ -52,9 +54,11 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::TWO_THREE));
         // Human verification
-        cout << "Old manifold:\n";
+        //        cout << "Old manifold:\n";
+        fmt::print("Old manifold.\n");
         print_manifold_details(manifold);
-        cout << "New manifold after (2,3) move:\n";
+        //        cout << "New manifold after (2,3) move:\n";
+        fmt::print("New manifold after (2,3) move:\n");
         print_manifold_details(result);
       }
     }
@@ -69,9 +73,11 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::THREE_TWO));
         // Human verification
-        cout << "Old manifold:\n";
+        //        cout << "Old manifold:\n";
+        fmt::print("Old manifold.\n");
         print_manifold_details(manifold);
-        cout << "New manifold after (3,2) move:\n";
+        //        cout << "New manifold after (3,2) move:\n";
+        fmt::print("New manifold after (3,2) move:\n");
         print_manifold_details(result);
       }
     }
@@ -86,9 +92,11 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
         CHECK(manifold3_moves::check_move(manifold, result,
                                           manifold3_moves::move_type::TWO_SIX));
         // Human verification
-        cout << "Old manifold:\n";
+        //        cout << "Old manifold:\n";
+        fmt::print("Old manifold.\n");
         print_manifold_details(manifold);
-        cout << "New manifold after (2,6) move:\n";
+        //        cout << "New manifold after (2,6) move:\n";
+        fmt::print("New manifold after (2,6) move:\n");
         print_manifold_details(result);
       }
     }
@@ -103,9 +111,11 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
         CHECK(manifold3_moves::check_move(manifold, result,
                                           manifold3_moves::move_type::SIX_TWO));
         // Human verification
-        cout << "Old manifold:\n";
+        //        cout << "Old manifold:\n";
+        fmt::print("Old manifold.\n");
         print_manifold_details(manifold);
-        cout << "New manifold after (6,2) move:\n";
+        //        cout << "New manifold after (6,2) move:\n";
+        fmt::print("New manifold after (6,2) move:\n");
         print_manifold_details(result);
       }
     }
@@ -120,9 +130,11 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::FOUR_FOUR));
         // Human verification
-        cout << "Old manifold:\n";
+        //        cout << "Old manifold:\n";
+        fmt::print("Old manifold.\n");
         print_manifold_details(manifold);
-        cout << "New manifold after (4,4) move:\n";
+        //        cout << "New manifold after (4,4) move:\n";
+        fmt::print("New manifold after (4,4) move:\n");
         print_manifold_details(result);
       }
     }

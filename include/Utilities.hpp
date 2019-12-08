@@ -61,14 +61,11 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
   switch (topology)
   {
     case topology_type::SPHERICAL:
-      os << "spherical";
-      return os;
+      return os << "spherical";
     case topology_type::TOROIDAL:
-      os << "toroidal";
-      return os;
+      return os << "toroidal";
     default:
-      os << "none";
-      return os;
+      return os << "none";
   }
 }
 
@@ -240,17 +237,19 @@ template <typename Manifold>
 void print_manifold(Manifold const& manifold)
 try
 {
-  std::cout << "Manifold has " << manifold.N0() << " vertices and "
-            << manifold.N1() << " edges and " << manifold.N2() << " faces and "
-            << manifold.N3() << " simplices.\n";
-  // fmt::print(
-  //    "Manifold has {} vertices and {} edges and {} faces and {}
-  //    simplices.\n", manifold.N0(), manifold.N1(), manifold.N2(),
-  //    manifold.N3());
+  // fmt replacement for cout.rdbuf needed
+  //  std::cout << "Manifold has " << manifold.N0() << " vertices and "
+  //            << manifold.N1() << " edges and " << manifold.N2() << " faces
+  //            and "
+  //            << manifold.N3() << " simplices.\n";
+  fmt::print(
+      "Manifold has {} vertices and {} edges and {} faces and {} simplices.\n",
+      manifold.N0(), manifold.N1(), manifold.N2(), manifold.N3());
 }
 catch (...)
 {
-  std::cerr << "print_manifold() went wrong ...\n";
+  //  std::cerr << "print_manifold() went wrong ...\n";
+  fmt::print(stderr, "print_manifold() went wrong ...\n");
   throw;
 }  // print_manifold
 
@@ -270,7 +269,8 @@ try
 }
 catch (...)
 {
-  std::cerr << "print_manifold_details() went wrong ...\n";
+  //  std::cerr << "print_manifold_details() went wrong ...\n";
+  fmt::print(stderr, "print_manifold_details() went wrong ...\n");
   throw;
 }  // print_manifold_details
 
@@ -281,15 +281,24 @@ template <typename Triangulation>
 void print_triangulation(Triangulation const& triangulation)
 try
 {
-  std::cout << "Triangulation has " << triangulation.number_of_vertices()
-            << " vertices and " << triangulation.number_of_finite_edges()
-            << " edges and " << triangulation.number_of_finite_facets()
-            << " faces and " << triangulation.number_of_finite_cells()
-            << " simplices.\n";
+  // fmt replacement for cout.rdbuf needed
+  //  std::cout << "Triangulation has " << triangulation.number_of_vertices()
+  //            << " vertices and " << triangulation.number_of_finite_edges()
+  //            << " edges and " << triangulation.number_of_finite_facets()
+  //            << " faces and " << triangulation.number_of_finite_cells()
+  //            << " simplices.\n";
+  fmt::print(
+      "Triangulation has {} vertices and {} edges and {} faces and {} "
+      "simplices.\n",
+      triangulation.number_of_vertices(),
+      triangulation.number_of_finite_edges(),
+      triangulation.number_of_finite_facets(),
+      triangulation.number_of_finite_cells());
 }
 catch (...)
 {
-  std::cerr << "print_triangulation() went wrong ...\n";
+  //  std::cerr << "print_triangulation() went wrong ...\n";
+  fmt::print(stderr, "print_triangulation went wrong ...\n");
   throw;
 }  // print_triangulation
 

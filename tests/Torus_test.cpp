@@ -35,10 +35,14 @@ SCENARIO("Torus construction", "[torus]")
     {
       THEN("A result should be returned.")
       {
-        std::cout
-            << "Torus = "
-            << boost::typeindex::type_id_with_cvr<decltype(v)>().pretty_name()
-            << '\n';
+        //        std::cout
+        //            << "Torus = "
+        //            <<
+        //            boost::typeindex::type_id_with_cvr<decltype(v)>().pretty_name()
+        //            << '\n';
+        fmt::print(
+            "Torus = {}",
+            boost::typeindex::type_id_with_cvr<decltype(v)>().pretty_name());
       }
     }
   }
