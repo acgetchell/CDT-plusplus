@@ -28,6 +28,7 @@
 #include <CGAL/point_generators_3.h>
 #include <Utilities.hpp>
 #include <cstdint>
+#include <fmt/format.h>
 #include <optional>
 
 using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -225,8 +226,11 @@ class Foliated_triangulation<3> : private Delaunay3
   {
     for (auto j = min_time(); j <= max_time(); ++j)
     {
-      std::cout << "Timeslice " << j << " has " << spacelike_facets_.count(j)
-                << " spacelike faces.\n";
+      //      std::cout << "Timeslice " << j << " has " <<
+      //      spacelike_facets_.count(j)
+      //                << " spacelike faces.\n";
+      fmt::print("Timeslice {} has {} spacelike faces.\n", j,
+                 spacelike_facets_.count(j));
     }
   }  // print_volume_per_timeslice
 
@@ -238,13 +242,15 @@ class Foliated_triangulation<3> : private Delaunay3
     {
       if (classify_edge(edge, true))
       {
-        std::cout << " ==> "
-                  << "timelike\n";
+        //        std::cout << " ==> "
+        //                  << "timelike\n";
+        fmt::print("==> timelike\n");
       }
       else
       {
-        std::cout << " => "
-                  << "spacelike\n";
+        //        std::cout << " => "
+        //                  << "spacelike\n";
+        fmt::print("==> spacelike\n");
       }
     }
   }
@@ -300,12 +306,14 @@ class Foliated_triangulation<3> : private Delaunay3
 #ifndef NDEBUG
       std::cout << "Vertex (" << v.point() << ") has timevalue " << v.info()
                 << "\n";
+//        fmt::print("Vertex {} has timevalue {}\n", v.point(), v.info());
 #endif
       if ((v.info() < min || v.info() > max) &&
           (infinite_vertex_timevalue != v.info()))
       {
 #ifndef NDEBUG
-        std::cout << "A timevalue on a vertex is out of range.\n";
+        //        std::cout << "A timevalue on a vertex is out of range.\n";
+        fmt::print(stderr, "A timevalue of a vertex is out of range.\n");
 #endif
         return false;
       }
@@ -387,10 +395,13 @@ class Foliated_triangulation<3> : private Delaunay3
       std::cout << "Cell info => " << cell->info() << "\n";
       for (int j = 0; j < 4; ++j)
       {
-        std::cout << "Vertex(" << j
-                  << ") timevalue: " << cell->vertex(j)->info() << "\n";
+        //        std::cout << "Vertex(" << j
+        //                  << ") timevalue: " << cell->vertex(j)->info() <<
+        //                  "\n";
+        fmt::print("Vertex({}) timevalue: {}\n", j, cell->vertex(j)->info());
       }
-      std::cout << "---\n";
+      //      std::cout << "---\n";
+      fmt::print("---\n");
     }
   }  // print_cells
 
@@ -406,8 +417,10 @@ class Foliated_triangulation<3> : private Delaunay3
     auto               time2 = ch->vertex(edge.third)->info();
     if (debugging)
     {
-      std::cout << "Edge: Vertex(1) timevalue: " << time1;
-      std::cout << " Vertex(2) timevalue: " << time2;
+      //      std::cout << "Edge: Vertex(1) timevalue: " << time1;
+      //      std::cout << " Vertex(2) timevalue: " << time2;
+      fmt::print("Edge: Vertex(1) timevalue: {} Vertex(2) timevalue: {}\n",
+                 time1, time2);
     }
     return time1 != time2;
   }  // classify_edge
@@ -468,16 +481,22 @@ class Foliated_triangulation<3> : private Delaunay3
 #ifdef DETAILED_DEBUGGING
       auto min_vertex = this_cell.cbegin()->second;
       auto max_vertex = this_cell.crbegin()->second;
-      std::cout << "Smallest timevalue in this cell is: " << minvalue << "\n";
-      std::cout << "Largest timevalue in this cell is: " << maxvalue << "\n";
-      std::cout << "Min vertex info() " << min_vertex->info() << "\n";
-      std::cout << "Max vertex info() " << max_vertex->info() << "\n";
+      //      std::cout << "Smallest timevalue in this cell is: " << minvalue <<
+      //      "\n"; std::cout << "Largest timevalue in this cell is: " <<
+      //      maxvalue << "\n"; std::cout << "Min vertex info() " <<
+      //      min_vertex->info() << "\n"; std::cout << "Max vertex info() " <<
+      //      max_vertex->info() << "\n";
+      fmt::print("Smallest timevalue in this cell is: {}\n", minvalue);
+      fmt::print("Largest timevalue in this cell is: {}\n", maxvalue);
+      fmt::print("Min vertex info() {}\n", min_vertex->info());
+      fmt::print("Max vertex info() {}\n", max_vertex->info());
 #endif
       // There must be a timevalue delta of 1 for a validly foliated simplex
       if (maxvalue - minvalue == 1)
       {
 #ifdef DETAILED_DEBUGGING
-        std::cout << "This cell is valid.\n";
+        //        std::cout << "This cell is valid.\n";
+        fmt::print("This cell is valid.\n");
 #endif
       }
       else
@@ -485,27 +504,35 @@ class Foliated_triangulation<3> : private Delaunay3
         auto minvalue_count = this_cell.count(minvalue);
         auto maxvalue_count = this_cell.count(maxvalue);
 #ifdef DETAILED_DEBUGGING
-        std::cout << "This cell is invalid.\n";
+        //        std::cout << "This cell is invalid.\n";
+        fmt::print("This cell is invalid.\n");
 
-        std::cout << "There are " << minvalue_count
-                  << " vertices with the minvalue.\n";
-        std::cout << "There are " << maxvalue_count
-                  << " vertices with the maxvalue.\n";
-        std::cout << "So we should remove ";
+        //        std::cout << "There are " << minvalue_count
+        //                  << " vertices with the minvalue.\n";
+        fmt::print("There are {} vertices with the minvalue.\n",
+                   minvalue_count);
+        //        std::cout << "There are " << maxvalue_count
+        //                  << " vertices with the maxvalue.\n";
+        fmt::print("There are {} vertices with the maxvalue.\n",
+                   maxvalue_count);
+        //        std::cout << "So we should remove ";
+        fmt::print("So we should remove ");
 #endif
 
         if (minvalue_count > maxvalue_count)
         {
           invalid_vertices.emplace_back(this_cell.rbegin()->second);
 #ifdef DETAILED_DEBUGGING
-          std::cout << "maxvalue.\n";
+          //          std::cout << "maxvalue.\n";
+          fmt::print("maxvalue.\n");
 #endif
         }
         else
         {
           invalid_vertices.emplace_back(this_cell.begin()->second);
 #ifdef DETAILED_DEBUGGING
-          std::cout << "minvalue.\n";
+          //          std::cout << "minvalue.\n";
+          fmt::print("minvalue.\n");
 #endif
         }
       }
@@ -514,11 +541,14 @@ class Foliated_triangulation<3> : private Delaunay3
     else
     {
 #ifdef DETAILED_DEBUGGING
-      std::cout << "Removing ...\n";
+      //      std::cout << "Removing ...\n";
+      fmt::print("Removing ...\n");
       for (auto& v : invalid_vertices)
       {
-        std::cout << "Vertex " << v->point() << " with timevalue " << v->info()
-                  << "\n";
+        //        std::cout << "Vertex " << v->point() << " with timevalue " <<
+        //        v->info()
+        //                  << "\n";
+        fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info());
       }
 #endif
       return invalid_vertices;
@@ -558,7 +588,8 @@ class Foliated_triangulation<3> : private Delaunay3
     while (!fix_timeslices(triangulation))
     {
 #ifndef NDEBUG
-      std::cout << "Fix pass #" << passes << "\n";
+      //      std::cout << "Fix pass #" << passes << "\n";
+      fmt::print("Fix pass #{}\n", passes);
 #endif
       ++passes;
     }
@@ -672,7 +703,11 @@ class Foliated_triangulation<3> : private Delaunay3
     vertex_timevalues.reserve(4);
     for (auto const& c : cells)
     {
-      if (debugging) { std::cout << "Cell info was " << c->info() << '\n'; }
+      if (debugging)
+      {
+        //        std::cout << "Cell info was " << c->info() << '\n';
+        fmt::print("Cell info was {}\n", c->info());
+      }
 
       for (int j = 0; j < 4; ++j)
       {
@@ -680,8 +715,10 @@ class Foliated_triangulation<3> : private Delaunay3
         vertex_timevalues.emplace_back(c->vertex(j)->info());
         if (debugging)
         {
-          std::cout << "Cell vertex " << j << " has timevalue "
-                    << c->vertex(j)->info() << '\n';
+          //          std::cout << "Cell vertex " << j << " has timevalue "
+          //                    << c->vertex(j)->info() << '\n';
+          fmt::print("Cell vertex {} has timevalue {}\n", j,
+                     c->vertex(j)->info());
         }
       }
 
@@ -713,11 +750,15 @@ class Foliated_triangulation<3> : private Delaunay3
       }
       if (debugging)
       {
-        std::cout << "Max timevalue is " << *maxtime << "\n";
-        std::cout << "There are " << maxtime_vertices
-                  << " vertices with max timeslice in the cell.\n";
-        std::cout << "Cell info is now " << c->info() << "\n";
-        std::cout << "---\n";
+        //        std::cout << "Max timevalue is " << *maxtime << "\n";
+        //        std::cout << "There are " << maxtime_vertices
+        //                  << " vertices with max timeslice in the cell.\n";
+        //        std::cout << "Cell info is now " << c->info() << "\n";
+        //        std::cout << "---\n";
+        fmt::print("Max timevalue is {}\n", *maxtime);
+        fmt::print("There are {} vertices with max timeslice in the cell.\n",
+                   maxtime_vertices);
+        fmt::print("Cell info is now {}\n", c->info());
       }
       cell_vertices.clear();
       vertex_timevalues.clear();
@@ -766,8 +807,10 @@ class Foliated_triangulation<3> : private Delaunay3
         {
           if (debugging)
           {
-            std::cout << "Vertex[" << i << "] has timevalue "
-                      << ch->vertex(i)->info() << "\n";
+            //            std::cout << "Vertex[" << i << "] has timevalue "
+            //                      << ch->vertex(i)->info() << "\n";
+            fmt::print("Vertex[{}] has timevalue {}\n", i,
+                       ch->vertex(i)->info());
           }
           facet_timevalues.insert(ch->vertex(i)->info());
         }
@@ -777,14 +820,20 @@ class Foliated_triangulation<3> : private Delaunay3
       {
         if (debugging)
         {
-          std::cout << "Facet is spacelike on timevalue "
-                    << *facet_timevalues.begin() << ".\n";
+          //          std::cout << "Facet is spacelike on timevalue "
+          //                    << *facet_timevalues.begin() << ".\n";
+          fmt::print("Facet is spacelike on timevalue {}.\n",
+                     *facet_timevalues.begin());
         }
         space_faces.insert({*facet_timevalues.begin(), face});
       }
       else
       {
-        if (debugging) { std::cout << "Facet is timelike.\n"; }
+        if (debugging)
+        {
+          //          std::cout << "Facet is timelike.\n";
+          fmt::print("Facet is timelike.\n");
+        }
       }
     }
     return space_faces;

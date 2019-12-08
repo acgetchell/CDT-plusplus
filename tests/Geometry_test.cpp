@@ -76,10 +76,17 @@ SCENARIO("3-Geometry classification", "[geometry]")
       Geometry3              geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
-        cout << "There are " << geometry.N3 << " simplices ...\n";
-        cout << "There are " << geometry.N3_31 << " (3,1) simplices and "
-             << geometry.N3_22 << " (2,2) simplices and " << geometry.N3_13
-             << " (1,3) simplices.\n";
+        //        cout << "There are " << geometry.N3 << " simplices ...\n";
+        fmt::print("There are {} simplices ...\n", geometry.N3);
+        //        cout << "There are " << geometry.N3_31 << " (3,1) simplices
+        //        and "
+        //             << geometry.N3_22 << " (2,2) simplices and " <<
+        //             geometry.N3_13
+        //             << " (1,3) simplices.\n";
+        fmt::print(
+            "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
+            "simplices.\n",
+            geometry.N3_31, geometry.N3_22, geometry.N3_13);
         CHECK(geometry.N3 > 2);
         CHECK(geometry.N3 == triangulation.number_of_finite_cells());
         CHECK(geometry.N3_31 == triangulation.get_three_one().size());
@@ -96,13 +103,23 @@ SCENARIO("3-Geometry classification", "[geometry]")
         // Human verification
         triangulation.print_cells();
 
-        cout << "There are " << geometry.N1 << " edges.\n";
-        cout << "There are " << geometry.N1_TL << " timelike edges and "
-             << geometry.N1_SL << " spacelike edges.\n";
+        //        cout << "There are " << geometry.N1 << " edges.\n";
+        fmt::print("There are {} edges.\n", geometry.N1);
+        //        cout << "There are " << geometry.N1_TL << " timelike edges and
+        //        "
+        //             << geometry.N1_SL << " spacelike edges.\n";
+        fmt::print("There are {} timelike edges and {} spacelike edges.\n",
+                   geometry.N1_TL, geometry.N1_SL);
         triangulation.print_edges();
-        cout << "There are " << geometry.N0
-             << " vertices with a max timevalue of " << triangulation.max_time()
-             << " and a min timevalue of " << triangulation.min_time() << ".\n";
+        //        cout << "There are " << geometry.N0
+        //             << " vertices with a max timevalue of " <<
+        //             triangulation.max_time()
+        //             << " and a min timevalue of " << triangulation.min_time()
+        //             << ".\n";
+        fmt::print(
+            "There are {} vertices with a max timevalue of {} and a min "
+            "timevalue of {}.\n",
+            geometry.N0, triangulation.max_time(), triangulation.min_time());
         triangulation.print_volume_per_timeslice();
       }
     }

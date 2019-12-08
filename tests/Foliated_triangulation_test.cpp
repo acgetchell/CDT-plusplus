@@ -82,19 +82,27 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       THEN("Delaunay3 functions work as expected.")
       {
         CHECK(triangulation.number_of_finite_cells() > 12);
-        std::cout << "Base Delaunay number of cells is : "
-                  << triangulation.number_of_finite_cells() << "\n";
+        //        std::cout << "Base Delaunay number of cells is : "
+        //                  << triangulation.number_of_finite_cells() << "\n";
+        fmt::print("Base Delaunay number of cells: {}\n",
+                   triangulation.number_of_finite_cells());
         CHECK(triangulation.number_of_finite_facets() > 24);
-        std::cout << "Base Delaunay number of faces is : "
-                  << triangulation.number_of_finite_facets() << "\n";
+        //        std::cout << "Base Delaunay number of faces is : "
+        //                  << triangulation.number_of_finite_facets() << "\n";
+        fmt::print("Base Delaunay number of faces: {}\n",
+                   triangulation.number_of_finite_facets());
         triangulation.print_volume_per_timeslice();
         CHECK(triangulation.number_of_finite_edges() > 24);
-        std::cout << "Base Delaunay number of edges is : "
-                  << triangulation.number_of_finite_edges() << "\n";
+        //        std::cout << "Base Delaunay number of edges is : "
+        //                  << triangulation.number_of_finite_edges() << "\n";
+        fmt::print("Base Delaunay number of edges: {}\n",
+                   triangulation.number_of_finite_edges());
         triangulation.print_edges();
         CHECK(triangulation.number_of_vertices() > 12);
-        std::cout << "Base Delaunay number of vertices is: "
-                  << triangulation.number_of_vertices() << "\n";
+        //        std::cout << "Base Delaunay number of vertices is: "
+        //                  << triangulation.number_of_vertices() << "\n";
+        fmt::print("Base Delaunay number of vertices: {}\n",
+                   triangulation.number_of_vertices());
         CHECK(triangulation.dimension() == 3);
         std::cout << "Base Delaunay dimension is : "
                   << triangulation.dimension() << "\n";
@@ -217,14 +225,26 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         CHECK(triangulation.min_time() > 0);
         CHECK(triangulation.max_time() > triangulation.min_time());
         // Human verification
-        cout << "There are " << triangulation.number_of_finite_edges()
-             << " edges.\n";
-        cout << "There are " << triangulation.N1_TL() << " timelike edges and "
-             << triangulation.N1_SL() << " spacelike edges.\n";
+        //        cout << "There are " << triangulation.number_of_finite_edges()
+        //             << " edges.\n";
+        fmt::print("There are {} edges.\n",
+                   triangulation.number_of_finite_edges());
+        //        cout << "There are " << triangulation.N1_TL() << " timelike
+        //        edges and "
+        //             << triangulation.N1_SL() << " spacelike edges.\n";
+        fmt::print("There are {} timelike edges and {} spacelike edges.\n",
+                   triangulation.N1_TL(), triangulation.N1_SL());
         //        triangulation.print_edges();
-        cout << "There are " << triangulation.number_of_vertices()
-             << " vertices with a max timevalue of " << triangulation.max_time()
-             << " and a min timevalue of " << triangulation.min_time() << ".\n";
+        //        cout << "There are " << triangulation.number_of_vertices()
+        //             << " vertices with a max timevalue of " <<
+        //             triangulation.max_time()
+        //             << " and a min timevalue of " << triangulation.min_time()
+        //             << ".\n";
+        fmt::print(
+            "There are {} vertices with a max timevalue of {} and a min "
+            "timevalue of {}.\n",
+            triangulation.number_of_vertices(), triangulation.max_time(),
+            triangulation.min_time());
         triangulation.print_volume_per_timeslice();
         for (auto const& edge : triangulation.get_timelike_edges())
         { CHECK(triangulation.classify_edge(edge)); }
