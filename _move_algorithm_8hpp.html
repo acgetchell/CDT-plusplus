@@ -74,6 +74,7 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">MoveAlgorithm.hpp File Reference</div>  </div>
@@ -82,11 +83,8 @@ $(function() {
 
 <p>Base class for move algorithms on Delaunay Triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;<a class="el" href="_measurements_8hpp_source.html">Measurements.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_move_manager_8hpp_source.html">MoveManager.hpp</a>&gt;</code><br />
-<code>#include &lt;<a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
-<code>#include &lt;vector&gt;</code><br />
+<div class="textblock"><code>#include &lt;<a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>&gt;</code><br />
+<code>#include &lt;<a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for MoveAlgorithm.hpp:</div>
 <div class="dyncontent">
@@ -102,9 +100,16 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_algorithm.html">MoveAlgorithm</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">Base class for move algorithms.  <a href="class_move_algorithm.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_algorithm.html">MoveAlgorithm&lt; dimension &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_algorithm_3_013_01_4.html">MoveAlgorithm&lt; 3 &gt;</a></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:a6434fa9de7f19b7a42e80b2fa300002e"><td class="memItemLeft" align="right" valign="top"><a id="a6434fa9de7f19b7a42e80b2fa300002e"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>MoveAlgorithm3</b> = <a class="el" href="class_move_algorithm.html">MoveAlgorithm</a>&lt; 3 &gt;</td></tr>
+<tr class="separator:a6434fa9de7f19b7a42e80b2fa300002e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
@@ -164,14 +169,14 @@ template&lt;typename E &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>Integral type of enum member </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move_algorithm_8hpp_source.html#l00027">27</a> of file <a class="el" href="_move_algorithm_8hpp_source.html">MoveAlgorithm.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move_algorithm_8hpp_source.html#l00030">30</a> of file <a class="el" href="_move_algorithm_8hpp_source.html">MoveAlgorithm.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 8 2019 22:37:35 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -8,6 +8,4 @@ digraph "include/Metropolis.hpp"
   Node2 [label="src/cdt-opt.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cdt-opt_8cpp.html",tooltip="Outputs values to determine optimizations."];
   Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="src/cdt.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cdt_8cpp.html",tooltip="The main executable."];
-  Node1 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node4 [label="tests/MoveAlgorithmsTest.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_move_algorithms_test_8cpp.html",tooltip="Tests for the Metropolis-Hastings algorithm."];
 }

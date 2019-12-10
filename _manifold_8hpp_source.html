@@ -316,14 +316,24 @@ $(function() {
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    triangulation_.print_volume_per_timeslice();</div>
 <div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  }</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160; <span class="keyword">private</span>:</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <a class="code" href="class_foliated__triangulation_3_013_01_4.html">FoliatedTriangulation3</a> triangulation_;</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a>              geometry_;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;};</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="keyword">using</span> <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a> = <a class="code" href="class_manifold_3_013_01_4.html">Manifold&lt;3&gt;</a>;</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MANIFOLD_HPP</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <span class="keyword">friend</span> <span class="keywordtype">void</span> swap(<a class="code" href="class_manifold_3_013_01_4.html">Manifold&lt;3&gt;</a>&amp; first, <a class="code" href="class_manifold_3_013_01_4.html">Manifold&lt;3&gt;</a>&amp; second) noexcept</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  {</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="preprocessor">#ifdef NDEBUG</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    fmt::print(<span class="stringliteral">&quot;Manifold3 swap\n&quot;</span>);</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="keyword">using</span> std::swap;</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    swap(first.triangulation_, second.triangulation_);</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    swap(first.geometry_, second.geometry_);</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;  }  <span class="comment">// swap</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; <span class="keyword">private</span>:</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;  <a class="code" href="class_foliated__triangulation_3_013_01_4.html">FoliatedTriangulation3</a> triangulation_;</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;  <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a>              geometry_;</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;};</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="keyword">using</span> <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a> = <a class="code" href="class_manifold_3_013_01_4.html">Manifold&lt;3&gt;</a>;</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MANIFOLD_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_manifold_html"><div class="ttname"><a href="class_manifold.html">Manifold</a></div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00028">Manifold.hpp:28</a></div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html_a1e8f83dc5386b3bd6b89a20a5b55a3da"><div class="ttname"><a href="class_manifold_3_013_01_4.html#a1e8f83dc5386b3bd6b89a20a5b55a3da">Manifold&lt; 3 &gt;::get_spacelike_edges</a></div><div class="ttdeci">auto const  &amp; get_spacelike_edges() const</div><div class="ttdoc">Call triangulation.get_spacelike_edges()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00296">Manifold.hpp:296</a></div></div>
@@ -372,7 +382,7 @@ $(function() {
 <div class="ttc" id="aclass_manifold_3_013_01_4_html_a6b08dfec9150df8a9b6d5acc610b8d2e"><div class="ttname"><a href="class_manifold_3_013_01_4.html#a6b08dfec9150df8a9b6d5acc610b8d2e">Manifold&lt; 3 &gt;::get_timelike_edges</a></div><div class="ttdeci">auto const  &amp; get_timelike_edges() const</div><div class="ttdoc">Call to triangulation_.get_timelike_edges()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00290">Manifold.hpp:290</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 8 2019 22:37:34 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 10 2019 07:43:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

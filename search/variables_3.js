@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['geometry_477',['geometry',['../struct_simplicial_manifold.html#abd200a6e0c7750a8875fa666ca68eb36',1,'SimplicialManifold']]]
+  ['geometry_483',['geometry',['../struct_simplicial_manifold.html#abd200a6e0c7750a8875fa666ca68eb36',1,'SimplicialManifold']]]
 ];

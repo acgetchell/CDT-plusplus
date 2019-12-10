@@ -15,7 +15,7 @@ var searchData=
   ['foliated_5ftriangulation_2ehpp_65',['Foliated_triangulation.hpp',['../_foliated__triangulation_8hpp.html',1,'']]],
   ['foliated_5ftriangulation_3c_203_20_3e_66',['Foliated_triangulation&lt; 3 &gt;',['../class_foliated__triangulation_3_013_01_4.html',1,'']]],
   ['foliated_5ftriangulation_5ftest_2ecpp_67',['Foliated_triangulation_test.cpp',['../_foliated__triangulation__test_8cpp.html',1,'']]],
-  ['fourfourmoves_68',['FourFourMoves',['../class_move_algorithm.html#a19c3e23f0b21328ad5458b1af45dca0c',1,'MoveAlgorithm']]],
+  ['fourfourmoves_68',['FourFourMoves',['../class_move_algorithm_3_013_01_4.html#af598d7956c927fa8089c83321051becc',1,'MoveAlgorithm&lt; 3 &gt;']]],
   ['function_5fref_69',['function_ref',['../classfunction__ref.html',1,'']]],
   ['function_5fref_2ehpp_70',['Function_ref.hpp',['../_function__ref_8hpp.html',1,'']]],
   ['function_5fref_3c_20ret_28params_2e_2e_2e_29_3e_71',['function_ref&lt; Ret(Params...)&gt;',['../classfunction__ref_3_01_ret_07_params_8_8_8_08_4.html',1,'']]]

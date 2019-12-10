@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['n1_5ftl_5f_482',['N1_TL_',['../class_move_algorithm.html#ad105f916c896b2a6e38cd8a4a81fa206',1,'MoveAlgorithm']]],
-  ['n3_5f22_5f_483',['N3_22_',['../class_move_algorithm.html#aeecabac4a2d8eb40c4bb83673e44501f',1,'MoveAlgorithm']]],
-  ['n3_5f31_5f13_5f_484',['N3_31_13_',['../class_move_algorithm.html#a3778eda24ff0bbe7d231a8d18d1f9644',1,'MoveAlgorithm']]]
+  ['n1_5ftl_5f_488',['N1_TL_',['../class_move_algorithm_3_013_01_4.html#aaafc5f29eb3f5e55302f1c1963a832cf',1,'MoveAlgorithm&lt; 3 &gt;']]],
+  ['n3_5f22_5f_489',['N3_22_',['../class_move_algorithm_3_013_01_4.html#aac1a05a6fdb94b871e88f3c3f33a8c86',1,'MoveAlgorithm&lt; 3 &gt;']]],
+  ['n3_5f31_5f13_5f_490',['N3_31_13_',['../class_move_algorithm_3_013_01_4.html#a23f07919548315b0e823a81384e61093',1,'MoveAlgorithm&lt; 3 &gt;']]]
 ];

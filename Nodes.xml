@@ -910,6 +910,11 @@
               <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
              </Node>
              <Node>
+              <Name>swap</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>a32cb0ae50b132e3a7cebd484db68fb3c</Anchor>
+             </Node>
+             <Node>
               <Name>geometry_</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a201b1ce3456c7002627e8bc258036435</Anchor>
@@ -1000,137 +1005,155 @@
            <Node>
             <Name>MoveAlgorithm</Name>
             <Path>class_move_algorithm.html</Path>
+           </Node>
+           <Node>
+            <Name>MoveAlgorithm&lt; 3 &gt;</Name>
+            <Path>class_move_algorithm_3_013_01_4.html</Path>
             <Subnodes>
              <Node>
+              <Name>Move_tracker</Name>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a98bb474900902aaeb263696df1709e80</Anchor>
+             </Node>
+             <Node>
               <Name>MoveAlgorithm</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>aa237e50a94d78ef47615fd692d251dcb</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ad59e8f854ffc5062fa1c6b99b6aadad1</Anchor>
+             </Node>
+             <Node>
+              <Name>checkpoints</Name>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a62d416dcfb7e2868dac54ced4f125b37</Anchor>
              </Node>
              <Node>
               <Name>CurrentTotalSimplices</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a29d5fd3e91e3dba7a41622894c1eb795</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a874a43678a9c111d3027a7f70e1fddc2</Anchor>
              </Node>
              <Node>
               <Name>FourFourMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a19c3e23f0b21328ad5458b1af45dca0c</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>af598d7956c927fa8089c83321051becc</Anchor>
              </Node>
              <Node>
               <Name>make_move</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a9ddaaa0010d81b2a65742de2b5f394aa</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ac912e73b9ac3ffc484bbc37d03df4f16</Anchor>
+             </Node>
+             <Node>
+              <Name>number_of_passes</Name>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ae48f401e915964b322d51e64ba9cdb08</Anchor>
              </Node>
              <Node>
               <Name>print_run</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a77a35aef0ac385ae4a9b66ea59f5dd3c</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ae002d8136ebe15d970c128bbf6661efd</Anchor>
              </Node>
              <Node>
               <Name>SixTwoMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>afe84123bec895551c5c19d200522c21c</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ad454a1d96e7de7e21bc21bfa7ec717dc</Anchor>
              </Node>
              <Node>
               <Name>SuccessfulFourFourMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a18f5b1156590c96bced81de5aee3d0f1</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ad9c5d05f8a5be644b3bcaad6b60c7fb0</Anchor>
              </Node>
              <Node>
               <Name>SuccessfulSixTwoMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>af170b29d052817366bc29f6206deb0b8</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ac57cc0eb4cd9f488da1586544212d348</Anchor>
              </Node>
              <Node>
               <Name>SuccessfulThreeTwoMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a2ff4f7cd6597f787f60dd329ea38510a</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a57bd5dc5adf2cf24fc25f14acead0515</Anchor>
              </Node>
              <Node>
               <Name>SuccessfulTwoSixMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a71d5f2dab196ef5f449d5663473ffab1</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>ab6350a7b482a5a58c0bfd114d8bd1d84</Anchor>
              </Node>
              <Node>
               <Name>SuccessfulTwoThreeMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a6d0dad066094ace354070583b9f04173</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a0f37748a66fe1c2163b2e47695c432e5</Anchor>
              </Node>
              <Node>
               <Name>ThreeTwoMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a6aa5a81fe2ebf7ec7141d1856a278589</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a6741516c4621effe33c9e2802afee10d</Anchor>
              </Node>
              <Node>
               <Name>TwoSixMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>ad654e051037310c86766a22172082a4b</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a598515e3e8f24f1c5b18833db63c3aa8</Anchor>
              </Node>
              <Node>
               <Name>TwoThreeMoves</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>ac31c7ff42bb88c8360bb4324955c08c6</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a9229c36931cec70d7ecaaa3d243f0c5e</Anchor>
              </Node>
              <Node>
               <Name>attempted_moves_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>abcd606de28e6a33d225336634afbfaef</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a05172101ecf5c8daac49e711c4287e8e</Anchor>
              </Node>
              <Node>
               <Name>checkpoint_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a763fa271dcee6b0ae893b93602cff90e</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a5c843e7de24c7ad1149d3d1b222a7458</Anchor>
              </Node>
              <Node>
               <Name>N1_TL_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>ad105f916c896b2a6e38cd8a4a81fa206</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>aaafc5f29eb3f5e55302f1c1963a832cf</Anchor>
              </Node>
              <Node>
               <Name>N3_22_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>aeecabac4a2d8eb40c4bb83673e44501f</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>aac1a05a6fdb94b871e88f3c3f33a8c86</Anchor>
              </Node>
              <Node>
               <Name>N3_31_13_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a3778eda24ff0bbe7d231a8d18d1f9644</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a23f07919548315b0e823a81384e61093</Anchor>
              </Node>
              <Node>
               <Name>passes_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>acde0c2303a5a732817def9045800de43</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a66fbf3d6bd95ac617772905dc7b15091</Anchor>
              </Node>
              <Node>
               <Name>successful_moves_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>ac92b39278cdd4a49b9e0dc34289b0f26</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>aa5d47ea911a3f454b2f39a11c12070a4</Anchor>
              </Node>
              <Node>
               <Name>universe_</Name>
-              <Path>class_move_algorithm.html</Path>
-              <Anchor>a93e4f29cde77f863c976beecc122a38e</Anchor>
+              <Path>class_move_algorithm_3_013_01_4.html</Path>
+              <Anchor>a612d76773daf2284fd91660b7552a9d3</Anchor>
              </Node>
             </Subnodes>
            </Node>
            <Node>
             <Name>MoveAlways</Name>
             <Path>class_move_always.html</Path>
+           </Node>
+           <Node>
+            <Name>MoveAlways&lt; 3 &gt;</Name>
+            <Path>class_move_always_3_013_01_4.html</Path>
             <Subnodes>
              <Node>
               <Name>MoveAlways</Name>
-              <Path>class_move_always.html</Path>
-              <Anchor>a7cfb10f8f64b9845e034e5097664a308</Anchor>
-             </Node>
-             <Node>
-              <Name>MoveAlways</Name>
-              <Path>class_move_always.html</Path>
-              <Anchor>a03cc4f81b3fcb240a78613ce99b9ca27</Anchor>
+              <Path>class_move_always_3_013_01_4.html</Path>
+              <Anchor>a72989e90ac10daf78dd60f8d9cf97396</Anchor>
              </Node>
              <Node>
               <Name>operator()</Name>
-              <Path>class_move_always.html</Path>
-              <Anchor>a2db14aa6cef9eb141e902bc67e9b46b8</Anchor>
+              <Path>class_move_always_3_013_01_4.html</Path>
+              <Anchor>a842bab7a26b8d47a33ba780a3ba6e03f</Anchor>
              </Node>
             </Subnodes>
            </Node>
@@ -1200,19 +1223,9 @@
               <Anchor>a7ebbfe6927add0db67c6673b35d72ecb</Anchor>
              </Node>
              <Node>
-              <Name>ArrayDifference</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>ab5598f2a9b47c3de4bbac8c3a2aca2cc</Anchor>
-             </Node>
-             <Node>
-              <Name>check_move_postconditions</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a35c700a90d0b7d4aff9a2747b7b2f6c5</Anchor>
-             </Node>
-             <Node>
               <Name>operator()</Name>
               <Path>class_move_manager.html</Path>
-              <Anchor>a013831c4311e873971e3fabe3d225431</Anchor>
+              <Anchor>aa0a326323d5cffbde0a70a716cf8d2e8</Anchor>
              </Node>
              <Node>
               <Name>operator=</Name>
@@ -1386,18 +1399,28 @@
             <Path>class_manifold_3_013_01_4.html</Path>
            </Node>
            <Node>
-            <Name>MoveAlgorithm</Name>
+            <Name>MoveAlgorithm&lt; dimension &gt;</Name>
             <Path>class_move_algorithm.html</Path>
             <Subnodes>
              <Node>
               <Name>Metropolis</Name>
               <Path>class_metropolis.html</Path>
              </Node>
+            </Subnodes>
+           </Node>
+           <Node>
+            <Name>MoveAlgorithm&lt; 3 &gt;</Name>
+            <Path>class_move_algorithm_3_013_01_4.html</Path>
+            <Subnodes>
              <Node>
-              <Name>MoveAlways</Name>
-              <Path>class_move_always.html</Path>
+              <Name>MoveAlways&lt; 3 &gt;</Name>
+              <Path>class_move_always_3_013_01_4.html</Path>
              </Node>
             </Subnodes>
+           </Node>
+           <Node>
+            <Name>MoveAlways&lt; dimension &gt;</Name>
+            <Path>class_move_always.html</Path>
            </Node>
            <Node>
             <Name>MoveCommand&lt; ManifoldType, FunctionType &gt;</Name>
@@ -2335,6 +2358,11 @@
                   <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
                  </Node>
                  <Node>
+                  <Name>swap</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>a32cb0ae50b132e3a7cebd484db68fb3c</Anchor>
+                 </Node>
+                 <Node>
                   <Name>geometry_</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>a201b1ce3456c7002627e8bc258036435</Anchor>
@@ -2520,118 +2548,142 @@
                <Node>
                 <Name>MoveAlgorithm</Name>
                 <Path>class_move_algorithm.html</Path>
+               </Node>
+               <Node>
+                <Name>MoveAlgorithm&lt; 3 &gt;</Name>
+                <Path>class_move_algorithm_3_013_01_4.html</Path>
                 <Subnodes>
                  <Node>
+                  <Name>Move_tracker</Name>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a98bb474900902aaeb263696df1709e80</Anchor>
+                 </Node>
+                 <Node>
                   <Name>MoveAlgorithm</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>aa237e50a94d78ef47615fd692d251dcb</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ad59e8f854ffc5062fa1c6b99b6aadad1</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>checkpoints</Name>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a62d416dcfb7e2868dac54ced4f125b37</Anchor>
                  </Node>
                  <Node>
                   <Name>CurrentTotalSimplices</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a29d5fd3e91e3dba7a41622894c1eb795</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a874a43678a9c111d3027a7f70e1fddc2</Anchor>
                  </Node>
                  <Node>
                   <Name>FourFourMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a19c3e23f0b21328ad5458b1af45dca0c</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>af598d7956c927fa8089c83321051becc</Anchor>
                  </Node>
                  <Node>
                   <Name>make_move</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a9ddaaa0010d81b2a65742de2b5f394aa</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ac912e73b9ac3ffc484bbc37d03df4f16</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>number_of_passes</Name>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ae48f401e915964b322d51e64ba9cdb08</Anchor>
                  </Node>
                  <Node>
                   <Name>print_run</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a77a35aef0ac385ae4a9b66ea59f5dd3c</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ae002d8136ebe15d970c128bbf6661efd</Anchor>
                  </Node>
                  <Node>
                   <Name>SixTwoMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>afe84123bec895551c5c19d200522c21c</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ad454a1d96e7de7e21bc21bfa7ec717dc</Anchor>
                  </Node>
                  <Node>
                   <Name>SuccessfulFourFourMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a18f5b1156590c96bced81de5aee3d0f1</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ad9c5d05f8a5be644b3bcaad6b60c7fb0</Anchor>
                  </Node>
                  <Node>
                   <Name>SuccessfulSixTwoMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>af170b29d052817366bc29f6206deb0b8</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ac57cc0eb4cd9f488da1586544212d348</Anchor>
                  </Node>
                  <Node>
                   <Name>SuccessfulThreeTwoMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a2ff4f7cd6597f787f60dd329ea38510a</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a57bd5dc5adf2cf24fc25f14acead0515</Anchor>
                  </Node>
                  <Node>
                   <Name>SuccessfulTwoSixMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a71d5f2dab196ef5f449d5663473ffab1</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>ab6350a7b482a5a58c0bfd114d8bd1d84</Anchor>
                  </Node>
                  <Node>
                   <Name>SuccessfulTwoThreeMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a6d0dad066094ace354070583b9f04173</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a0f37748a66fe1c2163b2e47695c432e5</Anchor>
                  </Node>
                  <Node>
                   <Name>ThreeTwoMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a6aa5a81fe2ebf7ec7141d1856a278589</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a6741516c4621effe33c9e2802afee10d</Anchor>
                  </Node>
                  <Node>
                   <Name>TwoSixMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>ad654e051037310c86766a22172082a4b</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a598515e3e8f24f1c5b18833db63c3aa8</Anchor>
                  </Node>
                  <Node>
                   <Name>TwoThreeMoves</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>ac31c7ff42bb88c8360bb4324955c08c6</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a9229c36931cec70d7ecaaa3d243f0c5e</Anchor>
                  </Node>
                  <Node>
                   <Name>attempted_moves_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>abcd606de28e6a33d225336634afbfaef</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a05172101ecf5c8daac49e711c4287e8e</Anchor>
                  </Node>
                  <Node>
                   <Name>checkpoint_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a763fa271dcee6b0ae893b93602cff90e</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a5c843e7de24c7ad1149d3d1b222a7458</Anchor>
                  </Node>
                  <Node>
                   <Name>N1_TL_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>ad105f916c896b2a6e38cd8a4a81fa206</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>aaafc5f29eb3f5e55302f1c1963a832cf</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_22_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>aeecabac4a2d8eb40c4bb83673e44501f</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>aac1a05a6fdb94b871e88f3c3f33a8c86</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_31_13_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a3778eda24ff0bbe7d231a8d18d1f9644</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a23f07919548315b0e823a81384e61093</Anchor>
                  </Node>
                  <Node>
                   <Name>passes_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>acde0c2303a5a732817def9045800de43</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a66fbf3d6bd95ac617772905dc7b15091</Anchor>
                  </Node>
                  <Node>
                   <Name>successful_moves_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>ac92b39278cdd4a49b9e0dc34289b0f26</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>aa5d47ea911a3f454b2f39a11c12070a4</Anchor>
                  </Node>
                  <Node>
                   <Name>universe_</Name>
-                  <Path>class_move_algorithm.html</Path>
-                  <Anchor>a93e4f29cde77f863c976beecc122a38e</Anchor>
+                  <Path>class_move_algorithm_3_013_01_4.html</Path>
+                  <Anchor>a612d76773daf2284fd91660b7552a9d3</Anchor>
                  </Node>
                 </Subnodes>
+               </Node>
+               <Node>
+                <Name>MoveAlgorithm3</Name>
+                <Path>_move_algorithm_8hpp.html</Path>
+                <Anchor>a6434fa9de7f19b7a42e80b2fa300002e</Anchor>
                </Node>
                <Node>
                 <Name>to_integral</Name>
@@ -2647,23 +2699,27 @@
                <Node>
                 <Name>MoveAlways</Name>
                 <Path>class_move_always.html</Path>
+               </Node>
+               <Node>
+                <Name>MoveAlways&lt; 3 &gt;</Name>
+                <Path>class_move_always_3_013_01_4.html</Path>
                 <Subnodes>
                  <Node>
                   <Name>MoveAlways</Name>
-                  <Path>class_move_always.html</Path>
-                  <Anchor>a7cfb10f8f64b9845e034e5097664a308</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>MoveAlways</Name>
-                  <Path>class_move_always.html</Path>
-                  <Anchor>a03cc4f81b3fcb240a78613ce99b9ca27</Anchor>
+                  <Path>class_move_always_3_013_01_4.html</Path>
+                  <Anchor>a72989e90ac10daf78dd60f8d9cf97396</Anchor>
                  </Node>
                  <Node>
                   <Name>operator()</Name>
-                  <Path>class_move_always.html</Path>
-                  <Anchor>a2db14aa6cef9eb141e902bc67e9b46b8</Anchor>
+                  <Path>class_move_always_3_013_01_4.html</Path>
+                  <Anchor>a842bab7a26b8d47a33ba780a3ba6e03f</Anchor>
                  </Node>
                 </Subnodes>
+               </Node>
+               <Node>
+                <Name>MoveAlways3</Name>
+                <Path>_move_always_8hpp.html</Path>
+                <Anchor>a956f633b3f395f42fe59f26a2edd7a82</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -2696,19 +2752,9 @@
                   <Anchor>a7ebbfe6927add0db67c6673b35d72ecb</Anchor>
                  </Node>
                  <Node>
-                  <Name>ArrayDifference</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>ab5598f2a9b47c3de4bbac8c3a2aca2cc</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>check_move_postconditions</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a35c700a90d0b7d4aff9a2747b7b2f6c5</Anchor>
-                 </Node>
-                 <Node>
                   <Name>operator()</Name>
                   <Path>class_move_manager.html</Path>
-                  <Anchor>a013831c4311e873971e3fabe3d225431</Anchor>
+                  <Anchor>aa0a326323d5cffbde0a70a716cf8d2e8</Anchor>
                  </Node>
                  <Node>
                   <Name>operator=</Name>
@@ -2741,6 +2787,11 @@
                 <Name>move_invariants</Name>
                 <Path>_move_manager_8hpp.html</Path>
                 <Anchor>a95e0fbed21564837234e8ec948ec1c5d</Anchor>
+               </Node>
+               <Node>
+                <Name>Move_tracker</Name>
+                <Path>_move_manager_8hpp.html</Path>
+                <Anchor>aa73f31a38b61f64f94350d55d328b3fe</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3887,20 +3938,22 @@
               <Path>_move_algorithms_test_8cpp.html</Path>
               <Subnodes>
                <Node>
-                <Name>IsProbabilityRange</Name>
-                <Path>_move_algorithms_test_8cpp.html</Path>
-                <Anchor>abfd4b11299675f63074f22f8b658c2cf</Anchor>
-               </Node>
-               <Node>
                 <Name>SCENARIO</Name>
                 <Path>_move_algorithms_test_8cpp.html</Path>
-                <Anchor>a57b3507930036b036b15e10023c52217</Anchor>
+                <Anchor>a6b1d0a25cf9217f4999f7ad3bd63487b</Anchor>
                </Node>
               </Subnodes>
              </Node>
              <Node>
               <Name>MoveManagerTest.cpp</Name>
-              <Path>_move_manager_test_8cpp_source.html</Path>
+              <Path>_move_manager_test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_move_manager_test_8cpp.html</Path>
+                <Anchor>a4a172cfde7988bd77d2d654e6f1c81f4</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>S3Action_test.cpp</Name>
