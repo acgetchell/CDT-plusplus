@@ -43,6 +43,7 @@
 
 // V. Zverovich's {fmt} library
 #include <fmt/format.h>
+#include <fmt/ostream.h>
 
 using Gmpzf = CGAL::Gmpzf;
 
@@ -300,6 +301,7 @@ catch (...)
 /// @param dimensions The number of dimensions of the triangulation
 /// @param number_of_simplices The number of simplices in the triangulation
 /// @param number_of_timeslices The number of foliated timeslices
+/// @todo Fix for Manifold3
 template <typename Manifold>
 void write_file(Manifold const& universe, topology_type const& topology,
                 std::size_t const dimensions,
@@ -319,7 +321,7 @@ void write_file(Manifold const& universe, topology_type const& topology,
   std::ofstream file(filename, std::ios::out);
   if (!file.is_open()) throw std::runtime_error("Unable to open file.");
 
-  file << *universe.triangulation;
+  file << universe.get_triangulation();
 }  // write_file
 
 /// @brief Roll a die with PCG

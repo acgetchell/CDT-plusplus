@@ -309,6 +309,16 @@ class Manifold<3>
     triangulation_.print_volume_per_timeslice();
   }
 
+  friend void swap(Manifold<3>& first, Manifold<3>& second) noexcept
+  {
+#ifdef NDEBUG
+    fmt::print("Manifold3 swap\n");
+#endif
+    using std::swap;
+    swap(first.triangulation_, second.triangulation_);
+    swap(first.geometry_, second.geometry_);
+  }  // swap
+
  private:
   FoliatedTriangulation3 triangulation_;
   Geometry3              geometry_;

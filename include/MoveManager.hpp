@@ -16,7 +16,7 @@
 #define INCLUDE_MOVEMANAGER_HPP_
 
 #include <Function_ref.hpp>
-#include <SimplicialManifold.hpp>
+#include <Manifold.hpp>
 #include <algorithm>
 #include <memory>
 #include <tuple>
@@ -25,27 +25,30 @@
 #include <vector>
 
 using move_invariants = std::array<std::size_t, 6>;
+using Move_tracker    = std::array<int, 5>;
 
 /// @class MoveManager
 /// @brief RAII Function object to handle moves
-/// @tparam Manifold SimplicialManifold type
+/// @tparam Manifold Manifold type
 /// @tparam Moves Move counter type
 template <typename Manifold, typename Moves>
 class MoveManager
 {
  public:
-  /// @brief An option type SimplicialManifold
+  /// @brief An option type Manifold
   Manifold universe_;
 
   /// @brief An option type move counter
   Moves attempted_moves_;
 
   /// @brief A count of N3_31, N3_22, N3_13, N1_TL, N1_SL, N0
-  move_invariants check{{0, 0, 0, 0, 0, 0}};
+  //  move_invariants check{{0, 0, 0, 0, 0, 0}};
+  move_invariants check{universe_.N3_31(), universe_.N3_22(), universe_.N3_13(),
+                        universe_.N1_TL(), universe_.N1_SL(), universe_.N0()};
 
   /// @brief Perfect forwarding constructor initializer
   ///
-  /// Because a SimplicialManifold is move-only and uses std::unique_ptrs,
+  /// Because a Manifold is move-only and uses std::unique_ptrs,
   /// this RAII class should be initialized with option types. The general
   /// pattern is to make option-types and pass those to the ctor, and then
   /// check that the returned data structures are non-empty before consuming
@@ -70,78 +73,15 @@ class MoveManager
   /// Delete move assignment
   MoveManager& operator=(MoveManager&& rhs) = delete;
 
-  [[nodiscard]] auto ArrayDifference(Move_tracker first, Move_tracker second)
-  {
-    for (std::size_t j = 0; j < 5; ++j)
-    {
-      if (first[j] - second[j] != 0) return j;
-    }
-    throw std::runtime_error("No move found!");
-  }
 
-  [[nodiscard]] auto check_move_postconditions(Move_tracker new_moves,
-                                               Move_tracker old_moves) -> bool
-  {
-#ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
-#endif
-    auto move = static_cast<move_type>(ArrayDifference(new_moves, old_moves));
-    switch (move)
-    {
-      case move_type::TWO_THREE:
-      {
-        return (check[0] == universe_.get().geometry->N3_31() &&
-                check[1] == universe_.get().geometry->N3_22() - 1 &&
-                check[2] == universe_.get().geometry->N3_13() &&
-                check[3] == universe_.get().geometry->N1_TL() - 1 &&
-                check[4] == universe_.get().geometry->N1_SL() &&
-                check[5] == universe_.get().geometry->N0());
-      }
-      case move_type::THREE_TWO:
-      {
-        return (check[0] == universe_.get().geometry->N3_31() &&
-                check[1] == universe_.get().geometry->N3_22() + 1 &&
-                check[2] == universe_.get().geometry->N3_13() &&
-                check[3] == universe_.get().geometry->N1_TL() + 1 &&
-                check[4] == universe_.get().geometry->N1_SL() &&
-                check[5] == universe_.get().geometry->N0());
-      }
-      case move_type::TWO_SIX:
-      {
-        return (check[0] == universe_.get().geometry->N3_31() - 2 &&
-                check[1] == universe_.get().geometry->N3_22() &&
-                check[2] == universe_.get().geometry->N3_13() - 2 &&
-                check[3] == universe_.get().geometry->N1_TL() - 2 &&
-                check[4] == universe_.get().geometry->N1_SL() - 3 &&
-                check[5] == universe_.get().geometry->N0() - 1);
-      }
-      case move_type::SIX_TWO:
-      {
-        return (check[0] == universe_.get().geometry->N3_31() + 2 &&
-                check[1] == universe_.get().geometry->N3_22() &&
-                check[2] == universe_.get().geometry->N3_13() + 2 &&
-                check[3] == universe_.get().geometry->N1_TL() + 2 &&
-                check[4] == universe_.get().geometry->N1_SL() + 3 &&
-                check[5] == universe_.get().geometry->N0() + 1);
-      }
-      case move_type::FOUR_FOUR:
-      {
-        return false;
-      }
-      default:
-      {
-        return false;
-      }
-    }
-  }
   /// @brief Function call
   /// @param move A function_ref to the move being performed
   /// @return The results of move on universe_
   [[nodiscard]] auto operator()(
-      function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)> move)
+      function_ref<Manifold(Manifold, Move_tracker&)> move)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
     try
@@ -192,7 +132,74 @@ class MoveManager
     // Only works on recent versions of Boost (>1.63)
     universe_ = {};
     return universe_;
-  }
+  }  // operator()
+
+  //  [[nodiscard]] auto ArrayDifference(Move_tracker first, Move_tracker
+  //  second)
+  //  {
+  //    for (std::size_t j = 0; j < 5; ++j)
+  //    {
+  //      if (first[j] - second[j] != 0) return j;
+  //    }
+  //    throw std::runtime_error("No move found!");
+  //  }
+  //
+  //  [[nodiscard]] auto check_move_postconditions(Move_tracker new_moves,
+  //                                               Move_tracker old_moves) ->
+  //                                               bool
+  //  {
+  //#ifndef NDEBUG
+  //    std::cout << __PRETTY_FUNCTION__ << " called." << std::endl;
+  //#endif
+  //    auto move = static_cast<move_type>(ArrayDifference(new_moves,
+  //    old_moves)); switch (move)
+  //    {
+  //      case move_type::TWO_THREE:
+  //      {
+  //        return (check[0] == universe_.get().geometry->N3_31() &&
+  //                check[1] == universe_.get().geometry->N3_22() - 1 &&
+  //                check[2] == universe_.get().geometry->N3_13() &&
+  //                check[3] == universe_.get().geometry->N1_TL() - 1 &&
+  //                check[4] == universe_.get().geometry->N1_SL() &&
+  //                check[5] == universe_.get().geometry->N0());
+  //      }
+  //      case move_type::THREE_TWO:
+  //      {
+  //        return (check[0] == universe_.get().geometry->N3_31() &&
+  //                check[1] == universe_.get().geometry->N3_22() + 1 &&
+  //                check[2] == universe_.get().geometry->N3_13() &&
+  //                check[3] == universe_.get().geometry->N1_TL() + 1 &&
+  //                check[4] == universe_.get().geometry->N1_SL() &&
+  //                check[5] == universe_.get().geometry->N0());
+  //      }
+  //      case move_type::TWO_SIX:
+  //      {
+  //        return (check[0] == universe_.get().geometry->N3_31() - 2 &&
+  //                check[1] == universe_.get().geometry->N3_22() &&
+  //                check[2] == universe_.get().geometry->N3_13() - 2 &&
+  //                check[3] == universe_.get().geometry->N1_TL() - 2 &&
+  //                check[4] == universe_.get().geometry->N1_SL() - 3 &&
+  //                check[5] == universe_.get().geometry->N0() - 1);
+  //      }
+  //      case move_type::SIX_TWO:
+  //      {
+  //        return (check[0] == universe_.get().geometry->N3_31() + 2 &&
+  //                check[1] == universe_.get().geometry->N3_22() &&
+  //                check[2] == universe_.get().geometry->N3_13() + 2 &&
+  //                check[3] == universe_.get().geometry->N1_TL() + 2 &&
+  //                check[4] == universe_.get().geometry->N1_SL() + 3 &&
+  //                check[5] == universe_.get().geometry->N0() + 1);
+  //      }
+  //      case move_type::FOUR_FOUR:
+  //      {
+  //        return false;
+  //      }
+  //      default:
+  //      {
+  //        return false;
+  //      }
+  //    }
+  //  }
 };
 
 #endif  // INCLUDE_MOVEMANAGER_HPP_

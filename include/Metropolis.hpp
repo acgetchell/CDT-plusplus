@@ -301,7 +301,7 @@ class Metropolis : public MoveAlgorithm
   /// @tparam T Type of manifold
   /// @param universe Manifold on which to operate
   /// @return The **universe** upon which the passes have been completed.
-  /// \todo: Fix segfaults here
+  /// @todo: Fix segfaults here
   template <typename T>
   auto operator()(T&& universe) -> decltype(universe)
   {
