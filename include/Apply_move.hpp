@@ -19,20 +19,21 @@
 
 /// @tparam ManifoldType The type (topology, dimensionality) of manifold
 /// @tparam FunctionType The type of move applied to the manifold
-/// @param manifold The manifold on which to make the Pachner move
-/// @param move The Pachner move
-/// @return The manifold upon which the Pachner move has been applied
+/// @param t_manifold The manifold on which to make the Pachner move
+/// @param t_move The Pachner move
+/// @return The t_manifold upon which the Pachner t_move has been applied
 template <typename ManifoldType,
           typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
-constexpr decltype(auto) ApplyMove(ManifoldType&& manifold, FunctionType&& move)
+constexpr decltype(auto) apply_move(ManifoldType&& t_manifold,
+                                    FunctionType&& t_move)
 // try
 {
-  return std::invoke(std::forward<FunctionType>(move),
-                     std::forward<ManifoldType>(manifold));
+  return std::invoke(std::forward<FunctionType>(t_move),
+                     std::forward<ManifoldType>(t_manifold));
 }
 // catch (std::exception const& except)
 //{
-//  std::cerr << "ApplyMove failed: " << except.what() << "\n";
+//  std::cerr << "apply_move failed: " << except.what() << "\n";
 //  throw;
 //}
 

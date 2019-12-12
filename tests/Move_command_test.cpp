@@ -8,7 +8,7 @@
 /// @brief Tests for moves
 /// @author Adam Getchell
 
-#include <Move_command.hpp>
+#include "Move_command.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;

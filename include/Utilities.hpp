@@ -54,19 +54,21 @@ enum class topology_type
 };
 
 /// @brief Convert topology_type to string output
-/// @param os output stream
-/// @param topology
-/// @return output stream
-inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
+/// @param t_os The output stream
+/// @param t_topology The topology
+/// @return An output string of the topology
+/// @todo Make compatible with fmt::print.
+inline std::ostream& operator<<(std::ostream&        t_os,
+                                topology_type const& t_topology)
 {
-  switch (topology)
+  switch (t_topology)
   {
     case topology_type::SPHERICAL:
-      return os << "spherical";
+      return t_os << "spherical";
     case topology_type::TOROIDAL:
-      return os << "toroidal";
+      return t_os << "toroidal";
     default:
-      return os << "none";
+      return t_os << "none";
   }
 }
 
@@ -74,12 +76,12 @@ inline std::ostream& operator<<(std::ostream& os, topology_type const& topology)
 ///
 /// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
 ///
-/// @param key The string value
+/// @param t_key The string value
 /// @return The environment variable corresponding to the key
-[[nodiscard]] inline auto getEnvVar(std::string const& key) noexcept
+[[nodiscard]] inline auto getEnvVar(std::string const& t_key) noexcept
 {
 #ifndef _WIN32
-  char const* val = getenv(key.c_str());
+  char const* val = getenv(t_key.c_str());
   val == nullptr ? std::string() : std::string(val);
 #else
   auto              val = "user";
@@ -149,32 +151,32 @@ inline std::string currentDateTime()
 #endif
 
 /// @brief  Generate useful filenames
-/// @param top The topology type from the scoped enum topology_type
-/// @param dimensions The number of dimensions of the triangulation
-/// @param number_of_simplices The number of simplices in the triangulation
-/// @param number_of_timeslices The number of foliated timeslices
+/// @param t_topology The topology type from the scoped enum topology_type
+/// @param t_dimension The dimensionality of the triangulation
+/// @param t_number_of_simplices The number of simplices in the triangulation
+/// @param t_number_of_timeslices The number of time foliations
 /// @return A filename
 [[nodiscard]] inline auto generate_filename(
-    topology_type const& top, std::size_t const dimensions,
-    std::size_t const number_of_simplices,
-    std::size_t const number_of_timeslices) noexcept
+    topology_type const& t_topology, std::size_t const t_dimension,
+    std::size_t const t_number_of_simplices,
+    std::size_t const t_number_of_timeslices) noexcept
 {
   std::string filename;
-  if (top == topology_type::SPHERICAL) { filename += "S"; }
+  if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
   else
   {
     filename += "T";
   }
   // std::to_string() works in C++11, but not earlier
-  filename += std::to_string(dimensions);
+  filename += std::to_string(t_dimension);
 
   filename += "-";
 
-  filename += std::to_string(number_of_timeslices);
+  filename += std::to_string(t_number_of_timeslices);
 
   filename += "-";
 
-  filename += std::to_string(number_of_simplices);
+  filename += std::to_string(t_number_of_simplices);
 
   // Get user
   filename += "-";
@@ -198,14 +200,16 @@ inline std::string currentDateTime()
 /// This function prints out vertices, edges, facets (2D), and cells (3D).
 ///
 /// @tparam Manifold The manifold type
-/// @param universe A SimplicialManifold
+/// @param t_universe A SimplicialManifold
 template <typename Manifold>
-void print_results(Manifold const& universe) noexcept
+[[deprecated]] void print_results(Manifold const& t_universe) noexcept
 {
-  std::cout << universe.triangulation->number_of_vertices() << " vertices and "
-            << universe.triangulation->number_of_finite_edges() << " edges and "
-            << universe.triangulation->number_of_finite_facets() << " faces\n"
-            << "and " << universe.triangulation->number_of_finite_cells()
+  std::cout << t_universe.triangulation->number_of_vertices()
+            << " vertices and "
+            << t_universe.triangulation->number_of_finite_edges()
+            << " edges and "
+            << t_universe.triangulation->number_of_finite_facets() << " faces\n"
+            << "and " << t_universe.triangulation->number_of_finite_cells()
             << " cells.\n";
 }  // print_results
 
@@ -220,8 +224,8 @@ void print_results(Manifold const& universe) noexcept
 /// @param universe A SimplicialManifold
 /// @param timer A timer object used to determine elapsed time
 template <typename Manifold, typename Timer>
-[[noreturn]] void print_results(Manifold const& universe,
-                                Timer const&    timer) noexcept
+[[deprecated]] void print_results(Manifold const& universe,
+                                  Timer const&    timer) noexcept
 {
   // C++17
   print_results(std::as_const(universe));
@@ -232,15 +236,15 @@ template <typename Manifold, typename Timer>
 }  // print_results
 
 /// @brief Print manifold statistics
-/// @tparam Manifold The manifold type
-/// @param manifold A Manifold
-template <typename Manifold>
-void print_manifold(Manifold const& manifold)
+/// @tparam ManifoldType The manifold type (topology, dimensionality)
+/// @param t_manifold A Manifold
+template <typename ManifoldType>
+void print_manifold(ManifoldType const& t_manifold)
 try
 {
   fmt::print(
       "Manifold has {} vertices and {} edges and {} faces and {} simplices.\n",
-      manifold.N0(), manifold.N1(), manifold.N2(), manifold.N3());
+      t_manifold.N0(), t_manifold.N1(), t_manifold.N2(), t_manifold.N3());
 }
 catch (...)
 {
@@ -249,18 +253,18 @@ catch (...)
 }  // print_manifold
 
 /// @brief Print simplices and sub-simplices
-/// @tparam Manifold The manifold type
-/// @param manifold A manifold
-template <typename Manifold>
-void print_manifold_details(Manifold const& manifold)
+/// @tparam ManifoldType The manifold type
+/// @param t_manifold A manifold
+template <typename ManifoldType>
+void print_manifold_details(ManifoldType const& t_manifold)
 try
 {
   fmt::print(
       "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
       "simplices.\n",
-      manifold.N3_31(), manifold.N3_22(), manifold.N3_13());
+      t_manifold.N3_31(), t_manifold.N3_22(), t_manifold.N3_13());
   fmt::print("There are {} timelike edges and {} spacelike edges.\n",
-             manifold.N1_TL(), manifold.N1_SL());
+             t_manifold.N1_TL(), t_manifold.N1_SL());
 }
 catch (...)
 {
@@ -269,19 +273,20 @@ catch (...)
 }  // print_manifold_details
 
 /// @brief Print triangulation statistics
-/// @tparam Triangulation The triangulation type
-/// @param triangulation A triangulation (typically a Delaunay<3> triangulation)
-template <typename Triangulation>
-void print_triangulation(Triangulation const& triangulation)
+/// @tparam TriangulationType The triangulation type
+/// @param t_triangulation A triangulation (typically a Delaunay<3>
+/// triangulation)
+template <typename TriangulationType>
+void print_triangulation(TriangulationType const& t_triangulation)
 try
 {
   fmt::print(
       "Triangulation has {} vertices and {} edges and {} faces and {} "
       "simplices.\n",
-      triangulation.number_of_vertices(),
-      triangulation.number_of_finite_edges(),
-      triangulation.number_of_finite_facets(),
-      triangulation.number_of_finite_cells());
+      t_triangulation.number_of_vertices(),
+      t_triangulation.number_of_finite_edges(),
+      t_triangulation.number_of_finite_facets(),
+      t_triangulation.number_of_finite_cells());
 }
 catch (...)
 {
@@ -295,25 +300,25 @@ catch (...)
 /// The filename is generated by the **generate_filename()** function.
 /// Provides strong exception-safety.
 ///
-/// @tparam Manifold The manifold type
-/// @param universe A SimplicialManifold
-/// @param topology The topology type from the scoped enum topology_type
-/// @param dimensions The number of dimensions of the triangulation
-/// @param number_of_simplices The number of simplices in the triangulation
-/// @param number_of_timeslices The number of foliated timeslices
+/// @tparam ManifoldType The manifold type
+/// @param t_universe A simplicial manifold
+/// @param t_topology The topology type from the scoped enum topology_type
+/// @param t_dimension The dimensionality of the triangulation
+/// @param t_number_of_simplices The number of simplices in the triangulation
+/// @param t_number_of_timeslices The number of foliated timeslices
 /// @todo Fix for Manifold3
-template <typename Manifold>
-void write_file(Manifold const& universe, topology_type const& topology,
-                std::size_t const dimensions,
-                std::size_t const number_of_simplices,
-                std::size_t const number_of_timeslices)
+template <typename ManifoldType>
+void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
+                std::size_t const t_dimension,
+                std::size_t const t_number_of_simplices,
+                std::size_t const t_number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
 
   std::string filename;
-  filename.assign(generate_filename(topology, dimensions, number_of_simplices,
-                                    number_of_timeslices));
+  filename.assign(generate_filename(
+      t_topology, t_dimension, t_number_of_simplices, t_number_of_timeslices));
   fmt::print("Writing to file {}\n", filename);
 
   std::lock_guard<std::mutex> lock(mutex);
@@ -321,7 +326,7 @@ void write_file(Manifold const& universe, topology_type const& topology,
   std::ofstream file(filename, std::ios::out);
   if (!file.is_open()) throw std::runtime_error("Unable to open file.");
 
-  file << universe.get_triangulation();
+  file << t_universe.get_triangulation();
 }  // write_file
 
 /// @brief Roll a die with PCG
@@ -347,18 +352,18 @@ void write_file(Manifold const& universe, topology_type const& topology,
 ///
 /// @tparam NumberType The type of number in the RNG
 /// @tparam Distribution The distribution type, usually uniform
-/// @param min_value The minimum value
-/// @param max_value The maximum value
+/// @param t_min_value The minimum value
+/// @param t_max_value The maximum value
 /// @return A random value in the distribution between min_value and max_value
 template <typename NumberType, class Distribution>
-[[nodiscard]] auto generate_random(NumberType const min_value,
-                                   NumberType const max_value) noexcept
+[[nodiscard]] auto generate_random(NumberType const t_min_value,
+                                   NumberType const t_max_value) noexcept
 {
   pcg_extras::seed_seq_from<std::random_device> seed_source;
 
   // Make a random number generator
   pcg64        generator(seed_source);
-  Distribution distribution(min_value, max_value);
+  Distribution distribution(t_min_value, t_max_value);
   return distribution(generator);
 }  // generate_random()
 
@@ -375,29 +380,30 @@ inline auto make_random_generator()
 /// template argument deduction
 template <typename IntegerType>
 [[nodiscard]] auto constexpr generate_random_int(
-    IntegerType const min_value, IntegerType const max_value) noexcept
+    IntegerType const t_min_value, IntegerType const t_max_value) noexcept
 {
   using int_dist = std::uniform_int_distribution<IntegerType>;
-  return generate_random<IntegerType, int_dist>(min_value, max_value);
+  return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
 }  // generate_random_int()
 
 /// @brief Generate a random timeslice
 template <typename IntegerType>
 [[nodiscard]] decltype(auto) generate_random_timeslice(
-    IntegerType&& max_timeslice) noexcept
+    IntegerType&& t_max_timeslice) noexcept
 {
-  return generate_random_int(static_cast<IntegerType>(1), max_timeslice);
+  return generate_random_int(static_cast<IntegerType>(1), t_max_timeslice);
 }  // generate_random_timeslice()
 
 /// @brief Generate random real numbers by calling generate_random, preserves
 /// template argument deduction
 template <typename FloatingPointType>
 [[nodiscard]] auto constexpr generate_random_real(
-    FloatingPointType const min_value,
-    FloatingPointType const max_value) noexcept
+    FloatingPointType const t_min_value,
+    FloatingPointType const t_max_value) noexcept
 {
   using real_dist = std::uniform_real_distribution<FloatingPointType>;
-  return generate_random<FloatingPointType, real_dist>(min_value, max_value);
+  return generate_random<FloatingPointType, real_dist>(t_min_value,
+                                                       t_max_value);
 }  // generate_random_real()
 
 /// @brief Generate a probability
@@ -416,36 +422,38 @@ template <typename FloatingPointType>
 /// The exact formula is given by Dwyer:
 /// http://link.springer.com/article/10.1007/BF02574694
 ///
-/// @param dimension  Number of dimensions
-/// @param simplices  Number of desired simplices
-/// @param timeslices Number of desired timeslices
-/// @param output     Prints desired number of simplices on timeslices
+/// @param t_dimension  Number of dimensions
+/// @param t_number_of_simplices  Number of desired simplices
+/// @param t_number_of_timeslices Number of desired timeslices
+/// @param t_output_flag Toggles output
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
 [[nodiscard]] inline auto expected_points_per_timeslice(
-    std::size_t const dimension, int_fast64_t const simplices,
-    int_fast64_t const timeslices, bool const output = true)
+    std::size_t const t_dimension, int_fast64_t const t_number_of_simplices,
+    int_fast64_t const t_number_of_timeslices, bool const t_output_flag = true)
 {
-  if (output)
+  if (t_output_flag)
   {
-    fmt::print("{} simplices on {} timeslices desired.\n", simplices,
-               timeslices);
+    fmt::print("{} simplices on {} timeslices desired.\n",
+               t_number_of_simplices, t_number_of_timeslices);
   }
 
-  auto const simplices_per_timeslice = simplices / timeslices;
-  if (dimension == 3)
+  auto const simplices_per_timeslice =
+      t_number_of_simplices / t_number_of_timeslices;
+  if (t_dimension == 3)
   {
     // Avoid segfaults for small values
-    if (simplices == timeslices) { return 2 * simplices_per_timeslice; }
-    else if (simplices < 1000)
+    if (t_number_of_simplices == t_number_of_timeslices)
+    { return 2 * simplices_per_timeslice; }
+    else if (t_number_of_simplices < 1000)
     {
       return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
     }
-    else if (simplices < 10000)
+    else if (t_number_of_simplices < 10000)
     {
       return static_cast<int_fast64_t>(0.2 * simplices_per_timeslice);
     }
-    else if (simplices < 100000)
+    else if (t_number_of_simplices < 100000)
     {
       return static_cast<int_fast64_t>(0.15 * simplices_per_timeslice);
     }
@@ -466,11 +474,11 @@ template <typename FloatingPointType>
 /// seems to work. However, if something more elaborate is required
 /// this function can be expanded.
 ///
-/// @param value An exact Gmpzf multiple-precision floating point number
+/// @param t_value An exact Gmpzf multiple-precision floating point number
 /// @return The double conversion
-[[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& value) -> double
+[[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& t_value) -> double
 {
-  return value.to_double();
+  return t_value.to_double();
 }
 
 #endif  // INCLUDE_UTILITIES_HPP_

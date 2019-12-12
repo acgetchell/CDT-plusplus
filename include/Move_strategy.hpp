@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017 Adam Getchell
+/// Copyright © 2017-2019 Adam Getchell
 ///
 /// Base class for all move algorithms, e.g. Metropolis, MoveAlways
 ///
@@ -17,55 +17,57 @@
 //#include <utility>
 //#include <vector>
 
-#include <Apply_move.hpp>
-#include <Ergodic_moves_3.hpp>
+#include "Apply_move.hpp"
+#include "Ergodic_moves_3.hpp"
+#include "Move_command.hpp"
 
 /// @brief Convert enum class to its underlying type
 ///
 /// http://stackoverflow.com/questions/14589417/can-an-enum-class-be-converted-to-the-underlying-type
-/// @tparam E Enum class type
-/// @param e Enum class
+/// @tparam EnumType Enum class type
+/// @param t_enum Enum class
 /// @return Integral type of enum member
-template <typename E>
-auto constexpr to_integral(E e) -> typename std::underlying_type<E>::type
+template <typename EnumType>
+auto constexpr to_integral(EnumType t_enum) ->
+    typename std::underlying_type<EnumType>::type
 {
-  return static_cast<typename std::underlying_type<E>::type>(e);
+  return static_cast<typename std::underlying_type<EnumType>::type>(t_enum);
 }
 
 /// MoveAlgorithm class template
 /// @tparam dimension  Dimensionality of manifold
 template <size_t dimension>
-class MoveAlgorithm;
+class MoveStrategy;
 
 template <>
-class MoveAlgorithm<3>
+class MoveStrategy<3>
 {
   using Move_tracker = std::array<int, 5>;
 
  protected:
   /// @brief A SimplicialManifold.
-  Manifold3 universe_;
+  Manifold3 m_universe;
 
   /// @brief The current number of timelike edges
-  std::size_t N1_TL_{universe_.N1_TL()};
+  std::size_t m_N1_TL{0};
 
   /// @brief The current number of (3,1) and (1,3) simplices
-  std::size_t N3_31_13_{universe_.N3_31_13()};
+  std::size_t m_N3_31_13{0};
 
   /// @brief The current number of (2,2) simplices
-  std::size_t N3_22_{universe_.N3_22()};
+  std::size_t m_N3_22{0};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tracker attempted_moves_{{0, 0, 0, 0, 0}};
+  Move_tracker m_attempted_moves{{0, 0, 0, 0, 0}};
 
   /// @brief Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
-  Move_tracker successful_moves_{{0, 0, 0, 0, 0}};
+  Move_tracker m_successful_moves{{0, 0, 0, 0, 0}};
 
   /// @brief Number of passes of ergodic moves on triangulation.
-  std::size_t passes_{100};
+  std::size_t m_passes{100};
 
   /// @brief How often to print/write output.
-  std::size_t checkpoint_{10};
+  std::size_t m_checkpoint_{10};
 
   /// @brief Make a move of the selected type
   ///
@@ -75,26 +77,27 @@ class MoveAlgorithm<3>
   /// handles the bookkeeping for successful_moves_ and updates the
   /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
   ///
-  /// \done Add exception handling for moves to gracefully recover
-  /// \done Use MoveManager RAII class
-  ///
-  /// @param move The type of move
-  void make_move(const manifold3_moves::move_type move)
+  /// @param t_move The type of move
+  void make_move(const manifold3_moves::move_type t_move)
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
     // Make working copies
     //    boost::optional<decltype(universe_)> maybe_moved_universe{universe_};
     //    auto maybe_move_count = boost::make_optional(true, attempted_moves_);
-    std::optional<decltype(universe_)> maybe_moved_universe{universe_};
+    std::optional<decltype(m_universe)> maybe_moved_universe{m_universe};
+    /// @todo Boost Expected/Outcome here instead
 
     //    // Initialize MoveManager
     //    MoveManager<decltype(maybe_moved_universe),
     //    decltype(maybe_move_count)>
     //        this_move(std::move(maybe_moved_universe),
     //        std::move(maybe_move_count));
+
+    // Initialize MoveCommand
+    MoveCommand this_move(std::move(m_universe));
 
     // Setup moves
     //    auto move_23_lambda =
@@ -118,12 +121,13 @@ class MoveAlgorithm<3>
     //      return make_62_move(std::move(manifold), attempted_moves);
     //    };
 
-    switch (move)
+    switch (t_move)
     {
       case manifold3_moves::move_type::TWO_THREE: {
-        maybe_moved_universe = std::make_optional(
-            ApplyMove(universe_, manifold3_moves::do_23_move));
-        maybe_moved_universe->update();
+        //        maybe_moved_universe = std::make_optional(
+        //            apply_move(universe_, manifold3_moves::do_23_move));
+        this_move.enqueue(manifold3_moves::do_23_move);
+        this_move.execute();
         //        function_ref<SimplicialManifold(SimplicialManifold,
         //        Move_tracker&)>
         //                                         move_function(move_23_lambda);
@@ -161,77 +165,86 @@ class MoveAlgorithm<3>
     // Check if move completed successfully and update if so
     if (maybe_moved_universe)
     {
-      swap(universe_, *maybe_moved_universe);
+      swap(m_universe, *maybe_moved_universe);
       //      swap(attempted_moves_, this_move.attempted_moves_.get());
-      ++successful_moves_[to_integral(move)];
+      ++m_successful_moves[to_integral(t_move)];
     }
 
     // Update counters
     //    N1_TL_    = universe_.geometry->N1_TL();
     //    N3_31_13_ = universe_.geometry->N3_31_13();
     //    N3_22_    = universe_.geometry->N3_22();
-    N1_TL_    = universe_.N1_TL();
-    N3_31_13_ = universe_.N3_31_13();
-    N3_22_    = universe_.N3_22();
+    m_N1_TL    = m_universe.N1_TL();
+    m_N3_31_13 = m_universe.N3_31_13();
+    m_N3_22    = m_universe.N3_22();
   }  // make_move()
 
  public:
   /// @brief All simplices
   /// @return The current total number of simplices
-  auto CurrentTotalSimplices() const noexcept { return N3_31_13_ + N3_22_; }
+  auto CurrentTotalSimplices() const noexcept { return m_N3_31_13 + m_N3_22; }
 
   /// @brief Gets attempted (2,3) moves.
   /// @return attempted_moves_[0]
-  auto TwoThreeMoves() const noexcept { return attempted_moves_[0]; }
+  auto TwoThreeMoves() const noexcept { return m_attempted_moves[0]; }
 
   /// @brief Gets successful (2,3) moves.
   /// @return successful_moves_[0]
-  auto SuccessfulTwoThreeMoves() const noexcept { return successful_moves_[0]; }
+  auto SuccessfulTwoThreeMoves() const noexcept
+  {
+    return m_successful_moves[0];
+  }
 
   /// @brief Gets attempted (3,2) moves.
   /// @return attempted_moves_[1]
-  auto ThreeTwoMoves() const noexcept { return attempted_moves_[1]; }
+  auto ThreeTwoMoves() const noexcept { return m_attempted_moves[1]; }
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
-  auto SuccessfulThreeTwoMoves() const noexcept { return successful_moves_[1]; }
+  auto SuccessfulThreeTwoMoves() const noexcept
+  {
+    return m_successful_moves[1];
+  }
 
   /// @brief Gets attempted (2,6) moves.
   /// @return return attempted_moves_[2]
-  auto TwoSixMoves() const noexcept { return attempted_moves_[2]; }
+  auto TwoSixMoves() const noexcept { return m_attempted_moves[2]; }
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
-  auto SuccessfulTwoSixMoves() const noexcept { return successful_moves_[2]; }
+  auto SuccessfulTwoSixMoves() const noexcept { return m_successful_moves[2]; }
 
   /// @brief Gets attempted (6,2) moves.
   /// @return return attempted_moves_[3]
-  auto SixTwoMoves() const noexcept { return attempted_moves_[3]; }
+  auto SixTwoMoves() const noexcept { return m_attempted_moves[3]; }
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
-  auto SuccessfulSixTwoMoves() const noexcept { return successful_moves_[3]; }
+  auto SuccessfulSixTwoMoves() const noexcept { return m_successful_moves[3]; }
 
   /// @brief Gets attempted (4,4) moves.
   /// @return attempted_moves_[4]
-  auto FourFourMoves() const noexcept { return attempted_moves_[4]; }
+  auto FourFourMoves() const noexcept { return m_attempted_moves[4]; }
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
-  auto SuccessfulFourFourMoves() const noexcept { return successful_moves_[4]; }
+  auto SuccessfulFourFourMoves() const noexcept
+  {
+    return m_successful_moves[4];
+  }
 
-  [[nodiscard]] auto number_of_passes() const { return passes_; }
+  [[nodiscard]] auto number_of_passes() const { return m_passes; }
 
-  [[nodiscard]] auto checkpoints() const { return checkpoint_; }
+  [[nodiscard]] auto checkpoints() const { return m_checkpoint_; }
 
   /// @brief Displays results of run to standard output
   void print_run()
   {
     fmt::print("Simplices: {}\n", CurrentTotalSimplices());
-    fmt::print("Timeslices: {}\n", universe_.max_time());
-    fmt::print("N3_31_13_: {}\n", N3_31_13_);
-    fmt::print("N3_22_: {}\n", N3_22_);
-    fmt::print("Timelike edges: {}\n", N1_TL_);
+    fmt::print("Timeslices: {}\n", m_universe.max_time());
+    fmt::print("N3_31_13_: {}\n", m_N3_31_13);
+    fmt::print("N3_22_: {}\n", m_N3_22);
+    fmt::print("Timelike edges: {}\n", m_N1_TL);
     fmt::print("Successful (2,3) moves: {}\n", SuccessfulTwoThreeMoves());
     fmt::print("Attempted (2,3) moves: {}\n", SuccessfulTwoThreeMoves());
     fmt::print("Successful (3,2) moves: {}\n", SuccessfulThreeTwoMoves());
@@ -247,8 +260,8 @@ class MoveAlgorithm<3>
   /// @param passes Number of passes through simulation, where each pass
   /// equals a number of moves equal to the number of simplices
   /// @param checkpoint Write/print results every *checkpoint* passes
-  MoveAlgorithm(std::size_t const passes, std::size_t const checkpoint)
-      : passes_{passes}, checkpoint_{checkpoint}
+  MoveStrategy(std::size_t const passes, std::size_t const checkpoint)
+      : m_passes{passes}, m_checkpoint_{checkpoint}
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -256,6 +269,6 @@ class MoveAlgorithm<3>
   }
 };  // MoveAlgorithm
 
-using MoveAlgorithm3 = MoveAlgorithm<3>;
+using MoveStrategy3 = MoveStrategy<3>;
 
 #endif  // INCLUDE_MOVE_ALGORITHM_HPP_

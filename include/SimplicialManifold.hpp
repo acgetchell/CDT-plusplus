@@ -16,7 +16,7 @@
 /// @file  SimplicialManifold.hpp
 /// @brief Data structures for simplicial manifolds
 /// @author Adam Getchell
-/// @todo Deprecated
+/// @todo Deprecated in favor of Manifold.hpp
 
 #ifndef INCLUDE_SIMPLICIALMANIFOLD_HPP_
 #define INCLUDE_SIMPLICIALMANIFOLD_HPP_
@@ -63,7 +63,7 @@ using Geometry_tuple =
 /// @returns A std::pair<std::vector<Edge_handle>, std::vector<Edge_handle>> of
 /// timelike edges and spacelike edges
 template <typename T>
-auto classify_edges(T&& universe_ptr)
+[[deprecated]] auto classify_edges(T&& universe_ptr)
 {
 #ifndef NDEBUG
   std::cout << "Classifying edges....\n";
@@ -127,7 +127,7 @@ auto classify_edges(T&& universe_ptr)
 /// @returns A std::tuple<std::vector, std::vector, std::vector> of
 /// **three_one**, **two_two**, and **one_three**
 template <typename T>
-auto classify_simplices(T&& universe_ptr)
+[[deprecated]] auto classify_simplices(T&& universe_ptr)
 {
 #ifndef NDEBUG
   std::cout << "Classifying simplices....\n";
@@ -193,7 +193,7 @@ auto classify_simplices(T&& universe_ptr)
 }  // classify_simplices()
 
 template <typename T>
-auto classify_all_simplices(T&& universe_ptr)
+[[deprecated]] auto classify_all_simplices(T&& universe_ptr)
 {
 #ifndef NDEBUG
   std::cout << "Classifying all simplices....\n";

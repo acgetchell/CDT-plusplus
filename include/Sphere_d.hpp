@@ -31,44 +31,45 @@ using Kd = CGAL::Cartesian_d<double>;
 /// The radius is used to denote the time value, so we can nest d-spheres
 /// such that our time foliation contains leaves of identical topology.
 ///
-/// @param number_of_points Number of vertices at a given radius
-/// @param dimension Dimension of sphere
-/// @param radius Radius of sphere
-/// @param output Prints detailed output
-/// @param points The points ready to insert
-void make_d_sphere(std::size_t number_of_points, int dimension, double radius,
-                   bool output, std::vector<Kd::Point_d>& points) noexcept
+/// @param t_number_of_points Number of vertices at a given radius
+/// @param t_dimension Dimensionality of sphere
+/// @param t_radius Radius of sphere
+/// @param t_output_flag Toggles detailed output
+/// @param t_points The points ready to insert
+void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
+                   double t_radius, bool t_output_flag,
+                   std::vector<Kd::Point_d>& t_points) noexcept
 {
-  points.reserve(number_of_points);
+  t_points.reserve(t_number_of_points);
 
-  CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(dimension, radius);
+  CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(t_dimension, t_radius);
 
-  for (decltype(number_of_points) i = 0; i < number_of_points; ++i)
-  { points.push_back(*gen++); }
+  for (decltype(t_number_of_points) i = 0; i < t_number_of_points; ++i)
+  { t_points.push_back(*gen++); }
   // If output = true, print out values of points in sphere
-  if (output)
+  if (t_output_flag)
   {
     fmt::print(
         "Generating {} random points on the surface of a sphere in {}D\n of "
         "center 0 and radius {}.\n",
-        dimension, radius);
+        t_dimension, t_radius);
 
-    for (const auto& point : points) { std::cout << " " << point << "\n"; }
+    for (const auto& point : t_points) { std::cout << " " << point << "\n"; }
   }
 }  // make_d_sphere()
 
 /// @brief Make a d-dimensional sphere without output
 ///
-/// Function overload of make_d_sphere to suppress output
+/// Function overload of make_d_sphere to suppress output.
 ///
-/// @param[in] number_of_points Number of vertices at a given radius
-/// @param[in] dimension Dimension of sphere
-/// @param[in] radius Radius of sphere
-/// @param[out]  points  The points ready to insert
-void make_d_sphere(std::size_t number_of_points, int dimension, double radius,
-                   std::vector<Kd::Point_d>& points) noexcept
+/// @param t_number_of_points Number of vertices at a given radius
+/// @param t_dimension Dimensionality of sphere
+/// @param t_radius Radius of sphere
+/// @param t_points The points ready to insert
+void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
+                   double t_radius, std::vector<Kd::Point_d>& t_points) noexcept
 {
-  make_d_sphere(number_of_points, dimension, radius, false, points);
+  make_d_sphere(t_number_of_points, t_dimension, t_radius, false, t_points);
 }  // make_d_sphere
 
 #endif  // INCLUDE_SPHERE_D_HPP_

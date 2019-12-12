@@ -27,21 +27,21 @@ namespace manifold3_moves
 
   /// @brief Perform a null move
   ///
-  /// @param manifold The simplicial manifold
+  /// @param t_manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(Manifold3 const& manifold)
+  [[nodiscard]] inline auto null_move(Manifold3 const& t_manifold)
   {
-    return manifold;
+    return t_manifold;
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
   ///
   /// <https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4>
   ///
-  /// @param manifold The manifold containing the cell to flip
+  /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline bool try_23_move(Manifold3&         manifold,
+  [[nodiscard]] inline bool try_23_move(Manifold3&         t_manifold,
                                         Cell_handle const& to_be_moved)
   {
     Expects(to_be_moved->info() == 22);
@@ -49,7 +49,7 @@ namespace manifold3_moves
     // Try every facet of the (2,2) cell
     for (auto i = 0; i < 4; ++i)
     {
-      if (manifold.triangulation().flip(to_be_moved, i))
+      if (t_manifold.triangulation().flip(to_be_moved, i))
       {
 #ifndef NDEBUG
         fmt::print("Facet {} was flippable.\n", i);
@@ -77,19 +77,19 @@ namespace manifold3_moves
   ///
   /// If successful, the triangulation is no longer Delaunay.
   ///
-  /// @param manifold The simplicial manifold
+  /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline decltype(auto) do_23_move(Manifold3& manifold)
+  [[nodiscard]] inline decltype(auto) do_23_move(Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     puts(__PRETTY_FUNCTION__);
 #endif
-    auto two_two = manifold.get_triangulation().get_two_two();
+    auto two_two = t_manifold.get_triangulation().get_two_two();
     // Shuffle the container to pick a random sequence of (2,2) cells to try
     std::shuffle(two_two.begin(), two_two.end(), make_random_generator());
     for (auto& cell : two_two)
     {
-      if (try_23_move(manifold, cell)) return manifold;
+      if (try_23_move(t_manifold, cell)) return t_manifold;
     }
     // We've run out of (2,2) cells
     throw std::domain_error("No (2,3) move is possible.");
@@ -99,15 +99,15 @@ namespace manifold3_moves
   ///
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
   ///
-  /// @param manifold The manifold containing the edge to flip
+  /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_32_move(Manifold3&         manifold,
+  [[nodiscard]] inline auto try_32_move(Manifold3&         t_manifold,
                                         Edge_handle const& to_be_moved)
   {
     auto flipped = false;
-    if (manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
-                                      to_be_moved.third))
+    if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
+                                        to_be_moved.third))
       flipped = true;
     return flipped;
   }
@@ -122,25 +122,25 @@ namespace manifold3_moves
   ///
   /// If successful, the triangulation is no longer Delaunay.
   ///
-  /// @param manifold The simplicial manifold
+  /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
-  [[nodiscard]] inline auto do_32_move(Manifold3& manifold)
+  [[nodiscard]] inline auto do_32_move(Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto movable_timelike_edges = manifold.get_timelike_edges();
+    auto movable_timelike_edges = t_manifold.get_timelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(movable_timelike_edges.begin(), movable_timelike_edges.end(),
                  make_random_generator());
     for (auto& edge : movable_timelike_edges)
     {
-      if (try_32_move(manifold, edge))
+      if (try_32_move(t_manifold, edge))
       {
 #ifndef NDEBUG
         fmt::print("Edge was flippable.\n");
 #endif
-        return manifold;
+        return t_manifold;
       }
       else
       {
@@ -159,17 +159,18 @@ namespace manifold3_moves
   /// a (1,3) simplex, it checks neighbors for a (3,1) simplex. The index of
   /// that neighbor is passed via an out parameter.
   ///
-  /// @param c The (1,3) simplex that is checked
+  /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
-  [[nodiscard]] inline std::optional<int> find_26_move(Cell_handle const& c)
+  [[nodiscard]] inline std::optional<int> find_26_move(
+      Cell_handle const& t_cell)
   {
-    Expects(c->info() == 13);
+    Expects(t_cell->info() == 13);
     for (auto i = 0; i < 4; ++i)
     {
 #ifndef NDEBUG
-      fmt::print("Neighbor {} is of type {}\n", i, c->neighbor(i)->info());
+      fmt::print("Neighbor {} is of type {}\n", i, t_cell->neighbor(i)->info());
 #endif
-      if (c->neighbor(i)->info() == 31) { return i; }
+      if (t_cell->neighbor(i)->info() == 31) { return i; }
     }
     return std::nullopt;
   }  // find_26_move()
@@ -191,14 +192,14 @@ namespace manifold3_moves
   /// @image html 26.png
   /// @image latex 26.eps width=7cm
   ///
-  /// @param manifold The simplicial manifold
+  /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
-  [[nodiscard]] inline auto do_26_move(Manifold3& manifold)
+  [[nodiscard]] inline auto do_26_move(Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto one_three = manifold.get_triangulation().get_one_three();
+    auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::shuffle(one_three.begin(), one_three.end(), make_random_generator());
     for (auto& bottom : one_three)
@@ -238,20 +239,20 @@ namespace manifold3_moves
         // Do the (2,6) move
         // Insert new vertex
         Vertex_handle v_center =
-            manifold.triangulation().delaunay().tds().insert_in_facet(
+            t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
         // Checks
         std::vector<Cell_handle> incident_cells;
-        manifold.triangulation().delaunay().tds().incident_cells(
+        t_manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
         Expects(incident_cells.size() == 6);
         // Each incident cell should be combinatorially and geometrically valid
         for (auto const& cell : incident_cells)
         {
-          Expects(
-              manifold.get_triangulation().get_delaunay().tds().is_valid(cell));
+          Expects(t_manifold.get_triangulation().get_delaunay().tds().is_valid(
+              cell));
         }
 
         // Now assign a geometric point to the center vertex
@@ -268,7 +269,7 @@ namespace manifold3_moves
         v_center->info() = timevalue;
 
 #ifndef NDEBUG
-        if (manifold.is_vertex(v_center))
+        if (t_manifold.is_vertex(v_center))
         { fmt::print("It's a vertex in the TDS.\n"); }
         else
         {
@@ -280,10 +281,10 @@ namespace manifold3_moves
 #endif
 
         // Final check
-        Expects(manifold.get_triangulation().get_delaunay().tds().is_valid(
+        Expects(t_manifold.get_triangulation().get_delaunay().tds().is_valid(
             v_center, true, 1));
 
-        return manifold;
+        return t_manifold;
       }
       // Try next cell
 #ifndef NDEBUG
@@ -376,22 +377,22 @@ namespace manifold3_moves
   /// If successful, the triangulation remains Delaunay. (Other moves may
   /// change this, however.)
   ///
-  /// @param manifold The simplicial manifold
+  /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
-  [[nodiscard]] inline auto do_62_move(Manifold3& manifold)
+  [[nodiscard]] inline auto do_62_move(Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto vertices = manifold.get_vertices();
+    auto vertices = t_manifold.get_vertices();
     // Shuffle the container to pick a random sequence of vertices to try
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
     for (auto const& vertex : vertices)
     {
-      if (is_62_movable(manifold, vertex))
+      if (is_62_movable(t_manifold, vertex))
       {
-        manifold.triangulation().remove(vertex);
-        return manifold;
+        t_manifold.triangulation().remove(vertex);
+        return t_manifold;
       }
       // Try next vertex
     }
@@ -406,24 +407,25 @@ namespace manifold3_moves
   /// cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices,
   /// and there should be no (2,2) simplices.
   ///
-  /// @param manifold The simplicial manifold
-  /// @param e_candidate The edge to check
+  /// @param t_manifold The simplicial manifold
+  /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
   [[nodiscard]] inline std::optional<std::vector<Cell_handle>> find_44_move(
-      Manifold3& manifold, Edge_handle const& e_candidate)
+      Manifold3& t_manifold, Edge_handle const& t_edge_candidate)
   {
-    Expects(manifold.dim() > 0);  // Precondition of is_edge()
-    Expects(manifold.is_edge(e_candidate));
+    Expects(t_manifold.dim() > 0);  // Precondition of is_edge()
+    Expects(t_manifold.is_edge(t_edge_candidate));
 
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in
-    auto circulator = manifold.incident_cells(e_candidate, e_candidate.first);
+    auto circulator =
+        t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
     std::vector<Cell_handle> incident_cells;
     do
     {
       incident_cells.emplace_back(circulator++);
-    } while (circulator != e_candidate.first);
+    } while (circulator != t_edge_candidate.first);
     fmt::print("Edge has {} incident cells.\n", incident_cells.size());
 
     if (incident_cells.size() == 4) { return incident_cells; }
@@ -449,21 +451,21 @@ namespace manifold3_moves
   /// If successful, the triangulation remains Delaunay. (Other moves may
   /// change this, however.)
   ///
-  /// @param manifold The simplicial manifold
+  /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
-  [[nodiscard]] inline auto do_44_move(Manifold3& manifold)
+  [[nodiscard]] inline auto do_44_move(Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto spacelike_edges = manifold.get_spacelike_edges();
+    auto spacelike_edges = t_manifold.get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),
                  make_random_generator());
     for (auto& edge : spacelike_edges)
     {
       // Obtain all incident cells
-      if (auto incident_cells = find_44_move(manifold, edge); incident_cells)
+      if (auto incident_cells = find_44_move(t_manifold, edge); incident_cells)
       {
         // Do move
 #ifndef NDEBUG
@@ -472,85 +474,90 @@ namespace manifold3_moves
           fmt::print("Incident cell is of type {}\n", cell->info());
         }
 #endif
-        return manifold;
+        return t_manifold;
       }
       // Try next edge
     }
     // We've run out of edges to try
     fmt::print("No (4,4) move is possible.\n");
-    return manifold;
+    return t_manifold;
   }  // do_44_move()
 
   /// @brief Check move correctness
-  /// @param before The manifold before the move
-  /// @param after The manifold after the move
-  /// @param move The type of move
+  /// @param t_before The manifold before the move
+  /// @param t_after The manifold after the move
+  /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(Manifold3 const& before,
-                                       Manifold3 const& after,
-                                       move_type const& move) -> bool
+  [[nodiscard]] inline auto check_move(Manifold3 const& t_before,
+                                       Manifold3 const& t_after,
+                                       move_type const& t_move) -> bool
   {
-    switch (move)
+    switch (t_move)
     {
       case move_type::FOUR_FOUR: {
-        return (after.is_valid() && after.N3() == before.N3() &&
-                after.N3_31() == before.N3_31() &&
-                after.N3_22() == before.N3_22() &&
-                after.N3_13() == before.N3_13() && after.N2() == before.N2() &&
-                after.N1() == before.N1() && after.N1_TL() == before.N1_TL() &&
-                after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
-                after.max_time() == before.max_time() &&
-                after.min_time() == before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() &&
+                t_after.N3_31() == t_before.N3_31() &&
+                t_after.N3_22() == t_before.N3_22() &&
+                t_after.N3_13() == t_before.N3_13() &&
+                t_after.N2() == t_before.N2() &&
+                t_after.N1() == t_before.N1() &&
+                t_after.N1_TL() == t_before.N1_TL() &&
+                t_after.N1_SL() == t_before.N1_SL() &&
+                t_after.N0() == t_before.N0() &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       }
       case move_type::TWO_THREE: {
-        return (after.is_valid() && after.N3() == before.N3() + 1 &&
-                after.N3_31() == before.N3_31() &&
-                after.N3_22() == before.N3_22() + 1 &&
-                after.N3_13() == before.N3_13() &&
-                after.N2() == before.N2() + 2 &&
-                after.N1() == before.N1() + 1 &&
-                after.N1_TL() == before.N1_TL() + 1 &&
-                after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
-                after.max_time() == before.max_time() &&
-                after.min_time() == before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
+                t_after.N3_31() == t_before.N3_31() &&
+                t_after.N3_22() == t_before.N3_22() + 1 &&
+                t_after.N3_13() == t_before.N3_13() &&
+                t_after.N2() == t_before.N2() + 2 &&
+                t_after.N1() == t_before.N1() + 1 &&
+                t_after.N1_TL() == t_before.N1_TL() + 1 &&
+                t_after.N1_SL() == t_before.N1_SL() &&
+                t_after.N0() == t_before.N0() &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       }
       case move_type::THREE_TWO: {
-        return (after.is_valid() && after.N3() == before.N3() - 1 &&
-                after.N3_31() == before.N3_31() &&
-                after.N3_22() == before.N3_22() - 1 &&
-                after.N3_13() == before.N3_13() &&
-                after.N2() == before.N2() - 2 &&
-                after.N1() == before.N1() - 1 &&
-                after.N1_TL() == before.N1_TL() - 1 &&
-                after.N1_SL() == before.N1_SL() && after.N0() == before.N0() &&
-                after.max_time() == before.max_time() &&
-                after.min_time() == before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
+                t_after.N3_31() == t_before.N3_31() &&
+                t_after.N3_22() == t_before.N3_22() - 1 &&
+                t_after.N3_13() == t_before.N3_13() &&
+                t_after.N2() == t_before.N2() - 2 &&
+                t_after.N1() == t_before.N1() - 1 &&
+                t_after.N1_TL() == t_before.N1_TL() - 1 &&
+                t_after.N1_SL() == t_before.N1_SL() &&
+                t_after.N0() == t_before.N0() &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       }
       case move_type::TWO_SIX: {
-        return (after.is_valid() && after.N3() == before.N3() + 4 &&
-                after.N3_31() == before.N3_31() + 2 &&
-                after.N3_22() == before.N3_22() &&
-                after.N3_13() == before.N3_13() + 2 &&
-                after.N2() == before.N2() + 8 &&
-                after.N1() == before.N1() + 5 &&
-                after.N1_TL() == before.N1_TL() + 2 &&
-                after.N1_SL() == before.N1_SL() + 3 &&
-                after.N0() == before.N0() + 1 &&
-                after.max_time() == before.max_time() &&
-                after.min_time() == before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
+                t_after.N3_31() == t_before.N3_31() + 2 &&
+                t_after.N3_22() == t_before.N3_22() &&
+                t_after.N3_13() == t_before.N3_13() + 2 &&
+                t_after.N2() == t_before.N2() + 8 &&
+                t_after.N1() == t_before.N1() + 5 &&
+                t_after.N1_TL() == t_before.N1_TL() + 2 &&
+                t_after.N1_SL() == t_before.N1_SL() + 3 &&
+                t_after.N0() == t_before.N0() + 1 &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       }
       case move_type::SIX_TWO: {
-        return (after.is_valid() && after.N3() == before.N3() - 4 &&
-                after.N3_31() == before.N3_31() - 2 &&
-                after.N3_22() == before.N3_22() &&
-                after.N3_13() == before.N3_13() - 2 &&
-                after.N2() == before.N2() - 8 &&
-                after.N1() == before.N1() - 5 &&
-                after.N1_TL() == before.N1_TL() - 2 &&
-                after.N1_SL() == before.N1_SL() - 3 &&
-                after.N0() == before.N0() - 1 &&
-                after.max_time() == before.max_time() &&
-                after.min_time() == before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
+                t_after.N3_31() == t_before.N3_31() - 2 &&
+                t_after.N3_22() == t_before.N3_22() &&
+                t_after.N3_13() == t_before.N3_13() - 2 &&
+                t_after.N2() == t_before.N2() - 8 &&
+                t_after.N1() == t_before.N1() - 5 &&
+                t_after.N1_TL() == t_before.N1_TL() - 2 &&
+                t_after.N1_SL() == t_before.N1_SL() - 3 &&
+                t_after.N0() == t_before.N0() - 1 &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       }
       default: {
         return false;

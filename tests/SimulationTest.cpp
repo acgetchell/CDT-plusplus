@@ -12,7 +12,7 @@
 ///
 /// @todo Fix MoveAlways test
 
-#include <MoveAlways.hpp>
+#include <Move_always.hpp>
 #include <Simulation.hpp>
 #include <catch2/catch.hpp>
 

@@ -3,8 +3,7 @@
 /// Copyright © 2016-2019 Adam Getchell
 ///
 /// Checks that the MoveManager RAII class handles resources properly.
-/// @todo Debug why no moves are performed
-/// @todo Finish remaining MoveManager tests for (3,2), (2,6), and (6,2)
+/// @todo Deprecated
 
 /// @file MoveManagerTest.cpp
 /// @brief Tests for the MoveManager RAII class

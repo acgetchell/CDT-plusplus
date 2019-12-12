@@ -8,9 +8,9 @@ add_executable(
   Foliated_triangulation_test.cpp
   Geometry_test.cpp
   Manifold_test.cpp
-  # Move_command_test.cpp
+  Move_command_test.cpp
   # MoveManagerTest.cpp
-  MoveAlgorithmsTest.cpp
+    Move_strategies_test.cpp
   S3Action_test.cpp
   Sphere_test.cpp
   Tetrahedron_test.cpp

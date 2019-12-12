@@ -9,7 +9,7 @@
 /// @brief Tests for foliated triangulations
 /// @author Adam Getchell
 
-#include <Foliated_triangulation.hpp>
+#include "Foliated_triangulation.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;

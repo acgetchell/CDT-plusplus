@@ -33,7 +33,7 @@
 /// @file S3Triangulation.hpp
 /// @brief Functions on 3D Spherical Delaunay Triangulations
 /// @author Adam Getchell
-/// @todo Deprecated
+/// @todo Deprecated in favor of Foliated_triangulation.hpp
 
 #ifndef INCLUDE_S3TRIANGULATION_HPP_
 #define INCLUDE_S3TRIANGULATION_HPP_
@@ -113,7 +113,7 @@ static constexpr double RADIAL_FACTOR  = 1.0;
 /// @param universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 /// @returns A boolean value if there are invalid simplices
 template <typename Manifold>
-[[nodiscard]] auto fix_timeslices(Manifold&& universe_ptr)
+[[deprecated]] auto fix_timeslices(Manifold&& universe_ptr)
 {
   int                     min_time{0};
   int                     max_time{0};
@@ -208,7 +208,7 @@ template <typename Manifold>
 ///
 /// @param universe_ptr A std::unique_ptr<Delaunay> to the triangulation
 template <typename Manifold>
-void fix_triangulation(Manifold&& universe_ptr)
+[[deprecated]] void fix_triangulation(Manifold&& universe_ptr)
 {
   for (std::int_fast64_t pass = 0; pass < MAX_FOLIATION_FIX_PASSES; ++pass)
   {
@@ -227,7 +227,8 @@ void fix_triangulation(Manifold&& universe_ptr)
 /// @param universe_ptr A unique pointer to triangulation
 /// @param cv A data structure of causal vertices
 template <typename Manifold>
-void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
+[[deprecated]] void insert_into_triangulation(Manifold&&      universe_ptr,
+                                              Causal_vertices cv)
 {
   universe_ptr->insert(cv.begin(), cv.end());
 }  // insert_into_triangulation()
@@ -241,7 +242,7 @@ void insert_into_triangulation(Manifold&& universe_ptr, Causal_vertices cv)
 /// @param timeslices  The number of desired timeslices in the triangulation
 /// @return A std::vector<std::pair<Point, int>> containing random
 /// vertices and their corresponding timevalues
-[[nodiscard]] auto inline make_foliated_sphere(
+[[deprecated]] auto inline make_foliated_sphere(
     const std::int_fast64_t simplices, const std::int_fast64_t timeslices,
     double initial_radius = INITIAL_RADIUS,
     double radial_factor  = RADIAL_FACTOR)

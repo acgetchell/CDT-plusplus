@@ -11,7 +11,6 @@
 #include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
 #include "Manifold.hpp"
-#include <boost/scoped_ptr.hpp>
 #include <functional>
 
 template <typename ManifoldType,
@@ -19,45 +18,45 @@ template <typename ManifoldType,
 class MoveCommand
 {
  public:
-  explicit MoveCommand(ManifoldType const& manifold)
-      : manifold_{std::make_unique<ManifoldType>(manifold)}
+  explicit MoveCommand(ManifoldType const& t_manifold)
+      : m_manifold{std::make_unique<ManifoldType>(t_manifold)}
   {}
 
   /// @return A read-only reference to the manifold
   auto get_manifold() const -> ManifoldType const&
   {
-    return std::cref(*manifold_);
+    return std::cref(*m_manifold);
   }
 
   /// @return The results of the moves invoked by MoveCommand
-  [[nodiscard]] auto& get_results() { return *manifold_; }
+  [[nodiscard]] auto& get_results() { return *m_manifold; }
 
   /// @brief Push a Pachner move onto the move queue
-  /// @param move The move to do on the manifold
-  void enqueue(FunctionType const& move) { moves_.emplace_back(move); }
+  /// @param t_move The move to do on the manifold
+  void enqueue(FunctionType const& t_move) { m_moves.emplace_back(t_move); }
 
   /// Execute the move on the manifold
   void execute()
   try
   {
     // debugging
-    std::cout << "Before manifold move:\n";
-    print_manifold_details(*manifold_);
-    auto move  = moves_.back();
-    *manifold_ = ApplyMove(*manifold_, move);
-    std::cout << "After manifold move:\n";
-    manifold_->update();
+    fmt::print("Before manifold move:\n");
+    print_manifold_details(*m_manifold);
+    auto move   = m_moves.back();
+    *m_manifold = apply_move(*m_manifold, move);
+    fmt::print("After manifold move:\n");
+    m_manifold->update();
   }
   catch (std::exception const& e)
   {
-    std::cerr << "execute() failed: " << e.what() << "\n";
+    fmt::print(stderr, "execute () failed: {}\n", e.what());
     throw;
   }
   //    virtual void undo();
   //    virtual void redo();
  private:
-  std::unique_ptr<ManifoldType> manifold_;
-  std::vector<FunctionType>     moves_;
+  std::unique_ptr<ManifoldType> m_manifold;
+  std::vector<FunctionType>     m_moves;
 };
 
 // template <std::size_t dimension>

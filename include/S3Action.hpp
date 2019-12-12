@@ -9,11 +9,6 @@
 /// increasing values. We avoid this by setting each variable only once.
 /// See https://gmplib.org/manual/Efficiency.html#Efficiency for details.
 
-/// \done \f$\alpha\f$=-1 S3 bulk action
-/// \done \f$\alpha\f$=1 S3 bulk action
-/// \done Generic \f$\alpha\f$ S3 bulk action
-/// \done Function documentation
-
 /// @file S3Action.hpp
 /// @brief Calculate S3 bulk actions on 3D Delaunay Triangulations
 /// @author Adam Getchell

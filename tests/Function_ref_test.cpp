@@ -9,9 +9,9 @@
 /// @brief Tests on vertices
 /// @author Adam Getchell
 
-#include <Function_ref.hpp>
-#include <Measurements.hpp>
-#include <S3ErgodicMoves.hpp>
+#include "Function_ref.hpp"
+//#include <Measurements.hpp>
+//#include <S3ErgodicMoves.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;

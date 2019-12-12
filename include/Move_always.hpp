@@ -13,7 +13,7 @@
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
 #define INCLUDE_MOVE_ALWAYS_HPP_
 
-#include <MoveAlgorithm.hpp>
+#include "MoveStrategy.hpp"
 
 template <size_t dimension>
 class MoveAlways
@@ -21,17 +21,18 @@ class MoveAlways
 };
 
 template <>
-class MoveAlways<3> : public MoveAlgorithm3
+class MoveAlways<3> : public MoveStrategy3
 {
  public:
   //  /// @brief Default constructor using default values
   //  MoveAlways() = default;
 
   /// @brief Set passes and checkpoint with MoveAlgorithm 2-argument constructor
-  /// @param passes Number of passes through triangulation
-  /// @param checkpoint Number of passes per checkpoint
-  MoveAlways(const std::size_t passes, const std::size_t checkpoint)
-      : MoveAlgorithm(passes, checkpoint)
+  /// @param t_number_of_passes Number of passes through triangulation
+  /// @param t_checkpoint Number of passes per checkpoint
+  MoveAlways(const std::size_t t_number_of_passes,
+             const std::size_t t_checkpoint)
+      : MoveStrategy(t_number_of_passes, t_checkpoint)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -40,24 +41,24 @@ class MoveAlways<3> : public MoveAlgorithm3
 
   /// @brief Call operator
   /// @tparam T Type of manifold
-  /// @param universe Manifold on which to operate
+  /// @param t_universe Manifold on which to operate
   /// @return Manifold upon which moves have been completed
   template <typename T>
-  auto operator()(T&& universe) -> decltype(universe)
+  auto operator()(T&& t_universe) -> decltype(t_universe)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     fmt::print("Starting Move Always algorithm ...\n");
     // Populate member data
-    universe_ = std::forward<decltype(universe)>(universe);
-    //    N1_TL_    = universe_.geometry->N1_TL();
-    //    N3_31_13_ = universe_.geometry->N3_31_13();
-    //    N3_22_    = universe_.geometry->N3_22();
+    m_universe = std::forward<decltype(t_universe)>(t_universe);
+    m_N1_TL    = m_universe.N1_TL();
+    m_N3_31_13 = m_universe.N3_31_13();
+    m_N3_22    = m_universe.N3_22();
 
     fmt::print("Making random moves ...\n");
     // Loop through passes_
-    for (std::size_t pass_number = 1; pass_number <= passes_; ++pass_number)
+    for (std::size_t pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
       fmt::print("Pass {}\n", pass_number);
       auto total_simplices_this_pass = CurrentTotalSimplices();
@@ -78,7 +79,7 @@ class MoveAlways<3> : public MoveAlgorithm3
       }  // End loop through CurrentTotalSimplices
 
       // Do stuff on checkpoint_
-      if ((pass_number % checkpoint_) == 0)
+      if ((pass_number % m_checkpoint_) == 0)
       {
         //        std::cout << "Pass " << pass_number << std::endl;
 
@@ -95,8 +96,8 @@ class MoveAlways<3> : public MoveAlgorithm3
     // output results
     fmt::print("Run results:\n");
     print_run();
-    return universe_;
-  }
+    return m_universe;
+  }  // operator()
 };  // MoveAlways
 
 using MoveAlways3 = MoveAlways<3>;

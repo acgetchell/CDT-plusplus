@@ -4,9 +4,7 @@
 ///
 /// Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.
 ///
-/// @todo Handle neighboring_31_index != 5 condition
-/// @todo Debug (6,2) move
-/// @todo (4,4) move
+/// @todo Deprecated in favor of Ergodic_moves_3
 
 /// @file S3ErgodicMoves.hpp
 /// @brief Pachner moves on 3D Delaunay Triangulations
@@ -32,7 +30,7 @@
 /// @param to_be_moved The **Cell_handle** that is tried
 /// @return A boolean value whether the move succeeded
 template <typename Manifold>
-[[nodiscard]] auto try_23_move(Manifold&& universe, Cell_handle to_be_moved)
+[[deprecated]] auto try_23_move(Manifold&& universe, Cell_handle to_be_moved)
 {
   auto flipped = false;
   // Try every facet of the cell
@@ -70,7 +68,7 @@ template <typename Manifold>
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename Manifold, typename Moves>
-[[nodiscard]] auto make_23_move(Manifold&& universe, Moves&& attempted_moves)
+[[deprecated]] auto make_23_move(Manifold&& universe, Moves&& attempted_moves)
     -> decltype(universe)
 {
 #ifndef NDEBUG
@@ -112,7 +110,7 @@ template <typename Manifold, typename Moves>
 /// @param to_be_moved The Edge_handle that is tried
 /// @return A boolean value whether the move succeeded
 template <typename Manifold>
-[[nodiscard]] auto try_32_move(Manifold&& universe, Edge_handle to_be_moved)
+[[deprecated]] auto try_32_move(Manifold&& universe, Edge_handle to_be_moved)
 {
   auto flipped = false;
   if (universe.triangulation->flip(std::get<0>(to_be_moved),
@@ -135,7 +133,7 @@ template <typename Manifold>
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename Manifold, typename Moves>
-[[nodiscard]] auto make_32_move(Manifold&& universe, Moves&& attempted_moves)
+[[deprecated]] auto make_32_move(Manifold&& universe, Moves&& attempted_moves)
     -> decltype(universe)
 {
 #ifndef NDEBUG
@@ -189,7 +187,7 @@ template <typename Manifold, typename Moves>
 /// @param c The presumed (1,3) cell
 /// @param i The i-th neighbor of c
 /// @return **True** if c is a (1,3) cell and it's i-th neighbor is a (3,1)
-[[nodiscard]] inline auto is_26_movable(const Cell_handle& c, int i)
+[[deprecated]] inline auto is_26_movable(const Cell_handle& c, int i)
 {
   // Source cell should be a 13
   auto source_is_13 = (c->info() == 13);
@@ -207,7 +205,7 @@ template <typename Manifold, typename Moves>
 /// @param c The (1,3) simplex that is checked
 /// @param n The integer value of the neighboring (3,1) simplex
 /// @return **True** if the (2,6) move is possible
-[[nodiscard]] inline auto find_26_movable(const Cell_handle& c, int& n)
+[[deprecated]] inline auto find_26_movable(const Cell_handle& c, int& n)
 {
   auto movable = false;
   for (auto i = 0; i < 4; ++i)
@@ -256,7 +254,7 @@ template <typename Manifold, typename Moves>
 /// of each type given by the **move_type** enum
 /// @return The SimplicialManifold{} after the move has been made
 template <typename Manifold, typename Moves>
-[[nodiscard]] auto make_26_move(Manifold&& universe, Moves&& attempted_moves)
+[[deprecated]] auto make_26_move(Manifold&& universe, Moves&& attempted_moves)
     -> decltype(universe)
 {
 #ifndef NDEBUG
@@ -418,7 +416,8 @@ template <typename Manifold, typename Moves>
 /// @param candidate A vertex to test
 /// @return True if a (6,2) move can be made on the candidate vertex
 template <typename Manifold>
-[[nodiscard]] auto find_62_movable(Manifold&& universe, Vertex_handle candidate)
+[[deprecated]] auto find_62_movable(Manifold&&    universe,
+                                    Vertex_handle candidate)
 {
   std::vector<Cell_handle> candidate_cells;
   // Adjacent (3,1), (2,2), and (1,3) cells
@@ -470,7 +469,7 @@ template <typename Manifold>
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename Manifold, typename Moves>
-[[nodiscard]] auto make_62_move(Manifold&& universe, Moves&& attempted_moves)
+[[deprecated]] auto make_62_move(Manifold&& universe, Moves&& attempted_moves)
     -> decltype(universe)
 {
 #ifndef NDEBUG
@@ -523,7 +522,7 @@ template <typename Manifold, typename Moves>
 /// @param attempted_moves A tuple holding a count of the attempted moves
 /// @return The SimplicialManifold after the move has been made
 template <typename Manifold, typename Moves>
-[[nodiscard]] auto make_44_move(Manifold&& universe, Moves&& attempted_moves)
+[[deprecated]] auto make_44_move(Manifold&& universe, Moves&& attempted_moves)
     -> decltype(universe)
 {
 #ifndef NDEBUG

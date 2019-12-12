@@ -11,6 +11,7 @@
 /// @brief RAII class to manage exception-safe foliation-preserving
 /// Pachner moves
 /// @author Adam Getchell
+/// @todo Deprecated in favor of Move_command.hpp
 
 #ifndef INCLUDE_MOVEMANAGER_HPP_
 #define INCLUDE_MOVEMANAGER_HPP_
@@ -32,7 +33,7 @@ using Move_tracker    = std::array<int, 5>;
 /// @tparam Manifold Manifold type
 /// @tparam Moves Move counter type
 template <typename Manifold, typename Moves>
-class MoveManager
+class [[deprecated]] MoveManager
 {
  public:
   /// @brief An option type Manifold

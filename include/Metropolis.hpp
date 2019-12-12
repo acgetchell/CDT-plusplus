@@ -27,8 +27,8 @@
 #define INCLUDE_METROPOLIS_HPP_
 
 // CDT headers
-#include <MoveAlgorithm.hpp>
-#include <S3Action.hpp>
+#include "Move_strategy.hpp"
+#include "S3Action.hpp"
 
 // C++ headers
 #include <algorithm>

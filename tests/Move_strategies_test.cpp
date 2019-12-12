@@ -8,14 +8,14 @@
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
 
-#include <MoveAlways.hpp>
-//#include <Metropolis.hpp>
+#include "MoveAlways.hpp"
+//#include "Metropolis.hpp"
 #include <catch2/catch.hpp>
 
 // bool IsProbabilityRange(CGAL::Gmpzf const& arg) { return arg > 0 && arg <= 1;
 // }
 
-SCENARIO("Using the Move always algorithm", "[move algorithms]")
+SCENARIO("Using the Move always algorithm", "[move strategies]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
@@ -27,7 +27,7 @@ SCENARIO("Using the Move always algorithm", "[move algorithms]")
     {
       auto constexpr passes     = static_cast<size_t>(10);
       auto constexpr checkpoint = static_cast<size_t>(1);
-      MoveAlgorithm3 mover(passes, checkpoint);
+      MoveStrategy3 mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
         CHECK(mover.number_of_passes() == passes);
@@ -70,7 +70,7 @@ SCENARIO("Using the Move always algorithm", "[move algorithms]")
         CHECK(mover.FourFourMoves() == 0);
         CHECK(mover.SuccessfulFourFourMoves() == 0);
       }
-      THEN("A lot of moves are made.") { mover(manifold); }
+      //      THEN("A lot of moves are made.") { mover(manifold); }
     }
   }
 }

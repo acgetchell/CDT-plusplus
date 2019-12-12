@@ -15,7 +15,7 @@
 
 using namespace std;
 
-SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
+SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply move]")
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {
@@ -26,7 +26,7 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
     REQUIRE(manifold.is_valid());
     WHEN("A null move is applied to the manifold.")
     {
-      auto result = ApplyMove(manifold, manifold3_moves::null_move);
+      auto result = apply_move(manifold, manifold3_moves::null_move);
       THEN("The resulting manifold is valid and unchanged.")
       {
         CHECK(result.is_valid());
@@ -43,7 +43,7 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
     }
     WHEN("A (2,3) move is applied to the manifold.")
     {
-      auto result = ApplyMove(manifold, manifold3_moves::do_23_move);
+      auto result = apply_move(manifold, manifold3_moves::do_23_move);
       THEN("The resulting manifold has the applied move.")
       {
         // Update Geometry and Foliated_triangulation with new info
@@ -60,7 +60,7 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
     }
     WHEN("A (3,2) move is applied to the manifold.")
     {
-      auto result = ApplyMove(manifold, manifold3_moves::do_32_move);
+      auto result = apply_move(manifold, manifold3_moves::do_32_move);
       THEN("The resulting manifold has the applied move.")
       {
         // Update Geometry and Foliated_triangulation with new info
@@ -77,7 +77,7 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
     }
     WHEN("A (2,6) move is applied to the manifold.")
     {
-      auto result = ApplyMove(manifold, manifold3_moves::do_26_move);
+      auto result = apply_move(manifold, manifold3_moves::do_26_move);
       THEN("The resulting manifold has the applied move.")
       {
         // Update Geometry and Foliated_triangulation with new info
@@ -94,7 +94,7 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
     }
     WHEN("A (6,2) move is applied to the manifold.")
     {
-      auto result = ApplyMove(manifold, manifold3_moves::do_62_move);
+      auto result = apply_move(manifold, manifold3_moves::do_62_move);
       THEN("The resulting manifold has the applied move.")
       {
         // Update Geometry and Foliated_triangulation with new info
@@ -111,7 +111,7 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply]")
     }
     WHEN("A (4,4) move is applied to the manifold.")
     {
-      auto result = ApplyMove(manifold, manifold3_moves::do_44_move);
+      auto result = apply_move(manifold, manifold3_moves::do_44_move);
       THEN("The resulting manifold has the applied move.")
       {
         // Update Geometry and Foliated_triangulation with new info

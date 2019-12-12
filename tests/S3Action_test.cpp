@@ -9,8 +9,8 @@
 /// @brief Tests for the S3 action functions
 /// @author Adam Getchell
 
-#include <Manifold.hpp>
-#include <S3Action.hpp>
+#include "Manifold.hpp"
+#include "S3Action.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;

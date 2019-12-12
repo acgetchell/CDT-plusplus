@@ -23,15 +23,23 @@ using Kd        = CGAL::Cartesian_d<double>;
 using Point     = Kd::Point_d;
 using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
 
-auto make_d_cube(std::vector<Point> v, std::size_t nb_points, int dimension)
+/// @brief Make a d-dimensional toroid of points
+/// @param t_points The type (dimensionality) of points
+/// @param t_number_of_points The number of points
+/// @param t_dimension Dimensionality of the toroid
+/// @return A d-dimensional toroid
+auto make_d_cube(std::vector<Point> t_points, std::size_t t_number_of_points,
+                 int t_dimension)
 {
   double size = 1.0;
 
-  fmt::print("Generating {} grid points in {}D\n", nb_points, dimension);
+  fmt::print("Generating {} grid points in {}D\n", t_number_of_points,
+             t_dimension);
 
-  v.reserve(nb_points);
-  return CGAL::points_on_cube_grid_d(
-      dimension, size, nb_points, std::back_inserter(v), Creator_d(dimension));
+  t_points.reserve(t_number_of_points);
+  return CGAL::points_on_cube_grid_d(t_dimension, size, t_number_of_points,
+                                     std::back_inserter(t_points),
+                                     Creator_d(t_dimension));
 }
 
 #endif  // INCLUDE_TORUS_D_HPP_
