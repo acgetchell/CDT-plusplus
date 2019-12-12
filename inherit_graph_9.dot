@@ -4,7 +4,7 @@ digraph "Graphical Class Hierarchy"
   edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
   node [fontname="Helvetica",fontsize="10",shape=record];
   rankdir="LR";
-  Node0 [label="MoveAlgorithm\< 3 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_move_algorithm_3_013_01_4.html",tooltip=" "];
-  Node0 -> Node1 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node1 [label="MoveAlways\< 3 \>",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_move_always_3_013_01_4.html",tooltip=" "];
+  Node9 [label="MoveAlgorithm",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
+  Node9 -> Node0 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node0 [label="Metropolis",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_metropolis.html",tooltip="Metropolis-Hastings algorithm function object."];
 }

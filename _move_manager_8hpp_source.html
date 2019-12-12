@@ -77,187 +77,184 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="_move_manager_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#ifndef INCLUDE_MOVEMANAGER_HPP_</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define INCLUDE_MOVEMANAGER_HPP_</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_function__ref_8hpp.html">Function_ref.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_manifold_8hpp.html">Manifold.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;tuple&gt;</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">using</span> move_invariants = std::array&lt;std::size_t, 6&gt;;</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> Move_tracker    = std::array&lt;int, 5&gt;;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Manifold, <span class="keyword">typename</span> Moves&gt;</div>
-<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="class_move_manager.html">   35</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_manager.html">MoveManager</a></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">   39</a></span>&#160;  <a class="code" href="class_manifold.html">Manifold</a> <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>;</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">   42</a></span>&#160;  Moves <a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>;</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">//  move_invariants check{{0, 0, 0, 0, 0, 0}};</span></div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">   46</a></span>&#160;  move_invariants <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>{<a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.N3_31(), <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.N3_22(), <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.N3_13(),</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;                        <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.N1_TL(), <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.N1_SL(), <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.N0()};</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">   60</a></span>&#160;  <a class="code" href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">MoveManager</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe, Moves&amp;&amp; attempted_moves)</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      : <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>{std::forward&lt;Manifold&gt;(universe)}</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      , <a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>{std::forward&lt;Moves&gt;(attempted_moves)}</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  {}</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <a class="code" href="class_move_manager.html#a7b0a03743f1bb7abc10ea5ca0ecb5b3e">~MoveManager</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <a class="code" href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">MoveManager</a>(<a class="code" href="class_move_manager.html">MoveManager</a> <span class="keyword">const</span>&amp; source) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <a class="code" href="class_move_manager.html">MoveManager</a>&amp; <a class="code" href="class_move_manager.html#a0de4dc514220362c4e09b6b25ac6f6bc">operator=</a>(<a class="code" href="class_move_manager.html">MoveManager</a> <span class="keyword">const</span>&amp; rhs) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <a class="code" href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">MoveManager</a>(<a class="code" href="class_move_manager.html">MoveManager</a>&amp;&amp; source) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <a class="code" href="class_move_manager.html">MoveManager</a>&amp; <a class="code" href="class_move_manager.html#a0de4dc514220362c4e09b6b25ac6f6bc">operator=</a>(<a class="code" href="class_move_manager.html">MoveManager</a>&amp;&amp; rhs) = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#ifndef INCLUDE_MOVEMANAGER_HPP_</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#define INCLUDE_MOVEMANAGER_HPP_</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_function__ref_8hpp.html">Function_ref.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_manifold_8hpp.html">Manifold.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;memory&gt;</span></div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#include &lt;tuple&gt;</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#include &lt;type_traits&gt;</span></div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#include &lt;utility&gt;</span></div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> move_invariants = std::array&lt;std::size_t, 6&gt;;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> Move_tracker    = std::array&lt;int, 5&gt;;</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Manifold, <span class="keyword">typename</span> Moves&gt;</div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_move_manager.html">   36</a></span>&#160;<span class="keyword">class </span>[[deprecated]] <a class="code" href="class_move_manager.html">MoveManager</a></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">   40</a></span>&#160;  <a class="code" href="class_manifold.html">Manifold</a> <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>;</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">   43</a></span>&#160;  Moves <a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="comment">//  move_invariants check{{0, 0, 0, 0, 0, 0}};</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">   47</a></span>&#160;  move_invariants check{universe_.N3_31(), universe_.N3_22(), universe_.N3_13(),</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;                        universe_.N1_TL(), universe_.N1_SL(), universe_.N0()};</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">   61</a></span>&#160;  <a class="code" href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">MoveManager</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe, Moves&amp;&amp; attempted_moves)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      : universe_{std::forward&lt;Manifold&gt;(universe)}</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      , attempted_moves_{std::forward&lt;Moves&gt;(attempted_moves)}</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  {}</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  ~<a class="code" href="class_move_manager.html">MoveManager</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <a class="code" href="class_move_manager.html">MoveManager</a>(<a class="code" href="class_move_manager.html">MoveManager</a> <span class="keyword">const</span>&amp; source) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <a class="code" href="class_move_manager.html">MoveManager</a>&amp; operator=(<a class="code" href="class_move_manager.html">MoveManager</a> <span class="keyword">const</span>&amp; rhs) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <a class="code" href="class_move_manager.html">MoveManager</a>(<a class="code" href="class_move_manager.html">MoveManager</a>&amp;&amp; source) = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <a class="code" href="class_move_manager.html">MoveManager</a>&amp; operator=(<a class="code" href="class_move_manager.html">MoveManager</a>&amp;&amp; rhs) = <span class="keyword">delete</span>;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
-<div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">   80</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">operator()</a>(</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <a class="code" href="classfunction__ref.html">function_ref</a>&lt;<a class="code" href="class_manifold.html">Manifold</a>(<a class="code" href="class_manifold.html">Manifold</a>, Move_tracker&amp;)&gt; move)</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  {</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">try</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    {</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <span class="comment">// Look at moves made so far</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="keyword">auto</span> old_moves = <a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>.get();</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="comment">//      auto N3_31_13_ = universe_.get().geometry-&gt;N3_31();</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>[0] = <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().geometry-&gt;N3_31();</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>[1] = <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().geometry-&gt;N3_22();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>[2] = <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().geometry-&gt;N3_13();</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>[3] = <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().geometry-&gt;N1_TL();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>[4] = <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().geometry-&gt;N1_SL();</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <a class="code" href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">check</a>[5] = <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().geometry-&gt;N0();</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="comment">// Now make new move</span></div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get() = move(<a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get(), <a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>.get());</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="comment">// Check move invariants</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;working manifold is empty!&quot;</span>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>.get().triangulation-&gt;tds().is_valid())</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Move invalidated triangulation.&quot;</span>);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      <span class="keywordflow">if</span> (!<a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>)</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;attempted_moves_ is empty!&quot;</span>);</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keyword">auto</span> moves_are_good =</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;          check_move_postconditions(<a class="code" href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">attempted_moves_</a>.get(), old_moves);</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      std::cout &lt;&lt; <span class="stringliteral">&quot;Moves are good: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; moves_are_good</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <span class="keywordflow">if</span> (!moves_are_good)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Move postconditions violated.&quot;</span>);</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      <span class="comment">// Return results of valid move</span></div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; ex)</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    {</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Caught move error: &quot;</span> &lt;&lt; ex.what() &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    }</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    {</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Caught non-std::exception!&quot;</span> &lt;&lt; std::endl;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    }</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    <span class="comment">// Disengage boost::optional value which returns results of invalid move</span></div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">// Only works on recent versions of Boost (&gt;1.63)</span></div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a> = {};</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">universe_</a>;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  }  <span class="comment">// operator()</span></div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160; </div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;  <span class="comment">//  [[nodiscard]] auto ArrayDifference(Move_tracker first, Move_tracker</span></div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="comment">//  second)</span></div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="comment">//  {</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="comment">//    for (std::size_t j = 0; j &lt; 5; ++j)</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="comment">//    {</span></div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="comment">//      if (first[j] - second[j] != 0) return j;</span></div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  <span class="comment">//    }</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="comment">//    throw std::runtime_error(&quot;No move found!&quot;);</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="comment">//  }</span></div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="comment">//</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="comment">//  [[nodiscard]] auto check_move_postconditions(Move_tracker new_moves,</span></div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="comment">//                                               Move_tracker old_moves) -&gt;</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="comment">//                                               bool</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="comment">//  {</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">//#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="comment">//    std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; &quot; called.&quot; &lt;&lt; std::endl;</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="comment">//#endif</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="comment">//    auto move = static_cast&lt;move_type&gt;(ArrayDifference(new_moves,</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="comment">//    old_moves)); switch (move)</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="comment">//    {</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="comment">//      case move_type::TWO_THREE:</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="comment">//      {</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() &amp;&amp;</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() - 1 &amp;&amp;</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() &amp;&amp;</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() - 1 &amp;&amp;</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() &amp;&amp;</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0());</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="comment">//      }</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="comment">//      case move_type::THREE_TWO:</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="comment">//      {</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() &amp;&amp;</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() + 1 &amp;&amp;</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() &amp;&amp;</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() + 1 &amp;&amp;</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() &amp;&amp;</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0());</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <span class="comment">//      }</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="comment">//      case move_type::TWO_SIX:</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="comment">//      {</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() - 2 &amp;&amp;</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() &amp;&amp;</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() - 2 &amp;&amp;</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() - 2 &amp;&amp;</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() - 3 &amp;&amp;</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0() - 1);</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  <span class="comment">//      }</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="comment">//      case move_type::SIX_TWO:</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="comment">//      {</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() + 2 &amp;&amp;</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() &amp;&amp;</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() + 2 &amp;&amp;</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() + 2 &amp;&amp;</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() + 3 &amp;&amp;</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0() + 1);</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <span class="comment">//      }</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="comment">//      case move_type::FOUR_FOUR:</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="comment">//      {</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <span class="comment">//        return false;</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="comment">//      }</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="comment">//      default:</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="comment">//      {</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="comment">//        return false;</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="comment">//      }</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="comment">//    }</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="comment">//  }</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;};</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160; </div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVEMANAGER_HPP_</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">   81</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">operator()</a>(</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <a class="code" href="classfunction__ref.html">function_ref</a>&lt;<a class="code" href="class_manifold.html">Manifold</a>(<a class="code" href="class_manifold.html">Manifold</a>, Move_tracker&amp;)&gt; move)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keywordflow">try</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="comment">// Look at moves made so far</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keyword">auto</span> old_moves = attempted_moves_.get();</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="comment">//      auto N3_31_13_ = universe_.get().geometry-&gt;N3_31();</span></div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      check[0] = universe_.get().geometry-&gt;N3_31();</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      check[1] = universe_.get().geometry-&gt;N3_22();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      check[2] = universe_.get().geometry-&gt;N3_13();</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      check[3] = universe_.get().geometry-&gt;N1_TL();</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      check[4] = universe_.get().geometry-&gt;N1_SL();</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      check[5] = universe_.get().geometry-&gt;N0();</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="comment">// Now make new move</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      universe_.get() = move(universe_.get(), attempted_moves_.get());</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="comment">// Check move invariants</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keywordflow">if</span> (!universe_) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;working manifold is empty!&quot;</span>);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordflow">if</span> (!universe_.get().triangulation-&gt;tds().is_valid())</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Move invalidated triangulation.&quot;</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="keywordflow">if</span> (!attempted_moves_)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;attempted_moves_ is empty!&quot;</span>);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      <span class="keyword">auto</span> moves_are_good =</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;          check_move_postconditions(attempted_moves_.get(), old_moves);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      std::cout &lt;&lt; <span class="stringliteral">&quot;Moves are good: &quot;</span> &lt;&lt; std::boolalpha &lt;&lt; moves_are_good</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                &lt;&lt; <span class="charliteral">&#39;\n&#39;</span>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      <span class="keywordflow">if</span> (!moves_are_good)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Move postconditions violated.&quot;</span>);</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="comment">// Return results of valid move</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      <span class="keywordflow">return</span> universe_;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    }</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">catch</span> (<span class="keyword">const</span> std::exception&amp; ex)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Caught move error: &quot;</span> &lt;&lt; ex.what() &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    }</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    <span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      std::cerr &lt;&lt; <span class="stringliteral">&quot;Caught non-std::exception!&quot;</span> &lt;&lt; std::endl;</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;    }</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;    <span class="comment">// Disengage boost::optional value which returns results of invalid move</span></div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="comment">// Only works on recent versions of Boost (&gt;1.63)</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    universe_ = {};</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <span class="keywordflow">return</span> universe_;</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  }  <span class="comment">// operator()</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  <span class="comment">//  [[nodiscard]] auto ArrayDifference(Move_tracker first, Move_tracker</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;  <span class="comment">//  second)</span></div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  <span class="comment">//  {</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;  <span class="comment">//    for (std::size_t j = 0; j &lt; 5; ++j)</span></div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  <span class="comment">//    {</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;  <span class="comment">//      if (first[j] - second[j] != 0) return j;</span></div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  <span class="comment">//    }</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  <span class="comment">//    throw std::runtime_error(&quot;No move found!&quot;);</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  <span class="comment">//  }</span></div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  <span class="comment">//  [[nodiscard]] auto check_move_postconditions(Move_tracker new_moves,</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="comment">//                                               Move_tracker old_moves) -&gt;</span></div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="comment">//                                               bool</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  <span class="comment">//  {</span></div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="comment">//#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <span class="comment">//    std::cout &lt;&lt; __PRETTY_FUNCTION__ &lt;&lt; &quot; called.&quot; &lt;&lt; std::endl;</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <span class="comment">//#endif</span></div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="comment">//    auto move = static_cast&lt;move_type&gt;(ArrayDifference(new_moves,</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="comment">//    old_moves)); switch (move)</span></div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="comment">//    {</span></div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="comment">//      case move_type::TWO_THREE:</span></div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="comment">//      {</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() &amp;&amp;</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() - 1 &amp;&amp;</span></div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() &amp;&amp;</span></div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() - 1 &amp;&amp;</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() &amp;&amp;</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0());</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="comment">//      }</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="comment">//      case move_type::THREE_TWO:</span></div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="comment">//      {</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() &amp;&amp;</span></div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() + 1 &amp;&amp;</span></div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() &amp;&amp;</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() + 1 &amp;&amp;</span></div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() &amp;&amp;</span></div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0());</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <span class="comment">//      }</span></div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="comment">//      case move_type::TWO_SIX:</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <span class="comment">//      {</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() - 2 &amp;&amp;</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() &amp;&amp;</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() - 2 &amp;&amp;</span></div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() - 2 &amp;&amp;</span></div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() - 3 &amp;&amp;</span></div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0() - 1);</span></div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="comment">//      }</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="comment">//      case move_type::SIX_TWO:</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="comment">//      {</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="comment">//        return (check[0] == universe_.get().geometry-&gt;N3_31() + 2 &amp;&amp;</span></div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <span class="comment">//                check[1] == universe_.get().geometry-&gt;N3_22() &amp;&amp;</span></div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <span class="comment">//                check[2] == universe_.get().geometry-&gt;N3_13() + 2 &amp;&amp;</span></div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="comment">//                check[3] == universe_.get().geometry-&gt;N1_TL() + 2 &amp;&amp;</span></div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <span class="comment">//                check[4] == universe_.get().geometry-&gt;N1_SL() + 3 &amp;&amp;</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  <span class="comment">//                check[5] == universe_.get().geometry-&gt;N0() + 1);</span></div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="comment">//      }</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  <span class="comment">//      case move_type::FOUR_FOUR:</span></div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  <span class="comment">//      {</span></div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="comment">//        return false;</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="comment">//      }</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <span class="comment">//      default:</span></div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="comment">//      {</span></div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <span class="comment">//        return false;</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  <span class="comment">//      }</span></div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="comment">//    }</span></div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="comment">//  }</span></div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;};</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVEMANAGER_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_manifold_html"><div class="ttname"><a href="class_manifold.html">Manifold</a></div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00028">Manifold.hpp:28</a></div></div>
-<div class="ttc" id="aclass_move_manager_html_a8160218f9827c932b06c201339a8f2ea"><div class="ttname"><a href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">MoveManager::MoveManager</a></div><div class="ttdeci">MoveManager(Manifold &amp;&amp;universe, Moves &amp;&amp;attempted_moves)</div><div class="ttdoc">Perfect forwarding constructor initializer.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00060">MoveManager.hpp:60</a></div></div>
+<div class="ttc" id="aclass_move_manager_html_a8160218f9827c932b06c201339a8f2ea"><div class="ttname"><a href="class_move_manager.html#a8160218f9827c932b06c201339a8f2ea">MoveManager::MoveManager</a></div><div class="ttdeci">MoveManager(Manifold &amp;&amp;universe, Moves &amp;&amp;attempted_moves)</div><div class="ttdoc">Perfect forwarding constructor initializer.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00061">MoveManager.hpp:61</a></div></div>
 <div class="ttc" id="a_function__ref_8hpp_html"><div class="ttname"><a href="_function__ref_8hpp.html">Function_ref.hpp</a></div><div class="ttdoc">Efficient, type-erasing, non-owning function reference.</div></div>
-<div class="ttc" id="aclass_move_manager_html_a7b0a03743f1bb7abc10ea5ca0ecb5b3e"><div class="ttname"><a href="class_move_manager.html#a7b0a03743f1bb7abc10ea5ca0ecb5b3e">MoveManager::~MoveManager</a></div><div class="ttdeci">~MoveManager()=default</div><div class="ttdoc">Default dtor.</div></div>
-<div class="ttc" id="aclass_move_manager_html_a19ba7dd4608cd31796d612ebc70e870a"><div class="ttname"><a href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">MoveManager::attempted_moves_</a></div><div class="ttdeci">Moves attempted_moves_</div><div class="ttdoc">An option type move counter.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00042">MoveManager.hpp:42</a></div></div>
-<div class="ttc" id="aclass_move_manager_html_a883f01628315a867d5c12ebc22682efe"><div class="ttname"><a href="class_move_manager.html#a883f01628315a867d5c12ebc22682efe">MoveManager::check</a></div><div class="ttdeci">move_invariants check</div><div class="ttdoc">A count of N3_31, N3_22, N3_13, N1_TL, N1_SL, N0.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00046">MoveManager.hpp:46</a></div></div>
+<div class="ttc" id="aclass_move_manager_html_a19ba7dd4608cd31796d612ebc70e870a"><div class="ttname"><a href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">MoveManager::attempted_moves_</a></div><div class="ttdeci">Moves attempted_moves_</div><div class="ttdoc">An option type move counter.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00043">MoveManager.hpp:43</a></div></div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="aclassfunction__ref_html"><div class="ttname"><a href="classfunction__ref.html">function_ref</a></div><div class="ttdef"><b>Definition:</b> <a href="_function__ref_8hpp_source.html#l00313">Function_ref.hpp:313</a></div></div>
-<div class="ttc" id="aclass_move_manager_html_ad83dbfc32ef032ca6b19e82ce398f8ea"><div class="ttname"><a href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">MoveManager::universe_</a></div><div class="ttdeci">Manifold universe_</div><div class="ttdoc">An option type Manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00039">MoveManager.hpp:39</a></div></div>
-<div class="ttc" id="aclass_move_manager_html"><div class="ttname"><a href="class_move_manager.html">MoveManager</a></div><div class="ttdoc">RAII Function object to handle moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00035">MoveManager.hpp:35</a></div></div>
-<div class="ttc" id="aclass_move_manager_html_aa0a326323d5cffbde0a70a716cf8d2e8"><div class="ttname"><a href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">MoveManager::operator()</a></div><div class="ttdeci">auto operator()(function_ref&lt; Manifold(Manifold, Move_tracker &amp;)&gt; move)</div><div class="ttdoc">Function call.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00080">MoveManager.hpp:80</a></div></div>
-<div class="ttc" id="aclass_move_manager_html_a0de4dc514220362c4e09b6b25ac6f6bc"><div class="ttname"><a href="class_move_manager.html#a0de4dc514220362c4e09b6b25ac6f6bc">MoveManager::operator=</a></div><div class="ttdeci">MoveManager &amp; operator=(MoveManager const &amp;rhs)=delete</div><div class="ttdoc">Delete copy assignment.</div></div>
+<div class="ttc" id="aclass_move_manager_html_ad83dbfc32ef032ca6b19e82ce398f8ea"><div class="ttname"><a href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">MoveManager::universe_</a></div><div class="ttdeci">Manifold universe_</div><div class="ttdoc">An option type Manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00040">MoveManager.hpp:40</a></div></div>
+<div class="ttc" id="aclass_move_manager_html"><div class="ttname"><a href="class_move_manager.html">MoveManager</a></div><div class="ttdoc">RAII Function object to handle moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00036">MoveManager.hpp:36</a></div></div>
+<div class="ttc" id="aclass_move_manager_html_aa0a326323d5cffbde0a70a716cf8d2e8"><div class="ttname"><a href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">MoveManager::operator()</a></div><div class="ttdeci">auto operator()(function_ref&lt; Manifold(Manifold, Move_tracker &amp;)&gt; move)</div><div class="ttdoc">Function call.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00081">MoveManager.hpp:81</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

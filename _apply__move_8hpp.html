@@ -97,9 +97,9 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a1975b158f6562c2ca813d2e11442154f"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt; </td></tr>
-<tr class="memitem:a1975b158f6562c2ca813d2e11442154f"><td class="memTemplItemLeft" align="right" valign="top">constexpr decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#a1975b158f6562c2ca813d2e11442154f">ApplyMove</a> (ManifoldType &amp;&amp;manifold, FunctionType &amp;&amp;move)</td></tr>
-<tr class="separator:a1975b158f6562c2ca813d2e11442154f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a69507c0d9a9fdff75a4c396469fde506"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt; </td></tr>
+<tr class="memitem:a69507c0d9a9fdff75a4c396469fde506"><td class="memTemplItemLeft" align="right" valign="top">constexpr decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#a69507c0d9a9fdff75a4c396469fde506">apply_move</a> (ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move)</td></tr>
+<tr class="separator:a69507c0d9a9fdff75a4c396469fde506"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Apply Pachner moves to foliated Delaunay triangulations. </p>
@@ -111,8 +111,8 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="a1975b158f6562c2ca813d2e11442154f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a1975b158f6562c2ca813d2e11442154f">&#9670;&nbsp;</a></span>ApplyMove()</h2>
+<a id="a69507c0d9a9fdff75a4c396469fde506"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a69507c0d9a9fdff75a4c396469fde506">&#9670;&nbsp;</a></span>apply_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -123,16 +123,16 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">constexpr decltype(auto) ApplyMove </td>
+          <td class="memname">constexpr decltype(auto) apply_move </td>
           <td>(</td>
           <td class="paramtype">ManifoldType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>manifold</em>, </td>
+          <td class="paramname"><em>t_manifold</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">FunctionType &amp;&amp;&#160;</td>
-          <td class="paramname"><em>move</em>&#160;</td>
+          <td class="paramname"><em>t_move</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -155,12 +155,12 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 </dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">manifold</td><td>The manifold on which to make the Pachner move </td></tr>
-    <tr><td class="paramname">move</td><td>The Pachner move </td></tr>
+    <tr><td class="paramname">t_manifold</td><td>The manifold on which to make the Pachner move </td></tr>
+    <tr><td class="paramname">t_move</td><td>The Pachner move </td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The manifold upon which the Pachner move has been applied </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The t_manifold upon which the Pachner t_move has been applied </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00027">27</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 
@@ -169,7 +169,7 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

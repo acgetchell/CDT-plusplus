@@ -85,12 +85,12 @@ $(function() {
 
 <p>Create foliated spherical triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;CGAL/Delaunay_triangulation_3.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>&quot;</code><br />
+<code>#include &lt;CGAL/Delaunay_triangulation_3.h&gt;</code><br />
 <code>#include &lt;CGAL/Exact_predicates_inexact_constructions_kernel.h&gt;</code><br />
 <code>#include &lt;CGAL/Triangulation_cell_base_with_info_3.h&gt;</code><br />
 <code>#include &lt;CGAL/Triangulation_vertex_base_with_info_3.h&gt;</code><br />
 <code>#include &lt;CGAL/point_generators_3.h&gt;</code><br />
-<code>#include &lt;<a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>&gt;</code><br />
 <code>#include &lt;cstdint&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -108,10 +108,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_foliated__triangulation.html">Foliated_triangulation&lt; dimension &gt;</a></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_foliated_triangulation.html">FoliatedTriangulation&lt; dimension &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_foliated__triangulation_3_013_01_4.html">Foliated_triangulation&lt; 3 &gt;</a></td></tr>
-<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D Triangulation  <a href="class_foliated__triangulation_3_013_01_4.html#details">More...</a><br /></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation&lt; 3 &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">3D Triangulation  <a href="class_foliated_triangulation_3_013_01_4.html#details">More...</a><br /></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
@@ -141,9 +141,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Edge_handle</b> = CG
 <tr class="memitem:a9ed35122120e43f31ac215b234428f4c"><td class="memItemLeft" align="right" valign="top"><a id="a9ed35122120e43f31ac215b234428f4c"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Face_handle</b> = std::pair&lt; Cell_handle, int &gt;</td></tr>
 <tr class="separator:a9ed35122120e43f31ac215b234428f4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a741477c39f02aac6ef157ddab89ee069"><td class="memItemLeft" align="right" valign="top"><a id="a741477c39f02aac6ef157ddab89ee069"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>FoliatedTriangulation3</b> = <a class="el" href="class_foliated__triangulation.html">Foliated_triangulation</a>&lt; 3 &gt;</td></tr>
-<tr class="separator:a741477c39f02aac6ef157ddab89ee069"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa4b8e51d645d18f093f83a739a325021"><td class="memItemLeft" align="right" valign="top"><a id="aa4b8e51d645d18f093f83a739a325021"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>FoliatedTriangulation3</b> = <a class="el" href="class_foliated_triangulation.html">FoliatedTriangulation</a>&lt; 3 &gt;</td></tr>
+<tr class="separator:aa4b8e51d645d18f093f83a739a325021"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aef6f1e0630250b5eec12424e646362c7"><td class="memItemLeft" align="right" valign="top"><a id="aef6f1e0630250b5eec12424e646362c7"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Kernel</b> = CGAL::Exact_predicates_inexact_constructions_kernel</td></tr>
 <tr class="separator:aef6f1e0630250b5eec12424e646362c7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,7 +215,7 @@ static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>RA
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

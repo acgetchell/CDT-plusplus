@@ -84,12 +84,12 @@ Collaboration diagram for MoveCommand&lt; ManifoldType, FunctionType &gt;:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a17747658c2b20a31c0307fd792216dab"><td class="memItemLeft" align="right" valign="top"><a id="a17747658c2b20a31c0307fd792216dab"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>MoveCommand</b> (ManifoldType const &amp;manifold)</td></tr>
-<tr class="separator:a17747658c2b20a31c0307fd792216dab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a81c9a8732cc92f4cf7412bef60c8008e"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a81c9a8732cc92f4cf7412bef60c8008e">enqueue</a> (FunctionType const &amp;move)</td></tr>
-<tr class="memdesc:a81c9a8732cc92f4cf7412bef60c8008e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a Pachner move onto the move queue.  <a href="class_move_command.html#a81c9a8732cc92f4cf7412bef60c8008e">More...</a><br /></td></tr>
-<tr class="separator:a81c9a8732cc92f4cf7412bef60c8008e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2a4c71d037305213dc7b729ee9396e24"><td class="memItemLeft" align="right" valign="top"><a id="a2a4c71d037305213dc7b729ee9396e24"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>MoveCommand</b> (ManifoldType const &amp;t_manifold)</td></tr>
+<tr class="separator:a2a4c71d037305213dc7b729ee9396e24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad92f857fb2db0f0a317a21bf4e186b44"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ad92f857fb2db0f0a317a21bf4e186b44">enqueue</a> (FunctionType const &amp;t_move)</td></tr>
+<tr class="memdesc:ad92f857fb2db0f0a317a21bf4e186b44"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a Pachner move onto the move queue.  <a href="class_move_command.html#ad92f857fb2db0f0a317a21bf4e186b44">More...</a><br /></td></tr>
+<tr class="separator:ad92f857fb2db0f0a317a21bf4e186b44"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a160870891e1ebd6bb25bb38c7080cc12"><td class="memItemLeft" align="right" valign="top"><a id="a160870891e1ebd6bb25bb38c7080cc12"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">execute</a> ()</td></tr>
 <tr class="memdesc:a160870891e1ebd6bb25bb38c7080cc12"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute the move on the manifold. <br /></td></tr>
@@ -101,22 +101,22 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Private Attributes</h2></td></tr>
-<tr class="memitem:ad2e547716d4d08dde6545d7eaffc8fc9"><td class="memItemLeft" align="right" valign="top"><a id="ad2e547716d4d08dde6545d7eaffc8fc9"></a>
-std::unique_ptr&lt; ManifoldType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>manifold_</b></td></tr>
-<tr class="separator:ad2e547716d4d08dde6545d7eaffc8fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8b9c208587b952d292c1705d30a4e472"><td class="memItemLeft" align="right" valign="top"><a id="a8b9c208587b952d292c1705d30a4e472"></a>
-std::vector&lt; FunctionType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>moves_</b></td></tr>
-<tr class="separator:a8b9c208587b952d292c1705d30a4e472"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a10f226c66ddeea6068e6331394b60400"><td class="memItemLeft" align="right" valign="top"><a id="a10f226c66ddeea6068e6331394b60400"></a>
+std::unique_ptr&lt; ManifoldType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_manifold</b></td></tr>
+<tr class="separator:a10f226c66ddeea6068e6331394b60400"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2af07173e8598986ab299c68252b6f70"><td class="memItemLeft" align="right" valign="top"><a id="a2af07173e8598986ab299c68252b6f70"></a>
+std::vector&lt; FunctionType &gt;&#160;</td><td class="memItemRight" valign="bottom"><b>m_moves</b></td></tr>
+<tr class="separator:a2af07173e8598986ab299c68252b6f70"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><h3>template&lt;typename ManifoldType, typename FunctionType = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt;<br />
 class MoveCommand&lt; ManifoldType, FunctionType &gt;</h3>
 
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00019">19</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00018">18</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 </div><h2 class="groupheader">Member Function Documentation</h2>
-<a id="a81c9a8732cc92f4cf7412bef60c8008e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a81c9a8732cc92f4cf7412bef60c8008e">&#9670;&nbsp;</a></span>enqueue()</h2>
+<a id="ad92f857fb2db0f0a317a21bf4e186b44"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad92f857fb2db0f0a317a21bf4e186b44">&#9670;&nbsp;</a></span>enqueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -130,7 +130,7 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
           <td class="memname">void <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, FunctionType &gt;::enqueue </td>
           <td>(</td>
           <td class="paramtype">FunctionType const &amp;&#160;</td>
-          <td class="paramname"><em>move</em></td><td>)</td>
+          <td class="paramname"><em>t_move</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -144,12 +144,12 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 <p>Push a Pachner move onto the move queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">move</td><td>The move to do on the manifold </td></tr>
+    <tr><td class="paramname">t_move</td><td>The move to do on the manifold </td></tr>
   </table>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00037">37</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00036">36</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 </div>
 </div>
@@ -180,7 +180,7 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>A read-only reference to the manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00027">27</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00026">26</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 </div>
 </div>
@@ -210,7 +210,7 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The results of the moves invoked by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00033">33</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00032">32</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 </div>
 </div>
@@ -220,7 +220,7 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

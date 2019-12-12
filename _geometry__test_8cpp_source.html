@@ -140,7 +140,7 @@ $(function() {
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keyword">auto</span> constexpr desired_simplices  = static_cast&lt;int_fast64_t&gt;(72);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keyword">auto</span> constexpr desired_timeslices = static_cast&lt;int_fast64_t&gt;(3);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="class_foliated__triangulation_3_013_01_4.html">FoliatedTriangulation3</a> triangulation(desired_simplices,</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <a class="code" href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation3</a> triangulation(desired_simplices,</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                           desired_timeslices);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a>              geometry(triangulation);</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      THEN(<span class="stringliteral">&quot;The Delaunay triangulation is described by the geometry.&quot;</span>)</div>
@@ -219,7 +219,7 @@ $(function() {
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    {</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="keyword">auto</span> constexpr desired_simplices  = static_cast&lt;int_fast64_t&gt;(640);</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      <span class="keyword">auto</span> constexpr desired_timeslices = static_cast&lt;int_fast64_t&gt;(4);</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      <a class="code" href="class_foliated__triangulation_3_013_01_4.html">FoliatedTriangulation3</a> triangulation(desired_simplices,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      <a class="code" href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation3</a> triangulation(desired_simplices,</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                                           desired_timeslices);</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a>              geometry(triangulation);</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      THEN(</div>
@@ -237,21 +237,21 @@ $(function() {
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        CHECK_FALSE(geometry.N1_SL == 0);</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        CHECK(geometry.N1_TL + geometry.N1_SL == geometry.N1);</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        CHECK(geometry.N0 == triangulation.number_of_vertices());</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <a class="code" href="_utilities_8hpp.html#a2064095da3580f6224b14eed24c2c8c6">print_triangulation</a>(triangulation);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        <a class="code" href="_utilities_8hpp.html#aa2db8ee645d121807f5c5244b9b6808d">print_triangulation</a>(triangulation);</div>
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        triangulation.print_volume_per_timeslice();</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      }</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    }</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  }</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00077">Foliated_triangulation.hpp:77</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html"><div class="ttname"><a href="struct_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></div><div class="ttdoc">3D Geometry</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00023">Geometry.hpp:23</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html"><div class="ttname"><a href="_geometry_8hpp.html">Geometry.hpp</a></div><div class="ttdoc">Data structures for geometry.</div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a2064095da3580f6224b14eed24c2c8c6"><div class="ttname"><a href="_utilities_8hpp.html#a2064095da3580f6224b14eed24c2c8c6">print_triangulation</a></div><div class="ttdeci">void print_triangulation(Triangulation const &amp;triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00275">Utilities.hpp:275</a></div></div>
 <div class="ttc" id="a_geometry__test_8cpp_html_a1f8c94146320caa7258a12cd8d00dbdb"><div class="ttname"><a href="_geometry__test_8cpp.html#a1f8c94146320caa7258a12cd8d00dbdb">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;3-Geometry std::function compatibility and exception-safety&quot;, &quot;[geometry]&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_geometry__test_8cpp_source.html#l00016">Geometry_test.cpp:16</a></div></div>
-<div class="ttc" id="aclass_foliated__triangulation_3_013_01_4_html"><div class="ttname"><a href="class_foliated__triangulation_3_013_01_4.html">Foliated_triangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00077">Foliated_triangulation.hpp:77</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aa2db8ee645d121807f5c5244b9b6808d"><div class="ttname"><a href="_utilities_8hpp.html#aa2db8ee645d121807f5c5244b9b6808d">print_triangulation</a></div><div class="ttdeci">void print_triangulation(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00280">Utilities.hpp:280</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

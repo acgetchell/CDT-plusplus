@@ -136,7 +136,7 @@ $(function() {
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">double</span> RADIAL_FACTOR  = 1.0;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Manifold&gt;</div>
-<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">  116</a></span>&#160;[[nodiscard]] <span class="keyword">auto</span> <a class="code" href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">fix_timeslices</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe_ptr)</div>
+<div class="line"><a name="l00116"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">  116</a></span>&#160;[[deprecated]] <span class="keyword">auto</span> <a class="code" href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">fix_timeslices</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe_ptr)</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;{</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keywordtype">int</span>                     min_time{0};</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordtype">int</span>                     max_time{0};</div>
@@ -225,7 +225,7 @@ $(function() {
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;}  <span class="comment">// fix_timeslices</span></div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160; </div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Manifold&gt;</div>
-<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">  211</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe_ptr)</div>
+<div class="line"><a name="l00211"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">  211</a></span>&#160;[[deprecated]] <span class="keywordtype">void</span> <a class="code" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe_ptr)</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;{</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  <span class="keywordflow">for</span> (std::int_fast64_t pass = 0; pass &lt; <a class="code" href="_s3_triangulation_8hpp.html#a20d1331155a3fd0fac92b5683506dd19">MAX_FOLIATION_FIX_PASSES</a>; ++pass)</div>
 <div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  {</div>
@@ -239,82 +239,83 @@ $(function() {
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;}  <span class="comment">// fix_triangulation()</span></div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160; </div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Manifold&gt;</div>
-<div class="line"><a name="l00230"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">  230</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp; universe_ptr, Causal_vertices cv)</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;{</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  universe_ptr-&gt;insert(cv.begin(), cv.end());</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;}  <span class="comment">// insert_into_triangulation()</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
-<div class="line"><a name="l00244"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">  244</a></span>&#160;[[nodiscard]] <span class="keyword">auto</span> <span class="keyword">inline</span> <a class="code" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a>(</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keyword">const</span> std::int_fast64_t simplices, <span class="keyword">const</span> std::int_fast64_t timeslices,</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keywordtype">double</span> initial_radius = <a class="code" href="_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a>,</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">double</span> radial_factor  = RADIAL_FACTOR)</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;{</div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="comment">//  double     radius{0};</span></div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> points_per_timeslice =</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      <a class="code" href="_utilities_8hpp.html#a27e2e9138de01e52f111facdb536f78c">expected_points_per_timeslice</a>(<a class="code" href="_s3_triangulation_8hpp.html#a184e250fab1673271fe73a4592fa2947">DIMENSION</a>, simplices, timeslices);</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  CGAL_triangulation_precondition(points_per_timeslice &gt;= 2);</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  Causal_vertices causal_vertices;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  <span class="keyword">using</span> Spherical_points_generator_3 = CGAL::Random_points_on_sphere_3&lt;Point&gt;;</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="keywordflow">for</span> (gsl::index i = 0; i &lt; timeslices; ++i)</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;    <span class="keyword">auto</span> radius = initial_radius + static_cast&lt;double&gt;(i) * radial_factor;</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="comment">//    CGAL::Random_points_on_sphere_3&lt;Point&gt; gen{radius};</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    Spherical_points_generator_3 gen{radius};</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    <span class="comment">// At each radius, generate a sphere of random points proportional to area</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="keywordflow">for</span> (gsl::index j = 0;</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;         j &lt; static_cast&lt;int_fast64_t&gt;(points_per_timeslice * radius); ++j)</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  <span class="comment">// end j</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  }                                                                   <span class="comment">// end i</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  <span class="keywordflow">return</span> causal_vertices;</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;}  <span class="comment">// make_foliated_sphere()</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
-<div class="line"><a name="l00287"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">  287</a></span>&#160;[[deprecated]] <span class="keyword">auto</span> <span class="keyword">inline</span> <a class="code" href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">make_triangulation</a>(</div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="keyword">const</span> std::int_fast64_t simplices, <span class="keyword">const</span> std::int_fast64_t timeslices,</div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keywordtype">double</span> initial_radius = <a class="code" href="_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a>,</div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordtype">double</span> radial_factor  = RADIAL_FACTOR)</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;{</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;  std::cout &lt;&lt; <span class="stringliteral">&quot;Generating universe ... \n&quot;</span>;</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="preprocessor">#ifdef CGAL_LINKED_WITH_TBB</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  <span class="comment">// Construct the locking data-structure</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="comment">// using the bounding-box of the points</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="keyword">auto</span> bounding_box_size = static_cast&lt;double&gt;(timeslices + 1);</div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  Delaunay::Lock_data_structure locking_ds{</div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;      CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;                   bounding_box_size, bounding_box_size, bounding_box_size},</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;      50};</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;  Delaunay universe{K{}, &amp;locking_ds};</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="preprocessor">#else</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;  Delaunay3 universe{};</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160; </div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;  <span class="keyword">auto</span> universe_ptr    = std::make_unique&lt;decltype(universe)&gt;(universe);</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  <span class="keyword">auto</span> causal_vertices = <a class="code" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a>(simplices, timeslices,</div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;                                              initial_radius, radial_factor);</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;  <a class="code" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a>(universe_ptr, causal_vertices);</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <a class="code" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a>(universe_ptr);</div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <span class="keywordflow">if</span> (!universe_ptr-&gt;is_valid())</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="keywordflow">throw</span> std::logic_error(<span class="stringliteral">&quot;Delaunay triangulation invalid!&quot;</span>);</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;  <span class="keywordflow">return</span> universe_ptr;</div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;}  <span class="comment">// make_triangulation()</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="preprocessor">#endif  // INCLUDE_S3TRIANGULATION_HPP_</span></div>
+<div class="line"><a name="l00230"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">  230</a></span>&#160;[[deprecated]] <span class="keywordtype">void</span> <a class="code" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a>(<a class="code" href="class_manifold.html">Manifold</a>&amp;&amp;      universe_ptr,</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;                                              Causal_vertices cv)</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;{</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;  universe_ptr-&gt;insert(cv.begin(), cv.end());</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;}  <span class="comment">// insert_into_triangulation()</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">  245</a></span>&#160;[[deprecated]] <span class="keyword">auto</span> <span class="keyword">inline</span> <a class="code" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a>(</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;    <span class="keyword">const</span> std::int_fast64_t simplices, <span class="keyword">const</span> std::int_fast64_t timeslices,</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;    <span class="keywordtype">double</span> initial_radius = <a class="code" href="_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a>,</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;    <span class="keywordtype">double</span> radial_factor  = RADIAL_FACTOR)</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;{</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;  <span class="comment">//  double     radius{0};</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  <span class="keyword">const</span> <span class="keyword">auto</span> points_per_timeslice =</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      <a class="code" href="_utilities_8hpp.html#ac5c6e6c8a1de2a69715f837efeb8b1f5">expected_points_per_timeslice</a>(<a class="code" href="_s3_triangulation_8hpp.html#a184e250fab1673271fe73a4592fa2947">DIMENSION</a>, simplices, timeslices);</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  CGAL_triangulation_precondition(points_per_timeslice &gt;= 2);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  Causal_vertices causal_vertices;</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keyword">using</span> Spherical_points_generator_3 = CGAL::Random_points_on_sphere_3&lt;Point&gt;;</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <span class="keywordflow">for</span> (gsl::index i = 0; i &lt; timeslices; ++i)</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  {</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keyword">auto</span> radius = initial_radius + static_cast&lt;double&gt;(i) * radial_factor;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="comment">//    CGAL::Random_points_on_sphere_3&lt;Point&gt; gen{radius};</span></div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;    Spherical_points_generator_3 gen{radius};</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    <span class="comment">// At each radius, generate a sphere of random points proportional to area</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keywordflow">for</span> (gsl::index j = 0;</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;         j &lt; static_cast&lt;int_fast64_t&gt;(points_per_timeslice * radius); ++j)</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  <span class="comment">// end j</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  }                                                                   <span class="comment">// end i</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  <span class="keywordflow">return</span> causal_vertices;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;}  <span class="comment">// make_foliated_sphere()</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160; </div>
+<div class="line"><a name="l00288"></a><span class="lineno"><a class="line" href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">  288</a></span>&#160;[[deprecated]] <span class="keyword">auto</span> <span class="keyword">inline</span> <a class="code" href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">make_triangulation</a>(</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keyword">const</span> std::int_fast64_t simplices, <span class="keyword">const</span> std::int_fast64_t timeslices,</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;    <span class="keywordtype">double</span> initial_radius = <a class="code" href="_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a>,</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="keywordtype">double</span> radial_factor  = RADIAL_FACTOR)</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;{</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  std::cout &lt;&lt; <span class="stringliteral">&quot;Generating universe ... \n&quot;</span>;</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="preprocessor">#ifdef CGAL_LINKED_WITH_TBB</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;  <span class="comment">// Construct the locking data-structure</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;  <span class="comment">// using the bounding-box of the points</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;  <span class="keyword">auto</span> bounding_box_size = static_cast&lt;double&gt;(timeslices + 1);</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;  Delaunay::Lock_data_structure locking_ds{</div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;      CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;                   bounding_box_size, bounding_box_size, bounding_box_size},</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;      50};</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;  Delaunay universe{K{}, &amp;locking_ds};</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="preprocessor">#else</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;  Delaunay3 universe{};</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160; </div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;  <span class="keyword">auto</span> universe_ptr    = std::make_unique&lt;decltype(universe)&gt;(universe);</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;  <span class="keyword">auto</span> causal_vertices = <a class="code" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a>(simplices, timeslices,</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;                                              initial_radius, radial_factor);</div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;  <a class="code" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a>(universe_ptr, causal_vertices);</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;  <a class="code" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a>(universe_ptr);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;  <span class="keywordflow">if</span> (!universe_ptr-&gt;is_valid())</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="keywordflow">throw</span> std::logic_error(<span class="stringliteral">&quot;Delaunay triangulation invalid!&quot;</span>);</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;  <span class="keywordflow">return</span> universe_ptr;</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;}  <span class="comment">// make_triangulation()</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">#endif  // INCLUDE_S3TRIANGULATION_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_manifold_html"><div class="ttname"><a href="class_manifold.html">Manifold</a></div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00028">Manifold.hpp:28</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_a6ab0724c904152ce4add1a86c77cc196"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">fix_timeslices</a></div><div class="ttdeci">auto fix_timeslices(Manifold &amp;&amp;universe_ptr)</div><div class="ttdoc">Fix simplices with incorrect foliation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00116">S3Triangulation.hpp:116</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_a20d1331155a3fd0fac92b5683506dd19"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a20d1331155a3fd0fac92b5683506dd19">MAX_FOLIATION_FIX_PASSES</a></div><div class="ttdeci">static constexpr std::int_fast64_t MAX_FOLIATION_FIX_PASSES</div><div class="ttdoc">The maximum number of passes to fix invalidly foliated simplices.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00090">S3Triangulation.hpp:90</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_a184e250fab1673271fe73a4592fa2947"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a184e250fab1673271fe73a4592fa2947">DIMENSION</a></div><div class="ttdeci">static constexpr std::int_fast64_t DIMENSION</div><div class="ttdoc">The dimensionality of the Delaunay triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00093">S3Triangulation.hpp:93</a></div></div>
-<div class="ttc" id="a_s3_triangulation_8hpp_html_ab5a602784d13979e1482f3393e388cfa"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">make_triangulation</a></div><div class="ttdeci">auto make_triangulation(const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=INITIAL_RADIUS, double radial_factor=RADIAL_FACTOR)</div><div class="ttdoc">Make a triangulation from foliated 2-spheres.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00287">S3Triangulation.hpp:287</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a27e2e9138de01e52f111facdb536f78c"><div class="ttname"><a href="_utilities_8hpp.html#a27e2e9138de01e52f111facdb536f78c">expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(std::size_t const dimension, int_fast64_t const simplices, int_fast64_t const timeslices, bool const output=true)</div><div class="ttdoc">Calculate expected # of points per simplex.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00425">Utilities.hpp:425</a></div></div>
+<div class="ttc" id="a_s3_triangulation_8hpp_html_ab5a602784d13979e1482f3393e388cfa"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">make_triangulation</a></div><div class="ttdeci">auto make_triangulation(const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=INITIAL_RADIUS, double radial_factor=RADIAL_FACTOR)</div><div class="ttdoc">Make a triangulation from foliated 2-spheres.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00288">S3Triangulation.hpp:288</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_ae951ec1742e61c4fd7f1592e5594ac98"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a></div><div class="ttdeci">static constexpr double INITIAL_RADIUS</div><div class="ttdoc">Initial radius and radial factor.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00096">S3Triangulation.hpp:96</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html"><div class="ttname"><a href="_utilities_8hpp.html">Utilities.hpp</a></div><div class="ttdoc">Utility functions.</div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_abc9cbd159e8739ebb95c9709a1133485"><div class="ttname"><a href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a></div><div class="ttdeci">void fix_triangulation(Manifold &amp;&amp;universe_ptr)</div><div class="ttdoc">Fixes the foliation of the triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00211">S3Triangulation.hpp:211</a></div></div>
-<div class="ttc" id="a_s3_triangulation_8hpp_html_a7e50d58c59328f4e8b48e0e6ba7c445e"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a></div><div class="ttdeci">auto make_foliated_sphere(const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=INITIAL_RADIUS, double radial_factor=RADIAL_FACTOR)</div><div class="ttdoc">Make foliated spheres.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00244">S3Triangulation.hpp:244</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_ac5c6e6c8a1de2a69715f837efeb8b1f5"><div class="ttname"><a href="_utilities_8hpp.html#ac5c6e6c8a1de2a69715f837efeb8b1f5">expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(std::size_t const t_dimension, int_fast64_t const t_number_of_simplices, int_fast64_t const t_number_of_timeslices, bool const t_output_flag=true)</div><div class="ttdoc">Calculate expected # of points per simplex.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00431">Utilities.hpp:431</a></div></div>
+<div class="ttc" id="a_s3_triangulation_8hpp_html_a7e50d58c59328f4e8b48e0e6ba7c445e"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a></div><div class="ttdeci">auto make_foliated_sphere(const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=INITIAL_RADIUS, double radial_factor=RADIAL_FACTOR)</div><div class="ttdoc">Make foliated spheres.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00245">S3Triangulation.hpp:245</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_ac8b9d174858456041aec6193e216197b"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a></div><div class="ttdeci">void insert_into_triangulation(Manifold &amp;&amp;universe_ptr, Causal_vertices cv)</div><div class="ttdoc">Inserts vertices with timeslices into Delaunay triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00230">S3Triangulation.hpp:230</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

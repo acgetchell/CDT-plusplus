@@ -221,7 +221,7 @@ static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>RA
 <p>\done Insert a 3-sphere into the triangulation data structure. \done Assign each 3-sphere a unique timeslice. \done Iterate over the number of desired timeslices. \done Check/fix issues for large values of simplices and timeslices. \done Iterate over cells and check timeslices of vertices don't differ by more than 1. \done Gather ratio of cells with bad/good foliation. Adjust value of radius to minimize. Recheck the whole triangulation when finished. \done When a cell contains a bad foliation, delete it. Recheck. \done Fixup Delaunay triangulation after bad cells have been deleted. \done Re-written with std::unique_ptr&lt;T&gt; and <a href="http://blog.knatten.org/2012/11/02/efficient-pure-functional-
 programming-in-c-using-move-semantics/">. Efficient Pure Functional Programming in C++ Using Move Semantics</a> \done <a href="http://www.cprogramming.com/tutorial/const_correctness.html">Const Correctness</a>. \done Function documentation. \done Multi-threaded operations using Intel TBB. \done Debugging output toggled by macros.</p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Deprecated </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000009">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations.">Foliated_triangulation.hpp</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -392,7 +392,7 @@ template&lt;typename Manifold &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A std::vector&lt;std::pair&lt;Point, int&gt;&gt; containing random vertices and their corresponding timevalues </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_triangulation_8hpp_source.html#l00244">244</a> of file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_triangulation_8hpp_source.html#l00245">245</a> of file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
 
 </div>
 </div>
@@ -453,14 +453,14 @@ template&lt;typename Manifold &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A std::unique_ptr&lt;Delaunay&gt; to the foliated triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_triangulation_8hpp_source.html#l00287">287</a> of file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_triangulation_8hpp_source.html#l00288">288</a> of file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

@@ -92,40 +92,41 @@ $(function() {
 <div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="_sphere__d_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">   26</a></span>&#160;<span class="keyword">using</span> <a class="code" href="_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">Kd</a> = CGAL::Cartesian_d&lt;double&gt;;</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="comment">// typedef Kd::Point_d Point;</span></div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="_sphere__d_8hpp.html#aef24eea79f9c75f50799814403e6e0b9">   39</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_sphere__d_8hpp.html#aef24eea79f9c75f50799814403e6e0b9">make_d_sphere</a>(std::size_t number_of_points, <span class="keywordtype">int</span> dimension, <span class="keywordtype">double</span> radius,</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                   <span class="keywordtype">bool</span> output, std::vector&lt;Kd::Point_d&gt;&amp; points) noexcept</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;{</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  points.reserve(number_of_points);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  CGAL::Random_points_on_sphere_d&lt;Kd::Point_d&gt; gen(dimension, radius);</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keywordflow">for</span> (decltype(number_of_points) i = 0; i &lt; number_of_points; ++i)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  { points.push_back(*gen++); }</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">// If output = true, print out values of points in sphere</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span> (output)</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  {</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    fmt::print(</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="stringliteral">&quot;Generating {} random points on the surface of a sphere in {}D\n of &quot;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="stringliteral">&quot;center 0 and radius {}.\n&quot;</span>,</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        dimension, radius);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : points) { std::cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; point &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>; }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;}  <span class="comment">// make_d_sphere()</span></div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="_sphere__d_8hpp.html#ac58442ab54123c3626877e1bd18c1bac">   68</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_sphere__d_8hpp.html#aef24eea79f9c75f50799814403e6e0b9">make_d_sphere</a>(std::size_t number_of_points, <span class="keywordtype">int</span> dimension, <span class="keywordtype">double</span> radius,</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;                   std::vector&lt;Kd::Point_d&gt;&amp; points) noexcept</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <a class="code" href="_sphere__d_8hpp.html#aef24eea79f9c75f50799814403e6e0b9">make_d_sphere</a>(number_of_points, dimension, radius, <span class="keyword">false</span>, points);</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;}  <span class="comment">// make_d_sphere</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;<span class="preprocessor">#endif  // INCLUDE_SPHERE_D_HPP_</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="_sphere__d_8hpp.html#a04b74615510e6ad6edf4cb2b403c2419">   39</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_sphere__d_8hpp.html#a04b74615510e6ad6edf4cb2b403c2419">make_d_sphere</a>(std::size_t t_number_of_points, <span class="keywordtype">int</span> t_dimension,</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;                   <span class="keywordtype">double</span> t_radius, <span class="keywordtype">bool</span> t_output_flag,</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;                   std::vector&lt;Kd::Point_d&gt;&amp; t_points) noexcept</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;{</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  t_points.reserve(t_number_of_points);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  CGAL::Random_points_on_sphere_d&lt;Kd::Point_d&gt; gen(t_dimension, t_radius);</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keywordflow">for</span> (decltype(t_number_of_points) i = 0; i &lt; t_number_of_points; ++i)</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  { t_points.push_back(*gen++); }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// If output = true, print out values of points in sphere</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span> (t_output_flag)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    fmt::print(</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="stringliteral">&quot;Generating {} random points on the surface of a sphere in {}D\n of &quot;</span></div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="stringliteral">&quot;center 0 and radius {}.\n&quot;</span>,</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        t_dimension, t_radius);</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">const</span> <span class="keyword">auto</span>&amp; point : t_points) { std::cout &lt;&lt; <span class="stringliteral">&quot; &quot;</span> &lt;&lt; point &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>; }</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}  <span class="comment">// make_d_sphere()</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="_sphere__d_8hpp.html#a64c0c342c35e3b7431f2e82e5eca094a">   69</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="_sphere__d_8hpp.html#a04b74615510e6ad6edf4cb2b403c2419">make_d_sphere</a>(std::size_t t_number_of_points, <span class="keywordtype">int</span> t_dimension,</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                   <span class="keywordtype">double</span> t_radius, std::vector&lt;Kd::Point_d&gt;&amp; t_points) noexcept</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;{</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  <a class="code" href="_sphere__d_8hpp.html#a04b74615510e6ad6edf4cb2b403c2419">make_d_sphere</a>(t_number_of_points, t_dimension, t_radius, <span class="keyword">false</span>, t_points);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;}  <span class="comment">// make_d_sphere</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif  // INCLUDE_SPHERE_D_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_sphere__d_8hpp_html_aef24eea79f9c75f50799814403e6e0b9"><div class="ttname"><a href="_sphere__d_8hpp.html#aef24eea79f9c75f50799814403e6e0b9">make_d_sphere</a></div><div class="ttdeci">void make_d_sphere(std::size_t number_of_points, int dimension, double radius, bool output, std::vector&lt; Kd::Point_d &gt; &amp;points) noexcept</div><div class="ttdoc">Make a d-dimensional sphere.</div><div class="ttdef"><b>Definition:</b> <a href="_sphere__d_8hpp_source.html#l00039">Sphere_d.hpp:39</a></div></div>
+<div class="ttc" id="a_sphere__d_8hpp_html_a04b74615510e6ad6edf4cb2b403c2419"><div class="ttname"><a href="_sphere__d_8hpp.html#a04b74615510e6ad6edf4cb2b403c2419">make_d_sphere</a></div><div class="ttdeci">void make_d_sphere(std::size_t t_number_of_points, int t_dimension, double t_radius, bool t_output_flag, std::vector&lt; Kd::Point_d &gt; &amp;t_points) noexcept</div><div class="ttdoc">Make a d-dimensional sphere.</div><div class="ttdef"><b>Definition:</b> <a href="_sphere__d_8hpp_source.html#l00039">Sphere_d.hpp:39</a></div></div>
 <div class="ttc" id="a_periodic__3__triangulations_8hpp_html_a47758eef4587eeb8e5419c87a5cd9943"><div class="ttname"><a href="_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943">Kd</a></div><div class="ttdeci">CGAL::Cartesian_d&lt; double &gt; Kd</div><div class="ttdoc">Random point generators for d-dimensional points in a d-cube per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_periodic__3__triangulations_8hpp_source.html#l00042">Periodic_3_triangulations.hpp:42</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

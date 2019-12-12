@@ -146,10 +146,7 @@ Functions</h2></td></tr>
 <p>Causal Dynamical Triangulations in C++ using CGAL</p>
 <p>Copyright © 2014-2017 Adam Getchell</p>
 <p>Performs the 5 types of ergodic moves on S3 (2+1) spacetimes.</p>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd><p class="startdd">Handle neighboring_31_index != 5 condition </p>
-<p class="interdd">Debug (6,2) move </p>
-<p class="enddd">(4,4) move </p>
-</dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Deprecated in favor of Ergodic_moves_3 </dd></dl>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell, Guarav Nagar </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
@@ -199,7 +196,7 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>True</b> if the (2,6) move is possible </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00210">210</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00208">208</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -247,7 +244,7 @@ template&lt;typename Manifold &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if a (6,2) move can be made on the candidate vertex </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00421">421</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00419">419</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -296,7 +293,7 @@ template&lt;typename Manifold &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd><b>True</b> if c is a (1,3) cell and it's i-th neighbor is a (3,1) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00192">192</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00190">190</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -348,7 +345,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> after the move has been made </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00073">73</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00071">71</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -384,7 +381,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 <p>Make a (2,6) move. </p>
 <p>A (2,6) move adds 2 (1,3) simplices and 2 (3,1) simplices for a total of 3 (1,3) simplices and 3 (3,1) simplices. It also adds 2 timelike edges and 3 spacelike edges, for a total of 8 timelike edges and 6 spacelike edges.</p>
 <p>This function performs the (2,6) move by picking a random (1,3) simplex from <a class="el" href="struct_geometry_info.html">GeometryInfo</a>. The <b><a class="el" href="_s3_ergodic_moves_8hpp.html#a3e00cd7737f0467bd37da92f712d2448" title="Find a (2,6) move.">find_26_movable()</a></b> function finds the index of the neighboring (3,1) simplex, <b>neighboring_31_index</b>, and <b>has_neighbor()</b> is used to check the results.</p>
-<p>After some other values are gathered for debugging purposes, the <b>v_center</b> vertex is inserted into the facet delineated by <b>neighboring_31_index</b> using <b>tds().insert_in_facet()</b>. Finally, the centroid of the common face calculated using <b>CGAL::centroid()</b> and assigned to <b>v_center</b>, along with a timevalue taken from one of the vertices of the common face. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Check Euler condition on insert, ensure not inserting outside</dd></dl>
+<p>After some other values are gathered for debugging purposes, the <b>v_center</b> vertex is inserted into the facet delineated by <b>neighboring_31_index</b> using <b>tds().insert_in_facet()</b>. Finally, the centroid of the common face calculated using <b>CGAL::centroid()</b> and assigned to <b>v_center</b>, along with a timevalue taken from one of the vertices of the common face. </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Check Euler condition on insert, ensure not inserting outside</dd></dl>
 <div class="image">
 <img src="26.png" alt=""/>
 </div>
@@ -404,7 +401,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a>{} after the move has been made </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00259">259</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00257">257</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -456,7 +453,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> after the move has been made </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00138">138</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00136">136</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -498,7 +495,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>universe The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> after the move has been made </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>: Make (4,4) move aka 4,4 bistellar flip work. This is on the CGAL TODO list also </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000008">Todo:</a></b></dt><dd>: Make (4,4) move aka 4,4 bistellar flip work. This is on the CGAL TODO list also </dd></dl>
 <p>This function performs the (4,4) move by replacing a space-like edge with another space-like edge that maintains the number of simplices.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -516,7 +513,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> after the move has been made </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00526">526</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00525">525</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -574,7 +571,7 @@ template&lt;typename Manifold , typename Moves &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> after the move has been made </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00473">473</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00472">472</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -623,7 +620,7 @@ template&lt;typename Manifold &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A boolean value whether the move succeeded </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00035">35</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00033">33</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
@@ -672,14 +669,14 @@ template&lt;typename Manifold &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A boolean value whether the move succeeded </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00115">115</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_ergodic_moves_8hpp_source.html#l00113">113</a> of file <a class="el" href="_s3_ergodic_moves_8hpp_source.html">S3ErgodicMoves.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

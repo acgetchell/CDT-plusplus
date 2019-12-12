@@ -1,16 +1,15 @@
 var searchData=
 [
-  ['passes_181',['Passes',['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis']]],
-  ['passes_5f_182',['passes_',['../class_move_algorithm_3_013_01_4.html#a66fbf3d6bd95ac617772905dc7b15091',1,'MoveAlgorithm&lt; 3 &gt;']]],
-  ['periodic_5f3_5fcomplex_2ehpp_183',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
-  ['periodic_5f3_5ftriangulations_2ehpp_184',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
-  ['precision_185',['PRECISION',['../_s3_action_8hpp.html#a7dad268135b26e2d9051254693a388f6',1,'S3Action.hpp']]],
-  ['print_5fcells_186',['print_cells',['../class_foliated__triangulation_3_013_01_4.html#a27576fa6791171a982b8f5bf7a2332e8',1,'Foliated_triangulation&lt; 3 &gt;::print_cells() const'],['../class_foliated__triangulation_3_013_01_4.html#a9bd7504f66d9641cb16fb1c19e1b14fd',1,'Foliated_triangulation&lt; 3 &gt;::print_cells(std::vector&lt; Cell_handle &gt; const &amp;cells) const']]],
-  ['print_5fedges_187',['print_edges',['../class_foliated__triangulation_3_013_01_4.html#abffb280b689080c6fda1394e77fb6965',1,'Foliated_triangulation&lt; 3 &gt;']]],
-  ['print_5fmanifold_188',['print_manifold',['../_utilities_8hpp.html#aab93a600337627a2068d074768e3d7c4',1,'Utilities.hpp']]],
-  ['print_5fmanifold_5fdetails_189',['print_manifold_details',['../_utilities_8hpp.html#a204024bf413c861a6e9b284da88471f3',1,'Utilities.hpp']]],
-  ['print_5fresults_190',['print_results',['../_utilities_8hpp.html#add9844489fe40dca1ea1787ee854bae2',1,'print_results(Manifold const &amp;universe) noexcept:&#160;Utilities.hpp'],['../_utilities_8hpp.html#ab95e21602e726d1ce6980f7ffa3aae4f',1,'print_results(Manifold const &amp;universe, Timer const &amp;timer) noexcept:&#160;Utilities.hpp']]],
-  ['print_5frun_191',['print_run',['../class_move_algorithm_3_013_01_4.html#ae002d8136ebe15d970c128bbf6661efd',1,'MoveAlgorithm&lt; 3 &gt;']]],
-  ['print_5ftriangulation_192',['print_triangulation',['../_utilities_8hpp.html#a2064095da3580f6224b14eed24c2c8c6',1,'Utilities.hpp']]],
-  ['print_5fvolume_5fper_5ftimeslice_193',['print_volume_per_timeslice',['../class_foliated__triangulation_3_013_01_4.html#a533eb85ea864890b1c798871d8ed53d9',1,'Foliated_triangulation&lt; 3 &gt;']]]
+  ['passes_183',['Passes',['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis']]],
+  ['periodic_5f3_5fcomplex_2ehpp_184',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
+  ['periodic_5f3_5ftriangulations_2ehpp_185',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
+  ['precision_186',['PRECISION',['../_s3_action_8hpp.html#a7dad268135b26e2d9051254693a388f6',1,'S3Action.hpp']]],
+  ['print_5fcells_187',['print_cells',['../class_foliated_triangulation_3_013_01_4.html#aa883b9144aeb9a99fdfcc7bfbe30aff8',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells() const'],['../class_foliated_triangulation_3_013_01_4.html#a1e22a07c2ed52d19a6b809735fb08887',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells(std::vector&lt; Cell_handle &gt; const &amp;t_cells) const']]],
+  ['print_5fedges_188',['print_edges',['../class_foliated_triangulation_3_013_01_4.html#a95a5be17700a0f38005d359b8765fb2f',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['print_5fmanifold_189',['print_manifold',['../_utilities_8hpp.html#afde78c98ecf8f5dbee19636c2056d9c6',1,'Utilities.hpp']]],
+  ['print_5fmanifold_5fdetails_190',['print_manifold_details',['../_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6',1,'Utilities.hpp']]],
+  ['print_5fresults_191',['print_results',['../_utilities_8hpp.html#a1e8d2acd0b14b01a35aef663d8a16c83',1,'print_results(Manifold const &amp;t_universe) noexcept:&#160;Utilities.hpp'],['../_utilities_8hpp.html#ab95e21602e726d1ce6980f7ffa3aae4f',1,'print_results(Manifold const &amp;universe, Timer const &amp;timer) noexcept:&#160;Utilities.hpp']]],
+  ['print_5frun_192',['print_run',['../class_move_strategy_3_013_01_4.html#adcc2901900ad87e60c3545b74dfbc423',1,'MoveStrategy&lt; 3 &gt;']]],
+  ['print_5ftriangulation_193',['print_triangulation',['../_utilities_8hpp.html#aa2db8ee645d121807f5c5244b9b6808d',1,'Utilities.hpp']]],
+  ['print_5fvolume_5fper_5ftimeslice_194',['print_volume_per_timeslice',['../class_foliated_triangulation_3_013_01_4.html#a04b4090d47be9429997368aaec948443',1,'FoliatedTriangulation&lt; 3 &gt;']]]
 ];

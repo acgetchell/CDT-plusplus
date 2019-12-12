@@ -1,9 +1,0 @@
-digraph "MoveAlgorithm&lt; dimension &gt;"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{MoveAlgorithm\< dimension \>\n||}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",arrowtail="onormal",fontname="Helvetica"];
-  Node2 [label="{Metropolis\n|- Alpha_\l- K_\l- Lambda_\l|+ Metropolis()\l+ Alpha()\l+ attempt_move()\l+ CalculateA1()\l+ CalculateA2()\l+ Checkpoint()\l+ K()\l+ Lambda()\l+ operator()()\l+ Passes()\l+ TotalMoves()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$class_metropolis.html",tooltip="Metropolis-Hastings algorithm function object."];
-}

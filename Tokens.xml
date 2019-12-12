@@ -2,12 +2,12 @@
 <Tokens version="1.0">
   <Token>
     <TokenIdentifier>
-      <Name>ApplyMove</Name>
+      <Name>apply_move</Name>
       <APILanguage>c</APILanguage>
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_apply__move_8hpp.html</Path>
-    <Anchor>a1975b158f6562c2ca813d2e11442154f</Anchor>
+    <Anchor>a69507c0d9a9fdff75a4c396469fde506</Anchor>
     <DeclaredIn>Apply_move.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -18,7 +18,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>a8b1b8c6bc065858ba3abde8e1b53553f</Anchor>
+    <Anchor>af97bb8d41346abb2b1ea7aa39a652ea7</Anchor>
     <Abstract>Check move correctness.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -30,7 +30,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>adbee74cc8117dd1603d6803c5148bc90</Anchor>
+    <Anchor>a71e2c540b78a67c0b676569be8596105</Anchor>
     <Abstract>Perform a (2,3) move.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -42,7 +42,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>a7312fec811e0780b057628a62b0dedd4</Anchor>
+    <Anchor>a4ca59a2ee338757c540f4091f0fd05ae</Anchor>
     <Abstract>Perform a (2,6) move.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -54,7 +54,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>ab76f9506777b07b29ed94ec282aff9f0</Anchor>
+    <Anchor>affbe0fa6e7873b6f7d698a6e78f7d0d8</Anchor>
     <Abstract>Perform a (3,2) move.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -66,7 +66,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>ab608ccb551cf92ed23efba7dab1c3929</Anchor>
+    <Anchor>a926f7eef3513d81f693c319f2d6e436c</Anchor>
     <Abstract>Perform a (4,4) move.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -78,7 +78,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>a10e9d1ca6f14c5dc5da3ab30076e1adc</Anchor>
+    <Anchor>ac8c199f51cd510b4fd258438345d1636</Anchor>
     <Abstract>Perform a (6,2) move.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -90,7 +90,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>aab4449dee57b368a3a425ac759fb157e</Anchor>
+    <Anchor>ab96ac1e9d4d693d94eb942c17d5862cc</Anchor>
     <Abstract>Find a (2,6) move location.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -102,7 +102,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>ab2a67b897c814c464e975851a7f1d0fd</Anchor>
+    <Anchor>ab674b1d7650d34935928bce51e348505</Anchor>
     <Abstract>Find a (4,4) move location.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -126,7 +126,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>adb75178ef0ce11d455b33a2604de1e51</Anchor>
+    <Anchor>ab6b42a2e522ee2d0c5196d958652c031</Anchor>
     <Abstract>Perform a null move.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -138,7 +138,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>ab16e43eb3f0d55bf13746925d686c38b</Anchor>
+    <Anchor>af936b5e54c5b8fa28d6e3939acd82a3c</Anchor>
     <Abstract>Perform a TriangulationDataStructure_3::flip on a facet.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -150,7 +150,7 @@
       <Scope>manifold3_moves</Scope>
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
-    <Anchor>aafa30746d03df70dd1e5be6c0fe2c363</Anchor>
+    <Anchor>a336061638e4f05628245e5428c9db6a4</Anchor>
     <Abstract>Perform a TriangulationDataStructure_3::flip on an edge.</Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
@@ -175,17 +175,6 @@
     <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
     <Abstract>Toggles detailed per-facet debugging output.</Abstract>
     <DeclaredIn>Measurements.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>to_integral</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_move_algorithm_8hpp.html</Path>
-    <Anchor>aa1ac7cb4ed8c8d7262a584345a30e68c</Anchor>
-    <Abstract>Convert enum class to its underlying type.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -545,7 +534,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_sphere__d_8hpp.html</Path>
-    <Anchor>aef24eea79f9c75f50799814403e6e0b9</Anchor>
+    <Anchor>a04b74615510e6ad6edf4cb2b403c2419</Anchor>
     <Abstract>Make a d-dimensional sphere.</Abstract>
     <DeclaredIn>Sphere_d.hpp</DeclaredIn>
   </Token>
@@ -556,9 +545,20 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_sphere__d_8hpp.html</Path>
-    <Anchor>ac58442ab54123c3626877e1bd18c1bac</Anchor>
+    <Anchor>a64c0c342c35e3b7431f2e82e5eca094a</Anchor>
     <Abstract>Make a d-dimensional sphere without output.</Abstract>
     <DeclaredIn>Sphere_d.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_d_cube</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_torus__d_8hpp.html</Path>
+    <Anchor>a8121c327137366c97fabaf76848fb32f</Anchor>
+    <Abstract>Make a d-dimensional toroid of points.</Abstract>
+    <DeclaredIn>Torus_d.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -600,7 +600,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a27e2e9138de01e52f111facdb536f78c</Anchor>
+    <Anchor>ac5c6e6c8a1de2a69715f837efeb8b1f5</Anchor>
     <Abstract>Calculate expected # of points per simplex.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -611,7 +611,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a6d25f67b95b1fc47e31c46deed59620d</Anchor>
+    <Anchor>ac0a63ea1c926b89e8291b8db6f9223ff</Anchor>
     <Abstract>Generate useful filenames.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -633,7 +633,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>aa42f346f98cebcbe5b7ab31ee046ec51</Anchor>
+    <Anchor>a4a54ec1eeda4a90a5907c92da7f261d3</Anchor>
     <Abstract>Generate random numbers.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -644,7 +644,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>aff943c289b661daa123e591a23af806e</Anchor>
+    <Anchor>af11649ce763de4d43a654876ab4f394b</Anchor>
     <Abstract>Generate random integers by calling generate_random, preserves template argument deduction.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -655,7 +655,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>ad4815c72b22b4682a08e908affb996f5</Anchor>
+    <Anchor>af1f800b61278d6db0f848c17362a2e31</Anchor>
     <Abstract>Generate random real numbers by calling generate_random, preserves template argument deduction.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -666,7 +666,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a89ab552e14069fcd48d65201c4a69816</Anchor>
+    <Anchor>ac4705e2bc94fd86797ad6c36ff031f16</Anchor>
     <Abstract>Generate a random timeslice.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -677,7 +677,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>aada151c8f7d54bd2e342ccbc8c5b4513</Anchor>
+    <Anchor>a9523606f4a5db07af9d3d14430184181</Anchor>
     <Abstract>Return an environment variable.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -688,7 +688,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>ad3a2aebc360cbdd1fa896158986bf1f7</Anchor>
+    <Anchor>a3aa36684c5b956a9a2ae0d339288325c</Anchor>
     <Abstract>Convert Gmpzf into a double.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -721,7 +721,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a10a193c50ae9a27295854e345cadea43</Anchor>
+    <Anchor>a2b74b2e68a3dd66274ff8505a57b8319</Anchor>
     <Abstract>Convert topology_type to string output.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -732,7 +732,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>aab93a600337627a2068d074768e3d7c4</Anchor>
+    <Anchor>afde78c98ecf8f5dbee19636c2056d9c6</Anchor>
     <Abstract>Print manifold statistics.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -743,7 +743,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a204024bf413c861a6e9b284da88471f3</Anchor>
+    <Anchor>a3d69ebb657771a343f486f6b26fe06e6</Anchor>
     <Abstract>Print simplices and sub-simplices.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -754,7 +754,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>add9844489fe40dca1ea1787ee854bae2</Anchor>
+    <Anchor>a1e8d2acd0b14b01a35aef663d8a16c83</Anchor>
     <Abstract>Print out runtime results.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -776,7 +776,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a2064095da3580f6224b14eed24c2c8c6</Anchor>
+    <Anchor>aa2db8ee645d121807f5c5244b9b6808d</Anchor>
     <Abstract>Print triangulation statistics.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -787,7 +787,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>ab33d6916de76ea9cd1307d89c4cef330</Anchor>
+    <Anchor>a9865ac852500e0f4d1cbca9e309ff10b</Anchor>
     <Abstract>Writes the runtime results to a file.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -950,58 +950,58 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>Foliated_triangulation</Name>
+      <Name>FoliatedTriangulation</Name>
       <APILanguage>c</APILanguage>
       <Type>tmplt</Type>
-      <Scope>Foliated_triangulation</Scope>
+      <Scope>FoliatedTriangulation</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation.html</Path>
+    <Path>class_foliated_triangulation.html</Path>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>Foliated_triangulation&lt; 3 &gt;</Name>
+      <Name>FoliatedTriangulation&lt; 3 &gt;</Name>
       <APILanguage>c</APILanguage>
       <Type>tmplt</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Abstract>3D Triangulation</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>Foliated_triangulation</Name>
+      <Name>FoliatedTriangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a63b8c5d821be136c68bace85686b30b1</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac8c7abd1c034f6049e479ea12eb2dc57</Anchor>
     <Abstract>Default constructor.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>Foliated_triangulation</Name>
+      <Name>FoliatedTriangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>af1a431a034a8bd0d49f40f9ea3f6618f</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>acb523316a1f7b6bc707f88ea9214f5ab</Anchor>
     <Abstract>Constructor using delaunay triangulation Pass-by-value-then-move Delaunay3 is the ctor for the Delaun...</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>Foliated_triangulation</Name>
+      <Name>FoliatedTriangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a1109d235e88a9b52ba101ca44bf9922e</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac115f8b1cbcdef62031a2b87707d9d32</Anchor>
     <Abstract>Constructor with parameters.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1010,10 +1010,10 @@
       <Name>check_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>ac355c90134900eefd0872552f24d7a39</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a8b348191a609023611f4321f4f710f05</Anchor>
     <Abstract>Check that all cells are correctly classified.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1022,10 +1022,10 @@
       <Name>check_timeslices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a7dbb8be2640c719dd0c3d21da9229d64</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a50539f832c056e28fcd5ecde42aa2137</Anchor>
     <Abstract>Check simplices for correct foliation.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1034,10 +1034,10 @@
       <Name>check_vertices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>aba638ee60a7789deb10ee32e65b589d8</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a177a978b5be6fdad3a09ffd11aeb5ea6</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1045,10 +1045,10 @@
       <Name>classify_edge</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a3ab8366f431fd5bfc16277b4cfcfb480</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a772e5d11cd21d1e09e1e78eb806f06a0</Anchor>
     <Abstract>Predicate to classify edge as timelike or spacelike.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1057,10 +1057,10 @@
       <Name>delaunay</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a9b3aca9f8452b3d8b199da0822681f50</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a2ee175bb4381fbc18c0c5e30fed13084</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1068,10 +1068,10 @@
       <Name>filter_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a706509931db7a0232cf3d128ca99b271</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a8e5da102c22332b46cf8bae0b07e14d5</Anchor>
     <Abstract>Filter simplices by Cell_type.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1080,10 +1080,10 @@
       <Name>get_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a74c1f5680ac5700bd965560620f82429</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a7a23957dae5a413945ca24fdc87dca20</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1091,10 +1091,10 @@
       <Name>get_delaunay</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a0e85b6096dca3eb64f28c0edde2f6530</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a68353abff41fe4d668c7b2d3966656c1</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1102,10 +1102,10 @@
       <Name>get_one_three</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>ae69617e831c84c6cd462d5de1dc1c60c</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>af082ec46dd29e9339b6b955cbec591df</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1113,10 +1113,10 @@
       <Name>get_spacelike_edges</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a79a6430afc3bbcd33266352835ce1df2</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ae9c7fb58a5f6232f488539246e6e5fc6</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1124,10 +1124,10 @@
       <Name>get_three_one</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a4a8602b708e16426ed304d46dfab6497</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a1e0b23b652a18d31057aac876df698c5</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1135,10 +1135,10 @@
       <Name>get_timelike_edges</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>af3c74338757bbd04102f92e538a2607f</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a5012b50bced3ef13aff40864f1f318d1</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1146,10 +1146,10 @@
       <Name>get_two_two</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a229e48208a971f93f76d3a762ffc723c</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a700cb40bb3cbf9ef5a8062c07260218a</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1157,10 +1157,10 @@
       <Name>get_vertices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a8fbcf0e4abfa3ec792ea4317796a706c</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>af707ad9b1be6e561c7450671380ba18c</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1168,10 +1168,10 @@
       <Name>incident_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a5901d42fda7417a544f21c0f38f392dd</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a824f910bf7fb329f98a7d638902bff20</Anchor>
     <Abstract>Perfect forwarding to Delaunay3.tds().incident_cells()</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1180,10 +1180,10 @@
       <Name>incident_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a95878b0b3fa4039a8cd1aee8f5e5afbd</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
     <Abstract>Perfect forwarding to Delaunay3.tds().incident_cells()</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1192,10 +1192,10 @@
       <Name>is_delaunay</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a5966e4aaf5c359a8b8257cca55f5b5a3</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a5416f311c3bd20ee04d68ffe1bc2149b</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1203,10 +1203,10 @@
       <Name>is_foliated</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>aa33957dbf85569e88bf5bfd68354cb9e</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a65a076a377537f02dc2744f3878e7ac4</Anchor>
     <Abstract>Verifies the triangulation is properly foliated.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1215,10 +1215,10 @@
       <Name>is_tds_valid</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>af66dba358b828488392e2f0562ad5614</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>abc4cdff5760fd0be602187a0e93c2456</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1226,10 +1226,10 @@
       <Name>max_time</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a9a9d631a9cf7e47dc401cb57d220fbb4</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a612bb132c87a5d4ad53d6e0dc0ad9b58</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1237,10 +1237,10 @@
       <Name>min_time</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>aba4ba2bc431ea842892c376a98d13f0c</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a3693b9d9669cba73531508af775d69c8</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1248,10 +1248,10 @@
       <Name>N1_SL</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>af0240252aef0f9ef976f26291c2f3108</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a46fe2cdd67cd8352b4824efb7525c236</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1259,10 +1259,10 @@
       <Name>N1_TL</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a2bf41ec179bf4dbf47f4f6e3724c0553</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a8c59eb35bdce1bd9a83f34e9e031f61f</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1270,10 +1270,10 @@
       <Name>N2_SL</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a8c4ab6e2b9a965ff4d0e102e12734d17</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>af5bbb837a57329da6e09cd6239db01c2</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1281,10 +1281,10 @@
       <Name>print_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a27576fa6791171a982b8f5bf7a2332e8</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>aa883b9144aeb9a99fdfcc7bfbe30aff8</Anchor>
     <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1293,10 +1293,10 @@
       <Name>print_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a9bd7504f66d9641cb16fb1c19e1b14fd</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a1e22a07c2ed52d19a6b809735fb08887</Anchor>
     <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1305,10 +1305,10 @@
       <Name>print_edges</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>abffb280b689080c6fda1394e77fb6965</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a95a5be17700a0f38005d359b8765fb2f</Anchor>
     <Abstract>Print timevalues of each vertex in the edge and classify as timelike or spacelike.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1317,10 +1317,10 @@
       <Name>print_volume_per_timeslice</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a533eb85ea864890b1c798871d8ed53d9</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
     <Abstract>Print the number of spacelike faces per timeslice.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1329,10 +1329,10 @@
       <Name>update</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a9485a748a970efc9cf554518ab4444d7</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>af702ce212057e708b12ebf484023cd7b</Anchor>
     <Abstract>Update data structures TODO Fix: this causes segfaults when the triangulation grows.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1341,10 +1341,10 @@
       <Name>classify_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>aa6c6bbafc055d14c1c6910845a382a11</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a3983ec27598c52fa70244a56d648b8ba</Anchor>
     <Abstract>Classify cells.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1353,10 +1353,10 @@
       <Name>collect_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a35eebb4b3d512c56b10fd588b302cf35</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a99a178cd6443a8759c4a0a39413580e6</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1364,10 +1364,10 @@
       <Name>collect_edges</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>ac97272f233eb313a04aca9ee42157bcc</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a5b8c2e87873b2a43e708bb25e4c371f6</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1375,10 +1375,10 @@
       <Name>collect_faces</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>aed6bd187ec0fc881a072e23474abbc31</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a0430cca77ad57e7f38e10183987a7adb</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1386,10 +1386,10 @@
       <Name>collect_vertices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>ae74192fdb275566ccefe2817afd61bab</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a122f565cb701847a31d4a8c9a164eb1b</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1397,10 +1397,10 @@
       <Name>filter_edges</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a80e5bd61b0fbc6e84637f3af3ceb7722</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>abbe3101ab4a86f9550051fcb36232c28</Anchor>
     <Abstract>Filter edges into timelike and spacelike.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1409,10 +1409,10 @@
       <Name>find_max_timevalue</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a02249008c9eb54122266313f2d6e1af5</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a0f17df98df622f85db960276fbbb746d</Anchor>
     <Abstract>Find maximum timevalues.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1421,10 +1421,10 @@
       <Name>find_min_timevalue</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a23e038bed1c2d453c0a0402c0c57d629</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ad5d168d336f10b33361a457cd6fbc8d9</Anchor>
     <Abstract>Find minimum timevalues.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1433,10 +1433,10 @@
       <Name>fix_timeslices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a462c55d0261b960888d22254afdd8bf6</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
     <Abstract>Fix simplices with incorrect foliation.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1445,10 +1445,10 @@
       <Name>make_foliated_sphere</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a82a786b7a4bbe5205897de03a74b76b1</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a341d2f76a0539ce1011d3e8713697354</Anchor>
     <Abstract>Make foliated spheres.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1457,10 +1457,10 @@
       <Name>make_triangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a6f9b30c7db1b03a8df8420a9d7f82145</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a4184525d35704e1009b157f69b7ed026</Anchor>
     <Abstract>Make a Delaunay Triangulation.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1469,22 +1469,22 @@
       <Name>volume_per_timeslice</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>af0aad258a24439b127a3c0ca02fe58fa</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac86bfee2bf9915b196f3d29e88669d44</Anchor>
     <Abstract>Collect spacelike facets into a container indexed by time value.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>cells_</Name>
+      <Name>m_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>Foliated_triangulation&lt; 3 &gt;</Scope>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_foliated__triangulation_3_013_01_4.html</Path>
-    <Anchor>a0ba3ea082be67faa5559c75cbc15d49a</Anchor>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a96de53d1ce34582fbdbed8ef598fe8d6</Anchor>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1927,7 +1927,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ab0b261f5c8394a725f66ab273cb59204</Anchor>
+    <Anchor>a3f26e82de94294b0bb96a36af7ac5024</Anchor>
     <Abstract>Construct manifold from a Delaunay triangulation Pass-by-value-then-move.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -1939,7 +1939,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a04910244458a92c66b1c308119fa04be</Anchor>
+    <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
     <Abstract>Construct manifold from a Foliated triangulation Pass-by-value-then-move.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -1951,7 +1951,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a376fe26a04c52d7055fe62ccc021cf56</Anchor>
+    <Anchor>aac41a868601c1dbaec4d575aa9688e23</Anchor>
     <Abstract>Construct manifold using arguments.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -1963,7 +1963,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a6aa86c74a7332878053f88a0880fd2b7</Anchor>
+    <Anchor>a1f35381bef82dcdd0992c68709394403</Anchor>
     <Abstract>Construct manifold using arguments.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -1975,7 +1975,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a81aa48ffb1677f81bd5f578a89fbe358</Anchor>
+    <Anchor>a679988c722e6e24e49e64130dad9cc21</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1986,7 +1986,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a49483869b98d8f92988432d742f257d1</Anchor>
+    <Anchor>a5115646ca60f9e4342c23a5c400208f4</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2008,7 +2008,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>aa39ed6dcb8c1be477478402613984183</Anchor>
+    <Anchor>ad6086c6ab75bbe1375ee4dcde33008a6</Anchor>
     <Abstract>Perfect forwarding to FoliatedTriangulation3.degree()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2111,7 +2111,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a16ee0051a765573959684f8b281b5218</Anchor>
+    <Anchor>abdb8a938ef7ddd77662eb9aade333443</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2145,7 +2145,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>afeaacef5a45ef5c11eb69492f55e7940</Anchor>
+    <Anchor>a749c9a5270cf66a24a301640d3134538</Anchor>
     <Abstract>Forwarding to FoliatedTriangulation3.is_edge()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2181,7 +2181,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a6d932e1497af1cd3518fdfd0eea6da36</Anchor>
+    <Anchor>aeaecbd3976b542e84ce6c907cd163a4e</Anchor>
     <Abstract>Perfect forwarding to FoliatedTriangulation3.is_vertex()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2563,281 +2563,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>MoveAlgorithm</Name>
-      <APILanguage>c</APILanguage>
-      <Type>tmplt</Type>
-      <Scope>MoveAlgorithm</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm.html</Path>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveAlgorithm&lt; 3 &gt;</Name>
-      <APILanguage>c</APILanguage>
-      <Type>tmplt</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveAlgorithm</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ad59e8f854ffc5062fa1c6b99b6aadad1</Anchor>
-    <Abstract>2-argument constructor</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>CurrentTotalSimplices</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a874a43678a9c111d3027a7f70e1fddc2</Anchor>
-    <Abstract>All simplices.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>FourFourMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>af598d7956c927fa8089c83321051becc</Anchor>
-    <Abstract>Gets attempted (4,4) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>print_run</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ae002d8136ebe15d970c128bbf6661efd</Anchor>
-    <Abstract>Displays results of run to standard output.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SixTwoMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ad454a1d96e7de7e21bc21bfa7ec717dc</Anchor>
-    <Abstract>Gets attempted (6,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SuccessfulFourFourMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ad9c5d05f8a5be644b3bcaad6b60c7fb0</Anchor>
-    <Abstract>Gets successful (4,4) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SuccessfulSixTwoMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ac57cc0eb4cd9f488da1586544212d348</Anchor>
-    <Abstract>Gets successful (6,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SuccessfulThreeTwoMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a57bd5dc5adf2cf24fc25f14acead0515</Anchor>
-    <Abstract>Gets successful (3,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SuccessfulTwoSixMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ab6350a7b482a5a58c0bfd114d8bd1d84</Anchor>
-    <Abstract>Gets successful (2,6) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SuccessfulTwoThreeMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a0f37748a66fe1c2163b2e47695c432e5</Anchor>
-    <Abstract>Gets successful (2,3) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>ThreeTwoMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a6741516c4621effe33c9e2802afee10d</Anchor>
-    <Abstract>Gets attempted (3,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>TwoSixMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a598515e3e8f24f1c5b18833db63c3aa8</Anchor>
-    <Abstract>Gets attempted (2,6) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>TwoThreeMoves</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a9229c36931cec70d7ecaaa3d243f0c5e</Anchor>
-    <Abstract>Gets attempted (2,3) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_move</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ac912e73b9ac3ffc484bbc37d03df4f16</Anchor>
-    <Abstract>Make a move of the selected type.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>attempted_moves_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a05172101ecf5c8daac49e711c4287e8e</Anchor>
-    <Abstract>Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>checkpoint_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a5c843e7de24c7ad1149d3d1b222a7458</Anchor>
-    <Abstract>How often to print/write output.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>N1_TL_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>aaafc5f29eb3f5e55302f1c1963a832cf</Anchor>
-    <Abstract>The current number of timelike edges.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>N3_22_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>aac1a05a6fdb94b871e88f3c3f33a8c86</Anchor>
-    <Abstract>The current number of (2,2) simplices.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>N3_31_13_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a23f07919548315b0e823a81384e61093</Anchor>
-    <Abstract>The current number of (3,1) and (1,3) simplices.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>passes_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a66fbf3d6bd95ac617772905dc7b15091</Anchor>
-    <Abstract>Number of passes of ergodic moves on triangulation.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>successful_moves_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>aa5d47ea911a3f454b2f39a11c12070a4</Anchor>
-    <Abstract>Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>universe_</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a612d76773daf2284fd91660b7552a9d3</Anchor>
-    <Abstract>A SimplicialManifold.</Abstract>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>MoveAlways</Name>
       <APILanguage>c</APILanguage>
       <Type>tmplt</Type>
@@ -2862,9 +2587,9 @@
       <Scope>MoveAlways&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_move_always_3_013_01_4.html</Path>
-    <Anchor>a72989e90ac10daf78dd60f8d9cf97396</Anchor>
+    <Anchor>a60cd1ee088c1bfc86ea5068a1c6a65a8</Anchor>
     <Abstract>Set passes and checkpoint with MoveAlgorithm 2-argument constructor.</Abstract>
-    <DeclaredIn>MoveAlways.hpp</DeclaredIn>
+    <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2874,264 +2599,264 @@
       <Scope>MoveAlways&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_move_always_3_013_01_4.html</Path>
-    <Anchor>a842bab7a26b8d47a33ba780a3ba6e03f</Anchor>
+    <Anchor>a020b079885480161891762648904eb4d</Anchor>
     <Abstract>Call operator.</Abstract>
-    <DeclaredIn>MoveAlways.hpp</DeclaredIn>
+    <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>MoveAlgorithm</Name>
+      <Name>MoveStrategy</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ad59e8f854ffc5062fa1c6b99b6aadad1</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a5105ca0a22386ed6169de5b5028294af</Anchor>
     <Abstract>2-argument constructor</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>CurrentTotalSimplices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a874a43678a9c111d3027a7f70e1fddc2</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ac7e2f4f8f0af57fcf8305715507f1624</Anchor>
     <Abstract>All simplices.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>FourFourMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>af598d7956c927fa8089c83321051becc</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ab3daf6cd21ef2081af18f10b8ff63db2</Anchor>
     <Abstract>Gets attempted (4,4) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>print_run</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ae002d8136ebe15d970c128bbf6661efd</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>adcc2901900ad87e60c3545b74dfbc423</Anchor>
     <Abstract>Displays results of run to standard output.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>SixTwoMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ad454a1d96e7de7e21bc21bfa7ec717dc</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a861f25f27a498890fd7ebb23f57db525</Anchor>
     <Abstract>Gets attempted (6,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>SuccessfulFourFourMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ad9c5d05f8a5be644b3bcaad6b60c7fb0</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a80113a0aea681227046d714c8ef4230c</Anchor>
     <Abstract>Gets successful (4,4) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>SuccessfulSixTwoMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ac57cc0eb4cd9f488da1586544212d348</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a1fd8d8ef3578c38a65556b56268acd37</Anchor>
     <Abstract>Gets successful (6,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>SuccessfulThreeTwoMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a57bd5dc5adf2cf24fc25f14acead0515</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a29bebbc6398a451125b877cae3e4a362</Anchor>
     <Abstract>Gets successful (3,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>SuccessfulTwoSixMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ab6350a7b482a5a58c0bfd114d8bd1d84</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>af8425844b09960fbcd781fd34e44d3fa</Anchor>
     <Abstract>Gets successful (2,6) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>SuccessfulTwoThreeMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a0f37748a66fe1c2163b2e47695c432e5</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>afa80989ec1df6f005fc1219dfffcc1e7</Anchor>
     <Abstract>Gets successful (2,3) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>ThreeTwoMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a6741516c4621effe33c9e2802afee10d</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>aea2ed373226e52a82db47e3f2f6fa057</Anchor>
     <Abstract>Gets attempted (3,2) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>TwoSixMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a598515e3e8f24f1c5b18833db63c3aa8</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>aa416ace62877e0e8af8f3e3a36b0736c</Anchor>
     <Abstract>Gets attempted (2,6) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>TwoThreeMoves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a9229c36931cec70d7ecaaa3d243f0c5e</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>acbbb45afd74ae1e8e45504b31ce47d4a</Anchor>
     <Abstract>Gets attempted (2,3) moves.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
       <Name>make_move</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>ac912e73b9ac3ffc484bbc37d03df4f16</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a88d2b41145c42322a1f194fd5c507894</Anchor>
     <Abstract>Make a move of the selected type.</Abstract>
-    <DeclaredIn>MoveAlgorithm.hpp</DeclaredIn>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>attempted_moves_</Name>
+      <Name>m_attempted_moves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a05172101ecf5c8daac49e711c4287e8e</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a51ef5247a6795efc8449405fe2dd0969</Anchor>
     <Abstract>Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>checkpoint_</Name>
+      <Name>m_checkpoint_</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a5c843e7de24c7ad1149d3d1b222a7458</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ad5511713c4b3257349eae6108a345614</Anchor>
     <Abstract>How often to print/write output.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>N1_TL_</Name>
+      <Name>m_N1_TL</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>aaafc5f29eb3f5e55302f1c1963a832cf</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a304a34af01786688623b0241654cfd4e</Anchor>
     <Abstract>The current number of timelike edges.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>N3_22_</Name>
+      <Name>m_N3_22</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>aac1a05a6fdb94b871e88f3c3f33a8c86</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a5efa270538dcc8ef02f2456340fb9633</Anchor>
     <Abstract>The current number of (2,2) simplices.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>N3_31_13_</Name>
+      <Name>m_N3_31_13</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a23f07919548315b0e823a81384e61093</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a779adcf5d3a3e144f70e5184fe2deb67</Anchor>
     <Abstract>The current number of (3,1) and (1,3) simplices.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>passes_</Name>
+      <Name>m_passes</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a66fbf3d6bd95ac617772905dc7b15091</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a183b64c108446cd66fe03d906f66344e</Anchor>
     <Abstract>Number of passes of ergodic moves on triangulation.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>successful_moves_</Name>
+      <Name>m_successful_moves</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>aa5d47ea911a3f454b2f39a11c12070a4</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ae9e2a1f9daefdecdf9346253f876d089</Anchor>
     <Abstract>Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>universe_</Name>
+      <Name>m_universe</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
-      <Scope>MoveAlgorithm&lt; 3 &gt;</Scope>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
-    <Path>class_move_algorithm_3_013_01_4.html</Path>
-    <Anchor>a612d76773daf2284fd91660b7552a9d3</Anchor>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a55d92f0d81fdf02618822a4cc0342da1</Anchor>
     <Abstract>A SimplicialManifold.</Abstract>
   </Token>
   <Token>
@@ -3151,7 +2876,7 @@
       <Scope>MoveCommand</Scope>
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
-    <Anchor>a81c9a8732cc92f4cf7412bef60c8008e</Anchor>
+    <Anchor>ad92f857fb2db0f0a317a21bf4e186b44</Anchor>
     <Abstract>Push a Pachner move onto the move queue.</Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
@@ -3316,6 +3041,281 @@
     <Path>class_move_manager.html</Path>
     <Anchor>ad83dbfc32ef032ca6b19e82ce398f8ea</Anchor>
     <Abstract>An option type Manifold.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveStrategy</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>MoveStrategy</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy.html</Path>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveStrategy&lt; 3 &gt;</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tmplt</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveStrategy</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a5105ca0a22386ed6169de5b5028294af</Anchor>
+    <Abstract>2-argument constructor</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>CurrentTotalSimplices</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ac7e2f4f8f0af57fcf8305715507f1624</Anchor>
+    <Abstract>All simplices.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FourFourMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ab3daf6cd21ef2081af18f10b8ff63db2</Anchor>
+    <Abstract>Gets attempted (4,4) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>print_run</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>adcc2901900ad87e60c3545b74dfbc423</Anchor>
+    <Abstract>Displays results of run to standard output.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SixTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a861f25f27a498890fd7ebb23f57db525</Anchor>
+    <Abstract>Gets attempted (6,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulFourFourMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a80113a0aea681227046d714c8ef4230c</Anchor>
+    <Abstract>Gets successful (4,4) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulSixTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a1fd8d8ef3578c38a65556b56268acd37</Anchor>
+    <Abstract>Gets successful (6,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulThreeTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a29bebbc6398a451125b877cae3e4a362</Anchor>
+    <Abstract>Gets successful (3,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulTwoSixMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>af8425844b09960fbcd781fd34e44d3fa</Anchor>
+    <Abstract>Gets successful (2,6) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulTwoThreeMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>afa80989ec1df6f005fc1219dfffcc1e7</Anchor>
+    <Abstract>Gets successful (2,3) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>ThreeTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>aea2ed373226e52a82db47e3f2f6fa057</Anchor>
+    <Abstract>Gets attempted (3,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>TwoSixMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>aa416ace62877e0e8af8f3e3a36b0736c</Anchor>
+    <Abstract>Gets attempted (2,6) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>TwoThreeMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>acbbb45afd74ae1e8e45504b31ce47d4a</Anchor>
+    <Abstract>Gets attempted (2,3) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_move</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a88d2b41145c42322a1f194fd5c507894</Anchor>
+    <Abstract>Make a move of the selected type.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_attempted_moves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a51ef5247a6795efc8449405fe2dd0969</Anchor>
+    <Abstract>Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_checkpoint_</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ad5511713c4b3257349eae6108a345614</Anchor>
+    <Abstract>How often to print/write output.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_N1_TL</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a304a34af01786688623b0241654cfd4e</Anchor>
+    <Abstract>The current number of timelike edges.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_N3_22</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a5efa270538dcc8ef02f2456340fb9633</Anchor>
+    <Abstract>The current number of (2,2) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_N3_31_13</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a779adcf5d3a3e144f70e5184fe2deb67</Anchor>
+    <Abstract>The current number of (3,1) and (1,3) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_passes</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a183b64c108446cd66fe03d906f66344e</Anchor>
+    <Abstract>Number of passes of ergodic moves on triangulation.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_successful_moves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ae9e2a1f9daefdecdf9346253f876d089</Anchor>
+    <Abstract>Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_universe</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a55d92f0d81fdf02618822a4cc0342da1</Anchor>
+    <Abstract>A SimplicialManifold.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>

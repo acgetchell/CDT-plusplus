@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=9"/>
 <meta name="generator" content="Doxygen 1.8.16"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>CDT++: tests/MoveAlgorithmsTest.cpp Source File</title>
+<title>CDT++: tests/Move_strategies_test.cpp Source File</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -73,19 +73,19 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="headertitle">
-<div class="title">MoveAlgorithmsTest.cpp</div>  </div>
+<div class="title">Move_strategies_test.cpp</div>  </div>
 </div><!--header-->
 <div class="contents">
-<a href="_move_algorithms_test_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
+<div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_move_always_8hpp.html">MoveAlways.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//#include &lt;Metropolis.hpp&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &quot;Move_always.hpp&quot;</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//#include &quot;Metropolis.hpp&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &lt;catch2/catch.hpp&gt;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// bool IsProbabilityRange(CGAL::Gmpzf const&amp; arg) { return arg &gt; 0 &amp;&amp; arg &lt;= 1;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">// }</span></div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;SCENARIO(<span class="stringliteral">&quot;Using the Move always algorithm&quot;</span>, <span class="stringliteral">&quot;[move algorithms]&quot;</span>)</div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;SCENARIO(<span class="stringliteral">&quot;Using the Move always algorithm&quot;</span>, <span class="stringliteral">&quot;[move strategies]&quot;</span>)</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  GIVEN(<span class="stringliteral">&quot;A correctly-constructed Manifold3.&quot;</span>)</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  {</div>
@@ -97,7 +97,7 @@ $(function() {
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      <span class="keyword">auto</span> constexpr passes     = static_cast&lt;size_t&gt;(10);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      <span class="keyword">auto</span> constexpr checkpoint = static_cast&lt;size_t&gt;(1);</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      <a class="code" href="class_move_algorithm_3_013_01_4.html">MoveAlgorithm3</a> mover(passes, checkpoint);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      <a class="code" href="class_move_strategy_3_013_01_4.html">MoveStrategy3</a> mover(passes, checkpoint);</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      THEN(<span class="stringliteral">&quot;The correct passes and checkpoints are instantiated.&quot;</span>)</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        CHECK(mover.number_of_passes() == passes);</div>
@@ -140,7 +140,7 @@ $(function() {
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CHECK(mover.FourFourMoves() == 0);</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        CHECK(mover.SuccessfulFourFourMoves() == 0);</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      }</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      THEN(<span class="stringliteral">&quot;A lot of moves are made.&quot;</span>) { mover(manifold); }</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="comment">//      THEN(&quot;A lot of moves are made.&quot;) { mover(manifold); }</span></div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    }</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  }</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;}</div>
@@ -272,13 +272,12 @@ $(function() {
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">//  }</span></div>
 <div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">//}</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_move_always_8hpp_html"><div class="ttname"><a href="_move_always_8hpp.html">MoveAlways.hpp</a></div><div class="ttdoc">Always randomly selects moves to perform on Delaunay Triangulations.</div></div>
-<div class="ttc" id="aclass_move_always_3_013_01_4_html"><div class="ttname"><a href="class_move_always_3_013_01_4.html">MoveAlways&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move_always_8hpp_source.html#l00024">MoveAlways.hpp:24</a></div></div>
-<div class="ttc" id="aclass_move_algorithm_3_013_01_4_html"><div class="ttname"><a href="class_move_algorithm_3_013_01_4.html">MoveAlgorithm&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move_algorithm_8hpp_source.html#l00041">MoveAlgorithm.hpp:41</a></div></div>
+<div class="ttc" id="aclass_move_always_3_013_01_4_html"><div class="ttname"><a href="class_move_always_3_013_01_4.html">MoveAlways&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00024">Move_always.hpp:24</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_013_01_4_html"><div class="ttname"><a href="class_move_strategy_3_013_01_4.html">MoveStrategy&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00042">Move_strategy.hpp:42</a></div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00032">Manifold.hpp:32</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 10 2019 07:43:16 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
