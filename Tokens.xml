@@ -2530,6 +2530,162 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>MoveStrategy</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a5105ca0a22386ed6169de5b5028294af</Anchor>
+    <Abstract>2-argument constructor</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>CurrentTotalSimplices</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ac7e2f4f8f0af57fcf8305715507f1624</Anchor>
+    <Abstract>All simplices.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FourFourMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ab3daf6cd21ef2081af18f10b8ff63db2</Anchor>
+    <Abstract>Gets attempted (4,4) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>print_run</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>adcc2901900ad87e60c3545b74dfbc423</Anchor>
+    <Abstract>Displays results of run to standard output.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SixTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a861f25f27a498890fd7ebb23f57db525</Anchor>
+    <Abstract>Gets attempted (6,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulFourFourMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a80113a0aea681227046d714c8ef4230c</Anchor>
+    <Abstract>Gets successful (4,4) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulSixTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a1fd8d8ef3578c38a65556b56268acd37</Anchor>
+    <Abstract>Gets successful (6,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulThreeTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a29bebbc6398a451125b877cae3e4a362</Anchor>
+    <Abstract>Gets successful (3,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulTwoSixMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>af8425844b09960fbcd781fd34e44d3fa</Anchor>
+    <Abstract>Gets successful (2,6) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SuccessfulTwoThreeMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>afa80989ec1df6f005fc1219dfffcc1e7</Anchor>
+    <Abstract>Gets successful (2,3) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>ThreeTwoMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>aea2ed373226e52a82db47e3f2f6fa057</Anchor>
+    <Abstract>Gets attempted (3,2) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>TwoSixMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>aa416ace62877e0e8af8f3e3a36b0736c</Anchor>
+    <Abstract>Gets attempted (2,6) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>TwoThreeMoves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>acbbb45afd74ae1e8e45504b31ce47d4a</Anchor>
+    <Abstract>Gets attempted (2,3) moves.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>Alpha_</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
@@ -2560,6 +2716,106 @@
     <Path>class_metropolis.html</Path>
     <Anchor>a0e607efa296c45c2f7611d19857871e9</Anchor>
     <Abstract>where  is the cosmological constant.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_move</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a88d2b41145c42322a1f194fd5c507894</Anchor>
+    <Abstract>Make a move of the selected type.</Abstract>
+    <DeclaredIn>Move_strategy.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_attempted_moves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a51ef5247a6795efc8449405fe2dd0969</Anchor>
+    <Abstract>Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_checkpoint</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a6e50859844508f2ecca4ac1ddeda536d</Anchor>
+    <Abstract>How often to print/write output.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_N1_TL</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a304a34af01786688623b0241654cfd4e</Anchor>
+    <Abstract>The current number of timelike edges.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_N3_22</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a5efa270538dcc8ef02f2456340fb9633</Anchor>
+    <Abstract>The current number of (2,2) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_N3_31_13</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a779adcf5d3a3e144f70e5184fe2deb67</Anchor>
+    <Abstract>The current number of (3,1) and (1,3) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_passes</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a183b64c108446cd66fe03d906f66344e</Anchor>
+    <Abstract>Number of passes of ergodic moves on triangulation.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_successful_moves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>ae9e2a1f9daefdecdf9346253f876d089</Anchor>
+    <Abstract>Successful (2,3), (3,2), (2,6), (6,2), and (4,4) moves.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_universe</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveStrategy&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_013_01_4.html</Path>
+    <Anchor>a55d92f0d81fdf02618822a4cc0342da1</Anchor>
+    <Abstract>A SimplicialManifold.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2784,13 +3040,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>m_checkpoint_</Name>
+      <Name>m_checkpoint</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
       <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_move_strategy_3_013_01_4.html</Path>
-    <Anchor>ad5511713c4b3257349eae6108a345614</Anchor>
+    <Anchor>a6e50859844508f2ecca4ac1ddeda536d</Anchor>
     <Abstract>How often to print/write output.</Abstract>
   </Token>
   <Token>
@@ -3242,13 +3498,13 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>m_checkpoint_</Name>
+      <Name>m_checkpoint</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
       <Scope>MoveStrategy&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_move_strategy_3_013_01_4.html</Path>
-    <Anchor>ad5511713c4b3257349eae6108a345614</Anchor>
+    <Anchor>a6e50859844508f2ecca4ac1ddeda536d</Anchor>
     <Abstract>How often to print/write output.</Abstract>
   </Token>
   <Token>

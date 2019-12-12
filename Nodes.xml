@@ -1218,9 +1218,9 @@
               <Anchor>a51ef5247a6795efc8449405fe2dd0969</Anchor>
              </Node>
              <Node>
-              <Name>m_checkpoint_</Name>
+              <Name>m_checkpoint</Name>
               <Path>class_move_strategy_3_013_01_4.html</Path>
-              <Anchor>ad5511713c4b3257349eae6108a345614</Anchor>
+              <Anchor>a6e50859844508f2ecca4ac1ddeda536d</Anchor>
              </Node>
              <Node>
               <Name>m_N1_TL</Name>
@@ -1399,16 +1399,6 @@
             <Path>class_manifold_3_013_01_4.html</Path>
            </Node>
            <Node>
-            <Name>MoveAlgorithm</Name>
-            <Path></Path>
-            <Subnodes>
-             <Node>
-              <Name>Metropolis</Name>
-              <Path>class_metropolis.html</Path>
-             </Node>
-            </Subnodes>
-           </Node>
-           <Node>
             <Name>MoveAlways&lt; dimension &gt;</Name>
             <Path>class_move_always.html</Path>
            </Node>
@@ -1428,6 +1418,10 @@
             <Name>MoveStrategy&lt; 3 &gt;</Name>
             <Path>class_move_strategy_3_013_01_4.html</Path>
             <Subnodes>
+             <Node>
+              <Name>Metropolis</Name>
+              <Path>class_metropolis.html</Path>
+             </Node>
              <Node>
               <Name>MoveAlways&lt; 3 &gt;</Name>
               <Path>class_move_always_3_013_01_4.html</Path>
@@ -2500,7 +2494,34 @@
              </Node>
              <Node>
               <Name>Move_always.hpp</Name>
-              <Path>_move__always_8hpp_source.html</Path>
+              <Path>_move__always_8hpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>MoveAlways</Name>
+                <Path>class_move_always.html</Path>
+               </Node>
+               <Node>
+                <Name>MoveAlways&lt; 3 &gt;</Name>
+                <Path>class_move_always_3_013_01_4.html</Path>
+                <Subnodes>
+                 <Node>
+                  <Name>MoveAlways</Name>
+                  <Path>class_move_always_3_013_01_4.html</Path>
+                  <Anchor>a60cd1ee088c1bfc86ea5068a1c6a65a8</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>operator()</Name>
+                  <Path>class_move_always_3_013_01_4.html</Path>
+                  <Anchor>a020b079885480161891762648904eb4d</Anchor>
+                 </Node>
+                </Subnodes>
+               </Node>
+               <Node>
+                <Name>MoveAlways3</Name>
+                <Path>_move__always_8hpp.html</Path>
+                <Anchor>a956f633b3f395f42fe59f26a2edd7a82</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>Move_command.hpp</Name>
@@ -3765,7 +3786,14 @@
              </Node>
              <Node>
               <Name>Move_strategies_test.cpp</Name>
-              <Path>_move__strategies__test_8cpp_source.html</Path>
+              <Path>_move__strategies__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_move__strategies__test_8cpp.html</Path>
+                <Anchor>ae8378c0daed1fd03ceed02f3add7ac39</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>MoveManagerTest.cpp</Name>

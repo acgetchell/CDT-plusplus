@@ -119,7 +119,7 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="class_move_strategy_3_013_01_4.html#a183b64c108446cd66fe03d906f66344e">   66</a></span>&#160;  std::size_t m_passes{100};</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="class_move_strategy_3_013_01_4.html#ad5511713c4b3257349eae6108a345614">   69</a></span>&#160;  std::size_t m_checkpoint_{10};</div>
+<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="class_move_strategy_3_013_01_4.html#a6e50859844508f2ecca4ac1ddeda536d">   69</a></span>&#160;  std::size_t m_checkpoint{10};</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
 <div class="line"><a name="l00080"></a><span class="lineno"><a class="line" href="class_move_strategy_3_013_01_4.html#a88d2b41145c42322a1f194fd5c507894">   80</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_strategy_3_013_01_4.html#a88d2b41145c42322a1f194fd5c507894">make_move</a>(<span class="keyword">const</span> manifold3_moves::move_type t_move)</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  {</div>
@@ -255,7 +255,7 @@ $(function() {
 <div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
 <div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;  [[nodiscard]] <span class="keyword">auto</span> number_of_passes()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_passes; }</div>
 <div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160; </div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  [[nodiscard]] <span class="keyword">auto</span> checkpoints()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_checkpoint_; }</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;  [[nodiscard]] <span class="keyword">auto</span> checkpoints()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_checkpoint; }</div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
 <div class="line"><a name="l00240"></a><span class="lineno"><a class="line" href="class_move_strategy_3_013_01_4.html#adcc2901900ad87e60c3545b74dfbc423">  240</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_strategy_3_013_01_4.html#adcc2901900ad87e60c3545b74dfbc423">print_run</a>()</div>
 <div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  {</div>
@@ -276,7 +276,7 @@ $(function() {
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;    fmt::print(<span class="stringliteral">&quot;Attempted (4,4) moves: {}\n&quot;</span>, FourFourMoves());</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  }</div>
 <div class="line"><a name="l00262"></a><span class="lineno"><a class="line" href="class_move_strategy_3_013_01_4.html#a5105ca0a22386ed6169de5b5028294af">  262</a></span>&#160;  <a class="code" href="class_move_strategy_3_013_01_4.html#a5105ca0a22386ed6169de5b5028294af">MoveStrategy</a>(std::size_t <span class="keyword">const</span> passes, std::size_t <span class="keyword">const</span> checkpoint)</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      : m_passes{passes}, m_checkpoint_{checkpoint}</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      : m_passes{passes}, m_checkpoint{checkpoint}</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  {</div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
@@ -317,7 +317,7 @@ $(function() {
 <div class="ttc" id="aclass_move_strategy_3_013_01_4_html_ac7e2f4f8f0af57fcf8305715507f1624"><div class="ttname"><a href="class_move_strategy_3_013_01_4.html#ac7e2f4f8f0af57fcf8305715507f1624">MoveStrategy&lt; 3 &gt;::CurrentTotalSimplices</a></div><div class="ttdeci">auto CurrentTotalSimplices() const noexcept</div><div class="ttdoc">All simplices.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00184">Move_strategy.hpp:184</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 12 2019 00:40:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Dec 12 2019 01:39:11 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>

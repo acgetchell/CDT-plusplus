@@ -17,9 +17,9 @@ digraph "include/Geometry.hpp"
   Node5 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node7 [label="src/cdt.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$cdt_8cpp.html",tooltip="The main executable."];
   Node4 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node8 [label="include/Move_always.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_move__always_8hpp_source.html",tooltip=" "];
+  Node8 [label="include/Move_always.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_move__always_8hpp.html",tooltip="Always randomly selects moves to perform on Delaunay Triangulations."];
   Node8 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node9 [label="tests/Move_strategies\l_test.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_move__strategies__test_8cpp_source.html",tooltip=" "];
+  Node9 [label="tests/Move_strategies\l_test.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_move__strategies__test_8cpp.html",tooltip="Tests for the Metropolis-Hastings algorithm."];
   Node8 -> Node10 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node10 [label="tests/SimulationTest.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_simulation_test_8cpp_source.html",tooltip=" "];
   Node3 -> Node11 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
