@@ -13,7 +13,7 @@
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
 #define INCLUDE_MOVE_ALWAYS_HPP_
 
-#include "MoveStrategy.hpp"
+#include "Move_strategy.hpp"
 
 template <size_t dimension>
 class MoveAlways
@@ -98,7 +98,7 @@ class MoveAlways<3> : public MoveStrategy3
     print_run();
     return m_universe;
   }  // operator()
-};  // MoveAlways
+};   // MoveAlways
 
 using MoveAlways3 = MoveAlways<3>;
 

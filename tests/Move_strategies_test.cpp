@@ -8,7 +8,7 @@
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
 
-#include "MoveAlways.hpp"
+#include "Move_always.hpp"
 //#include "Metropolis.hpp"
 #include <catch2/catch.hpp>
 

@@ -17,7 +17,6 @@
 //#include <utility>
 //#include <vector>
 
-#include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
 #include "Move_command.hpp"
 
