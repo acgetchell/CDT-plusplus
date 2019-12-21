@@ -10,7 +10,7 @@ add_executable(
   Manifold_test.cpp
   Move_command_test.cpp
   # MoveManagerTest.cpp
-    Move_strategies_test.cpp
+  Move_strategies_test.cpp
   S3Action_test.cpp
   Sphere_test.cpp
   Tetrahedron_test.cpp
