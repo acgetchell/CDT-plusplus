@@ -37,7 +37,7 @@ using Point3   = Gt3::Point;
 using namespace std;
 
 /// Help message parsed by docopt into options
-static const char USAGE[]{
+static constexpr char USAGE[]{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2015-2019 Adam Getchell

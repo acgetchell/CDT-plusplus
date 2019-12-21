@@ -153,13 +153,13 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 # Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE
 # cxx_std_17)
 
-add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-if(WIN32)
-  target_link_libraries(cdt-gv PRIVATE docopt CGAL::CGAL)
-else()
+
+if(UNIX)
+  add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(cdt-gv PRIVATE docopt_s CGAL::CGAL)
+  target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
-target_compile_features(cdt-gv PRIVATE cxx_std_17)
+
 
 #
 # Tests    ##
@@ -173,9 +173,10 @@ add_subdirectory(tests)
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
 set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION
                                                "Usage:./initialize")
-
-add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
-set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
+if (UNIX)
+  add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
+  set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
+endif ()
 
 # add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>) set_tests_properties(
 # CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION "64000 simplices on 16 timeslices
