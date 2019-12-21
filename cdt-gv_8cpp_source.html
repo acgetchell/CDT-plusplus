@@ -99,7 +99,7 @@ $(function() {
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="cdt-gv_8cpp.html#a6d6e26e7e3af2d4bd47f6582aff224f8">   40</a></span>&#160;<span class="keyword">static</span> <span class="keyword">const</span> <span class="keywordtype">char</span> <a class="code" href="cdt-gv_8cpp.html#a6d6e26e7e3af2d4bd47f6582aff224f8">USAGE</a>[]{</div>
+<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">   40</a></span>&#160;<span class="keyword">static</span> constexpr <span class="keywordtype">char</span> <a class="code" href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">USAGE</a>[]{</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    R<span class="stringliteral">&quot;(Causal Dynamical Triangulations in C++ using CGAL.</span></div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral"></span> </div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">Copyright (c) 2015-2019 Adam Getchell</span></div>
@@ -128,7 +128,7 @@ $(function() {
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="comment">// https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1</span></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  ios_base::sync_with_stdio(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">// docopt option parser</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="cdt-gv_8cpp.html#a6d6e26e7e3af2d4bd47f6582aff224f8">USAGE</a>);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">USAGE</a>);</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  map&lt;string, docopt::value&gt; args =</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;                     <span class="keyword">true</span>,           <span class="comment">// print help message automatically</span></div>
@@ -168,10 +168,10 @@ $(function() {
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="acdt-gv_8cpp_html_af3ed9c200de85b53c94cd18764b246a2"><div class="ttname"><a href="cdt-gv_8cpp.html#af3ed9c200de85b53c94cd18764b246a2">main</a></div><div class="ttdeci">int main(int argc, char *const argv[])</div><div class="ttdoc">The main path of the cdt-gv program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00069">cdt-gv.cpp:69</a></div></div>
-<div class="ttc" id="acdt-gv_8cpp_html_a6d6e26e7e3af2d4bd47f6582aff224f8"><div class="ttname"><a href="cdt-gv_8cpp.html#a6d6e26e7e3af2d4bd47f6582aff224f8">USAGE</a></div><div class="ttdeci">static const char USAGE[]</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00040">cdt-gv.cpp:40</a></div></div>
+<div class="ttc" id="acdt-gv_8cpp_html_a44e58f0208f2c71a06729f1be06b55bc"><div class="ttname"><a href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">USAGE</a></div><div class="ttdeci">static constexpr char USAGE[]</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00040">cdt-gv.cpp:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 21 2019 02:40:47 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 21 2019 04:11:23 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.16
 </small></address>
