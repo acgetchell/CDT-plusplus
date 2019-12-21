@@ -7,6 +7,7 @@
 /// @file Measurements.hpp
 /// @brief Measurements of the simulation
 /// @author Adam Getchell
+/// @todo Deprecated
 
 #ifndef INCLUDE_MEASUREMENTS_HPP_
 #define INCLUDE_MEASUREMENTS_HPP_

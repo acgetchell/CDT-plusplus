@@ -5,7 +5,7 @@
 /// Always picks a random move on the foliated Delaunay triangulations.
 /// For testing purposes.
 ///
-/// @file MoveAlways.hpp
+/// @file Move_always.hpp
 /// @brief Always randomly selects moves to perform on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug Fix initialization
@@ -79,7 +79,7 @@ class MoveAlways<3> : public MoveStrategy3
       }  // End loop through CurrentTotalSimplices
 
       // Do stuff on checkpoint_
-      if ((pass_number % m_checkpoint_) == 0)
+      if ((pass_number % m_checkpoint) == 0)
       {
         //        std::cout << "Pass " << pass_number << std::endl;
 

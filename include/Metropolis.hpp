@@ -50,7 +50,7 @@ extern const std::size_t PRECISION;
 /// \f[P_{ergodic move}=a_{1}a_{2}\f]
 /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
 /// \f[a_2=e^{\Delta S}\f]
-class Metropolis : public MoveAlgorithm
+class Metropolis : public MoveStrategy3
 {
  private:
   /// @brief The length of the timelike edges.
@@ -77,7 +77,7 @@ class Metropolis : public MoveAlgorithm
   Metropolis(const long double Alpha, const long double K,
              const long double Lambda, const std::size_t passes,
              const std::size_t checkpoint)
-      : MoveAlgorithm(passes, checkpoint), Alpha_(Alpha), K_(K), Lambda_(Lambda)
+      : MoveStrategy(passes, checkpoint), Alpha_(Alpha), K_(K), Lambda_(Lambda)
   {
 #ifndef NDEBUG
     std::cout << __PRETTY_FUNCTION__ << " called.\n";
@@ -98,11 +98,11 @@ class Metropolis : public MoveAlgorithm
 
   /// @brief Gets value of **passes_**.
   /// @return passes_
-  auto Passes() const noexcept { return passes_; }
+  auto Passes() const noexcept { return m_passes; }
 
   /// @brief Gets value of **checkpoint_**.
   /// @return checkpoint_
-  auto Checkpoint() const noexcept { return checkpoint_; }
+  auto Checkpoint() const noexcept { return m_checkpoint; }
 
   /// @brief Gets the total number of attempted moves.
   /// @return TwoThreeMoves() + ThreeTwoMoves() + TwoSixMoves() + SixTwoMoves()

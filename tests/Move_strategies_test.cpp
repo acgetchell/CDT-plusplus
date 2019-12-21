@@ -4,7 +4,7 @@
 ///
 /// Checks that Metropolis algorithm runs properly.
 
-/// @file MoveAlgorithmsTest.cpp
+/// @file Move_strategies_test.cpp
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
 
@@ -23,7 +23,7 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
     auto constexpr timeslices = static_cast<std::int_fast64_t>(4);
     Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A MoveAlgorithm3 is constructed.")
+    WHEN("A MoveStrategy3 is constructed.")
     {
       auto constexpr passes     = static_cast<size_t>(10);
       auto constexpr checkpoint = static_cast<size_t>(1);
@@ -47,7 +47,7 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
         CHECK(mover.SuccessfulFourFourMoves() == 0);
       }
     }
-    WHEN("A MoveAlways3 algorithm is constructed.")
+    WHEN("A MoveAlways3 algorithm is used.")
     {
       auto constexpr passes     = static_cast<size_t>(10);
       auto constexpr checkpoint = static_cast<size_t>(5);

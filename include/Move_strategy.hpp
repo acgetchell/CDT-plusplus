@@ -66,7 +66,7 @@ class MoveStrategy<3>
   std::size_t m_passes{100};
 
   /// @brief How often to print/write output.
-  std::size_t m_checkpoint_{10};
+  std::size_t m_checkpoint{10};
 
   /// @brief Make a move of the selected type
   ///
@@ -234,7 +234,7 @@ class MoveStrategy<3>
 
   [[nodiscard]] auto number_of_passes() const { return m_passes; }
 
-  [[nodiscard]] auto checkpoints() const { return m_checkpoint_; }
+  [[nodiscard]] auto checkpoints() const { return m_checkpoint; }
 
   /// @brief Displays results of run to standard output
   void print_run()
@@ -260,7 +260,7 @@ class MoveStrategy<3>
   /// equals a number of moves equal to the number of simplices
   /// @param checkpoint Write/print results every *checkpoint* passes
   MoveStrategy(std::size_t const passes, std::size_t const checkpoint)
-      : m_passes{passes}, m_checkpoint_{checkpoint}
+      : m_passes{passes}, m_checkpoint{checkpoint}
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
