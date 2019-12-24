@@ -8,10 +8,8 @@
 /// @brief Generates initial spacetimes
 /// @author Adam Getchell
 
-#include <Manifold.hpp>
+#include "Manifold.hpp"
 #include <docopt.h>
-//#include <fmt/format.h>
-//#include <fmt/ostream.h>
 #include <gsl/gsl>
 
 using namespace std;

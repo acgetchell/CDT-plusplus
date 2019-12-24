@@ -63,9 +63,9 @@ Options:
 
 /// @brief The main path of the cdt-gv program
 ///
-/// @param[in,out]  argc  Argument count = 1 + number of arguments
-/// @param[in,out]  argv  Argument vector (array) to be passed to docopt
-/// @returns        Integer value 0 if successful, 1 on failure
+/// @param argc Argument count = 1 + number of arguments
+/// @param argv Argument vector (array) to be passed to docopt
+/// @return Integer value 0 if successful, 1 on failure
 int main(int argc, char* const argv[])
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1

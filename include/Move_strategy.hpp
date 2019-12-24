@@ -17,7 +17,7 @@
 //#include <utility>
 //#include <vector>
 
-#include "Ergodic_moves_3.hpp"
+//#include "Ergodic_moves_3.hpp"
 #include "Move_command.hpp"
 
 /// @brief Convert enum class to its underlying type
@@ -77,7 +77,7 @@ class MoveStrategy<3>
   /// counters for N3_31_, N3_22_, and N1_TL_ accordingly.
   ///
   /// @param t_move The type of move
-  void make_move(const manifold3_moves::move_type t_move)
+  void make_move(manifold3_moves::move_type const t_move)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -96,7 +96,7 @@ class MoveStrategy<3>
     //        std::move(maybe_move_count));
 
     // Initialize MoveCommand
-    MoveCommand this_move(std::move(m_universe));
+    MoveCommand this_move(m_universe);
 
     // Setup moves
     //    auto move_23_lambda =
