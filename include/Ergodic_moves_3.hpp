@@ -12,7 +12,6 @@
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
 #include "Manifold.hpp"
-#include <optional>
 
 namespace manifold3_moves
 {

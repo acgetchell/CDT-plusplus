@@ -15,10 +15,10 @@
 #define __PRETTY_FUNCTION__ __FUNCSIG__
 #endif
 
-#include "Foliated_triangulation.hpp"
+// #include "Foliated_triangulation.hpp"
 #include "Geometry.hpp"
 #include <cstddef>
-#include <functional>
+// #include <functional>
 #include <unordered_set>
 #include <utility>
 

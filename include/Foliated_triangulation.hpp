@@ -236,10 +236,7 @@ class FoliatedTriangulation<3> : private Delaunay3
   {
     for (auto const& edge : m_edges)
     {
-      if (classify_edge(edge, true))
-      {
-        fmt::print("==> timelike\n");
-      }
+      if (classify_edge(edge, true)) { fmt::print("==> timelike\n"); }
       else
       {
         fmt::print("==> spacelike\n");
@@ -461,8 +458,8 @@ class FoliatedTriangulation<3> : private Delaunay3
             std::make_pair(cit->vertex(i)->info(), cit->vertex(i)));
       }
       // Now it's sorted in the multimap
-      auto minvalue   = this_cell.cbegin()->first;
-      auto maxvalue   = this_cell.crbegin()->first;
+      auto minvalue = this_cell.cbegin()->first;
+      auto maxvalue = this_cell.crbegin()->first;
 
 #ifdef DETAILED_DEBUGGING
       auto min_vertex = this_cell.cbegin()->second;
@@ -514,9 +511,7 @@ class FoliatedTriangulation<3> : private Delaunay3
 #ifdef DETAILED_DEBUGGING
       fmt::print("Removing ...\n");
       for (auto& v : invalid_vertices)
-      {
-        fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info());
-      }
+      { fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info()); }
 #endif
       return invalid_vertices;
     }
