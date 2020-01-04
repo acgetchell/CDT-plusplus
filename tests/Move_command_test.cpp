@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2019 Adam Getchell
+/// Copyright © 2014-2020 Adam Getchell
 ///
 /// Tests of MoveCommand, that is, that moves are handled properly
 
@@ -42,7 +42,7 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move")
     {
-      auto move23{manifold3_moves::do_23_move};
+      auto const move23{manifold3_moves::do_23_move};
       THEN("Running the function makes the move")
       {
         auto result = move23(manifold);
@@ -69,7 +69,7 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move")
     {
-      auto move23 = [](Manifold3& m) -> Manifold3 {
+      auto const move23 = [](Manifold3& m) -> Manifold3 {
         return manifold3_moves::do_23_move(m);
       };
       THEN("Running the lambda makes the move")
