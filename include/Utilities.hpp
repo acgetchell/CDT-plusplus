@@ -326,7 +326,7 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
   std::ofstream file(filename, std::ios::out);
   if (!file.is_open()) throw std::runtime_error("Unable to open file.");
 
-  file << t_universe.get_triangulation();
+  file << t_universe.get_triangulation().get_delaunay();
 }  // write_file
 
 /// @brief Roll a die with PCG

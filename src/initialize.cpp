@@ -26,7 +26,7 @@ with a defined causal structure. Specify the topology of the triangulation
 desired number of timeslices. Optionally, the spacetime dimension may
 also be given.
 
-Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] [-i INIT] [-f FOL]
+Usage:./initialize (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] [-i INIT] [-f FOL] [-o]
 
 Examples:
 ./initialize --spherical -n 32000 -t 11 --init 1 --foliate 1
@@ -40,6 +40,7 @@ Options:
   -d DIM                      Dimensionality [default: 3]
   -i --init INIT              Initial radius [default: 1]
   -f --foliate FOL            Foliation spacing [default: 1]
+  -o --output                 Save triangulation into OFF file
 )"};
 
 int main(int argc, char* const argv[]) try
@@ -52,9 +53,10 @@ int main(int argc, char* const argv[]) try
 
   auto simplices         = stoll(args["-n"].asString());
   auto timeslices        = stoll(args["-t"].asString());
-  auto dimensions        = stoi(args["-d"].asString());
+  auto dimensions        = stoll(args["-d"].asString());
   auto initial_radius    = stod(args["--init"].asString());
   auto foliation_spacing = stod(args["--foliate"].asString());
+  auto save_file         = args["--output"].asBool();
 
   // Initialize triangulation
   Manifold3 universe;
@@ -76,6 +78,7 @@ int main(int argc, char* const argv[]) try
   fmt::print("Foliation spacing = {}\n", foliation_spacing);
   fmt::print("User = {}\n", getEnvVar("USER"));
   fmt::print("Hostname = {}\n", hostname());
+  if (save_file) { fmt::print("Output will be saved.\n"); }
 
   if (simplices < 2 || timeslices < 2)
   {
@@ -104,6 +107,11 @@ int main(int argc, char* const argv[]) try
   print_manifold(universe);
   universe.get_triangulation().print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
+  if (save_file)
+  {
+    write_file(universe, topology, static_cast<size_t>(dimensions),
+               universe.N3(), static_cast<size_t>(timeslices));
+  }
   return 0;
 }
 catch (invalid_argument& InvalidArgument)
