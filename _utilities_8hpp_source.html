@@ -325,7 +325,7 @@ $(function() {
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;  std::ofstream file(filename, std::ios::out);</div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;  <span class="keywordflow">if</span> (!file.is_open()) <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to open file.&quot;</span>);</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160; </div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  file &lt;&lt; t_universe.get_triangulation();</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;  file &lt;&lt; t_universe.get_triangulation().get_delaunay();</div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;}  <span class="comment">// write_file</span></div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
 <div class="line"><a name="l00333"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a171c31ff047c94717de089933f7dab45">  333</a></span>&#160;[[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a171c31ff047c94717de089933f7dab45">die_roll</a>() noexcept</div>
@@ -462,7 +462,7 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_aa2db8ee645d121807f5c5244b9b6808d"><div class="ttname"><a href="_utilities_8hpp.html#aa2db8ee645d121807f5c5244b9b6808d">print_triangulation</a></div><div class="ttdeci">void print_triangulation(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00280">Utilities.hpp:280</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 31 2019 21:35:01 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 13 2020 18:33:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

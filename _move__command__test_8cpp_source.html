@@ -113,7 +113,7 @@ $(function() {
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    WHEN(<span class="stringliteral">&quot;A function pointer is constructed for a move&quot;</span>)</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keyword">auto</span> move23{<a class="code" href="_ergodic__moves__3_8hpp.html#a71e2c540b78a67c0b676569be8596105">manifold3_moves::do_23_move</a>};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23{<a class="code" href="_ergodic__moves__3_8hpp.html#a71e2c540b78a67c0b676569be8596105">manifold3_moves::do_23_move</a>};</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      THEN(<span class="stringliteral">&quot;Running the function makes the move&quot;</span>)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        <span class="keyword">auto</span> result = move23(manifold);</div>
@@ -140,7 +140,7 @@ $(function() {
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    WHEN(<span class="stringliteral">&quot;A lambda is constructed for a move&quot;</span>)</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;    {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keyword">auto</span> move23 = [](<a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a>&amp; m) -&gt; <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a> {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a>&amp; m) -&gt; <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a> {</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a71e2c540b78a67c0b676569be8596105">manifold3_moves::do_23_move</a>(m);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      };</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      THEN(<span class="stringliteral">&quot;Running the lambda makes the move&quot;</span>)</div>
@@ -411,7 +411,7 @@ $(function() {
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00032">Manifold.hpp:32</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 31 2019 21:35:01 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 13 2020 18:33:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

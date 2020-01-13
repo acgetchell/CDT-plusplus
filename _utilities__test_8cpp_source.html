@@ -129,7 +129,7 @@ $(function() {
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      THEN(<span class="stringliteral">&quot;The output is correct.&quot;</span>)</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      {</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;        <span class="comment">// Update test yearly</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        CHECK_THAT(<a class="code" href="_utilities_8hpp.html#a1e0db76e9173a50c7ab9798ebcc60f4f">currentDateTime</a>(), Catch::Contains(<span class="stringliteral">&quot;2019&quot;</span>));</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        CHECK_THAT(<a class="code" href="_utilities_8hpp.html#a1e0db76e9173a50c7ab9798ebcc60f4f">currentDateTime</a>(), Catch::Contains(<span class="stringliteral">&quot;2020&quot;</span>));</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        fmt::print(<span class="stringliteral">&quot;Current date and time is: {}\n&quot;</span>, <a class="code" href="_utilities_8hpp.html#a1e0db76e9173a50c7ab9798ebcc60f4f">currentDateTime</a>());</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      }</div>
@@ -147,7 +147,7 @@ $(function() {
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        CHECK_THAT(filename,</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;                   Catch::Contains(<span class="stringliteral">&quot;S3&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;16&quot;</span>) &amp;&amp;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                       Catch::Contains(<span class="stringliteral">&quot;6700&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;@&quot;</span>) &amp;&amp;</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                       Catch::Contains(<span class="stringliteral">&quot;2019&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;dat&quot;</span>));</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                       Catch::Contains(<span class="stringliteral">&quot;2020&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;dat&quot;</span>));</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        fmt::print(<span class="stringliteral">&quot;Filename is: {}\n&quot;</span>, filename);</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      }</div>
@@ -434,7 +434,7 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_af1f800b61278d6db0f848c17362a2e31"><div class="ttname"><a href="_utilities_8hpp.html#af1f800b61278d6db0f848c17362a2e31">generate_random_real</a></div><div class="ttdeci">constexpr auto generate_random_real(FloatingPointType const t_min_value, FloatingPointType const t_max_value) noexcept</div><div class="ttdoc">Generate random real numbers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00400">Utilities.hpp:400</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 31 2019 21:35:01 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Jan 13 2020 18:33:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
