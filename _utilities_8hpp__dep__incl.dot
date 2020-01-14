@@ -78,5 +78,4 @@ digraph "include/Utilities.hpp"
   Node33 -> Node13 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node31 -> Node34 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node34 [label="tests/SimplicialManifold\lTest.cpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_simplicial_manifold_test_8cpp_source.html",tooltip=" "];
-  Node1 -> Node23 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
 }

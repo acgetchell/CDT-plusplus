@@ -54,14 +54,19 @@
           <Anchor>autotoc_md8</Anchor>
          </Node>
          <Node>
-          <Name>Contributing</Name>
+          <Name>Visualization</Name>
           <Path>index.html</Path>
           <Anchor>autotoc_md9</Anchor>
          </Node>
          <Node>
-          <Name>Upstream issues</Name>
+          <Name>Contributing</Name>
           <Path>index.html</Path>
           <Anchor>autotoc_md10</Anchor>
+         </Node>
+         <Node>
+          <Name>Upstream issues</Name>
+          <Path>index.html</Path>
+          <Anchor>autotoc_md11</Anchor>
          </Node>
         </Subnodes>
        </Node>
