@@ -9,7 +9,6 @@
 /// @author Adam Getchell
 
 #include <Manifold.hpp>
-#include <Utilities.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -77,7 +76,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
         CHECK_THAT(filename,
                    Catch::Contains("S3") && Catch::Contains("16") &&
                        Catch::Contains("6700") && Catch::Contains("@") &&
-                       Catch::Contains("2020") && Catch::Contains("dat"));
+                       Catch::Contains("2020") && Catch::Contains("off"));
         // Human verification
         fmt::print("Filename is: {}\n", filename);
       }

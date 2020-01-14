@@ -144,7 +144,7 @@ In the `tools` directory, run `build.sh` or `build.bat` depending on your operat
 
 This should result in the main program executable, `cdt` in `build/bin` or `build\Debug`, along with several others.
 
-- `cdt-gv` converts output files to [Geomview] format for visualization
+- `cdt-gv` converts output files to [Geomview] format for [visualization](#visualization)
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
@@ -283,6 +283,18 @@ pip install comet-ml
 
 You can then run experiments and look at results on https://www.comet.ml!
 
+## Visualization
+
+[Geomview] is used to generate pictures of triangulations using the `cdt-gv` binary. In order for this to
+work, you must have [Geomview] installed (which doesn't work on Windows). On MacOS:
+
+~~~bash
+brew cask install xquartz
+brew install geomview
+~~~
+
+If you get a `Can't open display` problem, look at the [Geomview FAQ].
+
 ## Contributing
 
 Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
@@ -359,6 +371,7 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [gcc-9]: https://gcc.gnu.org/gcc-9/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
+[Geomview FAQ]: http://www.geomview.org/FAQ/answers.shtml
 [development]: https://github.com/acgetchell/CDT-plusplus
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html

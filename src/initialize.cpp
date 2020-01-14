@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2019 Adam Getchell
+/// Copyright © 2014-2020 Adam Getchell
 ///
 /// A program that generates spacetimes
 
@@ -10,7 +10,6 @@
 
 #include "Manifold.hpp"
 #include <docopt.h>
-#include <gsl/gsl>
 
 using namespace std;
 
@@ -18,7 +17,7 @@ using namespace std;
 static constexpr char USAGE[]{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2019 Adam Getchell
+Copyright (c) 2014-2020 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure. Specify the topology of the triangulation
