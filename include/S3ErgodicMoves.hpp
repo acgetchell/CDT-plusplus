@@ -15,7 +15,6 @@
 
 #include <CGAL/barycenter.h>
 #include <S3Triangulation.hpp>
-#include <algorithm>
 #include <tuple>
 #include <utility>
 #include <vector>

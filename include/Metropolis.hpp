@@ -31,11 +31,8 @@
 #include "S3Action.hpp"
 
 // C++ headers
-#include <algorithm>
 #include <atomic>
 #include <type_traits>
-#include <utility>
-#include <vector>
 
 using Gmpzf = CGAL::Gmpzf;
 

@@ -10,7 +10,6 @@
 
 #include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
-#include "Manifold.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;
