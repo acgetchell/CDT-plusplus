@@ -1326,18 +1326,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>update</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>af702ce212057e708b12ebf484023cd7b</Anchor>
-    <Abstract>Update data structures TODO Fix: this causes segfaults when the triangulation grows.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>classify_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -1547,6 +1535,18 @@
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a7ce72e159359beb2716e508cad5fd45c</Anchor>
     <Abstract>Constructor with triangulation.</Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>swap</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>ffunc</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a89aa633be477dfd525950f3b0e2d1bf8</Anchor>
+    <Abstract>Swap two Geometry3 structs.</Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2370,8 +2370,20 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a46046fe5490e4dde4d7a7b2f12d84ce9</Anchor>
+    <Anchor>a5ee28836c3c5c7f61c7a3da3172800ce</Anchor>
     <Abstract>Update geometry data of the manifold when the triangulation has been changed.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>update_triangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>ac8408f26d46686c4a2ffd191a0679622</Anchor>
+    <Abstract>Update the triangulation.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>

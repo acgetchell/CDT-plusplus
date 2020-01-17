@@ -25,5 +25,5 @@ var searchData=
   ['successfulthreetwomoves_220',['SuccessfulThreeTwoMoves',['../class_move_strategy_3_013_01_4.html#a29bebbc6398a451125b877cae3e4a362',1,'MoveStrategy&lt; 3 &gt;']]],
   ['successfultwosixmoves_221',['SuccessfulTwoSixMoves',['../class_move_strategy_3_013_01_4.html#af8425844b09960fbcd781fd34e44d3fa',1,'MoveStrategy&lt; 3 &gt;']]],
   ['successfultwothreemoves_222',['SuccessfulTwoThreeMoves',['../class_move_strategy_3_013_01_4.html#afa80989ec1df6f005fc1219dfffcc1e7',1,'MoveStrategy&lt; 3 &gt;']]],
-  ['swap_223',['swap',['../struct_simplicial_manifold.html#a6b2f76aacf53811ed6cc2f36837c2ebf',1,'SimplicialManifold']]]
+  ['swap_223',['swap',['../struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8',1,'Geometry&lt; 3 &gt;::swap()'],['../struct_simplicial_manifold.html#a6b2f76aacf53811ed6cc2f36837c2ebf',1,'SimplicialManifold::swap()']]]
 ];

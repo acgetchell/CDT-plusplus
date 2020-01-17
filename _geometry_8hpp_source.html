@@ -127,11 +127,29 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  std::size_t N1_TL;</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  std::size_t N1_SL;</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  std::size_t N0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;};</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a> = <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">   71</a></span>&#160;  <span class="keyword">friend</span> <span class="keywordtype">void</span> <a class="code" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">swap</a>(<a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>&amp; t_first, <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>&amp; t_second) noexcept</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  {</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">using</span> std::swap;</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    swap(t_first.N3, t_second.N3);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    swap(t_first.N3_31, t_second.N3_31);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    swap(t_first.N3_13, t_second.N3_13);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    swap(t_first.N3_31_13, t_second.N3_31_13);</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    swap(t_first.N3_22, t_second.N3_22);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    swap(t_first.N2, t_second.N2);</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    swap(t_first.N1, t_second.N1);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    swap(t_first.N1_TL, t_second.N1_TL);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    swap(t_first.N1_SL, t_second.N1_SL);</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    swap(t_first.N0, t_second.N0);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  }  <span class="comment">// swap</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;};</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a> = <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>;</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160; </div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00077">Foliated_triangulation.hpp:77</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html"><div class="ttname"><a href="struct_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></div><div class="ttdoc">3D Geometry</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00023">Geometry.hpp:23</a></div></div>
@@ -139,10 +157,11 @@ $(function() {
 <div class="ttc" id="a_foliated__triangulation_8hpp_html"><div class="ttname"><a href="_foliated__triangulation_8hpp.html">Foliated_triangulation.hpp</a></div><div class="ttdoc">Create foliated spherical triangulations.</div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_a7ce72e159359beb2716e508cad5fd45c"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry(FoliatedTriangulation3 const &amp;triangulation)</div><div class="ttdoc">Constructor with triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00042">Geometry.hpp:42</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_ab925777b39fb2210238437af7d6daeb4"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#ab925777b39fb2210238437af7d6daeb4">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry()</div><div class="ttdoc">Default ctor.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00026">Geometry.hpp:26</a></div></div>
+<div class="ttc" id="astruct_geometry_3_013_01_4_html_a89aa633be477dfd525950f3b0e2d1bf8"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">Geometry&lt; 3 &gt;::swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00071">Geometry.hpp:71</a></div></div>
 <div class="ttc" id="astruct_geometry_html"><div class="ttname"><a href="struct_geometry.html">Geometry</a></div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00019">Geometry.hpp:19</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 15 2020 01:14:46 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 17 2020 20:58:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

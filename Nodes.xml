@@ -309,11 +309,6 @@
               <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
              </Node>
              <Node>
-              <Name>update</Name>
-              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>af702ce212057e708b12ebf484023cd7b</Anchor>
-             </Node>
-             <Node>
               <Name>volume_per_timeslice</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>ac86bfee2bf9915b196f3d29e88669d44</Anchor>
@@ -447,6 +442,11 @@
               <Name>Geometry</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
               <Anchor>a7ce72e159359beb2716e508cad5fd45c</Anchor>
+             </Node>
+             <Node>
+              <Name>swap</Name>
+              <Path>struct_geometry_3_013_01_4.html</Path>
+              <Anchor>a89aa633be477dfd525950f3b0e2d1bf8</Anchor>
              </Node>
              <Node>
               <Name>N0</Name>
@@ -907,7 +907,12 @@
              <Node>
               <Name>update_geometry</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a46046fe5490e4dde4d7a7b2f12d84ce9</Anchor>
+              <Anchor>a5ee28836c3c5c7f61c7a3da3172800ce</Anchor>
+             </Node>
+             <Node>
+              <Name>update_triangulation</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>ac8408f26d46686c4a2ffd191a0679622</Anchor>
              </Node>
              <Node>
               <Name>vertices</Name>
@@ -1811,11 +1816,6 @@
                   <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
                  </Node>
                  <Node>
-                  <Name>update</Name>
-                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>af702ce212057e708b12ebf484023cd7b</Anchor>
-                 </Node>
-                 <Node>
                   <Name>volume_per_timeslice</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>ac86bfee2bf9915b196f3d29e88669d44</Anchor>
@@ -2068,6 +2068,11 @@
                   <Name>Geometry</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
                   <Anchor>a7ce72e159359beb2716e508cad5fd45c</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>swap</Name>
+                  <Path>struct_geometry_3_013_01_4.html</Path>
+                  <Anchor>a89aa633be477dfd525950f3b0e2d1bf8</Anchor>
                  </Node>
                  <Node>
                   <Name>N0</Name>
@@ -2353,7 +2358,12 @@
                  <Node>
                   <Name>update_geometry</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a46046fe5490e4dde4d7a7b2f12d84ce9</Anchor>
+                  <Anchor>a5ee28836c3c5c7f61c7a3da3172800ce</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>update_triangulation</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>ac8408f26d46686c4a2ffd191a0679622</Anchor>
                  </Node>
                  <Node>
                   <Name>vertices</Name>

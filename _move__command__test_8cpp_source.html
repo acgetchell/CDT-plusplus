@@ -247,7 +247,7 @@ $(function() {
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        REQUIRE_FALSE(manifold_ptr == result_ptr);</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        fmt::print(</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;            <span class="stringliteral">&quot;The manifold and the result in the MoveCommand are distinct.\n&quot;</span>);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +1 cell</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;              manifold.<a class="code" href="class_manifold_3_013_01_4.html#a6185e35ab5967be30b8feca1933ebcdb">get_triangulation</a>().number_of_finite_cells() - 1);</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="comment">//        cout &lt;&lt; &quot;Triangulation added a finite cell.\n&quot;;</span></div>
@@ -407,11 +407,11 @@ $(function() {
 <div class="ttc" id="aclass_move_command_html_a901fc4de01e75d9c1958e0d39755d430"><div class="ttname"><a href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">MoveCommand::get_results</a></div><div class="ttdeci">auto &amp; get_results()</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00031">Move_command.hpp:31</a></div></div>
 <div class="ttc" id="a_move__command_8hpp_html"><div class="ttname"><a href="_move__command_8hpp.html">Move_command.hpp</a></div><div class="ttdoc">Do ergodic moves using the Command pattern.</div></div>
 <div class="ttc" id="aclass_move_command_html_ad92f857fb2db0f0a317a21bf4e186b44"><div class="ttname"><a href="class_move_command.html#ad92f857fb2db0f0a317a21bf4e186b44">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType const &amp;t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00035">Move_command.hpp:35</a></div></div>
-<div class="ttc" id="aclass_manifold_3_013_01_4_html_a6185e35ab5967be30b8feca1933ebcdb"><div class="ttname"><a href="class_manifold_3_013_01_4.html#a6185e35ab5967be30b8feca1933ebcdb">Manifold&lt; 3 &gt;::get_triangulation</a></div><div class="ttdeci">FoliatedTriangulation3 const  &amp; get_triangulation() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00112">Manifold.hpp:112</a></div></div>
+<div class="ttc" id="aclass_manifold_3_013_01_4_html_a6185e35ab5967be30b8feca1933ebcdb"><div class="ttname"><a href="class_manifold_3_013_01_4.html#a6185e35ab5967be30b8feca1933ebcdb">Manifold&lt; 3 &gt;::get_triangulation</a></div><div class="ttdeci">FoliatedTriangulation3 const  &amp; get_triangulation() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00119">Manifold.hpp:119</a></div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00032">Manifold.hpp:32</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 15 2020 01:14:46 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jan 17 2020 20:58:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
