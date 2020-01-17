@@ -64,6 +64,27 @@ struct Geometry<3>
   std::size_t N1_TL;
   std::size_t N1_SL;
   std::size_t N0;
+
+  /// @brief Swap two Geometry3 structs
+  /// @param t_first t_first The first Geometry3 struct to swap
+  /// @param t_second t_second The second Geometry3 struct to swap
+  friend void swap(Geometry<3>& t_first, Geometry<3>& t_second) noexcept
+  {
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    using std::swap;
+    swap(t_first.N3, t_second.N3);
+    swap(t_first.N3_31, t_second.N3_31);
+    swap(t_first.N3_13, t_second.N3_13);
+    swap(t_first.N3_31_13, t_second.N3_31_13);
+    swap(t_first.N3_22, t_second.N3_22);
+    swap(t_first.N2, t_second.N2);
+    swap(t_first.N1, t_second.N1);
+    swap(t_first.N1_TL, t_second.N1_TL);
+    swap(t_first.N1_SL, t_second.N1_SL);
+    swap(t_first.N0, t_second.N0);
+  }  // swap
 };
 
 using Geometry3 = Geometry<3>;

@@ -81,8 +81,23 @@ class Manifold<3>
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    m_triangulation.update();
+    update_triangulation();
     update_geometry();
+  }
+  catch (std::exception const& ex)
+  {
+    fmt::print("Exception thrown: {}\n", ex.what());
+  }
+
+  /// @brief Update the triangulation
+  void update_triangulation()
+  try
+  {
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    FoliatedTriangulation3 triangulation(m_triangulation.get_delaunay());
+    m_triangulation = triangulation;
   }
   catch (std::exception const& ex)
   {
@@ -91,21 +106,13 @@ class Manifold<3>
 
   /// @brief Update geometry data of the manifold when the triangulation has
   /// been changed
-  ///
-  /// Defined here because Geometry depends on FoliatedTriangulation
-  void update_geometry()
-  try
+  void update_geometry() noexcept
   {
 #ifndef NDEBUG
-    std::cout << __PRETTY_FUNCTION__ << " called.\n";
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     Geometry3 geom(m_triangulation);
-    m_geometry = geom;
-    //    geometry_ = make_geometry(triangulation_);
-  }
-  catch (std::exception const& ex)
-  {
-    fmt::print("Exception thrown: {}\n", ex.what());
+    swap(m_geometry, geom);
   }
 
   /// @return A read-only reference to the triangulation

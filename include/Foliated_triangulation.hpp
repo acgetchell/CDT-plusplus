@@ -408,25 +408,6 @@ class FoliatedTriangulation<3> : private Delaunay3
     return time1 != time2;
   }  // classify_edge
 
-  /// @brief Update data structures
-  /// TODO Fix: this causes segfaults when the triangulation grows
-  void update()
-  {
-    m_cells            = classify_cells(collect_cells());
-    m_three_one        = filter_cells(m_cells, Cell_type::THREE_ONE);
-    m_two_two          = filter_cells(m_cells, Cell_type::TWO_TWO);
-    m_one_three        = filter_cells(m_cells, Cell_type::ONE_THREE);
-    m_faces            = collect_faces();
-    m_spacelike_facets = volume_per_timeslice(m_faces);
-    m_edges            = collect_edges();
-    m_timelike_edges   = filter_edges(m_edges, true);
-    m_spacelike_edges  = filter_edges(m_edges, false);
-    m_points           = collect_vertices();
-    m_max_timevalue    = find_max_timevalue(m_points);
-    m_min_timevalue    = find_min_timevalue(m_points);
-
-  }  // update
-
   /// @brief Check simplices for correct foliation
   ///
   /// This function is called by fix_timeslices which is called by

@@ -177,7 +177,7 @@ SCENARIO("Applying the Move Command", "[move command]")
         REQUIRE_FALSE(manifold_ptr == result_ptr);
         fmt::print(
             "The manifold and the result in the MoveCommand are distinct.\n");
-        // Did the triangulation actually change? We should have +1 cell
+        // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 1);
         //        cout << "Triangulation added a finite cell.\n";
