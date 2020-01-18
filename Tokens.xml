@@ -1539,6 +1539,116 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>N0</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>ae2e383b6cbed8f572ffab0bfdc920f48</Anchor>
+    <Abstract>Number of vertices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N1</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a243fd9695b22b22fb6ea1695a164127f</Anchor>
+    <Abstract>Number of 1D edges.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N1_SL</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>aee9333aa8dbb3469007392644fcf4c90</Anchor>
+    <Abstract>Number of spacelike edges.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N1_TL</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>aec654354a4d14a66048fc2e7b59e1512</Anchor>
+    <Abstract>Number of timelike edges.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N2</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a53dc1ea570cf33c7e502046a21996ee1</Anchor>
+    <Abstract>Number of 2D faces.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>adb03683ff2e5bb267519535b740352f6</Anchor>
+    <Abstract>Number of 3D simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_13</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a2a3285f7a4e1a9713b735d3bdf05d0fe</Anchor>
+    <Abstract>Number of (1,3) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_22</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a50ee00943bbb53575250d0fde2306861</Anchor>
+    <Abstract>Number of (2,2) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_31</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>ab3eca4e20d40d5910f2e69c530a02222</Anchor>
+    <Abstract>Number of (3,1) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_31_13</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a68a8d15ac49a9ae7703c4de3eef76d91</Anchor>
+    <Abstract>Number of (3,1) + (1,3) simplices.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>swap</Name>
       <APILanguage>cpp</APILanguage>
       <Type>ffunc</Type>
@@ -1546,7 +1656,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a89aa633be477dfd525950f3b0e2d1bf8</Anchor>
-    <Abstract>Swap two Geometry3 structs.</Abstract>
+    <Abstract>Swap two Geometry3 structs Used for no-except updates of geometry data structures.</Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2128,6 +2238,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_correct</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a29e9f18a63fb3c5c6771f8a9b6060be3</Anchor>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>is_delaunay</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -2341,6 +2462,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>print_volume_per_timeslice</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>ab8d64b429428788eb2efc0b7a5ac26db</Anchor>
+    <Abstract>Print the volume in subsimplices (faces) per timeslice.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>triangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -2360,6 +2493,17 @@
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a9e12eb966f3d2c5d96f088500282d04e</Anchor>
     <Abstract>Update the Manifold data structures.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>vertices</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2388,13 +2532,36 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>vertices</Name>
+      <Name>m_geometry</Name>
       <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
+      <Type>data</Type>
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
+    <Anchor>aa7b3abff3695030da93b5840ea7c9c67</Anchor>
+    <Abstract>The data structure containing scalar values for computations.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_triangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a13d98777844efdc8bd6c4c342dfbecce</Anchor>
+    <Abstract>The data structure containing geometric and combinatorial relationships.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>swap</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>ffunc</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>aed56b4a1e59606b624184c0bd676f84d</Anchor>
+    <Abstract>Swap manifolds Used for no-except updates of manifolds after moves.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
