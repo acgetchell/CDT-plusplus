@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2019 Adam Getchell
+/// Copyright © 2018-2020 Adam Getchell
 ///
 /// Tests of new manifold data structure compatible with old SimplicialManifold
 
@@ -285,27 +285,12 @@ SCENARIO("3-Manifold copying", "[manifold]")
         CHECK(manifold2.max_time() == manifold.max_time());
         CHECK(manifold2.min_time() == manifold.min_time());
         // Human verification
-        //        cout << "Manifold properties:\n";
         fmt::print("Manifold properties:\n");
         print_manifold(manifold);
         manifold.print_volume_per_timeslice();
         auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
         fmt::print("Cell compact container size == {}\n", cells.size());
-        //        cout << "Cell compact container size is " << cells.size() <<
-        //        "\n";
-        //          cells.erase(std::remove_if(cells.begin(),
-        //          cells.end(),[](auto c){return
-        //          is_infinite(c);}),cells.end());
-        //        cout << "Now compact container size is " << cells.size() <<
-        //        "\n";
         fmt::print("Now compact container size == {}\n", cells.size());
-        //        cout << "Vertex compact container size is "
-        //             << manifold.get_triangulation()
-        //                    .get_delaunay()
-        //                    .tds()
-        //                    .vertices()
-        //                    .size()
-        //             << "\n";
         fmt::print("Vertex compact container size == {}\n",
                    manifold.get_triangulation()
                        .get_delaunay()
@@ -327,7 +312,7 @@ SCENARIO("3-Manifold update geometry", "[manifold]")
     auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
-    WHEN("We call update_geometry().")
+    WHEN("We call update().")
     {
       // Get values for manifold1
       auto manifold_N3 = manifold.N3();
@@ -338,8 +323,8 @@ SCENARIO("3-Manifold update geometry", "[manifold]")
       fmt::print("Manifold N2 = {}\n", manifold_N2);
       fmt::print("Manifold N1 = {}\n", manifold_N1);
       fmt::print("Manifold N0 = {}\n", manifold_N0);
-      manifold.update_geometry();
-      fmt::print("Update geometry called.\n");
+      manifold.update();
+      fmt::print("update() called.\n");
       THEN("We get back the same values.")
       {
         fmt::print("Manifold N3 is still {}\n", manifold.N3());
@@ -386,17 +371,17 @@ SCENARIO("3-Manifold mutation", "[manifold]")
       // Change manifold1's triangulation to manifold2's
       manifold1.triangulation() = manifold2.get_triangulation();
       fmt::print("Manifolds swapped.\n");
-      THEN("Not calling update_geometry() gives old values.")
+      THEN("Not calling update() gives old values.")
       {
         CHECK(manifold1.N3() == manifold1_N3);
         CHECK(manifold1.N2() == manifold1_N2);
         CHECK(manifold1.N1() == manifold1_N1);
         CHECK(manifold1.N0() == manifold1_N0);
 
-        AND_WHEN("We call update_geometry.")
+        AND_WHEN("We call update().")
         {
-          manifold1.update_geometry();
-          fmt::print("Update geometry called.\n");
+          manifold1.update();
+          fmt::print("update() called.\n");
           THEN("The geometry matches the new triangulation.")
           {
             fmt::print("Manifold 1 N3 is now {}\n", manifold1.N3());

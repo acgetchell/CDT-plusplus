@@ -1,12 +1,13 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2019 Adam Getchell
+/// Copyright © 2018-2020 Adam Getchell
 ///
 /// Geometric quantities of Manifold used by MoveAlgorithm.
 ///
 /// @file  Geometry.hpp
 /// @brief Data structures for geometry
 /// @author Adam Getchell
+/// @bug Not no-throw default constructible
 
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
@@ -54,20 +55,40 @@ struct Geometry<3>
 
   {}
 
+  /// @brief Number of 3D simplices
   std::size_t N3;
+
+  /// @brief Number of (3,1) simplices
   std::size_t N3_31;
+
+  /// @brief Number of (1,3) simplices
   std::size_t N3_13;
+
+  /// @brief Number of (3,1) + (1,3) simplices
   std::size_t N3_31_13;
+
+  /// @brief Number of (2,2) simplices
   std::size_t N3_22;
+
+  /// @brief Number of 2D faces
   std::size_t N2;
+
+  /// @brief Number of 1D edges
   std::size_t N1;
+
+  /// @brief Number of timelike edges
   std::size_t N1_TL;
+
+  /// @brief Number of spacelike edges
   std::size_t N1_SL;
+
+  /// @brief Number of vertices
   std::size_t N0;
 
   /// @brief Swap two Geometry3 structs
-  /// @param t_first t_first The first Geometry3 struct to swap
-  /// @param t_second t_second The second Geometry3 struct to swap
+  /// Used for no-except updates of geometry data structures
+  /// @param t_first The destination geometry struct to swap out
+  /// @param t_second The source geometry struct to swap in
   friend void swap(Geometry<3>& t_first, Geometry<3>& t_second) noexcept
   {
 #ifndef NDEBUG

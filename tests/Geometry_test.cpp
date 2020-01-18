@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2019 Adam Getchell
+/// Copyright © 2018-2020 Adam Getchell
 ///
 /// Tests of geometry data structure
 
@@ -76,13 +76,7 @@ SCENARIO("3-Geometry classification", "[geometry]")
       Geometry3              geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
-        //        cout << "There are " << geometry.N3 << " simplices ...\n";
         fmt::print("There are {} simplices ...\n", geometry.N3);
-        //        cout << "There are " << geometry.N3_31 << " (3,1) simplices
-        //        and "
-        //             << geometry.N3_22 << " (2,2) simplices and " <<
-        //             geometry.N3_13
-        //             << " (1,3) simplices.\n";
         fmt::print(
             "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
             "simplices.\n",
@@ -102,20 +96,10 @@ SCENARIO("3-Geometry classification", "[geometry]")
 
         // Human verification
         triangulation.print_cells();
-
-        //        cout << "There are " << geometry.N1 << " edges.\n";
         fmt::print("There are {} edges.\n", geometry.N1);
-        //        cout << "There are " << geometry.N1_TL << " timelike edges and
-        //        "
-        //             << geometry.N1_SL << " spacelike edges.\n";
         fmt::print("There are {} timelike edges and {} spacelike edges.\n",
                    geometry.N1_TL, geometry.N1_SL);
         triangulation.print_edges();
-        //        cout << "There are " << geometry.N0
-        //             << " vertices with a max timevalue of " <<
-        //             triangulation.max_time()
-        //             << " and a min timevalue of " << triangulation.min_time()
-        //             << ".\n";
         fmt::print(
             "There are {} vertices with a max timevalue of {} and a min "
             "timevalue of {}.\n",

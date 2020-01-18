@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2019 Adam Getchell
+/// Copyright © 2018-2020 Adam Getchell
 ///
 /// Simplicial Manifold data structures
 ///
@@ -15,10 +15,8 @@
 #define __PRETTY_FUNCTION__ __FUNCSIG__
 #endif
 
-// #include "Foliated_triangulation.hpp"
 #include "Geometry.hpp"
 #include <cstddef>
-// #include <functional>
 #include <unordered_set>
 #include <utility>
 
@@ -87,33 +85,7 @@ class Manifold<3>
   catch (std::exception const& ex)
   {
     fmt::print("Exception thrown: {}\n", ex.what());
-  }
-
-  /// @brief Update the triangulation
-  void update_triangulation()
-  try
-  {
-#ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-    FoliatedTriangulation3 triangulation(m_triangulation.get_delaunay());
-    m_triangulation = triangulation;
-  }
-  catch (std::exception const& ex)
-  {
-    fmt::print("Exception thrown: {}\n", ex.what());
-  }
-
-  /// @brief Update geometry data of the manifold when the triangulation has
-  /// been changed
-  void update_geometry() noexcept
-  {
-#ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-    Geometry3 geom(m_triangulation);
-    swap(m_geometry, geom);
-  }
+  }  // update
 
   /// @return A read-only reference to the triangulation
   [[nodiscard]] FoliatedTriangulation3 const& get_triangulation() const
@@ -149,6 +121,7 @@ class Manifold<3>
   }
 
   /// @brief Forwarding to FoliatedTriangulation3.is_tds_valid()
+  /// @return If the TriangulationDataStructure is valid
   [[nodiscard]] auto is_valid() const -> bool
   {
     return m_triangulation.is_tds_valid();
@@ -160,6 +133,7 @@ class Manifold<3>
     return m_triangulation.is_foliated();
   }
 
+  /// @return If base data structures are correct
   [[nodiscard]] auto is_correct() const -> bool
   {
     auto simplices = m_triangulation.get_cells();
@@ -249,10 +223,10 @@ class Manifold<3>
     return m_triangulation.number_of_vertices();
   }
 
-  /// @return Minimum time value in triangulation data structure
+  /// @return Minimum timeslice value in triangulation data structure
   [[nodiscard]] auto min_time() const { return m_triangulation.min_time(); }
 
-  /// @return Maximum time value in triangulation data structure
+  /// @return Maximum timeslice value in triangulation data structure
   [[nodiscard]] auto max_time() const { return m_triangulation.max_time(); }
 
   /// @return True if all cells in triangulation are classified and match number
@@ -317,15 +291,20 @@ class Manifold<3>
     return m_triangulation.get_vertices();
   }
 
+  /// @brief Print the volume in subsimplices (faces) per timeslice
   void print_volume_per_timeslice() const
   {
     m_triangulation.print_volume_per_timeslice();
   }
 
+  /// @brief Swap manifolds
+  /// Used for no-except updates of manifolds after moves
+  /// @param t_first The destination manifold to swap out
+  /// @param t_second The source manifold to swap in
   friend void swap(Manifold<3>& t_first, Manifold<3>& t_second) noexcept
   {
-#ifdef NDEBUG
-    fmt::print("Manifold3 swap\n");
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     using std::swap;
     swap(t_first.m_triangulation, t_second.m_triangulation);
@@ -333,8 +312,38 @@ class Manifold<3>
   }  // swap
 
  private:
+  /// @brief The data structure containing geometric and combinatorial
+  /// relationships
   FoliatedTriangulation3 m_triangulation;
+
+  /// @brief The data structure containing scalar values for computations
   Geometry3              m_geometry;
+
+  /// @brief Update the triangulation
+  void update_triangulation()
+  try
+  {
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    FoliatedTriangulation3 triangulation(m_triangulation.get_delaunay());
+    m_triangulation = triangulation;
+  }
+  catch (std::exception const& ex)
+  {
+    fmt::print("Exception thrown: {}\n", ex.what());
+  }  // update_triangulation
+
+  /// @brief Update geometry data of the manifold when the triangulation has
+  /// been changed
+  void update_geometry() noexcept
+  {
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    Geometry3 geom(m_triangulation);
+    swap(m_geometry, geom);
+  }  // update_geometry
 };
 
 using Manifold3 = Manifold<3>;
