@@ -22,9 +22,6 @@ extraction:
         - ./vcpkg install fmt
         - ./vcpkg install ms-gsl
         - ./vcpkg install eigen3
-        - ./vcpkg install boost
-        - ./vcpkg install mpir
-        - ./vcpkg install mpfr
         - ./vcpkg install tbb
         - ./vcpkg install cgal
     index:
