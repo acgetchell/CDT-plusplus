@@ -114,20 +114,22 @@ class Manifold<3>
     return result;
   }
 
-  /// @return True if the Manifolds's triangulation is Delaunay
+  /// @brief Forwarding to FoliatedTriangulation.is_delaunay()
+  /// @return True if the Manifold triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const -> bool
   {
     return m_triangulation.is_delaunay();
   }
 
-  /// @brief Forwarding to FoliatedTriangulation3.is_tds_valid()
-  /// @return If the TriangulationDataStructure is valid
+  /// @brief Forwarding to FoliatedTriangulation.is_tds_valid()
+  /// @return True if the TriangulationDataStructure is valid
   [[nodiscard]] auto is_valid() const -> bool
   {
     return m_triangulation.is_tds_valid();
   }
 
   /// @brief Forwarding to FoliatedTriangulation3.is_foliated()
+  /// @return True if the Manifold triangulation is foliated
   [[nodiscard]] auto is_foliated() const -> bool
   {
     return m_triangulation.is_foliated();
@@ -164,70 +166,79 @@ class Manifold<3>
   }
 
   /// @return Dimensionality of triangulation data structure
-  [[nodiscard]] auto dim() const { return m_triangulation.dimension(); }
+  [[nodiscard]] decltype(auto) dim() const
+  {
+    return m_triangulation.dimension();
+  }
 
   /// @return Number of 3D simplices in geometry data structure
-  [[nodiscard]] auto N3() const { return m_geometry.N3; }
+  [[nodiscard]] decltype(auto) N3() const { return m_geometry.N3; }
 
   /// @return Number of (3,1) simplices in geometry data structure
-  [[nodiscard]] auto N3_31() const { return m_geometry.N3_31; }
+  [[nodiscard]] decltype(auto) N3_31() const { return m_geometry.N3_31; }
 
   /// @return Number of (2,2) simplices in geometry data structure
-  [[nodiscard]] auto N3_22() const { return m_geometry.N3_22; }
+  [[nodiscard]] decltype(auto) N3_22() const { return m_geometry.N3_22; }
 
   /// @return Number of (1,3) simplices in geometry data structure
-  [[nodiscard]] auto N3_13() const { return m_geometry.N3_13; }
+  [[nodiscard]] decltype(auto) N3_13() const { return m_geometry.N3_13; }
 
   /// @return Number of (3,1) and (1,3) simplices in geometry data structure
-  [[nodiscard]] auto N3_31_13() const { return m_geometry.N3_31_13; }
+  [[nodiscard]] decltype(auto) N3_31_13() const { return m_geometry.N3_31_13; }
 
   /// @return Number of 3D simplices in triangulation data structure
-  [[nodiscard]] auto number_of_simplices() const
+  [[nodiscard]] decltype(auto) number_of_simplices() const
   {
     return m_triangulation.get_cells().size();
   }
 
   /// @return Number of 2D faces in geometry data structure
-  [[nodiscard]] auto N2() const { return m_geometry.N2; }
+  [[nodiscard]] decltype(auto) N2() const { return m_geometry.N2; }
 
   /// @return An associative container of spacelike faces indexed by timevalue
   [[nodiscard]] auto const& N2_SL() const { return m_triangulation.N2_SL(); }
 
   /// @return Number of 2D faces in triangulation data structure
-  [[nodiscard]] auto faces() const
+  [[nodiscard]] decltype(auto) faces() const
   {
     return m_triangulation.number_of_finite_facets();
   }
 
   /// @return Number of 1D edges in geometry data structure
-  [[nodiscard]] auto N1() const { return m_geometry.N1; }
+  [[nodiscard]] decltype(auto) N1() const { return m_geometry.N1; }
 
   /// @return Number of spacelike edges in triangulation data structure
-  [[nodiscard]] auto N1_SL() const { return m_triangulation.N1_SL(); }
+  [[nodiscard]] decltype(auto) N1_SL() const { return m_triangulation.N1_SL(); }
 
   /// @return Number of timelike edges in triangulation data structure
-  [[nodiscard]] auto N1_TL() const { return m_triangulation.N1_TL(); }
+  [[nodiscard]] decltype(auto) N1_TL() const { return m_triangulation.N1_TL(); }
 
   /// @return Number of 1D edges in triangulation data structure
-  [[nodiscard]] auto edges() const
+  [[nodiscard]] decltype(auto) edges() const
   {
     return m_triangulation.number_of_finite_edges();
   }
 
   /// @return Number of vertices in geometry data structure
-  [[nodiscard]] auto N0() const { return m_geometry.N0; }
+  [[nodiscard]] decltype(auto) N0() const { return m_geometry.N0; }
 
   /// @return Number of vertices in triangulation data structure
-  [[nodiscard]] auto vertices() const
+  [[nodiscard]] decltype(auto) vertices() const
   {
     return m_triangulation.number_of_vertices();
   }
 
   /// @return Minimum timeslice value in triangulation data structure
-  [[nodiscard]] auto min_time() const { return m_triangulation.min_time(); }
+  [[nodiscard]] decltype(auto) min_time() const
+  {
+    return m_triangulation.min_time();
+  }
 
   /// @return Maximum timeslice value in triangulation data structure
-  [[nodiscard]] auto max_time() const { return m_triangulation.max_time(); }
+  [[nodiscard]] decltype(auto) max_time() const
+  {
+    return m_triangulation.max_time();
+  }
 
   /// @return True if all cells in triangulation are classified and match number
   /// in geometry

@@ -114,7 +114,7 @@ jobs:
             - yasm
             - valgrind
       after_success:
-        - travis_wait 30 ctest -T memcheck --verbose
+        - travis_wait 60 ctest -T memcheck --verbose
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
     # Doxygen
     - os: linux

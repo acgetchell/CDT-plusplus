@@ -109,7 +109,7 @@ int main(int argc, char* const argv[]) try
   if (save_file)
   {
     write_file(universe, topology, static_cast<size_t>(dimensions),
-               universe.N3(), static_cast<size_t>(timeslices));
+               universe.N3(), timeslices);
   }
   return 0;
 }

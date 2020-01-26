@@ -158,8 +158,8 @@ inline std::string currentDateTime()
 /// @return A filename
 [[nodiscard]] inline auto generate_filename(
     topology_type const& t_topology, std::size_t const t_dimension,
-    std::size_t const t_number_of_simplices,
-    std::size_t const t_number_of_timeslices) noexcept
+    std::int_fast64_t const t_number_of_simplices,
+    std::int_fast64_t const t_number_of_timeslices) noexcept
 {
   std::string filename;
   if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
@@ -310,9 +310,9 @@ catch (...)
 /// @todo Fix for Manifold3
 template <typename ManifoldType>
 void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
-                std::size_t const t_dimension,
-                std::size_t const t_number_of_simplices,
-                std::size_t const t_number_of_timeslices)
+                std::size_t const  t_dimension,
+                int_fast64_t const t_number_of_simplices,
+                int_fast64_t const t_number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;

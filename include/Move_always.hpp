@@ -57,7 +57,7 @@ class MoveAlways<3> : public MoveStrategy3
     m_N3_22    = m_universe.N3_22();
 
     fmt::print("Making random moves ...\n");
-    // Loop through passes_
+    // Loop through m_passes
     for (std::size_t pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
       fmt::print("Pass {}\n", pass_number);
@@ -67,8 +67,7 @@ class MoveAlways<3> : public MoveStrategy3
            move_attempt < total_simplices_this_pass; ++move_attempt)
       {
         // Pick a move to attempt
-        //        auto move_choice = generate_random_int(0, 3);
-        auto move_choice{0};
+        auto move_choice = generate_random_int(0, 4);
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);
 #endif
@@ -81,18 +80,12 @@ class MoveAlways<3> : public MoveStrategy3
       // Do stuff on checkpoint_
       if ((pass_number % m_checkpoint) == 0)
       {
-        //        std::cout << "Pass " << pass_number << std::endl;
-
-        fmt::print("Write file here.\n");
+        fmt::print("Writing checkpoint file...\n");
         // write results to a file
-        //        write_file(universe_, topology_type::SPHERICAL,
-        //            3,
-        ////                   universe_.geometry->number_of_cells(),
-        ////                   universe_.geometry->max_timevalue().get());
-        //            universe_.N3(),
-        //            universe_.min_time());
+        write_file(m_universe, topology_type::SPHERICAL, m_universe.dim(),
+                   m_universe.N3(), m_universe.max_time());
       }
-    }  // End loop through passes_
+    }  // End loop through m_passes
     // output results
     fmt::print("Run results:\n");
     print_run();

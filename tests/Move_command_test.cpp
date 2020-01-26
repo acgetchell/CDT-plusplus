@@ -15,11 +15,11 @@ using namespace std;
 
 SCENARIO("Move_command exception safety", "[move command]")
 {
-  GIVEN("A Move_command")
+  GIVEN("A Move_command.")
   {
-    WHEN("It's properties are examined")
+    WHEN("It's properties are examined.")
     {
-      THEN("It should be no-throw move constructible")
+      THEN("It should be no-throw move constructible.")
       {
         CHECK(is_nothrow_move_constructible<MoveCommand<Manifold3>>::value);
         //        cout << "Small function object optimization supported: " <<
@@ -34,16 +34,16 @@ SCENARIO("Move_command exception safety", "[move command]")
 
 SCENARIO("Invoking a move with a function pointer", "[move command]")
 {
-  GIVEN("A valid manifold")
+  GIVEN("A valid manifold.")
   {
     auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A function pointer is constructed for a move")
+    WHEN("A function pointer is constructed for a move.")
     {
       auto const move23{manifold3_moves::do_23_move};
-      THEN("Running the function makes the move")
+      THEN("Running the function makes the move.")
       {
         auto result = move23(manifold);
         result.update();
@@ -61,20 +61,47 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
 
 SCENARIO("Invoking a move with a lambda", "[move command]")
 {
-  GIVEN("A valid manifold")
+  GIVEN("A valid manifold.")
   {
     auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A lambda is constructed for a move")
+    WHEN("A lambda is constructed for a move.")
     {
       auto const move23 = [](Manifold3& m) -> Manifold3 {
         return manifold3_moves::do_23_move(m);
       };
-      THEN("Running the lambda makes the move")
+      THEN("Running the lambda makes the move.")
       {
         auto result = move23(manifold);
+        result.update();
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        fmt::print("Manifold properties:\n");
+        print_manifold_details(manifold);
+        fmt::print("Moved manifold properties:\n");
+        print_manifold_details(result);
+      }
+    }
+  }
+}
+
+SCENARIO("Invoking a move with apply_move", "[move command]")
+{
+  GIVEN("A valid manifold.")
+  {
+    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("Apply_move is used for a move.")
+    {
+      auto move = manifold3_moves::do_23_move;
+      THEN("Invoking apply_move() makes the move.")
+      {
+        auto result = apply_move(manifold, move);
         result.update();
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::TWO_THREE));
@@ -126,7 +153,7 @@ SCENARIO("Move Command initialization", "[move command]")
 }
 
 /// TODO: Fix exception here
-SCENARIO("Applying the Move Command", "[move command]")
+SCENARIO("Executing the MoveCommand", "[move command]")
 {
   GIVEN("A valid manifold")
   {
@@ -137,9 +164,10 @@ SCENARIO("Applying the Move Command", "[move command]")
     WHEN("A null move is queued")
     {
       MoveCommand command(manifold);
-      auto        move_null = [](Manifold3& m) -> decltype(auto) {
-        return manifold3_moves::null_move(m);
-      };
+      //      auto        move_null = [](Manifold3& m) -> decltype(auto) {
+      //        return manifold3_moves::null_move(m);
+      //      };
+      auto move_null = manifold3_moves::null_move;
       command.enqueue(move_null);
       THEN("It is executed correctly")
       {
@@ -161,9 +189,10 @@ SCENARIO("Applying the Move Command", "[move command]")
     WHEN("A (3,2) move is queued")
     {
       MoveCommand command(manifold);
-      auto        move32 = [](Manifold3& m) -> decltype(auto) {
-        return manifold3_moves::do_32_move(m);
-      };
+      //      auto        move32 = [](Manifold3& m) -> decltype(auto) {
+      //        return manifold3_moves::do_32_move(m);
+      //      };
+      auto move32 = manifold3_moves::do_32_move;
       command.enqueue(move32);
       THEN("It is executed correctly")
       {

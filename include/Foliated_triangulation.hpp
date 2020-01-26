@@ -173,10 +173,13 @@ class FoliatedTriangulation<3> : private Delaunay3
   using Delaunay3::remove;
 
   /// @return True if the triangulation is Delaunay
-  [[nodiscard]] auto is_delaunay() const { return get_delaunay().is_valid(); }
+  [[nodiscard]] auto is_delaunay() const -> bool
+  {
+    return get_delaunay().is_valid();
+  }
 
   /// @return True if the triangulation data structure is valid
-  [[nodiscard]] auto is_tds_valid() const
+  [[nodiscard]] auto is_tds_valid() const -> bool
   {
     return get_delaunay().tds().is_valid();
   }
@@ -279,10 +282,10 @@ class FoliatedTriangulation<3> : private Delaunay3
   }
 
   /// @return True if all vertices fall between min and max
-  bool check_vertices()
+  [[nodiscard]] auto check_vertices() const -> bool
   {
     // Retrieve vertices directly from CGAL::Compact_container
-    auto vertices = delaunay().tds().vertices();
+    auto vertices = get_delaunay().tds().vertices();
     //    auto vertices = get_vertices();
     auto min = min_time();
     auto max = max_time();
