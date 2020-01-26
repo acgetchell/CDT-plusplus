@@ -611,7 +611,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>ac0a63ea1c926b89e8291b8db6f9223ff</Anchor>
+    <Anchor>ae5fdffd609dea41093c0d3c3123495bc</Anchor>
     <Abstract>Generate useful filenames.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -787,7 +787,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a9865ac852500e0f4d1cbca9e309ff10b</Anchor>
+    <Anchor>af6fd04ea562f7efe1c114cb4d91b06fb</Anchor>
     <Abstract>Writes the runtime results to a file.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -913,7 +913,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_move__command__test_8cpp.html</Path>
-    <Anchor>a38c4bc81e8d9dca2f87aafcc6fe955f3</Anchor>
+    <Anchor>a9f68a51fe68f7c92ef4aa8e75fd4f665</Anchor>
     <Abstract>TODO: Fix exception here.</Abstract>
     <DeclaredIn>Move_command_test.cpp</DeclaredIn>
   </Token>
@@ -1037,7 +1037,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a177a978b5be6fdad3a09ffd11aeb5ea6</Anchor>
+    <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1195,7 +1195,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a5416f311c3bd20ee04d68ffe1bc2149b</Anchor>
+    <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1218,7 +1218,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>abc4cdff5760fd0be602187a0e93c2456</Anchor>
+    <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2130,7 +2130,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ab032df052f4af07c1ff66e1938be6806</Anchor>
+    <Anchor>af547e31f9457e0ea25dcb626a520bb79</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2141,7 +2141,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>aaf6fced4df10c837691068b976a15a0c</Anchor>
+    <Anchor>af54348d07854b38d70f10b9bd362ad03</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2152,7 +2152,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a3251d9a8b5d21cb550dd11aa039464a6</Anchor>
+    <Anchor>a2af8f23f53107da08bd291525f736061</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2256,6 +2256,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a460e5180976d3a9c5c9a460ed512a7fe</Anchor>
+    <Abstract>Forwarding to FoliatedTriangulation.is_delaunay()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2291,7 +2292,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a792a9839cd64c7d65c23b10ae99dbbfc</Anchor>
-    <Abstract>Forwarding to FoliatedTriangulation3.is_tds_valid()</Abstract>
+    <Abstract>Forwarding to FoliatedTriangulation.is_tds_valid()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2314,7 +2315,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a466f16dff7afc7bb0f1cf7761373be5c</Anchor>
+    <Anchor>af8ac303aaccfcff01f721e14d5ab638a</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2325,7 +2326,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a7ab906279a458131e9041cfffdd8f498</Anchor>
+    <Anchor>a4035e7764ec5ed7a964584b7cc349e80</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2336,7 +2337,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a6077af768cfc78fd779c08da9f7c53cc</Anchor>
+    <Anchor>a3bffa5d79751411a0b1ba0c6e2f0d145</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2347,7 +2348,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a66830c3c9cbb4a9d2320a68065936201</Anchor>
+    <Anchor>a1422c71ceefad72411da122f4c72e093</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2358,7 +2359,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a32b37efe4377fee449ba14c1ebf73086</Anchor>
+    <Anchor>afa8dd123675780875c9b3c3a0a7a1f69</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2369,7 +2370,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af734ce06f24e1230fec3dea56fc2ba41</Anchor>
+    <Anchor>ac974148b88266649701547dd44cb6ac7</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2380,7 +2381,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>aef6283b05e1403e92d2b099e3a609365</Anchor>
+    <Anchor>ab6b9e2ab217f816eae83af933d3bcf09</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2402,7 +2403,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a3ee81cb60f4357f7e5228b95a6884bd2</Anchor>
+    <Anchor>a1e47e5741ec8edfb639cec7c6b83fca3</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2413,7 +2414,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a2b007ff593b7c7f096a793210e73b2c3</Anchor>
+    <Anchor>afdd009363afd797f97a36cf19b223664</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2424,7 +2425,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a86389f5ae7a0a05e85a037b1795a75ed</Anchor>
+    <Anchor>a46793d2c38dfd49b92468e48d081e766</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2435,7 +2436,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a60760acf3108807b29db6dc2fd098d2c</Anchor>
+    <Anchor>a29fb66b0e188a473a70b9c217ccbe099</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2446,7 +2447,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a7c4bfe47960844431002112dcffa91d9</Anchor>
+    <Anchor>a59b53cfb111e5e3133c0d30b4a0de1e3</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2457,7 +2458,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ad61631267e43e7cbf808965c19c07b96</Anchor>
+    <Anchor>a2bf54a8a04a33d2bc804acec2b5851b2</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2503,7 +2504,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
+    <Anchor>af49ee8ceb572404cc8a296ae0fd9ab9e</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2994,7 +2995,7 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_013_01_4.html</Path>
     <Anchor>a55d92f0d81fdf02618822a4cc0342da1</Anchor>
-    <Abstract>A SimplicialManifold.</Abstract>
+    <Abstract>A Manifold&lt;3&gt;.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3292,7 +3293,7 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_013_01_4.html</Path>
     <Anchor>a55d92f0d81fdf02618822a4cc0342da1</Anchor>
-    <Abstract>A SimplicialManifold.</Abstract>
+    <Abstract>A Manifold&lt;3&gt;.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3305,13 +3306,25 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
+    <Abstract>MoveCommand ctor Pass-by-value then std::move. https://abseil.io/tips/117.</Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>enqueue</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
       <Scope>MoveCommand</Scope>
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
-    <Anchor>ad92f857fb2db0f0a317a21bf4e186b44</Anchor>
+    <Anchor>aa56440358589956f2d3fc9bf5477ca26</Anchor>
     <Abstract>Push a Pachner move onto the move queue.</Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
@@ -3348,6 +3361,28 @@
     <Path>class_move_command.html</Path>
     <Anchor>a901fc4de01e75d9c1958e0d39755d430</Anchor>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a1f11efc51d2ed7812a2586798c051207</Anchor>
+    <Abstract>The Manifold on which to make the move.</Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>m_moves</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>data</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>ab7c6b3b5da3526cc061ef3fac85a2c0d</Anchor>
+    <Abstract>The queue of moves to make.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3750,7 +3785,7 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_013_01_4.html</Path>
     <Anchor>a55d92f0d81fdf02618822a4cc0342da1</Anchor>
-    <Abstract>A SimplicialManifold.</Abstract>
+    <Abstract>A Manifold&lt;3&gt;.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>

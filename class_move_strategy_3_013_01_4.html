@@ -177,7 +177,7 @@ Move_tracker&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 <tr class="separator:ae9e2a1f9daefdecdf9346253f876d089"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a55d92f0d81fdf02618822a4cc0342da1"><td class="memItemLeft" align="right" valign="top"><a id="a55d92f0d81fdf02618822a4cc0342da1"></a>
 <a class="el" href="class_manifold_3_013_01_4.html">Manifold3</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_strategy_3_013_01_4.html#a55d92f0d81fdf02618822a4cc0342da1">m_universe</a></td></tr>
-<tr class="memdesc:a55d92f0d81fdf02618822a4cc0342da1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a>. <br /></td></tr>
+<tr class="memdesc:a55d92f0d81fdf02618822a4cc0342da1"><td class="mdescLeft">&#160;</td><td class="mdescRight">A <a class="el" href="class_manifold_3_013_01_4.html" title="3D Manifold">Manifold&lt;3&gt;</a>. <br /></td></tr>
 <tr class="separator:a55d92f0d81fdf02618822a4cc0342da1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-types"></a>
@@ -188,7 +188,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock">
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00042">42</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00036">36</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 </div><h2 class="groupheader">Constructor &amp; Destructor Documentation</h2>
 <a id="a5105ca0a22386ed6169de5b5028294af"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a5105ca0a22386ed6169de5b5028294af">&#9670;&nbsp;</a></span>MoveStrategy()</h2>
@@ -233,7 +233,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00262">262</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00209">209</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -264,7 +264,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>All simplices. </p>
 <dl class="section return"><dt>Returns</dt><dd>The current total number of simplices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00184">184</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00131">131</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -294,7 +294,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets attempted (4,4) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>attempted_moves_[4] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00226">226</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00173">173</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -323,7 +323,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 </div><div class="memdoc">
 
 <p>Make a move of the selected type. </p>
-<p>This function handles making a <b>move_type</b> move by delegating to the particular named function, which handles the bookkeeping for <b>attempted_moves_</b>. This function then handles the bookkeeping for successful_moves_ and updates the counters for N3_31_, N3_22_, and N1_TL_ accordingly.</p>
+<p>This function handles making a <b>move_type</b> move by delegating to <a class="el" href="class_move_command.html">MoveCommand</a>. MoveStrategy::make_move handles the bookkeeping for <b>attempted_moves_</b> and <b>successful_moves</b> and updates the counters for N3_31_, N3_22_, and N1_TL_ accordingly.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_move</td><td>The type of move </td></tr>
@@ -332,7 +332,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 </dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Boost Expected/Outcome here instead </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00080">80</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00073">73</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -362,7 +362,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets attempted (6,2) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>return attempted_moves_[3] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00218">218</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00165">165</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -392,7 +392,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets successful (4,4) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>std::get&lt;4&gt;(attempted_moves_) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00230">230</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00177">177</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -422,7 +422,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets successful (6,2) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>std::get&lt;3&gt;(attempted_moves_) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00222">222</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00169">169</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -452,7 +452,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets successful (3,2) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>std::get&lt;1&gt;(successful_moves_) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00203">203</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00150">150</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -482,7 +482,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets successful (2,6) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>std::get&lt;2&gt;(successful_moves_) </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00214">214</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00161">161</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -512,7 +512,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets successful (2,3) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>successful_moves_[0] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00192">192</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00139">139</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -542,7 +542,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets attempted (3,2) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>attempted_moves_[1] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00199">199</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00146">146</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -572,7 +572,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets attempted (2,6) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>return attempted_moves_[2] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00210">210</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00157">157</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -602,7 +602,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 <p>Gets attempted (2,3) moves. </p>
 <dl class="section return"><dt>Returns</dt><dd>attempted_moves_[0] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00188">188</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__strategy_8hpp_source.html#l00135">135</a> of file <a class="el" href="_move__strategy_8hpp_source.html">Move_strategy.hpp</a>.</p>
 
 </div>
 </div>
@@ -612,7 +612,7 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Move_tracker</b> = s
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Jan 20 2020 20:16:17 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 26 2020 21:22:34 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

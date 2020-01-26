@@ -126,7 +126,7 @@
              <Node>
               <Name>check_vertices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a177a978b5be6fdad3a09ffd11aeb5ea6</Anchor>
+              <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
              </Node>
              <Node>
               <Name>classify_cells</Name>
@@ -241,7 +241,7 @@
              <Node>
               <Name>is_delaunay</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a5416f311c3bd20ee04d68ffe1bc2149b</Anchor>
+              <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
              </Node>
              <Node>
               <Name>is_foliated</Name>
@@ -251,7 +251,7 @@
              <Node>
               <Name>is_tds_valid</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>abc4cdff5760fd0be602187a0e93c2456</Anchor>
+              <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
              </Node>
              <Node>
               <Name>make_foliated_sphere</Name>
@@ -742,17 +742,17 @@
              <Node>
               <Name>dim</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>ab032df052f4af07c1ff66e1938be6806</Anchor>
+              <Anchor>af547e31f9457e0ea25dcb626a520bb79</Anchor>
              </Node>
              <Node>
               <Name>edges</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>aaf6fced4df10c837691068b976a15a0c</Anchor>
+              <Anchor>af54348d07854b38d70f10b9bd362ad03</Anchor>
              </Node>
              <Node>
               <Name>faces</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a3251d9a8b5d21cb550dd11aa039464a6</Anchor>
+              <Anchor>a2af8f23f53107da08bd291525f736061</Anchor>
              </Node>
              <Node>
               <Name>get_geometry</Name>
@@ -822,37 +822,37 @@
              <Node>
               <Name>max_time</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a466f16dff7afc7bb0f1cf7761373be5c</Anchor>
+              <Anchor>af8ac303aaccfcff01f721e14d5ab638a</Anchor>
              </Node>
              <Node>
               <Name>min_time</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a7ab906279a458131e9041cfffdd8f498</Anchor>
+              <Anchor>a4035e7764ec5ed7a964584b7cc349e80</Anchor>
              </Node>
              <Node>
               <Name>N0</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a6077af768cfc78fd779c08da9f7c53cc</Anchor>
+              <Anchor>a3bffa5d79751411a0b1ba0c6e2f0d145</Anchor>
              </Node>
              <Node>
               <Name>N1</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a66830c3c9cbb4a9d2320a68065936201</Anchor>
+              <Anchor>a1422c71ceefad72411da122f4c72e093</Anchor>
              </Node>
              <Node>
               <Name>N1_SL</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a32b37efe4377fee449ba14c1ebf73086</Anchor>
+              <Anchor>afa8dd123675780875c9b3c3a0a7a1f69</Anchor>
              </Node>
              <Node>
               <Name>N1_TL</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>af734ce06f24e1230fec3dea56fc2ba41</Anchor>
+              <Anchor>ac974148b88266649701547dd44cb6ac7</Anchor>
              </Node>
              <Node>
               <Name>N2</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>aef6283b05e1403e92d2b099e3a609365</Anchor>
+              <Anchor>ab6b9e2ab217f816eae83af933d3bcf09</Anchor>
              </Node>
              <Node>
               <Name>N2_SL</Name>
@@ -862,32 +862,32 @@
              <Node>
               <Name>N3</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a3ee81cb60f4357f7e5228b95a6884bd2</Anchor>
+              <Anchor>a1e47e5741ec8edfb639cec7c6b83fca3</Anchor>
              </Node>
              <Node>
               <Name>N3_13</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a2b007ff593b7c7f096a793210e73b2c3</Anchor>
+              <Anchor>afdd009363afd797f97a36cf19b223664</Anchor>
              </Node>
              <Node>
               <Name>N3_22</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a86389f5ae7a0a05e85a037b1795a75ed</Anchor>
+              <Anchor>a46793d2c38dfd49b92468e48d081e766</Anchor>
              </Node>
              <Node>
               <Name>N3_31</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a60760acf3108807b29db6dc2fd098d2c</Anchor>
+              <Anchor>a29fb66b0e188a473a70b9c217ccbe099</Anchor>
              </Node>
              <Node>
               <Name>N3_31_13</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a7c4bfe47960844431002112dcffa91d9</Anchor>
+              <Anchor>a59b53cfb111e5e3133c0d30b4a0de1e3</Anchor>
              </Node>
              <Node>
               <Name>number_of_simplices</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>ad61631267e43e7cbf808965c19c07b96</Anchor>
+              <Anchor>a2bf54a8a04a33d2bc804acec2b5851b2</Anchor>
              </Node>
              <Node>
               <Name>print_volume_per_timeslice</Name>
@@ -917,7 +917,7 @@
              <Node>
               <Name>vertices</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
+              <Anchor>af49ee8ceb572404cc8a296ae0fd9ab9e</Anchor>
              </Node>
              <Node>
               <Name>swap</Name>
@@ -1039,12 +1039,12 @@
              <Node>
               <Name>MoveCommand</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
+              <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
              </Node>
              <Node>
               <Name>enqueue</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>ad92f857fb2db0f0a317a21bf4e186b44</Anchor>
+              <Anchor>aa56440358589956f2d3fc9bf5477ca26</Anchor>
              </Node>
              <Node>
               <Name>execute</Name>
@@ -1064,12 +1064,12 @@
              <Node>
               <Name>m_manifold</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>a10f226c66ddeea6068e6331394b60400</Anchor>
+              <Anchor>a1f11efc51d2ed7812a2586798c051207</Anchor>
              </Node>
              <Node>
               <Name>m_moves</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>a2af07173e8598986ab299c68252b6f70</Anchor>
+              <Anchor>ab7c6b3b5da3526cc061ef3fac85a2c0d</Anchor>
              </Node>
             </Subnodes>
            </Node>
@@ -1455,6 +1455,84 @@
            <Node>
             <Name>All</Name>
             <Path>functions.html</Path>
+            <Subnodes>
+             <Node>
+              <Name>a</Name>
+              <Path>functions.html</Path>
+             </Node>
+             <Node>
+              <Name>c</Name>
+              <Path>functions_c.html</Path>
+             </Node>
+             <Node>
+              <Name>d</Name>
+              <Path>functions_d.html</Path>
+             </Node>
+             <Node>
+              <Name>e</Name>
+              <Path>functions_e.html</Path>
+             </Node>
+             <Node>
+              <Name>f</Name>
+              <Path>functions_f.html</Path>
+             </Node>
+             <Node>
+              <Name>g</Name>
+              <Path>functions_g.html</Path>
+             </Node>
+             <Node>
+              <Name>i</Name>
+              <Path>functions_i.html</Path>
+             </Node>
+             <Node>
+              <Name>k</Name>
+              <Path>functions_k.html</Path>
+             </Node>
+             <Node>
+              <Name>l</Name>
+              <Path>functions_l.html</Path>
+             </Node>
+             <Node>
+              <Name>m</Name>
+              <Path>functions_m.html</Path>
+             </Node>
+             <Node>
+              <Name>n</Name>
+              <Path>functions_n.html</Path>
+             </Node>
+             <Node>
+              <Name>o</Name>
+              <Path>functions_o.html</Path>
+             </Node>
+             <Node>
+              <Name>p</Name>
+              <Path>functions_p.html</Path>
+             </Node>
+             <Node>
+              <Name>q</Name>
+              <Path>functions_q.html</Path>
+             </Node>
+             <Node>
+              <Name>s</Name>
+              <Path>functions_s.html</Path>
+             </Node>
+             <Node>
+              <Name>t</Name>
+              <Path>functions_t.html</Path>
+             </Node>
+             <Node>
+              <Name>u</Name>
+              <Path>functions_u.html</Path>
+             </Node>
+             <Node>
+              <Name>v</Name>
+              <Path>functions_v.html</Path>
+             </Node>
+             <Node>
+              <Name>~</Name>
+              <Path>functions_~.html</Path>
+             </Node>
+            </Subnodes>
            </Node>
            <Node>
             <Name>Functions</Name>
@@ -1633,7 +1711,7 @@
                  <Node>
                   <Name>check_vertices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a177a978b5be6fdad3a09ffd11aeb5ea6</Anchor>
+                  <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
                  </Node>
                  <Node>
                   <Name>classify_cells</Name>
@@ -1748,7 +1826,7 @@
                  <Node>
                   <Name>is_delaunay</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a5416f311c3bd20ee04d68ffe1bc2149b</Anchor>
+                  <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
                  </Node>
                  <Node>
                   <Name>is_foliated</Name>
@@ -1758,7 +1836,7 @@
                  <Node>
                   <Name>is_tds_valid</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>abc4cdff5760fd0be602187a0e93c2456</Anchor>
+                  <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
                  </Node>
                  <Node>
                   <Name>make_foliated_sphere</Name>
@@ -2193,17 +2271,17 @@
                  <Node>
                   <Name>dim</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>ab032df052f4af07c1ff66e1938be6806</Anchor>
+                  <Anchor>af547e31f9457e0ea25dcb626a520bb79</Anchor>
                  </Node>
                  <Node>
                   <Name>edges</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>aaf6fced4df10c837691068b976a15a0c</Anchor>
+                  <Anchor>af54348d07854b38d70f10b9bd362ad03</Anchor>
                  </Node>
                  <Node>
                   <Name>faces</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a3251d9a8b5d21cb550dd11aa039464a6</Anchor>
+                  <Anchor>a2af8f23f53107da08bd291525f736061</Anchor>
                  </Node>
                  <Node>
                   <Name>get_geometry</Name>
@@ -2273,37 +2351,37 @@
                  <Node>
                   <Name>max_time</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a466f16dff7afc7bb0f1cf7761373be5c</Anchor>
+                  <Anchor>af8ac303aaccfcff01f721e14d5ab638a</Anchor>
                  </Node>
                  <Node>
                   <Name>min_time</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a7ab906279a458131e9041cfffdd8f498</Anchor>
+                  <Anchor>a4035e7764ec5ed7a964584b7cc349e80</Anchor>
                  </Node>
                  <Node>
                   <Name>N0</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a6077af768cfc78fd779c08da9f7c53cc</Anchor>
+                  <Anchor>a3bffa5d79751411a0b1ba0c6e2f0d145</Anchor>
                  </Node>
                  <Node>
                   <Name>N1</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a66830c3c9cbb4a9d2320a68065936201</Anchor>
+                  <Anchor>a1422c71ceefad72411da122f4c72e093</Anchor>
                  </Node>
                  <Node>
                   <Name>N1_SL</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a32b37efe4377fee449ba14c1ebf73086</Anchor>
+                  <Anchor>afa8dd123675780875c9b3c3a0a7a1f69</Anchor>
                  </Node>
                  <Node>
                   <Name>N1_TL</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>af734ce06f24e1230fec3dea56fc2ba41</Anchor>
+                  <Anchor>ac974148b88266649701547dd44cb6ac7</Anchor>
                  </Node>
                  <Node>
                   <Name>N2</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>aef6283b05e1403e92d2b099e3a609365</Anchor>
+                  <Anchor>ab6b9e2ab217f816eae83af933d3bcf09</Anchor>
                  </Node>
                  <Node>
                   <Name>N2_SL</Name>
@@ -2313,32 +2391,32 @@
                  <Node>
                   <Name>N3</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a3ee81cb60f4357f7e5228b95a6884bd2</Anchor>
+                  <Anchor>a1e47e5741ec8edfb639cec7c6b83fca3</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_13</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a2b007ff593b7c7f096a793210e73b2c3</Anchor>
+                  <Anchor>afdd009363afd797f97a36cf19b223664</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_22</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a86389f5ae7a0a05e85a037b1795a75ed</Anchor>
+                  <Anchor>a46793d2c38dfd49b92468e48d081e766</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_31</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a60760acf3108807b29db6dc2fd098d2c</Anchor>
+                  <Anchor>a29fb66b0e188a473a70b9c217ccbe099</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_31_13</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a7c4bfe47960844431002112dcffa91d9</Anchor>
+                  <Anchor>a59b53cfb111e5e3133c0d30b4a0de1e3</Anchor>
                  </Node>
                  <Node>
                   <Name>number_of_simplices</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>ad61631267e43e7cbf808965c19c07b96</Anchor>
+                  <Anchor>a2bf54a8a04a33d2bc804acec2b5851b2</Anchor>
                  </Node>
                  <Node>
                   <Name>print_volume_per_timeslice</Name>
@@ -2368,7 +2446,7 @@
                  <Node>
                   <Name>vertices</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
+                  <Anchor>af49ee8ceb572404cc8a296ae0fd9ab9e</Anchor>
                  </Node>
                  <Node>
                   <Name>swap</Name>
@@ -2549,12 +2627,12 @@
                  <Node>
                   <Name>MoveCommand</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
+                  <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
                  </Node>
                  <Node>
                   <Name>enqueue</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>ad92f857fb2db0f0a317a21bf4e186b44</Anchor>
+                  <Anchor>aa56440358589956f2d3fc9bf5477ca26</Anchor>
                  </Node>
                  <Node>
                   <Name>execute</Name>
@@ -2574,12 +2652,12 @@
                  <Node>
                   <Name>m_manifold</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>a10f226c66ddeea6068e6331394b60400</Anchor>
+                  <Anchor>a1f11efc51d2ed7812a2586798c051207</Anchor>
                  </Node>
                  <Node>
                   <Name>m_moves</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>a2af07173e8598986ab299c68252b6f70</Anchor>
+                  <Anchor>ab7c6b3b5da3526cc061ef3fac85a2c0d</Anchor>
                  </Node>
                 </Subnodes>
                </Node>
@@ -3409,7 +3487,7 @@
                <Node>
                 <Name>generate_filename</Name>
                 <Path>_utilities_8hpp.html</Path>
-                <Anchor>ac0a63ea1c926b89e8291b8db6f9223ff</Anchor>
+                <Anchor>ae5fdffd609dea41093c0d3c3123495bc</Anchor>
                </Node>
                <Node>
                 <Name>generate_probability</Name>
@@ -3489,7 +3567,7 @@
                <Node>
                 <Name>write_file</Name>
                 <Path>_utilities_8hpp.html</Path>
-                <Anchor>a9865ac852500e0f4d1cbca9e309ff10b</Anchor>
+                <Anchor>af6fd04ea562f7efe1c114cb4d91b06fb</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3775,7 +3853,7 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_move__command__test_8cpp.html</Path>
-                <Anchor>a38c4bc81e8d9dca2f87aafcc6fe955f3</Anchor>
+                <Anchor>a9f68a51fe68f7c92ef4aa8e75fd4f665</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>
@@ -3786,6 +3864,11 @@
                 <Name>SCENARIO</Name>
                 <Path>_move__command__test_8cpp.html</Path>
                 <Anchor>ae9a407459989b4ae17bd8a7b89ebbaaa</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_move__command__test_8cpp.html</Path>
+                <Anchor>ab60294c903ebbd0db09d3969f416fbc7</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>
