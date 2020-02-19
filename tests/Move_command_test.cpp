@@ -117,16 +117,22 @@ SCENARIO("Invoking a move with apply_move", "[move command]")
 
 SCENARIO("Move Command initialization", "[move command]")
 {
-  GIVEN("A valid manifold")
+  GIVEN("A valid manifold.")
   {
     auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
     auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A Command is constructed with a manifold")
+    WHEN("A Command is constructed with a manifold.")
     {
       MoveCommand command(manifold);
-      THEN("It contains the manifold")
+      THEN("The original is still valid.")
+      {
+        REQUIRE(manifold.is_correct());
+        // Human verification
+        print_manifold_details(manifold);
+      }
+      THEN("It contains the manifold.")
       {
         CHECK(manifold.N3() == command.get_manifold().N3());
         CHECK(manifold.N3_31() == command.get_manifold().N3_31());
@@ -148,6 +154,12 @@ SCENARIO("Move Command initialization", "[move command]")
         print_manifold_details(command.get_manifold());
         command.get_manifold().print_volume_per_timeslice();
       }
+      THEN("The two manifolds are distinct.")
+      {
+        auto* manifold_ptr  = &manifold;
+        auto* manifold2_ptr = &command.get_manifold();
+        CHECK_FALSE(manifold_ptr == manifold2_ptr);
+      }
     }
   }
 }
@@ -161,7 +173,7 @@ SCENARIO("Executing the MoveCommand", "[move command]")
     auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A null move is queued")
+    WHEN("A null move is queued.")
     {
       MoveCommand command(manifold);
       //      auto        move_null = [](Manifold3& m) -> decltype(auto) {
@@ -169,7 +181,7 @@ SCENARIO("Executing the MoveCommand", "[move command]")
       //      };
       auto move_null = manifold3_moves::null_move;
       command.enqueue(move_null);
-      THEN("It is executed correctly")
+      THEN("It is executed correctly.")
       {
         command.execute();
         auto result = std::move(command.get_results());
@@ -186,7 +198,7 @@ SCENARIO("Executing the MoveCommand", "[move command]")
             manifold, result, manifold3_moves::move_type::FOUR_FOUR));
       }
     }
-    WHEN("A (3,2) move is queued")
+    WHEN("A (3,2) move is queued.")
     {
       MoveCommand command(manifold);
       //      auto        move32 = [](Manifold3& m) -> decltype(auto) {
@@ -194,7 +206,7 @@ SCENARIO("Executing the MoveCommand", "[move command]")
       //      };
       auto move32 = manifold3_moves::do_32_move;
       command.enqueue(move32);
-      THEN("It is executed correctly")
+      THEN("It is executed correctly.")
       {
         //            CAPTURE(command.get_manifold().N3_22());
         //            CAPTURE(command.get_manifold().N1_TL());

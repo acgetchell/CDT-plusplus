@@ -8,19 +8,19 @@
 /// @bug Moves are performed by execute(), but the results are incorrect
 /// @bug CppCheck reports:
 
-// Move_command.hpp:33:21: error: Returning object that points to local variable 'm_manifold' that will be invalid when returning. [returnDanglingLifetime]
+// /Users/adam/CDT-plusplus/include/Move_command.hpp:49:21: error: Returning object that points to local variable 'm_manifold' that will be invalid when returning. [returnDanglingLifetime]
 // return std::cref(m_manifold);
-// ^
-// /Users/adam/CDT-plusplus/include/Move_command.hpp:33:22: note: Passed to 'cref'.
+//                 ^
+// /Users/adam/CDT-plusplus/include/Move_command.hpp:49:22: note: Passed to 'cref'.
 // return std::cref(m_manifold);
-// ^
-// /Users/adam/CDT-plusplus/include/Move_command.hpp:59:28: note: Variable created here.
+//                  ^
+// /Users/adam/CDT-plusplus/include/Move_command.hpp:75:28: note: Variable created here.
 // print_manifold_details(m_manifold);
-// ^
-// /Users/adam/CDT-plusplus/include/Move_command.hpp:33:21: note: Returning object that points to local variable 'm_manifold' that will be invalid when returning.
+//                        ^
+// /Users/adam/CDT-plusplus/include/Move_command.hpp:49:21: note: Returning object that points to local variable 'm_manifold' that will be invalid when returning.
 // return std::cref(m_manifold);
-// ^
-// /Users/adam/CDT-plusplus/include/Move_command.hpp:37:46: error: Reference to local variable returned. [returnReference]
+//                 ^
+// /Users/adam/CDT-plusplus/include/Move_command.hpp:53:46: error: Reference to local variable returned. [returnReference]
 // [[nodiscard]] auto& get_results() { return m_manifold; }
 
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
@@ -65,13 +65,14 @@ class MoveCommand
     print_manifold_details(m_manifold);
     auto move   = m_moves.back();
     //    auto move = m_moves.pop_back();
-    decltype(auto) moved_manifold = apply_move(m_manifold, move);
+
     fmt::print("During move:\n");
-    moved_manifold.update();
-    print_manifold_details(moved_manifold);
+    auto result = apply_move(m_manifold, move);
+    result.update();
+    print_manifold_details(result);
 
     fmt::print("After manifold move:\n");
-    swap(moved_manifold, m_manifold);
+    swap(result, m_manifold);
     print_manifold_details(m_manifold);
     //    m_manifold->update();
   }

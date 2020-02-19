@@ -75,10 +75,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     WHEN("It is default constructed.")
     {
       Manifold3 manifold;
-      THEN("The default Delaunay triangulation is valid.")
+      THEN("The triangulation is valid.")
       {
+        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
+                     Catch::Contains("FoliatedTriangulation"));
+        fmt::print("The triangulation data structure is of type {}\n",
+                   typeid(manifold.get_triangulation()).name());
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
+      }
+      //      THEN("The triangulation is valid.") {
+      //      REQUIRE(manifold.is_correct()); }
+      THEN("The geometry is of type geometry class.")
+      {
+        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
+                     Catch::Contains("Geometry"));
+        fmt::print("The Geometry data structure is of type {}\n",
+                   typeid(manifold.get_geometry()).name());
       }
     }
     WHEN("It is constructed from a Delaunay triangulation.")
@@ -92,7 +105,17 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Delaunay3 dt(cv.begin(), cv.end());
       Manifold3 manifold(dt);
 
-      THEN("The triangulation is valid.") { REQUIRE(manifold.is_correct()); }
+      THEN("The triangulation is valid.")
+      {
+        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
+                     Catch::Contains("FoliatedTriangulation"));
+        REQUIRE(manifold.is_correct());
+      }
+      THEN("The geometry is of type geometry class.")
+      {
+        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
+                     Catch::Contains("Geometry"));
+      }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -125,7 +148,17 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       FoliatedTriangulation3 ft(dt);
       Manifold3              manifold(ft);
 
-      THEN("The triangulation is valid.") { REQUIRE(manifold.is_correct()); }
+      THEN("The triangulation is valid.")
+      {
+        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
+                     Catch::Contains("FoliatedTriangulation"));
+        REQUIRE(manifold.is_correct());
+      }
+      THEN("The geometry is of type geometry class.")
+      {
+        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
+            Catch::Contains("Geometry"));
+      }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
