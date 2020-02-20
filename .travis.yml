@@ -116,6 +116,17 @@ jobs:
       after_success:
         - travis_wait 60 ctest -T memcheck --verbose
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
+    # ASAN
+    - os: linux
+      compiler: clang
+      env: ASAN=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - ninja-build
+            - yasm
     # Doxygen
     - os: linux
       compiler: gcc

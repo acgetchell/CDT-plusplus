@@ -36,6 +36,15 @@ if(VALGRIND)
   set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
 endif()
 
+if(ASAN)
+  set(CMAKE_BUILD_TYPE Debug)
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
+  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-optimize-sibling-calls")
+endif()
+
 #
 # OPTIONS  ##
 #
