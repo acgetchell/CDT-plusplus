@@ -7,8 +7,8 @@ environment:
   #  APPVEYOR_SAVE_CACHE_ON_ERROR: true
   VCPKG_DEFAULT_TRIPLET: x64-windows
 
-cache:
-  - c:\tools\vcpkg\installed\
+#cache:
+#  - c:\tools\vcpkg\installed\
 
 
 image:

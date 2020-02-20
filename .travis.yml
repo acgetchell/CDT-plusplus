@@ -127,6 +127,11 @@ jobs:
           packages:
             - ninja-build
             - yasm
+      script:
+        - mkdir build
+        - cd build || exit
+        - cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake -g -O1 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls ..
+        - cmake --build .
     # Doxygen
     - os: linux
       compiler: gcc
@@ -167,6 +172,9 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
+    - os: linux
+      compiler: clang
+      env: ASAN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
