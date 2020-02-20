@@ -11,10 +11,6 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
-#ifdef _WIN32
-#define __PRETTY_FUNCTION__ __FUNCSIG__
-#endif
-
 #include "Geometry.hpp"
 #include <cstddef>
 #include <unordered_set>
