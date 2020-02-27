@@ -1,7 +1,7 @@
 version: ~> 1.0
 language: cpp
 dist: bionic
-osx_image: xcode11.2
+osx_image: xcode11.3
 
 cache:
   - ccache
@@ -130,7 +130,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -GNinja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake -g -O1 -fsanitize=address -fno-omit-frame-pointer -fno-optimize-sibling-calls ..
+        - cmake -GNinja -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
     # Doxygen
     - os: linux

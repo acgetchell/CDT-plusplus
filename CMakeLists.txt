@@ -37,12 +37,15 @@ if(VALGRIND)
 endif()
 
 if(ASAN)
+  set(CMAKE_VERBOSE_MAKEFILE ON)
   set(CMAKE_BUILD_TYPE Debug)
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O1")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-omit-frame-pointer")
-  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-optimize-sibling-calls")
+  add_compile_options(
+      -g
+      -O1
+      -fsanitize=address
+      -fno-omit-frame-pointer
+      -fno-optimize-sibling-calls
+  )
 endif()
 
 #
@@ -113,6 +116,10 @@ set(CMAKE_CONFIGURATION_TYPES
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Link time optimization
+include(CheckIPOSupported)
+check_ipo_supported(RESULT ipo_support)
+
 #
 # Project  ##
 #
@@ -158,6 +165,11 @@ else()
                        TBB::tbb CGAL::CGAL)
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
+if(ipo_support)
+  set_property(TARGET initialize PROPERTY INTERPROCEDURAL_OPTIMIZATION TRUE)
+else()
+  message(WARNING "IPO is not supported: ${output}")
+endif()
 
 # add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
 # target_link_libraries( cdt-opt PRIVATE date::tz date::date Catch2::Catch2
