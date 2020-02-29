@@ -2540,7 +2540,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>aa7b3abff3695030da93b5840ea7c9c67</Anchor>
-    <Abstract>The data structure containing scalar values for computations.</Abstract>
+    <Abstract>The data structure of scalar values for computations.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2551,7 +2551,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a13d98777844efdc8bd6c4c342dfbecce</Anchor>
-    <Abstract>The data structure containing geometric and combinatorial relationships.</Abstract>
+    <Abstract>The data structure of geometric and combinatorial relationships.</Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
