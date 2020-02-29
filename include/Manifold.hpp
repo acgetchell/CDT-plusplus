@@ -25,6 +25,12 @@ class Manifold;
 template <>
 class Manifold<3>
 {
+  /// @brief The data structure of geometric and combinatorial relationships
+  FoliatedTriangulation3 m_triangulation;
+
+  /// @brief The data structure of scalar values for computations
+  Geometry3 m_geometry;
+
  public:
   /// @brief Default ctor
   Manifold() = default;
@@ -319,13 +325,6 @@ class Manifold<3>
   }  // swap
 
  private:
-  /// @brief The data structure containing geometric and combinatorial
-  /// relationships
-  FoliatedTriangulation3 m_triangulation;
-
-  /// @brief The data structure containing scalar values for computations
-  Geometry3              m_geometry;
-
   /// @brief Update the triangulation
   void update_triangulation()
   try

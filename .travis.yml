@@ -172,9 +172,6 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
-    - os: linux
-      compiler: clang
-      env: ASAN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi

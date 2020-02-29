@@ -27,6 +27,36 @@ struct Geometry;
 template <>
 struct Geometry<3>
 {
+  /// @brief Number of 3D simplices
+  std::size_t N3;
+
+  /// @brief Number of (3,1) simplices
+  std::size_t N3_31;
+
+  /// @brief Number of (1,3) simplices
+  std::size_t N3_13;
+
+  /// @brief Number of (3,1) + (1,3) simplices
+  std::size_t N3_31_13;
+
+  /// @brief Number of (2,2) simplices
+  std::size_t N3_22;
+
+  /// @brief Number of 2D faces
+  std::size_t N2;
+
+  /// @brief Number of 1D edges
+  std::size_t N1;
+
+  /// @brief Number of timelike edges
+  std::size_t N1_TL;
+
+  /// @brief Number of spacelike edges
+  std::size_t N1_SL;
+
+  /// @brief Number of vertices
+  std::size_t N0;
+
   /// @brief Default ctor
   Geometry()
       : N3{0}
@@ -58,36 +88,6 @@ struct Geometry<3>
       , N0{triangulation.number_of_vertices()}
 
   {}
-
-  /// @brief Number of 3D simplices
-  std::size_t N3;
-
-  /// @brief Number of (3,1) simplices
-  std::size_t N3_31;
-
-  /// @brief Number of (1,3) simplices
-  std::size_t N3_13;
-
-  /// @brief Number of (3,1) + (1,3) simplices
-  std::size_t N3_31_13;
-
-  /// @brief Number of (2,2) simplices
-  std::size_t N3_22;
-
-  /// @brief Number of 2D faces
-  std::size_t N2;
-
-  /// @brief Number of 1D edges
-  std::size_t N1;
-
-  /// @brief Number of timelike edges
-  std::size_t N1_TL;
-
-  /// @brief Number of spacelike edges
-  std::size_t N1_SL;
-
-  /// @brief Number of vertices
-  std::size_t N0;
 
   /// @brief Swap two Geometry3 structs
   /// Used for no-except updates of geometry data structures

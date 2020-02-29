@@ -76,6 +76,21 @@ class FoliatedTriangulation;
 template <>
 class FoliatedTriangulation<3> : private Delaunay3
 {
+  /// Data members initialized in order of declaration (Working Draft, Standard
+  /// for C++ Programming Language, 12.6.2 section 13.3)
+  std::vector<Cell_handle>   m_cells;
+  std::vector<Cell_handle>   m_three_one;
+  std::vector<Cell_handle>   m_two_two;
+  std::vector<Cell_handle>   m_one_three;
+  std::vector<Face_handle>   m_faces;
+  std::multimap<int, Facet>  m_spacelike_facets;
+  std::vector<Edge_handle>   m_edges;
+  std::vector<Edge_handle>   m_timelike_edges;
+  std::vector<Edge_handle>   m_spacelike_edges;
+  std::vector<Vertex_handle> m_points;
+  int                        m_max_timevalue;
+  int                        m_min_timevalue;
+
  public:
   /// @brief Default constructor
   FoliatedTriangulation() : Delaunay3{}, m_max_timevalue{0}, m_min_timevalue{0}
@@ -857,21 +872,6 @@ class FoliatedTriangulation<3> : private Delaunay3
     auto index = static_cast<std::size_t>(std::abs(result_index));
     return t_vertices[index]->info();
   }  // find_min_timevalue
-
-  /// Data members initialized in order of declaration (Working Draft, Standard
-  /// for C++ Programming Language, 12.6.2 section 13.3)
-  std::vector<Cell_handle>   m_cells;
-  std::vector<Cell_handle>   m_three_one;
-  std::vector<Cell_handle>   m_two_two;
-  std::vector<Cell_handle>   m_one_three;
-  std::vector<Face_handle>   m_faces;
-  std::multimap<int, Facet>  m_spacelike_facets;
-  std::vector<Edge_handle>   m_edges;
-  std::vector<Edge_handle>   m_timelike_edges;
-  std::vector<Edge_handle>   m_spacelike_edges;
-  std::vector<Vertex_handle> m_points;
-  int                        m_max_timevalue;
-  int                        m_min_timevalue;
 };
 
 using FoliatedTriangulation3 = FoliatedTriangulation<3>;
