@@ -22,9 +22,9 @@
 profile
 
 # Build, Doc, and Testing dirs
-build/
+/build*
 html/
-cmake-build*
+/cmake-build*
 cov-int
 
 # Editor files

@@ -14,36 +14,6 @@ if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
 endif()
 
 #
-# Modules and scripts ##
-#
-include(CTest)
-include(CMakeDependentOption)
-
-# Valgrind
-if(VALGRIND)
-  message(STATUS "Valgrind enabled.")
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-  set(CMAKE_BUILD_TYPE Debug)
-  add_compile_options(-g -O0 -fsanitize=address)
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-endif()
-
-if(ASAN)
-  message(STATUS "ASAN enabled.")
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-  set(CMAKE_BUILD_TYPE Debug)
-  add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
-                      -fno-optimize-sibling-calls)
-endif()
-
-#
 # OPTIONS  ##
 #
 
@@ -98,6 +68,7 @@ else()
     -Wformat=2
     -Werror=return-type)
 endif()
+
 # Turn off CGAL Triangulation Assertions and Postconditions
 add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS
                 -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
@@ -118,6 +89,81 @@ if(ipo_support)
   set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 else()
   message(WARNING "IPO is not supported: ${output}")
+endif()
+
+# Default build type
+set(default_build_type "Release")
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(
+    STATUS
+      "Setting build type to '${default_build_type}' as none was specified.")
+  set(CMAKE_BUILD_TYPE
+      "${default_build_type}"
+      CACHE STRING "Choose the type of build." FORCE)
+  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
+                                               "RelWithDebInfo")
+endif()
+
+#
+# Modules and scripts ##
+#
+include(CTest)
+include(CMakeDependentOption)
+
+# Valgrind
+option(ENABLE_VALGRIND "Enable Valgrind" OFF)
+if(ENABLE_VALGRIND)
+  message(STATUS "Valgrind enabled.")
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+  set(CMAKE_BUILD_TYPE Debug)
+  add_compile_options(-g -O0 -fsanitize=address)
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
+  set(MEMORYCHECK_COMMAND_OPTIONS
+      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
+endif()
+
+# ASAN
+option(ENABLE_ASAN "Enable ASAN" OFF)
+if(ENABLE_ASAN)
+  message(STATUS "ASAN enabled.")
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+  set(CMAKE_BUILD_TYPE Debug)
+  add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
+                      -fno-optimize-sibling-calls)
+endif()
+
+# Clang-Tidy
+option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
+if(ENABLE_CLANG_TIDY)
+  message(STATUS "Clang-tidy enabled.")
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+  set(CMAKE_BUILD_TYPE Debug)
+  find_program(CLANGTIDY clang-tidy)
+  if(CLANGTIDY)
+    set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY})
+  else()
+    message(SEND_ERROR "clang-tidy requested but executable not found")
+  endif()
+endif()
+
+# CppCheck
+option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
+if(ENABLE_CPPCHECK)
+  message(STATUS "CppCheck enabled.")
+  set(CMAKE_VERBOSE_MAKEFILE ON)
+  set(CMAKE_BUILD_TYPE Debug)
+  find_program(CPPCHECK cppcheck)
+  if(CPPCHECK)
+    set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --suppress=missingInclude --enable=all
+                           --inconclusive --force --verbose)
+  else()
+    message(SEND_ERROR "cppcheck requested but executable not found")
+  endif()
 endif()
 
 #

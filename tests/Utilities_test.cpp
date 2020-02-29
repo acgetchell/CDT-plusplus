@@ -48,7 +48,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       THEN("The output is correct.")
       {
         CHECK_THAT(result, Catch::Contains("hapkido") ||
-                               Catch::Contains("production") ||
+                               Catch::Contains("travis") ||
                                Catch::Contains("dewitt") ||
                                Catch::Contains("windows"));
       }
