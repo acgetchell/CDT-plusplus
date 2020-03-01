@@ -148,6 +148,7 @@ jobs:
           packages:
             - g++-9
             - ninja-build
+            - yasm
             - lcov
       script:
         - mkdir build
@@ -240,8 +241,11 @@ install:
   - pwd
 
 script:
-  - cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake
-  - cmake --build build
+  - mkdir build
+  - cd build || exit
+  - pwd
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake --build .
 
 after_success:
   - ctest

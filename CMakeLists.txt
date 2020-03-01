@@ -114,6 +114,7 @@ option(ENABLE_VALGRIND "Enable Valgrind" OFF)
 if(ENABLE_VALGRIND)
   message(STATUS "Valgrind enabled.")
   add_compile_options(-g -O0 -fsanitize=address)
+  add_link_options(-fsanitize=address)
   set(MEMORYCHECK_COMMAND_OPTIONS
       "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
   set(MEMORYCHECK_COMMAND_OPTIONS
@@ -130,6 +131,7 @@ if(ENABLE_ASAN)
   message(STATUS "ASAN enabled.")
   add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
                       -fno-optimize-sibling-calls)
+  add_link_options(-fsanitize=address)
 endif()
 
 # Clang-Tidy
