@@ -36,9 +36,8 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
 # gcc flags
 if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_compile_options(
-    -frounding-math -Wmisleading-indentation -Wduplicated-cond
-    -Wduplicated-branches -Wlogical-op -Wuseless-cast)
+  add_compile_options(-Wmisleading-indentation -Wduplicated-cond
+                      -Wduplicated-branches -Wlogical-op -Wuseless-cast)
 endif()
 
 # Turn on Visual Studio warnings
@@ -114,8 +113,6 @@ include(CMakeDependentOption)
 option(ENABLE_VALGRIND "Enable Valgrind" OFF)
 if(ENABLE_VALGRIND)
   message(STATUS "Valgrind enabled.")
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-  set(CMAKE_BUILD_TYPE Debug)
   add_compile_options(-g -O0 -fsanitize=address)
   set(MEMORYCHECK_COMMAND_OPTIONS
       "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
@@ -131,8 +128,6 @@ endif()
 option(ENABLE_ASAN "Enable ASAN" OFF)
 if(ENABLE_ASAN)
   message(STATUS "ASAN enabled.")
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-  set(CMAKE_BUILD_TYPE Debug)
   add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
                       -fno-optimize-sibling-calls)
 endif()
@@ -155,7 +150,6 @@ endif()
 option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
 if(ENABLE_CPPCHECK)
   message(STATUS "CppCheck enabled.")
-  set(CMAKE_VERBOSE_MAKEFILE ON)
   set(CMAKE_BUILD_TYPE Debug)
   find_program(CPPCHECK cppcheck)
   if(CPPCHECK)
@@ -163,6 +157,18 @@ if(ENABLE_CPPCHECK)
                            --inconclusive --force --verbose)
   else()
     message(SEND_ERROR "cppcheck requested but executable not found")
+  endif()
+endif()
+
+# CodeCov
+option(ENABLE_CODECOV "Enable coverage reporting with CodeCov" OFF)
+if(ENABLE_CODECOV)
+  message(STATUS "CodeCov enabled.")
+  find_program(LCOV lcov)
+  if(LCOV)
+    add_compile_options(-g -O0 --coverage)
+  else()
+    message(SEND_ERROR "lcov needed but executable not found")
   endif()
 endif()
 

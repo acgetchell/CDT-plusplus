@@ -137,6 +137,29 @@ jobs:
         - cd build || exit
         - cmake -GNinja -DENABLE_ASAN=ON -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
+    # CodeCov
+    - os: linux
+      compiler: gcc
+      env: CODECOV=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - g++-9
+            - ninja-build
+            - lcov
+      script:
+        - mkdir build
+        - cd build || exit
+        - cmake -GNinja -DENABLE_CODECOV=ON -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake --build .
+      after_success:
+        - cd ${TRAVIS_BUILD_DIR}
+        - lcov --directory . --capture --output-file coverage.info
+        - lcov --remove coverage.info '/usr/*' --output-file coverage.info
+        - lcov --list coverage.info
+        - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
     # Doxygen
     - os: linux
       compiler: gcc
@@ -177,6 +200,15 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
+    - os: linux
+      compiler: gcc
+      env: VALGRIND=true
+    - os: linux
+      compiler: clang
+      env: ASAN=true
+    - os: linux
+      compiler: gcc
+      env: CODECOV=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
@@ -208,11 +240,8 @@ install:
   - pwd
 
 script:
-  - mkdir build
-  - cd build || exit
-  - pwd
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - cmake --build .
+  - cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake
+  - cmake --build build
 
 after_success:
   - ctest
