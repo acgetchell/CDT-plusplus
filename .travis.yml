@@ -191,8 +191,9 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-        - cmake --build .
+        - cmake -G Ninja -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_BUILD_TYPE=Debug -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake --build . --config Debug
+        - ctest --output-on-failure
       after_success:
         - lcov --capture --directory . --output-file coverage.info
         - lcov --remove coverage.info '/usr/*' --output-file coverage.info

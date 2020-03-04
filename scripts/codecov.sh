@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 cd ..
 rm -rf build
-cmake -S . -B build -D ENABLE_COVERAGE:BOOL=TRUE -DCMAKE_TOOLCHAIN_FILE="$HOME"/vcpkg/scripts/buildsystems/vcpkg.cmake --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake
-cmake --build build
+mkdir build
+cd build || exit
+cmake -D ENABLE_COVERAGE:BOOL=TRUE -DCMAKE_TOOLCHAIN_FILE="$HOME"/vcpkg/scripts/buildsystems/vcpkg.cmake --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake ..
+cmake --build . --config Debug
 pwd
+ctest --output-on-failure
 lcov --directory . --capture --output-file coverage.info
 lcov --remove coverage.info '/usr/*' --output-file coverage.info
 lcov --list coverage.info
