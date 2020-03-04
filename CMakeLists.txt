@@ -16,42 +16,21 @@ endif()
 #
 # OPTIONS  ##
 #
+
+# Compiler options and static analyzers
 include(cmake/StandardProjectSettings.cmake)
 include(cmake/StaticAnalyzers.cmake)
 
-# gcc flags
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_compile_options(-Wmisleading-indentation -Wduplicated-cond
-                      -Wduplicated-branches -Wlogical-op -Wuseless-cast)
-endif()
+# Link to project_options library to set sanitizer options
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_17)
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
 
-# Turn on Visual Studio warnings
-if(WIN32)
-  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-  else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-  endif()
-else()
-  # Extra warnings for non-Visual Studio
-  add_compile_options(
-    -Wall
-    -Wno-comment
-    -Wextra
-    -Wshadow
-    -Wnon-virtual-dtor
-    -Wold-style-cast
-    -Wcast-align
-    -Wunused
-    -Woverloaded-virtual
-    -Wpedantic
-    -Wconversion
-    -Wsign-conversion
-    -Wnull-dereference
-    -Wdouble-promotion
-    -Wformat=2
-    -Werror=return-type)
-endif()
+# Link to project_warnings library to set compiler warnings
+add_library(project_warnings INTERFACE)
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
 
 #
 # Modules and scripts ##
@@ -59,42 +38,43 @@ endif()
 include(CTest)
 include(CMakeDependentOption)
 
-# Valgrind
-option(ENABLE_VALGRIND "Enable Valgrind" OFF)
-if(ENABLE_VALGRIND)
-  message(STATUS "Valgrind enabled.")
-  add_compile_options(-g -O0 -fsanitize=address)
-  add_link_options(-fsanitize=address)
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-endif()
-
-# ASAN
-option(ENABLE_ASAN "Enable ASAN" OFF)
-if(ENABLE_ASAN)
-  message(STATUS "ASAN enabled.")
-  add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
-                      -fno-optimize-sibling-calls)
-  add_link_options(-fsanitize=address)
-endif()
-
-# CodeCov
-option(ENABLE_CODECOV "Enable coverage reporting with CodeCov" OFF)
-if(ENABLE_CODECOV)
-  message(STATUS "CodeCov enabled.")
-  find_program(LCOV lcov)
-  if(LCOV)
-    add_compile_options(-g -O0 --coverage)
-  else()
-    message(SEND_ERROR "lcov needed but executable not found")
-  endif()
-endif()
+### Valgrind
+#option(ENABLE_VALGRIND "Enable Valgrind" OFF)
+#if(ENABLE_VALGRIND)
+#  message(STATUS "Valgrind enabled.")
+#  add_compile_options(-g -O0 -fsanitize=address)
+#  add_link_options(-fsanitize=address)
+#  set(MEMORYCHECK_COMMAND_OPTIONS
+#      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
+#  set(MEMORYCHECK_COMMAND_OPTIONS
+#      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
+#  set(MEMORYCHECK_COMMAND_OPTIONS
+#      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
+#  set(MEMORYCHECK_COMMAND_OPTIONS
+#      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
+#endif()
+#
+## ASAN
+#option(ENABLE_ASAN "Enable ASAN" OFF)
+#if(ENABLE_ASAN)
+#  message(STATUS "ASAN enabled.")
+#  add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
+#                      -fno-optimize-sibling-calls)
+#  add_link_options(-fsanitize=address)
+#endif()
+#
+## CodeCov
+#option(ENABLE_CODECOV "Enable coverage reporting with CodeCov" OFF)
+#if(ENABLE_CODECOV)
+#  message(STATUS "CodeCov enabled.")
+#  find_program(LCOV lcov)
+#  if(LCOV)
+#    add_compile_options(-g -O0 --coverage)
+#    add_link_options(--coverage)
+#  else()
+#    message(SEND_ERROR "lcov needed but executable not found")
+#  endif()
+#endif()
 
 #
 # Project  ##
@@ -133,11 +113,11 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 # On macOS and Linux docopt builds an intermediate object, thus different
 # targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
-  target_link_libraries(initialize PRIVATE docopt fmt::fmt-header-only
+  target_link_libraries(initialize PRIVATE project_options project_warnings docopt fmt::fmt-header-only
                                            Eigen3::Eigen TBB::tbb CGAL::CGAL)
 else()
   target_link_libraries(
-    initialize PRIVATE docopt_s fmt::fmt fmt::fmt-header-only Eigen3::Eigen
+    initialize PRIVATE project_options project_warnings docopt_s fmt::fmt fmt::fmt-header-only Eigen3::Eigen
                        TBB::tbb CGAL::CGAL)
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
@@ -149,7 +129,7 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 
 if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(cdt-gv PRIVATE docopt_s CGAL::CGAL)
+  target_link_libraries(cdt-gv PRIVATE project_options project_warnings docopt_s CGAL::CGAL)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
 

@@ -50,6 +50,7 @@ slurm-*.out
 build-wrapper-macosx-x86
 *.scannerwork
 bw-output/*
+coverage.info
 
 # Cruft
 *.old.*
