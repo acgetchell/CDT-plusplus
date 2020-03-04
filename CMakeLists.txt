@@ -38,44 +38,6 @@ set_project_warnings(project_warnings)
 include(CTest)
 include(CMakeDependentOption)
 
-### Valgrind
-#option(ENABLE_VALGRIND "Enable Valgrind" OFF)
-#if(ENABLE_VALGRIND)
-#  message(STATUS "Valgrind enabled.")
-#  add_compile_options(-g -O0 -fsanitize=address)
-#  add_link_options(-fsanitize=address)
-#  set(MEMORYCHECK_COMMAND_OPTIONS
-#      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-#  set(MEMORYCHECK_COMMAND_OPTIONS
-#      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-#  set(MEMORYCHECK_COMMAND_OPTIONS
-#      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-#  set(MEMORYCHECK_COMMAND_OPTIONS
-#      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-#endif()
-#
-## ASAN
-#option(ENABLE_ASAN "Enable ASAN" OFF)
-#if(ENABLE_ASAN)
-#  message(STATUS "ASAN enabled.")
-#  add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
-#                      -fno-optimize-sibling-calls)
-#  add_link_options(-fsanitize=address)
-#endif()
-#
-## CodeCov
-#option(ENABLE_CODECOV "Enable coverage reporting with CodeCov" OFF)
-#if(ENABLE_CODECOV)
-#  message(STATUS "CodeCov enabled.")
-#  find_program(LCOV lcov)
-#  if(LCOV)
-#    add_compile_options(-g -O0 --coverage)
-#    add_link_options(--coverage)
-#  else()
-#    message(SEND_ERROR "lcov needed but executable not found")
-#  endif()
-#endif()
-
 #
 # Project  ##
 #

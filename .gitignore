@@ -64,4 +64,3 @@ coverage.info
 # Pipenv
 Pipfile
 scanresults/
-tools/kcov/

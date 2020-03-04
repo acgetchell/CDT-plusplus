@@ -91,7 +91,7 @@ jobs:
         - mkdir build
         - cd build || exit
         - cmake -G Ninja -D ENABLE_CLANG_TIDY:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-        - cmake --build .
+        - travis_wait 60 cmake --build .
       after_success: skip
     # CppCheck
     - os: linux
@@ -133,7 +133,7 @@ jobs:
       after_success:
         - travis_wait 60 ctest -T memcheck --verbose
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
-    # ASAN + UB
+    # AddressSanitizer and UndefinedBehaviorSanitizer
     - os: linux
       compiler: clang
       env: ASAN=true
@@ -149,6 +149,32 @@ jobs:
         - cd build || exit
         - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
+      after_success:
+        - cd $TRAVIS_BUILD_DIR/build/
+        - ./initialize --s -n32000 -t11 -o
+        - cd tests
+        - ./CDT_test
+    # MemorySanitizer
+    - os: linux
+      compiler: clang
+      env: MSAN=true
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - ninja-build
+            - yasm
+      script:
+        - mkdir build
+        - cd build || exit
+        - cmake -G Ninja -D ENABLE_SANITIZER_MEMORY:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake --build .
+      after_success:
+        - cd $TRAVIS_BUILD_DIR/build/
+        - ./initialize --s -n32000 -t11 -o
+        - cd tests
+        - ./CDT_test
     # CodeCov
     - os: linux
       compiler: gcc
@@ -168,11 +194,10 @@ jobs:
         - cmake -G Ninja -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
       after_success:
-        - cd ${TRAVIS_BUILD_DIR}
-        - lcov --directory . --capture --output-file coverage.info
+        - lcov --capture --directory . --output-file coverage.info
         - lcov --remove coverage.info '/usr/*' --output-file coverage.info
         - lcov --list coverage.info
-        - bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+        - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     # Doxygen
     - os: linux
       compiler: gcc
