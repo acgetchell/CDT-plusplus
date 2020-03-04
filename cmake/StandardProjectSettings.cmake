@@ -49,7 +49,7 @@ endif()
 # Link time optimization
 option(ENABLE_IPO
        "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)"
-       ON)
+       TRUE)
 if(ENABLE_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT ipo_support)

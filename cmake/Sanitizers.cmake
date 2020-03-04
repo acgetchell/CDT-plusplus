@@ -15,7 +15,7 @@ function(enable_sanitizers project_name)
       message(STATUS "Coverage enabled.")
     endif()
 
-    option(ENABLE_VALGRIND "Enable Valgrind" OFF)
+    option(ENABLE_VALGRIND "Enable Valgrind" FALSE)
     if(ENABLE_VALGRIND)
       target_compile_options(project_options INTERFACE -g -O0
                                                        -fsanitize=address)

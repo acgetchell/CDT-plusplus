@@ -116,7 +116,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -GNinja -DENABLE_VALGRIND=ON -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
       after_success:
         - travis_wait 60 ctest -T memcheck --verbose
@@ -135,7 +135,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -GNinja -DENABLE_ASAN=ON -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -GNinja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
     # CodeCov
     - os: linux
@@ -153,7 +153,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -GNinja -DENABLE_CODECOV=ON -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
       after_success:
         - cd ${TRAVIS_BUILD_DIR}
@@ -201,12 +201,6 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
-    - os: linux
-      compiler: gcc
-      env: VALGRIND=true
-    - os: linux
-      compiler: clang
-      env: ASAN=true
     - os: linux
       compiler: gcc
       env: CODECOV=true
