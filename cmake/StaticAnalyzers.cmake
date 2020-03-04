@@ -1,5 +1,5 @@
 # Clang-Tidy
-option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
+option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" FALSE)
 if(ENABLE_CLANG_TIDY)
   message(STATUS "Clang-tidy enabled.")
   set(CMAKE_VERBOSE_MAKEFILE ON)
@@ -13,7 +13,7 @@ if(ENABLE_CLANG_TIDY)
 endif()
 
 # CppCheck
-option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
+option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" FALSE)
 if(ENABLE_CPPCHECK)
   message(STATUS "CppCheck enabled.")
   set(CMAKE_BUILD_TYPE Debug)

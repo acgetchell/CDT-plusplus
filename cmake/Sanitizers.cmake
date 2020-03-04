@@ -36,6 +36,7 @@ function(enable_sanitizers project_name)
     option(ENABLE_SANITIZER_ADDRESS "Enable address sanitizer" FALSE)
     if(ENABLE_SANITIZER_ADDRESS)
       list(APPEND SANITIZERS "address")
+      message(STATUS "AddressSanitizer enabled.")
     endif()
 
     option(ENABLE_SANITIZER_MEMORY "Enable memory sanitizer" FALSE)
