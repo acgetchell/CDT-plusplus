@@ -77,12 +77,13 @@ This will put you on the [development] branch. The project uses the [PitchFork L
 
 - .github - GitHub specific settings
 - build - Ephemeral out-of-source build directory
+- cmake - Cmake configurations
 - docs - Documentation
 - external - Includes external projects, e.g. [PCG]
 - include - Header files
+- scripts - Build, test, and run scripts
 - src - Source files
 - tests - Unit tests
-- tools - Build, test, and run scripts
 
 ### Setup
 
@@ -140,7 +141,7 @@ On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which
 
 ### Building
 
-In the `tools` directory, run `build.sh` or `build.bat` depending on your operating system.
+In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
 
 This should result in the main program executable, `cdt` in `build/bin` or `build\Debug`, along with several others.
 
@@ -242,6 +243,9 @@ ctest -C Debug
 In addition to the command line output, you can see detailed results in the
 `build/Testing` directory which is generated thereby.
 
+Unit tests can be turned off with `-D ENABLE_TESTING:BOOL=FALSE`. See `scripts/fast-build.sh` for
+an example.
+
 ### Static Analysis
 
 This project follows the [CppCore Guidelines][guidelines] as enforced by [ClangTidy], which you can install
@@ -249,7 +253,7 @@ and then run using the [clang-tidy.sh] script:
 
 ~~~bash
 sudo apt-get install clang-tidy
-cd tools
+cd scripts
 ./clang-tidy.sh
 ~~~
 
@@ -259,7 +263,7 @@ The [cppcheck-build.sh] script runs a quick static analysis using [cppcheck].
 
 ~~~bash
 brew install cppcheck
-cd tools
+cd scripts
 ./cppcheck-build.sh
 ~~~
 
@@ -269,6 +273,12 @@ but slower static analysis integrated with [CMake] and [Ninja].
 ~~~bash
 ./scan.sh
 ~~~
+
+### Sanitizers
+
+[AddressSanitizer] + [UndefinedBehaviorSanitizer], [ThreadSanitizer], and [MemorySanitizer] may
+be run with `scripts/asan.sh`, `scripts/tsan.sh`, and `scripts/msan.sh`. They are also checked
+in [Travis-CI] during commits.
 
 ## Parameter Optimization
 
@@ -391,3 +401,7 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [Github Actions]: https://github.com/features/actions
 [Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt
+[AddressSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizer
+[ThreadSanitizer]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
+[MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
+[UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html

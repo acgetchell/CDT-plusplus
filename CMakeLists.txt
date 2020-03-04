@@ -32,6 +32,8 @@ add_library(project_warnings INTERFACE)
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
+option(ENABLE_TESTING "Enable building of tests" TRUE)
+
 #
 # Modules and scripts ##
 #
@@ -75,12 +77,26 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 # On macOS and Linux docopt builds an intermediate object, thus different
 # targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
-  target_link_libraries(initialize PRIVATE project_options project_warnings docopt fmt::fmt-header-only
-                                           Eigen3::Eigen TBB::tbb CGAL::CGAL)
+  target_link_libraries(
+    initialize
+    PRIVATE project_options
+            project_warnings
+            docopt
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            TBB::tbb
+            CGAL::CGAL)
 else()
   target_link_libraries(
-    initialize PRIVATE project_options project_warnings docopt_s fmt::fmt fmt::fmt-header-only Eigen3::Eigen
-                       TBB::tbb CGAL::CGAL)
+    initialize
+    PRIVATE project_options
+            project_warnings
+            docopt_s
+            fmt::fmt
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            TBB::tbb
+            CGAL::CGAL)
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
 
@@ -91,7 +107,8 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 
 if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(cdt-gv PRIVATE project_options project_warnings docopt_s CGAL::CGAL)
+  target_link_libraries(cdt-gv PRIVATE project_options project_warnings
+                                       docopt_s CGAL::CGAL)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
 
@@ -100,8 +117,11 @@ endif()
 #
 
 # Catch
-enable_testing()
-add_subdirectory(tests)
+if(ENABLE_TESTING)
+  enable_testing()
+  add_subdirectory(tests)
+  message("Building tests. Check out /tests for unit tests.")
+endif()
 
 # CTest basic testing Parameter initializer program
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
