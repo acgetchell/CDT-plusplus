@@ -26,6 +26,7 @@ profile
 html/
 /cmake-build*
 cov-int
+/out*
 
 # Editor files
 .clang_complete
