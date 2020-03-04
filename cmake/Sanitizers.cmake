@@ -48,6 +48,7 @@ function(enable_sanitizers project_name)
            "Enable undefined behavior sanitizer" FALSE)
     if(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
       list(APPEND SANITIZERS "undefined")
+      message(STATUS "UndefinedBehaviorSanitizer enabled.")
     endif()
 
     option(ENABLE_SANITIZER_THREAD "Enable thread sanitizer" FALSE)
@@ -62,7 +63,7 @@ function(enable_sanitizers project_name)
   if(LIST_OF_SANITIZERS)
     if(NOT "${LIST_OF_SANITIZERS}" STREQUAL "")
       target_compile_options(${project_name}
-                             INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
+                             INTERFACE -g -O1 -fno_omit_frame_pointer -fsanitize=${LIST_OF_SANITIZERS})
       target_link_libraries(${project_name}
                             INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
     endif()

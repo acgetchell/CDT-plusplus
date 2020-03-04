@@ -133,7 +133,7 @@ jobs:
       after_success:
         - travis_wait 60 ctest -T memcheck --verbose
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
-    # ASAN
+    # ASAN + UB
     - os: linux
       compiler: clang
       env: ASAN=true
@@ -147,7 +147,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
     # CodeCov
     - os: linux
