@@ -22,7 +22,7 @@ set(CMAKE_CONFIGURATION_TYPES
     CACHE STRING "" FORCE)
 
 # Default build type
-set(default_build_type "Release")
+set(default_build_type "RelWithDebInfo")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(
     STATUS
@@ -35,24 +35,26 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Use Ccache
-set(ENABLE_CCACHE "Enable Ccache" ON)
+option(ENABLE_CCACHE "Enable Ccache" OFF)
 if(ENABLE_CCACHE)
   find_program(CCACHE ccache)
   if(CCACHE)
-    message("using ccache")
+    message("Ccache enabled.")
     set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
   else()
-    message("ccache not found cannot use")
+    message(WARNING "Ccache is not supported: ${output}")
   endif()
 endif()
 
 # Link time optimization
-set(ENABLE_IPO
-    "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" ON)
+option(ENABLE_IPO
+       "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)"
+       ON)
 if(ENABLE_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT ipo_support)
   if(ipo_support)
+    message("IPO enabled.")
     set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
   else()
     message(WARNING "IPO is not supported: ${output}")
