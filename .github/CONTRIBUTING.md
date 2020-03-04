@@ -48,7 +48,7 @@ Consult existing code for examples.
 your code compiles on Windows, macOS, and Linux with `msvc`, `gcc`, and `clang`.
 
 13. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
-In particular, look at results from [Cppcheck], [ClangTidy], [Valgrind], and [LGTM].
+In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [MSAN], [ClangTidy], , and [LGTM].
 
 14. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
@@ -93,3 +93,5 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Tagged]: https://github.com/acgetchell/CDT-plusplus/tags
 [ORCID]: https://orcid.org/
 [Cppcheck]: http://cppcheck.sourceforge.net
+[ASAN]: https://github.com/google/sanitizers/wiki/AddressSanitizer
+[MSAN]: https://github.com/google/sanitizers/wiki/MemorySanitizer

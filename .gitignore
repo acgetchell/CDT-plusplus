@@ -26,6 +26,7 @@ profile
 html/
 /cmake-build*
 cov-int
+/out*
 
 # Editor files
 .clang_complete
@@ -50,6 +51,7 @@ slurm-*.out
 build-wrapper-macosx-x86
 *.scannerwork
 bw-output/*
+coverage.info
 
 # Cruft
 *.old.*
@@ -63,4 +65,3 @@ bw-output/*
 # Pipenv
 Pipfile
 scanresults/
-tools/kcov/

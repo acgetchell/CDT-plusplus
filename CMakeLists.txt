@@ -17,162 +17,28 @@ endif()
 # OPTIONS  ##
 #
 
-# Set minimum Boost
-set(BOOST_MIN_VERSION "1.71.0")
+# Compiler options and static analyzers
+include(cmake/StandardProjectSettings.cmake)
+include(cmake/StaticAnalyzers.cmake)
 
-# Compile commands for ClangTidy et. al
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+# Link to project_options library to set sanitizer options
+add_library(project_options INTERFACE)
+target_compile_features(project_options INTERFACE cxx_std_17)
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
 
-# Use C++17 for std::optional
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_EXTENSIONS OFF)
+# Link to project_warnings library to set compiler warnings
+add_library(project_warnings INTERFACE)
+include(cmake/CompilerWarnings.cmake)
+set_project_warnings(project_warnings)
 
-# Turn on / off TBB
-set(TBB_ON TRUE)
-
-# Threads
-set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
-
-# gcc flags
-if("${CMAKE_CXX_COMPILER_ID}" STREQUAL "GNU")
-  add_compile_options(-Wmisleading-indentation -Wduplicated-cond
-                      -Wduplicated-branches -Wlogical-op -Wuseless-cast)
-endif()
-
-# Turn on Visual Studio warnings
-if(WIN32)
-  if(CMAKE_CXX_FLAGS MATCHES "/W[0-4]")
-    string(REGEX REPLACE "/W[0-4]" "/W4" CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}")
-  else()
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /W4")
-  endif()
-else()
-  # Extra warnings for non-Visual Studio
-  add_compile_options(
-    -Wall
-    -Wno-comment
-    -Wextra
-    -Wshadow
-    -Wnon-virtual-dtor
-    -Wold-style-cast
-    -Wcast-align
-    -Wunused
-    -Woverloaded-virtual
-    -Wpedantic
-    -Wconversion
-    -Wsign-conversion
-    -Wnull-dereference
-    -Wdouble-promotion
-    -Wformat=2
-    -Werror=return-type)
-endif()
-
-# Turn off CGAL Triangulation Assertions and Postconditions
-add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS
-                -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
-
-# Disable CLion generation of MinSizeRel to avoid conflicts with
-# CGAL_SetupFlags.cmake
-set(CMAKE_CONFIGURATION_TYPES
-    "Release" "Debug" "RelWithDebInfo"
-    CACHE STRING "" FORCE)
-
-# Easier navigation in an IDE when projects are organized in folders.
-set_property(GLOBAL PROPERTY USE_FOLDERS ON)
-
-# Link time optimization
-include(CheckIPOSupported)
-check_ipo_supported(RESULT ipo_support)
-if(ipo_support)
-  set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-else()
-  message(WARNING "IPO is not supported: ${output}")
-endif()
-
-# Default build type
-set(default_build_type "Release")
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(
-    STATUS
-      "Setting build type to '${default_build_type}' as none was specified.")
-  set(CMAKE_BUILD_TYPE
-      "${default_build_type}"
-      CACHE STRING "Choose the type of build." FORCE)
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
-                                               "RelWithDebInfo")
-endif()
+option(ENABLE_TESTING "Enable building of tests" TRUE)
 
 #
 # Modules and scripts ##
 #
 include(CTest)
 include(CMakeDependentOption)
-
-# Valgrind
-option(ENABLE_VALGRIND "Enable Valgrind" OFF)
-if(ENABLE_VALGRIND)
-  message(STATUS "Valgrind enabled.")
-  add_compile_options(-g -O0 -fsanitize=address)
-  add_link_options(-fsanitize=address)
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --leak-check=full")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --track-fds=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --trace-children=yes")
-  set(MEMORYCHECK_COMMAND_OPTIONS
-      "${MEMORYCHECK_COMMAND_OPTIONS} --error-exitcode=1")
-endif()
-
-# ASAN
-option(ENABLE_ASAN "Enable ASAN" OFF)
-if(ENABLE_ASAN)
-  message(STATUS "ASAN enabled.")
-  add_compile_options(-g -O1 -fsanitize=address -fno-omit-frame-pointer
-                      -fno-optimize-sibling-calls)
-  add_link_options(-fsanitize=address)
-endif()
-
-# Clang-Tidy
-option(ENABLE_CLANG_TIDY "Enable static analysis with clang-tidy" OFF)
-if(ENABLE_CLANG_TIDY)
-  message(STATUS "Clang-tidy enabled.")
-  set(CMAKE_VERBOSE_MAKEFILE ON)
-  set(CMAKE_BUILD_TYPE Debug)
-  find_program(CLANGTIDY clang-tidy)
-  if(CLANGTIDY)
-    set(CMAKE_CXX_CLANG_TIDY ${CLANGTIDY})
-  else()
-    message(SEND_ERROR "clang-tidy requested but executable not found")
-  endif()
-endif()
-
-# CppCheck
-option(ENABLE_CPPCHECK "Enable static analysis with cppcheck" OFF)
-if(ENABLE_CPPCHECK)
-  message(STATUS "CppCheck enabled.")
-  set(CMAKE_BUILD_TYPE Debug)
-  find_program(CPPCHECK cppcheck)
-  if(CPPCHECK)
-    set(CMAKE_CXX_CPPCHECK ${CPPCHECK} --suppress=missingInclude --enable=all
-                           --inconclusive --force --verbose)
-  else()
-    message(SEND_ERROR "cppcheck requested but executable not found")
-  endif()
-endif()
-
-# CodeCov
-option(ENABLE_CODECOV "Enable coverage reporting with CodeCov" OFF)
-if(ENABLE_CODECOV)
-  message(STATUS "CodeCov enabled.")
-  find_program(LCOV lcov)
-  if(LCOV)
-    add_compile_options(-g -O0 --coverage)
-  else()
-    message(SEND_ERROR "lcov needed but executable not found")
-  endif()
-endif()
 
 #
 # Project  ##
@@ -211,12 +77,26 @@ add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 # On macOS and Linux docopt builds an intermediate object, thus different
 # targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
-  target_link_libraries(initialize PRIVATE docopt fmt::fmt-header-only
-                                           Eigen3::Eigen TBB::tbb CGAL::CGAL)
+  target_link_libraries(
+    initialize
+    PRIVATE project_options
+            project_warnings
+            docopt
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            TBB::tbb
+            CGAL::CGAL)
 else()
   target_link_libraries(
-    initialize PRIVATE docopt_s fmt::fmt fmt::fmt-header-only Eigen3::Eigen
-                       TBB::tbb CGAL::CGAL)
+    initialize
+    PRIVATE project_options
+            project_warnings
+            docopt_s
+            fmt::fmt
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            TBB::tbb
+            CGAL::CGAL)
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
 
@@ -227,7 +107,8 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 
 if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(cdt-gv PRIVATE docopt_s CGAL::CGAL)
+  target_link_libraries(cdt-gv PRIVATE project_options project_warnings
+                                       docopt_s CGAL::CGAL)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
 
@@ -236,8 +117,11 @@ endif()
 #
 
 # Catch
-enable_testing()
-add_subdirectory(tests)
+if(ENABLE_TESTING)
+  enable_testing()
+  add_subdirectory(tests)
+  message("Building tests. Check out /tests for unit tests.")
+endif()
 
 # CTest basic testing Parameter initializer program
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
