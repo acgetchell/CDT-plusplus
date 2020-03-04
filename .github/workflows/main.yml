@@ -15,7 +15,7 @@ jobs:
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt update
-        sudo apt-get install yasm ninja-build g++-9
+        sudo apt-get install yasm ninja-build g++-9 ccache
         export CXX="g++-9" CC="gcc-9"
         cd $VCPKG_INSTALLATION_ROOT
         vcpkg install catch2 docopt fmt ms-gsl eigen3 tbb cgal

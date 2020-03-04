@@ -35,7 +35,7 @@ if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
 endif()
 
 # Use Ccache
-option(ENABLE_CCACHE "Enable Ccache" OFF)
+option(ENABLE_CCACHE "Enable Ccache" TRUE)
 if(ENABLE_CCACHE)
   find_program(CCACHE ccache)
   if(CCACHE)

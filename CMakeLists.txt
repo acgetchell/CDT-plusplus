@@ -120,7 +120,7 @@ endif()
 if(ENABLE_TESTING)
   enable_testing()
   add_subdirectory(tests)
-  message("Building tests. Check out /tests for unit tests.")
+  message(STATUS "Building tests. Check out /tests for unit tests.")
 endif()
 
 # CTest basic testing Parameter initializer program
