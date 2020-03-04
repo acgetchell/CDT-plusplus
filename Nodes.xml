@@ -46,27 +46,32 @@
             <Path>index.html</Path>
             <Anchor>autotoc_md7</Anchor>
            </Node>
+           <Node>
+            <Name>Sanitizers</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md8</Anchor>
+           </Node>
           </Subnodes>
          </Node>
          <Node>
           <Name>Parameter Optimization</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md8</Anchor>
+          <Anchor>autotoc_md9</Anchor>
          </Node>
          <Node>
           <Name>Visualization</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md9</Anchor>
+          <Anchor>autotoc_md10</Anchor>
          </Node>
          <Node>
           <Name>Contributing</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md10</Anchor>
+          <Anchor>autotoc_md11</Anchor>
          </Node>
          <Node>
           <Name>Upstream issues</Name>
           <Path>index.html</Path>
-          <Anchor>autotoc_md11</Anchor>
+          <Anchor>autotoc_md12</Anchor>
          </Node>
         </Subnodes>
        </Node>

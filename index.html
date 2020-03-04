@@ -126,12 +126,13 @@ Getting Started</h1>
 <ul>
 <li>.github - GitHub specific settings</li>
 <li>build - Ephemeral out-of-source build directory</li>
+<li>cmake - Cmake configurations</li>
 <li>docs - Documentation</li>
 <li>external - Includes external projects, e.g. <a href="http://www.pcg-random.org/paper.html">PCG</a></li>
 <li>include - Header files</li>
+<li>scripts - Build, test, and run scripts</li>
 <li>src - Source files</li>
 <li>tests - Unit tests</li>
-<li>tools - Build, test, and run scripts</li>
 </ul>
 <h2><a class="anchor" id="autotoc_md2"></a>
 Setup</h2>
@@ -163,7 +164,7 @@ Setup</h2>
 <p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html">clang-7</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Building</h2>
-<p>In the <code>tools</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
+<p>In the <code>scripts</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
 <p>This should result in the main program executable, <code>cdt</code> in <code>build/bin</code> or <code>build\Debug</code>, along with several others.</p>
 <ul>
 <li><code>cdt-gv</code> converts output files to <a href="http://www.geomview.org/">Geomview</a> format for <a href="#visualization">visualization</a></li>
@@ -219,32 +220,36 @@ Testing</h1>
 </div><!-- fragment --><p>or (Windows):</p>
 <div class="fragment"><div class="line">ctest -C Debug</div>
 </div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>build/Testing</code> directory which is generated thereby.</p>
+<p>Unit tests can be turned off with <code>-D ENABLE_TESTING:BOOL=FALSE</code>. See <code>scripts/fast-build.sh</code> for an example.</p>
 <h2><a class="anchor" id="autotoc_md7"></a>
 Static Analysis</h2>
 <p>This project follows the <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">CppCore Guidelines</a> as enforced by <a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a>, which you can install and then run using the <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh">clang-tidy.sh</a> script:</p>
 <div class="fragment"><div class="line">sudo apt-get install clang-tidy</div>
-<div class="line">cd tools</div>
+<div class="line">cd scripts</div>
 <div class="line">./clang-tidy.sh</div>
 </div><!-- fragment --><p>(Or use your favorite linter plugin for your editor/IDE.)</p>
 <p>The <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh">cppcheck-build.sh</a> script runs a quick static analysis using <a href="http://cppcheck.sourceforge.net">cppcheck</a>.</p>
 <div class="fragment"><div class="line">brew install cppcheck</div>
-<div class="line">cd tools</div>
+<div class="line">cd scripts</div>
 <div class="line">./cppcheck-build.sh</div>
 </div><!-- fragment --><p><a href="https://clang.llvm.org">Clang</a> comes with <a href="https://clang-analyzer.llvm.org/scan-build.html">scan-build</a> which can run a much more thorough, but slower static analysis integrated with <a href="https://www.cmake.org">CMake</a> and <a href="https://ninja-build.org">Ninja</a>.</p>
 <div class="fragment"><div class="line">./scan.sh</div>
-</div><!-- fragment --><h1><a class="anchor" id="autotoc_md8"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md8"></a>
+Sanitizers</h2>
+<p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> + <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a> may be run with <code>scripts/asan.sh</code>, <code>scripts/tsan.sh</code>, and <code>scripts/msan.sh</code>. They are also checked in <a href="https://travis-ci.com/getting_started">Travis-CI</a> during commits.</p>
+<h1><a class="anchor" id="autotoc_md9"></a>
 Parameter Optimization</h1>
 <p><a href="https://www.comet.ml/">CometML</a> is used to record <a href="https://www.comet.ml/acgetchell/cdt-plusplus">Experiments</a> which conduct <a href="https://www.comet.ml/parameter-optimization">Model Optimization</a>. The script to do this is <code><a class="el" href="optimize-initialize_8py_source.html">optimize-initialize.py</a></code>. In order for this to work, you must install the following into your Python <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>.</p>
 <div class="fragment"><div class="line">pip install tensorflow</div>
 <div class="line">pip install comet-ml</div>
 </div><!-- fragment --><p>You can then run experiments and look at results on <a href="https://www.comet.ml!">https://www.comet.ml!</a></p>
-<h1><a class="anchor" id="autotoc_md9"></a>
+<h1><a class="anchor" id="autotoc_md10"></a>
 Visualization</h1>
 <p><a href="http://www.geomview.org/">Geomview</a> is used to generate pictures of triangulations using the <code>cdt-gv</code> binary. In order for this to work, you must have <a href="http://www.geomview.org/">Geomview</a> installed (which doesn't work on Windows). On MacOS:</p>
 <div class="fragment"><div class="line">brew cask install xquartz</div>
 <div class="line">brew install geomview</div>
 </div><!-- fragment --><p>If you get a <code>Can't open display</code> problem, look at the <a href="http://www.geomview.org/FAQ/answers.shtml">Geomview FAQ</a>.</p>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 Contributing</h1>
 <p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
 <p>Your code should pass Continuous Integration:</p>
@@ -254,7 +259,7 @@ Contributing</h1>
 <li><a href="http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun">Valgrind</a>; be sure to look at the results to ensure you're not leaking memory</li>
 <li><a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a>; check to ensure you haven't introduced a security vulnerability. Look at the <a href="https://lgtm.com/query/lang:cpp/">query console</a> for more details.</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Upstream issues</h1>
 <ul>
 <li>As of 2018-11-29, the <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> formula for <a href="https://howardhinnant.github.io/date/date.html">date</a> is <a href="https://github.com/microsoft/vcpkg/issues/9082">broken</a>, so I removed reliance on that library. Hopefully it will be back in C++20! Until then, I use Boost.Date_Time on macOS/Linux and (unsafe) std::localtime on Windows, as Boost.Date_Time <a href="https://github.com/microsoft/vcpkg/issues/9087">doesn't link</a> correctly.</li>
@@ -264,7 +269,7 @@ Upstream issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Mar 1 2020 01:15:13 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 4 2020 21:15:23 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
