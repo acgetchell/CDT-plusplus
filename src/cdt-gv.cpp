@@ -69,6 +69,7 @@ Options:
 /// @param argv Argument vector (array) to be passed to docopt
 /// @return Integer value 0 if successful, 1 on failure
 int main(int argc, char* const argv[])
+try
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
   ios_base::sync_with_stdio(false);
@@ -110,4 +111,15 @@ int main(int argc, char* const argv[])
   cin >> ch;
 
   return 0;
+}
+catch (invalid_argument& InvalidArgument)
+{
+  cerr << InvalidArgument.what() << "\n";
+  cerr << "Invalid parameter ... Exiting.\n";
+  return 1;
+}
+catch (...)
+{
+  cerr << "Something went wrong ... Exiting.\n";
+  return 1;
 }
