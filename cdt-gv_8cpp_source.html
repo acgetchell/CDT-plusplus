@@ -127,54 +127,66 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;<span class="stringliteral">)&quot;};</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;<span class="stringliteral"></span> </div>
 <div class="line"><a name="l00071"></a><span class="lineno"><a class="line" href="cdt-gv_8cpp.html#af3ed9c200de85b53c94cd18764b246a2">   71</a></span>&#160;<span class="stringliteral"></span><span class="keywordtype">int</span> <a class="code" href="cdt-gv_8cpp.html#af3ed9c200de85b53c94cd18764b246a2">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[])</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  <span class="comment">// https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  ios_base::sync_with_stdio(<span class="keyword">false</span>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="comment">// docopt option parser</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">USAGE</a>);</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  map&lt;string, docopt::value&gt; args =</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;                     <span class="keyword">true</span>,           <span class="comment">// print help message automatically</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                     <span class="stringliteral">&quot;cdt-gv 1.0&quot;</span>);  <span class="comment">// Version</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="comment">// Debugging docopt values</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="comment">// for (auto const&amp; arg : args) {</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="comment">//   std::cout &lt;&lt; arg.first &lt;&lt; &quot; &quot; &lt;&lt; arg.second &lt;&lt; &quot;\n&quot;;</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="comment">// }</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="comment">// Parse docopt::values in args map</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keyword">auto</span> file = args[<span class="stringliteral">&quot;--file&quot;</span>].asString();</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160; </div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="comment">// Test</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;File to be loaded is &quot;</span> &lt;&lt; file &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  CGAL::Geomview_stream gv(CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  gv.set_line_width(4);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  gv.set_bg_color(CGAL::Color(0, 200, 200));</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160; </div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  Delaunay D;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  ifstream iFile(file, ios::in);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  Point3   p;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="comment">// Insert points from file into Delaunay triangulation</span></div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="keywordflow">while</span> (iFile &gt;&gt; p) { D.insert(p); }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160; </div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;Drawing 3D Delaunay triangulation in wired mode.\n&quot;</span>;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  gv.set_wired(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  gv &lt;&lt; D;</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;Enter a key to finish.\n&quot;</span>;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordtype">char</span> ch;</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  cin &gt;&gt; ch;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;}</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;<span class="keyword">try</span></div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;{</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  <span class="comment">// https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  ios_base::sync_with_stdio(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">// docopt option parser</span></div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">USAGE</a>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  map&lt;string, docopt::value&gt; args =</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;                     <span class="keyword">true</span>,           <span class="comment">// print help message automatically</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;                     <span class="stringliteral">&quot;cdt-gv 1.0&quot;</span>);  <span class="comment">// Version</span></div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="comment">// Debugging docopt values</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="comment">// for (auto const&amp; arg : args) {</span></div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="comment">//   std::cout &lt;&lt; arg.first &lt;&lt; &quot; &quot; &lt;&lt; arg.second &lt;&lt; &quot;\n&quot;;</span></div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="comment">// }</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="comment">// Parse docopt::values in args map</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keyword">auto</span> file = args[<span class="stringliteral">&quot;--file&quot;</span>].asString();</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160; </div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="comment">// Test</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;File to be loaded is &quot;</span> &lt;&lt; file &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  CGAL::Geomview_stream gv(CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  gv.set_line_width(4);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  gv.set_bg_color(CGAL::Color(0, 200, 200));</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  Delaunay D;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;  ifstream iFile(file, ios::in);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  Point3   p;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160; </div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  <span class="comment">// Insert points from file into Delaunay triangulation</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="keywordflow">while</span> (iFile &gt;&gt; p) { D.insert(p); }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;Drawing 3D Delaunay triangulation in wired mode.\n&quot;</span>;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  gv.set_wired(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  gv &lt;&lt; D;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  cout &lt;&lt; <span class="stringliteral">&quot;Enter a key to finish.\n&quot;</span>;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <span class="keywordtype">char</span> ch;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  cin &gt;&gt; ch;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keywordflow">catch</span> (invalid_argument&amp; InvalidArgument)</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  cerr &lt;&lt; InvalidArgument.what() &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  cerr &lt;&lt; <span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  cerr &lt;&lt; <span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>;</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  <span class="keywordflow">return</span> 1;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="acdt-gv_8cpp_html_af3ed9c200de85b53c94cd18764b246a2"><div class="ttname"><a href="cdt-gv_8cpp.html#af3ed9c200de85b53c94cd18764b246a2">main</a></div><div class="ttdeci">int main(int argc, char *const argv[])</div><div class="ttdoc">The main path of the cdt-gv program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00071">cdt-gv.cpp:71</a></div></div>
 <div class="ttc" id="acdt-gv_8cpp_html_a44e58f0208f2c71a06729f1be06b55bc"><div class="ttname"><a href="cdt-gv_8cpp.html#a44e58f0208f2c71a06729f1be06b55bc">USAGE</a></div><div class="ttdeci">static constexpr char USAGE[]</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00040">cdt-gv.cpp:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 4 2020 23:44:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 6 2020 00:00:23 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
