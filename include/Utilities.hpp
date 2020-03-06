@@ -448,19 +448,23 @@ template <typename FloatingPointType>
     { return 2 * simplices_per_timeslice; }
     else if (t_number_of_simplices < 1000)
     {
-      return static_cast<int_fast64_t>(0.4 * simplices_per_timeslice);
+      return static_cast<int_fast64_t>(
+          0.4 * static_cast<double>(simplices_per_timeslice));
     }
     else if (t_number_of_simplices < 10000)
     {
-      return static_cast<int_fast64_t>(0.2 * simplices_per_timeslice);
+      return static_cast<int_fast64_t>(
+          0.2 * static_cast<double>(simplices_per_timeslice));
     }
     else if (t_number_of_simplices < 100000)
     {
-      return static_cast<int_fast64_t>(0.15 * simplices_per_timeslice);
+      return static_cast<int_fast64_t>(
+          0.15 * static_cast<double>(simplices_per_timeslice));
     }
     else
     {
-      return static_cast<int_fast64_t>(0.1 * simplices_per_timeslice);
+      return static_cast<int_fast64_t>(
+          0.1 * static_cast<double>(simplices_per_timeslice));
     }
   }
   else
