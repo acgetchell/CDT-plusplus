@@ -307,8 +307,8 @@ $(function() {
 <div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;<span class="comment">//{</span></div>
 <div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;<span class="comment">//  GIVEN(&quot;A valid manifold&quot;)</span></div>
 <div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment">//    auto constexpr desired_simplices  = static_cast&lt;int_fast32_t&gt;(640);</span></div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment">//    auto constexpr desired_timeslices = static_cast&lt;int_fast32_t&gt;(4);</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;<span class="comment">//    auto constexpr desired_simplices  = static_cast&lt;int_fast64_t&gt;(640);</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;<span class="comment">//    auto constexpr desired_timeslices = static_cast&lt;int_fast64_t&gt;(4);</span></div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;<span class="comment">//    Manifold3 manifold(desired_simplices, desired_timeslices);</span></div>
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;<span class="comment">//    REQUIRE(manifold.is_delaunay());</span></div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;<span class="comment">//    REQUIRE(manifold.is_valid());</span></div>
@@ -334,8 +334,8 @@ $(function() {
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">//    }</span></div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment">//    WHEN(&quot;It is constructed from a Manifold3.&quot;)</span></div>
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;int_fast32_t&gt;(640);</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;int_fast32_t&gt;(4);</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;int_fast64_t&gt;(640);</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;int_fast64_t&gt;(4);</span></div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">//      Manifold3    manifold(desired_simplices, desired_timeslices);</span></div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">//      MoveCommand3 move(manifold);</span></div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">//      THEN(&quot;The manifold is valid.&quot;)</span></div>
@@ -364,8 +364,8 @@ $(function() {
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">//    }</span></div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">//    WHEN(&quot;A (2,3) move is requested.&quot;)</span></div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;int_fast32_t&gt;(640);</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;int_fast32_t&gt;(4);</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;int_fast64_t&gt;(640);</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;int_fast64_t&gt;(4);</span></div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">//      Manifold3    manifold(desired_simplices, desired_timeslices);</span></div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">//      MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);</span></div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">//      auto         N3_31_pre_move = manifold.N3_31();</span></div>
@@ -454,7 +454,7 @@ $(function() {
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00026">Manifold.hpp:26</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 6 2020 06:18:32 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 7 2020 05:41:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
