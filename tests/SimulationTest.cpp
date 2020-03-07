@@ -19,8 +19,8 @@
 SCENARIO("Construct a small simulation that always makes a move",
          "[simulation][!mayfail][!hide]")
 {
-  auto constexpr simplices  = static_cast<std::int_fast32_t>(2);
-  auto constexpr timeslices = static_cast<std::int_fast32_t>(2);
+  auto constexpr simplices  = static_cast<std::int_fast64_t>(2);
+  auto constexpr timeslices = static_cast<std::int_fast64_t>(2);
   GIVEN("A simulation and an algorithm.")
   {
     Simulation         test_simulation;

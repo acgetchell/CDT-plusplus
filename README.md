@@ -142,7 +142,10 @@ On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which
 
 ### Building
 
-In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
+If you want to get started right away, in the `scripts` directory run `fast-build.sh` or `fast-build.bat`,
+depending on your operating system. This will compile the appropriate executables in `RELEASE` mode with no tests.
+
+
 
 This should result in the main program executable, `cdt` in `build/bin` or `build\Debug`, along with several others.
 
@@ -217,6 +220,8 @@ If you do not have GraphViz installed, set this option to **NO**
 
 ## Testing
 
+In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
+
 Unit tests are run (in `build/tests` or `build\tests\Debug`) via `CDT_test`, the [Catch] executable:
 
 ~~~bash
@@ -232,7 +237,7 @@ CDT_test.exe
 You can also run both [CTest] integration and [Catch] unit tests in the `build` directory with:
 
 ~~~bash
-ctest
+cmake --build . --target test
 ~~~
 
 or (Windows):
@@ -244,8 +249,7 @@ ctest -C Debug
 In addition to the command line output, you can see detailed results in the
 `build/Testing` directory which is generated thereby.
 
-Unit tests can be turned off with `-D ENABLE_TESTING:BOOL=FALSE`. See `scripts/fast-build.sh` for
-an example.
+Unit tests are turned off with `-D ENABLE_TESTING:BOOL=FALSE`, e.g. `scripts/fast-build.sh`.
 
 ### Static Analysis
 
@@ -260,7 +264,7 @@ cd scripts
 
 (Or use your favorite linter plugin for your editor/IDE.)
 
-The [cppcheck-build.sh] script runs a quick static analysis using [cppcheck].
+The [cppcheck.sh] script runs a quick static analysis using [cppcheck].
 
 ~~~bash
 brew install cppcheck
@@ -356,7 +360,7 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [scan-build]: https://clang-analyzer.llvm.org/scan-build.html
 [scan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/scan.sh
 [cppcheck]: http://cppcheck.sourceforge.net
-[cppcheck-build.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/cppcheck-build.sh
+[cppcheck.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/cppcheck.sh
 [functional]: https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/
 [TBB]: https://www.threadingbuildingblocks.org
 [CDT++]: https://github.com/acgetchell/CDT-plusplus

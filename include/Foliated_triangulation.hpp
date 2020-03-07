@@ -581,7 +581,7 @@ class FoliatedTriangulation<3> : private Delaunay3
       Spherical_points_generator gen{radius};
       // Generate random points at the radius
       for (gsl::index j = 0;
-           j < static_cast<std::int_fast32_t>(points_per_timeslice * radius);
+           j < static_cast<std::int_fast64_t>(points_per_timeslice * radius);
            ++j)
       { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // j
     }                                                                   // i

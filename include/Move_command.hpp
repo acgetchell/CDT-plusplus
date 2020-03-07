@@ -112,7 +112,7 @@ class MoveCommand
 //  };
 //
 //  using Move_queue   = std::vector<Move_type>;
-//  using Move_tracker = std::array<std::int_fast32_t, 5>;
+//  using Move_tracker = std::array<std::int_fast64_t, 5>;
 //
 //  /// @brief Default constructor
 //  Move_command()

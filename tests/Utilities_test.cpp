@@ -66,9 +66,9 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
     WHEN("A filename is generated.")
     {
       auto constexpr this_topology = topology_type::SPHERICAL;
-      auto constexpr dimensions    = static_cast<int_fast32_t>(3);
-      auto constexpr simplices     = static_cast<int_fast32_t>(6700);
-      auto constexpr timeslices    = static_cast<int_fast32_t>(16);
+      auto constexpr dimensions    = static_cast<int_fast64_t>(3);
+      auto constexpr simplices     = static_cast<int_fast64_t>(6700);
+      auto constexpr timeslices    = static_cast<int_fast64_t>(16);
       auto const filename =
           generate_filename(this_topology, dimensions, simplices, timeslices);
       THEN("The output is correct.")

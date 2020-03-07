@@ -237,8 +237,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //{
 //  GIVEN("A valid manifold")
 //  {
-//    auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
-//    auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+//    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+//    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
 //    Manifold3 manifold(desired_simplices, desired_timeslices);
 //    REQUIRE(manifold.is_delaunay());
 //    REQUIRE(manifold.is_valid());
@@ -264,8 +264,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //    }
 //    WHEN("It is constructed from a Manifold3.")
 //    {
-//      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
-//      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+//      auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+//      auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
 //      Manifold3    manifold(desired_simplices, desired_timeslices);
 //      MoveCommand3 move(manifold);
 //      THEN("The manifold is valid.")
@@ -294,8 +294,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //    }
 //    WHEN("A (2,3) move is requested.")
 //    {
-//      auto constexpr desired_simplices  = static_cast<int_fast32_t>(640);
-//      auto constexpr desired_timeslices = static_cast<int_fast32_t>(4);
+//      auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
+//      auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
 //      Manifold3    manifold(desired_simplices, desired_timeslices);
 //      MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);
 //      auto         N3_31_pre_move = manifold.N3_31();

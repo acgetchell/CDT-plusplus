@@ -35,7 +35,7 @@ class MoveStrategy;
 template <>
 class MoveStrategy<3>
 {
-  using Move_tracker = std::array<int, 5>;
+  using Move_tracker = std::array<std::int_fast64_t, 5>;
 
  protected:
   /// @brief A Manifold<3>.
@@ -128,53 +128,77 @@ class MoveStrategy<3>
  public:
   /// @brief All simplices
   /// @return The current total number of simplices
-  auto CurrentTotalSimplices() const noexcept { return m_N3_31_13 + m_N3_22; }
+  [[nodiscard]] auto CurrentTotalSimplices() const noexcept
+  {
+    return m_N3_31_13 + m_N3_22;
+  }
 
   /// @brief Gets attempted (2,3) moves.
   /// @return attempted_moves_[0]
-  auto TwoThreeMoves() const noexcept { return m_attempted_moves[0]; }
+  [[nodiscard]] auto TwoThreeMoves() const noexcept
+  {
+    return m_attempted_moves[0];
+  }
 
   /// @brief Gets successful (2,3) moves.
   /// @return successful_moves_[0]
-  auto SuccessfulTwoThreeMoves() const noexcept
+  [[nodiscard]] auto SuccessfulTwoThreeMoves() const noexcept
   {
     return m_successful_moves[0];
   }
 
   /// @brief Gets attempted (3,2) moves.
   /// @return attempted_moves_[1]
-  auto ThreeTwoMoves() const noexcept { return m_attempted_moves[1]; }
+  [[nodiscard]] auto ThreeTwoMoves() const noexcept
+  {
+    return m_attempted_moves[1];
+  }
 
   /// @brief Gets successful (3,2) moves.
   /// @return std::get<1>(successful_moves_)
-  auto SuccessfulThreeTwoMoves() const noexcept
+  [[nodiscard]] auto SuccessfulThreeTwoMoves() const noexcept
   {
     return m_successful_moves[1];
   }
 
   /// @brief Gets attempted (2,6) moves.
   /// @return return attempted_moves_[2]
-  auto TwoSixMoves() const noexcept { return m_attempted_moves[2]; }
+  [[nodiscard]] auto TwoSixMoves() const noexcept
+  {
+    return m_attempted_moves[2];
+  }
 
   /// @brief Gets successful (2,6) moves.
   /// @return std::get<2>(successful_moves_)
-  auto SuccessfulTwoSixMoves() const noexcept { return m_successful_moves[2]; }
+  [[nodiscard]] auto SuccessfulTwoSixMoves() const noexcept
+  {
+    return m_successful_moves[2];
+  }
 
   /// @brief Gets attempted (6,2) moves.
   /// @return return attempted_moves_[3]
-  auto SixTwoMoves() const noexcept { return m_attempted_moves[3]; }
+  [[nodiscard]] auto SixTwoMoves() const noexcept
+  {
+    return m_attempted_moves[3];
+  }
 
   /// @brief Gets successful (6,2) moves.
   /// @return std::get<3>(attempted_moves_)
-  auto SuccessfulSixTwoMoves() const noexcept { return m_successful_moves[3]; }
+  [[nodiscard]] auto SuccessfulSixTwoMoves() const noexcept
+  {
+    return m_successful_moves[3];
+  }
 
   /// @brief Gets attempted (4,4) moves.
   /// @return attempted_moves_[4]
-  auto FourFourMoves() const noexcept { return m_attempted_moves[4]; }
+  [[nodiscard]] auto FourFourMoves() const noexcept
+  {
+    return m_attempted_moves[4];
+  }
 
   /// @brief Gets successful (4,4) moves.
   /// @return std::get<4>(attempted_moves_)
-  auto SuccessfulFourFourMoves() const noexcept
+  [[nodiscard]] auto SuccessfulFourFourMoves() const noexcept
   {
     return m_successful_moves[4];
   }
