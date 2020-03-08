@@ -24,7 +24,7 @@ using Gmpzf = CGAL::Gmpzf;
 /// to work.
 
 #if __linux
-using Int_precision = long;
+using Int_precision = int;
 #else
 using Int_precision = std::int_fast32_t;
 #endif
