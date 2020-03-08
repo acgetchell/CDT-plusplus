@@ -29,6 +29,8 @@
 // Docopt
 #include <docopt.h>
 
+#include "Settings.hpp"
+
 using K        = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Delaunay = CGAL::Delaunay_triangulation_3<K>;
 using Gt3      = CGAL::Projection_traits_xy_3<K>;
@@ -91,9 +93,14 @@ try
   // Test
   cout << "File to be loaded is " << file << "\n";
 
-  CGAL::Geomview_stream gv(CGAL::Bbox_3(-1000, -1000, -1000, 1000, 1000, 1000));
+  CGAL::Geomview_stream gv(CGAL::Bbox_3(
+      -GV_BOUNDING_BOX_SIZE, -GV_BOUNDING_BOX_SIZE, -GV_BOUNDING_BOX_SIZE,
+      GV_BOUNDING_BOX_SIZE, GV_BOUNDING_BOX_SIZE, GV_BOUNDING_BOX_SIZE));
   gv.set_line_width(4);
-  gv.set_bg_color(CGAL::Color(0, 200, 200));
+  int constexpr GV_RED_VALUE   = 0;
+  int constexpr GV_GREEN_VALUE = 200;
+  int constexpr GV_BLUE_VALUE  = 200;
+  gv.set_bg_color(CGAL::Color(GV_RED_VALUE, GV_GREEN_VALUE, GV_BLUE_VALUE));
 
   Delaunay D;
   ifstream iFile(file, ios::in);

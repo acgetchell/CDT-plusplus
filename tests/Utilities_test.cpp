@@ -66,9 +66,9 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
     WHEN("A filename is generated.")
     {
       auto constexpr this_topology = topology_type::SPHERICAL;
-      auto constexpr dimensions    = static_cast<int_fast64_t>(3);
-      auto constexpr simplices     = static_cast<int_fast64_t>(6700);
-      auto constexpr timeslices    = static_cast<int_fast64_t>(16);
+      auto constexpr dimensions    = static_cast<Int_precision>(3);
+      auto constexpr simplices     = static_cast<Int_precision>(6700);
+      auto constexpr timeslices    = static_cast<Int_precision>(16);
       auto const filename =
           generate_filename(this_topology, dimensions, simplices, timeslices);
       THEN("The output is correct.")
@@ -140,7 +140,8 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   }
   GIVEN("A container of ints")
   {
-    vector<int> v(20);
+    Int_precision constexpr VECTOR_TEST_SIZE = 20;
+    vector<Int_precision> v(VECTOR_TEST_SIZE);
     iota(v.begin(), v.end(), 0);
     WHEN("The container is shuffled.")
     {
@@ -158,8 +159,8 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr min = static_cast<int_fast64_t>(64);
-      auto constexpr max = static_cast<int_fast64_t>(6400);
+      auto constexpr min = static_cast<Int_precision>(64);
+      auto constexpr max = static_cast<Int_precision>(6400);
       auto const value1  = generate_random_int(min, max);
       auto const value2  = generate_random_int(min, max);
       auto const value3  = generate_random_int(min, max);
@@ -202,7 +203,7 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr max = static_cast<int_fast64_t>(256);
+      auto constexpr max = static_cast<Int_precision>(256);
       auto const value1  = generate_random_timeslice(max);
       auto const value2  = generate_random_timeslice(max);
       auto const value3  = generate_random_timeslice(max);
@@ -245,8 +246,8 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate a random real number.")
     {
-      auto constexpr min = static_cast<long double>(0.0);
-      auto constexpr max = static_cast<long double>(1.0);
+      auto constexpr min = 0.0L;
+      auto constexpr max = 1.0L;
       auto const value   = generate_random_real(min, max);
       THEN("The real number should lie within that range.")
       {
@@ -334,13 +335,13 @@ SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
 {
   GIVEN("A number not exactly representable in binary")
   {
-    Gmpzf value = 0.17;
+    Gmpzf const TESTVALUE = 0.17;
     WHEN("We convert it to double.")
     {
-      auto const converted_value = Gmpzf_to_double(value);
+      auto const converted_value = Gmpzf_to_double(TESTVALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
       {
-        REQUIRE(value == Gmpzf(converted_value));
+        REQUIRE(TESTVALUE == Gmpzf(converted_value));
       }
     }
   }

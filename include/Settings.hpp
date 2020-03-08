@@ -36,4 +36,7 @@ static Int_precision constexpr PRECISION = 256;
 static long double constexpr INITIAL_RADIUS = 1.0L;
 static long double constexpr RADIAL_FACTOR  = 1.0L;
 
+/// Depends on INITIAL_RADIUS and RADIAL_FACTOR
+static Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
+
 #endif  // INCLUDE_SETTINGS_HPP_
