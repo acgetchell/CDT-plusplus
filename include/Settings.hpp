@@ -24,12 +24,16 @@ using Gmpzf = CGAL::Gmpzf;
 /// to work.
 
 #if __linux
-using Int_precision = int;
+using Int_precision = long;
 #else
 using Int_precision = std::int_fast32_t;
 #endif
 
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static constexpr Int_precision PRECISION = 256;
+static Int_precision constexpr PRECISION = 256;
+
+/// Default foliated triangulation spacings
+static long double constexpr INITIAL_RADIUS = 1.0L;
+static long double constexpr RADIAL_FACTOR  = 1.0L;
 
 #endif  // INCLUDE_SETTINGS_HPP_

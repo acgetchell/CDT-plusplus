@@ -53,11 +53,6 @@ using Face_handle   = std::pair<Cell_handle, Int_precision>;
 using Edge_handle   = CGAL::Triple<Cell_handle, Int_precision, Int_precision>;
 using Vertex_handle = Delaunay3::Vertex_handle;
 
-static long double constexpr INITIAL_RADIUS =
-    static_cast<long double const>(1.0);
-static long double constexpr RADIAL_FACTOR =
-    static_cast<long double const>(1.0);
-
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
 {
