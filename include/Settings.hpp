@@ -22,7 +22,12 @@ using Gmpzf = CGAL::Gmpzf;
 /// These are the base values read into the program or used in calculations.
 /// Casts to unsigned types are still necessary for certain library functions
 /// to work.
+
+#if __linux
+using Int_precision = int;
+#else
 using Int_precision = std::int_fast32_t;
+#endif
 
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static constexpr Int_precision PRECISION = 256;
