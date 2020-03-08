@@ -55,7 +55,8 @@ class Manifold<3>
   /// @brief Construct manifold using arguments
   /// @param t_desired_simplices Number of desired simplices
   /// @param t_desired_timeslices Number of desired timeslices
-  Manifold(int_fast64_t t_desired_simplices, int_fast64_t t_desired_timeslices)
+  Manifold(Int_precision t_desired_simplices,
+           Int_precision t_desired_timeslices)
       : m_triangulation{FoliatedTriangulation3(t_desired_simplices,
                                                t_desired_timeslices)}
       , m_geometry{get_triangulation()}
@@ -66,8 +67,9 @@ class Manifold<3>
   /// @param t_desired_timeslices Number of desired timeslices
   /// @param t_initial_radius Radius of first timeslice
   /// @param t_radial_factor Radial separation between timeslices
-  Manifold(int_fast64_t t_desired_simplices, int_fast64_t t_desired_timeslices,
-           double t_initial_radius, double t_radial_factor)
+  Manifold(Int_precision t_desired_simplices,
+           Int_precision t_desired_timeslices, long double t_initial_radius,
+           long double t_radial_factor)
       : m_triangulation{FoliatedTriangulation3(
             t_desired_simplices, t_desired_timeslices, t_initial_radius,
             t_radial_factor)}
@@ -191,7 +193,7 @@ class Manifold<3>
   /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] decltype(auto) number_of_simplices() const
   {
-    return m_triangulation.get_cells().size();
+    return static_cast<Int_precision>(m_triangulation.get_cells().size());
   }
 
   /// @return Number of 2D faces in geometry data structure

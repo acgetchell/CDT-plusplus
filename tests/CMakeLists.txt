@@ -16,7 +16,8 @@ add_executable(
   Tetrahedron_test.cpp
   Torus_test.cpp
   Utilities_test.cpp
-  Vertex_test.cpp)
+  Vertex_test.cpp
+    Settings_test.cpp)
 
 target_link_libraries(CDT_test project_options project_warnings Catch2::Catch2
                       fmt::fmt-header-only CGAL::CGAL)

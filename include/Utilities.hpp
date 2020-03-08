@@ -15,7 +15,7 @@
 #define DETAILED_DEBUGGING
 #undef DETAILED_DEBUGGING
 
-#include <CGAL/Gmpzf.h>
+//#include <CGAL/Gmpzf.h>
 #include <CGAL/Timer.h>
 #ifndef _WIN32
 #include <sys/utsname.h>
@@ -45,7 +45,10 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
-using Gmpzf = CGAL::Gmpzf;
+// Global project settings
+#include "Settings.hpp"
+
+// using Gmpzf = CGAL::Gmpzf;
 
 enum class topology_type
 {
@@ -157,9 +160,9 @@ inline std::string currentDateTime()
 /// @param t_number_of_timeslices The number of time foliations
 /// @return A filename
 [[nodiscard]] inline auto generate_filename(
-    topology_type const& t_topology, std::size_t const t_dimension,
-    std::int_fast64_t const t_number_of_simplices,
-    std::int_fast64_t const t_number_of_timeslices) noexcept
+    topology_type const& t_topology, Int_precision const t_dimension,
+    Int_precision const t_number_of_simplices,
+    Int_precision const t_number_of_timeslices) noexcept
 {
   std::string filename;
   if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
@@ -310,9 +313,9 @@ catch (...)
 /// @todo Fix for Manifold3
 template <typename ManifoldType>
 void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
-                std::size_t const  t_dimension,
-                int_fast64_t const t_number_of_simplices,
-                int_fast64_t const t_number_of_timeslices)
+                Int_precision const t_dimension,
+                Int_precision const t_number_of_simplices,
+                Int_precision const t_number_of_timeslices)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
@@ -339,8 +342,8 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
   pcg64 rng(seed_source);
 
   // Choose random number from 1 to 6
-  std::uniform_int_distribution<int> uniform_dist(1, 6);
-  int const                          roll = uniform_dist(rng);
+  std::uniform_int_distribution<Int_precision> uniform_dist(1, 6);
+  Int_precision const                          roll = uniform_dist(rng);
   return roll;
 }  // die_roll()
 
@@ -410,8 +413,8 @@ template <typename FloatingPointType>
 /// @brief Generate a probability
 [[nodiscard]] auto constexpr generate_probability() noexcept
 {
-  auto constexpr min = static_cast<long double>(0.0);
-  auto constexpr max = static_cast<long double>(1.0);
+  auto constexpr min = 0.0L;
+  auto constexpr max = 1.0L;
   return generate_random_real(min, max);
 }  // generate_probability()
 
@@ -430,8 +433,8 @@ template <typename FloatingPointType>
 /// @return  The number of points per timeslice to obtain
 /// the desired number of simplices
 [[nodiscard]] inline auto expected_points_per_timeslice(
-    std::size_t const t_dimension, int_fast64_t const t_number_of_simplices,
-    int_fast64_t const t_number_of_timeslices, bool const t_output_flag = true)
+    std::size_t const t_dimension, Int_precision const t_number_of_simplices,
+    Int_precision const t_number_of_timeslices, bool const t_output_flag = true)
 {
   if (t_output_flag)
   {
@@ -448,23 +451,23 @@ template <typename FloatingPointType>
     { return 2 * simplices_per_timeslice; }
     else if (t_number_of_simplices < 1000)
     {
-      return static_cast<int_fast64_t>(
-          0.4 * static_cast<double>(simplices_per_timeslice));
+      return static_cast<Int_precision>(
+          0.4L * static_cast<long double>(simplices_per_timeslice));
     }
     else if (t_number_of_simplices < 10000)
     {
-      return static_cast<int_fast64_t>(
-          0.2 * static_cast<double>(simplices_per_timeslice));
+      return static_cast<Int_precision>(
+          0.2L * static_cast<long double>(simplices_per_timeslice));
     }
     else if (t_number_of_simplices < 100000)
     {
-      return static_cast<int_fast64_t>(
-          0.15 * static_cast<double>(simplices_per_timeslice));
+      return static_cast<Int_precision>(
+          0.15L * static_cast<long double>(simplices_per_timeslice));
     }
     else
     {
-      return static_cast<int_fast64_t>(
-          0.1 * static_cast<double>(simplices_per_timeslice));
+      return static_cast<Int_precision>(
+          0.1L * static_cast<long double>(simplices_per_timeslice));
     }
   }
   else

@@ -13,20 +13,40 @@
 
 using namespace std;
 
-SCENARIO("Move_command exception safety", "[move command]")
+SCENARIO("Move_command special members", "[move command]")
 {
   GIVEN("A Move_command.")
   {
     WHEN("It's properties are examined.")
     {
-      THEN("It should be no-throw move constructible.")
+      THEN("It is constructible from a Manifold.")
       {
-        CHECK(is_nothrow_move_constructible<MoveCommand<Manifold3>>::value);
+        CHECK(is_constructible<MoveCommand<Manifold3>, Manifold3>::value);
+      }
+      THEN("It is no-throw destructible.")
+      {
+        CHECK(is_nothrow_destructible<MoveCommand<Manifold3>>::value);
+      }
+      THEN("It is copy constructible.")
+      {
+        CHECK(is_copy_constructible<MoveCommand<Manifold3>>::value);
+      }
+      THEN("It is copy assignable.")
+      {
+        CHECK(is_copy_assignable<MoveCommand<Manifold3>>::value);
+      }
+      THEN("It is move constructible.")
+      {
+        CHECK(is_move_constructible<MoveCommand<Manifold3>>::value);
         //        cout << "Small function object optimization supported: " <<
         //        boolalpha
         //             <<
         //             is_nothrow_move_constructible<MoveCommand<Manifold3>>::value
         //             << "\n";
+      }
+      THEN("It is move assignable.")
+      {
+        CHECK(is_move_assignable<MoveCommand<Manifold3>>::value);
       }
     }
   }
@@ -36,8 +56,8 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
 {
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move.")
@@ -63,8 +83,8 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
 {
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
@@ -92,8 +112,8 @@ SCENARIO("Invoking a move with apply_move", "[move command]")
 {
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Apply_move is used for a move.")
@@ -119,8 +139,8 @@ SCENARIO("Move Command initialization", "[move command]")
 {
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
@@ -169,8 +189,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 {
   GIVEN("A valid manifold")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A null move is queued.")
@@ -237,8 +257,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //{
 //  GIVEN("A valid manifold")
 //  {
-//    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-//    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+//    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+//    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
 //    Manifold3 manifold(desired_simplices, desired_timeslices);
 //    REQUIRE(manifold.is_delaunay());
 //    REQUIRE(manifold.is_valid());
@@ -264,8 +284,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //    }
 //    WHEN("It is constructed from a Manifold3.")
 //    {
-//      auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-//      auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+//      auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+//      auto constexpr desired_timeslices = static_cast<Int_precision>(4);
 //      Manifold3    manifold(desired_simplices, desired_timeslices);
 //      MoveCommand3 move(manifold);
 //      THEN("The manifold is valid.")
@@ -294,8 +314,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //    }
 //    WHEN("A (2,3) move is requested.")
 //    {
-//      auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-//      auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+//      auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+//      auto constexpr desired_timeslices = static_cast<Int_precision>(4);
 //      Manifold3    manifold(desired_simplices, desired_timeslices);
 //      MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);
 //      auto         N3_31_pre_move = manifold.N3_31();
@@ -325,8 +345,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
 //    }
 //    //    WHEN("One of each move is requested.")
 //    //    {
-//    //      int_fast64_t             desired_simplices{6700};
-//    //      int_fast64_t             desired_timeslices{11};
+//    //      Int_precision             desired_simplices{6700};
+//    //      Int_precision             desired_timeslices{11};
 //    //      Manifold3                manifold(desired_simplices,
 //    //      desired_timeslices); MoveCommand3::Move_queue desired_moves{
 //    //          // MoveCommand3::Move_type::TWO_THREE,

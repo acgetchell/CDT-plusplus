@@ -42,13 +42,13 @@ class MoveStrategy<3>
   Manifold3 m_universe;
 
   /// @brief The current number of timelike edges
-  std::size_t m_N1_TL{0};
+  Int_precision m_N1_TL{0};
 
   /// @brief The current number of (3,1) and (1,3) simplices
-  std::size_t m_N3_31_13{0};
+  Int_precision m_N3_31_13{0};
 
   /// @brief The current number of (2,2) simplices
-  std::size_t m_N3_22{0};
+  Int_precision m_N3_22{0};
 
   /// @brief Attempted (2,3), (3,2), (2,6), (6,2), and (4,4) moves.
   Move_tracker m_attempted_moves{{0, 0, 0, 0, 0}};
@@ -116,7 +116,7 @@ class MoveStrategy<3>
     if (maybe_moved_universe)
     {
       swap(m_universe, *maybe_moved_universe);
-      ++m_successful_moves[to_integral(t_move)];
+      ++m_successful_moves[static_cast<std::size_t>(to_integral(t_move))];
     }
 
     // Update counters

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2019 Adam Getchell
+/// Copyright © 2014-2020 Adam Getchell
 ///
 /// Calculates the S3 Bulk (and later, boundary) actions.
 /// Uses the GNU MPFR library for arbitrary precision arithmetic on
@@ -18,16 +18,9 @@
 #ifndef INCLUDE_S3ACTION_HPP_
 #define INCLUDE_S3ACTION_HPP_
 
-#include <CGAL/Gmpzf.h>
+#include "Settings.hpp"
 #include <cstdio>
 #include <mpfr.h>
-
-/// Results are converted to a CGAL multi-precision floating point number.
-/// Gmpzf itself is based on GMP (https://gmplib.org), as is MPFR.
-using Gmpzf = CGAL::Gmpzf;
-
-/// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static constexpr std::size_t PRECISION = 256;
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
@@ -50,8 +43,8 @@ static constexpr std::size_t PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
-    const std::size_t N1_TL, const std::size_t N3_31_13,
-    const std::size_t N3_22, const long double K,
+    const Int_precision N1_TL, const Int_precision N3_31_13,
+    const Int_precision N3_22, const long double K,
     const long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
@@ -64,9 +57,9 @@ static constexpr std::size_t PRECISION = 256;
               total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_ui(n3_31, N3_31_13, MPFR_RNDD);
-  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
   mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
@@ -97,7 +90,8 @@ static constexpr std::size_t PRECISION = 256;
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  //  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  // Gmpzf only has a constructor taking a double, not a long double
+  // Perhaps fixable later by switching to MP_Float, e.g.
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
   auto result = mpfr_get_d(total, MPFR_RNDD);
 
@@ -127,8 +121,8 @@ static constexpr std::size_t PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_one(
-    const std::size_t N1_TL, const std::size_t N3_31_13,
-    const std::size_t N3_22, const long double K,
+    const Int_precision N1_TL, const Int_precision N3_31_13,
+    const Int_precision N3_22, const long double K,
     const long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
@@ -142,9 +136,9 @@ static constexpr std::size_t PRECISION = 256;
               total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_ui(n3_31, N3_31_13, MPFR_RNDD);
-  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
   mpfr_init_set_str(two, "2.0", 10, MPFR_RNDD);
@@ -175,12 +169,9 @@ static constexpr std::size_t PRECISION = 256;
   mpfr_add(r12, r3, r7, MPFR_RNDD);      // r12 = r3+r7
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
-  // Debugging
-  // std::cout << "S3_bulk_action_alpha_one result is " << mpfr_out_str(stdout,
-  //               10, 0, total, MPFR_RNDD) << std::endl;
-
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  //  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  // Gmpzf only has a constructor taking a double, not a long double
+  // Perhaps fixable later by switching to MP_Float, e.g.
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
   auto result = mpfr_get_d(total, MPFR_RNDD);
 
@@ -219,8 +210,8 @@ static constexpr std::size_t PRECISION = 256;
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action(
-    const std::size_t N1_TL, const std::size_t N3_31_13,
-    const std::size_t N3_22, const long double Alpha, const long double K,
+    const Int_precision N1_TL, const Int_precision N3_31_13,
+    const Int_precision N3_22, const long double Alpha, const long double K,
     const long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
@@ -239,9 +230,9 @@ static constexpr std::size_t PRECISION = 256;
               r52, total, nullptr);
 
   // Set input parameters and constants to mpfr_t equivalents
-  mpfr_init_set_ui(n1_tl, N1_TL, MPFR_RNDD);
-  mpfr_init_set_ui(n3_31, N3_31_13, MPFR_RNDD);
-  mpfr_init_set_ui(n3_22, N3_22, MPFR_RNDD);
+  mpfr_init_set_si(n1_tl, N1_TL, MPFR_RNDD);
+  mpfr_init_set_si(n3_31, N3_31_13, MPFR_RNDD);
+  mpfr_init_set_si(n3_22, N3_22, MPFR_RNDD);
   mpfr_init_set_ld(alpha, Alpha, MPFR_RNDD);
   mpfr_init_set_ld(k, K, MPFR_RNDD);
   mpfr_init_set_ld(lambda, Lambda, MPFR_RNDD);
@@ -325,12 +316,9 @@ static constexpr std::size_t PRECISION = 256;
   mpfr_add(r52, r5, r30, MPFR_RNDD);     // r52 = r5+r30
   mpfr_add(total, r51, r52, MPFR_RNDD);  // total = r51+r52
 
-  // Debugging
-  // std::cout << "S3_bulk_action result is " << mpfr_out_str(stdout, 10, 0,
-  //               total, MPFR_RNDD) << std::endl;
-
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  //  Gmpzf result = Gmpzf(mpfr_get_d(total, MPFR_RNDD));
+  // Gmpzf only has a constructor taking a double, not a long double
+  // Perhaps fixable later by switching to MP_Float, e.g.
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
   auto result = mpfr_get_d(total, MPFR_RNDD);
 

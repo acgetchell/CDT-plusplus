@@ -33,9 +33,11 @@
 using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Triangulation3 = CGAL::Triangulation_3<Kernel>;
 // Each vertex may be assigned a time value
-using Vertex_base = CGAL::Triangulation_vertex_base_with_info_3<int, Kernel>;
+using Vertex_base =
+    CGAL::Triangulation_vertex_base_with_info_3<Int_precision, Kernel>;
 // Each cell may be assigned a type based on time values
-using Cell_base = CGAL::Triangulation_cell_base_with_info_3<int, Kernel>;
+using Cell_base =
+    CGAL::Triangulation_cell_base_with_info_3<Int_precision, Kernel>;
 // Parallel operations
 using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
                                                  CGAL::Parallel_tag>;
@@ -43,16 +45,18 @@ using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
 using Delaunay3 = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 // using Delaunay4 = CGAL::Triangulation<CGAL::Epick_d<CGAL::Dimension_tag<4>>>;
 using Point           = Delaunay3::Point;
-using Causal_vertices = std::vector<std::pair<Point, int>>;
+using Causal_vertices = std::vector<std::pair<Point, Int_precision>>;
 // using Simplex         = Triangulation3::Simplex; // incompatible with
 // Triangulation_{cell,vertex}_base_with_info_3.h
 using Cell_handle   = Delaunay3::Cell_handle;
-using Face_handle   = std::pair<Cell_handle, int>;
-using Edge_handle   = CGAL::Triple<Cell_handle, int, int>;
+using Face_handle   = std::pair<Cell_handle, Int_precision>;
+using Edge_handle   = CGAL::Triple<Cell_handle, Int_precision, Int_precision>;
 using Vertex_handle = Delaunay3::Vertex_handle;
 
-static double constexpr INITIAL_RADIUS = 1.0;
-static double constexpr RADIAL_FACTOR  = 1.0;
+static long double constexpr INITIAL_RADIUS =
+    static_cast<long double const>(1.0);
+static long double constexpr RADIAL_FACTOR =
+    static_cast<long double const>(1.0);
 
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
@@ -74,7 +78,7 @@ class FoliatedTriangulation;
 
 /// 3D Triangulation
 template <>
-class FoliatedTriangulation<3> : private Delaunay3
+class FoliatedTriangulation<3> final : private Delaunay3
 {
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)
@@ -83,13 +87,13 @@ class FoliatedTriangulation<3> : private Delaunay3
   std::vector<Cell_handle>   m_two_two;
   std::vector<Cell_handle>   m_one_three;
   std::vector<Face_handle>   m_faces;
-  std::multimap<int, Facet>  m_spacelike_facets;
+  std::multimap<Int_precision, Facet> m_spacelike_facets;
   std::vector<Edge_handle>   m_edges;
   std::vector<Edge_handle>   m_timelike_edges;
   std::vector<Edge_handle>   m_spacelike_edges;
   std::vector<Vertex_handle> m_points;
-  int                        m_max_timevalue;
-  int                        m_min_timevalue;
+  Int_precision                       m_max_timevalue;
+  Int_precision                       m_min_timevalue;
 
  public:
   /// @brief Default constructor
@@ -121,10 +125,10 @@ class FoliatedTriangulation<3> : private Delaunay3
   /// @param t_timeslices Number of desired timeslices
   /// @param t_initial_radius Radius of first timeslice
   /// @param t_radial_factor Radial separation between timeslices
-  FoliatedTriangulation(std::int_fast64_t const t_simplices,
-                        std::int_fast64_t const t_timeslices,
-                        double const t_initial_radius = INITIAL_RADIUS,
-                        double const t_radial_factor  = RADIAL_FACTOR)
+  FoliatedTriangulation(Int_precision const t_simplices,
+                        Int_precision const t_timeslices,
+                        long double const   t_initial_radius = INITIAL_RADIUS,
+                        long double const   t_radial_factor  = RADIAL_FACTOR)
       : Delaunay3{make_triangulation(t_simplices, t_timeslices,
                                      t_initial_radius, t_radial_factor)}
       , m_cells{classify_cells(collect_cells())}
@@ -199,20 +203,26 @@ class FoliatedTriangulation<3> : private Delaunay3
     return get_delaunay().tds().is_valid();
   }
 
-  /// @return Dimensionality of triangulation data structure
+  /// @return Dimensionality of triangulation data structure (int)
   using Delaunay3::dimension;
 
   /// @return Container of spacelike facets indexed by time value
-  [[nodiscard]] std::multimap<int, Facet> const& N2_SL() const
+  [[nodiscard]] std::multimap<Int_precision, Facet> const& N2_SL() const
   {
     return m_spacelike_facets;
   }  // N2_SL
 
   /// @return Number of timelike edges
-  [[nodiscard]] auto N1_TL() const { return m_timelike_edges.size(); }
+  [[nodiscard]] auto N1_TL() const
+  {
+    return static_cast<Int_precision>(m_timelike_edges.size());
+  }
 
   /// @return Number of spacelike edges
-  [[nodiscard]] auto N1_SL() const { return m_spacelike_edges.size(); }
+  [[nodiscard]] auto N1_SL() const
+  {
+    return static_cast<Int_precision>(m_spacelike_edges.size());
+  }
 
   /// @return Container of timelike edges
   [[nodiscard]] std::vector<Edge_handle> const& get_timelike_edges() const
@@ -524,9 +534,9 @@ class FoliatedTriangulation<3> : private Delaunay3
   /// @param radial_factor Radial separation between timeslices
   /// @return A Delaunay Triangulation
   [[nodiscard]] auto make_triangulation(
-      std::int_fast64_t const t_simplices, std::int_fast64_t const t_timeslices,
-      double const initial_radius = INITIAL_RADIUS,
-      double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
+      Int_precision const t_simplices, Int_precision const t_timeslices,
+      long double const initial_radius = INITIAL_RADIUS,
+      long double const radial_factor  = RADIAL_FACTOR) -> Delaunay3
   {
     fmt::print("Generating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
@@ -564,9 +574,9 @@ class FoliatedTriangulation<3> : private Delaunay3
   /// @param radial_factor The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   [[nodiscard]] Causal_vertices make_foliated_sphere(
-      std::int_fast64_t const t_simplices, std::int_fast64_t const t_timeslices,
-      double const initial_radius = INITIAL_RADIUS,
-      double const radial_factor  = RADIAL_FACTOR) const
+      Int_precision const t_simplices, Int_precision const t_timeslices,
+      long double const initial_radius = INITIAL_RADIUS,
+      long double const radial_factor  = RADIAL_FACTOR) const
   {
     Causal_vertices causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
@@ -577,12 +587,12 @@ class FoliatedTriangulation<3> : private Delaunay3
     using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
     for (gsl::index i = 0; i < t_timeslices; ++i)
     {
-      auto radius = initial_radius + static_cast<double>(i) * radial_factor;
-      Spherical_points_generator gen{radius};
+      auto radius =
+          initial_radius + static_cast<long double>(i) * radial_factor;
+      Spherical_points_generator gen{static_cast<double>(radius)};
       // Generate random points at the radius
       for (gsl::index j = 0;
-           j < static_cast<std::int_fast64_t>(points_per_timeslice * radius);
-           ++j)
+           j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)
       { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // j
     }                                                                   // i
     return causal_vertices;
@@ -747,15 +757,15 @@ class FoliatedTriangulation<3> : private Delaunay3
   /// @return Container with spacelike facets per timeslice
   [[nodiscard]] auto volume_per_timeslice(
       std::vector<Face_handle> const& t_facets, bool t_debug_flag = false) const
-      -> std::multimap<int, Facet>
+      -> std::multimap<Int_precision, Facet>
   {
-    std::multimap<int, Facet> space_faces;
+    std::multimap<Int_precision, Facet> space_faces;
     for (auto const& face : t_facets)
     {
       Cell_handle ch             = face.first;
       auto        index_of_facet = face.second;
       if (t_debug_flag) { fmt::print("Facet index is {}\n", index_of_facet); }
-      std::set<int> facet_timevalues;
+      std::set<Int_precision> facet_timevalues;
       for (int i = 0; i < 4; ++i)
       {
         if (i != index_of_facet)
@@ -847,7 +857,7 @@ class FoliatedTriangulation<3> : private Delaunay3
   /// @param t_vertices Container of vertices
   /// @return The maximum timevalue
   [[nodiscard]] auto find_max_timevalue(
-      std::vector<Vertex_handle> const& t_vertices) const -> int
+      std::vector<Vertex_handle> const& t_vertices) const -> Int_precision
   {
     Expects(!t_vertices.empty());
     auto it =

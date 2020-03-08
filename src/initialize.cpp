@@ -53,8 +53,8 @@ int main(int argc, char* const argv[]) try
   auto simplices         = stoll(args["-n"].asString());
   auto timeslices        = stoll(args["-t"].asString());
   auto dimensions        = stoll(args["-d"].asString());
-  auto initial_radius    = stod(args["--init"].asString());
-  auto foliation_spacing = stod(args["--foliate"].asString());
+  auto initial_radius    = stold(args["--init"].asString());
+  auto foliation_spacing = stold(args["--foliate"].asString());
   auto save_file         = args["--output"].asBool();
 
   // Initialize triangulation
@@ -91,8 +91,9 @@ int main(int argc, char* const argv[]) try
       if (dimensions == 3)
       {
         // Start your run
-        Manifold3 populated_universe(simplices, timeslices, initial_radius,
-                                     foliation_spacing);
+        Manifold3 populated_universe(static_cast<Int_precision>(simplices),
+                                     static_cast<Int_precision>(timeslices),
+                                     initial_radius, foliation_spacing);
         swap(universe, populated_universe);
       }
       else
@@ -108,8 +109,9 @@ int main(int argc, char* const argv[]) try
   fmt::print("Final number of simplices: {}\n", universe.N3());
   if (save_file)
   {
-    write_file(universe, topology, static_cast<size_t>(dimensions),
-               static_cast<int_fast64_t>(universe.N3()), timeslices);
+    write_file(universe, topology, static_cast<Int_precision>(dimensions),
+               static_cast<Int_precision>(universe.N3()),
+               static_cast<Int_precision>(timeslices));
   }
   return 0;
 }

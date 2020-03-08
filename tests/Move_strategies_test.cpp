@@ -19,8 +19,8 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<std::int_fast64_t>(640);
-    auto constexpr timeslices = static_cast<std::int_fast64_t>(4);
+    auto constexpr simplices  = static_cast<Int_precision>(640);
+    auto constexpr timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveStrategy3 is constructed.")
@@ -80,12 +80,12 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
 //  constexpr auto Alpha                 = static_cast<long double>(0.6);
 //  constexpr auto K                     = static_cast<long double>(1.1);
 //  constexpr auto Lambda                = static_cast<long double>(0.1);
-//  constexpr auto passes                = static_cast<std::int_fast64_t>(10);
-//  constexpr auto output_every_n_passes = static_cast<std::int_fast64_t>(1);
+//  constexpr auto passes                = static_cast<Int_precision>(10);
+//  constexpr auto output_every_n_passes = static_cast<Int_precision>(1);
 //  GIVEN("A correctly-constructed SimplicialManifold.")
 //  {
-//    constexpr auto     simplices  = static_cast<std::int_fast64_t>(640);
-//    constexpr auto     timeslices = static_cast<std::int_fast64_t>(4);
+//    constexpr auto     simplices  = static_cast<Int_precision>(640);
+//    constexpr auto     timeslices = static_cast<Int_precision>(4);
 //    SimplicialManifold universe(make_triangulation(simplices, timeslices));
 //    // It is correctly constructed
 //    CHECK(universe.triangulation);

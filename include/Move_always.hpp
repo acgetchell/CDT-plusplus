@@ -21,7 +21,7 @@ class MoveAlways
 };
 
 template <>
-class MoveAlways<3> : public MoveStrategy3
+class MoveAlways<3> final : public MoveStrategy3
 {
  public:
   //  /// @brief Default constructor using default values
@@ -63,8 +63,8 @@ class MoveAlways<3> : public MoveStrategy3
       fmt::print("Pass {}\n", pass_number);
       auto total_simplices_this_pass = CurrentTotalSimplices();
       // Loop through CurrentTotalSimplices
-      for (std::size_t move_attempt = 0;
-           move_attempt < total_simplices_this_pass; ++move_attempt)
+      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+           ++move_attempt)
       {
         // Pick a move to attempt
         auto move_choice = generate_random_int(0, 4);

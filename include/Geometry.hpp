@@ -28,34 +28,34 @@ template <>
 struct Geometry<3>
 {
   /// @brief Number of 3D simplices
-  std::size_t N3;
+  Int_precision N3;
 
   /// @brief Number of (3,1) simplices
-  std::size_t N3_31;
+  Int_precision N3_31;
 
   /// @brief Number of (1,3) simplices
-  std::size_t N3_13;
+  Int_precision N3_13;
 
   /// @brief Number of (3,1) + (1,3) simplices
-  std::size_t N3_31_13;
+  Int_precision N3_31_13;
 
   /// @brief Number of (2,2) simplices
-  std::size_t N3_22;
+  Int_precision N3_22;
 
   /// @brief Number of 2D faces
-  std::size_t N2;
+  Int_precision N2;
 
   /// @brief Number of 1D edges
-  std::size_t N1;
+  Int_precision N1;
 
   /// @brief Number of timelike edges
-  std::size_t N1_TL;
+  Int_precision N1_TL;
 
   /// @brief Number of spacelike edges
-  std::size_t N1_SL;
+  Int_precision N1_SL;
 
   /// @brief Number of vertices
-  std::size_t N0;
+  Int_precision N0;
 
   /// @brief Default ctor
   Geometry()
@@ -76,16 +76,16 @@ struct Geometry<3>
   /// calculated
   explicit Geometry(FoliatedTriangulation3 const& triangulation)
 
-      : N3{triangulation.number_of_finite_cells()}
-      , N3_31{triangulation.get_three_one().size()}
-      , N3_13{triangulation.get_one_three().size()}
+      : N3{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
+      , N3_31{static_cast<Int_precision>(triangulation.get_three_one().size())}
+      , N3_13{static_cast<Int_precision>(triangulation.get_one_three().size())}
       , N3_31_13{N3_31 + N3_13}
-      , N3_22{triangulation.get_two_two().size()}
-      , N2{triangulation.number_of_finite_facets()}
-      , N1{triangulation.number_of_finite_edges()}
-      , N1_TL{triangulation.N1_TL()}
-      , N1_SL{triangulation.N1_SL()}
-      , N0{triangulation.number_of_vertices()}
+      , N3_22{static_cast<Int_precision>(triangulation.get_two_two().size())}
+      , N2{static_cast<Int_precision>(triangulation.number_of_finite_facets())}
+      , N1{static_cast<Int_precision>(triangulation.number_of_finite_edges())}
+      , N1_TL{static_cast<Int_precision>(triangulation.N1_TL())}
+      , N1_SL{static_cast<Int_precision>(triangulation.N1_SL())}
+      , N0{static_cast<Int_precision>(triangulation.number_of_vertices())}
 
   {}
 
