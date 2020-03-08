@@ -74,9 +74,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#typedef-members">Typedefs</a> &#124;
-<a href="#func-members">Functions</a> &#124;
-<a href="#var-members">Variables</a>  </div>
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">S3Action.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -84,7 +82,7 @@ $(function() {
 
 <p>Calculate S3 bulk actions on 3D Delaunay Triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;CGAL/Gmpzf.h&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>&quot;</code><br />
 <code>#include &lt;cstdio&gt;</code><br />
 <code>#include &lt;mpfr.h&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
@@ -100,60 +98,30 @@ This graph shows which files directly or indirectly include this file:</div>
 </div>
 <p><a href="_s3_action_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
-Typedefs</h2></td></tr>
-<tr class="memitem:ab09035cfa5e10fa4ee88d95ef5fa7ac5"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a> = CGAL::Gmpzf</td></tr>
-<tr class="separator:ab09035cfa5e10fa4ee88d95ef5fa7ac5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab4fa6a0f266cf58261caf50e036789b0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#ab4fa6a0f266cf58261caf50e036789b0">S3_bulk_action</a> (const std::size_t N1_TL, const std::size_t N3_31_13, const std::size_t N3_22, const long double Alpha, const long double K, const long double Lambda) noexcept -&gt; <a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></td></tr>
-<tr class="memdesc:ab4fa6a0f266cf58261caf50e036789b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the generalized S3 bulk action in terms of \(\alpha\), \(k\), \(\lambda\), \(N_1^{TL}\), \(N_3^{(3,1)}\), and \(N_3^{(2,2)}\).  <a href="_s3_action_8hpp.html#ab4fa6a0f266cf58261caf50e036789b0">More...</a><br /></td></tr>
-<tr class="separator:ab4fa6a0f266cf58261caf50e036789b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22d5c8583ff3fe98ca30dab3cb3b1059"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a22d5c8583ff3fe98ca30dab3cb3b1059">S3_bulk_action_alpha_minus_one</a> (const std::size_t N1_TL, const std::size_t N3_31_13, const std::size_t N3_22, const long double K, const long double Lambda) noexcept -&gt; <a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></td></tr>
-<tr class="memdesc:a22d5c8583ff3fe98ca30dab3cb3b1059"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=-1.  <a href="_s3_action_8hpp.html#a22d5c8583ff3fe98ca30dab3cb3b1059">More...</a><br /></td></tr>
-<tr class="separator:a22d5c8583ff3fe98ca30dab3cb3b1059"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac28813bf78396272c3deb389be55ca36"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#ac28813bf78396272c3deb389be55ca36">S3_bulk_action_alpha_one</a> (const std::size_t N1_TL, const std::size_t N3_31_13, const std::size_t N3_22, const long double K, const long double Lambda) noexcept -&gt; <a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></td></tr>
-<tr class="memdesc:ac28813bf78396272c3deb389be55ca36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=1.  <a href="_s3_action_8hpp.html#ac28813bf78396272c3deb389be55ca36">More...</a><br /></td></tr>
-<tr class="separator:ac28813bf78396272c3deb389be55ca36"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
-Variables</h2></td></tr>
-<tr class="memitem:a7dad268135b26e2d9051254693a388f6"><td class="memItemLeft" align="right" valign="top"><a id="a7dad268135b26e2d9051254693a388f6"></a>
-static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a7dad268135b26e2d9051254693a388f6">PRECISION</a> = 256</td></tr>
-<tr class="memdesc:a7dad268135b26e2d9051254693a388f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Sets the precision for <a href="http://www.mpfr.org">MPFR</a>. <br /></td></tr>
-<tr class="separator:a7dad268135b26e2d9051254693a388f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a53b4885b111d123e2e655a919c233371"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a53b4885b111d123e2e655a919c233371">S3_bulk_action</a> (const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_TL, const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31_13, const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_22, const long double Alpha, const long double K, const long double Lambda) noexcept -&gt; <a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></td></tr>
+<tr class="memdesc:a53b4885b111d123e2e655a919c233371"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates the generalized S3 bulk action in terms of \(\alpha\), \(k\), \(\lambda\), \(N_1^{TL}\), \(N_3^{(3,1)}\), and \(N_3^{(2,2)}\).  <a href="_s3_action_8hpp.html#a53b4885b111d123e2e655a919c233371">More...</a><br /></td></tr>
+<tr class="separator:a53b4885b111d123e2e655a919c233371"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74e4782fbf36a6f6f1dfa8ffa254fa40"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a74e4782fbf36a6f6f1dfa8ffa254fa40">S3_bulk_action_alpha_minus_one</a> (const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_TL, const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31_13, const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_22, const long double K, const long double Lambda) noexcept -&gt; <a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></td></tr>
+<tr class="memdesc:a74e4782fbf36a6f6f1dfa8ffa254fa40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=-1.  <a href="_s3_action_8hpp.html#a74e4782fbf36a6f6f1dfa8ffa254fa40">More...</a><br /></td></tr>
+<tr class="separator:a74e4782fbf36a6f6f1dfa8ffa254fa40"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a15f42f7bf0813750d7799f81e82c35fd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_action_8hpp.html#a15f42f7bf0813750d7799f81e82c35fd">S3_bulk_action_alpha_one</a> (const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_TL, const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31_13, const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_22, const long double K, const long double Lambda) noexcept -&gt; <a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></td></tr>
+<tr class="memdesc:a15f42f7bf0813750d7799f81e82c35fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculates S3 bulk action for \(\alpha\)=1.  <a href="_s3_action_8hpp.html#a15f42f7bf0813750d7799f81e82c35fd">More...</a><br /></td></tr>
+<tr class="separator:a15f42f7bf0813750d7799f81e82c35fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Calculate S3 bulk actions on 3D Delaunay Triangulations. </p>
 <p>Causal Dynamical Triangulations in C++ using CGAL</p>
-<p>Copyright © 2014-2019 Adam Getchell</p>
+<p>Copyright © 2014-2020 Adam Getchell</p>
 <p>Calculates the S3 Bulk (and later, boundary) actions. Uses the GNU MPFR library for arbitrary precision arithmetic on floating point numbers. See <a href="http://www.mpfr.org">http://www.mpfr.org</a> for more details. Note: for performance reasons, variables should not hold successively increasing values. We avoid this by setting each variable only once. See <a href="https://gmplib.org/manual/Efficiency.html#Efficiency">https://gmplib.org/manual/Efficiency.html#Efficiency</a> for details.</p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
 <dl class="bug"><dt><b><a class="el" href="bug.html#_bug000006">Bug:</a></b></dt><dd><a href="http://clang-analyzer.llvm.org/scan-build.html">scan-build</a>: No bugs found. </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
-</div><h2 class="groupheader">Typedef Documentation</h2>
-<a id="ab09035cfa5e10fa4ee88d95ef5fa7ac5"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab09035cfa5e10fa4ee88d95ef5fa7ac5">&#9670;&nbsp;</a></span>Gmpzf</h2>
-
-<div class="memitem">
-<div class="memproto">
-      <table class="memname">
-        <tr>
-          <td class="memname">using Gmpzf =  CGAL::Gmpzf</td>
-        </tr>
-      </table>
-</div><div class="memdoc">
-<p>Results are converted to a CGAL multi-precision floating point number. Gmpzf itself is based on GMP (<a href="https://gmplib.org">https://gmplib.org</a>), as is MPFR. </p>
-
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00027">27</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
-
-</div>
-</div>
-<h2 class="groupheader">Function Documentation</h2>
-<a id="ab4fa6a0f266cf58261caf50e036789b0"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab4fa6a0f266cf58261caf50e036789b0">&#9670;&nbsp;</a></span>S3_bulk_action()</h2>
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="a53b4885b111d123e2e655a919c233371"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a53b4885b111d123e2e655a919c233371">&#9670;&nbsp;</a></span>S3_bulk_action()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -164,19 +132,19 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
         <tr>
           <td class="memname">auto S3_bulk_action </td>
           <td>(</td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N1_TL</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N3_31_13</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N3_22</em>, </td>
         </tr>
         <tr>
@@ -200,7 +168,7 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; <a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a>
+          <td></td><td> -&gt; <a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a>
 </td>
         </tr>
       </table>
@@ -229,12 +197,12 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha)\) as a <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a> value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00221">221</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00212">212</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a22d5c8583ff3fe98ca30dab3cb3b1059"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22d5c8583ff3fe98ca30dab3cb3b1059">&#9670;&nbsp;</a></span>S3_bulk_action_alpha_minus_one()</h2>
+<a id="a74e4782fbf36a6f6f1dfa8ffa254fa40"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a74e4782fbf36a6f6f1dfa8ffa254fa40">&#9670;&nbsp;</a></span>S3_bulk_action_alpha_minus_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -245,19 +213,19 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
         <tr>
           <td class="memname">auto S3_bulk_action_alpha_minus_one </td>
           <td>(</td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N1_TL</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N3_31_13</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N3_22</em>, </td>
         </tr>
         <tr>
@@ -275,7 +243,7 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; <a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a>
+          <td></td><td> -&gt; <a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a>
 </td>
         </tr>
       </table>
@@ -303,12 +271,12 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha=-1)\) as a <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a> value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00052">52</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00045">45</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
 </div>
 </div>
-<a id="ac28813bf78396272c3deb389be55ca36"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac28813bf78396272c3deb389be55ca36">&#9670;&nbsp;</a></span>S3_bulk_action_alpha_one()</h2>
+<a id="a15f42f7bf0813750d7799f81e82c35fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a15f42f7bf0813750d7799f81e82c35fd">&#9670;&nbsp;</a></span>S3_bulk_action_alpha_one()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -319,19 +287,19 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
         <tr>
           <td class="memname">auto S3_bulk_action_alpha_one </td>
           <td>(</td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N1_TL</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N3_31_13</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">const std::size_t&#160;</td>
+          <td class="paramtype">const <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
           <td class="paramname"><em>N3_22</em>, </td>
         </tr>
         <tr>
@@ -349,7 +317,7 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
         <tr>
           <td></td>
           <td>)</td>
-          <td></td><td> -&gt; <a class="el" href="_s3_action_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a>
+          <td></td><td> -&gt; <a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a>
 </td>
         </tr>
       </table>
@@ -377,14 +345,14 @@ static constexpr std::size_t&#160;</td><td class="memItemRight" valign="bottom">
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>\(S^{(3)}(\alpha=1)\) as a <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a> value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00129">129</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_s3_action_8hpp_source.html#l00123">123</a> of file <a class="el" href="_s3_action_8hpp_source.html">S3Action.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 7 2020 05:41:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 8 2020 00:25:34 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

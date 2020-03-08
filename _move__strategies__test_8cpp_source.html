@@ -90,8 +90,8 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  GIVEN(<span class="stringliteral">&quot;A correctly-constructed Manifold3.&quot;</span>)</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">auto</span> constexpr simplices  = <span class="keyword">static_cast&lt;</span>std::int_fast64_t<span class="keyword">&gt;</span>(640);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">auto</span> constexpr timeslices = <span class="keyword">static_cast&lt;</span>std::int_fast64_t<span class="keyword">&gt;</span>(4);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    <span class="keyword">auto</span> constexpr simplices  = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(640);</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <span class="keyword">auto</span> constexpr timeslices = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(4);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a> manifold(simplices, timeslices);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    WHEN(<span class="stringliteral">&quot;A MoveStrategy3 is constructed.&quot;</span>)</div>
@@ -151,12 +151,12 @@ $(function() {
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="comment">//  constexpr auto Alpha                 = static_cast&lt;long double&gt;(0.6);</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="comment">//  constexpr auto K                     = static_cast&lt;long double&gt;(1.1);</span></div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="comment">//  constexpr auto Lambda                = static_cast&lt;long double&gt;(0.1);</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">//  constexpr auto passes                = static_cast&lt;std::int_fast64_t&gt;(10);</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">//  constexpr auto output_every_n_passes = static_cast&lt;std::int_fast64_t&gt;(1);</span></div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;<span class="comment">//  constexpr auto passes                = static_cast&lt;Int_precision&gt;(10);</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="comment">//  constexpr auto output_every_n_passes = static_cast&lt;Int_precision&gt;(1);</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;<span class="comment">//  GIVEN(&quot;A correctly-constructed SimplicialManifold.&quot;)</span></div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//    constexpr auto     simplices  = static_cast&lt;std::int_fast64_t&gt;(640);</span></div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">//    constexpr auto     timeslices = static_cast&lt;std::int_fast64_t&gt;(4);</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;<span class="comment">//    constexpr auto     simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="comment">//    constexpr auto     timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;<span class="comment">//    SimplicialManifold universe(make_triangulation(simplices, timeslices));</span></div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">//    // It is correctly constructed</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="comment">//    CHECK(universe.triangulation);</span></div>
@@ -275,11 +275,12 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_move_always_3_013_01_4_html"><div class="ttname"><a href="class_move_always_3_013_01_4.html">MoveAlways&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00024">Move_always.hpp:24</a></div></div>
 <div class="ttc" id="aclass_move_strategy_3_013_01_4_html"><div class="ttname"><a href="class_move_strategy_3_013_01_4.html">MoveStrategy&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00036">Move_strategy.hpp:36</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00025">Settings.hpp:25</a></div></div>
 <div class="ttc" id="a_move__always_8hpp_html"><div class="ttname"><a href="_move__always_8hpp.html">Move_always.hpp</a></div><div class="ttdoc">Always randomly selects moves to perform on Delaunay Triangulations.</div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00026">Manifold.hpp:26</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 7 2020 05:41:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 8 2020 00:25:33 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

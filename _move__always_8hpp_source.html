@@ -89,7 +89,7 @@ $(function() {
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;};</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_move_always_3_013_01_4.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_always.html">MoveAlways</a>&lt;3&gt; : <span class="keyword">public</span> <a class="code" href="class_move_strategy_3_013_01_4.html">MoveStrategy3</a></div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="class_move_always_3_013_01_4.html">   24</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_always.html">MoveAlways</a>&lt;3&gt; final : <span class="keyword">public</span> <a class="code" href="class_move_strategy_3_013_01_4.html">MoveStrategy3</a></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;{</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="comment">//  /// @brief Default constructor using default values</span></div>
@@ -124,8 +124,8 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      fmt::print(<span class="stringliteral">&quot;Pass {}\n&quot;</span>, pass_number);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      <span class="keyword">auto</span> total_simplices_this_pass = CurrentTotalSimplices();</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="comment">// Loop through CurrentTotalSimplices</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">for</span> (std::size_t move_attempt = 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;           move_attempt &lt; total_simplices_this_pass; ++move_attempt)</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move_attempt = 0; move_attempt &lt; total_simplices_this_pass;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;           ++move_attempt)</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      {</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;        <span class="comment">// Pick a move to attempt</span></div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        <span class="keyword">auto</span> move_choice = <a class="code" href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a>(0, 4);</div>
@@ -143,7 +143,7 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      {</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;        fmt::print(<span class="stringliteral">&quot;Writing checkpoint file...\n&quot;</span>);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;        <span class="comment">// write results to a file</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="_utilities_8hpp.html#af6fd04ea562f7efe1c114cb4d91b06fb">write_file</a>(m_universe, topology_type::SPHERICAL, m_universe.dim(),</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;        <a class="code" href="_utilities_8hpp.html#a16196320ad1e1415f764aa8720cd6d23">write_file</a>(m_universe, topology_type::SPHERICAL, m_universe.dim(),</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;                   m_universe.N3(), m_universe.max_time());</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      }</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }  <span class="comment">// End loop through m_passes</span></div>
@@ -158,17 +158,17 @@ $(function() {
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160; </div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVE_ALWAYS_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_utilities_8hpp_html_af6fd04ea562f7efe1c114cb4d91b06fb"><div class="ttname"><a href="_utilities_8hpp.html#af6fd04ea562f7efe1c114cb4d91b06fb">write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, std::size_t const t_dimension, int_fast64_t const t_number_of_simplices, int_fast64_t const t_number_of_timeslices)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00312">Utilities.hpp:312</a></div></div>
 <div class="ttc" id="aclass_move_always_3_013_01_4_html"><div class="ttname"><a href="class_move_always_3_013_01_4.html">MoveAlways&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00024">Move_always.hpp:24</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_af11649ce763de4d43a654876ab4f394b"><div class="ttname"><a href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType const t_min_value, IntegerType const t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00383">Utilities.hpp:383</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_af11649ce763de4d43a654876ab4f394b"><div class="ttname"><a href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType const t_min_value, IntegerType const t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00386">Utilities.hpp:386</a></div></div>
 <div class="ttc" id="aclass_move_always_3_013_01_4_html_a60cd1ee088c1bfc86ea5068a1c6a65a8"><div class="ttname"><a href="class_move_always_3_013_01_4.html#a60cd1ee088c1bfc86ea5068a1c6a65a8">MoveAlways&lt; 3 &gt;::MoveAlways</a></div><div class="ttdeci">MoveAlways(const std::size_t t_number_of_passes, const std::size_t t_checkpoint)</div><div class="ttdoc">Set passes and checkpoint with MoveAlgorithm 2-argument constructor.</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00033">Move_always.hpp:33</a></div></div>
 <div class="ttc" id="aclass_move_always_html"><div class="ttname"><a href="class_move_always.html">MoveAlways</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00019">Move_always.hpp:19</a></div></div>
 <div class="ttc" id="aclass_move_always_3_013_01_4_html_a020b079885480161891762648904eb4d"><div class="ttname"><a href="class_move_always_3_013_01_4.html#a020b079885480161891762648904eb4d">MoveAlways&lt; 3 &gt;::operator()</a></div><div class="ttdeci">auto operator()(T &amp;&amp;t_universe) -&gt; decltype(t_universe)</div><div class="ttdoc">Call operator.</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00047">Move_always.hpp:47</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a16196320ad1e1415f764aa8720cd6d23"><div class="ttname"><a href="_utilities_8hpp.html#a16196320ad1e1415f764aa8720cd6d23">write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, Int_precision const t_dimension, Int_precision const t_number_of_simplices, Int_precision const t_number_of_timeslices)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00315">Utilities.hpp:315</a></div></div>
 <div class="ttc" id="aclass_move_strategy_3_013_01_4_html"><div class="ttname"><a href="class_move_strategy_3_013_01_4.html">MoveStrategy&lt; 3 &gt;</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00036">Move_strategy.hpp:36</a></div></div>
 <div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00033">Move_strategy.hpp:33</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 7 2020 05:41:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Mar 8 2020 00:25:33 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

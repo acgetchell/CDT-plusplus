@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['precision_519',['PRECISION',['../_s3_action_8hpp.html#a7dad268135b26e2d9051254693a388f6',1,'S3Action.hpp']]]
+  ['precision_524',['PRECISION',['../_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528',1,'Settings.hpp']]]
 ];

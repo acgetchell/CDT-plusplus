@@ -116,7 +116,7 @@
              <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>ac115f8b1cbcdef62031a2b87707d9d32</Anchor>
+              <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
              </Node>
              <Node>
               <Name>check_cells</Name>
@@ -181,7 +181,7 @@
              <Node>
               <Name>find_max_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a0f17df98df622f85db960276fbbb746d</Anchor>
+              <Anchor>a25f19dc028fc24ad56d74080b1304a7c</Anchor>
              </Node>
              <Node>
               <Name>find_min_timevalue</Name>
@@ -261,12 +261,12 @@
              <Node>
               <Name>make_foliated_sphere</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a341d2f76a0539ce1011d3e8713697354</Anchor>
+              <Anchor>a64d5ec89b45bb7c1aa5a73729a6dd6b5</Anchor>
              </Node>
              <Node>
               <Name>make_triangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a4184525d35704e1009b157f69b7ed026</Anchor>
+              <Anchor>aff195753c2a22cc65854e7e214552264</Anchor>
              </Node>
              <Node>
               <Name>max_time</Name>
@@ -291,7 +291,7 @@
              <Node>
               <Name>N2_SL</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>af5bbb837a57329da6e09cd6239db01c2</Anchor>
+              <Anchor>a1b5bb0408260eb97a6432e1641cbd8e5</Anchor>
              </Node>
              <Node>
               <Name>print_cells</Name>
@@ -316,7 +316,7 @@
              <Node>
               <Name>volume_per_timeslice</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>ac86bfee2bf9915b196f3d29e88669d44</Anchor>
+              <Anchor>ae8884f810b5232956116ef5f483b164c</Anchor>
              </Node>
              <Node>
               <Name>m_cells</Name>
@@ -336,12 +336,12 @@
              <Node>
               <Name>m_max_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a5de580f374fcf617e63c85accc7d4be2</Anchor>
+              <Anchor>aa7a98ec6834038f83c9dc610608449e0</Anchor>
              </Node>
              <Node>
               <Name>m_min_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a0f26214d45b8a2127e0fe45036a8f3ff</Anchor>
+              <Anchor>a3fd384bd9d65e3c7542b822cd500c191</Anchor>
              </Node>
              <Node>
               <Name>m_one_three</Name>
@@ -361,7 +361,7 @@
              <Node>
               <Name>m_spacelike_facets</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>aab435687e22bcc20baa84d31a6eb2691</Anchor>
+              <Anchor>a847d8bebb0c69f573ecf473af4861431</Anchor>
              </Node>
              <Node>
               <Name>m_three_one</Name>
@@ -456,52 +456,52 @@
              <Node>
               <Name>N0</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>ae2e383b6cbed8f572ffab0bfdc920f48</Anchor>
+              <Anchor>aee1a9f8cb8fc728045669547dc512c62</Anchor>
              </Node>
              <Node>
               <Name>N1</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>a243fd9695b22b22fb6ea1695a164127f</Anchor>
+              <Anchor>a1f1e0c0450b579742545330aac0dab4c</Anchor>
              </Node>
              <Node>
               <Name>N1_SL</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>aee9333aa8dbb3469007392644fcf4c90</Anchor>
+              <Anchor>a41904c98e3136ec242b3bc80eaadcb0f</Anchor>
              </Node>
              <Node>
               <Name>N1_TL</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>aec654354a4d14a66048fc2e7b59e1512</Anchor>
+              <Anchor>a7e3219c9ed6cf9ac0f827ea7567c64e6</Anchor>
              </Node>
              <Node>
               <Name>N2</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>a53dc1ea570cf33c7e502046a21996ee1</Anchor>
+              <Anchor>a48de5ca45643f71ad68f3d525a9b6876</Anchor>
              </Node>
              <Node>
               <Name>N3</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>adb03683ff2e5bb267519535b740352f6</Anchor>
+              <Anchor>a7e91c21a88f62ac08dd8ccfafcf8b2b7</Anchor>
              </Node>
              <Node>
               <Name>N3_13</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>a2a3285f7a4e1a9713b735d3bdf05d0fe</Anchor>
+              <Anchor>a458c5638f49ae9421e79aa7fc404cf1f</Anchor>
              </Node>
              <Node>
               <Name>N3_22</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>a50ee00943bbb53575250d0fde2306861</Anchor>
+              <Anchor>a550c53c6ab663626350777b0ea204df0</Anchor>
              </Node>
              <Node>
               <Name>N3_31</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>ab3eca4e20d40d5910f2e69c530a02222</Anchor>
+              <Anchor>a2ba5bdb45507af570ca7af7553417354</Anchor>
              </Node>
              <Node>
               <Name>N3_31_13</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
-              <Anchor>a68a8d15ac49a9ae7703c4de3eef76d91</Anchor>
+              <Anchor>a78b0aa25a28f9ec30fc72567ab94abe7</Anchor>
              </Node>
             </Subnodes>
            </Node>
@@ -717,12 +717,12 @@
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>aac41a868601c1dbaec4d575aa9688e23</Anchor>
+              <Anchor>ac1801b2ae590a0b94e6f325367483b11</Anchor>
              </Node>
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a1f35381bef82dcdd0992c68709394403</Anchor>
+              <Anchor>a17cd8a78a8367737e7d0e9cce2a092dd</Anchor>
              </Node>
              <Node>
               <Name>are_simplex_types_valid</Name>
@@ -1240,17 +1240,17 @@
              <Node>
               <Name>m_N1_TL</Name>
               <Path>class_move_strategy_3_013_01_4.html</Path>
-              <Anchor>a304a34af01786688623b0241654cfd4e</Anchor>
+              <Anchor>ab8c069bc4ef6bcc1550807b3c1d8ca37</Anchor>
              </Node>
              <Node>
               <Name>m_N3_22</Name>
               <Path>class_move_strategy_3_013_01_4.html</Path>
-              <Anchor>a5efa270538dcc8ef02f2456340fb9633</Anchor>
+              <Anchor>a5550b2add9ca3db03ef0627b57bd7123</Anchor>
              </Node>
              <Node>
               <Name>m_N3_31_13</Name>
               <Path>class_move_strategy_3_013_01_4.html</Path>
-              <Anchor>a779adcf5d3a3e144f70e5184fe2deb67</Anchor>
+              <Anchor>a3c6f2de46f44d5056085cf7081ca650c</Anchor>
              </Node>
              <Node>
               <Name>m_passes</Name>
@@ -1701,7 +1701,7 @@
                  <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>ac115f8b1cbcdef62031a2b87707d9d32</Anchor>
+                  <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
                  </Node>
                  <Node>
                   <Name>check_cells</Name>
@@ -1766,7 +1766,7 @@
                  <Node>
                   <Name>find_max_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a0f17df98df622f85db960276fbbb746d</Anchor>
+                  <Anchor>a25f19dc028fc24ad56d74080b1304a7c</Anchor>
                  </Node>
                  <Node>
                   <Name>find_min_timevalue</Name>
@@ -1846,12 +1846,12 @@
                  <Node>
                   <Name>make_foliated_sphere</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a341d2f76a0539ce1011d3e8713697354</Anchor>
+                  <Anchor>a64d5ec89b45bb7c1aa5a73729a6dd6b5</Anchor>
                  </Node>
                  <Node>
                   <Name>make_triangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a4184525d35704e1009b157f69b7ed026</Anchor>
+                  <Anchor>aff195753c2a22cc65854e7e214552264</Anchor>
                  </Node>
                  <Node>
                   <Name>max_time</Name>
@@ -1876,7 +1876,7 @@
                  <Node>
                   <Name>N2_SL</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>af5bbb837a57329da6e09cd6239db01c2</Anchor>
+                  <Anchor>a1b5bb0408260eb97a6432e1641cbd8e5</Anchor>
                  </Node>
                  <Node>
                   <Name>print_cells</Name>
@@ -1901,7 +1901,7 @@
                  <Node>
                   <Name>volume_per_timeslice</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>ac86bfee2bf9915b196f3d29e88669d44</Anchor>
+                  <Anchor>ae8884f810b5232956116ef5f483b164c</Anchor>
                  </Node>
                  <Node>
                   <Name>m_cells</Name>
@@ -1921,12 +1921,12 @@
                  <Node>
                   <Name>m_max_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a5de580f374fcf617e63c85accc7d4be2</Anchor>
+                  <Anchor>aa7a98ec6834038f83c9dc610608449e0</Anchor>
                  </Node>
                  <Node>
                   <Name>m_min_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a0f26214d45b8a2127e0fe45036a8f3ff</Anchor>
+                  <Anchor>a3fd384bd9d65e3c7542b822cd500c191</Anchor>
                  </Node>
                  <Node>
                   <Name>m_one_three</Name>
@@ -1946,7 +1946,7 @@
                  <Node>
                   <Name>m_spacelike_facets</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>aab435687e22bcc20baa84d31a6eb2691</Anchor>
+                  <Anchor>a847d8bebb0c69f573ecf473af4861431</Anchor>
                  </Node>
                  <Node>
                   <Name>m_three_one</Name>
@@ -1973,12 +1973,12 @@
                <Node>
                 <Name>Causal_vertices</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>aa61819459b7ee9f31f15cf1e54c47660</Anchor>
+                <Anchor>a4c3bbd1dac47d9dd911de22baf867377</Anchor>
                </Node>
                <Node>
                 <Name>Cell_base</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>a7d5786bdd2298e07c6540df0e1c2bffc</Anchor>
+                <Anchor>aee956efb525b49768bd17879ea9e5eb1</Anchor>
                </Node>
                <Node>
                 <Name>Cell_handle</Name>
@@ -1993,12 +1993,12 @@
                <Node>
                 <Name>Edge_handle</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>ab67e886966303733d7605d864929b3a5</Anchor>
+                <Anchor>a0696debb1bc657eb3746f3af1e0a90fa</Anchor>
                </Node>
                <Node>
                 <Name>Face_handle</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>a9ed35122120e43f31ac215b234428f4c</Anchor>
+                <Anchor>a9af72a51295eedc3f4afb32d071a28d8</Anchor>
                </Node>
                <Node>
                 <Name>FoliatedTriangulation3</Name>
@@ -2028,7 +2028,7 @@
                <Node>
                 <Name>Vertex_base</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>a2099ba429f52df141888a8a8bfc9952c</Anchor>
+                <Anchor>ade1062afbf4ecfd42e49b1a5ebd3efe9</Anchor>
                </Node>
                <Node>
                 <Name>Vertex_handle</Name>
@@ -2065,12 +2065,12 @@
                <Node>
                 <Name>INITIAL_RADIUS</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>ae951ec1742e61c4fd7f1592e5594ac98</Anchor>
+                <Anchor>a095e4cc101a9be9c9cd9b2965d78e2ea</Anchor>
                </Node>
                <Node>
                 <Name>RADIAL_FACTOR</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>ae03972677ca3941db78d589dd030727e</Anchor>
+                <Anchor>a032f26f456eeb6ecb27ddafb6fdf0abd</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -2160,52 +2160,52 @@
                  <Node>
                   <Name>N0</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>ae2e383b6cbed8f572ffab0bfdc920f48</Anchor>
+                  <Anchor>aee1a9f8cb8fc728045669547dc512c62</Anchor>
                  </Node>
                  <Node>
                   <Name>N1</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>a243fd9695b22b22fb6ea1695a164127f</Anchor>
+                  <Anchor>a1f1e0c0450b579742545330aac0dab4c</Anchor>
                  </Node>
                  <Node>
                   <Name>N1_SL</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>aee9333aa8dbb3469007392644fcf4c90</Anchor>
+                  <Anchor>a41904c98e3136ec242b3bc80eaadcb0f</Anchor>
                  </Node>
                  <Node>
                   <Name>N1_TL</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>aec654354a4d14a66048fc2e7b59e1512</Anchor>
+                  <Anchor>a7e3219c9ed6cf9ac0f827ea7567c64e6</Anchor>
                  </Node>
                  <Node>
                   <Name>N2</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>a53dc1ea570cf33c7e502046a21996ee1</Anchor>
+                  <Anchor>a48de5ca45643f71ad68f3d525a9b6876</Anchor>
                  </Node>
                  <Node>
                   <Name>N3</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>adb03683ff2e5bb267519535b740352f6</Anchor>
+                  <Anchor>a7e91c21a88f62ac08dd8ccfafcf8b2b7</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_13</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>a2a3285f7a4e1a9713b735d3bdf05d0fe</Anchor>
+                  <Anchor>a458c5638f49ae9421e79aa7fc404cf1f</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_22</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>a50ee00943bbb53575250d0fde2306861</Anchor>
+                  <Anchor>a550c53c6ab663626350777b0ea204df0</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_31</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>ab3eca4e20d40d5910f2e69c530a02222</Anchor>
+                  <Anchor>a2ba5bdb45507af570ca7af7553417354</Anchor>
                  </Node>
                  <Node>
                   <Name>N3_31_13</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
-                  <Anchor>a68a8d15ac49a9ae7703c4de3eef76d91</Anchor>
+                  <Anchor>a78b0aa25a28f9ec30fc72567ab94abe7</Anchor>
                  </Node>
                 </Subnodes>
                </Node>
@@ -2246,12 +2246,12 @@
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>aac41a868601c1dbaec4d575aa9688e23</Anchor>
+                  <Anchor>ac1801b2ae590a0b94e6f325367483b11</Anchor>
                  </Node>
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a1f35381bef82dcdd0992c68709394403</Anchor>
+                  <Anchor>a17cd8a78a8367737e7d0e9cce2a092dd</Anchor>
                  </Node>
                  <Node>
                   <Name>are_simplex_types_valid</Name>
@@ -2846,29 +2846,19 @@
               <Path>_s3_action_8hpp.html</Path>
               <Subnodes>
                <Node>
-                <Name>Gmpzf</Name>
-                <Path>_s3_action_8hpp.html</Path>
-                <Anchor>ab09035cfa5e10fa4ee88d95ef5fa7ac5</Anchor>
-               </Node>
-               <Node>
                 <Name>S3_bulk_action</Name>
                 <Path>_s3_action_8hpp.html</Path>
-                <Anchor>ab4fa6a0f266cf58261caf50e036789b0</Anchor>
+                <Anchor>a53b4885b111d123e2e655a919c233371</Anchor>
                </Node>
                <Node>
                 <Name>S3_bulk_action_alpha_minus_one</Name>
                 <Path>_s3_action_8hpp.html</Path>
-                <Anchor>a22d5c8583ff3fe98ca30dab3cb3b1059</Anchor>
+                <Anchor>a74e4782fbf36a6f6f1dfa8ffa254fa40</Anchor>
                </Node>
                <Node>
                 <Name>S3_bulk_action_alpha_one</Name>
                 <Path>_s3_action_8hpp.html</Path>
-                <Anchor>ac28813bf78396272c3deb389be55ca36</Anchor>
-               </Node>
-               <Node>
-                <Name>PRECISION</Name>
-                <Path>_s3_action_8hpp.html</Path>
-                <Anchor>a7dad268135b26e2d9051254693a388f6</Anchor>
+                <Anchor>a15f42f7bf0813750d7799f81e82c35fd</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3078,6 +3068,27 @@
                 <Name>RADIAL_FACTOR</Name>
                 <Path>_s3_triangulation_8hpp.html</Path>
                 <Anchor>ae03972677ca3941db78d589dd030727e</Anchor>
+               </Node>
+              </Subnodes>
+             </Node>
+             <Node>
+              <Name>Settings.hpp</Name>
+              <Path>_settings_8hpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>Gmpzf</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>ab09035cfa5e10fa4ee88d95ef5fa7ac5</Anchor>
+               </Node>
+               <Node>
+                <Name>Int_precision</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a8bfaca71c5cc9c46ffe9f9db47923078</Anchor>
+               </Node>
+               <Node>
+                <Name>PRECISION</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a3b74ffb172789818cabbba0cfddee528</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3453,11 +3464,6 @@
                 <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
                </Node>
                <Node>
-                <Name>Gmpzf</Name>
-                <Path>_utilities_8hpp.html</Path>
-                <Anchor>ab09035cfa5e10fa4ee88d95ef5fa7ac5</Anchor>
-               </Node>
-               <Node>
                 <Name>topology_type</Name>
                 <Path>_utilities_8hpp.html</Path>
                 <Anchor>ad9c9232841af64b400d39d994e5564c5</Anchor>
@@ -3487,12 +3493,12 @@
                <Node>
                 <Name>expected_points_per_timeslice</Name>
                 <Path>_utilities_8hpp.html</Path>
-                <Anchor>ac5c6e6c8a1de2a69715f837efeb8b1f5</Anchor>
+                <Anchor>a5b0cf3d2ac2f8372441d30d9a1fd6ca9</Anchor>
                </Node>
                <Node>
                 <Name>generate_filename</Name>
                 <Path>_utilities_8hpp.html</Path>
-                <Anchor>ae5fdffd609dea41093c0d3c3123495bc</Anchor>
+                <Anchor>a411884dbafb69ebcae8a240adeaba64c</Anchor>
                </Node>
                <Node>
                 <Name>generate_probability</Name>
@@ -3572,7 +3578,7 @@
                <Node>
                 <Name>write_file</Name>
                 <Path>_utilities_8hpp.html</Path>
-                <Anchor>af6fd04ea562f7efe1c114cb4d91b06fb</Anchor>
+                <Anchor>a16196320ad1e1415f764aa8720cd6d23</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3883,7 +3889,7 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_move__command__test_8cpp.html</Path>
-                <Anchor>aeaf0e26eaba82555c00f0d4e46553cb3</Anchor>
+                <Anchor>ab406750a1f231e80686c109b86847aa4</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3923,6 +3929,17 @@
              <Node>
               <Name>S3ErgodicMovesTest.cpp</Name>
               <Path>_s3_ergodic_moves_test_8cpp_source.html</Path>
+             </Node>
+             <Node>
+              <Name>Settings_test.cpp</Name>
+              <Path>_settings__test_8cpp.html</Path>
+              <Subnodes>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_settings__test_8cpp.html</Path>
+                <Anchor>a2b5fd2de6fb03f0b01962e7f5d0a6d7e</Anchor>
+               </Node>
+              </Subnodes>
              </Node>
              <Node>
               <Name>SimplicialManifoldTest.cpp</Name>
