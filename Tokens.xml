@@ -484,6 +484,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>INITIAL_RADIUS</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_settings_8hpp.html</Path>
+    <Anchor>a095e4cc101a9be9c9cd9b2965d78e2ea</Anchor>
+    <Abstract>Default foliated triangulation spacings.</Abstract>
+    <DeclaredIn>Settings.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>PRECISION</Name>
       <APILanguage>c</APILanguage>
       <Type>data</Type>

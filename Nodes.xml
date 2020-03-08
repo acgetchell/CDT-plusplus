@@ -2062,16 +2062,6 @@
                 <Path>_foliated__triangulation_8hpp.html</Path>
                 <Anchor>ae240a97bcc82607596147cd643cdcd18</Anchor>
                </Node>
-               <Node>
-                <Name>INITIAL_RADIUS</Name>
-                <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>a095e4cc101a9be9c9cd9b2965d78e2ea</Anchor>
-               </Node>
-               <Node>
-                <Name>RADIAL_FACTOR</Name>
-                <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>a032f26f456eeb6ecb27ddafb6fdf0abd</Anchor>
-               </Node>
               </Subnodes>
              </Node>
              <Node>
@@ -3086,9 +3076,19 @@
                 <Anchor>a8bfaca71c5cc9c46ffe9f9db47923078</Anchor>
                </Node>
                <Node>
+                <Name>INITIAL_RADIUS</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a095e4cc101a9be9c9cd9b2965d78e2ea</Anchor>
+               </Node>
+               <Node>
                 <Name>PRECISION</Name>
                 <Path>_settings_8hpp.html</Path>
                 <Anchor>a3b74ffb172789818cabbba0cfddee528</Anchor>
+               </Node>
+               <Node>
+                <Name>RADIAL_FACTOR</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a032f26f456eeb6ecb27ddafb6fdf0abd</Anchor>
                </Node>
               </Subnodes>
              </Node>

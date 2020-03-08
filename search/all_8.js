@@ -1,7 +1,7 @@
 var searchData=
 [
   ['incident_5fcells_101',['incident_cells',['../class_foliated_triangulation_3_013_01_4.html#a6017c2952a5e1917e9fcde39fd71eb0a',1,'FoliatedTriangulation&lt; 3 &gt;::incident_cells(VertexHandle &amp;&amp;t_vh) const'],['../class_foliated_triangulation_3_013_01_4.html#a824f910bf7fb329f98a7d638902bff20',1,'FoliatedTriangulation&lt; 3 &gt;::incident_cells(Ts &amp;&amp;... args) const'],['../class_manifold_3_013_01_4.html#a6f759d43b7de26791b69e6e61d3f211d',1,'Manifold&lt; 3 &gt;::incident_cells()']]],
-  ['initial_5fradius_102',['INITIAL_RADIUS',['../_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'S3Triangulation.hpp']]],
+  ['initial_5fradius_102',['INITIAL_RADIUS',['../_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'INITIAL_RADIUS():&#160;S3Triangulation.hpp'],['../_settings_8hpp.html#a095e4cc101a9be9c9cd9b2965d78e2ea',1,'INITIAL_RADIUS():&#160;Settings.hpp']]],
   ['initialize_2ecpp_103',['initialize.cpp',['../initialize_8cpp.html',1,'']]],
   ['insert_5finto_5ftriangulation_104',['insert_into_triangulation',['../_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b',1,'S3Triangulation.hpp']]],
   ['int_5fprecision_105',['Int_precision',['../_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078',1,'Settings.hpp']]],
