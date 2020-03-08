@@ -484,6 +484,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>GV_BOUNDING_BOX_SIZE</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_settings_8hpp.html</Path>
+    <Anchor>a1c189d695c12981d88175ed54dd22311</Anchor>
+    <Abstract>Depends on INITIAL_RADIUS and RADIAL_FACTOR.</Abstract>
+    <DeclaredIn>Settings.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>INITIAL_RADIUS</Name>
       <APILanguage>c</APILanguage>
       <Type>data</Type>

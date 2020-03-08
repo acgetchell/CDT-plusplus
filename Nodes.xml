@@ -3076,6 +3076,11 @@
                 <Anchor>a8bfaca71c5cc9c46ffe9f9db47923078</Anchor>
                </Node>
                <Node>
+                <Name>GV_BOUNDING_BOX_SIZE</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a1c189d695c12981d88175ed54dd22311</Anchor>
+               </Node>
+               <Node>
                 <Name>INITIAL_RADIUS</Name>
                 <Path>_settings_8hpp.html</Path>
                 <Anchor>a095e4cc101a9be9c9cd9b2965d78e2ea</Anchor>
