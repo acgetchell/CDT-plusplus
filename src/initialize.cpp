@@ -42,7 +42,8 @@ Options:
   -o --output                 Save triangulation into OFF file
 )"};
 
-int main(int argc, char* const argv[]) try
+auto main(int argc, char* const argv[]) -> int
+try
 {
   // docopt option parser
   gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);

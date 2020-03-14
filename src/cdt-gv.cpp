@@ -70,7 +70,7 @@ Options:
 /// @param argc Argument count = 1 + number of arguments
 /// @param argv Argument vector (array) to be passed to docopt
 /// @return Integer value 0 if successful, 1 on failure
-int main(int argc, char* const argv[])
+auto main(int argc, char const* argv[]) -> int
 try
 {
   // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1

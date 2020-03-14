@@ -16,7 +16,7 @@
 #define CATCH_CONFIG_CPP17_BYTE
 #include <catch2/catch.hpp>
 
-int main(int argc, char* argv[])
+auto main(int argc, char* argv[]) -> int
 {
   Catch::Session session;  // There must be exactly one instance
 
