@@ -3618,9 +3618,19 @@
                 <Anchor>ab90a24b218a6bd7f83a44f6f4760b08f</Anchor>
                </Node>
                <Node>
+                <Name>catch</Name>
+                <Path>cdt-gv_8cpp.html</Path>
+                <Anchor>a1204fa6444ae7174767e202a6d39b815</Anchor>
+               </Node>
+               <Node>
+                <Name>catch</Name>
+                <Path>cdt-gv_8cpp.html</Path>
+                <Anchor>acfa436ad702cd47a0c81c8fddab727cb</Anchor>
+               </Node>
+               <Node>
                 <Name>main</Name>
                 <Path>cdt-gv_8cpp.html</Path>
-                <Anchor>af3ed9c200de85b53c94cd18764b246a2</Anchor>
+                <Anchor>ab31733381fa049166a37a718e9eef7f5</Anchor>
                </Node>
                <Node>
                 <Name>USAGE</Name>
@@ -3670,9 +3680,19 @@
               <Path>initialize_8cpp.html</Path>
               <Subnodes>
                <Node>
+                <Name>catch</Name>
+                <Path>initialize_8cpp.html</Path>
+                <Anchor>a1204fa6444ae7174767e202a6d39b815</Anchor>
+               </Node>
+               <Node>
+                <Name>catch</Name>
+                <Path>initialize_8cpp.html</Path>
+                <Anchor>acfa436ad702cd47a0c81c8fddab727cb</Anchor>
+               </Node>
+               <Node>
                 <Name>main</Name>
                 <Path>initialize_8cpp.html</Path>
-                <Anchor>af3ed9c200de85b53c94cd18764b246a2</Anchor>
+                <Anchor>ae3c9ca9c80d59823d8711270d8a0d7c2</Anchor>
                </Node>
                <Node>
                 <Name>USAGE</Name>
@@ -3806,7 +3826,7 @@
                <Node>
                 <Name>main</Name>
                 <Path>main_8cpp.html</Path>
-                <Anchor>a0ddf1224851353fc92bfbff6f499fa97</Anchor>
+                <Anchor>a7114aa2dd6837734db57667a298dfcc4</Anchor>
                </Node>
               </Subnodes>
              </Node>

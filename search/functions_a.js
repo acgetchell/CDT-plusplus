@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['main_412',['main',['../cdt-gv_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt-gv.cpp'],['../cdt-opt_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;cdt-opt.cpp'],['../cdt_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt.cpp']]],
+  ['main_412',['main',['../cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5',1,'main(int argc, char const *argv[]) -&gt; int try:&#160;cdt-gv.cpp'],['../cdt-opt_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;cdt-opt.cpp'],['../cdt_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt.cpp']]],
   ['make_5f23_5fmove_413',['make_23_move',['../_s3_ergodic_moves_8hpp.html#ab91ed11ef58b49edad0297ef5fc33324',1,'S3ErgodicMoves.hpp']]],
   ['make_5f26_5fmove_414',['make_26_move',['../_s3_ergodic_moves_8hpp.html#a8ec8eb0557a6c1bdb25cbd68c5f86e38',1,'S3ErgodicMoves.hpp']]],
   ['make_5f32_5fmove_415',['make_32_move',['../_s3_ergodic_moves_8hpp.html#aabdf2c94726a19af7e3b71d1e18a3620',1,'S3ErgodicMoves.hpp']]],

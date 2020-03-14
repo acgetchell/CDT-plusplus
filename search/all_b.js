@@ -13,7 +13,7 @@ var searchData=
   ['m_5fsuccessful_5fmoves_132',['m_successful_moves',['../class_move_strategy_3_013_01_4.html#ae9e2a1f9daefdecdf9346253f876d089',1,'MoveStrategy&lt; 3 &gt;']]],
   ['m_5ftriangulation_133',['m_triangulation',['../class_manifold_3_013_01_4.html#a13d98777844efdc8bd6c4c342dfbecce',1,'Manifold&lt; 3 &gt;']]],
   ['m_5funiverse_134',['m_universe',['../class_move_strategy_3_013_01_4.html#a55d92f0d81fdf02618822a4cc0342da1',1,'MoveStrategy&lt; 3 &gt;']]],
-  ['main_135',['main',['../cdt-gv_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt-gv.cpp'],['../cdt-opt_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;cdt-opt.cpp'],['../cdt_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt.cpp']]],
+  ['main_135',['main',['../cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5',1,'main(int argc, char const *argv[]) -&gt; int try:&#160;cdt-gv.cpp'],['../cdt-opt_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;cdt-opt.cpp'],['../cdt_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt.cpp']]],
   ['main_2ecpp_136',['main.cpp',['../main_8cpp.html',1,'']]],
   ['make_5f23_5fmove_137',['make_23_move',['../_s3_ergodic_moves_8hpp.html#ab91ed11ef58b49edad0297ef5fc33324',1,'S3ErgodicMoves.hpp']]],
   ['make_5f26_5fmove_138',['make_26_move',['../_s3_ergodic_moves_8hpp.html#a8ec8eb0557a6c1bdb25cbd68c5f86e38',1,'S3ErgodicMoves.hpp']]],
