@@ -25,11 +25,11 @@ SCENARIO("3-Manifold std::function compatibility and exception-safety",
       {
         REQUIRE(is_default_constructible<Manifold3>::value);
       }
-      /// TODO: Make Manifold no-throw default constructible
-      //      THEN("It is no-throw default constructible.")
-      //      {
-      //        CHECK(is_nothrow_default_constructible<Manifold3>::value);
-      //      }
+//      /// TODO: Make Manifold no-throw default constructible
+//            THEN("It is no-throw default constructible.")
+//            {
+//              CHECK(is_nothrow_default_constructible<Manifold3>::value);
+//            }
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible<Manifold3>::value);
@@ -64,6 +64,12 @@ SCENARIO("3-Manifold std::function compatibility and exception-safety",
       //      {
       //        CHECK(is_nothrow_move_assignable<Manifold3>::value);
       //      }
+      THEN("friend void swap(Manifold1, Manifold2) is noexcept")
+      {
+        Manifold3 m1;
+        Manifold3 m2;
+        CHECK(noexcept(swap(m1, m2)));
+      }
     }
   }
 }
