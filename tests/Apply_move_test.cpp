@@ -18,8 +18,8 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply move]")
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {
-    constexpr auto desired_simplices  = static_cast<int_fast64_t>(6400);
-    constexpr auto desired_timeslices = static_cast<int_fast64_t>(7);
+    constexpr auto desired_simplices  = static_cast<Int_precision>(6400);
+    constexpr auto desired_timeslices = static_cast<Int_precision>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_delaunay());
     REQUIRE(manifold.is_valid());

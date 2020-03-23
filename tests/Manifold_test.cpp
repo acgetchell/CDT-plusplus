@@ -187,8 +187,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("Constructing the minimum size triangulation.")
     {
-      auto constexpr desired_simplices  = static_cast<int_fast64_t>(2);
-      auto constexpr desired_timeslices = static_cast<int_fast64_t>(2);
+      auto constexpr desired_simplices  = static_cast<Int_precision>(2);
+      auto constexpr desired_timeslices = static_cast<Int_precision>(2);
       Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
@@ -216,8 +216,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("Constructing a small triangulation.")
     {
-      auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-      auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+      auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+      auto constexpr desired_timeslices = static_cast<Int_precision>(4);
       Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
@@ -234,8 +234,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     }
     WHEN("Constructing a medium triangulation.")
     {
-      auto constexpr desired_simplices  = static_cast<int_fast64_t>(6400);
-      auto constexpr desired_timeslices = static_cast<int_fast64_t>(7);
+      auto constexpr desired_simplices  = static_cast<Int_precision>(6400);
+      auto constexpr desired_timeslices = static_cast<Int_precision>(7);
       Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
@@ -272,8 +272,8 @@ SCENARIO("3-Manifold function checks", "[manifold]")
 
   GIVEN("A 3-manifold")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     WHEN("It is initialized.")
     {
       Manifold3 manifold(desired_simplices, desired_timeslices);
@@ -296,8 +296,8 @@ SCENARIO("3-Manifold copying", "[manifold]")
 {
   GIVEN("A 3-manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     WHEN("It is copied.")
     {
@@ -348,8 +348,8 @@ SCENARIO("3-Manifold update geometry", "[manifold]")
 {
   GIVEN("A 3-manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     WHEN("We call update().")
     {
@@ -383,8 +383,8 @@ SCENARIO("3-Manifold mutation", "[manifold]")
 {
   GIVEN("A pair of 3-manifolds.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(640);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifold3 manifold1(desired_simplices, desired_timeslices);
     Manifold3 manifold2(desired_simplices, desired_timeslices);
     WHEN("We swap the triangulation of one manifold for another.")
@@ -496,8 +496,8 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
   }
   GIVEN("A medium sized manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<int_fast64_t>(6400);
-    auto constexpr desired_timeslices = static_cast<int_fast64_t>(7);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(6400);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
     WHEN("It is constructed.")
     {
       Manifold3 manifold(desired_simplices, desired_timeslices);
