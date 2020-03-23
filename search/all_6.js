@@ -21,7 +21,7 @@ var searchData=
   ['get_5fspacelike_5fedges_88',['get_spacelike_edges',['../class_foliated_triangulation_3_013_01_4.html#ae9c7fb58a5f6232f488539246e6e5fc6',1,'FoliatedTriangulation&lt; 3 &gt;::get_spacelike_edges()'],['../class_manifold_3_013_01_4.html#a1e8f83dc5386b3bd6b89a20a5b55a3da',1,'Manifold&lt; 3 &gt;::get_spacelike_edges()']]],
   ['get_5fthree_5fone_89',['get_three_one',['../class_foliated_triangulation_3_013_01_4.html#a1e0b23b652a18d31057aac876df698c5',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['get_5ftimelike_5fedges_90',['get_timelike_edges',['../class_foliated_triangulation_3_013_01_4.html#a5012b50bced3ef13aff40864f1f318d1',1,'FoliatedTriangulation&lt; 3 &gt;::get_timelike_edges()'],['../class_manifold_3_013_01_4.html#a6b08dfec9150df8a9b6d5acc610b8d2e',1,'Manifold&lt; 3 &gt;::get_timelike_edges()']]],
-  ['get_5ftriangulation_91',['get_triangulation',['../class_manifold_3_013_01_4.html#a6185e35ab5967be30b8feca1933ebcdb',1,'Manifold&lt; 3 &gt;']]],
+  ['get_5ftriangulation_91',['get_triangulation',['../class_manifold_3_013_01_4.html#af275e0640a5997322d69e3e739c5bf6e',1,'Manifold&lt; 3 &gt;']]],
   ['get_5ftwo_5ftwo_92',['get_two_two',['../class_foliated_triangulation_3_013_01_4.html#a700cb40bb3cbf9ef5a8062c07260218a',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['get_5fvertices_93',['get_vertices',['../class_foliated_triangulation_3_013_01_4.html#af707ad9b1be6e561c7450671380ba18c',1,'FoliatedTriangulation&lt; 3 &gt;::get_vertices()'],['../class_manifold_3_013_01_4.html#a642fc2449a573c115793e604eef7fc76',1,'Manifold&lt; 3 &gt;::get_vertices()']]],
   ['get_5fvertices_5ffrom_5fcells_94',['get_vertices_from_cells',['../class_manifold_3_013_01_4.html#abdb8a938ef7ddd77662eb9aade333443',1,'Manifold&lt; 3 &gt;']]],
