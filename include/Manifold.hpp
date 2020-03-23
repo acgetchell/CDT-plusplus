@@ -92,13 +92,16 @@ class Manifold<3>
   }  // update
 
   /// @return A read-only reference to the triangulation
-  [[nodiscard]] FoliatedTriangulation3 const& get_triangulation() const
+  [[nodiscard]] auto get_triangulation() const -> FoliatedTriangulation3 const&
   {
     return m_triangulation;
   }
 
   /// @return A mutable reference to the triangulation
-  [[nodiscard]] auto& triangulation() { return m_triangulation; }
+  [[nodiscard]] auto triangulation() -> FoliatedTriangulation3&
+  {
+    return m_triangulation;
+  }
 
   /// @return A read-only reference to the Geometry
   [[nodiscard]] Geometry3 const& get_geometry() const { return m_geometry; }
@@ -257,8 +260,8 @@ class Manifold<3>
   [[nodiscard]] auto are_vertex_timevalues_valid(
       std::vector<Cell_handle> const& t_cells) const -> bool
   {
-    auto check_vertices = get_vertices_from_cells(t_cells);
-    for (auto& vertex : check_vertices)
+    auto checked_vertices = get_vertices_from_cells(t_cells);
+    for (auto& vertex : checked_vertices)
     {
       auto timevalue = vertex->info();
       if (timevalue > max_time() || timevalue < min_time()) { return false; }
