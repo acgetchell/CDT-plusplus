@@ -18,6 +18,8 @@ jobs:
         sudo apt-get install yasm ninja-build g++-9 ccache
         export CXX="g++-9" CC="gcc-9"
         cd $VCPKG_INSTALLATION_ROOT
+        git pull
+        bootstrap-vcpkg.sh
         vcpkg install catch2 docopt fmt ms-gsl eigen3 tbb cgal
     - name: Build
       shell: bash 
