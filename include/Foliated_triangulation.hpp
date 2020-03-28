@@ -315,7 +315,7 @@ class FoliatedTriangulation<3> final : private Delaunay3
     auto infinite_vertex_timevalue = this->infinite_vertex()->info();
     for (auto v : vertices)
     {
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
       std::cout << "Vertex (" << v.point() << ") has timevalue " << v.info()
                 << "\n";
 //        fmt::print("Vertex {} has timevalue {}\n", v.point(), v.info());

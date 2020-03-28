@@ -38,6 +38,11 @@ function(enable_sanitizers project_name)
     if(ENABLE_SANITIZER_ADDRESS)
       list(APPEND SANITIZERS "address")
       message(STATUS "AddressSanitizer enabled.")
+      set(ENV{ASAN_OPTIONS} "fast_unwind_on_malloc=0")
+      set(ENV{ASAN_OPTIONS} "$ENV{ASAN_OPTIONS}:help=1")
+      set(ENV{ASAN_OPTIONS} "$ENV{ASAN_OPTIONS}:symbolize=1")
+      set(ENV{ASAN_OPTIONS} "$ENV{ASAN_OPTIONS}:verbosity=2")
+      message(STATUS "ASAN_OPTIONS=$ENV{ASAN_OPTIONS}")
     endif()
 
     option(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR
@@ -45,6 +50,8 @@ function(enable_sanitizers project_name)
     if(ENABLE_SANITIZER_UNDEFINED_BEHAVIOR)
       list(APPEND SANITIZERS "undefined")
       message(STATUS "UndefinedBehaviorSanitizer enabled.")
+      set(ENV{UBSAN_OPTIONS} "print_stacktrace=1")
+      message(STATUS "UBSAN_OPTIONS=$ENV{UBSAN_OPTIONS}")
     endif()
 
     option(ENABLE_SANITIZER_THREAD "Enable thread sanitizer" FALSE)
@@ -71,8 +78,9 @@ function(enable_sanitizers project_name)
 
   if(LIST_OF_SANITIZERS)
     if(NOT "${LIST_OF_SANITIZERS}" STREQUAL "")
-      target_compile_options(${project_name}
-                             INTERFACE -g -O1 -fsanitize=${LIST_OF_SANITIZERS})
+      target_compile_options(
+        ${project_name} INTERFACE -g -O1 -fsanitize=${LIST_OF_SANITIZERS}
+                                  -fno-omit-frame-pointer)
       target_link_libraries(${project_name}
                             INTERFACE -fsanitize=${LIST_OF_SANITIZERS})
     endif()

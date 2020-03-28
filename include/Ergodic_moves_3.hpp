@@ -315,7 +315,7 @@ namespace manifold3_moves
     // We must have 5 incident edges to have 6 incident cells
     if (incident_edges != 5)
     {
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
       fmt::print("Vertex has {} incident edges/vertices.\n", incident_edges);
 #endif
       return false;
@@ -326,7 +326,7 @@ namespace manifold3_moves
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)
     {
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
       fmt::print(
           "Vertex has {} incident edges/vertices and {} incident cells.\n",
           incident_edges, incident_cells.size());

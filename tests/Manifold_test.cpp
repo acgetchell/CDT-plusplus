@@ -473,6 +473,42 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
         //        }
       }
     }
+    WHEN("It is constructed.")
+    {
+      THEN("The number of timeslices is correct.")
+      {
+        REQUIRE(manifold.min_time() == 1);
+        REQUIRE(manifold.max_time() == 3);
+      }
+      THEN("Every vertex in the manifold has a correct timevalue.")
+      {
+        auto vertices = manifold.get_vertices();
+        for (auto& vertex : vertices)
+        {
+          CHECK(vertex->info() >= manifold.min_time());
+          CHECK(vertex->info() <= manifold.max_time());
+#ifndef NDEBUG
+          fmt::print("Vertex->info() = {}\n", vertex->info());
+#endif
+        }
+      }
+      THEN("Every cell in the manifold is correctly classified.")
+      {
+        auto cells = manifold.get_triangulation().get_cells();
+        for (auto& cell : cells)
+        {
+          using Catch::Matchers::Predicate;
+          CHECK_THAT(cell->info(), Predicate<int>(
+                                       [](int const a) -> bool {
+                                         return (a == 13 || a == 22 || a == 31);
+                                       },
+                                       "Cell->info() should be 13, 22, or 31"));
+#ifndef NDEBUG
+          fmt::print("Cell->info() = {}\n", cell->info());
+#endif
+        }
+      }
+    }
     /// TODO: Fix checks of vertex timevalues and simplex types
     //    WHEN("We insert an invalid timevalue into a vertex.")
     //    {
@@ -526,7 +562,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
         {
           CHECK(vertex->info() >= manifold.min_time());
           CHECK(vertex->info() <= manifold.max_time());
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
           fmt::print("Vertex->info() = {}\n", vertex->info());
 #endif
         }
@@ -542,7 +578,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
                                          return (a == 13 || a == 22 || a == 31);
                                        },
                                        "Cell->info() should be 13, 22, or 31"));
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
           fmt::print("Cell->info() = {}\n", cell->info());
 #endif
         }
