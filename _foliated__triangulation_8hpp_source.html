@@ -315,7 +315,7 @@ $(function() {
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="keyword">auto</span> infinite_vertex_timevalue = this-&gt;infinite_vertex()-&gt;info();</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> v : vertices)</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    {</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">#ifdef DETAILED_DEBUGGING</span></div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;      std::cout &lt;&lt; <span class="stringliteral">&quot;Vertex (&quot;</span> &lt;&lt; v.point() &lt;&lt; <span class="stringliteral">&quot;) has timevalue &quot;</span> &lt;&lt; v.info()</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;                &lt;&lt; <span class="stringliteral">&quot;\n&quot;</span>;</div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">//        fmt::print(&quot;Vertex {} has timevalue {}\n&quot;, v.point(), v.info());</span></div>
@@ -860,7 +860,7 @@ $(function() {
 <div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html_a8b348191a609023611f4321f4f710f05"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html#a8b348191a609023611f4321f4f710f05">FoliatedTriangulation&lt; 3 &gt;::check_cells</a></div><div class="ttdeci">auto check_cells(std::vector&lt; Cell_handle &gt; const &amp;t_cells) const -&gt; bool</div><div class="ttdoc">Check that all cells are correctly classified.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00382">Foliated_triangulation.hpp:382</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 25 2020 18:04:03 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 28 2020 23:30:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

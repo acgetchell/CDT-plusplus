@@ -307,7 +307,7 @@ $(function() {
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="comment">// We must have 5 incident edges to have 6 incident cells</span></div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="keywordflow">if</span> (incident_edges != 5)</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    {</div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="preprocessor">#ifdef DETAILED_DEBUGGING</span></div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;      fmt::print(<span class="stringliteral">&quot;Vertex has {} incident edges/vertices.\n&quot;</span>, incident_edges);</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
@@ -318,7 +318,7 @@ $(function() {
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="comment">// We must have 6 cells incident to the vertex to make a (6,2) move</span></div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="keywordflow">if</span> (incident_cells.size() != 6)</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    {</div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="preprocessor">#ifdef DETAILED_DEBUGGING</span></div>
 <div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;      fmt::print(</div>
 <div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;          <span class="stringliteral">&quot;Vertex has {} incident edges/vertices and {} incident cells.\n&quot;</span>,</div>
 <div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;          incident_edges, incident_cells.size());</div>
@@ -535,7 +535,7 @@ $(function() {
 <div class="ttc" id="aclass_manifold_3_013_01_4_html_a6b08dfec9150df8a9b6d5acc610b8d2e"><div class="ttname"><a href="class_manifold_3_013_01_4.html#a6b08dfec9150df8a9b6d5acc610b8d2e">Manifold&lt; 3 &gt;::get_timelike_edges</a></div><div class="ttdeci">auto const  &amp; get_timelike_edges() const</div><div class="ttdoc">Call to triangulation_.get_timelike_edges()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00295">Manifold.hpp:295</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 25 2020 18:04:03 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Mar 28 2020 23:30:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
