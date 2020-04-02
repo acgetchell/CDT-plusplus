@@ -904,16 +904,6 @@
       <APILanguage>c</APILanguage>
       <Type>func</Type>
     </TokenIdentifier>
-    <Path>_geometry__test_8cpp.html</Path>
-    <Anchor>a1f8c94146320caa7258a12cd8d00dbdb</Anchor>
-    <DeclaredIn>Geometry_test.cpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SCENARIO</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
     <Path>_manifold__test_8cpp.html</Path>
     <Anchor>a86c0feb15fe431d86236338356a0481e</Anchor>
     <DeclaredIn>Manifold_test.cpp</DeclaredIn>
@@ -1553,7 +1543,7 @@
       <Scope>Geometry&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
-    <Anchor>ab925777b39fb2210238437af7d6daeb4</Anchor>
+    <Anchor>abd5d97366123fd8ae8b8975213cd52c8</Anchor>
     <Abstract>Default ctor.</Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
@@ -1688,7 +1678,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a89aa633be477dfd525950f3b0e2d1bf8</Anchor>
-    <Abstract>Swap two Geometry3 structs Used for no-except updates of geometry data structures.</Abstract>
+    <Abstract>Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>

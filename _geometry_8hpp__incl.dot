@@ -60,7 +60,6 @@ digraph "include/Geometry.hpp"
   Node28 [label="CGAL/Triangulation\l_vertex_base_with_info_3.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node2 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node29 [label="CGAL/point_generators_3.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node2 -> Node24 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node30 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node30 [label="optional",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
 }

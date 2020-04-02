@@ -20,7 +20,6 @@ digraph "src/cdt-opt.cpp"
   Node8 [label="Manifold.hpp",height=0.2,width=0.4,color="red", fillcolor="white", style="filled",URL="$_manifold_8hpp.html",tooltip="Data structures for manifolds."];
   Node8 -> Node40 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node40 [label="utility",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node2 -> Node41 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node41 [label="S3Action.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_s3_action_8hpp.html",tooltip="Calculate S3 bulk actions on 3D Delaunay Triangulations."];
   Node41 -> Node29 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

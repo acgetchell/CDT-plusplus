@@ -64,7 +64,6 @@ digraph "include/Ergodic_moves_3.hpp"
   Node30 [label="CGAL/Triangulation\l_vertex_base_with_info_3.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node4 -> Node31 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node31 [label="CGAL/point_generators_3.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node4 -> Node26 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node4 -> Node32 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node32 [label="optional",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node2 -> Node33 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

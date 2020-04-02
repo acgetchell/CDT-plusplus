@@ -298,184 +298,195 @@ $(function() {
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      command.<a class="code" href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">enqueue</a>(move32);</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      THEN(<span class="stringliteral">&quot;It is executed correctly.&quot;</span>)</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="comment">//            CAPTURE(command.get_manifold().N3_22());</span></div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <span class="comment">//            CAPTURE(command.get_manifold().N1_TL());</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        command.<a class="code" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">execute</a>();</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        <span class="keyword">auto</span> result = std::move(command.<a class="code" href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">get_results</a>());</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;        <span class="comment">// Distinct objects</span></div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="keyword">auto</span>* manifold_ptr = &amp;manifold;</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keyword">auto</span>* result_ptr   = &amp;result;</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;        REQUIRE_FALSE(manifold_ptr == result_ptr);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        fmt::print(</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <span class="stringliteral">&quot;The manifold and the result in the MoveCommand are distinct.\n&quot;</span>);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;              manifold.<a class="code" href="class_manifold_3_013_01_4.html#af275e0640a5997322d69e3e739c5bf6e">get_triangulation</a>().number_of_finite_cells() - 1);</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="comment">//        cout &lt;&lt; &quot;Triangulation added a finite cell.\n&quot;;</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation added a finite cell.\n&quot;</span>);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="comment">// These should be +1 after command</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="comment">//            CAPTURE(result.N3_22());</span></div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="comment">//            CAPTURE(result.N1_TL());</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        CHECK(manifold3_moves::check_move(</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            manifold, result, manifold3_moves::move_type::THREE_TWO));</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      }</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;    }</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  }</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;}</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;<span class="comment">// SCENARIO(&quot;Save state using a Memento&quot;, &quot;[move3]&quot;)</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;<span class="comment">//  GIVEN(&quot;A valid manifold&quot;)</span></div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;<span class="comment">//    auto constexpr desired_simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;<span class="comment">//    auto constexpr desired_timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;<span class="comment">//    Manifold3 manifold(desired_simplices, desired_timeslices);</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;<span class="comment">//    REQUIRE(manifold.is_delaunay());</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="comment">//    REQUIRE(manifold.is_valid());</span></div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;<span class="comment">//    WHEN(&quot;A Command is instantiated&quot;)</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160; </div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">// SCENARIO(&quot;Test single moves of 3-Manifold&quot;, &quot;[move3]&quot;)</span></div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">//  GIVEN(&quot;A Move_command with a 3-Manifold&quot;)</span></div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">//    WHEN(&quot;It is default constructed.&quot;)</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="comment">// Original manifold values for N3_22, N1_TL, and N3</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        CAPTURE(command.<a class="code" href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">get_manifold</a>().N3_22());</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        CAPTURE(command.<a class="code" href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">get_manifold</a>().N1_TL());</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        <span class="keyword">auto</span> cell_count = manifold.<a class="code" href="class_manifold_3_013_01_4.html#af275e0640a5997322d69e3e739c5bf6e">get_triangulation</a>().number_of_finite_cells();</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <span class="comment">// Execute the move</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        command.<a class="code" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">execute</a>();</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;        <span class="comment">// The move should not change the original manifold</span></div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        CHECK(cell_count ==</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;              manifold.<a class="code" href="class_manifold_3_013_01_4.html#af275e0640a5997322d69e3e739c5bf6e">get_triangulation</a>().number_of_finite_cells());</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        <span class="keyword">auto</span> result = std::move(command.<a class="code" href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">get_results</a>());</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="comment">// Distinct objects?</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        <span class="keyword">auto</span>* manifold_ptr = &amp;manifold;</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;        <span class="keyword">auto</span>* result_ptr   = &amp;result;</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        REQUIRE_FALSE(manifold_ptr == result_ptr);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        fmt::print(</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;            <span class="stringliteral">&quot;The manifold and the result in the MoveCommand are distinct.\n&quot;</span>);</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;              manifold.<a class="code" href="class_manifold_3_013_01_4.html#af275e0640a5997322d69e3e739c5bf6e">get_triangulation</a>().number_of_finite_cells() - 1);</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">//        cout &lt;&lt; &quot;Triangulation added a finite cell.\n&quot;;</span></div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation added a finite cell.\n&quot;</span>);</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;        <span class="comment">// These should be +1 after command</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;        CAPTURE(result.N3_22());</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        CAPTURE(result.N1_TL());</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        CHECK(manifold3_moves::check_move(</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;            manifold, result, manifold3_moves::move_type::THREE_TWO));</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;      }</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;    }</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  }</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;}</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160; </div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;<span class="comment">// SCENARIO(&quot;Save state using a Memento&quot;, &quot;[move3]&quot;)</span></div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;<span class="comment">//{</span></div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="comment">//  GIVEN(&quot;A valid manifold&quot;)</span></div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;<span class="comment">//  {</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;<span class="comment">//    auto constexpr desired_simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;<span class="comment">//    auto constexpr desired_timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;<span class="comment">//    Manifold3 manifold(desired_simplices, desired_timeslices);</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;<span class="comment">//    REQUIRE(manifold.is_delaunay());</span></div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;<span class="comment">//    REQUIRE(manifold.is_valid());</span></div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;<span class="comment">//    WHEN(&quot;A Command is instantiated&quot;)</span></div>
 <div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">//      MoveCommand3 move;</span></div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">//      THEN(&quot;The manifold is valid.&quot;)</span></div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;<span class="comment">//        CHECK_FALSE(move.get_manifold().get_triangulation().is_foliated());</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">//        REQUIRE(</span></div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment">//            move.get_manifold().get_triangulation().get_delaunay().is_tds_valid());</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">//    WHEN(&quot;It is constructed from a Manifold3.&quot;)</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;<span class="comment">//    }</span></div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;<span class="comment">//  }</span></div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;<span class="comment">//}</span></div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;<span class="comment">// SCENARIO(&quot;Test single moves of 3-Manifold&quot;, &quot;[move3]&quot;)</span></div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;<span class="comment">//{</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;<span class="comment">//  GIVEN(&quot;A Move_command with a 3-Manifold&quot;)</span></div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;<span class="comment">//  {</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;<span class="comment">//    WHEN(&quot;It is default constructed.&quot;)</span></div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
-<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">//      Manifold3    manifold(desired_simplices, desired_timeslices);</span></div>
-<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">//      MoveCommand3 move(manifold);</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment">//      THEN(&quot;The manifold is valid.&quot;)</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">//        REQUIRE(move.get_manifold().is_valid());</span></div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">//      THEN(&quot;The Move_command&#39;s manifold matches it&#39;s constructing manifold.&quot;)</span></div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">//        REQUIRE(manifold.max_time() == move.get_manifold().max_time());</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">//        REQUIRE(manifold.min_time() == move.get_manifold().min_time());</span></div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">//        REQUIRE(manifold.N0() == move.get_manifold().N0());</span></div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">//        REQUIRE(manifold.N1() == move.get_manifold().N1());</span></div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">//        REQUIRE(manifold.N1_SL() == move.get_manifold().N1_SL());</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">//        REQUIRE(manifold.N1_TL() == move.get_manifold().N1_TL());</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">//        REQUIRE(manifold.N2() == move.get_manifold().N2());</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">//        REQUIRE(manifold.N3() == move.get_manifold().N3());</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">//        REQUIRE(manifold.N3_13() == move.get_manifold().N3_13());</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">//        REQUIRE(manifold.N3_22() == move.get_manifold().N3_22());</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment">//        REQUIRE(manifold.N3_31() == move.get_manifold().N3_31());</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment">//      THEN(&quot;There are no moves and it is not updated.&quot;)</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment">//        CHECK(move.getMoves().empty());</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment">//        REQUIRE_FALSE(move.is_updated());</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">//    WHEN(&quot;A (2,3) move is requested.&quot;)</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment">//      Manifold3    manifold(desired_simplices, desired_timeslices);</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">//      MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">//      auto         N3_31_pre_move = manifold.N3_31();</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">//      auto         N3_22_pre_move = manifold.N3_22();</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment">//      auto         N3_13_pre_move = manifold.N3_13();</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment">//      auto         N1_TL_pre_move = manifold.N1_TL();</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment">//      auto         N1_SL_pre_move = manifold.N1_SL();</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment">//      auto         N0_pre_move    = manifold.N0();</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">//      THEN(&quot;The (2,3) move is queued.&quot;)</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">//        REQUIRE_FALSE(move.getMoves().empty());</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">//        REQUIRE(move.getMoves().front() ==</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">//        MoveCommand3::Move_type::TWO_THREE);</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment">//      THEN(&quot;The (2,3) move is executed.&quot;)</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">//        move.execute();</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">//        move.update();</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N3_31() == N3_31_pre_move);</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N3_22() == N3_22_pre_move + 1);</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N3_13() == N3_13_pre_move);</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N1_TL() == N1_TL_pre_move + 1);</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N1_SL() == N1_SL_pre_move);</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N0() == N0_pre_move);</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">//        CHECK(move.is_updated());</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">//    //    WHEN(&quot;One of each move is requested.&quot;)</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">//    //    {</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">//    //      Int_precision             desired_simplices{6700};</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">//    //      Int_precision             desired_timeslices{11};</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">//    //      Manifold3                manifold(desired_simplices,</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">//    //      desired_timeslices); MoveCommand3::Move_queue desired_moves{</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">//    //          // MoveCommand3::Move_type::TWO_THREE,</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::THREE_TWO,</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::FOUR_FOUR,</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::TWO_SIX,</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::SIX_TWO};</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">//    //      MoveCommand3 move(manifold, desired_moves);</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">//    //      THEN(&quot;All moves are executed.&quot;) { move.execute(); }</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">//    //    }</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">//}</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">// SCENARIO(&quot;Tracking the number of successful moves.&quot;, &quot;[move3]&quot;)</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">//  GIVEN(&quot;A Move_command with a 3-manifold&quot;)</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">//    WHEN(&quot;It is default constructed.&quot;)</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">//      MoveCommand3 move;</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">//      THEN(&quot;There are no moves and it is not updated.&quot;)</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">//        CHECK(move.getMoves().empty());</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">//        CHECK(move.successful_23_moves() == 0);</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">//        CHECK(move.successful_32_moves() == 0);</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">//        CHECK(move.successful_44_moves() == 0);</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">//        CHECK(move.successful_26_moves() == 0);</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">//        CHECK(move.successful_62_moves() == 0);</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">//        REQUIRE_FALSE(move.is_updated());</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">//      MoveCommand3::Move_tracker successful_moves{1, 2, 3, 4, 5};</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">//      move.set_successful_moves(successful_moves);</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">//      THEN(&quot;Setting the successful moves operates correctly.&quot;)</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">//        CHECK(move.successful_23_moves() == 1);</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment">//        CHECK(move.successful_32_moves() == 2);</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">//        CHECK(move.successful_44_moves() == 3);</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">//        CHECK(move.successful_26_moves() == 4);</span></div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">//        CHECK(move.successful_62_moves() == 5);</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;<span class="comment">//      MoveCommand3 move;</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;<span class="comment">//      THEN(&quot;The manifold is valid.&quot;)</span></div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="comment">//        CHECK_FALSE(move.get_manifold().get_triangulation().is_foliated());</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;<span class="comment">//        REQUIRE(</span></div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;<span class="comment">//            move.get_manifold().get_triangulation().get_delaunay().is_tds_valid());</span></div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="comment">//    }</span></div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;<span class="comment">//    WHEN(&quot;It is constructed from a Manifold3.&quot;)</span></div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;<span class="comment">//    {</span></div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;<span class="comment">//      Manifold3    manifold(desired_simplices, desired_timeslices);</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;<span class="comment">//      MoveCommand3 move(manifold);</span></div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;<span class="comment">//      THEN(&quot;The manifold is valid.&quot;)</span></div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;<span class="comment">//        REQUIRE(move.get_manifold().is_valid());</span></div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;<span class="comment">//      THEN(&quot;The Move_command&#39;s manifold matches it&#39;s constructing manifold.&quot;)</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="comment">//        REQUIRE(manifold.max_time() == move.get_manifold().max_time());</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;<span class="comment">//        REQUIRE(manifold.min_time() == move.get_manifold().min_time());</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;<span class="comment">//        REQUIRE(manifold.N0() == move.get_manifold().N0());</span></div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;<span class="comment">//        REQUIRE(manifold.N1() == move.get_manifold().N1());</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;<span class="comment">//        REQUIRE(manifold.N1_SL() == move.get_manifold().N1_SL());</span></div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;<span class="comment">//        REQUIRE(manifold.N1_TL() == move.get_manifold().N1_TL());</span></div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;<span class="comment">//        REQUIRE(manifold.N2() == move.get_manifold().N2());</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;<span class="comment">//        REQUIRE(manifold.N3() == move.get_manifold().N3());</span></div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;<span class="comment">//        REQUIRE(manifold.N3_13() == move.get_manifold().N3_13());</span></div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;<span class="comment">//        REQUIRE(manifold.N3_22() == move.get_manifold().N3_22());</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;<span class="comment">//        REQUIRE(manifold.N3_31() == move.get_manifold().N3_31());</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;<span class="comment">//      THEN(&quot;There are no moves and it is not updated.&quot;)</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;<span class="comment">//        CHECK(move.getMoves().empty());</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;<span class="comment">//        REQUIRE_FALSE(move.is_updated());</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;<span class="comment">//    }</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;<span class="comment">//    WHEN(&quot;A (2,3) move is requested.&quot;)</span></div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;<span class="comment">//    {</span></div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;<span class="comment">//      auto constexpr desired_simplices  = static_cast&lt;Int_precision&gt;(640);</span></div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;<span class="comment">//      auto constexpr desired_timeslices = static_cast&lt;Int_precision&gt;(4);</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;<span class="comment">//      Manifold3    manifold(desired_simplices, desired_timeslices);</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;<span class="comment">//      MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;<span class="comment">//      auto         N3_31_pre_move = manifold.N3_31();</span></div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;<span class="comment">//      auto         N3_22_pre_move = manifold.N3_22();</span></div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;<span class="comment">//      auto         N3_13_pre_move = manifold.N3_13();</span></div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;<span class="comment">//      auto         N1_TL_pre_move = manifold.N1_TL();</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;<span class="comment">//      auto         N1_SL_pre_move = manifold.N1_SL();</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;<span class="comment">//      auto         N0_pre_move    = manifold.N0();</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;<span class="comment">//      THEN(&quot;The (2,3) move is queued.&quot;)</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;<span class="comment">//        REQUIRE_FALSE(move.getMoves().empty());</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;<span class="comment">//        REQUIRE(move.getMoves().front() ==</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;<span class="comment">//        MoveCommand3::Move_type::TWO_THREE);</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;<span class="comment">//      THEN(&quot;The (2,3) move is executed.&quot;)</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;<span class="comment">//        move.execute();</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;<span class="comment">//        move.update();</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N3_31() == N3_31_pre_move);</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N3_22() == N3_22_pre_move + 1);</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N3_13() == N3_13_pre_move);</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N1_TL() == N1_TL_pre_move + 1);</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N1_SL() == N1_SL_pre_move);</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;<span class="comment">//        CHECK(move.get_manifold().N0() == N0_pre_move);</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;<span class="comment">//        CHECK(move.is_updated());</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;<span class="comment">//    }</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;<span class="comment">//    //    WHEN(&quot;One of each move is requested.&quot;)</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;<span class="comment">//    //    {</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;<span class="comment">//    //      Int_precision             desired_simplices{6700};</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;<span class="comment">//    //      Int_precision             desired_timeslices{11};</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;<span class="comment">//    //      Manifold3                manifold(desired_simplices,</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;<span class="comment">//    //      desired_timeslices); MoveCommand3::Move_queue desired_moves{</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;<span class="comment">//    //          // MoveCommand3::Move_type::TWO_THREE,</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::THREE_TWO,</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::FOUR_FOUR,</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::TWO_SIX,</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;<span class="comment">//    //          MoveCommand3::Move_type::SIX_TWO};</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;<span class="comment">//    //      MoveCommand3 move(manifold, desired_moves);</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;<span class="comment">//    //      THEN(&quot;All moves are executed.&quot;) { move.execute(); }</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;<span class="comment">//    //    }</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;<span class="comment">//  }</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;<span class="comment">//}</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;<span class="comment">// SCENARIO(&quot;Tracking the number of successful moves.&quot;, &quot;[move3]&quot;)</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;<span class="comment">//{</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;<span class="comment">//  GIVEN(&quot;A Move_command with a 3-manifold&quot;)</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="comment">//  {</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;<span class="comment">//    WHEN(&quot;It is default constructed.&quot;)</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="comment">//    {</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;<span class="comment">//      MoveCommand3 move;</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;<span class="comment">//      THEN(&quot;There are no moves and it is not updated.&quot;)</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;<span class="comment">//        CHECK(move.getMoves().empty());</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="comment">//        CHECK(move.successful_23_moves() == 0);</span></div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;<span class="comment">//        CHECK(move.successful_32_moves() == 0);</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="comment">//        CHECK(move.successful_44_moves() == 0);</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;<span class="comment">//        CHECK(move.successful_26_moves() == 0);</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;<span class="comment">//        CHECK(move.successful_62_moves() == 0);</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;<span class="comment">//        REQUIRE_FALSE(move.is_updated());</span></div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">//    }</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">//}</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;<span class="comment">//      MoveCommand3::Move_tracker successful_moves{1, 2, 3, 4, 5};</span></div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;<span class="comment">//      move.set_successful_moves(successful_moves);</span></div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;<span class="comment">//      THEN(&quot;Setting the successful moves operates correctly.&quot;)</span></div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;<span class="comment">//      {</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;<span class="comment">//        CHECK(move.successful_23_moves() == 1);</span></div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;<span class="comment">//        CHECK(move.successful_32_moves() == 2);</span></div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;<span class="comment">//        CHECK(move.successful_44_moves() == 3);</span></div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;<span class="comment">//        CHECK(move.successful_26_moves() == 4);</span></div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;<span class="comment">//        CHECK(move.successful_62_moves() == 5);</span></div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;<span class="comment">//      }</span></div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;<span class="comment">//    }</span></div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;<span class="comment">//  }</span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;<span class="comment">//}</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a71e2c540b78a67c0b676569be8596105"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a71e2c540b78a67c0b676569be8596105">manifold3_moves::do_23_move</a></div><div class="ttdeci">decltype(auto) do_23_move(Manifold3 &amp;t_manifold)</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00081">Ergodic_moves_3.hpp:81</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a3d69ebb657771a343f486f6b26fe06e6"><div class="ttname"><a href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a></div><div class="ttdeci">void print_manifold_details(ManifoldType const &amp;t_manifold)</div><div class="ttdoc">Print simplices and sub-simplices.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00262">Utilities.hpp:262</a></div></div>
-<div class="ttc" id="aclass_move_command_html_a160870891e1ebd6bb25bb38c7080cc12"><div class="ttname"><a href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute the move on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00060">Move_command.hpp:60</a></div></div>
-<div class="ttc" id="aclass_move_command_html_aa56440358589956f2d3fc9bf5477ca26"><div class="ttname"><a href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00057">Move_command.hpp:57</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a160870891e1ebd6bb25bb38c7080cc12"><div class="ttname"><a href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute the move on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00059">Move_command.hpp:59</a></div></div>
+<div class="ttc" id="aclass_move_command_html_aa56440358589956f2d3fc9bf5477ca26"><div class="ttname"><a href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00056">Move_command.hpp:56</a></div></div>
 <div class="ttc" id="a_move__command__test_8cpp_html_a9f68a51fe68f7c92ef4aa8e75fd4f665"><div class="ttname"><a href="_move__command__test_8cpp.html#a9f68a51fe68f7c92ef4aa8e75fd4f665">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Executing the MoveCommand&quot;, &quot;[move command]&quot;)</div><div class="ttdoc">TODO: Fix exception here.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command__test_8cpp_source.html#l00188">Move_command_test.cpp:188</a></div></div>
-<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00035">Move_command.hpp:35</a></div></div>
+<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00034">Move_command.hpp:34</a></div></div>
 <div class="ttc" id="a_apply__move_8hpp_html_a69507c0d9a9fdff75a4c396469fde506"><div class="ttname"><a href="_apply__move_8hpp.html#a69507c0d9a9fdff75a4c396469fde506">apply_move</a></div><div class="ttdeci">constexpr decltype(auto) apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move)</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00027">Apply_move.hpp:27</a></div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html_a29e9f18a63fb3c5c6771f8a9b6060be3"><div class="ttname"><a href="class_manifold_3_013_01_4.html#a29e9f18a63fb3c5c6771f8a9b6060be3">Manifold&lt; 3 &gt;::is_correct</a></div><div class="ttdeci">auto is_correct() const -&gt; bool</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00146">Manifold.hpp:146</a></div></div>
-<div class="ttc" id="aclass_move_command_html_a901fc4de01e75d9c1958e0d39755d430"><div class="ttname"><a href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">MoveCommand::get_results</a></div><div class="ttdeci">auto &amp; get_results()</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00053">Move_command.hpp:53</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a901fc4de01e75d9c1958e0d39755d430"><div class="ttname"><a href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">MoveCommand::get_results</a></div><div class="ttdeci">auto &amp; get_results()</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00052">Move_command.hpp:52</a></div></div>
 <div class="ttc" id="a_move__command_8hpp_html"><div class="ttname"><a href="_move__command_8hpp.html">Move_command.hpp</a></div><div class="ttdoc">Do ergodic moves using the Command pattern.</div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html_af275e0640a5997322d69e3e739c5bf6e"><div class="ttname"><a href="class_manifold_3_013_01_4.html#af275e0640a5997322d69e3e739c5bf6e">Manifold&lt; 3 &gt;::get_triangulation</a></div><div class="ttdeci">auto get_triangulation() const -&gt; FoliatedTriangulation3 const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00095">Manifold.hpp:95</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a0f88febba7ca499ce6fec7473316881d"><div class="ttname"><a href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">MoveCommand::get_manifold</a></div><div class="ttdeci">auto get_manifold() const -&gt; ManifoldType const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00046">Move_command.hpp:46</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00029">Settings.hpp:29</a></div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00026">Manifold.hpp:26</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 28 2020 23:30:46 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 2 2020 17:18:19 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
