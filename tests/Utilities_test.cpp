@@ -21,8 +21,9 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
     WHEN("Operator<< is invoked.")
     {
       stringstream buffer;
-      cout.rdbuf(buffer.rdbuf());
+      std::streambuf * backup = cout.rdbuf(buffer.rdbuf());
       cout << this_topology;
+      cout.rdbuf(backup);
       THEN("The output is correct.")
       {
         CHECK_THAT(buffer.str(), Catch::Equals("spherical"));
