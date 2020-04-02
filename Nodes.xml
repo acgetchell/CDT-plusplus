@@ -119,6 +119,11 @@
               <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
              </Node>
              <Node>
+              <Name>FoliatedTriangulation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
+             </Node>
+             <Node>
               <Name>check_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a8b348191a609023611f4321f4f710f05</Anchor>
@@ -1702,6 +1707,11 @@
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>FoliatedTriangulation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
                  </Node>
                  <Node>
                   <Name>check_cells</Name>

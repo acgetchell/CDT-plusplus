@@ -1023,6 +1023,18 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
+    <Abstract>Copy Constructor.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FoliatedTriangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
     <Abstract>Constructor with parameters.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
