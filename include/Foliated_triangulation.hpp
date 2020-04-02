@@ -139,6 +139,11 @@ class FoliatedTriangulation<3> final : private Delaunay3
       , m_min_timevalue{find_min_timevalue(m_points)}
   {}
 
+
+  /// @brief Copy Constructor
+  FoliatedTriangulation(FoliatedTriangulation const& other)
+      : FoliatedTriangulation(static_cast<Delaunay3 const&>(other)) {}
+
   /// @return A mutable reference to the Delaunay base class
   auto delaunay() -> Delaunay3& { return *this; }
 
