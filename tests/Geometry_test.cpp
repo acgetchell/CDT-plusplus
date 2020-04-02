@@ -13,31 +13,19 @@
 
 using namespace std;
 
-SCENARIO("3-Geometry std::function compatibility and exception-safety",
-         "[geometry]")
+SCENARIO("3-Geometry special member properties", "[geometry]")
 {
   GIVEN("A 3-dimensional geometry.")
   {
-    WHEN("It's properties are examined.")
+    WHEN("Special members are examined.")
     {
-      THEN("It is default constructible.")
+      THEN("It is trivially destructible.")
       {
-        REQUIRE(is_default_constructible<Geometry3>::value);
+        REQUIRE(is_trivially_destructible<Geometry3>::value);
       }
-      /// TODO: Make Geometry no-throw default constructible
-      //            THEN("It is no-throw default constructible.")
-      //            {
-      //              CHECK(is_nothrow_default_constructible<Geometry3>::value);
-      //            }
-      THEN("It is no-throw destructible.")
+      THEN("It is no-throw default constructible.")
       {
-        REQUIRE(is_nothrow_destructible<Geometry3>::value);
-      }
-      THEN("It is copy constructible.")
-      {
-        REQUIRE(is_copy_constructible<Geometry3>::value);
-        cout << "std::function<Geometry> supported:" << boolalpha
-             << is_copy_constructible<Geometry3>::value << "\n";
+        CHECK(is_nothrow_default_constructible<Geometry3>::value);
       }
       THEN("It is no-throw copy constructible.")
       {
@@ -46,10 +34,6 @@ SCENARIO("3-Geometry std::function compatibility and exception-safety",
       THEN("It is no-throw copy assignable.")
       {
         CHECK(is_nothrow_copy_assignable<Geometry3>::value);
-      }
-      THEN("It is move constructible.")
-      {
-        REQUIRE(is_move_constructible<Geometry3>::value);
       }
       THEN("It is no-throw move constructible.")
       {
@@ -82,17 +66,24 @@ SCENARIO("3-Geometry classification", "[geometry]")
             "simplices.\n",
             geometry.N3_31, geometry.N3_22, geometry.N3_13);
         CHECK(geometry.N3 > 2);
-        CHECK(geometry.N3 == triangulation.number_of_finite_cells());
-        CHECK(geometry.N3_31 == triangulation.get_three_one().size());
-        CHECK(geometry.N3_13 == triangulation.get_one_three().size());
+        CHECK(geometry.N3 == static_cast<Int_precision>(
+                                 triangulation.number_of_finite_cells()));
+        CHECK(geometry.N3_31 ==
+              static_cast<Int_precision>(triangulation.get_three_one().size()));
+        CHECK(geometry.N3_13 ==
+              static_cast<Int_precision>(triangulation.get_one_three().size()));
         CHECK(geometry.N3_31 + geometry.N3_22 + geometry.N3_13 == geometry.N3);
-        CHECK(geometry.N3_22 == triangulation.get_two_two().size());
-        CHECK(geometry.N2 == triangulation.number_of_finite_facets());
-        CHECK(geometry.N1 == triangulation.number_of_finite_edges());
+        CHECK(geometry.N3_22 ==
+              static_cast<Int_precision>(triangulation.get_two_two().size()));
+        CHECK(geometry.N2 == static_cast<Int_precision>(
+                                 triangulation.number_of_finite_facets()));
+        CHECK(geometry.N1 == static_cast<Int_precision>(
+                                 triangulation.number_of_finite_edges()));
         CHECK_FALSE(geometry.N1_TL == 0);
         CHECK_FALSE(geometry.N1_SL == 0);
         CHECK(geometry.N1 == geometry.N1_TL + geometry.N1_SL);
-        CHECK(geometry.N0 == triangulation.number_of_vertices());
+        CHECK(geometry.N0 ==
+              static_cast<Int_precision>(triangulation.number_of_vertices()));
 
         // Human verification
         triangulation.print_cells();
@@ -141,17 +132,24 @@ SCENARIO("3-Geometry initialization", "[geometry]")
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
       {
-        CHECK(geometry.N3 == triangulation.number_of_finite_cells());
-        CHECK(geometry.N3_31 == triangulation.get_three_one().size());
-        CHECK(geometry.N3_13 == triangulation.get_one_three().size());
+        CHECK(geometry.N3 == static_cast<Int_precision>(
+                                 triangulation.number_of_finite_cells()));
+        CHECK(geometry.N3_31 ==
+              static_cast<Int_precision>(triangulation.get_three_one().size()));
+        CHECK(geometry.N3_13 ==
+              static_cast<Int_precision>(triangulation.get_one_three().size()));
         CHECK(geometry.N3_31 + geometry.N3_22 + geometry.N3_13 == geometry.N3);
-        CHECK(geometry.N3_22 == triangulation.get_two_two().size());
-        CHECK(geometry.N2 == triangulation.number_of_finite_facets());
-        CHECK(geometry.N1 == triangulation.number_of_finite_edges());
+        CHECK(geometry.N3_22 ==
+              static_cast<Int_precision>(triangulation.get_two_two().size()));
+        CHECK(geometry.N2 == static_cast<Int_precision>(
+                                 triangulation.number_of_finite_facets()));
+        CHECK(geometry.N1 == static_cast<Int_precision>(
+                                 triangulation.number_of_finite_edges()));
         CHECK_FALSE(geometry.N1_TL == 0);
         CHECK_FALSE(geometry.N1_SL == 0);
         CHECK(geometry.N1_TL + geometry.N1_SL == geometry.N1);
-        CHECK(geometry.N0 == triangulation.number_of_vertices());
+        CHECK(geometry.N0 ==
+              static_cast<Int_precision>(triangulation.number_of_vertices()));
         print_triangulation(triangulation);
         triangulation.print_volume_per_timeslice();
       }

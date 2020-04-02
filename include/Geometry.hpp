@@ -28,48 +28,37 @@ template <>
 struct Geometry<3>
 {
   /// @brief Number of 3D simplices
-  Int_precision N3;
+  Int_precision N3{0};
 
   /// @brief Number of (3,1) simplices
-  Int_precision N3_31;
+  Int_precision N3_31{0};
 
   /// @brief Number of (1,3) simplices
-  Int_precision N3_13;
+  Int_precision N3_13{0};
 
   /// @brief Number of (3,1) + (1,3) simplices
-  Int_precision N3_31_13;
+  Int_precision N3_31_13{0};
 
   /// @brief Number of (2,2) simplices
-  Int_precision N3_22;
+  Int_precision N3_22{0};
 
   /// @brief Number of 2D faces
-  Int_precision N2;
+  Int_precision N2{0};
 
   /// @brief Number of 1D edges
-  Int_precision N1;
+  Int_precision N1{0};
 
   /// @brief Number of timelike edges
-  Int_precision N1_TL;
+  Int_precision N1_TL{0};
 
   /// @brief Number of spacelike edges
-  Int_precision N1_SL;
+  Int_precision N1_SL{0};
 
   /// @brief Number of vertices
-  Int_precision N0;
+  Int_precision N0{0};
 
   /// @brief Default ctor
-  Geometry()
-      : N3{0}
-      , N3_31{0}
-      , N3_13{0}
-      , N3_31_13{0}
-      , N3_22{0}
-      , N2{0}
-      , N1{0}
-      , N1_TL{0}
-      , N1_SL{0}
-      , N0{0}
-  {}
+  Geometry() = default;
 
   /// @brief Constructor with triangulation
   /// @param triangulation Triangulation for which Geometry is being
@@ -91,6 +80,7 @@ struct Geometry<3>
 
   /// @brief Swap two Geometry3 structs
   /// Used for no-except updates of geometry data structures
+  /// Usually called from a Manifold swap
   /// @param t_first The destination geometry struct to swap out
   /// @param t_second The source geometry struct to swap in
   friend void swap(Geometry<3>& t_first, Geometry<3>& t_second) noexcept

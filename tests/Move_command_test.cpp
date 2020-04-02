@@ -228,11 +228,21 @@ SCENARIO("Executing the MoveCommand", "[move command]")
       command.enqueue(move32);
       THEN("It is executed correctly.")
       {
-        //            CAPTURE(command.get_manifold().N3_22());
-        //            CAPTURE(command.get_manifold().N1_TL());
+        // Original manifold values for N3_22, N1_TL, and N3
+        CAPTURE(command.get_manifold().N3_22());
+        CAPTURE(command.get_manifold().N1_TL());
+        auto cell_count = manifold.get_triangulation().number_of_finite_cells();
+
+        // Execute the move
         command.execute();
+
+        // The move should not change the original manifold
+        CHECK(cell_count ==
+              manifold.get_triangulation().number_of_finite_cells());
+
         auto result = std::move(command.get_results());
-        // Distinct objects
+
+        // Distinct objects?
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
@@ -244,8 +254,8 @@ SCENARIO("Executing the MoveCommand", "[move command]")
         //        cout << "Triangulation added a finite cell.\n";
         fmt::print("Triangulation added a finite cell.\n");
         // These should be +1 after command
-        //            CAPTURE(result.N3_22());
-        //            CAPTURE(result.N1_TL());
+        CAPTURE(result.N3_22());
+        CAPTURE(result.N1_TL());
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::THREE_TWO));
       }

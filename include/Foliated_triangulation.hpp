@@ -27,7 +27,6 @@
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
-#include <cstdint>
 #include <optional>
 
 using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
