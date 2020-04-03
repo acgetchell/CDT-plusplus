@@ -14,22 +14,26 @@
 
 using namespace std;
 
-SCENARIO("3-Manifold std::function compatibility and exception-safety",
-         "[manifold]")
+SCENARIO("3-Manifold special member and swap properties", "[manifold]")
 {
   GIVEN("A 3-dimensional manifold.")
   {
-    WHEN("It's properties are examined.")
+    WHEN("Special members are examined.")
     {
+      THEN("It is no-throw destructible.")
+      {
+        REQUIRE(is_nothrow_destructible<Manifold3>::value);
+      }
+
       THEN("It is default constructible.")
       {
         REQUIRE(is_default_constructible<Manifold3>::value);
       }
-//      /// TODO: Make Manifold no-throw default constructible
-//            THEN("It is no-throw default constructible.")
-//            {
-//              CHECK(is_nothrow_default_constructible<Manifold3>::value);
-//            }
+      /// TODO: Make Manifold no-throw default constructible
+      //            THEN("It is no-throw default constructible.")
+      //            {
+      //              CHECK(is_nothrow_default_constructible<Manifold3>::value);
+      //            }
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible<Manifold3>::value);
@@ -64,11 +68,11 @@ SCENARIO("3-Manifold std::function compatibility and exception-safety",
       //      {
       //        CHECK(is_nothrow_move_assignable<Manifold3>::value);
       //      }
-      THEN("friend void swap(Manifold1, Manifold2) is noexcept")
+      THEN("friend void swap(Manifold1, Manifold2) is no-except")
       {
         Manifold3 m1;
         Manifold3 m2;
-        CHECK(noexcept(swap(m1, m2)));
+        REQUIRE(noexcept(swap(m1, m2)));
       }
     }
   }
@@ -163,7 +167,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("The geometry is of type geometry class.")
       {
         REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-            Catch::Contains("Geometry"));
+                     Catch::Contains("Geometry"));
       }
       THEN("The geometry matches the triangulation.")
       {

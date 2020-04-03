@@ -196,9 +196,6 @@ SCENARIO("Executing the MoveCommand", "[move command]")
     WHEN("A null move is queued.")
     {
       MoveCommand command(manifold);
-      //      auto        move_null = [](Manifold3& m) -> decltype(auto) {
-      //        return manifold3_moves::null_move(m);
-      //      };
       auto move_null = manifold3_moves::null_move;
       command.enqueue(move_null);
       THEN("It is executed correctly.")
@@ -221,9 +218,6 @@ SCENARIO("Executing the MoveCommand", "[move command]")
     WHEN("A (3,2) move is queued.")
     {
       MoveCommand command(manifold);
-      //      auto        move32 = [](Manifold3& m) -> decltype(auto) {
-      //        return manifold3_moves::do_32_move(m);
-      //      };
       auto move32 = manifold3_moves::do_32_move;
       command.enqueue(move32);
       THEN("It is executed correctly.")
@@ -251,8 +245,7 @@ SCENARIO("Executing the MoveCommand", "[move command]")
         // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 1);
-        //        cout << "Triangulation added a finite cell.\n";
-        fmt::print("Triangulation added a finite cell.\n");
+        fmt::print("Triangulation removed a finite cell.\n");
         // These should be +1 after command
         CAPTURE(result.N3_22());
         CAPTURE(result.N1_TL());

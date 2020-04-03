@@ -76,22 +76,27 @@ class FoliatedTriangulation<3> final : private Delaunay3
 {
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)
-  std::vector<Cell_handle>   m_cells;
-  std::vector<Cell_handle>   m_three_one;
-  std::vector<Cell_handle>   m_two_two;
-  std::vector<Cell_handle>   m_one_three;
-  std::vector<Face_handle>   m_faces;
+  std::vector<Cell_handle>            m_cells;
+  std::vector<Cell_handle>            m_three_one;
+  std::vector<Cell_handle>            m_two_two;
+  std::vector<Cell_handle>            m_one_three;
+  std::vector<Face_handle>            m_faces;
   std::multimap<Int_precision, Facet> m_spacelike_facets;
-  std::vector<Edge_handle>   m_edges;
-  std::vector<Edge_handle>   m_timelike_edges;
-  std::vector<Edge_handle>   m_spacelike_edges;
-  std::vector<Vertex_handle> m_points;
+  std::vector<Edge_handle>            m_edges;
+  std::vector<Edge_handle>            m_timelike_edges;
+  std::vector<Edge_handle>            m_spacelike_edges;
+  std::vector<Vertex_handle>          m_points;
   Int_precision                       m_max_timevalue;
   Int_precision                       m_min_timevalue;
 
  public:
   /// @brief Default constructor
   FoliatedTriangulation() : Delaunay3{}, m_max_timevalue{0}, m_min_timevalue{0}
+  {}
+
+  /// @brief Copy Constructor
+  FoliatedTriangulation(FoliatedTriangulation const& other)
+      : FoliatedTriangulation(static_cast<Delaunay3 const&>(other))
   {}
 
   /// @brief Constructor using delaunay triangulation
@@ -138,11 +143,6 @@ class FoliatedTriangulation<3> final : private Delaunay3
       , m_max_timevalue{find_max_timevalue(m_points)}
       , m_min_timevalue{find_min_timevalue(m_points)}
   {}
-
-
-  /// @brief Copy Constructor
-  FoliatedTriangulation(FoliatedTriangulation const& other)
-      : FoliatedTriangulation(static_cast<Delaunay3 const&>(other)) {}
 
   /// @return A mutable reference to the Delaunay base class
   auto delaunay() -> Delaunay3& { return *this; }

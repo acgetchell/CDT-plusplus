@@ -25,7 +25,7 @@ SCENARIO("Check settings", "[settings]")
       auto int_precision = typeid(Int_precision).name();
       THEN("The value is std::int_fast32_t.")
       {
-        fmt::print("TypeID of Int_precision is {}", int_precision);
+        fmt::print("TypeID of Int_precision is {}.\n", int_precision);
         REQUIRE(int_precision == typeid(std::int_fast32_t).name());
       }
     }
@@ -34,7 +34,7 @@ SCENARIO("Check settings", "[settings]")
       auto precision = PRECISION;
       THEN("The value is 256 bits.")
       {
-        fmt::print("MPFR precision set to {}.", precision);
+        fmt::print("MPFR precision set to {}.\n", precision);
         REQUIRE(precision == 256);
       }
     }

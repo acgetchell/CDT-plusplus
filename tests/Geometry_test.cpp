@@ -13,7 +13,7 @@
 
 using namespace std;
 
-SCENARIO("3-Geometry special member properties", "[geometry]")
+SCENARIO("3-Geometry special member and swap properties", "[geometry]")
 {
   GIVEN("A 3-dimensional geometry.")
   {
@@ -42,6 +42,12 @@ SCENARIO("3-Geometry special member properties", "[geometry]")
       THEN("It is no-throw move assignable.")
       {
         REQUIRE(is_nothrow_move_assignable<Geometry3>::value);
+      }
+      THEN("friend void swap(Geometry1, Geometry2) is no-except.")
+      {
+        Geometry3 g1;
+        Geometry3 g2;
+        REQUIRE(noexcept(swap(g1, g2)));
       }
     }
   }

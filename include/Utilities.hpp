@@ -27,7 +27,6 @@
 #include <cassert>
 #include <cstdlib>
 #include <fstream>
-#include <functional>
 #include <gsl/gsl>
 #include <iostream>
 #include <mutex>
