@@ -111,17 +111,17 @@
              <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
+             </Node>
+             <Node>
+              <Name>FoliatedTriangulation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>acb523316a1f7b6bc707f88ea9214f5ab</Anchor>
              </Node>
              <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
-             </Node>
-             <Node>
-              <Name>FoliatedTriangulation</Name>
-              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
              </Node>
              <Node>
               <Name>check_cells</Name>
@@ -1701,17 +1701,17 @@
                  <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>FoliatedTriangulation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>acb523316a1f7b6bc707f88ea9214f5ab</Anchor>
                  </Node>
                  <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>FoliatedTriangulation</Name>
-                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
                  </Node>
                  <Node>
                   <Name>check_cells</Name>
@@ -3755,7 +3755,7 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_foliated__triangulation__test_8cpp.html</Path>
-                <Anchor>a7097678544514d264e0f7970e29bf397</Anchor>
+                <Anchor>abbf0862b632395a5c7042f9ab3583470</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>
@@ -3795,7 +3795,7 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_geometry__test_8cpp.html</Path>
-                <Anchor>a111bd54bbacf455309b54001aae133d8</Anchor>
+                <Anchor>a27728e6860990be34ef88bbb9f08ae7d</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3867,7 +3867,7 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_manifold__test_8cpp.html</Path>
-                <Anchor>aaeb7a31a550b3f829f9a75892302f357</Anchor>
+                <Anchor>a32ecb82665e32fc0b1fe5b25fdcb7bb2</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>

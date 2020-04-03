@@ -73,7 +73,6 @@ digraph "src/cdt-opt.cpp"
   Node17 [label="cstdlib",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node11 -> Node18 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node18 [label="fstream",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
-  Node11 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node11 -> Node19 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node19 [label="gsl/gsl",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node11 -> Node20 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];

@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      <span class="keyword">auto</span> int_precision = <span class="keyword">typeid</span>(<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>).name();</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      THEN(<span class="stringliteral">&quot;The value is std::int_fast32_t.&quot;</span>)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        fmt::print(<span class="stringliteral">&quot;TypeID of Int_precision is {}&quot;</span>, int_precision);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        fmt::print(<span class="stringliteral">&quot;TypeID of Int_precision is {}.\n&quot;</span>, int_precision);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        REQUIRE(int_precision == <span class="keyword">typeid</span>(std::int_fast32_t).name());</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      }</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
@@ -103,7 +103,7 @@ $(function() {
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <span class="keyword">auto</span> precision = <a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 256 bits.&quot;</span>)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.&quot;</span>, precision);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.\n&quot;</span>, precision);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        REQUIRE(precision == 256);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      }</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
@@ -115,7 +115,7 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 2 2020 20:08:35 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 3 2020 05:25:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
