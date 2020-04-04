@@ -28,7 +28,7 @@ os:
   - osx
 
 compiler:
-  - gcc
+  - g++-9
   - clang
 
 jobs:
@@ -95,7 +95,7 @@ jobs:
       after_success: skip
     # CppCheck
     - os: linux
-      compiler: gcc
+      compiler: g++-9
       env: CPPCHECK=true
       addons:
         apt:
@@ -114,7 +114,7 @@ jobs:
       after_success: skip
     # Valgrind
     - os: linux
-      compiler: gcc
+      compiler: g++-9
       env: VALGRIND=true
       addons:
         apt:
@@ -177,7 +177,7 @@ jobs:
         - ./CDT_test
     # CodeCov
     - os: linux
-      compiler: gcc
+      compiler: g++-9
       env: CODECOV=true
       addons:
         apt:
@@ -201,7 +201,7 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     # Doxygen
     - os: linux
-      compiler: gcc
+      compiler: g++-9
       env: DOXYGEN=true
       before_install:
         - export CXX="g++-9" CC="gcc-9"
