@@ -237,10 +237,7 @@ jobs:
       compiler: clang
       env: CLANGTIDY=true
     - os: linux
-      compiler: gcc
-      env: DOXYGEN=true
-    - os: linux
-      compiler: gcc
+      compiler: g++-9
       env: CODECOV=true
 
 before_install:

@@ -26,6 +26,7 @@ jobs:
         mkdir build
         cd build
         export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
+        export CXX="g++-9" CC="gcc-9"
         cmake $VCPKG_ARG -G "Ninja" -DCMAKE_BUILD_TYPE=Debug ..
         cmake --build .
     - name: Test
