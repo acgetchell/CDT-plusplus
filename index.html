@@ -122,13 +122,13 @@ Getting Started</h1>
 <p>Otherwise, you can clone the repo, including submodules, as follows:</p>
 <div class="fragment"><div class="line">git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git</div>
 </div><!-- fragment --><p>(Older versions of <code>git</code> may require <code>--recursive</code> instead of <code>--recurse-submodules</code>.)</p>
-<p>This will put you on the <a href="https://github.com/acgetchell/CDT-plusplus">development</a> branch. The project uses the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
+<p>This will put you on the <a href="https://github.com/acgetchell/CDT-plusplus">development</a> branch. The project is organized similar to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
 <li>build - Ephemeral out-of-source build directory</li>
 <li>cmake - Cmake configurations</li>
 <li>docs - Documentation</li>
-<li>external - Includes external projects, e.g. <a href="http://www.pcg-random.org/paper.html">PCG</a></li>
+<li>external - Includes submodules of external projects, e.g. <a href="http://www.pcg-random.org/paper.html">PCG</a></li>
 <li>include - Header files</li>
 <li>scripts - Build, test, and run scripts</li>
 <li>src - Source files</li>
@@ -161,7 +161,7 @@ Setup</h2>
 </div><!-- fragment --><p>This builds from source, so it will take awhile. To use these successfully, you'll need to set the <code>CMAKE_TOOLCHAIN_FILE</code> option in your IDE or whatever invokes <a href="https://www.cmake.org">CMake</a> to wherever you've installed <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, (e.g. your home directory):</p>
 <div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake</div>
 </div><!-- fragment --><p>(<a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> sets this for you by default.)</p>
-<p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html">clang-7</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
+<p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
 <h2><a class="anchor" id="autotoc_md3"></a>
 Building</h2>
 <p>If you want to get started right away, in the <code>scripts</code> directory run <code>fast-build.sh</code> or <code>fast-build.bat</code>, depending on your operating system. This will compile the appropriate executables in <code>RELEASE</code> mode with no tests.</p>
@@ -255,10 +255,17 @@ Contributing</h1>
 <p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
 <p>Your code should pass Continuous Integration:</p>
 <ul>
-<li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
 <li>Whitespace formatting (<code>git diff --check HEAD^</code>)</li>
+<li><a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html#clang-format">clang-format</a> with project settings (<a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format">.clang-format</a>)</li>
+<li><a href="http://cppcheck.sourceforge.net">cppcheck</a>; test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/cppcheck.sh">cppcheck.sh</a></li>
 <li><a href="http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun">Valgrind</a>; be sure to look at the results to ensure you're not leaking memory</li>
+<li><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> and <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>; test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh">asan.sh</a></li>
+<li>[MemorySanitizer] (if supported by your platform); test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh">msan.sh</a></li>
 <li><a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a>; check to ensure you haven't introduced a security vulnerability. Look at the <a href="https://lgtm.com/query/lang:cpp/">query console</a> for more details.</li>
+</ul>
+<p>Optional:</p>
+<ul>
+<li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md12"></a>
 Upstream issues</h1>
@@ -270,7 +277,7 @@ Upstream issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Apr 5 2020 12:54:30 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Apr 5 2020 19:13:35 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
