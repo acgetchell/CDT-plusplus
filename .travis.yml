@@ -12,8 +12,13 @@ addons:
   apt:
     sources:
       - sourceline: 'ppa:ubuntu-toolchain-r/test'
+      - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
     packages:
       - g++-9
+      - clang-10
+      - clang-format-10
+      - clang-tidy-10
       - ninja-build
       - yasm
   homebrew:
@@ -29,13 +34,13 @@ os:
 
 compiler:
   - g++-9
-  - clang
+  - clang-10
 
 jobs:
   include:
     # Git Check
     - os: linux
-      compiler: gcc
+      compiler: g++-9
       env: GITCHECK=true
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
@@ -53,23 +58,23 @@ jobs:
       after_success: skip
     # Clang-format
     - os: linux
-      compiler: clang
+      compiler: clang-10
       env: CLANGFORMAT=true
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages:
-            - clang-format-8
+#      addons:
+#        apt:
+#          sources:
+#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#          packages:
+#            - clang-format-8
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
       install: skip
       script:
         - |
-          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-8/clang-format-diff.py -style file) ]]; then
+          if [[ -n $(git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-10/clang-format-diff.py -style file) ]]; then
             echo "Run clang-format before submitting a pull request."
             echo ""
-            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-8/clang-format-diff.py -style file
+            git diff -U0 --no-color HEAD^ | /usr/share/clang/clang-format-10/clang-format-diff.py -style file
             exit -1
           else
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
@@ -77,16 +82,16 @@ jobs:
       after_success: skip
     # Clang-tidy
     - os: linux
-      compiler: clang
+      compiler: clang-10
       env: CLANGTIDY=true
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages:
-            - ninja-build
-            - yasm
-            - clang-tidy-8
+#      addons:
+#        apt:
+#          sources:
+#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#          packages:
+#            - ninja-build
+#            - yasm
+#            - clang-tidy-8
       script:
         - mkdir build
         - cd build || exit
@@ -135,15 +140,15 @@ jobs:
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
     # AddressSanitizer and UndefinedBehaviorSanitizer
     - os: linux
-      compiler: clang
+      compiler: clang-10
       env: ASAN=true
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages:
-            - ninja-build
-            - yasm
+#      addons:
+#        apt:
+#          sources:
+#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#          packages:
+#            - ninja-build
+#            - yasm
       script:
         - mkdir build
         - cd build || exit
@@ -156,15 +161,15 @@ jobs:
         - ./CDT_test
     # MemorySanitizer
     - os: linux
-      compiler: clang
+      compiler: clang-10
       env: MSAN=true
-      addons:
-        apt:
-          sources:
-            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-          packages:
-            - ninja-build
-            - yasm
+#      addons:
+#        apt:
+#          sources:
+#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#          packages:
+#            - ninja-build
+#            - yasm
       script:
         - mkdir build
         - cd build || exit
@@ -234,7 +239,7 @@ jobs:
   allow_failures:
     - os: osx
     - os: linux
-      compiler: clang
+      compiler: clang-10
       env: CLANGTIDY=true
     - os: linux
       compiler: g++-9
@@ -243,6 +248,7 @@ jobs:
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
+  - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-10" CC="clang-10"; fi
   - cmake --version
 
 install:
