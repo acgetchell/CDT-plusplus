@@ -23,10 +23,13 @@ addons:
       - yasm
   homebrew:
     packages:
+      - gcc
       - ccache
       - ninja
       - yasm
     update: true
+  snaps:
+    - cmake
 
 os:
   - linux
@@ -196,11 +199,11 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D CMAKE_C_COMPILER=gcc-9 -D CMAKE_CXX_COMPILER=g++-9 -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_BUILD_TYPE=Debug -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build . --config Debug
-        - ctest --output-on-failure
       after_success:
-        - lcov --capture --directory . --output-file coverage.info
+        - ctest --schedule-random -V
+        - lcov --directory . --capture --output-file coverage.info
         - lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg/*' --output-file coverage.info
         - lcov --list coverage.info
         - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
@@ -244,6 +247,9 @@ jobs:
     - os: linux
       compiler: g++-9
       env: CODECOV=true
+    - os: linux
+      compiler: g++-9
+      env: DOXYGEN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi

@@ -74,13 +74,13 @@ git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git
 
 (Older versions of `git` may require `--recursive` instead of `--recurse-submodules`.)
 
-This will put you on the [development] branch. The project uses the [PitchFork Layout], as follows:
+This will put you on the [development] branch. The project is organized similar to the [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
 - build - Ephemeral out-of-source build directory
 - cmake - Cmake configurations
 - docs - Documentation
-- external - Includes external projects, e.g. [PCG]
+- external - Includes submodules of external projects, e.g. [PCG]
 - include - Header files
 - scripts - Build, test, and run scripts
 - src - Source files
@@ -137,7 +137,7 @@ you've installed [vcpkg], (e.g. your home directory):
 ```
 ([Visual Studio 2019] sets this for you by default.)
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-7], and [Visual Studio 2019].
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-10], and [Visual Studio 2019].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 ### Building
@@ -316,15 +316,24 @@ Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
 
 Your code should pass Continuous Integration:
 
-- [ClangTidy] on all changed files
-
 - Whitespace formatting (`git diff --check HEAD^`)
+
+- [clang-format] with project settings ([.clang-format])
+
+- [cppcheck]; test with [cppcheck.sh]
 
 - [Valgrind]; be sure to look at the results to ensure you're not leaking memory
 
-- [LGTM]; check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
-more details.
+- [AddressSanitizer] and [UndefinedBehaviorSanitizer]; test with [asan.sh]
 
+- [MemorySanitizer] (if supported by your platform); test with [msan.sh]
+
+- [LGTM]; check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
+  more details.
+
+Optional:
+
+- [ClangTidy] on all changed files
 
 ## Upstream issues
 
@@ -382,7 +391,7 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [Model Optimization]: https://www.comet.ml/parameter-optimization
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
-[clang-7]: https://releases.llvm.org/7.0.0/tools/clang/docs/ReleaseNotes.html
+[clang-10]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html
 [gcc-9]: https://gcc.gnu.org/gcc-9/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
@@ -410,3 +419,7 @@ on Windows, as Boost.Date_Time [doesn't link][2] correctly.
 [ThreadSanitizer]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
 [MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
 [UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
+[clang-format]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html#clang-format
+[.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
+[asan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh
+[msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh
