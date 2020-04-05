@@ -32,23 +32,24 @@ class Manifold<3>
   Geometry3 m_geometry;
 
  public:
+  /// @brief Default dtor
+  ~Manifold() = default;
+
   /// @brief Default ctor
   Manifold() = default;
 
   /// @brief Construct manifold from a Delaunay triangulation
-  /// Pass-by-value-then-move
   /// @param t_delaunay_triangulation Triangulation used to construct manifold
-  explicit Manifold(Delaunay3 t_delaunay_triangulation)
-      : m_triangulation{FoliatedTriangulation3(
-            std::move(t_delaunay_triangulation))}
+  explicit Manifold(Delaunay3 const& t_delaunay_triangulation)
+      : m_triangulation{FoliatedTriangulation3(t_delaunay_triangulation)}
       , m_geometry{get_triangulation()}
   {}
 
   /// @brief Construct manifold from a Foliated triangulation
   /// Pass-by-value-then-move
   /// @param t_foliated_triangulation Triangulation used to construct manifold
-  explicit Manifold(FoliatedTriangulation3 t_foliated_triangulation)
-      : m_triangulation{std::move(t_foliated_triangulation)}
+  explicit Manifold(FoliatedTriangulation3 const& t_foliated_triangulation)
+      : m_triangulation{t_foliated_triangulation}
       , m_geometry{get_triangulation()}
   {}
 

@@ -90,7 +90,10 @@ class FoliatedTriangulation<3> final : private Delaunay3
   Int_precision                       m_min_timevalue;
 
  public:
-  /// @brief Default constructor
+  /// @brief Default dtor
+  ~FoliatedTriangulation() = default;
+
+  /// @brief Default ctor
   FoliatedTriangulation() : Delaunay3{}, m_max_timevalue{0}, m_min_timevalue{0}
   {}
 

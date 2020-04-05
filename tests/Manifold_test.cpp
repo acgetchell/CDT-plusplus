@@ -68,11 +68,9 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       //      {
       //        CHECK(is_nothrow_move_assignable<Manifold3>::value);
       //      }
-      THEN("friend void swap(Manifold1, Manifold2) is no-except")
+      THEN("It is no-throw swappable.")
       {
-        Manifold3 m1;
-        Manifold3 m2;
-        REQUIRE(noexcept(swap(m1, m2)));
+        REQUIRE(is_nothrow_swappable<Manifold3>::value);
       }
     }
   }

@@ -19,10 +19,6 @@ SCENARIO("Move_command special members", "[move command]")
   {
     WHEN("It's properties are examined.")
     {
-      THEN("It is constructible from a Manifold.")
-      {
-        CHECK(is_constructible<MoveCommand<Manifold3>, Manifold3>::value);
-      }
       THEN("It is no-throw destructible.")
       {
         CHECK(is_nothrow_destructible<MoveCommand<Manifold3>>::value);
@@ -47,6 +43,10 @@ SCENARIO("Move_command special members", "[move command]")
       THEN("It is move assignable.")
       {
         CHECK(is_move_assignable<MoveCommand<Manifold3>>::value);
+      }
+      THEN("It is constructible from a Manifold.")
+      {
+        CHECK(is_constructible<MoveCommand<Manifold3>, Manifold3>::value);
       }
     }
   }
@@ -184,7 +184,6 @@ SCENARIO("Move Command initialization", "[move command]")
   }
 }
 
-/// TODO: Fix exception here
 SCENARIO("Executing the MoveCommand", "[move command]")
 {
   GIVEN("A valid manifold")
@@ -201,7 +200,7 @@ SCENARIO("Executing the MoveCommand", "[move command]")
       THEN("It is executed correctly.")
       {
         command.execute();
-        auto result = std::move(command.get_results());
+        auto result = command.get_results();
         // Distinct objects
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
@@ -215,180 +214,143 @@ SCENARIO("Executing the MoveCommand", "[move command]")
             manifold, result, manifold3_moves::move_type::FOUR_FOUR));
       }
     }
-    WHEN("A (3,2) move is queued.")
+    WHEN("Move_command copies the manifold and applies the move.")
     {
-      MoveCommand command(manifold);
-      auto move32 = manifold3_moves::do_32_move;
-      command.enqueue(move32);
-      THEN("It is executed correctly.")
+      THEN("The original is not mutated.")
       {
-        // Original manifold values for N3_22, N1_TL, and N3
-        CAPTURE(command.get_manifold().N3_22());
-        CAPTURE(command.get_manifold().N1_TL());
+        // This copies the manifold into the Move_command
+        MoveCommand command(manifold);
+        // Note: If we do a move that expands the size of the manifold,
+        // without the copy ctor this will Segfault!
+        auto move32 = manifold3_moves::do_32_move;
+        command.enqueue(move32);
+
+        fmt::print("Values for the original manifold.\n");
+        CAPTURE(manifold.N3_22());
+        CAPTURE(manifold.N1_TL());
         auto cell_count = manifold.get_triangulation().number_of_finite_cells();
 
         // Execute the move
         command.execute();
 
-        // The move should not change the original manifold
-        CHECK(cell_count ==
-              manifold.get_triangulation().number_of_finite_cells());
-
-        auto result = std::move(command.get_results());
+        // Get the results
+        auto result = command.get_results();
 
         // Distinct objects?
         auto* manifold_ptr = &manifold;
         auto* result_ptr   = &result;
         REQUIRE_FALSE(manifold_ptr == result_ptr);
-        fmt::print(
-            "The manifold and the result in the MoveCommand are distinct.\n");
+        if (manifold_ptr != result_ptr)
+        {
+          fmt::print(
+              "The manifold and the result in the MoveCommand are distinct "
+              "pointers.\n");
+        }
+
+        fmt::print("Values for the manifold copied into the Move_command.\n");
+        CAPTURE(result.N3_22());
+        CAPTURE(result.N1_TL());
+        // The move should not change the original manifold
+        if (manifold.N3_22() == result.N3_22() &&
+            manifold.N1_TL() == result.N1_TL())
+        {
+          fmt::print("The Move_command has altered the original manifold.\n");
+        }
+        else
+        {
+          fmt::print("The original manifold is unchanged by Move_command.\n");
+        }
+        CHECK(cell_count ==
+              manifold.get_triangulation().number_of_finite_cells());
+      }
+    }
+    WHEN("A (2,3) move is queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move23 = manifold3_moves::do_23_move;
+      command.enqueue(move23);
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.execute();
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have +1 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() + 1);
+        fmt::print("Triangulation added a finite cell.\n");
+
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+      }
+    }
+    WHEN("A (3,2) move is queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move32 = manifold3_moves::do_32_move;
+      command.enqueue(move32);
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.execute();
+
+        // Get the results
+        auto result = command.get_results();
+
         // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 1);
         fmt::print("Triangulation removed a finite cell.\n");
-        // These should be +1 after command
-        CAPTURE(result.N3_22());
-        CAPTURE(result.N1_TL());
+
         CHECK(manifold3_moves::check_move(
             manifold, result, manifold3_moves::move_type::THREE_TWO));
       }
     }
+    WHEN("A (2,6) move is queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move26 = manifold3_moves::do_26_move;
+      command.enqueue(move26);
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.execute();
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have +4 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() + 4);
+        fmt::print("Triangulation added 4 finite cells.\n");
+
+        CHECK(manifold3_moves::check_move(manifold, result,
+                                          manifold3_moves::move_type::TWO_SIX));
+      }
+    }
+    WHEN("A (6,2) move is queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move62 = manifold3_moves::do_62_move;
+      command.enqueue(move62);
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.execute();
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have -1 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() - 4);
+        fmt::print("Triangulation removed 4 finite cells.\n");
+
+        CHECK(manifold3_moves::check_move(manifold, result,
+                                          manifold3_moves::move_type::SIX_TWO));
+      }
+    }
   }
 }
-
-// SCENARIO("Save state using a Memento", "[move3]")
-//{
-//  GIVEN("A valid manifold")
-//  {
-//    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-//    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-//    Manifold3 manifold(desired_simplices, desired_timeslices);
-//    REQUIRE(manifold.is_delaunay());
-//    REQUIRE(manifold.is_valid());
-//    WHEN("A Command is instantiated")
-//    {
-//    }
-//  }
-//}
-
-// SCENARIO("Test single moves of 3-Manifold", "[move3]")
-//{
-//  GIVEN("A Move_command with a 3-Manifold")
-//  {
-//    WHEN("It is default constructed.")
-//    {
-//      MoveCommand3 move;
-//      THEN("The manifold is valid.")
-//      {
-//        CHECK_FALSE(move.get_manifold().get_triangulation().is_foliated());
-//        REQUIRE(
-//            move.get_manifold().get_triangulation().get_delaunay().is_tds_valid());
-//      }
-//    }
-//    WHEN("It is constructed from a Manifold3.")
-//    {
-//      auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-//      auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-//      Manifold3    manifold(desired_simplices, desired_timeslices);
-//      MoveCommand3 move(manifold);
-//      THEN("The manifold is valid.")
-//      {
-//        REQUIRE(move.get_manifold().is_valid());
-//      }
-//      THEN("The Move_command's manifold matches it's constructing manifold.")
-//      {
-//        REQUIRE(manifold.max_time() == move.get_manifold().max_time());
-//        REQUIRE(manifold.min_time() == move.get_manifold().min_time());
-//        REQUIRE(manifold.N0() == move.get_manifold().N0());
-//        REQUIRE(manifold.N1() == move.get_manifold().N1());
-//        REQUIRE(manifold.N1_SL() == move.get_manifold().N1_SL());
-//        REQUIRE(manifold.N1_TL() == move.get_manifold().N1_TL());
-//        REQUIRE(manifold.N2() == move.get_manifold().N2());
-//        REQUIRE(manifold.N3() == move.get_manifold().N3());
-//        REQUIRE(manifold.N3_13() == move.get_manifold().N3_13());
-//        REQUIRE(manifold.N3_22() == move.get_manifold().N3_22());
-//        REQUIRE(manifold.N3_31() == move.get_manifold().N3_31());
-//      }
-//      THEN("There are no moves and it is not updated.")
-//      {
-//        CHECK(move.getMoves().empty());
-//        REQUIRE_FALSE(move.is_updated());
-//      }
-//    }
-//    WHEN("A (2,3) move is requested.")
-//    {
-//      auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-//      auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-//      Manifold3    manifold(desired_simplices, desired_timeslices);
-//      MoveCommand3 move(manifold, MoveCommand3::Move_type::TWO_THREE);
-//      auto         N3_31_pre_move = manifold.N3_31();
-//      auto         N3_22_pre_move = manifold.N3_22();
-//      auto         N3_13_pre_move = manifold.N3_13();
-//      auto         N1_TL_pre_move = manifold.N1_TL();
-//      auto         N1_SL_pre_move = manifold.N1_SL();
-//      auto         N0_pre_move    = manifold.N0();
-//      THEN("The (2,3) move is queued.")
-//      {
-//        REQUIRE_FALSE(move.getMoves().empty());
-//        REQUIRE(move.getMoves().front() ==
-//        MoveCommand3::Move_type::TWO_THREE);
-//      }
-//      THEN("The (2,3) move is executed.")
-//      {
-//        move.execute();
-//        move.update();
-//        CHECK(move.get_manifold().N3_31() == N3_31_pre_move);
-//        CHECK(move.get_manifold().N3_22() == N3_22_pre_move + 1);
-//        CHECK(move.get_manifold().N3_13() == N3_13_pre_move);
-//        CHECK(move.get_manifold().N1_TL() == N1_TL_pre_move + 1);
-//        CHECK(move.get_manifold().N1_SL() == N1_SL_pre_move);
-//        CHECK(move.get_manifold().N0() == N0_pre_move);
-//        CHECK(move.is_updated());
-//      }
-//    }
-//    //    WHEN("One of each move is requested.")
-//    //    {
-//    //      Int_precision             desired_simplices{6700};
-//    //      Int_precision             desired_timeslices{11};
-//    //      Manifold3                manifold(desired_simplices,
-//    //      desired_timeslices); MoveCommand3::Move_queue desired_moves{
-//    //          // MoveCommand3::Move_type::TWO_THREE,
-//    //          MoveCommand3::Move_type::THREE_TWO,
-//    //          MoveCommand3::Move_type::FOUR_FOUR,
-//    //          MoveCommand3::Move_type::TWO_SIX,
-//    //          MoveCommand3::Move_type::SIX_TWO};
-//    //      MoveCommand3 move(manifold, desired_moves);
-//    //      THEN("All moves are executed.") { move.execute(); }
-//    //    }
-//  }
-//}
-// SCENARIO("Tracking the number of successful moves.", "[move3]")
-//{
-//  GIVEN("A Move_command with a 3-manifold")
-//  {
-//    WHEN("It is default constructed.")
-//    {
-//      MoveCommand3 move;
-//      THEN("There are no moves and it is not updated.")
-//      {
-//        CHECK(move.getMoves().empty());
-//        CHECK(move.successful_23_moves() == 0);
-//        CHECK(move.successful_32_moves() == 0);
-//        CHECK(move.successful_44_moves() == 0);
-//        CHECK(move.successful_26_moves() == 0);
-//        CHECK(move.successful_62_moves() == 0);
-//        REQUIRE_FALSE(move.is_updated());
-//      }
-//      MoveCommand3::Move_tracker successful_moves{1, 2, 3, 4, 5};
-//      move.set_successful_moves(successful_moves);
-//      THEN("Setting the successful moves operates correctly.")
-//      {
-//        CHECK(move.successful_23_moves() == 1);
-//        CHECK(move.successful_32_moves() == 2);
-//        CHECK(move.successful_44_moves() == 3);
-//        CHECK(move.successful_26_moves() == 4);
-//        CHECK(move.successful_62_moves() == 5);
-//      }
-//    }
-//  }
-//}

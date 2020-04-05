@@ -43,11 +43,9 @@ SCENARIO("3-Geometry special member and swap properties", "[geometry]")
       {
         REQUIRE(is_nothrow_move_assignable<Geometry3>::value);
       }
-      THEN("friend void swap(Geometry1, Geometry2) is no-except.")
+      THEN("It is no-throw swappable.")
       {
-        Geometry3 g1;
-        Geometry3 g2;
-        REQUIRE(noexcept(swap(g1, g2)));
+        REQUIRE(is_nothrow_swappable<Geometry3>::value);
       }
     }
   }

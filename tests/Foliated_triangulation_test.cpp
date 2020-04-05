@@ -25,7 +25,6 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(is_nothrow_destructible<FoliatedTriangulation3>::value);
       }
-
       THEN("It is default constructible.")
       {
         REQUIRE(is_default_constructible<FoliatedTriangulation3>::value);
@@ -71,13 +70,23 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       //      {
       //        CHECK(is_nothrow_move_assignable<FoliatedTriangulation3>::value);
       //      }
-      THEN(
-          "friend void swap(FoliatedTriangulation1, FoliatedTriangulation2) is "
-          "no-except")
+      //      THEN(
+      //          "friend void swap(FoliatedTriangulation1,
+      //          FoliatedTriangulation2) is " "no-except")
+      //      {
+      //        FoliatedTriangulation3 f1;
+      //        FoliatedTriangulation3 f2;
+      //        REQUIRE(noexcept(swap(f1, f2)));
+      //      }
+      THEN("It is constructible from a Delaunay Triangulation.")
       {
-        FoliatedTriangulation3 f1;
-        FoliatedTriangulation3 f2;
-        REQUIRE(noexcept(swap(f1, f2)));
+        REQUIRE(is_constructible<FoliatedTriangulation3, Delaunay3>::value);
+      }
+      THEN("It is constructible from parameters.")
+      {
+        REQUIRE(
+            is_constructible<FoliatedTriangulation3, Int_precision,
+                             Int_precision, long double, long double>::value);
       }
     }
   }

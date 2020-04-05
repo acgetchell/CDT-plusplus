@@ -42,12 +42,12 @@ class MoveCommand
   std::deque<FunctionType> m_moves;
 
  public:
+  /// @brief Default dtor
+  ~MoveCommand() = default;
+
   /// @brief MoveCommand ctor
-  /// Pass-by-value then std::move.
-  /// https://abseil.io/tips/117
   /// @param t_manifold The manifold to perform moves upon
-  explicit MoveCommand(ManifoldType t_manifold)
-      : m_manifold{std::move(t_manifold)}
+  explicit MoveCommand(ManifoldType const& t_manifold) : m_manifold{t_manifold}
   {}
 
   /// @return A read-only reference to the manifold

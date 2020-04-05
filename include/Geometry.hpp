@@ -57,6 +57,9 @@ struct Geometry<3>
   /// @brief Number of vertices
   Int_precision N0{0};
 
+  /// @brief Default dtor
+  ~Geometry() = default;
+
   /// @brief Default ctor
   Geometry() = default;
 
