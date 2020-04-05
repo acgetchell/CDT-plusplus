@@ -104,6 +104,11 @@
             <Path>class_foliated_triangulation_3_013_01_4.html</Path>
             <Subnodes>
              <Node>
+              <Name>~FoliatedTriangulation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a4ee23f964e970f4e8fe3cdf3029e089b</Anchor>
+             </Node>
+             <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>ac8c7abd1c034f6049e479ea12eb2dc57</Anchor>
@@ -444,6 +449,11 @@
             <Path>struct_geometry_3_013_01_4.html</Path>
             <Subnodes>
              <Node>
+              <Name>~Geometry</Name>
+              <Path>struct_geometry_3_013_01_4.html</Path>
+              <Anchor>a2e72020023755e08911e842633a33a5a</Anchor>
+             </Node>
+             <Node>
               <Name>Geometry</Name>
               <Path>struct_geometry_3_013_01_4.html</Path>
               <Anchor>abd5d97366123fd8ae8b8975213cd52c8</Anchor>
@@ -705,6 +715,11 @@
             <Path>class_manifold_3_013_01_4.html</Path>
             <Subnodes>
              <Node>
+              <Name>~Manifold</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>ad2602356e850cd9fecafb778a9df4de0</Anchor>
+             </Node>
+             <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a9c2d311392ab8f88e017d9fc04623fda</Anchor>
@@ -712,12 +727,12 @@
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a3f26e82de94294b0bb96a36af7ac5024</Anchor>
+              <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
              </Node>
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
+              <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
              </Node>
              <Node>
               <Name>Manifold</Name>
@@ -1047,9 +1062,14 @@
             <Path>class_move_command.html</Path>
             <Subnodes>
              <Node>
+              <Name>~MoveCommand</Name>
+              <Path>class_move_command.html</Path>
+              <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
+             </Node>
+             <Node>
               <Name>MoveCommand</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
+              <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
              </Node>
              <Node>
               <Name>enqueue</Name>
@@ -1694,6 +1714,11 @@
                 <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                 <Subnodes>
                  <Node>
+                  <Name>~FoliatedTriangulation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a4ee23f964e970f4e8fe3cdf3029e089b</Anchor>
+                 </Node>
+                 <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>ac8c7abd1c034f6049e479ea12eb2dc57</Anchor>
@@ -2143,6 +2168,11 @@
                 <Path>struct_geometry_3_013_01_4.html</Path>
                 <Subnodes>
                  <Node>
+                  <Name>~Geometry</Name>
+                  <Path>struct_geometry_3_013_01_4.html</Path>
+                  <Anchor>a2e72020023755e08911e842633a33a5a</Anchor>
+                 </Node>
+                 <Node>
                   <Name>Geometry</Name>
                   <Path>struct_geometry_3_013_01_4.html</Path>
                   <Anchor>abd5d97366123fd8ae8b8975213cd52c8</Anchor>
@@ -2229,6 +2259,11 @@
                 <Path>class_manifold_3_013_01_4.html</Path>
                 <Subnodes>
                  <Node>
+                  <Name>~Manifold</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>ad2602356e850cd9fecafb778a9df4de0</Anchor>
+                 </Node>
+                 <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>a9c2d311392ab8f88e017d9fc04623fda</Anchor>
@@ -2236,12 +2271,12 @@
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a3f26e82de94294b0bb96a36af7ac5024</Anchor>
+                  <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
                  </Node>
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
+                  <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
                  </Node>
                  <Node>
                   <Name>Manifold</Name>
@@ -2630,9 +2665,14 @@
                 <Path>class_move_command.html</Path>
                 <Subnodes>
                  <Node>
+                  <Name>~MoveCommand</Name>
+                  <Path>class_move_command.html</Path>
+                  <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
+                 </Node>
+                 <Node>
                   <Name>MoveCommand</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
+                  <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
                  </Node>
                  <Node>
                   <Name>enqueue</Name>

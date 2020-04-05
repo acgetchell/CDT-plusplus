@@ -934,17 +934,6 @@
       <APILanguage>c</APILanguage>
       <Type>func</Type>
     </TokenIdentifier>
-    <Path>_move__command__test_8cpp.html</Path>
-    <Anchor>a9f68a51fe68f7c92ef4aa8e75fd4f665</Anchor>
-    <Abstract>TODO: Fix exception here.</Abstract>
-    <DeclaredIn>Move_command_test.cpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SCENARIO</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
     <Path>_utilities__test_8cpp.html</Path>
     <Anchor>a888851a31867dc74ed15f13388259094</Anchor>
     <DeclaredIn>Utilities_test.cpp</DeclaredIn>
@@ -1000,7 +989,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>ac8c7abd1c034f6049e479ea12eb2dc57</Anchor>
-    <Abstract>Default constructor.</Abstract>
+    <Abstract>Default ctor.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1037,6 +1026,18 @@
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
     <Abstract>Constructor with parameters.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>~FoliatedTriangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a4ee23f964e970f4e8fe3cdf3029e089b</Anchor>
+    <Abstract>Default dtor.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1573,6 +1574,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>~Geometry</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>Geometry&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_3_013_01_4.html</Path>
+    <Anchor>a2e72020023755e08911e842633a33a5a</Anchor>
+    <Abstract>Default dtor.</Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>N0</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
@@ -2071,8 +2084,8 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a3f26e82de94294b0bb96a36af7ac5024</Anchor>
-    <Abstract>Construct manifold from a Delaunay triangulation Pass-by-value-then-move.</Abstract>
+    <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
+    <Abstract>Construct manifold from a Delaunay triangulation.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2083,7 +2096,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
+    <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
     <Abstract>Construct manifold from a Foliated triangulation Pass-by-value-then-move.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2109,6 +2122,18 @@
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a17cd8a78a8367737e7d0e9cce2a092dd</Anchor>
     <Abstract>Construct manifold using arguments.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>~Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>ad2602356e850cd9fecafb778a9df4de0</Anchor>
+    <Abstract>Default dtor.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3346,8 +3371,20 @@
       <Scope>MoveCommand</Scope>
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
-    <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
-    <Abstract>MoveCommand ctor Pass-by-value then std::move. https://abseil.io/tips/117.</Abstract>
+    <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
+    <Abstract>MoveCommand ctor.</Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>~MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
+    <Abstract>Default dtor.</Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
