@@ -29,7 +29,8 @@ addons:
       - yasm
     update: true
   snaps:
-    - cmake
+    - name: cmake
+      confinement: classic
 
 os:
   - linux
