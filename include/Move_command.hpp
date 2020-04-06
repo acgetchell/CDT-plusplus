@@ -45,6 +45,8 @@ class MoveCommand
   /// @brief Default dtor
   ~MoveCommand() = default;
 
+  MoveCommand() = delete;
+
   /// @brief MoveCommand ctor
   /// @param t_manifold The manifold to perform moves upon
   explicit MoveCommand(ManifoldType const& t_manifold) : m_manifold{t_manifold}

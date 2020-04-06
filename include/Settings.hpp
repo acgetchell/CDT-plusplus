@@ -29,6 +29,8 @@ using Int_precision = int;
 using Int_precision = std::int_fast32_t;
 #endif
 
+//#define CGAL_LINKED_WITH_TBB
+
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
 static Int_precision constexpr PRECISION = 256;
 

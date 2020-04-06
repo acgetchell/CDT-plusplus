@@ -20,7 +20,7 @@ add_executable(
     Settings_test.cpp)
 
 target_link_libraries(CDT_test project_options project_warnings Catch2::Catch2
-                      fmt::fmt-header-only CGAL::CGAL)
+                      fmt::fmt-header-only TBB::tbb CGAL::CGAL)
 
 # Activate C++17
 target_compile_features(CDT_test PRIVATE cxx_std_17)

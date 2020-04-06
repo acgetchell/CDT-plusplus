@@ -38,8 +38,14 @@ using Vertex_base =
 using Cell_base =
     CGAL::Triangulation_cell_base_with_info_3<Int_precision, Kernel>;
 // Parallel operations
+#ifdef CGAL_LINKED_WITH_TBB
 using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
                                                  CGAL::Parallel_tag>;
+#else
+using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
+                                                 CGAL::Sequential_tag>;
+#endif
+
 // Delaunay triangulation dimensionality
 using Delaunay3 = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 // using Delaunay4 = CGAL::Triangulation<CGAL::Epick_d<CGAL::Dimension_tag<4>>>;
@@ -544,12 +550,12 @@ class FoliatedTriangulation<3> final : private Delaunay3
 #ifdef CGAL_LINKED_WITH_TBB
     // Construct the locking data-structure
     // using the bounding-box of the points
-    auto bounding_box_size = static_cast<double>(timeslices + 1);
-    Delaunay::Lock_data_structure locking_ds{
+    auto bounding_box_size = static_cast<double>(t_timeslices + 1);
+    Delaunay3::Lock_data_structure locking_ds{
         CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
                      bounding_box_size, bounding_box_size, bounding_box_size},
         50};
-    Delaunay3 triangulation = Delaunay3{K{}, &locking_ds};
+    Delaunay3 triangulation = Delaunay3{Kernel{}, &locking_ds};
 #else
     Delaunay3 triangulation = Delaunay3{};
 #endif
