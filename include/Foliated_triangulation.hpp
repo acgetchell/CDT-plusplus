@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2019 Adam Getchell
+/// Copyright © 2018-2020 Adam Getchell
 ///
 /// Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes
 /// to create foliated spherical triangulations of a given dimension.
@@ -66,6 +66,8 @@ enum class Cell_type
   ONE_THREE = 13   // (1,3)
 };
 
+/// @brief Compare time values of vertices
+/// @return True if timevalue of lhs is less than rhs
 auto compare_v_info = [](Vertex_handle const& lhs,
                          Vertex_handle const& rhs) -> bool {
   return lhs->info() < rhs->info();
@@ -92,16 +94,15 @@ class FoliatedTriangulation<3> final : private Delaunay3
   std::vector<Edge_handle>            m_timelike_edges;
   std::vector<Edge_handle>            m_spacelike_edges;
   std::vector<Vertex_handle>          m_points;
-  Int_precision                       m_max_timevalue;
-  Int_precision                       m_min_timevalue;
+  Int_precision                       m_max_timevalue{0};
+  Int_precision                       m_min_timevalue{0};
 
  public:
   /// @brief Default dtor
   ~FoliatedTriangulation() = default;
 
   /// @brief Default ctor
-  FoliatedTriangulation() : Delaunay3{}, m_max_timevalue{0}, m_min_timevalue{0}
-  {}
+  FoliatedTriangulation() = default;
 
   /// @brief Copy Constructor
   FoliatedTriangulation(FoliatedTriangulation const& other)

@@ -22,18 +22,18 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
     {
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(is_nothrow_destructible<Manifold3>::value);
+        REQUIRE(is_nothrow_destructible_v<Manifold3>);
       }
 
       THEN("It is default constructible.")
       {
-        REQUIRE(is_default_constructible<Manifold3>::value);
+        REQUIRE(is_default_constructible_v<Manifold3>);
       }
       /// TODO: Make Manifold no-throw default constructible
-      //            THEN("It is no-throw default constructible.")
-      //            {
-      //              CHECK(is_nothrow_default_constructible<Manifold3>::value);
-      //            }
+      THEN("It is NOT no-throw default constructible.")
+      {
+        CHECK_FALSE(is_nothrow_default_constructible_v<Manifold3>);
+      }
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible<Manifold3>::value);
@@ -45,29 +45,29 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
              << is_copy_constructible<Manifold3>::value << "\n";
       }
       /// TODO: Make Manifold no-throw copy constructible
-      //      THEN("It is no-throw copy constructible.")
-      //      {
-      //        CHECK(is_nothrow_copy_constructible<Manifold3>::value);
-      //      }
+      THEN("It is NOT no-throw copy constructible.")
+      {
+        CHECK_FALSE(is_nothrow_copy_constructible_v<Manifold3>);
+      }
       /// TODO: Make Manifold no-throw copy assignable
-      //      THEN("It is no-throw copy assignable.")
-      //      {
-      //        CHECK(is_nothrow_copy_assignable<Manifold3>::value);
-      //      }
+      THEN("It is NOT no-throw copy assignable.")
+      {
+        CHECK_FALSE(is_nothrow_copy_assignable_v<Manifold3>);
+      }
       THEN("It is move constructible.")
       {
         REQUIRE(is_move_constructible<Manifold3>::value);
       }
       /// TODO: Make Manifold no-throw move constructible
-      //      THEN("It is no-throw move constructible.")
-      //      {
-      //        CHECK(is_nothrow_move_constructible<Manifold3>::value);
-      //      }
+      THEN("It is NOT no-throw move constructible.")
+      {
+        CHECK_FALSE(is_nothrow_move_constructible_v<Manifold3>);
+      }
       /// TODO: Make Manifold no-throw move assignable
-      //      THEN("It is no-throw move assignable.")
-      //      {
-      //        CHECK(is_nothrow_move_assignable<Manifold3>::value);
-      //      }
+      THEN("It is no-throw move assignable.")
+      {
+        CHECK_FALSE(is_nothrow_move_assignable_v<Manifold3>);
+      }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable<Manifold3>::value);
@@ -92,8 +92,6 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
-      //      THEN("The triangulation is valid.") {
-      //      REQUIRE(manifold.is_correct()); }
       THEN("The geometry is of type geometry class.")
       {
         REQUIRE_THAT(typeid(manifold.get_geometry()).name(),

@@ -23,70 +23,70 @@ SCENARIO("Foliated_triangulation special member and swap properties",
     {
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(is_nothrow_destructible<FoliatedTriangulation3>::value);
+        REQUIRE(is_nothrow_destructible_v<FoliatedTriangulation3>);
       }
       THEN("It is default constructible.")
       {
-        REQUIRE(is_default_constructible<FoliatedTriangulation3>::value);
+        REQUIRE(is_default_constructible_v<FoliatedTriangulation3>);
+      }
+      THEN("It is NOT trivially default constructible.")
+      {
+        CHECK_FALSE(
+            is_trivially_default_constructible_v<FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw default constructible
-      //      THEN("It is no-throw default constructible.")
-      //      {
-      //        CHECK(is_nothrow_default_constructible<FoliatedTriangulation3>::value);
-      //      }
+      THEN("It is NOT no-throw default constructible.")
+      {
+        CHECK_FALSE(is_nothrow_default_constructible_v<FoliatedTriangulation3>);
+      }
       THEN("It is copy constructible.")
       {
-        REQUIRE(is_copy_constructible<FoliatedTriangulation3>::value);
+        REQUIRE(is_copy_constructible_v<FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw copy constructible
-      //            THEN("It is no-throw copy constructible.")
-      //            {
-      //              CHECK(is_nothrow_copy_constructible<FoliatedTriangulation3>::value);
-      //            }
+      THEN("It is NOT no-throw copy constructible.")
+      {
+        CHECK_FALSE(is_nothrow_copy_constructible_v<FoliatedTriangulation3>);
+      }
       THEN("It is copy assignable.")
       {
-        REQUIRE(is_copy_assignable<FoliatedTriangulation3>::value);
+        REQUIRE(is_copy_assignable_v<FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw copy assignable
-      //      THEN("It is no-throw copy assignable.")
-      //      {
-      //        CHECK(is_nothrow_copy_assignable<FoliatedTriangulation3>::value);
-      //      }
+      THEN("It is NOT no-throw copy assignable.")
+      {
+        CHECK_FALSE(is_nothrow_copy_assignable_v<FoliatedTriangulation3>);
+      }
       THEN("It is move constructible.")
       {
-        REQUIRE(is_move_constructible<FoliatedTriangulation3>::value);
+        REQUIRE(is_move_constructible_v<FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw move constructible
-      //      THEN("It is no-throw move constructible.")
-      //      {
-      //        CHECK(is_nothrow_move_constructible<FoliatedTriangulation3>::value);
-      //      }
+      THEN("It is NOT no-throw move constructible.")
+      {
+        CHECK_FALSE(is_nothrow_move_constructible_v<FoliatedTriangulation3>);
+      }
       THEN("It is move assignable.")
       {
-        REQUIRE(is_move_assignable<FoliatedTriangulation3>::value);
+        REQUIRE(is_move_assignable_v<FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw move assignable
-      //      THEN("It is no-throw move assignable.")
-      //      {
-      //        CHECK(is_nothrow_move_assignable<FoliatedTriangulation3>::value);
-      //      }
-      //      THEN(
-      //          "friend void swap(FoliatedTriangulation1,
-      //          FoliatedTriangulation2) is " "no-except")
-      //      {
-      //        FoliatedTriangulation3 f1;
-      //        FoliatedTriangulation3 f2;
-      //        REQUIRE(noexcept(swap(f1, f2)));
-      //      }
+      THEN("It is NOT no-throw move assignable.")
+      {
+        CHECK_FALSE(is_nothrow_move_assignable_v<FoliatedTriangulation3>);
+      }
+      THEN("It is NOT no-throw swappable.")
+      {
+        CHECK_FALSE(is_nothrow_swappable_v<FoliatedTriangulation3>);
+      }
       THEN("It is constructible from a Delaunay Triangulation.")
       {
-        REQUIRE(is_constructible<FoliatedTriangulation3, Delaunay3>::value);
+        REQUIRE(is_constructible_v<FoliatedTriangulation3, Delaunay3>);
       }
       THEN("It is constructible from parameters.")
       {
-        REQUIRE(
-            is_constructible<FoliatedTriangulation3, Int_precision,
-                             Int_precision, long double, long double>::value);
+        REQUIRE(is_constructible_v<FoliatedTriangulation3, Int_precision,
+                                   Int_precision, long double, long double>);
       }
     }
   }

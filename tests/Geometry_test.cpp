@@ -21,31 +21,31 @@ SCENARIO("3-Geometry special member and swap properties", "[geometry]")
     {
       THEN("It is trivially destructible.")
       {
-        REQUIRE(is_trivially_destructible<Geometry3>::value);
+        REQUIRE(is_trivially_destructible_v<Geometry3>);
       }
       THEN("It is no-throw default constructible.")
       {
-        CHECK(is_nothrow_default_constructible<Geometry3>::value);
+        CHECK(is_nothrow_default_constructible_v<Geometry3>);
       }
       THEN("It is no-throw copy constructible.")
       {
-        CHECK(is_nothrow_copy_constructible<Geometry3>::value);
+        CHECK(is_nothrow_copy_constructible_v<Geometry3>);
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK(is_nothrow_copy_assignable<Geometry3>::value);
+        CHECK(is_nothrow_copy_assignable_v<Geometry3>);
       }
       THEN("It is no-throw move constructible.")
       {
-        REQUIRE(is_nothrow_move_constructible<Geometry3>::value);
+        REQUIRE(is_nothrow_move_constructible_v<Geometry3>);
       }
       THEN("It is no-throw move assignable.")
       {
-        REQUIRE(is_nothrow_move_assignable<Geometry3>::value);
+        REQUIRE(is_nothrow_move_assignable_v<Geometry3>);
       }
       THEN("It is no-throw swappable.")
       {
-        REQUIRE(is_nothrow_swappable<Geometry3>::value);
+        REQUIRE(is_nothrow_swappable_v<Geometry3>);
       }
     }
   }
