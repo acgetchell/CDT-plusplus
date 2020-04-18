@@ -92,31 +92,31 @@ $(function() {
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;      THEN(<span class="stringliteral">&quot;It is trivially destructible.&quot;</span>)</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;      {</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        REQUIRE(is_trivially_destructible&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;        REQUIRE(is_trivially_destructible_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      }</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw default constructible.&quot;</span>)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        CHECK(is_nothrow_default_constructible&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        CHECK(is_nothrow_default_constructible_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      }</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw copy constructible.&quot;</span>)</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      {</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        CHECK(is_nothrow_copy_constructible&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;        CHECK(is_nothrow_copy_constructible_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;      }</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw copy assignable.&quot;</span>)</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        CHECK(is_nothrow_copy_assignable&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;        CHECK(is_nothrow_copy_assignable_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      }</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw move constructible.&quot;</span>)</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        REQUIRE(is_nothrow_move_constructible&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        REQUIRE(is_nothrow_move_constructible_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw move assignable.&quot;</span>)</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        REQUIRE(is_nothrow_move_assignable&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;        REQUIRE(is_nothrow_move_assignable_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      }</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw swappable.&quot;</span>)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        REQUIRE(is_nothrow_swappable&lt;Geometry3&gt;::value);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        REQUIRE(is_nothrow_swappable_v&lt;Geometry3&gt;);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      }</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;    }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  }</div>
@@ -232,7 +232,7 @@ $(function() {
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  }</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00081">Foliated_triangulation.hpp:81</a></div></div>
+<div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00083">Foliated_triangulation.hpp:83</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html"><div class="ttname"><a href="struct_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></div><div class="ttdoc">3D Geometry</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00028">Geometry.hpp:28</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html"><div class="ttname"><a href="_geometry_8hpp.html">Geometry.hpp</a></div><div class="ttdoc">Data structures for geometry.</div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_a458c5638f49ae9421e79aa7fc404cf1f"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a458c5638f49ae9421e79aa7fc404cf1f">Geometry&lt; 3 &gt;::N3_13</a></div><div class="ttdeci">Int_precision N3_13</div><div class="ttdoc">Number of (1,3) simplices.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00037">Geometry.hpp:37</a></div></div>
@@ -248,7 +248,7 @@ $(function() {
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_a48de5ca45643f71ad68f3d525a9b6876"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a48de5ca45643f71ad68f3d525a9b6876">Geometry&lt; 3 &gt;::N2</a></div><div class="ttdeci">Int_precision N2</div><div class="ttdoc">Number of 2D faces.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00046">Geometry.hpp:46</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 7 2020 00:03:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 18 2020 19:31:01 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

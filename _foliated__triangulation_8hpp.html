@@ -174,13 +174,14 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae240a97bcc82607596147cd643cdcd18"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><b>compare_v_info</b></td></tr>
+<tr class="memitem:ae240a97bcc82607596147cd643cdcd18"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#ae240a97bcc82607596147cd643cdcd18">compare_v_info</a></td></tr>
+<tr class="memdesc:ae240a97bcc82607596147cd643cdcd18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare time values of vertices.  <a href="_foliated__triangulation_8hpp.html#ae240a97bcc82607596147cd643cdcd18">More...</a><br /></td></tr>
 <tr class="separator:ae240a97bcc82607596147cd643cdcd18"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Create foliated spherical triangulations. </p>
 <p>Causal Dynamical Triangulations in C++ using CGAL</p>
-<p>Copyright © 2018-2019 Adam Getchell</p>
+<p>Copyright © 2018-2020 Adam Getchell</p>
 <p>Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes to create foliated spherical triangulations of a given dimension.</p>
 <p>The dimensionality, number of desired simplices, and number of desired timeslices is given. Successive spheres are created with increasing radii, parameterized by INITIAL_RADIUS and RADIAL_FACTOR. Each vertex at a given radius is assigned a timeslice so that the entire triangulation will have a defined foliation of time. </p>
 
@@ -202,14 +203,17 @@ Variables</h2></td></tr>
 <div class="line">  <span class="keywordflow">return</span> lhs-&gt;info() &lt; rhs-&gt;info();</div>
 <div class="line">}</div>
 </div><!-- fragment -->
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00069">69</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p>Compare time values of vertices. </p>
+<dl class="section return"><dt>Returns</dt><dd>True if timevalue of lhs is less than rhs </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00071">71</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Apr 7 2020 00:03:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 18 2020 19:31:01 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

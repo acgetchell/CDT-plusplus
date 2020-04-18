@@ -167,6 +167,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>compare_v_info</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_foliated__triangulation_8hpp.html</Path>
+    <Anchor>ae240a97bcc82607596147cd643cdcd18</Anchor>
+    <Abstract>Compare time values of vertices.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>DETAILED_DEBUGGING</Name>
       <APILanguage>c</APILanguage>
       <Type>macro</Type>
@@ -988,7 +999,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>ac8c7abd1c034f6049e479ea12eb2dc57</Anchor>
+    <Anchor>ab87b038289df891c7128f5c78613beb4</Anchor>
     <Abstract>Default ctor.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
