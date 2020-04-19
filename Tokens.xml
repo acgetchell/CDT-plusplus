@@ -481,7 +481,6 @@
     </TokenIdentifier>
     <Path>_settings_8hpp.html</Path>
     <Anchor>ab09035cfa5e10fa4ee88d95ef5fa7ac5</Anchor>
-    <Abstract>Workaround for https://github.com/CGAL/cgal/issues/4665.</Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
   <Token>
