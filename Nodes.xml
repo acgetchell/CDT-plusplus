@@ -3474,24 +3474,7 @@
              </Node>
              <Node>
               <Name>Sphere_d.hpp</Name>
-              <Path>_sphere__d_8hpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>Kd</Name>
-                <Path>_sphere__d_8hpp.html</Path>
-                <Anchor>a47758eef4587eeb8e5419c87a5cd9943</Anchor>
-               </Node>
-               <Node>
-                <Name>make_d_sphere</Name>
-                <Path>_sphere__d_8hpp.html</Path>
-                <Anchor>a04b74615510e6ad6edf4cb2b403c2419</Anchor>
-               </Node>
-               <Node>
-                <Name>make_d_sphere</Name>
-                <Path>_sphere__d_8hpp.html</Path>
-                <Anchor>a64c0c342c35e3b7431f2e82e5eca094a</Anchor>
-               </Node>
-              </Subnodes>
+              <Path>_sphere__d_8hpp_source.html</Path>
              </Node>
              <Node>
               <Name>Torus_d.hpp</Name>

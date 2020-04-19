@@ -6,7 +6,7 @@ var searchData=
   ['generate_5frandom_5fint_74',['generate_random_int',['../_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b',1,'Utilities.hpp']]],
   ['generate_5frandom_5freal_75',['generate_random_real',['../_utilities_8hpp.html#af1f800b61278d6db0f848c17362a2e31',1,'Utilities.hpp']]],
   ['generate_5frandom_5ftimeslice_76',['generate_random_timeslice',['../_utilities_8hpp.html#ac4705e2bc94fd86797ad6c36ff031f16',1,'Utilities.hpp']]],
-  ['geometry_77',['Geometry',['../struct_geometry.html',1,'Geometry&lt; dimension &gt;'],['../struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8',1,'Geometry&lt; 3 &gt;::Geometry()=default'],['../struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c',1,'Geometry&lt; 3 &gt;::Geometry(FoliatedTriangulation3 const &amp;triangulation)'],['../struct_simplicial_manifold.html#abd200a6e0c7750a8875fa666ca68eb36',1,'SimplicialManifold::geometry()']]],
+  ['geometry_77',['Geometry',['../struct_geometry.html',1,'Geometry&lt; dimension &gt;'],['../struct_simplicial_manifold.html#abd200a6e0c7750a8875fa666ca68eb36',1,'SimplicialManifold::geometry()'],['../struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8',1,'Geometry&lt; 3 &gt;::Geometry()=default'],['../struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c',1,'Geometry&lt; 3 &gt;::Geometry(FoliatedTriangulation3 const &amp;triangulation)']]],
   ['geometry_2ehpp_78',['Geometry.hpp',['../_geometry_8hpp.html',1,'']]],
   ['geometry_3c_203_20_3e_79',['Geometry&lt; 3 &gt;',['../struct_geometry_3_013_01_4.html',1,'']]],
   ['geometry_5ftest_2ecpp_80',['Geometry_test.cpp',['../_geometry__test_8cpp.html',1,'']]],

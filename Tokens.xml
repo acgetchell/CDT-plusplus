@@ -561,39 +561,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>Kd</Name>
-      <APILanguage>c</APILanguage>
-      <Type>tdef</Type>
-    </TokenIdentifier>
-    <Path>_sphere__d_8hpp.html</Path>
-    <Anchor>a47758eef4587eeb8e5419c87a5cd9943</Anchor>
-    <Abstract>CGAL headers.</Abstract>
-    <DeclaredIn>Sphere_d.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_d_sphere</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_sphere__d_8hpp.html</Path>
-    <Anchor>a04b74615510e6ad6edf4cb2b403c2419</Anchor>
-    <Abstract>Make a d-dimensional sphere.</Abstract>
-    <DeclaredIn>Sphere_d.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_d_sphere</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_sphere__d_8hpp.html</Path>
-    <Anchor>a64c0c342c35e3b7431f2e82e5eca094a</Anchor>
-    <Abstract>Make a d-dimensional sphere without output.</Abstract>
-    <DeclaredIn>Sphere_d.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>make_d_cube</Name>
       <APILanguage>c</APILanguage>
       <Type>func</Type>

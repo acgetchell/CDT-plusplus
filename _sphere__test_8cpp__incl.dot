@@ -5,7 +5,7 @@ digraph "tests/Sphere_test.cpp"
   node [fontname="Helvetica",fontsize="10",shape=record];
   Node1 [label="tests/Sphere_test.cpp",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="Tests for spheres."];
   Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
-  Node2 [label="Sphere_d.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_sphere__d_8hpp.html",tooltip="Functions on d-Spheres."];
+  Node2 [label="Sphere_d.hpp",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$_sphere__d_8hpp_source.html",tooltip=" "];
   Node2 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
   Node3 [label="CGAL/Cartesian_d.h",height=0.2,width=0.4,color="grey75", fillcolor="white", style="filled",tooltip=" "];
   Node2 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
