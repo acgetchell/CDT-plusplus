@@ -28,9 +28,6 @@ addons:
       - ninja
       - yasm
     update: true
-  snaps:
-    - name: cmake
-      confinement: classic
 
 os:
   - linux
@@ -64,12 +61,6 @@ jobs:
     - os: linux
       compiler: clang-10
       env: CLANGFORMAT=true
-#      addons:
-#        apt:
-#          sources:
-#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-#          packages:
-#            - clang-format-8
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
       install: skip
@@ -88,19 +79,11 @@ jobs:
     - os: linux
       compiler: clang-10
       env: CLANGTIDY=true
-#      addons:
-#        apt:
-#          sources:
-#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-#          packages:
-#            - ninja-build
-#            - yasm
-#            - clang-tidy-8
       script:
         - mkdir build
         - cd build || exit
         - cmake -G Ninja -D ENABLE_CLANG_TIDY:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-        - travis_wait 60 cmake --build .
+        - cmake --build .
       after_success: skip
     # CppCheck
     - os: linux
@@ -146,13 +129,6 @@ jobs:
     - os: linux
       compiler: clang-10
       env: ASAN=true
-#      addons:
-#        apt:
-#          sources:
-#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-#          packages:
-#            - ninja-build
-#            - yasm
       script:
         - mkdir build
         - cd build || exit
@@ -167,13 +143,6 @@ jobs:
     - os: linux
       compiler: clang-10
       env: MSAN=true
-#      addons:
-#        apt:
-#          sources:
-#            - sourceline: 'ppa:ubuntu-toolchain-r/test'
-#          packages:
-#            - ninja-build
-#            - yasm
       script:
         - mkdir build
         - cd build || exit
@@ -256,6 +225,8 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
   - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-10" CC="clang-10"; fi
+  # Install updated cmake
+  - pip install --user cmake
   - cmake --version
 
 install:
