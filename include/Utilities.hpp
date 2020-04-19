@@ -23,6 +23,10 @@
 // https://github.com/microsoft/vcpkg/issues/9087
 #include <boost/date_time.hpp>
 #endif
+// Workaround for https://github.com/CGAL/cgal/issues/4665
+#ifdef _WIN32
+#define NOMINMAX
+#endif
 #include <algorithm>
 #include <cassert>
 #include <cstdlib>

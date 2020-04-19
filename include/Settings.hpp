@@ -11,11 +11,6 @@
 #ifndef INCLUDE_SETTINGS_HPP_
 #define INCLUDE_SETTINGS_HPP_
 
-/// Workaround for https://github.com/CGAL/cgal/issues/4665
-#ifdef _WIN32
-#define NOMINMAX
-#endif
-
 #include <CGAL/Gmpzf.h>
 #include <cstdint>
 
