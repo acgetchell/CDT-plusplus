@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2019 Adam Getchell
+/// Copyright © 2019-2020 Adam Getchell
 ///
 /// Performs the set of Pachner moves on a manifold exploring
 /// all possible triangulations.

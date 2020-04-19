@@ -181,7 +181,7 @@ SCENARIO("Move Command initialization", "[move command]")
       THEN("The two manifolds are distinct.")
       {
         auto* manifold_ptr  = &manifold;
-        auto* manifold2_ptr = &command.get_manifold();
+        auto const* manifold2_ptr = &command.get_manifold();
         CHECK_FALSE(manifold_ptr == manifold2_ptr);
       }
     }

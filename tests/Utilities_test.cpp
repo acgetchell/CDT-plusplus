@@ -34,7 +34,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
   {
     WHEN("The user is requested.")
     {
-      auto const result = getEnvVar("USER");
+      auto const& result = getEnvVar("USER");
       THEN("The output is correct.")
       {
         // Enter your own USER environment variable here

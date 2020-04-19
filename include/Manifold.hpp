@@ -209,7 +209,8 @@ class Manifold<3>
   /// @return Number of 2D faces in triangulation data structure
   [[nodiscard]] decltype(auto) faces() const
   {
-    return m_triangulation.number_of_finite_facets();
+    return static_cast<Int_precision>(
+        m_triangulation.number_of_finite_facets());
   }
 
   /// @return Number of 1D edges in geometry data structure
@@ -224,7 +225,7 @@ class Manifold<3>
   /// @return Number of 1D edges in triangulation data structure
   [[nodiscard]] decltype(auto) edges() const
   {
-    return m_triangulation.number_of_finite_edges();
+    return static_cast<Int_precision>(m_triangulation.number_of_finite_edges());
   }
 
   /// @return Number of vertices in geometry data structure
@@ -233,7 +234,7 @@ class Manifold<3>
   /// @return Number of vertices in triangulation data structure
   [[nodiscard]] decltype(auto) vertices() const
   {
-    return m_triangulation.number_of_vertices();
+    return static_cast<Int_precision>(m_triangulation.number_of_vertices());
   }
 
   /// @return Minimum timeslice value in triangulation data structure

@@ -22,7 +22,7 @@ SCENARIO("Check settings", "[settings]")
   {
     WHEN("The integer type is queried.")
     {
-      auto int_precision = typeid(Int_precision).name();
+      auto const& int_precision = typeid(Int_precision).name();
       THEN("The value is std::int_fast32_t.")
       {
         fmt::print("TypeID of Int_precision is {}.\n", int_precision);

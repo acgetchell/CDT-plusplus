@@ -114,7 +114,7 @@ try
   gv << D;
 
   cout << "Enter a key to finish.\n";
-  char ch;
+  char ch{0};
   cin >> ch;
 
   return 0;
