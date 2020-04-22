@@ -24,19 +24,22 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       {
         REQUIRE(is_nothrow_destructible_v<Manifold3>);
       }
-
       THEN("It is default constructible.")
       {
         REQUIRE(is_default_constructible_v<Manifold3>);
+      }
+      THEN("It is NOT trivially constructible.")
+      {
+        CHECK_FALSE(is_trivially_constructible_v<Manifold3>);
+      }
+      THEN("It is NOT trivially default constructible.")
+      {
+        CHECK_FALSE(is_trivially_default_constructible_v<Manifold3>);
       }
       /// TODO: Make Manifold no-throw default constructible
       THEN("It is NOT no-throw default constructible.")
       {
         CHECK_FALSE(is_nothrow_default_constructible_v<Manifold3>);
-      }
-      THEN("It is no-throw destructible.")
-      {
-        REQUIRE(is_nothrow_destructible<Manifold3>::value);
       }
       THEN("It is copy constructible.")
       {
@@ -277,13 +280,15 @@ SCENARIO("3-Manifold function checks", "[manifold]")
     WHEN("It is initialized.")
     {
       Manifold3 manifold(desired_simplices, desired_timeslices);
-      THEN("Functions referencing lower level data and functions are accurate")
+      THEN("Functions referencing geometry data are accurate")
       {
         CHECK(manifold.N3() == manifold.get_geometry().N3);
         CHECK(manifold.N3_31() == manifold.get_geometry().N3_31);
         CHECK(manifold.N3_13() == manifold.get_geometry().N3_13);
         CHECK(manifold.N3_31_13() == manifold.get_geometry().N3_31_13);
         CHECK(manifold.N3_22() == manifold.get_geometry().N3_22);
+        CHECK(manifold.N2() == manifold.get_geometry().N2);
+        CHECK(manifold.N1() == manifold.get_geometry().N1);
         CHECK(manifold.N1_TL() == manifold.get_geometry().N1_TL);
         CHECK(manifold.N1_SL() == manifold.get_geometry().N1_SL);
         CHECK(manifold.N0() == manifold.get_geometry().N0);

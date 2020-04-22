@@ -14,11 +14,11 @@
 
 using namespace std;
 
-SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply move]")
+SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply move][!mayfail]")
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {
-    constexpr auto desired_simplices  = static_cast<Int_precision>(6400);
+    constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_delaunay());

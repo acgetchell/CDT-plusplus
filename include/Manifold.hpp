@@ -46,7 +46,6 @@ class Manifold<3>
   {}
 
   /// @brief Construct manifold from a Foliated triangulation
-  /// Pass-by-value-then-move
   /// @param t_foliated_triangulation Triangulation used to construct manifold
   explicit Manifold(FoliatedTriangulation3 const& t_foliated_triangulation)
       : m_triangulation{t_foliated_triangulation}

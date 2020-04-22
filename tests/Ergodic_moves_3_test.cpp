@@ -13,11 +13,12 @@
 
 using namespace std;
 
-SCENARIO("Perform ergodic moves on 2+1 triangulations", "[ergodic moves]")
+SCENARIO("Perform ergodic moves on 2+1 triangulations",
+         "[ergodic moves][!mayfail]")
 {
   GIVEN("A 2+1-dimensional foliated triangulation")
   {
-    constexpr auto desired_simplices  = static_cast<Int_precision>(6400);
+    constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_delaunay());

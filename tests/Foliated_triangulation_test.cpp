@@ -123,6 +123,18 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
                   << triangulation.dimension() << "\n";
       }
     }
+    WHEN("Constructing the default triangulation.")
+    {
+      FoliatedTriangulation3 triangulation;
+      THEN("is_infinite() identifies a single infinite vertex.")
+      {
+        auto&& vertices = triangulation.get_delaunay().tds().vertices();
+        auto&& vertex   = vertices.begin();
+        CHECK(vertices.size() == 1);
+        CHECK(triangulation.get_delaunay().tds().is_vertex(vertex));
+        CHECK(triangulation.is_infinite(vertex));
+      }
+    }
   }
 }
 SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")

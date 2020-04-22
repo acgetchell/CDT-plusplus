@@ -192,8 +192,8 @@ SCENARIO("Executing the MoveCommand", "[move command][!mayfail]")
 {
   GIVEN("A valid manifold")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A null move is queued.")
