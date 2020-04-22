@@ -85,11 +85,11 @@ $(function() {
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;SCENARIO(<span class="stringliteral">&quot;Apply ergodic moves to 2+1 manifolds&quot;</span>, <span class="stringliteral">&quot;[apply move]&quot;</span>)</div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;SCENARIO(<span class="stringliteral">&quot;Apply ergodic moves to 2+1 manifolds&quot;</span>, <span class="stringliteral">&quot;[apply move][!mayfail]&quot;</span>)</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 2+1 dimensional spherical manifold.&quot;</span>)</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  {</div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    constexpr <span class="keyword">auto</span> desired_simplices  = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(6400);</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;    constexpr <span class="keyword">auto</span> desired_simplices  = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(9600);</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    constexpr <span class="keyword">auto</span> desired_timeslices = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(7);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a>      manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    REQUIRE(manifold.is_delaunay());</div>
@@ -207,7 +207,7 @@ $(function() {
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00026">Manifold.hpp:27</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Apr 20 2020 02:20:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Apr 22 2020 07:06:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>
