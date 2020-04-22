@@ -10,7 +10,7 @@ var searchData=
   ['is_5fcorrect_110',['is_correct',['../class_manifold_3_013_01_4.html#a29e9f18a63fb3c5c6771f8a9b6060be3',1,'Manifold&lt; 3 &gt;']]],
   ['is_5fdelaunay_111',['is_delaunay',['../class_foliated_triangulation_3_013_01_4.html#a16ce962c49d9f3634bb4bac166a2fe30',1,'FoliatedTriangulation&lt; 3 &gt;::is_delaunay()'],['../class_manifold_3_013_01_4.html#a460e5180976d3a9c5c9a460ed512a7fe',1,'Manifold&lt; 3 &gt;::is_delaunay()']]],
   ['is_5fedge_112',['is_edge',['../class_manifold_3_013_01_4.html#a749c9a5270cf66a24a301640d3134538',1,'Manifold&lt; 3 &gt;']]],
-  ['is_5ffoliated_113',['is_foliated',['../class_foliated_triangulation_3_013_01_4.html#a65a076a377537f02dc2744f3878e7ac4',1,'FoliatedTriangulation&lt; 3 &gt;::is_foliated()'],['../class_manifold_3_013_01_4.html#a722d4eea75f71f3bf11ccc4bbd190b5a',1,'Manifold&lt; 3 &gt;::is_foliated()']]],
+  ['is_5ffoliated_113',['is_foliated',['../class_foliated_triangulation_3_013_01_4.html#a9f6fb8bbf8ba9a190d48b52e32288e95',1,'FoliatedTriangulation&lt; 3 &gt;::is_foliated()'],['../class_manifold_3_013_01_4.html#a722d4eea75f71f3bf11ccc4bbd190b5a',1,'Manifold&lt; 3 &gt;::is_foliated()']]],
   ['is_5ftds_5fvalid_114',['is_tds_valid',['../class_foliated_triangulation_3_013_01_4.html#a25573f15851b6ecc1072c6d9a9ef95ef',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5fvalid_115',['is_valid',['../class_manifold_3_013_01_4.html#a792a9839cd64c7d65c23b10ae99dbbfc',1,'Manifold&lt; 3 &gt;']]],
   ['is_5fvertex_116',['is_vertex',['../class_manifold_3_013_01_4.html#aeaecbd3976b542e84ce6c907cd163a4e',1,'Manifold&lt; 3 &gt;']]]
