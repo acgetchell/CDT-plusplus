@@ -134,10 +134,10 @@ class FoliatedTriangulation<3> final : private Delaunay3
   /// @param t_timeslices Number of desired timeslices
   /// @param t_initial_radius Radius of first timeslice
   /// @param t_radial_factor Radial separation between timeslices
-  FoliatedTriangulation(Int_precision const t_simplices,
-                        Int_precision const t_timeslices,
-                        long double const   t_initial_radius = INITIAL_RADIUS,
-                        long double const   t_radial_factor  = RADIAL_FACTOR)
+  [[maybe_unused]] FoliatedTriangulation(
+      Int_precision const t_simplices, Int_precision const t_timeslices,
+      long double const t_initial_radius = INITIAL_RADIUS,
+      long double const t_radial_factor  = RADIAL_FACTOR)
       : Delaunay3{make_triangulation(t_simplices, t_timeslices,
                                      t_initial_radius, t_radial_factor)}
       , m_cells{classify_cells(collect_cells())}
@@ -169,13 +169,9 @@ class FoliatedTriangulation<3> final : private Delaunay3
   /// (i.e. not in make_triangulation)
   ///
   /// @return True if foliated correctly
-  [[nodiscard]] bool is_foliated() const
+  [[nodiscard]] auto is_foliated() const -> bool
   {
-    if (check_timeslices(get_delaunay())) { return false; }
-    else
-    {
-      return true;
-    }
+    return !static_cast<bool>(check_timeslices(get_delaunay()));
   }  // is_foliated
 
   /// @return Number of 3D simplices in triangulation data structure
@@ -216,7 +212,7 @@ class FoliatedTriangulation<3> final : private Delaunay3
   using Delaunay3::dimension;
 
   /// @return Container of spacelike facets indexed by time value
-  [[nodiscard]] std::multimap<Int_precision, Facet> const& N2_SL() const
+  [[nodiscard]] auto N2_SL() const -> std::multimap<Int_precision, Facet> const&
   {
     return m_spacelike_facets;
   }  // N2_SL
@@ -234,19 +230,21 @@ class FoliatedTriangulation<3> final : private Delaunay3
   }
 
   /// @return Container of timelike edges
-  [[nodiscard]] std::vector<Edge_handle> const& get_timelike_edges() const
+  [[nodiscard]] auto get_timelike_edges() const
+      -> std::vector<Edge_handle> const&
   {
     return m_timelike_edges;
   }
 
   /// @return Container of spacelike edges
-  [[nodiscard]] std::vector<Edge_handle> const& get_spacelike_edges() const
+  [[nodiscard]] auto get_spacelike_edges() const
+      -> std::vector<Edge_handle> const&
   {
     return m_spacelike_edges;
   }
 
   /// @return Container of vertices
-  [[nodiscard]] std::vector<Vertex_handle> const& get_vertices() const
+  [[nodiscard]] auto get_vertices() const -> std::vector<Vertex_handle> const&
   {
     return m_points;
   }
@@ -348,7 +346,7 @@ class FoliatedTriangulation<3> final : private Delaunay3
   }  // check_vertices
 
   /// @return Container of cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_cells() const
+  [[nodiscard]] auto get_cells() const -> std::vector<Cell_handle> const&
   {
     Ensures(m_cells.size() == number_of_finite_cells());
     return m_cells;
@@ -373,19 +371,19 @@ class FoliatedTriangulation<3> final : private Delaunay3
   }  // filter_cells
 
   /// @return Container of (3,1) cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_three_one() const
+  [[nodiscard]] auto get_three_one() const -> std::vector<Cell_handle> const&
   {
     return m_three_one;
   }  // get_three_one
 
   /// @return Container of (2,2) cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_two_two() const
+  [[nodiscard]] auto get_two_two() const -> std::vector<Cell_handle> const&
   {
     return m_two_two;
   }  // get_two_two
 
   /// @return Container of (1,3) cells
-  [[nodiscard]] std::vector<Cell_handle> const& get_one_three() const
+  [[nodiscard]] auto get_one_three() const -> std::vector<Cell_handle> const&
   {
     return m_one_three;
   }  // get_one_three

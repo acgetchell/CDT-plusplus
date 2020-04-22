@@ -135,6 +135,27 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
         CHECK(triangulation.is_infinite(vertex));
       }
     }
+    WHEN("Constructing a triangulation with 4 causal vertices.")
+    {
+      vector<Delaunay3::Point> Vertices{
+          Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
+          Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+      vector<std::size_t> timevalue{1, 1, 1, 2};
+      Causal_vertices     causal_vertices;
+      causal_vertices.reserve(Vertices.size());
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(causal_vertices),
+                     [](Delaunay3::Point a, std::size_t b) {
+                       return std::make_pair(a, b);
+                     });
+      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
+      FoliatedTriangulation3 foliatedTriangulation(triangulation);
+      THEN("The degree of each vertex is 4 (including infinite vertex).")
+      {
+        for (auto const& vertex : foliatedTriangulation.get_vertices())
+        { CHECK(foliatedTriangulation.degree(vertex) == 4); }
+      }
+    }
   }
 }
 SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
