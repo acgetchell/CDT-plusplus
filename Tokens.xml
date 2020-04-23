@@ -172,7 +172,7 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>_foliated__triangulation_8hpp.html</Path>
-    <Anchor>ae240a97bcc82607596147cd643cdcd18</Anchor>
+    <Anchor>a47a56bb19abae468f695f45f32b220bf</Anchor>
     <Abstract>Compare time values of vertices.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -990,6 +990,18 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a7d876cdacb167cfc0960d103653c13bf</Anchor>
+    <Abstract>Move ctor.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FoliatedTriangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
     <Abstract>Copy Constructor.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
@@ -1020,18 +1032,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>check_cells</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a8b348191a609023611f4321f4f710f05</Anchor>
-    <Abstract>Check that all cells are correctly classified.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>check_timeslices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -1055,14 +1055,14 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>classify_edge</Name>
+      <Name>degree</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a772e5d11cd21d1e09e1e78eb806f06a0</Anchor>
-    <Abstract>Predicate to classify edge as timelike or spacelike.</Abstract>
+    <Anchor>a24047ade3971a71d4e3ebdd01a043f3e</Anchor>
+    <Abstract>See https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcab...</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1078,14 +1078,37 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>filter_cells</Name>
+      <Name>dimension</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a8e5da102c22332b46cf8bae0b07e14d5</Anchor>
-    <Abstract>Filter simplices by Cell_type.</Abstract>
+    <Anchor>aa5108db617e23e366f37ae1ec8f3baf5</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>flip</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>afd9ebfd5faf2071369ed39ba3f7b3157</Anchor>
+    <Abstract>Performs a flip on a face, corresponding to a (2,3) move.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>flip</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a7e3a8d21b39d76e38c883d9ad26df031</Anchor>
+    <Abstract>Performs a flip on an edge, corresponding to a (3,2) move.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1225,6 +1248,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_infinite</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a25e972ede6033e4002c11d61424989f3</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>is_tds_valid</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -1291,14 +1325,58 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>print_cells</Name>
+      <Name>number_of_finite_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>aa883b9144aeb9a99fdfcc7bfbe30aff8</Anchor>
-    <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
+    <Anchor>a7961aa8f014a414db47dd051d235bc09</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>number_of_finite_edges</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a4719746a945fd40a344df37ddbffe2bd</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>number_of_finite_facets</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a02e0032ad2212208b56c2bc40d2d3292</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>number_of_vertices</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a8310b37f06d3b3673bdc93886ee49326</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac85d229bdf05f14e026d021c1539396f</Anchor>
+    <Abstract>Copy/Move Assignment operator.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1309,7 +1387,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a1e22a07c2ed52d19a6b809735fb08887</Anchor>
+    <Anchor>aa883b9144aeb9a99fdfcc7bfbe30aff8</Anchor>
     <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1335,6 +1413,54 @@
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
     <Abstract>Print the number of spacelike faces per timeslice.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>check_cells</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
+    <Abstract>Check that all cells are correctly classified.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>classify_edge</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a833c90ee266b10b39b7c39c36d5a763e</Anchor>
+    <Abstract>Predicate to classify edge as timelike or spacelike.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>filter_cells</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a1e49ddd7f1a1c0435ba5189b32473684</Anchor>
+    <Abstract>Filter simplices by Cell_type.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>print_cells</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac5d1a45cab81896501b965f8b8acbcb1</Anchor>
+    <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1395,42 +1521,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>filter_edges</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>abbe3101ab4a86f9550051fcb36232c28</Anchor>
-    <Abstract>Filter edges into timelike and spacelike.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>find_max_timevalue</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a25f19dc028fc24ad56d74080b1304a7c</Anchor>
-    <Abstract>Find maximum timevalues.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>find_min_timevalue</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>ad5d168d336f10b33361a457cd6fbc8d9</Anchor>
-    <Abstract>Find minimum timevalues.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>fix_timeslices</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -1439,18 +1529,6 @@
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
     <Abstract>Fix simplices with incorrect foliation.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_foliated_sphere</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a64d5ec89b45bb7c1aa5a73729a6dd6b5</Anchor>
-    <Abstract>Make foliated spheres.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1467,25 +1545,73 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>volume_per_timeslice</Name>
+      <Name>filter_edges</Name>
       <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
+      <Type>clm</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>ae8884f810b5232956116ef5f483b164c</Anchor>
+    <Anchor>a228f46d823e51abbfa3681ce37b6899c</Anchor>
+    <Abstract>Filter edges into timelike and spacelike.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>find_max_timevalue</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a2c4b2c74fd32e37cadf0502121b492c6</Anchor>
+    <Abstract>Find maximum timevalues.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>find_min_timevalue</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a4d8442e51a3fed0a95dcd823e7dcade7</Anchor>
+    <Abstract>Find minimum timevalues.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_foliated_sphere</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
+    <Abstract>Make foliated spheres.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>volume_per_timeslice</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a0968ddaeba06a3c66e1347dd95e6c7d1</Anchor>
     <Abstract>Collect spacelike facets into a container indexed by time value.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>m_cells</Name>
+      <Name>m_triangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>data</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a96de53d1ce34582fbdbed8ef598fe8d6</Anchor>
+    <Anchor>a707df553d0d9fbf3ff4c14702b2ba502</Anchor>
   </Token>
   <Token>
     <TokenIdentifier>

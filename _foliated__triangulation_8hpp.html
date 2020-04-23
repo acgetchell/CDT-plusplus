@@ -141,6 +141,9 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Edge_handle</b> = CG
 <tr class="memitem:a9af72a51295eedc3f4afb32d071a28d8"><td class="memItemLeft" align="right" valign="top"><a id="a9af72a51295eedc3f4afb32d071a28d8"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Face_handle</b> = std::pair&lt; Cell_handle, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> &gt;</td></tr>
 <tr class="separator:a9af72a51295eedc3f4afb32d071a28d8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5a618cd46adf8b6216c9441f587f8e3"><td class="memItemLeft" align="right" valign="top"><a id="ae5a618cd46adf8b6216c9441f587f8e3"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Facet</b> = Delaunay3::Facet</td></tr>
+<tr class="separator:ae5a618cd46adf8b6216c9441f587f8e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aa4b8e51d645d18f093f83a739a325021"><td class="memItemLeft" align="right" valign="top"><a id="aa4b8e51d645d18f093f83a739a325021"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>FoliatedTriangulation3</b> = <a class="el" href="class_foliated_triangulation.html">FoliatedTriangulation</a>&lt; 3 &gt;</td></tr>
 <tr class="separator:aa4b8e51d645d18f093f83a739a325021"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -174,9 +177,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:ae240a97bcc82607596147cd643cdcd18"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#ae240a97bcc82607596147cd643cdcd18">compare_v_info</a></td></tr>
-<tr class="memdesc:ae240a97bcc82607596147cd643cdcd18"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare time values of vertices.  <a href="_foliated__triangulation_8hpp.html#ae240a97bcc82607596147cd643cdcd18">More...</a><br /></td></tr>
-<tr class="separator:ae240a97bcc82607596147cd643cdcd18"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47a56bb19abae468f695f45f32b220bf"><td class="memTemplParams" colspan="2">template&lt;typename VertexType &gt; </td></tr>
+<tr class="memitem:a47a56bb19abae468f695f45f32b220bf"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#a47a56bb19abae468f695f45f32b220bf">compare_v_info</a></td></tr>
+<tr class="memdesc:a47a56bb19abae468f695f45f32b220bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare time values of vertices.  <a href="_foliated__triangulation_8hpp.html#a47a56bb19abae468f695f45f32b220bf">More...</a><br /></td></tr>
+<tr class="separator:a47a56bb19abae468f695f45f32b220bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Create foliated spherical triangulations. </p>
@@ -187,33 +191,40 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 </div><h2 class="groupheader">Variable Documentation</h2>
-<a id="ae240a97bcc82607596147cd643cdcd18"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae240a97bcc82607596147cd643cdcd18">&#9670;&nbsp;</a></span>compare_v_info</h2>
+<a id="a47a56bb19abae468f695f45f32b220bf"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a47a56bb19abae468f695f45f32b220bf">&#9670;&nbsp;</a></span>compare_v_info</h2>
 
 <div class="memitem">
 <div class="memproto">
+<div class="memtemplate">
+template&lt;typename VertexType &gt; </div>
       <table class="memname">
         <tr>
           <td class="memname">auto compare_v_info</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](Vertex_handle <span class="keyword">const</span>&amp; lhs,</div>
-<div class="line">                         Vertex_handle <span class="keyword">const</span>&amp; rhs) -&gt; <span class="keywordtype">bool</span> {</div>
+<b>Initial value:</b><div class="fragment"><div class="line">= [](VertexType <span class="keyword">const</span>&amp; lhs, VertexType <span class="keyword">const</span>&amp; rhs) -&gt; <span class="keywordtype">bool</span> {</div>
 <div class="line">  <span class="keywordflow">return</span> lhs-&gt;info() &lt; rhs-&gt;info();</div>
 <div class="line">}</div>
 </div><!-- fragment -->
 <p>Compare time values of vertices. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">VertexType</td><td>The type of Vertex to compare </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="section return"><dt>Returns</dt><dd>True if timevalue of lhs is less than rhs </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00071">71</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_foliated__triangulation_8hpp_source.html#l00074">74</a> of file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 22 2020 15:33:47 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Apr 23 2020 23:50:46 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

@@ -121,6 +121,11 @@
              <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a7d876cdacb167cfc0960d103653c13bf</Anchor>
+             </Node>
+             <Node>
+              <Name>FoliatedTriangulation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>acb523316a1f7b6bc707f88ea9214f5ab</Anchor>
              </Node>
              <Node>
@@ -131,7 +136,7 @@
              <Node>
               <Name>check_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a8b348191a609023611f4321f4f710f05</Anchor>
+              <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
              </Node>
              <Node>
               <Name>check_timeslices</Name>
@@ -151,7 +156,7 @@
              <Node>
               <Name>classify_edge</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a772e5d11cd21d1e09e1e78eb806f06a0</Anchor>
+              <Anchor>a833c90ee266b10b39b7c39c36d5a763e</Anchor>
              </Node>
              <Node>
               <Name>collect_cells</Name>
@@ -174,34 +179,64 @@
               <Anchor>a122f565cb701847a31d4a8c9a164eb1b</Anchor>
              </Node>
              <Node>
+              <Name>degree</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a24047ade3971a71d4e3ebdd01a043f3e</Anchor>
+             </Node>
+             <Node>
               <Name>delaunay</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a2ee175bb4381fbc18c0c5e30fed13084</Anchor>
              </Node>
              <Node>
+              <Name>dimension</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>aa5108db617e23e366f37ae1ec8f3baf5</Anchor>
+             </Node>
+             <Node>
               <Name>filter_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a8e5da102c22332b46cf8bae0b07e14d5</Anchor>
+              <Anchor>a1e49ddd7f1a1c0435ba5189b32473684</Anchor>
              </Node>
              <Node>
               <Name>filter_edges</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>abbe3101ab4a86f9550051fcb36232c28</Anchor>
+              <Anchor>a228f46d823e51abbfa3681ce37b6899c</Anchor>
              </Node>
              <Node>
               <Name>find_max_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a25f19dc028fc24ad56d74080b1304a7c</Anchor>
+              <Anchor>a2c4b2c74fd32e37cadf0502121b492c6</Anchor>
              </Node>
              <Node>
               <Name>find_min_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>ad5d168d336f10b33361a457cd6fbc8d9</Anchor>
+              <Anchor>a4d8442e51a3fed0a95dcd823e7dcade7</Anchor>
+             </Node>
+             <Node>
+              <Name>finite_cells_begin</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>aaf1c6a5346f525d153478eaefadef132</Anchor>
+             </Node>
+             <Node>
+              <Name>finite_cells_end</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a2c17da60ca37eda53b45d653e3bca669</Anchor>
              </Node>
              <Node>
               <Name>fix_timeslices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
+             </Node>
+             <Node>
+              <Name>flip</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>afd9ebfd5faf2071369ed39ba3f7b3157</Anchor>
+             </Node>
+             <Node>
+              <Name>flip</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a7e3a8d21b39d76e38c883d9ad26df031</Anchor>
              </Node>
              <Node>
               <Name>get_cells</Name>
@@ -254,6 +289,11 @@
               <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
              </Node>
              <Node>
+              <Name>infinite_vertex</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
+             </Node>
+             <Node>
               <Name>is_delaunay</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
@@ -264,6 +304,11 @@
               <Anchor>a9f6fb8bbf8ba9a190d48b52e32288e95</Anchor>
              </Node>
              <Node>
+              <Name>is_infinite</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a25e972ede6033e4002c11d61424989f3</Anchor>
+             </Node>
+             <Node>
               <Name>is_tds_valid</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
@@ -271,7 +316,7 @@
              <Node>
               <Name>make_foliated_sphere</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a64d5ec89b45bb7c1aa5a73729a6dd6b5</Anchor>
+              <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
              </Node>
              <Node>
               <Name>make_triangulation</Name>
@@ -304,6 +349,31 @@
               <Anchor>a67c80683bc04b620e0119af537266bae</Anchor>
              </Node>
              <Node>
+              <Name>number_of_finite_cells</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a7961aa8f014a414db47dd051d235bc09</Anchor>
+             </Node>
+             <Node>
+              <Name>number_of_finite_edges</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a4719746a945fd40a344df37ddbffe2bd</Anchor>
+             </Node>
+             <Node>
+              <Name>number_of_finite_facets</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a02e0032ad2212208b56c2bc40d2d3292</Anchor>
+             </Node>
+             <Node>
+              <Name>number_of_vertices</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a8310b37f06d3b3673bdc93886ee49326</Anchor>
+             </Node>
+             <Node>
+              <Name>operator=</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>ac85d229bdf05f14e026d021c1539396f</Anchor>
+             </Node>
+             <Node>
               <Name>print_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>aa883b9144aeb9a99fdfcc7bfbe30aff8</Anchor>
@@ -311,7 +381,7 @@
              <Node>
               <Name>print_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a1e22a07c2ed52d19a6b809735fb08887</Anchor>
+              <Anchor>ac5d1a45cab81896501b965f8b8acbcb1</Anchor>
              </Node>
              <Node>
               <Name>print_edges</Name>
@@ -326,7 +396,12 @@
              <Node>
               <Name>volume_per_timeslice</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>ae8884f810b5232956116ef5f483b164c</Anchor>
+              <Anchor>a0968ddaeba06a3c66e1347dd95e6c7d1</Anchor>
+             </Node>
+             <Node>
+              <Name>swap</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a40df6d1a440eaf03af4499704db44a0c</Anchor>
              </Node>
              <Node>
               <Name>m_cells</Name>
@@ -382,6 +457,11 @@
               <Name>m_timelike_edges</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a4e2ac2f725565935cacb6518dba2accb</Anchor>
+             </Node>
+             <Node>
+              <Name>m_triangulation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a707df553d0d9fbf3ff4c14702b2ba502</Anchor>
              </Node>
              <Node>
               <Name>m_two_two</Name>
@@ -1402,18 +1482,12 @@
           <Path>hierarchy.html</Path>
           <Subnodes>
            <Node>
-            <Name>Delaunay3</Name>
-            <Path></Path>
-            <Subnodes>
-             <Node>
-              <Name>FoliatedTriangulation&lt; 3 &gt;</Name>
-              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-             </Node>
-            </Subnodes>
-           </Node>
-           <Node>
             <Name>FoliatedTriangulation&lt; dimension &gt;</Name>
             <Path>class_foliated_triangulation.html</Path>
+           </Node>
+           <Node>
+            <Name>FoliatedTriangulation&lt; 3 &gt;</Name>
+            <Path>class_foliated_triangulation_3_013_01_4.html</Path>
            </Node>
            <Node>
             <Name>function_ref&lt; Fn &gt;</Name>
@@ -1736,6 +1810,11 @@
                  <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a7d876cdacb167cfc0960d103653c13bf</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>FoliatedTriangulation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>acb523316a1f7b6bc707f88ea9214f5ab</Anchor>
                  </Node>
                  <Node>
@@ -1746,7 +1825,7 @@
                  <Node>
                   <Name>check_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a8b348191a609023611f4321f4f710f05</Anchor>
+                  <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
                  </Node>
                  <Node>
                   <Name>check_timeslices</Name>
@@ -1766,7 +1845,7 @@
                  <Node>
                   <Name>classify_edge</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a772e5d11cd21d1e09e1e78eb806f06a0</Anchor>
+                  <Anchor>a833c90ee266b10b39b7c39c36d5a763e</Anchor>
                  </Node>
                  <Node>
                   <Name>collect_cells</Name>
@@ -1789,34 +1868,64 @@
                   <Anchor>a122f565cb701847a31d4a8c9a164eb1b</Anchor>
                  </Node>
                  <Node>
+                  <Name>degree</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a24047ade3971a71d4e3ebdd01a043f3e</Anchor>
+                 </Node>
+                 <Node>
                   <Name>delaunay</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a2ee175bb4381fbc18c0c5e30fed13084</Anchor>
                  </Node>
                  <Node>
+                  <Name>dimension</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>aa5108db617e23e366f37ae1ec8f3baf5</Anchor>
+                 </Node>
+                 <Node>
                   <Name>filter_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a8e5da102c22332b46cf8bae0b07e14d5</Anchor>
+                  <Anchor>a1e49ddd7f1a1c0435ba5189b32473684</Anchor>
                  </Node>
                  <Node>
                   <Name>filter_edges</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>abbe3101ab4a86f9550051fcb36232c28</Anchor>
+                  <Anchor>a228f46d823e51abbfa3681ce37b6899c</Anchor>
                  </Node>
                  <Node>
                   <Name>find_max_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a25f19dc028fc24ad56d74080b1304a7c</Anchor>
+                  <Anchor>a2c4b2c74fd32e37cadf0502121b492c6</Anchor>
                  </Node>
                  <Node>
                   <Name>find_min_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>ad5d168d336f10b33361a457cd6fbc8d9</Anchor>
+                  <Anchor>a4d8442e51a3fed0a95dcd823e7dcade7</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>finite_cells_begin</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>aaf1c6a5346f525d153478eaefadef132</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>finite_cells_end</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a2c17da60ca37eda53b45d653e3bca669</Anchor>
                  </Node>
                  <Node>
                   <Name>fix_timeslices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>flip</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>afd9ebfd5faf2071369ed39ba3f7b3157</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>flip</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a7e3a8d21b39d76e38c883d9ad26df031</Anchor>
                  </Node>
                  <Node>
                   <Name>get_cells</Name>
@@ -1869,6 +1978,11 @@
                   <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
                  </Node>
                  <Node>
+                  <Name>infinite_vertex</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
+                 </Node>
+                 <Node>
                   <Name>is_delaunay</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
@@ -1879,6 +1993,11 @@
                   <Anchor>a9f6fb8bbf8ba9a190d48b52e32288e95</Anchor>
                  </Node>
                  <Node>
+                  <Name>is_infinite</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a25e972ede6033e4002c11d61424989f3</Anchor>
+                 </Node>
+                 <Node>
                   <Name>is_tds_valid</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
@@ -1886,7 +2005,7 @@
                  <Node>
                   <Name>make_foliated_sphere</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a64d5ec89b45bb7c1aa5a73729a6dd6b5</Anchor>
+                  <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
                  </Node>
                  <Node>
                   <Name>make_triangulation</Name>
@@ -1919,6 +2038,31 @@
                   <Anchor>a67c80683bc04b620e0119af537266bae</Anchor>
                  </Node>
                  <Node>
+                  <Name>number_of_finite_cells</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a7961aa8f014a414db47dd051d235bc09</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>number_of_finite_edges</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a4719746a945fd40a344df37ddbffe2bd</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>number_of_finite_facets</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a02e0032ad2212208b56c2bc40d2d3292</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>number_of_vertices</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a8310b37f06d3b3673bdc93886ee49326</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>operator=</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>ac85d229bdf05f14e026d021c1539396f</Anchor>
+                 </Node>
+                 <Node>
                   <Name>print_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>aa883b9144aeb9a99fdfcc7bfbe30aff8</Anchor>
@@ -1926,7 +2070,7 @@
                  <Node>
                   <Name>print_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a1e22a07c2ed52d19a6b809735fb08887</Anchor>
+                  <Anchor>ac5d1a45cab81896501b965f8b8acbcb1</Anchor>
                  </Node>
                  <Node>
                   <Name>print_edges</Name>
@@ -1941,7 +2085,12 @@
                  <Node>
                   <Name>volume_per_timeslice</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>ae8884f810b5232956116ef5f483b164c</Anchor>
+                  <Anchor>a0968ddaeba06a3c66e1347dd95e6c7d1</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>swap</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a40df6d1a440eaf03af4499704db44a0c</Anchor>
                  </Node>
                  <Node>
                   <Name>m_cells</Name>
@@ -1999,6 +2148,11 @@
                   <Anchor>a4e2ac2f725565935cacb6518dba2accb</Anchor>
                  </Node>
                  <Node>
+                  <Name>m_triangulation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a707df553d0d9fbf3ff4c14702b2ba502</Anchor>
+                 </Node>
+                 <Node>
                   <Name>m_two_two</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a230b21fbb14f428da3673a2d1cf6a8b6</Anchor>
@@ -2039,6 +2193,11 @@
                 <Name>Face_handle</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
                 <Anchor>a9af72a51295eedc3f4afb32d071a28d8</Anchor>
+               </Node>
+               <Node>
+                <Name>Facet</Name>
+                <Path>_foliated__triangulation_8hpp.html</Path>
+                <Anchor>ae5a618cd46adf8b6216c9441f587f8e3</Anchor>
                </Node>
                <Node>
                 <Name>FoliatedTriangulation3</Name>
@@ -2100,7 +2259,7 @@
                <Node>
                 <Name>compare_v_info</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>ae240a97bcc82607596147cd643cdcd18</Anchor>
+                <Anchor>a47a56bb19abae468f695f45f32b220bf</Anchor>
                </Node>
               </Subnodes>
              </Node>
