@@ -113,6 +113,20 @@ class FoliatedTriangulation<3>
             static_cast<Delaunay3 const&>(other.get_delaunay()))
   {}
 
+  /// @brief Copy/Move Assignment operator
+  auto operator=(FoliatedTriangulation other) noexcept -> FoliatedTriangulation&
+  {
+    swap(*this, other);
+    return *this;
+  }
+
+  /// @brief Move ctor
+  FoliatedTriangulation(FoliatedTriangulation&& other) noexcept
+      : FoliatedTriangulation{}
+  {
+    swap(*this, other);
+  }
+
   /// @brief Constructor using delaunay triangulation
   /// Pass-by-value-then-move
   /// Delaunay3 is the ctor for the Delaunay triangulation
@@ -158,6 +172,28 @@ class FoliatedTriangulation<3>
       , m_min_timevalue{find_min_timevalue(m_points)}
   {}
 
+  friend void swap(FoliatedTriangulation<3>& t_first,
+                   FoliatedTriangulation<3>& t_second) noexcept
+  {
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    using std::swap;
+    swap(t_first.m_triangulation, t_second.m_triangulation);
+    swap(t_first.m_cells, t_second.m_cells);
+    swap(t_first.m_three_one, t_second.m_three_one);
+    swap(t_first.m_two_two, t_second.m_two_two);
+    swap(t_first.m_one_three, t_second.m_one_three);
+    swap(t_first.m_faces, t_second.m_faces);
+    swap(t_first.m_spacelike_facets, t_second.m_spacelike_facets);
+    swap(t_first.m_edges, t_second.m_edges);
+    swap(t_first.m_timelike_edges, t_second.m_timelike_edges);
+    swap(t_first.m_spacelike_edges, t_second.m_spacelike_edges);
+    swap(t_first.m_points, t_second.m_points);
+    swap(t_first.m_max_timevalue, t_second.m_max_timevalue);
+    swap(t_first.m_min_timevalue, t_second.m_min_timevalue);
+  }  // swap
+
   /// @return A mutable reference to the Delaunay base class
   auto delaunay() -> Delaunay3& { return m_triangulation; }
 
@@ -167,9 +203,15 @@ class FoliatedTriangulation<3>
     return std::cref(m_triangulation);
   }
 
-  auto finite_cells_begin() { return m_triangulation.finite_cells_begin(); }
+  [[maybe_unused]] auto finite_cells_begin()
+  {
+    return m_triangulation.finite_cells_begin();
+  }
 
-  auto finite_cells_end() { return m_triangulation.finite_cells_end(); }
+  [[maybe_unused]] auto finite_cells_end()
+  {
+    return m_triangulation.finite_cells_end();
+  }
 
   /// @brief Verifies the triangulation is properly foliated
   ///
@@ -212,7 +254,7 @@ class FoliatedTriangulation<3>
 
   /// @return If a cell or vertex contains or is the infinite vertex
   //  using Delaunay3::is_infinite;
-  auto is_infinite(Vertex_handle v) const
+  [[nodiscard]] auto is_infinite(Vertex_handle v) const
   {
     return m_triangulation.is_infinite(v);
   }
@@ -230,7 +272,10 @@ class FoliatedTriangulation<3>
   /// @brief Remove a vertex from the triangulation
   //  using Delaunay3::remove;
 
-  auto infinite_vertex() const { return m_triangulation.infinite_vertex(); }
+  [[nodiscard]] auto infinite_vertex() const
+  {
+    return m_triangulation.infinite_vertex();
+  }
 
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const -> bool
@@ -246,7 +291,7 @@ class FoliatedTriangulation<3>
 
   /// @return Dimensionality of triangulation data structure (int)
   //  using Delaunay3::dimension;
-  auto dimension() const { return m_triangulation.dimension(); }
+  [[nodiscard]] auto dimension() const { return m_triangulation.dimension(); }
 
   /// @return Container of spacelike facets indexed by time value
   [[nodiscard]] auto N2_SL() const -> std::multimap<Int_precision, Facet> const&
@@ -321,7 +366,10 @@ class FoliatedTriangulation<3>
   /// If we have n incident edges we should have 2(n-2) incident cells
   /// @return The number of incident edges to a vertex
   //  using Delaunay3::degree;
-  auto degree(Vertex_handle v) const { return m_triangulation.degree(v); }
+  [[nodiscard]] auto degree(Vertex_handle const& t_vertex) const
+  {
+    return m_triangulation.degree(t_vertex);
+  }
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
   ///

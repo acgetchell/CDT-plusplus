@@ -57,27 +57,17 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         CHECK_FALSE(is_nothrow_copy_assignable_v<FoliatedTriangulation3>);
       }
-      THEN("It is move constructible.")
+      THEN("It is no-throw move constructible.")
       {
-        REQUIRE(is_move_constructible_v<FoliatedTriangulation3>);
+        CHECK(is_nothrow_move_constructible_v<FoliatedTriangulation3>);
       }
-      /// TODO: Make FoliatedTriangulation no-throw move constructible
-      THEN("It is NOT no-throw move constructible.")
+      THEN("It is no-throw move assignable.")
       {
-        CHECK_FALSE(is_nothrow_move_constructible_v<FoliatedTriangulation3>);
+        CHECK(is_nothrow_move_assignable_v<FoliatedTriangulation3>);
       }
-      THEN("It is move assignable.")
+      THEN("It is no-throw swappable.")
       {
-        REQUIRE(is_move_assignable_v<FoliatedTriangulation3>);
-      }
-      /// TODO: Make FoliatedTriangulation no-throw move assignable
-      THEN("It is NOT no-throw move assignable.")
-      {
-        CHECK_FALSE(is_nothrow_move_assignable_v<FoliatedTriangulation3>);
-      }
-      THEN("It is NOT no-throw swappable.")
-      {
-        CHECK_FALSE(is_nothrow_swappable_v<FoliatedTriangulation3>);
+        CHECK(is_nothrow_swappable_v<FoliatedTriangulation3>);
       }
       THEN("It is constructible from a Delaunay Triangulation.")
       {
