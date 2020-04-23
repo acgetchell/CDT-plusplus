@@ -43,37 +43,35 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       }
       THEN("It is copy constructible.")
       {
-        REQUIRE(is_copy_constructible<Manifold3>::value);
+        REQUIRE(is_copy_constructible_v<Manifold3>);
         cout << "std::function<Manifold3> supported:" << boolalpha
-             << is_copy_constructible<Manifold3>::value << "\n";
+             << is_copy_constructible_v<Manifold3> << "\n";
       }
       /// TODO: Make Manifold no-throw copy constructible
       THEN("It is NOT no-throw copy constructible.")
       {
         CHECK_FALSE(is_nothrow_copy_constructible_v<Manifold3>);
       }
-      /// TODO: Make Manifold no-throw copy assignable
-      THEN("It is NOT no-throw copy assignable.")
+      THEN("It is no-throw copy assignable.")
       {
-        CHECK_FALSE(is_nothrow_copy_assignable_v<Manifold3>);
+        CHECK(is_nothrow_copy_assignable_v<Manifold3>);
       }
       THEN("It is move constructible.")
       {
-        REQUIRE(is_move_constructible<Manifold3>::value);
+        REQUIRE(is_move_constructible_v<Manifold3>);
       }
       /// TODO: Make Manifold no-throw move constructible
       THEN("It is NOT no-throw move constructible.")
       {
         CHECK_FALSE(is_nothrow_move_constructible_v<Manifold3>);
       }
-      /// TODO: Make Manifold no-throw move assignable
       THEN("It is no-throw move assignable.")
       {
-        CHECK_FALSE(is_nothrow_move_assignable_v<Manifold3>);
+        CHECK(is_nothrow_move_assignable_v<Manifold3>);
       }
       THEN("It is no-throw swappable.")
       {
-        REQUIRE(is_nothrow_swappable<Manifold3>::value);
+        REQUIRE(is_nothrow_swappable_v<Manifold3>);
       }
     }
   }
