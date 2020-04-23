@@ -55,6 +55,7 @@ using Causal_vertices = std::vector<std::pair<Point, Int_precision>>;
 // Triangulation_{cell,vertex}_base_with_info_3.h
 using Cell_handle   = Delaunay3::Cell_handle;
 using Face_handle   = std::pair<Cell_handle, Int_precision>;
+using Facet         = Delaunay3::Facet;
 using Edge_handle   = CGAL::Triple<Cell_handle, Int_precision, Int_precision>;
 using Vertex_handle = Delaunay3::Vertex_handle;
 
@@ -67,9 +68,10 @@ enum class Cell_type
 };
 
 /// @brief Compare time values of vertices
+/// @tparam VertexType The type of Vertex to compare
 /// @return True if timevalue of lhs is less than rhs
-auto compare_v_info = [](Vertex_handle const& lhs,
-                         Vertex_handle const& rhs) -> bool {
+template <typename VertexType>
+auto compare_v_info = [](VertexType const& lhs, VertexType const& rhs) -> bool {
   return lhs->info() < rhs->info();
 };
 
@@ -80,10 +82,11 @@ class FoliatedTriangulation;
 
 /// 3D Triangulation
 template <>
-class FoliatedTriangulation<3> final : private Delaunay3
+class FoliatedTriangulation<3>
 {
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)
+  Delaunay3                           m_triangulation{Delaunay3{}};
   std::vector<Cell_handle>            m_cells;
   std::vector<Cell_handle>            m_three_one;
   std::vector<Cell_handle>            m_two_two;
@@ -106,7 +109,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
 
   /// @brief Copy Constructor
   FoliatedTriangulation(FoliatedTriangulation const& other)
-      : FoliatedTriangulation(static_cast<Delaunay3 const&>(other))
+      : FoliatedTriangulation(
+            static_cast<Delaunay3 const&>(other.get_delaunay()))
   {}
 
   /// @brief Constructor using delaunay triangulation
@@ -114,7 +118,7 @@ class FoliatedTriangulation<3> final : private Delaunay3
   /// Delaunay3 is the ctor for the Delaunay triangulation
   /// @param triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 triangulation)
-      : Delaunay3{std::move(triangulation)}
+      : m_triangulation{std::move(triangulation)}
       , m_cells{classify_cells(collect_cells())}
       , m_three_one{filter_cells(m_cells, Cell_type::THREE_ONE)}
       , m_two_two{filter_cells(m_cells, Cell_type::TWO_TWO)}
@@ -138,8 +142,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
       Int_precision const t_simplices, Int_precision const t_timeslices,
       long double const t_initial_radius = INITIAL_RADIUS,
       long double const t_radial_factor  = RADIAL_FACTOR)
-      : Delaunay3{make_triangulation(t_simplices, t_timeslices,
-                                     t_initial_radius, t_radial_factor)}
+      : m_triangulation{make_triangulation(t_simplices, t_timeslices,
+                                           t_initial_radius, t_radial_factor)}
       , m_cells{classify_cells(collect_cells())}
       , m_three_one{filter_cells(m_cells, Cell_type::THREE_ONE)}
       , m_two_two{filter_cells(m_cells, Cell_type::TWO_TWO)}
@@ -155,13 +159,17 @@ class FoliatedTriangulation<3> final : private Delaunay3
   {}
 
   /// @return A mutable reference to the Delaunay base class
-  auto delaunay() -> Delaunay3& { return *this; }
+  auto delaunay() -> Delaunay3& { return m_triangulation; }
 
   /// @return A read-only reference to the Delaunay base class
   [[nodiscard]] auto get_delaunay() const -> Delaunay3 const&
   {
-    return std::cref(*this);
+    return std::cref(m_triangulation);
   }
+
+  auto finite_cells_begin() { return m_triangulation.finite_cells_begin(); }
+
+  auto finite_cells_end() { return m_triangulation.finite_cells_end(); }
 
   /// @brief Verifies the triangulation is properly foliated
   ///
@@ -175,26 +183,54 @@ class FoliatedTriangulation<3> final : private Delaunay3
   }  // is_foliated
 
   /// @return Number of 3D simplices in triangulation data structure
-  using Delaunay3::number_of_finite_cells;
+  //  using Delaunay3::number_of_finite_cells;
+  [[nodiscard]] auto number_of_finite_cells() const
+  {
+    return m_triangulation.number_of_finite_cells();
+  }
 
   /// @return Number of 2D faces in triangulation data structure
-  using Delaunay3::number_of_finite_facets;
+  //  using Delaunay3::number_of_finite_facets;
+  [[nodiscard]] auto number_of_finite_facets() const
+  {
+    return m_triangulation.number_of_finite_facets();
+  }
 
   /// @return Number of 1D edges in triangulation data structure
-  using Delaunay3::number_of_finite_edges;
+  //  using Delaunay3::number_of_finite_edges;
+  [[nodiscard]] auto number_of_finite_edges() const
+  {
+    return m_triangulation.number_of_finite_edges();
+  }
 
   /// @return Number of vertices in triangulation data structure
-  using Delaunay3::number_of_vertices;
+  //  using Delaunay3::number_of_vertices;
+  [[nodiscard]] auto number_of_vertices() const
+  {
+    return m_triangulation.number_of_vertices();
+  }
 
   /// @return If a cell or vertex contains or is the infinite vertex
-  using Delaunay3::is_infinite;
+  //  using Delaunay3::is_infinite;
+  auto is_infinite(Vertex_handle v) const
+  {
+    return m_triangulation.is_infinite(v);
+  }
 
   /// @brief Performs flip of an edge or face, corresponding to (2,3) and (3,2)
   /// moves
-  using Delaunay3::flip;
+  //  using Delaunay3::flip;
+  auto flip(Cell_handle c, int i) { return m_triangulation.flip(c, i); }
+
+  auto flip(Cell_handle c, int i, int j)
+  {
+    return m_triangulation.flip(c, i, j);
+  }
 
   /// @brief Remove a vertex from the triangulation
-  using Delaunay3::remove;
+  //  using Delaunay3::remove;
+
+  auto infinite_vertex() const { return m_triangulation.infinite_vertex(); }
 
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const -> bool
@@ -209,7 +245,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
   }
 
   /// @return Dimensionality of triangulation data structure (int)
-  using Delaunay3::dimension;
+  //  using Delaunay3::dimension;
+  auto dimension() const { return m_triangulation.dimension(); }
 
   /// @return Container of spacelike facets indexed by time value
   [[nodiscard]] auto N2_SL() const -> std::multimap<Int_precision, Facet> const&
@@ -283,7 +320,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcabcebd22f2fe
   /// If we have n incident edges we should have 2(n-2) incident cells
   /// @return The number of incident edges to a vertex
-  using Delaunay3::degree;
+  //  using Delaunay3::degree;
+  auto degree(Vertex_handle v) const { return m_triangulation.degree(v); }
 
   /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
   ///
@@ -324,7 +362,7 @@ class FoliatedTriangulation<3> final : private Delaunay3
     // Vertices in the compact container are not Vertex_handles, so
     // we can't call is_infinite(v) directly. Instead, we find the timevalue
     // of the infinite vertex and use that to test if a vertex is infinite
-    auto infinite_vertex_timevalue = this->infinite_vertex()->info();
+    auto infinite_vertex_timevalue = infinite_vertex()->info();
     for (auto v : vertices)
     {
 #ifdef DETAILED_DEBUGGING
@@ -458,6 +496,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
   template <typename Triangulation>
   [[nodiscard]] auto check_timeslices(Triangulation&& t_triangulation) const
       -> std::optional<std::vector<Vertex_handle>>
+  //  [[nodiscard]] auto check_timeslices(FoliatedTriangulation<3>&
+  //  t_triangulation) const -> std::optional<std::vector<Vertex_handle>>
   {
     std::vector<Vertex_handle> invalid_vertices;
     // Iterate over all cells in the triangulation
@@ -867,8 +907,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
       std::vector<Vertex_handle> const& t_vertices) const -> Int_precision
   {
     Expects(!t_vertices.empty());
-    auto it =
-        std::max_element(t_vertices.begin(), t_vertices.end(), compare_v_info);
+    auto it           = std::max_element(t_vertices.begin(), t_vertices.end(),
+                               compare_v_info<Vertex_handle>);
     auto result_index = std::distance(t_vertices.begin(), it);
     Ensures(result_index >= 0);
     auto index = static_cast<std::size_t>(std::abs(result_index));
@@ -882,8 +922,8 @@ class FoliatedTriangulation<3> final : private Delaunay3
       std::vector<Vertex_handle> const& t_vertices) const -> int
   {
     Expects(!t_vertices.empty());
-    auto it =
-        std::min_element(t_vertices.begin(), t_vertices.end(), compare_v_info);
+    auto it           = std::min_element(t_vertices.begin(), t_vertices.end(),
+                               compare_v_info<Vertex_handle>);
     auto result_index = std::distance(t_vertices.begin(), it);
     Ensures(result_index >= 0);
     auto index = static_cast<std::size_t>(std::abs(result_index));
