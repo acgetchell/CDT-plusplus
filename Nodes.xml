@@ -231,12 +231,7 @@
              <Node>
               <Name>flip</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>afd9ebfd5faf2071369ed39ba3f7b3157</Anchor>
-             </Node>
-             <Node>
-              <Name>flip</Name>
-              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a7e3a8d21b39d76e38c883d9ad26df031</Anchor>
+              <Anchor>abfc040ccfd1ecab17e4029868d127dd5</Anchor>
              </Node>
              <Node>
               <Name>get_cells</Name>
@@ -807,12 +802,22 @@
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>a545d00612ca90e0f0f906b6ff284efd1</Anchor>
+             </Node>
+             <Node>
+              <Name>Manifold</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>ad5df224bb825f42ed0e7dcfdfe928c77</Anchor>
+             </Node>
+             <Node>
+              <Name>Manifold</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
              </Node>
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
+              <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
              </Node>
              <Node>
               <Name>Manifold</Name>
@@ -827,7 +832,7 @@
              <Node>
               <Name>are_simplex_types_valid</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a679988c722e6e24e49e64130dad9cc21</Anchor>
+              <Anchor>a1901cb36f23945442efe10a56f45db6b</Anchor>
              </Node>
              <Node>
               <Name>are_vertex_timevalues_valid</Name>
@@ -862,17 +867,17 @@
              <Node>
               <Name>get_geometry</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a37a1263e3a1d83bdcc7ee8f12e42872f</Anchor>
+              <Anchor>a81eb6b705e797e39559a83f177c13a8c</Anchor>
              </Node>
              <Node>
               <Name>get_spacelike_edges</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a1e8f83dc5386b3bd6b89a20a5b55a3da</Anchor>
+              <Anchor>a5dae9385275f8387221cb271fe4130f1</Anchor>
              </Node>
              <Node>
               <Name>get_timelike_edges</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a6b08dfec9150df8a9b6d5acc610b8d2e</Anchor>
+              <Anchor>a94313799a093ca1743991b68baa53558</Anchor>
              </Node>
              <Node>
               <Name>get_triangulation</Name>
@@ -882,12 +887,12 @@
              <Node>
               <Name>get_vertices</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a642fc2449a573c115793e604eef7fc76</Anchor>
+              <Anchor>a84c557b41d9435b294871e680cb39935</Anchor>
              </Node>
              <Node>
               <Name>get_vertices_from_cells</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>abdb8a938ef7ddd77662eb9aade333443</Anchor>
+              <Anchor>a356813571d7b15f8754d6087bc55b3d6</Anchor>
              </Node>
              <Node>
               <Name>incident_cells</Name>
@@ -922,7 +927,7 @@
              <Node>
               <Name>is_vertex</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>aeaecbd3976b542e84ce6c907cd163a4e</Anchor>
+              <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
              </Node>
              <Node>
               <Name>max_time</Name>
@@ -962,7 +967,7 @@
              <Node>
               <Name>N2_SL</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a06b46482e02b76eadf5179628f7dd696</Anchor>
+              <Anchor>a7f7d480f48b087ba9852aa0154441e31</Anchor>
              </Node>
              <Node>
               <Name>N3</Name>
@@ -993,6 +998,16 @@
               <Name>number_of_simplices</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a2bf54a8a04a33d2bc804acec2b5851b2</Anchor>
+             </Node>
+             <Node>
+              <Name>operator=</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>a8e8c75d1dbfc7be5ee756d0410d1d561</Anchor>
+             </Node>
+             <Node>
+              <Name>operator=</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>af96cba830f95efd22bc135a6f99559b3</Anchor>
              </Node>
              <Node>
               <Name>print_volume_per_timeslice</Name>
@@ -1154,6 +1169,16 @@
              <Node>
               <Name>MoveCommand</Name>
               <Path>class_move_command.html</Path>
+              <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
+             </Node>
+             <Node>
+              <Name>MoveCommand</Name>
+              <Path>class_move_command.html</Path>
+              <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
+             </Node>
+             <Node>
+              <Name>MoveCommand</Name>
+              <Path>class_move_command.html</Path>
               <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
              </Node>
              <Node>
@@ -1174,7 +1199,17 @@
              <Node>
               <Name>get_results</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>a901fc4de01e75d9c1958e0d39755d430</Anchor>
+              <Anchor>a69a93359e72b61cb0faa4015c8cf9b4b</Anchor>
+             </Node>
+             <Node>
+              <Name>operator=</Name>
+              <Path>class_move_command.html</Path>
+              <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
+             </Node>
+             <Node>
+              <Name>operator=</Name>
+              <Path>class_move_command.html</Path>
+              <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
              </Node>
              <Node>
               <Name>m_manifold</Name>
@@ -1920,12 +1955,7 @@
                  <Node>
                   <Name>flip</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>afd9ebfd5faf2071369ed39ba3f7b3157</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>flip</Name>
-                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a7e3a8d21b39d76e38c883d9ad26df031</Anchor>
+                  <Anchor>abfc040ccfd1ecab17e4029868d127dd5</Anchor>
                  </Node>
                  <Node>
                   <Name>get_cells</Name>
@@ -2435,12 +2465,22 @@
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>a545d00612ca90e0f0f906b6ff284efd1</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>Manifold</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>ad5df224bb825f42ed0e7dcfdfe928c77</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>Manifold</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
                  </Node>
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
+                  <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
                  </Node>
                  <Node>
                   <Name>Manifold</Name>
@@ -2455,7 +2495,7 @@
                  <Node>
                   <Name>are_simplex_types_valid</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a679988c722e6e24e49e64130dad9cc21</Anchor>
+                  <Anchor>a1901cb36f23945442efe10a56f45db6b</Anchor>
                  </Node>
                  <Node>
                   <Name>are_vertex_timevalues_valid</Name>
@@ -2490,17 +2530,17 @@
                  <Node>
                   <Name>get_geometry</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a37a1263e3a1d83bdcc7ee8f12e42872f</Anchor>
+                  <Anchor>a81eb6b705e797e39559a83f177c13a8c</Anchor>
                  </Node>
                  <Node>
                   <Name>get_spacelike_edges</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a1e8f83dc5386b3bd6b89a20a5b55a3da</Anchor>
+                  <Anchor>a5dae9385275f8387221cb271fe4130f1</Anchor>
                  </Node>
                  <Node>
                   <Name>get_timelike_edges</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a6b08dfec9150df8a9b6d5acc610b8d2e</Anchor>
+                  <Anchor>a94313799a093ca1743991b68baa53558</Anchor>
                  </Node>
                  <Node>
                   <Name>get_triangulation</Name>
@@ -2510,12 +2550,12 @@
                  <Node>
                   <Name>get_vertices</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a642fc2449a573c115793e604eef7fc76</Anchor>
+                  <Anchor>a84c557b41d9435b294871e680cb39935</Anchor>
                  </Node>
                  <Node>
                   <Name>get_vertices_from_cells</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>abdb8a938ef7ddd77662eb9aade333443</Anchor>
+                  <Anchor>a356813571d7b15f8754d6087bc55b3d6</Anchor>
                  </Node>
                  <Node>
                   <Name>incident_cells</Name>
@@ -2550,7 +2590,7 @@
                  <Node>
                   <Name>is_vertex</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>aeaecbd3976b542e84ce6c907cd163a4e</Anchor>
+                  <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
                  </Node>
                  <Node>
                   <Name>max_time</Name>
@@ -2590,7 +2630,7 @@
                  <Node>
                   <Name>N2_SL</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a06b46482e02b76eadf5179628f7dd696</Anchor>
+                  <Anchor>a7f7d480f48b087ba9852aa0154441e31</Anchor>
                  </Node>
                  <Node>
                   <Name>N3</Name>
@@ -2621,6 +2661,16 @@
                   <Name>number_of_simplices</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>a2bf54a8a04a33d2bc804acec2b5851b2</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>operator=</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>a8e8c75d1dbfc7be5ee756d0410d1d561</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>operator=</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>af96cba830f95efd22bc135a6f99559b3</Anchor>
                  </Node>
                  <Node>
                   <Name>print_volume_per_timeslice</Name>
@@ -2841,6 +2891,16 @@
                  <Node>
                   <Name>MoveCommand</Name>
                   <Path>class_move_command.html</Path>
+                  <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>MoveCommand</Name>
+                  <Path>class_move_command.html</Path>
+                  <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>MoveCommand</Name>
+                  <Path>class_move_command.html</Path>
                   <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
                  </Node>
                  <Node>
@@ -2861,7 +2921,17 @@
                  <Node>
                   <Name>get_results</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>a901fc4de01e75d9c1958e0d39755d430</Anchor>
+                  <Anchor>a69a93359e72b61cb0faa4015c8cf9b4b</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>operator=</Name>
+                  <Path>class_move_command.html</Path>
+                  <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>operator=</Name>
+                  <Path>class_move_command.html</Path>
+                  <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
                  </Node>
                  <Node>
                   <Name>m_manifold</Name>

@@ -78,104 +78,99 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="_move__command_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160; </div>
-<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="comment">//../include/Move_command.hpp:56:21: error: Returning object that points to</span></div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="comment">// local variable &#39;m_manifold&#39; that will be invalid when returning.</span></div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">//[returnDanglingLifetime] return std::cref(m_manifold);</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="comment">//^</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="comment">//../include/Move_command.hpp:56:22: note: Passed to &#39;cref&#39;.</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="comment">// return std::cref(m_manifold);</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="comment">//^</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="comment">//../include/Move_command.hpp:83:28: note: Variable created here.</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">// print_manifold_details(m_manifold);</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">//^</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="comment">//../include/Move_command.hpp:56:21: note: Returning object that points to local</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// variable &#39;m_manifold&#39; that will be invalid when returning. return</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="comment">// std::cref(m_manifold);</span></div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">//^</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="comment">//../include/Move_command.hpp:60:46: error: Reference to local variable</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="comment">// returned. [returnReference]</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">//[[nodiscard]] auto&amp; get_results() { return m_manifold; }</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#define CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_apply__move_8hpp.html">Apply_move.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType,</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;          <span class="keyword">typename</span> FunctionType = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt;</div>
-<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_move_command.html">   36</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_command.html">MoveCommand</a></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;{</div>
-<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">   39</a></span>&#160;  ManifoldType <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>;</div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160; </div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
+<div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#define CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_apply__move_8hpp.html">Apply_move.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType,</div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;          <span class="keyword">typename</span> FunctionType = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt;</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="class_move_command.html">   17</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_command.html">MoveCommand</a></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;{</div>
+<div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">   20</a></span>&#160;  ManifoldType <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>;</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160; </div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">   23</a></span>&#160;  std::deque&lt;FunctionType&gt; <a class="code" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">m_moves</a>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; <span class="keyword">public</span>:</div>
+<div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="class_move_command.html#a34d1c581d7fa168bb73103c52e31e2a0">   27</a></span>&#160;  <a class="code" href="class_move_command.html#a34d1c581d7fa168bb73103c52e31e2a0">~MoveCommand</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
+<div class="line"><a name="l00030"></a><span class="lineno"><a class="line" href="class_move_command.html#a814a6241da0beeeb9012c5c86e9566db">   30</a></span>&#160;  <a class="code" href="class_move_command.html#a814a6241da0beeeb9012c5c86e9566db">MoveCommand</a>() = <span class="keyword">delete</span>;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160; </div>
+<div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="class_move_command.html#a4a521d481c3873df56eed9f191eec7e0">   33</a></span>&#160;  <a class="code" href="class_move_command.html#a4a521d481c3873df56eed9f191eec7e0">MoveCommand</a>(<a class="code" href="class_move_command.html">MoveCommand</a> <span class="keyword">const</span>&amp; other) = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_move_command.html#a054567c1eb296cf0ca4b431333c31213">   36</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_command.html#a054567c1eb296cf0ca4b431333c31213">operator=</a>(<a class="code" href="class_move_command.html">MoveCommand</a> <span class="keyword">const</span>&amp; other) -&gt; <a class="code" href="class_move_command.html">MoveCommand</a>&amp; = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno"><a class="line" href="class_move_command.html#a0f38037aeb3ef6b24380c4a6fb76d0c2">   39</a></span>&#160;  <a class="code" href="class_move_command.html#a0f38037aeb3ef6b24380c4a6fb76d0c2">MoveCommand</a>(<a class="code" href="class_move_command.html">MoveCommand</a>&amp;&amp; other) noexcept = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">   42</a></span>&#160;  std::deque&lt;FunctionType&gt; <a class="code" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">m_moves</a>;</div>
+<div class="line"><a name="l00042"></a><span class="lineno"><a class="line" href="class_move_command.html#abb8ac02d9a6afa615f3efa6025894546">   42</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_command.html#abb8ac02d9a6afa615f3efa6025894546">operator=</a>(<a class="code" href="class_move_command.html">MoveCommand</a>&amp;&amp; other) noexcept -&gt; <a class="code" href="class_move_command.html">MoveCommand</a>&amp; = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; <span class="keyword">public</span>:</div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_move_command.html#a34d1c581d7fa168bb73103c52e31e2a0">   46</a></span>&#160;  <a class="code" href="class_move_command.html#a34d1c581d7fa168bb73103c52e31e2a0">~MoveCommand</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <a class="code" href="class_move_command.html">MoveCommand</a>() = <span class="keyword">delete</span>;</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="class_move_command.html#a2a4c71d037305213dc7b729ee9396e24">   52</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="class_move_command.html#a2a4c71d037305213dc7b729ee9396e24">MoveCommand</a>(ManifoldType <span class="keyword">const</span>&amp; t_manifold) : <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>{t_manifold}</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {}</div>
+<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="class_move_command.html#a2a4c71d037305213dc7b729ee9396e24">   46</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="class_move_command.html#a2a4c71d037305213dc7b729ee9396e24">MoveCommand</a>(ManifoldType <span class="keyword">const</span>&amp; t_manifold) : <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>{t_manifold}</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {}</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">   50</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">get_manifold</a>() const -&gt; ManifoldType const&amp;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    <span class="keywordflow">return</span> std::cref(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  }</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">   56</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">get_manifold</a>() const -&gt; ManifoldType const&amp;</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> std::cref(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
-<div class="line"><a name="l00062"></a><span class="lineno"><a class="line" href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">   62</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span>&amp; <a class="code" href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">get_results</a>() { <span class="keywordflow">return</span> <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>; }</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno"><a class="line" href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">   66</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">enqueue</a>(FunctionType t_move) { <a class="code" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">m_moves</a>.push_front(std::move(t_move)); }</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">   69</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">execute</a>()</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keyword">try</span></div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="comment">// debugging</span></div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    fmt::print(<span class="stringliteral">&quot;Before manifold move:\n&quot;</span>);</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a>(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">auto</span> move = <a class="code" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">m_moves</a>.back();</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="comment">//    auto move = m_moves.pop_back();</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    fmt::print(<span class="stringliteral">&quot;During move:\n&quot;</span>);</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#a69507c0d9a9fdff75a4c396469fde506">apply_move</a>(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>, move);</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    result.update();</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <a class="code" href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a>(result);</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    fmt::print(<span class="stringliteral">&quot;After manifold move:\n&quot;</span>);</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    swap(result, <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a>(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">//    m_manifold-&gt;update();</span></div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  }</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keywordflow">catch</span> (std::exception <span class="keyword">const</span>&amp; e)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    fmt::print(stderr, <span class="stringliteral">&quot;execute () failed: {}\n&quot;</span>, e.what());</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keywordflow">throw</span>;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  }  <span class="comment">// execute</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  <span class="comment">// Functionality for later, perhaps using a Memento</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="comment">//    virtual void undo();</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <span class="comment">//    virtual void redo();</span></div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;};</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160; </div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="class_move_command.html#a69a93359e72b61cb0faa4015c8cf9b4b">   56</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_command.html#a69a93359e72b61cb0faa4015c8cf9b4b">get_results</a>() -&gt; ManifoldType&amp; { <span class="keywordflow">return</span> <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>; }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00060"></a><span class="lineno"><a class="line" href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">   60</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">enqueue</a>(FunctionType t_move) { <a class="code" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">m_moves</a>.push_front(std::move(t_move)); }</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; </div>
+<div class="line"><a name="l00063"></a><span class="lineno"><a class="line" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">   63</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">execute</a>()</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keyword">try</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  {</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// debugging</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    fmt::print(<span class="stringliteral">&quot;Before manifold move:\n&quot;</span>);</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <a class="code" href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a>(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    <span class="keyword">auto</span> move = <a class="code" href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">m_moves</a>.back();</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">//    auto move = m_moves.pop_back();</span></div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    fmt::print(<span class="stringliteral">&quot;During move:\n&quot;</span>);</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#a69507c0d9a9fdff75a4c396469fde506">apply_move</a>(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>, move);</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    result.update();</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <a class="code" href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a>(result);</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    fmt::print(<span class="stringliteral">&quot;After manifold move:\n&quot;</span>);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    swap(result, <a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <a class="code" href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a>(<a class="code" href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">m_manifold</a>);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">//    m_manifold-&gt;update();</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;  }</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  <span class="keywordflow">catch</span> (std::exception <span class="keyword">const</span>&amp; e)</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  {</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    fmt::print(stderr, <span class="stringliteral">&quot;execute () failed: {}\n&quot;</span>, e.what());</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <span class="keywordflow">throw</span>;</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  }  <span class="comment">// execute</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="comment">// Functionality for later, perhaps using a Memento</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="comment">//    virtual void undo();</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="comment">//    virtual void redo();</span></div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;};</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160; </div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_utilities_8hpp_html_a3d69ebb657771a343f486f6b26fe06e6"><div class="ttname"><a href="_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6">print_manifold_details</a></div><div class="ttdeci">void print_manifold_details(ManifoldType const &amp;t_manifold)</div><div class="ttdoc">Print simplices and sub-simplices.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00265">Utilities.hpp:265</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a34d1c581d7fa168bb73103c52e31e2a0"><div class="ttname"><a href="class_move_command.html#a34d1c581d7fa168bb73103c52e31e2a0">MoveCommand::~MoveCommand</a></div><div class="ttdeci">~MoveCommand()=default</div><div class="ttdoc">Default dtor.</div></div>
-<div class="ttc" id="aclass_move_command_html_a160870891e1ebd6bb25bb38c7080cc12"><div class="ttname"><a href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute the move on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00069">Move_command.hpp:69</a></div></div>
-<div class="ttc" id="aclass_move_command_html_aa56440358589956f2d3fc9bf5477ca26"><div class="ttname"><a href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00066">Move_command.hpp:66</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a160870891e1ebd6bb25bb38c7080cc12"><div class="ttname"><a href="class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute the move on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00063">Move_command.hpp:63</a></div></div>
+<div class="ttc" id="aclass_move_command_html_aa56440358589956f2d3fc9bf5477ca26"><div class="ttname"><a href="class_move_command.html#aa56440358589956f2d3fc9bf5477ca26">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00060">Move_command.hpp:60</a></div></div>
 <div class="ttc" id="a_apply__move_8hpp_html"><div class="ttname"><a href="_apply__move_8hpp.html">Apply_move.hpp</a></div><div class="ttdoc">Apply Pachner moves to foliated Delaunay triangulations.</div></div>
-<div class="ttc" id="aclass_move_command_html_a1f11efc51d2ed7812a2586798c051207"><div class="ttname"><a href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">MoveCommand::m_manifold</a></div><div class="ttdeci">ManifoldType m_manifold</div><div class="ttdoc">The Manifold on which to make the move.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00039">Move_command.hpp:39</a></div></div>
-<div class="ttc" id="aclass_move_command_html_a2a4c71d037305213dc7b729ee9396e24"><div class="ttname"><a href="class_move_command.html#a2a4c71d037305213dc7b729ee9396e24">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand(ManifoldType const &amp;t_manifold)</div><div class="ttdoc">MoveCommand ctor.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00052">Move_command.hpp:52</a></div></div>
-<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00036">Move_command.hpp:37</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a1f11efc51d2ed7812a2586798c051207"><div class="ttname"><a href="class_move_command.html#a1f11efc51d2ed7812a2586798c051207">MoveCommand::m_manifold</a></div><div class="ttdeci">ManifoldType m_manifold</div><div class="ttdoc">The Manifold on which to make the move.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:20</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a0f38037aeb3ef6b24380c4a6fb76d0c2"><div class="ttname"><a href="class_move_command.html#a0f38037aeb3ef6b24380c4a6fb76d0c2">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand(MoveCommand &amp;&amp;other) noexcept=default</div><div class="ttdoc">Default move ctor.</div></div>
+<div class="ttc" id="aclass_move_command_html_abb8ac02d9a6afa615f3efa6025894546"><div class="ttname"><a href="class_move_command.html#abb8ac02d9a6afa615f3efa6025894546">MoveCommand::operator=</a></div><div class="ttdeci">auto operator=(MoveCommand &amp;&amp;other) noexcept -&gt; MoveCommand &amp;=default</div><div class="ttdoc">Default move assignment.</div></div>
+<div class="ttc" id="aclass_move_command_html_a2a4c71d037305213dc7b729ee9396e24"><div class="ttname"><a href="class_move_command.html#a2a4c71d037305213dc7b729ee9396e24">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand(ManifoldType const &amp;t_manifold)</div><div class="ttdoc">MoveCommand ctor.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00046">Move_command.hpp:46</a></div></div>
+<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00017">Move_command.hpp:18</a></div></div>
 <div class="ttc" id="a_apply__move_8hpp_html_a69507c0d9a9fdff75a4c396469fde506"><div class="ttname"><a href="_apply__move_8hpp.html#a69507c0d9a9fdff75a4c396469fde506">apply_move</a></div><div class="ttdeci">constexpr decltype(auto) apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move)</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00027">Apply_move.hpp:27</a></div></div>
-<div class="ttc" id="aclass_move_command_html_a901fc4de01e75d9c1958e0d39755d430"><div class="ttname"><a href="class_move_command.html#a901fc4de01e75d9c1958e0d39755d430">MoveCommand::get_results</a></div><div class="ttdeci">auto &amp; get_results()</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00062">Move_command.hpp:62</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a814a6241da0beeeb9012c5c86e9566db"><div class="ttname"><a href="class_move_command.html#a814a6241da0beeeb9012c5c86e9566db">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand()=delete</div><div class="ttdoc">No default ctor.</div></div>
+<div class="ttc" id="aclass_move_command_html_a054567c1eb296cf0ca4b431333c31213"><div class="ttname"><a href="class_move_command.html#a054567c1eb296cf0ca4b431333c31213">MoveCommand::operator=</a></div><div class="ttdeci">auto operator=(MoveCommand const &amp;other) -&gt; MoveCommand &amp;=default</div><div class="ttdoc">Default copy assignment.</div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
-<div class="ttc" id="aclass_move_command_html_a0f88febba7ca499ce6fec7473316881d"><div class="ttname"><a href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">MoveCommand::get_manifold</a></div><div class="ttdeci">auto get_manifold() const -&gt; ManifoldType const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00056">Move_command.hpp:56</a></div></div>
-<div class="ttc" id="aclass_move_command_html_ab7c6b3b5da3526cc061ef3fac85a2c0d"><div class="ttname"><a href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">MoveCommand::m_moves</a></div><div class="ttdeci">std::deque&lt; FunctionType &gt; m_moves</div><div class="ttdoc">The queue of moves to make.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00042">Move_command.hpp:42</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a0f88febba7ca499ce6fec7473316881d"><div class="ttname"><a href="class_move_command.html#a0f88febba7ca499ce6fec7473316881d">MoveCommand::get_manifold</a></div><div class="ttdeci">auto get_manifold() const -&gt; ManifoldType const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00050">Move_command.hpp:50</a></div></div>
+<div class="ttc" id="aclass_move_command_html_ab7c6b3b5da3526cc061ef3fac85a2c0d"><div class="ttname"><a href="class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d">MoveCommand::m_moves</a></div><div class="ttdeci">std::deque&lt; FunctionType &gt; m_moves</div><div class="ttdoc">The queue of moves to make.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00023">Move_command.hpp:23</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a69a93359e72b61cb0faa4015c8cf9b4b"><div class="ttname"><a href="class_move_command.html#a69a93359e72b61cb0faa4015c8cf9b4b">MoveCommand::get_results</a></div><div class="ttdeci">auto get_results() -&gt; ManifoldType &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00056">Move_command.hpp:56</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a4a521d481c3873df56eed9f191eec7e0"><div class="ttname"><a href="class_move_command.html#a4a521d481c3873df56eed9f191eec7e0">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand(MoveCommand const &amp;other)=default</div><div class="ttdoc">Default copy ctor.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 23 2020 23:50:46 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 25 2020 21:29:11 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

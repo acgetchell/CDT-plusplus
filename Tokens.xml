@@ -1089,14 +1089,24 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>flip</Name>
+      <Name>finite_cells_begin</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>afd9ebfd5faf2071369ed39ba3f7b3157</Anchor>
-    <Abstract>Performs a flip on a face, corresponding to a (2,3) move.</Abstract>
+    <Anchor>aaf1c6a5346f525d153478eaefadef132</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>finite_cells_end</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a2c17da60ca37eda53b45d653e3bca669</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1107,8 +1117,8 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a7e3a8d21b39d76e38c883d9ad26df031</Anchor>
-    <Abstract>Performs a flip on an edge, corresponding to a (3,2) move.</Abstract>
+    <Anchor>abfc040ccfd1ecab17e4029868d127dd5</Anchor>
+    <Abstract>Call one of the TSD3.flip functions.</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1220,7 +1230,18 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
-    <Abstract>Perfect forwarding to Delaunay3.tds().incident_cells()</Abstract>
+    <Abstract>Call one of the TDS3.incident_cells functions.</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>infinite_vertex</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2200,7 +2221,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
+    <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
     <Abstract>Construct manifold from a Foliated triangulation.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2230,6 +2251,30 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>ad5df224bb825f42ed0e7dcfdfe928c77</Anchor>
+    <Abstract>Default move ctor.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a545d00612ca90e0f0f906b6ff284efd1</Anchor>
+    <Abstract>Default copy ctor.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>~Manifold</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -2238,17 +2283,6 @@
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>ad2602356e850cd9fecafb778a9df4de0</Anchor>
     <Abstract>Default dtor.</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>are_simplex_types_valid</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a679988c722e6e24e49e64130dad9cc21</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2326,7 +2360,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a37a1263e3a1d83bdcc7ee8f12e42872f</Anchor>
+    <Anchor>a81eb6b705e797e39559a83f177c13a8c</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2337,7 +2371,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a1e8f83dc5386b3bd6b89a20a5b55a3da</Anchor>
+    <Anchor>a5dae9385275f8387221cb271fe4130f1</Anchor>
     <Abstract>Call triangulation.get_spacelike_edges()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2349,7 +2383,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a6b08dfec9150df8a9b6d5acc610b8d2e</Anchor>
+    <Anchor>a94313799a093ca1743991b68baa53558</Anchor>
     <Abstract>Call to triangulation_.get_timelike_edges()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2372,19 +2406,8 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a642fc2449a573c115793e604eef7fc76</Anchor>
+    <Anchor>a84c557b41d9435b294871e680cb39935</Anchor>
     <Abstract>Call FoliatedTriangulation3.get_vertices()</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>get_vertices_from_cells</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>abdb8a938ef7ddd77662eb9aade333443</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2466,7 +2489,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>aeaecbd3976b542e84ce6c907cd163a4e</Anchor>
+    <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
     <Abstract>Perfect forwarding to FoliatedTriangulation3.is_vertex()</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2555,7 +2578,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a06b46482e02b76eadf5179628f7dd696</Anchor>
+    <Anchor>a7f7d480f48b087ba9852aa0154441e31</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2626,6 +2649,30 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a8e8c75d1dbfc7be5ee756d0410d1d561</Anchor>
+    <Abstract>Default move assignment.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>af96cba830f95efd22bc135a6f99559b3</Anchor>
+    <Abstract>Default copy assignment.</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>print_volume_per_timeslice</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -2668,6 +2715,28 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>af49ee8ceb572404cc8a296ae0fd9ab9e</Anchor>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>are_simplex_types_valid</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a1901cb36f23945442efe10a56f45db6b</Anchor>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>get_vertices_from_cells</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a356813571d7b15f8754d6087bc55b3d6</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3475,8 +3544,44 @@
       <Scope>MoveCommand</Scope>
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
+    <Anchor>a814a6241da0beeeb9012c5c86e9566db</Anchor>
+    <Abstract>No default ctor.</Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
     <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
     <Abstract>MoveCommand ctor.</Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
+    <Abstract>Default move ctor.</Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
+    <Abstract>Default copy ctor.</Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3534,7 +3639,31 @@
       <Scope>MoveCommand</Scope>
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
-    <Anchor>a901fc4de01e75d9c1958e0d39755d430</Anchor>
+    <Anchor>a69a93359e72b61cb0faa4015c8cf9b4b</Anchor>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
+    <Abstract>Default move assignment.</Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
+    <Abstract>Default copy assignment.</Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
