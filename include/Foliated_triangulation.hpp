@@ -207,17 +207,21 @@ class FoliatedTriangulation<3>
   [[nodiscard]] auto get_delaunay() const -> Delaunay3 const&
   {
     return std::cref(m_triangulation);
-  }
+  }  // get_delaunay
 
+  /// @return An InputIterator to the beginning of the finite cells stored in
+  /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
   [[maybe_unused]] auto finite_cells_begin()
   {
     return m_triangulation.finite_cells_begin();
-  }
+  }  // finite_cells_begin
 
+  /// @return An InputIterator to the end of the finite cells stored in
+  /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
   [[maybe_unused]] auto finite_cells_end()
   {
     return m_triangulation.finite_cells_end();
-  }
+  }  // finite_cells_end
 
   /// @brief Verifies the triangulation is properly foliated
   ///
@@ -231,32 +235,28 @@ class FoliatedTriangulation<3>
   }  // is_foliated
 
   /// @return Number of 3D simplices in triangulation data structure
-  //  using Delaunay3::number_of_finite_cells;
   [[nodiscard]] auto number_of_finite_cells() const
   {
     return m_triangulation.number_of_finite_cells();
-  }
+  }  // number_of_finite_cells
 
   /// @return Number of 2D faces in triangulation data structure
-  //  using Delaunay3::number_of_finite_facets;
   [[nodiscard]] auto number_of_finite_facets() const
   {
     return m_triangulation.number_of_finite_facets();
-  }
+  }  // number_of_finite_facets
 
   /// @return Number of 1D edges in triangulation data structure
-  //  using Delaunay3::number_of_finite_edges;
   [[nodiscard]] auto number_of_finite_edges() const
   {
     return m_triangulation.number_of_finite_edges();
-  }
+  }  // number_of_finite_edges
 
   /// @return Number of vertices in triangulation data structure
-  //  using Delaunay3::number_of_vertices;
   [[nodiscard]] auto number_of_vertices() const
   {
     return m_triangulation.number_of_vertices();
-  }
+  }  // number_of_vertices
 
   /// @return If a cell or vertex contains or is the infinite vertex
   /// Forward parameters (see F.19 of C++ Core Guidelines)
@@ -264,30 +264,33 @@ class FoliatedTriangulation<3>
   [[nodiscard]] auto is_infinite(VertexHandle&& t_vertex) const
   {
     return m_triangulation.is_infinite(std::forward<VertexHandle>(t_vertex));
-  }
+  }  // is_infinite
 
-  /// @brief Performs a flip on a face, corresponding to a (2,3) move
-  auto flip(Cell_handle const& t_cell, int i)
+  /// @brief Call one of the TSD3.flip functions
+  ///
+  /// See
+  /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a883fed00b53cae9e85feb20230f54dd9
+  ///
+  /// @tparam Ts Variadic template of types of the arguments
+  /// @param args Parameter pack of arguments to TDS3.flip
+  /// @return True if the flip occurred
+  template <typename... Ts>
+  [[nodiscard]] auto flip(Ts&&... args)
   {
-    return m_triangulation.flip(t_cell, i);
-  }
+    return m_triangulation.flip(std::forward<Ts>(args)...);
+  }  // flip
 
-  /// @brief Performs a flip on an edge, corresponding to a (3,2) move
-  auto flip(Cell_handle const& t_cell, int i, int j)
-  {
-    return m_triangulation.flip(t_cell, i, j);
-  }
-
+  /// @return Returns the infinite vertex in the triangulation
   [[nodiscard]] auto infinite_vertex() const
   {
     return m_triangulation.infinite_vertex();
-  }
+  }  // infinite_vertex
 
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const -> bool
   {
     return get_delaunay().is_valid();
-  }
+  }  // is_delaunay
 
   /// @return True if the triangulation data structure is valid
   [[nodiscard]] auto is_tds_valid() const -> bool
@@ -377,7 +380,7 @@ class FoliatedTriangulation<3>
     return m_triangulation.degree(std::forward<VertexHandle>(t_vertex));
   }  // degree
 
-  /// @brief Perfect forwarding to Delaunay3.tds().incident_cells()
+  /// @brief Call one of the TDS3.incident_cells functions
   ///
   /// See
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a93f8ab30228b2a515a5c9cdacd9d4d36
@@ -622,7 +625,7 @@ class FoliatedTriangulation<3>
     for (auto& v : invalid_vertices)
     { fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info()); }
 #endif
-      return invalid_vertices;
+    return invalid_vertices;
 
   }  // check_timeslices
 

@@ -5,25 +5,6 @@
 /// @file Move_command.hpp
 /// @brief Do ergodic moves using the Command pattern
 /// @author Adam Getchell
-/// @bug CppCheck reports:
-
-//../include/Move_command.hpp:56:21: error: Returning object that points to
-// local variable 'm_manifold' that will be invalid when returning.
-//[returnDanglingLifetime] return std::cref(m_manifold);
-//^
-//../include/Move_command.hpp:56:22: note: Passed to 'cref'.
-// return std::cref(m_manifold);
-//^
-//../include/Move_command.hpp:83:28: note: Variable created here.
-// print_manifold_details(m_manifold);
-//^
-//../include/Move_command.hpp:56:21: note: Returning object that points to local
-// variable 'm_manifold' that will be invalid when returning. return
-// std::cref(m_manifold);
-//^
-//../include/Move_command.hpp:60:46: error: Reference to local variable
-// returned. [returnReference]
-//[[nodiscard]] auto& get_results() { return m_manifold; }
 
 #ifndef CDT_PLUSPLUS_MOVECOMMAND_HPP
 #define CDT_PLUSPLUS_MOVECOMMAND_HPP
@@ -45,7 +26,20 @@ class MoveCommand
   /// @brief Default dtor
   ~MoveCommand() = default;
 
+  /// @brief No default ctor
   MoveCommand() = delete;
+
+  /// @brief Default copy ctor
+  MoveCommand(MoveCommand const& other) = default;
+
+  /// @brief Default copy assignment
+  auto operator=(MoveCommand const& other) -> MoveCommand& = default;
+
+  /// @brief Default move ctor
+  MoveCommand(MoveCommand&& other) noexcept = default;
+
+  /// @brief Default move assignment
+  auto operator=(MoveCommand&& other) noexcept -> MoveCommand& = default;
 
   /// @brief MoveCommand ctor
   /// @param t_manifold The manifold to perform moves upon
@@ -59,7 +53,7 @@ class MoveCommand
   }
 
   /// @return The results of the moves invoked by MoveCommand
-  [[nodiscard]] auto& get_results() { return m_manifold; }
+  [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
   /// @brief Push a Pachner move onto the move queue
   /// @param t_move The move to do on the manifold

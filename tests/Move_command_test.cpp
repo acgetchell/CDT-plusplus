@@ -21,36 +21,32 @@ SCENARIO("Move_command special members", "[move command]")
     {
       THEN("It is no-throw destructible.")
       {
-        CHECK(is_nothrow_destructible<MoveCommand<Manifold3>>::value);
+        CHECK(is_nothrow_destructible_v<MoveCommand<Manifold3>>);
       }
       THEN("It is not default constructible.")
       {
-        CHECK_FALSE(is_default_constructible<MoveCommand<Manifold3>>::value);
+        CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold3>>);
       }
       THEN("It is copy constructible.")
       {
-        CHECK(is_copy_constructible<MoveCommand<Manifold3>>::value);
+        CHECK(is_copy_constructible_v<MoveCommand<Manifold3>>);
       }
       THEN("It is copy assignable.")
       {
-        CHECK(is_copy_assignable<MoveCommand<Manifold3>>::value);
+        CHECK(is_copy_assignable_v<MoveCommand<Manifold3>>);
       }
-      THEN("It is move constructible.")
+      THEN("It is no-throw move constructible.")
       {
-        CHECK(is_move_constructible<MoveCommand<Manifold3>>::value);
-        //        cout << "Small function object optimization supported: " <<
-        //        boolalpha
-        //             <<
-        //             is_nothrow_move_constructible<MoveCommand<Manifold3>>::value
-        //             << "\n";
+        CHECK(is_nothrow_move_constructible_v<MoveCommand<Manifold3>>);
+        fmt::print("Small function optimization supported.");
       }
-      THEN("It is move assignable.")
+      THEN("It is no-throw move assignable.")
       {
-        CHECK(is_move_assignable<MoveCommand<Manifold3>>::value);
+        CHECK(is_nothrow_move_assignable_v<MoveCommand<Manifold3>>);
       }
       THEN("It is constructible from a Manifold.")
       {
-        CHECK(is_constructible<MoveCommand<Manifold3>, Manifold3>::value);
+        CHECK(is_constructible_v<MoveCommand<Manifold3>, Manifold3>);
       }
     }
   }

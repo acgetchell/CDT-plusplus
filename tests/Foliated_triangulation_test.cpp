@@ -69,7 +69,7 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         CHECK(is_nothrow_swappable_v<FoliatedTriangulation3>);
       }
-      THEN("It is constructible from a Delaunay Triangulation.")
+      THEN("It is constructible from a Delaunay triangulation.")
       {
         REQUIRE(is_constructible_v<FoliatedTriangulation3, Delaunay3>);
       }
@@ -212,12 +212,20 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The triangulation has sensible values.")
       {
+        using Catch::Matchers::Predicate;
+
+        // We have 1 to 8 vertices
         auto vertices{foliatedTriangulation.number_of_vertices()};
-        CHECK(1 < vertices);
-        CHECK(vertices <= 8);
+        CHECK_THAT(vertices,
+                   Predicate<int>(
+                       [](int const a) -> bool { return (1 <= a && a <= 8); },
+                       "There should be 1 to 8 vertices."));
+        // We have 1 to 12 cells
         auto cells{foliatedTriangulation.number_of_finite_cells()};
-        CHECK(1 <= cells);
-        CHECK(cells <= 12);
+        CHECK_THAT(cells,
+                   Predicate<int>(
+                       [](int const a) -> bool { return (1 <= a && a <= 12); },
+                       "There should be 1 to 12 cells."));
         // Human verification
         print_triangulation(foliatedTriangulation);
       }

@@ -9,7 +9,6 @@
 /// @author Adam Getchell
 
 #include "Manifold.hpp"
-#include <CGAL/Triangulation_3.h>
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -44,8 +43,6 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       THEN("It is copy constructible.")
       {
         REQUIRE(is_copy_constructible_v<Manifold3>);
-        cout << "std::function<Manifold3> supported:" << boolalpha
-             << is_copy_constructible_v<Manifold3> << "\n";
       }
       /// TODO: Make Manifold no-throw copy constructible
       THEN("It is NOT no-throw copy constructible.")
@@ -56,14 +53,9 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       {
         CHECK(is_nothrow_copy_assignable_v<Manifold3>);
       }
-      THEN("It is move constructible.")
+      THEN("It is no-throw move constructible.")
       {
-        REQUIRE(is_move_constructible_v<Manifold3>);
-      }
-      /// TODO: Make Manifold no-throw move constructible
-      THEN("It is NOT no-throw move constructible.")
-      {
-        CHECK_FALSE(is_nothrow_move_constructible_v<Manifold3>);
+        CHECK(is_nothrow_move_constructible_v<Manifold3>);
       }
       THEN("It is no-throw move assignable.")
       {
@@ -72,6 +64,23 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<Manifold3>);
+      }
+      THEN("It is constructible from a Delaunay triangulation.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, Delaunay3>);
+      }
+      THEN("It is constructible from a Foliated triangulation.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, FoliatedTriangulation3>);
+      }
+      THEN("It is constructible from 2 parameters.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, Int_precision, Int_precision>);
+      }
+      THEN("It is constructible from 4 parameters.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, Int_precision, Int_precision,
+                                   long double, long double>);
       }
     }
   }
@@ -194,6 +203,8 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
+        using Catch::Matchers::Predicate;
+
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
@@ -201,12 +212,16 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.check_simplices());
         // We have 1 to 8 vertices
         auto vertices{manifold.N0()};
-        CHECK(1 <= vertices);
-        CHECK(vertices <= 8);
+        CHECK_THAT(vertices,
+                   Predicate<int>(
+                       [](int const a) -> bool { return (1 <= a && a <= 8); },
+                       "There should be 1 to 8 vertices."));
         // We have 1 to 12 cells
         auto cells{manifold.N3()};
-        CHECK(1 <= cells);
-        CHECK(cells <= 12);
+        CHECK_THAT(cells,
+                   Predicate<int>(
+                       [](int const a) -> bool { return (1 <= a && a <= 12); },
+                       "There should be 1 to 12 cells."));
         // We have all the time values
         CHECK(manifold.min_time() == 1);
         CHECK(manifold.max_time() == desired_timeslices);
@@ -457,7 +472,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     /// TODO: Fix is_infinite and is_vertex from cells container
     WHEN("We ask for a container of vertices given a container of cells.")
     {
-      auto&& vertices = manifold.get_vertices_from_cells(
+      auto&& vertices = Manifold3::get_vertices_from_cells(
           manifold.get_triangulation().get_cells());
       THEN("We get back the correct number of vertices.")
       {
@@ -470,9 +485,8 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
         //          cout << boolalpha << "Vertex is infinite: "
         //               << manifold.get_triangulation().is_infinite(vertex) <<
         //               "\n";
-        //          //          if
-        //          (!manifold.get_triangulation().is_infinite(vertex))
-        //          //          { REQUIRE(manifold.is_vertex(vertex)); }
+        //          if (!manifold.get_triangulation().is_infinite(vertex))
+        //          { REQUIRE(manifold.is_vertex(vertex)); }
         //        }
       }
     }
@@ -501,11 +515,12 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
         for (auto& cell : cells)
         {
           using Catch::Matchers::Predicate;
-          CHECK_THAT(cell->info(), Predicate<int>(
-                                       [](int const a) -> bool {
-                                         return (a == 13 || a == 22 || a == 31);
-                                       },
-                                       "Cell->info() should be 13, 22, or 31"));
+          CHECK_THAT(cell->info(),
+                     Predicate<int>(
+                         [](int const a) -> bool {
+                           return (a == 13 || a == 22 || a == 31);
+                         },
+                         "Cell->info() should be 13, 22, or 31."));
 #ifndef NDEBUG
           fmt::print("Cell->info() = {}\n", cell->info());
 #endif
@@ -576,11 +591,12 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
         for (auto& cell : cells)
         {
           using Catch::Matchers::Predicate;
-          CHECK_THAT(cell->info(), Predicate<int>(
-                                       [](int const a) -> bool {
-                                         return (a == 13 || a == 22 || a == 31);
-                                       },
-                                       "Cell->info() should be 13, 22, or 31"));
+          CHECK_THAT(cell->info(),
+                     Predicate<int>(
+                         [](int const a) -> bool {
+                           return (a == 13 || a == 22 || a == 31);
+                         },
+                         "Cell->info() should be 13, 22, or 31."));
 #ifdef DETAILED_DEBUGGING
           fmt::print("Cell->info() = {}\n", cell->info());
 #endif
