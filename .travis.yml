@@ -134,11 +134,11 @@ jobs:
         - cd build || exit
         - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
-      after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o
         - cd tests
         - ./CDT_test
+      after_success: skip
     # MemorySanitizer
     - os: linux
       compiler: clang-10
@@ -148,11 +148,11 @@ jobs:
         - cd build || exit
         - cmake -G Ninja -D ENABLE_SANITIZER_MEMORY:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
         - cmake --build .
-      after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o
         - cd tests
         - ./CDT_test
+      after_success: skip
     # CodeCov
     - os: linux
       compiler: g++-9
