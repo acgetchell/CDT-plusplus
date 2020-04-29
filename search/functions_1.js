@@ -16,6 +16,6 @@ var searchData=
   ['collect_5fedges_352',['collect_edges',['../class_foliated_triangulation_3_013_01_4.html#a5b8c2e87873b2a43e708bb25e4c371f6',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['collect_5ffaces_353',['collect_faces',['../class_foliated_triangulation_3_013_01_4.html#a0430cca77ad57e7f38e10183987a7adb',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['collect_5fvertices_354',['collect_vertices',['../class_foliated_triangulation_3_013_01_4.html#a122f565cb701847a31d4a8c9a164eb1b',1,'FoliatedTriangulation&lt; 3 &gt;']]],
-  ['currentdatetime_355',['currentDateTime',['../_utilities_8hpp.html#a1e0db76e9173a50c7ab9798ebcc60f4f',1,'Utilities.hpp']]],
+  ['currentdatetime_355',['currentDateTime',['../_utilities_8hpp.html#aa14b86f5589855b0255347a5af00a23b',1,'Utilities.hpp']]],
   ['currenttotalsimplices_356',['CurrentTotalSimplices',['../class_move_strategy_3_013_01_4.html#ac7e2f4f8f0af57fcf8305715507f1624',1,'MoveStrategy&lt; 3 &gt;']]]
 ];

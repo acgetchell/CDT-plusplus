@@ -588,7 +588,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a1e0db76e9173a50c7ab9798ebcc60f4f</Anchor>
+    <Anchor>aa14b86f5589855b0255347a5af00a23b</Anchor>
     <Abstract>Return current date and time.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -731,7 +731,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a2b74b2e68a3dd66274ff8505a57b8319</Anchor>
+    <Anchor>a009d76fda8b31ee925f5b4c5eb1d12f1</Anchor>
     <Abstract>Convert topology_type to string output.</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
