@@ -64,8 +64,8 @@ enum class topology_type
 /// @param t_topology The topology
 /// @return An output string of the topology
 /// @todo Make compatible with fmt::print.
-inline std::ostream& operator<<(std::ostream&        t_os,
-                                topology_type const& t_topology)
+inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
+    -> std::ostream&
 {
   switch (t_topology)
   {
@@ -108,7 +108,7 @@ inline std::ostream& operator<<(std::ostream&        t_os,
   {
   };
   // Ensure uname returns a value
-  if (uname(&name)) exit(-1);
+  if (uname(&name) != 0) { exit(-1); }
   return name.nodename;
 #else
   std::string const hostname("windows");
@@ -145,7 +145,7 @@ inline std::string currentDateTime()
 }
 #else
 /// @return Current date and time in standard format
-inline std::string currentDateTime()
+inline auto currentDateTime() -> std::string
 {
   using namespace boost::posix_time;
   ptime now = microsec_clock::local_time();
@@ -331,7 +331,7 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
   std::lock_guard<std::mutex> lock(mutex);
 
   std::ofstream file(filename, std::ios::out);
-  if (!file.is_open()) throw std::runtime_error("Unable to open file.");
+  if (!file.is_open()) { throw std::runtime_error("Unable to open file."); }
 
   file << t_universe.get_triangulation().get_delaunay();
 }  // write_file

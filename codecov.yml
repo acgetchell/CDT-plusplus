@@ -17,9 +17,8 @@ coverage:
 
   notify:
       gitter:
-        default:
-          url: https://webhooks.gitter.im/e/c70e4d2749931f601747
-          threshold: 1%
+        url: https://webhooks.gitter.im/e/c70e4d2749931f601747
+        threshold: 1%
 
 parsers:
   gcov:
@@ -32,7 +31,7 @@ parsers:
 comment:
   layout: "reach, diff, flags, files, footer"
   behavior: default
-  require_changes: no
+  require_changes: false
 
 ignore:
   - "tests/"
