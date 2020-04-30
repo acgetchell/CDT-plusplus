@@ -2233,19 +2233,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ac1801b2ae590a0b94e6f325367483b11</Anchor>
-    <Abstract>Construct manifold using arguments.</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Manifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a17cd8a78a8367737e7d0e9cce2a092dd</Anchor>
+    <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
     <Abstract>Construct manifold using arguments.</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
