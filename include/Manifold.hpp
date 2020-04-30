@@ -67,21 +67,12 @@ class Manifold<3>
   /// @brief Construct manifold using arguments
   /// @param t_desired_simplices Number of desired simplices
   /// @param t_desired_timeslices Number of desired timeslices
-  Manifold(Int_precision t_desired_simplices,
-           Int_precision t_desired_timeslices)
-      : m_triangulation{FoliatedTriangulation3(t_desired_simplices,
-                                               t_desired_timeslices)}
-      , m_geometry{get_triangulation()}
-  {}
-
-  /// @brief Construct manifold using arguments
-  /// @param t_desired_simplices Number of desired simplices
-  /// @param t_desired_timeslices Number of desired timeslices
   /// @param t_initial_radius Radius of first timeslice
   /// @param t_radial_factor Radial separation between timeslices
   Manifold(Int_precision t_desired_simplices,
-           Int_precision t_desired_timeslices, long double t_initial_radius,
-           long double t_radial_factor)
+           Int_precision t_desired_timeslices,
+           long double   t_initial_radius = INITIAL_RADIUS,
+           long double   t_radial_factor  = RADIAL_FACTOR)
       : m_triangulation{FoliatedTriangulation3(
             t_desired_simplices, t_desired_timeslices, t_initial_radius,
             t_radial_factor)}
