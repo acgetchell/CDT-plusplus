@@ -225,6 +225,8 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
   - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-10" CC="clang-10"; fi
+  # Workaround for vcpkg on macOS 10.14
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target; fi
   # Install updated cmake
   - pip install --user cmake
   - cmake --version
