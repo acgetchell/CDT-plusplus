@@ -1,0 +1,11 @@
+<map id="include/SimplicialManifold.hpp" name="include/SimplicialManifold.hpp">
+<area shape="rect" id="node1" title="Data structures for simplicial manifolds." alt="" coords="501,5,723,32"/>
+<area shape="rect" id="node2" href="$_measurements_8hpp.html" title="Measurements of the simulation." alt="" coords="247,87,446,114"/>
+<area shape="rect" id="node5" href="$_simulation_8hpp.html" title="Simulation class." alt="" coords="527,87,697,114"/>
+<area shape="rect" id="node9" href="$_simplicial_manifold_test_8cpp_source.html" title=" " alt="" coords="721,80,900,121"/>
+<area shape="rect" id="node3" href="$_measurements_test_8cpp.html" title="Tests for the various measurement functions." alt="" coords="5,169,213,196"/>
+<area shape="rect" id="node4" href="$_s3_ergodic_moves_test_8cpp_source.html" title=" " alt="" coords="237,169,456,196"/>
+<area shape="rect" id="node6" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="481,169,599,196"/>
+<area shape="rect" id="node7" href="$cdt_8cpp.html" title="The main executable." alt="" coords="623,169,715,196"/>
+<area shape="rect" id="node8" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="740,169,921,196"/>
+</map>

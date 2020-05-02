@@ -1,7 +1,0 @@
-digraph "FoliatedTriangulation&lt; 3 &gt;"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{FoliatedTriangulation\< 3 \>\n|- m_cells\l- m_edges\l- m_faces\l- m_max_timevalue\l- m_min_timevalue\l- m_one_three\l- m_points\l- m_spacelike_edges\l- m_spacelike_facets\l- m_three_one\l- m_timelike_edges\l- m_triangulation\l- m_two_two\l|+ FoliatedTriangulation()\l+ FoliatedTriangulation()\l+ FoliatedTriangulation()\l+ FoliatedTriangulation()\l+ FoliatedTriangulation()\l+ ~FoliatedTriangulation()\l+ check_timeslices()\l+ check_vertices()\l+ degree()\l+ delaunay()\land 32 more...\l+ check_cells()\l+ classify_edge()\l+ filter_cells()\l+ print_cells()\l- classify_cells()\l- collect_cells()\l- collect_edges()\l- collect_faces()\l- collect_vertices()\l- fix_timeslices()\l- make_triangulation()\l- filter_edges()\l- find_max_timevalue()\l- find_min_timevalue()\l- make_foliated_sphere()\l- volume_per_timeslice()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="3D Triangulation"];
-}

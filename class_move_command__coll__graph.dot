@@ -1,7 +1,0 @@
-digraph "MoveCommand&lt; ManifoldType, FunctionType &gt;"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{MoveCommand\< ManifoldType,\l FunctionType \>\n|- m_manifold\l- m_moves\l|+ MoveCommand()\l+ MoveCommand()\l+ MoveCommand()\l+ MoveCommand()\l+ ~MoveCommand()\l+ enqueue()\l+ execute()\l+ get_manifold()\l+ get_results()\l+ operator=()\l+ operator=()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-}

@@ -1,0 +1,10 @@
+<map id="include/Function_ref.hpp" name="include/Function_ref.hpp">
+<area shape="rect" id="node1" title="Efficient, type&#45;erasing, non&#45;owning function reference." alt="" coords="304,5,484,32"/>
+<area shape="rect" id="node2" href="$_move_manager_8hpp.html" title="RAII class to manage exception&#45;safe foliation&#45;preserving Pachner moves." alt="" coords="64,87,257,114"/>
+<area shape="rect" id="node4" href="$_simulation_8hpp.html" title="Simulation class." alt="" coords="309,87,479,114"/>
+<area shape="rect" id="node8" href="$_function__ref__test_8cpp_source.html" title=" " alt="" coords="503,80,642,121"/>
+<area shape="rect" id="node3" href="$_move_manager_test_8cpp.html" title="Tests for the MoveManager RAII class." alt="" coords="5,169,209,196"/>
+<area shape="rect" id="node5" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="233,169,352,196"/>
+<area shape="rect" id="node6" href="$cdt_8cpp.html" title="The main executable." alt="" coords="376,169,468,196"/>
+<area shape="rect" id="node7" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="493,169,674,196"/>
+</map>
