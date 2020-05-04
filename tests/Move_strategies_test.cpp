@@ -11,7 +11,6 @@
 #include "Move_always.hpp"
 //#include "Metropolis.hpp"
 #include <catch2/catch.hpp>
-//#include <type_traits>
 
 using namespace std;
 
@@ -80,51 +79,51 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
     WHEN("A MoveStrategy3 is constructed.")
     {
       auto constexpr passes     = static_cast<Int_precision>(10);
-      auto constexpr checkpoint = static_cast<Int_precision>(1);
+      auto constexpr checkpoint = static_cast<Int_precision>(5);
       MoveAlways3 mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
-        CHECK(mover.m_passes == passes);
-        CHECK(mover.m_checkpoint == checkpoint);
+        CHECK(mover.passes() == passes);
+        CHECK(mover.checkpoint() == checkpoint);
       }
-      //      THEN("Attempted moves and successful moves are zero-initialized.")
-      //      {
-      //        CHECK(mover.TwoThreeMoves() == 0);
-      //        CHECK(mover.SuccessfulTwoThreeMoves() == 0);
-      //        CHECK(mover.ThreeTwoMoves() == 0);
-      //        CHECK(mover.SuccessfulThreeTwoMoves() == 0);
-      //        CHECK(mover.TwoSixMoves() == 0);
-      //        CHECK(mover.SuccessfulTwoSixMoves() == 0);
-      //        CHECK(mover.SixTwoMoves() == 0);
-      //        CHECK(mover.SuccessfulSixTwoMoves() == 0);
-      //        CHECK(mover.FourFourMoves() == 0);
-      //        CHECK(mover.SuccessfulFourFourMoves() == 0);
-      //      }
-      //    }
-      //    WHEN("A MoveAlways3 algorithm is used.")
-      //    {
-      //      auto constexpr passes     = static_cast<size_t>(10);
-      //      auto constexpr checkpoint = static_cast<size_t>(5);
-      //      MoveAlways3 mover(passes, checkpoint);
-      //      THEN("The correct passes and checkpoints are instantiated.")
-      //      {
-      //        CHECK(mover.number_of_passes() == passes);
-      //        CHECK(mover.checkpoints() == checkpoint);
-      //      }
-      //      THEN("Attempted moves and successful moves are zero-initialized.")
-      //      {
-      //        CHECK(mover.TwoThreeMoves() == 0);
-      //        CHECK(mover.SuccessfulTwoThreeMoves() == 0);
-      //        CHECK(mover.ThreeTwoMoves() == 0);
-      //        CHECK(mover.SuccessfulThreeTwoMoves() == 0);
-      //        CHECK(mover.TwoSixMoves() == 0);
-      //        CHECK(mover.SuccessfulTwoSixMoves() == 0);
-      //        CHECK(mover.SixTwoMoves() == 0);
-      //        CHECK(mover.SuccessfulSixTwoMoves() == 0);
-      //        CHECK(mover.FourFourMoves() == 0);
-      //        CHECK(mover.SuccessfulFourFourMoves() == 0);
-      //      }
-      //      //      THEN("A lot of moves are made.") { mover(manifold); }
+      THEN("Attempted moves and successful moves are zero-initialized.")
+      {
+        CHECK(mover.attempted_23_moves() == 0);
+        CHECK(mover.successful_23_moves() == 0);
+        CHECK(mover.attempted_32_moves() == 0);
+        CHECK(mover.successful_32_moves() == 0);
+        CHECK(mover.attempted_26_moves() == 0);
+        CHECK(mover.successful_26_moves() == 0);
+        CHECK(mover.attempted_62_moves() == 0);
+        CHECK(mover.successful_62_moves() == 0);
+        CHECK(mover.attempted_44_moves() == 0);
+        CHECK(mover.successful_44_moves() == 0);
+      }
+    }
+    WHEN("A MoveAlways3 algorithm is used.")
+    {
+      auto constexpr passes     = static_cast<Int_precision>(10);
+      auto constexpr checkpoint = static_cast<Int_precision>(5);
+      MoveAlways3 mover(passes, checkpoint);
+      THEN("The correct passes and checkpoints are instantiated.")
+      {
+        CHECK(mover.passes() == passes);
+        CHECK(mover.checkpoint() == checkpoint);
+      }
+      THEN("Attempted moves and successful moves are zero-initialized.")
+      {
+        CHECK(mover.attempted_23_moves() == 0);
+        CHECK(mover.successful_23_moves() == 0);
+        CHECK(mover.attempted_32_moves() == 0);
+        CHECK(mover.successful_32_moves() == 0);
+        CHECK(mover.attempted_26_moves() == 0);
+        CHECK(mover.successful_26_moves() == 0);
+        CHECK(mover.attempted_62_moves() == 0);
+        CHECK(mover.successful_62_moves() == 0);
+        CHECK(mover.attempted_44_moves() == 0);
+        CHECK(mover.successful_44_moves() == 0);
+      }
+      //      THEN("A lot of moves are made.") { mover(manifold); }
     }
   }
 }

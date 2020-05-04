@@ -4,7 +4,7 @@
 ///
 /// Template class for all move algorithms, e.g. Metropolis, MoveAlways
 ///
-/// @file MoveAlgorithm.hpp
+/// @file Move_strategy.hpp
 /// @brief Base class for move algorithms on Delaunay Triangulations
 /// @author Adam Getchell
 /// @bug Moves don't work because MoveCommand doesn't work
@@ -13,6 +13,12 @@
 #define INCLUDE_MOVE_ALGORITHM_HPP_
 
 #include "Move_command.hpp"
+
+/// There are 5 possible 3D ergodic moves
+using Move_tracker_3 = std::array<Int_precision, 5>;
+
+/// There are 7 possible 4D ergodic moves
+using Move_tracker_4 = std::array<Int_precision, 7>;
 
 /// @brief The algorithms available to make ergodic moves
 enum Strategies

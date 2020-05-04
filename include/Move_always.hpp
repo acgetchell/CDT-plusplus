@@ -2,11 +2,11 @@
 ///
 /// Copyright © 2017-2019 Adam Getchell
 ///
-/// Always picks a random move on the foliated Delaunay triangulations.
+/// Picks a random move on the foliated Delaunay triangulations.
 /// For testing purposes.
 ///
 /// @file Move_always.hpp
-/// @brief Always randomly selects moves to perform on Delaunay Triangulations
+/// @brief Randomly selects moves to always perform on triangulations
 /// @author Adam Getchell
 /// @bug Fix initialization
 
@@ -18,11 +18,13 @@
 template <size_t dimension>
 class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 {
- public:
-  size_t const  dim{dimension};
+  [[maybe_unused]] size_t const dim{dimension};
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
+  Move_tracker_3                m_attempted_moves{0, 0, 0, 0, 0};
+  Move_tracker_3                m_successful_moves{0, 0, 0, 0, 0};
 
+ public:
   /// @brief Default dtor
   ~MoveStrategy() = default;
 
@@ -52,6 +54,59 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
     using std::swap;
     swap(t_first.m_passes, t_second.m_passes);
     swap(t_first.m_checkpoint, t_second.m_checkpoint);
+    swap(t_first.m_attempted_moves, t_second.m_attempted_moves);
+    swap(t_first.m_successful_moves, t_second.m_successful_moves);
+  }
+
+  /// @return The number of passes made on a triangulation
+  [[nodiscard]] auto passes() const { return m_passes; }
+
+  /// @return The number of passes per checkpoint
+  [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
+
+  /// @return The number of attempted (2,3) moves
+  [[nodiscard]] auto attempted_23_moves() const { return m_attempted_moves[0]; }
+
+  /// @return The number of attempted (3,2) moves
+  [[nodiscard]] auto attempted_32_moves() const { return m_attempted_moves[1]; }
+
+  /// @return The number of attempted (2,6) moves
+  [[nodiscard]] auto attempted_26_moves() const { return m_attempted_moves[2]; }
+
+  /// @return The number of attempted (6,2) moves
+  [[nodiscard]] auto attempted_62_moves() const { return m_attempted_moves[3]; }
+
+  /// @return The number of attempted (4,4) moves
+  [[nodiscard]] auto attempted_44_moves() const { return m_attempted_moves[4]; }
+
+  /// @return The number of successful (2,3) moves
+  [[nodiscard]] auto successful_23_moves() const
+  {
+    return m_successful_moves[0];
+  }
+
+  /// @return The number of successful (2,3) moves
+  [[nodiscard]] auto successful_32_moves() const
+  {
+    return m_successful_moves[1];
+  }
+
+  /// @return The number of successful (2,3) moves
+  [[nodiscard]] auto successful_26_moves() const
+  {
+    return m_successful_moves[2];
+  }
+
+  /// @return The number of successful (2,3) moves
+  [[nodiscard]] auto successful_62_moves() const
+  {
+    return m_successful_moves[3];
+  }
+
+  /// @return The number of successful (2,3) moves
+  [[nodiscard]] auto successful_44_moves() const
+  {
+    return m_successful_moves[4];
   }
 };
 
