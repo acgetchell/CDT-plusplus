@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2018 Adam Getchell
+/// Copyright © 2015-2020 Adam Getchell
 ///
 /// Checks that Metropolis algorithm runs properly.
 
@@ -11,9 +11,63 @@
 #include "Move_always.hpp"
 //#include "Metropolis.hpp"
 #include <catch2/catch.hpp>
+//#include <type_traits>
+
+using namespace std;
 
 // bool IsProbabilityRange(CGAL::Gmpzf const& arg) { return arg > 0 && arg <= 1;
 // }
+
+SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
+         "[move strategies]")
+{
+  GIVEN("A Move always move strategy.")
+  {
+    WHEN("Special members are examined.")
+    {
+      THEN("It is no-throw destructible.")
+      {
+        REQUIRE(is_nothrow_destructible_v<MoveAlways3>);
+        REQUIRE(is_nothrow_destructible_v<MoveAlways4>);
+      }
+      THEN("It is no-throw default constructible.")
+      {
+        CHECK(is_nothrow_default_constructible_v<MoveAlways3>);
+        CHECK(is_nothrow_default_constructible_v<MoveAlways4>);
+      }
+      THEN("It is no-throw copy constructible.")
+      {
+        CHECK(is_nothrow_copy_constructible_v<MoveAlways3>);
+        CHECK(is_nothrow_copy_constructible_v<MoveAlways4>);
+      }
+      THEN("It is no-throw copy assignable.")
+      {
+        CHECK(is_nothrow_copy_assignable_v<MoveAlways3>);
+        CHECK(is_nothrow_copy_assignable_v<MoveAlways4>);
+      }
+      THEN("It is no-throw move constructible.")
+      {
+        CHECK(is_nothrow_move_constructible_v<MoveAlways3>);
+        CHECK(is_nothrow_move_constructible_v<MoveAlways4>);
+      }
+      THEN("It is no-throw move assignable.")
+      {
+        CHECK(is_nothrow_move_assignable_v<MoveAlways3>);
+        CHECK(is_nothrow_move_assignable_v<MoveAlways4>);
+      }
+      THEN("It is no-throw swappable.")
+      {
+        REQUIRE(is_nothrow_swappable_v<MoveAlways3>);
+        REQUIRE(is_nothrow_swappable_v<MoveAlways4>);
+      }
+      THEN("It is constructible from 2 parameters.")
+      {
+        REQUIRE(is_constructible_v<MoveAlways3, Int_precision, Int_precision>);
+        REQUIRE(is_constructible_v<MoveAlways4, Int_precision, Int_precision>);
+      }
+    }
+  }
+}
 
 SCENARIO("Using the Move always algorithm", "[move strategies]")
 {
@@ -25,52 +79,52 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
     REQUIRE(manifold.is_correct());
     WHEN("A MoveStrategy3 is constructed.")
     {
-      auto constexpr passes     = static_cast<size_t>(10);
-      auto constexpr checkpoint = static_cast<size_t>(1);
-      MoveStrategy3 mover(passes, checkpoint);
-      THEN("The correct passes and checkpoints are instantiated.")
-      {
-        CHECK(mover.number_of_passes() == passes);
-        CHECK(mover.checkpoints() == checkpoint);
-      }
-      THEN("Attempted moves and successful moves are zero-initialized.")
-      {
-        CHECK(mover.TwoThreeMoves() == 0);
-        CHECK(mover.SuccessfulTwoThreeMoves() == 0);
-        CHECK(mover.ThreeTwoMoves() == 0);
-        CHECK(mover.SuccessfulThreeTwoMoves() == 0);
-        CHECK(mover.TwoSixMoves() == 0);
-        CHECK(mover.SuccessfulTwoSixMoves() == 0);
-        CHECK(mover.SixTwoMoves() == 0);
-        CHECK(mover.SuccessfulSixTwoMoves() == 0);
-        CHECK(mover.FourFourMoves() == 0);
-        CHECK(mover.SuccessfulFourFourMoves() == 0);
-      }
-    }
-    WHEN("A MoveAlways3 algorithm is used.")
-    {
-      auto constexpr passes     = static_cast<size_t>(10);
-      auto constexpr checkpoint = static_cast<size_t>(5);
+      auto constexpr passes     = static_cast<Int_precision>(10);
+      auto constexpr checkpoint = static_cast<Int_precision>(1);
       MoveAlways3 mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
-        CHECK(mover.number_of_passes() == passes);
-        CHECK(mover.checkpoints() == checkpoint);
+        CHECK(mover.m_passes == passes);
+        CHECK(mover.m_checkpoint == checkpoint);
       }
-      THEN("Attempted moves and successful moves are zero-initialized.")
-      {
-        CHECK(mover.TwoThreeMoves() == 0);
-        CHECK(mover.SuccessfulTwoThreeMoves() == 0);
-        CHECK(mover.ThreeTwoMoves() == 0);
-        CHECK(mover.SuccessfulThreeTwoMoves() == 0);
-        CHECK(mover.TwoSixMoves() == 0);
-        CHECK(mover.SuccessfulTwoSixMoves() == 0);
-        CHECK(mover.SixTwoMoves() == 0);
-        CHECK(mover.SuccessfulSixTwoMoves() == 0);
-        CHECK(mover.FourFourMoves() == 0);
-        CHECK(mover.SuccessfulFourFourMoves() == 0);
-      }
-      //      THEN("A lot of moves are made.") { mover(manifold); }
+      //      THEN("Attempted moves and successful moves are zero-initialized.")
+      //      {
+      //        CHECK(mover.TwoThreeMoves() == 0);
+      //        CHECK(mover.SuccessfulTwoThreeMoves() == 0);
+      //        CHECK(mover.ThreeTwoMoves() == 0);
+      //        CHECK(mover.SuccessfulThreeTwoMoves() == 0);
+      //        CHECK(mover.TwoSixMoves() == 0);
+      //        CHECK(mover.SuccessfulTwoSixMoves() == 0);
+      //        CHECK(mover.SixTwoMoves() == 0);
+      //        CHECK(mover.SuccessfulSixTwoMoves() == 0);
+      //        CHECK(mover.FourFourMoves() == 0);
+      //        CHECK(mover.SuccessfulFourFourMoves() == 0);
+      //      }
+      //    }
+      //    WHEN("A MoveAlways3 algorithm is used.")
+      //    {
+      //      auto constexpr passes     = static_cast<size_t>(10);
+      //      auto constexpr checkpoint = static_cast<size_t>(5);
+      //      MoveAlways3 mover(passes, checkpoint);
+      //      THEN("The correct passes and checkpoints are instantiated.")
+      //      {
+      //        CHECK(mover.number_of_passes() == passes);
+      //        CHECK(mover.checkpoints() == checkpoint);
+      //      }
+      //      THEN("Attempted moves and successful moves are zero-initialized.")
+      //      {
+      //        CHECK(mover.TwoThreeMoves() == 0);
+      //        CHECK(mover.SuccessfulTwoThreeMoves() == 0);
+      //        CHECK(mover.ThreeTwoMoves() == 0);
+      //        CHECK(mover.SuccessfulThreeTwoMoves() == 0);
+      //        CHECK(mover.TwoSixMoves() == 0);
+      //        CHECK(mover.SuccessfulTwoSixMoves() == 0);
+      //        CHECK(mover.SixTwoMoves() == 0);
+      //        CHECK(mover.SuccessfulSixTwoMoves() == 0);
+      //        CHECK(mover.FourFourMoves() == 0);
+      //        CHECK(mover.SuccessfulFourFourMoves() == 0);
+      //      }
+      //      //      THEN("A lot of moves are made.") { mover(manifold); }
     }
   }
 }
