@@ -13,12 +13,37 @@
 #define INCLUDE_MOVE_ALGORITHM_HPP_
 
 #include "Move_command.hpp"
+#include <memory>
 
-/// There are 5 possible 3D ergodic moves
-using Move_tracker_3 = std::array<Int_precision, 5>;
+template <size_t dimension>
+class Move_tracker
+{
+};
 
-/// There are 7 possible 4D ergodic moves
-using Move_tracker_4 = std::array<Int_precision, 7>;
+template <>
+class Move_tracker<3>
+{
+  /// There are 5 possible 3D ergodic moves
+  std::array<Int_precision, 5> moves{0, 0, 0, 0, 0};
+
+ public:
+  auto operator[](manifold3_moves::move_type move)
+  {
+    auto index = static_cast<std::size_t>(move);
+    Expects(index >= 0);
+    Expects(index < 5);
+    return moves[index];
+  }
+};
+using Move_tracker_3 = Move_tracker<3>;
+
+template <>
+class Move_tracker<4>
+{
+  /// There are 7 possible 4D ergodic moves
+  std::array<Int_precision, 7> moves;
+};
+using Move_tracker_4 = Move_tracker<4>;
 
 /// @brief The algorithms available to make ergodic moves
 enum Strategies

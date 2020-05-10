@@ -21,8 +21,8 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
   [[maybe_unused]] size_t const dim{dimension};
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
-  Move_tracker_3                m_attempted_moves{0, 0, 0, 0, 0};
-  Move_tracker_3                m_successful_moves{0, 0, 0, 0, 0};
+  Move_tracker<dimension>       m_attempted_moves;
+  Move_tracker<dimension>       m_successful_moves;
 
  public:
   /// @brief Default dtor
@@ -64,49 +64,110 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
   /// @return The number of passes per checkpoint
   [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
 
-  /// @return The number of attempted (2,3) moves
-  [[nodiscard]] auto attempted_23_moves() const { return m_attempted_moves[0]; }
+  auto get_attempted() const { return m_attempted_moves; }
 
-  /// @return The number of attempted (3,2) moves
-  [[nodiscard]] auto attempted_32_moves() const { return m_attempted_moves[1]; }
+  //  /// @return The number of attempted (2,3) moves
+  //  [[nodiscard]] auto attempted_23_moves() const { return
+  //  m_attempted_moves.moves_23(); }
+  //
+  //  /// @return The number of attempted (3,2) moves
+  //  [[nodiscard]] auto attempted_32_moves() const { return
+  //  m_attempted_moves[1]; }
+  //
+  //  /// @return The number of attempted (2,6) moves
+  //  [[nodiscard]] auto attempted_26_moves() const { return
+  //  m_attempted_moves[2]; }
+  //
+  //  /// @return The number of attempted (6,2) moves
+  //  [[nodiscard]] auto attempted_62_moves() const { return
+  //  m_attempted_moves[3]; }
+  //
+  //  /// @return The number of attempted (4,4) moves
+  //  [[nodiscard]] auto attempted_44_moves() const { return
+  //  m_attempted_moves[4]; }
 
-  /// @return The number of attempted (2,6) moves
-  [[nodiscard]] auto attempted_26_moves() const { return m_attempted_moves[2]; }
+  //  /// @return The number of successful (2,3) moves
+  //  [[nodiscard]] auto successful_23_moves() const
+  //  {
+  //    return m_successful_moves[0];
+  //  }
+  //
+  //  /// @return The number of successful (2,3) moves
+  //  [[nodiscard]] auto successful_32_moves() const
+  //  {
+  //    return m_successful_moves[1];
+  //  }
+  //
+  //  /// @return The number of successful (2,3) moves
+  //  [[nodiscard]] auto successful_26_moves() const
+  //  {
+  //    return m_successful_moves[2];
+  //  }
+  //
+  //  /// @return The number of successful (2,3) moves
+  //  [[nodiscard]] auto successful_62_moves() const
+  //  {
+  //    return m_successful_moves[3];
+  //  }
+  //
+  //  /// @return The number of successful (2,3) moves
+  //  [[nodiscard]] auto successful_44_moves() const
+  //  {
+  //    return m_successful_moves[4];
+  //  }
 
-  /// @return The number of attempted (6,2) moves
-  [[nodiscard]] auto attempted_62_moves() const { return m_attempted_moves[3]; }
-
-  /// @return The number of attempted (4,4) moves
-  [[nodiscard]] auto attempted_44_moves() const { return m_attempted_moves[4]; }
-
-  /// @return The number of successful (2,3) moves
-  [[nodiscard]] auto successful_23_moves() const
+  template <typename ManifoldType>
+  auto operator()(ManifoldType&& t_manifold) -> ManifoldType
   {
-    return m_successful_moves[0];
-  }
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    fmt::print("Starting Move Always algorithm ...\n");
 
-  /// @return The number of successful (2,3) moves
-  [[nodiscard]] auto successful_32_moves() const
-  {
-    return m_successful_moves[1];
-  }
+    // Start the move command
+    MoveCommand command(std::forward<ManifoldType>(t_manifold));
 
-  /// @return The number of successful (2,3) moves
-  [[nodiscard]] auto successful_26_moves() const
-  {
-    return m_successful_moves[2];
-  }
+    fmt::print("Making random moves ...\n");
 
-  /// @return The number of successful (2,3) moves
-  [[nodiscard]] auto successful_62_moves() const
-  {
-    return m_successful_moves[3];
-  }
+    // Loop through passes
+    for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
+    {
+      fmt::print("Pass {}\n", pass_number);
+      auto total_simplices_this_pass = command.get_manifold().N3();
+      // Make a random move per simplex
+      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
+           ++move_attempt)
+      {
+        // Pick a move to attempt
+        auto move_choice = generate_random_int(0, 4);
+#ifndef NDEBUG
+        fmt::print("Move choice = {}\n", move_choice);
+#endif
+        if (move_choice == 0)
+        {
+          auto move = manifold3_moves::do_23_move;
+          command.enqueue(move);
+        }
+        //        switch(move_choice)
+        //        {
+        //          case 0:
+        //            auto        move23 = manifold3_moves::do_23_move;
+        //            command.enqueue(move23);
+        //            break;
+        //          case 1:
+        //            break;
+        //          case 2:
+        //            break;
+        //          case 3:
+        //            break;
+        //          case 4:
+        //            break;
+        //        }
 
-  /// @return The number of successful (2,3) moves
-  [[nodiscard]] auto successful_44_moves() const
-  {
-    return m_successful_moves[4];
+        command.execute();
+      }
+    }
+    return command.get_results();
   }
 };
 
