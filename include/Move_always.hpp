@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2019 Adam Getchell
+/// Copyright © 2017-2020 Adam Getchell
 ///
 /// Picks a random move on the foliated Delaunay triangulations.
 /// For testing purposes.
@@ -15,10 +15,12 @@
 
 #include "Move_strategy.hpp"
 
+/// @brief The Move Always algorithm
+/// @tparam dimension The dimensionality of the algorithm's triangulation
 template <size_t dimension>
 class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 {
-  [[maybe_unused]] size_t const dim{dimension};
+  //  [[maybe_unused]] size_t const dim{dimension};
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
   Move_tracker<dimension>       m_attempted_moves;
@@ -44,8 +46,8 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
     return *this;
   }
 
-  MoveStrategy(Int_precision const t_number_of_passes,
-               Int_precision const t_checkpoint)
+  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
+                                Int_precision const t_checkpoint)
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
   {}
 
@@ -64,61 +66,14 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
   /// @return The number of passes per checkpoint
   [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
 
+  /// @return The array of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
+  /// @return The array of successful moves
   auto get_successful() const { return m_successful_moves; }
 
-  //  /// @return The number of attempted (2,3) moves
-  //  [[nodiscard]] auto attempted_23_moves() const { return
-  //  m_attempted_moves.moves_23(); }
-  //
-  //  /// @return The number of attempted (3,2) moves
-  //  [[nodiscard]] auto attempted_32_moves() const { return
-  //  m_attempted_moves[1]; }
-  //
-  //  /// @return The number of attempted (2,6) moves
-  //  [[nodiscard]] auto attempted_26_moves() const { return
-  //  m_attempted_moves[2]; }
-  //
-  //  /// @return The number of attempted (6,2) moves
-  //  [[nodiscard]] auto attempted_62_moves() const { return
-  //  m_attempted_moves[3]; }
-  //
-  //  /// @return The number of attempted (4,4) moves
-  //  [[nodiscard]] auto attempted_44_moves() const { return
-  //  m_attempted_moves[4]; }
-
-  //  /// @return The number of successful (2,3) moves
-  //  [[nodiscard]] auto successful_23_moves() const
-  //  {
-  //    return m_successful_moves[0];
-  //  }
-  //
-  //  /// @return The number of successful (2,3) moves
-  //  [[nodiscard]] auto successful_32_moves() const
-  //  {
-  //    return m_successful_moves[1];
-  //  }
-  //
-  //  /// @return The number of successful (2,3) moves
-  //  [[nodiscard]] auto successful_26_moves() const
-  //  {
-  //    return m_successful_moves[2];
-  //  }
-  //
-  //  /// @return The number of successful (2,3) moves
-  //  [[nodiscard]] auto successful_62_moves() const
-  //  {
-  //    return m_successful_moves[3];
-  //  }
-  //
-  //  /// @return The number of successful (2,3) moves
-  //  [[nodiscard]] auto successful_44_moves() const
-  //  {
-  //    return m_successful_moves[4];
-  //  }
-
-  template <typename ManifoldType>
+  template <typename ManifoldType, std::size_t dim = dimension,
+            std::enable_if_t<dim == 3, int> = 0>
   auto operator()(ManifoldType&& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
@@ -141,30 +96,44 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
            ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = generate_random_int(0, 4);
+        auto move_choice = generate_random_int(0, NUMBER_OF_3D_MOVES - 1);
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);
 #endif
         if (move_choice == 0)
         {
           auto move = manifold3_moves::do_23_move;
+          //          get_attempted().two_three_moves() += 1;
           command.enqueue(move);
         }
-        //        switch(move_choice)
-        //        {
-        //          case 0:
-        //            auto        move23 = manifold3_moves::do_23_move;
-        //            command.enqueue(move23);
-        //            break;
-        //          case 1:
-        //            break;
-        //          case 2:
-        //            break;
-        //          case 3:
-        //            break;
-        //          case 4:
-        //            break;
-        //        }
+
+        if (move_choice == 1)
+        {
+          auto move = manifold3_moves::do_32_move;
+          //          get_attempted().three_two_moves()++;
+          command.enqueue(move);
+        }
+
+        if (move_choice == 2)
+        {
+          auto move = manifold3_moves::do_26_move;
+          //          get_attempted().two_six_moves()++;
+          command.enqueue(move);
+        }
+
+        if (move_choice == 3)
+        {
+          auto move = manifold3_moves::do_62_move;
+          //          get_attempted().six_two_moves()++;
+          command.enqueue(move);
+        }
+
+        if (move_choice == 4)
+        {
+          auto move = manifold3_moves::do_44_move;
+          //          get_attempted().four_four_moves()++;
+          command.enqueue(move);
+        }
 
         command.execute();
       }

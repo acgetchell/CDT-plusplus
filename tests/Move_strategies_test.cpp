@@ -125,7 +125,7 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
       }
       THEN("A lot of moves are made.")
       {
-        //        auto result = mover(manifold);
+        //                auto result = mover(manifold);
         //        CHECK(result.is_valid());
       }
     }
