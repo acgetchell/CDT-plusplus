@@ -7,7 +7,6 @@
 /// @file Move_strategy.hpp
 /// @brief Base class for move algorithms on Delaunay Triangulations
 /// @author Adam Getchell
-/// @bug Moves don't work because MoveCommand doesn't work
 
 #ifndef INCLUDE_MOVE_ALGORITHM_HPP_
 #define INCLUDE_MOVE_ALGORITHM_HPP_
@@ -15,34 +14,68 @@
 #include "Move_command.hpp"
 #include <memory>
 
+static Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
+static Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
+
+constexpr auto moves_per_dimension(Int_precision dim) -> std::size_t
+{
+  if (dim == 3) { return NUMBER_OF_3D_MOVES; }
+  if (dim == 4) { return NUMBER_OF_4D_MOVES; }
+  return 0;  // Error condition
+}
+
 template <size_t dimension>
 class Move_tracker
 {
-};
-
-template <>
-class Move_tracker<3>
-{
-  /// There are 5 possible 3D ergodic moves
-  std::array<Int_precision, 5> moves{0, 0, 0, 0, 0};
+  std::array<Int_precision, moves_per_dimension(dimension)> moves = {0};
 
  public:
-  auto operator[](manifold3_moves::move_type move)
+  auto operator[](std::size_t index)
   {
-    auto index = static_cast<std::size_t>(move);
-    Expects(index >= 0);
-    Expects(index < 5);
+    Ensures(moves.size() == 5 || moves.size() == 7);
     return moves[index];
   }
-};
-using Move_tracker_3 = Move_tracker<3>;
 
-template <>
-class Move_tracker<4>
-{
-  /// There are 7 possible 4D ergodic moves
-  std::array<Int_precision, 7> moves;
+  // 3D Ergodic moves
+  template <std::size_t dim, std::enable_if_t<dim == 3, int> = 0>
+  auto two_three_moves()
+  {
+    return moves[0];
+  }
+
+  template <std::size_t dim, std::enable_if_t<dim == 3, int> = 0>
+  auto three_two_moves()
+  {
+    return moves[1];
+  }
+
+  template <std::size_t dim, std::enable_if_t<dim == 3, int> = 0>
+  auto two_six_moves()
+  {
+    return moves[2];
+  }
+
+  template <std::size_t dim, std::enable_if_t<dim == 3, int> = 0>
+  auto six_two_moves()
+  {
+    return moves[3];
+  }
+
+  template <std::size_t dim, std::enable_if_t<dim == 3, int> = 0>
+  auto four_four_moves()
+  {
+    return moves[4];
+  }
+
+  // 4D Ergodic moves
+  template <std::size_t dim, std::enable_if_t<dim == 4, int> = 0>
+  auto two_four_moves()
+  {
+    return moves[0];
+  }
 };
+
+using Move_tracker_3 = Move_tracker<3>;
 using Move_tracker_4 = Move_tracker<4>;
 
 /// @brief The algorithms available to make ergodic moves

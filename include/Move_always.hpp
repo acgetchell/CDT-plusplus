@@ -66,6 +66,8 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 
   auto get_attempted() const { return m_attempted_moves; }
 
+  auto get_successful() const { return m_successful_moves; }
+
   //  /// @return The number of attempted (2,3) moves
   //  [[nodiscard]] auto attempted_23_moves() const { return
   //  m_attempted_moves.moves_23(); }

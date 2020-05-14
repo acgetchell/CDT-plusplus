@@ -88,18 +88,16 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted()[manifold3_moves::move_type::TWO_THREE] ==
-              0);
-        //        CHECK(mover.attempted_23_moves() == 0);
-        //        CHECK(mover.successful_23_moves() == 0);
-        //        CHECK(mover.attempted_32_moves() == 0);
-        //        CHECK(mover.successful_32_moves() == 0);
-        //        CHECK(mover.attempted_26_moves() == 0);
-        //        CHECK(mover.successful_26_moves() == 0);
-        //        CHECK(mover.attempted_62_moves() == 0);
-        //        CHECK(mover.successful_62_moves() == 0);
-        //        CHECK(mover.attempted_44_moves() == 0);
-        //        CHECK(mover.successful_44_moves() == 0);
+        CHECK(mover.get_attempted().two_three_moves<3>() == 0);
+        CHECK(mover.get_successful().two_three_moves<3>() == 0);
+        CHECK(mover.get_attempted().three_two_moves<3>() == 0);
+        CHECK(mover.get_successful().three_two_moves<3>() == 0);
+        CHECK(mover.get_attempted().two_six_moves<3>() == 0);
+        CHECK(mover.get_successful().two_six_moves<3>() == 0);
+        CHECK(mover.get_attempted().six_two_moves<3>() == 0);
+        CHECK(mover.get_successful().six_two_moves<3>() == 0);
+        CHECK(mover.get_attempted().four_four_moves<3>() == 0);
+        CHECK(mover.get_successful().four_four_moves<3>() == 0);
       }
     }
     WHEN("A MoveAlways3 algorithm is used.")
@@ -114,16 +112,16 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        //        CHECK(mover.attempted_23_moves() == 0);
-        //        CHECK(mover.successful_23_moves() == 0);
-        //        CHECK(mover.attempted_32_moves() == 0);
-        //        CHECK(mover.successful_32_moves() == 0);
-        //        CHECK(mover.attempted_26_moves() == 0);
-        //        CHECK(mover.successful_26_moves() == 0);
-        //        CHECK(mover.attempted_62_moves() == 0);
-        //        CHECK(mover.successful_62_moves() == 0);
-        //        CHECK(mover.attempted_44_moves() == 0);
-        //        CHECK(mover.successful_44_moves() == 0);
+        CHECK(mover.get_attempted().two_three_moves<3>() == 0);
+        CHECK(mover.get_successful().two_three_moves<3>() == 0);
+        CHECK(mover.get_attempted().three_two_moves<3>() == 0);
+        CHECK(mover.get_successful().three_two_moves<3>() == 0);
+        CHECK(mover.get_attempted().two_six_moves<3>() == 0);
+        CHECK(mover.get_successful().two_six_moves<3>() == 0);
+        CHECK(mover.get_attempted().six_two_moves<3>() == 0);
+        CHECK(mover.get_successful().six_two_moves<3>() == 0);
+        CHECK(mover.get_attempted().four_four_moves<3>() == 0);
+        CHECK(mover.get_successful().four_four_moves<3>() == 0);
       }
       THEN("A lot of moves are made.")
       {
