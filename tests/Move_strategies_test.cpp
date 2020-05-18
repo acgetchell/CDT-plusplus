@@ -130,6 +130,25 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
       }
     }
   }
+  GIVEN("A 4D manifold.")
+  {
+    WHEN("A MoveStrategy4 is constructed.")
+    {
+      auto constexpr passes     = static_cast<Int_precision>(1);
+      auto constexpr checkpoint = static_cast<Int_precision>(1);
+      MoveAlways4 mover(passes, checkpoint);
+      THEN("The correct passes and checkpoints are instantiated.")
+      {
+        CHECK(mover.passes() == passes);
+        CHECK(mover.checkpoint() == checkpoint);
+      }
+      THEN("Attempted moves and successful moves are zero-initialized.")
+      {
+        CHECK(mover.get_attempted().two_four_moves<4>() == 0);
+        CHECK(mover.get_successful().two_four_moves<4>() == 0);
+      }
+    }
+  }
 }
 
 // SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail][!hide]")
