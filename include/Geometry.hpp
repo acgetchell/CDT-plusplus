@@ -58,18 +58,6 @@ struct Geometry<3>
   /// @brief Default ctor
   Geometry() = default;
 
-  /// @brief Default copy ctor
-  Geometry(Geometry& other) = default;
-
-  /// @brief Default copy assignment
-  auto operator=(Geometry const& other) -> Geometry& = default;
-
-  /// @brief Default move ctor
-  Geometry(Geometry&& other) = default;
-
-  /// @brief Default move assignment
-  auto operator=(Geometry&& other) -> Geometry& = default;
-
   /// @brief Constructor with triangulation
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
