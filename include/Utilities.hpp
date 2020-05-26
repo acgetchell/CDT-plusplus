@@ -26,6 +26,7 @@
 // Workaround for https://github.com/CGAL/cgal/issues/4665
 #ifdef _WIN32
 #define NOMINMAX
+#define __PRETTY_FUNCTION__ __FUNCSIG__
 #endif
 #include <algorithm>
 #include <cassert>
