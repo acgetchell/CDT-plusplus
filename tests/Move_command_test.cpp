@@ -184,9 +184,104 @@ SCENARIO("Move Command initialization", "[move command]")
   }
 }
 
-SCENARIO("Executing the MoveCommand", "[move command][!mayfail]")
+SCENARIO("Executing single moves", "[move command][!mayfail]")
 {
-  GIVEN("A valid manifold")
+  GIVEN("A valid manifold.")
+  {
+    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("A (2,3) move is made.")
+    {
+      MoveCommand command(manifold);
+      auto        move_23 = manifold3_moves::do_23_move;
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.move(move_23);
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have +1 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() + 1);
+        fmt::print("Triangulation added a finite cell.\n");
+
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+      }
+    }
+    WHEN("A (3,2) move is made.")
+    {
+      MoveCommand command(manifold);
+      auto        move_32 = manifold3_moves::do_32_move;
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.move(move_32);
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have -1 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() - 1);
+        fmt::print("Triangulation removed a finite cell.\n");
+
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::THREE_TWO));
+      }
+    }
+    WHEN("A (2,6) move is made.")
+    {
+      MoveCommand command(manifold);
+      auto        move_26 = manifold3_moves::do_26_move;
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.move(move_26);
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have +4 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() + 4);
+        fmt::print("Triangulation added 4 finite cells.\n");
+
+        CHECK(manifold3_moves::check_move(manifold, result,
+                                          manifold3_moves::move_type::TWO_SIX));
+      }
+    }
+    WHEN("A (6,2) move is made.")
+    {
+      MoveCommand command(manifold);
+      auto        move_62 = manifold3_moves::do_62_move;
+      THEN("It is executed correctly.")
+      {
+        // Execute the move
+        command.move(move_62);
+
+        // Get the results
+        auto result = command.get_results();
+
+        // Did the triangulation actually change? We should have -4 cell
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells() - 4);
+        fmt::print("Triangulation removed 4 finite cells.\n");
+
+        CHECK(manifold3_moves::check_move(manifold, result,
+                                          manifold3_moves::move_type::SIX_TWO));
+      }
+    }
+  }
+}
+
+SCENARIO("Executing moves on the queue", "[move command][!mayfail]")
+{
+  GIVEN("A valid manifold.")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
@@ -351,6 +446,39 @@ SCENARIO("Executing the MoveCommand", "[move command][!mayfail]")
         CHECK(manifold3_moves::check_move(manifold, result,
                                           manifold3_moves::move_type::SIX_TWO));
       }
+    }
+  }
+}
+SCENARIO("Executing multiple moves on the queue", "[move command]")
+{
+  GIVEN("A valid manifold")
+  {
+    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("(2,3) and (3,2) moves are queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move23 = manifold3_moves::do_23_move;
+      command.enqueue(move23);
+      auto move32 = manifold3_moves::do_32_move;
+      command.enqueue(move32);
+      THEN("There are two moves in the queue.") { CHECK(command.size() == 2); }
+      //      THEN("The moves are executed correctly.")
+      //      {
+      //        // Execute the moves
+      //        command.execute();
+      //
+      //        // Get the results
+      //        auto result = command.get_results();
+      //
+      //        // The moves should cancel out
+      //        CHECK(result.get_triangulation().number_of_finite_cells() ==
+      //        manifold.get_triangulation().number_of_finite_cells());
+      //        CHECK(manifold3_moves::check_move(manifold, result,
+      //        manifold3_moves::move_type::FOUR_FOUR));
+      //      }
     }
   }
 }

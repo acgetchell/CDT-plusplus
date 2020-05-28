@@ -55,29 +55,76 @@ class MoveCommand
   /// @return The results of the moves invoked by MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
-  /// @brief Push a Pachner move onto the move queue
+  /// @brief Execute a single move on the manifold
   /// @param t_move The move to do on the manifold
-  void enqueue(FunctionType t_move) { m_moves.push_front(std::move(t_move)); }
-
-  /// Execute the move on the manifold
-  void execute()
-  try
+  void move(FunctionType&& t_move)
   {
     // debugging
     fmt::print("Before manifold move:\n");
     print_manifold_details(m_manifold);
-    auto move = m_moves.back();
-    //    auto move = m_moves.pop_back();
 
-    fmt::print("During move:\n");
-    auto result = apply_move(m_manifold, move);
+    fmt::print("During manifold move:\n");
+    auto result = apply_move(m_manifold, std::forward<FunctionType>(t_move));
     result.update();
     print_manifold_details(result);
 
     fmt::print("After manifold move:\n");
     swap(result, m_manifold);
     print_manifold_details(m_manifold);
-    //    m_manifold->update();
+  }
+
+  /// @brief Push a Pachner move onto the move queue
+  /// @param t_move The move to do on the manifold
+  void enqueue(FunctionType t_move) { m_moves.push_front(std::move(t_move)); }
+
+  auto size() const { return m_moves.size(); }
+
+  /// Execute all moves in the queue on the manifold
+  void execute()
+  try
+  {
+    //    for (auto move : m_moves)
+    //    {
+    //      // debugging
+    //      fmt::print("Before manifold move:\n");
+    //      print_manifold_details(m_manifold);
+    ////      auto move = m_moves.back();
+    //      //    auto move = m_moves.pop_back();
+    //
+    //      fmt::print("During move:\n");
+    //      auto result = apply_move(m_manifold, move);
+    //      result.update();
+    //      print_manifold_details(result);
+    //
+    //      fmt::print("After manifold move:\n");
+    //      swap(result, m_manifold);
+    //      print_manifold_details(m_manifold);
+    //      //    m_manifold->update();
+    //    }
+    //    // Clear out moves
+    //    m_moves.clear();
+
+    while (m_moves.size() > 0)
+    {
+      // debugging
+      fmt::print("Before manifold move:\n");
+      print_manifold_details(m_manifold);
+
+      auto move = m_moves.back();
+
+      fmt::print("During move:\n");
+      auto result = apply_move(m_manifold, move);
+      m_moves.pop_back();
+      result.update();
+      print_manifold_details(result);
+
+      fmt::print("After manifold move:\n");
+      swap(result, m_manifold);
+      print_manifold_details(m_manifold);
+    }
+    fmt::print("After moves:\n");
+    //    m_manifold.update();
+    print_manifold_details(m_manifold);
   }
   catch (std::exception const& e)
   {
