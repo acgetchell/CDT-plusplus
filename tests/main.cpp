@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2019 Adam Getchell
+/// Copyright © 2017-2020 Adam Getchell
 ///
 /// Main Catch test driver
 ///
@@ -14,6 +14,7 @@
 #define CATCH_CONFIG_CPP17_VARIANT
 #define CATCH_CONFIG_CPP17_OPTIONAL
 #define CATCH_CONFIG_CPP17_BYTE
+#define CATCH_CONFIG_NO_NOMINMAX
 #include <catch2/catch.hpp>
 
 auto main(int argc, char* argv[]) -> int

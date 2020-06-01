@@ -176,7 +176,7 @@ SCENARIO("Move Command initialization", "[move command]")
       }
       THEN("The two manifolds are distinct.")
       {
-        auto* manifold_ptr  = &manifold;
+        auto*       manifold_ptr  = &manifold;
         auto const* manifold2_ptr = &command.get_manifold();
         CHECK_FALSE(manifold_ptr == manifold2_ptr);
       }
@@ -279,7 +279,35 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
   }
 }
 
-SCENARIO("Executing moves on the queue", "[move command][!mayfail]")
+SCENARIO("Executing single moves sequentially", "[move command][.]")
+{
+  GIVEN("A valid manifold.")
+  {
+    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("Two (2,3) moves are executed.")
+    {
+      MoveCommand command(manifold);
+      auto        move_23 = manifold3_moves::do_23_move;
+      command.move(move_23);
+      command.move(move_23);
+      {
+        THEN("The moves are executed correctly.")
+        {
+          auto result = command.get_results();
+
+          // We should have +2 cell
+          CHECK(result.get_geometry().N3 == manifold.get_geometry().N3 + 2);
+          fmt::print("Triangulation added 2 simplices.");
+        }
+      }
+    }
+  }
+}
+
+SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
 {
   GIVEN("A valid manifold.")
   {
@@ -290,7 +318,7 @@ SCENARIO("Executing moves on the queue", "[move command][!mayfail]")
     WHEN("A null move is queued.")
     {
       MoveCommand command(manifold);
-      auto move_null = manifold3_moves::null_move;
+      auto        move_null = manifold3_moves::null_move;
       command.enqueue(move_null);
       THEN("It is executed correctly.")
       {
@@ -449,7 +477,7 @@ SCENARIO("Executing moves on the queue", "[move command][!mayfail]")
     }
   }
 }
-SCENARIO("Executing multiple moves on the queue", "[move command]")
+SCENARIO("Executing multiple moves on the queue", "[move command][.]")
 {
   GIVEN("A valid manifold")
   {

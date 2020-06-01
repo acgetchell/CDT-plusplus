@@ -58,20 +58,28 @@ class MoveCommand
   /// @brief Execute a single move on the manifold
   /// @param t_move The move to do on the manifold
   void move(FunctionType&& t_move)
+  try
   {
-    // debugging
+#ifndef NDEBUG
     fmt::print("Before manifold move:\n");
     print_manifold_details(m_manifold);
+#endif
 
-    fmt::print("During manifold move:\n");
     auto result = apply_move(m_manifold, std::forward<FunctionType>(t_move));
     result.update();
-    print_manifold_details(result);
 
+#ifndef NDEBUG
     fmt::print("After manifold move:\n");
-    swap(result, m_manifold);
     print_manifold_details(m_manifold);
+#endif
+
+    swap(result, m_manifold);
   }
+  catch (std::exception const& e)
+  {
+    fmt::print(stderr, "move() failed: {}\n", e.what());
+    throw;
+  }  // move
 
   /// @brief Push a Pachner move onto the move queue
   /// @param t_move The move to do on the manifold
@@ -83,52 +91,33 @@ class MoveCommand
   void execute()
   try
   {
-    //    for (auto move : m_moves)
-    //    {
-    //      // debugging
-    //      fmt::print("Before manifold move:\n");
-    //      print_manifold_details(m_manifold);
-    ////      auto move = m_moves.back();
-    //      //    auto move = m_moves.pop_back();
-    //
-    //      fmt::print("During move:\n");
-    //      auto result = apply_move(m_manifold, move);
-    //      result.update();
-    //      print_manifold_details(result);
-    //
-    //      fmt::print("After manifold move:\n");
-    //      swap(result, m_manifold);
-    //      print_manifold_details(m_manifold);
-    //      //    m_manifold->update();
-    //    }
-    //    // Clear out moves
-    //    m_moves.clear();
-
     while (m_moves.size() > 0)
     {
-      // debugging
+#ifndef NDEBUG
       fmt::print("Before manifold move:\n");
       print_manifold_details(m_manifold);
+#endif
 
       auto move = m_moves.back();
-
-      fmt::print("During move:\n");
       auto result = apply_move(m_manifold, move);
       m_moves.pop_back();
       result.update();
-      print_manifold_details(result);
 
+#ifndef NDEBUG
       fmt::print("After manifold move:\n");
-      swap(result, m_manifold);
       print_manifold_details(m_manifold);
+#endif
+
+      swap(result, m_manifold);
     }
+#ifndef NDEBUG
     fmt::print("After moves:\n");
-    //    m_manifold.update();
     print_manifold_details(m_manifold);
+#endif
   }
   catch (std::exception const& e)
   {
-    fmt::print(stderr, "execute () failed: {}\n", e.what());
+    fmt::print(stderr, "execute() failed: {}\n", e.what());
     throw;
   }  // execute
 
