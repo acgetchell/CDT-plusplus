@@ -242,6 +242,7 @@ install:
   # Install/Update ports
   - cd $TRAVIS_BUILD_DIR/vcpkg
   - git pull
+  - ./bootstrap-vcpkg.sh
   - ./vcpkg integrate install
   - ./vcpkg install catch2
   - ./vcpkg install docopt
