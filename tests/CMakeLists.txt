@@ -6,6 +6,7 @@ add_executable(
   Apply_move_test.cpp
   Ergodic_moves_3_test.cpp
   Foliated_triangulation_test.cpp
+  Function_ref_test.cpp
   Geometry_test.cpp
   Manifold_test.cpp
   Move_command_test.cpp

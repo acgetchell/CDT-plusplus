@@ -1,22 +1,21 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2019 Adam Getchell
+/// Copyright © 2017-2020 Adam Getchell
 ///
 /// Tests for lambdas and function_refs to store function objects for delayed
 /// calls
 ///
 /// @file Function_ref.cpp
-/// @brief Tests on vertices
+/// @brief Tests on function pointers, lambdas, and function_refs
 /// @author Adam Getchell
 
+#include "Ergodic_moves_3.hpp"
 #include "Function_ref.hpp"
-//#include <Measurements.hpp>
-//#include <S3ErgodicMoves.hpp>
 #include <catch2/catch.hpp>
 
 using namespace std;
 
-SCENARIO("Simple Lambda operations", "[lambda]")
+SCENARIO("Simple Lambda operations", "[function-ref]")
 {
   constexpr auto increment_lambda = [](int a) { return ++a; };
   GIVEN("A simple lambda.")
@@ -37,74 +36,37 @@ SCENARIO("Simple Lambda operations", "[lambda]")
     }
   }
 }
-// SCENARIO("Complex Lambda operations", "[lambda][!mayfail][.]")
-//{
-//  GIVEN("A lambda storing a move.")
-//  {
-//    constexpr auto     simplices  = static_cast<size_t>(6400);
-//    constexpr auto     timeslices = static_cast<size_t>(7);
-//    SimplicialManifold universe(simplices, timeslices);
-//    Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
-//    // Verify triangulation
-//    CHECK(universe.triangulation);
-//    CHECK(universe.geometry->number_of_cells() ==
-//          universe.triangulation->number_of_finite_cells());
-//    CHECK(universe.geometry->number_of_edges() ==
-//          universe.triangulation->number_of_finite_edges());
-//    CHECK(universe.geometry->N0() ==
-//          universe.triangulation->number_of_vertices());
-//    CHECK(universe.triangulation->dimension() == 3);
-//    CHECK(fix_timeslices(universe.triangulation));
-//    CHECK(universe.triangulation->is_valid());
-//    CHECK(universe.triangulation->tds().is_valid());
-//
-//    VolumePerTimeslice(universe);
-//
-//    CHECK(universe.geometry->max_timevalue().get() == timeslices);
-//    CHECK(universe.geometry->min_timevalue().get() == 1);
-//    // Previous state
-//    auto N3_31_pre_move = universe.geometry->N3_31();
-//    auto N3_22_pre_move = universe.geometry->N3_22();
-//    auto N3_13_pre_move = universe.geometry->N3_13();
-//    auto N1_TL_pre_move = universe.geometry->N1_TL();
-//    auto N1_SL_pre_move = universe.geometry->N1_SL();
-//    auto N0_pre_move    = universe.geometry->N0();
-//    // No moves recorded
-//    CHECK(attempted_moves[0] == 0);
-//
-//    auto move_23_lambda =
-//        [](SimplicialManifold manifold,
-//           Move_tracker&      attempted_moves) -> SimplicialManifold {
-//      return make_23_move(move(manifold), attempted_moves);
-//    };
-//    WHEN("The lambda is invoked.")
-//    {
-//      REQUIRE_NOTHROW(universe = move_23_lambda(universe, attempted_moves));
-//      THEN(
-//          "The move from the lambda is correct and the triangulation "
-//          "invariants are maintained.")
-//      {
-//        // The triangulation is still valid
-//        CHECK(universe.triangulation->tds().is_valid(true));
-//        CHECK(universe.triangulation->dimension() == 3);
-//        CHECK(fix_timeslices(universe.triangulation));
-//        // The move is correct
-//        CHECK(universe.geometry->N3_31() == N3_31_pre_move);
-//        CHECK(universe.geometry->N3_22() == N3_22_pre_move + 1);
-//        CHECK(universe.geometry->N3_13() == N3_13_pre_move);
-//        CHECK(universe.geometry->N1_TL() == N1_TL_pre_move + 1);
-//        CHECK(universe.geometry->N1_SL() == N1_SL_pre_move);
-//        CHECK(universe.geometry->N0() == N0_pre_move);
-//        // Move attempts were recorded
-//        CHECK_FALSE(attempted_moves[0] == 0);
-//        cout << "There were " << attempted_moves[0]
-//             << " attempted (2,3) moves.\n";
-//      }
-//    }
-//  }
-//}
 
-SCENARIO("Function_ref operations", "[function_ref]")
+SCENARIO("Complex lambda operations", "[function-ref]")
+{
+  GIVEN("A lambda storing a move.")
+  {
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("A lambda is constructed for a move.")
+    {
+      auto const move23 = [](Manifold3& m) -> Manifold3 {
+        return manifold3_moves::do_23_move(m);
+      };
+      THEN("Running the lambda makes the move.")
+      {
+        auto result = move23(manifold);
+        result.update();
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        fmt::print("Manifold properties:\n");
+        print_manifold_details(manifold);
+        fmt::print("Moved manifold properties:\n");
+        print_manifold_details(result);
+      }
+    }
+  }
+}
+
+SCENARIO("Function_ref operations", "[function-ref]")
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {
@@ -115,68 +77,55 @@ SCENARIO("Function_ref operations", "[function_ref]")
       THEN("We should get 1.") { REQUIRE(lambda_ref(1) == 2); }
     }
   }
-  GIVEN("A complex lambda storing a move stored in a function_ref.")
+  GIVEN("A function pointer to a move stored in a function_ref.")
   {
-    constexpr auto     simplices  = static_cast<std::int_fast32_t>(6400);
-    constexpr auto     timeslices = static_cast<std::int_fast32_t>(7);
-    SimplicialManifold universe(simplices, timeslices);
-    Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};
-    // Verify triangulation
-    CHECK(universe.triangulation);
-    CHECK(universe.geometry->number_of_cells() ==
-          universe.triangulation->number_of_finite_cells());
-    CHECK(universe.geometry->number_of_edges() ==
-          universe.triangulation->number_of_finite_edges());
-    CHECK(universe.geometry->N0() ==
-          universe.triangulation->number_of_vertices());
-    CHECK(universe.triangulation->dimension() == 3);
-    CHECK(fix_timeslices(universe.triangulation));
-    CHECK(universe.triangulation->is_valid());
-    CHECK(universe.triangulation->tds().is_valid());
-
-    VolumePerTimeslice(universe);
-
-    CHECK(universe.geometry->max_timevalue().get() == timeslices);
-    CHECK(universe.geometry->min_timevalue().get() == 1);
-    // Previous state
-    auto N3_31_pre_move = universe.geometry->N3_31();
-    auto N3_22_pre_move = universe.geometry->N3_22();
-    auto N3_13_pre_move = universe.geometry->N3_13();
-    auto N1_TL_pre_move = universe.geometry->N1_TL();
-    auto N1_SL_pre_move = universe.geometry->N1_SL();
-    auto N0_pre_move    = universe.geometry->N0();
-    // No moves recorded
-    CHECK(attempted_moves[0] == 0);
-
-    auto move_23_lambda =
-        [](SimplicialManifold manifold,
-           Move_tracker&      attempted_moves) -> SimplicialManifold {
-      return make_23_move(std::move(manifold), attempted_moves);
-    };
-    function_ref<SimplicialManifold(SimplicialManifold, Move_tracker&)>
-        complex_ref(move_23_lambda);
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    function_ref<Manifold3(Manifold3&)> complex_ref(
+        manifold3_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
-      REQUIRE_NOTHROW(universe = complex_ref(universe, attempted_moves));
-      THEN(
-          "The move from the function_ref is correct and the triangulation "
-          "invariants are maintained.")
+      auto result = complex_ref(manifold);
+      result.update();
+      THEN("The move from the function_ref is correct.")
       {
-        // The triangulation is still valid
-        CHECK(universe.triangulation->tds().is_valid(true));
-        CHECK(universe.triangulation->dimension() == 3);
-        CHECK(fix_timeslices(universe.triangulation));
-        // The move is correct
-        CHECK(universe.geometry->N3_31() == N3_31_pre_move);
-        CHECK(universe.geometry->N3_22() == N3_22_pre_move + 1);
-        CHECK(universe.geometry->N3_13() == N3_13_pre_move);
-        CHECK(universe.geometry->N1_TL() == N1_TL_pre_move + 1);
-        CHECK(universe.geometry->N1_SL() == N1_SL_pre_move);
-        CHECK(universe.geometry->N0() == N0_pre_move);
-        // Move attempts were recorded
-        CHECK_FALSE(attempted_moves[0] == 0);
-        std::cout << "There were " << attempted_moves[0]
-                  << " attempted (2,3) moves.\n";
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        fmt::print("Manifold properties:\n");
+        print_manifold_details(manifold);
+        fmt::print("Moved manifold properties:\n");
+        print_manifold_details(result);
+      }
+    }
+  }
+  GIVEN("A lambda invoking a move stored in a function_ref.")
+  {
+    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
+    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_correct());
+    auto const move23 = [](Manifold3& m) -> Manifold3 {
+      return manifold3_moves::do_23_move(m);
+    };
+    function_ref<Manifold3(Manifold3&)> complex_ref(move23);
+    WHEN("The function_ref is invoked.")
+    {
+      auto result = complex_ref(manifold);
+      result.update();
+      THEN(
+          "The move stored in the lambda invoked by the function_ref is "
+          "correct.")
+      {
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        fmt::print("Manifold properties:\n");
+        print_manifold_details(manifold);
+        fmt::print("Moved manifold properties:\n");
+        print_manifold_details(result);
       }
     }
   }

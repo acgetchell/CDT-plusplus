@@ -287,20 +287,21 @@ SCENARIO("Executing single moves sequentially", "[move command][.]")
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("Two (2,3) moves are executed.")
+    WHEN("Two moves are executed.")
     {
       MoveCommand command(manifold);
       auto        move_23 = manifold3_moves::do_23_move;
+      auto        move_32 = manifold3_moves::do_32_move;
       command.move(move_23);
-      command.move(move_23);
+      command.move(move_32);
       {
         THEN("The moves are executed correctly.")
         {
           auto result = command.get_results();
 
-          // We should have +2 cell
-          CHECK(result.get_geometry().N3 == manifold.get_geometry().N3 + 2);
-          fmt::print("Triangulation added 2 simplices.");
+          // The moves cancel out with respect to number of simplices
+          CHECK(result.get_geometry().N3 == manifold.get_geometry().N3);
+          fmt::print("Triangulation moves cancelled out.");
         }
       }
     }
