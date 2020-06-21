@@ -11,9 +11,12 @@
 
 #include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
+#include "Function_ref.hpp"
 
 template <typename ManifoldType,
-          typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
+          //          typename FunctionType =
+          //          std::function<ManifoldType(ManifoldType&)>>
+          typename FunctionType = function_ref<ManifoldType(ManifoldType&)>>
 class MoveCommand
 {
   /// @brief The Manifold on which to make the move

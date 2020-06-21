@@ -8,6 +8,7 @@
 /// @brief Tests for moves
 /// @author Adam Getchell
 
+#include "Function_ref.hpp"
 #include "Move_command.hpp"
 #include <catch2/catch.hpp>
 
@@ -108,7 +109,8 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
   }
 }
 
-SCENARIO("Invoking a move with apply_move", "[move command]")
+SCENARIO("Invoking a move with apply_move and a function pointer",
+         "[move command]")
 {
   GIVEN("A valid manifold.")
   {
@@ -290,8 +292,16 @@ SCENARIO("Executing single moves sequentially", "[move command][.]")
     WHEN("Two moves are executed.")
     {
       MoveCommand command(manifold);
-      auto        move_23 = manifold3_moves::do_23_move;
-      auto        move_32 = manifold3_moves::do_32_move;
+      //            auto        move_23 = manifold3_moves::do_23_move;
+      //            auto        move_32 = manifold3_moves::do_32_move;
+      auto const move_23 = [](Manifold3& m) -> Manifold3 {
+        return manifold3_moves::do_23_move(m);
+      };
+      auto const move_32 = [](Manifold3& m) -> Manifold3 {
+        return manifold3_moves::do_32_move(m);
+      };
+      //      function_ref<Manifold3(Manifold3&)> move_23(move23);
+      //      function_ref<Manifold3(Manifold3&)> move_32(move32);
       command.move(move_23);
       command.move(move_32);
       {
