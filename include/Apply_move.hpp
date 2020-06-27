@@ -15,6 +15,7 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
+#include "Function_ref.hpp"
 #include <functional>
 
 /// @tparam ManifoldType The type (topology, dimensionality) of manifold
@@ -23,7 +24,9 @@
 /// @param t_move The Pachner move
 /// @return The t_manifold upon which the Pachner t_move has been applied
 template <typename ManifoldType,
-          typename FunctionType = std::function<ManifoldType(ManifoldType&)>>
+          //          typename FunctionType =
+          //          std::function<ManifoldType(ManifoldType&)>>
+          typename FunctionType = function_ref<ManifoldType(ManifoldType&)>>
 constexpr decltype(auto) apply_move(ManifoldType&& t_manifold,
                                     FunctionType&& t_move)
 // try

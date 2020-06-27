@@ -11,7 +11,6 @@
 
 #include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
-#include "Function_ref.hpp"
 
 template <typename ManifoldType,
           //          typename FunctionType =
