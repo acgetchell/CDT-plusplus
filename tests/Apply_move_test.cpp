@@ -14,7 +14,7 @@
 
 using namespace std;
 
-SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply move][!mayfail]")
+SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {
@@ -123,6 +123,52 @@ SCENARIO("Apply ergodic moves to 2+1 manifolds", "[apply move][!mayfail]")
         print_manifold_details(manifold);
         fmt::print("New manifold after (4,4) move:\n");
         print_manifold_details(result);
+      }
+    }
+  }
+}
+SCENARIO("Apply multiple ergodic moves to 2+1 manifolds",
+         "[apply move][!mayfail]")
+{
+  GIVEN("A 2+1 dimensional spherical manifold.")
+  {
+    constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
+    constexpr auto desired_timeslices = static_cast<Int_precision>(7);
+    Manifold3      manifold(desired_simplices, desired_timeslices);
+    REQUIRE(manifold.is_delaunay());
+    REQUIRE(manifold.is_valid());
+    WHEN("A (2,3) and (3,2) move is applied to the manifold.")
+    {
+      auto result1 = apply_move(manifold, manifold3_moves::do_23_move);
+      auto result2 = apply_move(result1, manifold3_moves::do_32_move);
+      THEN("The (2,3) move is correct.")
+      {
+        result1.update();
+        //        CHECK(manifold3_moves::check_move(manifold, result1,
+        //        manifold3_moves::move_type::TWO_THREE));
+        // Human verification
+        fmt::print("Old manifold.\n");
+        print_manifold_details(manifold);
+        fmt::print("New manifold after (2,3) move:\n");
+        print_manifold_details(result1);
+      }
+      AND_THEN("The (3,2) move is correct.")
+      {
+        result2.update();
+        //        CHECK(manifold3_moves::check_move(result1, result2,
+        //        manifold3_moves::move_type::THREE_TWO));
+        // Human verification
+        fmt::print("After (2,3):\n");
+        print_manifold_details(result1);
+        fmt::print("New manifold after (3,2) move:\n");
+        print_manifold_details(result2);
+      }
+      AND_THEN(
+          "The result is the same number of simplices and edges after both "
+          "moves.")
+      {
+        CHECK(manifold3_moves::check_move(
+            manifold, result2, manifold3_moves::move_type::FOUR_FOUR));
       }
     }
   }

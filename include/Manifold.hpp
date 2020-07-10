@@ -97,7 +97,7 @@ class Manifold<3>
   /// @return A read-only reference to the triangulation
   [[nodiscard]] auto get_triangulation() const -> FoliatedTriangulation3 const&
   {
-    return m_triangulation;
+    return std::cref(m_triangulation);
   }  // get_triangulation
 
   /// @return A mutable reference to the triangulation

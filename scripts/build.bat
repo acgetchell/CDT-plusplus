@@ -19,7 +19,7 @@ set PATH=%PATH%;%VCPKG_PATH%;%CMAKE_PATH%;%NINJA_PATH%
 :: ninja -h || GOTO :EOF
 
 :: Change to your version of Visual Studio
-cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_BUILD_TYPE=Debug -D ENABLE_CCACHE:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake ..
+cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CCACHE:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake ..
 cmake --build .
 
 :: Executables are in \build\Debug

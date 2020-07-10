@@ -7,14 +7,9 @@
 /// @file  Geometry.hpp
 /// @brief Data structures for geometry
 /// @author Adam Getchell
-/// @bug Not no-throw default constructible
 
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
-
-#ifdef _WIN32
-#define __PRETTY_FUNCTION__ __FUNCSIG__
-#endif
 
 #include "Foliated_triangulation.hpp"
 

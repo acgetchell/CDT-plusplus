@@ -82,7 +82,7 @@ class FoliatedTriangulation;
 
 /// 3D Triangulation
 template <>
-class FoliatedTriangulation<3>
+class FoliatedTriangulation<3>  // NOLINT
 {
   /// Data members initialized in order of declaration (Working Draft, Standard
   /// for C++ Programming Language, 12.6.2 section 13.3)
