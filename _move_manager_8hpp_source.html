@@ -91,7 +91,7 @@ $(function() {
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> move_invariants = std::array&lt;std::size_t, 6&gt;;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> Move_tracker    = std::array&lt;int, 5&gt;;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move__tracker.html">Move_tracker</a>    = std::array&lt;int, 5&gt;;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> Manifold, <span class="keyword">typename</span> Moves&gt;</div>
 <div class="line"><a name="l00036"></a><span class="lineno"><a class="line" href="class_move_manager.html">   36</a></span>&#160;<span class="keyword">class </span>[[deprecated]] <a class="code" href="class_move_manager.html">MoveManager</a></div>
@@ -118,7 +118,7 @@ $(function() {
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
 <div class="line"><a name="l00081"></a><span class="lineno"><a class="line" href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">   81</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_manager.html#aa0a326323d5cffbde0a70a716cf8d2e8">operator()</a>(</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <a class="code" href="classfunction__ref.html">function_ref</a>&lt;<a class="code" href="class_manifold.html">Manifold</a>(<a class="code" href="class_manifold.html">Manifold</a>, Move_tracker&amp;)&gt; move)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;      <a class="code" href="classfunction__ref.html">function_ref</a>&lt;<a class="code" href="class_manifold.html">Manifold</a>(<a class="code" href="class_manifold.html">Manifold</a>, <a class="code" href="class_move__tracker.html">Move_tracker</a>&amp;)&gt; move)</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  {</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
@@ -251,6 +251,7 @@ $(function() {
 <div class="ttc" id="aclass_move_manager_html_a7b0a03743f1bb7abc10ea5ca0ecb5b3e"><div class="ttname"><a href="class_move_manager.html#a7b0a03743f1bb7abc10ea5ca0ecb5b3e">MoveManager::~MoveManager</a></div><div class="ttdeci">~MoveManager()=default</div><div class="ttdoc">Default dtor.</div></div>
 <div class="ttc" id="aclass_move_manager_html_a19ba7dd4608cd31796d612ebc70e870a"><div class="ttname"><a href="class_move_manager.html#a19ba7dd4608cd31796d612ebc70e870a">MoveManager::attempted_moves_</a></div><div class="ttdeci">Moves attempted_moves_</div><div class="ttdoc">An option type move counter.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00043">MoveManager.hpp:43</a></div></div>
 <div class="ttc" id="aclass_move_manager_html_a7ebbfe6927add0db67c6673b35d72ecb"><div class="ttname"><a href="class_move_manager.html#a7ebbfe6927add0db67c6673b35d72ecb">MoveManager::MoveManager</a></div><div class="ttdeci">MoveManager(MoveManager &amp;&amp;source)=delete</div><div class="ttdoc">Delete move ctor.</div></div>
+<div class="ttc" id="aclass_move__tracker_html"><div class="ttname"><a href="class_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00033">Move_strategy.hpp:34</a></div></div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="aclassfunction__ref_html"><div class="ttname"><a href="classfunction__ref.html">function_ref</a></div><div class="ttdef"><b>Definition:</b> <a href="_function__ref_8hpp_source.html#l00313">Function_ref.hpp:313</a></div></div>
 <div class="ttc" id="aclass_move_manager_html_ad83dbfc32ef032ca6b19e82ce398f8ea"><div class="ttname"><a href="class_move_manager.html#ad83dbfc32ef032ca6b19e82ce398f8ea">MoveManager::universe_</a></div><div class="ttdeci">Manifold universe_</div><div class="ttdoc">An option type Manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move_manager_8hpp_source.html#l00040">MoveManager.hpp:40</a></div></div>
@@ -260,7 +261,7 @@ $(function() {
 <div class="ttc" id="aclass_move_manager_html_a418c9c8fa1a870c65f3a88d2643f6943"><div class="ttname"><a href="class_move_manager.html#a418c9c8fa1a870c65f3a88d2643f6943">MoveManager::operator=</a></div><div class="ttdeci">MoveManager &amp; operator=(MoveManager &amp;&amp;rhs)=delete</div><div class="ttdoc">Delete move assignment.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 2 2020 05:28:24 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 10 2020 16:05:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

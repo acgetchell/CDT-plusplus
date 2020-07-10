@@ -82,14 +82,19 @@ $(function() {
 
 <p>Apply Pachner moves to foliated Delaunay triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;functional&gt;</code><br />
+<div class="textblock"><code>#include &quot;<a class="el" href="_function__ref_8hpp_source.html">Function_ref.hpp</a>&quot;</code><br />
+<code>#include &lt;functional&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for Apply_move.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="_apply__move_8hpp__incl.png" border="0" usemap="#include_2_apply__move_8hpp" alt=""/></div>
 <map name="include_2_apply__move_8hpp" id="include_2_apply__move_8hpp">
-<area shape="rect" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="5,5,188,32"/>
-<area shape="rect" title=" " alt="" coords="53,80,140,107"/>
+<area shape="rect" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="117,5,299,32"/>
+<area shape="rect" href="_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference." alt="" coords="78,80,207,107"/>
+<area shape="rect" title=" " alt="" coords="231,80,318,107"/>
+<area shape="rect" title=" " alt="" coords="5,155,72,181"/>
+<area shape="rect" title=" " alt="" coords="97,155,189,181"/>
+<area shape="rect" title=" " alt="" coords="213,155,273,181"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -100,10 +105,10 @@ This graph shows which files directly or indirectly include this file:</div>
 <area shape="rect" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="408,5,591,32"/>
 <area shape="rect" href="_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="281,80,491,107"/>
 <area shape="rect" href="_apply__move__test_8cpp.html" title="Apply ergodic moves to manifolds." alt="" coords="515,80,713,107"/>
-<area shape="rect" href="_move__strategy_8hpp_source.html" title=" " alt="" coords="185,162,381,189"/>
+<area shape="rect" href="_move__strategy_8hpp.html" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="185,162,381,189"/>
 <area shape="rect" href="_move__command__test_8cpp.html" title="Tests for moves." alt="" coords="405,155,572,196"/>
 <area shape="rect" href="_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="95,244,266,271"/>
-<area shape="rect" href="_move__always_8hpp.html" title="Always randomly selects moves to perform on Delaunay Triangulations." alt="" coords="291,244,481,271"/>
+<area shape="rect" href="_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="291,244,481,271"/>
 <area shape="rect" href="cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="5,326,124,353"/>
 <area shape="rect" href="cdt_8cpp.html" title="The main executable." alt="" coords="148,326,240,353"/>
 <area shape="rect" href="_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="289,319,456,360"/>
@@ -115,7 +120,7 @@ This graph shows which files directly or indirectly include this file:</div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a69507c0d9a9fdff75a4c396469fde506"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt; </td></tr>
+<tr class="memitem:a69507c0d9a9fdff75a4c396469fde506"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename FunctionType  = function_ref&lt;ManifoldType(ManifoldType&amp;)&gt;&gt; </td></tr>
 <tr class="memitem:a69507c0d9a9fdff75a4c396469fde506"><td class="memTemplItemLeft" align="right" valign="top">constexpr decltype(auto)&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#a69507c0d9a9fdff75a4c396469fde506">apply_move</a> (ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move)</td></tr>
 <tr class="separator:a69507c0d9a9fdff75a4c396469fde506"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -135,7 +140,7 @@ Functions</h2></td></tr>
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
-template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;ManifoldType(ManifoldType&amp;)&gt;&gt; </div>
+template&lt;typename ManifoldType , typename FunctionType  = function_ref&lt;ManifoldType(ManifoldType&amp;)&gt;&gt; </div>
 <table class="mlabels">
   <tr>
   <td class="mlabels-left">
@@ -180,14 +185,14 @@ template&lt;typename ManifoldType , typename FunctionType  = std::function&lt;Ma
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The t_manifold upon which the Pachner t_move has been applied </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00027">27</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00030">30</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 2 2020 05:28:24 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 10 2020 16:05:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

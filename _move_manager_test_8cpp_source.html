@@ -94,7 +94,7 @@ $(function() {
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    constexpr <span class="keyword">auto</span>     simplices  = <span class="keyword">static_cast&lt;</span>std::int_fast64_t<span class="keyword">&gt;</span>(6400);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    constexpr <span class="keyword">auto</span>     timeslices = <span class="keyword">static_cast&lt;</span>std::int_fast64_t<span class="keyword">&gt;</span>(7);</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    <a class="code" href="class_manifold_3_013_01_4.html">Manifold3</a>          universe(simplices, timeslices);</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    Move_tracker       attempted_moves{{0, 0, 0, 0, 0}};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    <a class="code" href="class_move__tracker.html">Move_tracker</a>       attempted_moves{{0, 0, 0, 0, 0}};</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="comment">// Verify triangulation</span></div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="comment">//    CHECK(universe.is_correct());</span></div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;    <span class="comment">//    CHECK(universe.N3() ==</span></div>
@@ -224,12 +224,13 @@ $(function() {
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  }</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclass_move__tracker_html"><div class="ttname"><a href="class_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00033">Move_strategy.hpp:34</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_move_manager_8hpp_html"><div class="ttname"><a href="_move_manager_8hpp.html">MoveManager.hpp</a></div><div class="ttdoc">RAII class to manage exception-safe foliation-preserving Pachner moves.</div></div>
 <div class="ttc" id="aclass_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifold_3_013_01_4.html">Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00026">Manifold.hpp:27</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 2 2020 05:28:24 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 10 2020 16:05:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

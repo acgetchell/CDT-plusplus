@@ -12,7 +12,7 @@ var searchData=
   ['check_5fsimplices_19',['check_simplices',['../class_manifold_3_013_01_4.html#a25dd07c4be1d55db46972f80d303e166',1,'Manifold&lt; 3 &gt;']]],
   ['check_5ftimeslices_20',['check_timeslices',['../class_foliated_triangulation_3_013_01_4.html#a50539f832c056e28fcd5ecde42aa2137',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fvertices_21',['check_vertices',['../class_foliated_triangulation_3_013_01_4.html#afb5836235e5973f9e07d311db36288d6',1,'FoliatedTriangulation&lt; 3 &gt;']]],
-  ['checkpoint_22',['Checkpoint',['../class_metropolis.html#a1ed1b229fe9a77ab9429ce7bd97a4aed',1,'Metropolis']]],
+  ['checkpoint_22',['Checkpoint',['../class_metropolis.html#a1ed1b229fe9a77ab9429ce7bd97a4aed',1,'Metropolis::Checkpoint()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#afb4fdaab4a643fc67a8ab5e14aa16308',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::checkpoint()']]],
   ['classify_5fcells_23',['classify_cells',['../class_foliated_triangulation_3_013_01_4.html#a3983ec27598c52fa70244a56d648b8ba',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['classify_5fedge_24',['classify_edge',['../class_foliated_triangulation_3_013_01_4.html#a833c90ee266b10b39b7c39c36d5a763e',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['classify_5fedges_25',['classify_edges',['../_simplicial_manifold_8hpp.html#a5d1faf454aae17fccb2378ae149f8b79',1,'SimplicialManifold.hpp']]],
@@ -23,6 +23,5 @@ var searchData=
   ['collect_5fvertices_30',['collect_vertices',['../class_foliated_triangulation_3_013_01_4.html#a122f565cb701847a31d4a8c9a164eb1b',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['compare_5fv_5finfo_31',['compare_v_info',['../_foliated__triangulation_8hpp.html#a47a56bb19abae468f695f45f32b220bf',1,'Foliated_triangulation.hpp']]],
   ['currentdatetime_32',['currentDateTime',['../_utilities_8hpp.html#aa14b86f5589855b0255347a5af00a23b',1,'Utilities.hpp']]],
-  ['currenttotalsimplices_33',['CurrentTotalSimplices',['../class_move_strategy_3_013_01_4.html#ac7e2f4f8f0af57fcf8305715507f1624',1,'MoveStrategy&lt; 3 &gt;']]],
-  ['cdt_2dplusplus_34',['CDT-plusplus',['../index.html',1,'']]]
+  ['cdt_2dplusplus_33',['CDT-plusplus',['../index.html',1,'']]]
 ];

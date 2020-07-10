@@ -112,7 +112,7 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      }</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      THEN(<span class="stringliteral">&quot;Results are persisted across moves.&quot;</span>)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      {</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        Move_tracker attempted_moves{{0, 0, 0, 0, 0}};</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        <a class="code" href="class_move__tracker.html">Move_tracker</a> attempted_moves{{0, 0, 0, 0, 0}};</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="comment">//        auto result = make_26_move(std::move(universe), attempted_moves);</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        REQUIRE_NOTHROW(universe = <a class="code" href="_s3_ergodic_moves_8hpp.html#a8ec8eb0557a6c1bdb25cbd68c5f86e38">make_26_move</a>(std::move(universe), attempted_moves));</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        REQUIRE(attempted_moves[2] &gt; 0);</div>
@@ -126,12 +126,13 @@ $(function() {
 <div class="ttc" id="a_s3_triangulation_8hpp_html_a6ab0724c904152ce4add1a86c77cc196"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">fix_timeslices</a></div><div class="ttdeci">auto fix_timeslices(Manifold &amp;&amp;universe_ptr)</div><div class="ttdoc">Fix simplices with incorrect foliation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00116">S3Triangulation.hpp:116</a></div></div>
 <div class="ttc" id="a_s3_ergodic_moves_8hpp_html"><div class="ttname"><a href="_s3_ergodic_moves_8hpp.html">S3ErgodicMoves.hpp</a></div><div class="ttdoc">Pachner moves on 3D Delaunay Triangulations.</div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_ab5a602784d13979e1482f3393e388cfa"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ab5a602784d13979e1482f3393e388cfa">make_triangulation</a></div><div class="ttdeci">auto make_triangulation(const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=INITIAL_RADIUS, double radial_factor=RADIAL_FACTOR)</div><div class="ttdoc">Make a triangulation from foliated 2-spheres.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00288">S3Triangulation.hpp:288</a></div></div>
+<div class="ttc" id="aclass_move__tracker_html"><div class="ttname"><a href="class_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00033">Move_strategy.hpp:34</a></div></div>
 <div class="ttc" id="a_measurements_8hpp_html"><div class="ttname"><a href="_measurements_8hpp.html">Measurements.hpp</a></div><div class="ttdoc">Measurements of the simulation.</div></div>
 <div class="ttc" id="astruct_simplicial_manifold_html"><div class="ttname"><a href="struct_simplicial_manifold.html">SimplicialManifold</a></div><div class="ttdef"><b>Definition:</b> <a href="_simplicial_manifold_8hpp_source.html#l00419">SimplicialManifold.hpp:420</a></div></div>
 <div class="ttc" id="a_s3_ergodic_moves_8hpp_html_a8ec8eb0557a6c1bdb25cbd68c5f86e38"><div class="ttname"><a href="_s3_ergodic_moves_8hpp.html#a8ec8eb0557a6c1bdb25cbd68c5f86e38">make_26_move</a></div><div class="ttdeci">auto make_26_move(Manifold &amp;&amp;universe, Moves &amp;&amp;attempted_moves) -&gt; decltype(universe)</div><div class="ttdoc">Make a (2,6) move.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_ergodic_moves_8hpp_source.html#l00256">S3ErgodicMoves.hpp:256</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 2 2020 05:28:24 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 10 2020 16:05:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>

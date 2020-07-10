@@ -78,96 +78,92 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="_geometry_8hpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
-<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#ifndef CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
-<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#define CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#define __PRETTY_FUNCTION__ __FUNCSIG__</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_foliated__triangulation_8hpp.html">Foliated_triangulation.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#ifndef CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
+<div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#define CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
+<div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_foliated__triangulation_8hpp.html">Foliated_triangulation.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="keyword">template</span> &lt;std::<span class="keywordtype">size_t</span> dimension&gt;</div>
+<div class="line"><a name="l00019"></a><span class="lineno"><a class="line" href="struct_geometry.html">   19</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_geometry.html">Geometry</a>;</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">template</span> &lt;std::<span class="keywordtype">size_t</span> dimension&gt;</div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="struct_geometry.html">   24</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_geometry.html">Geometry</a>;</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00028"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html">   28</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_geometry.html">Geometry</a>&lt;3&gt;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;{</div>
-<div class="line"><a name="l00031"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a7e91c21a88f62ac08dd8ccfafcf8b2b7">   31</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3{0};</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00034"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a2ba5bdb45507af570ca7af7553417354">   34</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31{0};</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
-<div class="line"><a name="l00037"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a458c5638f49ae9421e79aa7fc404cf1f">   37</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_13{0};</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
-<div class="line"><a name="l00040"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a78b0aa25a28f9ec30fc72567ab94abe7">   40</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31_13{0};</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a550c53c6ab663626350777b0ea204df0">   43</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_22{0};</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a48de5ca45643f71ad68f3d525a9b6876">   46</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N2{0};</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a1f1e0c0450b579742545330aac0dab4c">   49</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1{0};</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a7e3219c9ed6cf9ac0f827ea7567c64e6">   52</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_TL{0};</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a41904c98e3136ec242b3bc80eaadcb0f">   55</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_SL{0};</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#aee1a9f8cb8fc728045669547dc512c62">   58</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N0{0};</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a2e72020023755e08911e842633a33a5a">   61</a></span>&#160;  <a class="code" href="struct_geometry_3_013_01_4.html#a2e72020023755e08911e842633a33a5a">~Geometry</a>() = <span class="keywordflow">default</span>;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8">   64</a></span>&#160;  <a class="code" href="struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8">Geometry</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html">   23</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_geometry.html">Geometry</a>&lt;3&gt;</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00026"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a7e91c21a88f62ac08dd8ccfafcf8b2b7">   26</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3{0};</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160; </div>
+<div class="line"><a name="l00029"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a2ba5bdb45507af570ca7af7553417354">   29</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31{0};</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160; </div>
+<div class="line"><a name="l00032"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a458c5638f49ae9421e79aa7fc404cf1f">   32</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_13{0};</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160; </div>
+<div class="line"><a name="l00035"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a78b0aa25a28f9ec30fc72567ab94abe7">   35</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_31_13{0};</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160; </div>
+<div class="line"><a name="l00038"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a550c53c6ab663626350777b0ea204df0">   38</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N3_22{0};</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
+<div class="line"><a name="l00041"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a48de5ca45643f71ad68f3d525a9b6876">   41</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N2{0};</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a1f1e0c0450b579742545330aac0dab4c">   44</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1{0};</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a7e3219c9ed6cf9ac0f827ea7567c64e6">   47</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_TL{0};</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a41904c98e3136ec242b3bc80eaadcb0f">   50</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N1_SL{0};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#aee1a9f8cb8fc728045669547dc512c62">   53</a></span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N0{0};</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a2e72020023755e08911e842633a33a5a">   56</a></span>&#160;  <a class="code" href="struct_geometry_3_013_01_4.html#a2e72020023755e08911e842633a33a5a">~Geometry</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
+<div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8">   59</a></span>&#160;  <a class="code" href="struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8">Geometry</a>() = <span class="keywordflow">default</span>;</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">   64</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">Geometry</a>(<a class="code" href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation3</a> <span class="keyword">const</span>&amp; triangulation)</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00069"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">   69</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">Geometry</a>(<a class="code" href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation3</a> <span class="keyword">const</span>&amp; triangulation)</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      : N3{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.<a class="code" href="class_foliated_triangulation_3_013_01_4.html#a7961aa8f014a414db47dd051d235bc09">number_of_finite_cells</a>())}</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      , N3_31{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_three_one().size())}</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      , N3_13{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_one_three().size())}</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      , N3_31_13{N3_31 + N3_13}</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      , N3_22{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_two_two().size())}</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      , N2{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.number_of_finite_facets())}</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      , N1{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.number_of_finite_edges())}</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      , N1_TL{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.N1_TL())}</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      , N1_SL{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.N1_SL())}</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;      , N0{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.number_of_vertices())}</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  {}</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">   89</a></span>&#160;  <span class="keyword">friend</span> <span class="keywordtype">void</span> <a class="code" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">swap</a>(<a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>&amp; t_first, <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>&amp; t_second) noexcept</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  {</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="keyword">using</span> std::swap;</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    swap(t_first.N3, t_second.N3);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    swap(t_first.N3_31, t_second.N3_31);</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    swap(t_first.N3_13, t_second.N3_13);</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    swap(t_first.N3_31_13, t_second.N3_31_13);</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    swap(t_first.N3_22, t_second.N3_22);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    swap(t_first.N2, t_second.N2);</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    swap(t_first.N1, t_second.N1);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    swap(t_first.N1_TL, t_second.N1_TL);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    swap(t_first.N1_SL, t_second.N1_SL);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    swap(t_first.N0, t_second.N0);</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  }  <span class="comment">// swap</span></div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;};</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a> = <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>;</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      : N3{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.<a class="code" href="class_foliated_triangulation_3_013_01_4.html#a7961aa8f014a414db47dd051d235bc09">number_of_finite_cells</a>())}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      , N3_31{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_three_one().size())}</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      , N3_13{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_one_three().size())}</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      , N3_31_13{N3_31 + N3_13}</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      , N3_22{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_two_two().size())}</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      , N2{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.number_of_finite_facets())}</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      , N1{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.number_of_finite_edges())}</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      , N1_TL{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.N1_TL())}</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      , N1_SL{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.N1_SL())}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      , N0{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.number_of_vertices())}</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  {}</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">   84</a></span>&#160;  <span class="keyword">friend</span> <span class="keywordtype">void</span> <a class="code" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">swap</a>(<a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>&amp; t_first, <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>&amp; t_second) noexcept</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">using</span> std::swap;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    swap(t_first.N3, t_second.N3);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    swap(t_first.N3_31, t_second.N3_31);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    swap(t_first.N3_13, t_second.N3_13);</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    swap(t_first.N3_31_13, t_second.N3_31_13);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    swap(t_first.N3_22, t_second.N3_22);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    swap(t_first.N2, t_second.N2);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    swap(t_first.N1, t_second.N1);</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    swap(t_first.N1_TL, t_second.N1_TL);</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    swap(t_first.N1_SL, t_second.N1_SL);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    swap(t_first.N0, t_second.N0);</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  }  <span class="comment">// swap</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;};</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a> = <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00085">Foliated_triangulation.hpp:86</a></div></div>
-<div class="ttc" id="astruct_geometry_3_013_01_4_html"><div class="ttname"><a href="struct_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></div><div class="ttdoc">3D Geometry</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00028">Geometry.hpp:29</a></div></div>
+<div class="ttc" id="astruct_geometry_3_013_01_4_html"><div class="ttname"><a href="struct_geometry_3_013_01_4.html">Geometry&lt; 3 &gt;</a></div><div class="ttdoc">3D Geometry</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00023">Geometry.hpp:24</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html"><div class="ttname"><a href="_foliated__triangulation_8hpp.html">Foliated_triangulation.hpp</a></div><div class="ttdoc">Create foliated spherical triangulations.</div></div>
-<div class="ttc" id="astruct_geometry_3_013_01_4_html_a7ce72e159359beb2716e508cad5fd45c"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry(FoliatedTriangulation3 const &amp;triangulation)</div><div class="ttdoc">Constructor with triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00069">Geometry.hpp:69</a></div></div>
+<div class="ttc" id="astruct_geometry_3_013_01_4_html_a7ce72e159359beb2716e508cad5fd45c"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a7ce72e159359beb2716e508cad5fd45c">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry(FoliatedTriangulation3 const &amp;triangulation)</div><div class="ttdoc">Constructor with triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00064">Geometry.hpp:64</a></div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_abd5d97366123fd8ae8b8975213cd52c8"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry()=default</div><div class="ttdoc">Default ctor.</div></div>
 <div class="ttc" id="astruct_geometry_3_013_01_4_html_a2e72020023755e08911e842633a33a5a"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a2e72020023755e08911e842633a33a5a">Geometry&lt; 3 &gt;::~Geometry</a></div><div class="ttdeci">~Geometry()=default</div><div class="ttdoc">Default dtor.</div></div>
-<div class="ttc" id="astruct_geometry_3_013_01_4_html_a89aa633be477dfd525950f3b0e2d1bf8"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">Geometry&lt; 3 &gt;::swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00089">Geometry.hpp:89</a></div></div>
+<div class="ttc" id="astruct_geometry_3_013_01_4_html_a89aa633be477dfd525950f3b0e2d1bf8"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">Geometry&lt; 3 &gt;::swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00084">Geometry.hpp:84</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00029">Settings.hpp:29</a></div></div>
 <div class="ttc" id="aclass_foliated_triangulation_3_013_01_4_html_a7961aa8f014a414db47dd051d235bc09"><div class="ttname"><a href="class_foliated_triangulation_3_013_01_4.html#a7961aa8f014a414db47dd051d235bc09">FoliatedTriangulation&lt; 3 &gt;::number_of_finite_cells</a></div><div class="ttdeci">auto number_of_finite_cells() const</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00238">Foliated_triangulation.hpp:238</a></div></div>
-<div class="ttc" id="astruct_geometry_html"><div class="ttname"><a href="struct_geometry.html">Geometry</a></div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00024">Geometry.hpp:24</a></div></div>
+<div class="ttc" id="astruct_geometry_html"><div class="ttname"><a href="struct_geometry.html">Geometry</a></div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00019">Geometry.hpp:19</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat May 2 2020 05:28:24 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 10 2020 16:05:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.18
 </small></address>
