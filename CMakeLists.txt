@@ -23,7 +23,7 @@ include(cmake/StaticAnalyzers.cmake)
 
 # Link to project_options library to set sanitizer options
 add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_17)
+target_compile_features(project_options INTERFACE cxx_std_20)
 include(cmake/Sanitizers.cmake)
 enable_sanitizers(project_options)
 
@@ -98,7 +98,7 @@ else()
             TBB::tbb
             CGAL::CGAL)
 endif()
-target_compile_features(initialize PRIVATE cxx_std_17)
+target_compile_features(initialize PRIVATE cxx_std_20)
 
 # add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
 # target_link_libraries( cdt-opt PRIVATE date::tz date::date Catch2::Catch2
@@ -109,7 +109,7 @@ if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(cdt-gv PRIVATE project_options project_warnings
                                        docopt_s CGAL::CGAL)
-  target_compile_features(cdt-gv PRIVATE cxx_std_17)
+  target_compile_features(cdt-gv PRIVATE cxx_std_20)
 endif()
 
 #
