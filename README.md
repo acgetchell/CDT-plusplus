@@ -66,13 +66,11 @@ The goals and targets of this project are:
 
 If you just want to run a stable version of the code, grab a versioned [release].
 
-Otherwise, you can clone the repo, including submodules, as follows:
+Otherwise, you can clone the repo as follows:
 
 ~~~
-git clone --recurse-submodules https://github.com/acgetchell/CDT-plusplus.git
+git clone https://github.com/acgetchell/CDT-plusplus.git
 ~~~
-
-(Older versions of `git` may require `--recursive` instead of `--recurse-submodules`.)
 
 This will put you on the [development] branch. The project is organized similar to the [PitchFork Layout], as follows:
 
@@ -80,7 +78,7 @@ This will put you on the [development] branch. The project is organized similar 
 - build - Ephemeral out-of-source build directory
 - cmake - Cmake configurations
 - docs - Documentation
-- external - Includes submodules of external projects, e.g. [PCG]
+- external - Includes submodules of external projects (none so far, all using [vcpkg])
 - include - Header files
 - scripts - Build, test, and run scripts
 - src - Source files
@@ -115,7 +113,7 @@ sudo apt-get install yasm
 sudo apt-get install m4
 ```
 
-At minimum, you need to install prerequisites [Catch], [docopt], [{fmt}], [ms-gsl], [Eigen], [tbb], and [CGAL]
+At minimum, you need to install prerequisites [Catch], [docopt], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
 (which installs [boost], [mpir] and [mpfr]):
 
 ```bash
@@ -124,6 +122,7 @@ vcpkg install docopt
 vcpkg install fmt
 vcpkg install ms-gsl
 vcpkg install eigen3
+vcpkg install pcg
 vcpkg install tbb
 vcpkg install cgal
 ```

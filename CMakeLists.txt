@@ -59,6 +59,9 @@ find_package(Boost REQUIRED)
 # https://eigen.tuxfamily.org/index.php?title=Main_Page
 find_package(Eigen3 CONFIG REQUIRED)
 
+# https://www.pcg-random.org
+find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
+
 # https://github.com/intel/tbb
 find_package(TBB CONFIG REQUIRED)
 
@@ -70,8 +73,7 @@ set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     CACHE BOOL "Force CGAL to maintain CMAKE flags")
 set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include
-                    ${PROJECT_SOURCE_DIR}/external/pcg-cpp/include)
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include ${PCG_INCLUDE_DIRS})
 add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 
 # On macOS and Linux docopt builds an intermediate object, thus different
