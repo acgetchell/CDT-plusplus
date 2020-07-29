@@ -26,6 +26,8 @@ extraction:
         - ./vcpkg install pcg
         - ./vcpkg install tbb
         - ./vcpkg install cgal
+        - ./vcpkg upgrade --no-dry-run
+        - ./vcpkg list
     index:
       build_command:
         - cd $LGTM_SRC
