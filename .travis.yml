@@ -181,16 +181,17 @@ jobs:
     - os: linux
       compiler: g++-9
       env: DOXYGEN=true
-      before_install:
-        - export CXX="g++-9" CC="gcc-9"
-        # Install Linuxbrew which has a more up-to-date Doxygen
-        - yes | sh -c "$(curl -fsSL https://raw.githubusercontent.com/Linuxbrew/install/master/install.sh)"
-        - echo 'eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)' >>~/.profile
-        - eval $(/home/linuxbrew/.linuxbrew/bin/brew shellenv)
-        - brew update
-      install:
-        - brew install graphviz
-        - brew install doxygen
+      addons:
+        apt:
+          sources:
+            - sourceline: 'ppa:ubuntu-toolchain-r/test'
+          packages:
+            - g++-9
+            - ninja-build
+            - yasm
+            - graphviz
+            - doxygen
+      install: skip
       script:
         - cd $TRAVIS_BUILD_DIR
         - doxygen docs/Doxyfile
@@ -225,10 +226,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
   - if [[ "$CXX" == "clang++" && "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="clang++-10" CC="clang-10"; fi
-  # Workaround for vcpkg on macOS 10.14
-#  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then sudo installer -pkg /Library/Developer/CommandLineTools/Packages/macOS_SDK_headers_for_macOS_10.14.pkg -target /; fi
-  # Install updated cmake
-#  - pip install --user cmake
   - cmake --version
 
 install:
