@@ -1,13 +1,12 @@
 <map id="include/S3Triangulation.hpp" name="include/S3Triangulation.hpp">
-<area shape="rect" id="node1" title="Functions on 3D Spherical Delaunay Triangulations." alt="" coords="223,5,425,32"/>
-<area shape="rect" id="node2" href="$_s3_ergodic_moves_8hpp.html" title="Pachner moves on 3D Delaunay Triangulations." alt="" coords="5,162,213,189"/>
-<area shape="rect" id="node5" href="$_simplicial_manifold_8hpp.html" title="Data structures for simplicial manifolds." alt="" coords="322,80,545,107"/>
-<area shape="rect" id="node3" href="$_measurements_test_8cpp.html" title="Tests for the various measurement functions." alt="" coords="7,244,215,271"/>
-<area shape="rect" id="node4" href="$_s3_ergodic_moves_test_8cpp_source.html" title=" " alt="" coords="240,244,459,271"/>
-<area shape="rect" id="node6" href="$_measurements_8hpp.html" title="Measurements of the simulation." alt="" coords="441,162,639,189"/>
-<area shape="rect" id="node7" href="$_simulation_8hpp.html" title="Simulation class." alt="" coords="664,162,835,189"/>
-<area shape="rect" id="node11" href="$_simplicial_manifold_test_8cpp_source.html" title=" " alt="" coords="237,155,416,196"/>
-<area shape="rect" id="node8" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="690,244,809,271"/>
-<area shape="rect" id="node9" href="$cdt_8cpp.html" title="The main executable." alt="" coords="833,244,925,271"/>
-<area shape="rect" id="node10" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="484,244,665,271"/>
+<area shape="rect" id="node2" href="$_s3_ergodic_moves_8hpp.html" title="Pachner moves on 3D Delaunay Triangulations. " alt="" coords="5,162,212,189"/>
+<area shape="rect" id="node5" href="$_simplicial_manifold_8hpp.html" title="Data structures for simplicial manifolds. " alt="" coords="321,80,542,107"/>
+<area shape="rect" id="node3" href="$_measurements_test_8cpp.html" title="Tests for the various measurement functions. " alt="" coords="7,244,213,271"/>
+<area shape="rect" id="node4" href="$_s3_ergodic_moves_test_8cpp_source.html" title="tests/S3ErgodicMovesTest.cpp" alt="" coords="239,244,456,271"/>
+<area shape="rect" id="node6" href="$_measurements_8hpp.html" title="Measurements of the simulation. " alt="" coords="439,162,637,189"/>
+<area shape="rect" id="node7" href="$_simulation_8hpp.html" title="Simulation class. " alt="" coords="661,162,831,189"/>
+<area shape="rect" id="node11" href="$_simplicial_manifold_test_8cpp_source.html" title="tests/SimplicialManifold\lTest.cpp" alt="" coords="237,155,415,196"/>
+<area shape="rect" id="node8" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations. " alt="" coords="687,244,805,271"/>
+<area shape="rect" id="node9" href="$cdt_8cpp.html" title="The main executable. " alt="" coords="829,244,921,271"/>
+<area shape="rect" id="node10" href="$_simulation_test_8cpp_source.html" title="tests/SimulationTest.cpp" alt="" coords="481,244,662,271"/>
 </map>

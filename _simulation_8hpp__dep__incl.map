@@ -1,6 +1,5 @@
 <map id="include/Simulation.hpp" name="include/Simulation.hpp">
-<area shape="rect" id="node1" title="Simulation class." alt="" coords="109,5,279,32"/>
-<area shape="rect" id="node2" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="5,80,124,107"/>
-<area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable." alt="" coords="148,80,240,107"/>
-<area shape="rect" id="node4" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="265,80,446,107"/>
+<area shape="rect" id="node2" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations. " alt="" coords="5,80,124,107"/>
+<area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable. " alt="" coords="148,80,240,107"/>
+<area shape="rect" id="node4" href="$_simulation_test_8cpp_source.html" title="tests/SimulationTest.cpp" alt="" coords="265,80,446,107"/>
 </map>

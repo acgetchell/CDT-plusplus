@@ -7,7 +7,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_apply__move_8hpp.html</Path>
-    <Anchor>a69507c0d9a9fdff75a4c396469fde506</Anchor>
+    <Anchor>a151707aca0f61b971218bd939144cfec</Anchor>
     <DeclaredIn>Apply_move.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -19,7 +19,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>af97bb8d41346abb2b1ea7aa39a652ea7</Anchor>
-    <Abstract>Check move correctness.</Abstract>
+    <Abstract>Check move correctness. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -31,7 +31,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>a71e2c540b78a67c0b676569be8596105</Anchor>
-    <Abstract>Perform a (2,3) move.</Abstract>
+    <Abstract>Perform a (2,3) move. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -43,7 +43,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>a4ca59a2ee338757c540f4091f0fd05ae</Anchor>
-    <Abstract>Perform a (2,6) move.</Abstract>
+    <Abstract>Perform a (2,6) move. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -55,7 +55,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>affbe0fa6e7873b6f7d698a6e78f7d0d8</Anchor>
-    <Abstract>Perform a (3,2) move.</Abstract>
+    <Abstract>Perform a (3,2) move. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -67,7 +67,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>a926f7eef3513d81f693c319f2d6e436c</Anchor>
-    <Abstract>Perform a (4,4) move.</Abstract>
+    <Abstract>Perform a (4,4) move. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -79,7 +79,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>ac8c199f51cd510b4fd258438345d1636</Anchor>
-    <Abstract>Perform a (6,2) move.</Abstract>
+    <Abstract>Perform a (6,2) move. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -91,7 +91,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>ab96ac1e9d4d693d94eb942c17d5862cc</Anchor>
-    <Abstract>Find a (2,6) move location.</Abstract>
+    <Abstract>Find a (2,6) move location. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -103,7 +103,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>ab674b1d7650d34935928bce51e348505</Anchor>
-    <Abstract>Find a (4,4) move location.</Abstract>
+    <Abstract>Find a (4,4) move location. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -115,7 +115,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>acfb74d3820dd28cfc73516803fa34732</Anchor>
-    <Abstract>Find a (6,2) move location.</Abstract>
+    <Abstract>Find a (6,2) move location. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -127,7 +127,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>ab6b42a2e522ee2d0c5196d958652c031</Anchor>
-    <Abstract>Perform a null move.</Abstract>
+    <Abstract>Perform a null move. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -139,7 +139,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>af936b5e54c5b8fa28d6e3939acd82a3c</Anchor>
-    <Abstract>Perform a TriangulationDataStructure_3::flip on a facet.</Abstract>
+    <Abstract>Perform a TriangulationDataStructure_3::flip on a facet. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -151,7 +151,7 @@
     </TokenIdentifier>
     <Path>_ergodic__moves__3_8hpp.html</Path>
     <Anchor>a336061638e4f05628245e5428c9db6a4</Anchor>
-    <Abstract>Perform a TriangulationDataStructure_3::flip on an edge.</Abstract>
+    <Abstract>Perform a TriangulationDataStructure_3::flip on an edge. </Abstract>
     <DeclaredIn>Ergodic_moves_3.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -162,7 +162,7 @@
     </TokenIdentifier>
     <Path>_foliated__triangulation_8hpp.html</Path>
     <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
-    <Abstract>Toggles detailed per-simplex debugging output.</Abstract>
+    <Abstract>Toggles detailed per-simplex debugging output. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -173,7 +173,7 @@
     </TokenIdentifier>
     <Path>_foliated__triangulation_8hpp.html</Path>
     <Anchor>a47a56bb19abae468f695f45f32b220bf</Anchor>
-    <Abstract>Compare time values of vertices.</Abstract>
+    <Abstract>Compare time values of vertices. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -184,7 +184,7 @@
     </TokenIdentifier>
     <Path>_measurements_8hpp.html</Path>
     <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
-    <Abstract>Toggles detailed per-facet debugging output.</Abstract>
+    <Abstract>Toggles detailed per-facet debugging output. </Abstract>
     <DeclaredIn>Measurements.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -195,7 +195,7 @@
     </TokenIdentifier>
     <Path>_move__strategy_8hpp.html</Path>
     <Anchor>aa662102633e141a22722fc4da7345c39</Anchor>
-    <Abstract>Determine ergodic moves for a given dimension at compile-time.</Abstract>
+    <Abstract>Determine ergodic moves for a given dimension at compile-time. </Abstract>
     <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -206,7 +206,7 @@
     </TokenIdentifier>
     <Path>_periodic__3__complex_8hpp.html</Path>
     <Anchor>a77af2727b5f5883202b20e8ce9326d60</Anchor>
-    <Abstract>Make 3D toroidal (periodic in 3D) simplicial complexes.</Abstract>
+    <Abstract>Make 3D toroidal (periodic in 3D) simplicial complexes. </Abstract>
     <DeclaredIn>Periodic_3_complex.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -217,7 +217,7 @@
     </TokenIdentifier>
     <Path>_periodic__3__triangulations_8hpp.html</Path>
     <Anchor>a47758eef4587eeb8e5419c87a5cd9943</Anchor>
-    <Abstract>Random point generators for d-dimensional points in a d-cube per timeslice.</Abstract>
+    <Abstract>Random point generators for d-dimensional points in a d-cube per timeslice. </Abstract>
     <DeclaredIn>Periodic_3_triangulations.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -228,7 +228,7 @@
     </TokenIdentifier>
     <Path>_periodic__3__triangulations_8hpp.html</Path>
     <Anchor>a2bec3309c3094ede5986a80db48dd19d</Anchor>
-    <Abstract>Allows each vertex to contain an integer denoting its timeslice.</Abstract>
+    <Abstract>Allows each vertex to contain an integer denoting its timeslice. </Abstract>
     <DeclaredIn>Periodic_3_triangulations.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -239,7 +239,7 @@
     </TokenIdentifier>
     <Path>_periodic__3__triangulations_8hpp.html</Path>
     <Anchor>a80761c04c540a5fdc40101d4c10f41b9</Anchor>
-    <Abstract>Make 3D toroidal (periodic) triangulations.</Abstract>
+    <Abstract>Make 3D toroidal (periodic) triangulations. </Abstract>
     <DeclaredIn>Periodic_3_triangulations.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -250,7 +250,7 @@
     </TokenIdentifier>
     <Path>_s3_action_8hpp.html</Path>
     <Anchor>a53b4885b111d123e2e655a919c233371</Anchor>
-    <Abstract>Calculates the generalized S3 bulk action in terms of , , , , , and .</Abstract>
+    <Abstract>Calculates the generalized S3 bulk action in terms of , , , , , and . </Abstract>
     <DeclaredIn>S3Action.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -261,7 +261,7 @@
     </TokenIdentifier>
     <Path>_s3_action_8hpp.html</Path>
     <Anchor>a74e4782fbf36a6f6f1dfa8ffa254fa40</Anchor>
-    <Abstract>Calculates S3 bulk action for =-1.</Abstract>
+    <Abstract>Calculates S3 bulk action for =-1. </Abstract>
     <DeclaredIn>S3Action.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -272,7 +272,7 @@
     </TokenIdentifier>
     <Path>_s3_action_8hpp.html</Path>
     <Anchor>a15f42f7bf0813750d7799f81e82c35fd</Anchor>
-    <Abstract>Calculates S3 bulk action for =1.</Abstract>
+    <Abstract>Calculates S3 bulk action for =1. </Abstract>
     <DeclaredIn>S3Action.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -283,7 +283,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>a3e00cd7737f0467bd37da92f712d2448</Anchor>
-    <Abstract>Find a (2,6) move.</Abstract>
+    <Abstract>Find a (2,6) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -294,7 +294,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>ab260fd5e81344d585264b65a5cd1efcf</Anchor>
-    <Abstract>Find a (6,2) move.</Abstract>
+    <Abstract>Find a (6,2) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -305,7 +305,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>ad5ade2db3dd9f9f568af6c4ae4f3fa98</Anchor>
-    <Abstract>Check a (2,6) move.</Abstract>
+    <Abstract>Check a (2,6) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -316,7 +316,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>ab91ed11ef58b49edad0297ef5fc33324</Anchor>
-    <Abstract>Make a (2,3) move.</Abstract>
+    <Abstract>Make a (2,3) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -327,7 +327,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>a8ec8eb0557a6c1bdb25cbd68c5f86e38</Anchor>
-    <Abstract>Make a (2,6) move.</Abstract>
+    <Abstract>Make a (2,6) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -338,7 +338,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>aabdf2c94726a19af7e3b71d1e18a3620</Anchor>
-    <Abstract>Make a (3,2) move.</Abstract>
+    <Abstract>Make a (3,2) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -349,7 +349,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>a27a236924fa3254230c56d64c26f3870</Anchor>
-    <Abstract>Make a (4,4) move.</Abstract>
+    <Abstract>Make a (4,4) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -360,7 +360,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>ac0e029bd2c96c790b47d0ec6f9c3942b</Anchor>
-    <Abstract>Make a (6,2) move.</Abstract>
+    <Abstract>Make a (6,2) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -371,7 +371,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>a77761339686ecc1665eb66d53b5caa84</Anchor>
-    <Abstract>Try a (2,3) move.</Abstract>
+    <Abstract>Try a (2,3) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -382,7 +382,7 @@
     </TokenIdentifier>
     <Path>_s3_ergodic_moves_8hpp.html</Path>
     <Anchor>a71ccfff437ed4296d8c5e00ac586efbc</Anchor>
-    <Abstract>Try a (3,2) move.</Abstract>
+    <Abstract>Try a (3,2) move. </Abstract>
     <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -393,7 +393,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
-    <Abstract>Toggles detailed per-simplex debugging output.</Abstract>
+    <Abstract>Toggles detailed per-simplex debugging output. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -404,7 +404,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>a6ab0724c904152ce4add1a86c77cc196</Anchor>
-    <Abstract>Fix simplices with incorrect foliation.</Abstract>
+    <Abstract>Fix simplices with incorrect foliation. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -415,7 +415,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>abc9cbd159e8739ebb95c9709a1133485</Anchor>
-    <Abstract>Fixes the foliation of the triangulation.</Abstract>
+    <Abstract>Fixes the foliation of the triangulation. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -426,7 +426,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>ac8b9d174858456041aec6193e216197b</Anchor>
-    <Abstract>Inserts vertices with timeslices into Delaunay triangulation.</Abstract>
+    <Abstract>Inserts vertices with timeslices into Delaunay triangulation. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -437,7 +437,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>a7e50d58c59328f4e8b48e0e6ba7c445e</Anchor>
-    <Abstract>Make foliated spheres.</Abstract>
+    <Abstract>Make foliated spheres. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -448,7 +448,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>ab5a602784d13979e1482f3393e388cfa</Anchor>
-    <Abstract>Make a triangulation from foliated 2-spheres.</Abstract>
+    <Abstract>Make a triangulation from foliated 2-spheres. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -459,7 +459,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>a184e250fab1673271fe73a4592fa2947</Anchor>
-    <Abstract>The dimensionality of the Delaunay triangulation.</Abstract>
+    <Abstract>The dimensionality of the Delaunay triangulation. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -470,7 +470,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>ae951ec1742e61c4fd7f1592e5594ac98</Anchor>
-    <Abstract>Initial radius and radial factor.</Abstract>
+    <Abstract>Initial radius and radial factor. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -481,7 +481,7 @@
     </TokenIdentifier>
     <Path>_s3_triangulation_8hpp.html</Path>
     <Anchor>a20d1331155a3fd0fac92b5683506dd19</Anchor>
-    <Abstract>The maximum number of passes to fix invalidly foliated simplices.</Abstract>
+    <Abstract>The maximum number of passes to fix invalidly foliated simplices. </Abstract>
     <DeclaredIn>S3Triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -511,8 +511,8 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>_settings_8hpp.html</Path>
-    <Anchor>a1c189d695c12981d88175ed54dd22311</Anchor>
-    <Abstract>Depends on INITIAL_RADIUS and RADIAL_FACTOR.</Abstract>
+    <Anchor>ad4fe62dcc2f4b7baf83f0b756e13e961</Anchor>
+    <Abstract>Depends on INITIAL_RADIUS and RADIAL_FACTOR. </Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -522,8 +522,8 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>_settings_8hpp.html</Path>
-    <Anchor>a095e4cc101a9be9c9cd9b2965d78e2ea</Anchor>
-    <Abstract>Default foliated triangulation spacings.</Abstract>
+    <Anchor>a81aad3d328ae07174fa55ebdd847de7d</Anchor>
+    <Abstract>Default foliated triangulation spacings. </Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -533,8 +533,8 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>_settings_8hpp.html</Path>
-    <Anchor>a3b74ffb172789818cabbba0cfddee528</Anchor>
-    <Abstract>Sets the precision for MPFR.</Abstract>
+    <Anchor>ad5b86ed0f422d4c11a91b14d34e47bca</Anchor>
+    <Abstract>Sets the precision for MPFR. </Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -545,7 +545,7 @@
     </TokenIdentifier>
     <Path>_simplicial_manifold_8hpp.html</Path>
     <Anchor>a8b51dbd142e899a21bb0f5ce61358a9d</Anchor>
-    <Abstract>A tuple of the geometric values of the Simplicial Manifold.</Abstract>
+    <Abstract>A tuple of the geometric values of the Simplicial Manifold. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -556,7 +556,7 @@
     </TokenIdentifier>
     <Path>_simplicial_manifold_8hpp.html</Path>
     <Anchor>a5d1faf454aae17fccb2378ae149f8b79</Anchor>
-    <Abstract>Classifies edges.</Abstract>
+    <Abstract>Classifies edges. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -567,8 +567,41 @@
     </TokenIdentifier>
     <Path>_simplicial_manifold_8hpp.html</Path>
     <Anchor>a6eae5e81fbc86f691083957d5f7aa96d</Anchor>
-    <Abstract>Classify simplices as (3,1), (2,2), or (1,3)</Abstract>
+    <Abstract>Classify simplices as (3,1), (2,2), or (1,3) </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Kd</Name>
+      <APILanguage>c</APILanguage>
+      <Type>tdef</Type>
+    </TokenIdentifier>
+    <Path>_sphere__d_8hpp.html</Path>
+    <Anchor>a47758eef4587eeb8e5419c87a5cd9943</Anchor>
+    <Abstract>CGAL headers. </Abstract>
+    <DeclaredIn>Sphere_d.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_d_sphere</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_sphere__d_8hpp.html</Path>
+    <Anchor>a04b74615510e6ad6edf4cb2b403c2419</Anchor>
+    <Abstract>Make a d-dimensional sphere. </Abstract>
+    <DeclaredIn>Sphere_d.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>make_d_sphere</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_sphere__d_8hpp.html</Path>
+    <Anchor>a64c0c342c35e3b7431f2e82e5eca094a</Anchor>
+    <Abstract>Make a d-dimensional sphere without output. </Abstract>
+    <DeclaredIn>Sphere_d.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -578,7 +611,7 @@
     </TokenIdentifier>
     <Path>_torus__d_8hpp.html</Path>
     <Anchor>a8121c327137366c97fabaf76848fb32f</Anchor>
-    <Abstract>Make a d-dimensional toroid of points.</Abstract>
+    <Abstract>Make a d-dimensional toroid of points. </Abstract>
     <DeclaredIn>Torus_d.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -589,7 +622,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
-    <Abstract>Toggles detailed random number generator debugging output.</Abstract>
+    <Abstract>Toggles detailed random number generator debugging output. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -600,7 +633,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>aa14b86f5589855b0255347a5af00a23b</Anchor>
-    <Abstract>Return current date and time.</Abstract>
+    <Abstract>Return current date and time. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -611,7 +644,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a171c31ff047c94717de089933f7dab45</Anchor>
-    <Abstract>Roll a die with PCG.</Abstract>
+    <Abstract>Roll a die with PCG. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -622,7 +655,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a5b0cf3d2ac2f8372441d30d9a1fd6ca9</Anchor>
-    <Abstract>Calculate expected # of points per simplex.</Abstract>
+    <Abstract>Calculate expected # of points per simplex. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -633,7 +666,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a411884dbafb69ebcae8a240adeaba64c</Anchor>
-    <Abstract>Generate useful filenames.</Abstract>
+    <Abstract>Generate useful filenames. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -643,8 +676,8 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a9a9ab64d518ecba1c9f69229fdf3180c</Anchor>
-    <Abstract>Generate a probability.</Abstract>
+    <Anchor>a87bf421408fc48bf71ead78d52bca5e3</Anchor>
+    <Abstract>Generate a probability. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -655,7 +688,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a4a54ec1eeda4a90a5907c92da7f261d3</Anchor>
-    <Abstract>Generate random numbers.</Abstract>
+    <Abstract>Generate random numbers. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -665,8 +698,8 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>af11649ce763de4d43a654876ab4f394b</Anchor>
-    <Abstract>Generate random integers by calling generate_random, preserves template argument deduction.</Abstract>
+    <Anchor>aca511dcda671d4259ec99f1aa308761c</Anchor>
+    <Abstract>Generate random integers by calling generate_random, preserves template argument deduction. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -676,8 +709,8 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>af1f800b61278d6db0f848c17362a2e31</Anchor>
-    <Abstract>Generate random real numbers by calling generate_random, preserves template argument deduction.</Abstract>
+    <Anchor>a5c7978e035cce81a307a4f79ce3439cc</Anchor>
+    <Abstract>Generate random real numbers by calling generate_random, preserves template argument deduction...</Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -688,7 +721,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>ac4705e2bc94fd86797ad6c36ff031f16</Anchor>
-    <Abstract>Generate a random timeslice.</Abstract>
+    <Abstract>Generate a random timeslice. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -698,8 +731,8 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a9523606f4a5db07af9d3d14430184181</Anchor>
-    <Abstract>Return an environment variable.</Abstract>
+    <Anchor>a82c34ba5f64e435bebdeaca8c816b79d</Anchor>
+    <Abstract>Return an environment variable. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -710,7 +743,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a3aa36684c5b956a9a2ae0d339288325c</Anchor>
-    <Abstract>Convert Gmpzf into a double.</Abstract>
+    <Abstract>Convert Gmpzf into a double. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -721,7 +754,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a122ef5761ce661bcaae0fdadf0ac5f7a</Anchor>
-    <Abstract>Return the hostname.</Abstract>
+    <Abstract>Return the hostname. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -732,7 +765,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a29cc6a1199a42d77546d12609ba7ea01</Anchor>
-    <Abstract>Make a high-quality random number generator usable by std::shuffle.</Abstract>
+    <Abstract>Make a high-quality random number generator usable by std::shuffle. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -743,7 +776,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a009d76fda8b31ee925f5b4c5eb1d12f1</Anchor>
-    <Abstract>Convert topology_type to string output.</Abstract>
+    <Abstract>Convert topology_type to string output. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -754,7 +787,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>afde78c98ecf8f5dbee19636c2056d9c6</Anchor>
-    <Abstract>Print manifold statistics.</Abstract>
+    <Abstract>Print manifold statistics. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -765,7 +798,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a3d69ebb657771a343f486f6b26fe06e6</Anchor>
-    <Abstract>Print simplices and sub-simplices.</Abstract>
+    <Abstract>Print simplices and sub-simplices. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -776,7 +809,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a1e8d2acd0b14b01a35aef663d8a16c83</Anchor>
-    <Abstract>Print out runtime results.</Abstract>
+    <Abstract>Print out runtime results. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -787,7 +820,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>ab95e21602e726d1ce6980f7ffa3aae4f</Anchor>
-    <Abstract>Print out runtime results including time elapsed.</Abstract>
+    <Abstract>Print out runtime results including time elapsed. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -798,7 +831,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>aa2db8ee645d121807f5c5244b9b6808d</Anchor>
-    <Abstract>Print triangulation statistics.</Abstract>
+    <Abstract>Print triangulation statistics. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -809,7 +842,7 @@
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a16196320ad1e1415f764aa8720cd6d23</Anchor>
-    <Abstract>Writes the runtime results to a file.</Abstract>
+    <Abstract>Writes the runtime results to a file. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -820,7 +853,7 @@
     </TokenIdentifier>
     <Path>cdt-gv_8cpp.html</Path>
     <Anchor>ab31733381fa049166a37a718e9eef7f5</Anchor>
-    <Abstract>The main path of the cdt-gv program.</Abstract>
+    <Abstract>The main path of the cdt-gv program. </Abstract>
     <DeclaredIn>cdt-gv.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -831,7 +864,7 @@
     </TokenIdentifier>
     <Path>cdt-gv_8cpp.html</Path>
     <Anchor>a44e58f0208f2c71a06729f1be06b55bc</Anchor>
-    <Abstract>Help message parsed by docopt into options.</Abstract>
+    <Abstract>Help message parsed by docopt into options. </Abstract>
     <DeclaredIn>cdt-gv.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -852,7 +885,7 @@
     </TokenIdentifier>
     <Path>cdt_8cpp.html</Path>
     <Anchor>af3ed9c200de85b53c94cd18764b246a2</Anchor>
-    <Abstract>The main path of the CDT++ program.</Abstract>
+    <Abstract>The main path of the CDT++ program. </Abstract>
     <DeclaredIn>cdt.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -863,7 +896,7 @@
     </TokenIdentifier>
     <Path>cdt_8cpp.html</Path>
     <Anchor>a6d6e26e7e3af2d4bd47f6582aff224f8</Anchor>
-    <Abstract>Help message parsed by docopt into options.</Abstract>
+    <Abstract>Help message parsed by docopt into options. </Abstract>
     <DeclaredIn>cdt.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -874,7 +907,7 @@
     </TokenIdentifier>
     <Path>initialize_8cpp.html</Path>
     <Anchor>a44e58f0208f2c71a06729f1be06b55bc</Anchor>
-    <Abstract>Help message parsed by docopt into options.</Abstract>
+    <Abstract>Help message parsed by docopt into options. </Abstract>
     <DeclaredIn>initialize.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -894,7 +927,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_manifold__test_8cpp.html</Path>
-    <Anchor>a86c0feb15fe431d86236338356a0481e</Anchor>
+    <Anchor>a32ecb82665e32fc0b1fe5b25fdcb7bb2</Anchor>
     <DeclaredIn>Manifold_test.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -904,7 +937,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_manifold__test_8cpp.html</Path>
-    <Anchor>a32ecb82665e32fc0b1fe5b25fdcb7bb2</Anchor>
+    <Anchor>a86c0feb15fe431d86236338356a0481e</Anchor>
     <DeclaredIn>Manifold_test.cpp</DeclaredIn>
   </Token>
   <Token>
@@ -962,11 +995,11 @@
     <TokenIdentifier>
       <Name>FoliatedTriangulation&lt; 3 &gt;</Name>
       <APILanguage>c</APILanguage>
-      <Type>cl</Type>
+      <Type>tmplt</Type>
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Abstract>3D Triangulation</Abstract>
+    <Abstract>3D Triangulation </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -978,7 +1011,31 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>ab87b038289df891c7128f5c78613beb4</Anchor>
-    <Abstract>Default ctor.</Abstract>
+    <Abstract>Default ctor. </Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FoliatedTriangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
+    <Abstract>Copy Constructor. </Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FoliatedTriangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a7d876cdacb167cfc0960d103653c13bf</Anchor>
+    <Abstract>Move ctor. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1001,32 +1058,8 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a7d876cdacb167cfc0960d103653c13bf</Anchor>
-    <Abstract>Move ctor.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>FoliatedTriangulation</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>acd6acf2e63bcf253c36c88e9561780ab</Anchor>
-    <Abstract>Copy Constructor.</Abstract>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>FoliatedTriangulation</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
-    <Abstract>Constructor with parameters.</Abstract>
+    <Abstract>Constructor with parameters. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1038,7 +1071,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a4ee23f964e970f4e8fe3cdf3029e089b</Anchor>
-    <Abstract>Default dtor.</Abstract>
+    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1050,7 +1083,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a50539f832c056e28fcd5ecde42aa2137</Anchor>
-    <Abstract>Check simplices for correct foliation.</Abstract>
+    <Abstract>Check simplices for correct foliation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1129,7 +1162,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>abfc040ccfd1ecab17e4029868d127dd5</Anchor>
-    <Abstract>Call one of the TSD3.flip functions.</Abstract>
+    <Abstract>Call one of the TSD3.flip functions. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1228,8 +1261,8 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a824f910bf7fb329f98a7d638902bff20</Anchor>
-    <Abstract>Perfect forwarding to Delaunay3.tds().incident_cells()</Abstract>
+    <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
+    <Abstract>Call one of the TDS3.incident_cells functions. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1240,8 +1273,8 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
-    <Abstract>Call one of the TDS3.incident_cells functions.</Abstract>
+    <Anchor>a824f910bf7fb329f98a7d638902bff20</Anchor>
+    <Abstract>Perfect forwarding to Delaunay3.tds().incident_cells() </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1275,7 +1308,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a9f6fb8bbf8ba9a190d48b52e32288e95</Anchor>
-    <Abstract>Verifies the triangulation is properly foliated.</Abstract>
+    <Abstract>Verifies the triangulation is properly foliated. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1408,7 +1441,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>ac85d229bdf05f14e026d021c1539396f</Anchor>
-    <Abstract>Copy/Move Assignment operator.</Abstract>
+    <Abstract>Copy/Move Assignment operator. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1420,7 +1453,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>aa883b9144aeb9a99fdfcc7bfbe30aff8</Anchor>
-    <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
+    <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info() </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1432,7 +1465,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a95a5be17700a0f38005d359b8765fb2f</Anchor>
-    <Abstract>Print timevalues of each vertex in the edge and classify as timelike or spacelike.</Abstract>
+    <Abstract>Print timevalues of each vertex in the edge and classify as timelike or spacelike. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1444,7 +1477,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
-    <Abstract>Print the number of spacelike faces per timeslice.</Abstract>
+    <Abstract>Print the number of spacelike faces per timeslice. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1456,7 +1489,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
-    <Abstract>Check that all cells are correctly classified.</Abstract>
+    <Abstract>Check that all cells are correctly classified. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1468,7 +1501,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a833c90ee266b10b39b7c39c36d5a763e</Anchor>
-    <Abstract>Predicate to classify edge as timelike or spacelike.</Abstract>
+    <Abstract>Predicate to classify edge as timelike or spacelike. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1480,7 +1513,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a1e49ddd7f1a1c0435ba5189b32473684</Anchor>
-    <Abstract>Filter simplices by Cell_type.</Abstract>
+    <Abstract>Filter simplices by Cell_type. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1492,7 +1525,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>ac5d1a45cab81896501b965f8b8acbcb1</Anchor>
-    <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</Abstract>
+    <Abstract>Print timevalues of each vertex in the cell and the resulting cell-&gt;info() </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1504,7 +1537,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a3983ec27598c52fa70244a56d648b8ba</Anchor>
-    <Abstract>Classify cells.</Abstract>
+    <Abstract>Classify cells. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1560,7 +1593,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
-    <Abstract>Fix simplices with incorrect foliation.</Abstract>
+    <Abstract>Fix simplices with incorrect foliation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1572,7 +1605,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>aff195753c2a22cc65854e7e214552264</Anchor>
-    <Abstract>Make a Delaunay Triangulation.</Abstract>
+    <Abstract>Make a Delaunay Triangulation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1584,7 +1617,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a228f46d823e51abbfa3681ce37b6899c</Anchor>
-    <Abstract>Filter edges into timelike and spacelike.</Abstract>
+    <Abstract>Filter edges into timelike and spacelike. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1596,7 +1629,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a2c4b2c74fd32e37cadf0502121b492c6</Anchor>
-    <Abstract>Find maximum timevalues.</Abstract>
+    <Abstract>Find maximum timevalues. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1608,7 +1641,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a4d8442e51a3fed0a95dcd823e7dcade7</Anchor>
-    <Abstract>Find minimum timevalues.</Abstract>
+    <Abstract>Find minimum timevalues. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1620,7 +1653,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
-    <Abstract>Make foliated spheres.</Abstract>
+    <Abstract>Make foliated spheres. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1632,7 +1665,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a0968ddaeba06a3c66e1347dd95e6c7d1</Anchor>
-    <Abstract>Collect spacelike facets into a container indexed by time value.</Abstract>
+    <Abstract>Collect spacelike facets into a container indexed by time value. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1677,11 +1710,11 @@
     <TokenIdentifier>
       <Name>Geometry&lt; 3 &gt;</Name>
       <APILanguage>c</APILanguage>
-      <Type>cl</Type>
+      <Type>tmplt</Type>
       <Scope>Geometry&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
-    <Abstract>3D Geometry</Abstract>
+    <Abstract>3D Geometry </Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1693,7 +1726,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>abd5d97366123fd8ae8b8975213cd52c8</Anchor>
-    <Abstract>Default ctor.</Abstract>
+    <Abstract>Default ctor. </Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1705,7 +1738,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a7ce72e159359beb2716e508cad5fd45c</Anchor>
-    <Abstract>Constructor with triangulation.</Abstract>
+    <Abstract>Constructor with triangulation. </Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1717,7 +1750,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a2e72020023755e08911e842633a33a5a</Anchor>
-    <Abstract>Default dtor.</Abstract>
+    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1729,7 +1762,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>aee1a9f8cb8fc728045669547dc512c62</Anchor>
-    <Abstract>Number of vertices.</Abstract>
+    <Abstract>Number of vertices. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1740,7 +1773,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a1f1e0c0450b579742545330aac0dab4c</Anchor>
-    <Abstract>Number of 1D edges.</Abstract>
+    <Abstract>Number of 1D edges. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1751,7 +1784,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a41904c98e3136ec242b3bc80eaadcb0f</Anchor>
-    <Abstract>Number of spacelike edges.</Abstract>
+    <Abstract>Number of spacelike edges. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1762,7 +1795,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a7e3219c9ed6cf9ac0f827ea7567c64e6</Anchor>
-    <Abstract>Number of timelike edges.</Abstract>
+    <Abstract>Number of timelike edges. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1773,7 +1806,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a48de5ca45643f71ad68f3d525a9b6876</Anchor>
-    <Abstract>Number of 2D faces.</Abstract>
+    <Abstract>Number of 2D faces. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1784,7 +1817,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a7e91c21a88f62ac08dd8ccfafcf8b2b7</Anchor>
-    <Abstract>Number of 3D simplices.</Abstract>
+    <Abstract>Number of 3D simplices. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1795,7 +1828,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a458c5638f49ae9421e79aa7fc404cf1f</Anchor>
-    <Abstract>Number of (1,3) simplices.</Abstract>
+    <Abstract>Number of (1,3) simplices. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1806,7 +1839,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a550c53c6ab663626350777b0ea204df0</Anchor>
-    <Abstract>Number of (2,2) simplices.</Abstract>
+    <Abstract>Number of (2,2) simplices. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1817,7 +1850,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a2ba5bdb45507af570ca7af7553417354</Anchor>
-    <Abstract>Number of (3,1) simplices.</Abstract>
+    <Abstract>Number of (3,1) simplices. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1828,7 +1861,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a78b0aa25a28f9ec30fc72567ab94abe7</Anchor>
-    <Abstract>Number of (3,1) + (1,3) simplices.</Abstract>
+    <Abstract>Number of (3,1) + (1,3) simplices. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1860,7 +1893,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>aeb0374bdd929e5be5cb0cd31dfd9503c</Anchor>
-    <Abstract>Default constructor.</Abstract>
+    <Abstract>Default constructor. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1872,19 +1905,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a40bc1854955c1f6798a16a1b14354211</Anchor>
-    <Abstract>Constructor from Geometry_tuple.</Abstract>
-    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>GeometryInfo</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>GeometryInfo</Scope>
-    </TokenIdentifier>
-    <Path>struct_geometry_info.html</Path>
-    <Anchor>a89b996c9ceb6446b6265d0a11f3113e0</Anchor>
-    <Abstract>Default copy constructor.</Abstract>
+    <Abstract>Constructor from Geometry_tuple. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1896,7 +1917,19 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a9466be6ed60b3bcc76940eb196882235</Anchor>
-    <Abstract>Default move constructor.</Abstract>
+    <Abstract>Default move constructor. </Abstract>
+    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>GeometryInfo</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>GeometryInfo</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_info.html</Path>
+    <Anchor>a89b996c9ceb6446b6265d0a11f3113e0</Anchor>
+    <Abstract>Default copy constructor. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1908,7 +1941,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a98f264ef65b659a3f0f06041dbd27676</Anchor>
-    <Abstract>Default destructor.</Abstract>
+    <Abstract>Default destructor. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1920,7 +1953,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a4bcb96e351ad10e70d879436f36ff620</Anchor>
-    <Abstract>Getter for spacelike facets.</Abstract>
+    <Abstract>Getter for spacelike facets. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1932,7 +1965,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a58afc1db166d439ac09ec8c5df5321e2</Anchor>
-    <Abstract>Getter for timevalues.</Abstract>
+    <Abstract>Getter for timevalues. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1944,7 +1977,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a1cc4d5b0465a9f569ea29bf7007ab626</Anchor>
-    <Abstract>Number of vertices.</Abstract>
+    <Abstract>Number of vertices. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1956,7 +1989,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>af999ae1ed4e0faeaf9ab8422f22f9a3d</Anchor>
-    <Abstract>Spacelike edges.</Abstract>
+    <Abstract>Spacelike edges. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1968,7 +2001,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>af04c4ea156f05b6fc8671f60f3c3c5e3</Anchor>
-    <Abstract>Timelike edges.</Abstract>
+    <Abstract>Timelike edges. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1980,7 +2013,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>ac121f90cff2d4f85e278a3eeeca88f7c</Anchor>
-    <Abstract>(1,3) simplices</Abstract>
+    <Abstract>(1,3) simplices </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1992,7 +2025,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a0b7f76bb9727443361328571e9c09fc1</Anchor>
-    <Abstract>(2,2) simplices</Abstract>
+    <Abstract>(2,2) simplices </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2004,7 +2037,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>ae576b6ebe7fc16b72cca151b7f0a9261</Anchor>
-    <Abstract>(3,1) simplices</Abstract>
+    <Abstract>(3,1) simplices </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2016,7 +2049,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a92ba5b6da31fa1b1bb70187187b16560</Anchor>
-    <Abstract>(3,1) and (1,3) simplices</Abstract>
+    <Abstract>(3,1) and (1,3) simplices </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2028,7 +2061,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a1e1a653677bd937b9a05d6d95a8e64d9</Anchor>
-    <Abstract>Number of cells.</Abstract>
+    <Abstract>Number of cells. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2040,19 +2073,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a6ec088bba14cecb25b1535ad70b4bf7e</Anchor>
-    <Abstract>Number of edges.</Abstract>
-    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>operator=</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>GeometryInfo</Scope>
-    </TokenIdentifier>
-    <Path>struct_geometry_info.html</Path>
-    <Anchor>ab5622170d84e7f69480aec7307e64928</Anchor>
-    <Abstract>Default copy assignment operator.</Abstract>
+    <Abstract>Number of edges. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2064,7 +2085,19 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a916b8b17f5d9fff2d43398464e14317a</Anchor>
-    <Abstract>Default move assignment operator.</Abstract>
+    <Abstract>Default move assignment operator. </Abstract>
+    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>GeometryInfo</Scope>
+    </TokenIdentifier>
+    <Path>struct_geometry_info.html</Path>
+    <Anchor>ab5622170d84e7f69480aec7307e64928</Anchor>
+    <Abstract>Default copy assignment operator. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2076,7 +2109,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a5e4c5c414d6b87c87a6e961f215a8232</Anchor>
-    <Abstract>Setter for spacelike facets.</Abstract>
+    <Abstract>Setter for spacelike facets. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2088,7 +2121,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a963101a0453712674235eccdc3ffe3d1</Anchor>
-    <Abstract>Setter for timevalues.</Abstract>
+    <Abstract>Setter for timevalues. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2100,7 +2133,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a4b2b4aab68d1bea6a7baaba5bd00c5e5</Anchor>
-    <Abstract>(1,3) cells in the foliation</Abstract>
+    <Abstract>(1,3) cells in the foliation </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2111,7 +2144,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>aeec8eb20c4c29c2e9eabc2bdf8f51404</Anchor>
-    <Abstract>Non-spanning edges in the foliation.</Abstract>
+    <Abstract>Non-spanning edges in the foliation. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2122,7 +2155,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a19ec9abb6d432661658af885760387ca</Anchor>
-    <Abstract>Spacelike facets for each timeslice.</Abstract>
+    <Abstract>Spacelike facets for each timeslice. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2133,7 +2166,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>aec53865ae614fd81cd31c16ca557e816</Anchor>
-    <Abstract>(3,1) cells in the foliation</Abstract>
+    <Abstract>(3,1) cells in the foliation </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2144,7 +2177,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a2dc4b59c60f743bf9019a8181bba48f8</Anchor>
-    <Abstract>Edges spanning two adjacent time slices in the foliation.</Abstract>
+    <Abstract>Edges spanning two adjacent time slices in the foliation. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2155,7 +2188,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a1b31d9935778f798fca7125640bd1ed3</Anchor>
-    <Abstract>Actual timevalues of simulation.</Abstract>
+    <Abstract>Actual timevalues of simulation. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2166,7 +2199,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a57ac0dca72a21c03fdc4a95cdab9a0c5</Anchor>
-    <Abstract>(2,2) cells in the foliation</Abstract>
+    <Abstract>(2,2) cells in the foliation </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2177,7 +2210,7 @@
     </TokenIdentifier>
     <Path>struct_geometry_info.html</Path>
     <Anchor>a78b482e2686c45a8343714b5b506a2c2</Anchor>
-    <Abstract>Vertices of the foliation.</Abstract>
+    <Abstract>Vertices of the foliation. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2193,11 +2226,11 @@
     <TokenIdentifier>
       <Name>Manifold&lt; 3 &gt;</Name>
       <APILanguage>c</APILanguage>
-      <Type>cl</Type>
+      <Type>tmplt</Type>
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Abstract>3D Manifold</Abstract>
+    <Abstract>3D Manifold </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2209,55 +2242,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a9c2d311392ab8f88e017d9fc04623fda</Anchor>
-    <Abstract>Default ctor.</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Manifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
-    <Abstract>Construct manifold from a Delaunay triangulation.</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Manifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
-    <Abstract>Construct manifold from a Foliated triangulation.</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Manifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
-    <Abstract>Construct manifold using arguments.</Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Manifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ad5df224bb825f42ed0e7dcfdfe928c77</Anchor>
-    <Abstract>Default move ctor.</Abstract>
+    <Abstract>Default ctor. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2269,7 +2254,55 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a545d00612ca90e0f0f906b6ff284efd1</Anchor>
-    <Abstract>Default copy ctor.</Abstract>
+    <Abstract>Default copy ctor. </Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>ad5df224bb825f42ed0e7dcfdfe928c77</Anchor>
+    <Abstract>Default move ctor. </Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
+    <Abstract>Construct manifold from a Delaunay triangulation. </Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
+    <Abstract>Construct manifold from a Foliated triangulation. </Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
+    <Abstract>Construct manifold using arguments. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2281,7 +2314,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>ad2602356e850cd9fecafb778a9df4de0</Anchor>
-    <Abstract>Default dtor.</Abstract>
+    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2315,7 +2348,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>ad6086c6ab75bbe1375ee4dcde33008a6</Anchor>
-    <Abstract>Perfect forwarding to FoliatedTriangulation3.degree()</Abstract>
+    <Abstract>Perfect forwarding to FoliatedTriangulation3.degree() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2371,7 +2404,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a5dae9385275f8387221cb271fe4130f1</Anchor>
-    <Abstract>Call triangulation.get_spacelike_edges()</Abstract>
+    <Abstract>Call triangulation.get_spacelike_edges() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2383,7 +2416,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a94313799a093ca1743991b68baa53558</Anchor>
-    <Abstract>Call to triangulation_.get_timelike_edges()</Abstract>
+    <Abstract>Call to triangulation_.get_timelike_edges() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2406,7 +2439,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a84c557b41d9435b294871e680cb39935</Anchor>
-    <Abstract>Call FoliatedTriangulation3.get_vertices()</Abstract>
+    <Abstract>Call FoliatedTriangulation3.get_vertices() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2418,7 +2451,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a6f759d43b7de26791b69e6e61d3f211d</Anchor>
-    <Abstract>Perfect forwarding to FoliatedTriangulation3.incident_cells()</Abstract>
+    <Abstract>Perfect forwarding to FoliatedTriangulation3.incident_cells() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2441,7 +2474,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a460e5180976d3a9c5c9a460ed512a7fe</Anchor>
-    <Abstract>Forwarding to FoliatedTriangulation.is_delaunay()</Abstract>
+    <Abstract>Forwarding to FoliatedTriangulation.is_delaunay() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2453,7 +2486,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a749c9a5270cf66a24a301640d3134538</Anchor>
-    <Abstract>Forwarding to FoliatedTriangulation3.is_edge()</Abstract>
+    <Abstract>Forwarding to FoliatedTriangulation3.is_edge() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2465,7 +2498,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a722d4eea75f71f3bf11ccc4bbd190b5a</Anchor>
-    <Abstract>Forwarding to FoliatedTriangulation3.is_foliated()</Abstract>
+    <Abstract>Forwarding to FoliatedTriangulation3.is_foliated() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2477,7 +2510,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a792a9839cd64c7d65c23b10ae99dbbfc</Anchor>
-    <Abstract>Forwarding to FoliatedTriangulation.is_tds_valid()</Abstract>
+    <Abstract>Forwarding to FoliatedTriangulation.is_tds_valid() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2489,7 +2522,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
-    <Abstract>Perfect forwarding to FoliatedTriangulation3.is_vertex()</Abstract>
+    <Abstract>Perfect forwarding to FoliatedTriangulation3.is_vertex() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2654,8 +2687,8 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a8e8c75d1dbfc7be5ee756d0410d1d561</Anchor>
-    <Abstract>Default move assignment.</Abstract>
+    <Anchor>af96cba830f95efd22bc135a6f99559b3</Anchor>
+    <Abstract>Default copy assignment. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2666,8 +2699,8 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af96cba830f95efd22bc135a6f99559b3</Anchor>
-    <Abstract>Default copy assignment.</Abstract>
+    <Anchor>a8e8c75d1dbfc7be5ee756d0410d1d561</Anchor>
+    <Abstract>Default move assignment. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2679,7 +2712,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>ab8d64b429428788eb2efc0b7a5ac26db</Anchor>
-    <Abstract>Print the volume in subsimplices (faces) per timeslice.</Abstract>
+    <Abstract>Print the volume in subsimplices (faces) per timeslice. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2702,7 +2735,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a9e12eb966f3d2c5d96f088500282d04e</Anchor>
-    <Abstract>Update the Manifold data structures.</Abstract>
+    <Abstract>Update the Manifold data structures. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2747,7 +2780,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a5ee28836c3c5c7f61c7a3da3172800ce</Anchor>
-    <Abstract>Update geometry data of the manifold when the triangulation has been changed.</Abstract>
+    <Abstract>Update geometry data of the manifold when the triangulation has been changed. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2759,7 +2792,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>ac8408f26d46686c4a2ffd191a0679622</Anchor>
-    <Abstract>Update the triangulation.</Abstract>
+    <Abstract>Update the triangulation. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2771,7 +2804,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>aa7b3abff3695030da93b5840ea7c9c67</Anchor>
-    <Abstract>The data structure of scalar values for computations.</Abstract>
+    <Abstract>The data structure of scalar values for computations. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2782,7 +2815,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a13d98777844efdc8bd6c4c342dfbecce</Anchor>
-    <Abstract>The data structure of geometric and combinatorial relationships.</Abstract>
+    <Abstract>The data structure of geometric and combinatorial relationships. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2793,7 +2826,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>aed56b4a1e59606b624184c0bd676f84d</Anchor>
-    <Abstract>Swap manifolds Used for no-except updates of manifolds after moves.</Abstract>
+    <Abstract>Swap manifolds Used for no-except updates of manifolds after moves. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2804,7 +2837,7 @@
       <Scope>Metropolis</Scope>
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
-    <Abstract>Metropolis-Hastings algorithm function object.</Abstract>
+    <Abstract>Metropolis-Hastings algorithm function object. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2816,7 +2849,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>ae819cbd0a642c631e546d33bd12b8e41</Anchor>
-    <Abstract>Metropolis function object constructor.</Abstract>
+    <Abstract>Metropolis function object constructor. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2828,7 +2861,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>aa21c66124bac577eafc481b6262715dc</Anchor>
-    <Abstract>Gets value of Alpha_.</Abstract>
+    <Abstract>Gets value of Alpha_. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2840,7 +2873,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>acbb912b7ece7f277f76b8f501f6d213a</Anchor>
-    <Abstract>Attempt a move of the selected type.</Abstract>
+    <Abstract>Attempt a move of the selected type. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2852,7 +2885,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>ac84f9ee639bd0458bc319048689d07ed</Anchor>
-    <Abstract>Calculate A1.</Abstract>
+    <Abstract>Calculate A1. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2864,7 +2897,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a4ded13f65c50b08b81a9e92b2ba471fc</Anchor>
-    <Abstract>Calculate A2.</Abstract>
+    <Abstract>Calculate A2. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2876,7 +2909,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a1ed1b229fe9a77ab9429ce7bd97a4aed</Anchor>
-    <Abstract>Gets value of checkpoint_.</Abstract>
+    <Abstract>Gets value of checkpoint_. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2888,7 +2921,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a35b56e5aa10d17c18741686dffc802bd</Anchor>
-    <Abstract>Gets value of K_.</Abstract>
+    <Abstract>Gets value of K_. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2900,7 +2933,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a2653e63049a30ac21e96a01fa246cd57</Anchor>
-    <Abstract>Gets value of Lambda_.</Abstract>
+    <Abstract>Gets value of Lambda_. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2912,7 +2945,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a8494a344bc5db6a3e41e27f0878dc031</Anchor>
-    <Abstract>Call operator.</Abstract>
+    <Abstract>Call operator. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2924,7 +2957,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a2e97a379c8d07b03f719058ea8fbf7b0</Anchor>
-    <Abstract>Gets value of passes_.</Abstract>
+    <Abstract>Gets value of passes_. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2936,7 +2969,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a15cbe9592ee36b309f6ed940b4557a6b</Anchor>
-    <Abstract>Gets the total number of attempted moves.</Abstract>
+    <Abstract>Gets the total number of attempted moves. </Abstract>
     <DeclaredIn>Metropolis.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2948,7 +2981,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a943281d3bd65d50063098cc9d2e37d46</Anchor>
-    <Abstract>The length of the timelike edges.</Abstract>
+    <Abstract>The length of the timelike edges. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2959,7 +2992,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>afd5327e9b9e25afea0b1df405bfd92f0</Anchor>
-    <Abstract>.</Abstract>
+    <Abstract>. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2970,7 +3003,7 @@
     </TokenIdentifier>
     <Path>class_metropolis.html</Path>
     <Anchor>a0e607efa296c45c2f7611d19857871e9</Anchor>
-    <Abstract>where  is the cosmological constant.</Abstract>
+    <Abstract> where  is the cosmological constant. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -2980,7 +3013,7 @@
       <Scope>Move_tracker</Scope>
     </TokenIdentifier>
     <Path>class_move__tracker.html</Path>
-    <Abstract>The data and methods to track ergodic moves.</Abstract>
+    <Abstract>The data and methods to track ergodic moves. </Abstract>
     <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3001,31 +3034,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a814a6241da0beeeb9012c5c86e9566db</Anchor>
-    <Abstract>No default ctor.</Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveCommand</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
-    <Abstract>MoveCommand ctor.</Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveCommand</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
-    <Abstract>Default move ctor.</Abstract>
+    <Abstract>No default ctor. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3037,7 +3046,31 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
-    <Abstract>Default copy ctor.</Abstract>
+    <Abstract>Default copy ctor. </Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
+    <Abstract>Default move ctor. </Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
+    <Abstract>MoveCommand ctor. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3049,7 +3082,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
-    <Abstract>Default dtor.</Abstract>
+    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3061,7 +3094,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>aa56440358589956f2d3fc9bf5477ca26</Anchor>
-    <Abstract>Push a Pachner move onto the move queue.</Abstract>
+    <Abstract>Push a Pachner move onto the move queue. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3073,7 +3106,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a160870891e1ebd6bb25bb38c7080cc12</Anchor>
-    <Abstract>Execute all moves in the queue on the manifold.</Abstract>
+    <Abstract>Execute all moves in the queue on the manifold. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3107,19 +3140,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a59796bad12a3d05491ef18cf5fedce3d</Anchor>
-    <Abstract>Execute a single move on the manifold.</Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>operator=</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
-    <Abstract>Default move assignment.</Abstract>
+    <Abstract>Execute a single move on the manifold. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3131,7 +3152,19 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
-    <Abstract>Default copy assignment.</Abstract>
+    <Abstract>Default copy assignment. </Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
+    <Abstract>Default move assignment. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3143,7 +3176,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a1f11efc51d2ed7812a2586798c051207</Anchor>
-    <Abstract>The Manifold on which to make the move.</Abstract>
+    <Abstract>The Manifold on which to make the move. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3154,7 +3187,7 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>ab7c6b3b5da3526cc061ef3fac85a2c0d</Anchor>
-    <Abstract>The queue of moves to make.</Abstract>
+    <Abstract>The queue of moves to make. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3164,7 +3197,7 @@
       <Scope>MoveManager</Scope>
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
-    <Abstract>RAII Function object to handle moves.</Abstract>
+    <Abstract>RAII Function object to handle moves. </Abstract>
     <DeclaredIn>MoveManager.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3176,19 +3209,7 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>a8160218f9827c932b06c201339a8f2ea</Anchor>
-    <Abstract>Perfect forwarding constructor initializer.</Abstract>
-    <DeclaredIn>MoveManager.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveManager</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveManager</Scope>
-    </TokenIdentifier>
-    <Path>class_move_manager.html</Path>
-    <Anchor>a7ebbfe6927add0db67c6673b35d72ecb</Anchor>
-    <Abstract>Delete move ctor.</Abstract>
+    <Abstract>Perfect forwarding constructor initializer. </Abstract>
     <DeclaredIn>MoveManager.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3200,7 +3221,19 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>ab43ae96eb5d92aec109fe3f344adca55</Anchor>
-    <Abstract>Delete copy ctor.</Abstract>
+    <Abstract>Delete copy ctor. </Abstract>
+    <DeclaredIn>MoveManager.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveManager</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveManager</Scope>
+    </TokenIdentifier>
+    <Path>class_move_manager.html</Path>
+    <Anchor>a7ebbfe6927add0db67c6673b35d72ecb</Anchor>
+    <Abstract>Delete move ctor. </Abstract>
     <DeclaredIn>MoveManager.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3212,7 +3245,7 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>a7b0a03743f1bb7abc10ea5ca0ecb5b3e</Anchor>
-    <Abstract>Default dtor.</Abstract>
+    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>MoveManager.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3224,19 +3257,7 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>aa0a326323d5cffbde0a70a716cf8d2e8</Anchor>
-    <Abstract>Function call.</Abstract>
-    <DeclaredIn>MoveManager.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>operator=</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveManager</Scope>
-    </TokenIdentifier>
-    <Path>class_move_manager.html</Path>
-    <Anchor>a418c9c8fa1a870c65f3a88d2643f6943</Anchor>
-    <Abstract>Delete move assignment.</Abstract>
+    <Abstract>Function call. </Abstract>
     <DeclaredIn>MoveManager.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3248,7 +3269,19 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>a0de4dc514220362c4e09b6b25ac6f6bc</Anchor>
-    <Abstract>Delete copy assignment.</Abstract>
+    <Abstract>Delete copy assignment. </Abstract>
+    <DeclaredIn>MoveManager.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveManager</Scope>
+    </TokenIdentifier>
+    <Path>class_move_manager.html</Path>
+    <Anchor>a418c9c8fa1a870c65f3a88d2643f6943</Anchor>
+    <Abstract>Delete move assignment. </Abstract>
     <DeclaredIn>MoveManager.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3260,7 +3293,7 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>a19ba7dd4608cd31796d612ebc70e870a</Anchor>
-    <Abstract>An option type move counter.</Abstract>
+    <Abstract>An option type move counter. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3271,7 +3304,7 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>a883f01628315a867d5c12ebc22682efe</Anchor>
-    <Abstract>A count of N3_31, N3_22, N3_13, N1_TL, N1_SL, N0.</Abstract>
+    <Abstract>A count of N3_31, N3_22, N3_13, N1_TL, N1_SL, N0. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3282,7 +3315,7 @@
     </TokenIdentifier>
     <Path>class_move_manager.html</Path>
     <Anchor>ad83dbfc32ef032ca6b19e82ce398f8ea</Anchor>
-    <Abstract>An option type Manifold.</Abstract>
+    <Abstract>An option type Manifold. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3292,7 +3325,7 @@
       <Scope>MoveStrategy</Scope>
     </TokenIdentifier>
     <Path>class_move_strategy.html</Path>
-    <Abstract>Select an algorithm to make ergodic moves upon triangulations.</Abstract>
+    <Abstract>Select an algorithm to make ergodic moves upon triangulations. </Abstract>
     <DeclaredIn>Move_strategy.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3303,7 +3336,7 @@
       <Scope>MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;</Scope>
     </TokenIdentifier>
     <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
-    <Abstract>The Move Always algorithm.</Abstract>
+    <Abstract>The Move Always algorithm. </Abstract>
     <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3315,19 +3348,7 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
     <Anchor>a6defbe4c319c1279e0bfb89d7c9fbecf</Anchor>
-    <Abstract>Default ctor.</Abstract>
-    <DeclaredIn>Move_always.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveStrategy</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
-    <Anchor>a28aceb9deda2c42f1cfdb1649a16c369</Anchor>
-    <Abstract>Default move ctor.</Abstract>
+    <Abstract>Default ctor. </Abstract>
     <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3339,7 +3360,19 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
     <Anchor>a3756d0483350863a1078f68c479634c3</Anchor>
-    <Abstract>Default copy ctor.</Abstract>
+    <Abstract>Default copy ctor. </Abstract>
+    <DeclaredIn>Move_always.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveStrategy</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
+    <Anchor>a28aceb9deda2c42f1cfdb1649a16c369</Anchor>
+    <Abstract>Default move ctor. </Abstract>
     <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3351,7 +3384,7 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
     <Anchor>a404db555f0968017374af84458e1d194</Anchor>
-    <Abstract>Default dtor.</Abstract>
+    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3396,7 +3429,7 @@
     </TokenIdentifier>
     <Path>class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html</Path>
     <Anchor>a7a31a52d08564f217e5977bd928b95b3</Anchor>
-    <Abstract>Copy/Move Assignment operator.</Abstract>
+    <Abstract>Copy/Move Assignment operator. </Abstract>
     <DeclaredIn>Move_always.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3428,43 +3461,7 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>ac2ac0112454bd2197c086c4642018892</Anchor>
-    <Abstract>Default constructor.</Abstract>
-    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SimplicialManifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>SimplicialManifold</Scope>
-    </TokenIdentifier>
-    <Path>struct_simplicial_manifold.html</Path>
-    <Anchor>a968764303213d3a1e7ba20a89f3829eb</Anchor>
-    <Abstract>SimplicialManifold copy constructor.</Abstract>
-    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SimplicialManifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>SimplicialManifold</Scope>
-    </TokenIdentifier>
-    <Path>struct_simplicial_manifold.html</Path>
-    <Anchor>a32ed6ddcbfdc898baa42e6392cbf47ee</Anchor>
-    <Abstract>Move constructor.</Abstract>
-    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>SimplicialManifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>SimplicialManifold</Scope>
-    </TokenIdentifier>
-    <Path>struct_simplicial_manifold.html</Path>
-    <Anchor>a69c9e15bf4a819399ad17d6db3754db9</Anchor>
-    <Abstract>make_triangulation constructor</Abstract>
+    <Abstract>Default constructor. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3476,7 +3473,43 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>a3df61c643eb75a5b0ece580d898d3002</Anchor>
-    <Abstract>Constructor with std::unique_ptr&lt;Delaunay&gt;</Abstract>
+    <Abstract>Constructor with std::unique_ptr&lt;Delaunay&gt; </Abstract>
+    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SimplicialManifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>SimplicialManifold</Scope>
+    </TokenIdentifier>
+    <Path>struct_simplicial_manifold.html</Path>
+    <Anchor>a69c9e15bf4a819399ad17d6db3754db9</Anchor>
+    <Abstract>make_triangulation constructor </Abstract>
+    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SimplicialManifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>SimplicialManifold</Scope>
+    </TokenIdentifier>
+    <Path>struct_simplicial_manifold.html</Path>
+    <Anchor>a32ed6ddcbfdc898baa42e6392cbf47ee</Anchor>
+    <Abstract>Move constructor. </Abstract>
+    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SimplicialManifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>SimplicialManifold</Scope>
+    </TokenIdentifier>
+    <Path>struct_simplicial_manifold.html</Path>
+    <Anchor>a968764303213d3a1e7ba20a89f3829eb</Anchor>
+    <Abstract>SimplicialManifold copy constructor. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3488,19 +3521,7 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>ad49f9c530dc4abceec0b87d4b514bf55</Anchor>
-    <Abstract>Destructor.</Abstract>
-    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>operator=</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>SimplicialManifold</Scope>
-    </TokenIdentifier>
-    <Path>struct_simplicial_manifold.html</Path>
-    <Anchor>ad96a77ca6090987a4df359b430ec25bc</Anchor>
-    <Abstract>Copy assignment operator.</Abstract>
+    <Abstract>Destructor. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3512,7 +3533,19 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>aa3c4fac3b3b509830e5eef24f022d61e</Anchor>
-    <Abstract>Move assignment operator.</Abstract>
+    <Abstract>Move assignment operator. </Abstract>
+    <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>operator=</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>func</Type>
+      <Scope>SimplicialManifold</Scope>
+    </TokenIdentifier>
+    <Path>struct_simplicial_manifold.html</Path>
+    <Anchor>ad96a77ca6090987a4df359b430ec25bc</Anchor>
+    <Abstract>Copy assignment operator. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3524,7 +3557,7 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>abd200a6e0c7750a8875fa666ca68eb36</Anchor>
-    <Abstract>Owning pointer to GeometryInfo.</Abstract>
+    <Abstract>Owning pointer to GeometryInfo. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3535,7 +3568,7 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>a539e6a163d62076aac4067a16e7f16be</Anchor>
-    <Abstract>Owning pointer to the Delaunay triangulation.</Abstract>
+    <Abstract>Owning pointer to the Delaunay triangulation. </Abstract>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -3546,7 +3579,7 @@
     </TokenIdentifier>
     <Path>struct_simplicial_manifold.html</Path>
     <Anchor>a6b2f76aacf53811ed6cc2f36837c2ebf</Anchor>
-    <Abstract>Exception-safe swap.</Abstract>
+    <Abstract>Exception-safe swap. </Abstract>
     <DeclaredIn>SimplicialManifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3567,7 +3600,7 @@
     </TokenIdentifier>
     <Path>class_simulation.html</Path>
     <Anchor>a6307e044fb1dd3defec882719a64cc17</Anchor>
-    <Abstract>Queue of function objects.</Abstract>
+    <Abstract>Queue of function objects. </Abstract>
     <DeclaredIn>Simulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3579,7 +3612,7 @@
     </TokenIdentifier>
     <Path>class_simulation.html</Path>
     <Anchor>a7985334d286f4d2d7dabe2f158da249e</Anchor>
-    <Abstract>Start running queued functions in Simulation.</Abstract>
+    <Abstract>Start running queued functions in Simulation. </Abstract>
     <DeclaredIn>Simulation.hpp</DeclaredIn>
   </Token>
 </Tokens>
