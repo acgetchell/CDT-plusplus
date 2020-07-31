@@ -5,7 +5,6 @@ var searchData=
   ['metropolis',['Metropolis',['../class_metropolis.html',1,'']]],
   ['move_5ftracker',['Move_tracker',['../class_move__tracker.html',1,'']]],
   ['movecommand',['MoveCommand',['../class_move_command.html',1,'']]],
-  ['movemanager',['MoveManager',['../class_move_manager.html',1,'']]],
   ['movestrategy',['MoveStrategy',['../class_move_strategy.html',1,'']]],
   ['movestrategy_3c_20move_5falways_2c_20dimension_20_3e',['MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;',['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html',1,'']]]
 ];

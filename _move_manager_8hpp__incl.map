@@ -1,8 +1,0 @@
-<map id="include/MoveManager.hpp" name="include/MoveManager.hpp">
-<area shape="rect" id="node2" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference. " alt="" coords="474,80,602,107"/>
-<area shape="rect" id="node6" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="811,80,918,107"/>
-<area shape="rect" id="node7" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="947,155,1060,181"/>
-<area shape="rect" id="node8" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="889,229,1081,256"/>
-<area shape="rect" id="node9" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="1126,319,1227,345"/>
-<area shape="rect" id="node27" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="1755,408,1857,435"/>
-</map>

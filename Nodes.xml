@@ -1257,62 +1257,6 @@
             </Subnodes>
            </Node>
            <Node>
-            <Name>MoveManager</Name>
-            <Path>class_move_manager.html</Path>
-            <Subnodes>
-             <Node>
-              <Name>MoveManager</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a8160218f9827c932b06c201339a8f2ea</Anchor>
-             </Node>
-             <Node>
-              <Name>~MoveManager</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a7b0a03743f1bb7abc10ea5ca0ecb5b3e</Anchor>
-             </Node>
-             <Node>
-              <Name>MoveManager</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>ab43ae96eb5d92aec109fe3f344adca55</Anchor>
-             </Node>
-             <Node>
-              <Name>MoveManager</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a7ebbfe6927add0db67c6673b35d72ecb</Anchor>
-             </Node>
-             <Node>
-              <Name>operator()</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>aa0a326323d5cffbde0a70a716cf8d2e8</Anchor>
-             </Node>
-             <Node>
-              <Name>operator=</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a0de4dc514220362c4e09b6b25ac6f6bc</Anchor>
-             </Node>
-             <Node>
-              <Name>operator=</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a418c9c8fa1a870c65f3a88d2643f6943</Anchor>
-             </Node>
-             <Node>
-              <Name>attempted_moves_</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a19ba7dd4608cd31796d612ebc70e870a</Anchor>
-             </Node>
-             <Node>
-              <Name>check</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>a883f01628315a867d5c12ebc22682efe</Anchor>
-             </Node>
-             <Node>
-              <Name>universe_</Name>
-              <Path>class_move_manager.html</Path>
-              <Anchor>ad83dbfc32ef032ca6b19e82ce398f8ea</Anchor>
-             </Node>
-            </Subnodes>
-           </Node>
-           <Node>
             <Name>MoveStrategy</Name>
             <Path>class_move_strategy.html</Path>
            </Node>
@@ -1547,10 +1491,6 @@
            <Node>
             <Name>MoveCommand&lt; ManifoldType, FunctionType &gt;</Name>
             <Path>class_move_command.html</Path>
-           </Node>
-           <Node>
-            <Name>MoveManager&lt; Manifold, Moves &gt;</Name>
-            <Path>class_move_manager.html</Path>
            </Node>
            <Node>
             <Name>MoveStrategy&lt; strategies, dimension &gt;</Name>
@@ -3110,78 +3050,6 @@
               </Subnodes>
              </Node>
              <Node>
-              <Name>MoveManager.hpp</Name>
-              <Path>_move_manager_8hpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>MoveManager</Name>
-                <Path>class_move_manager.html</Path>
-                <Subnodes>
-                 <Node>
-                  <Name>MoveManager</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a8160218f9827c932b06c201339a8f2ea</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>~MoveManager</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a7b0a03743f1bb7abc10ea5ca0ecb5b3e</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>MoveManager</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>ab43ae96eb5d92aec109fe3f344adca55</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>MoveManager</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a7ebbfe6927add0db67c6673b35d72ecb</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>operator()</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>aa0a326323d5cffbde0a70a716cf8d2e8</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>operator=</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a0de4dc514220362c4e09b6b25ac6f6bc</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>operator=</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a418c9c8fa1a870c65f3a88d2643f6943</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>attempted_moves_</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a19ba7dd4608cd31796d612ebc70e870a</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>check</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>a883f01628315a867d5c12ebc22682efe</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>universe_</Name>
-                  <Path>class_move_manager.html</Path>
-                  <Anchor>ad83dbfc32ef032ca6b19e82ce398f8ea</Anchor>
-                 </Node>
-                </Subnodes>
-               </Node>
-               <Node>
-                <Name>move_invariants</Name>
-                <Path>_move_manager_8hpp.html</Path>
-                <Anchor>a95e0fbed21564837234e8ec948ec1c5d</Anchor>
-               </Node>
-               <Node>
-                <Name>Move_tracker</Name>
-                <Path>_move_manager_8hpp.html</Path>
-                <Anchor>aa73f31a38b61f64f94350d55d328b3fe</Anchor>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
               <Name>Periodic_3_complex.hpp</Name>
               <Path>_periodic__3__complex_8hpp.html</Path>
               <Subnodes>
@@ -4403,17 +4271,6 @@
                 <Name>SCENARIO</Name>
                 <Path>_move__strategies__test_8cpp.html</Path>
                 <Anchor>ae8378c0daed1fd03ceed02f3add7ac39</Anchor>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
-              <Name>MoveManagerTest.cpp</Name>
-              <Path>_move_manager_test_8cpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>SCENARIO</Name>
-                <Path>_move_manager_test_8cpp.html</Path>
-                <Anchor>a4a172cfde7988bd77d2d654e6f1c81f4</Anchor>
                </Node>
               </Subnodes>
              </Node>

@@ -10,7 +10,5 @@ var searchData=
   ['move_5fcommand_2ehpp',['Move_command.hpp',['../_move__command_8hpp.html',1,'']]],
   ['move_5fcommand_5ftest_2ecpp',['Move_command_test.cpp',['../_move__command__test_8cpp.html',1,'']]],
   ['move_5fstrategies_5ftest_2ecpp',['Move_strategies_test.cpp',['../_move__strategies__test_8cpp.html',1,'']]],
-  ['move_5fstrategy_2ehpp',['Move_strategy.hpp',['../_move__strategy_8hpp.html',1,'']]],
-  ['movemanager_2ehpp',['MoveManager.hpp',['../_move_manager_8hpp.html',1,'']]],
-  ['movemanagertest_2ecpp',['MoveManagerTest.cpp',['../_move_manager_test_8cpp.html',1,'']]]
+  ['move_5fstrategy_2ehpp',['Move_strategy.hpp',['../_move__strategy_8hpp.html',1,'']]]
 ];
