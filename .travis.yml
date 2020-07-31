@@ -1,7 +1,7 @@
 version: ~> 1.0
 language: cpp
 dist: bionic
-osx_image: xcode11.4
+osx_image: xcode12
 
 cache:
   - ccache
@@ -212,15 +212,13 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: osx
+      compiler: g++-9
     - os: linux
       compiler: clang-10
       env: CLANGTIDY=true
     - os: linux
       compiler: g++-9
       env: CODECOV=true
-    - os: linux
-      compiler: g++-9
-      env: DOXYGEN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
@@ -263,4 +261,4 @@ script:
   - cmake --build .
 
 after_success:
-  - ctest
+  - ctest --output-on-failure
