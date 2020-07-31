@@ -15,7 +15,7 @@ addons:
       - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
         key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
     packages:
-      - g++-9
+      - g++-10
       - clang-10
       - clang-format-10
       - clang-tidy-10
@@ -34,14 +34,14 @@ os:
   - osx
 
 compiler:
-  - g++-9
+  - g++-10
   - clang-10
 
 jobs:
   include:
     # Git Check
     - os: linux
-      compiler: g++-9
+      compiler: g++-10
       env: GITCHECK=true
       # Skip unnecessary steps since we aren't compiling
       before_install: skip
@@ -87,14 +87,14 @@ jobs:
       after_success: skip
     # CppCheck
     - os: linux
-      compiler: g++-9
+      compiler: g++-10
       env: CPPCHECK=true
       addons:
         apt:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - g++-9
+            - g++-10
             - ninja-build
             - yasm
             - cppcheck
@@ -106,14 +106,14 @@ jobs:
       after_success: skip
     # Valgrind
     - os: linux
-      compiler: g++-9
+      compiler: g++-10
       env: VALGRIND=true
       addons:
         apt:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - g++-9
+            - g++-10
             - ninja-build
             - yasm
             - valgrind
@@ -155,14 +155,14 @@ jobs:
         - ./CDT_test
     # CodeCov
     - os: linux
-      compiler: g++-9
+      compiler: g++-10
       env: CODECOV=true
       addons:
         apt:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - g++-9
+            - g++-10
             - ninja-build
             - yasm
             - lcov
@@ -179,14 +179,14 @@ jobs:
         - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     # Doxygen
     - os: linux
-      compiler: g++-9
+      compiler: g++-10
       env: DOXYGEN=true
       addons:
         apt:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
-            - g++-9
+            - g++-10
             - ninja-build
             - yasm
             - graphviz
@@ -216,12 +216,12 @@ jobs:
       compiler: clang-10
       env: CLANGTIDY=true
     - os: linux
-      compiler: g++-9
+      compiler: g++-10
       env: CODECOV=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
-  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-9" CC="gcc-9"; fi
+  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-10" CC="gcc-10"; fi
   - if [[ "$CXX" == "clang++" && "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="clang++-10" CC="clang-10"; fi
   - cmake --version
 
