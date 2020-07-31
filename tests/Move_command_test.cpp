@@ -8,7 +8,6 @@
 /// @brief Tests for moves
 /// @author Adam Getchell
 
-#include "Function_ref.hpp"
 #include "Move_command.hpp"
 #include <catch2/catch.hpp>
 

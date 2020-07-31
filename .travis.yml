@@ -212,7 +212,6 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: osx
-      compiler: g++-9
     - os: linux
       compiler: clang-10
       env: CLANGTIDY=true
