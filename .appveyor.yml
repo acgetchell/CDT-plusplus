@@ -11,7 +11,7 @@ cache:
   - c:\tools\vcpkg\installed\
 
 image:
-  - Visual Studio 2017
+  - Visual Studio 2019
 
 skip_tags: true
 
@@ -76,8 +76,8 @@ install:
   - clang-cl -v
   - set CC=clang-cl -mrtm
   - set CXX=clang-cl -mrtm
-  # Visual Studio 2017
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2017\Community\VC\Auxiliary\Build\vcvars64.bat"
+  # Visual Studio 2019
+  - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
   # Remove conflicting OpenSSL directories
 #  - rd /s /q c:\OpenSSL-v11-Win32

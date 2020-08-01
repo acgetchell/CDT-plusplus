@@ -226,12 +226,10 @@ before_install:
   - cmake --version
 
 install:
-  # vcpkg should be cached, but install it if not
+  # vcpkg should be cached, but clone it if not
   - |
     if [[ ! -f vcpkg/vcpkg ]]; then
       git clone https://github.com/Microsoft/vcpkg.git
-      cd vcpkg
-      ./bootstrap-vcpkg.sh
     fi
   # Install/Update ports
   - cd $TRAVIS_BUILD_DIR/vcpkg
