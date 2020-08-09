@@ -94,6 +94,7 @@ $(function() {
 <code>#include &lt;stdexcept&gt;</code><br />
 <code>#include &lt;string&gt;</code><br />
 <code>#include &lt;typeindex&gt;</code><br />
+<code>#include &lt;date/tz.h&gt;</code><br />
 <code>#include &quot;pcg_random.hpp&quot;</code><br />
 <code>#include &lt;fmt/format.h&gt;</code><br />
 <code>#include &lt;fmt/ostream.h&gt;</code><br />
@@ -103,7 +104,7 @@ Include dependency graph for Utilities.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="_utilities_8hpp__incl.png" border="0" usemap="#include_2_utilities_8hpp" alt=""/></div>
 <map name="include_2_utilities_8hpp" id="include_2_utilities_8hpp">
-<area shape="rect" id="node19" href="_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="1961,80,2064,107"/>
+<area shape="rect" id="node20" href="_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="2064,80,2167,107"/>
 </map>
 </div>
 </div><div class="textblock"><div class="dynheader">
@@ -164,9 +165,9 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa14b86f5589855b0255347a5af00a23b"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aa14b86f5589855b0255347a5af00a23b">currentDateTime</a> () -&gt; std::string</td></tr>
-<tr class="memdesc:aa14b86f5589855b0255347a5af00a23b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current date and time.  <a href="#aa14b86f5589855b0255347a5af00a23b">More...</a><br /></td></tr>
-<tr class="separator:aa14b86f5589855b0255347a5af00a23b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa19186e57b36341a554e2b650de915dd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a> ()</td></tr>
+<tr class="memdesc:aa19186e57b36341a554e2b650de915dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current date and time.  <a href="#aa19186e57b36341a554e2b650de915dd">More...</a><br /></td></tr>
+<tr class="separator:aa19186e57b36341a554e2b650de915dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a171c31ff047c94717de089933f7dab45"><td class="memItemLeft" align="right" valign="top"><a id="a171c31ff047c94717de089933f7dab45"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a171c31ff047c94717de089933f7dab45">die_roll</a> () noexcept</td></tr>
 <tr class="memdesc:a171c31ff047c94717de089933f7dab45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Roll a die with PCG. <br /></td></tr>
@@ -248,8 +249,8 @@ template&lt;typename IntegerType &gt; </td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aa14b86f5589855b0255347a5af00a23b"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa14b86f5589855b0255347a5af00a23b">&#9670;&nbsp;</a></span>currentDateTime()</h2>
+<a id="aa19186e57b36341a554e2b650de915dd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa19186e57b36341a554e2b650de915dd">&#9670;&nbsp;</a></span>currentDateTime()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -261,8 +262,7 @@ template&lt;typename IntegerType &gt; </td></tr>
           <td class="memname">auto currentDateTime </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
-          <td> -&gt; std::string
-</td>
+          <td></td>
         </tr>
       </table>
   </td>
@@ -273,12 +273,10 @@ template&lt;typename IntegerType &gt; </td></tr>
 </div><div class="memdoc">
 
 <p>Return current date and time. </p>
-<p>Use's Howard Hinnant's C++11/14 data and time library and Time Zone Database Parser. <a href="https://github.com/HowardHinnant/date">https://github.com/HowardHinnant/date</a></p>
-<dl class="section return"><dt>Returns</dt><dd>A formatted string with the system local time </dd>
-<dd>
-Current date and time in standard format </dd></dl>
+<p>Use's Howard Hinnant C++11/14 data and time library and Time Zone Database Parser. <a href="https://github.com/HowardHinnant/date">https://github.com/HowardHinnant/date</a></p>
+<dl class="section return"><dt>Returns</dt><dd>A formatted string with the system local time </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00149">149</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00126">126</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -341,7 +339,7 @@ Current date and time in standard format </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of points per timeslice to obtain the desired number of simplices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00439">439</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00413">413</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -403,7 +401,7 @@ Current date and time in standard format </dd></dl>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A filename </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00166">166</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00140">140</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -461,7 +459,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A random value in the distribution between min_value and max_value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00367">367</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00341">341</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -531,7 +529,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The double conversion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00491">491</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00465">465</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -593,7 +591,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 <p>Make a high-quality random number generator usable by std::shuffle. </p>
 <dl class="section return"><dt>Returns</dt><dd>A RNG </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00380">380</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00354">354</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -679,7 +677,7 @@ template&lt;typename ManifoldType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00249">249</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00223">223</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -715,7 +713,7 @@ template&lt;typename ManifoldType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00266">266</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00240">240</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -760,7 +758,7 @@ template&lt;typename Manifold &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00212">212</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00186">186</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -817,7 +815,7 @@ template&lt;typename Manifold , typename Timer &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00234">234</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00208">208</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -853,7 +851,7 @@ template&lt;typename TriangulationType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00287">287</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00261">261</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -923,14 +921,14 @@ template&lt;typename ManifoldType &gt; </div>
 </dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000013">Todo:</a></b></dt><dd>Fix for Manifold3 </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00319">319</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00293">293</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Aug 1 2020 00:50:38 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Aug 9 2020 21:10:43 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

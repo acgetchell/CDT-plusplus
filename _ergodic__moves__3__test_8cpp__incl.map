@@ -1,8 +1,8 @@
 <map id="tests/Ergodic_moves_3_test.cpp" name="tests/Ergodic_moves_3_test.cpp">
-<area shape="rect" id="node2" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations. " alt="" coords="1751,95,1915,121"/>
-<area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="1779,169,1886,196"/>
-<area shape="rect" id="node4" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="1601,244,1715,271"/>
-<area shape="rect" id="node5" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="1562,319,1754,345"/>
-<area shape="rect" id="node6" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="979,408,1081,435"/>
-<area shape="rect" id="node24" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="1961,497,2064,524"/>
+<area shape="rect" id="node2" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations. " alt="" coords="1799,95,1963,121"/>
+<area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="1827,169,1934,196"/>
+<area shape="rect" id="node4" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="1649,244,1763,271"/>
+<area shape="rect" id="node5" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="1610,319,1802,345"/>
+<area shape="rect" id="node6" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="1027,408,1129,435"/>
+<area shape="rect" id="node25" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="2064,497,2167,524"/>
 </map>

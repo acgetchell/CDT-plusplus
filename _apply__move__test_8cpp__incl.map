@@ -1,10 +1,10 @@
 <map id="tests/Apply_move_test.cpp" name="tests/Apply_move_test.cpp">
-<area shape="rect" id="node2" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations. " alt="" coords="740,80,871,107"/>
-<area shape="rect" id="node8" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations. " alt="" coords="895,80,1059,107"/>
-<area shape="rect" id="node3" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference. " alt="" coords="635,155,763,181"/>
-<area shape="rect" id="node9" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="924,155,1031,181"/>
-<area shape="rect" id="node10" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="903,229,1017,256"/>
-<area shape="rect" id="node11" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="1453,304,1645,331"/>
-<area shape="rect" id="node12" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="972,393,1073,420"/>
-<area shape="rect" id="node30" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="2002,483,2105,509"/>
+<area shape="rect" id="node2" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations. " alt="" coords="764,80,895,107"/>
+<area shape="rect" id="node8" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations. " alt="" coords="919,80,1083,107"/>
+<area shape="rect" id="node3" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference. " alt="" coords="659,155,787,181"/>
+<area shape="rect" id="node9" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="948,155,1055,181"/>
+<area shape="rect" id="node10" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="927,229,1041,256"/>
+<area shape="rect" id="node11" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="1501,304,1693,331"/>
+<area shape="rect" id="node12" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="1020,393,1121,420"/>
+<area shape="rect" id="node31" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="2105,483,2207,509"/>
 </map>

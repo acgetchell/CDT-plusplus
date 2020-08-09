@@ -1,8 +1,8 @@
 <map id="tests/S3Action_test.cpp" name="tests/S3Action_test.cpp">
-<area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="1989,80,2095,107"/>
-<area shape="rect" id="node35" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations. " alt="" coords="2267,80,2374,107"/>
-<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="1620,155,1733,181"/>
-<area shape="rect" id="node4" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="1547,229,1739,256"/>
-<area shape="rect" id="node5" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="931,319,1033,345"/>
-<area shape="rect" id="node23" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="2099,408,2201,435"/>
+<area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="2037,80,2143,107"/>
+<area shape="rect" id="node36" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations. " alt="" coords="2315,80,2422,107"/>
+<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="1668,155,1781,181"/>
+<area shape="rect" id="node4" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. " alt="" coords="1595,229,1787,256"/>
+<area shape="rect" id="node5" href="$_utilities_8hpp.html" title="Utility functions. " alt="" coords="979,319,1081,345"/>
+<area shape="rect" id="node24" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="2175,408,2277,435"/>
 </map>
