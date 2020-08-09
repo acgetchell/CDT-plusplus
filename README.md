@@ -336,11 +336,7 @@ Optional:
 
 ## Upstream issues
 
-- As of 2018-11-29, the [vcpkg] formula for [date] is [broken][1], so I removed reliance on that library.
-Hopefully it will be back in C++20! Until then, I use Boost.Date_Time on macOS/Linux and (unsafe) std::localtime
-on Windows, as Boost.Date_Time [doesn't link][2] correctly.
-
-- As of 2019-10-16 [vcpkg] doesn't [build][3] on macOS 10.14 (but does on 10.15).
+None.
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org

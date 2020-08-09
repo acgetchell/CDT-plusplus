@@ -20,6 +20,7 @@ extraction:
         - ./vcpkg integrate install
         - ./vcpkg install catch2
         - ./vcpkg install docopt
+        - ./vcpkg install date
         - ./vcpkg install fmt
         - ./vcpkg install ms-gsl
         - ./vcpkg install eigen3

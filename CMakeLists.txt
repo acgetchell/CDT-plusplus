@@ -50,6 +50,9 @@ find_package(Catch2 CONFIG REQUIRED)
 # https://github.com/docopt/docopt.cpp
 find_package(docopt CONFIG REQUIRED)
 
+# https://howardhinnant.github.io/date/date.html
+find_package(date CONFIG REQUIRED)
+
 # https://github.com/fmtlib/fmt
 find_package(fmt CONFIG REQUIRED)
 
@@ -84,6 +87,8 @@ if(WIN32)
     PRIVATE project_options
             project_warnings
             docopt
+            date::date
+            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             TBB::tbb
@@ -94,6 +99,8 @@ else()
     PRIVATE project_options
             project_warnings
             docopt_s
+            date::date
+            date::date-tz
             fmt::fmt
             fmt::fmt-header-only
             Eigen3::Eigen

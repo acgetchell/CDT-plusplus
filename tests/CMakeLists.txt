@@ -24,6 +24,8 @@ target_link_libraries(
   project_options
   project_warnings
   Catch2::Catch2
+  date::date
+  date::date-tz
   fmt::fmt-header-only
   TBB::tbb
   CGAL::CGAL)
