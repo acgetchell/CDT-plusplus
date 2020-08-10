@@ -18,7 +18,12 @@ jobs:
         sudo apt-get install yasm ninja-build g++-10 ccache
         export CXX="g++-10" CC="gcc-10"
         cd $VCPKG_INSTALLATION_ROOT
+        git pull
+        bootstrap-vcpkg.sh
+        vcpkg integrate install
         vcpkg install catch2 docopt date fmt ms-gsl eigen3 pcg tbb cgal
+        vcpkg upgrade --no-dry-run
+        vcpkg list
         cmake --version
     - name: Build
       shell: bash 
