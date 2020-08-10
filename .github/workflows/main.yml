@@ -20,7 +20,7 @@ jobs:
         cd $VCPKG_INSTALLATION_ROOT
         git reset --hard
         git pull
-        bootstrap-vcpkg.sh
+        ./bootstrap-vcpkg.sh
         vcpkg integrate install
         vcpkg install catch2 docopt date fmt ms-gsl eigen3 pcg tbb cgal
         vcpkg upgrade --no-dry-run
