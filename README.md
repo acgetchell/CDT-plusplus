@@ -113,12 +113,13 @@ sudo apt-get install yasm
 sudo apt-get install m4
 ```
 
-At minimum, you need to install prerequisites [Catch], [docopt], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
+At minimum, you need to install prerequisites [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
 (which installs [boost], [mpir] and [mpfr]):
 
 ```bash
 vcpkg install catch2
 vcpkg install docopt
+vcpkg install date
 vcpkg install fmt
 vcpkg install ms-gsl
 vcpkg install eigen3
