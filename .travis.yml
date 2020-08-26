@@ -244,7 +244,7 @@ install:
   - ./vcpkg install eigen3
   - ./vcpkg install pcg
   - ./vcpkg install tbb
-  - travis_wait 30 ./vcpkg install cgal
+  - travis_wait 60 ./vcpkg install cgal
   - travis_wait 30 ./vcpkg upgrade --no-dry-run
   - ./vcpkg list
   - rm -rf downloads buildtrees packages
