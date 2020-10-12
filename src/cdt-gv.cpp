@@ -29,6 +29,10 @@
 // Docopt
 #include <docopt.h>
 
+// V. Zverovich's {fmt} library
+#include <fmt/format.h>
+#include <fmt/ostream.h>
+
 #include "Settings.hpp"
 
 using K        = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -91,7 +95,7 @@ try
   auto file = args["--file"].asString();
 
   // Test
-  cout << "File to be loaded is " << file << "\n";
+  fmt::print("File to be loaded is {}\n", file);
 
   CGAL::Geomview_stream gv(CGAL::Bbox_3(
       -GV_BOUNDING_BOX_SIZE, -GV_BOUNDING_BOX_SIZE, -GV_BOUNDING_BOX_SIZE,
@@ -109,24 +113,27 @@ try
   // Insert points from file into Delaunay triangulation
   while (iFile >> p) { D.insert(p); }
 
-  cout << "Drawing 3D Delaunay triangulation in wired mode.\n";
+  fmt::print("Drawing 3D Delaunay triangulation in wired mode.\n");
   gv.set_wired(true);
   gv << D;
 
-  cout << "Enter a key to finish.\n";
-  char ch{0};
-  cin >> ch;
+  fmt::print("Enter any key to exit.\n");
+#ifdef _WIN32
+  system("pause")
+#else
+  system("read");
+#endif
 
-  return 0;
+      return 0;
 }
 catch (invalid_argument& InvalidArgument)
 {
-  cerr << InvalidArgument.what() << "\n";
-  cerr << "Invalid parameter ... Exiting.\n";
+  fmt::print(cerr, "{}\n", InvalidArgument.what());
+  fmt::print(cerr, "Invalid parameter ... exiting.\n");
   return 1;
 }
 catch (...)
 {
-  cerr << "Something went wrong ... Exiting.\n";
+  fmt::print(cerr, "Something went wrong ... Exiting.\n");
   return 1;
 }

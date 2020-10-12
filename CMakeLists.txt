@@ -117,7 +117,7 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(cdt-gv PRIVATE project_options project_warnings
-                                       docopt_s CGAL::CGAL)
+                                       docopt_s fmt::fmt-header-only CGAL::CGAL)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
 
