@@ -18,20 +18,18 @@ set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 # Disable CLion generation of MinSizeRel to avoid conflicts with
 # CGAL_SetupFlags.cmake
 set(CMAKE_CONFIGURATION_TYPES
-    "Release" "Debug" "RelWithDebInfo"
+    "Release" "Debug" "MinSizeRel" "RelWithDebInfo"
     CACHE STRING "" FORCE)
 
 # Default build type
-set(default_build_type "RelWithDebInfo")
 if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
   message(
-    STATUS
-      "Setting build type to '${default_build_type}' as none was specified.")
+    STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
   set(CMAKE_BUILD_TYPE
-      "${default_build_type}"
+      RelWithDebInfo
       CACHE STRING "Choose the type of build." FORCE)
   set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
-                                               "RelWithDebInfo")
+                                               "MinSizeRel" "RelWithDebInfo")
 else()
   message(STATUS "Setting build type to ${CMAKE_BUILD_TYPE}.")
 endif()
