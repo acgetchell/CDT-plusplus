@@ -5,28 +5,41 @@ project(
   VERSION 0.1.8
   LANGUAGES CXX)
 
+# Project settings
+include(cmake/StandardProjectSettings.cmake)
+
 # Prevent in source builds
 include(cmake/PreventInSourceBuilds.cmake)
 
-#
-# OPTIONS  ##
-#
-
-# Compiler options and static analyzers
-include(cmake/StandardProjectSettings.cmake)
-include(cmake/StaticAnalyzers.cmake)
-
-# Link to project_options library to set sanitizer options
+# Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
 target_compile_features(project_options INTERFACE cxx_std_17)
-include(cmake/Sanitizers.cmake)
-enable_sanitizers(project_options)
 
-# Link to project_warnings library to set compiler warnings
+if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
+  option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
+  if(ENABLE_BUILD_WITH_TIME_TRACE)
+    add_compile_definitions(project_options INTERFACE -ftime-trace)
+  endif()
+endif()
+
+# Link this 'library' to use the warnings specified in CompilerWarnings.cmake
 add_library(project_warnings INTERFACE)
+
+# enable cache system
+include(cmake/Cache.cmake)
+
+# standard compiler warnings
 include(cmake/CompilerWarnings.cmake)
 set_project_warnings(project_warnings)
 
+# sanitizer options if supported by compiler
+include(cmake/Sanitizers.cmake)
+enable_sanitizers(project_options)
+
+# allow for static analysis options
+include(cmake/StaticAnalyzers.cmake)
+
+option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable building of tests" TRUE)
 
 #
@@ -74,8 +87,8 @@ set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include ${PCG_INCLUDE_DIRS})
 add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
 
-# On macOS and Linux docopt builds an intermediate object, thus different
-# targets than Windows See https://github.com/microsoft/vcpkg/issues/8666
+# On macOS and Linux docopt builds an intermediate object, thus different targets than Windows See
+# https://github.com/microsoft/vcpkg/issues/8666
 if(WIN32)
   target_link_libraries(
     initialize
@@ -104,15 +117,18 @@ else()
 endif()
 target_compile_features(initialize PRIVATE cxx_std_17)
 
-# add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
-# target_link_libraries( cdt-opt PRIVATE date::tz date::date Catch2::Catch2
-# Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE
-# cxx_std_17)
+# add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp) target_link_libraries( cdt-opt PRIVATE date::tz
+# date::date Catch2::Catch2 Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
 if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(cdt-gv PRIVATE project_options project_warnings
-                                       docopt_s fmt::fmt-header-only CGAL::CGAL)
+  target_link_libraries(
+    cdt-gv
+    PRIVATE project_options
+            project_warnings
+            docopt_s
+            fmt::fmt-header-only
+            CGAL::CGAL)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
 
@@ -123,20 +139,17 @@ endif()
 # Catch
 if(ENABLE_TESTING)
   enable_testing()
-  add_subdirectory(tests)
   message(STATUS "Building tests. Check out /tests for unit tests.")
+  add_subdirectory(tests)
 endif()
 
 # CTest basic testing Parameter initializer program
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
-set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION
-                                               "Usage:./initialize")
+set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
 if(UNIX)
   add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
-  set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION
-                                         "Usage:./cdt-gv")
+  set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
 endif()
 
-# add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>) set_tests_properties(
-# CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION "64000 simplices on 16 timeslices
-# desired.")
+# add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>) set_tests_properties( CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION
+# "64000 simplices on 16 timeslices desired.")

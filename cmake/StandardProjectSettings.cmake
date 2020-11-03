@@ -1,8 +1,41 @@
-# Set minimum Boost
-set(BOOST_MIN_VERSION "1.71.0")
+# Disable CLion generation of MinSizeRel to avoid conflicts with CGAL_SetupFlags.cmake
+set(CMAKE_CONFIGURATION_TYPES
+    "Release" "Debug" "RelWithDebInfo"
+    CACHE STRING "" FORCE)
+
+# Set a default build type if none was specified
+if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
+  message(STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
+  set(CMAKE_BUILD_TYPE
+      RelWithDebInfo
+      CACHE STRING "Choose the type of build." FORCE)
+  # Set the possible values of build type for cmake-gui, ccmake
+  set_property(
+    CACHE CMAKE_BUILD_TYPE
+    PROPERTY STRINGS
+             "Debug"
+             "Release"
+             "RelWithDebInfo")
+endif()
 
 # Compile commands for ClangTidy et. al
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+# Link time optimization
+option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" ON)
+if(ENABLE_IPO)
+  include(CheckIPOSupported)
+  check_ipo_supported(RESULT result OUTPUT output)
+  if(result)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+    message(STATUS "IPO enabled.")
+  else()
+    message(SEND_ERROR "IPO is not supported: ${output}")
+  endif()
+endif()
+
+# Set minimum Boost
+set(BOOST_MIN_VERSION "1.71.0")
 
 # Use C++17 for std::optional
 set(CMAKE_CXX_STANDARD 17)
@@ -15,55 +48,8 @@ set(TBB_ON ON)
 # Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
-# Disable CLion generation of MinSizeRel to avoid conflicts with
-# CGAL_SetupFlags.cmake
-set(CMAKE_CONFIGURATION_TYPES
-    "Release" "Debug" "MinSizeRel" "RelWithDebInfo"
-    CACHE STRING "" FORCE)
-
-# Default build type
-if(NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
-  message(
-    STATUS "Setting build type to 'RelWithDebInfo' as none was specified.")
-  set(CMAKE_BUILD_TYPE
-      RelWithDebInfo
-      CACHE STRING "Choose the type of build." FORCE)
-  set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS "Debug" "Release"
-                                               "MinSizeRel" "RelWithDebInfo")
-else()
-  message(STATUS "Setting build type to ${CMAKE_BUILD_TYPE}.")
-endif()
-
-# Use Ccache
-option(ENABLE_CCACHE "Enable Ccache" TRUE)
-if(ENABLE_CCACHE)
-  find_program(CCACHE ccache)
-  if(CCACHE)
-    message(STATUS "Ccache enabled.")
-    set(CMAKE_CXX_COMPILER_LAUNCHER ${CCACHE})
-  else()
-    message(WARNING "Ccache is not supported: ${output}")
-  endif()
-endif()
-
-# Link time optimization
-option(ENABLE_IPO
-       "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)"
-       TRUE)
-if(ENABLE_IPO)
-  include(CheckIPOSupported)
-  check_ipo_supported(RESULT ipo_support)
-  if(ipo_support)
-    message(STATUS "IPO enabled.")
-    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
-  else()
-    message(WARNING "IPO is not supported: ${output}")
-  endif()
-endif()
-
 # Turn off CGAL Triangulation Assertions and Postconditions
-add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS
-                -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
+add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
