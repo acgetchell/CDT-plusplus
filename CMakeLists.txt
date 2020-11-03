@@ -40,7 +40,7 @@ enable_sanitizers(project_options)
 include(cmake/StaticAnalyzers.cmake)
 
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
-option(ENABLE_TESTING "Enable building of tests" TRUE)
+option(ENABLE_TESTING "Enable building of tests" ON)
 
 #
 # Modules and scripts ##
