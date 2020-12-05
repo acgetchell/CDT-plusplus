@@ -1680,6 +1680,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>swap</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>ffunc</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>af87d0a9c0d31da0b4befc5d62a958641</Anchor>
+    <Abstract>Non-member swap function for Foliated Triangulations. Note that this function calls swap() from CGAL&amp;#39;...</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>function_ref</Name>
       <APILanguage>c</APILanguage>
       <Type>tmplt</Type>
