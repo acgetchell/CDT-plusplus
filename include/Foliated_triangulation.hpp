@@ -178,26 +178,36 @@ class FoliatedTriangulation<3>  // NOLINT
       , m_min_timevalue{find_min_timevalue(m_points)}
   {}
 
-  friend void swap(FoliatedTriangulation<3>& t_first,
-                   FoliatedTriangulation<3>& t_second) noexcept
+  /// @brief Non-member swap function for Foliated Triangulations.
+  /// Note that this function calls swap() from CGAL's Triangulation_3 base
+  /// class, which assumes that the first triangulation is discarded after
+  /// it is swapped into the second one.
+  /// @param swap_from The value to be swapped from. Assumed to be discarded.
+  /// @param swap_into The value to be swapped into.
+  friend void swap(FoliatedTriangulation<3>& swap_from,
+                   FoliatedTriangulation<3>& swap_into) noexcept
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
+    // Uses the triangulation swap method in CGAL
+    // This assumes that the first triangulation is not used afterwards!
+    // See
+    // https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a767066a964b4d7b14376e5f5d1a04b34
+    swap_into.m_triangulation.swap(swap_from.m_triangulation);
     using std::swap;
-    swap(t_first.m_triangulation, t_second.m_triangulation);
-    swap(t_first.m_cells, t_second.m_cells);
-    swap(t_first.m_three_one, t_second.m_three_one);
-    swap(t_first.m_two_two, t_second.m_two_two);
-    swap(t_first.m_one_three, t_second.m_one_three);
-    swap(t_first.m_faces, t_second.m_faces);
-    swap(t_first.m_spacelike_facets, t_second.m_spacelike_facets);
-    swap(t_first.m_edges, t_second.m_edges);
-    swap(t_first.m_timelike_edges, t_second.m_timelike_edges);
-    swap(t_first.m_spacelike_edges, t_second.m_spacelike_edges);
-    swap(t_first.m_points, t_second.m_points);
-    swap(t_first.m_max_timevalue, t_second.m_max_timevalue);
-    swap(t_first.m_min_timevalue, t_second.m_min_timevalue);
+    swap(swap_from.m_cells, swap_into.m_cells);
+    swap(swap_from.m_three_one, swap_into.m_three_one);
+    swap(swap_from.m_two_two, swap_into.m_two_two);
+    swap(swap_from.m_one_three, swap_into.m_one_three);
+    swap(swap_from.m_faces, swap_into.m_faces);
+    swap(swap_from.m_spacelike_facets, swap_into.m_spacelike_facets);
+    swap(swap_from.m_edges, swap_into.m_edges);
+    swap(swap_from.m_timelike_edges, swap_into.m_timelike_edges);
+    swap(swap_from.m_spacelike_edges, swap_into.m_spacelike_edges);
+    swap(swap_from.m_points, swap_into.m_points);
+    swap(swap_from.m_max_timevalue, swap_into.m_max_timevalue);
+    swap(swap_from.m_min_timevalue, swap_into.m_min_timevalue);
   }  // swap
 
   /// @return A mutable reference to the Delaunay base class
