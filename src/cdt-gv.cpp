@@ -100,7 +100,8 @@ try
   CGAL::Geomview_stream gv(CGAL::Bbox_3(
       -GV_BOUNDING_BOX_SIZE, -GV_BOUNDING_BOX_SIZE, -GV_BOUNDING_BOX_SIZE,
       GV_BOUNDING_BOX_SIZE, GV_BOUNDING_BOX_SIZE, GV_BOUNDING_BOX_SIZE));
-  gv.set_line_width(4);
+  // Semmle doesn't like this line
+  //  gv.set_line_width(4);
   int constexpr GV_RED_VALUE   = 0;
   int constexpr GV_GREEN_VALUE = 200;
   int constexpr GV_BLUE_VALUE  = 200;
