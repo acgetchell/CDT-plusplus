@@ -278,12 +278,12 @@
              <Node>
               <Name>incident_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
+              <Anchor>a6ff59a608d8198c0c95d62802056b528</Anchor>
              </Node>
              <Node>
               <Name>incident_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a824f910bf7fb329f98a7d638902bff20</Anchor>
+              <Anchor>a53a8c6ebc18b5c14a5f2c490edbf2000</Anchor>
              </Node>
              <Node>
               <Name>infinite_vertex</Name>
@@ -1928,12 +1928,12 @@
                  <Node>
                   <Name>incident_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
+                  <Anchor>a6ff59a608d8198c0c95d62802056b528</Anchor>
                  </Node>
                  <Node>
                   <Name>incident_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a824f910bf7fb329f98a7d638902bff20</Anchor>
+                  <Anchor>a53a8c6ebc18b5c14a5f2c490edbf2000</Anchor>
                  </Node>
                  <Node>
                   <Name>infinite_vertex</Name>
@@ -2178,11 +2178,6 @@
                 <Anchor>af66fee4d330293bcf59754fe38fa789f</Anchor>
                </Node>
                <Node>
-                <Name>Triangulation3</Name>
-                <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>af7a9b54aa81b18727ca5987d19ab669a</Anchor>
-               </Node>
-               <Node>
                 <Name>Vertex_base</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
                 <Anchor>ade1062afbf4ecfd42e49b1a5ebd3efe9</Anchor>
@@ -2217,7 +2212,7 @@
                <Node>
                 <Name>compare_v_info</Name>
                 <Path>_foliated__triangulation_8hpp.html</Path>
-                <Anchor>a47a56bb19abae468f695f45f32b220bf</Anchor>
+                <Anchor>af0d880e7087ff420e9471d963f3c7229</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -4066,6 +4061,11 @@
                 <Name>SCENARIO</Name>
                 <Path>_foliated__triangulation__test_8cpp.html</Path>
                 <Anchor>ae024973dc708356ea3f4660637cbe4ea</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_foliated__triangulation__test_8cpp.html</Path>
+                <Anchor>acf08ba35663f249be65abdfbb1fecf35</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>

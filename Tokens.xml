@@ -172,7 +172,7 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>_foliated__triangulation_8hpp.html</Path>
-    <Anchor>a47a56bb19abae468f695f45f32b220bf</Anchor>
+    <Anchor>af0d880e7087ff420e9471d963f3c7229</Anchor>
     <Abstract>Compare time values of vertices. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1261,7 +1261,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a6017c2952a5e1917e9fcde39fd71eb0a</Anchor>
+    <Anchor>a6ff59a608d8198c0c95d62802056b528</Anchor>
     <Abstract>Call one of the TDS3.incident_cells functions. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1273,7 +1273,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a824f910bf7fb329f98a7d638902bff20</Anchor>
+    <Anchor>a53a8c6ebc18b5c14a5f2c490edbf2000</Anchor>
     <Abstract>Perfect forwarding to Delaunay3.tds().incident_cells() </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>

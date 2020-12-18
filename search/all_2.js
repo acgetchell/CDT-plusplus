@@ -20,7 +20,7 @@ var searchData=
   ['collect_5fedges',['collect_edges',['../class_foliated_triangulation_3_013_01_4.html#a5b8c2e87873b2a43e708bb25e4c371f6',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['collect_5ffaces',['collect_faces',['../class_foliated_triangulation_3_013_01_4.html#a0430cca77ad57e7f38e10183987a7adb',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['collect_5fvertices',['collect_vertices',['../class_foliated_triangulation_3_013_01_4.html#a122f565cb701847a31d4a8c9a164eb1b',1,'FoliatedTriangulation&lt; 3 &gt;']]],
-  ['compare_5fv_5finfo',['compare_v_info',['../_foliated__triangulation_8hpp.html#a47a56bb19abae468f695f45f32b220bf',1,'Foliated_triangulation.hpp']]],
+  ['compare_5fv_5finfo',['compare_v_info',['../_foliated__triangulation_8hpp.html#af0d880e7087ff420e9471d963f3c7229',1,'Foliated_triangulation.hpp']]],
   ['currentdatetime',['currentDateTime',['../_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd',1,'Utilities.hpp']]],
   ['cdt_2dplusplus',['CDT-plusplus',['../index.html',1,'']]]
 ];

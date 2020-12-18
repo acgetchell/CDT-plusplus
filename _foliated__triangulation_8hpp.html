@@ -181,9 +181,6 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Point</b> = Delaunay
 <tr class="memitem:af66fee4d330293bcf59754fe38fa789f"><td class="memItemLeft" align="right" valign="top"><a id="af66fee4d330293bcf59754fe38fa789f"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Tds</b> = CGAL::Triangulation_data_structure_3&lt; Vertex_base, Cell_base, CGAL::Sequential_tag &gt;</td></tr>
 <tr class="separator:af66fee4d330293bcf59754fe38fa789f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af7a9b54aa81b18727ca5987d19ab669a"><td class="memItemLeft" align="right" valign="top"><a id="af7a9b54aa81b18727ca5987d19ab669a"></a>
-using&#160;</td><td class="memItemRight" valign="bottom"><b>Triangulation3</b> = CGAL::Triangulation_3&lt; Kernel &gt;</td></tr>
-<tr class="separator:af7a9b54aa81b18727ca5987d19ab669a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ade1062afbf4ecfd42e49b1a5ebd3efe9"><td class="memItemLeft" align="right" valign="top"><a id="ade1062afbf4ecfd42e49b1a5ebd3efe9"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Vertex_base</b> = CGAL::Triangulation_vertex_base_with_info_3&lt; <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>, Kernel &gt;</td></tr>
 <tr class="separator:ade1062afbf4ecfd42e49b1a5ebd3efe9"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -202,10 +199,10 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a47a56bb19abae468f695f45f32b220bf"><td class="memTemplParams" colspan="2">template&lt;typename VertexType &gt; </td></tr>
-<tr class="memitem:a47a56bb19abae468f695f45f32b220bf"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#a47a56bb19abae468f695f45f32b220bf">compare_v_info</a></td></tr>
-<tr class="memdesc:a47a56bb19abae468f695f45f32b220bf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare time values of vertices.  <a href="#a47a56bb19abae468f695f45f32b220bf">More...</a><br /></td></tr>
-<tr class="separator:a47a56bb19abae468f695f45f32b220bf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0d880e7087ff420e9471d963f3c7229"><td class="memTemplParams" colspan="2">template&lt;typename VertexType &gt; </td></tr>
+<tr class="memitem:af0d880e7087ff420e9471d963f3c7229"><td class="memTemplItemLeft" align="right" valign="top">auto const&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#af0d880e7087ff420e9471d963f3c7229">compare_v_info</a></td></tr>
+<tr class="memdesc:af0d880e7087ff420e9471d963f3c7229"><td class="mdescLeft">&#160;</td><td class="mdescRight">Compare time values of vertices.  <a href="#af0d880e7087ff420e9471d963f3c7229">More...</a><br /></td></tr>
+<tr class="separator:af0d880e7087ff420e9471d963f3c7229"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Create foliated spherical triangulations. </p>
@@ -216,8 +213,8 @@ Variables</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>.</p>
 </div><h2 class="groupheader">Variable Documentation</h2>
-<a id="a47a56bb19abae468f695f45f32b220bf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a47a56bb19abae468f695f45f32b220bf">&#9670;&nbsp;</a></span>compare_v_info</h2>
+<a id="af0d880e7087ff420e9471d963f3c7229"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0d880e7087ff420e9471d963f3c7229">&#9670;&nbsp;</a></span>compare_v_info</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -225,11 +222,11 @@ Variables</h2></td></tr>
 template&lt;typename VertexType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">auto compare_v_info</td>
+          <td class="memname">auto const compare_v_info</td>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Initial value:</b><div class="fragment"><div class="line">= [](VertexType <span class="keyword">const</span>&amp; lhs, VertexType <span class="keyword">const</span>&amp; rhs) -&gt; <span class="keywordtype">bool</span> {</div><div class="line">  <span class="keywordflow">return</span> lhs-&gt;info() &lt; rhs-&gt;info();</div><div class="line">}</div></div><!-- fragment -->
+<b>Initial value:</b><div class="fragment"><div class="line">=</div><div class="line">    [](VertexType <span class="keyword">const</span>&amp; lhs, VertexType <span class="keyword">const</span>&amp; rhs) -&gt; <span class="keywordtype">bool</span> {</div><div class="line">  <span class="keywordflow">return</span> lhs-&gt;info() &lt; rhs-&gt;info();</div><div class="line">}</div></div><!-- fragment -->
 <p>Compare time values of vertices. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
@@ -246,7 +243,7 @@ template&lt;typename VertexType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 9 2020 00:39:04 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Dec 18 2020 09:06:30 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
