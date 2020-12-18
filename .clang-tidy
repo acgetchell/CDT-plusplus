@@ -1,5 +1,5 @@
 ---
-Checks:          '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvm-*,-cppcoreguidelines-avoid-c-arrays,-hicpp-avoid-c-arrays,-modernize-avoid-c-arrays, -hicpp-vararg, -cppcoreguidelines-pro-type-vararg, -modernize-pass-by-value'
+Checks:          '*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvm-*,-cppcoreguidelines-avoid-c-arrays,-hicpp-avoid-c-arrays,-modernize-avoid-c-arrays, -hicpp-vararg, -cppcoreguidelines-pro-type-vararg, -modernize-pass-by-value, -llvmlibc-*'
 WarningsAsErrors: '0'
 HeaderFilterRegex: ''
 FormatStyle:     none

@@ -29,8 +29,8 @@
 #include <CGAL/point_generators_3.h>
 #include <optional>
 
-using Kernel         = CGAL::Exact_predicates_inexact_constructions_kernel;
-using Triangulation3 = CGAL::Triangulation_3<Kernel>;
+using Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;
+// using Triangulation3 = CGAL::Triangulation_3<Kernel>;
 // Each vertex may be assigned a time value
 using Vertex_base =
     CGAL::Triangulation_vertex_base_with_info_3<Int_precision, Kernel>;
@@ -71,7 +71,8 @@ enum class Cell_type
 /// @tparam VertexType The type of Vertex to compare
 /// @return True if timevalue of lhs is less than rhs
 template <typename VertexType>
-auto compare_v_info = [](VertexType const& lhs, VertexType const& rhs) -> bool {
+auto const compare_v_info =
+    [](VertexType const& lhs, VertexType const& rhs) -> bool {
   return lhs->info() < rhs->info();
 };
 
@@ -399,7 +400,7 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @param t_vh Vertex
   /// @return A container of incident cells
   template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) incident_cells(VertexHandle&& t_vh) const
+  [[nodiscard]] auto incident_cells(VertexHandle&& t_vh) const -> decltype(auto)
   {
     std::vector<Cell_handle> inc_cells;
     get_delaunay().tds().incident_cells(std::forward<VertexHandle>(t_vh),
@@ -413,7 +414,7 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @param args Parameter pack of arguments to call incident_cells()
   /// @return A Cell_circulator
   template <typename... Ts>
-  [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
+  [[nodiscard]] auto incident_cells(Ts&&... args) const -> decltype(auto)
   {
     return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
   }  // incident_cells
@@ -495,19 +496,17 @@ class FoliatedTriangulation<3>  // NOLINT
 
   /// @brief Check that all cells are correctly classified
   /// @param t_cells The container of cells to check
-  /// @return True if all cells are valid
+  /// @return True if all cells are validly classified
   [[nodiscard]] static auto check_cells(std::vector<Cell_handle> const& t_cells)
       -> bool
   {
     Expects(!t_cells.empty());
-    for (auto const& cell : t_cells)
-    {
-      if (cell->info() != static_cast<int>(Cell_type::THREE_ONE) &&
-          cell->info() != static_cast<int>(Cell_type::TWO_TWO) &&
-          cell->info() != static_cast<int>(Cell_type::ONE_THREE))
-      { return false; }
-    }
-    return true;
+    return std::all_of(
+        t_cells.begin(), t_cells.end(), [](Cell_handle const& cell) {
+          return cell->info() == static_cast<int>(Cell_type::THREE_ONE) ||
+                 cell->info() == static_cast<int>(Cell_type::TWO_TWO) ||
+                 cell->info() == static_cast<int>(Cell_type::ONE_THREE);
+        });
   }  // check_cells
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
@@ -633,7 +632,9 @@ class FoliatedTriangulation<3>  // NOLINT
 #ifdef DETAILED_DEBUGGING
     fmt::print("Removing ...\n");
     for (auto& v : invalid_vertices)
-    { fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info()); }
+    {
+      fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info());
+    }
 #endif
     return invalid_vertices;
 
@@ -706,8 +707,10 @@ class FoliatedTriangulation<3>  // NOLINT
       // Generate random points at the radius
       for (gsl::index j = 0;
            j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)
-      { causal_vertices.emplace_back(std::make_pair(*gen++, i + 1)); }  // j
-    }                                                                   // i
+      {
+        causal_vertices.emplace_back(std::make_pair(*gen++, i + 1));
+      }  // j
+    }    // i
     return causal_vertices;
   }  // make_foliated_sphere
 
@@ -738,7 +741,9 @@ class FoliatedTriangulation<3>  // NOLINT
     if (vertices_to_delete)
     {
       for (auto& v : vertices_to_delete.value())
-      { deleted_vertices.emplace(v); }
+      {
+        deleted_vertices.emplace(v);
+      }
     }
     auto invalid = deleted_vertices.size();
 

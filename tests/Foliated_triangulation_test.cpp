@@ -88,7 +88,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
   {
     WHEN("Constructing a small triangulation.")
     {
-      constexpr auto         desired_simplices = static_cast<Int_precision>(72);
+      constexpr auto         desired_simplices = static_cast<Int_precision>(47);
       constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
@@ -144,6 +144,48 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       {
         for (auto const& vertex : foliatedTriangulation.get_vertices())
         { CHECK(foliatedTriangulation.degree(vertex) == 4); }
+      }
+    }
+  }
+}
+
+SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
+{
+  GIVEN("A small foliated triangulation.")
+  {
+    vector<Delaunay3::Point> Vertices{
+        Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
+        Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+    vector<std::size_t> timevalue{1, 1, 1, 2};
+    Causal_vertices     causal_vertices;
+    causal_vertices.reserve(Vertices.size());
+    std::transform(
+        Vertices.begin(), Vertices.end(), timevalue.begin(),
+        std::back_inserter(causal_vertices),
+        [](Delaunay3::Point a, std::size_t b) { return std::make_pair(a, b); });
+    Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
+    FoliatedTriangulation3 foliatedTriangulation(triangulation);
+    WHEN("check_cells() is called.")
+    {
+      THEN("Cells are correctly classified.")
+      {
+        CHECK(foliatedTriangulation.check_cells(
+            foliatedTriangulation.get_cells()));
+        // Human verification
+        foliatedTriangulation.print_cells();
+      }
+    }
+    AND_WHEN("The cells are mis-labelled")
+    {
+      auto cells = foliatedTriangulation.get_cells();
+      for (auto& cell : cells) { cell->info() = 0; }
+
+      THEN("The incorrect labelling is identified.")
+      {
+        CHECK_FALSE(foliatedTriangulation.check_cells(
+            foliatedTriangulation.get_cells()));
+        // Human verification
+        foliatedTriangulation.print_cells();
       }
     }
   }
