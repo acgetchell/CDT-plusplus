@@ -47,6 +47,7 @@ The goals and targets of this project are:
 - [x] Automated code analysis with [LGTM]
 - [x] Build/debug with [Visual Studio 2019]
 - [x] Use [{fmt}] library (instead of `iostream`)
+- [x] Static code analysis with [PVS-Studio]
 - [ ] Metropolis algorithm
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
@@ -328,12 +329,16 @@ Your code should pass Continuous Integration:
 
 - [MemorySanitizer] (if supported by your platform); test with [msan.sh]
 
+- [ThreadSanitizer]; test with [tsan.sh]
+
 - [LGTM]; check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
   more details.
 
 Optional:
 
 - [ClangTidy] on all changed files
+
+- [PVS-Studio] using [pvs-studio.sh] if you have it installed
 
 ## Upstream issues
 
@@ -419,3 +424,6 @@ None.
 [.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
 [asan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh
 [msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh
+[tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
+[PVS-Studio]: https://www.viva64.com/en/pvs-studio/
+[pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh

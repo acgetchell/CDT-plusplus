@@ -45,6 +45,7 @@ errors
 *.off
 *.dat
 slurm-*.out
+*PVS-Studio*
 
 # Instrumentation
 *.trace
