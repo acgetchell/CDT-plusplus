@@ -52,16 +52,14 @@ struct Geometry<3>
   /// @brief Number of vertices
   Int_precision N0{0};
 
-  /// @brief Default dtor
-  ~Geometry() = default;
-
   /// @brief Default ctor
   Geometry() = default;
 
   /// @brief Constructor with triangulation
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
-  explicit Geometry(FoliatedTriangulation3 const& triangulation)
+  [[maybe_unused]] explicit Geometry(
+      FoliatedTriangulation3 const& triangulation)
 
       : N3{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
       , N3_31{static_cast<Int_precision>(triangulation.get_three_one().size())}
