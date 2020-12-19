@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['passes',['passes',['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes()'],['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis::Passes()']]],
+  ['passes',['Passes',['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis::Passes()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes()']]],
   ['print_5fcells',['print_cells',['../class_foliated_triangulation_3_013_01_4.html#aa883b9144aeb9a99fdfcc7bfbe30aff8',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells() const'],['../class_foliated_triangulation_3_013_01_4.html#ac5d1a45cab81896501b965f8b8acbcb1',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells(std::vector&lt; Cell_handle &gt; const &amp;t_cells)']]],
   ['print_5fedges',['print_edges',['../class_foliated_triangulation_3_013_01_4.html#a95a5be17700a0f38005d359b8765fb2f',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['print_5fmanifold',['print_manifold',['../_utilities_8hpp.html#afde78c98ecf8f5dbee19636c2056d9c6',1,'Utilities.hpp']]],

@@ -178,17 +178,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>~Geometry</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_geometry_8hpp.html</Path>
-    <Anchor>a35eb54a0e26509d9d68eff7e74afc7f7</Anchor>
-    <Abstract>Default dtor. </Abstract>
-    <DeclaredIn>Geometry.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>Geometry</Name>
       <APILanguage>c</APILanguage>
       <Type>func</Type>
@@ -1916,18 +1905,6 @@
     <Path>struct_geometry_3_013_01_4.html</Path>
     <Anchor>a7ce72e159359beb2716e508cad5fd45c</Anchor>
     <Abstract>Constructor with triangulation. </Abstract>
-    <DeclaredIn>Geometry.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>~Geometry</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>func</Type>
-      <Scope>Geometry&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>struct_geometry_3_013_01_4.html</Path>
-    <Anchor>a2e72020023755e08911e842633a33a5a</Anchor>
-    <Abstract>Default dtor. </Abstract>
     <DeclaredIn>Geometry.hpp</DeclaredIn>
   </Token>
   <Token>
