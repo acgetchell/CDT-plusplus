@@ -26,6 +26,7 @@ var searchData=
   ['max_5ftime',['max_time',['../class_foliated_triangulation_3_013_01_4.html#a612bb132c87a5d4ad53d6e0dc0ad9b58',1,'FoliatedTriangulation&lt; 3 &gt;::max_time()'],['../class_manifold_3_013_01_4.html#af8ac303aaccfcff01f721e14d5ab638a',1,'Manifold&lt; 3 &gt;::max_time()']]],
   ['measurements_2ehpp',['Measurements.hpp',['../_measurements_8hpp.html',1,'']]],
   ['measurementstest_2ecpp',['MeasurementsTest.cpp',['../_measurements_test_8cpp.html',1,'']]],
+  ['memory_5falignment',['MEMORY_ALIGNMENT',['../_settings_8hpp.html#a0ce6ccc20dc0b7676602bc7c44df855a',1,'Settings.hpp']]],
   ['metropolis',['Metropolis',['../class_metropolis.html',1,'Metropolis'],['../class_metropolis.html#ae819cbd0a642c631e546d33bd12b8e41',1,'Metropolis::Metropolis()']]],
   ['metropolis_2ehpp',['Metropolis.hpp',['../_metropolis_8hpp.html',1,'']]],
   ['min_5ftime',['min_time',['../class_foliated_triangulation_3_013_01_4.html#a3693b9d9669cba73531508af775d69c8',1,'FoliatedTriangulation&lt; 3 &gt;::min_time()'],['../class_manifold_3_013_01_4.html#a4035e7764ec5ed7a964584b7cc349e80',1,'Manifold&lt; 3 &gt;::min_time()']]],

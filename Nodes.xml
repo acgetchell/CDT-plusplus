@@ -2361,6 +2361,81 @@
                 <Path>_geometry_8hpp.html</Path>
                 <Anchor>a03e1bcf4cb3602c102f6f330ed5b7111</Anchor>
                </Node>
+               <Node>
+                <Name>~Geometry</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a35eb54a0e26509d9d68eff7e74afc7f7</Anchor>
+               </Node>
+               <Node>
+                <Name>__attribute__</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a223eca31ed3a52a682d5e118adb7026f</Anchor>
+               </Node>
+               <Node>
+                <Name>Geometry</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a3a575a5d7d09ab73998f8a8ac82d9824</Anchor>
+               </Node>
+               <Node>
+                <Name>Geometry</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>ad07634a3e94d9ba267b6e28e87005cc3</Anchor>
+               </Node>
+               <Node>
+                <Name>swap</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>af7450092e67d362692353a8b378059b6</Anchor>
+               </Node>
+               <Node>
+                <Name>N0</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>add97bf9296c6bdfead1e1d534de746aa</Anchor>
+               </Node>
+               <Node>
+                <Name>N1</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>aa4804fd361505d54b18064bf91f13065</Anchor>
+               </Node>
+               <Node>
+                <Name>N1_SL</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a8093647a2de30e3e6f73cca2bf63250f</Anchor>
+               </Node>
+               <Node>
+                <Name>N1_TL</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a6cf139104eef9ccbb06ea9837f6cf330</Anchor>
+               </Node>
+               <Node>
+                <Name>N2</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a12bd015d97c6d007c9600eed3edffef6</Anchor>
+               </Node>
+               <Node>
+                <Name>N3</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a9d0faa99337fd4da02df48d85196b8b4</Anchor>
+               </Node>
+               <Node>
+                <Name>N3_13</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>af93e4812b6bb21851d964f0976dfbb31</Anchor>
+               </Node>
+               <Node>
+                <Name>N3_22</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a5d8e74b72d65a7e8e8f6a76db90945cc</Anchor>
+               </Node>
+               <Node>
+                <Name>N3_31</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>aeb8e6efa3b100b2ff259412c2fd118c7</Anchor>
+               </Node>
+               <Node>
+                <Name>N3_31_13</Name>
+                <Path>_geometry_8hpp.html</Path>
+                <Anchor>a5e2e1eab4d4801018ac0098b856020af</Anchor>
+               </Node>
               </Subnodes>
              </Node>
              <Node>
@@ -2641,6 +2716,11 @@
                 <Name>Manifold3</Name>
                 <Path>_manifold_8hpp.html</Path>
                 <Anchor>a8babfdba691a78f2a6c30c63815dce92</Anchor>
+               </Node>
+               <Node>
+                <Name>__attribute__</Name>
+                <Path>_manifold_8hpp.html</Path>
+                <Anchor>a62892eec6ed3f21f25bfe11cb22154c6</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3394,6 +3474,11 @@
                 <Name>INITIAL_RADIUS</Name>
                 <Path>_settings_8hpp.html</Path>
                 <Anchor>a81aad3d328ae07174fa55ebdd847de7d</Anchor>
+               </Node>
+               <Node>
+                <Name>MEMORY_ALIGNMENT</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a0ce6ccc20dc0b7676602bc7c44df855a</Anchor>
                </Node>
                <Node>
                 <Name>PRECISION</Name>

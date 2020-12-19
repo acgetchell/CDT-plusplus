@@ -178,6 +178,160 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>~Geometry</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a35eb54a0e26509d9d68eff7e74afc7f7</Anchor>
+    <Abstract>Default dtor. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Geometry</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a3a575a5d7d09ab73998f8a8ac82d9824</Anchor>
+    <Abstract>Default ctor. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Geometry</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>ad07634a3e94d9ba267b6e28e87005cc3</Anchor>
+    <Abstract>Constructor with triangulation. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>swap</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>af7450092e67d362692353a8b378059b6</Anchor>
+    <Abstract>Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N0</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>add97bf9296c6bdfead1e1d534de746aa</Anchor>
+    <Abstract>Number of vertices. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N1</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>aa4804fd361505d54b18064bf91f13065</Anchor>
+    <Abstract>Number of 1D edges. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N1_SL</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a8093647a2de30e3e6f73cca2bf63250f</Anchor>
+    <Abstract>Number of spacelike edges. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N1_TL</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a6cf139104eef9ccbb06ea9837f6cf330</Anchor>
+    <Abstract>Number of timelike edges. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N2</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a12bd015d97c6d007c9600eed3edffef6</Anchor>
+    <Abstract>Number of 2D faces. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a9d0faa99337fd4da02df48d85196b8b4</Anchor>
+    <Abstract>Number of 3D simplices. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_13</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>af93e4812b6bb21851d964f0976dfbb31</Anchor>
+    <Abstract>Number of (1,3) simplices. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_22</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a5d8e74b72d65a7e8e8f6a76db90945cc</Anchor>
+    <Abstract>Number of (2,2) simplices. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_31</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>aeb8e6efa3b100b2ff259412c2fd118c7</Anchor>
+    <Abstract>Number of (3,1) simplices. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>N3_31_13</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_geometry_8hpp.html</Path>
+    <Anchor>a5e2e1eab4d4801018ac0098b856020af</Anchor>
+    <Abstract>Number of (3,1) + (1,3) simplices. </Abstract>
+    <DeclaredIn>Geometry.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>DETAILED_DEBUGGING</Name>
       <APILanguage>c</APILanguage>
       <Type>macro</Type>
@@ -524,6 +678,17 @@
     <Path>_settings_8hpp.html</Path>
     <Anchor>a81aad3d328ae07174fa55ebdd847de7d</Anchor>
     <Abstract>Default foliated triangulation spacings. </Abstract>
+    <DeclaredIn>Settings.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MEMORY_ALIGNMENT</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_settings_8hpp.html</Path>
+    <Anchor>a0ce6ccc20dc0b7676602bc7c44df855a</Anchor>
+    <Abstract>Aligns data for ease of access on 64-bit CPUs at the expense of padding. </Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
   <Token>
