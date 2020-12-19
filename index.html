@@ -97,6 +97,7 @@ Small foliated Delaunay triangulation</div></div>
 <li>[x] Automated code analysis with <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a></li>
 <li>[x] Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a></li>
 <li>[x] Use <a href="https://github.com/fmtlib/fmt">{fmt}</a> library (instead of <code>iostream</code>)</li>
+<li>[x] Static code analysis with <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a></li>
 <li>[ ] <a class="el" href="class_metropolis.html" title="Metropolis-Hastings algorithm function object. ">Metropolis</a> algorithm</li>
 <li>[ ] Output via <a href="https://www.hdfgroup.org">HDF5</a></li>
 <li>[ ] A <a href="https://doc.cgal.org/latest/Surface_mesher/index.html">Surface mesh</a> manifold of 3D Triangulation</li>
@@ -169,17 +170,19 @@ Small foliated Delaunay triangulation</div></div>
 <li><a href="http://valgrind.org/docs/manual/quick-start.html#quick-start.mcrun">Valgrind</a>; be sure to look at the results to ensure you're not leaking memory</li>
 <li><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> and <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>; test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh">asan.sh</a></li>
 <li>[MemorySanitizer] (if supported by your platform); test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh">msan.sh</a></li>
+<li><a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a>; test with <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh">tsan.sh</a></li>
 <li><a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a>; check to ensure you haven't introduced a security vulnerability. Look at the <a href="https://lgtm.com/query/lang:cpp/">query console</a> for more details.</li>
 </ul>
 <p>Optional:</p>
 <ul>
 <li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
+<li><a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
 </ul>
 <p>None. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 18 2020 09:06:30 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Dec 19 2020 03:56:05 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
