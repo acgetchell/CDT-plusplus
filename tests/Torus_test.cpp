@@ -8,7 +8,7 @@
 /// @brief Tests for wraparound grids
 /// @author Adam Getchell
 
-#include <Torus_d.hpp>
+#include "Torus_d.hpp"
 #include <catch2/catch.hpp>
 
 SCENARIO("Torus construction", "[torus]")

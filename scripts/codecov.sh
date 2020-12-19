@@ -3,7 +3,7 @@ cd ..
 rm -rf build
 mkdir build
 cd build || exit
-cmake -D ENABLE_COVERAGE:BOOL=TRUE -DCMAKE_TOOLCHAIN_FILE="$HOME"/vcpkg/scripts/buildsystems/vcpkg.cmake --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake ..
+cmake -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE="$HOME"/vcpkg/scripts/buildsystems/vcpkg.cmake --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake ..
 cmake --build . --config Debug
 pwd
 ctest --schedule-random -V

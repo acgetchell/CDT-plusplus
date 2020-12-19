@@ -1,14 +1,14 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2019 Adam Getchell
+/// Copyright © 2014-2020 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional sphere of
 /// a given radius
 
 /// @todo Make the vector compatible with the triangulation data structure
 
-/// @file sphere_d.hpp
-/// @brief Functions on d-Spheres
+/// @file Sphere_d.hpp
+/// @brief Functions on d-dimensional Spheres
 /// @author Adam Getchell
 
 #ifndef INCLUDE_SPHERE_D_HPP_
@@ -36,9 +36,9 @@ using Kd = CGAL::Cartesian_d<double>;
 /// @param t_radius Radius of sphere
 /// @param t_output_flag Toggles detailed output
 /// @param t_points The points ready to insert
-void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
-                   double t_radius, bool t_output_flag,
-                   std::vector<Kd::Point_d>& t_points) noexcept
+inline void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
+                          double t_radius, bool t_output_flag,
+                          std::vector<Kd::Point_d>& t_points) noexcept
 {
   t_points.reserve(t_number_of_points);
 
@@ -54,7 +54,7 @@ void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
         "center 0 and radius {}.\n",
         t_dimension, t_radius);
 
-    for (const auto& point : t_points) { std::cout << " " << point << "\n"; }
+    for (auto const& point : t_points) { std::cout << " " << point << "\n"; }
   }
 }  // make_d_sphere()
 
@@ -66,8 +66,9 @@ void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
 /// @param t_dimension Dimensionality of sphere
 /// @param t_radius Radius of sphere
 /// @param t_points The points ready to insert
-void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
-                   double t_radius, std::vector<Kd::Point_d>& t_points) noexcept
+inline void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
+                          double                    t_radius,
+                          std::vector<Kd::Point_d>& t_points) noexcept
 {
   make_d_sphere(t_number_of_points, t_dimension, t_radius, false, t_points);
 }  // make_d_sphere

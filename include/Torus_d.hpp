@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2019 Adam Getchell
+/// Copyright © 2014-2020 Adam Getchell
 ///
 /// Inserts a given number of points into a d-dimensional grid (cube)
 /// @todo Make the vector compatible with the triangulation data structure
@@ -28,8 +28,8 @@ using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
 /// @param t_number_of_points The number of points
 /// @param t_dimension Dimensionality of the toroid
 /// @return A d-dimensional toroid
-auto make_d_cube(std::vector<Point> t_points, std::size_t t_number_of_points,
-                 int t_dimension)
+inline auto make_d_cube(std::vector<Point> t_points,
+                        std::size_t t_number_of_points, int t_dimension)
 {
   double size = 1.0;
 

@@ -98,7 +98,7 @@ struct Geometry<3>
     swap(t_first.N1_SL, t_second.N1_SL);
     swap(t_first.N0, t_second.N0);
   }  // swap
-};
+} __attribute__((aligned(MEMORY_ALIGNMENT)));
 
 using Geometry3 = Geometry<3>;
 

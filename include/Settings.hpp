@@ -41,4 +41,7 @@ static long double constexpr RADIAL_FACTOR  = 1.0L;
 /// Depends on INITIAL_RADIUS and RADIAL_FACTOR
 static Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
 
+/// Aligns data for ease of access on 64-bit CPUs at the expense of padding
+static int constexpr MEMORY_ALIGNMENT = 64;
+
 #endif  // INCLUDE_SETTINGS_HPP_

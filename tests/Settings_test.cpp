@@ -9,7 +9,7 @@
 ///
 /// @author Adam Getchell
 
-#include <Settings.hpp>
+#include "Settings.hpp"
 #include <catch2/catch.hpp>
 #include <fmt/format.h>
 #include <typeinfo>
@@ -36,6 +36,15 @@ SCENARIO("Check settings", "[settings]")
       {
         fmt::print("MPFR precision set to {}.\n", precision);
         REQUIRE(precision == 256);
+      }
+    }
+    WHEN("Memory alignment is queried.")
+    {
+      auto const alignment = MEMORY_ALIGNMENT;
+      THEN("The value is 64 bits.")
+      {
+        fmt::print("Memory alignment is set to {}.\n", alignment);
+        REQUIRE(alignment == 64);
       }
     }
   }

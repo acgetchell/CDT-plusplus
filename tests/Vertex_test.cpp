@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2019 Adam Getchell
+/// Copyright © 2017-2020 Adam Getchell
 ///
 /// Tests for inserting and deleting vertices.
 ///
@@ -8,7 +8,7 @@
 /// @brief Tests on vertices
 /// @author Adam Getchell
 
-#include <Manifold.hpp>
+#include "Manifold.hpp"
 #include <catch2/catch.hpp>
 
 SCENARIO("Vertex operations", "[vertex]")
