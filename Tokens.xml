@@ -1624,6 +1624,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>print_vertices</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a2d30079ade1815ff29fac43f51340360</Anchor>
+    <Abstract>Print values of a vertex. </Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>print_volume_per_timeslice</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>

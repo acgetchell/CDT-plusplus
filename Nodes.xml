@@ -386,6 +386,11 @@
               <Anchor>a95a5be17700a0f38005d359b8765fb2f</Anchor>
              </Node>
              <Node>
+              <Name>print_vertices</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a2d30079ade1815ff29fac43f51340360</Anchor>
+             </Node>
+             <Node>
               <Name>print_volume_per_timeslice</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
@@ -2029,6 +2034,11 @@
                   <Name>print_edges</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a95a5be17700a0f38005d359b8765fb2f</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>print_vertices</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a2d30079ade1815ff29fac43f51340360</Anchor>
                  </Node>
                  <Node>
                   <Name>print_volume_per_timeslice</Name>
@@ -4233,6 +4243,11 @@
                 <Name>SCENARIO</Name>
                 <Path>_manifold__test_8cpp.html</Path>
                 <Anchor>a32ecb82665e32fc0b1fe5b25fdcb7bb2</Anchor>
+               </Node>
+               <Node>
+                <Name>SCENARIO</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>a7c7c23cc1b12ac05eba4796e115778c3</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>
