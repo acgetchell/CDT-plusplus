@@ -271,12 +271,11 @@ class Manifold<3>
       std::vector<Cell_handle> const& t_cells) const -> bool
   {
     auto checked_vertices = get_vertices_from_cells(t_cells);
-    for (auto& vertex : checked_vertices)
-    {
-      auto timevalue = vertex->info();
-      if (timevalue > max_time() || timevalue < min_time()) { return false; }
-    }
-    return true;
+    return std::all_of(checked_vertices.begin(), checked_vertices.end(),
+                       [this](Vertex_handle const& vertex) {
+                         return vertex->info() >= min_time() &&
+                                vertex->info() <= max_time();
+                       });
   }  // are_vertex_timevalues_valid
 
   /// @param t_cells The container of simplices to check

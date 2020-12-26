@@ -529,6 +529,16 @@ class FoliatedTriangulation<3>  // NOLINT
     }
   }  // print_cells
 
+  /// @brief Print values of a vertex.
+  void print_vertices() const
+  {
+    for (auto const& vertex : m_points)
+    {
+      fmt::print("Vertex at X: {} Y: {} T: {}\n", vertex->point().x(),
+                 vertex->point().y(), vertex->info());
+    }
+  }  // print_vertices
+
   /// @brief Predicate to classify edge as timelike or spacelike
   /// @param t_edge The Edge_handle to classify
   /// @param t_debug_flag Debugging info toggle

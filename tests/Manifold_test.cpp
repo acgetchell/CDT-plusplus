@@ -86,6 +86,50 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
   }
 }
 
+SCENARIO("Manifold functions", "[manifold]")
+{
+  GIVEN("A manifold with four vertices.")
+  {
+    vector<Delaunay3::Point> Vertices{
+        Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
+        Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+    vector<std::size_t> timevalue{1, 1, 1, 2};
+    Causal_vertices     causal_vertices;
+    causal_vertices.reserve(Vertices.size());
+    std::transform(
+        Vertices.begin(), Vertices.end(), timevalue.begin(),
+        std::back_inserter(causal_vertices),
+        [](Delaunay3::Point a, std::size_t b) { return std::make_pair(a, b); });
+    Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
+    FoliatedTriangulation3 foliatedTriangulation(triangulation);
+    Manifold3              manifold(foliatedTriangulation);
+    REQUIRE(manifold.is_valid());
+    WHEN("are_vertex_timevalues_valid() is called.")
+    {
+      THEN("The vertices have valid timevalues.")
+      {
+        REQUIRE(manifold.N0() == 4);
+        CHECK(manifold.are_vertex_timevalues_valid(
+            manifold.get_triangulation().get_cells()));
+        // Human verification
+        manifold.get_triangulation().print_vertices();
+      }
+    }
+    AND_WHEN("The vertices are mis-labelled.")
+    {
+      auto vertices = manifold.get_triangulation().get_vertices();
+      for (auto& vertex : vertices) { vertex->info() = 10; }
+      THEN("The incorrect vertex time-values are identified.")
+      {
+        CHECK_FALSE(manifold.are_vertex_timevalues_valid(
+            manifold.get_triangulation().get_cells()));
+        // Human verification
+        manifold.get_triangulation().print_vertices();
+      }
+    }
+  }
+}
+
 SCENARIO("3-Manifold initialization", "[manifold]")
 {
   GIVEN("A 3-manifold.")
