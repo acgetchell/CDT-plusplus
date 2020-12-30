@@ -2485,6 +2485,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>are_all_vertex_timevalues_valid</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a36d8d7f0d07801f8eff69957e7820788</Anchor>
+    <Abstract>Check all vertices to ensure they have valid timevalues. </Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>are_vertex_timevalues_valid</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -2492,6 +2504,7 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a5115646ca60f9e4342c23a5c400208f4</Anchor>
+    <Abstract>Check vertices in a container of simplices to ensure they have valid timevalues. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>

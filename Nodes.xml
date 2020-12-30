@@ -827,6 +827,11 @@
               <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
              </Node>
              <Node>
+              <Name>are_all_vertex_timevalues_valid</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>a36d8d7f0d07801f8eff69957e7820788</Anchor>
+             </Node>
+             <Node>
               <Name>are_simplex_types_valid</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a1901cb36f23945442efe10a56f45db6b</Anchor>
@@ -2479,6 +2484,11 @@
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>are_all_vertex_timevalues_valid</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>a36d8d7f0d07801f8eff69957e7820788</Anchor>
                  </Node>
                  <Node>
                   <Name>are_simplex_types_valid</Name>
