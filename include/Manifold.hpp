@@ -257,34 +257,6 @@ class Manifold<3>
     return m_triangulation.max_time();
   }  // max_time
 
-  /// @return True if all cells in triangulation are classified and match number
-  /// in geometry
-  [[nodiscard]] auto check_simplices() const -> bool
-  {
-    return (this->number_of_simplices() == this->N3() &&
-            FoliatedTriangulation3::check_cells(m_triangulation.get_cells()));
-  }  // check_simplices
-
-  /// @param t_cells The container of simplices to check
-  /// @return True if all vertices in the container have reasonable timevalues
-  [[nodiscard]] auto are_vertex_timevalues_valid(
-      std::vector<Cell_handle> const& t_cells) const -> bool
-  {
-    auto checked_vertices = get_vertices_from_cells(t_cells);
-    return std::all_of(checked_vertices.begin(), checked_vertices.end(),
-                       [this](Vertex_handle const& vertex) {
-                         return vertex->info() >= min_time() &&
-                                vertex->info() <= max_time();
-                       });
-  }  // are_vertex_timevalues_valid
-
-  /// @param t_cells The container of simplices to check
-  /// @return True if all simplices in the container have valid types
-  [[nodiscard]] static auto are_simplex_types_valid(
-      std::vector<Cell_handle> const& t_cells) -> bool
-  {
-    return FoliatedTriangulation3::check_cells(t_cells);
-  }  // ar_simplex_types_valid
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.degree()
   template <typename VertexHandle>
@@ -317,6 +289,49 @@ class Manifold<3>
   {
     return m_triangulation.get_vertices();
   }  // get_vertices
+
+  /// @return True if all cells in triangulation are classified and match number
+  /// in geometry
+  [[nodiscard]] auto check_simplices() const -> bool
+  {
+    return (this->number_of_simplices() == this->N3() &&
+            FoliatedTriangulation3::check_cells(m_triangulation.get_cells()));
+  }  // check_simplices
+
+  /// @brief Check vertices in a container of simplices to ensure they have
+  /// valid timevalues
+  /// @param t_cells The container of simplices to check
+  /// @return True if all vertices in the container have reasonable timevalues
+  [[nodiscard]] auto are_vertex_timevalues_valid(
+      std::vector<Cell_handle> const& t_cells) const -> bool
+  {
+    auto checked_vertices = get_vertices_from_cells(t_cells);
+    return std::all_of(checked_vertices.begin(), checked_vertices.end(),
+                       [this](Vertex_handle const& vertex) {
+                         return vertex->info() >= min_time() &&
+                                vertex->info() <= max_time();
+                       });
+  }  // are_vertex_timevalues_valid
+
+  /// @brief Check all vertices to ensure they have valid timevalues
+  /// @return True if all vertices in the manifold have reasonable timevalues
+  [[nodiscard]] auto are_all_vertex_timevalues_valid() const -> bool
+  {
+    auto checked_vertices = this->get_vertices();
+    return std::all_of(checked_vertices.begin(), checked_vertices.end(),
+                       [this](Vertex_handle const& vertex) {
+                         return vertex->info() >= min_time() &&
+                                vertex->info() <= max_time();
+                       });
+  }  // are_all_vertex_timevalues_valid
+
+  /// @param t_cells The container of simplices to check
+  /// @return True if all simplices in the container have valid types
+  [[nodiscard]] static auto are_simplex_types_valid(
+      std::vector<Cell_handle> const& t_cells) -> bool
+  {
+    return FoliatedTriangulation3::check_cells(t_cells);
+  }  // are_simplex_types_valid
 
   /// @brief Print the volume in subsimplices (faces) per timeslice
   void print_volume_per_timeslice() const
