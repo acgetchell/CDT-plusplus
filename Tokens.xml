@@ -2952,6 +2952,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_vertex_timevalue_correct</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>af16032c6f7f6eda76027ae75d368633e</Anchor>
+    <Abstract>Checks if vertex timevalue is correct The effective z-value is the initial radius of the sphere plus ...</Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>update_geometry</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>

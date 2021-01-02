@@ -231,6 +231,9 @@ Static Public Member Functions</h2></td></tr>
 <tr class="separator:a1901cb36f23945442efe10a56f45db6b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a356813571d7b15f8754d6087bc55b3d6"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manifold_3_013_01_4.html#a356813571d7b15f8754d6087bc55b3d6">get_vertices_from_cells</a> (std::vector&lt; Cell_handle &gt; const &amp;t_cells)</td></tr>
 <tr class="separator:a356813571d7b15f8754d6087bc55b3d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af16032c6f7f6eda76027ae75d368633e"><td class="memItemLeft" align="right" valign="top">static auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_manifold_3_013_01_4.html#af16032c6f7f6eda76027ae75d368633e">is_vertex_timevalue_correct</a> (Vertex_handle const &amp;t_vertex) -&gt; bool</td></tr>
+<tr class="memdesc:af16032c6f7f6eda76027ae75d368633e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Checks if vertex timevalue is correct The effective z-value is the initial radius of the sphere plus the z-value divided by the radial spacing between successive timeslices. Recall that timeslices start with 1.  <a href="#af16032c6f7f6eda76027ae75d368633e">More...</a><br /></td></tr>
+<tr class="separator:af16032c6f7f6eda76027ae75d368633e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
 Private Member Functions</h2></td></tr>
@@ -429,7 +432,7 @@ class Manifold&lt; 3 &gt;</h3>
 <p>Check all vertices to ensure they have valid timevalues. </p>
 <dl class="section return"><dt>Returns</dt><dd>True if all vertices in the manifold have reasonable timevalues </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00318">318</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00337">337</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -465,7 +468,7 @@ class Manifold&lt; 3 &gt;</h3>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if all simplices in the container have valid types </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00330">330</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00349">349</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -503,7 +506,7 @@ class Manifold&lt; 3 &gt;</h3>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if all vertices in the container have reasonable timevalues </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00305">305</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00324">324</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -916,6 +919,44 @@ template&lt;typename VertexType &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>True if the vertex candidate is a vertex </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00165">165</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+</div>
+</div>
+<a id="af16032c6f7f6eda76027ae75d368633e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af16032c6f7f6eda76027ae75d368633e">&#9670;&nbsp;</a></span>is_vertex_timevalue_correct()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static auto <a class="el" href="class_manifold.html">Manifold</a>&lt; 3 &gt;::is_vertex_timevalue_correct </td>
+          <td>(</td>
+          <td class="paramtype">Vertex_handle const &amp;&#160;</td>
+          <td class="paramname"><em>t_vertex</em></td><td>)</td>
+          <td> -&gt; bool
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Checks if vertex timevalue is correct The effective z-value is the initial radius of the sphere plus the z-value divided by the radial spacing between successive timeslices. Recall that timeslices start with 1. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_vertex</td><td>The vertex to check </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if vertex-&gt;info() matches the effective z-value </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00307">307</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -1413,7 +1454,7 @@ template&lt;typename VertexType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00346">346</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00365">365</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
@@ -1423,7 +1464,7 @@ template&lt;typename VertexType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jan 1 2021 21:58:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jan 2 2021 04:10:05 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

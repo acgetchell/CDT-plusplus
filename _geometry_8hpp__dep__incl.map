@@ -7,7 +7,7 @@
 <area shape="rect" id="node18" href="$_s3_action__test_8cpp.html" title="Tests for the S3 action functions. " alt="" coords="1173,162,1348,189"/>
 <area shape="rect" id="node19" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons. " alt="" coords="1373,162,1567,189"/>
 <area shape="rect" id="node20" href="$_utilities__test_8cpp.html" title="Tests on utility functions. " alt="" coords="1591,162,1759,189"/>
-<area shape="rect" id="node21" href="$_vertex__test_8cpp.html" title="Tests on vertices. " alt="" coords="1784,162,1943,189"/>
+<area shape="rect" id="node21" href="$_vertex__test_8cpp.html" title="Tests on vertices in Delaunay triangulations. " alt="" coords="1784,162,1943,189"/>
 <area shape="rect" id="node4" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern. " alt="" coords="279,251,487,278"/>
 <area shape="rect" id="node13" href="$_apply__move__test_8cpp.html" title="Apply ergodic moves to manifolds. " alt="" coords="512,251,711,278"/>
 <area shape="rect" id="node14" href="$_ergodic__moves__3__test_8cpp.html" title="Tests for ergodic moves on foliated triangulations. " alt="" coords="735,244,893,285"/>

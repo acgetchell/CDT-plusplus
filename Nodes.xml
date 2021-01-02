@@ -932,6 +932,11 @@
               <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
              </Node>
              <Node>
+              <Name>is_vertex_timevalue_correct</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>af16032c6f7f6eda76027ae75d368633e</Anchor>
+             </Node>
+             <Node>
               <Name>max_time</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>af8ac303aaccfcff01f721e14d5ab638a</Anchor>
@@ -2589,6 +2594,11 @@
                   <Name>is_vertex</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>is_vertex_timevalue_correct</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>af16032c6f7f6eda76027ae75d368633e</Anchor>
                  </Node>
                  <Node>
                   <Name>max_time</Name>
