@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2020 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Tests for random, conversion, and datetime functions.
 ///
@@ -59,7 +59,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       THEN("The output is correct.")
       {
         // Update test yearly
-        CHECK_THAT(currentDateTime(), Catch::Contains("2020"));
+        CHECK_THAT(currentDateTime(), Catch::Contains("2021"));
         // Human verification
         fmt::print("Current date and time is: {}\n", currentDateTime());
       }
@@ -77,7 +77,7 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
         CHECK_THAT(filename,
                    Catch::Contains("S3") && Catch::Contains("16") &&
                        Catch::Contains("6700") && Catch::Contains("@") &&
-                       Catch::Contains("2020") && Catch::Contains("off"));
+                       Catch::Contains("2021") && Catch::Contains("off"));
         // Human verification
         fmt::print("Filename is: {}\n", filename);
       }

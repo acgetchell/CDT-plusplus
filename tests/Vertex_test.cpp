@@ -1,11 +1,11 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2020 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Tests for inserting and deleting vertices.
 ///
 /// @file Vertex_test.cpp
-/// @brief Tests on vertices
+/// @brief Tests on vertices in Delaunay triangulations
 /// @author Adam Getchell
 
 #include "Manifold.hpp"
@@ -37,7 +37,7 @@ SCENARIO("Vertex operations", "[vertex]")
       }
     }
 
-    WHEN("Two vertices are inserted.")
+    AND_WHEN("Two vertices are inserted.")
     {
       triangulation.insert(Point(0, 0, 0));
       triangulation.insert(Point(1, 0, 0));
@@ -58,7 +58,7 @@ SCENARIO("Vertex operations", "[vertex]")
       }
     }
 
-    WHEN("Three vertices are inserted.")
+    AND_WHEN("Three vertices are inserted.")
     {
       triangulation.insert(Point(0, 0, 0));
       triangulation.insert(Point(1, 0, 0));
@@ -80,7 +80,7 @@ SCENARIO("Vertex operations", "[vertex]")
       }
     }
 
-    WHEN("Four vertices are inserted.")
+    AND_WHEN("Four vertices are inserted.")
     {
       triangulation.insert(Point(0, 0, 0));
       triangulation.insert(Point(1, 0, 0));
@@ -103,7 +103,7 @@ SCENARIO("Vertex operations", "[vertex]")
       }
     }
 
-    WHEN("Six vertices are inserted.")
+    AND_WHEN("Six vertices are inserted.")
     {
       triangulation.insert(Point(0, 0, 0));
       triangulation.insert(Point(1, 0, 0));

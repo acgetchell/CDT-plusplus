@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2019 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Tests that 3D triangulated and foliated tetrahedrons are constructed
 /// correctly.
@@ -120,38 +120,25 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
         REQUIRE(triangulation.tds().is_valid());
       }
 
+      Manifold3 manifold(triangulation);
+
       THEN("Timevalues are correct.")
       {
-        // Sort causal_vertices
-        std::sort(causal_vertices.begin(), causal_vertices.end(),
-                  [](auto a, auto b) { return a.first < b.first; });
-        Causal_vertices                     comparison;
-        Delaunay3::Finite_vertices_iterator vit;
-        // Constructed vector of vertices in the triangulation
-        for (vit = triangulation.finite_vertices_begin();
-             vit != triangulation.finite_vertices_end(); ++vit)
+        auto checked_vertices = manifold.get_vertices();
+        for (auto& vertex : checked_vertices)
         {
-          std::cout << "Point: " << vit->point()
-                    << " Timevalue: " << vit->info() << '\n';
-          comparison.emplace_back(std::make_pair(vit->point(), vit->info()));
+          REQUIRE(Manifold3::is_vertex_timevalue_correct(vertex));
         }
-        // Sort vertices in the triangulation
-        std::sort(comparison.begin(), comparison.end(),
-                  [](auto a, auto b) { return a.first < b.first; });
-
-        REQUIRE(causal_vertices == comparison);
       }
-
-      Manifold3 new_universe(triangulation);
 
       THEN("The cell info is correct.")
       {
         Delaunay3::Finite_cells_iterator cit;
-        for (cit = new_universe.get_triangulation()
+        for (cit = manifold.get_triangulation()
                        .get_delaunay()
                        .finite_cells_begin();
              cit !=
-             new_universe.get_triangulation().get_delaunay().finite_cells_end();
+             manifold.get_triangulation().get_delaunay().finite_cells_end();
              ++cit)
         {
           fmt::print("Simplex type is {}\n", cit->info());
@@ -161,28 +148,22 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
 
       THEN("There is one (3,1) simplex.")
       {
-        REQUIRE(new_universe.get_geometry().N3_31 == 1);
+        REQUIRE(manifold.get_geometry().N3_31 == 1);
       }
 
       THEN("There are no (2,2) simplices.")
       {
-        REQUIRE(new_universe.get_geometry().N3_22 == 0);
+        REQUIRE(manifold.get_geometry().N3_22 == 0);
       }
 
       THEN("There are no (1,3) simplices.")
       {
-        REQUIRE(new_universe.get_geometry().N3_13 == 0);
+        REQUIRE(manifold.get_geometry().N3_13 == 0);
       }
 
-      THEN("There are 3 timelike edges.")
-      {
-        REQUIRE(new_universe.N1_TL() == 3);
-      }
+      THEN("There are 3 timelike edges.") { REQUIRE(manifold.N1_TL() == 3); }
 
-      THEN("There are 3 spacelike edges.")
-      {
-        REQUIRE(new_universe.N1_SL() == 3);
-      }
+      THEN("There are 3 spacelike edges.") { REQUIRE(manifold.N1_SL() == 3); }
     }
   }
 }

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2020 Adam Getchell
+/// Copyright © 2020-2021 Adam Getchell
 ///
 /// Global project settings on integer types and MPFR precision
 ///
@@ -31,17 +31,20 @@ using Int_precision = std::int_fast32_t;
 
 //#define CGAL_LINKED_WITH_TBB
 
+/// Correctly declare global constants
+/// See Jonathan Boccara's C++ Pitfalls, January 2021
+
 /// Sets the precision for <a href="http://www.mpfr.org">MPFR</a>.
-static Int_precision constexpr PRECISION = 256;
+static inline Int_precision constexpr PRECISION = 256;
 
 /// Default foliated triangulation spacings
-static long double constexpr INITIAL_RADIUS = 1.0L;
-static long double constexpr RADIAL_FACTOR  = 1.0L;
+static inline long double constexpr INITIAL_RADIUS = 1.0L;
+static inline long double constexpr RADIAL_FACTOR  = 1.0L;
 
 /// Depends on INITIAL_RADIUS and RADIAL_FACTOR
-static Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
+static inline Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
 
 /// Aligns data for ease of access on 64-bit CPUs at the expense of padding
-static int constexpr MEMORY_ALIGNMENT = 64;
+static inline int constexpr MEMORY_ALIGNMENT = 64;
 
 #endif  // INCLUDE_SETTINGS_HPP_

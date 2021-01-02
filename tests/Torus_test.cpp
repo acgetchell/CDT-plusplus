@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2020 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Tests that 2-tori and 3-tori are correctly constructed in 3D and 4D.
 ///
@@ -27,7 +27,7 @@ SCENARIO("Torus construction", "[torus]")
       }
     }
   }
-  GIVEN("A constructed 2-torus")
+  AND_GIVEN("A constructed 2-torus")
   {
     int dim = 3;
     make_d_cube(v, NUMBER_OF_POINTS, dim);
