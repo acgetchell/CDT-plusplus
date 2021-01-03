@@ -139,6 +139,18 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
         - cd tests
         - ./CDT_test
+    # LeakSanitizer
+    - os: linux
+      compiler: clang-10
+      env: LSAN=true
+      script:
+        - cmake -S . -B build -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmke --build build
+      after_success:
+        - cd $TRAVIS_BUILD_DIR/build/
+        - ./initialize --s -n32000 -t11 -o
+        - cd tests || exit
+        - ./CDT_test
     # MemorySanitizer
     - os: linux
       compiler: clang-10
@@ -218,6 +230,9 @@ jobs:
     - os: linux
       compiler: g++-10
       env: CODECOV=true
+    - os: linux
+      compiler: clang-10
+      env: LSAN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
