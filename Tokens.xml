@@ -2455,7 +2455,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a7ea25a39b169b7c127a46963779eea14</Anchor>
+    <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
     <Abstract>Construct manifold from a Foliated triangulation. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
