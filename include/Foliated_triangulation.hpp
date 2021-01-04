@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2020 Adam Getchell
+/// Copyright © 2018-2021 Adam Getchell
 ///
 /// Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes
 /// to create foliated spherical triangulations of a given dimension.
@@ -134,6 +134,38 @@ class FoliatedTriangulation<3>  // NOLINT
   //    return *this;
   //  }
 
+  /// @brief Non-member swap function for Foliated Triangulations.
+  /// Note that this function calls swap() from CGAL's Triangulation_3 base
+  /// class, which assumes that the first triangulation is discarded after
+  /// it is swapped into the second one.
+  /// @param swap_from The value to be swapped from. Assumed to be discarded.
+  /// @param swap_into The value to be swapped into.
+  friend void swap(FoliatedTriangulation<3>& swap_from,
+                   FoliatedTriangulation<3>& swap_into) noexcept
+  {
+#ifndef NDEBUG
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+    // Uses the triangulation swap method in CGAL
+    // This assumes that the first triangulation is not used afterwards!
+    // See
+    // https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a767066a964b4d7b14376e5f5d1a04b34
+    swap_into.m_triangulation.swap(swap_from.m_triangulation);
+    using std::swap;
+    swap(swap_from.m_cells, swap_into.m_cells);
+    swap(swap_from.m_three_one, swap_into.m_three_one);
+    swap(swap_from.m_two_two, swap_into.m_two_two);
+    swap(swap_from.m_one_three, swap_into.m_one_three);
+    swap(swap_from.m_faces, swap_into.m_faces);
+    swap(swap_from.m_spacelike_facets, swap_into.m_spacelike_facets);
+    swap(swap_from.m_edges, swap_into.m_edges);
+    swap(swap_from.m_timelike_edges, swap_into.m_timelike_edges);
+    swap(swap_from.m_spacelike_edges, swap_into.m_spacelike_edges);
+    swap(swap_from.m_points, swap_into.m_points);
+    swap(swap_from.m_max_timevalue, swap_into.m_max_timevalue);
+    swap(swap_from.m_min_timevalue, swap_into.m_min_timevalue);
+  }  // swap
+
   /// @brief Constructor using delaunay triangulation
   /// Pass-by-value-then-move
   /// Delaunay3 is the ctor for the Delaunay triangulation
@@ -179,37 +211,39 @@ class FoliatedTriangulation<3>  // NOLINT
       , m_min_timevalue{find_min_timevalue(m_points)}
   {}
 
-  /// @brief Non-member swap function for Foliated Triangulations.
-  /// Note that this function calls swap() from CGAL's Triangulation_3 base
-  /// class, which assumes that the first triangulation is discarded after
-  /// it is swapped into the second one.
-  /// @param swap_from The value to be swapped from. Assumed to be discarded.
-  /// @param swap_into The value to be swapped into.
-  friend void swap(FoliatedTriangulation<3>& swap_from,
-                   FoliatedTriangulation<3>& swap_into) noexcept
+  /// @brief Verifies the triangulation is properly foliated
+  ///
+  /// Can not be called until after Foliated_triangulation has been constructed
+  /// (i.e. not in make_triangulation)
+  ///
+  /// @return True if foliated correctly
+  [[nodiscard]] auto is_foliated() const -> bool
   {
-#ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-    // Uses the triangulation swap method in CGAL
-    // This assumes that the first triangulation is not used afterwards!
-    // See
-    // https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a767066a964b4d7b14376e5f5d1a04b34
-    swap_into.m_triangulation.swap(swap_from.m_triangulation);
-    using std::swap;
-    swap(swap_from.m_cells, swap_into.m_cells);
-    swap(swap_from.m_three_one, swap_into.m_three_one);
-    swap(swap_from.m_two_two, swap_into.m_two_two);
-    swap(swap_from.m_one_three, swap_into.m_one_three);
-    swap(swap_from.m_faces, swap_into.m_faces);
-    swap(swap_from.m_spacelike_facets, swap_into.m_spacelike_facets);
-    swap(swap_from.m_edges, swap_into.m_edges);
-    swap(swap_from.m_timelike_edges, swap_into.m_timelike_edges);
-    swap(swap_from.m_spacelike_edges, swap_into.m_spacelike_edges);
-    swap(swap_from.m_points, swap_into.m_points);
-    swap(swap_from.m_max_timevalue, swap_into.m_max_timevalue);
-    swap(swap_from.m_min_timevalue, swap_into.m_min_timevalue);
-  }  // swap
+    return !static_cast<bool>(check_timeslices(get_delaunay()));
+  }  // is_foliated
+  /// @return True if the triangulation is Delaunay
+  [[nodiscard]] auto is_delaunay() const -> bool
+  {
+    return get_delaunay().is_valid();
+  }  // is_delaunay
+
+  /// @return True if the triangulation data structure is valid
+  [[nodiscard]] auto is_tds_valid() const -> bool
+  {
+    return get_delaunay().tds().is_valid();
+  }  // is_tds_valid
+
+  /// @return True if the Foliated Triangulation class invariant holds
+  [[nodiscard]] auto is_correct() const -> bool
+  {
+    return is_foliated() && is_tds_valid() && check_vertices();
+  }  // is_correct
+
+  /// @return True if the Foliated Triangulation has been initialized correctly
+  [[nodiscard]] auto is_initialized() const -> bool
+  {
+    return is_correct() && is_delaunay();
+  }
 
   /// @return A mutable reference to the Delaunay base class
   auto delaunay() -> Delaunay3& { return m_triangulation; }
@@ -222,28 +256,17 @@ class FoliatedTriangulation<3>  // NOLINT
 
   /// @return An InputIterator to the beginning of the finite cells stored in
   /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
-  [[maybe_unused]] auto finite_cells_begin()
+  auto finite_cells_begin()
   {
     return m_triangulation.finite_cells_begin();
   }  // finite_cells_begin
 
   /// @return An InputIterator to the end of the finite cells stored in
   /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
-  [[maybe_unused]] auto finite_cells_end()
+  auto finite_cells_end()
   {
     return m_triangulation.finite_cells_end();
   }  // finite_cells_end
-
-  /// @brief Verifies the triangulation is properly foliated
-  ///
-  /// Can not be called until after Foliated_triangulation has been constructed
-  /// (i.e. not in make_triangulation)
-  ///
-  /// @return True if foliated correctly
-  [[nodiscard]] auto is_foliated() const -> bool
-  {
-    return !static_cast<bool>(check_timeslices(get_delaunay()));
-  }  // is_foliated
 
   /// @return Number of 3D simplices in triangulation data structure
   [[nodiscard]] auto number_of_finite_cells() const
@@ -297,17 +320,7 @@ class FoliatedTriangulation<3>  // NOLINT
     return m_triangulation.infinite_vertex();
   }  // infinite_vertex
 
-  /// @return True if the triangulation is Delaunay
-  [[nodiscard]] auto is_delaunay() const -> bool
-  {
-    return get_delaunay().is_valid();
-  }  // is_delaunay
 
-  /// @return True if the triangulation data structure is valid
-  [[nodiscard]] auto is_tds_valid() const -> bool
-  {
-    return get_delaunay().tds().is_valid();
-  }  // is_tds_valid
 
   /// @return Dimensionality of triangulation data structure (int)
   [[nodiscard]] auto dimension() const { return m_triangulation.dimension(); }
@@ -650,6 +663,25 @@ class FoliatedTriangulation<3>  // NOLINT
 
   }  // check_timeslices
 
+  /// @brief Checks if vertex timevalue is correct
+  /// The effective z-value is the initial radius of the sphere plus the
+  /// z-value divided by the radial spacing between successive timeslices.
+  /// Recall that timeslices start with 1.
+  /// @param t_vertex The vertex to check
+  /// @return True if vertex->info() matches the effective z-value
+  [[nodiscard]] static auto is_vertex_timevalue_correct(
+      Vertex_handle const& t_vertex) -> bool
+  {
+    auto effective_z_value =
+        INITIAL_RADIUS +
+        static_cast<long double>(t_vertex->point().z()) / RADIAL_FACTOR;
+#ifndef NDEBUG
+    fmt::print("Effective Z: {} Vertex {} with info(): {}\n", effective_z_value,
+               t_vertex->point(), t_vertex->info());
+#endif
+    return effective_z_value == t_vertex->info();
+  }  // is_vertex_timevalue_correct
+
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param t_simplices Number of desired simplices
@@ -738,14 +770,13 @@ class FoliatedTriangulation<3>  // NOLINT
   /// deleted. The Delaunay triangulation is then recomputed on the remaining
   /// vertices.
   ///
-  /// @tparam DelaunayTriangulation The type (topology, dimensionality) of
-  /// Delaunay triangulation
-  /// @param t_dt The Delaunay triangulation
+  /// @tparam Triangulation Perfectly forwarded argument type
+  /// @param t_triangulation Perfectly forwarded argument
   /// @return True if there are no incorrectly foliated simplices
-  template <typename DelaunayTriangulation>
-  [[nodiscard]] auto fix_timeslices(DelaunayTriangulation&& t_dt) -> bool
+  template <typename Triangulation>
+  [[nodiscard]] auto fix_timeslices(Triangulation&& t_triangulation) -> bool
   {
-    auto                    vertices_to_delete = check_timeslices(t_dt);
+    auto vertices_to_delete = check_timeslices(t_triangulation);
     std::set<Vertex_handle> deleted_vertices;
     // Remove duplicates
     if (vertices_to_delete)
@@ -758,14 +789,14 @@ class FoliatedTriangulation<3>  // NOLINT
     auto invalid = deleted_vertices.size();
 
     // Delete invalid vertices
-    t_dt.remove(deleted_vertices.begin(), deleted_vertices.end());
+    t_triangulation.remove(deleted_vertices.begin(), deleted_vertices.end());
     // Check that the triangulation is still valid
     // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
     //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
     //    if (!_delaunay.tds().is_valid())
     //      throw std::logic_error("Delaunay tds invalid!");
-    Ensures(t_dt.tds().is_valid());
-    Ensures(t_dt.is_valid());
+    Ensures(t_triangulation.tds().is_valid());
+    Ensures(t_triangulation.is_valid());
 
 #ifndef NDEBUG
     fmt::print("There are {} invalid simplices.\n", invalid);

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2019 Adam Getchell
+/// Copyright © 2019-2021 Adam Getchell
 ///
 /// Apply ergodic moves to manifolds: (2,3), (3,2), (2,6), (6,2), and (4,4)
 
@@ -21,8 +21,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.is_valid());
+    REQUIRE(manifold.is_correct());
     WHEN("A null move is applied to the manifold.")
     {
       auto result = apply_move(manifold, manifold3_moves::null_move);
@@ -135,8 +134,9 @@ SCENARIO("Apply multiple ergodic moves to 2+1 manifolds",
     constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.is_valid());
+    //    REQUIRE(manifold.is_delaunay());
+    //    REQUIRE(manifold.is_valid());
+    REQUIRE(manifold.is_correct());
     WHEN("A (2,3) and (3,2) move is applied to the manifold.")
     {
       auto result1 = apply_move(manifold, manifold3_moves::do_23_move);

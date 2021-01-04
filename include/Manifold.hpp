@@ -152,8 +152,7 @@ class Manifold<3>
   [[nodiscard]] auto is_correct() const -> bool
   {
     auto simplices = m_triangulation.get_cells();
-    return is_delaunay() && is_valid() && is_foliated() &&
-           are_simplex_types_valid(simplices) &&
+    return m_triangulation.is_correct() && are_simplex_types_valid(simplices) &&
            are_vertex_timevalues_valid(simplices);
   }  // is_correct
 
@@ -297,25 +296,6 @@ class Manifold<3>
     return (this->number_of_simplices() == this->N3() &&
             FoliatedTriangulation3::check_cells(m_triangulation.get_cells()));
   }  // check_simplices
-
-  /// @brief Checks if vertex timevalue is correct
-  /// The effective z-value is the initial radius of the sphere plus the
-  /// z-value divided by the radial spacing between successive timeslices.
-  /// Recall that timeslices start with 1.
-  /// @param t_vertex The vertex to check
-  /// @return True if vertex->info() matches the effective z-value
-  [[nodiscard]] static auto is_vertex_timevalue_correct(
-      Vertex_handle const& t_vertex) -> bool
-  {
-    auto effective_z_value =
-        INITIAL_RADIUS +
-        static_cast<long double>(t_vertex->point().z()) / RADIAL_FACTOR;
-#ifndef NDEBUG
-    fmt::print("Effective Z: {} Vertex {} with info(): {}\n", effective_z_value,
-               t_vertex->point(), t_vertex->info());
-#endif
-    return effective_z_value == t_vertex->info();
-  }  // is_vertex_timevalue_correct
 
   /// @brief Check vertices in a container of simplices to ensure they have
   /// valid timevalues

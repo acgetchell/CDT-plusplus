@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2019 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Ensures that the S3 bulk action calculations are correct, and give
 /// similar results for similar values.
@@ -29,9 +29,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     CHECK(universe.N1() == universe.edges());
     CHECK(universe.N0() == universe.vertices());
     CHECK(universe.dim() == 3);
-    CHECK(universe.is_foliated());
-    CHECK(universe.is_delaunay());
-    CHECK(universe.is_valid());
+    CHECK(universe.is_correct());
 
     universe.print_volume_per_timeslice();
 

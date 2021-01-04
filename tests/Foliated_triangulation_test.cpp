@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2020 Adam Getchell
+/// Copyright © 2018-2021 Adam Getchell
 ///
 /// Tests that foliated triangulations are correctly constructed
 /// in 3D and 4D respectively.
@@ -92,6 +92,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
       FoliatedTriangulation3 triangulation(desired_simplices,
                                            desired_timeslices);
+      REQUIRE(triangulation.is_initialized());
       THEN("Delaunay3 functions work as expected.")
       {
         CHECK(triangulation.number_of_finite_cells() > 12);
@@ -116,6 +117,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
     WHEN("Constructing the default triangulation.")
     {
       FoliatedTriangulation3 triangulation;
+      REQUIRE(triangulation.is_initialized());
       THEN("is_infinite() identifies a single infinite vertex.")
       {
         auto&& vertices = triangulation.get_delaunay().tds().vertices();
@@ -140,6 +142,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
                      });
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
+      REQUIRE(foliatedTriangulation.is_initialized());
       THEN("The degree of each vertex is 4 (including infinite vertex).")
       {
         for (auto const& vertex : foliatedTriangulation.get_vertices())
@@ -165,6 +168,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
         [](Delaunay3::Point a, std::size_t b) { return std::make_pair(a, b); });
     Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
     FoliatedTriangulation3 foliatedTriangulation(triangulation);
+    REQUIRE(foliatedTriangulation.is_initialized());
     WHEN("check_cells() is called.")
     {
       THEN("Cells are correctly classified.")
@@ -199,8 +203,10 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       FoliatedTriangulation3 triangulation;
       THEN("The default Delaunay triangulation is valid.")
       {
-        REQUIRE(triangulation.is_delaunay());
-        REQUIRE(triangulation.is_tds_valid());
+        //        REQUIRE(triangulation.is_delaunay());
+        //        REQUIRE(triangulation.is_tds_valid());
+        REQUIRE(triangulation.is_initialized());
+        //        REQUIRE(triangulation.check_vertices());
         REQUIRE(triangulation.max_time() == 0);
         REQUIRE(triangulation.min_time() == 0);
       }
@@ -224,17 +230,15 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("Triangulation is valid and foliated.")
       {
+        REQUIRE(foliatedTriangulation.is_initialized());
         REQUIRE(foliatedTriangulation.dimension() == 3);
         REQUIRE(foliatedTriangulation.number_of_vertices() == 4);
         REQUIRE(foliatedTriangulation.number_of_finite_edges() == 6);
         REQUIRE(foliatedTriangulation.number_of_finite_facets() == 4);
         REQUIRE(foliatedTriangulation.number_of_finite_cells() == 1);
-        REQUIRE(foliatedTriangulation.is_delaunay());
-        REQUIRE(foliatedTriangulation.is_tds_valid());
         REQUIRE(foliatedTriangulation.max_time() == 2);
         REQUIRE(foliatedTriangulation.min_time() == 1);
         REQUIRE(foliatedTriangulation.is_foliated());
-        REQUIRE(foliatedTriangulation.check_vertices());
         // Human verification
         foliatedTriangulation.print_cells();
       }
@@ -247,10 +251,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                                                    desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
-        REQUIRE(foliatedTriangulation.is_delaunay());
-        REQUIRE(foliatedTriangulation.is_tds_valid());
-        REQUIRE(foliatedTriangulation.is_foliated());
-        REQUIRE(foliatedTriangulation.check_vertices());
+        REQUIRE(foliatedTriangulation.is_initialized());
       }
       THEN("The triangulation has sensible values.")
       {
@@ -280,10 +281,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                                            desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
-        REQUIRE(triangulation.is_delaunay());
-        REQUIRE(triangulation.is_tds_valid());
-        REQUIRE(triangulation.is_foliated());
-        REQUIRE(triangulation.check_vertices());
+        REQUIRE(triangulation.is_initialized());
       }
       THEN("The triangulation has sensible values.")
       {
@@ -350,7 +348,8 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
       }
       THEN("The foliated triangulations have identical properties.")
       {
-        CHECK(triangulation.is_foliated() == triangulation2.is_foliated());
+        CHECK(triangulation.is_initialized() ==
+              triangulation2.is_initialized());
         CHECK(triangulation.number_of_finite_cells() ==
               triangulation2.number_of_finite_cells());
         CHECK(triangulation.min_time() == triangulation2.min_time());
@@ -418,20 +417,20 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       FoliatedTriangulation3 foliatedTriangulation(triangulation);
       THEN("An error is detected.")
       {
-        CHECK(foliatedTriangulation.check_timeslices(foliatedTriangulation));
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
-#ifndef _WIN64
-      // MSVC doesn't like this
-      AND_THEN("The high value is discarded.")
-      {
-        auto discarded =
-            foliatedTriangulation.check_timeslices(foliatedTriangulation);
-        CHECK(discarded.value().front()->info() ==
-              std::numeric_limits<int>::max());
-        foliatedTriangulation.print_cells();
-      }
-#endif
+      /// TODO: Use fix_vertex and fix_simplex here
+      //#ifndef _WIN64
+      //      // MSVC doesn't like this
+      //      AND_THEN("The high value is discarded.")
+      //      {
+      //        auto discarded =
+      //            foliatedTriangulation.check_timeslices(foliatedTriangulation);
+      //        CHECK(discarded.value().front()->info() ==
+      //              std::numeric_limits<int>::max());
+      //        foliatedTriangulation.print_cells();
+      //      }
+      //#endif
     }
     WHEN("Constructing a triangulation with an incorrect low value vertex.")
     {
@@ -452,15 +451,16 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       {
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
-#ifndef _WIN64
-      // MSVC doesn't like this
-      AND_THEN("The low value is discarded.")
-      {
-        auto discarded =
-            foliatedTriangulation.check_timeslices(foliatedTriangulation);
-        CHECK(discarded.value().front()->info() == 0);
-      }
-#endif
+      /// TODO: Use fix_vertex and fix_simplex here
+      //#ifndef _WIN64
+      //      // MSVC doesn't like this
+      //      AND_THEN("The low value is discarded.")
+      //      {
+      //        auto discarded =
+      //            foliatedTriangulation.check_timeslices(foliatedTriangulation);
+      //        CHECK(discarded.value().front()->info() == 0);
+      //      }
+      //#endif
     }
     WHEN(
         "Constructing a triangulation with two incorrect low values and two "
@@ -483,15 +483,16 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       {
         CHECK_FALSE(foliatedTriangulation.is_foliated());
       }
-#ifndef _WIN64
-      // Visual Studio doesn't like this
-      AND_THEN("The low value is preferentially discarded.")
-      {
-        auto discarded =
-            foliatedTriangulation.check_timeslices(foliatedTriangulation);
-        CHECK(discarded.value().front()->info() == 0);
-      }
-#endif
+      /// TODO: Use fix_vertex and fix_simplex here
+      //#ifndef _WIN64
+      //      // Visual Studio doesn't like this
+      //      AND_THEN("The low value is preferentially discarded.")
+      //      {
+      //        auto discarded =
+      //            foliatedTriangulation.check_timeslices(foliatedTriangulation);
+      //        CHECK(discarded.value().front()->info() == 0);
+      //      }
+      //#endif
     }
   }
 }

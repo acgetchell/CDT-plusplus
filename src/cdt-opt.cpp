@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2016-2019 Adam Getchell
+/// Copyright © 2016-2021 Adam Getchell
 ///
 /// Full run-through with default options used to calculate
 /// optimal values for thermalization, etc. A simpler version
@@ -18,7 +18,6 @@
 
 //#include <utility>
 
-//#include <Measurements.hpp>
 #include <Metropolis.hpp>
 #include <Simulation.hpp>
 

@@ -14,7 +14,7 @@
 
 using namespace std;
 
-SCENARIO("Construct a tetrahedron in the triangulation", "[tetrahedron]")
+SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
 {
   GIVEN("A vector of 4 vertices.")
   {
@@ -64,7 +64,7 @@ SCENARIO("Construct a tetrahedron in the triangulation", "[tetrahedron]")
   }
 }
 
-SCENARIO("Construct a foliated tetrahedron in the triangulation",
+SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
          "[tetrahedron]")
 {
   GIVEN("A vector of vertices and a vector of timevalues.")
@@ -84,61 +84,50 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
                        return std::make_pair(a, b);
                      });
       Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
+      FoliatedTriangulation3 ft(triangulation);
+
+      THEN("The triangulation is initialized correctly.")
+      {
+        REQUIRE(ft.is_initialized());
+      }
 
       THEN("The triangulation has dimension 3.")
       {
-        REQUIRE(triangulation.dimension() == 3);
+        REQUIRE(ft.dimension() == 3);
       }
 
       THEN("The triangulation has 4 vertices.")
       {
-        REQUIRE(triangulation.number_of_vertices() == 4);
+        REQUIRE(ft.number_of_vertices() == 4);
       }
 
       THEN("The triangulation has 6 edges.")
       {
-        REQUIRE(triangulation.number_of_finite_edges() == 6);
+        REQUIRE(ft.number_of_finite_edges() == 6);
       }
 
       THEN("The triangulation has 4 faces.")
       {
-        REQUIRE(triangulation.number_of_finite_facets() == 4);
+        REQUIRE(ft.number_of_finite_facets() == 4);
       }
 
       THEN("The triangulation has 1 cell.")
       {
-        REQUIRE(triangulation.number_of_finite_cells() == 1);
+        REQUIRE(ft.number_of_finite_cells() == 1);
       }
-
-      THEN("The triangulation is Delaunay.")
-      {
-        REQUIRE(triangulation.is_valid());
-      }
-
-      THEN("The triangulation data structure is valid.")
-      {
-        REQUIRE(triangulation.tds().is_valid());
-      }
-
-      Manifold3 manifold(triangulation);
 
       THEN("Timevalues are correct.")
       {
-        auto checked_vertices = manifold.get_vertices();
+        auto checked_vertices = ft.get_vertices();
         for (auto& vertex : checked_vertices)
         {
-          REQUIRE(Manifold3::is_vertex_timevalue_correct(vertex));
+          REQUIRE(FoliatedTriangulation3::is_vertex_timevalue_correct(vertex));
         }
       }
 
       THEN("The cell info is correct.")
       {
-        Delaunay3::Finite_cells_iterator cit;
-        for (cit = manifold.get_triangulation()
-                       .get_delaunay()
-                       .finite_cells_begin();
-             cit !=
-             manifold.get_triangulation().get_delaunay().finite_cells_end();
+        for (auto&& cit = ft.finite_cells_begin(); cit != ft.finite_cells_end();
              ++cit)
         {
           fmt::print("Simplex type is {}\n", cit->info());
@@ -148,22 +137,22 @@ SCENARIO("Construct a foliated tetrahedron in the triangulation",
 
       THEN("There is one (3,1) simplex.")
       {
-        REQUIRE(manifold.get_geometry().N3_31 == 1);
+        REQUIRE(ft.get_three_one().size() == 1);
       }
 
       THEN("There are no (2,2) simplices.")
       {
-        REQUIRE(manifold.get_geometry().N3_22 == 0);
+        REQUIRE(ft.get_two_two().empty());
       }
 
       THEN("There are no (1,3) simplices.")
       {
-        REQUIRE(manifold.get_geometry().N3_13 == 0);
+        REQUIRE(ft.get_one_three().empty());
       }
 
-      THEN("There are 3 timelike edges.") { REQUIRE(manifold.N1_TL() == 3); }
+      THEN("There are 3 timelike edges.") { REQUIRE(ft.N1_TL() == 3); }
 
-      THEN("There are 3 spacelike edges.") { REQUIRE(manifold.N1_SL() == 3); }
+      THEN("There are 3 spacelike edges.") { REQUIRE(ft.N1_SL() == 3); }
     }
   }
 }

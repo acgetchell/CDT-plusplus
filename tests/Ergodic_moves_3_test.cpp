@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2019 Adam Getchell
+/// Copyright © 2019-2021 Adam Getchell
 ///
 /// Tests for S3 ergodic moves: (2,3), (3,2), (2,6), (6,2), and (4,4)
 
@@ -21,8 +21,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
     Manifold3      manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.is_valid());
+    REQUIRE(manifold.is_correct());
     // Previous state
     auto N3_31_pre_move = manifold.N3_31();
     auto N3_22_pre_move = manifold.N3_22();
@@ -50,8 +49,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         CHECK(manifold.N1_TL() == N1_TL_pre_move + 1);
         CHECK(manifold.N1_SL() == N1_SL_pre_move);
         CHECK(manifold.N0() == N0_pre_move);
-        CHECK(manifold.is_valid());
-        CHECK(manifold.is_foliated());
+        CHECK(manifold.is_correct());
       }
     }
     WHEN("A (3,2) move is performed")
@@ -107,15 +105,13 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         CHECK(manifold3_moves::check_move(manifold_before, manifold,
                                           manifold3_moves::move_type::SIX_TWO));
         // Manual check
-        CHECK(manifold.is_delaunay());
+        CHECK(manifold.is_correct());
         CHECK(manifold.N3_31() == N3_31_pre_move - 2);
         CHECK(manifold.N3_22() == N3_22_pre_move);
         CHECK(manifold.N3_13() == N3_13_pre_move - 2);
         CHECK(manifold.N1_TL() == N1_TL_pre_move - 2);
         CHECK(manifold.N1_SL() == N1_SL_pre_move - 3);
         CHECK(manifold.N0() == N0_pre_move - 1);
-        CHECK(manifold.is_valid());
-        CHECK(manifold.is_foliated());
       }
     }
     WHEN("A (4,4) move is performed")
@@ -130,7 +126,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
             manifold_before, manifold, manifold3_moves::move_type::FOUR_FOUR));
 
         // A (4,4) move by itself does not break the Delaunay triangulation
-        CHECK(manifold.is_delaunay());
+
+        CHECK(manifold.is_correct());
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move);
@@ -138,8 +135,6 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         CHECK(manifold.N1_TL() == N1_TL_pre_move);
         CHECK(manifold.N1_SL() == N1_SL_pre_move);
         CHECK(manifold.N0() == N0_pre_move);
-        CHECK(manifold.is_valid());
-        CHECK(manifold.is_foliated());
         // Indeed, how do we tell? Everything except cell identification
         // will be the same
       }

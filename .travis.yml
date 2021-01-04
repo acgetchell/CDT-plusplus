@@ -144,8 +144,10 @@ jobs:
       compiler: clang-10
       env: LSAN=true
       script:
-        - cmake -S . -B build -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-        - cmke --build build
+        - mkdir build
+        - cd build || exit
+        - cmake -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake --build .
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o

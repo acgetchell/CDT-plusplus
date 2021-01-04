@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2020 Adam Getchell
+/// Copyright © 2018-2021 Adam Getchell
 ///
 /// Tests of new manifold data structure compatible with old SimplicialManifold
 
@@ -97,7 +97,8 @@ SCENARIO("Manifold functions", "[manifold]")
     cv.emplace_back(make_pair(Point(0, 0, 1), 2));
     Delaunay3 dt(cv.begin(), cv.end());
     Manifold3 manifold(dt);
-    REQUIRE(manifold.is_valid());
+
+    REQUIRE(manifold.is_correct());
     WHEN("are_vertex_timevalues_valid() is called.")
     {
       THEN("The vertices have valid timevalues.")
@@ -598,8 +599,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       Manifold3 manifold(desired_simplices, desired_timeslices);
       THEN("The triangulation is valid and Delaunay.")
       {
-        REQUIRE(manifold.is_valid());
-        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_correct());
       }
       THEN("The geometry matches the triangulation.")
       {
