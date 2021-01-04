@@ -2,7 +2,6 @@ var searchData=
 [
   ['s3action_2ehpp',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
   ['s3action_5ftest_2ecpp',['S3Action_test.cpp',['../_s3_action__test_8cpp.html',1,'']]],
-  ['s3ergodicmoves_2ehpp',['S3ErgodicMoves.hpp',['../_s3_ergodic_moves_8hpp.html',1,'']]],
   ['s3triangulation_2ehpp',['S3Triangulation.hpp',['../_s3_triangulation_8hpp.html',1,'']]],
   ['settings_2ehpp',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
   ['settings_5ftest_2ecpp',['Settings_test.cpp',['../_settings__test_8cpp.html',1,'']]],

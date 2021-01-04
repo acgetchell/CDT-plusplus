@@ -228,7 +228,7 @@
              <Node>
               <Name>fix_timeslices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
+              <Anchor>a3b3ab51193c6ccc94c2f6dacc8871556</Anchor>
              </Node>
              <Node>
               <Name>flip</Name>
@@ -291,6 +291,11 @@
               <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
              </Node>
              <Node>
+              <Name>is_correct</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a93d08e6e2c4127c867880b5bc3c0ed11</Anchor>
+             </Node>
+             <Node>
               <Name>is_delaunay</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
@@ -306,9 +311,19 @@
               <Anchor>a25e972ede6033e4002c11d61424989f3</Anchor>
              </Node>
              <Node>
+              <Name>is_initialized</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a39e6ad2bdbbaf316f1493793d513872e</Anchor>
+             </Node>
+             <Node>
               <Name>is_tds_valid</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
+             </Node>
+             <Node>
+              <Name>is_vertex_timevalue_correct</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>addb8d3dd629dfa4699602cc20f364e21</Anchor>
              </Node>
              <Node>
               <Name>make_foliated_sphere</Name>
@@ -930,11 +945,6 @@
               <Name>is_vertex</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
-             </Node>
-             <Node>
-              <Name>is_vertex_timevalue_correct</Name>
-              <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>af16032c6f7f6eda76027ae75d368633e</Anchor>
              </Node>
              <Node>
               <Name>max_time</Name>
@@ -1888,7 +1898,7 @@
                  <Node>
                   <Name>fix_timeslices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
+                  <Anchor>a3b3ab51193c6ccc94c2f6dacc8871556</Anchor>
                  </Node>
                  <Node>
                   <Name>flip</Name>
@@ -1951,6 +1961,11 @@
                   <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
                  </Node>
                  <Node>
+                  <Name>is_correct</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a93d08e6e2c4127c867880b5bc3c0ed11</Anchor>
+                 </Node>
+                 <Node>
                   <Name>is_delaunay</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a16ce962c49d9f3634bb4bac166a2fe30</Anchor>
@@ -1966,9 +1981,19 @@
                   <Anchor>a25e972ede6033e4002c11d61424989f3</Anchor>
                  </Node>
                  <Node>
+                  <Name>is_initialized</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a39e6ad2bdbbaf316f1493793d513872e</Anchor>
+                 </Node>
+                 <Node>
                   <Name>is_tds_valid</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a25573f15851b6ecc1072c6d9a9ef95ef</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>is_vertex_timevalue_correct</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>addb8d3dd629dfa4699602cc20f364e21</Anchor>
                  </Node>
                  <Node>
                   <Name>make_foliated_sphere</Name>
@@ -2596,11 +2621,6 @@
                   <Anchor>a34d94c017c820cfac14604e4561a50e2</Anchor>
                  </Node>
                  <Node>
-                  <Name>is_vertex_timevalue_correct</Name>
-                  <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>af16032c6f7f6eda76027ae75d368633e</Anchor>
-                 </Node>
-                 <Node>
                   <Name>max_time</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>af8ac303aaccfcff01f721e14d5ab638a</Anchor>
@@ -2736,27 +2756,6 @@
                 <Name>__attribute__</Name>
                 <Path>_manifold_8hpp.html</Path>
                 <Anchor>a62892eec6ed3f21f25bfe11cb22154c6</Anchor>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
-              <Name>Measurements.hpp</Name>
-              <Path>_measurements_8hpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>DETAILED_DEBUGGING</Name>
-                <Path>_measurements_8hpp.html</Path>
-                <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
-               </Node>
-               <Node>
-                <Name>Facet</Name>
-                <Path>_measurements_8hpp.html</Path>
-                <Anchor>ae5a618cd46adf8b6216c9441f587f8e3</Anchor>
-               </Node>
-               <Node>
-                <Name>VolumePerTimeslice</Name>
-                <Path>_measurements_8hpp.html</Path>
-                <Anchor>a9ebe667e011ec2d2042a9db14a65f1eb</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -3254,62 +3253,6 @@
                 <Name>S3_bulk_action_alpha_one</Name>
                 <Path>_s3_action_8hpp.html</Path>
                 <Anchor>a15f42f7bf0813750d7799f81e82c35fd</Anchor>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
-              <Name>S3ErgodicMoves.hpp</Name>
-              <Path>_s3_ergodic_moves_8hpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>find_26_movable</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>a3e00cd7737f0467bd37da92f712d2448</Anchor>
-               </Node>
-               <Node>
-                <Name>find_62_movable</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>ab260fd5e81344d585264b65a5cd1efcf</Anchor>
-               </Node>
-               <Node>
-                <Name>is_26_movable</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>ad5ade2db3dd9f9f568af6c4ae4f3fa98</Anchor>
-               </Node>
-               <Node>
-                <Name>make_23_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>ab91ed11ef58b49edad0297ef5fc33324</Anchor>
-               </Node>
-               <Node>
-                <Name>make_26_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>a8ec8eb0557a6c1bdb25cbd68c5f86e38</Anchor>
-               </Node>
-               <Node>
-                <Name>make_32_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>aabdf2c94726a19af7e3b71d1e18a3620</Anchor>
-               </Node>
-               <Node>
-                <Name>make_44_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>a27a236924fa3254230c56d64c26f3870</Anchor>
-               </Node>
-               <Node>
-                <Name>make_62_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>ac0e029bd2c96c790b47d0ec6f9c3942b</Anchor>
-               </Node>
-               <Node>
-                <Name>try_23_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>a77761339686ecc1665eb66d53b5caa84</Anchor>
-               </Node>
-               <Node>
-                <Name>try_32_move</Name>
-                <Path>_s3_ergodic_moves_8hpp.html</Path>
-                <Anchor>a71ccfff437ed4296d8c5e00ac586efbc</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -4302,17 +4245,6 @@
               </Subnodes>
              </Node>
              <Node>
-              <Name>MeasurementsTest.cpp</Name>
-              <Path>_measurements_test_8cpp.html</Path>
-              <Subnodes>
-               <Node>
-                <Name>SCENARIO</Name>
-                <Path>_measurements_test_8cpp.html</Path>
-                <Anchor>a946fb7f2a77968c8452b68556733b124</Anchor>
-               </Node>
-              </Subnodes>
-             </Node>
-             <Node>
               <Name>Move_command_test.cpp</Name>
               <Path>_move__command__test_8cpp.html</Path>
               <Subnodes>
@@ -4391,10 +4323,6 @@
               </Subnodes>
              </Node>
              <Node>
-              <Name>S3ErgodicMovesTest.cpp</Name>
-              <Path>_s3_ergodic_moves_test_8cpp_source.html</Path>
-             </Node>
-             <Node>
               <Name>Settings_test.cpp</Name>
               <Path>_settings__test_8cpp.html</Path>
               <Subnodes>
@@ -4431,12 +4359,12 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_tetrahedron__test_8cpp.html</Path>
-                <Anchor>ae6e27a6caec46887698729da63f9d7fa</Anchor>
+                <Anchor>afecb7bb6679b2d3c0bebfa9c09439773</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_tetrahedron__test_8cpp.html</Path>
-                <Anchor>a85ceb917a693a8da808a99c43d62ad8e</Anchor>
+                <Anchor>aa0ed30612f16ab8d9beac37d20dd4a5e</Anchor>
                </Node>
               </Subnodes>
              </Node>

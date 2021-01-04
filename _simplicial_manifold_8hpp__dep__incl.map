@@ -1,10 +1,7 @@
 <map id="include/SimplicialManifold.hpp" name="include/SimplicialManifold.hpp">
-<area shape="rect" id="node2" href="$_measurements_8hpp.html" title="Measurements of the simulation. " alt="" coords="246,87,443,114"/>
-<area shape="rect" id="node5" href="$_simulation_8hpp.html" title="Simulation class. " alt="" coords="523,87,694,114"/>
-<area shape="rect" id="node9" href="$_simplicial_manifold_test_8cpp_source.html" title="tests/SimplicialManifold\lTest.cpp" alt="" coords="718,80,897,121"/>
-<area shape="rect" id="node3" href="$_measurements_test_8cpp.html" title="Tests for the various measurement functions. " alt="" coords="5,169,212,196"/>
-<area shape="rect" id="node4" href="$_s3_ergodic_moves_test_8cpp_source.html" title="tests/S3ErgodicMovesTest.cpp" alt="" coords="236,169,453,196"/>
-<area shape="rect" id="node6" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations. " alt="" coords="477,169,596,196"/>
-<area shape="rect" id="node7" href="$cdt_8cpp.html" title="The main executable. " alt="" coords="620,169,712,196"/>
-<area shape="rect" id="node8" href="$_simulation_test_8cpp_source.html" title="tests/SimulationTest.cpp" alt="" coords="737,169,918,196"/>
+<area shape="rect" id="node2" href="$_simulation_8hpp.html" title="Simulation class. " alt="" coords="109,87,279,114"/>
+<area shape="rect" id="node6" href="$_simplicial_manifold_test_8cpp_source.html" title="tests/SimplicialManifold\lTest.cpp" alt="" coords="303,80,482,121"/>
+<area shape="rect" id="node3" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations. " alt="" coords="5,169,124,196"/>
+<area shape="rect" id="node4" href="$cdt_8cpp.html" title="The main executable. " alt="" coords="148,169,240,196"/>
+<area shape="rect" id="node5" href="$_simulation_test_8cpp_source.html" title="tests/SimulationTest.cpp" alt="" coords="265,169,446,196"/>
 </map>

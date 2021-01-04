@@ -321,17 +321,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>DETAILED_DEBUGGING</Name>
-      <APILanguage>c</APILanguage>
-      <Type>macro</Type>
-    </TokenIdentifier>
-    <Path>_measurements_8hpp.html</Path>
-    <Anchor>a9a0c2b3d03bbbef60eff20621e4e951a</Anchor>
-    <Abstract>Toggles detailed per-facet debugging output. </Abstract>
-    <DeclaredIn>Measurements.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>moves_per_dimension</Name>
       <APILanguage>c</APILanguage>
       <Type>func</Type>
@@ -417,116 +406,6 @@
     <Anchor>a15f42f7bf0813750d7799f81e82c35fd</Anchor>
     <Abstract>Calculates S3 bulk action for =1. </Abstract>
     <DeclaredIn>S3Action.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>find_26_movable</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>a3e00cd7737f0467bd37da92f712d2448</Anchor>
-    <Abstract>Find a (2,6) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>find_62_movable</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>ab260fd5e81344d585264b65a5cd1efcf</Anchor>
-    <Abstract>Find a (6,2) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>is_26_movable</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>ad5ade2db3dd9f9f568af6c4ae4f3fa98</Anchor>
-    <Abstract>Check a (2,6) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_23_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>ab91ed11ef58b49edad0297ef5fc33324</Anchor>
-    <Abstract>Make a (2,3) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_26_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>a8ec8eb0557a6c1bdb25cbd68c5f86e38</Anchor>
-    <Abstract>Make a (2,6) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_32_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>aabdf2c94726a19af7e3b71d1e18a3620</Anchor>
-    <Abstract>Make a (3,2) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_44_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>a27a236924fa3254230c56d64c26f3870</Anchor>
-    <Abstract>Make a (4,4) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>make_62_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>ac0e029bd2c96c790b47d0ec6f9c3942b</Anchor>
-    <Abstract>Make a (6,2) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>try_23_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>a77761339686ecc1665eb66d53b5caa84</Anchor>
-    <Abstract>Try a (2,3) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>try_32_move</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_s3_ergodic_moves_8hpp.html</Path>
-    <Anchor>a71ccfff437ed4296d8c5e00ac586efbc</Anchor>
-    <Abstract>Try a (3,2) move. </Abstract>
-    <DeclaredIn>S3ErgodicMoves.hpp</DeclaredIn>
   </Token>
   <Token>
     <TokenIdentifier>
@@ -1080,6 +959,16 @@
       <APILanguage>c</APILanguage>
       <Type>func</Type>
     </TokenIdentifier>
+    <Path>_foliated__triangulation__test_8cpp.html</Path>
+    <Anchor>ab5498a0d028ae1865504e1780ab092a4</Anchor>
+    <DeclaredIn>Foliated_triangulation_test.cpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>SCENARIO</Name>
+      <APILanguage>c</APILanguage>
+      <Type>func</Type>
+    </TokenIdentifier>
     <Path>_manifold__test_8cpp.html</Path>
     <Anchor>a32ecb82665e32fc0b1fe5b25fdcb7bb2</Anchor>
     <DeclaredIn>Manifold_test.cpp</DeclaredIn>
@@ -1444,6 +1333,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_correct</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a93d08e6e2c4127c867880b5bc3c0ed11</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>is_delaunay</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -1474,6 +1374,17 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a25e972ede6033e4002c11d61424989f3</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>is_initialized</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a39e6ad2bdbbaf316f1493793d513872e</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1684,6 +1595,18 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>is_vertex_timevalue_correct</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>clm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>addb8d3dd629dfa4699602cc20f364e21</Anchor>
+    <Abstract>Checks if vertex timevalue is correct The effective z-value is the initial radius of the sphere plus ...</Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>print_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>clm</Type>
@@ -1758,7 +1681,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>acbffa0c4d02095c8e486485e0ffdcc80</Anchor>
+    <Anchor>a3b3ab51193c6ccc94c2f6dacc8871556</Anchor>
     <Abstract>Fix simplices with incorrect foliation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -2948,18 +2871,6 @@
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a356813571d7b15f8754d6087bc55b3d6</Anchor>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>is_vertex_timevalue_correct</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>clm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af16032c6f7f6eda76027ae75d368633e</Anchor>
-    <Abstract>Checks if vertex timevalue is correct The effective z-value is the initial radius of the sphere plus ...</Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
