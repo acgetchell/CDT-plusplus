@@ -1,5 +1,3 @@
-cmake_minimum_required(VERSION 3.12...3.19)
-
 add_executable(
   CDT_test
   ${PROJECT_SOURCE_DIR}/tests/main.cpp
@@ -21,14 +19,14 @@ add_executable(
 
 target_link_libraries(
   CDT_test
-  project_options
-  project_warnings
-  Catch2::Catch2
-  date::date
-  date::date-tz
-  fmt::fmt-header-only
-  TBB::tbb
-  CGAL::CGAL)
+  PRIVATE project_options
+          project_warnings
+          Catch2::Catch2
+          date::date
+          date::date-tz
+          fmt::fmt-header-only
+          TBB::tbb
+          CGAL::CGAL)
 
 # Activate C++17
 target_compile_features(CDT_test PRIVATE cxx_std_17)

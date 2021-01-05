@@ -42,15 +42,11 @@ include(cmake/StaticAnalyzers.cmake)
 option(BUILD_SHARED_LIBS "Enable compilation of shared libraries" OFF)
 option(ENABLE_TESTING "Enable building of tests" ON)
 
-#
 # Modules and scripts ##
-#
 include(CTest)
 include(CMakeDependentOption)
 
-#
-# Project  ##
-#
+# Project vcpkg dependencies
 
 # https://github.com/catchorg/Catch2
 find_package(Catch2 CONFIG REQUIRED)
@@ -84,57 +80,8 @@ set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     CACHE BOOL "Force CGAL to maintain CMAKE flags")
 set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 
+# Header files
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include ${PCG_INCLUDE_DIRS})
-add_executable(initialize ${PROJECT_SOURCE_DIR}/src/initialize.cpp)
-
-# On macOS and Linux docopt builds an intermediate object, thus different targets than Windows See
-# https://github.com/microsoft/vcpkg/issues/8666
-if(WIN32)
-  target_link_libraries(
-    initialize
-    PRIVATE project_options
-            project_warnings
-            docopt
-            date::date
-            date::date-tz
-            fmt::fmt-header-only
-            Eigen3::Eigen
-            TBB::tbb
-            CGAL::CGAL)
-else()
-  target_link_libraries(
-    initialize
-    PRIVATE project_options
-            project_warnings
-            docopt_s
-            date::date
-            date::date-tz
-            fmt::fmt
-            fmt::fmt-header-only
-            Eigen3::Eigen
-            TBB::tbb
-            CGAL::CGAL)
-endif()
-target_compile_features(initialize PRIVATE cxx_std_17)
-
-# add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp) target_link_libraries( cdt-opt PRIVATE date::tz
-# date::date Catch2::Catch2 Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE cxx_std_17)
-
-if(UNIX)
-  add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
-  target_link_libraries(
-    cdt-gv
-    PRIVATE project_options
-            project_warnings
-            docopt_s
-            fmt::fmt-header-only
-            CGAL::CGAL)
-  target_compile_features(cdt-gv PRIVATE cxx_std_17)
-endif()
-
-#
-# Tests    ##
-#
 
 # Catch
 if(ENABLE_TESTING)
@@ -143,13 +90,4 @@ if(ENABLE_TESTING)
   add_subdirectory(tests)
 endif()
 
-# CTest basic testing Parameter initializer program
-add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
-set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
-if(UNIX)
-  add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
-  set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
-endif()
-
-# add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>) set_tests_properties( CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION
-# "64000 simplices on 16 timeslices desired.")
+add_subdirectory(src)

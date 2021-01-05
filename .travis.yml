@@ -26,6 +26,7 @@ addons:
       - gcc
       - ccache
       - ninja
+      - vcpkg
       - yasm
     update: true
 
@@ -167,6 +168,20 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
         - cd tests
         - ./CDT_test
+    # ThreadSanitizer
+    - os: linux
+      compiler: clang-10
+      env: TSAN=true
+      script:
+        - mkdir build
+        - cd build || exit
+        - cmake -G Ninja -D ENABLE_SANITIZER_THREAD:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake --build .
+      after_success:
+        - cd $TRAVIS_BUILD_DIR/build/
+        - ./initialize --s -n32000 -t11 -o
+        - cd tests
+        - ./CDT_test
     # CodeCov
     - os: linux
       compiler: g++-10
@@ -176,8 +191,10 @@ jobs:
           sources:
             - sourceline: 'ppa:ubuntu-toolchain-r/test'
           packages:
+            - gcc-10
             - g++-10
             - ninja-build
+            - doxygen
             - yasm
             - lcov
       script:
@@ -234,7 +251,7 @@ jobs:
       env: CODECOV=true
     - os: linux
       compiler: clang-10
-      env: LSAN=true
+      env: TSAN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
@@ -261,8 +278,9 @@ install:
   - ./vcpkg install eigen3
   - ./vcpkg install pcg
   - ./vcpkg install tbb
-  - travis_wait 60 ./vcpkg install cgal
-  - travis_wait 30 ./vcpkg upgrade --no-dry-run
+  - ./vcpkg install boost
+  - ./vcpkg install cgal
+  - ./vcpkg upgrade --no-dry-run
   - ./vcpkg list
   - rm -rf downloads buildtrees packages
   - cd ..
