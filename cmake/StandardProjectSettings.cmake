@@ -34,8 +34,7 @@ if(ENABLE_IPO)
   endif()
 endif()
 
-# Set minimum Boost
-# Using LEAF which requires 1.75.0 or greater
+# Set minimum Boost using LEAF which requires 1.75.0 or greater
 set(BOOST_MIN_VERSION "1.75.0")
 
 # Use C++17 for std::optional

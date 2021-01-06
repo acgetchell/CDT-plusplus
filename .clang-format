@@ -5,7 +5,6 @@ AccessModifierOffset: -1
 AlignAfterOpenBracket: true
 AlignConsecutiveAssignments: true
 AlignConsecutiveDeclarations: true
-AlignEscapedNewlinesLeft: true
 AlignOperands:   true
 AlignTrailingComments: true
 AllowAllParametersOfDeclarationOnNextLine: true
@@ -47,11 +46,9 @@ ExperimentalAutoDetectBinPacking: false
 FixNamespaceComments: true
 ForEachMacros:   [ foreach, Q_FOREACH, BOOST_FOREACH ]
 IndentCaseLabels: true
-IndentFunctionDeclarationAfterType: false
 IndentWidth:     2
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-Language: Cpp
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 ObjCBlockIndentWidth: 2
@@ -77,7 +74,7 @@ SpaceAfterCStyleCast: false
 SpacesInContainerLiterals: true
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
-Standard:        Cpp11
+Standard: c++17
 TabWidth:        8
 UseTab:          Never
 ...

@@ -26,7 +26,7 @@ addons:
       - gcc
       - ccache
       - ninja
-      - vcpkg
+      - python
       - yasm
     update: true
 
@@ -278,7 +278,6 @@ install:
   - ./vcpkg install eigen3
   - ./vcpkg install pcg
   - ./vcpkg install tbb
-  - ./vcpkg install boost
   - ./vcpkg install cgal
   - ./vcpkg upgrade --no-dry-run
   - ./vcpkg list

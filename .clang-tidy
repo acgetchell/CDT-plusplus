@@ -1,5 +1,5 @@
 ---
-Checks:          'clang-diagnostic-*,clang-analyzer-*,*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvm-*,-cppcoreguidelines-avoid-c-arrays,-hicpp-avoid-c-arrays,-modernize-avoid-c-arrays, -hicpp-vararg, -cppcoreguidelines-pro-type-vararg, -modernize-pass-by-value, -llvmlibc-*, -readability-function-cognitive-complexity'
+Checks:          'clang-diagnostic-*,clang-analyzer-*,*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvm-*,-cppcoreguidelines-avoid-c-arrays,-hicpp-avoid-c-arrays,-modernize-avoid-c-arrays, -hicpp-vararg, -cppcoreguidelines-pro-type-vararg, -llvmlibc-*, -readability-function-cognitive-complexity'
 WarningsAsErrors: '0'
 HeaderFilterRegex: ''
 AnalyzeTemporaryDtors: false
@@ -479,4 +479,3 @@ CheckOptions:
     value:           'true'
   - key:             readability-uppercase-literal-suffix.NewSuffixes
     value:           ''
-...

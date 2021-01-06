@@ -26,26 +26,27 @@ class MoveCommand
 
  public:
   /// @brief Default dtor
-  ~MoveCommand() = default;
+  //  ~MoveCommand() = default;
 
   /// @brief No default ctor
   MoveCommand() = delete;
 
-  /// @brief Default copy ctor
-  MoveCommand(MoveCommand const& other) = default;
-
-  /// @brief Default copy assignment
-  auto operator=(MoveCommand const& other) -> MoveCommand& = default;
-
-  /// @brief Default move ctor
-  MoveCommand(MoveCommand&& other) noexcept = default;
-
-  /// @brief Default move assignment
-  auto operator=(MoveCommand&& other) noexcept -> MoveCommand& = default;
+  //  /// @brief Default copy ctor
+  //  MoveCommand(MoveCommand const& other) = default;
+  //
+  //  /// @brief Default copy assignment
+  //  auto operator=(MoveCommand const& other) -> MoveCommand& = default;
+  //
+  //  /// @brief Default move ctor
+  //  MoveCommand(MoveCommand&& other) noexcept = default;
+  //
+  //  /// @brief Default move assignment
+  //  auto operator=(MoveCommand&& other) noexcept -> MoveCommand& = default;
 
   /// @brief MoveCommand ctor
   /// @param t_manifold The manifold to perform moves upon
-  explicit MoveCommand(ManifoldType const& t_manifold) : m_manifold{t_manifold}
+  explicit MoveCommand(ManifoldType t_manifold)
+      : m_manifold{std::move(t_manifold)}
   {}
 
   /// @return A read-only reference to the manifold
@@ -100,7 +101,7 @@ class MoveCommand
       print_manifold_details(m_manifold);
 #endif
 
-      auto move = m_moves.back();
+      auto move   = m_moves.back();
       auto result = apply_move(m_manifold, move);
       m_moves.pop_back();
       result.update();
