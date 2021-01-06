@@ -3136,55 +3136,19 @@
     </TokenIdentifier>
     <Path>class_move_command.html</Path>
     <Anchor>a814a6241da0beeeb9012c5c86e9566db</Anchor>
-    <Abstract>No default ctor. </Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveCommand</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
-    <Abstract>Default copy ctor. </Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveCommand</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
-    <Abstract>Default move ctor. </Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>MoveCommand</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
-    <Abstract>MoveCommand ctor. </Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>~MoveCommand</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
     <Abstract>Default dtor. </Abstract>
+    <DeclaredIn>Move_command.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>MoveCommand</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>MoveCommand</Scope>
+    </TokenIdentifier>
+    <Path>class_move_command.html</Path>
+    <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
+    <Abstract>MoveCommand ctor. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -3243,30 +3207,6 @@
     <Path>class_move_command.html</Path>
     <Anchor>a59796bad12a3d05491ef18cf5fedce3d</Anchor>
     <Abstract>Execute a single move on the manifold. </Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>operator=</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
-    <Abstract>Default copy assignment. </Abstract>
-    <DeclaredIn>Move_command.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>operator=</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>MoveCommand</Scope>
-    </TokenIdentifier>
-    <Path>class_move_command.html</Path>
-    <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
-    <Abstract>Default move assignment. </Abstract>
     <DeclaredIn>Move_command.hpp</DeclaredIn>
   </Token>
   <Token>

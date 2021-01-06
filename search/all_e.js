@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['passes',['passes',['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes()'],['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis::Passes()']]],
+  ['passes',['Passes',['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis::Passes()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes()']]],
   ['periodic_5f3_5fcomplex_2ehpp',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
   ['periodic_5f3_5ftriangulations_2ehpp',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
   ['precision',['PRECISION',['../_settings_8hpp.html#ad5b86ed0f422d4c11a91b14d34e47bca',1,'Settings.hpp']]],

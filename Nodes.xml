@@ -1200,11 +1200,6 @@
             <Path>class_move_command.html</Path>
             <Subnodes>
              <Node>
-              <Name>~MoveCommand</Name>
-              <Path>class_move_command.html</Path>
-              <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
-             </Node>
-             <Node>
               <Name>MoveCommand</Name>
               <Path>class_move_command.html</Path>
               <Anchor>a814a6241da0beeeb9012c5c86e9566db</Anchor>
@@ -1212,17 +1207,7 @@
              <Node>
               <Name>MoveCommand</Name>
               <Path>class_move_command.html</Path>
-              <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
-             </Node>
-             <Node>
-              <Name>MoveCommand</Name>
-              <Path>class_move_command.html</Path>
-              <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
-             </Node>
-             <Node>
-              <Name>MoveCommand</Name>
-              <Path>class_move_command.html</Path>
-              <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
+              <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
              </Node>
              <Node>
               <Name>enqueue</Name>
@@ -1248,16 +1233,6 @@
               <Name>move</Name>
               <Path>class_move_command.html</Path>
               <Anchor>a59796bad12a3d05491ef18cf5fedce3d</Anchor>
-             </Node>
-             <Node>
-              <Name>operator=</Name>
-              <Path>class_move_command.html</Path>
-              <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
-             </Node>
-             <Node>
-              <Name>operator=</Name>
-              <Path>class_move_command.html</Path>
-              <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
              </Node>
              <Node>
               <Name>size</Name>
@@ -2962,11 +2937,6 @@
                 <Path>class_move_command.html</Path>
                 <Subnodes>
                  <Node>
-                  <Name>~MoveCommand</Name>
-                  <Path>class_move_command.html</Path>
-                  <Anchor>a34d1c581d7fa168bb73103c52e31e2a0</Anchor>
-                 </Node>
-                 <Node>
                   <Name>MoveCommand</Name>
                   <Path>class_move_command.html</Path>
                   <Anchor>a814a6241da0beeeb9012c5c86e9566db</Anchor>
@@ -2974,17 +2944,7 @@
                  <Node>
                   <Name>MoveCommand</Name>
                   <Path>class_move_command.html</Path>
-                  <Anchor>a4a521d481c3873df56eed9f191eec7e0</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>MoveCommand</Name>
-                  <Path>class_move_command.html</Path>
-                  <Anchor>a0f38037aeb3ef6b24380c4a6fb76d0c2</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>MoveCommand</Name>
-                  <Path>class_move_command.html</Path>
-                  <Anchor>a2a4c71d037305213dc7b729ee9396e24</Anchor>
+                  <Anchor>ab5057d9c61afccd68d9b1b702b97a532</Anchor>
                  </Node>
                  <Node>
                   <Name>enqueue</Name>
@@ -3010,16 +2970,6 @@
                   <Name>move</Name>
                   <Path>class_move_command.html</Path>
                   <Anchor>a59796bad12a3d05491ef18cf5fedce3d</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>operator=</Name>
-                  <Path>class_move_command.html</Path>
-                  <Anchor>a054567c1eb296cf0ca4b431333c31213</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>operator=</Name>
-                  <Path>class_move_command.html</Path>
-                  <Anchor>abb8ac02d9a6afa615f3efa6025894546</Anchor>
                  </Node>
                  <Node>
                   <Name>size</Name>
