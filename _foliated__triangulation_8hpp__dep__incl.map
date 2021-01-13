@@ -1,15 +1,15 @@
 <map id="include/Foliated_triangulation.hpp" name="include/Foliated_triangulation.hpp">
-<area shape="rect" id="node2" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="1276,87,1440,114"/>
-<area shape="rect" id="node24" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations. " alt="" coords="1465,80,1665,121"/>
-<area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="1182,169,1339,196"/>
-<area shape="rect" id="node23" href="$_geometry__test_8cpp.html" title="Tests of new geometry data structure. " alt="" coords="1364,169,1547,196"/>
+<area shape="rect" id="node2" href="$_geometry_8hpp.html" title="Data structures for geometry. " alt="" coords="1176,87,1340,114"/>
+<area shape="rect" id="node23" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations. " alt="" coords="1365,80,1565,121"/>
+<area shape="rect" id="node24" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons. " alt="" coords="1589,87,1783,114"/>
+<area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds. " alt="" coords="1082,169,1239,196"/>
+<area shape="rect" id="node22" href="$_geometry__test_8cpp.html" title="Tests of new geometry data structure. " alt="" coords="1264,169,1447,196"/>
 <area shape="rect" id="node4" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations. " alt="" coords="627,244,799,285"/>
 <area shape="rect" id="node17" href="$initialize_8cpp.html" title="Generates initial spacetimes. " alt="" coords="823,251,951,278"/>
 <area shape="rect" id="node18" href="$_manifold__test_8cpp.html" title="Tests of new manifold data structure. " alt="" coords="975,251,1149,278"/>
 <area shape="rect" id="node19" href="$_s3_action__test_8cpp.html" title="Tests for the S3 action functions. " alt="" coords="1173,251,1348,278"/>
-<area shape="rect" id="node20" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons. " alt="" coords="1373,251,1567,278"/>
-<area shape="rect" id="node21" href="$_utilities__test_8cpp.html" title="Tests on utility functions. " alt="" coords="1591,251,1759,278"/>
-<area shape="rect" id="node22" href="$_vertex__test_8cpp.html" title="Tests on vertices in Delaunay triangulations. " alt="" coords="1784,251,1943,278"/>
+<area shape="rect" id="node20" href="$_utilities__test_8cpp.html" title="Tests on utility functions. " alt="" coords="1373,251,1541,278"/>
+<area shape="rect" id="node21" href="$_vertex__test_8cpp.html" title="Tests on vertices in Delaunay triangulations. " alt="" coords="1565,251,1724,278"/>
 <area shape="rect" id="node5" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern. " alt="" coords="279,341,487,367"/>
 <area shape="rect" id="node14" href="$_apply__move__test_8cpp.html" title="Apply ergodic moves to manifolds. " alt="" coords="512,341,711,367"/>
 <area shape="rect" id="node15" href="$_ergodic__moves__3__test_8cpp.html" title="Tests for ergodic moves on foliated triangulations. " alt="" coords="735,333,893,375"/>

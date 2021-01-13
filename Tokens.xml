@@ -1047,6 +1047,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>squared_distance</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>tdef</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac54983bcf09dbaaa81a532ff364f5e5a</Anchor>
+    <Abstract>CGAL::squared_distance See https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp.html#ga1ff73525660a052564d33fbdd61a4f71. </Abstract>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>FoliatedTriangulation</Name>
       <APILanguage>cpp</APILanguage>
       <Type>instm</Type>
@@ -2449,7 +2460,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ad6086c6ab75bbe1375ee4dcde33008a6</Anchor>
+    <Anchor>ae977123050a79aca5b907ea85ecc4cd9</Anchor>
     <Abstract>Perfect forwarding to FoliatedTriangulation3.degree() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2461,7 +2472,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af547e31f9457e0ea25dcb626a520bb79</Anchor>
+    <Anchor>ab032df052f4af07c1ff66e1938be6806</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2472,7 +2483,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af54348d07854b38d70f10b9bd362ad03</Anchor>
+    <Anchor>aaf6fced4df10c837691068b976a15a0c</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2483,7 +2494,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a2af8f23f53107da08bd291525f736061</Anchor>
+    <Anchor>a3251d9a8b5d21cb550dd11aa039464a6</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2552,7 +2563,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a6f759d43b7de26791b69e6e61d3f211d</Anchor>
+    <Anchor>a281214ad2079e3001619caae40b8c112</Anchor>
     <Abstract>Perfect forwarding to FoliatedTriangulation3.incident_cells() </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2635,7 +2646,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af8ac303aaccfcff01f721e14d5ab638a</Anchor>
+    <Anchor>a466f16dff7afc7bb0f1cf7761373be5c</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2646,7 +2657,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a4035e7764ec5ed7a964584b7cc349e80</Anchor>
+    <Anchor>a7ab906279a458131e9041cfffdd8f498</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2657,7 +2668,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a3bffa5d79751411a0b1ba0c6e2f0d145</Anchor>
+    <Anchor>a6077af768cfc78fd779c08da9f7c53cc</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2668,7 +2679,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a1422c71ceefad72411da122f4c72e093</Anchor>
+    <Anchor>a66830c3c9cbb4a9d2320a68065936201</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2679,7 +2690,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>afa8dd123675780875c9b3c3a0a7a1f69</Anchor>
+    <Anchor>a32b37efe4377fee449ba14c1ebf73086</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2690,7 +2701,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ac974148b88266649701547dd44cb6ac7</Anchor>
+    <Anchor>af734ce06f24e1230fec3dea56fc2ba41</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2701,7 +2712,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ab6b9e2ab217f816eae83af933d3bcf09</Anchor>
+    <Anchor>aef6283b05e1403e92d2b099e3a609365</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2723,7 +2734,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a1e47e5741ec8edfb639cec7c6b83fca3</Anchor>
+    <Anchor>a3ee81cb60f4357f7e5228b95a6884bd2</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2734,7 +2745,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>afdd009363afd797f97a36cf19b223664</Anchor>
+    <Anchor>a2b007ff593b7c7f096a793210e73b2c3</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2745,7 +2756,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a46793d2c38dfd49b92468e48d081e766</Anchor>
+    <Anchor>a86389f5ae7a0a05e85a037b1795a75ed</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2756,7 +2767,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a29fb66b0e188a473a70b9c217ccbe099</Anchor>
+    <Anchor>a60760acf3108807b29db6dc2fd098d2c</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2767,7 +2778,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a59b53cfb111e5e3133c0d30b4a0de1e3</Anchor>
+    <Anchor>a7c4bfe47960844431002112dcffa91d9</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2778,7 +2789,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a2bf54a8a04a33d2bc804acec2b5851b2</Anchor>
+    <Anchor>ad61631267e43e7cbf808965c19c07b96</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2848,7 +2859,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>af49ee8ceb572404cc8a296ae0fd9ab9e</Anchor>
+    <Anchor>a07419970ce21176ff14b4dd95db05a9e</Anchor>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>

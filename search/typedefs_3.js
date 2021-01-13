@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['vbinfo',['VbInfo',['../_periodic__3__triangulations_8hpp.html#a2bec3309c3094ede5986a80db48dd19d',1,'Periodic_3_triangulations.hpp']]]
+  ['squared_5fdistance',['squared_distance',['../class_foliated_triangulation_3_013_01_4.html#ac54983bcf09dbaaa81a532ff364f5e5a',1,'FoliatedTriangulation&lt; 3 &gt;']]]
 ];

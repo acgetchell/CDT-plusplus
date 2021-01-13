@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['incident_5fcells',['incident_cells',['../class_foliated_triangulation_3_013_01_4.html#a6ff59a608d8198c0c95d62802056b528',1,'FoliatedTriangulation&lt; 3 &gt;::incident_cells(VertexHandle &amp;&amp;t_vh) const -&gt; decltype(auto)'],['../class_foliated_triangulation_3_013_01_4.html#a53a8c6ebc18b5c14a5f2c490edbf2000',1,'FoliatedTriangulation&lt; 3 &gt;::incident_cells(Ts &amp;&amp;... args) const -&gt; decltype(auto)'],['../class_manifold_3_013_01_4.html#a6f759d43b7de26791b69e6e61d3f211d',1,'Manifold&lt; 3 &gt;::incident_cells()']]],
+  ['incident_5fcells',['incident_cells',['../class_foliated_triangulation_3_013_01_4.html#a6ff59a608d8198c0c95d62802056b528',1,'FoliatedTriangulation&lt; 3 &gt;::incident_cells(VertexHandle &amp;&amp;t_vh) const -&gt; decltype(auto)'],['../class_foliated_triangulation_3_013_01_4.html#a53a8c6ebc18b5c14a5f2c490edbf2000',1,'FoliatedTriangulation&lt; 3 &gt;::incident_cells(Ts &amp;&amp;... args) const -&gt; decltype(auto)'],['../class_manifold_3_013_01_4.html#a281214ad2079e3001619caae40b8c112',1,'Manifold&lt; 3 &gt;::incident_cells()']]],
   ['infinite_5fvertex',['infinite_vertex',['../class_foliated_triangulation_3_013_01_4.html#ac20dad440cc63e5212c08cc7f0890509',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['insert_5finto_5ftriangulation',['insert_into_triangulation',['../_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b',1,'S3Triangulation.hpp']]],
   ['is_5f62_5fmovable',['is_62_movable',['../_ergodic__moves__3_8hpp.html#acfb74d3820dd28cfc73516803fa34732',1,'manifold3_moves']]],

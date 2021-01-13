@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['faces',['faces',['../class_manifold_3_013_01_4.html#a2af8f23f53107da08bd291525f736061',1,'Manifold&lt; 3 &gt;']]],
+  ['faces',['faces',['../class_manifold_3_013_01_4.html#a3251d9a8b5d21cb550dd11aa039464a6',1,'Manifold&lt; 3 &gt;']]],
   ['filter_5fcells',['filter_cells',['../class_foliated_triangulation_3_013_01_4.html#a1e49ddd7f1a1c0435ba5189b32473684',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['filter_5fedges',['filter_edges',['../class_foliated_triangulation_3_013_01_4.html#a228f46d823e51abbfa3681ce37b6899c',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['find_5f26_5fmove',['find_26_move',['../_ergodic__moves__3_8hpp.html#ab96ac1e9d4d693d94eb942c17d5862cc',1,'manifold3_moves']]],
