@@ -27,6 +27,7 @@
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <CGAL/point_generators_3.h>
+#include <CGAL/squared_distance_3.h>
 #include <optional>
 
 using Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;
@@ -127,12 +128,6 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     swap(*this, other);
   }
-
-  //  FoliatedTriangulation& operator=(FoliatedTriangulation&& other) noexcept
-  //  {
-  //    swap(*this, other);
-  //    return *this;
-  //  }
 
   /// @brief Non-member swap function for Foliated Triangulations.
   /// Note that this function calls swap() from CGAL's Triangulation_3 base
@@ -246,7 +241,7 @@ class FoliatedTriangulation<3>  // NOLINT
   }
 
   /// @return A mutable reference to the Delaunay base class
-  auto delaunay() -> Delaunay3& { return m_triangulation; }
+  [[nodiscard]] auto delaunay() -> Delaunay3& { return m_triangulation; }
 
   /// @return A read-only reference to the Delaunay base class
   [[nodiscard]] auto get_delaunay() const -> Delaunay3 const&
@@ -256,14 +251,14 @@ class FoliatedTriangulation<3>  // NOLINT
 
   /// @return An InputIterator to the beginning of the finite cells stored in
   /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
-  auto finite_cells_begin()
+  [[nodiscard]] auto finite_cells_begin()
   {
     return m_triangulation.finite_cells_begin();
   }  // finite_cells_begin
 
   /// @return An InputIterator to the end of the finite cells stored in
   /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
-  auto finite_cells_end()
+  [[nodiscard]] auto finite_cells_end()
   {
     return m_triangulation.finite_cells_end();
   }  // finite_cells_end
@@ -319,8 +314,6 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     return m_triangulation.infinite_vertex();
   }  // infinite_vertex
-
-
 
   /// @return Dimensionality of triangulation data structure (int)
   [[nodiscard]] auto dimension() const { return m_triangulation.dimension(); }
@@ -536,7 +529,8 @@ class FoliatedTriangulation<3>  // NOLINT
       fmt::print("Cell info => {}\n", cell->info());
       for (int j = 0; j < 4; ++j)
       {
-        fmt::print("Vertex({}) timevalue: {}\n", j, cell->vertex(j)->info());
+        fmt::print("Vertex({}) Point: {} Timevalue: {}\n", j,
+                   cell->vertex(j)->point(), cell->vertex(j)->info());
       }
       fmt::print("---\n");
     }
@@ -547,8 +541,8 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     for (auto const& vertex : m_points)
     {
-      fmt::print("Vertex at X: {} Y: {} T: {}\n", vertex->point().x(),
-                 vertex->point().y(), vertex->info());
+      fmt::print("Vertex Point: {} Timevalue: {}\n", vertex->point(),
+                 vertex->info());
     }
   }  // print_vertices
 
@@ -663,12 +657,19 @@ class FoliatedTriangulation<3>  // NOLINT
 
   }  // check_timeslices
 
+  /// @brief CGAL::squared_distance
+  /// See
+  /// https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp.html#ga1ff73525660a052564d33fbdd61a4f71
+  /// @return Square of Euclidean distance between two geometric objects
+  using squared_distance = Kernel::Compute_squared_distance_3;
+
   /// @brief Checks if vertex timevalue is correct
   /// The effective z-value is the initial radius of the sphere plus the
   /// z-value divided by the radial spacing between successive timeslices.
   /// Recall that timeslices start with 1.
   /// @param t_vertex The vertex to check
   /// @return True if vertex->info() matches the effective z-value
+  /// TODO: Change to radius
   [[nodiscard]] static auto is_vertex_timevalue_correct(
       Vertex_handle const& t_vertex) -> bool
   {

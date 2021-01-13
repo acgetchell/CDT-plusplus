@@ -178,34 +178,31 @@ class Manifold<3>
   }  // is_edge
 
   /// @return Dimensionality of triangulation data structure
-  [[nodiscard]] decltype(auto) dim() const
-  {
-    return m_triangulation.dimension();
-  }  // dim
+  [[nodiscard]] auto dim() const { return m_triangulation.dimension(); }
 
   /// @return Number of 3D simplices in geometry data structure
-  [[nodiscard]] decltype(auto) N3() const { return m_geometry.N3; }
+  [[nodiscard]] auto N3() const { return m_geometry.N3; }
 
   /// @return Number of (3,1) simplices in geometry data structure
-  [[nodiscard]] decltype(auto) N3_31() const { return m_geometry.N3_31; }
+  [[nodiscard]] auto N3_31() const { return m_geometry.N3_31; }
 
   /// @return Number of (2,2) simplices in geometry data structure
-  [[nodiscard]] decltype(auto) N3_22() const { return m_geometry.N3_22; }
+  [[nodiscard]] auto N3_22() const { return m_geometry.N3_22; }
 
   /// @return Number of (1,3) simplices in geometry data structure
-  [[nodiscard]] decltype(auto) N3_13() const { return m_geometry.N3_13; }
+  [[nodiscard]] auto N3_13() const { return m_geometry.N3_13; }
 
   /// @return Number of (3,1) and (1,3) simplices in geometry data structure
-  [[nodiscard]] decltype(auto) N3_31_13() const { return m_geometry.N3_31_13; }
+  [[nodiscard]] auto N3_31_13() const { return m_geometry.N3_31_13; }
 
   /// @return Number of 3D simplices in triangulation data structure
-  [[nodiscard]] decltype(auto) number_of_simplices() const
+  [[nodiscard]] auto number_of_simplices() const
   {
     return static_cast<Int_precision>(m_triangulation.get_cells().size());
   }  // number_of_simplices
 
   /// @return Number of 2D faces in geometry data structure
-  [[nodiscard]] decltype(auto) N2() const { return m_geometry.N2; }
+  [[nodiscard]] auto N2() const { return m_geometry.N2; }
 
   /// @return An associative container of spacelike faces indexed by timevalue
   [[nodiscard]] auto N2_SL() const -> auto const&
@@ -214,44 +211,44 @@ class Manifold<3>
   }  // N2_SL
 
   /// @return Number of 2D faces in triangulation data structure
-  [[nodiscard]] decltype(auto) faces() const
+  [[nodiscard]] auto faces() const
   {
     return static_cast<Int_precision>(
         m_triangulation.number_of_finite_facets());
   }  // faces
 
   /// @return Number of 1D edges in geometry data structure
-  [[nodiscard]] decltype(auto) N1() const { return m_geometry.N1; }
+  [[nodiscard]] auto N1() const { return m_geometry.N1; }
 
   /// @return Number of spacelike edges in triangulation data structure
-  [[nodiscard]] decltype(auto) N1_SL() const { return m_triangulation.N1_SL(); }
+  [[nodiscard]] auto N1_SL() const { return m_triangulation.N1_SL(); }
 
   /// @return Number of timelike edges in triangulation data structure
-  [[nodiscard]] decltype(auto) N1_TL() const { return m_triangulation.N1_TL(); }
+  [[nodiscard]] auto N1_TL() const { return m_triangulation.N1_TL(); }
 
   /// @return Number of 1D edges in triangulation data structure
-  [[nodiscard]] decltype(auto) edges() const
+  [[nodiscard]] auto edges() const
   {
     return static_cast<Int_precision>(m_triangulation.number_of_finite_edges());
   }  // edges
 
   /// @return Number of vertices in geometry data structure
-  [[nodiscard]] decltype(auto) N0() const { return m_geometry.N0; }
+  [[nodiscard]] auto N0() const { return m_geometry.N0; }
 
   /// @return Number of vertices in triangulation data structure
-  [[nodiscard]] decltype(auto) vertices() const
+  [[nodiscard]] auto vertices() const
   {
     return static_cast<Int_precision>(m_triangulation.number_of_vertices());
   }  // vertices
 
   /// @return Minimum timeslice value in triangulation data structure
-  [[nodiscard]] decltype(auto) min_time() const
+  [[nodiscard]] auto min_time() const
   {
     return m_triangulation.min_time();
   }  // min_time
 
   /// @return Maximum timeslice value in triangulation data structure
-  [[nodiscard]] decltype(auto) max_time() const
+  [[nodiscard]] auto max_time() const
   {
     return m_triangulation.max_time();
   }  // max_time
@@ -259,14 +256,14 @@ class Manifold<3>
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.degree()
   template <typename VertexHandle>
-  [[nodiscard]] decltype(auto) degree(VertexHandle&& t_vertex) const
+  [[nodiscard]] auto degree(VertexHandle&& t_vertex) const -> decltype(auto)
   {
     return m_triangulation.degree(std::forward<VertexHandle>(t_vertex));
   }  // degree
 
   /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
   template <typename... Ts>
-  [[nodiscard]] decltype(auto) incident_cells(Ts&&... args) const
+  [[nodiscard]] auto incident_cells(Ts&&... args) const -> decltype(auto)
   {
     return m_triangulation.incident_cells(std::forward<Ts>(args)...);
   }  // incident_cells
