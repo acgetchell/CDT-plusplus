@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2020 Adam Getchell
+/// Copyright © 2014-2021 Adam Getchell
 ///
 /// A program that generates spacetimes
 
@@ -54,8 +54,8 @@ try
   auto simplices         = stoll(args["-n"].asString());
   auto timeslices        = stoll(args["-t"].asString());
   auto dimensions        = stoll(args["-d"].asString());
-  auto initial_radius    = stold(args["--init"].asString());
-  auto foliation_spacing = stold(args["--foliate"].asString());
+  auto initial_radius    = stod(args["--init"].asString());
+  auto foliation_spacing = stod(args["--foliate"].asString());
   auto save_file         = args["--output"].asBool();
 
   // Initialize triangulation

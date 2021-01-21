@@ -74,7 +74,6 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
         "S3_bulk_action(alpha=1) and S3_bulk_action_alpha_one() are "
         "calculated.")
     {
-      constexpr auto tolerance = 0.01L;
       constexpr auto Alpha     = 1.0L;
       auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
                                         universe.N3_22(), Alpha, K, Lambda);
@@ -86,7 +85,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
       {
         cout << "S3_bulk_action() = " << Bulk_action << "\n";
         cout << "S3_bulk_action_alpha_one() = " << Bulk_action_one << "\n";
-        Approx target = Approx(Gmpzf_to_double(Bulk_action)).epsilon(tolerance);
+        Approx target = Approx(Gmpzf_to_double(Bulk_action)).epsilon(TOLERANCE);
         REQUIRE(Gmpzf_to_double(Bulk_action_one) == target);
       }
     }

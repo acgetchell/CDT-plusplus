@@ -176,22 +176,67 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
     Delaunay3 dt(cv.begin(), cv.end());
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulation3 ft(dt);
+      FoliatedTriangulation3                   ft(dt);
+      FoliatedTriangulation3::squared_distance r2;
       THEN("The triangulation is initialized correctly.")
       {
         REQUIRE(ft.is_initialized());
       }
       THEN("The squared distances of vertices from origin are 1.")
       {
-        FoliatedTriangulation3::squared_distance r2;
-        auto                                     d1 = r2(v1, v2);
+        fmt::print("v1 is {}\n", v1);
+        fmt::print("v2 is {}\n", v2);
+        fmt::print("v3 is {}\n", v3);
+        fmt::print("v4 is {}\n", v4);
+
+        auto d1 = r2(v1, v2);
         CHECK(d1 == 1);
         fmt::print("The squared distance between v1 and v2 is {}\n", d1);
-        CHECK(r2(v1, v3) == 1);
-        CHECK(r2(v1, v4) == 1);
+        auto d2 = r2(v1, v3);
+        CHECK(d2 == 1);
+        fmt::print("The squared distance between v1 and v3 is {}\n", d2);
+        auto d3 = r2(v1, v4);
+        CHECK(d3 == 1);
+        fmt::print("The squared distance between v1 and v4 is {}\n", d2);
+      }
+      THEN("The squared distance between non-origin vertices are 2.")
+      {
         auto d2 = r2(v2, v3);
-        CHECK_FALSE(d2 == 1);
+        CHECK(d2 == 2);
         fmt::print("The squared distance between v2 and v3 is {}\n", d2);
+        auto d3 = r2(v2, v4);
+        CHECK(d3 == 2);
+        fmt::print("The squared distance between v2 and v4 is {}\n", d3);
+        auto d4 = r2(v3, v4);
+        CHECK(d4 == 2);
+        fmt::print("The squared distance between v3 and v4 is {}\n", d4);
+      }
+      THEN(
+          "The squared effective radial distance from the origin does not "
+          "match the timevalue.")
+      {
+        auto vertices = ft.get_vertices();
+        // Some vertices match their timevalues
+        CHECK(std::any_of(vertices.begin(), vertices.end(),
+                          [&ft](Vertex_handle const& vertex) {
+                            return ft.does_vertex_radius_match_timevalue(
+                                vertex);
+                          }));
+        // But not all
+        CHECK_FALSE(std::all_of(vertices.begin(), vertices.end(),
+                                [&ft](Vertex_handle const& vertex) {
+                                  return ft.does_vertex_radius_match_timevalue(
+                                      vertex);
+                                }));
+        // Human verification
+        for (auto&& vertex : vertices)
+        {
+          auto radial_distance = r2(v1, vertex->point());
+          fmt::print(
+              "Checking vertex {} with a timevalue of {} and a squared radius "
+              "of {}\n",
+              vertex->point(), vertex->info(), radial_distance);
+        }
       }
     }
   }

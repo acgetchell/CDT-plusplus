@@ -71,8 +71,8 @@ class Manifold<3>
   /// @param t_radial_factor Radial separation between timeslices
   Manifold(Int_precision t_desired_simplices,
            Int_precision t_desired_timeslices,
-           long double   t_initial_radius = INITIAL_RADIUS,
-           long double   t_radial_factor  = RADIAL_FACTOR)
+           double        t_initial_radius = INITIAL_RADIUS,
+           double        t_radial_factor  = RADIAL_SEPARATION)
       : m_triangulation{FoliatedTriangulation3(
             t_desired_simplices, t_desired_timeslices, t_initial_radius,
             t_radial_factor)}

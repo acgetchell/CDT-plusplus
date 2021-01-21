@@ -209,6 +209,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         //        REQUIRE(triangulation.check_vertices());
         REQUIRE(triangulation.max_time() == 0);
         REQUIRE(triangulation.min_time() == 0);
+        REQUIRE(triangulation.initial_radius() == INITIAL_RADIUS);
+        REQUIRE(triangulation.radial_factor() == RADIAL_SEPARATION);
       }
     }
     WHEN(
@@ -238,6 +240,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(foliatedTriangulation.number_of_finite_cells() == 1);
         REQUIRE(foliatedTriangulation.max_time() == 2);
         REQUIRE(foliatedTriangulation.min_time() == 1);
+        REQUIRE(foliatedTriangulation.initial_radius() == INITIAL_RADIUS);
+        REQUIRE(foliatedTriangulation.radial_factor() == RADIAL_SEPARATION);
         REQUIRE(foliatedTriangulation.is_foliated());
         // Human verification
         foliatedTriangulation.print_cells();
@@ -271,6 +275,26 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                        "There should be 1 to 12 cells."));
         // Human verification
         print_triangulation(foliatedTriangulation);
+      }
+    }
+    WHEN(
+        "Constructing the minimal triangulation with non-default initial "
+        "radius and radial factor.")
+    {
+      constexpr auto         desired_simplices  = static_cast<Int_precision>(2);
+      constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
+      constexpr auto         initial_radius     = 3.0;
+      constexpr auto         radial_factor      = 2.0;
+      FoliatedTriangulation3 foliatedTriangulation(
+          desired_simplices, desired_timeslices, initial_radius, radial_factor);
+      THEN("The triangulation is initialized correctly.")
+      {
+        REQUIRE(foliatedTriangulation.is_initialized());
+      }
+      THEN("The initial radius and radial separation are correct.")
+      {
+        REQUIRE(foliatedTriangulation.initial_radius() == initial_radius);
+        REQUIRE(foliatedTriangulation.radial_factor() == radial_factor);
       }
     }
     WHEN("Constructing a medium triangulation.")
