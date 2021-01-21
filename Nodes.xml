@@ -138,7 +138,7 @@
              <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
+              <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
              </Node>
              <Node>
               <Name>check_cells</Name>
@@ -199,6 +199,16 @@
               <Name>dimension</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>aa5108db617e23e366f37ae1ec8f3baf5</Anchor>
+             </Node>
+             <Node>
+              <Name>does_vertex_radius_match_timevalue</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a6df7018555d1602726411dd523e58f66</Anchor>
+             </Node>
+             <Node>
+              <Name>expected_radial_distance</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a9c8391efd19528f7719e1952676f3b80</Anchor>
              </Node>
              <Node>
               <Name>filter_cells</Name>
@@ -296,6 +306,11 @@
               <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
              </Node>
              <Node>
+              <Name>initial_radius</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>aa2bd4057318ad7350982b07bfae31313</Anchor>
+             </Node>
+             <Node>
               <Name>is_correct</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a93d08e6e2c4127c867880b5bc3c0ed11</Anchor>
@@ -333,12 +348,12 @@
              <Node>
               <Name>make_foliated_sphere</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
+              <Anchor>aa1fb2ac590b77a0a8be5595979131c87</Anchor>
              </Node>
              <Node>
               <Name>make_triangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>aff195753c2a22cc65854e7e214552264</Anchor>
+              <Anchor>a7a45773f212c8b1cce3f792fd3bcf4ea</Anchor>
              </Node>
              <Node>
               <Name>max_time</Name>
@@ -416,6 +431,11 @@
               <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
              </Node>
              <Node>
+              <Name>radial_factor</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a1f09fdb340603f3bbb5e232309fcb80e</Anchor>
+             </Node>
+             <Node>
               <Name>volume_per_timeslice</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a0968ddaeba06a3c66e1347dd95e6c7d1</Anchor>
@@ -441,6 +461,11 @@
               <Anchor>a6f42838f27c6ad7705e07b920a27de37</Anchor>
              </Node>
              <Node>
+              <Name>m_initial_radius</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>ae41fb1e9958a7c5dfc4639801be28311</Anchor>
+             </Node>
+             <Node>
               <Name>m_max_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>aa7a98ec6834038f83c9dc610608449e0</Anchor>
@@ -459,6 +484,11 @@
               <Name>m_points</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a9c1b1b48b26409486587e09ec7ac340b</Anchor>
+             </Node>
+             <Node>
+              <Name>m_radial_separation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>aaa37abcf7d8ba9bb018ef32bec88f8b8</Anchor>
              </Node>
              <Node>
               <Name>m_spacelike_edges</Name>
@@ -844,7 +874,7 @@
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
+              <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
              </Node>
              <Node>
               <Name>are_all_vertex_timevalues_valid</Name>
@@ -1585,6 +1615,10 @@
               <Path>functions_q.html</Path>
              </Node>
              <Node>
+              <Name>r</Name>
+              <Path>functions_r.html</Path>
+             </Node>
+             <Node>
               <Name>s</Name>
               <Path>functions_s.html</Path>
              </Node>
@@ -1792,7 +1826,7 @@
                  <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
+                  <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
                  </Node>
                  <Node>
                   <Name>check_cells</Name>
@@ -1853,6 +1887,16 @@
                   <Name>dimension</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>aa5108db617e23e366f37ae1ec8f3baf5</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>does_vertex_radius_match_timevalue</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a6df7018555d1602726411dd523e58f66</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>expected_radial_distance</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a9c8391efd19528f7719e1952676f3b80</Anchor>
                  </Node>
                  <Node>
                   <Name>filter_cells</Name>
@@ -1950,6 +1994,11 @@
                   <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
                  </Node>
                  <Node>
+                  <Name>initial_radius</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>aa2bd4057318ad7350982b07bfae31313</Anchor>
+                 </Node>
+                 <Node>
                   <Name>is_correct</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a93d08e6e2c4127c867880b5bc3c0ed11</Anchor>
@@ -1987,12 +2036,12 @@
                  <Node>
                   <Name>make_foliated_sphere</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
+                  <Anchor>aa1fb2ac590b77a0a8be5595979131c87</Anchor>
                  </Node>
                  <Node>
                   <Name>make_triangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>aff195753c2a22cc65854e7e214552264</Anchor>
+                  <Anchor>a7a45773f212c8b1cce3f792fd3bcf4ea</Anchor>
                  </Node>
                  <Node>
                   <Name>max_time</Name>
@@ -2070,6 +2119,11 @@
                   <Anchor>a04b4090d47be9429997368aaec948443</Anchor>
                  </Node>
                  <Node>
+                  <Name>radial_factor</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a1f09fdb340603f3bbb5e232309fcb80e</Anchor>
+                 </Node>
+                 <Node>
                   <Name>volume_per_timeslice</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a0968ddaeba06a3c66e1347dd95e6c7d1</Anchor>
@@ -2095,6 +2149,11 @@
                   <Anchor>a6f42838f27c6ad7705e07b920a27de37</Anchor>
                  </Node>
                  <Node>
+                  <Name>m_initial_radius</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>ae41fb1e9958a7c5dfc4639801be28311</Anchor>
+                 </Node>
+                 <Node>
                   <Name>m_max_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>aa7a98ec6834038f83c9dc610608449e0</Anchor>
@@ -2113,6 +2172,11 @@
                   <Name>m_points</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a9c1b1b48b26409486587e09ec7ac340b</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>m_radial_separation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>aaa37abcf7d8ba9bb018ef32bec88f8b8</Anchor>
                  </Node>
                  <Node>
                   <Name>m_spacelike_edges</Name>
@@ -2502,7 +2566,7 @@
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
+                  <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
                  </Node>
                  <Node>
                   <Name>are_all_vertex_timevalues_valid</Name>
@@ -3395,7 +3459,7 @@
                <Node>
                 <Name>INITIAL_RADIUS</Name>
                 <Path>_settings_8hpp.html</Path>
-                <Anchor>a81aad3d328ae07174fa55ebdd847de7d</Anchor>
+                <Anchor>abb58efc843064f674896fc0c68175555</Anchor>
                </Node>
                <Node>
                 <Name>MEMORY_ALIGNMENT</Name>
@@ -3408,9 +3472,14 @@
                 <Anchor>ad5b86ed0f422d4c11a91b14d34e47bca</Anchor>
                </Node>
                <Node>
-                <Name>RADIAL_FACTOR</Name>
+                <Name>RADIAL_SEPARATION</Name>
                 <Path>_settings_8hpp.html</Path>
-                <Anchor>ae0b4c094fd5b18600aad9ebe0b832d8a</Anchor>
+                <Anchor>a61053c19721381b5d03ad03037c93ea5</Anchor>
+               </Node>
+               <Node>
+                <Name>TOLERANCE</Name>
+                <Path>_settings_8hpp.html</Path>
+                <Anchor>a43fa2ad685f2f4eee7cc94d6b228c688</Anchor>
                </Node>
               </Subnodes>
              </Node>

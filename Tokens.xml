@@ -544,7 +544,7 @@
       <Type>data</Type>
     </TokenIdentifier>
     <Path>_settings_8hpp.html</Path>
-    <Anchor>a81aad3d328ae07174fa55ebdd847de7d</Anchor>
+    <Anchor>abb58efc843064f674896fc0c68175555</Anchor>
     <Abstract>Default foliated triangulation spacings. </Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
@@ -568,6 +568,17 @@
     <Path>_settings_8hpp.html</Path>
     <Anchor>ad5b86ed0f422d4c11a91b14d34e47bca</Anchor>
     <Abstract>Sets the precision for MPFR. </Abstract>
+    <DeclaredIn>Settings.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>TOLERANCE</Name>
+      <APILanguage>c</APILanguage>
+      <Type>data</Type>
+    </TokenIdentifier>
+    <Path>_settings_8hpp.html</Path>
+    <Anchor>a43fa2ad685f2f4eee7cc94d6b228c688</Anchor>
+    <Abstract>Sets epsilon values for floating point comparisons. </Abstract>
     <DeclaredIn>Settings.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1112,7 +1123,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>adfd72ec6d7d0f9dec5420127da1ce33d</Anchor>
+    <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
     <Abstract>Constructor with parameters. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1183,6 +1194,30 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>aa5108db617e23e366f37ae1ec8f3baf5</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>does_vertex_radius_match_timevalue</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a6df7018555d1602726411dd523e58f66</Anchor>
+    <Abstract>Check the radius of a vertex from the origin with its timevalue. </Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>expected_radial_distance</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a9c8391efd19528f7719e1952676f3b80</Anchor>
+    <Abstract>Calculates the expected radial distance of a vertex given its timevalue. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1340,6 +1375,17 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>ac20dad440cc63e5212c08cc7f0890509</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>initial_radius</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>aa2bd4057318ad7350982b07bfae31313</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1570,6 +1616,17 @@
   </Token>
   <Token>
     <TokenIdentifier>
+      <Name>radial_factor</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a1f09fdb340603f3bbb5e232309fcb80e</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
       <Name>check_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>clm</Type>
@@ -1704,7 +1761,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>aff195753c2a22cc65854e7e214552264</Anchor>
+    <Anchor>a7a45773f212c8b1cce3f792fd3bcf4ea</Anchor>
     <Abstract>Make a Delaunay Triangulation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1752,7 +1809,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>aa5d891fc1122f11b94a3044b3b2b37eb</Anchor>
+    <Anchor>aa1fb2ac590b77a0a8be5595979131c87</Anchor>
     <Abstract>Make foliated spheres. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -2401,7 +2458,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>ab61c27172efacfdddfc3a1a619a00a71</Anchor>
+    <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
     <Abstract>Construct manifold using arguments. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
