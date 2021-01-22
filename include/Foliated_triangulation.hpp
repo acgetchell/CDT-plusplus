@@ -372,7 +372,7 @@ class FoliatedTriangulation<3>  // NOLINT
   [[nodiscard]] auto initial_radius() const { return m_initial_radius; }
 
   /// @return The spacing between timeslices
-  [[nodiscard]] auto radial_factor() const { return m_radial_separation; }
+  [[nodiscard]] auto radial_separation() const { return m_radial_separation; }
 
   /// @brief Print the number of spacelike faces per timeslice
   void print_volume_per_timeslice() const
@@ -682,13 +682,11 @@ class FoliatedTriangulation<3>  // NOLINT
   [[nodiscard]] auto does_vertex_radius_match_timevalue(
       Vertex_handle t_vertex) const -> bool
   {
-    auto             origin = Point(0, 0, 0);
-    squared_distance r2;
-    auto             d2              = r2(t_vertex->point(), origin);
-    auto             radial_distance = expected_radial_distance(t_vertex);
-    auto             squared_radial_distance = std::pow(radial_distance, 2);
-    return (d2 > squared_radial_distance * (1 - TOLERANCE) &&
-            d2 < squared_radial_distance * (1 + TOLERANCE));
+    auto actual_radius_squared   = squared_radius(t_vertex);
+    auto radius                  = expected_radius(t_vertex);
+    auto expected_radius_squared = std::pow(radius, 2);
+    return (actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
+            actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
   }
 
   /// @brief Checks if vertex timevalue is correct
@@ -713,27 +711,67 @@ class FoliatedTriangulation<3>  // NOLINT
 
   /// @brief Calculates the expected radial distance of a vertex given its
   /// timevalue
+  ///
+  /// The formula for the radius is:
+  ///
+  /// \f[R=I+S^{t-1}\f]
+  ///
+  /// Where I is INITIAL_RADIUS, S is RADIAL_SEPARATION, and t is timevalue
+  ///
   /// @param t_vertex The vertex to check
   /// @return The expected radial distance of the vertex of that timevalue
-  [[nodiscard]] auto expected_radial_distance(
-      Vertex_handle const& t_vertex) const -> double
+  [[nodiscard]] auto expected_radius(Vertex_handle const& t_vertex) const
+      -> double
   {
     auto timevalue = t_vertex->info();
-    auto radius    = m_initial_radius + m_radial_separation * (timevalue - 1);
-    return radius;
+    return m_initial_radius + m_radial_separation * (timevalue - 1);
   }  // expected_radial_distance
+
+  /// @brief Calculate the squared radius from the origin
+  /// @param t_vertex The vertex to check
+  /// @return The squared radial distance of the vertex
+  [[nodiscard]] static auto squared_radius(Vertex_handle const& t_vertex)
+      -> double
+  {
+    auto             origin = Point(0, 0, 0);
+    squared_distance r2;
+    return r2(t_vertex->point(), origin);
+  }  // squared_radius
+
+  /// @brief Calculate the expected timevalue for a vertex
+  ///
+  /// The formula for the expected timevalue is:
+  ///
+  /// \f[t=\frac{\log{(R-I)} + \log{S}}{\log{S}}\f]
+  ///
+  /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
+  ///
+  /// N.B. This formula contains logarithms and the std::log functions are
+  /// occasionally wrong. So the best checks for correctness remain
+  /// comparing squared_radius against the square of the expected_radius
+  ///
+  /// @param t_vertex The vertex to check
+  /// @return The expected timevalue of the vertex
+  [[nodiscard]] auto expected_timevalue(Vertex_handle const& t_vertex) const
+      -> double
+  {
+    auto radius                = std::sqrt(squared_radius(t_vertex));
+    auto log_radial_separation = std::log(m_radial_separation);
+    return (std::log(radius - m_initial_radius) + log_radial_separation) /
+           log_radial_separation;
+  }  // expected_timevalue
 
  private:
   /// @brief Make a Delaunay Triangulation
   /// @param t_simplices Number of desired simplices
   /// @param t_timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
-  /// @param radial_factor Radial separation between timeslices
+  /// @param radial_separation Radial separation between timeslices
   /// @return A Delaunay Triangulation
   [[nodiscard]] auto make_triangulation(
       Int_precision const t_simplices, Int_precision const t_timeslices,
-      double const initial_radius = INITIAL_RADIUS,
-      double const radial_factor  = RADIAL_SEPARATION) -> Delaunay3
+      double const initial_radius    = INITIAL_RADIUS,
+      double const radial_separation = RADIAL_SEPARATION) -> Delaunay3
   {
     fmt::print("Generating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
@@ -749,8 +787,8 @@ class FoliatedTriangulation<3>  // NOLINT
     Delaunay3 triangulation = Delaunay3{};
 #endif
 
-    auto causal_vertices = make_foliated_sphere(t_simplices, t_timeslices,
-                                                initial_radius, radial_factor);
+    auto causal_vertices = make_foliated_sphere(
+        t_simplices, t_timeslices, initial_radius, radial_separation);
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
     int passes = 1;
     while (!fix_timeslices(triangulation))
