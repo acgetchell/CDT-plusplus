@@ -20,6 +20,7 @@ var searchData=
   ['sphere_5fd_2ehpp',['Sphere_d.hpp',['../_sphere__d_8hpp.html',1,'']]],
   ['sphere_5ftest_2ecpp',['Sphere_test.cpp',['../_sphere__test_8cpp.html',1,'']]],
   ['squared_5fdistance',['squared_distance',['../class_foliated_triangulation_3_013_01_4.html#ac54983bcf09dbaaa81a532ff364f5e5a',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['squared_5fradius',['squared_radius',['../class_foliated_triangulation_3_013_01_4.html#a30ba01183a9a5e5c6425a3cd393c624f',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['start',['start',['../class_simulation.html#a7985334d286f4d2d7dabe2f158da249e',1,'Simulation']]],
   ['strategies',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],
   ['swap',['swap',['../class_foliated_triangulation_3_013_01_4.html#af87d0a9c0d31da0b4befc5d62a958641',1,'FoliatedTriangulation&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8',1,'Geometry&lt; 3 &gt;::swap()'],['../class_manifold_3_013_01_4.html#aed56b4a1e59606b624184c0bd676f84d',1,'Manifold&lt; 3 &gt;::swap()'],['../struct_simplicial_manifold.html#a6b2f76aacf53811ed6cc2f36837c2ebf',1,'SimplicialManifold::swap()'],['../_geometry_8hpp.html#af7450092e67d362692353a8b378059b6',1,'swap():&#160;Geometry.hpp']]]

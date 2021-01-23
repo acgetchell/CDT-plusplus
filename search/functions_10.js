@@ -7,6 +7,7 @@ var searchData=
   ['setspacelike_5ffacets',['setSpacelike_facets',['../struct_geometry_info.html#a5e4c5c414d6b87c87a6e961f215a8232',1,'GeometryInfo']]],
   ['settimevalues',['setTimevalues',['../struct_geometry_info.html#a963101a0453712674235eccdc3ffe3d1',1,'GeometryInfo']]],
   ['simplicialmanifold',['SimplicialManifold',['../struct_simplicial_manifold.html#ac2ac0112454bd2197c086c4642018892',1,'SimplicialManifold::SimplicialManifold()'],['../struct_simplicial_manifold.html#a3df61c643eb75a5b0ece580d898d3002',1,'SimplicialManifold::SimplicialManifold(std::unique_ptr&lt; Delaunay3 &gt; &amp;&amp;manifold)'],['../struct_simplicial_manifold.html#a69c9e15bf4a819399ad17d6db3754db9',1,'SimplicialManifold::SimplicialManifold(std::size_t simplices, std::size_t timeslices)'],['../struct_simplicial_manifold.html#a32ed6ddcbfdc898baa42e6392cbf47ee',1,'SimplicialManifold::SimplicialManifold(SimplicialManifold &amp;&amp;other)'],['../struct_simplicial_manifold.html#a968764303213d3a1e7ba20a89f3829eb',1,'SimplicialManifold::SimplicialManifold(const SimplicialManifold &amp;other)']]],
+  ['squared_5fradius',['squared_radius',['../class_foliated_triangulation_3_013_01_4.html#a30ba01183a9a5e5c6425a3cd393c624f',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['start',['start',['../class_simulation.html#a7985334d286f4d2d7dabe2f158da249e',1,'Simulation']]],
   ['swap',['swap',['../_geometry_8hpp.html#af7450092e67d362692353a8b378059b6',1,'Geometry.hpp']]]
 ];

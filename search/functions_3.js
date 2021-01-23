@@ -4,5 +4,6 @@ var searchData=
   ['enqueue',['enqueue',['../class_move_command.html#aa56440358589956f2d3fc9bf5477ca26',1,'MoveCommand']]],
   ['execute',['execute',['../class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12',1,'MoveCommand']]],
   ['expected_5fpoints_5fper_5ftimeslice',['expected_points_per_timeslice',['../_utilities_8hpp.html#a5b0cf3d2ac2f8372441d30d9a1fd6ca9',1,'Utilities.hpp']]],
-  ['expected_5fradial_5fdistance',['expected_radial_distance',['../class_foliated_triangulation_3_013_01_4.html#a9c8391efd19528f7719e1952676f3b80',1,'FoliatedTriangulation&lt; 3 &gt;']]]
+  ['expected_5fradius',['expected_radius',['../class_foliated_triangulation_3_013_01_4.html#a248bb1bc512309c1f14a920a698a5f48',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['expected_5ftimevalue',['expected_timevalue',['../class_foliated_triangulation_3_013_01_4.html#ab6fe3e86ec7c5fe7c6fd81ca5600641a',1,'FoliatedTriangulation&lt; 3 &gt;']]]
 ];
