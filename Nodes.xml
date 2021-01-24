@@ -141,6 +141,11 @@
               <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
              </Node>
              <Node>
+              <Name>FoliatedTriangulation</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a0b98406b9c85b6acd5045b4b7e904688</Anchor>
+             </Node>
+             <Node>
               <Name>check_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
@@ -874,17 +879,17 @@
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
-             </Node>
-             <Node>
-              <Name>Manifold</Name>
-              <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
              </Node>
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
               <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
+             </Node>
+             <Node>
+              <Name>Manifold</Name>
+              <Path>class_manifold_3_013_01_4.html</Path>
+              <Anchor>a5c93b3c3ed6c7d8f4e5f4a7e7671a0b7</Anchor>
              </Node>
              <Node>
               <Name>are_all_vertex_timevalues_valid</Name>
@@ -1839,6 +1844,11 @@
                   <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
                  </Node>
                  <Node>
+                  <Name>FoliatedTriangulation</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a0b98406b9c85b6acd5045b4b7e904688</Anchor>
+                 </Node>
+                 <Node>
                   <Name>check_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
@@ -2576,17 +2586,17 @@
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>Manifold</Name>
-                  <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
                  </Node>
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
                   <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>Manifold</Name>
+                  <Path>class_manifold_3_013_01_4.html</Path>
+                  <Anchor>a5c93b3c3ed6c7d8f4e5f4a7e7671a0b7</Anchor>
                  </Node>
                  <Node>
                   <Name>are_all_vertex_timevalues_valid</Name>

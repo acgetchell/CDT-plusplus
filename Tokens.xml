@@ -1112,7 +1112,7 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>acb523316a1f7b6bc707f88ea9214f5ab</Anchor>
-    <Abstract>Constructor using delaunay triangulation Pass-by-value-then-move Delaunay3 is the ctor for the Delaun...</Abstract>
+    <Abstract>Constructor using delaunay triangulation Pass-by-value-then-move. Delaunay3 is the ctor for the Delau...</Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1125,6 +1125,18 @@
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
     <Abstract>Constructor with parameters. </Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>FoliatedTriangulation</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>a0b98406b9c85b6acd5045b4b7e904688</Anchor>
+    <Abstract>Constructor from Causal_vertices. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -2458,18 +2470,6 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a507095efbf676b8c9de9b9781ed4a65d</Anchor>
-    <Abstract>Construct manifold from a Delaunay triangulation. </Abstract>
-    <DeclaredIn>Manifold.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>Manifold</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>Manifold&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>adba7e36744fa8a59f5b7a57d7e803a03</Anchor>
     <Abstract>Construct manifold from a Foliated triangulation. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
@@ -2484,6 +2484,18 @@
     <Path>class_manifold_3_013_01_4.html</Path>
     <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
     <Abstract>Construct manifold using arguments. </Abstract>
+    <DeclaredIn>Manifold.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>Manifold</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>Manifold&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_manifold_3_013_01_4.html</Path>
+    <Anchor>a5c93b3c3ed6c7d8f4e5f4a7e7671a0b7</Anchor>
+    <Abstract>Construct manifold from Causal_vertices Pass-by-value-then-move. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
   <Token>
