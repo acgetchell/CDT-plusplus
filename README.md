@@ -1,6 +1,6 @@
 # CDT-plusplus
 
-[![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.org/acgetchell/CDT-plusplus)
+[![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux/MacOS)](https://travis-ci.com/acgetchell/CDT-plusplus)
 [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
 [![](https://github.com/acgetchell/CDT-plusplus/workflows/C++%20CI/badge.svg?label=Actions)](https://github.com/acgetchell/CDT-plusplus/actions)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
@@ -164,7 +164,7 @@ is an unambiguous match to a longer one. The help message should be instructive:
 ./build/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2019 Adam Getchell
+Copyright (c) 2014-2021 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -282,9 +282,9 @@ but slower static analysis integrated with [CMake] and [Ninja].
 
 ### Sanitizers
 
-[AddressSanitizer] + [UndefinedBehaviorSanitizer], [ThreadSanitizer], and [MemorySanitizer] may
-be run with `scripts/asan.sh`, `scripts/tsan.sh`, and `scripts/msan.sh`. They are also checked
-in [Travis-CI] during commits.
+[AddressSanitizer] + [UndefinedBehaviorSanitizer], [LeakSanitizer], [MemorySanitizer],
+and [ThreadSanitizer] may be run with `scripts/asan.sh`, `scripts/lsan.sh`, `scripts/msan.sh`,
+and `scripts/tsan.sh`. They are also checked by [Travis-CI] during commits.
 
 ## Parameter Optimization
 
@@ -326,6 +326,8 @@ Your code should pass Continuous Integration:
 - [Valgrind]; be sure to look at the results to ensure you're not leaking memory
 
 - [AddressSanitizer] and [UndefinedBehaviorSanitizer]; test with [asan.sh]
+
+- [LeakSanitizer] (if supported by your platform); test with [lsan.sh]
 
 - [MemorySanitizer] (if supported by your platform); test with [msan.sh]
 
@@ -417,12 +419,14 @@ None.
 [Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt
 [AddressSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizer
+[LeakSanitizer]: https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
 [ThreadSanitizer]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual
 [MemorySanitizer]: https://github.com/google/sanitizers/wiki/MemorySanitizer
 [UndefinedBehaviorSanitizer]: https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html
 [clang-format]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html#clang-format
 [.clang-format]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.clang-format
 [asan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/asan.sh
+[lsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/lsan.sh
 [msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
 [PVS-Studio]: https://www.viva64.com/en/pvs-studio/
