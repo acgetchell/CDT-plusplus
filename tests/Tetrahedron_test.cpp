@@ -83,8 +83,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")
       {
@@ -173,10 +172,9 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
     cv.emplace_back(make_pair(v2, 1));
     cv.emplace_back(make_pair(v3, 1));
     cv.emplace_back(make_pair(v4, 2));
-    Delaunay3 dt(cv.begin(), cv.end());
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulation3                   ft(dt);
+      FoliatedTriangulation3                   ft(cv);
       FoliatedTriangulation3::squared_distance r2;
       THEN("The triangulation is initialized correctly.")
       {

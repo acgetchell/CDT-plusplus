@@ -166,8 +166,8 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // swap
 
   /// @brief Constructor using delaunay triangulation
-  /// Pass-by-value-then-move
-  /// Delaunay3 is the ctor for the Delaunay triangulation
+  /// Pass-by-value-then-move.
+  /// Delaunay3 is the ctor for the Delaunay triangulation.
   /// @param triangulation Delaunay triangulation
   explicit FoliatedTriangulation(Delaunay3 triangulation)
       : m_triangulation{std::move(triangulation)}
@@ -212,6 +212,26 @@ class FoliatedTriangulation<3>  // NOLINT
       , m_radial_separation{t_radial_separation}
   {}
 
+  /// @brief Constructor from Causal_vertices
+  /// @param cv Causal_vertices to place into the FoliatedTriangulation
+  explicit FoliatedTriangulation(Causal_vertices cv)
+      : m_triangulation{Delaunay3(cv.begin(), cv.end())}
+      , m_cells{classify_cells(collect_cells())}
+      , m_three_one{filter_cells(m_cells, Cell_type::THREE_ONE)}
+      , m_two_two{filter_cells(m_cells, Cell_type::TWO_TWO)}
+      , m_one_three{filter_cells(m_cells, Cell_type::ONE_THREE)}
+      , m_faces{collect_faces()}
+      , m_spacelike_facets{volume_per_timeslice(m_faces)}
+      , m_edges{collect_edges()}
+      , m_timelike_edges{filter_edges(m_edges, true)}
+      , m_spacelike_edges{filter_edges(m_edges, false)}
+      , m_points{collect_vertices()}
+      , m_max_timevalue{find_max_timevalue(m_points)}
+      , m_min_timevalue{find_min_timevalue(m_points)}
+      , m_initial_radius{INITIAL_RADIUS}
+      , m_radial_separation{RADIAL_SEPARATION}
+  {}
+
   /// @brief Verifies the triangulation is properly foliated
   ///
   /// Can not be called until after Foliated_triangulation has been constructed
@@ -222,6 +242,7 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     return !static_cast<bool>(check_timeslices(get_delaunay()));
   }  // is_foliated
+
   /// @return True if the triangulation is Delaunay
   [[nodiscard]] auto is_delaunay() const -> bool
   {
@@ -244,7 +265,7 @@ class FoliatedTriangulation<3>  // NOLINT
   [[nodiscard]] auto is_initialized() const -> bool
   {
     return is_correct() && is_delaunay();
-  }
+  }  // is_initialized
 
   /// @return A mutable reference to the Delaunay base class
   [[nodiscard]] auto delaunay() -> Delaunay3& { return m_triangulation; }
@@ -591,8 +612,6 @@ class FoliatedTriangulation<3>  // NOLINT
   template <typename Triangulation>
   [[nodiscard]] auto check_timeslices(Triangulation&& t_triangulation) const
       -> std::optional<std::vector<Vertex_handle>>
-  //  [[nodiscard]] auto check_timeslices(FoliatedTriangulation<3>&
-  //  t_triangulation) const -> std::optional<std::vector<Vertex_handle>>
   {
     std::vector<Vertex_handle> invalid_vertices;
     // Iterate over all cells in the triangulation
@@ -687,7 +706,7 @@ class FoliatedTriangulation<3>  // NOLINT
     auto expected_radius_squared = std::pow(radius, 2);
     return (actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
             actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
-  }
+  }  // does_vertex_radius_match_timevalue
 
   /// @brief Checks if vertex timevalue is correct
   /// The effective z-value is the initial radius of the sphere plus the
@@ -695,7 +714,7 @@ class FoliatedTriangulation<3>  // NOLINT
   /// Recall that timeslices start with 1.
   /// @param t_vertex The vertex to check
   /// @return True if vertex->info() matches the effective z-value
-  /// TODO: Change to radius
+  /// TODO: Replace with does_vertex_radius_match_timevalue
   [[nodiscard]] static auto is_vertex_timevalue_correct(
       Vertex_handle const& t_vertex) -> bool
   {
@@ -801,7 +820,8 @@ class FoliatedTriangulation<3>  // NOLINT
     print_triangulation(triangulation);
     Ensures(!check_timeslices(triangulation));
     return triangulation;
-  }
+  }  // make_triangulation
+
   /// @brief Make foliated spheres
   /// @param t_simplices The desired number of simplices in the triangulation
   /// @param t_timeslices The desired number of timeslices in the triangulation

@@ -76,7 +76,11 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       THEN("It is constructible from parameters.")
       {
         REQUIRE(is_constructible_v<FoliatedTriangulation3, Int_precision,
-                                   Int_precision, long double, long double>);
+                                   Int_precision, double, double>);
+      }
+      THEN("It is constructible from Causal_vertices.")
+      {
+        REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices>);
       }
     }
   }
@@ -138,8 +142,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
       REQUIRE(ft.is_initialized());
       THEN("The degree of each vertex is 4 (including infinite vertex).")
       {
@@ -166,8 +169,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
         Vertices.begin(), Vertices.end(), timevalue.begin(),
         std::back_inserter(causal_vertices),
         [](Delaunay3::Point a, std::size_t b) { return std::make_pair(a, b); });
-    Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-    FoliatedTriangulation3 ft(triangulation);
+    FoliatedTriangulation3 ft(causal_vertices);
     REQUIRE(ft.is_initialized());
     WHEN("check_cells() is called.")
     {
@@ -236,8 +238,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       FoliatedTriangulation3 ft;
       THEN("The default Delaunay triangulation is valid.")
       {
-        //        REQUIRE(triangulation.is_delaunay());
-        //        REQUIRE(triangulation.is_tds_valid());
         REQUIRE(ft.is_initialized());
         //        REQUIRE(triangulation.check_vertices());
         REQUIRE(ft.max_time() == 0);
@@ -261,8 +261,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(ft.is_initialized());
@@ -468,8 +467,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
       THEN("No errors in the simplex are detected.")
       {
         CHECK(ft.is_foliated());
@@ -496,8 +494,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
       THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
       /// TODO: Use fix_vertex and fix_simplex here
       //#ifndef _WIN64
@@ -525,8 +522,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
       THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
       /// TODO: Use fix_vertex and fix_simplex here
       //#ifndef _WIN64
@@ -554,8 +550,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      Delaunay3 triangulation(causal_vertices.begin(), causal_vertices.end());
-      FoliatedTriangulation3 ft(triangulation);
+      FoliatedTriangulation3 ft(causal_vertices);
       THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
       /// TODO: Use fix_vertex and fix_simplex here
       //#ifndef _WIN64

@@ -50,13 +50,6 @@ class Manifold<3>
   /// @brief Default move assignment
   auto operator=(Manifold&& other) -> Manifold& = default;
 
-  /// @brief Construct manifold from a Delaunay triangulation
-  /// @param t_delaunay_triangulation Triangulation used to construct manifold
-  explicit Manifold(Delaunay3 const& t_delaunay_triangulation)
-      : m_triangulation{FoliatedTriangulation3(t_delaunay_triangulation)}
-      , m_geometry{get_triangulation()}
-  {}
-
   /// @brief Construct manifold from a Foliated triangulation
   /// @param t_foliated_triangulation Triangulation used to construct manifold
   explicit Manifold(FoliatedTriangulation3 t_foliated_triangulation)
@@ -76,6 +69,14 @@ class Manifold<3>
       : m_triangulation{FoliatedTriangulation3(
             t_desired_simplices, t_desired_timeslices, t_initial_radius,
             t_radial_factor)}
+      , m_geometry{get_triangulation()}
+  {}
+
+  /// @brief Construct manifold from Causal_vertices
+  /// Pass-by-value-then-move.
+  /// @param cv Causal_vertices to place into the Manifold
+  explicit Manifold(Causal_vertices cv)
+      : m_triangulation{FoliatedTriangulation3(std::move(cv))}
       , m_geometry{get_triangulation()}
   {}
 

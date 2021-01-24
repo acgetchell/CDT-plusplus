@@ -65,10 +65,6 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       {
         REQUIRE(is_nothrow_swappable_v<Manifold3>);
       }
-      THEN("It is constructible from a Delaunay triangulation.")
-      {
-        REQUIRE(is_constructible_v<Manifold3, Delaunay3>);
-      }
       THEN("It is constructible from a Foliated triangulation.")
       {
         REQUIRE(is_constructible_v<Manifold3, FoliatedTriangulation3>);
@@ -80,7 +76,11 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       THEN("It is constructible from 4 parameters.")
       {
         REQUIRE(is_constructible_v<Manifold3, Int_precision, Int_precision,
-                                   long double, long double>);
+                                   double, double>);
+      }
+      THEN("It is constructible from Causal_vertices.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, Causal_vertices>);
       }
     }
   }
@@ -95,8 +95,7 @@ SCENARIO("Manifold functions", "[manifold]")
     cv.emplace_back(make_pair(Point(0, 1, 0), 1));
     cv.emplace_back(make_pair(Point(1, 0, 0), 1));
     cv.emplace_back(make_pair(Point(0, 0, 1), 2));
-    Delaunay3 dt(cv.begin(), cv.end());
-    Manifold3 manifold(dt);
+    Manifold3 manifold(cv);
 
     REQUIRE(manifold.is_correct());
     WHEN("are_vertex_timevalues_valid() is called.")
@@ -114,7 +113,10 @@ SCENARIO("Manifold functions", "[manifold]")
     AND_WHEN("The vertices are mis-labelled.")
     {
       auto vertices = manifold.get_triangulation().get_vertices();
-      for (auto& vertex : vertices) { vertex->info() = 10; }
+      for (auto& vertex : vertices)
+      {
+        vertex->info() = std::numeric_limits<int>::max();
+      }
       THEN("The incorrect vertex time-values are identified.")
       {
         CHECK_FALSE(manifold.are_vertex_timevalues_valid(
@@ -159,8 +161,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       cv.emplace_back(make_pair(Point(0, 1, 1), 2));
       cv.emplace_back(make_pair(Point(1, 1, 1), 2));
       cv.emplace_back(make_pair(Point(1, 1, 2), 3));
-      Delaunay3 dt(cv.begin(), cv.end());
-      Manifold3 manifold(dt);
+      Manifold3 manifold(cv);
 
       THEN("The triangulation is valid.")
       {
@@ -201,9 +202,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       cv.emplace_back(make_pair(Point(0, 1, 1), 2));
       cv.emplace_back(make_pair(Point(1, 1, 1), 2));
       cv.emplace_back(make_pair(Point(1, 1, 2), 3));
-      Delaunay3              dt(cv.begin(), cv.end());
-      FoliatedTriangulation3 ft(dt);
-      Manifold3              manifold(ft);
+      Manifold3 manifold(cv);
 
       THEN("The triangulation is valid.")
       {
@@ -507,9 +506,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     cv.emplace_back(make_pair(Point(0, 1, 1), 2));
     cv.emplace_back(make_pair(Point(1, 1, 1), 2));
     cv.emplace_back(make_pair(Point(1, 1, 2), 3));
-    Delaunay3              dt(cv.begin(), cv.end());
-    FoliatedTriangulation3 ft(dt);
-    Manifold3              manifold(ft);
+    Manifold3 manifold(cv);
     /// TODO: Fix is_infinite and is_vertex from cells container
     WHEN("We ask for a container of vertices given a container of cells.")
     {
@@ -575,7 +572,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       auto broken_cell   = cells[0];
       auto broken_vertex = broken_cell->vertex(0);
       cout << "Info on vertex was " << broken_vertex->info() << "\n";
-      broken_vertex->info() = 7;
+      broken_vertex->info() = std::numeric_limits<int>::max();
       cout << "Info on vertex is now " << broken_vertex->info() << "\n";
       THEN("We can detect invalid vertex timevalues.")
       {
