@@ -16,8 +16,9 @@ extraction:
       command:
         - git clone https://github.com/Microsoft/vcpkg.git
         - cd vcpkg
+        - git reset --hard
         - git pull
-        - git reset --hard e4ce66e
+        - git checkout e4ce66e
         - ./bootstrap-vcpkg.sh
         - ./vcpkg integrate install
         - ./vcpkg install catch2

@@ -54,8 +54,9 @@ install:
   - cmake --version
   - cd c:\tools\vcpkg
   # Update ports to known good version in vcpkg
+  - git reset --hard
   - git pull
-  - git reset --hard e4ce66e
+  - git checkout e4ce66e
   # Update vcpkg
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
