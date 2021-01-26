@@ -214,7 +214,9 @@ class FoliatedTriangulation<3>  // NOLINT
 
   /// @brief Constructor from Causal_vertices
   /// @param cv Causal_vertices to place into the FoliatedTriangulation
-  explicit FoliatedTriangulation(Causal_vertices cv)
+  explicit FoliatedTriangulation(
+      Causal_vertices cv, double const t_initial_radius = INITIAL_RADIUS,
+      double const t_radial_separation = RADIAL_SEPARATION)
       : m_triangulation{Delaunay3(cv.begin(), cv.end())}
       , m_cells{classify_cells(collect_cells())}
       , m_three_one{filter_cells(m_cells, Cell_type::THREE_ONE)}
@@ -228,8 +230,8 @@ class FoliatedTriangulation<3>  // NOLINT
       , m_points{collect_vertices()}
       , m_max_timevalue{find_max_timevalue(m_points)}
       , m_min_timevalue{find_min_timevalue(m_points)}
-      , m_initial_radius{INITIAL_RADIUS}
-      , m_radial_separation{RADIAL_SEPARATION}
+      , m_initial_radius{t_initial_radius}
+      , m_radial_separation{t_radial_separation}
   {}
 
   /// @brief Verifies the triangulation is properly foliated
@@ -490,6 +492,17 @@ class FoliatedTriangulation<3>  // NOLINT
     return true;
   }  // check_vertices
 
+  /// @brief Check if vertices have the correct timevalues
+  /// @param vertices The container of vertices to check
+  /// @return True if all vertices in the container have correct timevalues
+  [[nodiscard]] auto check_vertices(std::vector<Vertex_handle> vertices)
+  {
+    return std::all_of(vertices.begin(), vertices.end(),
+                       [this](Vertex_handle const& vertex) {
+                         return is_vertex_timevalue_correct(vertex);
+                       });
+  }
+
   /// @return Container of cells
   [[nodiscard]] auto get_cells() const -> std::vector<Cell_handle> const&
   {
@@ -562,7 +575,7 @@ class FoliatedTriangulation<3>  // NOLINT
       fmt::print("Cell info => {}\n", cell->info());
       for (int j = 0; j < 4; ++j)
       {
-        fmt::print("Vertex({}) Point: {} Timevalue: {}\n", j,
+        fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
                    cell->vertex(j)->point(), cell->vertex(j)->info());
       }
       fmt::print("---\n");
@@ -574,7 +587,7 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     for (auto const& vertex : m_points)
     {
-      fmt::print("Vertex Point: {} Timevalue: {}\n", vertex->point(),
+      fmt::print("Vertex Point: ({}) Timevalue: {}\n", vertex->point(),
                  vertex->info());
     }
   }  // print_vertices
@@ -709,23 +722,17 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // does_vertex_radius_match_timevalue
 
   /// @brief Checks if vertex timevalue is correct
-  /// The effective z-value is the initial radius of the sphere plus the
-  /// z-value divided by the radial spacing between successive timeslices.
-  /// Recall that timeslices start with 1.
   /// @param t_vertex The vertex to check
-  /// @return True if vertex->info() matches the effective z-value
-  /// TODO: Replace with does_vertex_radius_match_timevalue
-  [[nodiscard]] static auto is_vertex_timevalue_correct(
-      Vertex_handle const& t_vertex) -> bool
+  /// @return True if vertex->info() equals expected_timevalue()
+  [[nodiscard]] auto is_vertex_timevalue_correct(
+      Vertex_handle const& t_vertex) const -> bool
   {
-    auto effective_z_value =
-        INITIAL_RADIUS +
-        static_cast<double>(t_vertex->point().z()) / RADIAL_SEPARATION;
+    auto e_timevalue = this->expected_timevalue(t_vertex);
 #ifndef NDEBUG
-    fmt::print("Effective Z: {} Vertex {} with info(): {}\n", effective_z_value,
-               t_vertex->point(), t_vertex->info());
+    fmt::print("Vertex ({}) with info() {}: expected timevalue {}\n",
+               t_vertex->point(), t_vertex->info(), e_timevalue);
 #endif
-    return effective_z_value == t_vertex->info();
+    return e_timevalue == t_vertex->info();
   }  // is_vertex_timevalue_correct
 
   /// @brief Calculates the expected radial distance of a vertex given its
@@ -733,7 +740,7 @@ class FoliatedTriangulation<3>  // NOLINT
   ///
   /// The formula for the radius is:
   ///
-  /// \f[R=I+S^{t-1}\f]
+  /// \f[R=I+S(t-1)\f]
   ///
   /// Where I is INITIAL_RADIUS, S is RADIAL_SEPARATION, and t is timevalue
   ///
@@ -761,23 +768,20 @@ class FoliatedTriangulation<3>  // NOLINT
   ///
   /// The formula for the expected timevalue is:
   ///
-  /// \f[t=\frac{\log{(R-I)} + \log{S}}{\log{S}}\f]
+  /// \f[t=\frac{R-I+S}{S}}\f]
   ///
   /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
   ///
-  /// N.B. This formula contains logarithms and the std::log functions are
-  /// occasionally wrong. So the best checks for correctness remain
-  /// comparing squared_radius against the square of the expected_radius
   ///
   /// @param t_vertex The vertex to check
   /// @return The expected timevalue of the vertex
   [[nodiscard]] auto expected_timevalue(Vertex_handle const& t_vertex) const
-      -> double
+      -> int
   {
     auto radius                = std::sqrt(squared_radius(t_vertex));
-    auto log_radial_separation = std::log(m_radial_separation);
-    return (std::log(radius - m_initial_radius) + log_radial_separation) /
-           log_radial_separation;
+    return static_cast<Int_precision>(
+        std::lround((radius - m_initial_radius + m_radial_separation) /
+                    m_radial_separation));
   }  // expected_timevalue
 
  private:

@@ -82,6 +82,18 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices>);
       }
+      THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
+      {
+        REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices,
+                                   double>);
+      }
+      THEN(
+          "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
+          "RADIAL_SEPARATION.")
+      {
+        REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices,
+                                   double, double>);
+      }
     }
   }
 }
@@ -189,6 +201,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       {
         CHECK_FALSE(ft.check_cells(ft.get_cells()));
         // Human verification
+        fmt::print("=== Wrong cell info! ===\n");
         ft.print_cells();
       }
     }

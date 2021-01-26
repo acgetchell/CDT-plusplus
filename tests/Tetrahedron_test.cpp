@@ -18,9 +18,8 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
 {
   GIVEN("A vector of 4 vertices.")
   {
-    vector<Delaunay3::Point> Vertices{
-        Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
-        Delaunay3::Point{0, 0, 1}, Delaunay3::Point{1, 0, 0}};
+    vector<Delaunay3::Point> Vertices{Point{0, 0, 0}, Point{0, 1, 0},
+                                      Point{0, 0, 1}, Point{1, 0, 0}};
     WHEN("A triangulation is constructed using the vector.")
     {
       Delaunay3 triangulation;
@@ -64,25 +63,113 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
   }
 }
 
+SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
+{
+  GIVEN("Points in a tetrahedron.")
+  {
+    auto origin = Point{0, 0, 0};
+    // These points have a radius of 1
+    auto v1 = Point{1, 0, 0};
+    auto v2 = Point{0, 1, 0};
+    auto v3 = Point{0, 0, 1};
+    // Point (x=val, y=val, z=val) has a radius of 2. NOLINTNEXTLINE
+    auto            val = std::sqrt(4.0 / 3.0);
+    auto            v4  = Point{val, val, val};
+    Causal_vertices cv;
+    cv.emplace_back(make_pair(v1, 1));
+    cv.emplace_back(make_pair(v2, 1));
+    cv.emplace_back(make_pair(v3, 1));
+    cv.emplace_back(make_pair(v4, 2));
+    WHEN("The Foliated triangulation is constructed with these points.")
+    {
+      FoliatedTriangulation3                   ft(cv);
+      FoliatedTriangulation3::squared_distance r2;
+      THEN("The triangulation is initialized correctly.")
+      {
+        REQUIRE(ft.is_initialized());
+      }
+      THEN("The squared distances of vertices from origin are correct.")
+      {
+        fmt::print("v1 is {}\n", v1);
+        fmt::print("v2 is {}\n", v2);
+        fmt::print("v3 is {}\n", v3);
+        fmt::print("v4 is {}\n", v4);
+
+        auto d1 = r2(origin, v1);
+        fmt::print("The squared distance between v1 and the origin is {}\n",
+                   d1);
+        CHECK(d1 == 1);
+
+        auto d2 = r2(origin, v2);
+        fmt::print("The squared distance between v2 and the origin is {}\n",
+                   d2);
+        CHECK(d2 == 1);
+
+        auto d3 = r2(origin, v3);
+        fmt::print("The squared distance between v3 and the origin is {}\n",
+                   d3);
+        CHECK(d3 == 1);
+
+        auto d4 = r2(origin, v4);
+        fmt::print("The squared distance between v4 and the origin is {}\n",
+                   d4);
+        CHECK(d4 == 4);
+      }
+      THEN("The squared distance between radius=1 vertices are 2.")
+      {
+        auto d1 = r2(v1, v2);
+        CHECK(d1 == 2);
+        fmt::print("The squared distance between v1 and v2 is {}\n", d1);
+        auto d2 = r2(v1, v3);
+        CHECK(d2 == 2);
+        fmt::print("The squared distance between v1 and v3 is {}\n", d2);
+        auto d3 = r2(v2, v3);
+        CHECK(d3 == 2);
+        fmt::print("The squared distance between v2 and v3 is {}\n", d3);
+      }
+      THEN("All vertices have correct timevalues.")
+      {
+        auto vertices = ft.get_vertices();
+        CHECK(ft.check_vertices(vertices));
+        // Human verification
+        for (auto& vertex : vertices)
+        {
+          fmt::print(
+              "Vertex ({}) with timevalue of {} has a squared radius of {} and "
+              "a "
+              "squared expected radius of {} with an expected timevalue of "
+              "{}.\n",
+              vertex->point(), vertex->info(),
+              FoliatedTriangulation3::squared_radius(vertex),
+              std::pow(ft.expected_radius(vertex), 2),
+              ft.expected_timevalue(vertex));
+        }
+      }
+    }
+  }
+}
+
 SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
          "[tetrahedron]")
 {
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
-    vector<Delaunay3::Point> Vertices{
-        Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
-        Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+    // Point (x=val, y=val, z=val) has a radius of 2. NOLINTNEXTLINE
+    auto                     val = std::sqrt(4.0 / 3.0);
+    vector<Delaunay3::Point> Vertices{Point{1, 0, 0}, Point{0, 1, 0},
+                                      Point{0, 0, 1}, Point{val, val, val}};
     vector<std::size_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
+      // This is a complicated way to make Causal_vertices but is left
+      // here for reference
       Causal_vertices causal_vertices;
       causal_vertices.reserve(Vertices.size());
-      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(causal_vertices),
-                     [](Delaunay3::Point a, std::size_t b) {
-                       return std::make_pair(a, b);
-                     });
+      std::transform(
+          Vertices.begin(), Vertices.end(), timevalue.begin(),
+          std::back_inserter(causal_vertices),
+          [](Point a, std::size_t b) { return std::make_pair(a, b); });
       FoliatedTriangulation3 ft(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")
@@ -118,11 +205,10 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
       THEN("Timevalues are correct.")
       {
         auto checked_vertices = ft.get_vertices();
+        REQUIRE(ft.check_vertices(checked_vertices));
         for (auto& vertex : checked_vertices)
         {
-          REQUIRE(FoliatedTriangulation3::is_vertex_timevalue_correct(vertex));
-          // Human verification
-          ft.print_vertices();
+          CHECK(ft.is_vertex_timevalue_correct(vertex));
         }
       }
 
@@ -155,87 +241,6 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
       THEN("There are 3 timelike edges.") { REQUIRE(ft.N1_TL() == 3); }
 
       THEN("There are 3 spacelike edges.") { REQUIRE(ft.N1_SL() == 3); }
-    }
-  }
-}
-
-SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
-{
-  GIVEN("Points in a tetrahedron.")
-  {
-    auto            v1 = Delaunay3::Point{0, 0, 0};
-    auto            v2 = Delaunay3::Point{0, 1, 0};
-    auto            v3 = Delaunay3::Point{0, 0, 1};
-    auto            v4 = Delaunay3::Point{1, 0, 0};
-    Causal_vertices cv;
-    cv.emplace_back(make_pair(v1, 1));
-    cv.emplace_back(make_pair(v2, 1));
-    cv.emplace_back(make_pair(v3, 1));
-    cv.emplace_back(make_pair(v4, 2));
-    WHEN("The Foliated triangulation is constructed with these points.")
-    {
-      FoliatedTriangulation3                   ft(cv);
-      FoliatedTriangulation3::squared_distance r2;
-      THEN("The triangulation is initialized correctly.")
-      {
-        REQUIRE(ft.is_initialized());
-      }
-      THEN("The squared distances of vertices from origin are 1.")
-      {
-        fmt::print("v1 is {}\n", v1);
-        fmt::print("v2 is {}\n", v2);
-        fmt::print("v3 is {}\n", v3);
-        fmt::print("v4 is {}\n", v4);
-
-        auto d1 = r2(v1, v2);
-        CHECK(d1 == 1);
-        fmt::print("The squared distance between v1 and v2 is {}\n", d1);
-        auto d2 = r2(v1, v3);
-        CHECK(d2 == 1);
-        fmt::print("The squared distance between v1 and v3 is {}\n", d2);
-        auto d3 = r2(v1, v4);
-        CHECK(d3 == 1);
-        fmt::print("The squared distance between v1 and v4 is {}\n", d2);
-      }
-      THEN("The squared distance between non-origin vertices are 2.")
-      {
-        auto d2 = r2(v2, v3);
-        CHECK(d2 == 2);
-        fmt::print("The squared distance between v2 and v3 is {}\n", d2);
-        auto d3 = r2(v2, v4);
-        CHECK(d3 == 2);
-        fmt::print("The squared distance between v2 and v4 is {}\n", d3);
-        auto d4 = r2(v3, v4);
-        CHECK(d4 == 2);
-        fmt::print("The squared distance between v3 and v4 is {}\n", d4);
-      }
-      THEN(
-          "The squared effective radial distance from the origin does not "
-          "match the timevalue.")
-      {
-        auto vertices = ft.get_vertices();
-        // Some vertices match their timevalues
-        CHECK(std::any_of(vertices.begin(), vertices.end(),
-                          [&ft](Vertex_handle const& vertex) {
-                            return ft.does_vertex_radius_match_timevalue(
-                                vertex);
-                          }));
-        // But not all
-        CHECK_FALSE(std::all_of(vertices.begin(), vertices.end(),
-                                [&ft](Vertex_handle const& vertex) {
-                                  return ft.does_vertex_radius_match_timevalue(
-                                      vertex);
-                                }));
-        // Human verification
-        for (auto&& vertex : vertices)
-        {
-          auto radial_distance = r2(v1, vertex->point());
-          fmt::print(
-              "Checking vertex {} with a timevalue of {} and a squared radius "
-              "of {}\n",
-              vertex->point(), vertex->info(), radial_distance);
-        }
-      }
     }
   }
 }
