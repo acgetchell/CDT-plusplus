@@ -54,7 +54,7 @@ install:
   - cmake --version
   - cd c:\tools\vcpkg
   # Update ports to known good version in vcpkg
-  - git reset --hard e4ce66eec
+  - git reset --hard e4ce66e
   - git pull
   # Update vcpkg
   - .\bootstrap-vcpkg.bat

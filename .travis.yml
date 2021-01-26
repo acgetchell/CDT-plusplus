@@ -39,6 +39,7 @@ compiler:
   - clang-10
 
 jobs:
+  fast_finish: true
   include:
     # Git Check
     - os: linux
@@ -262,7 +263,7 @@ install:
   # Install/Update ports
   - cd $TRAVIS_BUILD_DIR/vcpkg
   # Pin to vcpkg version that doesn't break CGAL
-  - git reset --hard e4ce66eec
+  - git reset --hard e4ce66e
   - git pull
   - ./bootstrap-vcpkg.sh
   - ./vcpkg integrate install
