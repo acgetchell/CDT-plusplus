@@ -19,7 +19,7 @@ jobs:
         export CXX="g++-10" CC="gcc-10"
         cd $VCPKG_INSTALLATION_ROOT
         git reset --hard
-        git pull
+        git pull --no-rebase
         git checkout e4ce66e
         ./bootstrap-vcpkg.sh
         vcpkg integrate install

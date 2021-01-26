@@ -768,7 +768,7 @@ class FoliatedTriangulation<3>  // NOLINT
   ///
   /// The formula for the expected timevalue is:
   ///
-  /// \f[t=\frac{R-I+S}{S}}\f]
+  /// \f[t=\frac{R-I+S}{S}\f]
   ///
   /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
   ///
