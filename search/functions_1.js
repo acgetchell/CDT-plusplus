@@ -6,7 +6,7 @@ var searchData=
   ['check_5fmove',['check_move',['../_ergodic__moves__3_8hpp.html#af97bb8d41346abb2b1ea7aa39a652ea7',1,'manifold3_moves']]],
   ['check_5fsimplices',['check_simplices',['../class_manifold_3_013_01_4.html#a25dd07c4be1d55db46972f80d303e166',1,'Manifold&lt; 3 &gt;']]],
   ['check_5ftimeslices',['check_timeslices',['../class_foliated_triangulation_3_013_01_4.html#a50539f832c056e28fcd5ecde42aa2137',1,'FoliatedTriangulation&lt; 3 &gt;']]],
-  ['check_5fvertices',['check_vertices',['../class_foliated_triangulation_3_013_01_4.html#afb5836235e5973f9e07d311db36288d6',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['check_5fvertices',['check_vertices',['../class_foliated_triangulation_3_013_01_4.html#afb5836235e5973f9e07d311db36288d6',1,'FoliatedTriangulation&lt; 3 &gt;::check_vertices() const -&gt; bool'],['../class_foliated_triangulation_3_013_01_4.html#a91406b7c1bcef70df98f2bb5e5729286',1,'FoliatedTriangulation&lt; 3 &gt;::check_vertices(std::vector&lt; Vertex_handle &gt; vertices)']]],
   ['checkpoint',['Checkpoint',['../class_metropolis.html#a1ed1b229fe9a77ab9429ce7bd97a4aed',1,'Metropolis::Checkpoint()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#afb4fdaab4a643fc67a8ab5e14aa16308',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::checkpoint()']]],
   ['classify_5fcells',['classify_cells',['../class_foliated_triangulation_3_013_01_4.html#a3983ec27598c52fa70244a56d648b8ba',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['classify_5fedge',['classify_edge',['../class_foliated_triangulation_3_013_01_4.html#a833c90ee266b10b39b7c39c36d5a763e',1,'FoliatedTriangulation&lt; 3 &gt;']]],

@@ -143,7 +143,7 @@
              <Node>
               <Name>FoliatedTriangulation</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a0b98406b9c85b6acd5045b4b7e904688</Anchor>
+              <Anchor>aeb7c8c27f641fd9fc81534ff13ee966b</Anchor>
              </Node>
              <Node>
               <Name>check_cells</Name>
@@ -159,6 +159,11 @@
               <Name>check_vertices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
+             </Node>
+             <Node>
+              <Name>check_vertices</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a91406b7c1bcef70df98f2bb5e5729286</Anchor>
              </Node>
              <Node>
               <Name>classify_cells</Name>
@@ -218,7 +223,7 @@
              <Node>
               <Name>expected_timevalue</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>ab6fe3e86ec7c5fe7c6fd81ca5600641a</Anchor>
+              <Anchor>a91cf810fbdb7890b5513ac205bdacfab</Anchor>
              </Node>
              <Node>
               <Name>filter_cells</Name>
@@ -353,7 +358,7 @@
              <Node>
               <Name>is_vertex_timevalue_correct</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>addb8d3dd629dfa4699602cc20f364e21</Anchor>
+              <Anchor>ae7d83c3dcf65d0fdd44ca09de39a9fb0</Anchor>
              </Node>
              <Node>
               <Name>make_foliated_sphere</Name>
@@ -1846,7 +1851,7 @@
                  <Node>
                   <Name>FoliatedTriangulation</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a0b98406b9c85b6acd5045b4b7e904688</Anchor>
+                  <Anchor>aeb7c8c27f641fd9fc81534ff13ee966b</Anchor>
                  </Node>
                  <Node>
                   <Name>check_cells</Name>
@@ -1862,6 +1867,11 @@
                   <Name>check_vertices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>check_vertices</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a91406b7c1bcef70df98f2bb5e5729286</Anchor>
                  </Node>
                  <Node>
                   <Name>classify_cells</Name>
@@ -1921,7 +1931,7 @@
                  <Node>
                   <Name>expected_timevalue</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>ab6fe3e86ec7c5fe7c6fd81ca5600641a</Anchor>
+                  <Anchor>a91cf810fbdb7890b5513ac205bdacfab</Anchor>
                  </Node>
                  <Node>
                   <Name>filter_cells</Name>
@@ -2056,7 +2066,7 @@
                  <Node>
                   <Name>is_vertex_timevalue_correct</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>addb8d3dd629dfa4699602cc20f364e21</Anchor>
+                  <Anchor>ae7d83c3dcf65d0fdd44ca09de39a9fb0</Anchor>
                  </Node>
                  <Node>
                   <Name>make_foliated_sphere</Name>
@@ -4427,12 +4437,12 @@
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_tetrahedron__test_8cpp.html</Path>
-                <Anchor>aa0ed30612f16ab8d9beac37d20dd4a5e</Anchor>
+                <Anchor>a453b3e1694b89b48935f34e6e1ada8bb</Anchor>
                </Node>
                <Node>
                 <Name>SCENARIO</Name>
                 <Path>_tetrahedron__test_8cpp.html</Path>
-                <Anchor>a453b3e1694b89b48935f34e6e1ada8bb</Anchor>
+                <Anchor>aa0ed30612f16ab8d9beac37d20dd4a5e</Anchor>
                </Node>
               </Subnodes>
              </Node>
