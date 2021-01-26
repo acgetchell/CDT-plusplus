@@ -53,7 +53,8 @@ install:
   # Verify CMake
   - cmake --version
   - cd c:\tools\vcpkg
-  # Update ports
+  # Update ports to known good version in vcpkg
+  - git reset --hard e4ce66eec
   - git pull
   # Update vcpkg
   - .\bootstrap-vcpkg.bat
@@ -70,7 +71,7 @@ install:
   - vcpkg install tbb
   - vcpkg install cgal
   # Upgrade required libraries
-  - vcpkg upgrade --no-dry-run
+#  - vcpkg upgrade --no-dry-run
   - vcpkg list
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"

@@ -16,6 +16,8 @@ extraction:
       command:
         - git clone https://github.com/Microsoft/vcpkg.git
         - cd vcpkg
+        - git reset --hard e4ce66eec
+        - git pull
         - ./bootstrap-vcpkg.sh
         - ./vcpkg integrate install
         - ./vcpkg install catch2
@@ -27,7 +29,7 @@ extraction:
         - ./vcpkg install pcg
         - ./vcpkg install tbb
         - ./vcpkg install cgal
-        - ./vcpkg upgrade --no-dry-run
+#        - ./vcpkg upgrade --no-dry-run
         - ./vcpkg list
     index:
       build_command:

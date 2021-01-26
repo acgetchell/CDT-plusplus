@@ -344,7 +344,7 @@ Optional:
 
 ## Upstream issues
 
-None.
+[vcpkg] after 2021-01-22 breaks the [CGAL] package (issue [#15881]), so do not update [vcpkg] in [AppVeyor], [Github Actions], [LGTM], or [Travis-CI],.
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
@@ -431,3 +431,4 @@ None.
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
 [PVS-Studio]: https://www.viva64.com/en/pvs-studio/
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
+[#15881]: https://github.com/microsoft/vcpkg/issues/15881
