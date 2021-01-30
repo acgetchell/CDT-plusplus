@@ -163,7 +163,7 @@
              <Node>
               <Name>check_vertices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a91406b7c1bcef70df98f2bb5e5729286</Anchor>
+              <Anchor>ace18ba0d9902f31179d5b9d84d5e04a7</Anchor>
              </Node>
              <Node>
               <Name>classify_cells</Name>
@@ -894,7 +894,7 @@
              <Node>
               <Name>Manifold</Name>
               <Path>class_manifold_3_013_01_4.html</Path>
-              <Anchor>a5c93b3c3ed6c7d8f4e5f4a7e7671a0b7</Anchor>
+              <Anchor>a02f9e6ee1b741c3257ef736205927368</Anchor>
              </Node>
              <Node>
               <Name>are_all_vertex_timevalues_valid</Name>
@@ -1871,7 +1871,7 @@
                  <Node>
                   <Name>check_vertices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a91406b7c1bcef70df98f2bb5e5729286</Anchor>
+                  <Anchor>ace18ba0d9902f31179d5b9d84d5e04a7</Anchor>
                  </Node>
                  <Node>
                   <Name>classify_cells</Name>
@@ -2606,7 +2606,7 @@
                  <Node>
                   <Name>Manifold</Name>
                   <Path>class_manifold_3_013_01_4.html</Path>
-                  <Anchor>a5c93b3c3ed6c7d8f4e5f4a7e7671a0b7</Anchor>
+                  <Anchor>a02f9e6ee1b741c3257ef736205927368</Anchor>
                  </Node>
                  <Node>
                   <Name>are_all_vertex_timevalues_valid</Name>
@@ -4198,6 +4198,11 @@
                 <Path>_foliated__triangulation__test_8cpp.html</Path>
                 <Anchor>ab5498a0d028ae1865504e1780ab092a4</Anchor>
                </Node>
+               <Node>
+                <Name>RADIUS_2</Name>
+                <Path>_foliated__triangulation__test_8cpp.html</Path>
+                <Anchor>a57fbda207a30bb8d1d5bfcfa5f9fed81</Anchor>
+               </Node>
               </Subnodes>
              </Node>
              <Node>
@@ -4314,6 +4319,11 @@
                 <Name>SCENARIO</Name>
                 <Path>_manifold__test_8cpp.html</Path>
                 <Anchor>ac9e2f1d35b0df16624ee269b4050b479</Anchor>
+               </Node>
+               <Node>
+                <Name>RADIUS_2</Name>
+                <Path>_manifold__test_8cpp.html</Path>
+                <Anchor>a57fbda207a30bb8d1d5bfcfa5f9fed81</Anchor>
                </Node>
               </Subnodes>
              </Node>
@@ -4443,6 +4453,11 @@
                 <Name>SCENARIO</Name>
                 <Path>_tetrahedron__test_8cpp.html</Path>
                 <Anchor>aa0ed30612f16ab8d9beac37d20dd4a5e</Anchor>
+               </Node>
+               <Node>
+                <Name>RADIUS_2</Name>
+                <Path>_tetrahedron__test_8cpp.html</Path>
+                <Anchor>a57fbda207a30bb8d1d5bfcfa5f9fed81</Anchor>
                </Node>
               </Subnodes>
              </Node>

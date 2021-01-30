@@ -1182,7 +1182,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a91406b7c1bcef70df98f2bb5e5729286</Anchor>
+    <Anchor>ace18ba0d9902f31179d5b9d84d5e04a7</Anchor>
     <Abstract>Check if vertices have the correct timevalues. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -2506,7 +2506,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a5c93b3c3ed6c7d8f4e5f4a7e7671a0b7</Anchor>
+    <Anchor>a02f9e6ee1b741c3257ef736205927368</Anchor>
     <Abstract>Construct manifold from Causal_vertices Pass-by-value-then-move. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
