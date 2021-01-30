@@ -463,7 +463,7 @@ class FoliatedTriangulation<3>  // NOLINT
       Vertex_handle const& t_vertex) const -> bool
   {
     auto e_timevalue = this->expected_timevalue(t_vertex);
-#ifndef NDEBUG
+#ifdef DETAILED_DEBUGGING
     fmt::print("Vertex ({}) with info() {}: expected timevalue {}\n",
                t_vertex->point(), t_vertex->info(), e_timevalue);
 #endif
@@ -543,8 +543,8 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     for (auto const& vertex : m_points)
     {
-      fmt::print("Vertex Point: ({}) Timevalue: {}\n", vertex->point(),
-                 vertex->info());
+      fmt::print("Vertex Point: ({}) Timevalue: {} Expected Timevalue: {}\n",
+                 vertex->point(), vertex->info(), expected_timevalue(vertex));
     }
   }  // print_vertices
 
