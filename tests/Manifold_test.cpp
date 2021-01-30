@@ -13,6 +13,8 @@
 
 using namespace std;
 
+static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+
 SCENARIO("3-Manifold special member and swap properties", "[manifold]")
 {
   GIVEN("A 3-dimensional manifold.")
@@ -82,6 +84,16 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       {
         REQUIRE(is_constructible_v<Manifold3, Causal_vertices>);
       }
+      THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, Causal_vertices, double>);
+      }
+      THEN(
+          "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
+          "RADIAL_SEPARATION.")
+      {
+        REQUIRE(is_constructible_v<Manifold3, Causal_vertices, double, double>);
+      }
     }
   }
 }
@@ -91,10 +103,10 @@ SCENARIO("Manifold functions", "[manifold]")
   GIVEN("A manifold with four vertices.")
   {
     Causal_vertices cv;
-    cv.emplace_back(make_pair(Point(0, 0, 0), 1));
-    cv.emplace_back(make_pair(Point(0, 1, 0), 1));
     cv.emplace_back(make_pair(Point(1, 0, 0), 1));
-    cv.emplace_back(make_pair(Point(0, 0, 1), 2));
+    cv.emplace_back(make_pair(Point(0, 1, 0), 1));
+    cv.emplace_back(make_pair(Point(0, 0, 1), 1));
+    cv.emplace_back(make_pair(Point(RADIUS_2, RADIUS_2, RADIUS_2), 2));
     Manifold3 manifold(cv);
 
     REQUIRE(manifold.is_correct());
@@ -157,11 +169,11 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     {
       Causal_vertices cv;
       cv.emplace_back(make_pair(Point(0, 0, 0), 1));
-      cv.emplace_back(make_pair(Point(1, 0, 1), 2));
-      cv.emplace_back(make_pair(Point(0, 1, 1), 2));
-      cv.emplace_back(make_pair(Point(1, 1, 1), 2));
-      cv.emplace_back(make_pair(Point(1, 1, 2), 3));
-      Manifold3 manifold(cv);
+      cv.emplace_back(make_pair(Point(1, 0, 0), 2));
+      cv.emplace_back(make_pair(Point(0, 1, 0), 2));
+      cv.emplace_back(make_pair(Point(0, 0, 1), 2));
+      cv.emplace_back(make_pair(Point(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+      Manifold3 manifold(cv, 0, 1.0);
 
       THEN("The triangulation is valid.")
       {
@@ -198,11 +210,11 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     {
       Causal_vertices cv;
       cv.emplace_back(make_pair(Point(0, 0, 0), 1));
-      cv.emplace_back(make_pair(Point(1, 0, 1), 2));
-      cv.emplace_back(make_pair(Point(0, 1, 1), 2));
-      cv.emplace_back(make_pair(Point(1, 1, 1), 2));
-      cv.emplace_back(make_pair(Point(1, 1, 2), 3));
-      Manifold3 manifold(cv);
+      cv.emplace_back(make_pair(Point(1, 0, 0), 2));
+      cv.emplace_back(make_pair(Point(0, 1, 0), 2));
+      cv.emplace_back(make_pair(Point(0, 0, 1), 2));
+      cv.emplace_back(make_pair(Point(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+      Manifold3 manifold(cv, 0, 1);
 
       THEN("The triangulation is valid.")
       {

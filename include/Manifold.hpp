@@ -75,8 +75,13 @@ class Manifold<3>
   /// @brief Construct manifold from Causal_vertices
   /// Pass-by-value-then-move.
   /// @param cv Causal_vertices to place into the Manifold
-  explicit Manifold(Causal_vertices cv)
-      : m_triangulation{FoliatedTriangulation3(std::move(cv))}
+  /// @param t_initial_radius Radius of first timeslice
+  /// @param t_radial_separation Radial separation between timeslices
+  explicit Manifold(Causal_vertices cv,
+                    double const    t_initial_radius    = INITIAL_RADIUS,
+                    double const    t_radial_separation = RADIAL_SEPARATION)
+      : m_triangulation{FoliatedTriangulation3(std::move(cv), t_initial_radius,
+                                               t_radial_separation)}
       , m_geometry{get_triangulation()}
   {}
 

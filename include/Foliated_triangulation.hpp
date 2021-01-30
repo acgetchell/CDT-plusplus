@@ -339,7 +339,7 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // flip
 
   /// @return Returns the infinite vertex in the triangulation
-  [[nodiscard]] auto infinite_vertex() const
+  [[maybe_unused]] [[nodiscard]] auto infinite_vertex() const
   {
     return m_triangulation.infinite_vertex();
   }  // infinite_vertex
@@ -397,30 +397,6 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @return The spacing between timeslices
   [[nodiscard]] auto radial_separation() const { return m_radial_separation; }
 
-  /// @brief Print the number of spacelike faces per timeslice
-  void print_volume_per_timeslice() const
-  {
-    for (auto j = min_time(); j <= max_time(); ++j)
-    {
-      fmt::print("Timeslice {} has {} spacelike faces.\n", j,
-                 m_spacelike_facets.count(j));
-    }
-  }  // print_volume_per_timeslice
-
-  /// @brief Print timevalues of each vertex in the edge and classify as
-  /// timelike or spacelike
-  void print_edges() const
-  {
-    for (auto const& edge : m_edges)
-    {
-      if (classify_edge(edge, true)) { fmt::print("==> timelike\n"); }
-      else
-      {
-        fmt::print("==> spacelike\n");
-      }
-    }
-  }  // print_edges
-
   /// @brief See
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcabcebd22f2fe
   /// If we have n incident edges we should have 2(n-2) incident cells
@@ -460,48 +436,159 @@ class FoliatedTriangulation<3>  // NOLINT
     return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
   }  // incident_cells
 
-  /// @return True if all vertices fall between min and max
+  /// @brief CGAL::squared_distance
+  /// See
+  /// https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp.html#ga1ff73525660a052564d33fbdd61a4f71
+  /// @return Square of Euclidean distance between two geometric objects
+  using squared_distance = Kernel::Compute_squared_distance_3;
+
+  /// @brief Check the radius of a vertex from the origin with its timevalue
+  /// @param t_vertex The vertex to check
+  /// @return True if the effective radial distance squared matches timevalue
+  /// squared
+  [[nodiscard]] auto does_vertex_radius_match_timevalue(
+      Vertex_handle t_vertex) const -> bool
+  {
+    auto actual_radius_squared   = squared_radius(t_vertex);
+    auto radius                  = expected_radius(t_vertex);
+    auto expected_radius_squared = std::pow(radius, 2);
+    return (actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
+            actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
+  }  // does_vertex_radius_match_timevalue
+
+  /// @brief Checks if vertex timevalue is correct
+  /// @param t_vertex The vertex to check
+  /// @return True if vertex->info() equals expected_timevalue()
+  [[nodiscard]] auto is_vertex_timevalue_correct(
+      Vertex_handle const& t_vertex) const -> bool
+  {
+    auto e_timevalue = this->expected_timevalue(t_vertex);
+#ifndef NDEBUG
+    fmt::print("Vertex ({}) with info() {}: expected timevalue {}\n",
+               t_vertex->point(), t_vertex->info(), e_timevalue);
+#endif
+    return e_timevalue == t_vertex->info();
+  }  // is_vertex_timevalue_correct
+
+  /// @brief Calculates the expected radial distance of a vertex given its
+  /// timevalue
+  ///
+  /// The formula for the radius is:
+  ///
+  /// \f[R=I+S(t-1)\f]
+  ///
+  /// Where I is INITIAL_RADIUS, S is RADIAL_SEPARATION, and t is timevalue
+  ///
+  /// @param t_vertex The vertex to check
+  /// @return The expected radial distance of the vertex of that timevalue
+  [[nodiscard]] auto expected_radius(Vertex_handle const& t_vertex) const
+      -> double
+  {
+    auto timevalue = t_vertex->info();
+    return m_initial_radius + m_radial_separation * (timevalue - 1);
+  }  // expected_radial_distance
+
+  /// @brief Calculate the squared radius from the origin
+  /// @param t_vertex The vertex to check
+  /// @return The squared radial distance of the vertex
+  [[nodiscard]] static auto squared_radius(Vertex_handle const& t_vertex)
+      -> double
+  {
+    auto             origin = Point(0, 0, 0);
+    squared_distance r2;
+    return r2(t_vertex->point(), origin);
+  }  // squared_radius
+
+  /// @brief Calculate the expected timevalue for a vertex
+  ///
+  /// The formula for the expected timevalue is:
+  ///
+  /// \f[t=\frac{R-I+S}{S}\f]
+  ///
+  /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
+  ///
+  ///
+  /// @param t_vertex The vertex to check
+  /// @return The expected timevalue of the vertex
+  [[nodiscard]] auto expected_timevalue(Vertex_handle const& t_vertex) const
+      -> int
+  {
+    auto radius = std::sqrt(squared_radius(t_vertex));
+    return static_cast<Int_precision>(
+        std::lround((radius - m_initial_radius + m_radial_separation) /
+                    m_radial_separation));
+  }  // expected_timevalue
+
+  /// @return True if all vertices have correct timevalues
   [[nodiscard]] auto check_vertices() const -> bool
   {
-    // Retrieve vertices directly from CGAL::Compact_container
-    auto vertices = get_delaunay().tds().vertices();
-    //    auto vertices = get_vertices();
-    auto min = min_time();
-    auto max = max_time();
-    // Vertices in the compact container are not Vertex_handles, so
-    // we can't call is_infinite(v) directly. Instead, we find the timevalue
-    // of the infinite vertex and use that to test if a vertex is infinite
-    auto infinite_vertex_timevalue = infinite_vertex()->info();
-    for (auto v : vertices)
-    {
-#ifdef DETAILED_DEBUGGING
-      std::cout << "Vertex (" << v.point() << ") has timevalue " << v.info()
-                << "\n";
-//        fmt::print("Vertex {} has timevalue {}\n", v.point(), v.info());
-#endif
-      if ((v.info() < min || v.info() > max) &&
-          (infinite_vertex_timevalue != v.info()))
-      {
-#ifndef NDEBUG
-        //        std::cout << "A timevalue on a vertex is out of range.\n";
-        fmt::print(stderr, "A timevalue of a vertex is out of range.\n");
-#endif
-        return false;
-      }
-    }
-    return true;
+    auto checked_vertices = this->get_vertices();
+    return this->check_vertices(checked_vertices);
   }  // check_vertices
 
   /// @brief Check if vertices have the correct timevalues
   /// @param vertices The container of vertices to check
   /// @return True if all vertices in the container have correct timevalues
-  [[nodiscard]] auto check_vertices(std::vector<Vertex_handle> vertices)
+  [[nodiscard]] auto check_vertices(
+      std::vector<Vertex_handle> const& vertices) const -> bool
   {
     return std::all_of(vertices.begin(), vertices.end(),
                        [this](Vertex_handle const& vertex) {
                          return is_vertex_timevalue_correct(vertex);
                        });
-  }
+  }  // check_vertices
+
+  /// @brief Print values of a vertex.
+  void print_vertices() const
+  {
+    for (auto const& vertex : m_points)
+    {
+      fmt::print("Vertex Point: ({}) Timevalue: {}\n", vertex->point(),
+                 vertex->info());
+    }
+  }  // print_vertices
+
+  /// @brief Predicate to classify edge as timelike or spacelike
+  /// @param t_edge The Edge_handle to classify
+  /// @param t_debug_flag Debugging info toggle
+  /// @return true if timelike and false if spacelike
+  [[nodiscard]] static auto classify_edge(Edge_handle const& t_edge,
+                                          bool t_debug_flag = false) -> bool
+  {
+    Cell_handle const& ch    = t_edge.first;
+    auto               time1 = ch->vertex(t_edge.second)->info();
+    auto               time2 = ch->vertex(t_edge.third)->info();
+    if (t_debug_flag)
+    {
+      fmt::print("Edge: Vertex(1) timevalue: {} Vertex(2) timevalue: {}\n",
+                 time1, time2);
+    }
+    return time1 != time2;
+  }  // classify_edge
+
+  /// @brief Print timevalues of each vertex in the edge and classify as
+  /// timelike or spacelike
+  void print_edges() const
+  {
+    for (auto const& edge : m_edges)
+    {
+      if (classify_edge(edge, true)) { fmt::print("==> timelike\n"); }
+      else
+      {
+        fmt::print("==> spacelike\n");
+      }
+    }
+  }  // print_edges
+
+  /// @brief Print the number of spacelike faces per timeslice
+  void print_volume_per_timeslice() const
+  {
+    for (auto j = min_time(); j <= max_time(); ++j)
+    {
+      fmt::print("Timeslice {} has {} spacelike faces.\n", j,
+                 m_spacelike_facets.count(j));
+    }
+  }  // print_volume_per_timeslice
 
   /// @return Container of cells
   [[nodiscard]] auto get_cells() const -> std::vector<Cell_handle> const&
@@ -582,33 +669,7 @@ class FoliatedTriangulation<3>  // NOLINT
     }
   }  // print_cells
 
-  /// @brief Print values of a vertex.
-  void print_vertices() const
-  {
-    for (auto const& vertex : m_points)
-    {
-      fmt::print("Vertex Point: ({}) Timevalue: {}\n", vertex->point(),
-                 vertex->info());
-    }
-  }  // print_vertices
 
-  /// @brief Predicate to classify edge as timelike or spacelike
-  /// @param t_edge The Edge_handle to classify
-  /// @param t_debug_flag Debugging info toggle
-  /// @return true if timelike and false if spacelike
-  [[nodiscard]] static auto classify_edge(Edge_handle const& t_edge,
-                                          bool t_debug_flag = false) -> bool
-  {
-    Cell_handle const& ch    = t_edge.first;
-    auto               time1 = ch->vertex(t_edge.second)->info();
-    auto               time2 = ch->vertex(t_edge.third)->info();
-    if (t_debug_flag)
-    {
-      fmt::print("Edge: Vertex(1) timevalue: {} Vertex(2) timevalue: {}\n",
-                 time1, time2);
-    }
-    return time1 != time2;
-  }  // classify_edge
 
   /// @brief Check simplices for correct foliation
   ///
@@ -701,88 +762,6 @@ class FoliatedTriangulation<3>  // NOLINT
 
   }  // check_timeslices
 
-  /// @brief CGAL::squared_distance
-  /// See
-  /// https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp.html#ga1ff73525660a052564d33fbdd61a4f71
-  /// @return Square of Euclidean distance between two geometric objects
-  using squared_distance = Kernel::Compute_squared_distance_3;
-
-  /// @brief Check the radius of a vertex from the origin with its timevalue
-  /// @param t_vertex The vertex to check
-  /// @return True if the effective radial distance squared matches timevalue
-  /// squared
-  [[nodiscard]] auto does_vertex_radius_match_timevalue(
-      Vertex_handle t_vertex) const -> bool
-  {
-    auto actual_radius_squared   = squared_radius(t_vertex);
-    auto radius                  = expected_radius(t_vertex);
-    auto expected_radius_squared = std::pow(radius, 2);
-    return (actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
-            actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
-  }  // does_vertex_radius_match_timevalue
-
-  /// @brief Checks if vertex timevalue is correct
-  /// @param t_vertex The vertex to check
-  /// @return True if vertex->info() equals expected_timevalue()
-  [[nodiscard]] auto is_vertex_timevalue_correct(
-      Vertex_handle const& t_vertex) const -> bool
-  {
-    auto e_timevalue = this->expected_timevalue(t_vertex);
-#ifndef NDEBUG
-    fmt::print("Vertex ({}) with info() {}: expected timevalue {}\n",
-               t_vertex->point(), t_vertex->info(), e_timevalue);
-#endif
-    return e_timevalue == t_vertex->info();
-  }  // is_vertex_timevalue_correct
-
-  /// @brief Calculates the expected radial distance of a vertex given its
-  /// timevalue
-  ///
-  /// The formula for the radius is:
-  ///
-  /// \f[R=I+S(t-1)\f]
-  ///
-  /// Where I is INITIAL_RADIUS, S is RADIAL_SEPARATION, and t is timevalue
-  ///
-  /// @param t_vertex The vertex to check
-  /// @return The expected radial distance of the vertex of that timevalue
-  [[nodiscard]] auto expected_radius(Vertex_handle const& t_vertex) const
-      -> double
-  {
-    auto timevalue = t_vertex->info();
-    return m_initial_radius + m_radial_separation * (timevalue - 1);
-  }  // expected_radial_distance
-
-  /// @brief Calculate the squared radius from the origin
-  /// @param t_vertex The vertex to check
-  /// @return The squared radial distance of the vertex
-  [[nodiscard]] static auto squared_radius(Vertex_handle const& t_vertex)
-      -> double
-  {
-    auto             origin = Point(0, 0, 0);
-    squared_distance r2;
-    return r2(t_vertex->point(), origin);
-  }  // squared_radius
-
-  /// @brief Calculate the expected timevalue for a vertex
-  ///
-  /// The formula for the expected timevalue is:
-  ///
-  /// \f[t=\frac{R-I+S}{S}\f]
-  ///
-  /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
-  ///
-  ///
-  /// @param t_vertex The vertex to check
-  /// @return The expected timevalue of the vertex
-  [[nodiscard]] auto expected_timevalue(Vertex_handle const& t_vertex) const
-      -> int
-  {
-    auto radius                = std::sqrt(squared_radius(t_vertex));
-    return static_cast<Int_precision>(
-        std::lround((radius - m_initial_radius + m_radial_separation) /
-                    m_radial_separation));
-  }  // expected_timevalue
 
  private:
   /// @brief Make a Delaunay Triangulation
