@@ -8,6 +8,7 @@
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
 [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
+[![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
 
 **Quantize spacetime on your laptop.**
 
@@ -344,7 +345,11 @@ Optional:
 
 ## Upstream issues
 
-[vcpkg] after 2021-01-22 breaks the [CGAL] package (issue [#15881]), so do not update [vcpkg] in [AppVeyor], [Github Actions], [LGTM], or [Travis-CI],.
+[vcpkg] after 2021-01-22 breaks the [CGAL] package (issue [#15956]), so do not update [vcpkg] in [AppVeyor], [Github Actions], [LGTM], or [Travis-CI],.
+
+[Eigen] does not work for c++20 and MSVC 2019 (issue [#1894]).
+
+[CLion] skips debugger breakpoints (issue [CPP-20158]).
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
@@ -431,4 +436,7 @@ Optional:
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
 [PVS-Studio]: https://www.viva64.com/en/pvs-studio/
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
-[#15881]: https://github.com/microsoft/vcpkg/issues/15881
+[#15956]: https://github.com/microsoft/vcpkg/issues/15956
+[#1894]: https://gitlab.com/libeigen/eigen/-/issues/1894
+[CLion]: https://www.jetbrains.com/clion/
+[CPP-20158]: https://youtrack.jetbrains.com/issue/CPP-20158

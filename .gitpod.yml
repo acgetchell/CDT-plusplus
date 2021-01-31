@@ -1,0 +1,8 @@
+image: acgetchell/cdt-image
+
+tasks:
+  - init: >
+      mkdir build &&
+      cd build &&
+      cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake .. &&
+      cmake --build .
