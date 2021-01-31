@@ -69,7 +69,7 @@ $(function() {
 <div class="title">CDT-plusplus </div>  </div>
 </div><!--header-->
 <div class="contents">
-<div class="textblock"><p><a href="https://travis-ci.com/acgetchell/CDT-plusplus"></a> <a href="https://ci.appveyor.com/project/acgetchell/cdt-plusplus"></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions"></a> <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp"></a> <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python"></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"></a> <a href="https://github.com/acgetchell/CDT-plusplus/issues"></a> <a href="https://gitter.im/acgetchell/CDT-plusplus"></a></p>
+<div class="textblock"><p><a href="https://travis-ci.com/acgetchell/CDT-plusplus"></a> <a href="https://ci.appveyor.com/project/acgetchell/cdt-plusplus"></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions"></a> <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp"></a> <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python"></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"></a> <a href="https://github.com/acgetchell/CDT-plusplus/issues"></a> <a href="https://gitter.im/acgetchell/CDT-plusplus"></a> <a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"></a></p>
 <p><b>Quantize spacetime on your laptop.</b></p>
 <div class="image">
 <img src="t8-v68-s298.png" alt="t8-v68-s298.png"/>
@@ -113,8 +113,8 @@ Small foliated Delaunay triangulation</div></div>
 <li>[ ] Complete documentation</li>
 <li>[ ] Quantize Spacetime!</li>
 </ul>
-<p>If you just want to run a stable version of the code, grab a versioned <a href="https://github.com/acgetchell/CDT-plusplus/releases">release</a>.</p>
-<p>Otherwise, you can clone the repo as follows:</p>
+<p><a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"></a></p>
+<p>Otherwise, you can clone the repo:</p>
 <div class="fragment"><div class="line">git clone https://github.com/acgetchell/CDT-plusplus.git</div></div><!-- fragment --><p>This will put you on the <a href="https://github.com/acgetchell/CDT-plusplus">development</a> branch. The project is organized similar to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
@@ -179,11 +179,13 @@ Small foliated Delaunay triangulation</div></div>
 <li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
 <li><a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
 </ul>
-<p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> after 2021-01-22 breaks the <a href="https://www.cgal.org">CGAL</a> package (issue <a href="https://github.com/microsoft/vcpkg/issues/15881">#15881</a>), so do not update <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> in <a href="https://www.appveyor.com">AppVeyor</a>, <a href="https://github.com/features/actions">Github Actions</a>, <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a>, or <a href="https://travis-ci.com/getting_started">Travis-CI</a>,. </p>
+<p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> after 2021-01-22 breaks the <a href="https://www.cgal.org">CGAL</a> package (issue <a href="https://github.com/microsoft/vcpkg/issues/15956">#15956</a>), so do not update <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> in <a href="https://www.appveyor.com">AppVeyor</a>, <a href="https://github.com/features/actions">Github Actions</a>, <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a>, or <a href="https://travis-ci.com/getting_started">Travis-CI</a>,.</p>
+<p><a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> does not work for c++20 and MSVC 2019 (issue <a href="https://gitlab.com/libeigen/eigen/-/issues/1894">#1894</a>).</p>
+<p><a href="https://www.jetbrains.com/clion/">CLion</a> skips debugger breakpoints (issue <a href="https://youtrack.jetbrains.com/issue/CPP-20158">CPP-20158</a>). </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jan 30 2021 02:52:49 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 31 2021 08:39:46 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

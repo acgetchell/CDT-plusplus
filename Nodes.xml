@@ -11,7 +11,7 @@
         <Subnodes>
           <Subnodes>
            <Node>
-            <Name>Getting Started</Name>
+            <Name>Quickstart</Name>
             <Path>index.html</Path>
             <Anchor>autotoc_md1</Anchor>
             <Subnodes>
@@ -21,7 +21,7 @@
               <Anchor>autotoc_md2</Anchor>
              </Node>
              <Node>
-              <Name>Building</Name>
+              <Name>Build</Name>
               <Path>index.html</Path>
               <Anchor>autotoc_md3</Anchor>
              </Node>
@@ -70,7 +70,7 @@
             <Anchor>autotoc_md11</Anchor>
            </Node>
            <Node>
-            <Name>Upstream issues</Name>
+            <Name>Issues</Name>
             <Path>index.html</Path>
             <Anchor>autotoc_md12</Anchor>
            </Node>
