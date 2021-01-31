@@ -64,11 +64,13 @@ The goals and targets of this project are:
 - [ ] Complete documentation
 - [ ] Quantize Spacetime!
 
-## Getting Started
+## Quickstart
 
-If you just want to run a stable version of the code, grab a versioned [release].
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
 
-Otherwise, you can clone the repo as follows:
+### Setup
+
+Otherwise, you can clone the repo:
 
 ~~~
 git clone https://github.com/acgetchell/CDT-plusplus.git
@@ -85,8 +87,6 @@ This will put you on the [development] branch. The project is organized similar 
 - scripts - Build, test, and run scripts
 - src - Source files
 - tests - Unit tests
-
-### Setup
 
 Install [vcpkg]:
 
@@ -142,7 +142,7 @@ you've installed [vcpkg], (e.g. your home directory):
 This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-10], and [Visual Studio 2019].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
-### Building
+### Build
 
 If you want to get started right away, in the `scripts` directory run `fast-build.sh` or `fast-build.bat`,
 depending on your operating system. This will compile the appropriate executables in `RELEASE` mode with no tests.
@@ -343,7 +343,7 @@ Optional:
 
 - [PVS-Studio] using [pvs-studio.sh] if you have it installed
 
-## Upstream issues
+## Issues
 
 [vcpkg] after 2021-01-22 breaks the [CGAL] package (issue [#15956]), so do not update [vcpkg] in [AppVeyor], [Github Actions], [LGTM], or [Travis-CI],.
 
@@ -364,7 +364,6 @@ Optional:
 [literate programming]: http://www.literateprogramming.com
 [Doxygen]: http://www.doxygen.org
 [Homebrew]: https://brew.sh
-[release]: https://github.com/acgetchell/CDT-plusplus/releases
 [Ninja]: https://ninja-build.org
 [Docopt]: https://github.com/docopt/docopt.cpp
 [Mathjax]: https://www.mathjax.org
