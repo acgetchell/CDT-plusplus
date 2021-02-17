@@ -2,7 +2,9 @@ image: acgetchell/cdt-image
 
 tasks:
   - init: >
+      VCPKG_ROOT="/opt/vcpkg" &&
+      export VCPKG_ROOT &&
       mkdir build &&
       cd build &&
-      cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=/opt/vcpkg/scripts/buildsystems/vcpkg.cmake .. &&
+      cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake .. &&
       cmake --build .

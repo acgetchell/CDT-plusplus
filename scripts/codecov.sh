@@ -1,9 +1,13 @@
 #!/usr/bin/env bash
+
+# Before running this script, make sure $VCPKG_ROOT is set, e.g.
+# VCPKG_ROOT="$HOME"/vcpkg && export VCPKG_ROOT
+
 cd ..
 rm -rf build
 mkdir build
 cd build || exit
-cmake -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE="$HOME"/vcpkg/scripts/buildsystems/vcpkg.cmake --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake ..
+cmake -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake ..
 cmake --build . --config Debug
 pwd
 ctest --schedule-random -V

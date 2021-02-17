@@ -13,7 +13,7 @@
 
 using namespace std;
 
-SCENARIO("Various string/stream/time utilities", "[utility]")
+SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
 {
   GIVEN("A topology_type")
   {
@@ -48,10 +48,10 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       // Set OS type to Windows so we know the hostname
       THEN("The output is correct.")
       {
-        CHECK_THAT(result, Catch::Contains("hapkido") ||
-                               Catch::Contains("travis") ||
-                               Catch::Contains("dewitt") ||
-                               Catch::Contains("windows"));
+        CHECK_THAT(result,
+                   Catch::Contains("hapkido") || Catch::Contains("travis") ||
+                       Catch::Contains("dewitt") ||
+                       Catch::Contains("windows") || Catch::Contains("ws"));
       }
     }
     WHEN("The current time is requested.")
