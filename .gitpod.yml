@@ -5,7 +5,5 @@ tasks:
       VCPKG_ROOT="/opt/vcpkg" &&
       export VCPKG_ROOT &&
       eval $(gp env -e VCPKG_ROOT=/opt/vcpkg) &&
-      mkdir build &&
-      cd build &&
-      cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake .. &&
-      cmake --build .
+      cd scripts &&
+      ./fast-build.sh
