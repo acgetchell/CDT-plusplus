@@ -15,12 +15,11 @@ jobs:
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt update
-        sudo apt-get install yasm ninja-build g++-10 ccache
+        sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache
+        update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
         export CXX="g++-10" CC="gcc-10"
         cd $VCPKG_INSTALLATION_ROOT
-        git reset --hard
         git pull --no-rebase
-        git checkout e4ce66e
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
         vcpkg install catch2 docopt date fmt ms-gsl eigen3 pcg tbb cgal
@@ -33,7 +32,6 @@ jobs:
         mkdir build
         cd build
         export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
-        export CXX="g++-10" CC="gcc-10"
         cmake $VCPKG_ARG -G "Ninja" -D ENABLE_CCACHE:BOOL=FALSE -D CMAKE_BUILD_TYPE=Debug ..
         cmake --build .
     - name: Test
