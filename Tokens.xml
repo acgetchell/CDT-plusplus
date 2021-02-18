@@ -709,7 +709,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a411884dbafb69ebcae8a240adeaba64c</Anchor>
+    <Anchor>ae07db1e6fb52c04efe6161afd5f84a1a</Anchor>
     <Abstract>Generate useful filenames. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -770,17 +770,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>getEnvVar</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_utilities_8hpp.html</Path>
-    <Anchor>a82c34ba5f64e435bebdeaca8c816b79d</Anchor>
-    <Abstract>Return an environment variable. </Abstract>
-    <DeclaredIn>Utilities.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>Gmpzf_to_double</Name>
       <APILanguage>c</APILanguage>
       <Type>func</Type>
@@ -788,17 +777,6 @@
     <Path>_utilities_8hpp.html</Path>
     <Anchor>a3aa36684c5b956a9a2ae0d339288325c</Anchor>
     <Abstract>Convert Gmpzf into a double. </Abstract>
-    <DeclaredIn>Utilities.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
-      <Name>hostname</Name>
-      <APILanguage>c</APILanguage>
-      <Type>func</Type>
-    </TokenIdentifier>
-    <Path>_utilities_8hpp.html</Path>
-    <Anchor>a122ef5761ce661bcaae0fdadf0ac5f7a</Anchor>
-    <Abstract>Return the hostname. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -885,7 +863,7 @@
       <Type>func</Type>
     </TokenIdentifier>
     <Path>_utilities_8hpp.html</Path>
-    <Anchor>a16196320ad1e1415f764aa8720cd6d23</Anchor>
+    <Anchor>a4a15c6b0443947a62bbd350e0446c459</Anchor>
     <Abstract>Writes the runtime results to a file. </Abstract>
     <DeclaredIn>Utilities.hpp</DeclaredIn>
   </Token>
@@ -1123,7 +1101,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>afe9f5b696e0e1eec836e59a93acb85da</Anchor>
+    <Anchor>a355efb90893f6f3cdff753428a6668a2</Anchor>
     <Abstract>Constructor with parameters. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1135,7 +1113,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>aeb7c8c27f641fd9fc81534ff13ee966b</Anchor>
+    <Anchor>a95123b6522d0670fe4f1445de45990c7</Anchor>
     <Abstract>Constructor from Causal_vertices. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1288,6 +1266,17 @@
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>abfc040ccfd1ecab17e4029868d127dd5</Anchor>
     <Abstract>Call one of the TSD3.flip functions. </Abstract>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>foliation_spacing</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>aea9e228a8650fc3a342bb4c75824a771</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1664,17 +1653,6 @@
   </Token>
   <Token>
     <TokenIdentifier>
-      <Name>radial_separation</Name>
-      <APILanguage>cpp</APILanguage>
-      <Type>instm</Type>
-      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
-    </TokenIdentifier>
-    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a403cd66775baf00489c3495f46ee2b5b</Anchor>
-    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
-  </Token>
-  <Token>
-    <TokenIdentifier>
       <Name>check_cells</Name>
       <APILanguage>cpp</APILanguage>
       <Type>clm</Type>
@@ -1809,7 +1787,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a32f17cd3d5d3391bff9ee8febbfe4ca5</Anchor>
+    <Anchor>a95e2339baf8f518fdbe9289598454919</Anchor>
     <Abstract>Make a Delaunay Triangulation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -1857,7 +1835,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>aa1fb2ac590b77a0a8be5595979131c87</Anchor>
+    <Anchor>a9abf33f5bbddd52a8113f08c78dccd76</Anchor>
     <Abstract>Make foliated spheres. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
@@ -2494,7 +2472,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a7b061086c8fedc943a15572031f303cf</Anchor>
+    <Anchor>ae6683237973b98544f6d7a78ffc9c0bd</Anchor>
     <Abstract>Construct manifold using arguments. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>
@@ -2506,7 +2484,7 @@
       <Scope>Manifold&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_manifold_3_013_01_4.html</Path>
-    <Anchor>a02f9e6ee1b741c3257ef736205927368</Anchor>
+    <Anchor>a58bf722d416b5eedee6ddfa7e1e5d958</Anchor>
     <Abstract>Construct manifold from Causal_vertices Pass-by-value-then-move. </Abstract>
     <DeclaredIn>Manifold.hpp</DeclaredIn>
   </Token>

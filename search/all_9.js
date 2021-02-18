@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['k',['K',['../class_metropolis.html#a35b56e5aa10d17c18741686dffc802bd',1,'Metropolis']]],
-  ['k_5f',['K_',['../class_metropolis.html#afd5327e9b9e25afea0b1df405bfd92f0',1,'Metropolis']]],
-  ['kd',['Kd',['../_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943',1,'Kd():&#160;Periodic_3_triangulations.hpp'],['../_sphere__d_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943',1,'Kd():&#160;Sphere_d.hpp']]]
+  ['lambda',['Lambda',['../class_metropolis.html#a2653e63049a30ac21e96a01fa246cd57',1,'Metropolis']]],
+  ['lambda_5f',['Lambda_',['../class_metropolis.html#a0e607efa296c45c2f7611d19857871e9',1,'Metropolis']]],
+  ['license',['LICENSE',['../md__l_i_c_e_n_s_e.html',1,'']]]
 ];

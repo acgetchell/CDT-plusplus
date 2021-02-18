@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['k',['K',['../class_metropolis.html#a35b56e5aa10d17c18741686dffc802bd',1,'Metropolis']]]
+  ['lambda',['Lambda',['../class_metropolis.html#a2653e63049a30ac21e96a01fa246cd57',1,'Metropolis']]]
 ];
