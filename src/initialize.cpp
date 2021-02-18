@@ -76,8 +76,8 @@ try
   fmt::print("Number of desired timeslices = {}\n", timeslices);
   fmt::print("Initial radius = {}\n", initial_radius);
   fmt::print("Foliation spacing = {}\n", foliation_spacing);
-  fmt::print("User = {}\n", getEnvVar("USER"));
-  fmt::print("Hostname = {}\n", hostname());
+  //  fmt::print("User = {}\n", getEnvVar("USER"));
+  //  fmt::print("Hostname = {}\n", hostname());
   if (save_file) { fmt::print("Output will be saved.\n"); }
 
   if (simplices < 2 || timeslices < 2)
@@ -112,7 +112,8 @@ try
   {
     write_file(universe, topology, static_cast<Int_precision>(dimensions),
                static_cast<Int_precision>(universe.N3()),
-               static_cast<Int_precision>(timeslices));
+               static_cast<Int_precision>(timeslices), initial_radius,
+               foliation_spacing);
   }
   return 0;
 }

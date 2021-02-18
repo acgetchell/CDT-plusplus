@@ -39,7 +39,7 @@ static inline Int_precision constexpr PRECISION = 256;
 
 /// Default foliated triangulation spacings
 static inline double constexpr INITIAL_RADIUS    = 1.0;
-static inline double constexpr RADIAL_SEPARATION = 1.0;
+static inline double constexpr FOLIATION_SPACING = 1.0;
 
 /// Sets epsilon values for floating point comparisons
 static inline double constexpr TOLERANCE = 0.01;

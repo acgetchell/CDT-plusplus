@@ -211,9 +211,9 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     constexpr auto         desired_simplices  = static_cast<Int_precision>(2);
     constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
     constexpr auto         initial_radius     = 3.0;
-    constexpr auto         radial_separation  = 2.0;
+    constexpr auto         foliation_spacing  = 2.0;
     FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
-                              initial_radius, radial_separation);
+                              initial_radius, foliation_spacing);
     THEN("The triangulation is initialized correctly.")
     {
       REQUIRE(ft.is_initialized());
@@ -221,7 +221,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     THEN("The initial radius and radial separation are correct.")
     {
       REQUIRE(ft.initial_radius() == initial_radius);
-      REQUIRE(ft.radial_separation() == radial_separation);
+      REQUIRE(ft.foliation_spacing() == foliation_spacing);
     }
     THEN("Each vertex has a valid timevalue.")
     {
@@ -254,7 +254,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(ft.max_time() == 0);
         REQUIRE(ft.min_time() == 0);
         REQUIRE(ft.initial_radius() == INITIAL_RADIUS);
-        REQUIRE(ft.radial_separation() == RADIAL_SEPARATION);
+        REQUIRE(ft.foliation_spacing() == FOLIATION_SPACING);
       }
     }
     WHEN(
@@ -283,7 +283,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         REQUIRE(ft.max_time() == 2);
         REQUIRE(ft.min_time() == 1);
         REQUIRE(ft.initial_radius() == INITIAL_RADIUS);
-        REQUIRE(ft.radial_separation() == RADIAL_SEPARATION);
+        REQUIRE(ft.foliation_spacing() == FOLIATION_SPACING);
         REQUIRE(ft.is_foliated());
         // Human verification
         ft.print_cells();
@@ -351,7 +351,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       THEN("The initial radius and radial separation are correct.")
       {
         REQUIRE(ft.initial_radius() == initial_radius);
-        REQUIRE(ft.radial_separation() == radial_factor);
+        REQUIRE(ft.foliation_spacing() == radial_factor);
       }
     }
     WHEN(

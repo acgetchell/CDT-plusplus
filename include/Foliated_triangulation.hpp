@@ -102,7 +102,7 @@ class FoliatedTriangulation<3>  // NOLINT
   Int_precision                       m_max_timevalue{0};
   Int_precision                       m_min_timevalue{0};
   double                              m_initial_radius{INITIAL_RADIUS};
-  double                              m_radial_separation{RADIAL_SEPARATION};
+  double                              m_foliation_spacing{FOLIATION_SPACING};
 
  public:
   /// @brief Default dtor
@@ -162,7 +162,7 @@ class FoliatedTriangulation<3>  // NOLINT
     swap(swap_from.m_max_timevalue, swap_into.m_max_timevalue);
     swap(swap_from.m_min_timevalue, swap_into.m_min_timevalue);
     swap(swap_from.m_initial_radius, swap_into.m_initial_radius);
-    swap(swap_from.m_radial_separation, swap_into.m_radial_separation);
+    swap(swap_from.m_foliation_spacing, swap_into.m_foliation_spacing);
   }  // swap
 
   /// @brief Constructor using delaunay triangulation
@@ -189,13 +189,13 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @param t_simplices Number of desired simplices
   /// @param t_timeslices Number of desired timeslices
   /// @param t_initial_radius Radius of first timeslice
-  /// @param t_radial_separation Radial separation between timeslices
+  /// @param t_foliation_spacing Radial separation between timeslices
   [[maybe_unused]] FoliatedTriangulation(
       Int_precision const t_simplices, Int_precision const t_timeslices,
       double const t_initial_radius    = INITIAL_RADIUS,
-      double const t_radial_separation = RADIAL_SEPARATION)
+      double const t_foliation_spacing = FOLIATION_SPACING)
       : m_triangulation{make_triangulation(
-            t_simplices, t_timeslices, t_initial_radius, t_radial_separation)}
+            t_simplices, t_timeslices, t_initial_radius, t_foliation_spacing)}
       , m_cells{classify_cells(collect_cells())}
       , m_three_one{filter_cells(m_cells, Cell_type::THREE_ONE)}
       , m_two_two{filter_cells(m_cells, Cell_type::TWO_TWO)}
@@ -209,14 +209,14 @@ class FoliatedTriangulation<3>  // NOLINT
       , m_max_timevalue{find_max_timevalue(m_points)}
       , m_min_timevalue{find_min_timevalue(m_points)}
       , m_initial_radius{t_initial_radius}
-      , m_radial_separation{t_radial_separation}
+      , m_foliation_spacing{t_foliation_spacing}
   {}
 
   /// @brief Constructor from Causal_vertices
   /// @param cv Causal_vertices to place into the FoliatedTriangulation
   explicit FoliatedTriangulation(
       Causal_vertices cv, double const t_initial_radius = INITIAL_RADIUS,
-      double const t_radial_separation = RADIAL_SEPARATION)
+      double const t_foliation_spacing = FOLIATION_SPACING)
       : m_triangulation{Delaunay3(cv.begin(), cv.end())}
       , m_cells{classify_cells(collect_cells())}
       , m_three_one{filter_cells(m_cells, Cell_type::THREE_ONE)}
@@ -231,7 +231,7 @@ class FoliatedTriangulation<3>  // NOLINT
       , m_max_timevalue{find_max_timevalue(m_points)}
       , m_min_timevalue{find_min_timevalue(m_points)}
       , m_initial_radius{t_initial_radius}
-      , m_radial_separation{t_radial_separation}
+      , m_foliation_spacing{t_foliation_spacing}
   {}
 
   /// @brief Verifies the triangulation is properly foliated
@@ -395,7 +395,7 @@ class FoliatedTriangulation<3>  // NOLINT
   [[nodiscard]] auto initial_radius() const { return m_initial_radius; }
 
   /// @return The spacing between timeslices
-  [[nodiscard]] auto radial_separation() const { return m_radial_separation; }
+  [[nodiscard]] auto foliation_spacing() const { return m_foliation_spacing; }
 
   /// @brief See
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcabcebd22f2fe
@@ -485,7 +485,7 @@ class FoliatedTriangulation<3>  // NOLINT
       -> double
   {
     auto timevalue = t_vertex->info();
-    return m_initial_radius + m_radial_separation * (timevalue - 1);
+    return m_initial_radius + m_foliation_spacing * (timevalue - 1);
   }  // expected_radial_distance
 
   /// @brief Calculate the squared radius from the origin
@@ -515,8 +515,8 @@ class FoliatedTriangulation<3>  // NOLINT
   {
     auto radius = std::sqrt(squared_radius(t_vertex));
     return static_cast<Int_precision>(
-        std::lround((radius - m_initial_radius + m_radial_separation) /
-                    m_radial_separation));
+        std::lround((radius - m_initial_radius + m_foliation_spacing) /
+                    m_foliation_spacing));
   }  // expected_timevalue
 
   /// @return True if all vertices have correct timevalues
@@ -768,12 +768,12 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @param t_simplices Number of desired simplices
   /// @param t_timeslices Number of desired timeslices
   /// @param initial_radius Radius of first timeslice
-  /// @param radial_separation Radial separation between timeslices
+  /// @param foliation_spacing Radial separation between timeslices
   /// @return A Delaunay Triangulation
   [[nodiscard]] auto make_triangulation(
       Int_precision const t_simplices, Int_precision const t_timeslices,
       double const initial_radius    = INITIAL_RADIUS,
-      double const radial_separation = RADIAL_SEPARATION) -> Delaunay3
+      double const foliation_spacing = FOLIATION_SPACING) -> Delaunay3
   {
     fmt::print("Generating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
@@ -790,7 +790,7 @@ class FoliatedTriangulation<3>  // NOLINT
 #endif
 
     auto causal_vertices = make_foliated_sphere(
-        t_simplices, t_timeslices, initial_radius, radial_separation);
+        t_simplices, t_timeslices, initial_radius, foliation_spacing);
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
     int passes = 1;
     while (!fix_timeslices(triangulation))
@@ -809,12 +809,12 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @param t_simplices The desired number of simplices in the triangulation
   /// @param t_timeslices The desired number of timeslices in the triangulation
   /// @param initial_radius The radius of the first time slice
-  /// @param radial_separation The distance between successive time slices
+  /// @param foliation_spacing The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   [[nodiscard]] static auto make_foliated_sphere(
       Int_precision const t_simplices, Int_precision const t_timeslices,
       double const initial_radius    = INITIAL_RADIUS,
-      double const radial_separation = RADIAL_SEPARATION) -> Causal_vertices
+      double const foliation_spacing = FOLIATION_SPACING) -> Causal_vertices
   {
     Causal_vertices causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
@@ -825,7 +825,7 @@ class FoliatedTriangulation<3>  // NOLINT
     using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
     for (gsl::index i = 0; i < t_timeslices; ++i)
     {
-      auto radius = initial_radius + static_cast<double>(i) * radial_separation;
+      auto radius = initial_radius + static_cast<double>(i) * foliation_spacing;
       Spherical_points_generator gen{static_cast<double>(radius)};
       // Generate random points at the radius
       for (gsl::index j = 0;

@@ -32,28 +32,31 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
   }
   GIVEN("A running environment")
   {
-    WHEN("The user is requested.")
-    {
-      auto const& result = getEnvVar("USER");
-      THEN("The output is correct.")
-      {
-        // Enter your own USER environment variable here
-        CHECK_THAT(result, Catch::Equals("adam") || Catch::Equals("travis") ||
-                               Catch::Equals("user"));
-      }
-    }
-    auto const result = hostname();
-    WHEN("The hostname is requested.")
-    {
-      // Set OS type to Windows so we know the hostname
-      THEN("The output is correct.")
-      {
-        CHECK_THAT(result,
-                   Catch::Contains("hapkido") || Catch::Contains("travis") ||
-                       Catch::Contains("dewitt") ||
-                       Catch::Contains("windows") || Catch::Contains("ws"));
-      }
-    }
+    //    WHEN("The user is requested.")
+    //    {
+    //      auto const& result = getEnvVar("USER");
+    //      THEN("The output is correct.")
+    //      {
+    //        // Enter your own USER environment variable here
+    //        CHECK_THAT(result, Catch::Equals("adam") ||
+    //        Catch::Equals("travis") ||
+    //                               Catch::Equals("user"));
+    //      }
+    //    }
+    //    auto const result = hostname();
+    //    WHEN("The hostname is requested.")
+    //    {
+    //      // Set OS type to Windows so we know the hostname
+    //      THEN("The output is correct.")
+    //      {
+    //        CHECK_THAT(result,
+    //                   Catch::Contains("hapkido") || Catch::Contains("travis")
+    //                   ||
+    //                       Catch::Contains("dewitt") ||
+    //                       Catch::Contains("windows") ||
+    //                       Catch::Contains("ws"));
+    //      }
+    //    }
     WHEN("The current time is requested.")
     {
       THEN("The output is correct.")
@@ -71,12 +74,13 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       auto constexpr simplices     = static_cast<Int_precision>(6700);
       auto constexpr timeslices    = static_cast<Int_precision>(16);
       auto const filename =
-          generate_filename(this_topology, dimensions, simplices, timeslices);
+          generate_filename(this_topology, dimensions, simplices, timeslices,
+                            INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,
                    Catch::Contains("S3") && Catch::Contains("16") &&
-                       Catch::Contains("6700") && Catch::Contains("@") &&
+                       Catch::Contains("6700") && Catch::Contains("1.0") &&
                        Catch::Contains("2021") && Catch::Contains("off"));
         // Human verification
         fmt::print("Filename is: {}\n", filename);

@@ -61,14 +61,14 @@ class Manifold<3>
   /// @param t_desired_simplices Number of desired simplices
   /// @param t_desired_timeslices Number of desired timeslices
   /// @param t_initial_radius Radius of first timeslice
-  /// @param t_radial_factor Radial separation between timeslices
+  /// @param t_foliation_spacing Radial separation between timeslices
   Manifold(Int_precision t_desired_simplices,
            Int_precision t_desired_timeslices,
-           double        t_initial_radius = INITIAL_RADIUS,
-           double        t_radial_factor  = RADIAL_SEPARATION)
+           double        t_initial_radius    = INITIAL_RADIUS,
+           double        t_foliation_spacing = FOLIATION_SPACING)
       : m_triangulation{FoliatedTriangulation3(
             t_desired_simplices, t_desired_timeslices, t_initial_radius,
-            t_radial_factor)}
+            t_foliation_spacing)}
       , m_geometry{get_triangulation()}
   {}
 
@@ -76,12 +76,12 @@ class Manifold<3>
   /// Pass-by-value-then-move.
   /// @param cv Causal_vertices to place into the Manifold
   /// @param t_initial_radius Radius of first timeslice
-  /// @param t_radial_separation Radial separation between timeslices
+  /// @param t_foliation_spacing Radial separation between timeslices
   explicit Manifold(Causal_vertices cv,
                     double const    t_initial_radius    = INITIAL_RADIUS,
-                    double const    t_radial_separation = RADIAL_SEPARATION)
+                    double const    t_foliation_spacing = FOLIATION_SPACING)
       : m_triangulation{FoliatedTriangulation3(std::move(cv), t_initial_radius,
-                                               t_radial_separation)}
+                                               t_foliation_spacing)}
       , m_geometry{get_triangulation()}
   {}
 

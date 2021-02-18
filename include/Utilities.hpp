@@ -79,43 +79,43 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
   }
 }
 
-/// @brief Return an environment variable
-///
-/// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
-///
-/// @param t_key The string value
-/// @return The environment variable corresponding to the key
-[[nodiscard]] inline auto getEnvVar(std::string const& t_key) noexcept
-{
-#ifndef _WIN32
-  char const* val = getenv(t_key.c_str());
-  val == nullptr ? std::string() : std::string(val);
-#else
-  auto              val = "user";
-#endif
-  return val;
-}
-
-/// @brief Return the hostname
-///
-/// Uses utsname.h, which isn't present in Windows
-/// (easily) so just default to "windows" on that platform.
-///
-/// @return The hostname
-[[nodiscard]] inline auto hostname() noexcept -> std::string
-{
-#ifndef _WIN32
-  struct utsname name
-  {
-  };
-  // Ensure uname returns a value
-  if (uname(&name) != 0) { exit(-1); }
-  return name.nodename;
-#else
-  std::string const hostname("windows");
-  return hostname;
-#endif
-}
+///// @brief Return an environment variable
+/////
+///// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
+/////
+///// @param t_key The string value
+///// @return The environment variable corresponding to the key
+//[[nodiscard]] inline auto getEnvVar(std::string const& t_key) noexcept
+//{
+//#ifndef _WIN32
+//  char const* val = getenv(t_key.c_str());
+//  val == nullptr ? std::string() : std::string(val);
+//#else
+//  auto              val = "user";
+//#endif
+//  return val;
+//}
+//
+///// @brief Return the hostname
+/////
+///// Uses utsname.h, which isn't present in Windows
+///// (easily) so just default to "windows" on that platform.
+/////
+///// @return The hostname
+//[[nodiscard]] inline auto hostname() noexcept -> std::string
+//{
+//#ifndef _WIN32
+//  struct utsname name
+//  {
+//  };
+//  // Ensure uname returns a value
+//  if (uname(&name) != 0) { exit(-1); }
+//  return name.nodename;
+//#else
+//  std::string const hostname("windows");
+//  return hostname;
+//#endif
+//}
 
 /// @brief Return current date and time
 ///
@@ -136,11 +136,14 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 /// @param t_dimension The dimensionality of the triangulation
 /// @param t_number_of_simplices The number of simplices in the triangulation
 /// @param t_number_of_timeslices The number of time foliations
+/// @param t_initial_radius The radius of the first foliation t=1
+/// @param t_foliation_spacing The spacing between foliations
 /// @return A filename
 [[nodiscard]] inline auto generate_filename(
     topology_type const& t_topology, Int_precision const t_dimension,
     Int_precision const t_number_of_simplices,
-    Int_precision const t_number_of_timeslices) noexcept
+    Int_precision const t_number_of_timeslices, double const t_initial_radius,
+    double const t_foliation_spacing) noexcept
 {
   std::string filename;
   if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
@@ -159,13 +162,21 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 
   filename += std::to_string(t_number_of_simplices);
 
-  // Get user
-  filename += "-";
-  filename += getEnvVar("USER");
+  //  // Get user
+  //  filename += "-";
+  //  filename += getEnvVar("USER");
+  //
+  //  // Get machine name
+  //  filename += "@";
+  //  filename += hostname();
 
-  // Get machine name
-  filename += "@";
-  filename += hostname();
+  filename += "-I";
+
+  filename += std::to_string(t_initial_radius);
+
+  filename += "-R";
+
+  filename += std::to_string(t_foliation_spacing);
 
   // Append current time
   filename += "-";
@@ -288,19 +299,22 @@ catch (...)
 /// @param t_dimension The dimensionality of the triangulation
 /// @param t_number_of_simplices The number of simplices in the triangulation
 /// @param t_number_of_timeslices The number of foliated timeslices
-/// @todo Fix for Manifold3
+/// @param t_initial_radius The radius of the first foliation t=1
+/// @param t_foliation_spacing The spacing between foliations
 template <typename ManifoldType>
 void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
                 Int_precision const t_dimension,
                 Int_precision const t_number_of_simplices,
-                Int_precision const t_number_of_timeslices)
+                Int_precision const t_number_of_timeslices,
+                double const t_initial_radius, double const t_foliation_spacing)
 {
   // mutex to protect file access across threads
   static std::mutex mutex;
 
   std::string filename;
   filename.assign(generate_filename(
-      t_topology, t_dimension, t_number_of_simplices, t_number_of_timeslices));
+      t_topology, t_dimension, t_number_of_simplices, t_number_of_timeslices,
+      t_initial_radius, t_foliation_spacing));
   fmt::print("Writing to file {}\n", filename);
 
   std::lock_guard<std::mutex> lock(mutex);
