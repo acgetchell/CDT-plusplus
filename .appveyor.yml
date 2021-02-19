@@ -72,6 +72,8 @@ install:
   - vcpkg install eigen3
   - vcpkg install pcg
   - vcpkg install tbb
+  # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
+  - vcpkg install --recurse yasm-tool:x86-windows
   - vcpkg install cgal
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
