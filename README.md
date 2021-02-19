@@ -88,7 +88,20 @@ This will put you on the [development] branch. The project is organized similar 
 - src - Source files
 - tests - Unit tests
 
-Install [vcpkg]:
+The third-party libraries used in this project are managed by [vcpkg], and have the following dependencies:
+
+- autoconf
+- autoconf-archive
+- automake
+- libtool
+- texinfo
+- yasm
+
+(On Linux you may also need to install [m4].)
+
+Install these with your local package manager of choice, e.g. [Homebrew] or [apt].
+
+Next, install [vcpkg]:
 
 ```bash
 git clone https://github.com/Microsoft/vcpkg.git
@@ -97,49 +110,26 @@ cd vcpkg
 ./vcpkg integrate install
 ```
 
-Next, you will need to install up to date versions of [CMake] and [Ninja]. On non-Windows platforms, you will also need
-`yasm` so that `vcpkg` can install [mpir], which is required for [CGAL].
-
-MacOS using [homebrew]:
+[vcpkg] should be in your PATH, and for the scripts to run `VCPKG_ROOT` should be defined, e.g.:
 
 ```bash
-brew install cmake
-brew install ninja
-brew install yasm
+VCPKG_ROOT="$HOME"/vcpkg
+export VCPKG_ROOT
 ```
-Linux using [apt] (you may also need to install [m4]):
-```bash
-sudo apt-get install cmake
-sudo apt-get install ninja-build
-sudo apt-get install yasm
-sudo apt-get install m4
-```
-
-At minimum, you need to install prerequisites [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
-(which installs [boost], [mpir] and [mpfr]):
-
-```bash
-vcpkg install catch2
-vcpkg install docopt
-vcpkg install date
-vcpkg install fmt
-vcpkg install ms-gsl
-vcpkg install eigen3
-vcpkg install pcg
-vcpkg install tbb
-vcpkg install cgal
-```
-
-This builds from source, so it will take awhile. To use these successfully, you'll need to
+ONce this is done, you'll need to
 set the `CMAKE_TOOLCHAIN_FILE` option in your IDE or whatever invokes [CMake] to wherever
 you've installed [vcpkg], (e.g. your home directory):
 
 ```bash
--DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
+-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake
 ```
 ([Visual Studio 2019] sets this for you by default.)
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-10], and [Visual Studio 2019].
+Using the manifest mode, [vcpkg] will install the necessary libraries using `vcpkg.json`.
+
+The first build may be slow, but subsequent builds should using binary caching, and be much faster.
+
+This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-10], [clang-10], and [Visual Studio 2019].
 On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
 
 ### Build
@@ -149,7 +139,7 @@ depending on your operating system. This will compile the appropriate executable
 
 
 
-This should result in the main program executable, `cdt` in `build/bin` or `build\Debug`, along with several others.
+This should result in the main program executables, e.g. `cdt` in `build/src` or `build\Debug`, along with several others.
 
 - `cdt-gv` converts output files to [Geomview] format for [visualization](#visualization)
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
@@ -399,7 +389,7 @@ Optional:
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
 [clang-10]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html
-[gcc-9]: https://gcc.gnu.org/gcc-9/
+[gcc-10]: https://gcc.gnu.org/gcc-10/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
 [Geomview FAQ]: http://www.geomview.org/FAQ/answers.shtml
@@ -410,7 +400,6 @@ Optional:
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
 [apt]: https://wiki.debian.org/Apt
 [ms-gsl]: https://github.com/microsoft/GSL
-[mpir]: http://mpir.org/
 [MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
 [m4]: https://www.gnu.org/software/m4/
 [1]: https://github.com/microsoft/vcpkg/issues/9082
