@@ -56,7 +56,7 @@ install:
   # Update ports to known good version in vcpkg
   - git reset --hard
   - git pull
-  - git checkout e4ce66e
+  - git checkout 447b9cb
   # Update vcpkg
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
