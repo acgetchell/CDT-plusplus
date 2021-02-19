@@ -127,15 +127,26 @@ Small foliated Delaunay triangulation</div></div>
 <li>src - Source files</li>
 <li>tests - Unit tests</li>
 </ul>
-<p>Install [vcpkg]:</p>
-<div class="fragment"><div class="line">git clone https://github.com/Microsoft/vcpkg.git</div><div class="line">cd vcpkg</div><div class="line">./bootstrap-vcpkg.sh</div><div class="line">./vcpkg integrate install</div></div><!-- fragment --><p>Next, you will need to install up to date versions of <a href="https://www.cmake.org">CMake</a> and <a href="https://ninja-build.org">Ninja</a>. On non-Windows platforms, you will also need <code>yasm</code> so that <code>vcpkg</code> can install <a href="http://mpir.org/">mpir</a>, which is required for <a href="https://www.cgal.org">CGAL</a>.</p>
-<p>MacOS using [homebrew]:</p>
-<div class="fragment"><div class="line">brew install cmake</div><div class="line">brew install ninja</div><div class="line">brew install yasm</div></div><!-- fragment --><p> Linux using [apt] (you may also need to install <a href="https://www.gnu.org/software/m4/">m4</a>): </p><div class="fragment"><div class="line">sudo apt-get install cmake</div><div class="line">sudo apt-get install ninja-build</div><div class="line">sudo apt-get install yasm</div><div class="line">sudo apt-get install m4</div></div><!-- fragment --><p>At minimum, you need to install prerequisites https://github.com/catchorg/Catch2/blob/master/docs/Readme.md "Catch", <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://howardhinnant.github.io/date/date.html">date</a>, <a href="https://github.com/fmtlib/fmt">{fmt}</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="http://www.pcg-random.org/paper.html">PCG</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="http://mpir.org/">mpir</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
-<div class="fragment"><div class="line">vcpkg install catch2</div><div class="line">vcpkg install docopt</div><div class="line">vcpkg install date</div><div class="line">vcpkg install fmt</div><div class="line">vcpkg install ms-gsl</div><div class="line">vcpkg install eigen3</div><div class="line">vcpkg install pcg</div><div class="line">vcpkg install tbb</div><div class="line">vcpkg install cgal</div></div><!-- fragment --><p>This builds from source, so it will take awhile. To use these successfully, you'll need to set the <code>CMAKE_TOOLCHAIN_FILE</code> option in your IDE or whatever invokes <a href="https://www.cmake.org">CMake</a> to wherever you've installed <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, (e.g. your home directory):</p>
-<div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake</div></div><!-- fragment --><p> (<a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> sets this for you by default.)</p>
-<p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-9/">gcc-9</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
+<p>The third-party libraries used in this project are managed by <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, and have the following dependencies:</p>
+<ul>
+<li>autoconf</li>
+<li>autoconf-archive</li>
+<li>automake</li>
+<li>libtool</li>
+<li>texinfo</li>
+<li>yasm</li>
+</ul>
+<p>(On Linux you may also need to install <a href="https://www.gnu.org/software/m4/">m4</a>.)</p>
+<p>Install these with your local package manager of choice, e.g. <a href="https://brew.sh">Homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>.</p>
+<p>Next, install [vcpkg]:</p>
+<div class="fragment"><div class="line">git clone https://github.com/Microsoft/vcpkg.git</div><div class="line">cd vcpkg</div><div class="line">./bootstrap-vcpkg.sh</div><div class="line">./vcpkg integrate install</div></div><!-- fragment --><p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> should be in your PATH, and for the scripts to run <code>VCPKG_ROOT</code> should be defined, e.g.:</p>
+<div class="fragment"><div class="line">VCPKG_ROOT=&quot;$HOME&quot;/vcpkg</div><div class="line">export VCPKG_ROOT</div></div><!-- fragment --><p> ONce this is done, you'll need to set the <code>CMAKE_TOOLCHAIN_FILE</code> option in your IDE or whatever invokes <a href="https://www.cmake.org">CMake</a> to wherever you've installed <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, (e.g. your home directory):</p>
+<div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake</div></div><!-- fragment --><p> (<a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> sets this for you by default.)</p>
+<p>Using the manifest mode, <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> will install the necessary libraries using <code>vcpkg.json</code>.</p>
+<p>The first build may be slow, but subsequent builds should using binary caching, and be much faster.</p>
+<p>This project uses <a href="https://isocpp.org/">C++</a>17 features, and successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-10/">gcc-10</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>. On Ubuntu, you may need updated versions of <a href="https://clang.llvm.org">Clang</a> or <a href="https://gcc.gnu.org/">gcc</a>, and <a href="https://www.cmake.org">CMake</a>, which is scripted in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/.travis.yml">.travis.yml</a>.</p>
 <p>If you want to get started right away, in the <code>scripts</code> directory run <code>fast-build.sh</code> or <code>fast-build.bat</code>, depending on your operating system. This will compile the appropriate executables in <code>RELEASE</code> mode with no tests.</p>
-<p>This should result in the main program executable, <code>cdt</code> in <code>build/bin</code> or <code>build\Debug</code>, along with several others.</p>
+<p>This should result in the main program executables, e.g. <code>cdt</code> in <code>build/src</code> or <code>build\Debug</code>, along with several others.</p>
 <ul>
 <li><code>cdt-gv</code> converts output files to <a href="http://www.geomview.org/">Geomview</a> format for <a href="#visualization">visualization</a></li>
 <li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
@@ -185,7 +196,7 @@ Small foliated Delaunay triangulation</div></div>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Feb 18 2021 23:49:34 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Feb 19 2021 03:49:49 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
