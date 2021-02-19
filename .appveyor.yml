@@ -62,7 +62,7 @@ install:
   # Enable integration for Visual Studio/MSBuild
   - vcpkg integrate install
   - # The latest CGAL builds with gmp, which requires mpir be uninstalled
-    - vcpkg remove mpir --recurse
+  - vcpkg remove mpir --recurse
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
   - vcpkg install catch2
   - vcpkg install docopt
