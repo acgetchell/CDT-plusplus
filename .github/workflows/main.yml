@@ -8,8 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - uses: actions/checkout@v1
+    - uses: actions/checkout@v2
       with:
+        fetch-depth: 0
         submodules: true
     - name: Setup
       run: |
@@ -20,7 +21,6 @@ jobs:
         export CXX="g++-10" CC="gcc-10"
         cd $VCPKG_INSTALLATION_ROOT
         git reset --hard
-        git fetch
         git checkout e4ce66e
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
