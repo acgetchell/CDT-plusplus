@@ -265,7 +265,7 @@ install:
   # Pin to vcpkg version that doesn't break CGAL
   - git reset --hard
   - git pull origin master --no-rebase
-  - git checkout e4ce66e
+  - export VCPKG_FEATURE_FLAGS="-manifests"
   - ./bootstrap-vcpkg.sh
   - ./vcpkg integrate install
   - ./vcpkg install catch2

@@ -18,7 +18,7 @@ extraction:
         - cd vcpkg
         - git reset --hard
         - git pull --no-rebase
-        - git checkout e4ce66e
+        - export VCPKG_FEATURE_FLAGS="-manifests"
         - ./bootstrap-vcpkg.sh
         - ./vcpkg integrate install
         - ./vcpkg install catch2
