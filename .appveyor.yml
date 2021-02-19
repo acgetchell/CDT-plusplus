@@ -72,7 +72,7 @@ install:
   - vcpkg install tbb
   - vcpkg install cgal
   # Upgrade required libraries
-#  - vcpkg upgrade --no-dry-run
+  - vcpkg upgrade --no-dry-run
   - vcpkg list
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
