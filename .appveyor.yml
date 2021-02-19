@@ -72,7 +72,7 @@ install:
   - vcpkg install tbb
   - vcpkg install cgal
   # The latest CGAL builds with gmp, which requires mpir be uninstalled
-  - vcpkg remove mpir
+  - vcpkg remove mpir --recurse
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
   - vcpkg list
