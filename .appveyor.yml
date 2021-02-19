@@ -55,8 +55,8 @@ install:
   - cd c:\tools\vcpkg
   # Update ports to known good version in vcpkg
   - git reset --hard
-  - git pull --no-rebase
-  - set VCPKG_FATURE_FLAGS=-manifests
+  - git pull
+  - git checkout e4ce66e
   # Update vcpkg
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
