@@ -12,7 +12,6 @@ jobs:
       with:
         fetch-depth: 0
         submodules: true
-    - run: git checkout e4ce66e
     - name: Setup
       run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
@@ -22,6 +21,7 @@ jobs:
         export CXX="g++-10" CC="gcc-10"
         cd $VCPKG_INSTALLATION_ROOT
         git reset --hard
+        git pull --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
         vcpkg install catch2 docopt date fmt ms-gsl eigen3 pcg tbb cgal
