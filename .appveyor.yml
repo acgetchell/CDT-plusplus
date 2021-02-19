@@ -61,7 +61,7 @@ install:
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
   - vcpkg integrate install
-  # Install required libraries
+  # Install required libraries (these are often cached)
   - vcpkg install catch2
   - vcpkg install docopt
   - vcpkg install date
@@ -71,6 +71,8 @@ install:
   - vcpkg install pcg
   - vcpkg install tbb
   - vcpkg install cgal
+  # The latest CGAL builds with gmp, which requires mpir be uninstalled
+  - vcpkg remove mpir
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
   - vcpkg list
