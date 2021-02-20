@@ -11,68 +11,100 @@
         <Subnodes>
           <Subnodes>
            <Node>
-            <Name>Quickstart</Name>
+            <Name>Introduction</Name>
             <Path>index.html</Path>
             <Anchor>autotoc_md1</Anchor>
+           </Node>
+           <Node>
+            <Name>Goals</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md2</Anchor>
+           </Node>
+           <Node>
+            <Name>Quickstart</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md3</Anchor>
+           </Node>
+           <Node>
+            <Name>Setup</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md4</Anchor>
             <Subnodes>
              <Node>
-              <Name>Setup</Name>
+              <Name>Short</Name>
               <Path>index.html</Path>
-              <Anchor>autotoc_md2</Anchor>
+              <Anchor>autotoc_md5</Anchor>
              </Node>
              <Node>
-              <Name>Build</Name>
+              <Name>Long</Name>
               <Path>index.html</Path>
-              <Anchor>autotoc_md3</Anchor>
+              <Anchor>autotoc_md6</Anchor>
              </Node>
             </Subnodes>
            </Node>
            <Node>
-            <Name>Usage</Name>
+            <Name>Build</Name>
             <Path>index.html</Path>
-            <Anchor>autotoc_md4</Anchor>
-           </Node>
-           <Node>
-            <Name>Documentation</Name>
-            <Path>index.html</Path>
-            <Anchor>autotoc_md5</Anchor>
-           </Node>
-           <Node>
-            <Name>Testing</Name>
-            <Path>index.html</Path>
-            <Anchor>autotoc_md6</Anchor>
+            <Anchor>autotoc_md7</Anchor>
             <Subnodes>
              <Node>
-              <Name>Static Analysis</Name>
-              <Path>index.html</Path>
-              <Anchor>autotoc_md7</Anchor>
-             </Node>
-             <Node>
-              <Name>Sanitizers</Name>
+              <Name>Project Layout</Name>
               <Path>index.html</Path>
               <Anchor>autotoc_md8</Anchor>
              </Node>
+             <Node>
+              <Name>Run</Name>
+              <Path>index.html</Path>
+              <Anchor>autotoc_md9</Anchor>
+             </Node>
             </Subnodes>
            </Node>
            <Node>
-            <Name>Parameter Optimization</Name>
-            <Path>index.html</Path>
-            <Anchor>autotoc_md9</Anchor>
-           </Node>
-           <Node>
-            <Name>Visualization</Name>
+            <Name>Use</Name>
             <Path>index.html</Path>
             <Anchor>autotoc_md10</Anchor>
            </Node>
            <Node>
-            <Name>Contributing</Name>
+            <Name>Document</Name>
             <Path>index.html</Path>
             <Anchor>autotoc_md11</Anchor>
            </Node>
            <Node>
-            <Name>Issues</Name>
+            <Name>Test</Name>
             <Path>index.html</Path>
             <Anchor>autotoc_md12</Anchor>
+            <Subnodes>
+             <Node>
+              <Name>Static Analysis</Name>
+              <Path>index.html</Path>
+              <Anchor>autotoc_md13</Anchor>
+             </Node>
+             <Node>
+              <Name>Sanitizers</Name>
+              <Path>index.html</Path>
+              <Anchor>autotoc_md14</Anchor>
+             </Node>
+            </Subnodes>
+           </Node>
+           <Node>
+            <Name>Optimize Parameters</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md15</Anchor>
+           </Node>
+           <Node>
+            <Name>Visualize</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md16</Anchor>
+           </Node>
+           <Node>
+            <Name>Contribute</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md17</Anchor>
+           </Node>
+           <Node>
+            <Name>Issues</Name>
+            <Path>index.html</Path>
+            <Anchor>autotoc_md18</Anchor>
            </Node>
           </Subnodes>
         </Subnodes>
