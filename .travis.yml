@@ -246,7 +246,7 @@ install:
   - ./bootstrap-vcpkg.sh
   - ./vcpkg integrate install
   # The latest CGAL builds with GMP, which requires MPIR to be uninstalled
-  - vcpkg remove mpir --recurse
+  - ./vcpkg remove mpir --recurse
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
   - ./vcpkg install catch2
   - ./vcpkg install docopt
