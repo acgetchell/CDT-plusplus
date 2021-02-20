@@ -14,29 +14,33 @@
 
 ![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png "8 timeslices 68 vertices 298 simplices")
 
+## Introduction
+
 For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki),
 including the foundations and recent results, please see the [wiki](https://github.com/acgetchell/CDT-plusplus/wiki).
 
 [Causal Dynamical Triangulations][CDT] in [C++] uses the
 [Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
-Arbitrary-precision numbers and functions via [MPFR] and [GMP].
-Uses [Docopt] to provide a beautiful command-line interface.
-Uses [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library for high-quality RNGs that pass L'Ecuyer's
+Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
+[Docopt] provides a beautiful command-line interface.
+[Melissa E. O'Neill's Permuted Congruential Generators][PCG] library provides high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
-Uses [Catch] for [BDD]/[TDD].
-Uses [vcpkg] for library management and building.
-Uses [Doxygen] for automated document generation.
-Uses [{fmt}] as a safe and fast alternative to `iostream`.
+[Catch] provides [BDD]/[TDD].
+[vcpkg] provides library management and building.
+[Doxygen] provides automated document generation.
+[{fmt}] provides a safe and fast alternative to `iostream`.
+[PVS-Studio] and [LGTM] provide commercial-grade static analysis and security checks.
+[CometML] provides machine learning for model building.
 
-The goals and targets of this project are:
+## Goals
 
-- [x] Developed with [literate programming] using [Doxygen]
+- [x] Develop with [literate programming] using [Doxygen]
 - [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
-- [x] Validation tests using [CTest]
-- [x] Behavior-driven development ([BDD]) with [Catch]
-- [x] Continuous integration on MacOS and Linux with [gcc]/[Clang] using [Travis-CI]
-- [x] Continuous integration on Windows with [MSVC] using [AppVeyor]
-- [x] Continuous integration with [Github Actions]
+- [x] Test using [CTest]
+- [x] Develop using Behavior-driven development ([BDD]) with [Catch]
+- [x] Continuous integration by [Travis-CI] on MacOS and Linux with [gcc]/[Clang]
+- [x] Continuous integration by [AppVeyor] on Windows with [MSVC]
+- [x] Continuous integration by [Github Actions] on the leading edge
 - [x] 3D Simplex
 - [x] 3D Spherical triangulation
 - [x] 2+1 foliation
@@ -68,25 +72,34 @@ The goals and targets of this project are:
 
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
 
-### Setup
+## Setup
 
-Otherwise, you can clone the repo:
+This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++]17 features, it successfully
+builds with AppleClang, [gcc-10], [clang-10], and [Visual Studio 2019].
+
+### Short
+
+If you use [Docker], [CDT-image] has all prerequisites already installed. Proceed to [Build](https://github.com/acgetchell/CDT-plusplus#build).
+
+### Long
+
+On macOS or Linux, you will first need to install some prerequisites using your favorite
+package manager (e.g. [apt] or [homebrew]):
+
+- build-essential (Linux only)
+- automake
+- autoconf
+- autoconf-archive
+- libtool (macOS) or libtool-bin (Linux)
+- texinfo
+- yasm
+- ninja (macOS) or ninja-build (Linux)
+
+Next, clone the repo:
 
 ~~~
 git clone https://github.com/acgetchell/CDT-plusplus.git
 ~~~
-
-This will put you on the [development] branch. The project is organized similar to the [PitchFork Layout], as follows:
-
-- .github - GitHub specific settings
-- build - Ephemeral out-of-source build directory
-- cmake - Cmake configurations
-- docs - Documentation
-- external - Includes submodules of external projects (none so far, all using [vcpkg])
-- include - Header files
-- scripts - Build, test, and run scripts
-- src - Source files
-- tests - Unit tests
 
 Install [vcpkg]:
 
@@ -97,26 +110,14 @@ cd vcpkg
 ./vcpkg integrate install
 ```
 
-Next, you will need to install up to date versions of [CMake] and [Ninja]. On non-Windows platforms, you will also need
-`yasm` so that `vcpkg` can install [mpir], which is required for [CGAL].
+Windows doesn't require any of the prerequisites that macOS and Linux do, but it does specifically need
+[yasm-tool:x86-windows], even on 64-bit platforms, which it doesn't otherwise detect as a dependency.
 
-MacOS using [homebrew]:
-
-```bash
-brew install cmake
-brew install ninja
-brew install yasm
 ```
-Linux using [apt] (you may also need to install [m4]):
-```bash
-sudo apt-get install cmake
-sudo apt-get install ninja-build
-sudo apt-get install yasm
-sudo apt-get install m4
+vcpkg install --recurse yasm-tool:x86-windows
 ```
-
-At minimum, you need to install prerequisites [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
-(which installs [boost], [mpir] and [mpfr]):
+Now, you need to install prerequisites [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
+(which installs [boost], [GMP] and [mpfr]):
 
 ```bash
 vcpkg install catch2
@@ -130,19 +131,22 @@ vcpkg install tbb
 vcpkg install cgal
 ```
 
-This builds from source, so it will take awhile. To use these successfully, you'll need to
-set the `CMAKE_TOOLCHAIN_FILE` option in your IDE or whatever invokes [CMake] to wherever
-you've installed [vcpkg], (e.g. your home directory):
+This builds from source, so it will take awhile.
+
+To get the scripts to run correctly, you'll need to set `VCPKG_ROOT` to wherever you cloned [vcpkg], e.g.
 
 ```bash
--DCMAKE_TOOLCHAIN_FILE=$HOME/vcpkg/scripts/buildsystems/vcpkg.cmake
+export VCPKG_ROOT="`$HOME`/vcpkg"
+```
+
+Then set the `CMAKE_TOOLCHAIN_FILE` option for [CMake] in your editor or IDE:
+
+```bash
+-DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
 ```
 ([Visual Studio 2019] sets this for you by default.)
 
-This project uses [C++]17 features, and successfully builds with AppleClang, [gcc-9], [clang-10], and [Visual Studio 2019].
-On Ubuntu, you may need updated versions of [Clang] or [gcc], and [CMake], which is scripted in [.travis.yml].
-
-### Build
+## Build
 
 If you want to get started right away, in the `scripts` directory run `fast-build.sh` or `fast-build.bat`,
 depending on your operating system. This will compile the appropriate executables in `RELEASE` mode with no tests.
@@ -155,7 +159,21 @@ This should result in the main program executable, `cdt` in `build/bin` or `buil
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
 
-## Usage
+### Project Layout
+
+The project is organized similar to the [PitchFork Layout], as follows:
+
+- .github - GitHub specific settings
+- build - Ephemeral out-of-source build directory
+- cmake - Cmake configurations
+- docs - Documentation
+- external - Includes submodules of external projects (none so far, all using [vcpkg])
+- include - Header files
+- scripts - Build, test, and run scripts
+- src - Source files
+- tests - Unit tests
+
+## Use
 
 CDT-plusplus uses [Docopt] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
@@ -201,7 +219,7 @@ spacelike (all on the same timeslice) as well as some that are timelike
 (span two timeslices). In [CDT] we actually care more about the timelike
 links (in 2+1 spacetime) and the timelike faces (in 3+1 spacetime).
 
-## Documentation
+## Document
 
 Online documentation may be found at <https://adamgetchell.org/CDT-plusplus/> automatically generated by [Travis-CI].
 If you have [Doxygen] installed you can generate the same information
@@ -220,7 +238,7 @@ various graphs to be autogenerated by [Doxygen] using [GraphViz].
 If you do not have GraphViz installed, set this option to **NO**
 (along with `UML_LOOK`).
 
-## Testing
+## Test
 
 In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
 
@@ -287,7 +305,7 @@ but slower static analysis integrated with [CMake] and [Ninja].
 and [ThreadSanitizer] may be run with `scripts/asan.sh`, `scripts/lsan.sh`, `scripts/msan.sh`,
 and `scripts/tsan.sh`. They are also checked by [Travis-CI] during commits.
 
-## Parameter Optimization
+## Optimize Parameters
 
 [CometML] is used to record [Experiments] which conduct [Model Optimization]. The script to do
 this is `optimize-initialize.py`. In order for this to work, you must install the following
@@ -300,7 +318,7 @@ pip install comet-ml
 
 You can then run experiments and look at results on https://www.comet.ml!
 
-## Visualization
+## Visualize
 
 [Geomview] is used to generate pictures of triangulations using the `cdt-gv` binary. In order for this to
 work, you must have [Geomview] installed (which doesn't work on Windows). On MacOS:
@@ -312,7 +330,7 @@ brew install geomview
 
 If you get a `Can't open display` problem, look at the [Geomview FAQ].
 
-## Contributing
+## Contribute
 
 Please see [CONTRIBUTING.md] and our [CODE_OF_CONDUCT.md].
 
@@ -344,8 +362,6 @@ Optional:
 - [PVS-Studio] using [pvs-studio.sh] if you have it installed
 
 ## Issues
-
-[vcpkg] after 2021-01-22 breaks the [CGAL] package (issue [#15956]), so do not update [vcpkg] in [AppVeyor], [Github Actions], [LGTM], or [Travis-CI],.
 
 [Eigen] does not work for c++20 and MSVC 2019 (issue [#1894]).
 
@@ -399,7 +415,7 @@ Optional:
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
 [clang-10]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html
-[gcc-9]: https://gcc.gnu.org/gcc-9/
+[gcc-10]: https://gcc.gnu.org/gcc-10/
 [C++]: https://isocpp.org/
 [Geomview]: http://www.geomview.org/
 [Geomview FAQ]: http://www.geomview.org/FAQ/answers.shtml
@@ -410,7 +426,7 @@ Optional:
 [TestU01]: http://simul.iro.umontreal.ca/testu01/tu01.html
 [apt]: https://wiki.debian.org/Apt
 [ms-gsl]: https://github.com/microsoft/GSL
-[mpir]: http://mpir.org/
+[yasm-tool:x86-windows]: https://github.com/microsoft/vcpkg/issues/15956#issuecomment-782370823
 [MSVC]: https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019
 [m4]: https://www.gnu.org/software/m4/
 [1]: https://github.com/microsoft/vcpkg/issues/9082
@@ -435,7 +451,8 @@ Optional:
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
 [PVS-Studio]: https://www.viva64.com/en/pvs-studio/
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
-[#15956]: https://github.com/microsoft/vcpkg/issues/15956
 [#1894]: https://gitlab.com/libeigen/eigen/-/issues/1894
 [CLion]: https://www.jetbrains.com/clion/
 [CPP-20158]: https://youtrack.jetbrains.com/issue/CPP-20158
+[Docker]: https://www.docker.com/
+[CDT-image]: https://hub.docker.com/r/acgetchell/cdt-image
