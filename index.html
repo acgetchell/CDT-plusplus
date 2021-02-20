@@ -130,11 +130,11 @@ Small foliated Delaunay triangulation</div></div>
 <div class="fragment"><div class="line">git clone https://github.com/Microsoft/vcpkg.git</div><div class="line">cd vcpkg</div><div class="line">./bootstrap-vcpkg.sh</div><div class="line">./vcpkg integrate install</div></div><!-- fragment --><p>Windows doesn't require any of the prerequisites that macOS and Linux do, but it does specifically need <a href="https://github.com/microsoft/vcpkg/issues/15956#issuecomment-782370823">yasm-tool:x86-windows</a>, even on 64-bit platforms, which it doesn't otherwise detect as a dependency.</p>
 <div class="fragment"><div class="line">vcpkg install --recurse yasm-tool:x86-windows</div></div><!-- fragment --><p> Now, you need to install prerequisites https://github.com/catchorg/Catch2/blob/master/docs/Readme.md "Catch", <a href="https://github.com/docopt/docopt.cpp">docopt</a>, <a href="https://howardhinnant.github.io/date/date.html">date</a>, <a href="https://github.com/fmtlib/fmt">{fmt}</a>, <a href="https://github.com/microsoft/GSL">ms-gsl</a>, <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>, <a href="http://www.pcg-random.org/paper.html">PCG</a>, <a href="https://www.threadingbuildingblocks.org">tbb</a>, and [CGAL] (which installs <a href="https://www.boost.org">boost</a>, <a href="https://gmplib.org">GMP</a> and <a href="https://www.mpfr.org">mpfr</a>):</p>
 <div class="fragment"><div class="line">vcpkg install catch2</div><div class="line">vcpkg install docopt</div><div class="line">vcpkg install date</div><div class="line">vcpkg install fmt</div><div class="line">vcpkg install ms-gsl</div><div class="line">vcpkg install eigen3</div><div class="line">vcpkg install pcg</div><div class="line">vcpkg install tbb</div><div class="line">vcpkg install cgal</div></div><!-- fragment --><p>This builds from source, so it will take awhile.</p>
-<p>To get the scripts to run correctly, you'll need to set <code>VCPKG_ROOT</code> to wherever you cloned <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, e.g.</p>
-<div class="fragment"><div class="line">export VCPKG_ROOT=&quot;`$HOME`/vcpkg&quot;</div></div><!-- fragment --><p>Then set the <code>CMAKE_TOOLCHAIN_FILE</code> option for <a href="https://www.cmake.org">CMake</a> in your editor or IDE:</p>
-<div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=&quot;$VCPKG_ROOT&quot;/scripts/buildsystems/vcpkg.cmake</div></div><!-- fragment --><p> (<a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> sets this for you by default.)</p>
 <p>Clone the repo:</p>
-<div class="fragment"><div class="line">git clone https://github.com/acgetchell/CDT-plusplus.git</div></div><!-- fragment --><p>The project is organized similar to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
+<div class="fragment"><div class="line">git clone https://github.com/acgetchell/CDT-plusplus.git</div></div><!-- fragment --><p>To get the scripts to run correctly, you'll need to set <code>$VCPKG_ROOT</code> to wherever you cloned <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, e.g.</p>
+<div class="fragment"><div class="line">export VCPKG_ROOT=&quot;`$HOME`/vcpkg&quot;</div></div><!-- fragment --><p>Then set the <code>CMAKE_TOOLCHAIN_FILE</code> option for <a href="https://www.cmake.org">CMake</a> in your editor or IDE:</p>
+<div class="fragment"><div class="line">-DCMAKE_TOOLCHAIN_FILE=&quot;$VCPKG_ROOT&quot;/scripts/buildsystems/vcpkg.cmake</div></div><!-- fragment --><p> By default, the <a href="https://gitpod.io">GitPod</a> setup script sets <code>$VCPKG_ROOT</code> and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a> sets <code>CMAKE_TOOLCHAIN_FILE</code> for you.</p>
+<p>The project is organized similar to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
 <li>build - Ephemeral out-of-source build directory</li>
@@ -197,7 +197,7 @@ Small foliated Delaunay triangulation</div></div>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2021 22:28:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Feb 20 2021 23:09:04 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
