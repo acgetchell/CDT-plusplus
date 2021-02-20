@@ -9,16 +9,26 @@ extraction:
   cpp:
     prepare:
       packages:
-        - ninja-build
+        - build-essential
+        - automake
+        - autoconf
+        - autoconf-archive
+        - libtool-bin
+        - texinfo
         - yasm
+        - ninja-build
+        - g++-10
         - ccache
+    after_prepare:
+      - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
+      - export CXX="g++-10" CC="gcc-10"
     configure:
       command:
         - git clone https://github.com/Microsoft/vcpkg.git
         - cd vcpkg
         - git reset --hard
         - git pull --no-rebase
-        - git checkout e4ce66e
+        - git checkout 447b9cb
         - ./bootstrap-vcpkg.sh
         - ./vcpkg integrate install
         - ./vcpkg install catch2
