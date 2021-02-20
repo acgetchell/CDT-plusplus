@@ -127,7 +127,15 @@ vcpkg install cgal
 
 This builds from source, so it will take awhile.
 
-To get the scripts to run correctly, you'll need to set `VCPKG_ROOT` to wherever you cloned [vcpkg], e.g.
+## Build
+
+Clone the repo:
+
+~~~
+git clone https://github.com/acgetchell/CDT-plusplus.git
+~~~
+
+To get the scripts to run correctly, you'll need to set `$VCPKG_ROOT` to wherever you cloned [vcpkg], e.g.
 
 ```bash
 export VCPKG_ROOT="`$HOME`/vcpkg"
@@ -138,15 +146,8 @@ Then set the `CMAKE_TOOLCHAIN_FILE` option for [CMake] in your editor or IDE:
 ```bash
 -DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
 ```
-([Visual Studio 2019] sets this for you by default.)
-
-## Build
-
-Clone the repo:
-
-~~~
-git clone https://github.com/acgetchell/CDT-plusplus.git
-~~~
+By default, the [GitPod] setup script sets `$VCPKG_ROOT` and [Visual Studio 2019] sets
+`CMAKE_TOOLCHAIN_FILE` for you.
 
 ### Project Layout
 
@@ -462,3 +463,4 @@ Optional:
 [CPP-20158]: https://youtrack.jetbrains.com/issue/CPP-20158
 [Docker]: https://www.docker.com/
 [CDT-image]: https://hub.docker.com/r/acgetchell/cdt-image
+[GitPod]: https://gitpod.io
