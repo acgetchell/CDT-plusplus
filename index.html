@@ -114,8 +114,8 @@ Small foliated Delaunay triangulation</div></div>
 </ul>
 <p><a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"></a></p>
 <p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> to manage C++ libraries. Using <a href="https://isocpp.org/">C++</a>17 features, it successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-10/">gcc-10</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>.</p>
-<p>If you use <a href="https://www.docker.com/">Docker</a>, <a href="https://hub.docker.com/r/acgetchell/cdt-image">CDT-image</a> has all prerequisites already installed. Proceed to <a href="https://github.com/acgetchell/CDT-plusplus#build">Build</a>.</p>
-<p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://wiki.debian.org/Apt">apt</a> or <a href="https://brew.sh">homebrew</a>):</p>
+<p>If you use <a href="https://www.docker.com/">Docker</a>, <a href="https://hub.docker.com/r/acgetchell/cdt-image">CDT-image</a> has all prerequisites already installed. Proceed to <a href="#build">build</a>.</p>
+<p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://brew.sh">homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>):</p>
 <ul>
 <li>build-essential (Linux only)</li>
 <li>automake</li>
@@ -149,9 +149,9 @@ Small foliated Delaunay triangulation</div></div>
 <p>If you want to get started right away, run <code>fast-build.sh</code> or <code>fast-build.bat</code>, depending on your operating system. This will compile the appropriate executables in <code>RELEASE</code> mode with no tests.</p>
 <p>This should result in the main program executable, <code>cdt</code> in <code>build/src</code> or <code>build\Debug</code>, along with several others.</p>
 <ul>
-<li><code>cdt-gv</code> converts output files to <a href="http://www.geomview.org/">Geomview</a> format for <a href="#visualization">visualization</a></li>
+<li><code>cdt-gv</code> converts output files to <a href="http://www.geomview.org/">Geomview</a> format for <a href="#visualize">visualization</a></li>
 <li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
-<li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run <a href="#parameter-optimization">parameter optimization</a></li>
+<li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run <a href="#optimize-parameters">parameter optimization</a></li>
 </ul>
 <p>CDT-plusplus uses <a href="https://github.com/docopt/docopt.cpp">Docopt</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
 <div class="fragment"><div class="line">./build/cdt --help</div><div class="line">Causal Dynamical Triangulations in C++ using CGAL.</div><div class="line"></div><div class="line">Copyright (c) 2014-2021 Adam Getchell</div><div class="line"></div><div class="line">A program that generates d-dimensional triangulated spacetimes</div><div class="line">with a defined causal structure and evolves them according</div><div class="line">to the Metropolis algorithm. Specify the number of passes to control</div><div class="line">how much evolution is desired. Each pass attempts a number of ergodic</div><div class="line">moves equal to the number of simplices in the simulation.</div><div class="line"></div><div class="line">Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]</div><div class="line"></div><div class="line">Examples:</div><div class="line">./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000</div><div class="line">./cdt --s -n32000 -t11 -a.6 -k1.1 -l.1 -p1000</div><div class="line"></div><div class="line">Options:</div><div class="line">  -h --help                   Show this message</div><div class="line">  --version                   Show program version</div><div class="line">  -n SIMPLICES                Approximate number of simplices</div><div class="line">  -t TIMESLICES               Number of timeslices</div><div class="line">  -d DIM                      Dimensionality [default: 3]</div><div class="line">  -a --alpha ALPHA            Negative squared geodesic length of 1-d</div><div class="line">                              timelike edges</div><div class="line">  -k K                        K = 1/(8*pi*G_newton)</div><div class="line">  -l --lambda LAMBDA          K * Cosmological constant</div><div class="line">  -p --passes PASSES          Number of passes [default: 100]</div><div class="line">  -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]</div></div><!-- fragment --><p>The dimensionality of the spacetime is such that each slice of spacetime is <code>d-1</code>-dimensional, so setting <code>d=3</code> generates 2 spacelike dimensions and one timelike dimension, with a defined global time foliation. Thus a <code>d</code>-dimensional simplex will have some <code>d-1</code> sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (span two timeslices). In <a href="https://arxiv.org/abs/hep-th/0105267">CDT</a> we actually care more about the timelike links (in 2+1 spacetime) and the timelike faces (in 3+1 spacetime).</p>
@@ -197,7 +197,7 @@ Small foliated Delaunay triangulation</div></div>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2021 23:09:04 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 3 2021 09:38:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

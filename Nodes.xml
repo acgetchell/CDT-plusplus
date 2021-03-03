@@ -178,6 +178,11 @@
               <Anchor>a95123b6522d0670fe4f1445de45990c7</Anchor>
              </Node>
              <Node>
+              <Name>are_vertex_timevalues_correct</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a7711e94b1d1b186ef5db07c24ad501a7</Anchor>
+             </Node>
+             <Node>
               <Name>check_cells</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
@@ -186,11 +191,6 @@
               <Name>check_timeslices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a50539f832c056e28fcd5ecde42aa2137</Anchor>
-             </Node>
-             <Node>
-              <Name>check_vertices</Name>
-              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
              </Node>
              <Node>
               <Name>check_vertices</Name>
@@ -266,6 +266,11 @@
               <Name>filter_edges</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a228f46d823e51abbfa3681ce37b6899c</Anchor>
+             </Node>
+             <Node>
+              <Name>find_incorrect_vertices</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>a7faef5fedbde85b98b1dd4b3c292ed3e</Anchor>
              </Node>
              <Node>
               <Name>find_max_timevalue</Name>
@@ -1882,6 +1887,11 @@
                   <Anchor>a95123b6522d0670fe4f1445de45990c7</Anchor>
                  </Node>
                  <Node>
+                  <Name>are_vertex_timevalues_correct</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a7711e94b1d1b186ef5db07c24ad501a7</Anchor>
+                 </Node>
+                 <Node>
                   <Name>check_cells</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a3a634ae4c6c47ec2af63095d0ebbf296</Anchor>
@@ -1890,11 +1900,6 @@
                   <Name>check_timeslices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a50539f832c056e28fcd5ecde42aa2137</Anchor>
-                 </Node>
-                 <Node>
-                  <Name>check_vertices</Name>
-                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>afb5836235e5973f9e07d311db36288d6</Anchor>
                  </Node>
                  <Node>
                   <Name>check_vertices</Name>
@@ -1970,6 +1975,11 @@
                   <Name>filter_edges</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a228f46d823e51abbfa3681ce37b6899c</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>find_incorrect_vertices</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>a7faef5fedbde85b98b1dd4b3c292ed3e</Anchor>
                  </Node>
                  <Node>
                   <Name>find_max_timevalue</Name>

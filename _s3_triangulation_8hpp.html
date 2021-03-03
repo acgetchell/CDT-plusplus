@@ -229,7 +229,7 @@ static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>RA
 <p>The number of desired timeslices is given, and successive spheres are created with increasing radii. Each vertex at a given radius is assigned a timeslice so that the entire triangulation will have a preferred foliation of time.</p>
 <p>Insert a 3-sphere into the triangulation data structure.  Assign each 3-sphere a unique timeslice.  Iterate over the number of desired timeslices.  Check/fix issues for large values of simplices and timeslices.  Iterate over cells and check timeslices of vertices don't differ by more than 1.  Gather ratio of cells with bad/good foliation. Adjust value of radius to minimize. Recheck the whole triangulation when finished.  When a cell contains a bad foliation, delete it. Recheck.  Fixup Delaunay triangulation after bad cells have been deleted.  Re-written with std::unique_ptr&lt;T&gt; and <a href="http://blog.knatten.org/2012/11/02/efficient-pure-functional-
 programming-in-c-using-move-semantics/">. Efficient Pure Functional Programming in C++ Using Move Semantics</a>  <a href="http://www.cprogramming.com/tutorial/const_correctness.html">Const Correctness</a>.  Function documentation.  Multi-threaded operations using Intel TBB.  Debugging output toggled by macros. </p><dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. ">Foliated_triangulation.hpp</a> </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. ">Foliated_triangulation.hpp</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -468,7 +468,7 @@ template&lt;typename Manifold &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Feb 20 2021 23:09:04 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Mar 3 2021 09:38:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
