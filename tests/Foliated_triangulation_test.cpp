@@ -190,17 +190,39 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
         ft.print_cells();
       }
     }
-    AND_WHEN("The cells are mis-labelled")
+    AND_WHEN("The cells are mis-labelled.")
     {
       auto cells = ft.get_cells();
       for (auto& cell : cells) { cell->info() = 0; }
 
-      THEN("The incorrect labelling is identified.")
+      THEN("The incorrect cell labelling is identified.")
       {
         CHECK_FALSE(ft.check_cells(ft.get_cells()));
         // Human verification
         fmt::print("=== Wrong cell info! ===\n");
         ft.print_cells();
+      }
+    }
+    WHEN("check_vertices() is called.")
+    {
+      THEN("The vertices are correct.")
+      {
+        CHECK(ft.are_vertex_timevalues_correct());
+      }
+      AND_WHEN("The vertices are mis-labelled.")
+      {
+        auto vertices = ft.get_vertices();
+        for (auto& vertex : vertices ) { vertex->info() = 0; }
+        THEN("The incorrect vertex labelling is identified.")
+        {
+          CHECK_FALSE(ft.are_vertex_timevalues_correct());
+          auto bad_vertices = ft.find_incorrect_vertices();
+          CHECK_FALSE(bad_vertices->empty());
+        }
+//        AND_THEN("The incorrect vertex labelling is fixed.")
+//        {
+//
+//        }
       }
     }
   }
@@ -485,7 +507,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       THEN("No errors in the vertices are detected.")
       {
-        CHECK(ft.check_vertices());
+        CHECK(ft.are_vertex_timevalues_correct());
       }
     }
     WHEN(

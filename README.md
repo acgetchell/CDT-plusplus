@@ -79,12 +79,12 @@ builds with AppleClang, [gcc-10], [clang-10], and [Visual Studio 2019].
 
 ### Short
 
-If you use [Docker], [CDT-image] has all prerequisites already installed. Proceed to [Build](https://github.com/acgetchell/CDT-plusplus#build).
+If you use [Docker], [CDT-image] has all prerequisites already installed. Proceed to [build](#build).
 
 ### Long
 
 On macOS or Linux, you will first need to install some prerequisites using your favorite
-package manager (e.g. [apt] or [homebrew]):
+package manager (e.g. [homebrew] or [apt]):
 
 - build-essential (Linux only)
 - automake
@@ -172,9 +172,9 @@ depending on your operating system. This will compile the appropriate executable
 This should result in the main program executable, `cdt` in `build/src` or `build\Debug`,
 along with several others.
 
-- `cdt-gv` converts output files to [Geomview] format for [visualization](#visualization)
+- `cdt-gv` converts output files to [Geomview] format for [visualization](#visualize)
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
-- `initialize` is used by [CometML] to run [parameter optimization](#parameter-optimization)
+- `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
 
 
 

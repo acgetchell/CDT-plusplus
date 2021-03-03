@@ -2,8 +2,5 @@ image: acgetchell/cdt-image
 
 tasks:
   - init: >
-      VCPKG_ROOT="/opt/vcpkg" &&
-      export VCPKG_ROOT &&
-      eval $(gp env -e VCPKG_ROOT=/opt/vcpkg) &&
       cd scripts &&
       ./fast-build.sh

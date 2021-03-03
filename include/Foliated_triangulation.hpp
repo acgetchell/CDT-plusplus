@@ -260,7 +260,7 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @return True if the Foliated Triangulation class invariant holds
   [[nodiscard]] auto is_correct() const -> bool
   {
-    return is_foliated() && is_tds_valid() && check_vertices();
+    return is_foliated() && is_tds_valid() && are_vertex_timevalues_correct();
   }  // is_correct
 
   /// @return True if the Foliated Triangulation has been initialized correctly
@@ -520,7 +520,7 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // expected_timevalue
 
   /// @return True if all vertices have correct timevalues
-  [[nodiscard]] auto check_vertices() const -> bool
+  [[nodiscard]] auto are_vertex_timevalues_correct() const -> bool
   {
     auto checked_vertices = this->get_vertices();
     return this->check_vertices(checked_vertices);
@@ -537,6 +537,23 @@ class FoliatedTriangulation<3>  // NOLINT
                          return is_vertex_timevalue_correct(vertex);
                        });
   }  // check_vertices
+
+  /// @return A container of incorrect vertices
+  /// @todo Fix function see L219 in Foliated_triangulation_test.cpp
+  [[nodiscard]] auto find_incorrect_vertices() const
+      -> std::optional<std::vector<Vertex_handle>>
+  {
+    std::vector<Vertex_handle> incorrect_vertices;
+    auto                       checked_vertices = this->get_vertices();
+    std::copy_if(incorrect_vertices.begin(), incorrect_vertices.end(),
+                 incorrect_vertices.begin(),
+                 [this](Vertex_handle const& vertex) {
+                   return !is_vertex_timevalue_correct(vertex);
+                 });
+
+    if (incorrect_vertices.empty()) { return std::nullopt; }
+    return incorrect_vertices;
+  }
 
   /// @brief Print values of a vertex.
   void print_vertices() const
@@ -669,8 +686,6 @@ class FoliatedTriangulation<3>  // NOLINT
     }
   }  // print_cells
 
-
-
   /// @brief Check simplices for correct foliation
   ///
   /// This function is called by fix_timeslices which is called by
@@ -761,7 +776,6 @@ class FoliatedTriangulation<3>  // NOLINT
     return invalid_vertices;
 
   }  // check_timeslices
-
 
  private:
   /// @brief Make a Delaunay Triangulation
