@@ -79,7 +79,14 @@ builds with AppleClang, [gcc-10], [clang-10], and [Visual Studio 2019].
 
 ### Short
 
-If you use [Docker], [CDT-image] has all prerequisites already installed. Proceed to [build](#build).
+If you use [Docker]:
+
+```bash
+docker pull acgetchell/cdt-plusplus
+docker run -it --name cdt cdt-plusplus
+```
+Binaries will be in `/CDT-plusplus/build/src`.
+Proceed to [Use](#use).
 
 ### Long
 
@@ -462,5 +469,4 @@ Optional:
 [CLion]: https://www.jetbrains.com/clion/
 [CPP-20158]: https://youtrack.jetbrains.com/issue/CPP-20158
 [Docker]: https://www.docker.com/
-[CDT-image]: https://hub.docker.com/r/acgetchell/cdt-image
 [GitPod]: https://gitpod.io
