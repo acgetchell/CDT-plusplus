@@ -270,7 +270,7 @@
              <Node>
               <Name>find_incorrect_vertices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-              <Anchor>a7faef5fedbde85b98b1dd4b3c292ed3e</Anchor>
+              <Anchor>a0424affb64bf125d3509512b03fc3f9f</Anchor>
              </Node>
              <Node>
               <Name>find_max_timevalue</Name>
@@ -296,6 +296,11 @@
               <Name>fix_timeslices</Name>
               <Path>class_foliated_triangulation_3_013_01_4.html</Path>
               <Anchor>a3b3ab51193c6ccc94c2f6dacc8871556</Anchor>
+             </Node>
+             <Node>
+              <Name>fix_vertices</Name>
+              <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+              <Anchor>ac0bad799389aea182732bbca0782a4ee</Anchor>
              </Node>
              <Node>
               <Name>flip</Name>
@@ -1979,7 +1984,7 @@
                  <Node>
                   <Name>find_incorrect_vertices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-                  <Anchor>a7faef5fedbde85b98b1dd4b3c292ed3e</Anchor>
+                  <Anchor>a0424affb64bf125d3509512b03fc3f9f</Anchor>
                  </Node>
                  <Node>
                   <Name>find_max_timevalue</Name>
@@ -2005,6 +2010,11 @@
                   <Name>fix_timeslices</Name>
                   <Path>class_foliated_triangulation_3_013_01_4.html</Path>
                   <Anchor>a3b3ab51193c6ccc94c2f6dacc8871556</Anchor>
+                 </Node>
+                 <Node>
+                  <Name>fix_vertices</Name>
+                  <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+                  <Anchor>ac0bad799389aea182732bbca0782a4ee</Anchor>
                  </Node>
                  <Node>
                   <Name>flip</Name>

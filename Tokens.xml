@@ -1242,7 +1242,7 @@
       <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
-    <Anchor>a7faef5fedbde85b98b1dd4b3c292ed3e</Anchor>
+    <Anchor>a0424affb64bf125d3509512b03fc3f9f</Anchor>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>
@@ -1265,6 +1265,18 @@
     </TokenIdentifier>
     <Path>class_foliated_triangulation_3_013_01_4.html</Path>
     <Anchor>a2c17da60ca37eda53b45d653e3bca669</Anchor>
+    <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
+  </Token>
+  <Token>
+    <TokenIdentifier>
+      <Name>fix_vertices</Name>
+      <APILanguage>cpp</APILanguage>
+      <Type>instm</Type>
+      <Scope>FoliatedTriangulation&lt; 3 &gt;</Scope>
+    </TokenIdentifier>
+    <Path>class_foliated_triangulation_3_013_01_4.html</Path>
+    <Anchor>ac0bad799389aea182732bbca0782a4ee</Anchor>
+    <Abstract>Fix vertices with wrong timevalues after foliation. </Abstract>
     <DeclaredIn>Foliated_triangulation.hpp</DeclaredIn>
   </Token>
   <Token>

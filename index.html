@@ -114,7 +114,8 @@ Small foliated Delaunay triangulation</div></div>
 </ul>
 <p><a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"></a></p>
 <p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> to manage C++ libraries. Using <a href="https://isocpp.org/">C++</a>17 features, it successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-10/">gcc-10</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>.</p>
-<p>If you use <a href="https://www.docker.com/">Docker</a>, <a href="https://hub.docker.com/r/acgetchell/cdt-image">CDT-image</a> has all prerequisites already installed. Proceed to <a href="#build">build</a>.</p>
+<p>If you use [Docker]:</p>
+<div class="fragment"><div class="line">docker pull acgetchell/cdt-plusplus</div><div class="line">docker run -it --name cdt cdt-plusplus</div></div><!-- fragment --><p> Binaries will be in <code>/CDT-plusplus/build/src</code>. Proceed to <a href="#use">Use</a>.</p>
 <p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://brew.sh">homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>):</p>
 <ul>
 <li>build-essential (Linux only)</li>
@@ -197,7 +198,7 @@ Small foliated Delaunay triangulation</div></div>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 3 2021 09:38:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 8 2021 20:10:53 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
