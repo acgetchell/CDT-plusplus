@@ -217,12 +217,19 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
         {
           CHECK_FALSE(ft.are_vertex_timevalues_correct());
           auto bad_vertices = ft.find_incorrect_vertices();
-          CHECK_FALSE(bad_vertices->empty());
+          CHECK_FALSE(bad_vertices.empty());
         }
-//        AND_THEN("The incorrect vertex labelling is fixed.")
-//        {
-//
-//        }
+        AND_THEN("The incorrect vertex labelling is fixed.")
+        {
+          CHECK_FALSE(ft.are_vertex_timevalues_correct());
+          auto bad_vertices = ft.find_incorrect_vertices();
+          CHECK_FALSE(bad_vertices.empty());
+          // Human verification
+          ft.print_vertices();
+          ft.fix_vertices(bad_vertices);
+          CHECK(ft.are_vertex_timevalues_correct());
+          ft.print_vertices();
+        }
       }
     }
   }

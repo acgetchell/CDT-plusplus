@@ -539,21 +539,30 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // check_vertices
 
   /// @return A container of incorrect vertices
-  /// @todo Fix function see L219 in Foliated_triangulation_test.cpp
   [[nodiscard]] auto find_incorrect_vertices() const
-      -> std::optional<std::vector<Vertex_handle>>
+      -> std::vector<Vertex_handle>
   {
     std::vector<Vertex_handle> incorrect_vertices;
     auto                       checked_vertices = this->get_vertices();
-    std::copy_if(incorrect_vertices.begin(), incorrect_vertices.end(),
-                 incorrect_vertices.begin(),
-                 [this](Vertex_handle const& vertex) {
-                   return !is_vertex_timevalue_correct(vertex);
-                 });
-
-    if (incorrect_vertices.empty()) { return std::nullopt; }
+    for (auto& vertex : checked_vertices)
+    {
+      if (!is_vertex_timevalue_correct(vertex))
+      {
+        incorrect_vertices.emplace_back(vertex);
+      }
+    }
     return incorrect_vertices;
-  }
+  }  // find_incorrect_vertices
+
+  /// @brief Fix vertices with wrong timevalues after foliation
+  /// @param incorrect_vertices The container of incorrect vertices
+  void fix_vertices(std::vector<Vertex_handle> const& incorrect_vertices) const
+  {
+    for (auto const& vertex : incorrect_vertices)
+    {
+      vertex->info() = expected_timevalue(vertex);
+    }
+  }  // fix_vertices
 
   /// @brief Print values of a vertex.
   void print_vertices() const
