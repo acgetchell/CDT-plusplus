@@ -107,7 +107,7 @@ Next, install [vcpkg]:
 ```bash
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-./bootstrap-vcpkg.sh
+./bootstrap-vcpkg.sh -useSystemBinaries
 ./vcpkg integrate install
 ```
 
@@ -117,8 +117,8 @@ Windows doesn't require any of the prerequisites that macOS and Linux do, but it
 ```
 vcpkg install --recurse yasm-tool:x86-windows
 ```
-Now, you need to install prerequisites [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb], and [CGAL]
-(which installs [boost], [GMP] and [mpfr]):
+Now, you need to install project dependencies [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb],
+and [CGAL] (which installs [boost], [GMP] and [mpfr]):
 
 ```bash
 vcpkg install catch2
@@ -134,6 +134,8 @@ vcpkg install cgal
 
 This builds from source, so it will take awhile.
 
+(You can skip this if you want to use the [vcpkg manifest], see below.)
+
 ## Build
 
 Clone the repo:
@@ -142,19 +144,14 @@ Clone the repo:
 git clone https://github.com/acgetchell/CDT-plusplus.git
 ~~~
 
-To get the scripts to run correctly, you'll need to set `$VCPKG_ROOT` to wherever you cloned [vcpkg], e.g.
+To get [CMake] and the build scripts to run correctly, you'll need to set `$VCPKG_ROOT` to wherever you cloned
+[vcpkg], e.g.
 
 ```bash
 export VCPKG_ROOT="`$HOME`/vcpkg"
 ```
 
-Then set the `CMAKE_TOOLCHAIN_FILE` option for [CMake] in your editor or IDE:
-
-```bash
--DCMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
-```
-By default, the [GitPod] setup script sets `$VCPKG_ROOT` and [Visual Studio 2019] sets
-`CMAKE_TOOLCHAIN_FILE` for you.
+This will set the `CMAKE_TOOLCHAIN_FILE` option for [CMake].
 
 ### Project Layout
 
@@ -171,10 +168,8 @@ The project is organized similar to the [PitchFork Layout], as follows:
 - tests - Unit tests
 
 ### Run
-If you want to get started right away, run `fast-build.sh` or `fast-build.bat`,
-depending on your operating system. This will compile the appropriate executables in `RELEASE` mode with no tests.
-
-
+If you want to get started right away, run `fast-build.sh` or `fast-build.bat`, depending on your operating system,
+from `scripts`. This will compile the appropriate executables in `RELEASE` mode with no tests.
 
 This should result in the main program executable, `cdt` in `build/src` or `build\Debug`,
 along with several others.
@@ -183,7 +178,14 @@ along with several others.
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
 
+If you want to build it yourself using the [vcpkg manifest], run this at the top level of the project:
 
+```bash
+rm -rf build/
+cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Debug -D VCPKG_MANIFEST_MODE=ON
+cmake --build build
+
+```
 
 ## Use
 
@@ -470,3 +472,4 @@ Optional:
 [CPP-20158]: https://youtrack.jetbrains.com/issue/CPP-20158
 [Docker]: https://www.docker.com/
 [GitPod]: https://gitpod.io
+[vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md

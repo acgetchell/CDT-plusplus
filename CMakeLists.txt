@@ -1,5 +1,14 @@
 cmake_minimum_required(VERSION 3.12...3.19)
 
+# vcpkg settings must be set before project()
+if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
+  set(CMAKE_TOOLCHAIN_FILE "$ENV{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+      CACHE STRING "")
+endif()
+
+# Stops CMake from invoking vcpkg automatically
+option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" OFF)
+
 project(
   CDT-plusplus
   VERSION 0.1.8

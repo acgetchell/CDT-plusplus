@@ -9,5 +9,5 @@
 
 cd ..
 rm -rf build/
-cmake -S . -B build -G Ninja -D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+cmake -S . -B build -G Ninja -D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=TRUE
 cmake --build build

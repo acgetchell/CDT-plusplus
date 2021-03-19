@@ -5,7 +5,7 @@
 
 cd ..
 rm -rf build
-cmake -S . -B build -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+cmake -S . -B build -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE
 cmake --build build
 pwd
 cd build || exit

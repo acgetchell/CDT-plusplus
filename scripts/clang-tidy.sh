@@ -5,6 +5,6 @@
 
 cd ..
 rm -rf build/
-cmake -S. -B build -G Ninja -D ENABLE_CLANG_TIDY=ON -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+cmake -S. -B build -G Ninja -D ENABLE_CLANG_TIDY=ON
 cmake --build build
 # Settings for tests to run in .clang-tidy

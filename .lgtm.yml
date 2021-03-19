@@ -42,10 +42,11 @@ extraction:
         - ./vcpkg install cgal
 #        - ./vcpkg upgrade --no-dry-run
         - ./vcpkg list
+        - export VCPKG_ROOT="$LGTM_SRC/vcpkg"
     index:
       build_command:
         - cd $LGTM_SRC
         - mkdir build
         - cd build
-        - cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug -DCMAKE_TOOLCHAIN_FILE=$LGTM_SRC/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
         - cmake --build .

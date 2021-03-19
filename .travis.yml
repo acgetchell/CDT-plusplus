@@ -101,7 +101,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_CLANG_TIDY:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_CLANG_TIDY:BOOL=TRUE ..
         - cmake --build .
       after_success: skip
     # CppCheck
@@ -111,7 +111,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_CPPCHECK:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_CPPCHECK:BOOL=TRUE ..
         - cmake --build .
       after_success: skip
     # Valgrind
@@ -121,7 +121,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE ..
         - cmake --build .
       after_success:
         - travis_wait 60 ctest -T memcheck --verbose
@@ -133,7 +133,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE ..
         - cmake --build .
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
@@ -147,7 +147,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE ..
         - cmake --build .
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
@@ -161,7 +161,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_MEMORY:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_SANITIZER_MEMORY:BOOL=TRUE ..
         - cmake --build .
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
@@ -175,7 +175,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_THREAD:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -G Ninja -D ENABLE_SANITIZER_THREAD:BOOL=TRUE ..
         - cmake --build .
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
@@ -189,7 +189,7 @@ jobs:
       script:
         - mkdir build
         - cd build || exit
-        - cmake -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+        - cmake -D ENABLE_COVERAGE:BOOL=TRUE ..
         - cmake --build . --config Debug
       after_success:
         - ctest --schedule-random -V
@@ -237,16 +237,15 @@ install:
     if [[ ! -f vcpkg/vcpkg ]]; then
       git clone https://github.com/Microsoft/vcpkg.git
     fi
+  - export VCPKG_ROOT="$TRAVIS_BUILD_DIR/vcpkg"
   # Install/Update ports
-  - cd $TRAVIS_BUILD_DIR/vcpkg
+  - cd $VCPKG_ROOT
   # Pin to vcpkg version that doesn't break CGAL
   - git reset --hard
   - git pull origin master --no-rebase
   - git checkout 447b9cb
   - ./bootstrap-vcpkg.sh
   - ./vcpkg integrate install
-  # The latest CGAL builds with GMP, which requires MPIR to be uninstalled
-  # - ./vcpkg remove mpir --recurse
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
   - ./vcpkg install catch2
   - ./vcpkg install docopt
@@ -267,7 +266,7 @@ script:
   - mkdir build
   - cd build || exit
   - pwd
-  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release -DCMAKE_TOOLCHAIN_FILE=$TRAVIS_BUILD_DIR/vcpkg/scripts/buildsystems/vcpkg.cmake ..
+  - cmake -G Ninja -DCMAKE_BUILD_TYPE=Release ..
   - cmake --build .
 
 after_success:

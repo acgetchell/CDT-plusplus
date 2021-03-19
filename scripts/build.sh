@@ -5,5 +5,5 @@
 
 cd ..
 rm -rf build/
-cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Debug -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Debug
 cmake --build build

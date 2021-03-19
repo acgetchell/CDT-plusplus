@@ -5,7 +5,7 @@
 
 cd ..
 rm -rf build/
-cmake -S . -B build -G Ninja -D ENABLE_TESTING:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE="$VCPKG_ROOT"/scripts/buildsystems/vcpkg.cmake
+cmake -S . -B build -G Ninja -D ENABLE_TESTING:BOOL=FALSE
 cmake --build build
 cd build || exit
 cmake --build . --target test
