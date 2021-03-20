@@ -31,18 +31,20 @@ extraction:
         - git checkout 447b9cb
         - ./bootstrap-vcpkg.sh
         - ./vcpkg integrate install
-        - ./vcpkg install catch2
-        - ./vcpkg install docopt
-        - ./vcpkg install date
-        - ./vcpkg install fmt
-        - ./vcpkg install ms-gsl
-        - ./vcpkg install eigen3
-        - ./vcpkg install pcg
-        - ./vcpkg install tbb
-        - ./vcpkg install cgal
+#        - ./vcpkg install catch2
+#        - ./vcpkg install docopt
+#        - ./vcpkg install date
+#        - ./vcpkg install fmt
+#        - ./vcpkg install ms-gsl
+#        - ./vcpkg install eigen3
+#        - ./vcpkg install pcg
+#        - ./vcpkg install tbb
+#        - ./vcpkg install cgal
 #        - ./vcpkg upgrade --no-dry-run
         - ./vcpkg list
         - export VCPKG_ROOT="$LGTM_SRC/vcpkg"
+        - cd $LGTM_SRC
+        - vcpkg install --feature-flags=manifests
     index:
       build_command:
         - cd $LGTM_SRC

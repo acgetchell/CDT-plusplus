@@ -24,17 +24,17 @@ jobs:
         git pull --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
-        vcpkg install catch2 docopt date fmt ms-gsl eigen3 pcg tbb cgal
         vcpkg list
         cmake --version
     - name: Build
       shell: bash 
       run: |
         pwd
+        vcpkg install --feature-flags=manifests
         mkdir build
         cd build
         export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
-        cmake $VCPKG_ARG -G "Ninja" -D CMAKE_BUILD_TYPE=Debug -D VCPKG_MANIFEST_MODE=OFF ..
+        cmake $VCPKG_ARG -G "Ninja" -D CMAKE_BUILD_TYPE=Debug ..
         cmake --build .
     - name: Test
       run: |

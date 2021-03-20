@@ -7,6 +7,7 @@ cache:
   - ccache
   - directories:
       - $TRAVIS_BUILD_DIR/vcpkg
+      - $TRAVIS_BUILD_DIR/vcpkg_installed
 
 addons:
   apt:
@@ -261,6 +262,7 @@ install:
 #  - rm -rf downloads buildtrees packages
   - cd ..
   - pwd
+  - vcpkg install --feature-flags=manifests
 
 script:
   - mkdir build

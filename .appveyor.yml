@@ -54,9 +54,9 @@ install:
   - cmake --version
   - cd c:\tools\vcpkg
   # Update ports to known good version in vcpkg
-  - git reset --hard
+#  - git reset --hard
   - git pull
-  - git checkout 447b9cb
+#  - git checkout 447b9cb
   # Update vcpkg
   - .\bootstrap-vcpkg.bat
   # Enable integration for Visual Studio/MSBuild
@@ -64,17 +64,17 @@ install:
   # The latest CGAL builds with gmp, which requires mpir be uninstalled
   # - vcpkg remove mpir --recurse
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - vcpkg install catch2
-  - vcpkg install docopt
-  - vcpkg install date
-  - vcpkg install fmt
-  - vcpkg install ms-gsl
-  - vcpkg install eigen3
-  - vcpkg install pcg
-  - vcpkg install tbb
+#  - vcpkg install catch2
+#  - vcpkg install docopt
+#  - vcpkg install date
+#  - vcpkg install fmt
+#  - vcpkg install ms-gsl
+#  - vcpkg install eigen3
+#  - vcpkg install pcg
+#  - vcpkg install tbb
   # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
-  - vcpkg install --recurse yasm-tool:x86-windows
-  - vcpkg install cgal
+#  - vcpkg install --recurse yasm-tool:x86-windows
+#  - vcpkg install cgal
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
   - vcpkg list
@@ -94,6 +94,7 @@ install:
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
+  - vcpkg install --feature-flags=manifests
 
 build_script:
 #  - mkdir build
