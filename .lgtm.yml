@@ -48,5 +48,5 @@ extraction:
         - cd $LGTM_SRC
         - mkdir build
         - cd build
-        - cmake -G Ninja -DCMAKE_BUILD_TYPE=Debug ..
+        - cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -D VCPKG_MANIFEST_MODE=OFF ..
         - cmake --build .
