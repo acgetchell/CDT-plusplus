@@ -24,7 +24,6 @@ jobs:
         git pull --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
-        vcpkg list
         cmake --version
     - name: Build
       shell: bash 

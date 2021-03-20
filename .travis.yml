@@ -239,6 +239,7 @@ install:
       git clone https://github.com/Microsoft/vcpkg.git
     fi
   - export VCPKG_ROOT="$TRAVIS_BUILD_DIR/vcpkg"
+  - export PATH="$VCPKG_ROOT:$PATH"
   # Install/Update ports
   - cd $VCPKG_ROOT
   # Pin to vcpkg version that doesn't break CGAL

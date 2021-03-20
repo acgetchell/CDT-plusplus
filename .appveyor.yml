@@ -8,7 +8,7 @@ environment:
   VCPKG_DEFAULT_TRIPLET: x64-windows
 
 cache:
-  - c:\tools\vcpkg\installed\
+#  - c:\tools\vcpkg\installed\
 
 image:
   - Visual Studio 2019
