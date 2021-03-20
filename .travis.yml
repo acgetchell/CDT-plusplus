@@ -241,24 +241,24 @@ install:
   # Install/Update ports
   - cd $VCPKG_ROOT
   # Pin to vcpkg version that doesn't break CGAL
-  - git reset --hard
-  - git pull origin master --no-rebase
-  - git checkout 447b9cb
+#  - git reset --hard
+#  - git pull origin master --no-rebase
+#  - git checkout 447b9cb
   - ./bootstrap-vcpkg.sh
   - ./vcpkg integrate install
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - ./vcpkg install catch2
-  - ./vcpkg install docopt
-  - ./vcpkg install date
-  - ./vcpkg install fmt
-  - ./vcpkg install ms-gsl
-  - ./vcpkg install eigen3
-  - ./vcpkg install pcg
-  - ./vcpkg install tbb
-  - ./vcpkg install cgal
+#  - ./vcpkg install catch2
+#  - ./vcpkg install docopt
+#  - ./vcpkg install date
+#  - ./vcpkg install fmt
+#  - ./vcpkg install ms-gsl
+#  - ./vcpkg install eigen3
+#  - ./vcpkg install pcg
+#  - ./vcpkg install tbb
+#  - ./vcpkg install cgal
 #  - ./vcpkg upgrade --no-dry-run
   - ./vcpkg list
-  - rm -rf downloads buildtrees packages
+#  - rm -rf downloads buildtrees packages
   - cd ..
   - pwd
 
@@ -266,7 +266,7 @@ script:
   - mkdir build
   - cd build || exit
   - pwd
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D VCPKG_MANIFEST_MODE=OFF ..
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release ..
   - cmake --build .
 
 after_success:

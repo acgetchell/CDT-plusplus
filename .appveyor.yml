@@ -99,7 +99,7 @@ build_script:
 #  - mkdir build
 #  - cd build
   #  - cmake -G Ninja -DCMAKE_MAKE_PROGRAM=c:\projects\dev\ninja\ninja.exe -DVCPKG_TARGET_TRIPLET=x86-windows -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - set VCPKG_ROOT="c:/tools/vcpkg"
+  - set VCPKG_ROOT=c:/tools/vcpkg
   - cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CCACHE:BOOL=FALSE -D VCPKG_MANIFEST_MODE=OFF
   - cmake --build build
 
