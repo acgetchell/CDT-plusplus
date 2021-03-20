@@ -7,7 +7,7 @@ cache:
   - ccache
   - directories:
       - $TRAVIS_BUILD_DIR/vcpkg
-      - $TRAVIS_BUILD_DIR/vcpkg_installed
+      - /home/travis/.cache/vcpkg/archives
 
 addons:
   apt:
@@ -240,30 +240,16 @@ install:
     fi
   - export VCPKG_ROOT="$TRAVIS_BUILD_DIR/vcpkg"
   - export PATH="$VCPKG_ROOT:$PATH"
-  # Install/Update ports
   - cd $VCPKG_ROOT
-  # Pin to vcpkg version that doesn't break CGAL
-#  - git reset --hard
-#  - git pull origin master --no-rebase
-#  - git checkout 447b9cb
+  - git pull origin master --no-rebase
   - ./bootstrap-vcpkg.sh
-  - ./vcpkg integrate install
-  # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-#  - ./vcpkg install catch2
-#  - ./vcpkg install docopt
-#  - ./vcpkg install date
-#  - ./vcpkg install fmt
-#  - ./vcpkg install ms-gsl
-#  - ./vcpkg install eigen3
-#  - ./vcpkg install pcg
-#  - ./vcpkg install tbb
-#  - ./vcpkg install cgal
-#  - ./vcpkg upgrade --no-dry-run
-  - ./vcpkg list
-#  - rm -rf downloads buildtrees packages
+  - vcpkg integrate install
+  - rm -rf downloads buildtrees packages
+  - cmake --version
   - cd ..
   - pwd
-  - vcpkg install --feature-flags=manifests
+  # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
+  - travis_retry vcpkg install --feature-flags=manifests
 
 script:
   - mkdir build

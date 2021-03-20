@@ -26,29 +26,19 @@ extraction:
       command:
         - git clone https://github.com/Microsoft/vcpkg.git
         - cd vcpkg
-        - git reset --hard
-        - git pull --no-rebase
-        - git checkout 447b9cb
-        - ./bootstrap-vcpkg.sh
-        - ./vcpkg integrate install
-#        - ./vcpkg install catch2
-#        - ./vcpkg install docopt
-#        - ./vcpkg install date
-#        - ./vcpkg install fmt
-#        - ./vcpkg install ms-gsl
-#        - ./vcpkg install eigen3
-#        - ./vcpkg install pcg
-#        - ./vcpkg install tbb
-#        - ./vcpkg install cgal
-#        - ./vcpkg upgrade --no-dry-run
-        - ./vcpkg list
         - export VCPKG_ROOT="$LGTM_SRC/vcpkg"
+        - export PATH="$VCPKG_ROOT:$PATH"
+        - git pull origin master --no-rebase
+        - ./bootstrap-vcpkg.sh
+        - vcpkg integrate install
+        - cmake --version
         - cd $LGTM_SRC
+        - pwd
         - vcpkg install --feature-flags=manifests
     index:
       build_command:
         - cd $LGTM_SRC
         - mkdir build
-        - cd build
-        - cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -D VCPKG_MANIFEST_MODE=OFF ..
+        - cd build || exit
+        - cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug ..
         - cmake --build .
