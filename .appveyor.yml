@@ -8,6 +8,7 @@ environment:
   VCPKG_DEFAULT_TRIPLET: x64-windows
 
 cache:
+#  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
 #  - c:\tools\vcpkg\installed\
 
 image:
@@ -44,27 +45,21 @@ install:
   - mkdir C:\projects\dev
   - cd C:\projects\dev
   # Install Ninja
-  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.9.0/ninja-win.zip"
+  - set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.10.1/ninja-win.zip"
   - appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
   - 7z x ninja.zip -oC:\projects\dev\ninja > nul
   - set PATH=%PATH%;C:\projects\dev\ninja
   - ninja --version
   - set CMAKE_MAKE_PROGRAM=C:\projects\dev\ninja\ninja.exe
-  # Verify CMake
-  - cmake --version
+  # Setup vcpkg
   - cd c:\tools\vcpkg
-  # Update ports to known good version in vcpkg
-#  - git reset --hard
   - git pull origin master --no-rebase
-#  - git checkout 447b9cb
-  # Update vcpkg
   - .\bootstrap-vcpkg.bat
-  # Enable integration for Visual Studio/MSBuild
+  - set VCPKG_ROOT=c:/tools/vcpkg
+  - set PATH=%PATH%;%VCPKG_ROOT%
   - vcpkg integrate install
   - cmake --version
-  # The latest CGAL builds with gmp, which requires mpir be uninstalled
-  # - vcpkg remove mpir --recurse
-  # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
+  # Install required libraries in classic mode
   - vcpkg install catch2
   - vcpkg install docopt
   - vcpkg install date
@@ -87,11 +82,6 @@ install:
   # Visual Studio 2019
   - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
-  # Remove conflicting OpenSSL directories
-#  - rd /s /q c:\OpenSSL-v11-Win32
-#  - rd /s /q c:\OpenSSL-v11-Win64
-
-
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
@@ -100,8 +90,7 @@ before_build:
 build_script:
 #  - mkdir build
 #  - cd build
-  #  - cmake -G Ninja -DCMAKE_MAKE_PROGRAM=c:\projects\dev\ninja\ninja.exe -DVCPKG_TARGET_TRIPLET=x86-windows -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - set VCPKG_ROOT=c:/tools/vcpkg
+  #  - cmake -G Ninja -DCMAKE_MAKE_PROGRAM=c:\projects\dev\ninja\ninja.exe -D VCPKG_TARGET_TRIPLET=x86-windows -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
   - cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CCACHE:BOOL=FALSE -D VCPKG_MANIFEST_MODE=OFF
   - cmake --build build
 

@@ -230,7 +230,6 @@ before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-10" CC="gcc-10"; fi
   - if [[ "$CXX" == "clang++" && "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="clang++-10" CC="clang-10"; fi
-  - cmake --version
 
 install:
   # vcpkg should be cached, but clone it if not
