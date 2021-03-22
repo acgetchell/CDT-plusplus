@@ -9,7 +9,7 @@ endif()
 
 # In Manifest mode CMake invokes vcpkg automatically This makes setup easier, however, in CI or Docker we may want to
 # turn this off
-option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" OFF)
+option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" ON)
 
 # Ensure we install vcpkg ports in the same place so they can be reused between builds
 set(_VCPKG_INSTALLED_DIR

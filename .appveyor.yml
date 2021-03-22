@@ -8,7 +8,7 @@ environment:
   VCPKG_DEFAULT_TRIPLET: x64-windows
 
 cache:
-#  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
+  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
 #  - c:\tools\vcpkg\installed\
 
 image:
@@ -60,17 +60,19 @@ install:
   - vcpkg integrate install
   - cmake --version
   # Install required libraries in classic mode
-  - vcpkg install catch2
-  - vcpkg install docopt
-  - vcpkg install date
-  - vcpkg install fmt
-  - vcpkg install ms-gsl
-  - vcpkg install eigen3
-  - vcpkg install pcg
-  - vcpkg install tbb
+#  - vcpkg install catch2
+#  - vcpkg install docopt
+#  - vcpkg install date
+#  - vcpkg install fmt
+#  - vcpkg install ms-gsl
+#  - vcpkg install eigen3
+#  - vcpkg install pcg
+#  - vcpkg install tbb
   # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
-  - vcpkg install --recurse yasm-tool:x86-windows
-  - vcpkg install cgal
+#  - vcpkg install --recurse yasm-tool:x86-windows
+#  - vcpkg install cgal
+  # Install required libraries in manifest mode
+  - vcpkg install --feature-flags=manifests
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
   - vcpkg list
@@ -91,7 +93,7 @@ build_script:
 #  - mkdir build
 #  - cd build
   #  - cmake -G Ninja -DCMAKE_MAKE_PROGRAM=c:\projects\dev\ninja\ninja.exe -D VCPKG_TARGET_TRIPLET=x86-windows -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CCACHE:BOOL=FALSE
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CCACHE:BOOL=FALSE -S . -B build
   - cmake --build build
 
 on_success:
@@ -103,5 +105,5 @@ notifications:
       - acgetchell@ucdavis.edu
     on_build_status_changed: true
 
-#on_failure:
-#  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
+on_failure:
+  - ps: $blockRdp = $true; iex ((new-object net.webclient).DownloadString('https://raw.githubusercontent.com/appveyor/ci/master/scripts/enable-rdp.ps1'))
