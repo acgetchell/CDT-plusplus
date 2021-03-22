@@ -11,7 +11,7 @@
     "pcg",
     "tbb",
     {
-      "name": "yasm-tool:x86-windows",
+      "name": "yasm-tool",
       "platform": "windows"
     },
     "cgal"
