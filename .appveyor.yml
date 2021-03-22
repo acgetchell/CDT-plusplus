@@ -71,8 +71,6 @@ install:
   # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
 #  - vcpkg install --recurse yasm-tool:x86-windows
 #  - vcpkg install cgal
-  # Install required libraries in manifest mode
-  - vcpkg install --feature-flags=manifests
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
   - vcpkg list
@@ -87,7 +85,7 @@ install:
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
-#  - vcpkg install --feature-flags=manifests
+  - vcpkg install --feature-flags=manifests
 
 build_script:
 #  - mkdir build
