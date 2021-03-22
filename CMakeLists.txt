@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12...3.19)
+cmake_minimum_required(VERSION 3.12...3.20)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -9,7 +9,7 @@ endif()
 
 # In Manifest mode CMake invokes vcpkg automatically This makes setup easier, however, in CI or Docker we may want to
 # turn this off
-option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" ON)
+option(VCPKG_MANIFEST_MODE "Build vcpkg ports from manifest" OFF)
 
 # Ensure we install vcpkg ports in the same place so they can be reused between builds
 set(_VCPKG_INSTALLED_DIR
