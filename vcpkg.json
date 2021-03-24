@@ -10,6 +10,10 @@
     "eigen3",
     "pcg",
     "tbb",
+    {
+      "name": "yasm-tool",
+      "platform": "windows"
+    },
     "cgal"
   ]
 }
