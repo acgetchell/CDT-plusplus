@@ -1,4 +1,4 @@
-image: acgetchell/cdt-image
+image: acgetchell/vcpkg-image
 
 tasks:
   - init: >

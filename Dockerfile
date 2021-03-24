@@ -1,4 +1,4 @@
-FROM acgetchell/cdt-image
+FROM acgetchell/vcpkg-image
 
 LABEL description="CDT++ run container"
 
