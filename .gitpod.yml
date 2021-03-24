@@ -2,5 +2,8 @@ image: acgetchell/vcpkg-image
 
 tasks:
   - init: >
-      cd scripts &&
-      ./fast-build.sh
+      mkdir vcpkg_installed
+      && eval $(gp env -e _VCPKG_INSTALLED_DIR=/workspace/CDT-plusplus/vcpkg_installed)
+      && vcpkg install --feature-flags=manifests
+      && cd scripts
+      && ./fast-build.sh

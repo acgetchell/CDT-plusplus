@@ -5,7 +5,7 @@
 
 cd ..
 rm -rf build/
-cmake -S . -B build -G Ninja -D ENABLE_TESTING:BOOL=FALSE
+cmake -G Ninja -D ENABLE_TESTING:BOOL=FALSE -S . -B build
 cmake --build build
 cd build || exit
 cmake --build . --target test

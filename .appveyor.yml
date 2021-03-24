@@ -5,7 +5,7 @@ platform:
 
 environment:
 #APPVEYOR_SAVE_CACHE_ON_ERROR : true
-  VCPKG_DEFAULT_HOST_TRIPLET: x86-windows
+  VCPKG_DEFAULT_HOST_TRIPLET: x64-windows
 
 cache:
 #  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
