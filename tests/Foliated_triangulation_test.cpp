@@ -181,28 +181,6 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
                    [](Point a, std::size_t b) { return std::make_pair(a, b); });
     FoliatedTriangulation3 ft(cv);
     REQUIRE(ft.is_initialized());
-    WHEN("check_cells() is called.")
-    {
-      THEN("Cells are correctly classified.")
-      {
-        CHECK(ft.check_cells(ft.get_cells()));
-        // Human verification
-        ft.print_cells();
-      }
-    }
-    AND_WHEN("The cells are mis-labelled.")
-    {
-      auto cells = ft.get_cells();
-      for (auto& cell : cells) { cell->info() = 0; }
-
-      THEN("The incorrect cell labelling is identified.")
-      {
-        CHECK_FALSE(ft.check_cells(ft.get_cells()));
-        // Human verification
-        fmt::print("=== Wrong cell info! ===\n");
-        ft.print_cells();
-      }
-    }
     WHEN("check_vertices() is called.")
     {
       THEN("The vertices are correct.")
@@ -230,6 +208,28 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
           CHECK(ft.are_vertex_timevalues_correct());
           ft.print_vertices();
         }
+      }
+    }
+    WHEN("check_cells() is called.")
+    {
+      THEN("Cells are correctly classified.")
+      {
+        CHECK(ft.check_cells(ft.get_cells()));
+        // Human verification
+        ft.print_cells();
+      }
+    }
+    AND_WHEN("The cells are mis-labelled.")
+    {
+      auto cells = ft.get_cells();
+      for (auto& cell : cells) { cell->info() = 0; }
+
+      THEN("The incorrect cell labelling is identified.")
+      {
+        CHECK_FALSE(ft.check_cells(ft.get_cells()));
+        // Human verification
+        fmt::print("=== Wrong cell info! ===\n");
+        ft.print_cells();
       }
     }
   }

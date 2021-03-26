@@ -111,30 +111,8 @@ cd vcpkg
 ./vcpkg integrate install
 ```
 
-Windows doesn't require any of the prerequisites that macOS and Linux do, but it does specifically need
-[yasm-tool:x86-windows], even on 64-bit platforms, which it doesn't otherwise detect as a dependency.
-
-```
-vcpkg install --recurse yasm-tool:x86-windows
-```
-Now, you need to install project dependencies [Catch], [docopt], [date], [{fmt}], [ms-gsl], [Eigen], [PCG], [tbb],
-and [CGAL] (which installs [boost], [GMP] and [mpfr]):
-
-```bash
-vcpkg install catch2
-vcpkg install docopt
-vcpkg install date
-vcpkg install fmt
-vcpkg install ms-gsl
-vcpkg install eigen3
-vcpkg install pcg
-vcpkg install tbb
-vcpkg install cgal
-```
-
-This builds from source, so it will take awhile.
-
-(You can skip this if you want to use the [vcpkg manifest], see below.)
+[vcpkg] will then be invoked by CMake in [vcpkg manifest] mode and install the project dependencies
+listed in [vcpkg.json] into a local `vcpkg_installed` directory.
 
 ## Build
 
@@ -148,10 +126,24 @@ To get [CMake] and the build scripts to run correctly, you'll need to set `$VCPK
 [vcpkg], e.g.
 
 ```bash
-export VCPKG_ROOT="`$HOME`/vcpkg"
+export VCPKG_ROOT="$HOME/vcpkg"
 ```
 
 This will set the `CMAKE_TOOLCHAIN_FILE` option for [CMake].
+
+You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:
+
+```
+vcpkg install --feature-flags=manifests
+```
+
+Then build the project with:
+
+```bash
+rm -rf build/
+cmake -G Ninja -S . -B build
+cmake --build build
+```
 
 ### Project Layout
 
@@ -177,15 +169,6 @@ along with several others.
 - `cdt-gv` converts output files to [Geomview] format for [visualization](#visualize)
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
-
-If you want to build it yourself using the [vcpkg manifest], run this at the top level of the project:
-
-```bash
-rm -rf build/
-cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Debug -D VCPKG_MANIFEST_MODE=ON
-cmake --build build
-
-```
 
 ## Use
 
@@ -473,3 +456,4 @@ Optional:
 [Docker]: https://www.docker.com/
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
+[vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
