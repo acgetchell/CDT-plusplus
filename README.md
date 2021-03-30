@@ -137,14 +137,6 @@ You can optionally pre-build the project dependencies (100+ packages) by running
 vcpkg install --feature-flags=manifests
 ```
 
-Then build the project with:
-
-```bash
-rm -rf build/
-cmake -G Ninja -S . -B build
-cmake --build build
-```
-
 ### Project Layout
 
 The project is organized similar to the [PitchFork Layout], as follows:
@@ -366,6 +358,8 @@ Optional:
 
 [CLion] skips debugger breakpoints (issue [CPP-20158]).
 
+[AppVeyor] is broken due to a bug in [vcpkg manifest] mode, awaiting a merge of [16478].
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -457,3 +451,4 @@ Optional:
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
+[16478]: https://github.com/microsoft/vcpkg/pull/16478

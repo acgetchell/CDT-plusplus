@@ -226,10 +226,15 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 
       THEN("The incorrect cell labelling is identified.")
       {
-        CHECK_FALSE(ft.check_cells(ft.get_cells()));
+        CHECK_FALSE(ft.check_cells(cells));
         // Human verification
         fmt::print("=== Wrong cell info! ===\n");
-        ft.print_cells();
+        for (auto cell : cells)
+        {
+          fmt::print("The expected cell type is {}\n",
+                     FoliatedTriangulation3::expected_cell_type(cell, true));
+          fmt::print("The cell is classified as a {}\n", cell->info());
+        }
       }
     }
   }

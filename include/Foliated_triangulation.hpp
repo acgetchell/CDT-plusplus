@@ -65,7 +65,8 @@ enum class Cell_type
 {
   THREE_ONE = 31,  // (3,1)
   TWO_TWO   = 22,  // (2,2)
-  ONE_THREE = 13   // (1,3)
+  ONE_THREE = 13,  // (1,3)
+  ERROR     = 0    // An error happened classifying cell
 };
 
 /// @brief Compare time values of vertices
@@ -659,6 +660,59 @@ class FoliatedTriangulation<3>  // NOLINT
     return m_one_three;
   }  // get_one_three
 
+  /// @param t_cell The simplex to check
+  /// @return The type of simplex
+  [[nodiscard]] static auto expected_cell_type(Cell_handle const& t_cell,
+                                               bool t_debug_flag = false)
+  {
+    std::vector<int> vertex_timevalues;
+    for (int i = 0; i < 4; ++i)
+    {
+      // Obtain timevalue of vertex
+      vertex_timevalues.emplace_back(t_cell->vertex(i)->info());
+    }
+    auto maxtime_ref =
+        std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
+    auto mintime_ref =
+        std::min_element(vertex_timevalues.begin(), vertex_timevalues.end());
+    auto maxtime = *maxtime_ref;
+    auto mintime = *mintime_ref;
+    // A properly foliated simplex should have a timevalue difference of 1
+    if (maxtime - mintime != 1) { return Cell_type::ERROR; }
+    std::multiset<int> timevalues{vertex_timevalues.begin(),
+                                  vertex_timevalues.end()};
+    auto               max_vertices = timevalues.count(maxtime);
+    auto               min_vertices = timevalues.count(mintime);
+
+    if (max_vertices == 3 && min_vertices == 1) { return Cell_type::ONE_THREE; }
+    if (max_vertices == 2 && min_vertices == 2) { return Cell_type::TWO_TWO; }
+    if (max_vertices == 1 && min_vertices == 3) { return Cell_type::THREE_ONE; }
+
+    // If we got here, there's some kind of error
+    if (t_debug_flag)
+    {
+      fmt::print("This simplex has an error.\n");
+      fmt::print("Max timevalue is {}\n", maxtime);
+      fmt::print("There are {} vertices with the max timevalue.\n",
+                 max_vertices);
+      fmt::print("Min timevalue is {}\n", mintime);
+      fmt::print("There are {} vertices with the min timevalue.\n",
+                 min_vertices);
+      fmt::print("--\n");
+    }
+    return Cell_type::ERROR;
+  }  // expected_cell_type
+
+  /// @param t_cell The simplex to check
+  /// @return True if the cell_info matches expected cell_info
+  [[nodiscard]] static auto is_cell_type_correct(Cell_handle const& t_cell)
+      -> bool
+  {
+    auto cell_type = expected_cell_type(t_cell);
+    return cell_type != Cell_type::ERROR &&
+           cell_type == static_cast<Cell_type>(t_cell->info());
+  }  // is_cell_type_correct
+
   /// @brief Check that all cells are correctly classified
   /// @param t_cells The container of cells to check
   /// @return True if all cells are validly classified
@@ -666,13 +720,20 @@ class FoliatedTriangulation<3>  // NOLINT
       -> bool
   {
     Expects(!t_cells.empty());
-    return std::all_of(
-        t_cells.begin(), t_cells.end(), [](Cell_handle const& cell) {
-          return cell->info() == static_cast<int>(Cell_type::THREE_ONE) ||
-                 cell->info() == static_cast<int>(Cell_type::TWO_TWO) ||
-                 cell->info() == static_cast<int>(Cell_type::ONE_THREE);
-        });
+    return std::all_of(t_cells.begin(), t_cells.end(), is_cell_type_correct);
   }  // check_cells
+
+  /// @return A container of incorrect cells
+  [[nodiscard]] auto find_incorrect_cells() const -> std::vector<Cell_handle>
+  {
+    std::vector<Cell_handle> incorrect_cells;
+    auto                     checked_cells = this->get_cells();
+    for (auto& cell : checked_cells)
+    {
+      if (!is_cell_type_correct(cell)) { incorrect_cells.emplace_back(cell); }
+    }
+    return incorrect_cells;
+  }  // find_incorrect_cells
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
@@ -930,67 +991,77 @@ class FoliatedTriangulation<3>  // NOLINT
   /// @param cells The container of simplices to classify
   /// @param t_debug_flag Debugging info toggle
   /// @return A container of simplices with Cell_type written to cell->info()
+  /// @todo Replace core of this function with call to expected_cell_type
   [[nodiscard]] auto classify_cells(std::vector<Cell_handle> const& cells,
                                     bool t_debug_flag = false) const
       -> std::vector<Cell_handle>
   {
     Expects(cells.size() == number_of_finite_cells());
-    std::vector<Vertex_handle> cell_vertices;
-    cell_vertices.reserve(4);
-    std::vector<int> vertex_timevalues;
-    vertex_timevalues.reserve(4);
     for (auto const& c : cells)
     {
-      if (t_debug_flag) { fmt::print("Cell info was {}\n", c->info()); }
-
-      for (int j = 0; j < 4; ++j)
-      {
-        cell_vertices.emplace_back(c->vertex(j));
-        vertex_timevalues.emplace_back(c->vertex(j)->info());
-        if (t_debug_flag)
-        {
-          fmt::print("Cell vertex {} has timevalue {}\n", j,
-                     c->vertex(j)->info());
-        }
-      }
-
-      // This is simply not sufficient. Need to check *both* maxtime and
-      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3 and 1.
-      // Anything else means we have an invalid simplex which we should
-      // also return.
-      // We also need to check that maxtime - min_time = 1, else we have
-      // a mis-classified vertex (probably)
-      auto maxtime =
-          std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
-      auto maxtime_vertices = std::count_if(
-          cell_vertices.begin(), cell_vertices.end(),
-          [maxtime](auto const& vertex) { return vertex->info() == *maxtime; });
-      // Check maxtime - min_time here
-      switch (maxtime_vertices)
-      {
-        case 1:
-          c->info() = static_cast<int>(Cell_type::THREE_ONE);
-          break;
-        case 2:
-          c->info() = static_cast<int>(Cell_type::TWO_TWO);
-          break;
-        case 3:
-          c->info() = static_cast<int>(Cell_type::ONE_THREE);
-          break;
-        default:
-          throw std::logic_error("Mis-classified cell.");
-      }
-      if (t_debug_flag)
-      {
-        fmt::print("Max timevalue is {}\n", *maxtime);
-        fmt::print("There are {} vertices with max timeslice in the cell.\n",
-                   maxtime_vertices);
-        fmt::print("Cell info is now {}\n", c->info());
-        fmt::print("--\n");
-      }
-      cell_vertices.clear();
-      vertex_timevalues.clear();
+      c->info() = static_cast<int>(expected_cell_type(c, t_debug_flag));
     }
+    //    std::vector<Vertex_handle> cell_vertices;
+    //    cell_vertices.reserve(4);
+    //    std::vector<int> vertex_timevalues;
+    //    vertex_timevalues.reserve(4);
+    //    for (auto const& c : cells)
+    //    {
+    //      if (t_debug_flag) { fmt::print("Cell info was {}\n", c->info()); }
+    //
+    //      for (int j = 0; j < 4; ++j)
+    //      {
+    //        cell_vertices.emplace_back(c->vertex(j));
+    //        vertex_timevalues.emplace_back(c->vertex(j)->info());
+    //        if (t_debug_flag)
+    //        {
+    //          fmt::print("Cell vertex {} has timevalue {}\n", j,
+    //                     c->vertex(j)->info());
+    //        }
+    //      }
+    //
+    //      // This is simply not sufficient. Need to check *both* maxtime and
+    //      // min_time, and that there are exactly 1 and 3, 2 and 2, or 3
+    //      and 1.
+    //      // Anything else means we have an invalid simplex which we should
+    //      // also return.
+    //      // We also need to check that maxtime - min_time = 1, else we have
+    //      // a mis-classified vertex (probably)
+    //      // This is done in expected_cell_type()
+    //      auto maxtime =
+    //          std::max_element(vertex_timevalues.begin(),
+    //          vertex_timevalues.end());
+    //      auto maxtime_vertices = std::count_if(
+    //          cell_vertices.begin(), cell_vertices.end(),
+    //          [maxtime](auto const& vertex) { return vertex->info() ==
+    //          *maxtime; });
+    //      // Check maxtime - min_time here
+    //      switch (maxtime_vertices)
+    //      {
+    //        case 1:
+    //          c->info() = static_cast<int>(Cell_type::THREE_ONE);
+    //          break;
+    //        case 2:
+    //          c->info() = static_cast<int>(Cell_type::TWO_TWO);
+    //          break;
+    //        case 3:
+    //          c->info() = static_cast<int>(Cell_type::ONE_THREE);
+    //          break;
+    //        default:
+    //          throw std::logic_error("Mis-classified cell.");
+    //      }
+    //      if (t_debug_flag)
+    //      {
+    //        fmt::print("Max timevalue is {}\n", *maxtime);
+    //        fmt::print("There are {} vertices with max timeslice in the
+    //        cell.\n",
+    //                   maxtime_vertices);
+    //        fmt::print("Cell info is now {}\n", c->info());
+    //        fmt::print("--\n");
+    //      }
+    //      cell_vertices.clear();
+    //      vertex_timevalues.clear();
+    //    }
     return cells;
   }  // classify_cells
 
