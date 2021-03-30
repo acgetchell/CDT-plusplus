@@ -133,8 +133,7 @@ Small foliated Delaunay triangulation</div></div>
 <div class="fragment"><div class="line">git clone https://github.com/acgetchell/CDT-plusplus.git</div></div><!-- fragment --><p>To get <a href="https://www.cmake.org">CMake</a> and the build scripts to run correctly, you'll need to set <code>$VCPKG_ROOT</code> to wherever you cloned <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, e.g.</p>
 <div class="fragment"><div class="line">export VCPKG_ROOT=&quot;$HOME/vcpkg&quot;</div></div><!-- fragment --><p>This will set the <code>CMAKE_TOOLCHAIN_FILE</code> option for <a href="https://www.cmake.org">CMake</a>.</p>
 <p>You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:</p>
-<div class="fragment"><div class="line">vcpkg install --feature-flags=manifests</div></div><!-- fragment --><p>Then build the project with:</p>
-<div class="fragment"><div class="line">rm -rf build/</div><div class="line">cmake -G Ninja -S . -B build</div><div class="line">cmake --build build</div></div><!-- fragment --><p>The project is organized similar to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
+<div class="fragment"><div class="line">vcpkg install --feature-flags=manifests</div></div><!-- fragment --><p>The project is organized similar to the <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
 <li>.github - GitHub specific settings</li>
 <li>build - Ephemeral out-of-source build directory</li>
@@ -193,11 +192,12 @@ Small foliated Delaunay triangulation</div></div>
 <li><a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
 </ul>
 <p><a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> does not work for c++20 and MSVC 2019 (issue <a href="https://gitlab.com/libeigen/eigen/-/issues/1894">#1894</a>).</p>
-<p><a href="https://www.jetbrains.com/clion/">CLion</a> skips debugger breakpoints (issue <a href="https://youtrack.jetbrains.com/issue/CPP-20158">CPP-20158</a>). </p>
+<p><a href="https://www.jetbrains.com/clion/">CLion</a> skips debugger breakpoints (issue <a href="https://youtrack.jetbrains.com/issue/CPP-20158">CPP-20158</a>).</p>
+<p><a href="https://www.appveyor.com">AppVeyor</a> is broken due to a bug in https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md "vcpkg manifest" mode, awaiting a merge of <a href="https://github.com/microsoft/vcpkg/pull/16478">16478</a>. </p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 26 2021 19:49:23 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Mar 30 2021 09:18:37 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

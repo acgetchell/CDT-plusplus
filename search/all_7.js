@@ -7,6 +7,7 @@ var searchData=
   ['insert_5finto_5ftriangulation',['insert_into_triangulation',['../_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b',1,'S3Triangulation.hpp']]],
   ['int_5fprecision',['Int_precision',['../_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078',1,'Settings.hpp']]],
   ['is_5f62_5fmovable',['is_62_movable',['../_ergodic__moves__3_8hpp.html#acfb74d3820dd28cfc73516803fa34732',1,'manifold3_moves']]],
+  ['is_5fcell_5ftype_5fcorrect',['is_cell_type_correct',['../class_foliated_triangulation_3_013_01_4.html#a6d8b491fe423fb4184b2a116633670ac',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5fcorrect',['is_correct',['../class_foliated_triangulation_3_013_01_4.html#a93d08e6e2c4127c867880b5bc3c0ed11',1,'FoliatedTriangulation&lt; 3 &gt;::is_correct()'],['../class_manifold_3_013_01_4.html#a29e9f18a63fb3c5c6771f8a9b6060be3',1,'Manifold&lt; 3 &gt;::is_correct()']]],
   ['is_5fdelaunay',['is_delaunay',['../class_foliated_triangulation_3_013_01_4.html#a16ce962c49d9f3634bb4bac166a2fe30',1,'FoliatedTriangulation&lt; 3 &gt;::is_delaunay()'],['../class_manifold_3_013_01_4.html#a460e5180976d3a9c5c9a460ed512a7fe',1,'Manifold&lt; 3 &gt;::is_delaunay()']]],
   ['is_5fedge',['is_edge',['../class_manifold_3_013_01_4.html#a749c9a5270cf66a24a301640d3134538',1,'Manifold&lt; 3 &gt;']]],
