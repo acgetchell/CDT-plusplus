@@ -11,6 +11,7 @@ var searchData=
   ['find_5fmin_5ftimevalue',['find_min_timevalue',['../class_foliated_triangulation_3_013_01_4.html#a4d8442e51a3fed0a95dcd823e7dcade7',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['finite_5fcells_5fbegin',['finite_cells_begin',['../class_foliated_triangulation_3_013_01_4.html#aaf1c6a5346f525d153478eaefadef132',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['finite_5fcells_5fend',['finite_cells_end',['../class_foliated_triangulation_3_013_01_4.html#a2c17da60ca37eda53b45d653e3bca669',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['fix_5fcells',['fix_cells',['../class_foliated_triangulation_3_013_01_4.html#a0c23695b8652f6b34e58c8c42d8241d1',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['fix_5ftimeslices',['fix_timeslices',['../class_foliated_triangulation_3_013_01_4.html#a3b3ab51193c6ccc94c2f6dacc8871556',1,'FoliatedTriangulation&lt; 3 &gt;::fix_timeslices()'],['../_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196',1,'fix_timeslices():&#160;S3Triangulation.hpp']]],
   ['fix_5ftriangulation',['fix_triangulation',['../_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485',1,'S3Triangulation.hpp']]],
   ['fix_5fvertices',['fix_vertices',['../class_foliated_triangulation_3_013_01_4.html#ac0bad799389aea182732bbca0782a4ee',1,'FoliatedTriangulation&lt; 3 &gt;']]],
