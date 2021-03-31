@@ -214,7 +214,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     {
       THEN("Cells are correctly classified.")
       {
-        CHECK(ft.check_cells(ft.get_cells()));
+        CHECK(FoliatedTriangulation3::check_cells(ft.get_cells()));
         // Human verification
         ft.print_cells();
       }
@@ -226,15 +226,19 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 
       THEN("The incorrect cell labelling is identified.")
       {
-        CHECK_FALSE(ft.check_cells(cells));
+        CHECK_FALSE(FoliatedTriangulation3::check_cells(cells));
         // Human verification
         fmt::print("=== Wrong cell info! ===\n");
-        for (auto cell : cells)
-        {
-          fmt::print("The expected cell type is {}\n",
-                     FoliatedTriangulation3::expected_cell_type(cell, true));
-          fmt::print("The cell is classified as a {}\n", cell->info());
-        }
+        ft.print_cells();
+      }
+      THEN("The incorrect cell labelling is fixed.")
+      {
+        CHECK_FALSE(FoliatedTriangulation3::check_cells(cells));
+        FoliatedTriangulation3::fix_cells(ft.find_incorrect_cells());
+        CHECK(FoliatedTriangulation3::check_cells(cells));
+        // Human verification
+        fmt::print("=== Corrected cell info ===\n");
+        ft.print_cells();
       }
     }
   }

@@ -735,6 +735,17 @@ class FoliatedTriangulation<3>  // NOLINT
     return incorrect_cells;
   }  // find_incorrect_cells
 
+  /// @brief Fix simplices with the wrong type
+  /// @param t_cells The container of incorrect simplices
+  static void fix_cells(std::vector<Cell_handle> const& t_cells)
+  {
+    Expects(!t_cells.empty());
+    for (auto const& cell : t_cells)
+    {
+      cell->info() = static_cast<int>(expected_cell_type(cell));
+    }
+  }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   void print_cells() const { print_cells(m_cells); }
