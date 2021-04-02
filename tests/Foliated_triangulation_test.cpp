@@ -183,29 +183,26 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     REQUIRE(ft.is_initialized());
     WHEN("check_vertices() is called.")
     {
-      THEN("The vertices are correct.")
-      {
-        CHECK(ft.are_vertex_timevalues_correct());
-      }
+      THEN("The vertices are correct.") { CHECK(ft.check_all_vertices()); }
       AND_WHEN("The vertices are mis-labelled.")
       {
         auto vertices = ft.get_vertices();
         for (auto& vertex : vertices ) { vertex->info() = 0; }
         THEN("The incorrect vertex labelling is identified.")
         {
-          CHECK_FALSE(ft.are_vertex_timevalues_correct());
+          CHECK_FALSE(ft.check_all_vertices());
           auto bad_vertices = ft.find_incorrect_vertices();
           CHECK_FALSE(bad_vertices.empty());
         }
         AND_THEN("The incorrect vertex labelling is fixed.")
         {
-          CHECK_FALSE(ft.are_vertex_timevalues_correct());
+          CHECK_FALSE(ft.check_all_vertices());
           auto bad_vertices = ft.find_incorrect_vertices();
           CHECK_FALSE(bad_vertices.empty());
           // Human verification
           ft.print_vertices();
           ft.fix_vertices(bad_vertices);
-          CHECK(ft.are_vertex_timevalues_correct());
+          CHECK(ft.check_all_vertices());
           ft.print_vertices();
         }
       }
@@ -226,16 +223,16 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 
       THEN("The incorrect cell labelling is identified.")
       {
-        CHECK_FALSE(FoliatedTriangulation3::check_cells(cells));
+        CHECK_FALSE(ft.check_all_cells());
         // Human verification
         fmt::print("=== Wrong cell info! ===\n");
         ft.print_cells();
       }
       THEN("The incorrect cell labelling is fixed.")
       {
-        CHECK_FALSE(FoliatedTriangulation3::check_cells(cells));
+        CHECK_FALSE(ft.check_all_cells());
         FoliatedTriangulation3::fix_cells(ft.find_incorrect_cells());
-        CHECK(FoliatedTriangulation3::check_cells(cells));
+        CHECK(ft.check_all_cells());
         // Human verification
         fmt::print("=== Corrected cell info ===\n");
         ft.print_cells();
@@ -523,7 +520,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       THEN("No errors in the vertices are detected.")
       {
-        CHECK(ft.are_vertex_timevalues_correct());
+        CHECK(ft.check_all_vertices());
       }
     }
     WHEN(

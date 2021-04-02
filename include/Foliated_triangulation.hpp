@@ -258,10 +258,11 @@ class FoliatedTriangulation<3>  // NOLINT
     return get_delaunay().tds().is_valid();
   }  // is_tds_valid
 
-  /// @return True if the Foliated Triangulation class invariant holds
+  /// @return True if the Foliated Triangulation class invariants hold
+  /// @todo Fix fatal error that occurs if check_all_cells() is added
   [[nodiscard]] auto is_correct() const -> bool
   {
-    return is_foliated() && is_tds_valid() && are_vertex_timevalues_correct();
+    return is_foliated() && is_tds_valid() && check_all_vertices();
   }  // is_correct
 
   /// @return True if the Foliated Triangulation has been initialized correctly
@@ -521,11 +522,11 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // expected_timevalue
 
   /// @return True if all vertices have correct timevalues
-  [[nodiscard]] auto are_vertex_timevalues_correct() const -> bool
+  [[nodiscard]] auto check_all_vertices() const -> bool
   {
     auto checked_vertices = this->get_vertices();
     return this->check_vertices(checked_vertices);
-  }  // check_vertices
+  }  // check_all_vertices
 
   /// @brief Check if vertices have the correct timevalues
   /// @param vertices The container of vertices to check
@@ -714,8 +715,17 @@ class FoliatedTriangulation<3>  // NOLINT
   }  // is_cell_type_correct
 
   /// @brief Check that all cells are correctly classified
-  /// @param t_cells The container of cells to check
   /// @return True if all cells are validly classified
+  [[nodiscard]] auto check_all_cells() const -> bool
+  {
+    auto checked_cells = this->get_cells();
+    Expects(!checked_cells.empty());
+    return FoliatedTriangulation<3>::check_cells(checked_cells);
+  }  // check_all_cells
+
+  /// @brief Check that all cells in a container are correctly classified
+  /// @param t_cells The container of cells to check
+  /// @return True if all cells in the container are validly classified
   [[nodiscard]] static auto check_cells(std::vector<Cell_handle> const& t_cells)
       -> bool
   {
