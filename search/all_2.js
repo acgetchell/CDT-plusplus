@@ -6,6 +6,8 @@ var searchData=
   ['cdt_2dopt_2ecpp',['cdt-opt.cpp',['../cdt-opt_8cpp.html',1,'']]],
   ['cdt_2ecpp',['cdt.cpp',['../cdt_8cpp.html',1,'']]],
   ['cell_5ftype',['Cell_type',['../_foliated__triangulation_8hpp.html#a73e46a0d9bc77f21cc68798c73282a1e',1,'Foliated_triangulation.hpp']]],
+  ['check_5fall_5fcells',['check_all_cells',['../class_foliated_triangulation_3_013_01_4.html#a210be29d35b403d9153c92d852c76bbd',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['check_5fall_5fvertices',['check_all_vertices',['../class_foliated_triangulation_3_013_01_4.html#a9cc77ea4aa4bdf0a0cb50ffcd7078357',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fcells',['check_cells',['../class_foliated_triangulation_3_013_01_4.html#a3a634ae4c6c47ec2af63095d0ebbf296',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fmove',['check_move',['../_ergodic__moves__3_8hpp.html#af97bb8d41346abb2b1ea7aa39a652ea7',1,'manifold3_moves']]],
   ['check_5fsimplices',['check_simplices',['../class_manifold_3_013_01_4.html#a25dd07c4be1d55db46972f80d303e166',1,'Manifold&lt; 3 &gt;']]],

@@ -7,7 +7,6 @@ var searchData=
   ['apply_5fmove_5ftest_2ecpp',['Apply_move_test.cpp',['../_apply__move__test_8cpp.html',1,'']]],
   ['are_5fall_5fvertex_5ftimevalues_5fvalid',['are_all_vertex_timevalues_valid',['../class_manifold_3_013_01_4.html#a36d8d7f0d07801f8eff69957e7820788',1,'Manifold&lt; 3 &gt;']]],
   ['are_5fsimplex_5ftypes_5fvalid',['are_simplex_types_valid',['../class_manifold_3_013_01_4.html#a1901cb36f23945442efe10a56f45db6b',1,'Manifold&lt; 3 &gt;']]],
-  ['are_5fvertex_5ftimevalues_5fcorrect',['are_vertex_timevalues_correct',['../class_foliated_triangulation_3_013_01_4.html#a7711e94b1d1b186ef5db07c24ad501a7',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['are_5fvertex_5ftimevalues_5fvalid',['are_vertex_timevalues_valid',['../class_manifold_3_013_01_4.html#a5115646ca60f9e4342c23a5c400208f4',1,'Manifold&lt; 3 &gt;']]],
   ['attempt_5fmove',['attempt_move',['../class_metropolis.html#acbb912b7ece7f277f76b8f501f6d213a',1,'Metropolis']]]
 ];
