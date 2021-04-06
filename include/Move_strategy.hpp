@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2020 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Template class for all move algorithms, e.g. Metropolis, MoveAlways
 ///
@@ -14,8 +14,8 @@
 #include "Move_command.hpp"
 #include <memory>
 
-static Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
-static Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
+static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
+static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
 
 /// @brief Determine ergodic moves for a given dimension at compile-time
 /// @param dim Dimensionality of the triangulation

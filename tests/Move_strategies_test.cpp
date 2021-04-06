@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2015-2020 Adam Getchell
+/// Copyright © 2015-2021 Adam Getchell
 ///
 /// Checks that Metropolis algorithm runs properly.
 
@@ -68,12 +68,12 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
   }
 }
 
-SCENARIO("Using the Move always algorithm", "[move strategies]")
+SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(640);
-    auto constexpr timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = static_cast<Int_precision>(9600);
+    auto constexpr timeslices = static_cast<Int_precision>(7);
     Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveStrategy3 is constructed.")
@@ -125,8 +125,10 @@ SCENARIO("Using the Move always algorithm", "[move strategies]")
       }
       THEN("A lot of moves are made.")
       {
-        //                auto result = mover(manifold);
-        //        CHECK(result.is_valid());
+        // This may take awhile, so the scenario is tagged with [hide]
+        // to disable by default
+        auto result = mover(manifold);
+        CHECK(result.is_valid());
       }
     }
   }

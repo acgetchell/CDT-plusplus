@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2020 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Picks a random move on the foliated Delaunay triangulations.
 /// For testing purposes.
@@ -20,7 +20,6 @@
 template <size_t dimension>
 class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 {
-  //  [[maybe_unused]] size_t const dim{dimension};
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
   Move_tracker<dimension>       m_attempted_moves;

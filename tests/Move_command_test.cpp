@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2014-2020 Adam Getchell
+/// Copyright © 2014-2021 Adam Getchell
 ///
 /// Tests of MoveCommand, that is, that moves are handled properly
 
@@ -503,20 +503,49 @@ SCENARIO("Executing multiple moves on the queue", "[move command][.]")
       auto move32 = manifold3_moves::do_32_move;
       command.enqueue(move32);
       THEN("There are two moves in the queue.") { CHECK(command.size() == 2); }
-      //      THEN("The moves are executed correctly.")
-      //      {
-      //        // Execute the moves
-      //        command.execute();
-      //
-      //        // Get the results
-      //        auto result = command.get_results();
-      //
-      //        // The moves should cancel out
-      //        CHECK(result.get_triangulation().number_of_finite_cells() ==
-      //        manifold.get_triangulation().number_of_finite_cells());
-      //        CHECK(manifold3_moves::check_move(manifold, result,
-      //        manifold3_moves::move_type::FOUR_FOUR));
-      //      }
+      THEN("The moves are executed correctly.")
+      {
+        // Execute the moves
+        command.execute();
+
+        // Get the results
+        auto result = command.get_results();
+
+        // The moves should cancel out
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells());
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::FOUR_FOUR));
+      }
+    }
+    WHEN("One of each move is queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move23 = manifold3_moves::do_23_move;
+      command.enqueue(move23);
+      auto move26 = manifold3_moves::do_26_move;
+      command.enqueue(move26);
+      auto move44 = manifold3_moves::do_44_move;
+      command.enqueue(move44);
+      auto move62 = manifold3_moves::do_62_move;
+      command.enqueue(move62);
+      auto move32 = manifold3_moves::do_32_move;
+      command.enqueue(move32);
+      THEN("There are five moves in the queue.") { CHECK(command.size() == 5); }
+      THEN("The moves are executed correctly.")
+      {
+        // Execute the moves
+        command.execute();
+
+        // Get the results
+        auto result = command.get_results();
+
+        // The moves should cancel out
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells());
+        CHECK(manifold3_moves::check_move(
+            manifold, result, manifold3_moves::move_type::FOUR_FOUR));
+      }
     }
   }
 }

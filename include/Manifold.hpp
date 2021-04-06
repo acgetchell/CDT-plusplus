@@ -335,7 +335,7 @@ class Manifold<3>
     return FoliatedTriangulation3::check_cells(t_cells);
   }  // are_simplex_types_valid
 
-  /// @brief Print the volume in subsimplices (faces) per timeslice
+  /// @brief Print the codimension 1 volume of simplices (faces) per timeslice
   void print_volume_per_timeslice() const
   {
     m_triangulation.print_volume_per_timeslice();
