@@ -20,11 +20,11 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
 {
   GIVEN("A vector of 4 vertices.")
   {
-    vector<Point> Vertices{Point{0, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                           Point{1, 0, 0}};
+    vector<Point_3> Vertices{Point_3{0, 0, 0}, Point_3{0, 1, 0},
+                             Point_3{0, 0, 1}, Point_3{1, 0, 0}};
     WHEN("A triangulation is constructed using the vector.")
     {
-      Delaunay3 triangulation;
+      FoliatedTriangulation3 triangulation;
       triangulation.insert(Vertices.begin(), Vertices.end());
 
       THEN("The triangulation has dimension 3.")
@@ -54,12 +54,12 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
 
       THEN("The triangulation is Delaunay.")
       {
-        REQUIRE(triangulation.is_valid());
+        REQUIRE(triangulation.is_delaunay());
       }
 
       THEN("The triangulation data structure is valid.")
       {
-        REQUIRE(triangulation.tds().is_valid());
+        REQUIRE(triangulation.is_tds_valid());
       }
     }
   }
@@ -69,12 +69,12 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
 {
   GIVEN("Points in a tetrahedron.")
   {
-    auto origin = Point{0, 0, 0};
+    auto origin = Point_3{0, 0, 0};
     // These points have a radius of 1
-    auto            v1 = Point{1, 0, 0};
-    auto            v2 = Point{0, 1, 0};
-    auto            v3 = Point{0, 0, 1};
-    auto            v4 = Point{RADIUS_2, RADIUS_2, RADIUS_2};
+    auto            v1 = Point_3{1, 0, 0};
+    auto            v2 = Point_3{0, 1, 0};
+    auto            v3 = Point_3{0, 0, 1};
+    auto            v4 = Point_3{RADIUS_2, RADIUS_2, RADIUS_2};
     Causal_vertices cv;
     cv.emplace_back(make_pair(v1, 1));
     cv.emplace_back(make_pair(v2, 1));
@@ -154,8 +154,9 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
 {
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
-    vector<Point>       Vertices{Point{1, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                           Point{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
+                             Point_3{0, 0, 1},
+                             Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
     vector<std::size_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
@@ -165,7 +166,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
       Causal_vertices cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv), [](Point a, std::size_t b) {
+                     std::back_inserter(cv), [](Point_3 a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulation3 ft(cv);

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2019 Adam Getchell
+/// Copyright © 2019-2021 Adam Getchell
 ///
 /// Performs the set of Pachner moves on a 2+1 dimensional manifold which
 /// explore all possible triangulations.
@@ -40,8 +40,9 @@ namespace manifold3_moves
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline bool try_23_move(Manifold3&         t_manifold,
-                                        Cell_handle const& to_be_moved)
+  [[nodiscard]] inline auto try_23_move(Manifold3&           t_manifold,
+                                        Cell_handle_3 const& to_be_moved)
+      -> bool
   {
     Expects(to_be_moved->info() == 22);
     auto flipped = false;
@@ -56,12 +57,10 @@ namespace manifold3_moves
         flipped = true;
         break;
       }
-      else
-      {
+
 #ifndef NDEBUG
-        fmt::print("Facet {} was not flippable.\n", i);
+      fmt::print("Facet {} was not flippable.\n", i);
 #endif
-      }
     }
     return flipped;
   }  // try_23_move
@@ -78,17 +77,18 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline decltype(auto) do_23_move(Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_23_move(Manifold3& t_manifold) -> decltype(auto)
   {
 #ifndef NDEBUG
-    puts(__PRETTY_FUNCTION__);
+    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
+
     auto two_two = t_manifold.get_triangulation().get_two_two();
     // Shuffle the container to pick a random sequence of (2,2) cells to try
     std::shuffle(two_two.begin(), two_two.end(), make_random_generator());
     for (auto& cell : two_two)
     {
-      if (try_23_move(t_manifold, cell)) return t_manifold;
+      if (try_23_move(t_manifold, cell)) { return t_manifold; }
     }
     // We've run out of (2,2) cells
     throw std::domain_error("No (2,3) move is possible.");
@@ -101,13 +101,15 @@ namespace manifold3_moves
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_32_move(Manifold3&         t_manifold,
-                                        Edge_handle const& to_be_moved)
+  [[nodiscard]] inline auto try_32_move(Manifold3&           t_manifold,
+                                        Edge_handle_3 const& to_be_moved)
   {
     auto flipped = false;
     if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
                                         to_be_moved.third))
+    {
       flipped = true;
+    }
     return flipped;
   }
 
@@ -141,12 +143,10 @@ namespace manifold3_moves
 #endif
         return t_manifold;
       }
-      else
-      {
+
 #ifndef NDEBUG
-        fmt::print("Edge not flippable.\n");
+      fmt::print("Edge not flippable.\n");
 #endif
-      }
     }
     // We've run out of edges to try
     throw std::domain_error("No (3,2) move possible.");
@@ -160,8 +160,8 @@ namespace manifold3_moves
   ///
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
-  [[nodiscard]] inline std::optional<int> find_26_move(
-      Cell_handle const& t_cell)
+  [[nodiscard]] inline auto find_26_move(Cell_handle_3 const& t_cell)
+      -> std::optional<int>
   {
     Expects(t_cell->info() == 13);
     for (auto i = 0; i < 4; ++i)
@@ -169,7 +169,11 @@ namespace manifold3_moves
 #ifndef NDEBUG
       fmt::print("Neighbor {} is of type {}\n", i, t_cell->neighbor(i)->info());
 #endif
-      if (t_cell->neighbor(i)->info() == 31) { return i; }
+      if (t_cell->neighbor(i)->info() ==
+          static_cast<Int_precision>(Cell_type::THREE_ONE))
+      {
+        return i;
+      }
     }
     return std::nullopt;
   }  // find_26_move()
@@ -209,7 +213,7 @@ namespace manifold3_moves
 #ifndef NDEBUG
         fmt::print("neighboring_31_index is {}\n", *neighboring_31_index);
 #endif
-        Cell_handle top = bottom->neighbor(*neighboring_31_index);
+        Cell_handle_3 top = bottom->neighbor(*neighboring_31_index);
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         Expects(bottom->has_neighbor(top, common_face_index));
@@ -237,12 +241,12 @@ namespace manifold3_moves
 
         // Do the (2,6) move
         // Insert new vertex
-        Vertex_handle v_center =
+        Vertex_handle_3 v_center =
             t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
         // Checks
-        std::vector<Cell_handle> incident_cells;
+        std::vector<Cell_handle_3> incident_cells;
         t_manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
@@ -304,8 +308,8 @@ namespace manifold3_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifold3&           manifold,
-                                          Vertex_handle const& candidate)
+  [[nodiscard]] inline auto is_62_movable(Manifold3&             manifold,
+                                          Vertex_handle_3 const& candidate)
   {
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     Expects(manifold.is_vertex(candidate));
@@ -313,7 +317,7 @@ namespace manifold3_moves
     auto incident_edges = manifold.degree(candidate);
 
     // We must have 5 incident edges to have 6 incident cells
-    if (incident_edges != 5)
+    if (incident_edges != 5)  // NOLINT
     {
 #ifdef DETAILED_DEBUGGING
       fmt::print("Vertex has {} incident edges/vertices.\n", incident_edges);
@@ -324,7 +328,7 @@ namespace manifold3_moves
     // Obtain all incident cells
     auto incident_cells = manifold.incident_cells(candidate);
     // We must have 6 cells incident to the vertex to make a (6,2) move
-    if (incident_cells.size() != 6)
+    if (incident_cells.size() != 6)  // NOLINT
     {
 #ifdef DETAILED_DEBUGGING
       fmt::print(
@@ -409,8 +413,9 @@ namespace manifold3_moves
   /// @param t_manifold The simplicial manifold
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
-  [[nodiscard]] inline std::optional<std::vector<Cell_handle>> find_44_move(
-      Manifold3& t_manifold, Edge_handle const& t_edge_candidate)
+  [[nodiscard]] inline auto find_44_move(Manifold3&           t_manifold,
+                                         Edge_handle_3 const& t_edge_candidate)
+      -> std::optional<std::vector<Cell_handle_3>>
   {
     Expects(t_manifold.dim() > 0);  // Precondition of is_edge()
     Expects(t_manifold.is_edge(t_edge_candidate));
@@ -420,7 +425,7 @@ namespace manifold3_moves
     auto circulator =
         t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
-    std::vector<Cell_handle> incident_cells;
+    std::vector<Cell_handle_3> incident_cells;
     do
     {
       incident_cells.emplace_back(circulator++);
@@ -428,10 +433,9 @@ namespace manifold3_moves
     fmt::print("Edge has {} incident cells.\n", incident_cells.size());
 
     if (incident_cells.size() == 4) { return incident_cells; }
-    else
-    {
-      return std::nullopt;
-    }
+
+    return std::nullopt;
+
   }  // find_44_move()
 
   /// @brief Perform a (4,4) move
@@ -537,8 +541,8 @@ namespace manifold3_moves
                 t_after.N3_31() == t_before.N3_31() + 2 &&
                 t_after.N3_22() == t_before.N3_22() &&
                 t_after.N3_13() == t_before.N3_13() + 2 &&
-                t_after.N2() == t_before.N2() + 8 &&
-                t_after.N1() == t_before.N1() + 5 &&
+                t_after.N2() == t_before.N2() + 8 &&  // NOLINT
+                t_after.N1() == t_before.N1() + 5 &&  // NOLINT
                 t_after.N1_TL() == t_before.N1_TL() + 2 &&
                 t_after.N1_SL() == t_before.N1_SL() + 3 &&
                 t_after.N0() == t_before.N0() + 1 &&
@@ -550,8 +554,8 @@ namespace manifold3_moves
                 t_after.N3_31() == t_before.N3_31() - 2 &&
                 t_after.N3_22() == t_before.N3_22() &&
                 t_after.N3_13() == t_before.N3_13() - 2 &&
-                t_after.N2() == t_before.N2() - 8 &&
-                t_after.N1() == t_before.N1() - 5 &&
+                t_after.N2() == t_before.N2() - 8 &&  // NOLINT
+                t_after.N1() == t_before.N1() - 5 &&  // NOLINT
                 t_after.N1_TL() == t_before.N1_TL() - 2 &&
                 t_after.N1_SL() == t_before.N1_SL() - 3 &&
                 t_after.N0() == t_before.N0() - 1 &&

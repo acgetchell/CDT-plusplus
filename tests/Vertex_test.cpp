@@ -15,15 +15,15 @@ SCENARIO("Vertex operations", "[vertex]")
 {
   GIVEN("A Delaunay triangulation.")
   {
-    Delaunay3 triangulation;
+    FoliatedTriangulation3 triangulation;
 
     WHEN("A vertex is inserted.")
     {
-      triangulation.insert(Point(0, 0, 0));
+      triangulation.insert(Point_3(0, 0, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
-        REQUIRE(triangulation.tds().is_valid());
+        REQUIRE(triangulation.is_tds_valid());
       }
 
       THEN("We should have 1 point.")
@@ -39,12 +39,12 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Two vertices are inserted.")
     {
-      triangulation.insert(Point(0, 0, 0));
-      triangulation.insert(Point(1, 0, 0));
+      triangulation.insert(Point_3(0, 0, 0));
+      triangulation.insert(Point_3(1, 0, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
-        REQUIRE(triangulation.tds().is_valid());
+        REQUIRE(triangulation.is_tds_valid());
       }
 
       THEN("We should have 2 points.")
@@ -60,13 +60,13 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Three vertices are inserted.")
     {
-      triangulation.insert(Point(0, 0, 0));
-      triangulation.insert(Point(1, 0, 0));
-      triangulation.insert(Point(0, 1, 0));
+      triangulation.insert(Point_3(0, 0, 0));
+      triangulation.insert(Point_3(1, 0, 0));
+      triangulation.insert(Point_3(0, 1, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
-        REQUIRE(triangulation.tds().is_valid());
+        REQUIRE(triangulation.is_tds_valid());
       }
 
       THEN("We should have 3 points.")
@@ -82,14 +82,14 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Four vertices are inserted.")
     {
-      triangulation.insert(Point(0, 0, 0));
-      triangulation.insert(Point(1, 0, 0));
-      triangulation.insert(Point(0, 1, 0));
-      triangulation.insert(Point(0, 0, 1));
+      triangulation.insert(Point_3(0, 0, 0));
+      triangulation.insert(Point_3(1, 0, 0));
+      triangulation.insert(Point_3(0, 1, 0));
+      triangulation.insert(Point_3(0, 0, 1));
 
       THEN("The Delaunay triangulation is valid.")
       {
-        REQUIRE(triangulation.tds().is_valid());
+        REQUIRE(triangulation.is_tds_valid());
       }
 
       THEN("We should have 4 points.")
@@ -105,16 +105,16 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Six vertices are inserted.")
     {
-      triangulation.insert(Point(0, 0, 0));
-      triangulation.insert(Point(1, 0, 0));
-      triangulation.insert(Point(0, 1, 0));
-      triangulation.insert(Point(0, 0, 1));
-      triangulation.insert(Point(2, 2, 2));
-      triangulation.insert(Point(-1, 0, 1));
+      triangulation.insert(Point_3(0, 0, 0));
+      triangulation.insert(Point_3(1, 0, 0));
+      triangulation.insert(Point_3(0, 1, 0));
+      triangulation.insert(Point_3(0, 0, 1));
+      triangulation.insert(Point_3(2, 2, 2));
+      triangulation.insert(Point_3(-1, 0, 1));
 
       THEN("The Delaunay triangulation is valid.")
       {
-        REQUIRE(triangulation.tds().is_valid());
+        REQUIRE(triangulation.is_tds_valid());
       }
 
       THEN("We should have 6 points.")

@@ -103,10 +103,10 @@ SCENARIO("Manifold functions", "[manifold]")
   GIVEN("A manifold with four vertices.")
   {
     Causal_vertices cv;
-    cv.emplace_back(make_pair(Point(1, 0, 0), 1));
-    cv.emplace_back(make_pair(Point(0, 1, 0), 1));
-    cv.emplace_back(make_pair(Point(0, 0, 1), 1));
-    cv.emplace_back(make_pair(Point(RADIUS_2, RADIUS_2, RADIUS_2), 2));
+    cv.emplace_back(make_pair(Point_3(1, 0, 0), 1));
+    cv.emplace_back(make_pair(Point_3(0, 1, 0), 1));
+    cv.emplace_back(make_pair(Point_3(0, 0, 1), 1));
+    cv.emplace_back(make_pair(Point_3(RADIUS_2, RADIUS_2, RADIUS_2), 2));
     Manifold3 manifold(cv);
 
     REQUIRE(manifold.is_correct());
@@ -165,14 +165,14 @@ SCENARIO("3-Manifold initialization", "[manifold]")
                    typeid(manifold.get_geometry()).name());
       }
     }
-    WHEN("It is constructed from a Delaunay triangulation.")
+    WHEN("It is constructed from causal vertices.")
     {
       Causal_vertices cv;
-      cv.emplace_back(make_pair(Point(0, 0, 0), 1));
-      cv.emplace_back(make_pair(Point(1, 0, 0), 2));
-      cv.emplace_back(make_pair(Point(0, 1, 0), 2));
-      cv.emplace_back(make_pair(Point(0, 0, 1), 2));
-      cv.emplace_back(make_pair(Point(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+      cv.emplace_back(make_pair(Point_3(0, 0, 0), 1));
+      cv.emplace_back(make_pair(Point_3(1, 0, 0), 2));
+      cv.emplace_back(make_pair(Point_3(0, 1, 0), 2));
+      cv.emplace_back(make_pair(Point_3(0, 0, 1), 2));
+      cv.emplace_back(make_pair(Point_3(RADIUS_2, RADIUS_2, RADIUS_2), 3));
       Manifold3 manifold(cv, 0, 1.0);
 
       THEN("The triangulation is valid.")
@@ -209,12 +209,12 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     WHEN("It is constructed from a Foliated triangulation.")
     {
       Causal_vertices cv;
-      cv.emplace_back(make_pair(Point(0, 0, 0), 1));
-      cv.emplace_back(make_pair(Point(1, 0, 0), 2));
-      cv.emplace_back(make_pair(Point(0, 1, 0), 2));
-      cv.emplace_back(make_pair(Point(0, 0, 1), 2));
-      cv.emplace_back(make_pair(Point(RADIUS_2, RADIUS_2, RADIUS_2), 3));
-      Manifold3 manifold(cv, 0, 1);
+      cv.emplace_back(make_pair(Point_3(0, 0, 0), 1));
+      cv.emplace_back(make_pair(Point_3(1, 0, 0), 2));
+      cv.emplace_back(make_pair(Point_3(0, 1, 0), 2));
+      cv.emplace_back(make_pair(Point_3(0, 0, 1), 2));
+      cv.emplace_back(make_pair(Point_3(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+      Manifold3 manifold(cv, 0, 1.0);
 
       THEN("The triangulation is valid.")
       {
@@ -513,13 +513,12 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
   GIVEN("A (1,3) and (3,1) stacked on each other.")
   {
     Causal_vertices cv;
-    cv.emplace_back(make_pair(Point(0, 0, 0), 1));
-    cv.emplace_back(make_pair(Point(1, 0, 1), 2));
-    cv.emplace_back(make_pair(Point(0, 1, 1), 2));
-    cv.emplace_back(make_pair(Point(1, 1, 1), 2));
-    cv.emplace_back(make_pair(Point(1, 1, 2), 3));
-    Manifold3 manifold(cv);
-    /// TODO: Fix is_infinite and is_vertex from cells container
+    cv.emplace_back(make_pair(Point_3(0, 0, 0), 1));
+    cv.emplace_back(make_pair(Point_3(1, 0, 0), 2));
+    cv.emplace_back(make_pair(Point_3(0, 1, 0), 2));
+    cv.emplace_back(make_pair(Point_3(0, 0, 1), 2));
+    cv.emplace_back(make_pair(Point_3(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+    Manifold3 manifold(cv, 0.0, 1.0);
     WHEN("We ask for a container of vertices given a container of cells.")
     {
       auto&& vertices = Manifold3::get_vertices_from_cells(
@@ -527,17 +526,14 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       THEN("We get back the correct number of vertices.")
       {
         REQUIRE(vertices.size() == 5);
-        //        for (auto&& vertex : vertices)
-        //        {
-        //          cout << boolalpha
-        //               << "Vertex is a vertex: " << manifold.is_vertex(vertex)
-        //               << "\n";
-        //          cout << boolalpha << "Vertex is infinite: "
-        //               << manifold.get_triangulation().is_infinite(vertex) <<
-        //               "\n";
-        //          if (!manifold.get_triangulation().is_infinite(vertex))
-        //          { REQUIRE(manifold.is_vertex(vertex)); }
-        //        }
+        for (auto& vertex : vertices)
+        {
+          fmt::print(
+              "Vertex ({}) with timevalue of {} is a vertex: {} and is "
+              "infinite: {}\n",
+              vertex->point(), vertex->info(), manifold.is_vertex(vertex),
+              manifold.get_triangulation().is_infinite(vertex));
+        }
       }
     }
     WHEN("It is constructed.")
@@ -549,54 +545,43 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
       {
-        auto vertices = manifold.get_vertices();
-        for (auto& vertex : vertices)
-        {
-          CHECK(vertex->info() >= manifold.min_time());
-          CHECK(vertex->info() <= manifold.max_time());
-#ifndef NDEBUG
-          fmt::print("Vertex->info() = {}\n", vertex->info());
-#endif
-        }
+        manifold.get_triangulation().print_vertices();
+        REQUIRE(manifold.get_triangulation().check_all_vertices());
       }
       THEN("Every cell in the manifold is correctly classified.")
       {
-        auto cells = manifold.get_triangulation().get_cells();
-        for (auto& cell : cells)
-        {
-          using Catch::Matchers::Predicate;
-          CHECK_THAT(cell->info(),
-                     Predicate<int>(
-                         [](int const a) -> bool {
-                           return (a == 13 || a == 22 || a == 31);
-                         },
-                         "Cell->info() should be 13, 22, or 31."));
-#ifndef NDEBUG
-          fmt::print("Cell->info() = {}\n", cell->info());
-#endif
-        }
+        manifold.get_triangulation().print_cells();
+        REQUIRE(manifold.check_simplices());
       }
     }
-    /// TODO: Fix checks of vertex timevalues and simplex types
     WHEN("We insert an invalid timevalue into a vertex.")
     {
       auto cells         = manifold.get_triangulation().get_cells();
       auto broken_cell   = cells[0];
       auto broken_vertex = broken_cell->vertex(0);
-      cout << "Info on vertex was " << broken_vertex->info() << "\n";
+      fmt::print("Info on vertex was {}\n", broken_vertex->info());
       broken_vertex->info() = std::numeric_limits<int>::max();
-      cout << "Info on vertex is now " << broken_vertex->info() << "\n";
+      fmt::print("Info on vertex is now {}\n", broken_vertex->info());
       THEN("We can detect invalid vertex timevalues.")
       {
         CHECK_FALSE(manifold.are_vertex_timevalues_valid(cells));
+        auto bad_vertices =
+            manifold.get_triangulation().find_incorrect_vertices();
+        for (auto& vertex : bad_vertices)
+        {
+          fmt::print(
+              "Incorrect vertex ({}) with timevalue of {} is a vertex: {} and "
+              "is infinite: {}\n",
+              vertex->point(), vertex->info(), manifold.is_vertex(vertex),
+              manifold.get_triangulation().is_infinite(vertex));
+        }
       }
-      //    / TODO: Write check to ensure all simplices have correct
-      //    cell->info()
-      //          THEN("We can detect invalid simplex types.")
-      //          {
-      //            manifold.update();
-      //            CHECK_FALSE(manifold.are_simplex_types_valid(cells));
-      //          }
+      THEN("We can detect invalid cells.")
+      {
+        manifold.update();
+        manifold.get_triangulation().print_cells();
+        CHECK_FALSE(manifold.check_simplices());
+      }
     }
   }
   GIVEN("A medium sized manifold.")
@@ -625,32 +610,11 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
       {
-        auto vertices = manifold.get_vertices();
-        for (auto& vertex : vertices)
-        {
-          CHECK(vertex->info() >= manifold.min_time());
-          CHECK(vertex->info() <= manifold.max_time());
-#ifdef DETAILED_DEBUGGING
-          fmt::print("Vertex->info() = {}\n", vertex->info());
-#endif
-        }
+        REQUIRE(manifold.get_triangulation().check_all_vertices());
       }
       THEN("Every cell in the manifold is correctly classified.")
       {
-        auto cells = manifold.get_triangulation().get_cells();
-        for (auto& cell : cells)
-        {
-          using Catch::Matchers::Predicate;
-          CHECK_THAT(cell->info(),
-                     Predicate<int>(
-                         [](int const a) -> bool {
-                           return (a == 13 || a == 22 || a == 31);
-                         },
-                         "Cell->info() should be 13, 22, or 31."));
-#ifdef DETAILED_DEBUGGING
-          fmt::print("Cell->info() = {}\n", cell->info());
-#endif
-        }
+        REQUIRE(manifold.check_simplices());
       }
     }
   }

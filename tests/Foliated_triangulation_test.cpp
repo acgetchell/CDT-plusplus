@@ -145,13 +145,14 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
     }
     WHEN("Constructing a triangulation with 4 causal vertices.")
     {
-      vector<Point> Vertices{Point{1, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                             Point{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
+                               Point_3{0, 0, 1},
+                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
       Causal_vertices     cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv), [](Point a, std::size_t b) {
+                     std::back_inserter(cv), [](Point_3 a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulation3 ft(cv);
@@ -171,14 +172,16 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 {
   GIVEN("A small foliated triangulation.")
   {
-    vector<Point>       Vertices{Point{1, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                           Point{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
+                             Point_3{0, 0, 1},
+                             Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
     vector<std::size_t> timevalue{1, 1, 1, 2};
     Causal_vertices     cv;
     cv.reserve(Vertices.size());
     std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                   std::back_inserter(cv),
-                   [](Point a, std::size_t b) { return std::make_pair(a, b); });
+                   std::back_inserter(cv), [](Point_3 a, std::size_t b) {
+                     return std::make_pair(a, b);
+                   });
     FoliatedTriangulation3 ft(cv);
     REQUIRE(ft.is_initialized());
     WHEN("check_vertices() is called.")
@@ -296,8 +299,9 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         "It is constructed from a Delaunay triangulation with 4 causal "
         "vertices.")
     {
-      vector<Point> Vertices{Point{1, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                             Point{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
+                               Point_3{0, 0, 1},
+                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
       Causal_vertices     cv;
       cv.reserve(Vertices.size());
@@ -501,8 +505,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
   {
     WHEN("Constructing a triangulation with 4 correct vertices.")
     {
-      vector<Point> Vertices{Point{1, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                             Point{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
+                               Point_3{0, 0, 1},
+                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
       Causal_vertices     cv;
       cv.reserve(Vertices.size());
@@ -527,8 +532,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         "Constructing a triangulation with an incorrect high timevalue "
         "vertex.")
     {
-      vector<Point> Vertices{Point{1, 0, 0}, Point{0, 1, 0}, Point{0, 0, 1},
-                             Point{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
+                               Point_3{0, 0, 1},
+                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, std::numeric_limits<int>::max()};
       Causal_vertices     cv;
       cv.reserve(Vertices.size());
