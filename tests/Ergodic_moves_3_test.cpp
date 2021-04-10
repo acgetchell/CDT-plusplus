@@ -20,7 +20,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
   {
     constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
-    Manifold3      manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state
     auto N3_31_pre_move = manifold.N3_31();
@@ -34,14 +34,14 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (2,3) move is performed")
     {
       // Use copy elision
-      manifold = manifold3_moves::do_23_move(manifold);
+      manifold = Moves::do_23_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
         // The move is correct
-        CHECK(manifold3_moves::check_move(
-            manifold_before, manifold, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold_before, manifold,
+                                Moves::move_type::TWO_THREE));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move + 1);
@@ -54,14 +54,14 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (3,2) move is performed")
     {
-      manifold = manifold3_moves::do_32_move(manifold);
+      manifold = Moves::do_32_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(manifold3_moves::check_move(
-            manifold_before, manifold, manifold3_moves::move_type::THREE_TWO));
+        CHECK(Moves::check_move(manifold_before, manifold,
+                                Moves::move_type::THREE_TWO));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move - 1);
@@ -75,14 +75,14 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (2,6) move is performed")
     {
-      manifold = manifold3_moves::do_26_move(manifold);
+      manifold = Moves::do_26_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(manifold3_moves::check_move(manifold_before, manifold,
-                                          manifold3_moves::move_type::TWO_SIX));
+        CHECK(Moves::check_move(manifold_before, manifold,
+                                Moves::move_type::TWO_SIX));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move + 2);
         CHECK(manifold.N3_22() == N3_22_pre_move);
@@ -96,14 +96,14 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (6,2) move is performed")
     {
-      manifold = manifold3_moves::do_62_move(manifold);
+      manifold = Moves::do_62_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(manifold3_moves::check_move(manifold_before, manifold,
-                                          manifold3_moves::move_type::SIX_TWO));
+        CHECK(Moves::check_move(manifold_before, manifold,
+                                Moves::move_type::SIX_TWO));
         // Manual check
         CHECK(manifold.is_correct());
         CHECK(manifold.N3_31() == N3_31_pre_move - 2);
@@ -116,14 +116,14 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (4,4) move is performed")
     {
-      manifold = manifold3_moves::do_44_move(manifold);
+      manifold = Moves::do_44_move(manifold);
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(manifold3_moves::check_move(
-            manifold_before, manifold, manifold3_moves::move_type::FOUR_FOUR));
+        CHECK(Moves::check_move(manifold_before, manifold,
+                                Moves::move_type::FOUR_FOUR));
 
         // A (4,4) move by itself does not break the Delaunay triangulation
 

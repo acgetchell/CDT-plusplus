@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2013-2020 Adam Getchell
+/// Copyright © 2013-2021 Adam Getchell
 ///
 /// Utility functions
 
@@ -42,17 +42,15 @@
 // H. Hinnant date and time library
 #include <date/tz.h>
 
-// M. O'Neill's Permutation Congruential Generator library
+// M. O'Neill Permutation Congruential Generator library
 #include "pcg_random.hpp"
 
-// V. Zverovich's {fmt} library
+// V. Zverovich {fmt} library
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
 // Global project settings
 #include "Settings.hpp"
-
-// using Gmpzf = CGAL::Gmpzf;
 
 enum class topology_type
 {
@@ -77,49 +75,11 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
     default:
       return t_os << "none";
   }
-}
-
-///// @brief Return an environment variable
-/////
-///// Uses **getenv** from **/<cstdlib/>** which has a char* rvalue
-/////
-///// @param t_key The string value
-///// @return The environment variable corresponding to the key
-//[[nodiscard]] inline auto getEnvVar(std::string const& t_key) noexcept
-//{
-//#ifndef _WIN32
-//  char const* val = getenv(t_key.c_str());
-//  val == nullptr ? std::string() : std::string(val);
-//#else
-//  auto              val = "user";
-//#endif
-//  return val;
-//}
-//
-///// @brief Return the hostname
-/////
-///// Uses utsname.h, which isn't present in Windows
-///// (easily) so just default to "windows" on that platform.
-/////
-///// @return The hostname
-//[[nodiscard]] inline auto hostname() noexcept -> std::string
-//{
-//#ifndef _WIN32
-//  struct utsname name
-//  {
-//  };
-//  // Ensure uname returns a value
-//  if (uname(&name) != 0) { exit(-1); }
-//  return name.nodename;
-//#else
-//  std::string const hostname("windows");
-//  return hostname;
-//#endif
-//}
+}  // operator<<
 
 /// @brief Return current date and time
 ///
-/// Use's Howard Hinnant C++11/14 data and time library and Time Zone Database
+/// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
 /// Parser. https://github.com/HowardHinnant/date
 ///
 /// @return A formatted string with the system local time
@@ -162,14 +122,6 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 
   filename += std::to_string(t_number_of_simplices);
 
-  //  // Get user
-  //  filename += "-";
-  //  filename += getEnvVar("USER");
-  //
-  //  // Get machine name
-  //  filename += "@";
-  //  filename += hostname();
-
   filename += "-I";
 
   filename += std::to_string(t_initial_radius);
@@ -185,7 +137,7 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
   // Append .off file extension
   filename += ".off";
   return filename;
-}
+}  // generate_filename
 
 /// @brief Print out runtime results
 ///
@@ -334,7 +286,7 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
   pcg64 rng(seed_source);
 
   // Choose random number from 1 to 6
-  std::uniform_int_distribution<Int_precision> uniform_dist(1, 6);
+  std::uniform_int_distribution<Int_precision> uniform_dist(1, 6);  // NOLINT
   Int_precision const                          roll = uniform_dist(rng);
   return roll;
 }  // die_roll()
@@ -384,8 +336,8 @@ template <typename IntegerType>
 
 /// @brief Generate a random timeslice
 template <typename IntegerType>
-[[nodiscard]] decltype(auto) generate_random_timeslice(
-    IntegerType&& t_max_timeslice) noexcept
+[[nodiscard]] auto generate_random_timeslice(
+    IntegerType&& t_max_timeslice) noexcept -> decltype(auto)
 {
   return generate_random_int(static_cast<IntegerType>(1), t_max_timeslice);
 }  // generate_random_timeslice()
@@ -441,31 +393,27 @@ template <typename FloatingPointType>
     // Avoid segfaults for small values
     if (t_number_of_simplices == t_number_of_timeslices)
     { return 2 * simplices_per_timeslice; }
-    else if (t_number_of_simplices < 1000)
+    if (t_number_of_simplices < 1000)  // NOLINT
     {
       return static_cast<Int_precision>(
-          0.4L * static_cast<long double>(simplices_per_timeslice));
+          0.4L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
     }
-    else if (t_number_of_simplices < 10000)
+    if (t_number_of_simplices < 10000)  // NOLINT
     {
       return static_cast<Int_precision>(
-          0.2L * static_cast<long double>(simplices_per_timeslice));
+          0.2L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
     }
-    else if (t_number_of_simplices < 100000)
+    if (t_number_of_simplices < 100000)  // NOLINT
     {
       return static_cast<Int_precision>(
-          0.15L * static_cast<long double>(simplices_per_timeslice));
+          0.15L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
     }
-    else
-    {
-      return static_cast<Int_precision>(
-          0.1L * static_cast<long double>(simplices_per_timeslice));
-    }
+
+    return static_cast<Int_precision>(
+        0.1L * static_cast<long double>(simplices_per_timeslice));  // NOLINT
   }
-  else
-  {
-    throw std::invalid_argument("Currently, dimensions cannot be >3.");
-  }
+  throw std::invalid_argument("Currently, dimensions cannot be >3.");
+
 }  // expected_points_per_timeslice
 
 /// @brief Convert Gmpzf into a double

@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2020 Adam Getchell
+/// Copyright © 2018-2021 Adam Getchell
 ///
 /// Tests of geometry data structure
 
@@ -59,8 +59,8 @@ SCENARIO("3-Geometry classification", "[geometry]")
     {
       auto constexpr desired_simplices  = static_cast<Int_precision>(72);
       auto constexpr desired_timeslices = static_cast<Int_precision>(3);
-      FoliatedTriangulation3 triangulation(desired_simplices,
-                                           desired_timeslices);
+      FoliatedTriangulations::FoliatedTriangulation3 triangulation(
+          desired_simplices, desired_timeslices);
       Geometry3              geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
@@ -125,12 +125,12 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         REQUIRE(geometry.N0 == 0);
       }
     }
-    WHEN("It is constructed with a Delaunay triangulation.")
+    WHEN("It is constructed with a triangulation.")
     {
       auto constexpr desired_simplices  = static_cast<Int_precision>(640);
       auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-      FoliatedTriangulation3 triangulation(desired_simplices,
-                                           desired_timeslices);
+      FoliatedTriangulations::FoliatedTriangulation3 triangulation(
+          desired_simplices, desired_timeslices);
       Geometry3              geometry(triangulation);
       THEN(
           "The properties of the Delaunay triangulation are saved in geometry "

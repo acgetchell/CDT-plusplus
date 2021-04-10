@@ -21,32 +21,35 @@ SCENARIO("Move_command special members", "[move command]")
     {
       THEN("It is no-throw destructible.")
       {
-        CHECK(is_nothrow_destructible_v<MoveCommand<Manifold3>>);
+        CHECK(is_nothrow_destructible_v<MoveCommand<Manifolds::Manifold3>>);
       }
       THEN("It is not default constructible.")
       {
-        CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold3>>);
+        CHECK_FALSE(
+            is_default_constructible_v<MoveCommand<Manifolds::Manifold3>>);
       }
       THEN("It is copy constructible.")
       {
-        CHECK(is_copy_constructible_v<MoveCommand<Manifold3>>);
+        CHECK(is_copy_constructible_v<MoveCommand<Manifolds::Manifold3>>);
       }
       THEN("It is copy assignable.")
       {
-        CHECK(is_copy_assignable_v<MoveCommand<Manifold3>>);
+        CHECK(is_copy_assignable_v<MoveCommand<Manifolds::Manifold3>>);
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<MoveCommand<Manifold3>>);
+        CHECK(
+            is_nothrow_move_constructible_v<MoveCommand<Manifolds::Manifold3>>);
         fmt::print("Small function optimization supported.");
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<MoveCommand<Manifold3>>);
+        CHECK(is_nothrow_move_assignable_v<MoveCommand<Manifolds::Manifold3>>);
       }
       THEN("It is constructible from a Manifold.")
       {
-        CHECK(is_constructible_v<MoveCommand<Manifold3>, Manifold3>);
+        CHECK(is_constructible_v<MoveCommand<Manifolds::Manifold3>,
+                                 Manifolds::Manifold3>);
       }
     }
   }
@@ -58,17 +61,16 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move.")
     {
-      auto const move23{manifold3_moves::do_23_move};
+      auto const move23{Moves::do_23_move};
       THEN("Running the function makes the move.")
       {
         auto result = move23(manifold);
         result.update();
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
@@ -85,19 +87,18 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold3& m) -> Manifold3 {
-        return manifold3_moves::do_23_move(m);
+      auto const move23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
+        return Moves::do_23_move(m);
       };
       THEN("Running the lambda makes the move.")
       {
         auto result = move23(manifold);
         result.update();
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
@@ -115,17 +116,16 @@ SCENARIO("Invoking a move with apply_move and a function pointer",
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Apply_move is used for a move.")
     {
-      auto move = manifold3_moves::do_23_move;
+      auto move = Moves::do_23_move;
       THEN("Invoking apply_move() makes the move.")
       {
         auto result = apply_move(manifold, move);
         result.update();
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
@@ -142,7 +142,7 @@ SCENARIO("Move Command initialization", "[move command]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
     {
@@ -191,12 +191,12 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A (2,3) move is made.")
     {
       MoveCommand command(manifold);
-      auto        move_23 = manifold3_moves::do_23_move;
+      auto        move_23 = Moves::do_23_move;
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -210,14 +210,13 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() + 1);
         fmt::print("Triangulation added a finite cell.\n");
 
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
       }
     }
     WHEN("A (3,2) move is made.")
     {
       MoveCommand command(manifold);
-      auto        move_32 = manifold3_moves::do_32_move;
+      auto        move_32 = Moves::do_32_move;
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -231,14 +230,13 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() - 1);
         fmt::print("Triangulation removed a finite cell.\n");
 
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::THREE_TWO));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::THREE_TWO));
       }
     }
     WHEN("A (2,6) move is made.")
     {
       MoveCommand command(manifold);
-      auto        move_26 = manifold3_moves::do_26_move;
+      auto        move_26 = Moves::do_26_move;
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -252,14 +250,13 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() + 4);
         fmt::print("Triangulation added 4 finite cells.\n");
 
-        CHECK(manifold3_moves::check_move(manifold, result,
-                                          manifold3_moves::move_type::TWO_SIX));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_SIX));
       }
     }
     WHEN("A (6,2) move is made.")
     {
       MoveCommand command(manifold);
-      auto        move_62 = manifold3_moves::do_62_move;
+      auto        move_62 = Moves::do_62_move;
       THEN("It is executed correctly.")
       {
         // Execute the move
@@ -273,8 +270,7 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() - 4);
         fmt::print("Triangulation removed 4 finite cells.\n");
 
-        CHECK(manifold3_moves::check_move(manifold, result,
-                                          manifold3_moves::move_type::SIX_TWO));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::SIX_TWO));
       }
     }
   }
@@ -286,18 +282,18 @@ SCENARIO("Executing single moves sequentially", "[move command][.]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Two moves are executed.")
     {
       MoveCommand command(manifold);
       //            auto        move_23 = manifold3_moves::do_23_move;
       //            auto        move_32 = manifold3_moves::do_32_move;
-      auto const move_23 = [](Manifold3& m) -> Manifold3 {
-        return manifold3_moves::do_23_move(m);
+      auto const move_23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
+        return Moves::do_23_move(m);
       };
-      auto const move_32 = [](Manifold3& m) -> Manifold3 {
-        return manifold3_moves::do_32_move(m);
+      auto const move_32 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
+        return Moves::do_32_move(m);
       };
       //      function_ref<Manifold3(Manifold3&)> move_23(move23);
       //      function_ref<Manifold3(Manifold3&)> move_32(move32);
@@ -323,12 +319,12 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A null move is queued.")
     {
       MoveCommand command(manifold);
-      auto        move_null = manifold3_moves::null_move;
+      auto        move_null = Moves::null_move;
       command.enqueue(move_null);
       THEN("It is executed correctly.")
       {
@@ -343,8 +339,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         // Triangulation shouldn't have changed
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::FOUR_FOUR));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
       }
     }
     WHEN("Move_command copies the manifold and applies the move.")
@@ -355,7 +350,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         MoveCommand command(manifold);
         // Note: If we do a move that expands the size of the manifold,
         // without the copy ctor this will Segfault!
-        auto move32 = manifold3_moves::do_32_move;
+        auto move32 = Moves::do_32_move;
         command.enqueue(move32);
 
         fmt::print("Values for the original manifold.\n");
@@ -400,7 +395,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
     WHEN("A (2,3) move is queued.")
     {
       MoveCommand command(manifold);
-      auto        move23 = manifold3_moves::do_23_move;
+      auto        move23 = Moves::do_23_move;
       command.enqueue(move23);
       THEN("It is executed correctly.")
       {
@@ -415,14 +410,13 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() + 1);
         fmt::print("Triangulation added a finite cell.\n");
 
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
       }
     }
     WHEN("A (3,2) move is queued.")
     {
       MoveCommand command(manifold);
-      auto        move32 = manifold3_moves::do_32_move;
+      auto        move32 = Moves::do_32_move;
       command.enqueue(move32);
       THEN("It is executed correctly.")
       {
@@ -437,14 +431,13 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() - 1);
         fmt::print("Triangulation removed a finite cell.\n");
 
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::THREE_TWO));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::THREE_TWO));
       }
     }
     WHEN("A (2,6) move is queued.")
     {
       MoveCommand command(manifold);
-      auto        move26 = manifold3_moves::do_26_move;
+      auto        move26 = Moves::do_26_move;
       command.enqueue(move26);
       THEN("It is executed correctly.")
       {
@@ -459,14 +452,13 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() + 4);
         fmt::print("Triangulation added 4 finite cells.\n");
 
-        CHECK(manifold3_moves::check_move(manifold, result,
-                                          manifold3_moves::move_type::TWO_SIX));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_SIX));
       }
     }
     WHEN("A (6,2) move is queued.")
     {
       MoveCommand command(manifold);
-      auto        move62 = manifold3_moves::do_62_move;
+      auto        move62 = Moves::do_62_move;
       command.enqueue(move62);
       THEN("It is executed correctly.")
       {
@@ -481,26 +473,25 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells() - 4);
         fmt::print("Triangulation removed 4 finite cells.\n");
 
-        CHECK(manifold3_moves::check_move(manifold, result,
-                                          manifold3_moves::move_type::SIX_TWO));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::SIX_TWO));
       }
     }
   }
 }
-SCENARIO("Executing multiple moves on the queue", "[move command][.]")
+SCENARIO("Executing multiple moves on the queue", "[move command]")
 {
   GIVEN("A valid manifold")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("(2,3) and (3,2) moves are queued.")
     {
       MoveCommand command(manifold);
-      auto        move23 = manifold3_moves::do_23_move;
+      auto        move23 = Moves::do_23_move;
       command.enqueue(move23);
-      auto move32 = manifold3_moves::do_32_move;
+      auto move32 = Moves::do_32_move;
       command.enqueue(move32);
       THEN("There are two moves in the queue.") { CHECK(command.size() == 2); }
       THEN("The moves are executed correctly.")
@@ -514,22 +505,21 @@ SCENARIO("Executing multiple moves on the queue", "[move command][.]")
         // The moves should cancel out
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::FOUR_FOUR));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
       }
     }
     WHEN("One of each move is queued.")
     {
       MoveCommand command(manifold);
-      auto        move23 = manifold3_moves::do_23_move;
+      auto        move23 = Moves::do_23_move;
       command.enqueue(move23);
-      auto move26 = manifold3_moves::do_26_move;
+      auto move26 = Moves::do_26_move;
       command.enqueue(move26);
-      auto move44 = manifold3_moves::do_44_move;
+      auto move44 = Moves::do_44_move;
       command.enqueue(move44);
-      auto move62 = manifold3_moves::do_62_move;
+      auto move62 = Moves::do_62_move;
       command.enqueue(move62);
-      auto move32 = manifold3_moves::do_32_move;
+      auto move32 = Moves::do_32_move;
       command.enqueue(move32);
       THEN("There are five moves in the queue.") { CHECK(command.size() == 5); }
       THEN("The moves are executed correctly.")
@@ -543,8 +533,7 @@ SCENARIO("Executing multiple moves on the queue", "[move command][.]")
         // The moves should cancel out
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::FOUR_FOUR));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
       }
     }
   }

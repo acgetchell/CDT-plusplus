@@ -101,35 +101,35 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 #endif
         if (move_choice == 0)
         {
-          auto move = manifold3_moves::do_23_move;
+          auto move = Moves::do_23_move;
           //          get_attempted().two_three_moves() += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 1)
         {
-          auto move = manifold3_moves::do_32_move;
+          auto move = Moves::do_32_move;
           //          get_attempted().three_two_moves()++;
           command.enqueue(move);
         }
 
         if (move_choice == 2)
         {
-          auto move = manifold3_moves::do_26_move;
+          auto move = Moves::do_26_move;
           //          get_attempted().two_six_moves()++;
           command.enqueue(move);
         }
 
         if (move_choice == 3)
         {
-          auto move = manifold3_moves::do_62_move;
+          auto move = Moves::do_62_move;
           //          get_attempted().six_two_moves()++;
           command.enqueue(move);
         }
 
         if (move_choice == 4)
         {
-          auto move = manifold3_moves::do_44_move;
+          auto move = Moves::do_44_move;
           //          get_attempted().four_four_moves()++;
           command.enqueue(move);
         }

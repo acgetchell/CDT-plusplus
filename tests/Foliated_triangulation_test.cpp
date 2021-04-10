@@ -25,76 +25,93 @@ SCENARIO("Foliated_triangulation special member and swap properties",
     {
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(is_nothrow_destructible_v<FoliatedTriangulation3>);
+        REQUIRE(is_nothrow_destructible_v<
+                FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is default constructible.")
       {
-        REQUIRE(is_default_constructible_v<FoliatedTriangulation3>);
+        REQUIRE(is_default_constructible_v<
+                FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is NOT trivially default constructible.")
       {
-        CHECK_FALSE(
-            is_trivially_default_constructible_v<FoliatedTriangulation3>);
+        CHECK_FALSE(is_trivially_default_constructible_v<
+                    FoliatedTriangulations::FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw default constructible
       THEN("It is NOT no-throw default constructible.")
       {
-        CHECK_FALSE(is_nothrow_default_constructible_v<FoliatedTriangulation3>);
+        CHECK_FALSE(is_nothrow_default_constructible_v<
+                    FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is copy constructible.")
       {
-        REQUIRE(is_copy_constructible_v<FoliatedTriangulation3>);
+        REQUIRE(is_copy_constructible_v<
+                FoliatedTriangulations::FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw copy constructible
       THEN("It is NOT no-throw copy constructible.")
       {
-        CHECK_FALSE(is_nothrow_copy_constructible_v<FoliatedTriangulation3>);
+        CHECK_FALSE(is_nothrow_copy_constructible_v<
+                    FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is copy assignable.")
       {
-        REQUIRE(is_copy_assignable_v<FoliatedTriangulation3>);
+        REQUIRE(is_copy_assignable_v<
+                FoliatedTriangulations::FoliatedTriangulation3>);
       }
       /// TODO: Make FoliatedTriangulation no-throw copy assignable
       THEN("It is NOT no-throw copy assignable.")
       {
-        CHECK_FALSE(is_nothrow_copy_assignable_v<FoliatedTriangulation3>);
+        CHECK_FALSE(is_nothrow_copy_assignable_v<
+                    FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<FoliatedTriangulation3>);
+        CHECK(is_nothrow_move_constructible_v<
+              FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<FoliatedTriangulation3>);
+        CHECK(is_nothrow_move_assignable_v<
+              FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is no-throw swappable.")
       {
-        CHECK(is_nothrow_swappable_v<FoliatedTriangulation3>);
+        CHECK(is_nothrow_swappable_v<
+              FoliatedTriangulations::FoliatedTriangulation3>);
       }
       THEN("It is constructible from a Delaunay triangulation.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation3, Delaunay3>);
+        REQUIRE(
+            is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
+                               Delaunay3>);
       }
       THEN("It is constructible from parameters.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation3, Int_precision,
-                                   Int_precision, double, double>);
+        REQUIRE(
+            is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
+                               Int_precision, Int_precision, double, double>);
       }
       THEN("It is constructible from Causal_vertices.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices>);
+        REQUIRE(
+            is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
+                               Causal_vertices>);
       }
       THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices,
-                                   double>);
+        REQUIRE(
+            is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
+                               Causal_vertices, double>);
       }
       THEN(
           "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
           "RADIAL_SEPARATION.")
       {
-        REQUIRE(is_constructible_v<FoliatedTriangulation3, Causal_vertices,
-                                   double, double>);
+        REQUIRE(
+            is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
+                               Causal_vertices, double, double>);
       }
     }
   }
@@ -108,7 +125,8 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
     {
       constexpr auto         desired_simplices = static_cast<Int_precision>(47);
       constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(desired_simplices,
+                                                        desired_timeslices);
       REQUIRE(ft.is_initialized());
       THEN("Delaunay3 functions work as expected.")
       {
@@ -132,7 +150,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
     }
     WHEN("Constructing the default triangulation.")
     {
-      FoliatedTriangulation3 ft;
+      FoliatedTriangulations::FoliatedTriangulation3 ft;
       REQUIRE(ft.is_initialized());
       THEN("is_infinite() identifies a single infinite vertex.")
       {
@@ -155,7 +173,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
                      std::back_inserter(cv), [](Point_3 a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
       REQUIRE(ft.is_initialized());
       THEN("The degree of each vertex is 4 (including infinite vertex).")
       {
@@ -182,7 +200,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
                    std::back_inserter(cv), [](Point_3 a, std::size_t b) {
                      return std::make_pair(a, b);
                    });
-    FoliatedTriangulation3 ft(cv);
+    FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
     REQUIRE(ft.is_initialized());
     WHEN("check_vertices() is called.")
     {
@@ -214,7 +232,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     {
       THEN("Cells are correctly classified.")
       {
-        CHECK(FoliatedTriangulation3::check_cells(ft.get_cells()));
+        CHECK(FoliatedTriangulations::check_cells(ft.get_cells()));
         // Human verification
         ft.print_cells();
       }
@@ -234,7 +252,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       THEN("The incorrect cell labelling is fixed.")
       {
         CHECK_FALSE(ft.check_all_cells());
-        FoliatedTriangulation3::fix_cells(ft.find_incorrect_cells());
+        FoliatedTriangulations::fix_cells(ft.find_incorrect_cells());
         CHECK(ft.check_all_cells());
         // Human verification
         fmt::print("=== Corrected cell info ===\n");
@@ -250,8 +268,9 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
     constexpr auto         initial_radius     = 3.0;
     constexpr auto         foliation_spacing  = 2.0;
-    FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
-                              initial_radius, foliation_spacing);
+    FoliatedTriangulations::FoliatedTriangulation3 ft(
+        desired_simplices, desired_timeslices, initial_radius,
+        foliation_spacing);
     THEN("The triangulation is initialized correctly.")
     {
       REQUIRE(ft.is_initialized());
@@ -271,7 +290,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
             "Vertex ({}) with timevalue of {} has a squared radius of {} and a "
             "squared expected radius of {} with an expected timevalue of {}.\n",
             vertex->point(), vertex->info(),
-            FoliatedTriangulation3::squared_radius(vertex),
+            FoliatedTriangulations::squared_radius(vertex),
             std::pow(ft.expected_radius(vertex), 2),
             ft.expected_timevalue(vertex));
       }
@@ -284,7 +303,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
   {
     WHEN("It is default constructed.")
     {
-      FoliatedTriangulation3 ft;
+      FoliatedTriangulations::FoliatedTriangulation3 ft;
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(ft.is_initialized());
@@ -310,7 +329,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(ft.is_initialized());
@@ -332,7 +351,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     {
       constexpr auto         desired_simplices  = static_cast<Int_precision>(2);
       constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(desired_simplices,
+                                                        desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(ft.is_initialized());
@@ -367,7 +387,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
               "of {} and a squared expected radius of {} with an expected "
               "timevalue of {}.\n",
               vertex->point(), vertex->info(),
-              FoliatedTriangulation3::squared_radius(vertex),
+              FoliatedTriangulations::squared_radius(vertex),
               std::pow(ft.expected_radius(vertex), 2),
               ft.expected_timevalue(vertex));
         }
@@ -381,8 +401,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
       constexpr auto         initial_radius     = 3.0;
       constexpr auto         radial_factor      = 2.0;
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
-                                initial_radius, radial_factor);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(
+          desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
       {
         REQUIRE(ft.is_initialized());
@@ -401,14 +421,15 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
       constexpr auto         initial_radius     = 1.5;
       constexpr auto         radial_factor      = 1.1;
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
-                                initial_radius, radial_factor);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(
+          desired_simplices, desired_timeslices, initial_radius, radial_factor);
     }
     WHEN("Constructing a medium triangulation.")
     {
       constexpr auto desired_simplices  = static_cast<Int_precision>(6400);
       constexpr auto desired_timeslices = static_cast<Int_precision>(7);
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(desired_simplices,
+                                                        desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(ft.is_initialized());
@@ -439,7 +460,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         {
           CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE));
         }
-        CHECK(ft.check_cells(ft.get_cells()));
+        CHECK(FoliatedTriangulations::check_cells(ft.get_cells()));
         CHECK_FALSE(ft.N2_SL().empty());
 
         CHECK(ft.max_time() > 0);
@@ -456,11 +477,11 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         ft.print_volume_per_timeslice();
         for (auto const& edge : ft.get_timelike_edges())
         {
-          CHECK(ft.classify_edge(edge));
+          CHECK(FoliatedTriangulations::classify_edge(edge));
         }
         for (auto const& edge : ft.get_spacelike_edges())
         {
-          CHECK_FALSE(ft.classify_edge(edge));
+          CHECK_FALSE(FoliatedTriangulations::classify_edge(edge));
         }
       }
     }
@@ -473,7 +494,8 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
   {
     constexpr auto         desired_simplices = static_cast<Int_precision>(6400);
     constexpr auto         desired_timeslices = static_cast<Int_precision>(7);
-    FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
+    FoliatedTriangulations::FoliatedTriangulation3 ft(desired_simplices,
+                                                      desired_timeslices);
     WHEN("It is copied")
     {
       auto ft2 = ft;
@@ -516,7 +538,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
       THEN("No errors in the simplex are detected.")
       {
         CHECK(ft.is_foliated());
@@ -543,7 +565,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
       THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
       /// TODO: Use fix_vertex and fix_simplex here
       //#ifndef _WIN64
@@ -571,7 +593,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
       THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
       /// TODO: Use fix_vertex and fix_simplex here
       //#ifndef _WIN64
@@ -599,7 +621,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                      [](Delaunay3::Point a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
       THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
       /// TODO: Use fix_vertex and fix_simplex here
       //#ifndef _WIN64

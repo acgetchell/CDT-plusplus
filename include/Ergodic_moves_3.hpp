@@ -13,7 +13,7 @@
 
 #include "Manifold.hpp"
 
-namespace manifold3_moves
+namespace Moves
 {
   enum class move_type
   {
@@ -28,7 +28,7 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(Manifold3 const& t_manifold)
+  [[nodiscard]] inline auto null_move(Manifolds::Manifold3 const& t_manifold)
   {
     return t_manifold;
   }
@@ -40,8 +40,8 @@ namespace manifold3_moves
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_23_move(Manifold3&           t_manifold,
-                                        Cell_handle_3 const& to_be_moved)
+  [[nodiscard]] inline auto try_23_move(Manifolds::Manifold3& t_manifold,
+                                        Cell_handle_3 const&  to_be_moved)
       -> bool
   {
     Expects(to_be_moved->info() == 22);
@@ -77,7 +77,8 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline auto do_23_move(Manifold3& t_manifold) -> decltype(auto)
+  [[nodiscard]] inline auto do_23_move(Manifolds::Manifold3& t_manifold)
+      -> decltype(auto)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -101,8 +102,8 @@ namespace manifold3_moves
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_32_move(Manifold3&           t_manifold,
-                                        Edge_handle_3 const& to_be_moved)
+  [[nodiscard]] inline auto try_32_move(Manifolds::Manifold3& t_manifold,
+                                        Edge_handle_3 const&  to_be_moved)
   {
     auto flipped = false;
     if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
@@ -125,7 +126,7 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
-  [[nodiscard]] inline auto do_32_move(Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_32_move(Manifolds::Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -197,7 +198,7 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
-  [[nodiscard]] inline auto do_26_move(Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_26_move(Manifolds::Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -308,7 +309,7 @@ namespace manifold3_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifold3&             manifold,
+  [[nodiscard]] inline auto is_62_movable(Manifolds::Manifold3&  manifold,
                                           Vertex_handle_3 const& candidate)
   {
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
@@ -338,15 +339,16 @@ namespace manifold3_moves
       return false;
     }
 
-    auto incident_31 = manifold.get_triangulation().filter_cells(
+    auto incident_31 = FoliatedTriangulations::filter_cells(
         incident_cells, Cell_type::THREE_ONE);
-    auto incident_22 = manifold.get_triangulation().filter_cells(
-        incident_cells, Cell_type::TWO_TWO);
-    auto incident_13 = manifold.get_triangulation().filter_cells(
+    auto incident_22 = FoliatedTriangulations::filter_cells(incident_cells,
+                                                            Cell_type::TWO_TWO);
+    auto incident_13 = FoliatedTriangulations::filter_cells(
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified
-    if ((incident_13.size() + incident_22.size() + incident_31.size()) != 6)
+    if ((incident_13.size() + incident_22.size() + incident_31.size()) !=
+        6)  // NOLINT
     {
       fmt::print("Some incident cells on this vertex need to be fixed.\n");
     }
@@ -357,7 +359,7 @@ namespace manifold3_moves
         "and {} incident (2,2) simplices and {} incident (1,3) simplices.\n",
         incident_edges, incident_31.size(), incident_22.size(),
         incident_13.size());
-    manifold.get_triangulation().print_cells(incident_cells);
+    FoliatedTriangulations::print_cells(incident_cells);
 #endif
     return ((incident_31.size() == 3) && (incident_22.empty()) &&
             (incident_13.size() == 3));
@@ -382,7 +384,7 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
-  [[nodiscard]] inline auto do_62_move(Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_62_move(Manifolds::Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -413,8 +415,8 @@ namespace manifold3_moves
   /// @param t_manifold The simplicial manifold
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
-  [[nodiscard]] inline auto find_44_move(Manifold3&           t_manifold,
-                                         Edge_handle_3 const& t_edge_candidate)
+  [[nodiscard]] inline auto find_44_move(Manifolds::Manifold3& t_manifold,
+                                         Edge_handle_3 const&  t_edge_candidate)
       -> std::optional<std::vector<Cell_handle_3>>
   {
     Expects(t_manifold.dim() > 0);  // Precondition of is_edge()
@@ -456,7 +458,7 @@ namespace manifold3_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
-  [[nodiscard]] inline auto do_44_move(Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_44_move(Manifolds::Manifold3& t_manifold)
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -491,8 +493,8 @@ namespace manifold3_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(Manifold3 const& t_before,
-                                       Manifold3 const& t_after,
+  [[nodiscard]] inline auto check_move(Manifolds::Manifold3 const& t_before,
+                                       Manifolds::Manifold3 const& t_after,
                                        move_type const& t_move) -> bool
   {
     switch (t_move)
@@ -568,6 +570,6 @@ namespace manifold3_moves
     }
   }  // check_move()
 
-}  // namespace manifold3_moves
+}  // namespace Moves
 
 #endif  // CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP

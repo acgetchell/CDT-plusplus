@@ -15,7 +15,7 @@ SCENARIO("Vertex operations", "[vertex]")
 {
   GIVEN("A Delaunay triangulation.")
   {
-    FoliatedTriangulation3 triangulation;
+    FoliatedTriangulations::FoliatedTriangulation3 triangulation;
 
     WHEN("A vertex is inserted.")
     {

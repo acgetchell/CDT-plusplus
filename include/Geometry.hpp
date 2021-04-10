@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2018-2020 Adam Getchell
+/// Copyright © 2018-2021 Adam Getchell
 ///
 /// Geometric quantities of Manifold used by MoveAlgorithm.
 ///
@@ -59,7 +59,7 @@ struct Geometry<3>
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
   [[maybe_unused]] explicit Geometry(
-      FoliatedTriangulation3 const& triangulation)
+      FoliatedTriangulations::FoliatedTriangulation3 const& triangulation)
 
       : N3{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
       , N3_31{static_cast<Int_precision>(triangulation.get_three_one().size())}

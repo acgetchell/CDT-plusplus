@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2017-2020 Adam Getchell
+/// Copyright © 2017-2021 Adam Getchell
 ///
 /// Tests for lambdas and function_refs to store function objects for delayed
 /// calls
@@ -43,19 +43,18 @@ SCENARIO("Complex lambda operations", "[function-ref]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold3& m) -> Manifold3 {
-        return manifold3_moves::do_23_move(m);
+      auto const move23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
+        return Moves::do_23_move(m);
       };
       THEN("Running the lambda makes the move.")
       {
         auto result = move23(manifold);
         result.update();
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
@@ -81,18 +80,17 @@ SCENARIO("Function_ref operations", "[function-ref]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    function_ref<Manifold3(Manifold3&)> complex_ref(
-        manifold3_moves::do_23_move);
+    function_ref<Manifolds::Manifold3(Manifolds::Manifold3&)> complex_ref(
+        Moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
       auto result = complex_ref(manifold);
       result.update();
       THEN("The move from the function_ref is correct.")
       {
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
@@ -105,12 +103,13 @@ SCENARIO("Function_ref operations", "[function-ref]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    auto const move23 = [](Manifold3& m) -> Manifold3 {
-      return manifold3_moves::do_23_move(m);
+    auto const move23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
+      return Moves::do_23_move(m);
     };
-    function_ref<Manifold3(Manifold3&)> complex_ref(move23);
+    function_ref<Manifolds::Manifold3(Manifolds::Manifold3&)> complex_ref(
+        move23);
     WHEN("The function_ref is invoked.")
     {
       auto result = complex_ref(manifold);
@@ -119,8 +118,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
           "The move stored in the lambda invoked by the function_ref is "
           "correct.")
       {
-        CHECK(manifold3_moves::check_move(
-            manifold, result, manifold3_moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         print_manifold_details(manifold);
