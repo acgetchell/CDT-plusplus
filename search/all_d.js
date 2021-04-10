@@ -4,7 +4,7 @@ var searchData=
   ['periodic_5f3_5fcomplex_2ehpp',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
   ['periodic_5f3_5ftriangulations_2ehpp',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
   ['precision',['PRECISION',['../_settings_8hpp.html#ad5b86ed0f422d4c11a91b14d34e47bca',1,'Settings.hpp']]],
-  ['print_5fcells',['print_cells',['../class_foliated_triangulation_3_013_01_4.html#aa883b9144aeb9a99fdfcc7bfbe30aff8',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells() const'],['../class_foliated_triangulation_3_013_01_4.html#ac5d1a45cab81896501b965f8b8acbcb1',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells(std::vector&lt; Cell_handle &gt; const &amp;t_cells)']]],
+  ['print_5fcells',['print_cells',['../class_foliated_triangulation_3_013_01_4.html#aa883b9144aeb9a99fdfcc7bfbe30aff8',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells() const'],['../class_foliated_triangulation_3_013_01_4.html#a32253231cce15fd8de1b07ab54ddfe5b',1,'FoliatedTriangulation&lt; 3 &gt;::print_cells(std::vector&lt; Cell_handle_3 &gt; const &amp;t_cells)']]],
   ['print_5fedges',['print_edges',['../class_foliated_triangulation_3_013_01_4.html#a95a5be17700a0f38005d359b8765fb2f',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['print_5fmanifold',['print_manifold',['../_utilities_8hpp.html#afde78c98ecf8f5dbee19636c2056d9c6',1,'Utilities.hpp']]],
   ['print_5fmanifold_5fdetails',['print_manifold_details',['../_utilities_8hpp.html#a3d69ebb657771a343f486f6b26fe06e6',1,'Utilities.hpp']]],

@@ -5,8 +5,8 @@ var searchData=
   ['ergodic_5fmoves_5f3_2ehpp',['Ergodic_moves_3.hpp',['../_ergodic__moves__3_8hpp.html',1,'']]],
   ['ergodic_5fmoves_5f3_5ftest_2ecpp',['Ergodic_moves_3_test.cpp',['../_ergodic__moves__3__test_8cpp.html',1,'']]],
   ['execute',['execute',['../class_move_command.html#a160870891e1ebd6bb25bb38c7080cc12',1,'MoveCommand']]],
-  ['expected_5fcell_5ftype',['expected_cell_type',['../class_foliated_triangulation_3_013_01_4.html#afea6fe15d769610761e5046693152367',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['expected_5fcell_5ftype',['expected_cell_type',['../class_foliated_triangulation_3_013_01_4.html#ae8faa675ba632ccdb6c004f02b6713fd',1,'FoliatedTriangulation&lt; 3 &gt;']]],
   ['expected_5fpoints_5fper_5ftimeslice',['expected_points_per_timeslice',['../_utilities_8hpp.html#a5b0cf3d2ac2f8372441d30d9a1fd6ca9',1,'Utilities.hpp']]],
-  ['expected_5fradius',['expected_radius',['../class_foliated_triangulation_3_013_01_4.html#a248bb1bc512309c1f14a920a698a5f48',1,'FoliatedTriangulation&lt; 3 &gt;']]],
-  ['expected_5ftimevalue',['expected_timevalue',['../class_foliated_triangulation_3_013_01_4.html#a91cf810fbdb7890b5513ac205bdacfab',1,'FoliatedTriangulation&lt; 3 &gt;']]]
+  ['expected_5fradius',['expected_radius',['../class_foliated_triangulation_3_013_01_4.html#a6dbc91ac71db549cac626669be0806f5',1,'FoliatedTriangulation&lt; 3 &gt;']]],
+  ['expected_5ftimevalue',['expected_timevalue',['../class_foliated_triangulation_3_013_01_4.html#aea1d6764a5cf548641959d5a527bf68e',1,'FoliatedTriangulation&lt; 3 &gt;']]]
 ];
