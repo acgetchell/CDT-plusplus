@@ -5,8 +5,8 @@ var searchData=
   ['apply_5fmove',['apply_move',['../_apply__move_8hpp.html#a151707aca0f61b971218bd939144cfec',1,'Apply_move.hpp']]],
   ['apply_5fmove_2ehpp',['Apply_move.hpp',['../_apply__move_8hpp.html',1,'']]],
   ['apply_5fmove_5ftest_2ecpp',['Apply_move_test.cpp',['../_apply__move__test_8cpp.html',1,'']]],
-  ['are_5fall_5fvertex_5ftimevalues_5fvalid',['are_all_vertex_timevalues_valid',['../class_manifold_3_013_01_4.html#a36d8d7f0d07801f8eff69957e7820788',1,'Manifold&lt; 3 &gt;']]],
-  ['are_5fsimplex_5ftypes_5fvalid',['are_simplex_types_valid',['../class_manifold_3_013_01_4.html#a0620d512a5b17a7d043652058f6b5ef3',1,'Manifold&lt; 3 &gt;']]],
-  ['are_5fvertex_5ftimevalues_5fvalid',['are_vertex_timevalues_valid',['../class_manifold_3_013_01_4.html#a4384e0c2def28f79149e89fa17fde6ad',1,'Manifold&lt; 3 &gt;']]],
+  ['are_5fall_5fvertex_5ftimevalues_5fvalid',['are_all_vertex_timevalues_valid',['../class_manifolds_1_1_manifold_3_013_01_4.html#ab9513b021b115e292806af202a2a6ab6',1,'Manifolds::Manifold&lt; 3 &gt;']]],
+  ['are_5fsimplex_5ftypes_5fvalid',['are_simplex_types_valid',['../_manifold_8hpp.html#a45fe74faee19baacc7902327d0f4352c',1,'Manifolds']]],
+  ['are_5fvertex_5ftimevalues_5fvalid',['are_vertex_timevalues_valid',['../class_manifolds_1_1_manifold_3_013_01_4.html#ae08bdd3a29a0feff115f32f9ac30b66f',1,'Manifolds::Manifold&lt; 3 &gt;']]],
   ['attempt_5fmove',['attempt_move',['../class_metropolis.html#acbb912b7ece7f277f76b8f501f6d213a',1,'Metropolis']]]
 ];

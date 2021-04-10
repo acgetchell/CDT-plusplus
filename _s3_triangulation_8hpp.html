@@ -179,15 +179,15 @@ Enumerations</h2></td></tr>
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
 <tr class="memitem:a6ab0724c904152ce4add1a86c77cc196"><td class="memTemplParams" colspan="2">template&lt;typename Manifold &gt; </td></tr>
-<tr class="memitem:a6ab0724c904152ce4add1a86c77cc196"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">fix_timeslices</a> (<a class="el" href="class_manifold.html">Manifold</a> &amp;&amp;universe_ptr)</td></tr>
+<tr class="memitem:a6ab0724c904152ce4add1a86c77cc196"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196">fix_timeslices</a> (Manifold &amp;&amp;universe_ptr)</td></tr>
 <tr class="memdesc:a6ab0724c904152ce4add1a86c77cc196"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fix simplices with incorrect foliation.  <a href="#a6ab0724c904152ce4add1a86c77cc196">More...</a><br /></td></tr>
 <tr class="separator:a6ab0724c904152ce4add1a86c77cc196"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:abc9cbd159e8739ebb95c9709a1133485"><td class="memTemplParams" colspan="2">template&lt;typename Manifold &gt; </td></tr>
-<tr class="memitem:abc9cbd159e8739ebb95c9709a1133485"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a> (<a class="el" href="class_manifold.html">Manifold</a> &amp;&amp;universe_ptr)</td></tr>
+<tr class="memitem:abc9cbd159e8739ebb95c9709a1133485"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a> (Manifold &amp;&amp;universe_ptr)</td></tr>
 <tr class="memdesc:abc9cbd159e8739ebb95c9709a1133485"><td class="mdescLeft">&#160;</td><td class="mdescRight">Fixes the foliation of the triangulation.  <a href="#abc9cbd159e8739ebb95c9709a1133485">More...</a><br /></td></tr>
 <tr class="separator:abc9cbd159e8739ebb95c9709a1133485"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac8b9d174858456041aec6193e216197b"><td class="memTemplParams" colspan="2">template&lt;typename Manifold &gt; </td></tr>
-<tr class="memitem:ac8b9d174858456041aec6193e216197b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a> (<a class="el" href="class_manifold.html">Manifold</a> &amp;&amp;universe_ptr, Causal_vertices cv)</td></tr>
+<tr class="memitem:ac8b9d174858456041aec6193e216197b"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a> (Manifold &amp;&amp;universe_ptr, Causal_vertices cv)</td></tr>
 <tr class="memdesc:ac8b9d174858456041aec6193e216197b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Inserts vertices with timeslices into Delaunay triangulation.  <a href="#ac8b9d174858456041aec6193e216197b">More...</a><br /></td></tr>
 <tr class="separator:ac8b9d174858456041aec6193e216197b"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7e50d58c59328f4e8b48e0e6ba7c445e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a> (const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=<a class="el" href="_settings_8hpp.html#abb58efc843064f674896fc0c68175555">INITIAL_RADIUS</a>, double radial_factor=RADIAL_FACTOR)</td></tr>
@@ -223,7 +223,7 @@ static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>RA
 <p>The number of desired timeslices is given, and successive spheres are created with increasing radii. Each vertex at a given radius is assigned a timeslice so that the entire triangulation will have a preferred foliation of time.</p>
 <p>Insert a 3-sphere into the triangulation data structure.  Assign each 3-sphere a unique timeslice.  Iterate over the number of desired timeslices.  Check/fix issues for large values of simplices and timeslices.  Iterate over cells and check timeslices of vertices don't differ by more than 1.  Gather ratio of cells with bad/good foliation. Adjust value of radius to minimize. Recheck the whole triangulation when finished.  When a cell contains a bad foliation, delete it. Recheck.  Fixup Delaunay triangulation after bad cells have been deleted.  Re-written with std::unique_ptr&lt;T&gt; and <a href="http://blog.knatten.org/2012/11/02/efficient-pure-functional-
 programming-in-c-using-move-semantics/">. Efficient Pure Functional Programming in C++ Using Move Semantics</a>  <a href="http://www.cprogramming.com/tutorial/const_correctness.html">Const Correctness</a>.  Function documentation.  Multi-threaded operations using Intel TBB.  Debugging output toggled by macros. </p><dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. ">Foliated_triangulation.hpp</a> </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000016">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations. ">Foliated_triangulation.hpp</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_s3_triangulation_8hpp_source.html">S3Triangulation.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -238,7 +238,7 @@ template&lt;typename Manifold &gt; </div>
         <tr>
           <td class="memname">auto fix_timeslices </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_manifold.html">Manifold</a> &amp;&amp;&#160;</td>
+          <td class="paramtype">Manifold &amp;&amp;&#160;</td>
           <td class="paramname"><em>universe_ptr</em></td><td>)</td>
           <td></td>
         </tr>
@@ -272,7 +272,7 @@ template&lt;typename Manifold &gt; </div>
         <tr>
           <td class="memname">void fix_triangulation </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_manifold.html">Manifold</a> &amp;&amp;&#160;</td>
+          <td class="paramtype">Manifold &amp;&amp;&#160;</td>
           <td class="paramname"><em>universe_ptr</em></td><td>)</td>
           <td></td>
         </tr>
@@ -305,7 +305,7 @@ template&lt;typename Manifold &gt; </div>
         <tr>
           <td class="memname">void insert_into_triangulation </td>
           <td>(</td>
-          <td class="paramtype"><a class="el" href="class_manifold.html">Manifold</a> &amp;&amp;&#160;</td>
+          <td class="paramtype">Manifold &amp;&amp;&#160;</td>
           <td class="paramname"><em>universe_ptr</em>, </td>
         </tr>
         <tr>
@@ -325,7 +325,7 @@ template&lt;typename Manifold &gt; </div>
 <p>Inserts vertices with timeslices into Delaunay triangulation. </p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
-    <tr><td class="paramname"><a class="el" href="class_manifold.html">Manifold</a></td><td>Type of universe_ptr </td></tr>
+    <tr><td class="paramname">Manifold</td><td>Type of universe_ptr </td></tr>
   </table>
   </dd>
 </dl>
@@ -468,7 +468,7 @@ template&lt;typename Manifold &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 10 2021 17:47:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 10 2021 23:55:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>

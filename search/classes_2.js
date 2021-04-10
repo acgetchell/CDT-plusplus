@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['manifold',['Manifold',['../class_manifold.html',1,'']]],
-  ['manifold_3c_203_20_3e',['Manifold&lt; 3 &gt;',['../class_manifold_3_013_01_4.html',1,'']]],
+  ['manifold',['Manifold',['../class_manifolds_1_1_manifold.html',1,'Manifolds']]],
+  ['manifold_3c_203_20_3e',['Manifold&lt; 3 &gt;',['../class_manifolds_1_1_manifold_3_013_01_4.html',1,'Manifolds']]],
   ['metropolis',['Metropolis',['../class_metropolis.html',1,'']]],
   ['move_5ftracker',['Move_tracker',['../class_move__tracker.html',1,'']]],
   ['movecommand',['MoveCommand',['../class_move_command.html',1,'']]],

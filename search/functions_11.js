@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['vertices',['vertices',['../class_manifold_3_013_01_4.html#a07419970ce21176ff14b4dd95db05a9e',1,'Manifold&lt; 3 &gt;']]],
-  ['volume_5fper_5ftimeslice',['volume_per_timeslice',['../class_foliated_triangulation_3_013_01_4.html#a9d1701f02ca0a33da735610671cdde3c',1,'FoliatedTriangulation&lt; 3 &gt;']]]
+  ['vertices',['vertices',['../class_manifolds_1_1_manifold_3_013_01_4.html#a07ed6681cca91ac6a6402522e196d3ca',1,'Manifolds::Manifold&lt; 3 &gt;']]],
+  ['volume_5fper_5ftimeslice',['volume_per_timeslice',['../_foliated__triangulation_8hpp.html#a4840c02acb58bbd12471d21aa97ee2ea',1,'FoliatedTriangulations']]]
 ];

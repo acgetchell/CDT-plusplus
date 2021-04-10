@@ -119,7 +119,7 @@ Typedefs</h2></td></tr>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>Facet</b> = Delaunay3::Facet</td></tr>
 <tr class="separator:ae5a618cd46adf8b6216c9441f587f8e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8b51dbd142e899a21bb0f5ce61358a9d"><td class="memItemLeft" align="right" valign="top">using&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_simplicial_manifold_8hpp.html#a8b51dbd142e899a21bb0f5ce61358a9d">Geometry_tuple</a> = std::tuple&lt; std::vector&lt; Cell_handle &gt;, std::vector&lt; Cell_handle &gt;, std::vector&lt; Cell_handle &gt;, std::vector&lt; Edge_handle &gt;, std::vector&lt; Edge_handle &gt;, std::vector&lt; Vertex_handle &gt; &gt;</td></tr>
-<tr class="memdesc:a8b51dbd142e899a21bb0f5ce61358a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tuple of the geometric values of the Simplicial <a class="el" href="class_manifold.html">Manifold</a>.  <a href="#a8b51dbd142e899a21bb0f5ce61358a9d">More...</a><br /></td></tr>
+<tr class="memdesc:a8b51dbd142e899a21bb0f5ce61358a9d"><td class="mdescLeft">&#160;</td><td class="mdescRight">A tuple of the geometric values of the Simplicial Manifold.  <a href="#a8b51dbd142e899a21bb0f5ce61358a9d">More...</a><br /></td></tr>
 <tr class="separator:a8b51dbd142e899a21bb0f5ce61358a9d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
@@ -144,7 +144,7 @@ template&lt;typename T &gt; </td></tr>
 <p>Data structures for operations on simplicial manifolds</p>
 <p>Classify cells as (3,1), (2,2), or (1,3) based on their foliation. A tuple of vectors contain cell handles to the simplices of type (3,1), (2,2), and (1,3) respectively.  Classify edges as timelike or spacelike so that action can be calculated.  <a class="el" href="struct_simplicial_manifold.html">SimplicialManifold</a> data structure holding a std::unique_ptr to the Delaunay triangulation and a std::tuple of geometry information.  Move constructor recalculates geometry.</p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000007">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_manifold_8hpp.html" title="Data structures for manifolds. ">Manifold.hpp</a> </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000017">Todo:</a></b></dt><dd>Deprecated in favor of <a class="el" href="_manifold_8hpp.html" title="Data structures for manifolds. ">Manifold.hpp</a> </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_simplicial_manifold_8hpp_source.html">SimplicialManifold.hpp</a>.</p>
 </div><h2 class="groupheader">Typedef Documentation</h2>
@@ -160,7 +160,7 @@ template&lt;typename T &gt; </td></tr>
       </table>
 </div><div class="memdoc">
 
-<p>A tuple of the geometric values of the Simplicial <a class="el" href="class_manifold.html">Manifold</a>. </p>
+<p>A tuple of the geometric values of the Simplicial Manifold. </p>
 <p>The first element is the vector of (3,1) simplices The second element is the vector of (2,2) simplices The third element is the vector of (1,3) simplices The fourth element is the vector of timelike edges The fifth element is the vector of spacelike edges The sixth element is the vector of vertices</p>
 <p>Useful for constructing <a class="el" href="struct_geometry_info.html">GeometryInfo</a>, which contains this and other information, and in comparing the results of moves, which will change one or more elements of the Geometry_tuple. </p>
 
@@ -238,7 +238,7 @@ template&lt;typename T &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 10 2021 17:47:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Apr 10 2021 23:55:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.13
 </small></address>
