@@ -124,7 +124,7 @@ SCENARIO("Manifold functions", "[manifold]")
             manifold.get_triangulation().get_cells()));
         CHECK(manifold.are_all_vertex_timevalues_valid());
         // Human verification
-        manifold.get_triangulation().print_vertices();
+        manifold.print_vertices();
       }
     }
     AND_WHEN("The vertices are mis-labelled.")
@@ -140,7 +140,7 @@ SCENARIO("Manifold functions", "[manifold]")
             manifold.get_triangulation().get_cells()));
         CHECK_FALSE(manifold.are_all_vertex_timevalues_valid());
         // Human verification
-        manifold.get_triangulation().print_vertices();
+        manifold.print_vertices();
       }
     }
   }
@@ -550,12 +550,12 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
       {
-        manifold.get_triangulation().print_vertices();
+        manifold.print_vertices();
         REQUIRE(manifold.get_triangulation().check_all_vertices());
       }
       THEN("Every cell in the manifold is correctly classified.")
       {
-        manifold.get_triangulation().print_cells();
+        manifold.print_cells();
         REQUIRE(manifold.check_simplices());
       }
     }
@@ -584,7 +584,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       THEN("We can detect invalid cells.")
       {
         manifold.update();
-        manifold.get_triangulation().print_cells();
+        manifold.print_cells();
         CHECK_FALSE(manifold.check_simplices());
       }
     }

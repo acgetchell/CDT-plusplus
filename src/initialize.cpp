@@ -17,7 +17,7 @@ using namespace std;
 static constexpr auto USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2020 Adam Getchell
+Copyright (c) 2014-2021 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure. Specify the topology of the triangulation
@@ -59,7 +59,7 @@ try
   auto save_file         = args["--output"].asBool();
 
   // Initialize triangulation
-  Manifold3 universe;
+  Manifolds::Manifold3 universe;
 
   // Topology of simulation
   topology_type topology;
@@ -92,9 +92,10 @@ try
       if (dimensions == 3)
       {
         // Start your run
-        Manifold3 populated_universe(static_cast<Int_precision>(simplices),
-                                     static_cast<Int_precision>(timeslices),
-                                     initial_radius, foliation_spacing);
+        Manifolds::Manifold3 populated_universe(
+            static_cast<Int_precision>(simplices),
+            static_cast<Int_precision>(timeslices), initial_radius,
+            foliation_spacing);
         swap(universe, populated_universe);
       }
       else
@@ -106,7 +107,7 @@ try
       throw invalid_argument("Toroidal triangulations not yet supported.");
   }
   print_manifold(universe);
-  universe.get_triangulation().print_volume_per_timeslice();
+  universe.print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
   if (save_file)
   {

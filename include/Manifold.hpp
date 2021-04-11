@@ -351,6 +351,13 @@ namespace Manifolds
       m_triangulation.print_volume_per_timeslice();
     }  // print_volume_per_timeslice
 
+    /// @brief Print values of a vertex->info()
+    void print_vertices() const { m_triangulation.print_vertices(); }
+
+    /// @brief Print timevalues of each vertex in the cell and the resulting
+    /// cell->info()
+    void print_cells() const { m_triangulation.print_cells(); }
+
     /// @brief Swap manifolds
     /// Used for no-except updates of manifolds after moves
     /// @param t_first The destination manifold to swap out

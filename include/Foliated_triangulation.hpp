@@ -851,7 +851,7 @@ namespace FoliatedTriangulations
       }
     }  // fix_vertices
 
-    /// @brief Print values of a vertex.
+    /// @brief Print values of a vertex
     void print_vertices() const
     {
       for (auto const& vertex : m_points)
