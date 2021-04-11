@@ -8,7 +8,7 @@ environment:
   VCPKG_DEFAULT_HOST_TRIPLET: x64-windows
 
 cache:
-#  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
+  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
 #  - c:\tools\vcpkg\installed\
 
 image:
@@ -91,7 +91,7 @@ build_script:
 #  - mkdir build
 #  - cd build || exit
   #  - cmake -G Ninja -DCMAKE_MAKE_PROGRAM=c:\projects\dev\ninja\ninja.exe -D VCPKG_TARGET_TRIPLET=x86-windows -DCMAKE_TOOLCHAIN_FILE=c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake ..
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D VCPKG_MANIFEST_MODE=OFF -S . -B build
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D VCPKG_MANIFEST_MODE=OFF -D VCPKG_MANIFEST_INSTALL=OFF -S . -B build
   - cmake --build build
 
 on_success:
