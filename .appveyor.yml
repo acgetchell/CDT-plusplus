@@ -21,7 +21,7 @@ skip_branch_with_pr: true
 build:
   verbosity: detailed
 
-clone_folder: c:\projects\cdt-test
+clone_folder: c:\projects\cdt-plusplus
 
 shallow_clone: true
 
@@ -60,17 +60,20 @@ install:
   - vcpkg integrate install
   - cmake --version
   # Install required libraries in classic mode
-  - vcpkg install catch2:x64-windows
-  - vcpkg install docopt:x64-windows
-  - vcpkg install date:x64-windows
-  - vcpkg install fmt:x64-windows
-  - vcpkg install ms-gsl:x64-windows
-  - vcpkg install eigen3:x64-windows
-  - vcpkg install pcg:x64-windows
-  - vcpkg install tbb:x64-windows
+#  - vcpkg install catch2:x64-windows
+#  - vcpkg install docopt:x64-windows
+#  - vcpkg install date:x64-windows
+#  - vcpkg install fmt:x64-windows
+#  - vcpkg install ms-gsl:x64-windows
+#  - vcpkg install eigen3:x64-windows
+#  - vcpkg install pcg:x64-windows
+#  - vcpkg install tbb:x64-windows
   # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
-  - vcpkg install --recurse yasm-tool:x86-windows
-  - vcpkg install cgal:x64-windows
+#  - vcpkg install --recurse yasm-tool:x86-windows
+#  - vcpkg install cgal:x64-windows
+  - vcpkg install --x-install-root=c:\projects\cdt-plusplus\vcpkg_installed catch2:x64-windows docopt:x64-windows date:x64-windows fmt:x64-windows ms-gsl:x64-windows eigen3:x64-windows pcg:x64-windows tbb:x64-windows
+  - vcpkg install --x-install-root=c:\projects\cdt-plusplus\vcpkg_installed --recurse yasm-tool:x86-windows
+  - vcpkg install --x-install-root=c:\projects\cdt-plusplus\vcpkg_installed cgal:x64-windows
   # Upgrade required libraries
   - vcpkg upgrade --no-dry-run
   - vcpkg list
