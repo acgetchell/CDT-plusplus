@@ -22,7 +22,7 @@ environment:
   #  APPVEYOR_SAVE_CACHE_ON_ERROR : true
   VCPKG_DEFAULT_TRIPLET: x64-windows
   VCPKG_ROOT: c:\tools\vcpkg
-  CMAKE_MAKE_PROGRAM: C:\projects\dev\ninja\ninja.exe
+#  CMAKE_MAKE_PROGRAM: C:\projects\dev\ninja\ninja.exe
 
 cache:
   - c:\Users\appveyor\AppData\Local\vcpkg\archives\
@@ -30,14 +30,14 @@ cache:
 
 install:
   # Install Ninja
-  - if not exist "c:\projects\dev" (
-      mkdir c:\projects\dev
-      cd c:\projects\dev
-      set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.10.1/ninja-win.zip"
-      appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
-      7z x ninja.zip -oC:\projects\dev\ninja > nul
-    )
-  - set PATH=%PATH%;C:\projects\dev\ninja
+#  - if not exist "c:\projects\dev" (
+#      mkdir c:\projects\dev
+#      cd c:\projects\dev
+#      set NINJA_URL="https://github.com/ninja-build/ninja/releases/download/v1.10.1/ninja-win.zip"
+#      appveyor DownloadFile %NINJA_URL% -FileName ninja.zip
+#      7z x ninja.zip -oC:\projects\dev\ninja > nul
+#    )
+#  - set PATH=%PATH%;C:\projects\dev\ninja
   - ninja --version
   # Setup vcpkg
   - cd c:\tools\vcpkg
