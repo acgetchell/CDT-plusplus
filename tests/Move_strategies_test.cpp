@@ -68,12 +68,12 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
   }
 }
 
-SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
+SCENARIO("MoveStrategy member functions", "[move strategies]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(9600);
-    auto constexpr timeslices = static_cast<Int_precision>(7);
+    auto constexpr simplices  = static_cast<Int_precision>(640);
+    auto constexpr timeslices = static_cast<Int_precision>(4);
     Manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveStrategy3 is constructed.")
@@ -100,7 +100,7 @@ SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
         CHECK(mover.get_successful().four_four_moves<3>() == 0);
       }
     }
-    WHEN("A MoveAlways3 algorithm is used.")
+    WHEN("A MoveAlways3 algorithm is instantiated.")
     {
       auto constexpr passes     = static_cast<Int_precision>(1);
       auto constexpr checkpoint = static_cast<Int_precision>(1);
@@ -123,9 +123,26 @@ SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
         CHECK(mover.get_attempted().four_four_moves<3>() == 0);
         CHECK(mover.get_successful().four_four_moves<3>() == 0);
       }
+    }
+  }
+}
+
+SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
+{
+  GIVEN("A correctly-constructed Manifold3.")
+  {
+    auto constexpr simplices  = static_cast<Int_precision>(9600);
+    auto constexpr timeslices = static_cast<Int_precision>(7);
+    Manifolds::Manifold3 manifold(simplices, timeslices);
+    REQUIRE(manifold.is_correct());
+    WHEN("A MoveAlways3 algorithm is used.")
+    {
+      auto constexpr passes     = static_cast<Int_precision>(1);
+      auto constexpr checkpoint = static_cast<Int_precision>(1);
+      MoveAlways3 mover(passes, checkpoint);
       THEN("A lot of moves are made.")
       {
-        // This may take awhile, so the scenario is tagged with [hide]
+        // This may take awhile, so the scenario is tagged with [.]
         // to disable by default
         auto result = mover(manifold);
         CHECK(result.is_valid());

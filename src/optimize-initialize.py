@@ -63,7 +63,7 @@ try:
         # radial_factor = suggestion["foliation_spacing"]
         radial_factor = parameter_pair[1]
 
-        command_line = "../build/initialize --s -n" + str(experiment.get_parameter("simplices")) \
+        command_line = "../build/src/initialize --s -n" + str(experiment.get_parameter("simplices")) \
             + " -t" + str(experiment.get_parameter("foliations")) + " -i" + str(init_radius) \
             + " -f" + str(radial_factor)
         args = shlex.split(command_line)

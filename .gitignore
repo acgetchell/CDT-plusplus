@@ -66,6 +66,7 @@ coverage.info
 # Pipenv
 Pipfile
 scanresults/
+venv
 
 # vcpkg
 vcpkg_installed
