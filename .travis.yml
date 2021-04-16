@@ -1,20 +1,19 @@
 version: ~> 1.0
 language: cpp
-dist: bionic
+dist: focal
 osx_image: xcode12.2
 
 cache:
   - ccache
   - directories:
-      - $TRAVIS_BUILD_DIR/vcpkg
-      - /home/travis/.cache/vcpkg/archives
+      - $HOME/.cache/vcpkg/archives
 
 addons:
   apt:
-    sources:
-      - sourceline: 'ppa:ubuntu-toolchain-r/test'
-      - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
-        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+#    sources:
+#      - sourceline: 'ppa:ubuntu-toolchain-r/test'
+#      - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
+#        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
     packages:
       - build-essential
       - automake
@@ -243,7 +242,6 @@ install:
   - git pull origin master --no-rebase
   - ./bootstrap-vcpkg.sh
   - vcpkg integrate install
-  - rm -rf downloads buildtrees packages
   - cmake --version
   - cd ..
   - pwd
@@ -255,7 +253,7 @@ script:
   - cd build || exit
   - pwd
   - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release ..
-  - cmake --build .
+  - travis_retry cmake --build .
 
 after_success:
   - ctest --output-on-failure
