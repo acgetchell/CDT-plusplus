@@ -112,8 +112,10 @@ jobs:
       before_script:
         - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
       after_success:
-        - travis_wait 60 ctest -T memcheck --verbose
-        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
+        - cd $TRAVIS_BUILD_DIR/build/
+        - travis_wait 60 ctest -VV -T memcheck --verbose
+        - cd src
+        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11 -o
     # AddressSanitizer and UndefinedBehaviorSanitizer
     - os: linux
       compiler: clang-10
@@ -122,9 +124,9 @@ jobs:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
+        - ctest -VV
+        - cd src
         - ./initialize --s -n32000 -t11 -o
-        - cd tests
-        - ./CDT_test
     # LeakSanitizer
     - os: linux
       compiler: clang-10
@@ -133,9 +135,9 @@ jobs:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_LEAK:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
+        - ctest -VV
+        - cd src
         - ./initialize --s -n32000 -t11 -o
-        - cd tests || exit
-        - ./CDT_test
     # MemorySanitizer
     - os: linux
       compiler: clang-10
@@ -144,9 +146,9 @@ jobs:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_MEMORY:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
+        - ctest -VV
+        - cd src
         - ./initialize --s -n32000 -t11 -o
-        - cd tests
-        - ./CDT_test
     # ThreadSanitizer
     - os: linux
       compiler: clang-10
@@ -155,15 +157,20 @@ jobs:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
+        - ctest -VV
+        - cd src
         - ./initialize --s -n32000 -t11 -o
-        - cd tests
-        - ./CDT_test
     # CodeCov
     - os: linux
       compiler: g++-10
       env: CODECOV=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_COVERAGE:BOOL=TRUE"
+      script:
+        - mkdir build
+        - cd build || exit
+        - cmake $CMAKE_ARGS ..
+        - cmake --build . --config Debug
       after_success:
         - ctest --schedule-random -V
         - lcov --capture --directory . --output-file coverage.info
