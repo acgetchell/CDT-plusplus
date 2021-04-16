@@ -44,13 +44,11 @@ jobs:
       run: |
         pwd
         vcpkg install --feature-flags=manifests
-        mkdir build
-        cd build
-        export VCPKG_ARG=-DCMAKE_TOOLCHAIN_FILE="$VCPKG_INSTALLATION_ROOT/scripts/buildsystems/vcpkg.cmake"
-        cmake $VCPKG_ARG -G "Ninja" -D CMAKE_BUILD_TYPE=Debug ..
-        cmake --build .
+        export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
+        cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
+        cmake --build build
 
     - name: Test
       run: |
         cd build
-        cmake --build . --target test & exit 0
+        ctest --output-on-failure & exit 0

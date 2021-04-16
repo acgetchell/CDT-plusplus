@@ -6,6 +6,7 @@ osx_image: xcode12.2
 cache:
   - ccache
   - directories:
+      - $TRAVIS_BUILD_DIR/vcpkg
       - $HOME/.cache/vcpkg/archives
 
 addons:
@@ -242,18 +243,16 @@ install:
   - git pull origin master --no-rebase
   - ./bootstrap-vcpkg.sh
   - vcpkg integrate install
+  - rm -rf downloads buildtrees packages
   - cmake --version
   - cd ..
   - pwd
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - travis_retry vcpkg install --feature-flags=manifests
+  - travis_wait 60 vcpkg install --feature-flags=manifests
 
 script:
-  - mkdir build
-  - cd build || exit
-  - pwd
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release ..
-  - travis_retry cmake --build .
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -S . -B build
+  - travis_wait 60 cmake --build build
 
 after_success:
   - ctest --output-on-failure

@@ -8,4 +8,4 @@ rm -rf build/
 cmake -G Ninja -D ENABLE_TESTING:BOOL=FALSE -S . -B build
 cmake --build build
 cd build || exit
-cmake --build . --target test
+ctest --output-on-failure
