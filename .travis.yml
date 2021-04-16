@@ -11,10 +11,6 @@ cache:
 
 addons:
   apt:
-#    sources:
-#      - sourceline: 'ppa:ubuntu-toolchain-r/test'
-#      - sourceline: 'deb http://apt.llvm.org/bionic/ llvm-toolchain-bionic-10 main'
-#        key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
     packages:
       - build-essential
       - automake
@@ -99,31 +95,22 @@ jobs:
     - os: linux
       compiler: clang-10
       env: CLANGTIDY=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_CLANG_TIDY:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_CLANG_TIDY:BOOL=TRUE"
       after_success: skip
     # CppCheck
     - os: linux
       compiler: g++-10
       env: CPPCHECK=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_CPPCHECK:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
       after_success: skip
     # Valgrind
     - os: linux
       compiler: g++-10
       env: VALGRIND=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
       after_success:
         - travis_wait 60 ctest -T memcheck --verbose
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11
@@ -131,11 +118,8 @@ jobs:
     - os: linux
       compiler: clang-10
       env: ASAN=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_SANITIZER_ADDRESS:BOOL=TRUE -D ENABLE_SANITIZER_UNDEFINED_BEHAVIOR:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o
@@ -145,11 +129,8 @@ jobs:
     - os: linux
       compiler: clang-10
       env: LSAN=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_SANITIZER_LEAK:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o
@@ -159,11 +140,8 @@ jobs:
     - os: linux
       compiler: clang-10
       env: MSAN=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_MEMORY:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_SANITIZER_MEMORY:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o
@@ -173,11 +151,8 @@ jobs:
     - os: linux
       compiler: clang-10
       env: TSAN=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -G Ninja -D ENABLE_SANITIZER_THREAD:BOOL=TRUE ..
-        - cmake --build .
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
         - ./initialize --s -n32000 -t11 -o
@@ -187,11 +162,8 @@ jobs:
     - os: linux
       compiler: g++-10
       env: CODECOV=true
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake -D ENABLE_COVERAGE:BOOL=TRUE ..
-        - cmake --build . --config Debug
+      before_script:
+        - export CMAKE_ARGS="-D ENABLE_COVERAGE:BOOL=TRUE"
       after_success:
         - ctest --schedule-random -V
         - lcov --capture --directory . --output-file coverage.info
@@ -251,7 +223,7 @@ install:
   - travis_wait 60 vcpkg install --feature-flags=manifests
 
 script:
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -S . -B build
+  - cmake $CMAKE_ARGS -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
   - travis_wait 60 cmake --build build
 
 after_success:
