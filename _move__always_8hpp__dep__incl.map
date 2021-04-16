@@ -1,4 +1,5 @@
 <map id="include/Move_always.hpp" name="include/Move_always.hpp">
-<area shape="rect" id="node2" href="$_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm. " alt="" coords="5,80,171,121"/>
-<area shape="rect" id="node3" href="$_simulation_test_8cpp_source.html" title="tests/SimulationTest.cpp" alt="" coords="195,87,376,114"/>
+<area shape="rect" id="node1" title="Randomly selects moves to always perform on triangulations." alt="" coords="92,5,283,32"/>
+<area shape="rect" id="node2" href="$_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="5,80,172,121"/>
+<area shape="rect" id="node3" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="197,87,378,114"/>
 </map>

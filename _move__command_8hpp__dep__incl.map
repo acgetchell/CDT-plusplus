@@ -1,10 +1,11 @@
 <map id="include/Move_command.hpp" name="include/Move_command.hpp">
-<area shape="rect" id="node2" href="$_move__strategy_8hpp.html" title="Base class for move algorithms on Delaunay Triangulations. " alt="" coords="185,87,379,114"/>
-<area shape="rect" id="node9" href="$_move__command__test_8cpp.html" title="Tests for moves. " alt="" coords="403,80,569,121"/>
-<area shape="rect" id="node3" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations. " alt="" coords="96,169,265,196"/>
-<area shape="rect" id="node6" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations. " alt="" coords="290,169,479,196"/>
-<area shape="rect" id="node4" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations. " alt="" coords="5,251,124,278"/>
-<area shape="rect" id="node5" href="$cdt_8cpp.html" title="The main executable. " alt="" coords="148,251,240,278"/>
-<area shape="rect" id="node7" href="$_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm. " alt="" coords="290,244,455,285"/>
-<area shape="rect" id="node8" href="$_simulation_test_8cpp_source.html" title="tests/SimulationTest.cpp" alt="" coords="479,251,661,278"/>
+<area shape="rect" id="node1" title="Do ergodic moves using the Command pattern." alt="" coords="281,5,491,32"/>
+<area shape="rect" id="node2" href="$_move__strategy_8hpp.html" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="185,87,381,114"/>
+<area shape="rect" id="node9" href="$_move__command__test_8cpp.html" title="Tests for moves." alt="" coords="405,80,572,121"/>
+<area shape="rect" id="node3" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="95,169,266,196"/>
+<area shape="rect" id="node6" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="291,169,481,196"/>
+<area shape="rect" id="node4" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="5,251,124,278"/>
+<area shape="rect" id="node5" href="$cdt_8cpp.html" title="The main executable." alt="" coords="148,251,240,278"/>
+<area shape="rect" id="node7" href="$_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="289,244,456,285"/>
+<area shape="rect" id="node8" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="481,251,662,278"/>
 </map>

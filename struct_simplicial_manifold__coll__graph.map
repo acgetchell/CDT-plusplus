@@ -1,5 +1,12 @@
 <map id="SimplicialManifold" name="SimplicialManifold">
-<area shape="rect" id="node3" title="STL class. " alt="" coords="36,550,193,627"/>
-<area shape="rect" id="node8" title="STL class. " alt="" coords="242,145,371,223"/>
-<area shape="rect" id="node6" href="$struct_geometry_info.html" title="{GeometryInfo\n|&#45; spacelike_facets\l&#45; timevalues\l|+ GeometryInfo()\l+ GeometryInfo()\l+ GeometryInfo()\l+ GeometryInfo()\l+ ~GeometryInfo()\l+ getSpacelike_facets()\l+ getTimevalues()\l+ max_timevalue()\l+ min_timevalue()\l+ N0()\land 12 more...\l}" alt="" coords="327,469,505,708"/>
+<area shape="rect" id="node1" title=" " alt="" coords="141,925,320,1135"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,778,224,855"/>
+<area shape="rect" id="node3" title="STL class." alt="" coords="36,550,193,627"/>
+<area shape="rect" id="node5" title=" " alt="" coords="249,771,447,863"/>
+<area shape="rect" id="node4" title=" " alt="" coords="107,5,146,83"/>
+<area shape="rect" id="node8" title="STL class." alt="" coords="242,145,371,223"/>
+<area shape="rect" id="node6" href="$struct_geometry_info.html" title=" " alt="" coords="327,469,505,708"/>
+<area shape="rect" id="node7" title=" " alt="" coords="143,285,291,377"/>
+<area shape="rect" id="node9" title=" " alt="" coords="315,293,519,370"/>
+<area shape="rect" id="node10" title=" " alt="" coords="544,293,741,370"/>
 </map>

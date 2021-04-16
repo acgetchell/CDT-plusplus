@@ -1,3 +1,9 @@
 <map id="tests/Settings_test.cpp" name="tests/Settings_test.cpp">
-<area shape="rect" id="node2" href="$_settings_8hpp.html" title="Global integer and precision settings. " alt="" coords="69,80,171,107"/>
+<area shape="rect" id="node1" title="Global settings on integer types and MPFR precision." alt="" coords="247,5,417,32"/>
+<area shape="rect" id="node2" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="69,80,171,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="195,80,327,107"/>
+<area shape="rect" id="node6" title=" " alt="" coords="351,80,457,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="481,80,557,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,120,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="144,155,211,181"/>
 </map>
