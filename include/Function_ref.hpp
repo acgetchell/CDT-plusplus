@@ -312,16 +312,19 @@
 template <typename Fn>
 class function_ref;
 
+template <typename Fn>
+class function_ref;
+
 template <typename Ret, typename... Params>
 class function_ref<Ret(Params...)>
 {
   Ret (*callback)(intptr_t callable, Params... params) = nullptr;
-  intptr_t callable;
+  intptr_t callable{};
 
   template <typename Callable>
-  static Ret callback_fn(intptr_t callable, Params... params)
+  static auto callback_fn(intptr_t callable, Params... params) -> Ret
   {
-    return (*reinterpret_cast<Callable*>(callable))(
+    return (*reinterpret_cast<Callable*>(callable))(  // NOLINT
         std::forward<Params>(params)...);
   }
 
@@ -330,15 +333,24 @@ class function_ref<Ret(Params...)>
   explicit function_ref(std::nullptr_t) {}
 
   template <typename Callable>
-  function_ref(Callable&& callable,
-               typename std::enable_if<
-                   !std::is_same<typename std::remove_reference<Callable>::type,
-                                 function_ref>::value>::type* = nullptr)
+  function_ref(  // NOLINT
+      Callable&& callable,
+      // This is not the copy-constructor.
+      std::enable_if_t<
+          !std::is_same<std::remove_cv_t<std::remove_reference_t<Callable>>,
+                        function_ref>::value>* /*unused*/
+      = nullptr,
+      // Functor must be callable and return a suitable type.
+      std::enable_if_t<std::is_void<Ret>::value ||
+                       std::is_convertible<decltype(std::declval<Callable>()(
+                                               std::declval<Params>()...)),
+                                           Ret>::value>* /*unused*/
+      = nullptr)
       : callback(callback_fn<typename std::remove_reference<Callable>::type>)
-      , callable(reinterpret_cast<intptr_t>(&callable))
+      , callable(reinterpret_cast<intptr_t>(&callable))  // NOLINT
   {}
 
-  Ret operator()(Params... params) const
+  auto operator()(Params... params) const -> Ret
   {
     return callback(callable, std::forward<Params>(params)...);
   }
