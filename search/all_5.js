@@ -23,7 +23,7 @@ var searchData=
   ['foliation_5fspacing_76',['foliation_spacing',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a2fc5b6f89dd4eee78fac9bce4ff4de1f',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['function_5fref_77',['function_ref',['../classfunction__ref.html',1,'']]],
   ['function_5fref_2ehpp_78',['Function_ref.hpp',['../_function__ref_8hpp.html',1,'']]],
-  ['function_5fref_3c_20manifoldtype_28manifoldtype_20_26_29_3e_79',['function_ref&lt; ManifoldType(ManifoldType &amp;)&gt;',['../classfunction__ref.html',1,'']]],
-  ['function_5fref_3c_20ret_28params_2e_2e_2e_29_3e_80',['function_ref&lt; Ret(Params...)&gt;',['../classfunction__ref_3_01_ret_07_params_8_8_8_08_4.html',1,'']]],
-  ['function_5fref_3c_20simplicialmanifold_28simplicialmanifold_29_3e_81',['function_ref&lt; SimplicialManifold(SimplicialManifold)&gt;',['../classfunction__ref.html',1,'']]]
+  ['function_5fref_3c_20ret_28params_2e_2e_2e_29_3e_79',['function_ref&lt; Ret(Params...)&gt;',['../classfunction__ref_3_01_ret_07_params_8_8_8_08_4.html',1,'']]],
+  ['function_5fref_3c_20simplicialmanifold_28simplicialmanifold_29_3e_80',['function_ref&lt; SimplicialManifold(SimplicialManifold)&gt;',['../classfunction__ref.html',1,'']]],
+  ['function_5fref_3c_20tl_3a_3aexpected_3c_20manifoldtype_2c_20std_3a_3astring_5fview_20_3e_28manifoldtype_20_26_29_3e_81',['function_ref&lt; tl::expected&lt; ManifoldType, std::string_view &gt;(ManifoldType &amp;)&gt;',['../classfunction__ref.html',1,'']]]
 ];

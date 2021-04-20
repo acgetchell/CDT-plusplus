@@ -15,7 +15,7 @@
 <g id="a_node1"><a xlink:href="class_move_command.html" target="_top" xlink:title=" ">
 <polygon fill="white" stroke="black" points="0,-0.5 0,-30.5 173,-30.5 173,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">MoveCommand&lt; ManifoldType,</text>
-<text text-anchor="middle" x="86.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> FunctionType &gt;</text>
+<text text-anchor="middle" x="86.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> ExpectedType, FunctionType &gt;</text>
 </a>
 </g>
 </g>

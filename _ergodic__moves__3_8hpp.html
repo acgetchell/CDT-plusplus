@@ -74,6 +74,7 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
+<a href="#typedef-members">Typedefs</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -84,6 +85,8 @@ $(function() {
 <p>Pachner moves on 2+1 dimensional foliated Delaunay triangulations.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&quot;</code><br />
+<code>#include &lt;string_view&gt;</code><br />
+<code>#include &lt;tl/expected.hpp&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Ergodic_moves_3.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -103,6 +106,12 @@ $(function() {
 </div>
 <p><a href="_ergodic__moves__3_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="typedef-members"></a>
+Typedefs</h2></td></tr>
+<tr class="memitem:ae5017ba17afadb25a85a0ee0c7cefe0f"><td class="memItemLeft" align="right" valign="top"><a id="ae5017ba17afadb25a85a0ee0c7cefe0f"></a>
+using&#160;</td><td class="memItemRight" valign="bottom"><b>Expected</b> = tl::expected&lt; <a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a>, std::string_view &gt;</td></tr>
+<tr class="separator:ae5017ba17afadb25a85a0ee0c7cefe0f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:a1e27b6704bfacfd2345d89acfa7f5674"><td class="memItemLeft" align="right" valign="top"><a id="a1e27b6704bfacfd2345d89acfa7f5674"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>move_type</b> { <br />
@@ -121,21 +130,21 @@ Functions</h2></td></tr>
 <tr class="memitem:aff1b4a555c3f750a51ec4dbf64d7dc0a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#aff1b4a555c3f750a51ec4dbf64d7dc0a">Moves::check_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> const &amp;t_before, <a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> const &amp;t_after, move_type const &amp;t_move) -&gt; bool</td></tr>
 <tr class="memdesc:aff1b4a555c3f750a51ec4dbf64d7dc0a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check move correctness.  <a href="_ergodic__moves__3_8hpp.html#aff1b4a555c3f750a51ec4dbf64d7dc0a">More...</a><br /></td></tr>
 <tr class="separator:aff1b4a555c3f750a51ec4dbf64d7dc0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad2d3855dae8a141bdd79b9a4f93e3745"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#ad2d3855dae8a141bdd79b9a4f93e3745">Moves::do_23_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold) -&gt; decltype(auto)</td></tr>
-<tr class="memdesc:ad2d3855dae8a141bdd79b9a4f93e3745"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (2,3) move.  <a href="_ergodic__moves__3_8hpp.html#ad2d3855dae8a141bdd79b9a4f93e3745">More...</a><br /></td></tr>
-<tr class="separator:ad2d3855dae8a141bdd79b9a4f93e3745"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acefb6a6f38cb59758f0442edb6c8248a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#acefb6a6f38cb59758f0442edb6c8248a">Moves::do_26_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold)</td></tr>
-<tr class="memdesc:acefb6a6f38cb59758f0442edb6c8248a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (2,6) move.  <a href="_ergodic__moves__3_8hpp.html#acefb6a6f38cb59758f0442edb6c8248a">More...</a><br /></td></tr>
-<tr class="separator:acefb6a6f38cb59758f0442edb6c8248a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5f3aff19f128a30650473269b3728faf"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a5f3aff19f128a30650473269b3728faf">Moves::do_32_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold)</td></tr>
-<tr class="memdesc:a5f3aff19f128a30650473269b3728faf"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (3,2) move.  <a href="_ergodic__moves__3_8hpp.html#a5f3aff19f128a30650473269b3728faf">More...</a><br /></td></tr>
-<tr class="separator:a5f3aff19f128a30650473269b3728faf"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab12f04e61cd2cba1eae4d77fc4a05b63"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#ab12f04e61cd2cba1eae4d77fc4a05b63">Moves::do_44_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold)</td></tr>
-<tr class="memdesc:ab12f04e61cd2cba1eae4d77fc4a05b63"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (4,4) move.  <a href="_ergodic__moves__3_8hpp.html#ab12f04e61cd2cba1eae4d77fc4a05b63">More...</a><br /></td></tr>
-<tr class="separator:ab12f04e61cd2cba1eae4d77fc4a05b63"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac1dd16c55a3aebbde893fc5a38373848"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#ac1dd16c55a3aebbde893fc5a38373848">Moves::do_62_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold)</td></tr>
-<tr class="memdesc:ac1dd16c55a3aebbde893fc5a38373848"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (6,2) move.  <a href="_ergodic__moves__3_8hpp.html#ac1dd16c55a3aebbde893fc5a38373848">More...</a><br /></td></tr>
-<tr class="separator:ac1dd16c55a3aebbde893fc5a38373848"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a49e53c6a077779633410c69ed0798e3f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a49e53c6a077779633410c69ed0798e3f">Moves::do_23_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold) -&gt; Expected</td></tr>
+<tr class="memdesc:a49e53c6a077779633410c69ed0798e3f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (2,3) move.  <a href="_ergodic__moves__3_8hpp.html#a49e53c6a077779633410c69ed0798e3f">More...</a><br /></td></tr>
+<tr class="separator:a49e53c6a077779633410c69ed0798e3f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af69a4c32f936e5234f5f9e9171b672cb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">Moves::do_26_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold) -&gt; Expected</td></tr>
+<tr class="memdesc:af69a4c32f936e5234f5f9e9171b672cb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (2,6) move.  <a href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">More...</a><br /></td></tr>
+<tr class="separator:af69a4c32f936e5234f5f9e9171b672cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae6c5c87b078a2668da7b58c020b885fd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#ae6c5c87b078a2668da7b58c020b885fd">Moves::do_32_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold) -&gt; Expected</td></tr>
+<tr class="memdesc:ae6c5c87b078a2668da7b58c020b885fd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (3,2) move.  <a href="_ergodic__moves__3_8hpp.html#ae6c5c87b078a2668da7b58c020b885fd">More...</a><br /></td></tr>
+<tr class="separator:ae6c5c87b078a2668da7b58c020b885fd"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af0719da2080374033a15e6870f747ad2"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#af0719da2080374033a15e6870f747ad2">Moves::do_44_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold) -&gt; Expected</td></tr>
+<tr class="memdesc:af0719da2080374033a15e6870f747ad2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (4,4) move.  <a href="_ergodic__moves__3_8hpp.html#af0719da2080374033a15e6870f747ad2">More...</a><br /></td></tr>
+<tr class="separator:af0719da2080374033a15e6870f747ad2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5a221f9b4332f93e1f7634e5efd152f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#ae5a221f9b4332f93e1f7634e5efd152f">Moves::do_62_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold) -&gt; Expected</td></tr>
+<tr class="memdesc:ae5a221f9b4332f93e1f7634e5efd152f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a (6,2) move.  <a href="_ergodic__moves__3_8hpp.html#ae5a221f9b4332f93e1f7634e5efd152f">More...</a><br /></td></tr>
+<tr class="separator:ae5a221f9b4332f93e1f7634e5efd152f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8cfcf3ba18f4e4a1503d86c3c50092b3"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a8cfcf3ba18f4e4a1503d86c3c50092b3">Moves::find_26_move</a> (Cell_handle_3 const &amp;t_cell) -&gt; std::optional&lt; int &gt;</td></tr>
 <tr class="memdesc:a8cfcf3ba18f4e4a1503d86c3c50092b3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a (2,6) move location.  <a href="_ergodic__moves__3_8hpp.html#a8cfcf3ba18f4e4a1503d86c3c50092b3">More...</a><br /></td></tr>
 <tr class="separator:a8cfcf3ba18f4e4a1503d86c3c50092b3"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -145,9 +154,9 @@ Functions</h2></td></tr>
 <tr class="memitem:ad1fd55d61cc46bde403dbd96c4b51db9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#ad1fd55d61cc46bde403dbd96c4b51db9">Moves::is_62_movable</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;manifold, Vertex_handle_3 const &amp;candidate)</td></tr>
 <tr class="memdesc:ad1fd55d61cc46bde403dbd96c4b51db9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Find a (6,2) move location.  <a href="_ergodic__moves__3_8hpp.html#ad1fd55d61cc46bde403dbd96c4b51db9">More...</a><br /></td></tr>
 <tr class="separator:ad1fd55d61cc46bde403dbd96c4b51db9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5c19647c2972031da0c5bb2c2a59854f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a5c19647c2972031da0c5bb2c2a59854f">Moves::null_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> const &amp;t_manifold)</td></tr>
-<tr class="memdesc:a5c19647c2972031da0c5bb2c2a59854f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a null move.  <a href="_ergodic__moves__3_8hpp.html#a5c19647c2972031da0c5bb2c2a59854f">More...</a><br /></td></tr>
-<tr class="separator:a5c19647c2972031da0c5bb2c2a59854f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a123c545a7526bfe74cf3c49532fe7eeb"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a123c545a7526bfe74cf3c49532fe7eeb">Moves::null_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> const &amp;t_manifold) -&gt; Expected</td></tr>
+<tr class="memdesc:a123c545a7526bfe74cf3c49532fe7eeb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a null move.  <a href="_ergodic__moves__3_8hpp.html#a123c545a7526bfe74cf3c49532fe7eeb">More...</a><br /></td></tr>
+<tr class="separator:a123c545a7526bfe74cf3c49532fe7eeb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5838adbe1df74399c3e674d443f44063"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a5838adbe1df74399c3e674d443f44063">Moves::try_23_move</a> (<a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;t_manifold, Cell_handle_3 const &amp;to_be_moved) -&gt; bool</td></tr>
 <tr class="memdesc:a5838adbe1df74399c3e674d443f44063"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a TriangulationDataStructure_3::flip on a facet.  <a href="_ergodic__moves__3_8hpp.html#a5838adbe1df74399c3e674d443f44063">More...</a><br /></td></tr>
 <tr class="separator:a5838adbe1df74399c3e674d443f44063"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -215,16 +224,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the move correctly changed the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00496">496</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00503">503</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00496">Moves::check_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00503">Moves::check_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00496">Moves::check_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00503">Moves::check_move()</a>.</p>
 
 </div>
 </div>
-<a id="ad2d3855dae8a141bdd79b9a4f93e3745"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ad2d3855dae8a141bdd79b9a4f93e3745">&#9670;&nbsp;</a></span>do_23_move()</h2>
+<a id="a49e53c6a077779633410c69ed0798e3f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a49e53c6a077779633410c69ed0798e3f">&#9670;&nbsp;</a></span>do_23_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -237,7 +246,7 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em></td><td>)</td>
-          <td> -&gt; decltype(auto)
+          <td> -&gt; Expected
   </td>
         </tr>
       </table>
@@ -260,16 +269,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (2,3) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00080">80</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">85</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00080">Moves::do_23_move()</a>, <a class="el" href="_utilities_8hpp_source.html#l00320">make_random_generator()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00043">Moves::try_23_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">Moves::do_23_move()</a>, <a class="el" href="_utilities_8hpp_source.html#l00301">make_random_generator()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00048">Moves::try_23_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00080">Moves::do_23_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">Moves::do_23_move()</a>.</p>
 
 </div>
 </div>
-<a id="acefb6a6f38cb59758f0442edb6c8248a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#acefb6a6f38cb59758f0442edb6c8248a">&#9670;&nbsp;</a></span>do_26_move()</h2>
+<a id="af69a4c32f936e5234f5f9e9171b672cb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af69a4c32f936e5234f5f9e9171b672cb">&#9670;&nbsp;</a></span>do_26_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -282,7 +291,8 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; Expected
+  </td>
         </tr>
       </table>
   </td>
@@ -307,16 +317,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (2,6) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00201">201</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00206">206</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00201">Moves::do_26_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">Moves::find_26_move()</a>, <a class="el" href="_manifold_8hpp_source.html#l00133">Manifolds::Manifold&lt; 3 &gt;::get_triangulation()</a>, <a class="el" href="_manifold_8hpp_source.html#l00187">Manifolds::Manifold&lt; 3 &gt;::is_vertex()</a>, <a class="el" href="_utilities_8hpp_source.html#l00320">make_random_generator()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00140">Manifolds::Manifold&lt; 3 &gt;::triangulation()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00206">Moves::do_26_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00169">Moves::find_26_move()</a>, and <a class="el" href="_utilities_8hpp_source.html#l00301">make_random_generator()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00201">Moves::do_26_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00206">Moves::do_26_move()</a>.</p>
 
 </div>
 </div>
-<a id="a5f3aff19f128a30650473269b3728faf"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5f3aff19f128a30650473269b3728faf">&#9670;&nbsp;</a></span>do_32_move()</h2>
+<a id="ae6c5c87b078a2668da7b58c020b885fd"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae6c5c87b078a2668da7b58c020b885fd">&#9670;&nbsp;</a></span>do_32_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -329,7 +339,8 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; Expected
+  </td>
         </tr>
       </table>
   </td>
@@ -351,16 +362,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (3,2) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00129">129</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00134">134</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00129">Moves::do_32_move()</a>, <a class="el" href="_manifold_8hpp_source.html#l00296">Manifolds::Manifold&lt; 3 &gt;::get_timelike_edges()</a>, <a class="el" href="_utilities_8hpp_source.html#l00320">make_random_generator()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">Moves::try_32_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00134">Moves::do_32_move()</a>, <a class="el" href="_utilities_8hpp_source.html#l00301">make_random_generator()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00110">Moves::try_32_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00129">Moves::do_32_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00134">Moves::do_32_move()</a>.</p>
 
 </div>
 </div>
-<a id="ab12f04e61cd2cba1eae4d77fc4a05b63"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ab12f04e61cd2cba1eae4d77fc4a05b63">&#9670;&nbsp;</a></span>do_44_move()</h2>
+<a id="af0719da2080374033a15e6870f747ad2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af0719da2080374033a15e6870f747ad2">&#9670;&nbsp;</a></span>do_44_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -373,7 +384,8 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; Expected
+  </td>
         </tr>
       </table>
   </td>
@@ -395,16 +407,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (4,4) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00461">461</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00468">468</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00461">Moves::do_44_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00418">Moves::find_44_move()</a>, <a class="el" href="_manifold_8hpp_source.html#l00302">Manifolds::Manifold&lt; 3 &gt;::get_spacelike_edges()</a>, and <a class="el" href="_utilities_8hpp_source.html#l00320">make_random_generator()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00468">Moves::do_44_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00425">Moves::find_44_move()</a>, and <a class="el" href="_utilities_8hpp_source.html#l00301">make_random_generator()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00461">Moves::do_44_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00468">Moves::do_44_move()</a>.</p>
 
 </div>
 </div>
-<a id="ac1dd16c55a3aebbde893fc5a38373848"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac1dd16c55a3aebbde893fc5a38373848">&#9670;&nbsp;</a></span>do_62_move()</h2>
+<a id="ae5a221f9b4332f93e1f7634e5efd152f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae5a221f9b4332f93e1f7634e5efd152f">&#9670;&nbsp;</a></span>do_62_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -417,7 +429,8 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; Expected
+  </td>
         </tr>
       </table>
   </td>
@@ -439,11 +452,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (6,2) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00387">387</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00393">393</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00387">Moves::do_62_move()</a>, <a class="el" href="_manifold_8hpp_source.html#l00308">Manifolds::Manifold&lt; 3 &gt;::get_vertices()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00312">Moves::is_62_movable()</a>, <a class="el" href="_utilities_8hpp_source.html#l00320">make_random_generator()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00140">Manifolds::Manifold&lt; 3 &gt;::triangulation()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00393">Moves::do_62_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00318">Moves::is_62_movable()</a>, and <a class="el" href="_utilities_8hpp_source.html#l00301">make_random_generator()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00387">Moves::do_62_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00393">Moves::do_62_move()</a>.</p>
 
 </div>
 </div>
@@ -473,7 +486,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Find a (2,6) move location. </p>
-<p>This function checks to see if a (2,6) move is possible. Starting with a (1,3) simplex, it checks neighbors for a (3,1) simplex. The index of that neighbor is passed via an out parameter.</p>
+<p>This function checks to see if a (2,6) move is possible. Starting with a (1,3) simplex, it checks neighbors for a (3,1) simplex.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_cell</td><td>The (1,3) simplex that is checked </td></tr>
@@ -482,11 +495,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The integer of the neighboring (3,1) simplex if there is one </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">164</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00169">169</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">Moves::find_26_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00169">Moves::find_26_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00201">Moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">Moves::find_26_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00206">Moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00169">Moves::find_26_move()</a>.</p>
 
 </div>
 </div>
@@ -536,11 +549,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of incident cells if there are exactly 4 of them </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00418">418</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00425">425</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00418">Moves::find_44_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00425">Moves::find_44_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00461">Moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00418">Moves::find_44_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00468">Moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00425">Moves::find_44_move()</a>.</p>
 
 </div>
 </div>
@@ -589,16 +602,16 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if (6,2) move is possible </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00312">312</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00318">318</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_manifold_8hpp_source.html#l00283">Manifolds::Manifold&lt; 3 &gt;::degree()</a>, <a class="el" href="_manifold_8hpp_source.html#l00205">Manifolds::Manifold&lt; 3 &gt;::dim()</a>, <a class="el" href="_manifold_8hpp_source.html#l00290">Manifolds::Manifold&lt; 3 &gt;::incident_cells()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00312">Moves::is_62_movable()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00187">Manifolds::Manifold&lt; 3 &gt;::is_vertex()</a>.</p>
+<p class="reference">References <a class="el" href="_manifold_8hpp_source.html#l00283">Manifolds::Manifold&lt; 3 &gt;::degree()</a>, <a class="el" href="_manifold_8hpp_source.html#l00205">Manifolds::Manifold&lt; 3 &gt;::dim()</a>, <a class="el" href="_manifold_8hpp_source.html#l00290">Manifolds::Manifold&lt; 3 &gt;::incident_cells()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00318">Moves::is_62_movable()</a>, and <a class="el" href="_manifold_8hpp_source.html#l00187">Manifolds::Manifold&lt; 3 &gt;::is_vertex()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00387">Moves::do_62_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00312">Moves::is_62_movable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00393">Moves::do_62_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00318">Moves::is_62_movable()</a>.</p>
 
 </div>
 </div>
-<a id="a5c19647c2972031da0c5bb2c2a59854f"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5c19647c2972031da0c5bb2c2a59854f">&#9670;&nbsp;</a></span>null_move()</h2>
+<a id="a123c545a7526bfe74cf3c49532fe7eeb"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a123c545a7526bfe74cf3c49532fe7eeb">&#9670;&nbsp;</a></span>null_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -611,7 +624,8 @@ Functions</h2></td></tr>
           <td>(</td>
           <td class="paramtype"><a class="el" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> const &amp;&#160;</td>
           <td class="paramname"><em>t_manifold</em></td><td>)</td>
-          <td></td>
+          <td> -&gt; Expected
+  </td>
         </tr>
       </table>
   </td>
@@ -630,11 +644,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The null-moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00031">31</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00035">35</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00031">Moves::null_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00035">Moves::null_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00031">Moves::null_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00035">Moves::null_move()</a>.</p>
 
 </div>
 </div>
@@ -684,11 +698,11 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00043">43</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00048">48</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00043">Moves::try_23_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00048">Moves::try_23_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00080">Moves::do_23_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00043">Moves::try_23_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00085">Moves::do_23_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00048">Moves::try_23_move()</a>.</p>
 
 </div>
 </div>
@@ -737,18 +751,18 @@ Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">105</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00110">110</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_manifold_8hpp_source.html#l00140">Manifolds::Manifold&lt; 3 &gt;::triangulation()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">Moves::try_32_move()</a>.</p>
+<p class="reference">References <a class="el" href="_manifold_8hpp_source.html#l00140">Manifolds::Manifold&lt; 3 &gt;::triangulation()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00110">Moves::try_32_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00129">Moves::do_32_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">Moves::try_32_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00134">Moves::do_32_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00110">Moves::try_32_move()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 17 2021 17:34:53 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Apr 20 2021 06:37:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

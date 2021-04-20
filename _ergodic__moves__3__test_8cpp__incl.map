@@ -1,8 +1,10 @@
 <map id="tests/Ergodic_moves_3_test.cpp" name="tests/Ergodic_moves_3_test.cpp">
-<area shape="rect" id="node1" title="Tests for ergodic moves on foliated triangulations." alt="" coords="1995,5,2153,47"/>
-<area shape="rect" id="node2" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="1907,95,2071,121"/>
-<area shape="rect" id="node38" title=" " alt="" coords="2095,95,2227,121"/>
+<area shape="rect" id="node1" title="Tests for ergodic moves on foliated triangulations." alt="" coords="2122,5,2279,47"/>
+<area shape="rect" id="node2" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="2033,95,2197,121"/>
+<area shape="rect" id="node40" title=" " alt="" coords="2221,95,2353,121"/>
 <area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1935,169,2042,196"/>
+<area shape="rect" id="node38" title=" " alt="" coords="2067,169,2164,196"/>
+<area shape="rect" id="node39" title=" " alt="" coords="2189,169,2311,196"/>
 <area shape="rect" id="node4" href="$_geometry_8hpp.html" title="Data structures for geometry." alt="" coords="1757,244,1871,271"/>
 <area shape="rect" id="node35" title=" " alt="" coords="1895,244,1965,271"/>
 <area shape="rect" id="node36" title=" " alt="" coords="1990,244,2105,271"/>

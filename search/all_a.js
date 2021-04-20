@@ -1,8 +1,8 @@
 var searchData=
 [
   ['m_5fgeometry_139',['m_geometry',['../class_manifolds_1_1_manifold_3_013_01_4.html#ad02b76c850df9787b0e5af4e3e84b4dc',1,'Manifolds::Manifold&lt; 3 &gt;']]],
-  ['m_5fmanifold_140',['m_manifold',['../class_move_command.html#a1f11efc51d2ed7812a2586798c051207',1,'MoveCommand']]],
-  ['m_5fmoves_141',['m_moves',['../class_move_command.html#ab7c6b3b5da3526cc061ef3fac85a2c0d',1,'MoveCommand']]],
+  ['m_5fmanifold_140',['m_manifold',['../class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae',1,'MoveCommand']]],
+  ['m_5fmoves_141',['m_moves',['../class_move_command.html#a7c9cf06eda04803ee5ef76d8c4af770e',1,'MoveCommand']]],
   ['m_5ftriangulation_142',['m_triangulation',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#ab801046a3c4120e67b0f8db303bf1ef7',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::m_triangulation()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#aaec19bbc8f5b5098ee4bfe611c5f6427',1,'Manifolds::Manifold&lt; 3 &gt;::m_triangulation()']]],
   ['main_143',['main',['../cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5',1,'main(int argc, char const *argv[]) -&gt; int try:&#160;cdt-gv.cpp'],['../cdt-opt_8cpp.html#ae66f6b31b5ad750f1fe042a706a4e3d4',1,'main():&#160;cdt-opt.cpp'],['../cdt_8cpp.html#af3ed9c200de85b53c94cd18764b246a2',1,'main(int argc, char *const argv[]):&#160;cdt.cpp']]],
   ['main_2ecpp_144',['main.cpp',['../main_8cpp.html',1,'']]],
@@ -23,14 +23,14 @@ var searchData=
   ['metropolis_159',['Metropolis',['../class_metropolis.html',1,'Metropolis'],['../class_metropolis.html#ae819cbd0a642c631e546d33bd12b8e41',1,'Metropolis::Metropolis()']]],
   ['metropolis_2ehpp_160',['Metropolis.hpp',['../_metropolis_8hpp.html',1,'']]],
   ['min_5ftime_161',['min_time',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#acd4e66f169b4a72289b26774c840ac54',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::min_time()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#a8721c7d7d97e07bdf686e04110298ec5',1,'Manifolds::Manifold&lt; 3 &gt;::min_time()']]],
-  ['move_162',['move',['../class_move_command.html#a59796bad12a3d05491ef18cf5fedce3d',1,'MoveCommand']]],
+  ['move_162',['move',['../class_move_command.html#a242f02bdf09e388d3f602fbff485d9dd',1,'MoveCommand']]],
   ['move_5falways_2ehpp_163',['Move_always.hpp',['../_move__always_8hpp.html',1,'']]],
   ['move_5fcommand_2ehpp_164',['Move_command.hpp',['../_move__command_8hpp.html',1,'']]],
   ['move_5fcommand_5ftest_2ecpp_165',['Move_command_test.cpp',['../_move__command__test_8cpp.html',1,'']]],
   ['move_5fstrategies_5ftest_2ecpp_166',['Move_strategies_test.cpp',['../_move__strategies__test_8cpp.html',1,'']]],
   ['move_5fstrategy_2ehpp_167',['Move_strategy.hpp',['../_move__strategy_8hpp.html',1,'']]],
   ['move_5ftracker_168',['Move_tracker',['../class_move__tracker.html',1,'']]],
-  ['movecommand_169',['MoveCommand',['../class_move_command.html',1,'MoveCommand&lt; ManifoldType, FunctionType &gt;'],['../class_move_command.html#a814a6241da0beeeb9012c5c86e9566db',1,'MoveCommand::MoveCommand()=delete'],['../class_move_command.html#ab5057d9c61afccd68d9b1b702b97a532',1,'MoveCommand::MoveCommand(ManifoldType t_manifold)']]],
+  ['movecommand_169',['MoveCommand',['../class_move_command.html',1,'MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;'],['../class_move_command.html#a8ded669a9c2b500d9479f228c4798824',1,'MoveCommand::MoveCommand()=delete'],['../class_move_command.html#a2a59484e037acf39abfec0f1a4233969',1,'MoveCommand::MoveCommand(ManifoldType t_manifold)']]],
   ['moves_5fper_5fdimension_170',['moves_per_dimension',['../_move__strategy_8hpp.html#aa662102633e141a22722fc4da7345c39',1,'Move_strategy.hpp']]],
   ['movestrategy_171',['MoveStrategy',['../class_move_strategy.html',1,'MoveStrategy&lt; strategies, dimension &gt;'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a6defbe4c319c1279e0bfb89d7c9fbecf',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::MoveStrategy()=default'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a3756d0483350863a1078f68c479634c3',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::MoveStrategy(MoveStrategy const &amp;other)=default'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a28aceb9deda2c42f1cfdb1649a16c369',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::MoveStrategy(MoveStrategy &amp;&amp;other) noexcept=default']]],
   ['movestrategy_3c_20move_5falways_2c_20dimension_20_3e_172',['MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;',['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html',1,'']]]
