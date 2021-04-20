@@ -12,6 +12,10 @@
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
 #include "Manifold.hpp"
+#include <string_view>
+#include <tl/expected.hpp>
+
+using Expected = tl::expected<Manifolds::Manifold3, std::string_view>;
 
 namespace Moves
 {
@@ -29,9 +33,10 @@ namespace Moves
   /// @param t_manifold The simplicial manifold
   /// @return The null-moved manifold
   [[nodiscard]] inline auto null_move(Manifolds::Manifold3 const& t_manifold)
+      -> Expected
   {
     return t_manifold;
-  }
+  }  // null_move
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
   ///
@@ -78,7 +83,7 @@ namespace Moves
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
   [[nodiscard]] inline auto do_23_move(Manifolds::Manifold3& t_manifold)
-      -> decltype(auto)
+      -> Expected
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -92,7 +97,7 @@ namespace Moves
       if (try_23_move(t_manifold, cell)) { return t_manifold; }
     }
     // We've run out of (2,2) cells
-    throw std::domain_error("No (2,3) move is possible.");
+    return tl::make_unexpected("No (2,3) move is possible.");
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
@@ -127,6 +132,7 @@ namespace Moves
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
   [[nodiscard]] inline auto do_32_move(Manifolds::Manifold3& t_manifold)
+      -> Expected
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -150,14 +156,13 @@ namespace Moves
 #endif
     }
     // We've run out of edges to try
-    throw std::domain_error("No (3,2) move possible.");
+    return tl::make_unexpected("No (3,2) move possible.");
   }  // do_32_move()
 
   /// @brief Find a (2,6) move location
   ///
   /// This function checks to see if a (2,6) move is possible. Starting with
-  /// a (1,3) simplex, it checks neighbors for a (3,1) simplex. The index of
-  /// that neighbor is passed via an out parameter.
+  /// a (1,3) simplex, it checks neighbors for a (3,1) simplex.
   ///
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
@@ -199,6 +204,7 @@ namespace Moves
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
   [[nodiscard]] inline auto do_26_move(Manifolds::Manifold3& t_manifold)
+      -> Expected
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -296,7 +302,7 @@ namespace Moves
 #endif
     }
     // We've run out of (1,3) simplices to try
-    throw std::domain_error("No (2,6) move possible.");
+    return tl::make_unexpected("No (2,6) move possible.");
   }  // do_26_move()
 
   /// @brief Find a (6,2) move location
@@ -385,6 +391,7 @@ namespace Moves
   /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
   [[nodiscard]] inline auto do_62_move(Manifolds::Manifold3& t_manifold)
+      -> Expected
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -402,7 +409,7 @@ namespace Moves
       // Try next vertex
     }
     // We've run out of vertices to try
-    throw std::domain_error("No (6,2) move possible.");
+    return tl::make_unexpected("No (6,2) move possible.");
   }  // do_62_move()
 
   /// @brief Find a (4,4) move location
@@ -459,6 +466,7 @@ namespace Moves
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
   [[nodiscard]] inline auto do_44_move(Manifolds::Manifold3& t_manifold)
+      -> Expected
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -484,8 +492,7 @@ namespace Moves
       // Try next edge
     }
     // We've run out of edges to try
-    fmt::print("No (4,4) move is possible.\n");
-    return t_manifold;
+    return tl::make_unexpected("No (4,4) move is possible.");
   }  // do_44_move()
 
   /// @brief Check move correctness

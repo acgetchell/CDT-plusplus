@@ -34,7 +34,13 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (2,3) move is performed")
     {
       // Use copy elision
-      manifold = Moves::do_23_move(manifold);
+      auto result = Moves::do_23_move(manifold);
+      if (result) { manifold = result.value(); }
+      else
+      {
+        fmt::print(result.error());
+      }
+      REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update Geometry and Foliated_triangulation with new info
@@ -54,7 +60,13 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (3,2) move is performed")
     {
-      manifold = Moves::do_32_move(manifold);
+      auto result = Moves::do_32_move(manifold);
+      if (result) { manifold = result.value(); }
+      else
+      {
+        fmt::print(result.error());
+      }
+      REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
@@ -75,7 +87,13 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (2,6) move is performed")
     {
-      manifold = Moves::do_26_move(manifold);
+      auto result = Moves::do_26_move(manifold);
+      if (result) { manifold = result.value(); }
+      else
+      {
+        fmt::print(result.error());
+      }
+      REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
@@ -96,7 +114,13 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (6,2) move is performed")
     {
-      manifold = Moves::do_62_move(manifold);
+      auto result = Moves::do_62_move(manifold);
+      if (result) { manifold = result.value(); }
+      else
+      {
+        fmt::print(result.error());
+      }
+      REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info
@@ -116,7 +140,13 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (4,4) move is performed")
     {
-      manifold = Moves::do_44_move(manifold);
+      auto result = Moves::do_44_move(manifold);
+      if (result) { manifold = result.value(); }
+      else
+      {
+        fmt::print(result.error());
+      }
+      REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
         // Update geometry with new triangulation info

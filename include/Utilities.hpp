@@ -196,32 +196,13 @@ catch (...)
   throw;
 }  // print_manifold
 
-/// @brief Print simplices and sub-simplices
-/// @tparam ManifoldType The manifold type
-/// @param t_manifold A manifold
-template <typename ManifoldType>
-void print_manifold_details(ManifoldType const& t_manifold)
-try
-{
-  fmt::print(
-      "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
-      "simplices.\n",
-      t_manifold.N3_31(), t_manifold.N3_22(), t_manifold.N3_13());
-  fmt::print("There are {} timelike edges and {} spacelike edges.\n",
-             t_manifold.N1_TL(), t_manifold.N1_SL());
-}
-catch (...)
-{
-  fmt::print(stderr, "print_manifold_details() went wrong ...\n");
-  throw;
-}  // print_manifold_details
-
 /// @brief Print triangulation statistics
 /// @tparam TriangulationType The triangulation type
 /// @param t_triangulation A triangulation (typically a Delaunay<3>
 /// triangulation)
 template <typename TriangulationType>
-void print_triangulation(TriangulationType const& t_triangulation)
+[[deprecated]] void print_triangulation(
+    TriangulationType const& t_triangulation)
 try
 {
   fmt::print(

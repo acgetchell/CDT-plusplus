@@ -69,13 +69,14 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
       THEN("Running the function makes the move.")
       {
         auto result = move23(manifold);
-        result.update();
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
+        result->update();
+        CHECK(Moves::check_move(manifold, result.value(),
+                                Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         fmt::print("Moved manifold properties:\n");
-        print_manifold_details(result);
+        result->print_details();
       }
     }
   }
@@ -92,7 +93,7 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
     WHEN("A lambda is constructed for a move.")
     {
       auto const move23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
-        return Moves::do_23_move(m);
+        return Moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
       {
@@ -101,9 +102,9 @@ SCENARIO("Invoking a move with a lambda", "[move command]")
         CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         fmt::print("Moved manifold properties:\n");
-        print_manifold_details(result);
+        result.print_details();
       }
     }
   }
@@ -124,13 +125,14 @@ SCENARIO("Invoking a move with apply_move and a function pointer",
       THEN("Invoking apply_move() makes the move.")
       {
         auto result = apply_move(manifold, move);
-        result.update();
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
+        result->update();
+        CHECK(Moves::check_move(manifold, result.value(),
+                                Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         fmt::print("Moved manifold properties:\n");
-        print_manifold_details(result);
+        result->print_details();
       }
     }
   }
@@ -151,7 +153,7 @@ SCENARIO("Move Command initialization", "[move command]")
       {
         REQUIRE(manifold.is_correct());
         // Human verification
-        print_manifold_details(manifold);
+        manifold.print_details();
       }
       THEN("It contains the manifold.")
       {
@@ -169,10 +171,10 @@ SCENARIO("Move Command initialization", "[move command]")
         CHECK(manifold.min_time() == command.get_manifold().min_time());
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         manifold.print_volume_per_timeslice();
         fmt::print("Command.get_manifold() properties:\n");
-        print_manifold_details(command.get_manifold());
+        command.get_manifold().print_details();
         command.get_manifold().print_volume_per_timeslice();
       }
       THEN("The two manifolds are distinct.")
@@ -276,7 +278,7 @@ SCENARIO("Executing single moves", "[move command][!mayfail]")
   }
 }
 
-SCENARIO("Executing single moves sequentially", "[move command][.]")
+SCENARIO("Executing single moves sequentially", "[move command]")
 {
   GIVEN("A valid manifold.")
   {
@@ -287,25 +289,17 @@ SCENARIO("Executing single moves sequentially", "[move command][.]")
     WHEN("Two moves are executed.")
     {
       MoveCommand command(manifold);
-      //            auto        move_23 = manifold3_moves::do_23_move;
-      //            auto        move_32 = manifold3_moves::do_32_move;
-      auto const move_23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
-        return Moves::do_23_move(m);
-      };
-      auto const move_32 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
-        return Moves::do_32_move(m);
-      };
-      //      function_ref<Manifold3(Manifold3&)> move_23(move23);
-      //      function_ref<Manifold3(Manifold3&)> move_32(move32);
+      auto        move_23 = Moves::do_23_move;
+      auto        move_32 = Moves::do_32_move;
       command.move(move_23);
       command.move(move_32);
       {
         THEN("The moves are executed correctly.")
         {
           auto result = command.get_results();
-
-          // The moves cancel out with respect to number of simplices
-          CHECK(result.get_geometry().N3 == manifold.get_geometry().N3);
+          // The moves cancel out
+          REQUIRE(
+              Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
           fmt::print("Triangulation moves cancelled out.");
         }
       }

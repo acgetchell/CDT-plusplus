@@ -13,9 +13,8 @@
 #include "Ergodic_moves_3.hpp"
 
 template <typename ManifoldType,
-          //          typename FunctionType =
-          //          std::function<ManifoldType(ManifoldType&)>>
-          typename FunctionType = function_ref<ManifoldType(ManifoldType&)>>
+          typename ExpectedType = tl::expected<ManifoldType, std::string_view>,
+          typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
 class MoveCommand
 {
   /// @brief The Manifold on which to make the move
@@ -61,27 +60,29 @@ class MoveCommand
   /// @brief Execute a single move on the manifold
   /// @param t_move The move to do on the manifold
   void move(FunctionType&& t_move)
-  try
   {
 #ifndef NDEBUG
     fmt::print("Before manifold move:\n");
-    print_manifold_details(m_manifold);
+    m_manifold.print_details();
 #endif
 
     auto result = apply_move(m_manifold, std::forward<FunctionType>(t_move));
-    result.update();
+    if (result)
+    {
+      result->update();
 
 #ifndef NDEBUG
-    fmt::print("After manifold move:\n");
-    print_manifold_details(m_manifold);
+      fmt::print("After manifold move:\n");
+      m_manifold.print_details();
 #endif
 
-    swap(result, m_manifold);
-  }
-  catch (std::exception const& e)
-  {
-    fmt::print(stderr, "move() failed: {}\n", e.what());
-    throw;
+      swap(result.value(), m_manifold);
+    }
+    else
+    {
+      fmt::print(result.error());
+    }
+
   }  // move
 
   /// @brief Push a Pachner move onto the move queue
@@ -92,36 +93,37 @@ class MoveCommand
 
   /// Execute all moves in the queue on the manifold
   void execute()
-  try
   {
     while (m_moves.size() > 0)
     {
 #ifndef NDEBUG
       fmt::print("Before manifold move:\n");
-      print_manifold_details(m_manifold);
+      m_manifold.print_details();
 #endif
 
       auto move   = m_moves.back();
       auto result = apply_move(m_manifold, move);
       m_moves.pop_back();
-      result.update();
-
+      if (result)
+      {
+        result->update();
 #ifndef NDEBUG
-      fmt::print("After manifold move:\n");
-      print_manifold_details(m_manifold);
+        fmt::print("After manifold move:\n");
+        m_manifold.print_details();
 #endif
 
-      swap(result, m_manifold);
+        swap(result.value(), m_manifold);
+      }
+      else
+      {
+        fmt::print(result.error());
+      }
     }
 #ifndef NDEBUG
     fmt::print("After moves:\n");
-    print_manifold_details(m_manifold);
+    //    print_manifold_details(m_manifold);
+    m_manifold.print_details();
 #endif
-  }
-  catch (std::exception const& e)
-  {
-    fmt::print(stderr, "execute() failed: {}\n", e.what());
-    throw;
   }  // execute
 
   // Functionality for later, perhaps using a Memento

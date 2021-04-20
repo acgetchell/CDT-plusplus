@@ -372,6 +372,37 @@ namespace Manifolds
       swap(t_first.m_geometry, t_second.m_geometry);
     }  // swap
 
+    void print() const
+    try
+    {
+      fmt::print(
+          "Manifold has {} vertices and {} edges and {} faces and {} "
+          "simplices.\n",
+          this->N0(), this->N1(), this->N2(), this->N3());
+    }
+    catch (...)
+    {
+      fmt::print(stderr, "print() went wrong ...\n");
+      throw;
+    }  // print
+
+    /// @brief Print details of the manifold
+    void print_details() const
+    try
+    {
+      fmt::print(
+          "There are {} (3,1) simplices and {} (2,2) simplices and {} (1,3) "
+          "simplices.\n",
+          this->N3_31(), this->N3_22(), this->N3_13());
+      fmt::print("There are {} timelike edges and {} spacelike edges.\n",
+                 this->N1_TL(), this->N1_SL());
+    }
+    catch (...)
+    {
+      fmt::print(stderr, "print_details() went wrong ...\n");
+      throw;
+    }  // print_details
+
    private:
     /// @brief Update the triangulation
     void update_triangulation()

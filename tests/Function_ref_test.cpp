@@ -48,7 +48,7 @@ SCENARIO("Complex lambda operations", "[function-ref]")
     WHEN("A lambda is constructed for a move.")
     {
       auto const move23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
-        return Moves::do_23_move(m);
+        return Moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
       {
@@ -57,9 +57,9 @@ SCENARIO("Complex lambda operations", "[function-ref]")
         CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         fmt::print("Moved manifold properties:\n");
-        print_manifold_details(result);
+        result.print_details();
       }
     }
   }
@@ -82,20 +82,22 @@ SCENARIO("Function_ref operations", "[function-ref]")
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    function_ref<Manifolds::Manifold3(Manifolds::Manifold3&)> complex_ref(
-        Moves::do_23_move);
+    function_ref<tl::expected<Manifolds::Manifold3, std::string_view>(
+        Manifolds::Manifold3&)>
+        complex_ref(Moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
       auto result = complex_ref(manifold);
-      result.update();
+      result->update();
       THEN("The move from the function_ref is correct.")
       {
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
+        CHECK(Moves::check_move(manifold, result.value(),
+                                Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         fmt::print("Moved manifold properties:\n");
-        print_manifold_details(result);
+        result->print_details();
       }
     }
   }
@@ -106,7 +108,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
     Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     auto const move23 = [](Manifolds::Manifold3& m) -> Manifolds::Manifold3 {
-      return Moves::do_23_move(m);
+      return Moves::do_23_move(m).value();
     };
     function_ref<Manifolds::Manifold3(Manifolds::Manifold3&)> complex_ref(
         move23);
@@ -121,9 +123,9 @@ SCENARIO("Function_ref operations", "[function-ref]")
         CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold_details(manifold);
+        manifold.print_details();
         fmt::print("Moved manifold properties:\n");
-        print_manifold_details(result);
+        result.print_details();
       }
     }
   }

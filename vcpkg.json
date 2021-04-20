@@ -10,6 +10,7 @@
     "eigen3",
     "pcg",
     "tbb",
+    "tl-expected",
     {
       "name": "yasm-tool",
       "platform": "windows"

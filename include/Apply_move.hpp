@@ -17,27 +17,24 @@
 
 #include "Function_ref.hpp"
 #include <functional>
+#include <string_view>
+#include <tl/expected.hpp>
 
+/// @brief An applicative function similar to std::apply, but on manifolds
 /// @tparam ManifoldType The type (topology, dimensionality) of manifold
+/// @tparam ExpectedType The result of the move on the manifold
 /// @tparam FunctionType The type of move applied to the manifold
 /// @param t_manifold The manifold on which to make the Pachner move
 /// @param t_move The Pachner move
-/// @return The t_manifold upon which the Pachner t_move has been applied
+/// @return The expected or unexpected result in a tl::expected<T,E>
 template <typename ManifoldType,
-          //          typename FunctionType =
-          //          std::function<ManifoldType(ManifoldType&)>>
-          typename FunctionType = function_ref<ManifoldType(ManifoldType&)>>
-constexpr decltype(auto) apply_move(ManifoldType&& t_manifold,
-                                    FunctionType&& t_move)
-// try
+          typename ExpectedType = tl::expected<ManifoldType, std::string_view>,
+          typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
+constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType&& t_move)
+    -> decltype(auto)
 {
   return std::invoke(std::forward<FunctionType>(t_move),
                      std::forward<ManifoldType>(t_manifold));
 }
-// catch (std::exception const& except)
-//{
-//  std::cerr << "apply_move failed: " << except.what() << "\n";
-//  throw;
-//}
 
 #endif  // CDT_PLUSPLUS_APPLY_MOVE_HPP
