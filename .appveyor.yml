@@ -25,6 +25,7 @@ environment:
 
 cache:
   - c:\Users\appveyor\AppData\Local\vcpkg\archives\
+  - c:\tools\vcpkg
 
 install:
   # Setup vcpkg
@@ -33,6 +34,9 @@ install:
   - .\bootstrap-vcpkg.bat
   - set PATH=%PATH%;%VCPKG_ROOT%
   - vcpkg integrate install
+  - rmdir c:\tools\vcpkg\downloads
+  - rmdir c:\tools\vcpkg\buildtrees
+  - rmdir c:\tools\vcpkg\packages
   - cmake --version
   # Install required libraries in classic mode
   - set VCPKG_INSTALL_ROOT=%APPVEYOR_BUILD_FOLDER%\vcpkg_installed
