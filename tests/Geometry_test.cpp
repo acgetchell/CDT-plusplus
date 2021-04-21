@@ -154,7 +154,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
         CHECK(geometry.N1_TL + geometry.N1_SL == geometry.N1);
         CHECK(geometry.N0 ==
               static_cast<Int_precision>(triangulation.number_of_vertices()));
-        print_triangulation(triangulation);
+        triangulation.print();
         triangulation.print_volume_per_timeslice();
       }
     }

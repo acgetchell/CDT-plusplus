@@ -179,30 +179,12 @@ template <typename Manifold, typename Timer>
   fmt::print("Running time is {} seconds.\n", timer.time());
 }  // print_results
 
-/// @brief Print manifold statistics
-/// @tparam ManifoldType The manifold type (topology, dimensionality)
-/// @param t_manifold A Manifold
-template <typename ManifoldType>
-void print_manifold(ManifoldType const& t_manifold)
-try
-{
-  fmt::print(
-      "Manifold has {} vertices and {} edges and {} faces and {} simplices.\n",
-      t_manifold.N0(), t_manifold.N1(), t_manifold.N2(), t_manifold.N3());
-}
-catch (...)
-{
-  fmt::print(stderr, "print_manifold() went wrong ...\n");
-  throw;
-}  // print_manifold
-
 /// @brief Print triangulation statistics
 /// @tparam TriangulationType The triangulation type
 /// @param t_triangulation A triangulation (typically a Delaunay<3>
 /// triangulation)
 template <typename TriangulationType>
-[[deprecated]] void print_triangulation(
-    TriangulationType const& t_triangulation)
+void print_delaunay(TriangulationType const& t_triangulation)
 try
 {
   fmt::print(
@@ -215,9 +197,9 @@ try
 }
 catch (...)
 {
-  fmt::print(stderr, "print_triangulation went wrong ...\n");
+  fmt::print(stderr, "print_delaunay went wrong ...\n");
   throw;
-}  // print_triangulation
+}  // print_delaunay
 
 /// @brief Writes the runtime results to a file
 ///

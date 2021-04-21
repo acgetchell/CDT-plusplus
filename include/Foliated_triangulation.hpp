@@ -938,6 +938,16 @@ namespace FoliatedTriangulations
     /// cell->info()
     void print_cells() const { FoliatedTriangulations::print_cells(m_cells); }
 
+    /// @brief Print triangulation statistics
+    void print() const
+    {
+      fmt::print(
+          "Triangulation has {} vertices and {} edges and {} faces and {} "
+          "simplices.\n",
+          this->number_of_vertices(), this->number_of_finite_edges(),
+          this->number_of_finite_facets(), this->number_of_finite_cells());
+    }
+
     /// @brief Check simplices for correct foliation
     ///
     /// This function is called by fix_timeslices which is called by
@@ -1067,7 +1077,7 @@ namespace FoliatedTriangulations
 #endif
         ++passes;
       }
-      print_triangulation(triangulation);
+      print_delaunay(triangulation);
       Ensures(!check_timeslices(triangulation));
       return triangulation;
     }  // make_triangulation

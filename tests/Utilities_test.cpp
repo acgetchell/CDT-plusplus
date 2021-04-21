@@ -15,7 +15,7 @@ using namespace std;
 
 SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
 {
-  GIVEN("A topology_type")
+  GIVEN("A topology_type.")
   {
     auto constexpr this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
@@ -30,33 +30,8 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       }
     }
   }
-  GIVEN("A running environment")
+  GIVEN("A running environment.")
   {
-    //    WHEN("The user is requested.")
-    //    {
-    //      auto const& result = getEnvVar("USER");
-    //      THEN("The output is correct.")
-    //      {
-    //        // Enter your own USER environment variable here
-    //        CHECK_THAT(result, Catch::Equals("adam") ||
-    //        Catch::Equals("travis") ||
-    //                               Catch::Equals("user"));
-    //      }
-    //    }
-    //    auto const result = hostname();
-    //    WHEN("The hostname is requested.")
-    //    {
-    //      // Set OS type to Windows so we know the hostname
-    //      THEN("The output is correct.")
-    //      {
-    //        CHECK_THAT(result,
-    //                   Catch::Contains("hapkido") || Catch::Contains("travis")
-    //                   ||
-    //                       Catch::Contains("dewitt") ||
-    //                       Catch::Contains("windows") ||
-    //                       Catch::Contains("ws"));
-    //      }
-    //    }
     WHEN("The current time is requested.")
     {
       THEN("The output is correct.")
@@ -89,45 +64,24 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
   }
 }
 
-/// @todo fmt rdbuf replacement
-// SCENARIO("Printing results", "[utility]")
-//{
-//  // redirect std::cout
-//  stringstream buffer;
-//  cout.rdbuf(buffer.rdbuf());
-//  GIVEN("A Manifold3")
-//  {
-//    Manifold3 const manifold(640, 4);
-//    WHEN("We want to print statistics on a manifold.")
-//    {
-//      THEN("Statistics are successfully printed.")
-//      {
-//        print_manifold(manifold);
-//        CHECK_THAT(buffer.str(), Catch::Contains("Manifold has"));
-//      }
-//    }
-//    WHEN("We want to print details on simplices and sub-simplices.")
-//    {
-//      THEN("Simplicial details are successfully printed.")
-//      {
-//        print_manifold_details(manifold);
-//        CHECK_THAT(buffer.str(), Catch::Contains("There are"));
-//      }
-//    }
-//  }
-//  GIVEN("A FoliatedTriangulation3")
-//  {
-//    FoliatedTriangulation3 const triangulation(640, 4);
-//    WHEN("We want to print statistics on the triangulation.")
-//    {
-//      THEN("Statistics are successfully printed.")
-//      {
-//        print_triangulation(triangulation);
-//        CHECK_THAT(buffer.str(), Catch::Contains("Triangulation has"));
-//      }
-//    }
-//  }
-//}
+SCENARIO("Printing Delaunay triangulations", "[utility]")
+{
+  GIVEN("A Delaunay3 triangulation.")
+  {
+    Delaunay3 triangulation;
+    triangulation.insert(Point_3(0, 0, 0));
+    triangulation.insert(Point_3(1, 0, 0));
+    triangulation.insert(Point_3(0, 1, 0));
+    triangulation.insert(Point_3(0, 0, 1));
+    WHEN("The triangulation is printed.")
+    {
+      THEN("No exception is thrown.")
+      {
+        CHECK_NOTHROW(print_delaunay(triangulation));
+      }
+    }
+  }
+}
 
 SCENARIO("Randomizing functions", "[utility][!mayfail]")
 {
@@ -340,13 +294,13 @@ SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
 {
   GIVEN("A number not exactly representable in binary")
   {
-    Gmpzf const TESTVALUE = 0.17;
+    Gmpzf const TEST_VALUE = 0.17;
     WHEN("We convert it to double.")
     {
-      auto const converted_value = Gmpzf_to_double(TESTVALUE);
+      auto const converted_value = Gmpzf_to_double(TEST_VALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
       {
-        REQUIRE(TESTVALUE == Gmpzf(converted_value));
+        REQUIRE(TEST_VALUE == Gmpzf(converted_value));
       }
     }
   }

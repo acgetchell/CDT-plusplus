@@ -372,6 +372,7 @@ namespace Manifolds
       swap(t_first.m_geometry, t_second.m_geometry);
     }  // swap
 
+    /// @brief Print manifold
     void print() const
     try
     {

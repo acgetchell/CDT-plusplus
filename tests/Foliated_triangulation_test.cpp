@@ -374,7 +374,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
                        [](int const a) -> bool { return (1 <= a && a <= 12); },
                        "There should be 1 to 12 cells."));
         // Human verification
-        print_triangulation(ft);
+        ft.print();
       }
       THEN("The vertices have correct timevalues.")
       {
@@ -438,11 +438,11 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       {
         REQUIRE(ft.min_time() == 1);
         // Human verification
-        print_triangulation(ft);
+        ft.print();
       }
       THEN("Data members are correctly populated.")
       {
-        print_triangulation(ft);
+        ft.print();
         // Every cell is classified as (3,1), (2,2), or (1,3)
         CHECK(ft.get_cells().size() ==
               (ft.get_three_one().size() + ft.get_two_two().size() +

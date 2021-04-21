@@ -207,7 +207,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.max_time() == 3);
         REQUIRE(manifold.check_simplices());
         // Human verification
-        print_manifold(manifold);
+        manifold.print();
         manifold.print_volume_per_timeslice();
       }
     }
@@ -248,7 +248,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.max_time() == 3);
         REQUIRE(manifold.check_simplices());
         // Human verification
-        print_manifold(manifold);
+        manifold.print();
         manifold.print_volume_per_timeslice();
       }
     }
@@ -283,7 +283,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         CHECK(manifold.min_time() == 1);
         CHECK(manifold.max_time() == desired_timeslices);
         // Human verification
-        print_manifold(manifold);
+        manifold.print();
         manifold.print_volume_per_timeslice();
       }
     }
@@ -301,7 +301,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.faces() == manifold.N2());
         REQUIRE(manifold.check_simplices());
         // Human verification
-        print_manifold(manifold);
+        manifold.print();
         manifold.print_volume_per_timeslice();
       }
     }
@@ -319,7 +319,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.faces() == manifold.N2());
         REQUIRE(manifold.check_simplices());
         // Human verification
-        print_manifold(manifold);
+        manifold.print();
         manifold.print_volume_per_timeslice();
       }
     }
@@ -400,7 +400,7 @@ SCENARIO("3-Manifold copying", "[manifold]")
         CHECK(manifold2.min_time() == manifold.min_time());
         // Human verification
         fmt::print("Manifold properties:\n");
-        print_manifold(manifold);
+        manifold.print();
         manifold.print_volume_per_timeslice();
         auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
         fmt::print("Cell compact container size == {}\n", cells.size());
@@ -412,7 +412,7 @@ SCENARIO("3-Manifold copying", "[manifold]")
                        .vertices()
                        .size());
         fmt::print("Copied manifold properties:\n");
-        print_manifold(manifold2);
+        manifold2.print();
         manifold2.print_volume_per_timeslice();
       }
     }

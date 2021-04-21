@@ -106,7 +106,7 @@ try
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
   }
-  print_manifold(universe);
+  universe.print();
   universe.print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
   if (save_file)
