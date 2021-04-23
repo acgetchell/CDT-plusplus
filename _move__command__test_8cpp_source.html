@@ -571,38 +571,44 @@ $(function() {
 <div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
 <div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
 <div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;      }</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;    }</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;    WHEN(<span class="stringliteral">&quot;One of each move is queued.&quot;</span>)</div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;    {</div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;      <a class="code" href="class_move_command.html">MoveCommand</a> command(manifold);</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;      <span class="keyword">auto</span>        move23 = <a class="code" href="_ergodic__moves__3_8hpp.html#a49e53c6a077779633410c69ed0798e3f">Moves::do_23_move</a>;</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;      command.enqueue(move23);</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;      <span class="keyword">auto</span> move26 = <a class="code" href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">Moves::do_26_move</a>;</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;      command.enqueue(move26);</div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;      <span class="keyword">auto</span> move44 = <a class="code" href="_ergodic__moves__3_8hpp.html#af0719da2080374033a15e6870f747ad2">Moves::do_44_move</a>;</div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;      command.enqueue(move44);</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;      <span class="keyword">auto</span> move62 = <a class="code" href="_ergodic__moves__3_8hpp.html#ae5a221f9b4332f93e1f7634e5efd152f">Moves::do_62_move</a>;</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;      command.enqueue(move62);</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;      <span class="keyword">auto</span> move32 = <a class="code" href="_ergodic__moves__3_8hpp.html#ae6c5c87b078a2668da7b58c020b885fd">Moves::do_32_move</a>;</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;      command.enqueue(move32);</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;      THEN(<span class="stringliteral">&quot;There are five moves in the queue.&quot;</span>) { CHECK(command.size() == 5); }</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;      THEN(<span class="stringliteral">&quot;The moves are executed correctly.&quot;</span>)</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;      {</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;        <span class="comment">// Execute the moves</span></div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        command.execute();</div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160; </div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160; </div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        <span class="comment">// Are there failed moves?</span></div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;        command.print_errors();</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;      }</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;    }</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;    WHEN(<span class="stringliteral">&quot;One of each move is queued.&quot;</span>)</div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;    {</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;      <a class="code" href="class_move_command.html">MoveCommand</a> command(manifold);</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;      <span class="keyword">auto</span>        move23 = <a class="code" href="_ergodic__moves__3_8hpp.html#a49e53c6a077779633410c69ed0798e3f">Moves::do_23_move</a>;</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;      command.enqueue(move23);</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;      <span class="keyword">auto</span> move26 = <a class="code" href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">Moves::do_26_move</a>;</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;      command.enqueue(move26);</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;      <span class="keyword">auto</span> move44 = <a class="code" href="_ergodic__moves__3_8hpp.html#af0719da2080374033a15e6870f747ad2">Moves::do_44_move</a>;</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;      command.enqueue(move44);</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;      <span class="keyword">auto</span> move62 = <a class="code" href="_ergodic__moves__3_8hpp.html#ae5a221f9b4332f93e1f7634e5efd152f">Moves::do_62_move</a>;</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;      command.enqueue(move62);</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;      <span class="keyword">auto</span> move32 = <a class="code" href="_ergodic__moves__3_8hpp.html#ae6c5c87b078a2668da7b58c020b885fd">Moves::do_32_move</a>;</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;      command.enqueue(move32);</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;      THEN(<span class="stringliteral">&quot;There are five moves in the queue.&quot;</span>) { CHECK(command.size() == 5); }</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;      THEN(<span class="stringliteral">&quot;The moves are executed correctly.&quot;</span>)</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;      {</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;        <span class="comment">// Execute the moves</span></div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160; </div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;      }</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;    }</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;  }</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;}</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        <span class="comment">// Get the results</span></div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160; </div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160; </div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;        <span class="comment">// Are there failed moves?</span></div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;        command.print_errors();</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;      }</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;    }</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;  }</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a123c545a7526bfe74cf3c49532fe7eeb"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a123c545a7526bfe74cf3c49532fe7eeb">Moves::null_move</a></div><div class="ttdeci">auto null_move(Manifolds::Manifold3 const &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a null move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00035">Ergodic_moves_3.hpp:35</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_af69a4c32f936e5234f5f9e9171b672cb"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">Moves::do_26_move</a></div><div class="ttdeci">auto do_26_move(Manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,6) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00206">Ergodic_moves_3.hpp:206</a></div></div>
@@ -617,7 +623,7 @@ $(function() {
 <div class="ttc" id="aclass_manifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00054">Manifold.hpp:54</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 21 2021 19:48:50 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 23 2021 20:59:07 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
