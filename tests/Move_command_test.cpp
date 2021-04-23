@@ -500,6 +500,9 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
         CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
+
+        // Are there failed moves?
+        command.print_errors();
       }
     }
     WHEN("One of each move is queued.")
@@ -528,6 +531,9 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
         CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
+
+        // Are there failed moves?
+        command.print_errors();
       }
     }
   }

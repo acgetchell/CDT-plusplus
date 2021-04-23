@@ -23,6 +23,10 @@ class MoveCommand
   /// @brief The queue of moves to make
   std::deque<FunctionType> m_moves;
 
+  /// @brief Keep track of failed moves
+  //  Move_tracker_3 m_failed_moves = {0,0,0,0,0};
+  std::array<int, 5> m_failed_moves = {0, 0, 0, 0, 0};  // NOLINT
+
  public:
   /// @brief Default dtor
   //  ~MoveCommand() = default;
@@ -81,6 +85,7 @@ class MoveCommand
     else
     {
       fmt::print(result.error());
+      parse_unexpected(result.error());
     }
 
   }  // move
@@ -117,6 +122,7 @@ class MoveCommand
       else
       {
         fmt::print(result.error());
+        parse_unexpected(result.error());
       }
     }
 #ifndef NDEBUG
@@ -125,6 +131,38 @@ class MoveCommand
     m_manifold.print_details();
 #endif
   }  // execute
+
+  /// @brief Parse errors
+  /// @tparam UnexpectedType The type of the Unexpected (should be string_view)
+  /// @param error The value passed from Unexpected
+  template <typename UnexpectedType>
+  void parse_unexpected(UnexpectedType const error)
+  {
+    if (error.find("(2,3)")) { m_failed_moves[0]++; }
+    if (error.find("(3,2)")) { m_failed_moves[1]++; }
+    if (error.find("(2,6)")) { m_failed_moves[2]++; }
+    if (error.find("(6,2)")) { m_failed_moves[3]++; }
+    if (error.find("(4,4)")) { m_failed_moves[4]++; }
+  }  // parse_unexpected
+
+  /// @brief Print Move errors
+  void print_errors() const
+  {
+    if (std::all_of(m_failed_moves.begin(), m_failed_moves.end(),
+                    [](auto const& value) { return value == 0; }))
+    {
+      fmt::print("There were no failed moves.\n");
+    }
+    else
+    {
+      fmt::print(
+          "There were {} failed (2,3) moves and {} failed (3,2) moves and {} "
+          "failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) "
+          "moves.\n",
+          m_failed_moves[0], m_failed_moves[1], m_failed_moves[2],
+          m_failed_moves[3], m_failed_moves[4]);
+    }
+  }
 
   // Functionality for later, perhaps using a Memento
   //    virtual void undo();
