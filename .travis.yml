@@ -204,6 +204,9 @@ jobs:
     - os: linux
       compiler: clang-10
       env: CLANGTIDY=true
+    - os: linux
+      compiler: g++-10
+      env: DOXYGEN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
