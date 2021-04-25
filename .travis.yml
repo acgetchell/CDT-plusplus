@@ -238,4 +238,4 @@ script:
 
 after_success:
   - cd build
-  - ctest -VV
+  - ctest --output-on-failure
