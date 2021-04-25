@@ -237,4 +237,5 @@ script:
   - travis_wait 60 cmake --build build
 
 after_success:
-  - ctest --output-on-failure
+  - cd build
+  - ctest -VV

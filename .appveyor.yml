@@ -73,7 +73,8 @@ build_script:
   - cmake --build build
 
 on_success:
-  - cmake --build . --target test & exit 0
+  - cd build
+  - ctest -VV
 
 notifications:
   - provider: Email
