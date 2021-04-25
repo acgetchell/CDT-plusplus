@@ -72,9 +72,9 @@ build_script:
   - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D VCPKG_MANIFEST_MODE=OFF -S . -B build
   - cmake --build build
 
-on_success:
-  - cd build
-  - ctest -VV
+#on_success:
+#  - cd build
+#  - ctest -VV
 
 notifications:
   - provider: Email
