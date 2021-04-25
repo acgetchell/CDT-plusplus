@@ -30,6 +30,7 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       }
     }
   }
+#ifndef _WIN32
   GIVEN("A running environment.")
   {
     WHEN("The current time is requested.")
@@ -62,6 +63,7 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       }
     }
   }
+#endif
 }
 
 SCENARIO("Printing Delaunay triangulations", "[utility]")
