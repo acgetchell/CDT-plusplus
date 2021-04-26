@@ -21,7 +21,7 @@
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Data structures for geometry.">
+<g id="a_node2"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric quantities of Manifold used by MoveAlgorithm.">
 <polygon fill="white" stroke="black" points="881,-386 881,-405 1004,-405 1004,-386 881,-386"/>
 <text text-anchor="middle" x="942.5" y="-393" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
 </a>

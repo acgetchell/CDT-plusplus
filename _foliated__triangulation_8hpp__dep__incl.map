@@ -1,6 +1,6 @@
 <map id="include/Foliated_triangulation.hpp" name="include/Foliated_triangulation.hpp">
 <area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="1347,5,1590,32"/>
-<area shape="rect" id="node2" href="$_geometry_8hpp.html" title="Data structures for geometry." alt="" coords="1180,87,1344,114"/>
+<area shape="rect" id="node2" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1180,87,1344,114"/>
 <area shape="rect" id="node23" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="1369,80,1569,121"/>
 <area shape="rect" id="node24" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons." alt="" coords="1593,87,1787,114"/>
 <area shape="rect" id="node3" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1085,169,1244,196"/>

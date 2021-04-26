@@ -6,7 +6,7 @@
 <area shape="rect" id="node33" href="$_settings__test_8cpp.html" title="Global settings on integer types and MPFR precision." alt="" coords="937,80,1108,107"/>
 <area shape="rect" id="node3" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="580,155,823,181"/>
 <area shape="rect" id="node27" href="$_s3_triangulation_8hpp.html" title="Functions on 3D Spherical Delaunay Triangulations." alt="" coords="1007,155,1209,181"/>
-<area shape="rect" id="node4" href="$_geometry_8hpp.html" title="Data structures for geometry." alt="" coords="413,237,577,263"/>
+<area shape="rect" id="node4" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="413,237,577,263"/>
 <area shape="rect" id="node25" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="601,229,801,271"/>
 <area shape="rect" id="node26" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons." alt="" coords="825,237,1020,263"/>
 <area shape="rect" id="node5" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="530,319,689,345"/>

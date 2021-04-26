@@ -3,7 +3,7 @@
 <area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="2262,80,2369,107"/>
 <area shape="rect" id="node37" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="2543,80,2650,107"/>
 <area shape="rect" id="node40" title=" " alt="" coords="2675,80,2807,107"/>
-<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Data structures for geometry." alt="" coords="1888,155,2001,181"/>
+<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1888,155,2001,181"/>
 <area shape="rect" id="node34" title=" " alt="" coords="2163,155,2233,181"/>
 <area shape="rect" id="node35" title=" " alt="" coords="2258,155,2373,181"/>
 <area shape="rect" id="node36" title=" " alt="" coords="2397,155,2457,181"/>

@@ -1,5 +1,5 @@
 <map id="include/Geometry.hpp" name="include/Geometry.hpp">
-<area shape="rect" id="node1" title="Data structures for geometry." alt="" coords="1180,5,1344,32"/>
+<area shape="rect" id="node1" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1180,5,1344,32"/>
 <area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1085,80,1244,107"/>
 <area shape="rect" id="node21" href="$_geometry__test_8cpp.html" title="Tests of new geometry data structure." alt="" coords="1268,80,1451,107"/>
 <area shape="rect" id="node3" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="629,155,801,196"/>
