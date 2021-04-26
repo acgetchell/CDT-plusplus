@@ -1,8 +1,13 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2018-2021 Adam Getchell
-///
-/// Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
+/// @file Foliated_triangulation.hpp
+/// @brief Create foliated spherical triangulations
+/// @author Adam Getchell
+/// @details Extends CGAL's Delaunay_triangulation_3 and Triangulation_3 classes
 /// to create foliated spherical triangulations of a given dimension.
 ///
 /// The dimensionality, number of desired simplices, and number of desired
@@ -10,9 +15,6 @@
 /// parameterized by INITIAL_RADIUS and RADIAL_FACTOR. Each vertex at a given
 /// radius is assigned a timeslice so that the entire triangulation will have a
 /// defined foliation of time.
-
-/// @file Foliated_triangulation.hpp
-/// @brief Create foliated spherical triangulations
 
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 #define CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP

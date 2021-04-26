@@ -1,9 +1,9 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2018-2021 Adam Getchell
-///
-/// Simplicial Manifold data structures
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
 /// @file  Manifold.hpp
 /// @brief Data structures for manifolds
 /// @author Adam Getchell

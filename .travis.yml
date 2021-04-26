@@ -238,4 +238,4 @@ script:
 
 after_success:
   - cd build
-  - ctest --output-on-failure
+  - travis_wait 60 ctest --output-on-failure

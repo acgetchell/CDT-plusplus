@@ -1,12 +1,12 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2019-2021 Adam Getchell
-///
-/// Performs the set of Pachner moves on a 2+1 dimensional manifold which
-/// explore all possible triangulations.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
 
 /// @file Ergodic_moves_3.hpp
 /// @brief Pachner moves on 2+1 dimensional foliated Delaunay triangulations
+/// @author Adam Getchell
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP

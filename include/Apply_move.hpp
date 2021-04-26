@@ -1,15 +1,12 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2019-2020 Adam Getchell
-///
-/// Performs the set of Pachner moves on a manifold exploring
-/// all possible triangulations.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
 
 /// @file Apply_move.hpp
 /// @brief Apply Pachner moves to foliated Delaunay triangulations
-///
-/// Return by value since RVO applies
-///
+/// @author Adam Getchell
 /// @todo try-catch in constexpr functions (P1002R!) are in C++20
 
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP

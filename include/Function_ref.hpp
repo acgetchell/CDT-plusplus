@@ -292,16 +292,15 @@
 //
 //===----------------------------------------------------------------------===//
 
-/// An efficient, type-erasing, non-owning reference to a callable. This is
-/// intended for use as the type of a function parameter that is not used
+/// @file  Function_ref.hpp from llvm/ADT/STLExtras.h
+/// @brief Efficient, type-erasing, non-owning function reference
+/// @author https://llvm.org
+/// @detail An efficient, type-erasing, non-owning reference to a callable.
+/// Intended for use as the type of a function parameter that is not used
 /// after the function in question returns.
 ///
 /// This class does not own the callable, so it is not in general safe to store
 /// a function_ref.
-
-/// @file  Function_ref.hpp from llvm/ADT/STLExtras.h
-/// @brief Efficient, type-erasing, non-owning function reference
-/// @author https://llvm.org
 
 #ifndef INCLUDE_FUNCTION_REF_HPP_
 #define INCLUDE_FUNCTION_REF_HPP_
