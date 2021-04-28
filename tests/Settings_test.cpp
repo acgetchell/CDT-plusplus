@@ -1,13 +1,13 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2020 Adam Getchell
-///
-/// Tests number types and precision settings for the project
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
 /// @file Settings_test.cpp
 /// @brief Global settings on integer types and MPFR precision
-///
 /// @author Adam Getchell
+/// @details Tests number types and precision settings for the project
 
 #include "Settings.hpp"
 #include <catch2/catch.hpp>
@@ -16,7 +16,7 @@
 
 using namespace std;
 
-SCENARIO("Check settings", "[settings]")
+SCENARIO("Check settings", "[settings][!mayfail]")
 {
   GIVEN("Settings are retrieved.")
   {

@@ -1,6 +1,8 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2018-2020 Adam Getchell
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
 
 /// @file Move_command.hpp
 /// @brief Do ergodic moves using the Command pattern
@@ -24,7 +26,6 @@ class MoveCommand
   std::deque<FunctionType> m_moves;
 
   /// @brief Keep track of failed moves
-  //  Move_tracker_3 m_failed_moves = {0,0,0,0,0};
   std::array<int, 5> m_failed_moves = {0, 0, 0, 0, 0};  // NOLINT
 
  public:
@@ -61,35 +62,6 @@ class MoveCommand
   /// @return The results of the moves invoked by MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
-  /// @brief Execute a single move on the manifold
-  /// @param t_move The move to do on the manifold
-  void move(FunctionType&& t_move)
-  {
-#ifndef NDEBUG
-    fmt::print("Before manifold move:\n");
-    m_manifold.print_details();
-#endif
-
-    auto result = apply_move(m_manifold, std::forward<FunctionType>(t_move));
-    if (result)
-    {
-      result->update();
-
-#ifndef NDEBUG
-      fmt::print("After manifold move:\n");
-      m_manifold.print_details();
-#endif
-
-      swap(result.value(), m_manifold);
-    }
-    else
-    {
-      fmt::print(result.error());
-      parse_unexpected(result.error());
-    }
-
-  }  // move
-
   /// @brief Push a Pachner move onto the move queue
   /// @param t_move The move to do on the manifold
   void enqueue(FunctionType t_move) { m_moves.push_front(std::move(t_move)); }
@@ -102,33 +74,28 @@ class MoveCommand
     while (m_moves.size() > 0)
     {
 #ifndef NDEBUG
-      fmt::print("Before manifold move:\n");
+      fmt::print("Before moves:\n");
       m_manifold.print_details();
 #endif
 
       auto move   = m_moves.back();
-      auto result = apply_move(m_manifold, move);
+      auto result = apply_move(m_manifold, std::forward<FunctionType>(move));
       m_moves.pop_back();
       if (result)
       {
         result->update();
-#ifndef NDEBUG
-        fmt::print("After manifold move:\n");
-        m_manifold.print_details();
-#endif
-
         swap(result.value(), m_manifold);
       }
       else
       {
-        fmt::print(result.error());
+        fmt::print("{}\n", result.error());
         parse_unexpected(result.error());
       }
     }
 #ifndef NDEBUG
     fmt::print("After moves:\n");
-    //    print_manifold_details(m_manifold);
     m_manifold.print_details();
+    print_errors();
 #endif
   }  // execute
 
@@ -138,11 +105,11 @@ class MoveCommand
   template <typename UnexpectedType>
   void parse_unexpected(UnexpectedType const error)
   {
-    if (error.find("(2,3)")) { m_failed_moves[0]++; }
-    if (error.find("(3,2)")) { m_failed_moves[1]++; }
-    if (error.find("(2,6)")) { m_failed_moves[2]++; }
-    if (error.find("(6,2)")) { m_failed_moves[3]++; }
-    if (error.find("(4,4)")) { m_failed_moves[4]++; }
+    if (error.find("(2,3)")) { m_failed_moves[0] += 1; }
+    if (error.find("(3,2)")) { m_failed_moves[1] += 1; }
+    if (error.find("(2,6)")) { m_failed_moves[2] += 1; }
+    if (error.find("(6,2)")) { m_failed_moves[3] += 1; }
+    if (error.find("(4,4)")) { m_failed_moves[4] += 1; }
   }  // parse_unexpected
 
   /// @brief Print Move errors

@@ -1,11 +1,11 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2014-2021 Adam Getchell
-///
-/// Tests of MoveCommand, that is, that moves are handled properly
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
 
 /// @file Move_command_test.cpp
-/// @brief Tests for moves
+/// @brief Tests of MoveCommand, that is, that moves are handled properly
 /// @author Adam Getchell
 
 #include "Move_command.hpp"
@@ -187,126 +187,6 @@ SCENARIO("Move Command initialization", "[move command]")
   }
 }
 
-SCENARIO("Executing single moves", "[move command][!mayfail]")
-{
-  GIVEN("A valid manifold.")
-  {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_correct());
-    WHEN("A (2,3) move is made.")
-    {
-      MoveCommand command(manifold);
-      auto        move_23 = Moves::do_23_move;
-      THEN("It is executed correctly.")
-      {
-        // Execute the move
-        command.move(move_23);
-
-        // Get the results
-        auto result = command.get_results();
-
-        // Did the triangulation actually change? We should have +1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() + 1);
-        fmt::print("Triangulation added a finite cell.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
-      }
-    }
-    WHEN("A (3,2) move is made.")
-    {
-      MoveCommand command(manifold);
-      auto        move_32 = Moves::do_32_move;
-      THEN("It is executed correctly.")
-      {
-        // Execute the move
-        command.move(move_32);
-
-        // Get the results
-        auto result = command.get_results();
-
-        // Did the triangulation actually change? We should have -1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() - 1);
-        fmt::print("Triangulation removed a finite cell.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::THREE_TWO));
-      }
-    }
-    WHEN("A (2,6) move is made.")
-    {
-      MoveCommand command(manifold);
-      auto        move_26 = Moves::do_26_move;
-      THEN("It is executed correctly.")
-      {
-        // Execute the move
-        command.move(move_26);
-
-        // Get the results
-        auto result = command.get_results();
-
-        // Did the triangulation actually change? We should have +4 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() + 4);
-        fmt::print("Triangulation added 4 finite cells.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_SIX));
-      }
-    }
-    WHEN("A (6,2) move is made.")
-    {
-      MoveCommand command(manifold);
-      auto        move_62 = Moves::do_62_move;
-      THEN("It is executed correctly.")
-      {
-        // Execute the move
-        command.move(move_62);
-
-        // Get the results
-        auto result = command.get_results();
-
-        // Did the triangulation actually change? We should have -4 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() - 4);
-        fmt::print("Triangulation removed 4 finite cells.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::SIX_TWO));
-      }
-    }
-  }
-}
-
-SCENARIO("Executing single moves sequentially", "[move command]")
-{
-  GIVEN("A valid manifold.")
-  {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
-    REQUIRE(manifold.is_correct());
-    WHEN("Two moves are executed.")
-    {
-      MoveCommand command(manifold);
-      auto        move_23 = Moves::do_23_move;
-      auto        move_32 = Moves::do_32_move;
-      command.move(move_23);
-      command.move(move_32);
-      {
-        THEN("The moves are executed correctly.")
-        {
-          auto result = command.get_results();
-          // The moves cancel out
-          REQUIRE(
-              Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
-          fmt::print("Triangulation moves cancelled out.");
-        }
-      }
-    }
-  }
-}
-
 SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
 {
   GIVEN("A valid manifold.")
@@ -315,27 +195,6 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
     Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A null move is queued.")
-    {
-      MoveCommand command(manifold);
-      auto        move_null = Moves::null_move;
-      command.enqueue(move_null);
-      THEN("It is executed correctly.")
-      {
-        command.execute();
-        auto result = command.get_results();
-        // Distinct objects
-        auto* manifold_ptr = &manifold;
-        auto* result_ptr   = &result;
-        REQUIRE_FALSE(manifold_ptr == result_ptr);
-        fmt::print(
-            "The manifold and the result in the MoveCommand are distinct.\n");
-        // Triangulation shouldn't have changed
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
-      }
-    }
     WHEN("Move_command copies the manifold and applies the move.")
     {
       THEN("The original is not mutated.")
@@ -386,6 +245,29 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
               manifold.get_triangulation().number_of_finite_cells());
       }
     }
+    WHEN("A null move is queued.")
+    {
+      MoveCommand command(manifold);
+      auto        move_null = Moves::null_move;
+      command.enqueue(move_null);
+      THEN("It is executed correctly.")
+      {
+        command.execute();
+        auto result = command.get_results();
+        // Distinct objects
+        auto* manifold_ptr = &manifold;
+        auto* result_ptr   = &result;
+        REQUIRE_FALSE(manifold_ptr == result_ptr);
+        fmt::print(
+            "The manifold and the result in the MoveCommand are distinct.\n");
+        // Triangulation shouldn't have changed
+        CHECK(result.get_triangulation().number_of_finite_cells() ==
+              manifold.get_triangulation().number_of_finite_cells());
+        REQUIRE(
+            Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
+        fmt::print("Move left triangulation unchanged.\n");
+      }
+    }
     WHEN("A (2,3) move is queued.")
     {
       MoveCommand command(manifold);
@@ -402,9 +284,9 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         // Did the triangulation actually change? We should have +1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() + 1);
+        REQUIRE(
+            Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
         fmt::print("Triangulation added a finite cell.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_THREE));
       }
     }
     WHEN("A (3,2) move is queued.")
@@ -423,9 +305,9 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 1);
+        REQUIRE(
+            Moves::check_move(manifold, result, Moves::move_type::THREE_TWO));
         fmt::print("Triangulation removed a finite cell.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::THREE_TWO));
       }
     }
     WHEN("A (2,6) move is queued.")
@@ -444,9 +326,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         // Did the triangulation actually change? We should have +4 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() + 4);
+        REQUIRE(Moves::check_move(manifold, result, Moves::move_type::TWO_SIX));
         fmt::print("Triangulation added 4 finite cells.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::TWO_SIX));
       }
     }
     WHEN("A (6,2) move is queued.")
@@ -465,9 +346,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 4);
+        REQUIRE(Moves::check_move(manifold, result, Moves::move_type::SIX_TWO));
         fmt::print("Triangulation removed 4 finite cells.\n");
-
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::SIX_TWO));
       }
     }
   }
@@ -499,10 +379,11 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         // The moves should cancel out
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
-
         // Are there failed moves?
         command.print_errors();
+        REQUIRE(
+            Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
+        fmt::print("Triangulation moves cancelled out.");
       }
     }
     WHEN("One of each move is queued.")
@@ -530,10 +411,11 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         // The moves should cancel out
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
-        CHECK(Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
-
         // Are there failed moves?
         command.print_errors();
+        REQUIRE(
+            Moves::check_move(manifold, result, Moves::move_type::FOUR_FOUR));
+        fmt::print("Triangulation moves cancelled out.");
       }
     }
   }
