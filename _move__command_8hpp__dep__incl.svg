@@ -82,7 +82,7 @@ var sectionId = 'dynsection-1';
 <!-- Node9 -->
 <g id="node9" class="node">
 <title>Node9</title>
-<g id="a_node9"><a xlink:href="_move__command__test_8cpp.html" target="_top" xlink:title="Tests for moves.">
+<g id="a_node9"><a xlink:href="_move__command__test_8cpp.html" target="_top" xlink:title="Tests of MoveCommand, that is, that moves are handled properly.">
 <polygon fill="white" stroke="black" points="300,-123.5 300,-153.5 425,-153.5 425,-123.5 300,-123.5"/>
 <text text-anchor="start" x="308" y="-141.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_command</text>
 <text text-anchor="middle" x="362.5" y="-130.5" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>

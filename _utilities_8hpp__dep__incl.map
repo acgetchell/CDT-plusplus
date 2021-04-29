@@ -14,11 +14,11 @@
 <area shape="rect" id="node21" href="$_utilities__test_8cpp.html" title="Tests on utility functions." alt="" coords="403,326,571,353"/>
 <area shape="rect" id="node22" href="$_vertex__test_8cpp.html" title="Tests on vertices in Delaunay triangulations." alt="" coords="596,326,755,353"/>
 <area shape="rect" id="node6" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="760,415,969,442"/>
-<area shape="rect" id="node15" href="$_apply__move__test_8cpp.html" title="Apply ergodic moves to manifolds." alt="" coords="993,415,1192,442"/>
+<area shape="rect" id="node15" href="$_apply__move__test_8cpp.html" title="Applying ergodic moves to manifolds." alt="" coords="993,415,1192,442"/>
 <area shape="rect" id="node16" href="$_ergodic__moves__3__test_8cpp.html" title="Tests for ergodic moves on foliated triangulations." alt="" coords="415,408,573,449"/>
 <area shape="rect" id="node17" href="$_function__ref__test_8cpp_source.html" title=" " alt="" coords="597,408,735,449"/>
 <area shape="rect" id="node7" href="$_move__strategy_8hpp.html" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="633,505,829,531"/>
-<area shape="rect" id="node14" href="$_move__command__test_8cpp.html" title="Tests for moves." alt="" coords="853,497,1020,539"/>
+<area shape="rect" id="node14" href="$_move__command__test_8cpp.html" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="853,497,1020,539"/>
 <area shape="rect" id="node8" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="1031,594,1202,621"/>
 <area shape="rect" id="node11" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="621,594,812,621"/>
 <area shape="rect" id="node9" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="1057,683,1176,710"/>

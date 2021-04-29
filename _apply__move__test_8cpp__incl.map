@@ -1,5 +1,5 @@
 <map id="tests/Apply_move_test.cpp" name="tests/Apply_move_test.cpp">
-<area shape="rect" id="node1" title="Apply ergodic moves to manifolds." alt="" coords="2031,5,2229,32"/>
+<area shape="rect" id="node1" title="Applying ergodic moves to manifolds." alt="" coords="2031,5,2229,32"/>
 <area shape="rect" id="node2" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="2065,80,2195,107"/>
 <area shape="rect" id="node10" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="1876,80,2040,107"/>
 <area shape="rect" id="node44" title=" " alt="" coords="2220,80,2352,107"/>

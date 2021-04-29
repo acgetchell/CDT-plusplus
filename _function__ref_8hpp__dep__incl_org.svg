@@ -82,7 +82,7 @@
 <!-- Node12 -->
 <g id="node12" class="node">
 <title>Node12</title>
-<g id="a_node12"><a xlink:href="_apply__move__test_8cpp.html" target="_top" xlink:title="Apply ergodic moves to manifolds.">
+<g id="a_node12"><a xlink:href="_apply__move__test_8cpp.html" target="_top" xlink:title="Applying ergodic moves to manifolds.">
 <polygon fill="white" stroke="black" points="184,-190.5 184,-209.5 333,-209.5 333,-190.5 184,-190.5"/>
 <text text-anchor="middle" x="258.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Apply_move_test.cpp</text>
 </a>
@@ -112,7 +112,7 @@
 <!-- Node11 -->
 <g id="node11" class="node">
 <title>Node11</title>
-<g id="a_node11"><a xlink:href="_move__command__test_8cpp.html" target="_top" xlink:title="Tests for moves.">
+<g id="a_node11"><a xlink:href="_move__command__test_8cpp.html" target="_top" xlink:title="Tests of MoveCommand, that is, that moves are handled properly.">
 <polygon fill="white" stroke="black" points="213,-123.5 213,-153.5 338,-153.5 338,-123.5 213,-123.5"/>
 <text text-anchor="start" x="221" y="-141.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_command</text>
 <text text-anchor="middle" x="275.5" y="-130.5" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>

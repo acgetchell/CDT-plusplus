@@ -58,7 +58,7 @@ var sectionId = 'dynsection-0';
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
-<g id="a_node1"><a xlink:title="Apply ergodic moves to manifolds.">
+<g id="a_node1"><a xlink:title="Applying ergodic moves to manifolds.">
 <polygon fill="#bfbfbf" stroke="black" points="1519,-414.5 1519,-433.5 1668,-433.5 1668,-414.5 1519,-414.5"/>
 <text text-anchor="middle" x="1593.5" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Apply_move_test.cpp</text>
 </a>
