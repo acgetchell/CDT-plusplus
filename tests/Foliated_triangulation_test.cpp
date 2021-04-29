@@ -1,13 +1,14 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2018-2021 Adam Getchell
-///
-/// Tests that foliated triangulations are correctly constructed
-/// in 3D and 4D respectively.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
 
 /// @file Foliated_triangulation_test.cpp
 /// @brief Tests for foliated triangulations
 /// @author Adam Getchell
+/// @details Tests that foliated triangulations are correctly constructed in 3D
+/// and 4D respectively.
 
 #include "Foliated_triangulation.hpp"
 #include <catch2/catch.hpp>
@@ -232,7 +233,8 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     {
       THEN("Cells are correctly classified.")
       {
-        CHECK(FoliatedTriangulations::check_cells(ft.get_cells()));
+        CHECK(FoliatedTriangulations::check_cells<Cell_handle_3, 3>(
+            ft.get_cells()));
         // Human verification
         ft.print_cells();
       }
@@ -252,7 +254,8 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       THEN("The incorrect cell labelling is fixed.")
       {
         CHECK_FALSE(ft.check_all_cells());
-        FoliatedTriangulations::fix_cells(ft.find_incorrect_cells());
+        FoliatedTriangulations::fix_cells<Cell_handle_3, 3>(
+            ft.find_incorrect_cells());
         CHECK(ft.check_all_cells());
         // Human verification
         fmt::print("=== Corrected cell info ===\n");
@@ -460,7 +463,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         {
           CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE));
         }
-        CHECK(FoliatedTriangulations::check_cells(ft.get_cells()));
+        CHECK(FoliatedTriangulations::check_cells<Cell_handle_3, 3>(
+            ft.get_cells()));
         CHECK_FALSE(ft.N2_SL().empty());
 
         CHECK(ft.max_time() > 0);

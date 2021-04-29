@@ -21,11 +21,11 @@ namespace Manifolds
   /// @tparam SimplexType The Cell_handle to the simplex
   /// @param t_cells The container of simplices
   /// @return True if all simplices in the container have valid types
-  template <typename SimplexType>
+  template <typename CellType, int dimension>
   [[nodiscard]] inline auto are_simplex_types_valid(
-      std::vector<SimplexType> const& t_cells) -> bool
+      std::vector<CellType> const& t_cells) -> bool
   {
-    return FoliatedTriangulations::check_cells(t_cells);
+    return FoliatedTriangulations::check_cells<CellType, dimension>(t_cells);
   }  // are_simplex_types_valid
 
   /// @param t_cells The cells from which to extract vertices
@@ -175,7 +175,7 @@ namespace Manifolds
     {
       auto simplices = m_triangulation.get_cells();
       return m_triangulation.is_correct() &&
-             are_simplex_types_valid(simplices) &&
+             are_simplex_types_valid<Cell_handle_3, 3>(simplices) &&
              are_vertex_timevalues_valid(simplices);
     }  // is_correct
 
