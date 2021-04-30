@@ -31,6 +31,7 @@ install:
   # Setup vcpkg
   - cd c:\tools\vcpkg
   - git pull origin master --no-rebase
+  - git reset --hard 56c0313
   - .\bootstrap-vcpkg.bat
   - set PATH=%PATH%;%VCPKG_ROOT%
   - vcpkg integrate install
