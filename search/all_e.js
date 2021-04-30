@@ -1,12 +1,12 @@
 var searchData=
 [
   ['parse_5funexpected_197',['parse_unexpected',['../class_move_command.html#a60c12dcf54425cef3cf5539542e23624',1,'MoveCommand']]],
-  ['passes_198',['Passes',['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis::Passes()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes()']]],
+  ['passes_198',['passes',['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561',1,'MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes()'],['../class_metropolis.html#a2e97a379c8d07b03f719058ea8fbf7b0',1,'Metropolis::Passes()']]],
   ['periodic_5f3_5fcomplex_2ehpp_199',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
   ['periodic_5f3_5ftriangulations_2ehpp_200',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
   ['precision_201',['PRECISION',['../_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528',1,'Settings.hpp']]],
   ['print_202',['print',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a5befecc38a07dba706ec811fab8d78a9',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::print()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#ac485576725a98a175082717be1bc6e7c',1,'Manifolds::Manifold&lt; 3 &gt;::print()']]],
-  ['print_5fcells_203',['print_cells',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a5b5852f481da2da24bfb875257652751',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#a1c28413e916456941b15cb40c3b6b7ee',1,'Manifolds::Manifold&lt; 3 &gt;::print_cells()'],['../_foliated__triangulation_8hpp.html#a6259a2c60ecafd37663e178c420b5a8d',1,'FoliatedTriangulations::print_cells()']]],
+  ['print_5fcells_203',['print_cells',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a5b5852f481da2da24bfb875257652751',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#a1c28413e916456941b15cb40c3b6b7ee',1,'Manifolds::Manifold&lt; 3 &gt;::print_cells()'],['../_foliated__triangulation_8hpp.html#a18c2a3174e5a84b81e73028a40b30b7c',1,'FoliatedTriangulations::print_cells()']]],
   ['print_5fdelaunay_204',['print_delaunay',['../_utilities_8hpp.html#a32008da4871c79810946b50721fc5f3c',1,'Utilities.hpp']]],
   ['print_5fdetails_205',['print_details',['../class_manifolds_1_1_manifold_3_013_01_4.html#a507fa442705d0f57f94ec0deeea128dc',1,'Manifolds::Manifold&lt; 3 &gt;']]],
   ['print_5fedges_206',['print_edges',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a8056a27057e31faeb9e9ec3f6d5343ed',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
