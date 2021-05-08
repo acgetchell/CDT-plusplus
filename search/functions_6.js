@@ -5,16 +5,16 @@ var searchData=
   ['initial_5fradius_417',['initial_radius',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a41d76d6029166e307dd67b86ffe48d44',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['insert_418',['insert',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#ae781a957c644bcbe88a5399a5f42cd88',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['insert_5finto_5ftriangulation_419',['insert_into_triangulation',['../_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b',1,'S3Triangulation.hpp']]],
-  ['is_5f62_5fmovable_420',['is_62_movable',['../_ergodic__moves__3_8hpp.html#a64f182d25790202130090a8b410206f2',1,'Moves']]],
-  ['is_5fcell_5ftype_5fcorrect_421',['is_cell_type_correct',['../_foliated__triangulation_8hpp.html#ac11390d71cc074e353ae7d519e951b9a',1,'FoliatedTriangulations']]],
+  ['is_5f62_5fmovable_420',['is_62_movable',['../_ergodic__moves__3_8hpp.html#a6661e950e101819a4cd46fede370194c',1,'Moves']]],
+  ['is_5fcell_5ftype_5fcorrect_421',['is_cell_type_correct',['../_foliated__triangulation_8hpp.html#a66f1cc716d34650bd5407b9988b8b8cb',1,'FoliatedTriangulations']]],
   ['is_5fcorrect_422',['is_correct',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7b8b6b79c99d22f5d0e001bec136d924',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::is_correct()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#a6966d6a99430c6bcc0382e4021aaef52',1,'Manifolds::Manifold&lt; 3 &gt;::is_correct()']]],
   ['is_5fdelaunay_423',['is_delaunay',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#ac5716b6d3dae789b808d2bc878ada44d',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::is_delaunay()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#ab222573779d2315d1d945c1250a69d7e',1,'Manifolds::Manifold&lt; 3 &gt;::is_delaunay()']]],
-  ['is_5fedge_424',['is_edge',['../class_manifolds_1_1_manifold_3_013_01_4.html#a8aa87b2d853d7673d40ec529c949573b',1,'Manifolds::Manifold&lt; 3 &gt;']]],
+  ['is_5fedge_424',['is_edge',['../class_manifolds_1_1_manifold_3_013_01_4.html#a53eca983cd4e6172f80669c4413c9a46',1,'Manifolds::Manifold&lt; 3 &gt;']]],
   ['is_5ffoliated_425',['is_foliated',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f9d26d553d4f991237255a351b977ad',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::is_foliated()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#a62b9c00219710762aa5f50309e57333d',1,'Manifolds::Manifold&lt; 3 &gt;::is_foliated()']]],
   ['is_5finfinite_426',['is_infinite',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#aefdab6933a248fd02740818d3481ea5d',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5finitialized_427',['is_initialized',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a8c099e6860a37af0d54853eab63aca5c',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5ftds_5fvalid_428',['is_tds_valid',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#aada3dbba68c8bba31b63cd4f7eb2f663',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5fvalid_429',['is_valid',['../class_manifolds_1_1_manifold_3_013_01_4.html#afccd4782c8e590193eef8bed84612c8e',1,'Manifolds::Manifold&lt; 3 &gt;']]],
   ['is_5fvertex_430',['is_vertex',['../class_manifolds_1_1_manifold_3_013_01_4.html#a1d5b8e7dc1afacca66997d7fcddca7ca',1,'Manifolds::Manifold&lt; 3 &gt;']]],
-  ['is_5fvertex_5ftimevalue_5fcorrect_431',['is_vertex_timevalue_correct',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#adf4c3869df526010e50746a0e9093e33',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]]
+  ['is_5fvertex_5ftimevalue_5fcorrect_431',['is_vertex_timevalue_correct',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a4dafb8ce5966324efdf90b97e703dae0',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]]
 ];

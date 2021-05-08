@@ -13,7 +13,7 @@ var searchData=
   ['triangulation_5ftraits_246',['triangulation_traits',['../structtriangulation__traits.html',1,'']]],
   ['triangulation_5ftraits_2ehpp_247',['Triangulation_traits.hpp',['../_triangulation__traits_8hpp.html',1,'']]],
   ['triangulation_5ftraits_3c_203_20_3e_248',['triangulation_traits&lt; 3 &gt;',['../structtriangulation__traits_3_013_01_4.html',1,'']]],
-  ['try_5f23_5fmove_249',['try_23_move',['../_ergodic__moves__3_8hpp.html#ac794e498d710d88ddbdee9957f295774',1,'Moves']]],
-  ['try_5f32_5fmove_250',['try_32_move',['../_ergodic__moves__3_8hpp.html#a9717f45137709e605a1ca5712ccde612',1,'Moves']]],
+  ['try_5f23_5fmove_249',['try_23_move',['../_ergodic__moves__3_8hpp.html#afbc5f356aad4fab560e1127edcc388f5',1,'Moves']]],
+  ['try_5f32_5fmove_250',['try_32_move',['../_ergodic__moves__3_8hpp.html#ab687c77f0845f23116291eddd664ff7b',1,'Moves']]],
   ['two_5ftwo_251',['two_two',['../struct_geometry_info.html#a57ac0dca72a21c03fdc4a95cdab9a0c5',1,'GeometryInfo']]]
 ];
