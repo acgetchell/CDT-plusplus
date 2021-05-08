@@ -14,6 +14,7 @@
 
 #include "Function_ref.hpp"
 #include <functional>
+#include <string>
 #include <tl/expected.hpp>
 
 /// @brief An applicative function similar to std::apply, but on manifolds
