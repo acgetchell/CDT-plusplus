@@ -21,8 +21,8 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
 {
   GIVEN("A vector of 4 vertices.")
   {
-    vector<Point<3>> Vertices{Point<3>{0, 0, 0}, Point<3>{0, 1, 0},
-                              Point<3>{0, 0, 1}, Point<3>{1, 0, 0}};
+    vector<Point_t<3>> Vertices{Point_t<3>{0, 0, 0}, Point_t<3>{0, 1, 0},
+                                Point_t<3>{0, 0, 1}, Point_t<3>{1, 0, 0}};
     WHEN("A triangulation is constructed using the vector.")
     {
       FoliatedTriangulations::FoliatedTriangulation3 triangulation;
@@ -70,13 +70,13 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
 {
   GIVEN("Points in a tetrahedron.")
   {
-    auto origin = Point<3>{0, 0, 0};
+    auto origin = Point_t<3>{0, 0, 0};
     // These points have a radius of 1
-    auto               v1 = Point<3>{1, 0, 0};
-    auto               v2 = Point<3>{0, 1, 0};
-    auto               v3 = Point<3>{0, 0, 1};
-    auto               v4 = Point<3>{RADIUS_2, RADIUS_2, RADIUS_2};
-    Causal_vertices<3> cv;
+    auto                 v1 = Point_t<3>{1, 0, 0};
+    auto                 v2 = Point_t<3>{0, 1, 0};
+    auto                 v3 = Point_t<3>{0, 0, 1};
+    auto                 v4 = Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2};
+    Causal_vertices_t<3> cv;
     cv.emplace_back(make_pair(v1, 1));
     cv.emplace_back(make_pair(v2, 1));
     cv.emplace_back(make_pair(v3, 1));
@@ -155,19 +155,19 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
 {
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
-    vector<Point<3>>    Vertices{Point<3>{1, 0, 0}, Point<3>{0, 1, 0},
-                              Point<3>{0, 0, 1},
-                              Point<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point_t<3>>  Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
+                                Point_t<3>{0, 0, 1},
+                                Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
     vector<std::size_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
       // This is a complicated way to make Causal_vertices but is left
       // here for reference
-      Causal_vertices<3> cv;
+      Causal_vertices_t<3> cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv), [](Point<3> a, std::size_t b) {
+                     std::back_inserter(cv), [](Point_t<3> a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);

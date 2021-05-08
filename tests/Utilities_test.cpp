@@ -69,13 +69,13 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
 
 SCENARIO("Printing Delaunay triangulations", "[utility]")
 {
-  GIVEN("A Delaunay3 triangulation.")
+  GIVEN("A Delaunay_t<3> triangulation.")
   {
-    Delaunay<3> triangulation;
-    triangulation.insert(Point<3>(0, 0, 0));
-    triangulation.insert(Point<3>(1, 0, 0));
-    triangulation.insert(Point<3>(0, 1, 0));
-    triangulation.insert(Point<3>(0, 0, 1));
+    Delaunay_t<3> triangulation;
+    triangulation.insert(Point_t<3>(0, 0, 0));
+    triangulation.insert(Point_t<3>(1, 0, 0));
+    triangulation.insert(Point_t<3>(0, 1, 0));
+    triangulation.insert(Point_t<3>(0, 0, 1));
     WHEN("The triangulation is printed.")
     {
       THEN("No exception is thrown.")

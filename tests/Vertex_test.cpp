@@ -20,7 +20,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
     WHEN("A vertex is inserted.")
     {
-      triangulation.insert(Point<3>(0, 0, 0));
+      triangulation.insert(Point_t<3>(0, 0, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -40,8 +40,8 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Two vertices are inserted.")
     {
-      triangulation.insert(Point<3>(0, 0, 0));
-      triangulation.insert(Point<3>(1, 0, 0));
+      triangulation.insert(Point_t<3>(0, 0, 0));
+      triangulation.insert(Point_t<3>(1, 0, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -61,9 +61,9 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Three vertices are inserted.")
     {
-      triangulation.insert(Point<3>(0, 0, 0));
-      triangulation.insert(Point<3>(1, 0, 0));
-      triangulation.insert(Point<3>(0, 1, 0));
+      triangulation.insert(Point_t<3>(0, 0, 0));
+      triangulation.insert(Point_t<3>(1, 0, 0));
+      triangulation.insert(Point_t<3>(0, 1, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -83,10 +83,10 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Four vertices are inserted.")
     {
-      triangulation.insert(Point<3>(0, 0, 0));
-      triangulation.insert(Point<3>(1, 0, 0));
-      triangulation.insert(Point<3>(0, 1, 0));
-      triangulation.insert(Point<3>(0, 0, 1));
+      triangulation.insert(Point_t<3>(0, 0, 0));
+      triangulation.insert(Point_t<3>(1, 0, 0));
+      triangulation.insert(Point_t<3>(0, 1, 0));
+      triangulation.insert(Point_t<3>(0, 0, 1));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -106,12 +106,12 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Six vertices are inserted.")
     {
-      triangulation.insert(Point<3>(0, 0, 0));
-      triangulation.insert(Point<3>(1, 0, 0));
-      triangulation.insert(Point<3>(0, 1, 0));
-      triangulation.insert(Point<3>(0, 0, 1));
-      triangulation.insert(Point<3>(2, 2, 2));
-      triangulation.insert(Point<3>(-1, 0, 1));
+      triangulation.insert(Point_t<3>(0, 0, 0));
+      triangulation.insert(Point_t<3>(1, 0, 0));
+      triangulation.insert(Point_t<3>(0, 1, 0));
+      triangulation.insert(Point_t<3>(0, 0, 1));
+      triangulation.insert(Point_t<3>(2, 2, 2));
+      triangulation.insert(Point_t<3>(-1, 0, 1));
 
       THEN("The Delaunay triangulation is valid.")
       {

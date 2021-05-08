@@ -1,8 +1,8 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2013-2021 Adam Getchell
-///
-/// Utility functions
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
 
 /// @file Utilities.hpp
 /// @brief Utility functions
@@ -181,7 +181,7 @@ template <typename Manifold, typename Timer>
 
 /// @brief Print triangulation statistics
 /// @tparam TriangulationType The triangulation type
-/// @param t_triangulation A triangulation (typically a Delaunay<3>
+/// @param t_triangulation A triangulation (typically a Delaunay_t<3>
 /// triangulation)
 template <typename TriangulationType>
 void print_delaunay(TriangulationType const& t_triangulation)

@@ -23,7 +23,7 @@ namespace Manifolds
   /// @return True if all simplices in the container have valid types
   template <int dimension>
   [[nodiscard]] inline auto are_simplex_types_valid(
-      std::vector<Cell_handle<dimension>> const& t_cells) -> bool
+      std::vector<Cell_handle_t<dimension>> const& t_cells) -> bool
   {
     return FoliatedTriangulations::check_cells<dimension>(t_cells);
   }  // are_simplex_types_valid
@@ -32,9 +32,9 @@ namespace Manifolds
   /// @return All of the vertices contained in the cells
   template <int dimension>
   [[nodiscard]] inline auto get_vertices_from_cells(
-      std::vector<Cell_handle<dimension>> const& t_cells)
+      std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
-    std::unordered_set<Vertex_handle<dimension>> cell_vertices;
+    std::unordered_set<Vertex_handle_t<dimension>> cell_vertices;
     for (auto const& cell : t_cells)
     {
       // Emplace each vertex in the cell into the container of unique elements
@@ -43,8 +43,8 @@ namespace Manifolds
         cell_vertices.emplace(cell->vertex(j));
       }
     }
-    std::vector<Vertex_handle<dimension>> result(cell_vertices.begin(),
-                                                 cell_vertices.end());
+    std::vector<Vertex_handle_t<dimension>> result(cell_vertices.begin(),
+                                                   cell_vertices.end());
     return result;
   }  // get_vertices_from_cells
 
@@ -110,7 +110,7 @@ namespace Manifolds
     /// @param cv Causal_vertices to place into the Manifold
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    explicit Manifold(const Causal_vertices<3>& cv,
+    explicit Manifold(const Causal_vertices_t<3>& cv,
                       double const t_initial_radius    = INITIAL_RADIUS,
                       double const t_foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{FoliatedTriangulations::FoliatedTriangulation3(
@@ -197,7 +197,7 @@ namespace Manifolds
     /// @brief Forwarding to FoliatedTriangulation3.is_edge()
     /// @param t_edge_candidate The edge to test
     /// @return True if the candidate is an edge
-    [[nodiscard]] auto is_edge(Edge_handle<3> const& t_edge_candidate) const
+    [[nodiscard]] auto is_edge(Edge_handle_t<3> const& t_edge_candidate) const
         -> bool
     {
       return m_triangulation.get_delaunay().tds().is_edge(
@@ -327,11 +327,11 @@ namespace Manifolds
     /// @param t_cells The container of simplices to check
     /// @return True if all vertices in the container have reasonable timevalues
     [[nodiscard]] auto are_vertex_timevalues_valid(
-        std::vector<Cell_handle<3>> const& t_cells) const -> bool
+        std::vector<Cell_handle_t<3>> const& t_cells) const -> bool
     {
       auto checked_vertices = get_vertices_from_cells<3>(t_cells);
       return std::all_of(checked_vertices.begin(), checked_vertices.end(),
-                         [this](Vertex_handle<3> const& vertex) {
+                         [this](Vertex_handle_t<3> const& vertex) {
                            return vertex->info() >= min_time() &&
                                   vertex->info() <= max_time();
                          });
@@ -343,7 +343,7 @@ namespace Manifolds
     {
       auto checked_vertices = this->get_vertices();
       return std::all_of(checked_vertices.begin(), checked_vertices.end(),
-                         [this](Vertex_handle<3> const& vertex) {
+                         [this](Vertex_handle_t<3> const& vertex) {
                            return vertex->info() >= min_time() &&
                                   vertex->info() <= max_time();
                          });
