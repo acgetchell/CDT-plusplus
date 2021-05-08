@@ -1,39 +1,38 @@
 <map id="tests/Manifold_test.cpp" name="tests/Manifold_test.cpp">
-<area shape="rect" id="node1" title="Tests of new manifold data structure." alt="" coords="1973,5,2148,32"/>
-<area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1935,80,2042,107"/>
-<area shape="rect" id="node37" title=" " alt="" coords="2067,80,2199,107"/>
-<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1757,155,1871,181"/>
-<area shape="rect" id="node34" title=" " alt="" coords="1895,155,1965,181"/>
-<area shape="rect" id="node35" title=" " alt="" coords="1990,155,2105,181"/>
-<area shape="rect" id="node36" title=" " alt="" coords="2129,155,2189,181"/>
-<area shape="rect" id="node4" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1718,229,1910,256"/>
-<area shape="rect" id="node5" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="1027,319,1129,345"/>
-<area shape="rect" id="node27" title=" " alt="" coords="1153,319,1393,345"/>
-<area shape="rect" id="node28" title=" " alt="" coords="1417,304,1589,360"/>
-<area shape="rect" id="node29" title=" " alt="" coords="1614,311,1798,353"/>
-<area shape="rect" id="node30" title=" " alt="" coords="1822,311,2025,353"/>
-<area shape="rect" id="node31" title=" " alt="" coords="2049,319,2248,345"/>
-<area shape="rect" id="node32" title=" " alt="" coords="2273,319,2475,345"/>
-<area shape="rect" id="node33" title=" " alt="" coords="2499,319,2574,345"/>
-<area shape="rect" id="node6" title=" " alt="" coords="5,408,116,435"/>
-<area shape="rect" id="node7" title=" " alt="" coords="141,408,258,435"/>
-<area shape="rect" id="node8" title=" " alt="" coords="283,408,439,435"/>
-<area shape="rect" id="node9" title=" " alt="" coords="463,408,549,435"/>
-<area shape="rect" id="node10" title=" " alt="" coords="573,408,642,435"/>
-<area shape="rect" id="node11" title=" " alt="" coords="667,408,732,435"/>
-<area shape="rect" id="node12" title=" " alt="" coords="756,408,829,435"/>
-<area shape="rect" id="node13" title=" " alt="" coords="854,408,918,435"/>
-<area shape="rect" id="node14" title=" " alt="" coords="942,408,1022,435"/>
-<area shape="rect" id="node15" title=" " alt="" coords="1046,408,1110,435"/>
-<area shape="rect" id="node16" title=" " alt="" coords="1134,408,1206,435"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1231,408,1317,435"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1342,408,1401,435"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1425,408,1512,435"/>
-<area shape="rect" id="node20" title=" " alt="" coords="1536,408,1615,435"/>
-<area shape="rect" id="node21" title=" " alt="" coords="1639,408,1770,435"/>
-<area shape="rect" id="node22" title=" " alt="" coords="1795,408,1900,435"/>
-<area shape="rect" id="node23" title=" " alt="" coords="1925,408,2039,435"/>
-<area shape="rect" id="node24" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="2064,408,2167,435"/>
-<area shape="rect" id="node25" title=" " alt="" coords="2001,483,2115,509"/>
-<area shape="rect" id="node26" title=" " alt="" coords="2139,483,2206,509"/>
+<area shape="rect" id="node1" title="Tests of new manifold data structure." alt="" coords="1613,5,1787,32"/>
+<area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1575,80,1681,107"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1706,80,1838,107"/>
+<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1397,155,1510,181"/>
+<area shape="rect" id="node33" title=" " alt="" coords="1534,155,1605,181"/>
+<area shape="rect" id="node34" title=" " alt="" coords="1629,155,1744,181"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1769,155,1829,181"/>
+<area shape="rect" id="node4" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1357,229,1549,256"/>
+<area shape="rect" id="node5" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="689,304,863,331"/>
+<area shape="rect" id="node14" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2129,304,2231,331"/>
+<area shape="rect" id="node6" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1125,393,1227,420"/>
+<area shape="rect" id="node9" title=" " alt="" coords="5,393,245,420"/>
+<area shape="rect" id="node10" title=" " alt="" coords="270,379,442,435"/>
+<area shape="rect" id="node11" title=" " alt="" coords="467,386,651,427"/>
+<area shape="rect" id="node12" title=" " alt="" coords="675,386,877,427"/>
+<area shape="rect" id="node13" title=" " alt="" coords="902,393,1101,420"/>
+<area shape="rect" id="node7" title=" " alt="" coords="1061,483,1176,509"/>
+<area shape="rect" id="node8" title=" " alt="" coords="1200,483,1267,509"/>
+<area shape="rect" id="node15" title=" " alt="" coords="1251,393,1362,420"/>
+<area shape="rect" id="node16" title=" " alt="" coords="1387,393,1504,420"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1529,393,1685,420"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1709,393,1795,420"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1819,393,1888,420"/>
+<area shape="rect" id="node20" title=" " alt="" coords="1913,393,1978,420"/>
+<area shape="rect" id="node21" title=" " alt="" coords="2002,393,2075,420"/>
+<area shape="rect" id="node22" title=" " alt="" coords="2100,393,2164,420"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2188,393,2268,420"/>
+<area shape="rect" id="node24" title=" " alt="" coords="2292,393,2356,420"/>
+<area shape="rect" id="node25" title=" " alt="" coords="2380,393,2452,420"/>
+<area shape="rect" id="node26" title=" " alt="" coords="2477,393,2563,420"/>
+<area shape="rect" id="node27" title=" " alt="" coords="2588,393,2647,420"/>
+<area shape="rect" id="node28" title=" " alt="" coords="2671,393,2758,420"/>
+<area shape="rect" id="node29" title=" " alt="" coords="2782,393,2861,420"/>
+<area shape="rect" id="node30" title=" " alt="" coords="2885,393,3016,420"/>
+<area shape="rect" id="node31" title=" " alt="" coords="3041,393,3146,420"/>
+<area shape="rect" id="node32" title=" " alt="" coords="3171,393,3285,420"/>
 </map>

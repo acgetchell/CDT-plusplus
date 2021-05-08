@@ -16,7 +16,7 @@
 <polygon fill="white" stroke="black" points="0,-0.5 0,-41.5 148,-41.5 148,-0.5 0,-0.5"/>
 <text text-anchor="start" x="8" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">function_ref&lt; tl::expected</text>
 <text text-anchor="start" x="8" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&lt; ManifoldType, std::string</text>
-<text text-anchor="middle" x="74" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">_view &gt;(ManifoldType &amp;)&gt;</text>
+<text text-anchor="middle" x="74" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &gt;(ManifoldType &amp;)&gt;</text>
 </a>
 </g>
 </g>

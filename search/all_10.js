@@ -19,8 +19,8 @@ var searchData=
   ['spacelike_5ffacets_228',['spacelike_facets',['../struct_geometry_info.html#a19ec9abb6d432661658af885760387ca',1,'GeometryInfo']]],
   ['sphere_5fd_2ehpp_229',['Sphere_d.hpp',['../_sphere__d_8hpp.html',1,'']]],
   ['sphere_5ftest_2ecpp_230',['Sphere_test.cpp',['../_sphere__test_8cpp.html',1,'']]],
-  ['squared_5fdistance_231',['squared_distance',['../_foliated__triangulation_8hpp.html#a589ccb31cf88cf472f93f70b3d82ae27',1,'FoliatedTriangulations']]],
-  ['squared_5fradius_232',['squared_radius',['../_foliated__triangulation_8hpp.html#adbe253de7426f69b631e8c679d2d8de4',1,'FoliatedTriangulations']]],
+  ['squared_5fdistance_231',['squared_distance',['../structtriangulation__traits_3_013_01_4.html#afd9d9acbb25344750a7e9b92e3dda283',1,'triangulation_traits&lt; 3 &gt;']]],
+  ['squared_5fradius_232',['squared_radius',['../_foliated__triangulation_8hpp.html#a23eb485950ae8ff07d1693c1e419d800',1,'FoliatedTriangulations']]],
   ['start_233',['start',['../class_simulation.html#a7985334d286f4d2d7dabe2f158da249e',1,'Simulation']]],
   ['strategies_234',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],
   ['swap_235',['swap',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#af87d0a9c0d31da0b4befc5d62a958641',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8',1,'Geometry&lt; 3 &gt;::swap()'],['../class_manifolds_1_1_manifold_3_013_01_4.html#aed56b4a1e59606b624184c0bd676f84d',1,'Manifolds::Manifold&lt; 3 &gt;::swap()'],['../struct_simplicial_manifold.html#a6b2f76aacf53811ed6cc2f36837c2ebf',1,'SimplicialManifold::swap()'],['../_geometry_8hpp.html#af7450092e67d362692353a8b378059b6',1,'swap():&#160;Geometry.hpp']]]

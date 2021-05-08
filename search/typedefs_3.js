@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['squared_5fdistance_544',['squared_distance',['../_foliated__triangulation_8hpp.html#a589ccb31cf88cf472f93f70b3d82ae27',1,'FoliatedTriangulations']]]
+  ['squared_5fdistance_550',['squared_distance',['../structtriangulation__traits_3_013_01_4.html#afd9d9acbb25344750a7e9b92e3dda283',1,'triangulation_traits&lt; 3 &gt;']]]
 ];
