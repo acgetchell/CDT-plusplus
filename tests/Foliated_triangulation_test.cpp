@@ -86,7 +86,7 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(
             is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
-                               Delaunay3>);
+                               Delaunay<3>>);
       }
       THEN("It is constructible from parameters.")
       {
@@ -98,13 +98,13 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(
             is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
-                               Causal_vertices>);
+                               Causal_vertices<3>>);
       }
       THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
       {
         REQUIRE(
             is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
-                               Causal_vertices, double>);
+                               Causal_vertices<3>, double>);
       }
       THEN(
           "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
@@ -112,7 +112,7 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(
             is_constructible_v<FoliatedTriangulations::FoliatedTriangulation3,
-                               Causal_vertices, double, double>);
+                               Causal_vertices<3>, double, double>);
       }
     }
   }
@@ -164,14 +164,14 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
     }
     WHEN("Constructing a triangulation with 4 causal vertices.")
     {
-      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
-                               Point_3{0, 0, 1},
-                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point<3>>    Vertices{Point<3>{1, 0, 0}, Point<3>{0, 1, 0},
+                                Point<3>{0, 0, 1},
+                                Point<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
-      Causal_vertices     cv;
+      Causal_vertices<3>  cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv), [](Point_3 a, std::size_t b) {
+                     std::back_inserter(cv), [](Point<3> a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
@@ -191,14 +191,14 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 {
   GIVEN("A small foliated triangulation.")
   {
-    vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
-                             Point_3{0, 0, 1},
-                             Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point<3>>    Vertices{Point<3>{1, 0, 0}, Point<3>{0, 1, 0},
+                              Point<3>{0, 0, 1},
+                              Point<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
     vector<std::size_t> timevalue{1, 1, 1, 2};
-    Causal_vertices     cv;
+    Causal_vertices<3>  cv;
     cv.reserve(Vertices.size());
     std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                   std::back_inserter(cv), [](Point_3 a, std::size_t b) {
+                   std::back_inserter(cv), [](Point<3> a, std::size_t b) {
                      return std::make_pair(a, b);
                    });
     FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
@@ -233,8 +233,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     {
       THEN("Cells are correctly classified.")
       {
-        CHECK(FoliatedTriangulations::check_cells<Cell_handle_3, 3>(
-            ft.get_cells()));
+        CHECK(FoliatedTriangulations::check_cells<3>(ft.get_cells()));
         // Human verification
         ft.print_cells();
       }
@@ -254,8 +253,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       THEN("The incorrect cell labelling is fixed.")
       {
         CHECK_FALSE(ft.check_all_cells());
-        FoliatedTriangulations::fix_cells<Cell_handle_3, 3>(
-            ft.find_incorrect_cells());
+        FoliatedTriangulations::fix_cells<3>(ft.find_incorrect_cells());
         CHECK(ft.check_all_cells());
         // Human verification
         fmt::print("=== Corrected cell info ===\n");
@@ -293,7 +291,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
             "Vertex ({}) with timevalue of {} has a squared radius of {} and a "
             "squared expected radius of {} with an expected timevalue of {}.\n",
             vertex->point(), vertex->info(),
-            FoliatedTriangulations::squared_radius(vertex),
+            FoliatedTriangulations::squared_radius<3>(vertex),
             std::pow(ft.expected_radius(vertex), 2),
             ft.expected_timevalue(vertex));
       }
@@ -321,15 +319,14 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         "It is constructed from a Delaunay triangulation with 4 causal "
         "vertices.")
     {
-      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
-                               Point_3{0, 0, 1},
-                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point<3>>    Vertices{Point<3>{1, 0, 0}, Point<3>{0, 1, 0},
+                                Point<3>{0, 0, 1},
+                                Point<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
-      Causal_vertices     cv;
+      Causal_vertices<3>  cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv),
-                     [](Delaunay3::Point a, std::size_t b) {
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
@@ -390,7 +387,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
               "of {} and a squared expected radius of {} with an expected "
               "timevalue of {}.\n",
               vertex->point(), vertex->info(),
-              FoliatedTriangulations::squared_radius(vertex),
+              FoliatedTriangulations::squared_radius<3>(vertex),
               std::pow(ft.expected_radius(vertex), 2),
               ft.expected_timevalue(vertex));
         }
@@ -463,8 +460,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         {
           CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE));
         }
-        CHECK(FoliatedTriangulations::check_cells<Cell_handle_3, 3>(
-            ft.get_cells()));
+        CHECK(FoliatedTriangulations::check_cells<3>(ft.get_cells()));
         CHECK_FALSE(ft.N2_SL().empty());
 
         CHECK(ft.max_time() > 0);
@@ -531,15 +527,14 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
   {
     WHEN("Constructing a triangulation with 4 correct vertices.")
     {
-      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
-                               Point_3{0, 0, 1},
-                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point<3>>    Vertices{Point<3>{1, 0, 0}, Point<3>{0, 1, 0},
+                                Point<3>{0, 0, 1},
+                                Point<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, 2};
-      Causal_vertices     cv;
+      Causal_vertices<3>  cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv),
-                     [](Delaunay3::Point a, std::size_t b) {
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
@@ -558,15 +553,14 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         "Constructing a triangulation with an incorrect high timevalue "
         "vertex.")
     {
-      vector<Point_3>     Vertices{Point_3{1, 0, 0}, Point_3{0, 1, 0},
-                               Point_3{0, 0, 1},
-                               Point_3{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point<3>>    Vertices{Point<3>{1, 0, 0}, Point<3>{0, 1, 0},
+                                Point<3>{0, 0, 1},
+                                Point<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
       vector<std::size_t> timevalue{1, 1, 1, std::numeric_limits<int>::max()};
-      Causal_vertices     cv;
+      Causal_vertices<3>  cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv),
-                     [](Delaunay3::Point a, std::size_t b) {
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
@@ -586,15 +580,13 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
     }
     WHEN("Constructing a triangulation with an incorrect low value vertex.")
     {
-      vector<Delaunay3::Point> Vertices{
-          Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
-          Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+      vector<Point<3>>    Vertices{Point<3>{0, 0, 0}, Point<3>{0, 1, 0},
+                                Point<3>{1, 0, 0}, Point<3>{0, 0, 1}};
       vector<std::size_t> timevalue{0, 2, 2, 2};
-      Causal_vertices     cv;
+      Causal_vertices<3>  cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv),
-                     [](Delaunay3::Point a, std::size_t b) {
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
@@ -614,15 +606,13 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         "Constructing a triangulation with two incorrect low values and two "
         "incorrect high values.")
     {
-      vector<Delaunay3::Point> Vertices{
-          Delaunay3::Point{0, 0, 0}, Delaunay3::Point{0, 1, 0},
-          Delaunay3::Point{1, 0, 0}, Delaunay3::Point{0, 0, 1}};
+      vector<Point<3>>    Vertices{Point<3>{0, 0, 0}, Point<3>{0, 1, 0},
+                                Point<3>{1, 0, 0}, Point<3>{0, 0, 1}};
       vector<std::size_t> timevalue{0, 0, 2, 2};
-      Causal_vertices     cv;
+      Causal_vertices<3>  cv;
       cv.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv),
-                     [](Delaunay3::Point a, std::size_t b) {
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulations::FoliatedTriangulation3 ft(cv);

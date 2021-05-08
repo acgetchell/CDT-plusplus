@@ -14,7 +14,6 @@
 
 #include "Function_ref.hpp"
 #include <functional>
-#include <string_view>
 #include <tl/expected.hpp>
 
 /// @brief An applicative function similar to std::apply, but on manifolds
@@ -25,7 +24,7 @@
 /// @param t_move The Pachner move
 /// @return The expected or unexpected result in a tl::expected<T,E>
 template <typename ManifoldType,
-          typename ExpectedType = tl::expected<ManifoldType, std::string_view>,
+          typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
 constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType&& t_move)
     -> decltype(auto)

@@ -15,7 +15,7 @@
 #include "Ergodic_moves_3.hpp"
 
 template <typename ManifoldType,
-          typename ExpectedType = tl::expected<ManifoldType, std::string_view>,
+          typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
 class MoveCommand
 {

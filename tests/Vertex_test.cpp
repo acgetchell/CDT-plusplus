@@ -1,12 +1,13 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2017-2021 Adam Getchell
-///
-/// Tests for inserting and deleting vertices.
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
 /// @file Vertex_test.cpp
 /// @brief Tests on vertices in Delaunay triangulations
 /// @author Adam Getchell
+/// @details Tests for inserting and deleting vertices.
 
 #include "Manifold.hpp"
 #include <catch2/catch.hpp>
@@ -19,7 +20,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
     WHEN("A vertex is inserted.")
     {
-      triangulation.insert(Point_3(0, 0, 0));
+      triangulation.insert(Point<3>(0, 0, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -39,8 +40,8 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Two vertices are inserted.")
     {
-      triangulation.insert(Point_3(0, 0, 0));
-      triangulation.insert(Point_3(1, 0, 0));
+      triangulation.insert(Point<3>(0, 0, 0));
+      triangulation.insert(Point<3>(1, 0, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -60,9 +61,9 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Three vertices are inserted.")
     {
-      triangulation.insert(Point_3(0, 0, 0));
-      triangulation.insert(Point_3(1, 0, 0));
-      triangulation.insert(Point_3(0, 1, 0));
+      triangulation.insert(Point<3>(0, 0, 0));
+      triangulation.insert(Point<3>(1, 0, 0));
+      triangulation.insert(Point<3>(0, 1, 0));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -82,10 +83,10 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Four vertices are inserted.")
     {
-      triangulation.insert(Point_3(0, 0, 0));
-      triangulation.insert(Point_3(1, 0, 0));
-      triangulation.insert(Point_3(0, 1, 0));
-      triangulation.insert(Point_3(0, 0, 1));
+      triangulation.insert(Point<3>(0, 0, 0));
+      triangulation.insert(Point<3>(1, 0, 0));
+      triangulation.insert(Point<3>(0, 1, 0));
+      triangulation.insert(Point<3>(0, 0, 1));
 
       THEN("The Delaunay triangulation is valid.")
       {
@@ -105,12 +106,12 @@ SCENARIO("Vertex operations", "[vertex]")
 
     AND_WHEN("Six vertices are inserted.")
     {
-      triangulation.insert(Point_3(0, 0, 0));
-      triangulation.insert(Point_3(1, 0, 0));
-      triangulation.insert(Point_3(0, 1, 0));
-      triangulation.insert(Point_3(0, 0, 1));
-      triangulation.insert(Point_3(2, 2, 2));
-      triangulation.insert(Point_3(-1, 0, 1));
+      triangulation.insert(Point<3>(0, 0, 0));
+      triangulation.insert(Point<3>(1, 0, 0));
+      triangulation.insert(Point<3>(0, 1, 0));
+      triangulation.insert(Point<3>(0, 0, 1));
+      triangulation.insert(Point<3>(2, 2, 2));
+      triangulation.insert(Point<3>(-1, 0, 1));
 
       THEN("The Delaunay triangulation is valid.")
       {

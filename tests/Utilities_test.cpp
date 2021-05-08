@@ -1,12 +1,13 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2017-2021 Adam Getchell
-///
-/// Tests for random, conversion, and datetime functions.
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
 /// @file Utilities_test.cpp
 /// @brief Tests on utility functions
 /// @author Adam Getchell
+/// @details Tests for random, conversion, and datetime functions.
 
 #include <Manifold.hpp>
 #include <catch2/catch.hpp>
@@ -70,11 +71,11 @@ SCENARIO("Printing Delaunay triangulations", "[utility]")
 {
   GIVEN("A Delaunay3 triangulation.")
   {
-    Delaunay3 triangulation;
-    triangulation.insert(Point_3(0, 0, 0));
-    triangulation.insert(Point_3(1, 0, 0));
-    triangulation.insert(Point_3(0, 1, 0));
-    triangulation.insert(Point_3(0, 0, 1));
+    Delaunay<3> triangulation;
+    triangulation.insert(Point<3>(0, 0, 0));
+    triangulation.insert(Point<3>(1, 0, 0));
+    triangulation.insert(Point<3>(0, 1, 0));
+    triangulation.insert(Point<3>(0, 0, 1));
     WHEN("The triangulation is printed.")
     {
       THEN("No exception is thrown.")

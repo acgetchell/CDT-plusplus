@@ -17,7 +17,7 @@
 
 /// @brief The Move Always algorithm
 /// @tparam dimension The dimensionality of the algorithm's triangulation
-template <size_t dimension>
+template <int dimension>
 class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 {
   Int_precision m_passes{1};
@@ -144,7 +144,7 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
 using MoveAlways3 = MoveStrategy<MOVE_ALWAYS, 3>;
 using MoveAlways4 = MoveStrategy<MOVE_ALWAYS, 4>;
 
-// template <size_t dimension>
+// template <int dimension>
 // class MoveAlways
 //{
 //};

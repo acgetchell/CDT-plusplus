@@ -29,7 +29,7 @@ constexpr auto moves_per_dimension(Int_precision dim) -> std::size_t
 
 /// @brief The data and methods to track ergodic moves
 /// @tparam dimension The dimensionality of the ergodic moves
-template <size_t dimension>
+template <int dimension>
 class Move_tracker
 {
   std::array<Int_precision, moves_per_dimension(dimension)> moves = {0};
@@ -93,7 +93,7 @@ enum Strategies
 /// @brief Select an algorithm to make ergodic moves upon triangulations
 /// @tparam strategies The algorithm that chooses ergodic moves
 /// @tparam dimension The dimensionality of the triangulation
-template <Strategies strategies, size_t dimension>
+template <Strategies strategies, int dimension>
 class MoveStrategy
 {
 };

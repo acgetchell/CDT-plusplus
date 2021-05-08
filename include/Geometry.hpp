@@ -15,7 +15,7 @@
 
 /// Geometry class template
 /// @tparam dimension Dimensionality of geometry
-template <std::size_t dimension>
+template <int dimension>
 struct Geometry;
 
 /// 3D Geometry

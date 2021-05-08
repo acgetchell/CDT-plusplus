@@ -12,10 +12,9 @@
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
 #include "Manifold.hpp"
-#include <string_view>
 #include <tl/expected.hpp>
 
-using Expected = tl::expected<Manifolds::Manifold3, std::string_view>;
+using Expected = tl::expected<Manifolds::Manifold3, std::string>;
 
 namespace Moves
 {
@@ -46,7 +45,7 @@ namespace Moves
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
   [[nodiscard]] inline auto try_23_move(Manifolds::Manifold3& t_manifold,
-                                        Cell_handle_3 const&  to_be_moved)
+                                        Cell_handle<3> const& to_be_moved)
       -> bool
   {
     Expects(to_be_moved->info() == 22);
@@ -108,7 +107,7 @@ namespace Moves
   /// @param to_be_moved The edge on which to try the move
   /// @return True if move succeeded
   [[nodiscard]] inline auto try_32_move(Manifolds::Manifold3& t_manifold,
-                                        Edge_handle_3 const&  to_be_moved)
+                                        Edge_handle<3> const& to_be_moved)
   {
     auto flipped = false;
     if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
@@ -166,7 +165,7 @@ namespace Moves
   ///
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
-  [[nodiscard]] inline auto find_26_move(Cell_handle_3 const& t_cell)
+  [[nodiscard]] inline auto find_26_move(Cell_handle<3> const& t_cell)
       -> std::optional<int>
   {
     Expects(t_cell->info() == 13);
@@ -220,7 +219,7 @@ namespace Moves
 #ifndef NDEBUG
         fmt::print("neighboring_31_index is {}\n", *neighboring_31_index);
 #endif
-        Cell_handle_3 top = bottom->neighbor(*neighboring_31_index);
+        Cell_handle<3> top = bottom->neighbor(*neighboring_31_index);
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         Expects(bottom->has_neighbor(top, common_face_index));
@@ -248,12 +247,12 @@ namespace Moves
 
         // Do the (2,6) move
         // Insert new vertex
-        Vertex_handle_3 v_center =
+        Vertex_handle<3> v_center =
             t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
         // Checks
-        std::vector<Cell_handle_3> incident_cells;
+        std::vector<Cell_handle<3>> incident_cells;
         t_manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
@@ -315,8 +314,8 @@ namespace Moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifolds::Manifold3&  manifold,
-                                          Vertex_handle_3 const& candidate)
+  [[nodiscard]] inline auto is_62_movable(Manifolds::Manifold3&   manifold,
+                                          Vertex_handle<3> const& candidate)
   {
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     Expects(manifold.is_vertex(candidate));
@@ -423,8 +422,8 @@ namespace Moves
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
   [[nodiscard]] inline auto find_44_move(Manifolds::Manifold3& t_manifold,
-                                         Edge_handle_3 const&  t_edge_candidate)
-      -> std::optional<std::vector<Cell_handle_3>>
+                                         Edge_handle<3> const& t_edge_candidate)
+      -> std::optional<std::vector<Cell_handle<3>>>
   {
     Expects(t_manifold.dim() > 0);  // Precondition of is_edge()
     Expects(t_manifold.is_edge(t_edge_candidate));
@@ -434,7 +433,7 @@ namespace Moves
     auto circulator =
         t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
-    std::vector<Cell_handle_3> incident_cells;
+    std::vector<Cell_handle<3>> incident_cells;
     do
     {
       incident_cells.emplace_back(circulator++);
