@@ -19,7 +19,7 @@ extraction:
         - ninja-build
 #        - g++-10
         - ccache
-    after_prepare:
+#    after_prepare:
 #      - sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
 #      - export CXX="g++-10" CC="gcc-10"
     configure:
