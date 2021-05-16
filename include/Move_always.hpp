@@ -1,13 +1,14 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2017-2021 Adam Getchell
-///
-/// Picks a random move on the foliated Delaunay triangulations.
-/// For testing purposes.
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
 /// @file Move_always.hpp
 /// @brief Randomly selects moves to always perform on triangulations
 /// @author Adam Getchell
+/// @details Picks a random move on the FoliatedTriangulation.
+/// For testing purposes.
 /// @bug Fix initialization
 
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
@@ -45,8 +46,8 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
     return *this;
   }
 
-  [[maybe_unused]] MoveStrategy(Int_precision const t_number_of_passes,
-                                Int_precision const t_checkpoint)
+  [[maybe_unused]] MoveStrategy(Int_precision t_number_of_passes,
+                                Int_precision t_checkpoint)
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
   {}
 

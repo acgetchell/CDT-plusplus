@@ -1,19 +1,18 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2014-2020 Adam Getchell
-///
-/// Calculates the S3 Bulk (and later, boundary) actions.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
+/// @file S3Action.hpp
+/// @brief Calculate S3 bulk actions on 3D Delaunay Triangulations
+/// @author Adam Getchell
+/// @details Calculates the S3 Bulk (and later, boundary) actions.
 /// Uses the GNU MPFR library for arbitrary precision arithmetic on
 /// floating point numbers. See http://www.mpfr.org for more details.
 /// Note: for performance reasons, variables should not hold successively
 /// increasing values. We avoid this by setting each variable only once.
 /// See https://gmplib.org/manual/Efficiency.html#Efficiency for details.
-
-/// @file S3Action.hpp
-/// @brief Calculate S3 bulk actions on 3D Delaunay Triangulations
-/// @author Adam Getchell
-/// @bug <a href="http://clang-analyzer.llvm.org/scan-build.html">
-/// scan-build</a>: No bugs found.
 
 #ifndef INCLUDE_S3ACTION_HPP_
 #define INCLUDE_S3ACTION_HPP_
@@ -43,9 +42,8 @@
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
-    const Int_precision N1_TL, const Int_precision N3_31_13,
-    const Int_precision N3_22, const long double K,
-    const long double Lambda) noexcept -> Gmpzf
+    Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22,
+    long double K, long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -121,9 +119,8 @@
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_one(
-    const Int_precision N1_TL, const Int_precision N3_31_13,
-    const Int_precision N3_22, const long double K,
-    const long double Lambda) noexcept -> Gmpzf
+    Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22,
+    long double K, long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -209,10 +206,11 @@
 /// @return \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-[[nodiscard]] inline auto S3_bulk_action(
-    const Int_precision N1_TL, const Int_precision N3_31_13,
-    const Int_precision N3_22, const long double Alpha, const long double K,
-    const long double Lambda) noexcept -> Gmpzf
+[[nodiscard]] inline auto S3_bulk_action(Int_precision N1_TL,
+                                         Int_precision N3_31_13,
+                                         Int_precision N3_22, long double Alpha,
+                                         long double K,
+                                         long double Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
