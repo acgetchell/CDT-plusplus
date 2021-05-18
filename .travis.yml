@@ -4,10 +4,10 @@ dist: focal
 osx_image: xcode12.2
 
 cache:
-  - ccache
-  - directories:
-      - $TRAVIS_BUILD_DIR/vcpkg
-      - $HOME/.cache/vcpkg/archives
+#  - ccache
+#  - directories:
+#      - $TRAVIS_BUILD_DIR/vcpkg
+#      - $HOME/.cache/vcpkg/archives
 
 addons:
 #  apt:

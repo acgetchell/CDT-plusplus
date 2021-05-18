@@ -30,6 +30,7 @@ cache:
 install:
   # Setup vcpkg
   - cd c:\tools\vcpkg
+  - git clean -d -fx .
   - git pull origin master --no-rebase
   - git reset --hard 56c0313
   - .\bootstrap-vcpkg.bat

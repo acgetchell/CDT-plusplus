@@ -19,7 +19,7 @@ jobs:
         cache-name: cache-vcpkg
       with:
         path: ~/.cache/vcpkg
-        key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
+        key:  ${{ runner.os }}-build-v2-${{ env.cache-name }}-${{ hashFiles('**/status') }}
         restore-keys: |
           ${{ runner.os }}-build-v2-${{ env.cache-name }}-
           ${{ runner.os }}-build-v2-
