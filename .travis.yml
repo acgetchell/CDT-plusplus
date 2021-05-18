@@ -207,6 +207,8 @@ jobs:
     - os: linux
       compiler: g++-10
       env: DOXYGEN=true
+    - os: osx
+      compiler: g++-10
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
@@ -243,4 +245,4 @@ script:
 
 after_success:
   - cd build
-  - travis_wait 60 ctest --output-on-failure
+  - travis_wait 90 ctest --output-on-failure
