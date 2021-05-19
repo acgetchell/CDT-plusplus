@@ -157,7 +157,7 @@ jobs:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
-        - travis_wait 60 ctest -VV
+        - travis_wait 90 ctest -VV
         - cd src
         - ./initialize --s -n32000 -t11 -o
     # CodeCov
@@ -208,7 +208,9 @@ jobs:
       compiler: g++-10
       env: DOXYGEN=true
     - os: osx
-      compiler: g++-10
+    - os: linux
+      compiler: clang-10
+      env: TSAN=true
 
 before_install:
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
@@ -237,7 +239,7 @@ install:
   - cd ..
   - pwd
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - travis_wait 90 vcpkg install --feature-flags=manifests
+  - travis_wait 120 vcpkg install --feature-flags=manifests
 
 script:
   - cmake $CMAKE_ARGS -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
