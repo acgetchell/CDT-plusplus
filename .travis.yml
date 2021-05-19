@@ -4,10 +4,10 @@ dist: focal
 osx_image: xcode12.2
 
 cache:
-#  - ccache
-#  - directories:
-#      - $TRAVIS_BUILD_DIR/vcpkg
-#      - $HOME/.cache/vcpkg/archives
+  - ccache
+  - directories:
+      - $TRAVIS_BUILD_DIR/vcpkg
+      - $HOME/.cache/vcpkg/archives
 
 addons:
 #  apt:
@@ -157,7 +157,7 @@ jobs:
         - export CMAKE_ARGS="-D ENABLE_SANITIZER_THREAD:BOOL=TRUE"
       after_success:
         - cd $TRAVIS_BUILD_DIR/build/
-        - ctest -VV
+        - travis_wait 60 ctest -VV
         - cd src
         - ./initialize --s -n32000 -t11 -o
     # CodeCov
@@ -237,7 +237,7 @@ install:
   - cd ..
   - pwd
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - travis_wait 60 vcpkg install --feature-flags=manifests
+  - travis_wait 90 vcpkg install --feature-flags=manifests
 
 script:
   - cmake $CMAKE_ARGS -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build

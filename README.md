@@ -360,6 +360,8 @@ Optional:
 
 [AppVeyor] is broken due to a bug in [vcpkg manifest] mode, awaiting a merge of [16478].
 
+[gcc-10] on macOS is [broken on Travis-CI]
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -452,3 +454,4 @@ Optional:
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
 [16478]: https://github.com/microsoft/vcpkg/pull/16478
+[broken on Travis-CI]: https://travis-ci.community/t/gcc-10-broken-on-osx/11610
