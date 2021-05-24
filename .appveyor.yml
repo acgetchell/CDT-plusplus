@@ -71,7 +71,7 @@ before_build:
   - vcpkg install --feature-flags=manifests
 
 build_script:
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D -S . -B build
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -S . -B build
   - cmake --build build
 
 #on_success:
