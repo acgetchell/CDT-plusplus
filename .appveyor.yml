@@ -21,7 +21,7 @@ clone_script:
 environment:
   #  APPVEYOR_SAVE_CACHE_ON_ERROR : true
   VCPKG_DEFAULT_TRIPLET: x64-windows
-  VCPKG_ROOT: c:\tools\vcpkg
+#  VCPKG_ROOT: c:\tools\vcpkg
 
 cache:
   - c:\Users\appveyor\AppData\Local\vcpkg\archives\

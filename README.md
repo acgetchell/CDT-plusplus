@@ -38,7 +38,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
 - [x] Test using [CTest]
 - [x] Develop using Behavior-driven development ([BDD]) with [Catch]
-- [x] Continuous integration by [Travis-CI] on MacOS and Linux with [gcc]/[Clang]
+- [x] Continuous integration by [Travis-CI] on macOS and Linux with [gcc]/[Clang]
 - [x] Continuous integration by [AppVeyor] on Windows with [MSVC]
 - [x] Continuous integration by [Github Actions] on the leading edge
 - [x] 3D Simplex
@@ -62,7 +62,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [ ] S4 Bulk action
 - [ ] 4D Ergodic moves
 - [ ] Initialize two masses
-- [ ] Shortest path algorithm
+- [ ] The shortest path algorithm
 - [ ] Einstein tensor
 - [ ] Complete test coverage
 - [ ] Complete documentation
@@ -202,11 +202,11 @@ Options:
 
 The dimensionality of the spacetime is such that each slice of spacetime is
 `d-1`-dimensional, so setting `d=3` generates 2 spacelike dimensions and one
-timelike dimension, with a defined global time foliation. Thus a
+timelike dimension, with a defined global time foliation. A
 `d`-dimensional simplex will have some `d-1` sub-simplices that are purely
 spacelike (all on the same timeslice) as well as some that are timelike
 (span two timeslices). In [CDT] we actually care more about the timelike
-links (in 2+1 spacetime) and the timelike faces (in 3+1 spacetime).
+links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).
 
 ## Document
 
@@ -312,7 +312,7 @@ You can then run experiments and look at results on https://www.comet.ml!
 ## Visualize
 
 [Geomview] is used to generate pictures of triangulations using the `cdt-gv` binary. In order for this to
-work, you must have [Geomview] installed (which doesn't work on Windows). On MacOS:
+work, you must have [Geomview] installed (which doesn't work on Windows). On macOS:
 
 ~~~bash
 brew cask install xquartz
@@ -331,9 +331,9 @@ Your code should pass Continuous Integration:
 
 - [clang-format] with project settings ([.clang-format])
 
-- [cppcheck]; test with [cppcheck.sh]
+- [cppcheck] test with [cppcheck.sh]
 
-- [Valgrind]; be sure to look at the results to ensure you're not leaking memory
+- [Valgrind] be sure to look at the results to ensure you're not leaking memory
 
 - [AddressSanitizer] and [UndefinedBehaviorSanitizer]; test with [asan.sh]
 
@@ -341,9 +341,9 @@ Your code should pass Continuous Integration:
 
 - [MemorySanitizer] (if supported by your platform); test with [msan.sh]
 
-- [ThreadSanitizer]; test with [tsan.sh]
+- [ThreadSanitizer] test with [tsan.sh]
 
-- [LGTM]; check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
+- [LGTM] check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
   more details.
 
 Optional:
@@ -357,8 +357,6 @@ Optional:
 [Eigen] does not work for c++20 and MSVC 2019 (issue [#1894]).
 
 [CLion] skips debugger breakpoints (issue [CPP-20158]).
-
-[AppVeyor] is broken due to a bug in [vcpkg manifest] mode, awaiting a merge of [16478].
 
 [gcc-10] on macOS is [broken on Travis-CI]
 
@@ -453,5 +451,4 @@ Optional:
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
-[16478]: https://github.com/microsoft/vcpkg/pull/16478
 [broken on Travis-CI]: https://travis-ci.community/t/gcc-10-broken-on-osx/11610
