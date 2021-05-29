@@ -210,21 +210,25 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       {
         auto vertices = ft.get_vertices();
         for (auto& vertex : vertices ) { vertex->info() = 0; }
+
         THEN("The incorrect vertex labelling is identified.")
         {
           CHECK_FALSE(ft.check_all_vertices());
           auto bad_vertices = ft.find_incorrect_vertices();
           CHECK_FALSE(bad_vertices.empty());
+          // Human verification
+          fmt::print("=== Wrong vertex info! ===\n");
+          ft.print_vertices();
         }
         AND_THEN("The incorrect vertex labelling is fixed.")
         {
           CHECK_FALSE(ft.check_all_vertices());
           auto bad_vertices = ft.find_incorrect_vertices();
           CHECK_FALSE(bad_vertices.empty());
-          // Human verification
-          ft.print_vertices();
+
           ft.fix_vertices(bad_vertices);
           CHECK(ft.check_all_vertices());
+          fmt::print("=== Corrected vertex info ===\n");
           ft.print_vertices();
         }
       }
@@ -280,6 +284,11 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     {
       REQUIRE(ft.initial_radius() == initial_radius);
       REQUIRE(ft.foliation_spacing() == foliation_spacing);
+      // Human verification
+      fmt::print(
+          "The triangulation has an initial radius of {} and a radial "
+          "separation of {}\n",
+          initial_radius, foliation_spacing);
     }
     THEN("Each vertex has a valid timevalue.")
     {

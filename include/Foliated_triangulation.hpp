@@ -156,15 +156,13 @@ namespace FoliatedTriangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertex The vertex to check
   /// @return The squared radial distance of the vertex
-  /// @todo Fix dimensionality of origin
   template <int dimension>
   [[nodiscard]] inline auto squared_radius(
       Vertex_handle_t<dimension> const& t_vertex) -> double
   {
-    // still not quite right, need some way to specify origin dimensionally
-    auto origin = Point_t<3>(0, 0, 0);
     typename triangulation_traits<dimension>::squared_distance r2;
-    return r2(t_vertex->point(), origin);
+
+    if (dimension == 3) { return r2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
   }  // squared_radius
 
   /// @tparam dimension The dimensionality of the simplices
@@ -1195,7 +1193,6 @@ namespace FoliatedTriangulations
     /// @param cells The container of simplices to classify
     /// @param t_debug_flag Debugging info toggle
     /// @return A container of simplices with Cell_type written to cell->info()
-    /// @todo Replace core of this function with call to expected_cell_type
     [[nodiscard]] auto classify_cells(
         std::vector<Cell_handle_t<3>> const& cells,
         bool t_debug_flag = false) const -> std::vector<Cell_handle_t<3>>
