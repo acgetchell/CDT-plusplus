@@ -185,7 +185,6 @@ template <typename Manifold, typename Timer>
 /// triangulation)
 template <typename TriangulationType>
 void print_delaunay(TriangulationType const& t_triangulation)
-try
 {
   fmt::print(
       "Triangulation has {} vertices and {} edges and {} faces and {} "
@@ -194,11 +193,6 @@ try
       t_triangulation.number_of_finite_edges(),
       t_triangulation.number_of_finite_facets(),
       t_triangulation.number_of_finite_cells());
-}
-catch (...)
-{
-  fmt::print(stderr, "print_delaunay went wrong ...\n");
-  throw;
 }  // print_delaunay
 
 /// @brief Writes the runtime results to a file

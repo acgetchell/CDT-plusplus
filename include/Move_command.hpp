@@ -14,6 +14,56 @@
 #include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
 
+static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
+static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
+
+/// @brief Determine ergodic moves for a given dimension at compile-time
+/// @param dim Dimensionality of the triangulation
+/// @return The number of ergodic moves for that dimensionality
+constexpr auto moves_per_dimension(Int_precision dim) -> Int_precision
+{
+  if (dim == 3) { return NUMBER_OF_3D_MOVES; }
+  if (dim == 4) { return NUMBER_OF_4D_MOVES; }
+  return 0;  // Error condition
+}
+
+/// @brief The data and methods to track ergodic moves
+/// @tparam ManifoldType The type of manifold on which moves are made
+template <typename ManifoldType>
+struct Move_tracker
+{
+  std::array<Int_precision, moves_per_dimension(ManifoldType::dimension)>
+      moves = {0};  // NOLINT
+
+  auto operator[](gsl::index index) -> auto& { return gsl::at(moves, index); }
+
+  // 3D
+  auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
+
+  auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
+
+  auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
+
+  auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
+
+  auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
+
+  // 4D
+  auto two_four_moves() -> auto& { return gsl::at(moves, 0); }
+
+  auto four_two_moves() -> auto& { return gsl::at(moves, 1); }
+
+  auto three_three_moves() -> auto& { return gsl::at(moves, 2); }
+
+  auto four_six_moves() -> auto& { return gsl::at(moves, 3); }
+
+  auto six_four_moves() -> auto& { return gsl::at(moves, 4); }
+
+  auto two_eight_moves() -> auto& { return gsl::at(moves, 5); }  // NOLINT
+
+  auto eight_two_moves() -> auto& { return gsl::at(moves, 6); }  // NOLINT
+};
+
 template <typename ManifoldType,
           typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
@@ -26,7 +76,7 @@ class MoveCommand
   std::deque<FunctionType> m_moves;
 
   /// @brief Keep track of failed moves
-  std::array<int, 5> m_failed_moves = {0, 0, 0, 0, 0};  // NOLINT
+  Move_tracker<ManifoldType> m_failed_moves;
 
  public:
   /// @brief Default dtor
@@ -34,18 +84,6 @@ class MoveCommand
 
   /// @brief No default ctor
   MoveCommand() = delete;
-
-  //  /// @brief Default copy ctor
-  //  MoveCommand(MoveCommand const& other) = default;
-  //
-  //  /// @brief Default copy assignment
-  //  auto operator=(MoveCommand const& other) -> MoveCommand& = default;
-  //
-  //  /// @brief Default move ctor
-  //  MoveCommand(MoveCommand&& other) noexcept = default;
-  //
-  //  /// @brief Default move assignment
-  //  auto operator=(MoveCommand&& other) noexcept -> MoveCommand& = default;
 
   /// @brief MoveCommand ctor
   /// @param t_manifold The manifold to perform moves upon
@@ -61,6 +99,12 @@ class MoveCommand
 
   /// @return The results of the moves invoked by MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
+
+  /// @return Failed moves by MoveCommand
+  [[nodiscard]] auto get_errors() const -> Move_tracker<ManifoldType>
+  {
+    return m_failed_moves;
+  }
 
   /// @brief Push a Pachner move onto the move queue
   /// @param t_move The move to do on the manifold
@@ -100,34 +144,99 @@ class MoveCommand
   }  // execute
 
   /// @brief Parse errors
-  /// @tparam UnexpectedType The type of the Unexpected (should be string_view)
+  /// @tparam UnexpectedType The type of the Unexpected
   /// @param error The value passed from Unexpected
   template <typename UnexpectedType>
   void parse_unexpected(UnexpectedType const error)
   {
-    if (error.find("(2,3)")) { m_failed_moves[0] += 1; }
-    if (error.find("(3,2)")) { m_failed_moves[1] += 1; }
-    if (error.find("(2,6)")) { m_failed_moves[2] += 1; }
-    if (error.find("(6,2)")) { m_failed_moves[3] += 1; }
-    if (error.find("(4,4)")) { m_failed_moves[4] += 1; }
+    if (ManifoldType::dimension == 3)
+    {
+      // 3D
+      if (error.find("(2,3)") != UnexpectedType::npos)
+      {
+        m_failed_moves.two_three_moves() += 1;
+      }
+      if (error.find("(3,2)") != UnexpectedType::npos)
+      {
+        m_failed_moves.three_two_moves() += 1;
+      }
+      if (error.find("(2,6)") != UnexpectedType::npos)
+      {
+        m_failed_moves.two_six_moves() += 1;
+      }
+      if (error.find("(6,2)") != UnexpectedType::npos)
+      {
+        m_failed_moves.six_two_moves() += 1;
+      }
+      if (error.find("(4,4)") != UnexpectedType::npos)
+      {
+        m_failed_moves.four_four_moves() += 1;
+      }
+    }
+    else
+    {
+      if (error.find("(2,4)") != UnexpectedType::npos)
+      {
+        m_failed_moves.two_four_moves() += 1;
+      }
+      if (error.find("(4,2)") != UnexpectedType::npos)
+      {
+        m_failed_moves.four_two_moves() += 1;
+      }
+      if (error.find("(3,3)") != UnexpectedType::npos)
+      {
+        m_failed_moves.three_three_moves() += 1;
+      }
+      if (error.find("(4,6)") != UnexpectedType::npos)
+      {
+        m_failed_moves.four_six_moves() += 1;
+      }
+      if (error.find("(6,4)") != UnexpectedType::npos)
+      {
+        m_failed_moves.six_four_moves() += 1;
+      }
+      if (error.find("(2,8)") != UnexpectedType::npos)
+      {
+        m_failed_moves.two_eight_moves() += 1;
+      }
+      if (error.find("(8,2)") != UnexpectedType::npos)
+      {
+        m_failed_moves.eight_two_moves() += 1;
+      }
+    }
   }  // parse_unexpected
 
   /// @brief Print Move errors
   void print_errors() const
   {
-    if (std::all_of(m_failed_moves.begin(), m_failed_moves.end(),
+    if (std::all_of(m_failed_moves.moves.begin(), m_failed_moves.moves.end(),
                     [](auto const& value) { return value == 0; }))
     {
       fmt::print("There were no failed moves.\n");
     }
     else
     {
-      fmt::print(
-          "There were {} failed (2,3) moves and {} failed (3,2) moves and {} "
-          "failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) "
-          "moves.\n",
-          m_failed_moves[0], m_failed_moves[1], m_failed_moves[2],
-          m_failed_moves[3], m_failed_moves[4]);
+      if (ManifoldType::dimension == 3)
+      {
+        fmt::print(
+            "There were {} failed (2,3) moves and {} failed (3,2) moves and {} "
+            "failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) "
+            "moves.\n",
+            m_failed_moves.moves[0], m_failed_moves.moves[1],
+            m_failed_moves.moves[2], m_failed_moves.moves[3],
+            m_failed_moves.moves[4]);
+      }
+      else
+      {
+        fmt::print(
+            "There were {} failed (2,4) moves and {} failed (4,2) moves and {} "
+            "failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) "
+            "moves and {} failed (2,8) moves and {} failed (8,2) moves.\n",
+            m_failed_moves.moves[0], m_failed_moves.moves[1],
+            m_failed_moves.moves[2], m_failed_moves.moves[3],
+            m_failed_moves.moves[4], m_failed_moves.moves[5],  // NOLINT
+            m_failed_moves.moves[6]);                          // NOLINT
+      }
     }
   }
 

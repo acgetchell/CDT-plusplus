@@ -103,6 +103,21 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
   }
 }
 
+SCENARIO("Manifold static members", "[manifold]")
+{
+  GIVEN("A default constructed Manifold3")
+  {
+    Manifolds::Manifold3 test{};
+    WHEN("The dimensionality of the manifold is queried.")
+    {
+      THEN("The correct dimensionality is returned.")
+      {
+        REQUIRE(test.dimension == 3);
+      }
+    }
+  }
+}
+
 SCENARIO("Manifold functions", "[manifold]")
 {
   GIVEN("A manifold with four vertices.")

@@ -64,6 +64,9 @@ namespace Manifolds
     Geometry3 m_geometry;
 
    public:
+    /// @brief Dimensionality of the manifold
+    static inline int constexpr dimension = 3;
+
     /// @brief Default dtor
     ~Manifold() = default;
 
@@ -438,6 +441,17 @@ namespace Manifolds
   };
 
   using Manifold3 = Manifold<3>;
+
+  /// 4D Manifold
+  template <>
+  class Manifold<4>
+  {
+   public:
+    /// @brief Dimensionality of the manifold
+    static inline int constexpr dimension = 4;
+  };
+
+  using Manifold4 = Manifold<4>;
 
 }  // namespace Manifolds
 

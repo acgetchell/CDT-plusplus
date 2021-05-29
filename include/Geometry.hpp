@@ -23,34 +23,34 @@ template <>
 struct Geometry<3>
 {
   /// @brief Number of 3D simplices
-  Int_precision N3{0};
+  Int_precision N3{0};  // NOLINT
 
   /// @brief Number of (3,1) simplices
-  Int_precision N3_31{0};
+  Int_precision N3_31{0};  // NOLINT
 
   /// @brief Number of (1,3) simplices
-  Int_precision N3_13{0};
+  Int_precision N3_13{0};  // NOLINT
 
   /// @brief Number of (3,1) + (1,3) simplices
-  Int_precision N3_31_13{0};
+  Int_precision N3_31_13{0};  // NOLINT
 
   /// @brief Number of (2,2) simplices
-  Int_precision N3_22{0};
+  Int_precision N3_22{0};  // NOLINT
 
   /// @brief Number of 2D faces
-  Int_precision N2{0};
+  Int_precision N2{0};  // NOLINT
 
   /// @brief Number of 1D edges
-  Int_precision N1{0};
+  Int_precision N1{0};  // NOLINT
 
   /// @brief Number of timelike edges
-  Int_precision N1_TL{0};
+  Int_precision N1_TL{0};  // NOLINT
 
   /// @brief Number of spacelike edges
-  Int_precision N1_SL{0};
+  Int_precision N1_SL{0};  // NOLINT
 
   /// @brief Number of vertices
-  Int_precision N0{0};
+  Int_precision N0{0};  // NOLINT
 
   /// @brief Default ctor
   Geometry() = default;

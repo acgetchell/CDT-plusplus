@@ -88,16 +88,16 @@ SCENARIO("MoveStrategy member functions", "[move strategies]")
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().two_three_moves<3>() == 0);
-        CHECK(mover.get_successful().two_three_moves<3>() == 0);
-        CHECK(mover.get_attempted().three_two_moves<3>() == 0);
-        CHECK(mover.get_successful().three_two_moves<3>() == 0);
-        CHECK(mover.get_attempted().two_six_moves<3>() == 0);
-        CHECK(mover.get_successful().two_six_moves<3>() == 0);
-        CHECK(mover.get_attempted().six_two_moves<3>() == 0);
-        CHECK(mover.get_successful().six_two_moves<3>() == 0);
-        CHECK(mover.get_attempted().four_four_moves<3>() == 0);
-        CHECK(mover.get_successful().four_four_moves<3>() == 0);
+        CHECK(mover.get_attempted().two_three_moves() == 0);
+        CHECK(mover.get_successful().two_three_moves() == 0);
+        CHECK(mover.get_attempted().three_two_moves() == 0);
+        CHECK(mover.get_successful().three_two_moves() == 0);
+        CHECK(mover.get_attempted().two_six_moves() == 0);
+        CHECK(mover.get_successful().two_six_moves() == 0);
+        CHECK(mover.get_attempted().six_two_moves() == 0);
+        CHECK(mover.get_successful().six_two_moves() == 0);
+        CHECK(mover.get_attempted().four_four_moves() == 0);
+        CHECK(mover.get_successful().four_four_moves() == 0);
       }
     }
     WHEN("A MoveAlways3 algorithm is instantiated.")
@@ -112,16 +112,16 @@ SCENARIO("MoveStrategy member functions", "[move strategies]")
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().two_three_moves<3>() == 0);
-        CHECK(mover.get_successful().two_three_moves<3>() == 0);
-        CHECK(mover.get_attempted().three_two_moves<3>() == 0);
-        CHECK(mover.get_successful().three_two_moves<3>() == 0);
-        CHECK(mover.get_attempted().two_six_moves<3>() == 0);
-        CHECK(mover.get_successful().two_six_moves<3>() == 0);
-        CHECK(mover.get_attempted().six_two_moves<3>() == 0);
-        CHECK(mover.get_successful().six_two_moves<3>() == 0);
-        CHECK(mover.get_attempted().four_four_moves<3>() == 0);
-        CHECK(mover.get_successful().four_four_moves<3>() == 0);
+        CHECK(mover.get_attempted().two_three_moves() == 0);
+        CHECK(mover.get_successful().two_three_moves() == 0);
+        CHECK(mover.get_attempted().three_two_moves() == 0);
+        CHECK(mover.get_successful().three_two_moves() == 0);
+        CHECK(mover.get_attempted().two_six_moves() == 0);
+        CHECK(mover.get_successful().two_six_moves() == 0);
+        CHECK(mover.get_attempted().six_two_moves() == 0);
+        CHECK(mover.get_successful().six_two_moves() == 0);
+        CHECK(mover.get_attempted().four_four_moves() == 0);
+        CHECK(mover.get_successful().four_four_moves() == 0);
       }
     }
   }
@@ -131,8 +131,8 @@ SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(9600);
-    auto constexpr timeslices = static_cast<Int_precision>(7);
+    auto constexpr simplices  = static_cast<Int_precision>(64);
+    auto constexpr timeslices = static_cast<Int_precision>(3);
     Manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 algorithm is used.")
@@ -145,6 +145,7 @@ SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
         // This may take awhile, so the scenario is tagged with [.]
         // to disable by default
         auto result = mover(manifold);
+        // Output
         CHECK(result.is_valid());
       }
     }
@@ -163,8 +164,8 @@ SCENARIO("Using the Move always algorithm", "[move strategies][!mayfail][.]")
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().two_four_moves<4>() == 0);
-        CHECK(mover.get_successful().two_four_moves<4>() == 0);
+        CHECK(mover.get_attempted().two_four_moves() == 0);
+        CHECK(mover.get_successful().two_four_moves() == 0);
       }
     }
   }

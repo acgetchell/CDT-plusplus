@@ -18,13 +18,13 @@
 
 /// @brief The Move Always algorithm
 /// @tparam dimension The dimensionality of the algorithm's triangulation
-template <int dimension>
-class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
+template <typename ManifoldType>
+class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
-  Move_tracker<dimension>       m_attempted_moves;
-  Move_tracker<dimension>       m_successful_moves;
+  Move_tracker<ManifoldType> m_attempted_moves;
+  Move_tracker<ManifoldType> m_failed_moves;
 
  public:
   /// @brief Default dtor
@@ -57,7 +57,7 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
     swap(t_first.m_passes, t_second.m_passes);
     swap(t_first.m_checkpoint, t_second.m_checkpoint);
     swap(t_first.m_attempted_moves, t_second.m_attempted_moves);
-    swap(t_first.m_successful_moves, t_second.m_successful_moves);
+    swap(t_first.m_failed_moves, t_second.m_failed_moves);
   }
 
   /// @return The number of passes made on a triangulation
@@ -70,16 +70,15 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
   auto get_attempted() const { return m_attempted_moves; }
 
   /// @return The array of successful moves
-  auto get_successful() const { return m_successful_moves; }
+  auto get_successful() const { return m_failed_moves; }
 
-  template <typename ManifoldType, std::size_t dim = dimension,
-            std::enable_if_t<dim == 3, int> = 0>
-  auto operator()(ManifoldType&& t_manifold) -> ManifoldType
+  auto operator()(ManifoldType& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    fmt::print("Starting Move Always algorithm ...\n");
+    fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
+               ManifoldType::dimension - 1);
 
     // Start the move command
     MoveCommand command(std::forward<ManifoldType>(t_manifold));
@@ -96,134 +95,80 @@ class MoveStrategy<MOVE_ALWAYS, dimension>  // NOLINT
            ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = generate_random_int(0, NUMBER_OF_3D_MOVES - 1);
+        auto move_choice = generate_random_int(
+            0, moves_per_dimension(ManifoldType::dimension) - 1);
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);
 #endif
-        if (move_choice == 0)
+        if (move_choice == 0 && ManifoldType::dimension == 3)
         {
           auto move = Moves::do_23_move;
-          //          get_attempted().two_three_moves() += 1;
+          m_attempted_moves[0] += 1;
           command.enqueue(move);
         }
 
-        if (move_choice == 1)
+        if (move_choice == 1 && ManifoldType::dimension == 3)
         {
           auto move = Moves::do_32_move;
-          //          get_attempted().three_two_moves()++;
+          m_attempted_moves[1] += 1;
           command.enqueue(move);
         }
 
-        if (move_choice == 2)
+        if (move_choice == 2 && ManifoldType::dimension == 3)
         {
           auto move = Moves::do_26_move;
-          //          get_attempted().two_six_moves()++;
+          m_attempted_moves[2] += 1;
           command.enqueue(move);
         }
 
-        if (move_choice == 3)
+        if (move_choice == 3 && ManifoldType::dimension == 3)
         {
           auto move = Moves::do_62_move;
-          //          get_attempted().six_two_moves()++;
+          m_attempted_moves[3] += 1;
           command.enqueue(move);
         }
 
-        if (move_choice == 4)
+        if (move_choice == 4 && ManifoldType::dimension == 3)
         {
           auto move = Moves::do_44_move;
-          //          get_attempted().four_four_moves()++;
+          m_attempted_moves[4] += 1;
           command.enqueue(move);
         }
 
         command.execute();
+        m_failed_moves = command.get_errors();
       }
     }
+    print_results();
     return command.get_results();
+  }
+
+  /// @brief Display results of run
+  void print_results()
+  {
+    if (ManifoldType::dimension == 3)
+    {
+      fmt::print("===Results===\n");
+      fmt::print("(2,3) moves: {} attempted and {} failed\n",
+                 m_attempted_moves.two_three_moves(),
+                 m_failed_moves.two_three_moves());
+      fmt::print("(3,2) moves: {} attempted and {} failed\n",
+                 m_attempted_moves.three_two_moves(),
+                 m_failed_moves.three_two_moves());
+      fmt::print("(2,6) moves: {} attempted and {} failed\n",
+                 m_attempted_moves.two_six_moves(),
+                 m_failed_moves.two_six_moves());
+      fmt::print("(6,2) moves: {} attempted and {} failed\n",
+                 m_attempted_moves.six_two_moves(),
+                 m_failed_moves.six_two_moves());
+      fmt::print("(4,4) moves: {} attempted and {} failed\n",
+                 m_attempted_moves.four_four_moves(),
+                 m_failed_moves.four_four_moves());
+    }
   }
 };
 
-using MoveAlways3 = MoveStrategy<MOVE_ALWAYS, 3>;
-using MoveAlways4 = MoveStrategy<MOVE_ALWAYS, 4>;
-
-// template <int dimension>
-// class MoveAlways
-//{
-//};
-//
-// template <>
-// class MoveAlways<3> final : public MoveStrategy3
-//{
-// public:
-//  //  /// @brief Default constructor using default values
-//  //  MoveAlways() = default;
-//
-//  /// @brief Set passes and checkpoint with MoveAlgorithm 2-argument
-//  constructor
-//  /// @param t_number_of_passes Number of passes through triangulation
-//  /// @param t_checkpoint Number of passes per checkpoint
-//  MoveAlways(const std::size_t t_number_of_passes,
-//             const std::size_t t_checkpoint)
-//      : MoveStrategy(t_number_of_passes, t_checkpoint)
-//  {
-//#ifndef NDEBUG
-//    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-//#endif
-//  }
-//
-//  /// @brief Call operator
-//  /// @tparam T Type of manifold
-//  /// @param t_universe Manifold on which to operate
-//  /// @return Manifold upon which moves have been completed
-//  template <typename T>
-//  auto operator()(T&& t_universe) -> decltype(t_universe)
-//  {
-//#ifndef NDEBUG
-//    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-//#endif
-//    fmt::print("Starting Move Always algorithm ...\n");
-//    // Populate member data
-//    m_universe = std::forward<decltype(t_universe)>(t_universe);
-//    m_N1_TL    = m_universe.N1_TL();
-//    m_N3_31_13 = m_universe.N3_31_13();
-//    m_N3_22    = m_universe.N3_22();
-//
-//    fmt::print("Making random moves ...\n");
-//    // Loop through m_passes
-//    for (std::size_t pass_number = 1; pass_number <= m_passes; ++pass_number)
-//    {
-//      fmt::print("Pass {}\n", pass_number);
-//      auto total_simplices_this_pass = CurrentTotalSimplices();
-//      // Loop through CurrentTotalSimplices
-//      for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
-//           ++move_attempt)
-//      {
-//        // Pick a move to attempt
-//        auto move_choice = generate_random_int(0, 4);
-//#ifndef NDEBUG
-//        fmt::print("Move choice = {}\n", move_choice);
-//#endif
-//
-//        // Convert std::size_t move_choice to move_type enum
-//        auto move = static_cast<manifold3_moves::move_type>(move_choice);
-//        make_move(move);
-//      }  // End loop through CurrentTotalSimplices
-//
-//      // Do stuff on checkpoint_
-//      if ((pass_number % m_checkpoint) == 0)
-//      {
-//        fmt::print("Writing checkpoint file...\n");
-//        // write results to a file
-//        write_file(m_universe, topology_type::SPHERICAL, m_universe.dim(),
-//                   m_universe.N3(), m_universe.max_time());
-//      }
-//    }  // End loop through m_passes
-//    // output results
-//    fmt::print("Run results:\n");
-//    print_run();
-//    return m_universe;
-//  }  // operator()
-//};   // MoveAlways
-//
-// using MoveAlways3 = MoveAlways<3>;
+using MoveAlways3 = MoveStrategy<MOVE_ALWAYS, Manifolds::Manifold3>;
+using MoveAlways4 = MoveStrategy<MOVE_ALWAYS, Manifolds::Manifold4>;
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

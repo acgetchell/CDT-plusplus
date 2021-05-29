@@ -314,8 +314,8 @@ namespace Moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifolds::Manifold3&     manifold,
-                                          Vertex_handle_t<3> const& candidate)
+  [[nodiscard]] inline auto is_62_movable(Manifolds::Manifold3 const& manifold,
+                                          Vertex_handle_t<3> const&   candidate)
   {
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     Expects(manifold.is_vertex(candidate));
@@ -422,8 +422,8 @@ namespace Moves
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
   [[nodiscard]] inline auto find_44_move(
-      Manifolds::Manifold3&   t_manifold,
-      Edge_handle_t<3> const& t_edge_candidate)
+      Manifolds::Manifold3 const& t_manifold,
+      Edge_handle_t<3> const&     t_edge_candidate)
       -> std::optional<std::vector<Cell_handle_t<3>>>
   {
     Expects(t_manifold.dim() > 0);  // Precondition of is_edge()
