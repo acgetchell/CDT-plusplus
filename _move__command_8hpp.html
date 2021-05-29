@@ -74,7 +74,9 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#nested-classes">Classes</a>  </div>
+<a href="#nested-classes">Classes</a> &#124;
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Move_command.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -105,18 +107,75 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="nested-classes"></a>
 Classes</h2></td></tr>
+<tr class="memitem:"><td class="memItemLeft" align="right" valign="top">struct &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_move__tracker.html">Move_tracker&lt; ManifoldType &gt;</a></td></tr>
+<tr class="memdesc:"><td class="mdescLeft">&#160;</td><td class="mdescRight">The data and methods to track ergodic moves.  <a href="struct_move__tracker.html#details">More...</a><br /></td></tr>
+<tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:"><td class="memItemLeft" align="right" valign="top">class &#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;</a></td></tr>
 <tr class="separator:"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aea8cfabb511549696761eb37befcd125"><td class="memItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_move__command_8hpp.html#aea8cfabb511549696761eb37befcd125">moves_per_dimension</a> (<a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> dim) -&gt; <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></td></tr>
+<tr class="memdesc:aea8cfabb511549696761eb37befcd125"><td class="mdescLeft">&#160;</td><td class="mdescRight">Determine ergodic moves for a given dimension at compile-time.  <a href="_move__command_8hpp.html#aea8cfabb511549696761eb37befcd125">More...</a><br /></td></tr>
+<tr class="separator:aea8cfabb511549696761eb37befcd125"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a7d310c81137fed73216052d3e3416629"><td class="memItemLeft" align="right" valign="top"><a id="a7d310c81137fed73216052d3e3416629"></a>
+static constexpr <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td><td class="memItemRight" valign="bottom"><b>NUMBER_OF_3D_MOVES</b> = 5</td></tr>
+<tr class="separator:a7d310c81137fed73216052d3e3416629"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a035618f9a9bdd2c4717107a9f6b9a404"><td class="memItemLeft" align="right" valign="top"><a id="a035618f9a9bdd2c4717107a9f6b9a404"></a>
+static constexpr <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td><td class="memItemRight" valign="bottom"><b>NUMBER_OF_4D_MOVES</b> = 7</td></tr>
+<tr class="separator:a035618f9a9bdd2c4717107a9f6b9a404"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Do ergodic moves using the Command pattern. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="aea8cfabb511549696761eb37befcd125"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aea8cfabb511549696761eb37befcd125">&#9670;&nbsp;</a></span>moves_per_dimension()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">constexpr auto moves_per_dimension </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&#160;</td>
+          <td class="paramname"><em>dim</em></td><td>)</td>
+          <td> -&gt; <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>
+</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">constexpr</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Determine ergodic moves for a given dimension at compile-time. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">dim</td><td>Dimensionality of the triangulation </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The number of ergodic moves for that dimensionality </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00023">23</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 24 2021 06:34:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 29 2021 23:15:47 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

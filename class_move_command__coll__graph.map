@@ -1,10 +1,8 @@
 <map id="MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;" name="MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;">
-<area shape="rect" id="node1" title=" " alt="" coords="81,543,311,752"/>
-<area shape="rect" id="node2" title=" " alt="" coords="5,388,152,465"/>
-<area shape="rect" id="node3" title="STL class." alt="" coords="17,189,140,267"/>
-<area shape="rect" id="node4" title=" " alt="" coords="130,5,169,83"/>
-<area shape="rect" id="node8" title="STL class." alt="" coords="164,189,292,267"/>
-<area shape="rect" id="node5" title=" " alt="" coords="176,373,453,480"/>
-<area shape="rect" id="node6" href="$classfunction__ref.html" title=" " alt="" coords="381,175,579,281"/>
-<area shape="rect" id="node7" href="$classfunction__ref.html" title=" " alt="" coords="407,5,553,83"/>
+<area shape="rect" id="node1" title=" " alt="" coords="81,543,311,781"/>
+<area shape="rect" id="node2" title=" " alt="" coords="57,373,335,480"/>
+<area shape="rect" id="node3" href="$classfunction__ref.html" title=" " alt="" coords="5,175,203,281"/>
+<area shape="rect" id="node4" href="$classfunction__ref.html" title=" " alt="" coords="19,5,165,83"/>
+<area shape="rect" id="node5" title="STL class." alt="" coords="233,189,361,267"/>
+<area shape="rect" id="node6" title=" " alt="" coords="285,5,323,83"/>
 </map>

@@ -4,7 +4,7 @@ var searchData=
   ['filter_5fcells_57',['filter_cells',['../_foliated__triangulation_8hpp.html#a444b1cc6a8d39f8408bbf62a0cc7c61e',1,'FoliatedTriangulations']]],
   ['filter_5fedges_58',['filter_edges',['../_foliated__triangulation_8hpp.html#a664d03ec5b65cef3ff0a3b86836fca08',1,'FoliatedTriangulations']]],
   ['find_5f26_5fmove_59',['find_26_move',['../_ergodic__moves__3_8hpp.html#a82bc5f4de5a009b0db8a550d48794b2a',1,'Moves']]],
-  ['find_5f44_5fmove_60',['find_44_move',['../_ergodic__moves__3_8hpp.html#abcff6d88cf025debdaa1544c9b0c3b5b',1,'Moves']]],
+  ['find_5f44_5fmove_60',['find_44_move',['../_ergodic__moves__3_8hpp.html#a7d10e2fcd5760bed4ad59cd7fbe7b17e',1,'Moves']]],
   ['find_5fincorrect_5fcells_61',['find_incorrect_cells',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#adb0286ea5f20955fcbde42e1dbc744f9',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['find_5fincorrect_5fvertices_62',['find_incorrect_vertices',['../class_foliated_triangulations_1_1_foliated_triangulation_3_013_01_4.html#a32a1d3dede6618d78653cc7503abbf3f',1,'FoliatedTriangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['find_5fmax_5ftimevalue_63',['find_max_timevalue',['../_foliated__triangulation_8hpp.html#a67d4fd2686d5334f29edd9b55a474bab',1,'FoliatedTriangulations']]],

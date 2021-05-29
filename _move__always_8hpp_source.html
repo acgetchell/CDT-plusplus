@@ -89,13 +89,13 @@ $(function() {
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_move__strategy_8hpp.html">Move_strategy.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dimension&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_strategy.html">MoveStrategy</a>&lt;MOVE_ALWAYS, dimension&gt;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType&gt;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html">   22</a></span>&#160;<span class="keyword">class </span><a class="code" href="class_move_strategy.html">MoveStrategy</a>&lt;MOVE_ALWAYS, ManifoldType&gt;  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> m_passes{1};</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> m_checkpoint{1};</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="class_move__tracker.html">Move_tracker&lt;dimension&gt;</a>       m_attempted_moves;</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <a class="code" href="class_move__tracker.html">Move_tracker&lt;dimension&gt;</a>       m_successful_moves;</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="struct_move__tracker.html">Move_tracker&lt;ManifoldType&gt;</a> m_attempted_moves;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <a class="code" href="struct_move__tracker.html">Move_tracker&lt;ManifoldType&gt;</a> m_failed_moves;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160; </div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160; <span class="keyword">public</span>:</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  ~<a class="code" href="class_move_strategy.html">MoveStrategy</a>() = <span class="keywordflow">default</span>;</div>
@@ -106,7 +106,7 @@ $(function() {
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="class_move_strategy.html">MoveStrategy</a>(<a class="code" href="class_move_strategy.html">MoveStrategy</a>&amp;&amp; other) noexcept = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a7a31a52d08564f217e5977bd928b95b3">   43</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a7a31a52d08564f217e5977bd928b95b3">operator=</a>(<a class="code" href="class_move_strategy.html">MoveStrategy</a> other) noexcept -&gt; <a class="code" href="class_move_strategy.html">MoveStrategy</a>&amp;</div>
+<div class="line"><a name="l00043"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#ad02d9493c4ddf54ba25fb733f9bed195">   43</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#ad02d9493c4ddf54ba25fb733f9bed195">operator=</a>(<a class="code" href="class_move_strategy.html">MoveStrategy</a> other) noexcept -&gt; <a class="code" href="class_move_strategy.html">MoveStrategy</a>&amp;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(*<span class="keyword">this</span>, other);</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    <span class="keywordflow">return</span> *<span class="keyword">this</span>;</div>
@@ -123,192 +123,139 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(t_first.m_passes, t_second.m_passes);</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(t_first.m_checkpoint, t_second.m_checkpoint);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;    <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(t_first.m_attempted_moves, t_second.m_attempted_moves);</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(t_first.m_successful_moves, t_second.m_successful_moves);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;    <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(t_first.m_failed_moves, t_second.m_failed_moves);</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  }</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
-<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561">   64</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561">passes</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_passes; }</div>
+<div class="line"><a name="l00064"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a3ca79b3e5cd6bbb83a57fc7f12a31de4">   64</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a3ca79b3e5cd6bbb83a57fc7f12a31de4">passes</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_passes; }</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#afb4fdaab4a643fc67a8ab5e14aa16308">   67</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#afb4fdaab4a643fc67a8ab5e14aa16308">checkpoint</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_checkpoint; }</div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a464d2c7b896f8b964c282e10928b6c07">   67</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a464d2c7b896f8b964c282e10928b6c07">checkpoint</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_checkpoint; }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
-<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#ab5b108a45d9298115f26456f85cd08a7">   70</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#ab5b108a45d9298115f26456f85cd08a7">get_attempted</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_attempted_moves; }</div>
+<div class="line"><a name="l00070"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a5a9ce91cc316de3eb978df355562af95">   70</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a5a9ce91cc316de3eb978df355562af95">get_attempted</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_attempted_moves; }</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160; </div>
-<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a57855ec4f1d39a365f536c10674c072c">   73</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a57855ec4f1d39a365f536c10674c072c">get_successful</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_successful_moves; }</div>
+<div class="line"><a name="l00073"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#abd95e28aa31804c90792d18269ab7cd9">   73</a></span>&#160;  <span class="keyword">auto</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#abd95e28aa31804c90792d18269ab7cd9">get_successful</a>()<span class="keyword"> const </span>{ <span class="keywordflow">return</span> m_failed_moves; }</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160; </div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType, std::size_t dim = dimension,</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;            std::enable_if_t&lt;dim == 3, int&gt; = 0&gt;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keyword">auto</span> operator()(ManifoldType&amp;&amp; t_manifold) -&gt; ManifoldType</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  {</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    fmt::print(<span class="stringliteral">&quot;Starting Move Always algorithm ...\n&quot;</span>);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// Start the move command</span></div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    <a class="code" href="class_move_command.html">MoveCommand</a> command(std::forward&lt;ManifoldType&gt;(t_manifold));</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160; </div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    fmt::print(<span class="stringliteral">&quot;Making random moves ...\n&quot;</span>);</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160; </div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="comment">// Loop through passes</span></div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> pass_number = 1; pass_number &lt;= m_passes; ++pass_number)</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      fmt::print(<span class="stringliteral">&quot;Pass {}\n&quot;</span>, pass_number);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keyword">auto</span> total_simplices_this_pass = command.get_manifold().N3();</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="comment">// Make a random move per simplex</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move_attempt = 0; move_attempt &lt; total_simplices_this_pass;</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;           ++move_attempt)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="comment">// Pick a move to attempt</span></div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keyword">auto</span> move_choice = <a class="code" href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a>(0, NUMBER_OF_3D_MOVES - 1);</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="keyword">auto</span> operator()(ManifoldType&amp; t_manifold) -&gt; ManifoldType</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    fmt::print(<span class="stringliteral">&quot;Starting Move Always algorithm in {}+1 dimensions ...\n&quot;</span>,</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;               ManifoldType::dimension - 1);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160; </div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// Start the move command</span></div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <a class="code" href="class_move_command.html">MoveCommand</a> command(std::forward&lt;ManifoldType&gt;(t_manifold));</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160; </div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    fmt::print(<span class="stringliteral">&quot;Making random moves ...\n&quot;</span>);</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160; </div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="comment">// Loop through passes</span></div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> pass_number = 1; pass_number &lt;= m_passes; ++pass_number)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      fmt::print(<span class="stringliteral">&quot;Pass {}\n&quot;</span>, pass_number);</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <span class="keyword">auto</span> total_simplices_this_pass = command.get_manifold().N3();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="comment">// Make a random move per simplex</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move_attempt = 0; move_attempt &lt; total_simplices_this_pass;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;           ++move_attempt)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        <span class="comment">// Pick a move to attempt</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keyword">auto</span> move_choice = <a class="code" href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a>(</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;            0, <a class="code" href="_move__command_8hpp.html#aea8cfabb511549696761eb37befcd125">moves_per_dimension</a>(ManifoldType::dimension) - 1);</div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        fmt::print(<span class="stringliteral">&quot;Move choice = {}\n&quot;</span>, move_choice);</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">if</span> (move_choice == 0)</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        <span class="keywordflow">if</span> (move_choice == 0 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        {</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;          <span class="keyword">auto</span> move = Moves::do_23_move;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;          <span class="comment">//          get_attempted().two_three_moves() += 1;</span></div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;          m_attempted_moves[0] += 1;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;          command.enqueue(move);</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        }</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">if</span> (move_choice == 1)</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">if</span> (move_choice == 1 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        {</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;          <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#ae6c5c87b078a2668da7b58c020b885fd">Moves::do_32_move</a>;</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;          <span class="comment">//          get_attempted().three_two_moves()++;</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;          m_attempted_moves[1] += 1;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;          command.enqueue(move);</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        }</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">if</span> (move_choice == 2)</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;        <span class="keywordflow">if</span> (move_choice == 2 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;        {</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;          <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">Moves::do_26_move</a>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;          <span class="comment">//          get_attempted().two_six_moves()++;</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;          m_attempted_moves[2] += 1;</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;          command.enqueue(move);</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        }</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160; </div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">if</span> (move_choice == 3)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;        <span class="keywordflow">if</span> (move_choice == 3 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;          <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#ae5a221f9b4332f93e1f7634e5efd152f">Moves::do_62_move</a>;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;          <span class="comment">//          get_attempted().six_two_moves()++;</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;          m_attempted_moves[3] += 1;</div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;          command.enqueue(move);</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        }</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160; </div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">if</span> (move_choice == 4)</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        <span class="keywordflow">if</span> (move_choice == 4 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        {</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;          <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#af0719da2080374033a15e6870f747ad2">Moves::do_44_move</a>;</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;          <span class="comment">//          get_attempted().four_four_moves()++;</span></div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;          m_attempted_moves[4] += 1;</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;          command.enqueue(move);</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        }</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        command.execute();</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;      }</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    }</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <span class="keywordflow">return</span> command.get_results();</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  }</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;};</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160; </div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways3</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, 3&gt;</a>;</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways4</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, 4&gt;</a>;</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;<span class="comment">// template &lt;int dimension&gt;</span></div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;<span class="comment">// class MoveAlways</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;<span class="comment">//};</span></div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">// template &lt;&gt;</span></div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;<span class="comment">// class MoveAlways&lt;3&gt; final : public MoveStrategy3</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;<span class="comment">//{</span></div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;<span class="comment">// public:</span></div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;<span class="comment">//  //  /// @brief Default constructor using default values</span></div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;<span class="comment">//  //  MoveAlways() = default;</span></div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;<span class="comment">//  /// @brief Set passes and checkpoint with MoveAlgorithm 2-argument</span></div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">//  constructor</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;<span class="comment">//  /// @param t_number_of_passes Number of passes through triangulation</span></div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;<span class="comment">//  /// @param t_checkpoint Number of passes per checkpoint</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">//  MoveAlways(const std::size_t t_number_of_passes,</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;<span class="comment">//             const std::size_t t_checkpoint)</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;<span class="comment">//      : MoveStrategy(t_number_of_passes, t_checkpoint)</span></div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;<span class="comment">//#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;<span class="comment">//    fmt::print(&quot;{} called.\n&quot;, __PRETTY_FUNCTION__);</span></div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="comment">//  }</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;<span class="comment">//  /// @brief Call operator</span></div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="comment">//  /// @tparam T Type of manifold</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="comment">//  /// @param t_universe Manifold on which to operate</span></div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="comment">//  /// @return Manifold upon which moves have been completed</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment">//  template &lt;typename T&gt;</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="comment">//  auto operator()(T&amp;&amp; t_universe) -&gt; decltype(t_universe)</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;<span class="comment">//  {</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;<span class="comment">//#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;<span class="comment">//    fmt::print(&quot;{} called.\n&quot;, __PRETTY_FUNCTION__);</span></div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="comment">//    fmt::print(&quot;Starting Move Always algorithm ...\n&quot;);</span></div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">//    // Populate member data</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;<span class="comment">//    m_universe = std::forward&lt;decltype(t_universe)&gt;(t_universe);</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="comment">//    m_N1_TL    = m_universe.N1_TL();</span></div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;<span class="comment">//    m_N3_31_13 = m_universe.N3_31_13();</span></div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;<span class="comment">//    m_N3_22    = m_universe.N3_22();</span></div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;<span class="comment">//    fmt::print(&quot;Making random moves ...\n&quot;);</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;<span class="comment">//    // Loop through m_passes</span></div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="comment">//    for (std::size_t pass_number = 1; pass_number &lt;= m_passes; ++pass_number)</span></div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="comment">//    {</span></div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;<span class="comment">//      fmt::print(&quot;Pass {}\n&quot;, pass_number);</span></div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="comment">//      auto total_simplices_this_pass = CurrentTotalSimplices();</span></div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;<span class="comment">//      // Loop through CurrentTotalSimplices</span></div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;<span class="comment">//      for (auto move_attempt = 0; move_attempt &lt; total_simplices_this_pass;</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="comment">//           ++move_attempt)</span></div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;<span class="comment">//        // Pick a move to attempt</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="comment">//        auto move_choice = generate_random_int(0, 4);</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;<span class="comment">//#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;<span class="comment">//        fmt::print(&quot;Move choice = {}\n&quot;, move_choice);</span></div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="comment">//#endif</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;<span class="comment">//        // Convert std::size_t move_choice to move_type enum</span></div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;<span class="comment">//        auto move = static_cast&lt;manifold3_moves::move_type&gt;(move_choice);</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;<span class="comment">//        make_move(move);</span></div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;<span class="comment">//      }  // End loop through CurrentTotalSimplices</span></div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="comment">//      // Do stuff on checkpoint_</span></div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;<span class="comment">//      if ((pass_number % m_checkpoint) == 0)</span></div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="comment">//      {</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;<span class="comment">//        fmt::print(&quot;Writing checkpoint file...\n&quot;);</span></div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;<span class="comment">//        // write results to a file</span></div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;<span class="comment">//        write_file(m_universe, topology_type::SPHERICAL, m_universe.dim(),</span></div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;<span class="comment">//                   m_universe.N3(), m_universe.max_time());</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;<span class="comment">//      }</span></div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;<span class="comment">//    }  // End loop through m_passes</span></div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;<span class="comment">//    // output results</span></div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;<span class="comment">//    fmt::print(&quot;Run results:\n&quot;);</span></div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;<span class="comment">//    print_run();</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;<span class="comment">//    return m_universe;</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;<span class="comment">//  }  // operator()</span></div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;<span class="comment">//};   // MoveAlways</span></div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;<span class="comment">//</span></div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;<span class="comment">// using MoveAlways3 = MoveAlways&lt;3&gt;;</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVE_ALWAYS_HPP_</span></div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        m_failed_moves = command.get_errors();</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      }</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    }</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <a class="code" href="_utilities_8hpp.html#a1e8d2acd0b14b01a35aef663d8a16c83">print_results</a>();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <span class="keywordflow">return</span> command.get_results();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  }</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00147"></a><span class="lineno"><a class="line" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#aab5a25898006618222b2ec2f5b81cd94">  147</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#aab5a25898006618222b2ec2f5b81cd94">print_results</a>()</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;  {</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;    {</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      fmt::print(<span class="stringliteral">&quot;===Results===\n&quot;</span>);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      fmt::print(<span class="stringliteral">&quot;(2,3) moves: {} attempted and {} failed\n&quot;</span>,</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;                 m_attempted_moves.two_three_moves(),</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;                 m_failed_moves.two_three_moves());</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      fmt::print(<span class="stringliteral">&quot;(3,2) moves: {} attempted and {} failed\n&quot;</span>,</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;                 m_attempted_moves.three_two_moves(),</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;                 m_failed_moves.three_two_moves());</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;      fmt::print(<span class="stringliteral">&quot;(2,6) moves: {} attempted and {} failed\n&quot;</span>,</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;                 m_attempted_moves.two_six_moves(),</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;                 m_failed_moves.two_six_moves());</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      fmt::print(<span class="stringliteral">&quot;(6,2) moves: {} attempted and {} failed\n&quot;</span>,</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                 m_attempted_moves.six_two_moves(),</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                 m_failed_moves.six_two_moves());</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      fmt::print(<span class="stringliteral">&quot;(4,4) moves: {} attempted and {} failed\n&quot;</span>,</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                 m_attempted_moves.four_four_moves(),</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                 m_failed_moves.four_four_moves());</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  }</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;};</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways3</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, Manifolds::Manifold3&gt;</a>;</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways4</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, Manifolds::Manifold4&gt;</a>;</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVE_ALWAYS_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4_html_ab5b108a45d9298115f26456f85cd08a7"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#ab5b108a45d9298115f26456f85cd08a7">MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::get_attempted</a></div><div class="ttdeci">auto get_attempted() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00070">Move_always.hpp:70</a></div></div>
+<div class="ttc" id="a_move__command_8hpp_html_aea8cfabb511549696761eb37befcd125"><div class="ttname"><a href="_move__command_8hpp.html#aea8cfabb511549696761eb37befcd125">moves_per_dimension</a></div><div class="ttdeci">constexpr auto moves_per_dimension(Int_precision dim) -&gt; Int_precision</div><div class="ttdoc">Determine ergodic moves for a given dimension at compile-time.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00023">Move_command.hpp:23</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_af69a4c32f936e5234f5f9e9171b672cb"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#af69a4c32f936e5234f5f9e9171b672cb">Moves::do_26_move</a></div><div class="ttdeci">auto do_26_move(Manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,6) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00205">Ergodic_moves_3.hpp:205</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_ae6c5c87b078a2668da7b58c020b885fd"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ae6c5c87b078a2668da7b58c020b885fd">Moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(Manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00133">Ergodic_moves_3.hpp:133</a></div></div>
-<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:20</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_af11649ce763de4d43a654876ab4f394b"><div class="ttname"><a href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType const t_min_value, IntegerType const t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00293">Utilities.hpp:293</a></div></div>
-<div class="ttc" id="aclass_move__tracker_html"><div class="ttname"><a href="class_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00033">Move_strategy.hpp:33</a></div></div>
-<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4_html_a57855ec4f1d39a365f536c10674c072c"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a57855ec4f1d39a365f536c10674c072c">MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::get_successful</a></div><div class="ttdeci">auto get_successful() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00073">Move_always.hpp:73</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a1e8d2acd0b14b01a35aef663d8a16c83"><div class="ttname"><a href="_utilities_8hpp.html#a1e8d2acd0b14b01a35aef663d8a16c83">print_results</a></div><div class="ttdeci">void print_results(Manifold const &amp;t_universe) noexcept</div><div class="ttdoc">Print out runtime results.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00149">Utilities.hpp:149</a></div></div>
+<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00070">Move_command.hpp:70</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_af11649ce763de4d43a654876ab4f394b"><div class="ttname"><a href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType const t_min_value, IntegerType const t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00287">Utilities.hpp:287</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_a5a9ce91cc316de3eb978df355562af95"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a5a9ce91cc316de3eb978df355562af95">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::get_attempted</a></div><div class="ttdeci">auto get_attempted() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00070">Move_always.hpp:70</a></div></div>
 <div class="ttc" id="a_move__strategy_8hpp_html"><div class="ttname"><a href="_move__strategy_8hpp.html">Move_strategy.hpp</a></div><div class="ttdoc">Base class for move algorithms on Delaunay Triangulations.</div></div>
+<div class="ttc" id="astruct_move__tracker_html"><div class="ttname"><a href="struct_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00033">Move_command.hpp:33</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_a464d2c7b896f8b964c282e10928b6c07"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a464d2c7b896f8b964c282e10928b6c07">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::checkpoint</a></div><div class="ttdeci">auto checkpoint() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00067">Move_always.hpp:67</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_ae5a221f9b4332f93e1f7634e5efd152f"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ae5a221f9b4332f93e1f7634e5efd152f">Moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(Manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00392">Ergodic_moves_3.hpp:392</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_af0719da2080374033a15e6870f747ad2"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#af0719da2080374033a15e6870f747ad2">Moves::do_44_move</a></div><div class="ttdeci">auto do_44_move(Manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (4,4) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00468">Ergodic_moves_3.hpp:468</a></div></div>
-<div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00097">Move_strategy.hpp:97</a></div></div>
-<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4_html_a7a31a52d08564f217e5977bd928b95b3"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#a7a31a52d08564f217e5977bd928b95b3">MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::operator=</a></div><div class="ttdeci">auto operator=(MoveStrategy other) noexcept -&gt; MoveStrategy &amp;</div><div class="ttdoc">Copy/Move Assignment operator.</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00043">Move_always.hpp:43</a></div></div>
+<div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00030">Move_strategy.hpp:30</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00029">Settings.hpp:29</a></div></div>
-<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4_html_afb4fdaab4a643fc67a8ab5e14aa16308"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#afb4fdaab4a643fc67a8ab5e14aa16308">MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::checkpoint</a></div><div class="ttdeci">auto checkpoint() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00067">Move_always.hpp:67</a></div></div>
-<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4_html_af66d10190a7c9440c5c1b67c47546561"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01dimension_01_4.html#af66d10190a7c9440c5c1b67c47546561">MoveStrategy&lt; MOVE_ALWAYS, dimension &gt;::passes</a></div><div class="ttdeci">auto passes() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00064">Move_always.hpp:64</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_ad02d9493c4ddf54ba25fb733f9bed195"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#ad02d9493c4ddf54ba25fb733f9bed195">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator=</a></div><div class="ttdeci">auto operator=(MoveStrategy other) noexcept -&gt; MoveStrategy &amp;</div><div class="ttdoc">Copy/Move Assignment operator.</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00043">Move_always.hpp:43</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html_af7450092e67d362692353a8b378059b6"><div class="ttname"><a href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00059">Geometry.hpp:59</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_a3ca79b3e5cd6bbb83a57fc7f12a31de4"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a3ca79b3e5cd6bbb83a57fc7f12a31de4">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::passes</a></div><div class="ttdeci">auto passes() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00064">Move_always.hpp:64</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_aab5a25898006618222b2ec2f5b81cd94"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#aab5a25898006618222b2ec2f5b81cd94">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::print_results</a></div><div class="ttdeci">void print_results()</div><div class="ttdoc">Display results of run.</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00147">Move_always.hpp:147</a></div></div>
+<div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_abd95e28aa31804c90792d18269ab7cd9"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#abd95e28aa31804c90792d18269ab7cd9">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::get_successful</a></div><div class="ttdeci">auto get_successful() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00073">Move_always.hpp:73</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon May 24 2021 06:34:15 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat May 29 2021 23:15:47 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
