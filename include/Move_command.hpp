@@ -133,6 +133,7 @@ class MoveCommand
       else
       {
         fmt::print("{}\n", result.error());
+        // Track failed moves
         parse_unexpected(result.error());
       }
     }
@@ -175,6 +176,7 @@ class MoveCommand
     }
     else
     {
+      // 4D
       if (error.find("(2,4)") != UnexpectedType::npos)
       {
         m_failed_moves.two_four_moves() += 1;
@@ -228,6 +230,7 @@ class MoveCommand
       }
       else
       {
+        // 4D
         fmt::print(
             "There were {} failed (2,4) moves and {} failed (4,2) moves and {} "
             "failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) "

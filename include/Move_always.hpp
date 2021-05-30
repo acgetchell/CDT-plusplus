@@ -148,7 +148,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   {
     if (ManifoldType::dimension == 3)
     {
-      fmt::print("===Results===\n");
+      fmt::print("=== Results ===\n");
       fmt::print("(2,3) moves: {} attempted and {} failed\n",
                  m_attempted_moves.two_three_moves(),
                  m_failed_moves.two_three_moves());

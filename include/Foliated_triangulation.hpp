@@ -1174,7 +1174,7 @@ namespace FoliatedTriangulations
     /// @return Container of all the finite simplices in the triangulation
     [[nodiscard]] auto collect_cells() const -> std::vector<Cell_handle_t<3>>
     {
-      Expects(get_delaunay().tds().is_valid(true));
+      Expects(this->is_tds_valid());
       std::vector<Cell_handle_t<3>> init_cells;
       init_cells.reserve(number_of_finite_cells());
       //    Delaunay3::Finite_cells_iterator cit;

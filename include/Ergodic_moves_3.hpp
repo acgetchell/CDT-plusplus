@@ -439,7 +439,9 @@ namespace Moves
     {
       incident_cells.emplace_back(circulator++);
     } while (circulator != t_edge_candidate.first);
+#ifndef NDEBUG
     fmt::print("Edge has {} incident cells.\n", incident_cells.size());
+#endif
 
     if (incident_cells.size() == 4) { return incident_cells; }
 
