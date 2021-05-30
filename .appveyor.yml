@@ -41,14 +41,14 @@ install:
   - if exist c:\tools\vcpkg\packages\ rmdir /q /s c:\tools\vcpkg\packages
   - cmake --version
   # Install required libraries in classic mode
-#  - set VCPKG_INSTALL_ROOT=%APPVEYOR_BUILD_FOLDER%\vcpkg_installed
-#  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% catch2 docopt date fmt ms-gsl eigen3 pcg tbb tl-expected
+  - set VCPKG_INSTALL_ROOT=%APPVEYOR_BUILD_FOLDER%\vcpkg_installed
+  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% catch2 docopt date fmt ms-gsl eigen3 pcg tbb tl-expected
   # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
-#  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% --recurse yasm-tool:x86-windows
-#  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% cgal
+  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% --recurse yasm-tool:x86-windows
+  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% cgal
   # Upgrade required libraries
-#  - vcpkg upgrade --no-dry-run --x-install-root=%VCPKG_INSTALL_ROOT%
-#  - vcpkg list --x-install-root=%VCPKG_INSTALL_ROOT%
+  - vcpkg upgrade --no-dry-run --x-install-root=%VCPKG_INSTALL_ROOT%
+  - vcpkg list --x-install-root=%VCPKG_INSTALL_ROOT%
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
@@ -68,10 +68,10 @@ build:
 
 before_build:
   - cd %APPVEYOR_BUILD_FOLDER%
-  - vcpkg install --feature-flags=manifests
+#  - vcpkg install --feature-flags=manifests
 
 build_script:
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -S . -B build
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D VCPKG_MANIFEST_MODE=OFF -S . -B build
   - cmake --build build
 
 #on_success:
