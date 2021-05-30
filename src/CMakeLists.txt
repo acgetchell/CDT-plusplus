@@ -45,6 +45,35 @@ if(UNIX)
   target_compile_features(cdt-gv PRIVATE cxx_std_17)
 endif()
 
+add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
+if (WIN32)
+  target_link_libraries(
+      cdt-opt
+      PRIVATE project_options
+              project_warnings
+              docopt
+              date::date
+              date::date-tz
+              fmt::fmt-header-only
+              Eigen3::Eigen
+              TBB::tbb
+              CGAL::CGAL)
+  else()
+  target_link_libraries(
+      cdt-opt
+      PRIVATE project_options
+              project_warnings
+              docopt_s
+              date::date
+              date::date-tz
+              fmt::fmt-header-only
+              Eigen3::Eigen
+              TBB::tbb
+              CGAL::CGAL
+  )
+endif ()
+target_compile_features(cdt-opt PRIVATE cxx_std_17)
+
 #
 # Tests    ##
 #
@@ -52,10 +81,13 @@ endif()
 # CTest basic testing Parameter initializer program
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
 set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
+
 if(UNIX)
   add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
   set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
 endif()
 
+add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>)
+set_tests_properties(CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started")
 # add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>) set_tests_properties( CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION
 # "64000 simplices on 16 timeslices desired.")

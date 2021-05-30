@@ -82,7 +82,7 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
   }
 }
 
-SCENARIO("Invoking a move with a lambda", "[move command]")
+SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
 {
   GIVEN("A valid manifold.")
   {

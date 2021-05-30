@@ -5,5 +5,7 @@
 
 cd ..
 rm -rf build/
-cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
+cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
 cmake --build build
+cd build || exit
+ctest --output-on-failure

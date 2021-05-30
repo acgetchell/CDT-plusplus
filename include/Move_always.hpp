@@ -88,7 +88,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
     // Loop through passes
     for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
-      fmt::print("Pass {}\n", pass_number);
+      fmt::print("=== Pass {} ===\n", pass_number);
       auto total_simplices_this_pass = command.get_manifold().N3();
       // Make a random move per simplex
       for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
@@ -148,7 +148,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   {
     if (ManifoldType::dimension == 3)
     {
-      fmt::print("=== Results ===\n");
+      fmt::print("=== Move Results ===\n");
       fmt::print("(2,3) moves: {} attempted and {} failed\n",
                  m_attempted_moves.two_three_moves(),
                  m_failed_moves.two_three_moves());

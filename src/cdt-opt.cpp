@@ -1,70 +1,68 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2016-2021 Adam Getchell
-///
-/// Full run-through with default options used to calculate
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2021 Adam Getchell
+ ******************************************************************************/
+
+/// @file cdt-opt.cpp
+/// @brief Outputs values to determine optimizations
+/// @author Adam Getchell
+/// @details Full run-through with default options used to calculate
 /// optimal values for thermalization, etc. A simpler version
 /// that encompasses the entire lifecycle. Also suitable for
 /// scripting parallel runs, e.g.
 ///
 /// ./cdt-opt 2>>errors 1>>output &
-///
-/// \done Invoke Metropolis algorithm
-/// \todo Print out graph of time-value vs. volume vs. pass number
-
-/// @file cdt-opt.cpp
-/// @brief Outputs values to determine optimizations
-/// @author Adam Getchell
+/// @todo Invoke Metropolis algorithm
+/// @todo Print out graph of time-value vs. volume vs. pass number
 
 //#include <utility>
 
-#include <Metropolis.hpp>
-#include <Simulation.hpp>
+#include <Move_always.hpp>
 
 using namespace std;
 
-int main()
+auto main() -> int
 {
-  // https://stackoverflow.com/questions/9371238/why-is-reading-lines-from-stdin-much-slower-in-c-than-python?rq=1
-  ios_base::sync_with_stdio(false);
-  cout << "cdt-opt started at " << currentDateTime() << "\n";
-  constexpr size_t simplices  = 64000;
-  constexpr size_t timeslices = 16;
+  fmt::print("cdt-opt started at {}\n", currentDateTime());
+  constexpr Int_precision simplices  = 64;
+  constexpr Int_precision timeslices = 3;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
-  constexpr long double alpha = 0.6;
-  constexpr long double k     = 1.1;
+  //  constexpr long double alpha = 0.6;
+  //  constexpr long double k     = 1.1;
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
-  constexpr long double lambda     = 0.1;
-  constexpr size_t      passes     = 100;
-  constexpr size_t      checkpoint = 10;
-
-  // Initialize simulation
-  Simulation my_simulation;
+  //  constexpr long double lambda     = 0.1;
+  constexpr Int_precision passes     = 10;
+  constexpr Int_precision checkpoint = 10;
 
   // Initialize the Metropolis algorithm
-  Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
+  //  Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
+  MoveAlways3 run(passes, checkpoint);
 
   // Make a triangulation
-  SimplicialManifold universe(simplices, timeslices);
+  Manifolds::Manifold3 universe(simplices, timeslices);
 
-  // Queue up simulation with desired algorithm
-  my_simulation.queue(
-      [&my_algorithm](SimplicialManifold s) { return my_algorithm(s); });
-  // Measure results
-  //  my_simulation.queue(
-  //      [](SimplicialManifold s) { return VolumePerTimeslice(s); });
-  // my_simulation.queue(print_results())
+  // Look at triangulation
+  universe.print();
+  universe.print_details();
+  universe.print_volume_per_timeslice();
 
-  // Run it
-  universe = my_simulation.start(std::forward<SimplicialManifold>(universe));
+  // Run algorithm on triangulation
+  auto result = run(universe);
 
-  auto max_timevalue = universe.geometry->max_timevalue().get();
+  auto max_timevalue = result.max_time();
 
   if (max_timevalue < timeslices)
   {
-    cout << "You wanted " << timeslices << " timeslices, but only got "
-         << max_timevalue << " .\n";
+    fmt::print("You wanted {} timeslices, but only got {}.\n", timeslices,
+               max_timevalue);
   }
+
+  // Print results
+  fmt::print("=== Run Results ===\n");
+  result.print();
+  result.print_details();
+  result.print_volume_per_timeslice();
 
   return 0;
 }

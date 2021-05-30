@@ -96,7 +96,7 @@ namespace Moves
       if (try_23_move(t_manifold, cell)) { return t_manifold; }
     }
     // We've run out of (2,2) cells
-    return tl::make_unexpected("No (2,3) move is possible.");
+    return tl::make_unexpected("No (2,3) move possible.");
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
@@ -494,7 +494,7 @@ namespace Moves
       // Try next edge
     }
     // We've run out of edges to try
-    return tl::make_unexpected("No (4,4) move is possible.");
+    return tl::make_unexpected("No (4,4) move possible.");
   }  // do_44_move()
 
   /// @brief Check move correctness
