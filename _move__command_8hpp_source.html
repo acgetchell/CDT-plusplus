@@ -191,115 +191,118 @@ $(function() {
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      {</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        fmt::print(<span class="stringliteral">&quot;{}\n&quot;</span>, result.error());</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <a class="code" href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">parse_unexpected</a>(result.error());</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;      }</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    }</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;    fmt::print(<span class="stringliteral">&quot;After moves:\n&quot;</span>);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    <a class="code" href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">m_manifold</a>.print_details();</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <a class="code" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">print_errors</a>();</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;  }  <span class="comment">// execute</span></div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> UnexpectedType&gt;</div>
-<div class="line"><a name="l00150"></a><span class="lineno"><a class="line" href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">  150</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">parse_unexpected</a>(UnexpectedType <span class="keyword">const</span> error)</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;  {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    {</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <span class="comment">// 3D</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,3)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      {</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_three_moves() += 1;</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;      }</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(3,2)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.three_two_moves() += 1;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      }</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,6)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      {</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_six_moves() += 1;</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;      }</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(6,2)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      {</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.six_two_moves() += 1;</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      }</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(4,4)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      {</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.four_four_moves() += 1;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;      }</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    }</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    {</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,4)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      {</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_four_moves() += 1;</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      }</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(4,2)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;      {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.four_two_moves() += 1;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      }</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(3,3)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      {</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.three_three_moves() += 1;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      }</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(4,6)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      {</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.four_six_moves() += 1;</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      }</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(6,4)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      {</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.six_four_moves() += 1;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      }</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,8)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_eight_moves() += 1;</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      }</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(8,2)&quot;</span>) != UnexpectedType::npos)</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      {</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.eight_two_moves() += 1;</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;      }</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;    }</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  }  <span class="comment">// parse_unexpected</span></div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160; </div>
-<div class="line"><a name="l00210"></a><span class="lineno"><a class="line" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">  210</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">print_errors</a>()<span class="keyword"> const</span></div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keyword">  </span>{</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keywordflow">if</span> (std::all_of(<a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves.begin(), <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves.end(),</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                    [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; value) { return value == 0; }))</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    {</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;      fmt::print(<span class="stringliteral">&quot;There were no failed moves.\n&quot;</span>);</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    }</div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    {</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      {</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        fmt::print(</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,3) moves and {} failed (3,2) moves and {} &quot;</span></div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;            <span class="stringliteral">&quot;failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) &quot;</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="stringliteral">&quot;moves.\n&quot;</span>,</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[0], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[1],</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[2], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[3],</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[4]);</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;      }</div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      {</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        fmt::print(</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,4) moves and {} failed (4,2) moves and {} &quot;</span></div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;            <span class="stringliteral">&quot;failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) &quot;</span></div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;            <span class="stringliteral">&quot;moves and {} failed (2,8) moves and {} failed (8,2) moves.\n&quot;</span>,</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[0], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[1],</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[2], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[3],</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[4], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[5],  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[6]);                          <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      }</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    }</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;  }</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  <span class="comment">// Functionality for later, perhaps using a Memento</span></div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  <span class="comment">//    virtual void undo();</span></div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="comment">//    virtual void redo();</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;};</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="comment">// Track failed moves</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <a class="code" href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">parse_unexpected</a>(result.error());</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;      }</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;    fmt::print(<span class="stringliteral">&quot;After moves:\n&quot;</span>);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;    <a class="code" href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">m_manifold</a>.print_details();</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;    <a class="code" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">print_errors</a>();</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;  }  <span class="comment">// execute</span></div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160; </div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> UnexpectedType&gt;</div>
+<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">  151</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">parse_unexpected</a>(UnexpectedType <span class="keyword">const</span> error)</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  {</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="comment">// 3D</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,3)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;      {</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_three_moves() += 1;</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      }</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(3,2)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      {</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.three_two_moves() += 1;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      }</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,6)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;      {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_six_moves() += 1;</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      }</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(6,2)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      {</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.six_two_moves() += 1;</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      }</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(4,4)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;      {</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.four_four_moves() += 1;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      }</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;    }</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    {</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      <span class="comment">// 4D</span></div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,4)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      {</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_four_moves() += 1;</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;      }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(4,2)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;      {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.four_two_moves() += 1;</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;      }</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(3,3)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      {</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.three_three_moves() += 1;</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      }</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(4,6)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;      {</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.four_six_moves() += 1;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;      }</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(6,4)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;      {</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.six_four_moves() += 1;</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;      }</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(2,8)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      {</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.two_eight_moves() += 1;</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;      }</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      <span class="keywordflow">if</span> (error.find(<span class="stringliteral">&quot;(8,2)&quot;</span>) != UnexpectedType::npos)</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;      {</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;        <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.eight_two_moves() += 1;</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;      }</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;    }</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  }  <span class="comment">// parse_unexpected</span></div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno"><a class="line" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">  212</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">print_errors</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;<span class="keyword">  </span>{</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> (std::all_of(<a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves.begin(), <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves.end(),</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;                    [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; value) { return value == 0; }))</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    {</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      fmt::print(<span class="stringliteral">&quot;There were no failed moves.\n&quot;</span>);</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    }</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    {</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;      {</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        fmt::print(</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,3) moves and {} failed (3,2) moves and {} &quot;</span></div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;            <span class="stringliteral">&quot;failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) &quot;</span></div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;            <span class="stringliteral">&quot;moves.\n&quot;</span>,</div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[0], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[1],</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[2], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[3],</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[4]);</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;      }</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;      {</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="comment">// 4D</span></div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;        fmt::print(</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,4) moves and {} failed (4,2) moves and {} &quot;</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;            <span class="stringliteral">&quot;failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) &quot;</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;            <span class="stringliteral">&quot;moves and {} failed (2,8) moves and {} failed (8,2) moves.\n&quot;</span>,</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[0], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[1],</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[2], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[3],</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[4], <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[5],  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <a class="code" href="class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27">m_failed_moves</a>.moves[6]);                          <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      }</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  }</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  <span class="comment">// Functionality for later, perhaps using a Memento</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <span class="comment">//    virtual void undo();</span></div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  <span class="comment">//    virtual void redo();</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;};</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_apply__move_8hpp_html"><div class="ttname"><a href="_apply__move_8hpp.html">Apply_move.hpp</a></div><div class="ttdoc">Apply Pachner moves to foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_move__command_8hpp_html_aea8cfabb511549696761eb37befcd125"><div class="ttname"><a href="_move__command_8hpp.html#aea8cfabb511549696761eb37befcd125">moves_per_dimension</a></div><div class="ttdeci">constexpr auto moves_per_dimension(Int_precision dim) -&gt; Int_precision</div><div class="ttdoc">Determine ergodic moves for a given dimension at compile-time.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00023">Move_command.hpp:23</a></div></div>
@@ -314,17 +317,17 @@ $(function() {
 <div class="ttc" id="aclass_move_command_html_a564f1b43111523eb561c87d1fc16c35f"><div class="ttname"><a href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00111">Move_command.hpp:111</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="astruct_move__tracker_html"><div class="ttname"><a href="struct_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00033">Move_command.hpp:33</a></div></div>
-<div class="ttc" id="aclass_move_command_html_a4a9300e8b8887e065ad5a060db541763"><div class="ttname"><a href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">MoveCommand::print_errors</a></div><div class="ttdeci">void print_errors() const</div><div class="ttdoc">Print Move errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00210">Move_command.hpp:210</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a4a9300e8b8887e065ad5a060db541763"><div class="ttname"><a href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">MoveCommand::print_errors</a></div><div class="ttdeci">void print_errors() const</div><div class="ttdoc">Print Move errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00212">Move_command.hpp:212</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a2a59484e037acf39abfec0f1a4233969"><div class="ttname"><a href="class_move_command.html#a2a59484e037acf39abfec0f1a4233969">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand(ManifoldType t_manifold)</div><div class="ttdoc">MoveCommand ctor.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00090">Move_command.hpp:90</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00029">Settings.hpp:29</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a18c916e22375e0b510e15fdfc0856cf2"><div class="ttname"><a href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute all moves in the queue on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00116">Move_command.hpp:116</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html_af7450092e67d362692353a8b378059b6"><div class="ttname"><a href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00059">Geometry.hpp:59</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a1e55bd40cae117aea7bdba57cfb4f5ae"><div class="ttname"><a href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">MoveCommand::m_manifold</a></div><div class="ttdeci">ManifoldType m_manifold</div><div class="ttdoc">The Manifold on which to make the move.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00073">Move_command.hpp:73</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a7c9cf06eda04803ee5ef76d8c4af770e"><div class="ttname"><a href="class_move_command.html#a7c9cf06eda04803ee5ef76d8c4af770e">MoveCommand::m_moves</a></div><div class="ttdeci">std::deque&lt; FunctionType &gt; m_moves</div><div class="ttdoc">The queue of moves to make.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00076">Move_command.hpp:76</a></div></div>
-<div class="ttc" id="aclass_move_command_html_a60c12dcf54425cef3cf5539542e23624"><div class="ttname"><a href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">MoveCommand::parse_unexpected</a></div><div class="ttdeci">void parse_unexpected(UnexpectedType const error)</div><div class="ttdoc">Parse errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00150">Move_command.hpp:150</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a60c12dcf54425cef3cf5539542e23624"><div class="ttname"><a href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">MoveCommand::parse_unexpected</a></div><div class="ttdeci">void parse_unexpected(UnexpectedType const error)</div><div class="ttdoc">Parse errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00151">Move_command.hpp:151</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun May 30 2021 14:32:19 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun May 30 2021 17:06:22 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
