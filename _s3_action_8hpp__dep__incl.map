@@ -1,7 +1,6 @@
 <map id="include/S3Action.hpp" name="include/S3Action.hpp">
-<area shape="rect" id="node1" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="148,5,307,32"/>
-<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="43,80,214,107"/>
-<area shape="rect" id="node5" href="$_s3_action__test_8cpp.html" title="Tests for the S3 action functions." alt="" coords="239,80,413,107"/>
-<area shape="rect" id="node3" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="5,155,124,181"/>
-<area shape="rect" id="node4" href="$cdt_8cpp.html" title="The main executable." alt="" coords="148,155,240,181"/>
+<area shape="rect" id="node1" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="110,5,269,32"/>
+<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="5,80,176,107"/>
+<area shape="rect" id="node4" href="$_s3_action__test_8cpp.html" title="Tests for the S3 action functions." alt="" coords="201,80,375,107"/>
+<area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable." alt="" coords="45,155,137,181"/>
 </map>
