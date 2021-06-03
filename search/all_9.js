@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['k_135',['K',['../class_metropolis.html#a35b56e5aa10d17c18741686dffc802bd',1,'Metropolis']]],
-  ['k_5f_136',['K_',['../class_metropolis.html#afd5327e9b9e25afea0b1df405bfd92f0',1,'Metropolis']]],
-  ['kd_137',['Kd',['../_periodic__3__triangulations_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943',1,'Kd():&#160;Periodic_3_triangulations.hpp'],['../_sphere__d_8hpp.html#a47758eef4587eeb8e5419c87a5cd9943',1,'Kd():&#160;Sphere_d.hpp']]]
+  ['lambda_142',['Lambda',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a2c61962a23693c9919d65eae21b28826',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
+  ['lambda_5f_143',['Lambda_',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ab3ca1136e7935b3c244302f22e97e3b9',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
+  ['license_144',['LICENSE',['../md__l_i_c_e_n_s_e.html',1,'']]]
 ];

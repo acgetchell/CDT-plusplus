@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['half_5fmemory_5falignment_517',['HALF_MEMORY_ALIGNMENT',['../_settings_8hpp.html#aac7a4cff160387d532d83527764d5a80',1,'Settings.hpp']]]
+  ['initial_5fradius_524',['INITIAL_RADIUS',['../_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'INITIAL_RADIUS():&#160;S3Triangulation.hpp'],['../_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'INITIAL_RADIUS():&#160;Settings.hpp']]]
 ];

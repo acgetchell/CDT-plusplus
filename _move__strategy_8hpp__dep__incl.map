@@ -1,9 +1,9 @@
 <map id="include/Move_strategy.hpp" name="include/Move_strategy.hpp">
-<area shape="rect" id="node1" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="101,5,297,32"/>
-<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="11,80,182,107"/>
-<area shape="rect" id="node4" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="229,80,420,107"/>
+<area shape="rect" id="node1" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="171,5,367,32"/>
+<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="81,80,251,107"/>
+<area shape="rect" id="node5" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="276,80,467,107"/>
 <area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,162,97,189"/>
-<area shape="rect" id="node5" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="121,162,240,189"/>
-<area shape="rect" id="node6" href="$_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="264,155,431,196"/>
+<area shape="rect" id="node4" href="$_move__strategies__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="121,155,288,196"/>
+<area shape="rect" id="node6" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="312,162,431,189"/>
 <area shape="rect" id="node7" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="455,162,637,189"/>
 </map>

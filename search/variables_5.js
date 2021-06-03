@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['initial_5fradius_518',['INITIAL_RADIUS',['../_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'INITIAL_RADIUS():&#160;S3Triangulation.hpp'],['../_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'INITIAL_RADIUS():&#160;Settings.hpp']]]
+  ['k_5f_525',['K_',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a48a17aaf4be5fcc77716d41cea08c8dc',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]]
 ];
