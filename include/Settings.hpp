@@ -48,9 +48,9 @@ static inline double constexpr TOLERANCE = 0.01;
 static inline Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
 
 /// Aligns data for ease of access on 64-bit CPUs at the expense of padding
-static inline int constexpr MEMORY_ALIGNMENT = 64;
+static inline int constexpr ALIGNMENT_64_BIT = 64;
 
 /// Except when we only need 32 bits
-static inline int constexpr HALF_MEMORY_ALIGNMENT = 32;
+static inline int constexpr ALIGNMENT_32_BIT = 32;
 
 #endif  // INCLUDE_SETTINGS_HPP_

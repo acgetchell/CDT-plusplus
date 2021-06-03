@@ -1,17 +1,35 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2019-2021 Adam Getchell
-///
-/// Tests for S3 ergodic moves: (2,3), (3,2), (2,6), (6,2), and (4,4)
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2019 Adam Getchell
+ ******************************************************************************/
 
 /// @file Ergodic_moves_3_test.cpp
 /// @brief Tests for ergodic moves on foliated triangulations
 /// @author Adam Getchell
+/// @details Tests for S3 ergodic moves: (2,3), (3,2), (2,6), (6,2), and (4,4)
 
 #include "Ergodic_moves_3.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;
+
+SCENARIO("Move type to integer conversion", "[utility]")
+{
+  GIVEN("A move type.")
+  {
+    auto move23 = Moves::move_type::TWO_THREE;
+    REQUIRE(Moves::as_integer(move23) == 0);
+    auto move32 = Moves::move_type::THREE_TWO;
+    REQUIRE(Moves::as_integer(move32) == 1);
+    auto move26 = Moves::move_type::TWO_SIX;
+    REQUIRE(Moves::as_integer(move26) == 2);
+    auto move62 = Moves::move_type::SIX_TWO;
+    REQUIRE(Moves::as_integer(move62) == 3);
+    auto move44 = Moves::move_type::FOUR_FOUR;
+    REQUIRE(Moves::as_integer(move44) == 4);
+  }
+}
 
 SCENARIO("Perform ergodic moves on 2+1 triangulations",
          "[ergodic moves][!mayfail]")

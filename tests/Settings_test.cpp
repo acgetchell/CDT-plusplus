@@ -40,11 +40,17 @@ SCENARIO("Check settings", "[settings][!mayfail]")
     }
     WHEN("Memory alignment is queried.")
     {
-      auto const alignment = MEMORY_ALIGNMENT;
+      auto const align_64 = ALIGNMENT_64_BIT;
       THEN("The value is 64 bits.")
       {
-        fmt::print("Memory alignment is set to {}.\n", alignment);
-        REQUIRE(alignment == 64);
+        fmt::print("Memory alignment is set to {}.\n", align_64);
+        REQUIRE(align_64 == 64);
+      }
+      auto const align_32 = ALIGNMENT_32_BIT;
+      THEN("The value is 32 bits.")
+      {
+        fmt::print("Memory alignment is set to {}.\n", align_32);
+        REQUIRE(align_32 == 32);
       }
     }
   }

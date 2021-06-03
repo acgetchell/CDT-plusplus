@@ -295,7 +295,7 @@ SCENARIO("Expected points per timeslice", "[utility]")
 
 SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
 {
-  GIVEN("A number not exactly representable in binary")
+  GIVEN("A number not exactly representable in binary.")
   {
     Gmpzf const TEST_VALUE = 0.17;
     WHEN("We convert it to double.")

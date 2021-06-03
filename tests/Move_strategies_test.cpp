@@ -1,15 +1,16 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2015-2021 Adam Getchell
-///
-/// Checks that Metropolis algorithm runs properly.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2015 Adam Getchell
+ ******************************************************************************/
 
 /// @file Move_strategies_test.cpp
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
+/// @todo Write comprehensive Metropolis test suite
 
+#include "Metropolis.hpp"
 #include "Move_always.hpp"
-//#include "Metropolis.hpp"
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -68,7 +69,23 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
   }
 }
 
-SCENARIO("MoveStrategy member functions", "[move strategies]")
+SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
+         "[move strategies]")
+{
+  GIVEN("A Metropolis move strategy.")
+  {
+    WHEN("Special members are examined.")
+    {
+      THEN("It is no-throw destructible.")
+      {
+        REQUIRE(is_nothrow_destructible_v<Metropolis3>);
+        REQUIRE(is_nothrow_destructible_v<Metropolis4>);
+      }
+    }
+  }
+}
+
+SCENARIO("MoveAlways member functions", "[move strategies]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
@@ -76,7 +93,7 @@ SCENARIO("MoveStrategy member functions", "[move strategies]")
     auto constexpr timeslices = static_cast<Int_precision>(4);
     Manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
-    WHEN("A MoveStrategy3 is constructed.")
+    WHEN("A MoveAlways3 is constructed.")
     {
       auto constexpr passes     = static_cast<Int_precision>(10);
       auto constexpr checkpoint = static_cast<Int_precision>(5);

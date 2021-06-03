@@ -27,6 +27,14 @@ namespace Moves
     FOUR_FOUR = 4
   };
 
+  /// @brief Convert enumeration to underlying integer
+  template <typename Enumeration>
+  auto as_integer(Enumeration const value) ->
+      typename std::underlying_type<Enumeration>::type
+  {
+    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
+  }
+
   /// @brief Perform a null move
   ///
   /// @param t_manifold The simplicial manifold

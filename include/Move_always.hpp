@@ -1,7 +1,7 @@
 /*******************************************************************************
  Causal Dynamical Triangulations in C++ using CGAL
 
- Copyright © 2021 Adam Getchell
+ Copyright © 2017 Adam Getchell
  ******************************************************************************/
 
 /// @file Move_always.hpp
@@ -46,6 +46,9 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
     return *this;
   }
 
+  /// @brief Constructor for MoveAlways
+  /// @param t_number_of_passes Number of passes to run
+  /// @param t_checkpoint Number of passes per checkpoint
   [[maybe_unused]] MoveStrategy(Int_precision t_number_of_passes,
                                 Int_precision t_checkpoint)
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
@@ -72,6 +75,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @return The array of successful moves
   auto get_successful() const { return m_failed_moves; }
 
+  /// @brief Call operator
   auto operator()(ManifoldType& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG

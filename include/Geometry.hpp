@@ -96,8 +96,20 @@ struct Geometry<3>
     swap(t_first.N1_SL, t_second.N1_SL);
     swap(t_first.N0, t_second.N0);
   }  // swap
-} __attribute__((aligned(MEMORY_ALIGNMENT)));
+} __attribute__((aligned(ALIGNMENT_64_BIT)));
 
 using Geometry3 = Geometry<3>;
+
+template <>
+struct Geometry<4>
+{
+  Int_precision N4{0};
+  Int_precision N3{0};
+  Int_precision N2{0};
+  Int_precision N1{0};
+  Int_precision N0{0};
+} __attribute__((aligned(ALIGNMENT_32_BIT)));
+
+using Geometry4 = Geometry<4>;
 
 #endif  // CDT_PLUSPLUS_GEOMETRY_HPP
