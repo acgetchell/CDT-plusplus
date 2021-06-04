@@ -68,11 +68,8 @@ var menudata={children:[
 {text:"v",url:"functions_func.html#index_v"},
 {text:"~",url:"functions_func.html#index__7E"}]},
 {text:"Variables",url:"functions_vars.html",children:[
-{text:"a",url:"functions_vars.html#index_a"},
 {text:"d",url:"functions_vars.html#index_d"},
 {text:"g",url:"functions_vars.html#index_g"},
-{text:"k",url:"functions_vars.html#index_k"},
-{text:"l",url:"functions_vars.html#index_l"},
 {text:"m",url:"functions_vars.html#index_m"},
 {text:"n",url:"functions_vars.html#index_n"},
 {text:"o",url:"functions_vars.html#index_o"},

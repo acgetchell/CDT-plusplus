@@ -1,5 +1,5 @@
 <map id="include/Move_strategy.hpp" name="include/Move_strategy.hpp">
-<area shape="rect" id="node1" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="171,5,367,32"/>
+<area shape="rect" id="node1" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="171,5,367,32"/>
 <area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="81,80,251,107"/>
 <area shape="rect" id="node5" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="276,80,467,107"/>
 <area shape="rect" id="node3" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,162,97,189"/>

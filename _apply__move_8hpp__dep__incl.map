@@ -2,7 +2,7 @@
 <area shape="rect" id="node1" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="393,5,576,32"/>
 <area shape="rect" id="node2" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="267,80,476,107"/>
 <area shape="rect" id="node11" href="$_apply__move__test_8cpp.html" title="Applying ergodic moves to manifolds." alt="" coords="500,80,699,107"/>
-<area shape="rect" id="node3" href="$_move__strategy_8hpp.html" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="171,162,367,189"/>
+<area shape="rect" id="node3" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="171,162,367,189"/>
 <area shape="rect" id="node10" href="$_move__command__test_8cpp.html" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="391,155,557,196"/>
 <area shape="rect" id="node4" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="81,244,251,271"/>
 <area shape="rect" id="node7" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="276,244,467,271"/>

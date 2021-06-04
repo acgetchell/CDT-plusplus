@@ -13,25 +13,25 @@
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Randomly selects moves to always perform on triangulations.">
-<polygon fill="#bfbfbf" stroke="black" points="921.09,-526.5 921.09,-545.5 1064.09,-545.5 1064.09,-526.5 921.09,-526.5"/>
-<text text-anchor="middle" x="992.59" y="-533.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_always.hpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="868.09,-526.5 868.09,-545.5 1011.09,-545.5 1011.09,-526.5 868.09,-526.5"/>
+<text text-anchor="middle" x="939.59" y="-533.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_always.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node2 -->
 <g id="node2" class="node">
 <title>Node2</title>
-<g id="a_node2"><a xlink:href="_move__strategy_8hpp.html" target="_top" xlink:title="Base class for move algorithms on Delaunay Triangulations.">
-<polygon fill="white" stroke="black" points="938.09,-470.5 938.09,-489.5 1047.09,-489.5 1047.09,-470.5 938.09,-470.5"/>
-<text text-anchor="middle" x="992.59" y="-477.5" font-family="Helvetica,sans-Serif" font-size="10.00">Move_strategy.hpp</text>
+<g id="a_node2"><a xlink:href="_move__strategy_8hpp.html" target="_top" xlink:title="Template class for move algorithms (strategies) on manifolds.">
+<polygon fill="white" stroke="black" points="885.09,-470.5 885.09,-489.5 994.09,-489.5 994.09,-470.5 885.09,-470.5"/>
+<text text-anchor="middle" x="939.59" y="-477.5" font-family="Helvetica,sans-Serif" font-size="10.00">Move_strategy.hpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M992.59,-526.08C992.59,-519.01 992.59,-508.86 992.59,-499.99"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="996.09,-499.75 992.59,-489.75 989.09,-499.75 996.09,-499.75"/>
+<path fill="none" stroke="midnightblue" d="M939.59,-526.08C939.59,-519.01 939.59,-508.86 939.59,-499.99"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="943.09,-499.75 939.59,-489.75 936.09,-499.75 943.09,-499.75"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
@@ -45,23 +45,8 @@
 <!-- Node2&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node2&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M983.84,-470.08C976.12,-462.22 964.69,-450.57 955.37,-441.08"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="957.68,-438.44 948.18,-433.75 952.69,-443.34 957.68,-438.44"/>
-</g>
-<!-- Node44 -->
-<g id="node44" class="node">
-<title>Node44</title>
-<g id="a_node44"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="1017.59,-414.5 1017.59,-433.5 1075.59,-433.5 1075.59,-414.5 1017.59,-414.5"/>
-<text text-anchor="middle" x="1046.59" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">memory</text>
-</a>
-</g>
-</g>
-<!-- Node2&#45;&gt;Node44 -->
-<g id="edge48" class="edge">
-<title>Node2&#45;&gt;Node44</title>
-<path fill="none" stroke="midnightblue" d="M1001.51,-470.08C1009.37,-462.22 1021.02,-450.57 1030.51,-441.08"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1033.24,-443.3 1037.84,-433.75 1028.29,-438.35 1033.24,-443.3"/>
+<path fill="none" stroke="midnightblue" d="M939.59,-470.08C939.59,-463.01 939.59,-452.86 939.59,-443.99"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="943.09,-443.75 939.59,-433.75 936.09,-443.75 943.09,-443.75"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">

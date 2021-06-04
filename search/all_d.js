@@ -1,7 +1,7 @@
 var searchData=
 [
   ['parse_5funexpected_202',['parse_unexpected',['../class_move_command.html#a60c12dcf54425cef3cf5539542e23624',1,'MoveCommand']]],
-  ['passes_203',['passes',['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a3ca79b3e5cd6bbb83a57fc7f12a31de4',1,'MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::passes()'],['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae04953d13a5ac5788db93a5a0b6da922',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::Passes()']]],
+  ['passes_203',['Passes',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae04953d13a5ac5788db93a5a0b6da922',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::Passes()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a3ca79b3e5cd6bbb83a57fc7f12a31de4',1,'MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::passes()']]],
   ['periodic_5f3_5fcomplex_2ehpp_204',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
   ['periodic_5f3_5ftriangulations_2ehpp_205',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
   ['precision_206',['PRECISION',['../_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528',1,'Settings.hpp']]],

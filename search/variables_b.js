@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['spacelike_5fedges_545',['spacelike_edges',['../struct_geometry_info.html#aeec8eb20c4c29c2e9eabc2bdf8f51404',1,'GeometryInfo']]],
-  ['spacelike_5ffacets_546',['spacelike_facets',['../struct_geometry_info.html#a19ec9abb6d432661658af885760387ca',1,'GeometryInfo']]]
+  ['usage_553',['USAGE',['../cdt-gv_8cpp.html#aa6a50bed89859f476336638bbad895ac',1,'USAGE():&#160;cdt-gv.cpp'],['../cdt_8cpp.html#a6d6e26e7e3af2d4bd47f6582aff224f8',1,'USAGE():&#160;cdt.cpp'],['../initialize_8cpp.html#aa6a50bed89859f476336638bbad895ac',1,'USAGE():&#160;initialize.cpp']]]
 ];

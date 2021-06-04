@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['one_5fthree_543',['one_three',['../struct_geometry_info.html#a4b2b4aab68d1bea6a7baaba5bd00c5e5',1,'GeometryInfo']]]
+  ['spacelike_5fedges_545',['spacelike_edges',['../struct_geometry_info.html#aeec8eb20c4c29c2e9eabc2bdf8f51404',1,'GeometryInfo']]],
+  ['spacelike_5ffacets_546',['spacelike_facets',['../struct_geometry_info.html#a19ec9abb6d432661658af885760387ca',1,'GeometryInfo']]]
 ];

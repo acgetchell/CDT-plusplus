@@ -97,7 +97,7 @@
 <!-- Node4 -->
 <g id="node4" class="node">
 <title>Node4</title>
-<g id="a_node4"><a xlink:href="_move__strategy_8hpp.html" target="_top" xlink:title="Base class for move algorithms on Delaunay Triangulations.">
+<g id="a_node4"><a xlink:href="_move__strategy_8hpp.html" target="_top" xlink:title="Template class for move algorithms (strategies) on manifolds.">
 <polygon fill="white" stroke="black" points="80,-129 80,-148 227,-148 227,-129 80,-129"/>
 <text text-anchor="middle" x="153.5" y="-136" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_strategy.hpp</text>
 </a>

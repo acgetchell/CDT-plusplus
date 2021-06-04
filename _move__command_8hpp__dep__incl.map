@@ -1,6 +1,6 @@
 <map id="include/Move_command.hpp" name="include/Move_command.hpp">
 <area shape="rect" id="node1" title="Do ergodic moves using the Command pattern." alt="" coords="267,5,476,32"/>
-<area shape="rect" id="node2" href="$_move__strategy_8hpp.html" title="Base class for move algorithms on Delaunay Triangulations." alt="" coords="171,87,367,114"/>
+<area shape="rect" id="node2" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="171,87,367,114"/>
 <area shape="rect" id="node9" href="$_move__command__test_8cpp.html" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="391,80,557,121"/>
 <area shape="rect" id="node3" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="81,169,251,196"/>
 <area shape="rect" id="node6" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="276,169,467,196"/>

@@ -326,7 +326,7 @@ var sectionId = 'dynsection-1';
 <!-- Node7 -->
 <g id="node7" class="node">
 <title>Node7</title>
-<g id="a_node7"><a xlink:href="_move__strategy_8hpp.html" target="_top" xlink:title="Base class for move algorithms on Delaunay Triangulations.">
+<g id="a_node7"><a xlink:href="_move__strategy_8hpp.html" target="_top" xlink:title="Template class for move algorithms (strategies) on manifolds.">
 <polygon fill="white" stroke="black" points="429.5,-140 429.5,-159 576.5,-159 576.5,-140 429.5,-140"/>
 <text text-anchor="middle" x="503" y="-147" font-family="Helvetica,sans-Serif" font-size="10.00">include/Move_strategy.hpp</text>
 </a>
