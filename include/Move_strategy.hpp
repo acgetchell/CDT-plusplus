@@ -5,7 +5,7 @@
  ******************************************************************************/
 
 /// @file Move_strategy.hpp
-/// @brief Base class for move algorithms on Delaunay Triangulations
+/// @brief Template class for move algorithms (strategies) on manifolds
 /// @author Adam Getchell
 /// @details Template class for all move algorithms, e.g. Metropolis,
 /// MoveAlways.
@@ -14,7 +14,6 @@
 #define INCLUDE_MOVE_ALGORITHM_HPP_
 
 #include "Move_command.hpp"
-#include <memory>
 
 /// @brief The algorithms available to make ergodic moves
 enum Strategies

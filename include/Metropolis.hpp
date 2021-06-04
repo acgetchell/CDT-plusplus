@@ -29,10 +29,6 @@
 #include "Move_strategy.hpp"
 #include "S3Action.hpp"
 
-// C++ headers
-#include <atomic>
-#include <type_traits>
-
 using Gmpzf = CGAL::Gmpzf;
 
 /// @brief Metropolis-Hastings algorithm strategy
@@ -47,14 +43,14 @@ template <typename ManifoldType>
 class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 {
   /// @brief The length of the timelike edges.
-  long double Alpha_{};
+  long double m_Alpha{};
 
   /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$.
-  long double K_{};
+  long double m_K{};
 
   /// @brief \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
   /// the cosmological constant.
-  long double Lambda_{};
+  long double m_Lambda{};
 
   Int_precision                     m_passes{1};
   Int_precision                     m_checkpoint{1};
@@ -95,9 +91,9 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   [[maybe_unused]] MoveStrategy(long double Alpha, long double K,
                                 long double Lambda, Int_precision passes,
                                 Int_precision checkpoint)
-      : Alpha_(Alpha)
-      , K_(K)
-      , Lambda_(Lambda)
+      : m_Alpha(Alpha)
+      , m_K(K)
+      , m_Lambda(Lambda)
       , m_passes(passes)
       , m_checkpoint{checkpoint}
   {
@@ -109,9 +105,9 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   friend void swap(MoveStrategy& t_first, MoveStrategy& t_second) noexcept
   {
     using std::swap;
-    swap(t_first.Alpha_, t_second.Alpha_);
-    swap(t_first.K_, t_second.K_);
-    swap(t_first.Lambda_, t_second.Lambda_);
+    swap(t_first.m_Alpha, t_second.m_Alpha);
+    swap(t_first.m_K, t_second.m_K);
+    swap(t_first.m_Lambda, t_second.m_Lambda);
     swap(t_first.m_passes, t_second.m_passes);
     swap(t_first.m_checkpoint, t_second.m_checkpoint);
     swap(t_first.m_geometry, t_second.m_geometry);
@@ -121,23 +117,23 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
   /// @brief Gets value of **Alpha_**.
   /// @return Alpha_
-  auto Alpha() const noexcept { return Alpha_; }
+  [[maybe_unused]] auto Alpha() const noexcept { return m_Alpha; }
 
   /// @brief Gets value of **K_**.
   /// @return K_
-  auto K() const noexcept { return K_; }
+  auto K() const noexcept { return m_K; }
 
   /// @brief Gets value of **Lambda_**.
   /// @return Lambda_
-  auto Lambda() const noexcept { return Lambda_; }
+  auto Lambda() const noexcept { return m_Lambda; }
 
   /// @brief Gets value of **passes_**.
   /// @return passes_
-  auto Passes() const noexcept { return m_passes; }
+  [[maybe_unused]] auto Passes() const noexcept { return m_passes; }
 
   /// @brief Gets value of **checkpoint_**.
   /// @return checkpoint_
-  auto Checkpoint() const noexcept { return m_checkpoint; }
+  [[maybe_unused]] auto Checkpoint() const noexcept { return m_checkpoint; }
 
   /// @return The total number of attempted moves
   auto TotalMoves() const noexcept
@@ -162,24 +158,24 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     mpfr_set_default_prec(PRECISION);
 
     // Initialize for MPFR
-    mpfr_t r1, r2, a1;
-    mpfr_inits2(PRECISION, r1, r2, a1, nullptr);
+    mpfr_t r1, r2, a1;                            // NOLINT
+    mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
 
-    mpfr_init_set_ui(r1, this_move, MPFR_RNDD);    // r1 = this_move
-    mpfr_init_set_ui(r2, total_moves, MPFR_RNDD);  // r2 = total_moves
+    mpfr_init_set_ui(r1, this_move, MPFR_RNDD);    // r1 = this_move NOLINT
+    mpfr_init_set_ui(r2, total_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
 
     // The result
-    mpfr_div(a1, r1, r2, MPFR_RNDD);  // a1 = r1/r2
+    mpfr_div(a1, r1, r2, MPFR_RNDD);  // a1 = r1/r2 NOLINT
 
     // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
     //    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
     // MP_Float result = MP_Float(mpfr_get_ld(a1, MPFR_RNDD));
-    auto result = mpfr_get_d(a1, MPFR_RNDD);
+    auto result = mpfr_get_d(a1, MPFR_RNDD);  // NOLINT
 
     // Free memory
-    mpfr_clears(r1, r2, a1, nullptr);
+    mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
     fmt::print("TotalMoves() = {}\n", total_moves);
@@ -200,10 +196,12 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   {
     switch (dimension)
     {
+      default:
+        break;
       case 3: {
         auto currentS3Action =
             S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
-                           m_geometry.N3_22, Alpha_, K_, Lambda_);
+                           m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
         auto newS3Action = static_cast<Gmpzf>(0);
         // auto newS3Action = static_cast<MP_Float>(0);
         switch (move)
@@ -213,28 +211,28 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
             // and a (2,2) simplex
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
-                               m_geometry.N3_22 + 1, Alpha_, K_, Lambda_);
+                               m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
             break;
           case Moves::move_type::THREE_TWO:
             // A (3,2) move removes a timelike edge
             // and a (2,2) simplex
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
-                               m_geometry.N3_22 - 1, Alpha_, K_, Lambda_);
+                               m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
             break;
           case Moves::move_type::TWO_SIX:
             // A (2,6) move adds 2 timelike edges and
             // 2 (1,3) and 2 (3,1) simplices
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
-                               m_geometry.N3_22, Alpha_, K_, Lambda_);
+                               m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
             break;
           case Moves::move_type::SIX_TWO:
             // A (6,2) move removes 2 timelike edges and
             // 2 (1,3) and 2 (3,1) simplices
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
-                               m_geometry.N3_22 - 4, Alpha_, K_, Lambda_);
+                               m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
             break;
           case Moves::move_type::FOUR_FOUR:
 // A (4,4) move changes nothing with respect to the action,
@@ -252,27 +250,28 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
         // if exponent > 0 then e^exponent >=1 so according to Metropolis
         // algorithm return A2=1
-        if (exponent >= 0) return static_cast<double>(1);
+        if (exponent >= 0) { return static_cast<double>(1); }
 
         // Set precision for initialization and assignment functions
         mpfr_set_default_prec(PRECISION);
 
         // Initialize for MPFR
-        mpfr_t r1, a2;
-        mpfr_inits2(PRECISION, r1, a2, nullptr);
+        mpfr_t r1, a2;                            // NOLINT
+        mpfr_inits2(PRECISION, r1, a2, nullptr);  // NOLINT
 
         // Set input parameters and constants to mpfr_t equivalents
-        mpfr_init_set_d(r1, exponent_double, MPFR_RNDD);  // r1 = exponent
+        mpfr_init_set_d(r1, exponent_double,  // NOLINT
+                        MPFR_RNDD);           // r1 = exponent
 
         // e^exponent
-        mpfr_exp(a2, r1, MPFR_RNDD);
+        mpfr_exp(a2, r1, MPFR_RNDD);  // NOLINT
 
         // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
         //    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
-        auto result = mpfr_get_d(a2, MPFR_RNDD);
+        auto result = mpfr_get_d(a2, MPFR_RNDD);  // NOLINT
 
         // Free memory
-        mpfr_clears(r1, a2, nullptr);
+        mpfr_clears(r1, a2, nullptr);  // NOLINT
 
 #ifndef NDEBUG
         //        std::cout << "A2 is " << result << "\n";
@@ -352,31 +351,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    //    std::cout << "Starting Metropolis-Hastings algorithm ...\n";
-    //    // Populate member data
-    //    universe_ = std::move(universe);
-    //    N1_TL_    = universe_.geometry->N1_TL();
-    //    N3_31_13_ = universe_.geometry->N3_31_13();
-    //    N3_22_    = universe_.geometry->N3_22();
-    //
-    //    // Populate attempted_moves_ and successful_moves_
-    //    std::cout << "Making initial moves ...\n";
-    //    try
-    //    {
-    //      // Determine how many actual timeslices there are
-    //      universe_ = std::move(VolumePerTimeslice(universe_));
-    //      // Make a successful move of each type
-    //      make_move(move_type::TWO_THREE);
-    //      make_move(move_type::THREE_TWO);
-    //      make_move(move_type::TWO_SIX);
-    //      make_move(move_type::SIX_TWO);
-    //      print_run();
-    //    }
-    //    catch (std::logic_error& LogicError)
-    //    {
-    //      std::cerr << LogicError.what() << "\n";
-    //      std::cerr << "Metropolis initialization failed ... Exiting.\n";
-    //    }
 
     fmt::print(
         "Starting Metropolis-Hastings algorithm in {}+1 dimensions ...\n",
@@ -419,8 +393,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       fmt::print("Metropolis initialization failed ... exiting.\n");
     }
 
-    std::cout << "Making random moves ...\n";
-    // Loop through passes_
+    fmt::print("Making random moves ...\n");
+    // Loop through m_passes
     for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
       fmt::print("=== Pass {} ===\n", pass_number);
@@ -433,14 +407,13 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         auto move_choice = generate_random_int(
             0, moves_per_dimension(ManifoldType::dimension) - 1);
 #ifndef NDEBUG
-        //        std::cout << "Move choice = " << move_choice << "\n";
         fmt::print("Move choice = {}\n", move_choice);
 #endif
 
         // Convert std::size_t move_choice to move_type enum
         auto move = static_cast<Moves::move_type>(move_choice);
         //        attempt_move(move);
-        if (attempt_move(move)) command.enqueue(move);
+        if (attempt_move(move)) { command.enqueue(move); }
       }  // End loop through CurrentTotalSimplices
 
       // Do the moves
@@ -458,19 +431,11 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         write_file(result, topology_type::SPHERICAL, ManifoldType::dimension,
                    result.N3(), result.max_time(), INITIAL_RADIUS,
                    FOLIATION_SPACING);
-        //        std::cout << "Pass " << pass_number << "\n";
-        // write results to a file
-        //        write_file(universe_, topology_type::SPHERICAL, 3,
-        //                   universe_.geometry->number_of_cells(),
-        //                   universe_.geometry->max_timevalue().get());
       }
-    }  // End loop through passes_
+    }  // End loop through m_passes
     // output results
     fmt::print("=== Run results ===\n");
     print_results();
-    //    std::cout << "Run results: \n";
-    //    print_run();
-    //    return universe_;
     return command.get_results();
   }
 
@@ -497,7 +462,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
                  m_failed_moves.four_four_moves());
     }
   }  // print_results
-};  // Metropolis
+};   // Metropolis
 
 using Metropolis3 = MoveStrategy<METROPOLIS, Manifolds::Manifold3>;
 using Metropolis4 = MoveStrategy<METROPOLIS, Manifolds::Manifold4>;
