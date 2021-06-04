@@ -1,8 +1,8 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2018-2021 Adam Getchell
-///
-/// Tests of geometry data structure
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2018 Adam Getchell
+ ******************************************************************************/
 
 /// @file Geometry_test.cpp
 /// @brief Tests of new geometry data structure

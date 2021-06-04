@@ -1,12 +1,13 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2020-2021 Adam Getchell
-///
-/// Global project settings on integer types and MPFR precision
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2020 Adam Getchell
+ ******************************************************************************/
+
 /// @file Settings.hpp
 /// @brief Global integer and precision settings
 /// @author Adam Getchell
+/// @details Global project settings on integer types and MPFR precision
 
 #ifndef INCLUDE_SETTINGS_HPP_
 #define INCLUDE_SETTINGS_HPP_

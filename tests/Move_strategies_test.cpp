@@ -81,6 +81,43 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
         REQUIRE(is_nothrow_destructible_v<Metropolis3>);
         REQUIRE(is_nothrow_destructible_v<Metropolis4>);
       }
+      THEN("It is no-throw default constructible.")
+      {
+        CHECK(is_nothrow_default_constructible_v<Metropolis3>);
+        CHECK(is_nothrow_default_constructible_v<Metropolis4>);
+      }
+      THEN("It is no-throw copy constructible.")
+      {
+        CHECK(is_nothrow_copy_constructible_v<Metropolis3>);
+        CHECK(is_nothrow_copy_constructible_v<Metropolis4>);
+      }
+      THEN("It is no-throw copy assignable.")
+      {
+        CHECK(is_nothrow_copy_assignable_v<Metropolis3>);
+        CHECK(is_nothrow_copy_assignable_v<Metropolis4>);
+      }
+      THEN("It is no-throw move constructible.")
+      {
+        CHECK(is_nothrow_move_constructible_v<Metropolis3>);
+        CHECK(is_nothrow_move_constructible_v<Metropolis4>);
+      }
+      THEN("It is no-throw move assignable.")
+      {
+        CHECK(is_nothrow_move_assignable_v<Metropolis3>);
+        CHECK(is_nothrow_move_assignable_v<Metropolis4>);
+      }
+      THEN("It is no-throw swappable.")
+      {
+        REQUIRE(is_nothrow_swappable_v<Metropolis3>);
+        REQUIRE(is_nothrow_swappable_v<Metropolis4>);
+      }
+      THEN("It is constructible from 5 parameters.")
+      {
+        REQUIRE(is_constructible_v<Metropolis3, long double, long double,
+                                   long double, Int_precision, Int_precision>);
+        REQUIRE(is_constructible_v<Metropolis4, long double, long double,
+                                   long double, Int_precision, Int_precision>);
+      }
     }
   }
 }

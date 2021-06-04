@@ -1,15 +1,15 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2014-2020 Adam Getchell
-///
-/// Inserts a given number of points into a d-dimensional sphere of
-/// a given radius
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
 
-/// @todo Make the vector compatible with the triangulation data structure
+ Copyright © 2014 Adam Getchell
+ ******************************************************************************/
 
 /// @file Sphere_d.hpp
 /// @brief Functions on d-dimensional Spheres
 /// @author Adam Getchell
+/// @details Inserts a given number of points into a d-dimensional sphere of
+/// a given radius.
+/// @todo Make the vector compatible with the triangulation data structure
 
 #ifndef INCLUDE_SPHERE_D_HPP_
 #define INCLUDE_SPHERE_D_HPP_

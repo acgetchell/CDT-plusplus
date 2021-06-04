@@ -1,7 +1,7 @@
 /*******************************************************************************
  Causal Dynamical Triangulations in C++ using CGAL
 
- Copyright © 2021 Adam Getchell
+ Copyright © 2018 Adam Getchell
  ******************************************************************************/
 
 /// @file Foliated_triangulation_test.cpp

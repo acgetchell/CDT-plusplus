@@ -1,13 +1,14 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2017-2021 Adam Getchell
-///
-/// Ensures that the S3 bulk action calculations are correct, and give
-/// similar results for similar values.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2017 Adam Getchell
+ ******************************************************************************/
 
 /// @file S3Action_test.cpp
 /// @brief Tests for the S3 action functions
 /// @author Adam Getchell
+/// @details Ensures that the S3 bulk action calculations are correct, and give
+/// similar results for similar values.
 
 #include "Manifold.hpp"
 #include "S3Action.hpp"

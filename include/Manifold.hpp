@@ -1,7 +1,7 @@
 /*******************************************************************************
  Causal Dynamical Triangulations in C++ using CGAL
 
- Copyright © 2021 Adam Getchell
+ Copyright © 2018 Adam Getchell
  ******************************************************************************/
 
 /// @file  Manifold.hpp
@@ -446,6 +446,9 @@ namespace Manifolds
   template <>
   class Manifold<4>
   {
+    /// @brief The data structure of scalar values for computations
+    Geometry4 m_geometry;
+
    public:
     /// @brief Dimensionality of the manifold
     static inline int constexpr dimension = 4;

@@ -1,13 +1,14 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2014-2020 Adam Getchell
-///
-/// Tests that 2-spheres and 3-spheres are correctly constructed
-/// in 3D and 4D respectively.
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2014 Adam Getchell
+ ******************************************************************************/
 
 /// @file Sphere_test.cpp
 /// @brief Tests for spheres
 /// @author Adam Getchell
+/// @details Tests that 2-spheres and 3-spheres are correctly constructed
+/// in 3D and 4D respectively.
 
 #include "Sphere_d.hpp"
 #include <catch2/catch.hpp>

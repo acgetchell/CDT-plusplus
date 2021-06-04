@@ -1,13 +1,14 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2017-2021 Adam Getchell
-///
-/// Tests for lambdas and function_refs to store function objects for delayed
-/// calls
-///
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2017 Adam Getchell
+ ******************************************************************************/
+
 /// @file Function_ref.cpp
 /// @brief Tests on function pointers, lambdas, and function_refs
 /// @author Adam Getchell
+/// @details Tests for lambdas and function_refs to store function objects for
+/// delayed calls
 
 #include "Ergodic_moves_3.hpp"
 #include "Function_ref.hpp"
