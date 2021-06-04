@@ -2,7 +2,7 @@ var searchData=
 [
   ['m_5falpha_142',['m_Alpha',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ab5bcde6f6af551ccbbf95f170592d607',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
   ['m_5ffailed_5fmoves_143',['m_failed_moves',['../class_move_command.html#a9d07e416928c365ec21ef73d38dcbb27',1,'MoveCommand']]],
-  ['m_5fgeometry_144',['m_geometry',['../class_manifolds_1_1_manifold_3_013_01_4.html#ad02b76c850df9787b0e5af4e3e84b4dc',1,'Manifolds::Manifold&lt; 3 &gt;']]],
+  ['m_5fgeometry_144',['m_geometry',['../class_manifolds_1_1_manifold_3_013_01_4.html#ad02b76c850df9787b0e5af4e3e84b4dc',1,'Manifolds::Manifold&lt; 3 &gt;::m_geometry()'],['../class_manifolds_1_1_manifold_3_014_01_4.html#a75b4a5e7643140580a36957593d15f59',1,'Manifolds::Manifold&lt; 4 &gt;::m_geometry()']]],
   ['m_5fk_145',['m_K',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#add3aa7d52b7ffebdc2c9dc123c3a1218',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
   ['m_5flambda_146',['m_Lambda',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aaa4111700ef8d427c00fe1ea211b3315',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
   ['m_5fmanifold_147',['m_manifold',['../class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae',1,'MoveCommand']]],
