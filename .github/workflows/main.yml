@@ -7,16 +7,15 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-
+        os: [ubuntu-latest, macos-latest]
         include:
           - os: ubuntu-latest
+            compiler: g++-10
+            target: Linux
 
           - os: macos-latest
-              env:
-                - TARGET: x86_54-apple-darwin
-                - COMPILER: clang
-                - LINKER: clang
-
+            compiler: clang
+            target: Macos
 
     steps:
     - uses: actions/checkout@v2
@@ -66,6 +65,10 @@ jobs:
         cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
         cmake --build build
 
+  test:
+    runs-on: ${{ matrix.os }}
+    needs: build
+    steps:
     - name: Test
       run: |
         cd build
