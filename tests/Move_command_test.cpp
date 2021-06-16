@@ -13,6 +13,82 @@
 
 using namespace std;
 
+SCENARIO("Move_tracker functionality", "[move command]")
+{
+  GIVEN("A 3D Move_tracker.")
+  {
+    Move_tracker<Manifolds::Manifold3> tracked_moves;
+    THEN("There are the correct number of elements.")
+    {
+      REQUIRE(tracked_moves.moves.size() == NUMBER_OF_3D_MOVES);
+    }
+    THEN("Each element is zero-initialized.")
+    {
+      for (auto move : tracked_moves.moves) { REQUIRE(move == 0); }
+    }
+    THEN("Moves can be added.")
+    {
+      // Add +1 to each move
+      for (auto& move : tracked_moves.moves) { move += 1; }
+      // Now check that it's added
+      for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
+    }
+    THEN("Two move trackers can be added.")
+    {
+      // Add +1 move to left hand side
+      for (auto& move : tracked_moves.moves) { move += 1; }
+      Move_tracker<Manifolds::Manifold3> added_moves;
+      added_moves.two_three_moves() += 2;
+      added_moves.three_two_moves() += 2;
+      added_moves.two_six_moves() += 2;
+      added_moves.six_two_moves() += 2;
+      added_moves.four_four_moves() += 2;
+      // Add the Move_trackers
+      tracked_moves += added_moves;
+
+      // Now check
+      for (auto move : tracked_moves.moves) { REQUIRE(move == 3); }
+    }
+  }
+  GIVEN("A 4D Move_tracker.")
+  {
+    Move_tracker<Manifolds::Manifold4> tracked_moves;
+    THEN("There are the correct number of elements.")
+    {
+      REQUIRE(tracked_moves.moves.size() == NUMBER_OF_4D_MOVES);
+    }
+    THEN("Each element is zero-initialized.")
+    {
+      for (auto move : tracked_moves.moves) { REQUIRE(move == 0); }
+    }
+    THEN("Moves can be added.")
+    {
+      // Add +1 to each move
+      for (auto& move : tracked_moves.moves) { move += 1; }
+      // Now check that it's added
+      for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
+    }
+    THEN("Two move trackers can be added.")
+    {
+      // Add +1 move to left hand side
+      for (auto& move : tracked_moves.moves) { move += 1; }
+      Move_tracker<Manifolds::Manifold4> added_moves;
+      added_moves.two_four_moves() += 2;
+      added_moves.four_two_moves() += 2;
+      added_moves.three_three_moves() += 2;
+      added_moves.four_six_moves() += 2;
+      added_moves.six_four_moves() += 2;
+      added_moves.two_eight_moves() += 2;
+      added_moves.eight_two_moves() += 2;
+      // Add the Move_trackers
+      tracked_moves += added_moves;
+
+      // Now check
+      for (auto move : tracked_moves.moves) { REQUIRE(move == 3); }
+    }
+  }
+}
+
 SCENARIO("Move_command special members", "[move command]")
 {
   GIVEN("A Move_command.")

@@ -72,8 +72,8 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// @return The array of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
-  /// @return The array of successful moves
-  auto get_successful() const { return m_failed_moves; }
+  /// @return The array of failed moves
+  auto get_failed() const { return m_failed_moves; }
 
   /// @brief Call operator
   auto operator()(ManifoldType& t_manifold) -> ManifoldType

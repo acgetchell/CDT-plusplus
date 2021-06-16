@@ -35,7 +35,19 @@ struct Move_tracker
   std::array<Int_precision, moves_per_dimension(ManifoldType::dimension)>
       moves = {0};  // NOLINT
 
+  /// @param index The index of the element to be access
+  /// @return The element at the index
   auto operator[](gsl::index index) -> auto& { return gsl::at(moves, index); }
+
+  /// @param rhs The Move_tracker to add
+  /// @return The sum of the individual elements of the left and right
+  /// Move_trackers
+  auto operator+=(Move_tracker const& rhs)
+  {
+    auto size = static_cast<size_t>(moves.size());
+    for (size_t i = 0; i < size; ++i) { moves[i] += rhs.moves[i]; }
+    return *this;
+  }
 
   // 3D
   auto two_three_moves() -> auto& { return gsl::at(moves, 0); }

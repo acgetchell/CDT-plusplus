@@ -115,25 +115,23 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     swap(t_first.m_failed_moves, t_second.m_failed_moves);
   }
 
-  /// @brief Gets value of **Alpha_**.
-  /// @return Alpha_
+  /// @return The length of the timelike edge
   [[maybe_unused]] auto Alpha() const noexcept { return m_Alpha; }
 
-  /// @brief Gets value of **K_**.
-  /// @return K_
+  /// @return The normalized Newton's constant
   auto K() const noexcept { return m_K; }
 
-  /// @brief Gets value of **Lambda_**.
-  /// @return Lambda_
+  /// @return The normalized Cosmological constant
   auto Lambda() const noexcept { return m_Lambda; }
 
-  /// @brief Gets value of **passes_**.
-  /// @return passes_
+  /// @return The number of passes to make
   [[maybe_unused]] auto Passes() const noexcept { return m_passes; }
 
-  /// @brief Gets value of **checkpoint_**.
-  /// @return checkpoint_
+  /// @return The number of passes before writing a checkpoint file
   [[maybe_unused]] auto Checkpoint() const noexcept { return m_checkpoint; }
+
+  /// @return The array of attempted moves
+  auto get_attempted() const { return m_attempted_moves; }
 
   /// @return The total number of attempted moves
   auto TotalMoves() const noexcept
@@ -141,6 +139,9 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     return std::accumulate(m_attempted_moves.moves.begin(),
                            m_attempted_moves.moves.end(), 0);
   }
+
+  /// @return The array of failed moves
+  auto get_failed() const { return m_failed_moves; }
 
   /// @brief Calculate A1
   ///
@@ -419,9 +420,10 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       // Do the moves
       command.execute();
 
-      // Update errors
+      // Update failed moves with errors
+      this->m_failed_moves += command.get_errors();
 
-      // Do stuff on checkpoint_
+      // Do stuff on checkpoint
       if ((pass_number % m_checkpoint) == 0)
       {
         fmt::print("=== Pass {} ===\n", pass_number);
@@ -433,6 +435,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
                    FOLIATION_SPACING);
       }
     }  // End loop through m_passes
+
     // output results
     fmt::print("=== Run results ===\n");
     print_results();
