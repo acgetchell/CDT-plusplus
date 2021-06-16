@@ -105,8 +105,9 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>four_six_moves</b> ()
 <tr class="memitem:ad8ae3301747d7419026dbfe35986263f"><td class="memItemLeft" align="right" valign="top"><a id="ad8ae3301747d7419026dbfe35986263f"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><b>four_two_moves</b> () -&gt; auto &amp;</td></tr>
 <tr class="separator:ad8ae3301747d7419026dbfe35986263f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a131b3af0c31b411d2eeb77d224a664da"><td class="memItemLeft" align="right" valign="top"><a id="a131b3af0c31b411d2eeb77d224a664da"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>operator[]</b> (gsl::index index) -&gt; auto &amp;</td></tr>
+<tr class="memitem:ad42212a81945a96b390900aced607770"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_move__tracker.html#ad42212a81945a96b390900aced607770">operator+=</a> (<a class="el" href="struct_move__tracker.html">Move_tracker</a> const &amp;rhs)</td></tr>
+<tr class="separator:ad42212a81945a96b390900aced607770"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a131b3af0c31b411d2eeb77d224a664da"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_move__tracker.html#a131b3af0c31b411d2eeb77d224a664da">operator[]</a> (gsl::index index) -&gt; auto &amp;</td></tr>
 <tr class="separator:a131b3af0c31b411d2eeb77d224a664da"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a997a8a37419ffe8de3adb056ab7ae860"><td class="memItemLeft" align="right" valign="top"><a id="a997a8a37419ffe8de3adb056ab7ae860"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><b>six_four_moves</b> () -&gt; auto &amp;</td></tr>
@@ -152,13 +153,88 @@ struct Move_tracker&lt; ManifoldType &gt;</h3>
 </dl>
 
 <p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00033">33</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-</div><hr/>The documentation for this struct was generated from the following file:<ul>
+</div><h2 class="groupheader">Member Function Documentation</h2>
+<a id="ad42212a81945a96b390900aced607770"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad42212a81945a96b390900aced607770">&#9670;&nbsp;</a></span>operator+=()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="struct_move__tracker.html">Move_tracker</a>&lt; ManifoldType &gt;::operator+= </td>
+          <td>(</td>
+          <td class="paramtype"><a class="el" href="struct_move__tracker.html">Move_tracker</a>&lt; ManifoldType &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>rhs</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">rhs</td><td>The <a class="el" href="struct_move__tracker.html" title="The data and methods to track ergodic moves.">Move_tracker</a> to add </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The sum of the individual elements of the left and right Move_trackers </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00045">45</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+
+</div>
+</div>
+<a id="a131b3af0c31b411d2eeb77d224a664da"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a131b3af0c31b411d2eeb77d224a664da">&#9670;&nbsp;</a></span>operator[]()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="struct_move__tracker.html">Move_tracker</a>&lt; ManifoldType &gt;::operator[] </td>
+          <td>(</td>
+          <td class="paramtype">gsl::index&#160;</td>
+          <td class="paramname"><em>index</em></td><td>)</td>
+          <td> -&gt; auto&amp; </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">index</td><td>The index of the element to be access </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The element at the index </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00040">40</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+
+</div>
+</div>
+<hr/>The documentation for this struct was generated from the following file:<ul>
 <li>include/<a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 4 2021 05:43:27 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 16 2021 13:31:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
