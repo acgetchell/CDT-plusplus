@@ -4,9 +4,20 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
 
-    runs-on: ubuntu-latest
-    
+        include:
+          - os: ubuntu-latest
+
+          - os: macos-latest
+              env:
+                - TARGET: x86_54-apple-darwin
+                - COMPILER: clang
+                - LINKER: clang
+
+
     steps:
     - uses: actions/checkout@v2
       with:
@@ -27,11 +38,18 @@ jobs:
 
     - name: Setup
       run: |
-        sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-        sudo apt update
-        sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache
-        sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
-        export CXX="g++-10" CC="gcc-10"
+        if [ "$RUNNER_OS" == "Linux" ]; then
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
+          export CXX="g++-10" CC="gcc-10"
+        elif [ "$RUNNER_OS" == "macOS" ]; then
+          brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache
+        else
+          echo "$RUNNER_OS not supported"
+          exit 1
+        fi
         cd $VCPKG_INSTALLATION_ROOT
         git reset --hard
         git pull --no-rebase
