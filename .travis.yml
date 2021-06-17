@@ -8,27 +8,26 @@ cache:
       - $TRAVIS_BUILD_DIR/vcpkg
       - $HOME/.cache/vcpkg/archives
 
-#addons:
-#  apt:
-#    packages:
-#      - build-essential
-#      - automake
-#      - autoconf
-#      - autoconf-archive
-#      - libtool-bin
-#      - texinfo
-#      - yasm
-#      - gcc-10
-#      - g++-10
-#      - clang-10
-#      - clang-format-10
-#      - clang-tidy-10
-#      - ninja-build
-#      - cppcheck
-#      - doxygen
-#      - graphviz
-#      - lcov
-#      - valgrind
+addons:
+  apt:
+    packages:
+      - build-essential
+      - automake
+      - autoconf
+      - autoconf-archive
+      - libtool-bin
+      - texinfo
+      - yasm
+      - gcc-10
+      - g++-10
+      - clang-10
+      - clang-format-10
+      - ninja-build
+      - cppcheck
+      - doxygen
+      - graphviz
+      - lcov
+      - valgrind
 
 os:
   - linux
@@ -76,13 +75,6 @@ jobs:
             echo -e "\033[1;32m\xE2\x9C\x93 passed:\033[0m $1";
           fi
       after_success: skip
-    # Clang-tidy
-    - os: linux
-      compiler: clang-10
-      env: CLANGTIDY=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_CLANG_TIDY:BOOL=TRUE"
-      after_success: skip
     # CppCheck
     - os: linux
       compiler: g++-10
@@ -101,6 +93,7 @@ jobs:
         - travis_wait 60 ctest -VV -T memcheck --verbose
         - cd src
         - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./initialize --s -n32000 -t11 -o
+        - travis_wait 30 valgrind --leak-check=full --show-leak-kinds=all --verbose ./cdt-opt
     # AddressSanitizer and UndefinedBehaviorSanitizer
     - os: linux
       compiler: clang-10
@@ -187,9 +180,6 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: linux
-      compiler: clang-10
-      env: CLANGTIDY=true
-    - os: linux
       compiler: g++-10
       env: DOXYGEN=true
     - os: linux
@@ -200,14 +190,10 @@ jobs:
       env: TSAN=true
 
 before_install:
-  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then export PATH="/usr/local/opt/ccache/libexec:$PATH"; fi
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-10" CC="gcc-10"; fi
-  - if [[ "$CXX" == "clang++" && "$TRAVIS_OS_NAME" == "linux" ]]; then export CXX="clang++-10" CC="clang-10"; fi
-  - |
-    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
-      sudo apt-get install -yq --allow-downgrades libc6=2.31-0ubuntu9.2 libc6-dev=2.31-0ubuntu9.2
-      sudo -E apt-get -yq --no-install-suggests --no-install-recommends --allow-downgrades --allow-remove-essential --allow-change-held-packages install build-essential automake autoconf autoconf-archive libtool-bin texinfo yasm gcc-10 g++-10 clang-10 clang-format-10 clang-tidy-10 ninja-build cppcheck valgrind doxygen graphviz lcov -o Debug::pkgProblemResolver=yes
-    fi
+  - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-10" CC="clang-10"; fi
+#  - sudo apt-get install -yq --allow-downgrades libc6=2.31-0ubuntu9.2 libc6-dev=2.31-0ubuntu9.2
+#  - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --allow-downgrades --allow-remove-essential --allow-change-held-packages install build-essential automake autoconf autoconf-archive libtool-bin texinfo yasm gcc-10 g++-10 clang-10 clang-format-10 clang-tidy-10 ninja-build cppcheck valgrind doxygen graphviz lcov -o Debug::pkgProblemResolver=yes
 
 install:
   # vcpkg should be cached, but clone it if not
