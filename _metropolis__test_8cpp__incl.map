@@ -1,0 +1,50 @@
+<map id="tests/Metropolis_test.cpp" name="tests/Metropolis_test.cpp">
+<area shape="rect" id="node1" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="1125,5,1311,32"/>
+<area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="1084,80,1203,107"/>
+<area shape="rect" id="node48" title=" " alt="" coords="1227,80,1359,107"/>
+<area shape="rect" id="node3" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="996,155,1141,181"/>
+<area shape="rect" id="node45" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="2318,155,2425,181"/>
+<area shape="rect" id="node4" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="436,229,595,256"/>
+<area shape="rect" id="node5" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="219,304,350,331"/>
+<area shape="rect" id="node13" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="433,304,597,331"/>
+<area shape="rect" id="node6" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference." alt="" coords="220,379,349,405"/>
+<area shape="rect" id="node10" title=" " alt="" coords="5,379,92,405"/>
+<area shape="rect" id="node11" title=" " alt="" coords="151,692,210,719"/>
+<area shape="rect" id="node12" title=" " alt="" coords="374,379,497,405"/>
+<area shape="rect" id="node7" title=" " alt="" coords="1667,781,1734,808"/>
+<area shape="rect" id="node8" title=" " alt="" coords="168,453,260,480"/>
+<area shape="rect" id="node9" title=" " alt="" coords="351,453,411,480"/>
+<area shape="rect" id="node14" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="521,379,627,405"/>
+<area shape="rect" id="node15" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="463,453,576,480"/>
+<area shape="rect" id="node43" title=" " alt="" coords="600,453,671,480"/>
+<area shape="rect" id="node44" title=" " alt="" coords="695,453,810,480"/>
+<area shape="rect" id="node16" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1314,528,1506,555"/>
+<area shape="rect" id="node17" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="2735,603,2909,629"/>
+<area shape="rect" id="node25" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="1359,603,1461,629"/>
+<area shape="rect" id="node18" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="3165,692,3268,719"/>
+<area shape="rect" id="node20" title=" " alt="" coords="3293,692,3533,719"/>
+<area shape="rect" id="node21" title=" " alt="" coords="2533,677,2705,733"/>
+<area shape="rect" id="node22" title=" " alt="" coords="2730,685,2914,726"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2938,685,3141,726"/>
+<area shape="rect" id="node24" title=" " alt="" coords="2311,692,2509,719"/>
+<area shape="rect" id="node19" title=" " alt="" coords="3159,781,3274,808"/>
+<area shape="rect" id="node26" title=" " alt="" coords="699,692,809,719"/>
+<area shape="rect" id="node27" title=" " alt="" coords="834,692,951,719"/>
+<area shape="rect" id="node28" title=" " alt="" coords="976,692,1132,719"/>
+<area shape="rect" id="node29" title=" " alt="" coords="1157,692,1242,719"/>
+<area shape="rect" id="node30" title=" " alt="" coords="335,692,405,719"/>
+<area shape="rect" id="node31" title=" " alt="" coords="1377,692,1443,719"/>
+<area shape="rect" id="node32" title=" " alt="" coords="1467,692,1540,719"/>
+<area shape="rect" id="node33" title=" " alt="" coords="1565,692,1629,719"/>
+<area shape="rect" id="node34" title=" " alt="" coords="1653,692,1733,719"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1757,692,1821,719"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1845,692,1917,719"/>
+<area shape="rect" id="node37" title=" " alt="" coords="1941,692,2028,719"/>
+<area shape="rect" id="node38" title=" " alt="" coords="1267,692,1353,719"/>
+<area shape="rect" id="node39" title=" " alt="" coords="2052,692,2131,719"/>
+<area shape="rect" id="node40" title=" " alt="" coords="2155,692,2286,719"/>
+<area shape="rect" id="node41" title=" " alt="" coords="429,692,535,719"/>
+<area shape="rect" id="node42" title=" " alt="" coords="559,692,674,719"/>
+<area shape="rect" id="node46" title=" " alt="" coords="2298,229,2359,256"/>
+<area shape="rect" id="node47" title=" " alt="" coords="2383,229,2447,256"/>
+</map>
