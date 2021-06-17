@@ -83,5 +83,5 @@ jobs:
     steps:
     - name: Test
       run: |
-        cd /home/runner/work/CDT-plusplus/CDT-plusplus/build
+        cd $GITHUB_WORKSPACE/build
         ctest --output-on-failure

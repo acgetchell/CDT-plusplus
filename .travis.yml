@@ -1,7 +1,6 @@
 version: ~> 1.0
 language: cpp
 dist: focal
-osx_image: xcode12.5
 
 cache:
   - ccache
@@ -9,7 +8,7 @@ cache:
       - $TRAVIS_BUILD_DIR/vcpkg
       - $HOME/.cache/vcpkg/archives
 
-addons:
+#addons:
 #  apt:
 #    packages:
 #      - build-essential
@@ -30,23 +29,9 @@ addons:
 #      - graphviz
 #      - lcov
 #      - valgrind
-  homebrew:
-    packages:
-      - automake
-      - autoconf
-      - autoconf-archive
-      - libtool
-      - texinfo
-      - yasm
-      - gcc
-      - ninja
-      - python
-      - ccache
-    update: true
 
 os:
   - linux
-  - osx
 
 compiler:
   - g++-10
@@ -207,7 +192,9 @@ jobs:
     - os: linux
       compiler: g++-10
       env: DOXYGEN=true
-    - os: osx
+    - os: linux
+      compiler: clang-10
+      env: ASAN=true
     - os: linux
       compiler: clang-10
       env: TSAN=true
