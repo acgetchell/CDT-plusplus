@@ -5,6 +5,5 @@
 
 cd ..
 rm -rf build/
-cmake -S. -B build -G Ninja -D ENABLE_CLANG_TIDY=ON
+cmake -S . -B build -G Ninja -D ENABLE_CLANG_TIDY=ON
 cmake --build build
-# Settings for tests to run in .clang-tidy

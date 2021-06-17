@@ -109,14 +109,10 @@ CheckOptions:
     value:           ';h;hh;hpp;hxx'
   - key:             cert-err09-cpp.CheckThrowTemporaries
     value:           'true'
-  - key:             cert-err09-cpp.MaxSize
-    value:           '-1'
   - key:             cert-err09-cpp.WarnOnLargeObjects
     value:           'false'
   - key:             cert-err61-cpp.CheckThrowTemporaries
     value:           'true'
-  - key:             cert-err61-cpp.MaxSize
-    value:           '-1'
   - key:             cert-err61-cpp.WarnOnLargeObjects
     value:           'false'
   - key:             cert-msc32-c.DisallowedSeedTypes
@@ -293,8 +289,6 @@ CheckOptions:
     value:           'false'
   - key:             misc-throw-by-value-catch-by-reference.CheckThrowTemporaries
     value:           'true'
-  - key:             misc-throw-by-value-catch-by-reference.MaxSize
-    value:           '-1'
   - key:             misc-throw-by-value-catch-by-reference.WarnOnLargeObjects
     value:           'false'
   - key:             misc-unused-parameters.StrictMode

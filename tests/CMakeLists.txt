@@ -7,8 +7,9 @@ add_executable(
   Function_ref_test.cpp
   Geometry_test.cpp
   Manifold_test.cpp
+  Metropolis_test.cpp
+  Move_always_test.cpp
   Move_command_test.cpp
-  Move_strategies_test.cpp
   S3Action_test.cpp
   Sphere_test.cpp
   Tetrahedron_test.cpp
