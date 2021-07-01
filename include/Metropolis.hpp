@@ -125,16 +125,16 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   auto Lambda() const noexcept { return m_Lambda; }
 
   /// @return The number of passes to make
-  [[maybe_unused]] auto Passes() const noexcept { return m_passes; }
+  [[maybe_unused]] auto passes() const noexcept { return m_passes; }
 
   /// @return The number of passes before writing a checkpoint file
-  [[maybe_unused]] auto Checkpoint() const noexcept { return m_checkpoint; }
+  [[maybe_unused]] auto checkpoint() const noexcept { return m_checkpoint; }
 
   /// @return The array of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
   /// @return The total number of attempted moves
-  auto TotalMoves() const noexcept
+  auto total_moves() const noexcept
   {
     return std::accumulate(m_attempted_moves.moves.begin(),
                            m_attempted_moves.moves.end(), 0);
@@ -153,7 +153,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(Moves::move_type move) const noexcept
   {
-    auto total_moves = this->TotalMoves();
+    auto total_moves = this->total_moves();
     auto this_move   = m_attempted_moves[Moves::as_integer(move)];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -171,15 +171,13 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    //    Gmpzf result = Gmpzf(mpfr_get_d(a1, MPFR_RNDD));
-    // MP_Float result = MP_Float(mpfr_get_ld(a1, MPFR_RNDD));
     auto result = mpfr_get_d(a1, MPFR_RNDD);  // NOLINT
 
     // Free memory
     mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
-    fmt::print("TotalMoves() = {}\n", total_moves);
+    fmt::print("total_moves() = {}\n", total_moves);
     fmt::print("A1 is {}\n", result);
 #endif
 
@@ -197,14 +195,11 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   {
     switch (dimension)
     {
-      default:
-        break;
       case 3: {
         auto currentS3Action =
             S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
                            m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
         auto newS3Action = static_cast<Gmpzf>(0);
-        // auto newS3Action = static_cast<MP_Float>(0);
         switch (move)
         {
           case Moves::move_type::TWO_THREE:
@@ -239,13 +234,13 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 // A (4,4) move changes nothing with respect to the action,
 // and e^0==1
 #ifndef NDEBUG
-            //            std::cout << "A2 is 1\n";
             fmt::print("A2 is 1\n");
 #endif
             return static_cast<double>(1);
+          default:
+            break;
         }
 
-        //    auto exponent        = newS3Action - currentS3Action;
         auto exponent        = currentS3Action - newS3Action;
         auto exponent_double = Gmpzf_to_double(exponent);
 
@@ -268,20 +263,18 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         mpfr_exp(a2, r1, MPFR_RNDD);  // NOLINT
 
         // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-        //    Gmpzf result = Gmpzf(mpfr_get_d(a2, MPFR_RNDD));
         auto result = mpfr_get_d(a2, MPFR_RNDD);  // NOLINT
 
         // Free memory
         mpfr_clears(r1, a2, nullptr);  // NOLINT
 
 #ifndef NDEBUG
-        //        std::cout << "A2 is " << result << "\n";
         fmt::print("A2 is {}\n", result);
 #endif
 
         return result;
       }
-      case 4:
+      default:
         break;
     }
   }  // CalculateA2()
@@ -304,7 +297,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     const auto trial_value = generate_probability();
     // Convert to Gmpzf because trial_value will be set to 0 when
     // comparing with a1 and a2!
-    //    const auto trial = Gmpzf(static_cast<double>(trial_value));
     const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
@@ -323,7 +315,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     if (trial <= a1 * a2)
     {
       // Move accepted
-      //      make_move(move);
       return true;
     }
 
@@ -358,7 +349,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         ManifoldType::dimension - 1);
 
     // Start the move command
-    MoveCommand command(std::forward<ManifoldType>(t_manifold));
+    MoveCommand command(t_manifold);
 
     // All possible moves
     auto move23 = Moves::do_23_move;
@@ -388,7 +379,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       initial_results.print();
       initial_results.print_details();
     }
-    catch (std::logic_error& LogicError)
+    catch (std::logic_error const& LogicError)
     {
       fmt::print("{}\n", LogicError.what());
       fmt::print("Metropolis initialization failed ... exiting.\n");
@@ -413,7 +404,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
         // Convert std::size_t move_choice to move_type enum
         auto move = static_cast<Moves::move_type>(move_choice);
-        //        attempt_move(move);
         if (attempt_move(move)) { command.enqueue(move); }
       }  // End loop through CurrentTotalSimplices
 

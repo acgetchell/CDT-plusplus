@@ -85,7 +85,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
                ManifoldType::dimension - 1);
 
     // Start the move command
-    MoveCommand command(std::forward<ManifoldType>(t_manifold));
+    MoveCommand command(t_manifold);
 
     fmt::print("Making random moves ...\n");
 

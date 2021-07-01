@@ -91,9 +91,6 @@ class MoveCommand
   Move_tracker<ManifoldType> m_failed_moves;
 
  public:
-  /// @brief Default dtor
-  //  ~MoveCommand() = default;
-
   /// @brief No default ctor
   MoveCommand() = delete;
 
@@ -135,7 +132,7 @@ class MoveCommand
 #endif
 
       auto move   = m_moves.back();
-      auto result = apply_move(m_manifold, std::forward<FunctionType>(move));
+      auto result = apply_move(m_manifold, move);
       m_moves.pop_back();
       if (result)
       {

@@ -70,7 +70,7 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
   }
 }
 
-SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
+SCENARIO("Metropolis member functions", "[metropolis]")
 {
   constexpr auto Alpha                 = static_cast<long double>(0.6);
   constexpr auto K                     = static_cast<long double>(1.1);
@@ -92,8 +92,8 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
         CHECK(testrun.Alpha() == Alpha);
         CHECK(testrun.K() == K);
         CHECK(testrun.Lambda() == Lambda);
-        CHECK(testrun.Passes() == passes);
-        CHECK(testrun.Checkpoint() == output_every_n_passes);
+        CHECK(testrun.passes() == passes);
+        CHECK(testrun.checkpoint() == output_every_n_passes);
         CHECK(testrun.get_attempted().two_three_moves() == 0);
         CHECK(testrun.get_failed().two_three_moves() == 0);
         CHECK(testrun.get_attempted().three_two_moves() == 0);
@@ -105,6 +105,32 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
         CHECK(testrun.get_attempted().four_four_moves() == 0);
         CHECK(testrun.get_failed().four_four_moves() == 0);
       }
+    }
+  }
+}
+
+SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
+{
+  constexpr auto Alpha                 = static_cast<long double>(0.6);
+  constexpr auto K                     = static_cast<long double>(1.1);
+  constexpr auto Lambda                = static_cast<long double>(0.1);
+  constexpr auto passes                = static_cast<Int_precision>(10);
+  constexpr auto output_every_n_passes = static_cast<Int_precision>(1);
+  GIVEN("A correctly-constructed Manifold3.")
+  {
+    constexpr auto       simplices  = static_cast<Int_precision>(640);
+    constexpr auto       timeslices = static_cast<Int_precision>(4);
+    Manifolds::Manifold3 universe(simplices, timeslices);
+    // It is correctly constructed
+    REQUIRE(universe.is_correct());
+    WHEN("A Metropolis function object is constructed.")
+    {
+      Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+      //      THEN("A lot of moves are done.")
+      //      {
+      //        auto result = testrun(universe);
+      //        CHECK(result.is_valid());
+      //      }
     }
   }
 }
