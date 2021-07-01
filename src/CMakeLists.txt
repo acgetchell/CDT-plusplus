@@ -82,7 +82,7 @@ target_compile_features(cdt-opt PRIVATE cxx_std_17)
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
 set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
 
-if(UNIX)
+if(APPLE)
   add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
   set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
 endif()

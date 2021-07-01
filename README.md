@@ -358,6 +358,8 @@ Optional:
 
 [CLion] skips debugger breakpoints (issue [CPP-20158]).
 
+[CGAL] 5.2.2 breaks CGAL::Geomview_stream on Ubuntu 20.04 (issue [5822]).
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -449,3 +451,4 @@ Optional:
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
+[5822]: https://github.com/CGAL/cgal/issues/5822
