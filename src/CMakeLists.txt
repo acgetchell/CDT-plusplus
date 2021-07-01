@@ -33,7 +33,7 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 # add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp) target_link_libraries( cdt-opt PRIVATE date::tz
 # date::date Catch2::Catch2 Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
-if(UNIX)
+if(APPLE)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(
     cdt-gv
@@ -46,32 +46,31 @@ if(UNIX)
 endif()
 
 add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp)
-if (WIN32)
+if(WIN32)
   target_link_libraries(
-      cdt-opt
-      PRIVATE project_options
-              project_warnings
-              docopt
-              date::date
-              date::date-tz
-              fmt::fmt-header-only
-              Eigen3::Eigen
-              TBB::tbb
-              CGAL::CGAL)
-  else()
+    cdt-opt
+    PRIVATE project_options
+            project_warnings
+            docopt
+            date::date
+            date::date-tz
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            TBB::tbb
+            CGAL::CGAL)
+else()
   target_link_libraries(
-      cdt-opt
-      PRIVATE project_options
-              project_warnings
-              docopt_s
-              date::date
-              date::date-tz
-              fmt::fmt-header-only
-              Eigen3::Eigen
-              TBB::tbb
-              CGAL::CGAL
-  )
-endif ()
+    cdt-opt
+    PRIVATE project_options
+            project_warnings
+            docopt_s
+            date::date
+            date::date-tz
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            TBB::tbb
+            CGAL::CGAL)
+endif()
 target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
 #
