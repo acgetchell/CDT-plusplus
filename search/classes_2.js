@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['manifold_286',['Manifold',['../class_manifolds_1_1_manifold.html',1,'Manifolds']]],
-  ['manifold_3c_203_20_3e_287',['Manifold&lt; 3 &gt;',['../class_manifolds_1_1_manifold_3_013_01_4.html',1,'Manifolds']]],
-  ['manifold_3c_204_20_3e_288',['Manifold&lt; 4 &gt;',['../class_manifolds_1_1_manifold_3_014_01_4.html',1,'Manifolds']]],
+  ['manifold_286',['Manifold',['../classmanifolds_1_1_manifold.html',1,'manifolds']]],
+  ['manifold_3c_203_20_3e_287',['Manifold&lt; 3 &gt;',['../classmanifolds_1_1_manifold_3_013_01_4.html',1,'manifolds']]],
+  ['manifold_3c_204_20_3e_288',['Manifold&lt; 4 &gt;',['../classmanifolds_1_1_manifold_3_014_01_4.html',1,'manifolds']]],
   ['move_5ftracker_289',['Move_tracker',['../struct_move__tracker.html',1,'']]],
   ['movecommand_290',['MoveCommand',['../class_move_command.html',1,'']]],
   ['movestrategy_291',['MoveStrategy',['../class_move_strategy.html',1,'']]],

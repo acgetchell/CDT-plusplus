@@ -96,11 +96,11 @@ $(function() {
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  {</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    constexpr <span class="keyword">auto</span> desired_simplices  = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(9600);</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    constexpr <span class="keyword">auto</span> desired_timeslices = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(7);</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    WHEN(<span class="stringliteral">&quot;A null move is applied to the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, Moves::null_move);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, ergodic_moves::null_move);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      <span class="keywordflow">if</span> (!result) { fmt::print(result.error()); }</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      REQUIRE(result);  <span class="comment">// Did the move return a value or an error?</span></div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold is valid and unchanged.&quot;</span>)</div>
@@ -119,7 +119,7 @@ $(function() {
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    WHEN(<span class="stringliteral">&quot;A (2,3) move is applied to the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, Moves::do_23_move);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, ergodic_moves::do_23_move);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="keywordflow">if</span> (!result) { fmt::print(result.error()); }</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      REQUIRE(result);  <span class="comment">// Did the move return a value or an error?</span></div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold has the applied move.&quot;</span>)</div>
@@ -127,8 +127,8 @@ $(function() {
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// Update Geometry and Foliated_triangulation with new info</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        result-&gt;update();</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="comment">// The move is correct</span></div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        CHECK(Moves::check_move(manifold, result.value(),</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                Moves::move_type::TWO_THREE));</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;                                        ergodic_moves::move_type::TWO_THREE));</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        fmt::print(<span class="stringliteral">&quot;Old manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        manifold.print_details();</div>
@@ -138,7 +138,7 @@ $(function() {
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    }</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    WHEN(<span class="stringliteral">&quot;A (3,2) move is applied to the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    {</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, Moves::do_32_move);</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, ergodic_moves::do_32_move);</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">if</span> (!result) { fmt::print(result.error()); }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      REQUIRE(result);  <span class="comment">// Did the move return a value or an error?</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold has the applied move.&quot;</span>)</div>
@@ -146,8 +146,8 @@ $(function() {
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;        <span class="comment">// Update Geometry and Foliated_triangulation with new info</span></div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;        result-&gt;update();</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;        <span class="comment">// The move is correct</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        CHECK(Moves::check_move(manifold, result.value(),</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                Moves::move_type::THREE_TWO));</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                                        ergodic_moves::move_type::THREE_TWO));</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        fmt::print(<span class="stringliteral">&quot;Old manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        manifold.print_details();</div>
@@ -157,7 +157,7 @@ $(function() {
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    WHEN(<span class="stringliteral">&quot;A (2,6) move is applied to the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, Moves::do_26_move);</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, ergodic_moves::do_26_move);</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      <span class="keywordflow">if</span> (!result) { fmt::print(result.error()); }</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      REQUIRE(result);  <span class="comment">// Did the move return a value or an error?</span></div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold has the applied move.&quot;</span>)</div>
@@ -165,8 +165,8 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="comment">// Update Geometry and Foliated_triangulation with new info</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        result-&gt;update();</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;        <span class="comment">// The move is correct</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        CHECK(Moves::check_move(manifold, result.value(),</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                Moves::move_type::TWO_SIX));</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;                                        ergodic_moves::move_type::TWO_SIX));</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        fmt::print(<span class="stringliteral">&quot;Old manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        manifold.print_details();</div>
@@ -176,7 +176,7 @@ $(function() {
 <div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    }</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    WHEN(<span class="stringliteral">&quot;A (6,2) move is applied to the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    {</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, Moves::do_62_move);</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, ergodic_moves::do_62_move);</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <span class="keywordflow">if</span> (!result) { fmt::print(result.error()); }</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      REQUIRE(result);  <span class="comment">// Did the move return a value or an error?</span></div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold has the applied move.&quot;</span>)</div>
@@ -184,8 +184,8 @@ $(function() {
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        <span class="comment">// Update Geometry and Foliated_triangulation with new info</span></div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        result-&gt;update();</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;        <span class="comment">// The move is correct</span></div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        CHECK(Moves::check_move(manifold, result.value(),</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                                Moves::move_type::SIX_TWO));</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                                        ergodic_moves::move_type::SIX_TWO));</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        fmt::print(<span class="stringliteral">&quot;Old manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        manifold.print_details();</div>
@@ -195,7 +195,7 @@ $(function() {
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    }</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    WHEN(<span class="stringliteral">&quot;A (4,4) move is applied to the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, Moves::do_44_move);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, ergodic_moves::do_44_move);</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      <span class="keywordflow">if</span> (!result) { fmt::print(result.error()); }</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      REQUIRE(result);  <span class="comment">// Did the move return a value or an error?</span></div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold has the applied move.&quot;</span>)</div>
@@ -203,8 +203,8 @@ $(function() {
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="comment">// Update Geometry and Foliated_triangulation with new info</span></div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        result-&gt;update();</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        <span class="comment">// The move is correct</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        CHECK(Moves::check_move(manifold, result.value(),</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                Moves::move_type::FOUR_FOUR));</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;                                        ergodic_moves::move_type::FOUR_FOUR));</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        fmt::print(<span class="stringliteral">&quot;Old manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        manifold.print_details();</div>
@@ -219,10 +219,10 @@ $(function() {
 <div class="ttc" id="a_apply__move_8hpp_html_afcd4bb134ff666e245b652a3f0dd0db2"><div class="ttname"><a href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move) -&gt; decltype(auto)</div><div class="ttdoc">An applicative function similar to std::apply, but on manifolds.</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00030">Apply_move.hpp:30</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
-<div class="ttc" id="aclass_manifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="class_manifolds_1_1_manifold_3_013_01_4.html">Manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00058">Manifold.hpp:58</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00058">Manifold.hpp:58</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 2 2021 18:43:07 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 2 2021 23:29:39 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

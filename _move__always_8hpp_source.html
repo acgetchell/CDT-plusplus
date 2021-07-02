@@ -164,35 +164,35 @@ $(function() {
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <span class="keywordflow">if</span> (move_choice == 0 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;        {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;          <span class="keyword">auto</span> move = Moves::do_23_move;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;          <span class="keyword">auto</span> move = ergodic_moves::do_23_move;</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;          m_attempted_moves[0] += 1;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;          command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;        }</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160; </div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;        <span class="keywordflow">if</span> (move_choice == 1 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;        {</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;          <span class="keyword">auto</span> move = Moves::do_32_move;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;          <span class="keyword">auto</span> move = ergodic_moves::do_32_move;</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;          m_attempted_moves[1] += 1;</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;          command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;        }</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;        <span class="keywordflow">if</span> (move_choice == 2 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;        {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;          <span class="keyword">auto</span> move = Moves::do_26_move;</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;          <span class="keyword">auto</span> move = ergodic_moves::do_26_move;</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;          m_attempted_moves[2] += 1;</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;          command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        }</div>
 <div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="keywordflow">if</span> (move_choice == 3 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        {</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;          <span class="keyword">auto</span> move = Moves::do_62_move;</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;          <span class="keyword">auto</span> move = ergodic_moves::do_62_move;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;          m_attempted_moves[3] += 1;</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;          command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        }</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160; </div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">if</span> (move_choice == 4 &amp;&amp; ManifoldType::dimension == 3)</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        {</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;          <span class="keyword">auto</span> move = Moves::do_44_move;</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;          <span class="keyword">auto</span> move = ergodic_moves::do_44_move;</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;          m_attempted_moves[4] += 1;</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;          command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        }</div>
@@ -229,8 +229,8 @@ $(function() {
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  }</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;};</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways3</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, Manifolds::Manifold3&gt;</a>;</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways4</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, Manifolds::Manifold4&gt;</a>;</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways3</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, manifolds::Manifold3&gt;</a>;</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;<span class="keyword">using</span> <a class="code" href="class_move_strategy.html">MoveAlways4</a> = <a class="code" href="class_move_strategy.html">MoveStrategy&lt;MOVE_ALWAYS, manifolds::Manifold4&gt;</a>;</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVE_ALWAYS_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -258,7 +258,7 @@ $(function() {
 <div class="ttc" id="aclass_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4_html_aab5a25898006618222b2ec2f5b81cd94"><div class="ttname"><a href="class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#aab5a25898006618222b2ec2f5b81cd94">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::print_results</a></div><div class="ttdeci">void print_results()</div><div class="ttdoc">Display results of run.</div><div class="ttdef"><b>Definition:</b> <a href="_move__always_8hpp_source.html#l00151">Move_always.hpp:151</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 2 2021 18:43:07 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 2 2021 23:29:39 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

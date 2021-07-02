@@ -6,9 +6,9 @@ var searchData=
   ['apply_5fmove_3',['apply_move',['../_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2',1,'Apply_move.hpp']]],
   ['apply_5fmove_2ehpp_4',['Apply_move.hpp',['../_apply__move_8hpp.html',1,'']]],
   ['apply_5fmove_5ftest_2ecpp_5',['Apply_move_test.cpp',['../_apply__move__test_8cpp.html',1,'']]],
-  ['are_5fall_5fvertex_5ftimevalues_5fvalid_6',['are_all_vertex_timevalues_valid',['../class_manifolds_1_1_manifold_3_013_01_4.html#ab9513b021b115e292806af202a2a6ab6',1,'Manifolds::Manifold&lt; 3 &gt;']]],
-  ['are_5fsimplex_5ftypes_5fvalid_7',['are_simplex_types_valid',['../_manifold_8hpp.html#ad3ebeb3ef1e38ea6332d24bc01165789',1,'Manifolds']]],
-  ['are_5fvertex_5ftimevalues_5fvalid_8',['are_vertex_timevalues_valid',['../class_manifolds_1_1_manifold_3_013_01_4.html#a36395dc6e0622abf1baa0874fd19e83d',1,'Manifolds::Manifold&lt; 3 &gt;']]],
-  ['as_5finteger_9',['as_integer',['../_ergodic__moves__3_8hpp.html#add3f0d9c768d302fb476d3acf56e24af',1,'Moves']]],
-  ['attempt_5fmove_10',['attempt_move',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a7511f20e455a43516e9be59af2cb9ab9',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]]
+  ['are_5fall_5fvertex_5ftimevalues_5fvalid_6',['are_all_vertex_timevalues_valid',['../classmanifolds_1_1_manifold_3_013_01_4.html#ade4d42e231238623ca3e1aa1a6118758',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['are_5fsimplex_5ftypes_5fvalid_7',['are_simplex_types_valid',['../_manifold_8hpp.html#adf1859965ac40c4e1c57c2dd7d1ae6d5',1,'manifolds']]],
+  ['are_5fvertex_5ftimevalues_5fvalid_8',['are_vertex_timevalues_valid',['../classmanifolds_1_1_manifold_3_013_01_4.html#a2ce04d110bdbfae3d99a996ebf01a6f1',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['as_5finteger_9',['as_integer',['../_ergodic__moves__3_8hpp.html#ad630273c579e4c33ec701ad0cdde6868',1,'ergodic_moves']]],
+  ['attempt_5fmove_10',['attempt_move',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad917f7354be53bbd4e30c1c182766be6',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]]
 ];

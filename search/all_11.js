@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['update_259',['update',['../class_manifolds_1_1_manifold_3_013_01_4.html#a150d4a10e906cf85a1b1c6997f116b7e',1,'Manifolds::Manifold&lt; 3 &gt;']]],
-  ['update_5fgeometry_260',['update_geometry',['../class_manifolds_1_1_manifold_3_013_01_4.html#a51f178059c3132469b0616f767eff9ac',1,'Manifolds::Manifold&lt; 3 &gt;']]],
-  ['update_5ftriangulation_261',['update_triangulation',['../class_manifolds_1_1_manifold_3_013_01_4.html#aa2e9b61af0a2fb6ba05dbb80a663b9d5',1,'Manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_259',['update',['../classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5fgeometry_260',['update_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5ftriangulation_261',['update_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['usage_262',['USAGE',['../cdt-gv_8cpp.html#aa6a50bed89859f476336638bbad895ac',1,'USAGE():&#160;cdt-gv.cpp'],['../cdt_8cpp.html#a6d6e26e7e3af2d4bd47f6582aff224f8',1,'USAGE():&#160;cdt.cpp'],['../initialize_8cpp.html#aa6a50bed89859f476336638bbad895ac',1,'USAGE():&#160;initialize.cpp']]],
   ['utilities_2ehpp_263',['Utilities.hpp',['../_utilities_8hpp.html',1,'']]],
   ['utilities_5ftest_2ecpp_264',['Utilities_test.cpp',['../_utilities__test_8cpp.html',1,'']]]
