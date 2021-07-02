@@ -59,7 +59,7 @@ try
   auto save_file         = args["--output"].asBool();
 
   // Initialize triangulation
-  Manifolds::Manifold3 universe;
+  manifolds::Manifold3 universe;
 
   // Topology of simulation
   topology_type topology;
@@ -92,7 +92,7 @@ try
       if (dimensions == 3)
       {
         // Start your run
-        Manifolds::Manifold3 populated_universe(
+        manifolds::Manifold3 populated_universe(
             static_cast<Int_precision>(simplices),
             static_cast<Int_precision>(timeslices), initial_radius,
             foliation_spacing);

@@ -106,35 +106,35 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 #endif
         if (move_choice == 0 && ManifoldType::dimension == 3)
         {
-          auto move = Moves::do_23_move;
+          auto move = ergodic_moves::do_23_move;
           m_attempted_moves[0] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 1 && ManifoldType::dimension == 3)
         {
-          auto move = Moves::do_32_move;
+          auto move = ergodic_moves::do_32_move;
           m_attempted_moves[1] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 2 && ManifoldType::dimension == 3)
         {
-          auto move = Moves::do_26_move;
+          auto move = ergodic_moves::do_26_move;
           m_attempted_moves[2] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 3 && ManifoldType::dimension == 3)
         {
-          auto move = Moves::do_62_move;
+          auto move = ergodic_moves::do_62_move;
           m_attempted_moves[3] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 4 && ManifoldType::dimension == 3)
         {
-          auto move = Moves::do_44_move;
+          auto move = ergodic_moves::do_44_move;
           m_attempted_moves[4] += 1;
           command.enqueue(move);
         }
@@ -172,7 +172,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   }
 };
 
-using MoveAlways3 = MoveStrategy<MOVE_ALWAYS, Manifolds::Manifold3>;
-using MoveAlways4 = MoveStrategy<MOVE_ALWAYS, Manifolds::Manifold4>;
+using MoveAlways3 = MoveStrategy<MOVE_ALWAYS, manifolds::Manifold3>;
+using MoveAlways4 = MoveStrategy<MOVE_ALWAYS, manifolds::Manifold4>;
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

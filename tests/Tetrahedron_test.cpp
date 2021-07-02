@@ -25,7 +25,7 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
                                 Point_t<3>{0, 0, 1}, Point_t<3>{1, 0, 0}};
     WHEN("A triangulation is constructed using the vector.")
     {
-      FoliatedTriangulations::FoliatedTriangulation3 triangulation;
+      foliated_triangulations::FoliatedTriangulation3 triangulation;
       triangulation.insert(Vertices.begin(), Vertices.end());
 
       THEN("The triangulation has dimension 3.")
@@ -83,7 +83,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
     cv.emplace_back(make_pair(v4, 2));
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
+      foliated_triangulations::FoliatedTriangulation3 ft(cv);
       triangulation_traits<3>::squared_distance      r2;
       THEN("The triangulation is initialized correctly.")
       {
@@ -141,7 +141,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
               "squared expected radius of {} with an expected timevalue of "
               "{}.\n",
               vertex->point(), vertex->info(),
-              FoliatedTriangulations::squared_radius<3>(vertex),
+              foliated_triangulations::squared_radius<3>(vertex),
               std::pow(ft.expected_radius(vertex), 2),
               ft.expected_timevalue(vertex));
         }
@@ -170,7 +170,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
                      std::back_inserter(cv), [](Point_t<3> a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      FoliatedTriangulations::FoliatedTriangulation3 ft(cv);
+      foliated_triangulations::FoliatedTriangulation3 ft(cv);
 
       THEN("The triangulation is initialized correctly.")
       {

@@ -18,16 +18,16 @@ SCENARIO("Move type to integer conversion", "[utility]")
 {
   GIVEN("A move type.")
   {
-    auto move23 = Moves::move_type::TWO_THREE;
-    REQUIRE(Moves::as_integer(move23) == 0);
-    auto move32 = Moves::move_type::THREE_TWO;
-    REQUIRE(Moves::as_integer(move32) == 1);
-    auto move26 = Moves::move_type::TWO_SIX;
-    REQUIRE(Moves::as_integer(move26) == 2);
-    auto move62 = Moves::move_type::SIX_TWO;
-    REQUIRE(Moves::as_integer(move62) == 3);
-    auto move44 = Moves::move_type::FOUR_FOUR;
-    REQUIRE(Moves::as_integer(move44) == 4);
+    auto move23 = ergodic_moves::move_type::TWO_THREE;
+    REQUIRE(ergodic_moves::as_integer(move23) == 0);
+    auto move32 = ergodic_moves::move_type::THREE_TWO;
+    REQUIRE(ergodic_moves::as_integer(move32) == 1);
+    auto move26 = ergodic_moves::move_type::TWO_SIX;
+    REQUIRE(ergodic_moves::as_integer(move26) == 2);
+    auto move62 = ergodic_moves::move_type::SIX_TWO;
+    REQUIRE(ergodic_moves::as_integer(move62) == 3);
+    auto move44 = ergodic_moves::move_type::FOUR_FOUR;
+    REQUIRE(ergodic_moves::as_integer(move44) == 4);
   }
 }
 
@@ -38,7 +38,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
   {
     constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
-    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state
     auto N3_31_pre_move = manifold.N3_31();
@@ -52,7 +52,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (2,3) move is performed")
     {
       // Use copy elision
-      auto result = Moves::do_23_move(manifold);
+      auto result = ergodic_moves::do_23_move(manifold);
       if (result) { manifold = result.value(); }
       else
       {
@@ -64,8 +64,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
         // The move is correct
-        CHECK(Moves::check_move(manifold_before, manifold,
-                                Moves::move_type::TWO_THREE));
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        ergodic_moves::move_type::TWO_THREE));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move + 1);
@@ -78,7 +78,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (3,2) move is performed")
     {
-      auto result = Moves::do_32_move(manifold);
+      auto result = ergodic_moves::do_32_move(manifold);
       if (result) { manifold = result.value(); }
       else
       {
@@ -90,8 +90,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(Moves::check_move(manifold_before, manifold,
-                                Moves::move_type::THREE_TWO));
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        ergodic_moves::move_type::THREE_TWO));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move - 1);
@@ -105,7 +105,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (2,6) move is performed")
     {
-      auto result = Moves::do_26_move(manifold);
+      auto result = ergodic_moves::do_26_move(manifold);
       if (result) { manifold = result.value(); }
       else
       {
@@ -117,8 +117,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(Moves::check_move(manifold_before, manifold,
-                                Moves::move_type::TWO_SIX));
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        ergodic_moves::move_type::TWO_SIX));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move + 2);
         CHECK(manifold.N3_22() == N3_22_pre_move);
@@ -132,7 +132,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (6,2) move is performed")
     {
-      auto result = Moves::do_62_move(manifold);
+      auto result = ergodic_moves::do_62_move(manifold);
       if (result) { manifold = result.value(); }
       else
       {
@@ -144,8 +144,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(Moves::check_move(manifold_before, manifold,
-                                Moves::move_type::SIX_TWO));
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        ergodic_moves::move_type::SIX_TWO));
         // Manual check
         CHECK(manifold.is_correct());
         CHECK(manifold.N3_31() == N3_31_pre_move - 2);
@@ -158,7 +158,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (4,4) move is performed")
     {
-      auto result = Moves::do_44_move(manifold);
+      auto result = ergodic_moves::do_44_move(manifold);
       if (result) { manifold = result.value(); }
       else
       {
@@ -170,8 +170,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         // Update geometry with new triangulation info
         manifold.update();
         // The move is correct
-        CHECK(Moves::check_move(manifold_before, manifold,
-                                Moves::move_type::FOUR_FOUR));
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        ergodic_moves::move_type::FOUR_FOUR));
 
         // A (4,4) move by itself does not break the Delaunay triangulation
 

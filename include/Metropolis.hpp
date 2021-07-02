@@ -151,10 +151,10 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   ///
   /// @param move The type of move
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
-  auto CalculateA1(Moves::move_type move) const noexcept
+  auto CalculateA1(ergodic_moves::move_type move) const noexcept
   {
     auto total_moves = this->total_moves();
-    auto this_move   = m_attempted_moves[Moves::as_integer(move)];
+    auto this_move   = m_attempted_moves[ergodic_moves::as_integer(move)];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
@@ -191,7 +191,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @param move The type of move
   /// @return \f$a_2=e^{-\Delta S}\f$
   template <int dimension>
-  auto CalculateA2(Moves::move_type move) const noexcept
+  auto CalculateA2(ergodic_moves::move_type move) const noexcept
   {
     switch (dimension)
     {
@@ -202,35 +202,35 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         auto newS3Action = static_cast<Gmpzf>(0);
         switch (move)
         {
-          case Moves::move_type::TWO_THREE:
+          case ergodic_moves::move_type::TWO_THREE:
             // A (2,3) move adds a timelike edge
             // and a (2,2) simplex
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
                                m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
             break;
-          case Moves::move_type::THREE_TWO:
+          case ergodic_moves::move_type::THREE_TWO:
             // A (3,2) move removes a timelike edge
             // and a (2,2) simplex
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
                                m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
             break;
-          case Moves::move_type::TWO_SIX:
+          case ergodic_moves::move_type::TWO_SIX:
             // A (2,6) move adds 2 timelike edges and
             // 2 (1,3) and 2 (3,1) simplices
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
                                m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
             break;
-          case Moves::move_type::SIX_TWO:
+          case ergodic_moves::move_type::SIX_TWO:
             // A (6,2) move removes 2 timelike edges and
             // 2 (1,3) and 2 (3,1) simplices
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
                                m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
             break;
-          case Moves::move_type::FOUR_FOUR:
+          case ergodic_moves::move_type::FOUR_FOUR:
 // A (4,4) move changes nothing with respect to the action,
 // and e^0==1
 #ifndef NDEBUG
@@ -287,7 +287,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// calls make_move(). If not, it updates **attempted_moves_**.
   ///
   /// @param move The type of move
-  auto attempt_move(Moves::move_type move) -> bool
+  auto attempt_move(ergodic_moves::move_type move) -> bool
   {
     // Calculate probability
     auto a1 = CalculateA1(move);
@@ -302,7 +302,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
     fmt::print("Attempting move.\n");
-    fmt::print("Move type = {}\n", Moves::as_integer(move));
+    fmt::print("Move type = {}\n", ergodic_moves::as_integer(move));
     fmt::print("Trial_value = {}\n", trial_value);
     fmt::print("Trial = \n", trial);
     fmt::print("A1 = {}\n", a1);
@@ -320,7 +320,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
     // Move rejected
     // Increment attempted_moves_
-    ++m_attempted_moves[Moves::as_integer(move)];
+    ++m_attempted_moves[ergodic_moves::as_integer(move)];
     return false;
 
   }  // attempt_move()
@@ -352,11 +352,11 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     MoveCommand command(t_manifold);
 
     // All possible moves
-    auto move23 = Moves::do_23_move;
-    auto move32 = Moves::do_32_move;
-    auto move26 = Moves::do_26_move;
-    auto move62 = Moves::do_62_move;
-    auto move44 = Moves::do_44_move;
+    auto move23 = ergodic_moves::do_23_move;
+    auto move32 = ergodic_moves::do_32_move;
+    auto move26 = ergodic_moves::do_26_move;
+    auto move62 = ergodic_moves::do_62_move;
+    auto move44 = ergodic_moves::do_44_move;
 
     // Populate m_attempted_moves and m_successful_moves
     fmt::print("Making initial moves ...\n");
@@ -403,7 +403,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 #endif
 
         // Convert std::size_t move_choice to move_type enum
-        auto move = static_cast<Moves::move_type>(move_choice);
+        auto move = static_cast<ergodic_moves::move_type>(move_choice);
         if (attempt_move(move)) { command.enqueue(move); }
       }  // End loop through CurrentTotalSimplices
 
@@ -457,7 +457,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   }  // print_results
 };   // Metropolis
 
-using Metropolis3 = MoveStrategy<METROPOLIS, Manifolds::Manifold3>;
-using Metropolis4 = MoveStrategy<METROPOLIS, Manifolds::Manifold4>;
+using Metropolis3 = MoveStrategy<METROPOLIS, manifolds::Manifold3>;
+using Metropolis4 = MoveStrategy<METROPOLIS, manifolds::Manifold4>;
 
 #endif  // INCLUDE_METROPOLIS_HPP_

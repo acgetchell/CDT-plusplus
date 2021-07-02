@@ -1,19 +1,17 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2015-2020 Adam Getchell
-///
-/// A program that visualizes spacetimes
-///
-/// Inspired by:
-/// http://doc.cgal.org/latest/Geomview/Geomview_2gv_terrain_8cpp-example.html
-///
-/// @todo Parse file and read in points only
-/// @todo Colorize/improve output
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2015 Adam Getchell
+ ******************************************************************************/
 
 /// @file cdt-gv.cpp
 /// @brief A pipeline from CDT++ to <a href="http://www.geomview.org">Geomview
 /// </a>, a visualizer
 /// @author Adam Getchell
+/// @details Inspired by:
+/// http://doc.cgal.org/latest/Geomview/Geomview_2gv_terrain_8cpp-example.html
+/// @todo Parse file and read in points only
+/// @todo Colorize/improve output
 
 // CGAL headers
 #include <CGAL/Delaunay_triangulation_3.h>
@@ -127,7 +125,7 @@ try
 
       return 0;
 }
-catch (invalid_argument& InvalidArgument)
+catch (invalid_argument const& InvalidArgument)
 {
   fmt::print(cerr, "{}\n", InvalidArgument.what());
   fmt::print(cerr, "Invalid parameter ... exiting.\n");

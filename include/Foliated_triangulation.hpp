@@ -66,14 +66,13 @@ enum class Cell_type
   ERROR     = 0    // An error happened classifying cell
 };
 
-namespace FoliatedTriangulations
+namespace foliated_triangulations
 {
   /// @tparam dimension The dimensionality of the simplices
   /// @return True if timevalue of lhs is less than rhs
   template <int dimension>
-  auto const compare_v_info =
-      [](Vertex_handle_t<dimension> const& lhs,
-         Vertex_handle_t<dimension> const& rhs) -> bool {
+  auto const compare_v_info = [](Vertex_handle_t<dimension> const& lhs,
+                                 Vertex_handle_t<dimension> const& rhs) {
     return lhs->info() < rhs->info();
   };
 
@@ -1038,7 +1037,7 @@ namespace FoliatedTriangulations
     {
       auto checked_cells = this->get_cells();
       Expects(!checked_cells.empty());
-      return FoliatedTriangulations::check_cells<3>(checked_cells);
+      return foliated_triangulations::check_cells<3>(checked_cells);
     }  // check_all_cells
 
     /// @return A container of incorrect cells
@@ -1061,7 +1060,7 @@ namespace FoliatedTriangulations
     /// cell->info()
     void print_cells() const
     {
-      FoliatedTriangulations::print_cells<3>(m_cells);
+      foliated_triangulations::print_cells<3>(m_cells);
     }
 
     /// @brief Print triangulation statistics
@@ -1177,7 +1176,7 @@ namespace FoliatedTriangulations
       Expects(this->is_tds_valid());
       std::vector<Cell_handle_t<3>> init_cells;
       init_cells.reserve(number_of_finite_cells());
-      //    Delaunay3::Finite_cells_iterator cit;
+
       for (auto cit = get_delaunay().finite_cells_begin();
            cit != get_delaunay().finite_cells_end(); ++cit)
       {

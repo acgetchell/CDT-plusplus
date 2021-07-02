@@ -81,7 +81,7 @@ SCENARIO("Metropolis member functions", "[metropolis]")
   {
     constexpr auto       simplices  = static_cast<Int_precision>(640);
     constexpr auto       timeslices = static_cast<Int_precision>(4);
-    Manifolds::Manifold3 universe(simplices, timeslices);
+    manifolds::Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
@@ -120,7 +120,7 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
   {
     constexpr auto       simplices  = static_cast<Int_precision>(640);
     constexpr auto       timeslices = static_cast<Int_precision>(4);
-    Manifolds::Manifold3 universe(simplices, timeslices);
+    manifolds::Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")

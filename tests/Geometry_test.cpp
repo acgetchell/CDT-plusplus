@@ -59,7 +59,7 @@ SCENARIO("3-Geometry classification", "[geometry]")
     {
       auto constexpr desired_simplices  = static_cast<Int_precision>(72);
       auto constexpr desired_timeslices = static_cast<Int_precision>(3);
-      FoliatedTriangulations::FoliatedTriangulation3 triangulation(
+      foliated_triangulations::FoliatedTriangulation3 triangulation(
           desired_simplices, desired_timeslices);
       Geometry3              geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
@@ -129,7 +129,7 @@ SCENARIO("3-Geometry initialization", "[geometry]")
     {
       auto constexpr desired_simplices  = static_cast<Int_precision>(640);
       auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-      FoliatedTriangulations::FoliatedTriangulation3 triangulation(
+      foliated_triangulations::FoliatedTriangulation3 triangulation(
           desired_simplices, desired_timeslices);
       Geometry3              geometry(triangulation);
       THEN(

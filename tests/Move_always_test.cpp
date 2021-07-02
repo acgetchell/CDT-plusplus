@@ -70,7 +70,7 @@ SCENARIO("MoveAlways member functions", "[move always]")
   {
     auto constexpr simplices  = static_cast<Int_precision>(640);
     auto constexpr timeslices = static_cast<Int_precision>(4);
-    Manifolds::Manifold3 manifold(simplices, timeslices);
+    manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 is constructed.")
     {
@@ -129,7 +129,7 @@ SCENARIO("Using the Move always algorithm", "[move always][!mayfail][.]")
   {
     auto constexpr simplices  = static_cast<Int_precision>(64);
     auto constexpr timeslices = static_cast<Int_precision>(3);
-    Manifolds::Manifold3 manifold(simplices, timeslices);
+    manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 algorithm is used.")
     {

@@ -40,7 +40,7 @@ auto main() -> int
   MoveAlways3 run(passes, checkpoint);
 
   // Make a triangulation
-  Manifolds::Manifold3 universe(simplices, timeslices);
+  manifolds::Manifold3 universe(simplices, timeslices);
 
   // Look at triangulation
   universe.print();

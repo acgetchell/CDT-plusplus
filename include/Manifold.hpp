@@ -16,7 +16,7 @@
 #include <unordered_set>
 #include <utility>
 
-namespace Manifolds
+namespace manifolds
 {
   /// @tparam SimplexType The Cell_handle to the simplex
   /// @param t_cells The container of simplices
@@ -25,7 +25,7 @@ namespace Manifolds
   [[nodiscard]] inline auto are_simplex_types_valid(
       std::vector<Cell_handle_t<dimension>> const& t_cells) -> bool
   {
-    return FoliatedTriangulations::check_cells<dimension>(t_cells);
+    return foliated_triangulations::check_cells<dimension>(t_cells);
   }  // are_simplex_types_valid
 
   /// @param t_cells The cells from which to extract vertices
@@ -58,7 +58,7 @@ namespace Manifolds
   class Manifold<3>
   {
     /// @brief The data structure of geometric and combinatorial relationships
-    FoliatedTriangulations::FoliatedTriangulation3 m_triangulation;
+    foliated_triangulations::FoliatedTriangulation3 m_triangulation;
 
     /// @brief The data structure of scalar values for computations
     Geometry3 m_geometry;
@@ -87,8 +87,8 @@ namespace Manifolds
 
     /// @brief Construct manifold from a Foliated triangulation
     /// @param t_foliated_triangulation Triangulation used to construct manifold
-    explicit Manifold(
-        FoliatedTriangulations::FoliatedTriangulation3 t_foliated_triangulation)
+    explicit Manifold(foliated_triangulations::FoliatedTriangulation3
+                          t_foliated_triangulation)
         : m_triangulation{std::move(t_foliated_triangulation)}
         , m_geometry{get_triangulation()}
     {}
@@ -102,7 +102,7 @@ namespace Manifolds
              Int_precision t_desired_timeslices,
              double        t_initial_radius    = INITIAL_RADIUS,
              double        t_foliation_spacing = FOLIATION_SPACING)
-        : m_triangulation{FoliatedTriangulations::FoliatedTriangulation3(
+        : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
               t_desired_simplices, t_desired_timeslices, t_initial_radius,
               t_foliation_spacing)}
         , m_geometry{get_triangulation()}
@@ -116,7 +116,7 @@ namespace Manifolds
     explicit Manifold(const Causal_vertices_t<3>& cv,
                       double const t_initial_radius    = INITIAL_RADIUS,
                       double const t_foliation_spacing = FOLIATION_SPACING)
-        : m_triangulation{FoliatedTriangulations::FoliatedTriangulation3(
+        : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
               cv, t_initial_radius, t_foliation_spacing)}
         , m_geometry{get_triangulation()}
     {}
@@ -131,21 +131,21 @@ namespace Manifolds
       update_triangulation();
       update_geometry();
     }
-    catch (std::exception const& ex)
+    catch (std::system_error const& ex)
     {
       fmt::print("Exception thrown: {}\n", ex.what());
     }  // update
 
     /// @return A read-only reference to the triangulation
     [[nodiscard]] auto get_triangulation() const
-        -> FoliatedTriangulations::FoliatedTriangulation3 const&
+        -> foliated_triangulations::FoliatedTriangulation3 const&
     {
       return std::cref(m_triangulation);
     }  // get_triangulation
 
     /// @return A mutable reference to the triangulation
     [[nodiscard]] auto triangulation()
-        -> FoliatedTriangulations::FoliatedTriangulation3&
+        -> foliated_triangulations::FoliatedTriangulation3&
     {
       return m_triangulation;
     }  // triangulation
@@ -419,11 +419,11 @@ namespace Manifolds
 #ifndef NDEBUG
       fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      FoliatedTriangulations::FoliatedTriangulation3 triangulation(
+      foliated_triangulations::FoliatedTriangulation3 triangulation(
           m_triangulation.get_delaunay());
       m_triangulation = triangulation;
     }
-    catch (std::exception const& ex)
+    catch (std::system_error const& ex)
     {
       fmt::print("Exception thrown: {}\n", ex.what());
     }  // update_triangulation

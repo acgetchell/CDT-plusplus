@@ -21,11 +21,11 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
   {
     constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto desired_timeslices = static_cast<Int_precision>(7);
-    Manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A null move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, Moves::null_move);
+      auto result = apply_move(manifold, ergodic_moves::null_move);
       if (!result) { fmt::print(result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold is valid and unchanged.")
@@ -44,7 +44,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     }
     WHEN("A (2,3) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, Moves::do_23_move);
+      auto result = apply_move(manifold, ergodic_moves::do_23_move);
       if (!result) { fmt::print(result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
@@ -52,8 +52,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         result->update();
         // The move is correct
-        CHECK(Moves::check_move(manifold, result.value(),
-                                Moves::move_type::TWO_THREE));
+        CHECK(ergodic_moves::check_move(manifold, result.value(),
+                                        ergodic_moves::move_type::TWO_THREE));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -63,7 +63,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     }
     WHEN("A (3,2) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, Moves::do_32_move);
+      auto result = apply_move(manifold, ergodic_moves::do_32_move);
       if (!result) { fmt::print(result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
@@ -71,8 +71,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         result->update();
         // The move is correct
-        CHECK(Moves::check_move(manifold, result.value(),
-                                Moves::move_type::THREE_TWO));
+        CHECK(ergodic_moves::check_move(manifold, result.value(),
+                                        ergodic_moves::move_type::THREE_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -82,7 +82,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     }
     WHEN("A (2,6) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, Moves::do_26_move);
+      auto result = apply_move(manifold, ergodic_moves::do_26_move);
       if (!result) { fmt::print(result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
@@ -90,8 +90,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         result->update();
         // The move is correct
-        CHECK(Moves::check_move(manifold, result.value(),
-                                Moves::move_type::TWO_SIX));
+        CHECK(ergodic_moves::check_move(manifold, result.value(),
+                                        ergodic_moves::move_type::TWO_SIX));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -101,7 +101,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     }
     WHEN("A (6,2) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, Moves::do_62_move);
+      auto result = apply_move(manifold, ergodic_moves::do_62_move);
       if (!result) { fmt::print(result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
@@ -109,8 +109,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         result->update();
         // The move is correct
-        CHECK(Moves::check_move(manifold, result.value(),
-                                Moves::move_type::SIX_TWO));
+        CHECK(ergodic_moves::check_move(manifold, result.value(),
+                                        ergodic_moves::move_type::SIX_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -120,7 +120,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     }
     WHEN("A (4,4) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, Moves::do_44_move);
+      auto result = apply_move(manifold, ergodic_moves::do_44_move);
       if (!result) { fmt::print(result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
@@ -128,8 +128,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         result->update();
         // The move is correct
-        CHECK(Moves::check_move(manifold, result.value(),
-                                Moves::move_type::FOUR_FOUR));
+        CHECK(ergodic_moves::check_move(manifold, result.value(),
+                                        ergodic_moves::move_type::FOUR_FOUR));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();

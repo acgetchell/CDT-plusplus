@@ -14,9 +14,9 @@
 #include "Manifold.hpp"
 #include <tl/expected.hpp>
 
-using Expected = tl::expected<Manifolds::Manifold3, std::string>;
+using Expected = tl::expected<manifolds::Manifold3, std::string>;
 
-namespace Moves
+namespace ergodic_moves
 {
   enum class move_type
   {
@@ -39,7 +39,7 @@ namespace Moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(Manifolds::Manifold3 const& t_manifold)
+  [[nodiscard]] inline auto null_move(manifolds::Manifold3 const& t_manifold)
       -> Expected
   {
     return t_manifold;
@@ -52,7 +52,7 @@ namespace Moves
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_23_move(Manifolds::Manifold3&   t_manifold,
+  [[nodiscard]] inline auto try_23_move(manifolds::Manifold3&   t_manifold,
                                         Cell_handle_t<3> const& to_be_moved)
       -> bool
   {
@@ -89,7 +89,7 @@ namespace Moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline auto do_23_move(Manifolds::Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_23_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
 #ifndef NDEBUG
@@ -114,7 +114,7 @@ namespace Moves
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return True if move succeeded
-  [[nodiscard]] inline auto try_32_move(Manifolds::Manifold3&   t_manifold,
+  [[nodiscard]] inline auto try_32_move(manifolds::Manifold3&   t_manifold,
                                         Edge_handle_t<3> const& to_be_moved)
   {
     auto flipped = false;
@@ -138,7 +138,7 @@ namespace Moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
-  [[nodiscard]] inline auto do_32_move(Manifolds::Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_32_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
 #ifndef NDEBUG
@@ -210,7 +210,7 @@ namespace Moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
-  [[nodiscard]] inline auto do_26_move(Manifolds::Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_26_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
 #ifndef NDEBUG
@@ -219,7 +219,7 @@ namespace Moves
     auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::shuffle(one_three.begin(), one_three.end(), make_random_generator());
-    for (auto& bottom : one_three)
+    for (auto const& bottom : one_three)
     {
       if (auto neighboring_31_index = find_26_move(bottom);
           neighboring_31_index)
@@ -322,7 +322,7 @@ namespace Moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return True if (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifolds::Manifold3 const& manifold,
+  [[nodiscard]] inline auto is_62_movable(manifolds::Manifold3 const& manifold,
                                           Vertex_handle_t<3> const&   candidate)
   {
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
@@ -352,11 +352,11 @@ namespace Moves
       return false;
     }
 
-    auto incident_31 = FoliatedTriangulations::filter_cells<3>(
+    auto incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);
-    auto incident_22 = FoliatedTriangulations::filter_cells<3>(
+    auto incident_22 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::TWO_TWO);
-    auto incident_13 = FoliatedTriangulations::filter_cells<3>(
+    auto incident_13 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified
@@ -372,7 +372,7 @@ namespace Moves
         "and {} incident (2,2) simplices and {} incident (1,3) simplices.\n",
         incident_edges, incident_31.size(), incident_22.size(),
         incident_13.size());
-    FoliatedTriangulations::print_cells<3>(incident_cells);
+    foliated_triangulations::print_cells<3>(incident_cells);
 #endif
     return ((incident_31.size() == 3) && (incident_22.empty()) &&
             (incident_13.size() == 3));
@@ -397,7 +397,7 @@ namespace Moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
-  [[nodiscard]] inline auto do_62_move(Manifolds::Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_62_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
 #ifndef NDEBUG
@@ -430,7 +430,7 @@ namespace Moves
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
   [[nodiscard]] inline auto find_44_move(
-      Manifolds::Manifold3 const& t_manifold,
+      manifolds::Manifold3 const& t_manifold,
       Edge_handle_t<3> const&     t_edge_candidate)
       -> std::optional<std::vector<Cell_handle_t<3>>>
   {
@@ -475,7 +475,7 @@ namespace Moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
-  [[nodiscard]] inline auto do_44_move(Manifolds::Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_44_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
 #ifndef NDEBUG
@@ -510,8 +510,8 @@ namespace Moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(Manifolds::Manifold3 const& t_before,
-                                       Manifolds::Manifold3 const& t_after,
+  [[nodiscard]] inline auto check_move(manifolds::Manifold3 const& t_before,
+                                       manifolds::Manifold3 const& t_after,
                                        move_type const& t_move) -> bool
   {
     switch (t_move)
