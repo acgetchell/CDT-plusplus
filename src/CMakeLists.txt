@@ -33,7 +33,7 @@ target_compile_features(initialize PRIVATE cxx_std_17)
 # add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp) target_link_libraries( cdt-opt PRIVATE date::tz
 # date::date Catch2::Catch2 Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
-if(APPLE)
+if(UNIX)
   add_executable(cdt-gv ${PROJECT_SOURCE_DIR}/src/cdt-gv.cpp)
   target_link_libraries(
     cdt-gv
@@ -81,7 +81,7 @@ target_compile_features(cdt-opt PRIVATE cxx_std_17)
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
 set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
 
-if(APPLE)
+if(UNIX)
   add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
   set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
 endif()

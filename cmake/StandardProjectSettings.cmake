@@ -48,8 +48,8 @@ set(TBB_ON ON)
 # Threads
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
-# Turn off CGAL Triangulation Assertions and Postconditions
-add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS)
+# Turn off CGAL Triangulation Assertions and Postconditions, turn on GeomView
+add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS -DCGAL_USE_GEOMVIEW)
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
