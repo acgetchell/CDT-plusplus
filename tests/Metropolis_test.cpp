@@ -72,15 +72,15 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
 
 SCENARIO("Metropolis member functions", "[metropolis]")
 {
-  constexpr auto Alpha                 = static_cast<long double>(0.6);
-  constexpr auto K                     = static_cast<long double>(1.1);
-  constexpr auto Lambda                = static_cast<long double>(0.1);
-  constexpr auto passes                = static_cast<Int_precision>(10);
-  constexpr auto output_every_n_passes = static_cast<Int_precision>(1);
+  auto constexpr Alpha                 = static_cast<long double>(0.6);
+  auto constexpr K                     = static_cast<long double>(1.1);
+  auto constexpr Lambda                = static_cast<long double>(0.1);
+  auto constexpr passes                = static_cast<Int_precision>(10);
+  auto constexpr output_every_n_passes = static_cast<Int_precision>(1);
   GIVEN("A correctly-constructed Manifold3.")
   {
-    constexpr auto       simplices  = static_cast<Int_precision>(640);
-    constexpr auto       timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = static_cast<Int_precision>(640);
+    auto constexpr timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
@@ -111,15 +111,15 @@ SCENARIO("Metropolis member functions", "[metropolis]")
 
 SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
 {
-  constexpr auto Alpha                 = static_cast<long double>(0.6);
-  constexpr auto K                     = static_cast<long double>(1.1);
-  constexpr auto Lambda                = static_cast<long double>(0.1);
-  constexpr auto passes                = static_cast<Int_precision>(1);
-  constexpr auto output_every_n_passes = static_cast<Int_precision>(1);
+  auto constexpr Alpha                 = static_cast<long double>(0.6);
+  auto constexpr K                     = static_cast<long double>(1.1);
+  auto constexpr Lambda                = static_cast<long double>(0.1);
+  auto constexpr passes                = static_cast<Int_precision>(1);
+  auto constexpr output_every_n_passes = static_cast<Int_precision>(1);
   GIVEN("A correctly-constructed Manifold3.")
   {
-    constexpr auto       simplices  = static_cast<Int_precision>(72);
-    constexpr auto       timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = static_cast<Int_precision>(72);
+    auto constexpr timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());

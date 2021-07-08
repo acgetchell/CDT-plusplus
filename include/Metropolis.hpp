@@ -55,7 +55,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   Int_precision                     m_passes{1};
   Int_precision                     m_checkpoint{1};
   Geometry<ManifoldType::dimension> m_geometry;
-  move_tracker::Move_tracker<ManifoldType> m_attempted_moves{1};
+  move_tracker::Move_tracker<ManifoldType> m_attempted_moves{0};
   move_tracker::Move_tracker<ManifoldType> m_failed_moves{0};
 
  public:
@@ -298,7 +298,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
     fmt::print("Attempting move.\n");
-    fmt::print("Move type = {}\n", ergodic_moves::as_integer(move));
+    fmt::print("Move type = {}\n", move_tracker::as_integer(move));
     fmt::print("Trial_value = {}\n", trial_value);
     fmt::print("Trial = \n", trial);
     fmt::print("A1 = {}\n", a1);
@@ -316,7 +316,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
     // Move rejected
     // Increment attempted_moves_
-    ++m_attempted_moves[as_integer(move)];
+    ++m_attempted_moves[move_tracker::as_integer(move)];
     return false;
 
   }  // attempt_move()
