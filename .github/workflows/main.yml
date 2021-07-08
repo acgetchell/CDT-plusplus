@@ -72,6 +72,43 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+
+      - name: Cache vcpkg
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-vcpkg
+        with:
+          path: ~/.cache/vcpkg
+          key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Setup
+        run: |
+          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache
+          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
+          export CXX="g++-10" CC="gcc-10"
+          cd $VCPKG_INSTALLATION_ROOT
+          git reset --hard
+          git pull --no-rebase
+          ./bootstrap-vcpkg.sh
+          vcpkg integrate install
+
+      - name: Configure CMake
+        shell: bash
+        run: cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
+
+      - name: Build
+        shell: bash
+        run: |
+          curl -L -O https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
+          unzip -o build-wrapper-linux-x86.zip
+          build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir cfamily-output cmake --build build
+
       - name: SonarCloud scan
         uses: SonarSource/sonarcloud-github-action@master
         env:
