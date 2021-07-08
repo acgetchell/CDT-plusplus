@@ -98,15 +98,19 @@ jobs:
           ./bootstrap-vcpkg.sh
           vcpkg integrate install
 
-      - name: Configure CMake
+      - name: Install vcpkg packages and configure CMake
         shell: bash
-        run: cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
+        run: |
+          vcpkg install --feature-flags=manifests
+          export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
+          cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
 
       - name: Build
         shell: bash
         run: |
           curl -L -O https://sonarcloud.io/static/cpp/build-wrapper-linux-x86.zip
           unzip -o build-wrapper-linux-x86.zip
+          cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
           build-wrapper-linux-x86/build-wrapper-linux-x86-64 --out-dir cfamily-output cmake --build build
 
       - name: SonarCloud scan
