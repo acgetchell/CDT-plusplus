@@ -105,7 +105,7 @@ $(function() {
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>                     m_passes{1};</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>                     m_checkpoint{1};</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <a class="code" href="struct_geometry.html">Geometry&lt;ManifoldType::dimension&gt;</a> m_geometry;</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;ManifoldType&gt;</a> m_attempted_moves{1};</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;ManifoldType&gt;</a> m_attempted_moves{0};</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;ManifoldType&gt;</a> m_failed_moves{0};</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160; <span class="keyword">public</span>:</div>
@@ -303,7 +303,7 @@ $(function() {
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    fmt::print(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    fmt::print(<span class="stringliteral">&quot;Attempting move.\n&quot;</span>);</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    fmt::print(<span class="stringliteral">&quot;Move type = {}\n&quot;</span>, ergodic_moves::as_integer(move));</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    fmt::print(<span class="stringliteral">&quot;Move type = {}\n&quot;</span>, move_tracker::as_integer(move));</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    fmt::print(<span class="stringliteral">&quot;Trial_value = {}\n&quot;</span>, trial_value);</div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    fmt::print(<span class="stringliteral">&quot;Trial = \n&quot;</span>, trial);</div>
 <div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    fmt::print(<span class="stringliteral">&quot;A1 = {}\n&quot;</span>, a1);</div>
@@ -321,7 +321,7 @@ $(function() {
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160; </div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="comment">// Move rejected</span></div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="comment">// Increment attempted_moves_</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    ++m_attempted_moves[as_integer(move)];</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    ++m_attempted_moves[move_tracker::as_integer(move)];</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160; </div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;  }  <span class="comment">// attempt_move()</span></div>
@@ -482,7 +482,7 @@ $(function() {
 <div class="ttc" id="aclass_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_html_ac6a5f6a8688f4b1120c5c767898368de"><div class="ttname"><a href="class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ac6a5f6a8688f4b1120c5c767898368de">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::MoveStrategy</a></div><div class="ttdeci">MoveStrategy(long double Alpha, long double K, long double Lambda, Int_precision passes, Int_precision checkpoint)</div><div class="ttdoc">Metropolis function object constructor.</div><div class="ttdef"><b>Definition:</b> <a href="_metropolis_8hpp_source.html#l00091">Metropolis.hpp:91</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 8 2021 04:37:19 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 8 2021 13:35:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
