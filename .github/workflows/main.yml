@@ -10,8 +10,8 @@ jobs:
         os: [macos-latest, ubuntu-latest]
         include:
           - os: macos-latest
-              compiler: clang
-              target: Macos
+            compiler: clang
+            target: Macos
 
           - os: ubuntu-latest
             compiler: g++-10
