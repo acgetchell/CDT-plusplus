@@ -118,7 +118,7 @@ $(function() {
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;<span class="keyword">using</span> Point           = Delaunay3::Point;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;<span class="keyword">using</span> Edge_handle     = std::tuple&lt;Cell_handle, int, int&gt;;</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="keyword">using</span> Causal_vertices = std::vector&lt;std::pair&lt;Point, int&gt;&gt;;</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_move__tracker.html">Move_tracker</a>    = std::array&lt;int, 5&gt;;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;<span class="keyword">using</span> Move_tracker    = std::array&lt;int, 5&gt;;</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160; </div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;<span class="keyword">enum class</span> move_type</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;{</div>
@@ -311,12 +311,11 @@ $(function() {
 <div class="ttc" id="a_s3_triangulation_8hpp_html_ae951ec1742e61c4fd7f1592e5594ac98"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a></div><div class="ttdeci">static constexpr double INITIAL_RADIUS</div><div class="ttdoc">Initial radius and radial factor.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00096">S3Triangulation.hpp:96</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html"><div class="ttname"><a href="_utilities_8hpp.html">Utilities.hpp</a></div><div class="ttdoc">Utility functions.</div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_abc9cbd159e8739ebb95c9709a1133485"><div class="ttname"><a href="_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485">fix_triangulation</a></div><div class="ttdeci">void fix_triangulation(Manifold &amp;&amp;universe_ptr)</div><div class="ttdoc">Fixes the foliation of the triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00211">S3Triangulation.hpp:211</a></div></div>
-<div class="ttc" id="astruct_move__tracker_html"><div class="ttname"><a href="struct_move__tracker.html">Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00033">Move_command.hpp:33</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_a7e50d58c59328f4e8b48e0e6ba7c445e"><div class="ttname"><a href="_s3_triangulation_8hpp.html#a7e50d58c59328f4e8b48e0e6ba7c445e">make_foliated_sphere</a></div><div class="ttdeci">auto make_foliated_sphere(const std::int_fast64_t simplices, const std::int_fast64_t timeslices, double initial_radius=INITIAL_RADIUS, double radial_factor=RADIAL_FACTOR)</div><div class="ttdoc">Make foliated spheres.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00245">S3Triangulation.hpp:245</a></div></div>
 <div class="ttc" id="a_s3_triangulation_8hpp_html_ac8b9d174858456041aec6193e216197b"><div class="ttname"><a href="_s3_triangulation_8hpp.html#ac8b9d174858456041aec6193e216197b">insert_into_triangulation</a></div><div class="ttdeci">void insert_into_triangulation(Manifold &amp;&amp;universe_ptr, Causal_vertices cv)</div><div class="ttdoc">Inserts vertices with timeslices into Delaunay triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_triangulation_8hpp_source.html#l00230">S3Triangulation.hpp:230</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 2 2021 23:29:39 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 8 2021 04:37:19 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

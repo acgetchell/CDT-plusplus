@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['calculatea1_12',['CalculateA1',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aa3783e2825b04152237aacf92c72489e',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
-  ['calculatea2_13',['CalculateA2',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#af9582032ae15ed733b17dc17cc951f1b',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
+  ['calculatea1_12',['CalculateA1',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aa697e823c8621b486323ca249ce2bfa5',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
+  ['calculatea2_13',['CalculateA2',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a71564baa5d4147eea1b7535e1fc0ea32',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
   ['cdt_2dgv_2ecpp_14',['cdt-gv.cpp',['../cdt-gv_8cpp.html',1,'']]],
   ['cdt_2dopt_2ecpp_15',['cdt-opt.cpp',['../cdt-opt_8cpp.html',1,'']]],
   ['cdt_2ecpp_16',['cdt.cpp',['../cdt_8cpp.html',1,'']]],
@@ -9,7 +9,7 @@ var searchData=
   ['check_5fall_5fcells_18',['check_all_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#acd9f18037f31dd590f81665a84435756',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fall_5fvertices_19',['check_all_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a8a4b02006df092a030035585cf74feab',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fcells_20',['check_cells',['../_foliated__triangulation_8hpp.html#aade65517c282aa86193b22aa27bfb726',1,'foliated_triangulations']]],
-  ['check_5fmove_21',['check_move',['../_ergodic__moves__3_8hpp.html#acba2261caf31a6d7707984cf3dd85ed0',1,'ergodic_moves']]],
+  ['check_5fmove_21',['check_move',['../_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649',1,'ergodic_moves']]],
   ['check_5fsimplices_22',['check_simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['check_5ftimeslices_23',['check_timeslices',['../_foliated__triangulation_8hpp.html#aa67ec6367264f46b1bac719c90c04387',1,'foliated_triangulations']]],
   ['check_5fvertices_24',['check_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#aa237c6814433985b7a7ab0b105801b86',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],

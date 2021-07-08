@@ -100,14 +100,55 @@ $(function() {
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;{</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;};</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVE_ALGORITHM_HPP_</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> MoveCommand&gt;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keywordtype">void</span> enqueue_move(<a class="code" href="class_move_command.html">MoveCommand</a>&amp;            move_command,</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;                  move_tracker::move_type move_choice)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;{</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <span class="keywordflow">if</span> (move_choice == move_tracker::move_type::TWO_THREE)</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  {</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    <span class="keyword">auto</span> move = ergodic_moves::do_23_move;</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    move_command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  }</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">if</span> (move_choice == move_tracker::move_type::THREE_TWO)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  {</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#a6dfb3b814a418d959cbdcf0b9b3c085e">ergodic_moves::do_32_move</a>;</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    move_command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  }</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="keywordflow">if</span> (move_choice == move_tracker::move_type::TWO_SIX)</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  {</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#afb45de56a52416a9000e4c0f5254abe0">ergodic_moves::do_26_move</a>;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    move_command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  }</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordflow">if</span> (move_choice == move_tracker::move_type::SIX_TWO)</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  {</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">ergodic_moves::do_62_move</a>;</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    move_command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  }</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="keywordflow">if</span> (move_choice == move_tracker::move_type::FOUR_FOUR)</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  {</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keyword">auto</span> move = <a class="code" href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">ergodic_moves::do_44_move</a>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    move_command.<a class="code" href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">enqueue</a>(move);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="preprocessor">#endif  // INCLUDE_MOVE_ALGORITHM_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a7a4086b73d0d22a24a6c855fabf385d0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00384">Ergodic_moves_3.hpp:384</a></div></div>
+<div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:20</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_afb45de56a52416a9000e4c0f5254abe0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#afb45de56a52416a9000e4c0f5254abe0">ergodic_moves::do_26_move</a></div><div class="ttdeci">auto do_26_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,6) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00197">Ergodic_moves_3.hpp:197</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a15271475bfc60532ba0d0efa4017aa1a"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">ergodic_moves::do_44_move</a></div><div class="ttdeci">auto do_44_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (4,4) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00462">Ergodic_moves_3.hpp:462</a></div></div>
 <div class="ttc" id="a_move__command_8hpp_html"><div class="ttname"><a href="_move__command_8hpp.html">Move_command.hpp</a></div><div class="ttdoc">Do ergodic moves using the Command pattern.</div></div>
+<div class="ttc" id="aclass_move_command_html_a564f1b43111523eb561c87d1fc16c35f"><div class="ttname"><a href="class_move_command.html#a564f1b43111523eb561c87d1fc16c35f">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(FunctionType t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00059">Move_command.hpp:59</a></div></div>
 <div class="ttc" id="a_move__strategy_8hpp_html_a1f7f684780bf3e88cb1f7ad77f4e9c30"><div class="ttname"><a href="_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30">Strategies</a></div><div class="ttdeci">Strategies</div><div class="ttdoc">The algorithms available to make ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00019">Move_strategy.hpp:19</a></div></div>
 <div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00029">Move_strategy.hpp:29</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a6dfb3b814a418d959cbdcf0b9b3c085e"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a6dfb3b814a418d959cbdcf0b9b3c085e">ergodic_moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00125">Ergodic_moves_3.hpp:125</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 2 2021 23:29:39 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Jul 8 2021 04:37:19 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
