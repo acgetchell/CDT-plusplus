@@ -56,7 +56,7 @@ SCENARIO("Complex lambda operations", "[function-ref]")
         auto result = move23(manifold);
         result.update();
         CHECK(ergodic_moves::check_move(manifold, result,
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -94,7 +94,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
       THEN("The move from the function_ref is correct.")
       {
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -123,7 +123,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
           "correct.")
       {
         CHECK(ergodic_moves::check_move(manifold, result,
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();

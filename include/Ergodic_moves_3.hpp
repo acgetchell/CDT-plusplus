@@ -11,29 +11,13 @@
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
-#include "Manifold.hpp"
+#include "Move_tracker.hpp"
 #include <tl/expected.hpp>
 
 using Expected = tl::expected<manifolds::Manifold3, std::string>;
 
 namespace ergodic_moves
 {
-  enum class move_type
-  {
-    TWO_THREE = 0,
-    THREE_TWO = 1,
-    TWO_SIX   = 2,
-    SIX_TWO   = 3,
-    FOUR_FOUR = 4
-  };
-
-  /// @brief Convert enumeration to underlying integer
-  template <typename Enumeration>
-  auto as_integer(Enumeration const value) ->
-      typename std::underlying_type<Enumeration>::type
-  {
-    return static_cast<typename std::underlying_type<Enumeration>::type>(value);
-  }
 
   /// @brief Perform a null move
   ///
@@ -510,13 +494,14 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(manifolds::Manifold3 const& t_before,
-                                       manifolds::Manifold3 const& t_after,
-                                       move_type const& t_move) -> bool
+  [[nodiscard]] inline auto check_move(manifolds::Manifold3 const&    t_before,
+                                       manifolds::Manifold3 const&    t_after,
+                                       move_tracker::move_type const& t_move)
+      -> bool
   {
     switch (t_move)
     {
-      case move_type::FOUR_FOUR: {
+      case move_tracker::move_type::FOUR_FOUR: {
         return (t_after.is_valid() && t_after.N3() == t_before.N3() &&
                 t_after.N3_31() == t_before.N3_31() &&
                 t_after.N3_22() == t_before.N3_22() &&
@@ -529,7 +514,7 @@ namespace ergodic_moves
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
       }
-      case move_type::TWO_THREE: {
+      case move_tracker::move_type::TWO_THREE: {
         return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
                 t_after.N3_31() == t_before.N3_31() &&
                 t_after.N3_22() == t_before.N3_22() + 1 &&
@@ -542,7 +527,7 @@ namespace ergodic_moves
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
       }
-      case move_type::THREE_TWO: {
+      case move_tracker::move_type::THREE_TWO: {
         return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
                 t_after.N3_31() == t_before.N3_31() &&
                 t_after.N3_22() == t_before.N3_22() - 1 &&
@@ -555,7 +540,7 @@ namespace ergodic_moves
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
       }
-      case move_type::TWO_SIX: {
+      case move_tracker::move_type::TWO_SIX: {
         return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
                 t_after.N3_31() == t_before.N3_31() + 2 &&
                 t_after.N3_22() == t_before.N3_22() &&
@@ -568,7 +553,7 @@ namespace ergodic_moves
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
       }
-      case move_type::SIX_TWO: {
+      case move_tracker::move_type::SIX_TWO: {
         return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
                 t_after.N3_31() == t_before.N3_31() - 2 &&
                 t_after.N3_22() == t_before.N3_22() &&

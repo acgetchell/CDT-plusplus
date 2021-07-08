@@ -10,6 +10,7 @@ add_executable(
   Metropolis_test.cpp
   Move_always_test.cpp
   Move_command_test.cpp
+  Move_tracker_test.cpp
   S3Action_test.cpp
   Sphere_test.cpp
   Tetrahedron_test.cpp

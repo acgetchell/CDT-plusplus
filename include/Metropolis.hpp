@@ -55,8 +55,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   Int_precision                     m_passes{1};
   Int_precision                     m_checkpoint{1};
   Geometry<ManifoldType::dimension> m_geometry;
-  Move_tracker<ManifoldType>        m_attempted_moves;
-  Move_tracker<ManifoldType>        m_failed_moves;
+  move_tracker::Move_tracker<ManifoldType> m_attempted_moves{1};
+  move_tracker::Move_tracker<ManifoldType> m_failed_moves{0};
 
  public:
   /// @brief Default dtor
@@ -151,10 +151,10 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   ///
   /// @param move The type of move
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
-  auto CalculateA1(ergodic_moves::move_type move) const noexcept
+  auto CalculateA1(move_tracker::move_type move) const noexcept
   {
     auto total_moves = this->total_moves();
-    auto this_move   = m_attempted_moves[ergodic_moves::as_integer(move)];
+    auto this_move   = m_attempted_moves[move];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
@@ -191,48 +191,47 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @param move The type of move
   /// @return \f$a_2=e^{-\Delta S}\f$
   template <int dimension>
-  auto CalculateA2(ergodic_moves::move_type move) const noexcept
+  auto CalculateA2(move_tracker::move_type move) const noexcept
   {
-    switch (dimension)
+    if (dimension == 3)
     {
-      case 3: {
         auto currentS3Action =
             S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
                            m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
         auto newS3Action = static_cast<Gmpzf>(0);
         switch (move)
         {
-          case ergodic_moves::move_type::TWO_THREE:
+          case move_tracker::move_type::TWO_THREE:
             // A (2,3) move adds a timelike edge
             // and a (2,2) simplex
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
                                m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
             break;
-          case ergodic_moves::move_type::THREE_TWO:
+          case move_tracker::move_type::THREE_TWO:
             // A (3,2) move removes a timelike edge
             // and a (2,2) simplex
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
                                m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
             break;
-          case ergodic_moves::move_type::TWO_SIX:
+          case move_tracker::move_type::TWO_SIX:
             // A (2,6) move adds 2 timelike edges and
             // 2 (1,3) and 2 (3,1) simplices
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
                                m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
             break;
-          case ergodic_moves::move_type::SIX_TWO:
+          case move_tracker::move_type::SIX_TWO:
             // A (6,2) move removes 2 timelike edges and
             // 2 (1,3) and 2 (3,1) simplices
             newS3Action =
                 S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
                                m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
             break;
-          case ergodic_moves::move_type::FOUR_FOUR:
-// A (4,4) move changes nothing with respect to the action,
-// and e^0==1
+          case move_tracker::move_type::FOUR_FOUR:
+            // A (4,4) move changes nothing with respect to the action,
+            // and e^0==1
 #ifndef NDEBUG
             fmt::print("A2 is 1\n");
 #endif
@@ -274,9 +273,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
         return result;
       }
-      default:
-        break;
-    }
   }  // CalculateA2()
 
   /// @brief Attempt a move of the selected type
@@ -287,12 +283,12 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// calls make_move(). If not, it updates **attempted_moves_**.
   ///
   /// @param move The type of move
-  auto attempt_move(ergodic_moves::move_type move) -> bool
+  auto attempt_move(move_tracker::move_type move) -> bool
   {
     // Calculate probability
     auto a1 = CalculateA1(move);
     // Make move if random number < probability
-    auto a2 = CalculateA2(move);
+    auto a2 = CalculateA2<3>(move);
 
     const auto trial_value = generate_probability();
     // Convert to Gmpzf because trial_value will be set to 0 when
@@ -320,7 +316,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
     // Move rejected
     // Increment attempted_moves_
-    ++m_attempted_moves[ergodic_moves::as_integer(move)];
+    ++m_attempted_moves[as_integer(move)];
     return false;
 
   }  // attempt_move()
@@ -396,15 +392,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
            ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = generate_random_int(
-            0, moves_per_dimension(ManifoldType::dimension) - 1);
-#ifndef NDEBUG
-        fmt::print("Move choice = {}\n", move_choice);
-#endif
-
-        // Convert std::size_t move_choice to move_type enum
-        auto move = static_cast<ergodic_moves::move_type>(move_choice);
-        if (attempt_move(move)) { command.enqueue(move); }
+        auto move = move_tracker::generate_random_move_3();
+        if (attempt_move(move)) { enqueue_move(command, move); }
       }  // End loop through CurrentTotalSimplices
 
       // Do the moves

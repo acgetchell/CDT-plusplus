@@ -14,68 +14,6 @@
 #include "Apply_move.hpp"
 #include "Ergodic_moves_3.hpp"
 
-static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
-static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
-
-/// @brief Determine ergodic moves for a given dimension at compile-time
-/// @param dim Dimensionality of the triangulation
-/// @return The number of ergodic moves for that dimensionality
-constexpr auto moves_per_dimension(Int_precision dim) -> Int_precision
-{
-  if (dim == 3) { return NUMBER_OF_3D_MOVES; }
-  if (dim == 4) { return NUMBER_OF_4D_MOVES; }
-  return 0;  // Error condition
-}
-
-/// @brief The data and methods to track ergodic moves
-/// @tparam ManifoldType The type of manifold on which moves are made
-template <typename ManifoldType>
-struct Move_tracker
-{
-  std::array<Int_precision, moves_per_dimension(ManifoldType::dimension)>
-      moves = {0};  // NOLINT
-
-  /// @param index The index of the element to be access
-  /// @return The element at the index
-  auto operator[](gsl::index index) -> auto& { return gsl::at(moves, index); }
-
-  /// @param rhs The Move_tracker to add
-  /// @return The sum of the individual elements of the left and right
-  /// Move_trackers
-  auto operator+=(Move_tracker const& rhs)
-  {
-    auto size = static_cast<size_t>(moves.size());
-    for (size_t i = 0; i < size; ++i) { moves[i] += rhs.moves[i]; }
-    return *this;
-  }
-
-  // 3D
-  auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
-
-  auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
-
-  auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
-
-  auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
-
-  auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
-
-  // 4D
-  auto two_four_moves() -> auto& { return gsl::at(moves, 0); }
-
-  auto four_two_moves() -> auto& { return gsl::at(moves, 1); }
-
-  auto three_three_moves() -> auto& { return gsl::at(moves, 2); }
-
-  auto four_six_moves() -> auto& { return gsl::at(moves, 3); }
-
-  auto six_four_moves() -> auto& { return gsl::at(moves, 4); }
-
-  auto two_eight_moves() -> auto& { return gsl::at(moves, 5); }  // NOLINT
-
-  auto eight_two_moves() -> auto& { return gsl::at(moves, 6); }  // NOLINT
-};
-
 template <typename ManifoldType,
           typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
@@ -88,7 +26,7 @@ class MoveCommand
   std::deque<FunctionType> m_moves;
 
   /// @brief Keep track of failed moves
-  Move_tracker<ManifoldType> m_failed_moves;
+  move_tracker::Move_tracker<ManifoldType> m_failed_moves;
 
  public:
   /// @brief No default ctor
@@ -110,7 +48,8 @@ class MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
   /// @return Failed moves by MoveCommand
-  [[nodiscard]] auto get_errors() const -> Move_tracker<ManifoldType>
+  [[nodiscard]] auto get_errors() const
+      -> move_tracker::Move_tracker<ManifoldType>
   {
     return m_failed_moves;
   }
@@ -251,10 +190,6 @@ class MoveCommand
       }
     }
   }
-
-  // Functionality for later, perhaps using a Memento
-  //    virtual void undo();
-  //    virtual void redo();
 };
 
 #endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP

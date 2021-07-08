@@ -8,7 +8,7 @@ rm -rf build
 cmake -S . -B build -G Ninja -D ENABLE_SANITIZER_MEMORY:BOOL=TRUE
 cmake --build build
 pwd
-cd build || exit
+cd build/src || exit
 ./initialize --s -n32000 -t11 -o
-cd tests || exit
-./CDT_test
+cd .. || exit
+ctest --output-on-failure

@@ -13,82 +13,6 @@
 
 using namespace std;
 
-SCENARIO("Move_tracker functionality", "[move command]")
-{
-  GIVEN("A 3D Move_tracker.")
-  {
-    Move_tracker<manifolds::Manifold3> tracked_moves;
-    THEN("There are the correct number of elements.")
-    {
-      REQUIRE(tracked_moves.moves.size() == NUMBER_OF_3D_MOVES);
-    }
-    THEN("Each element is zero-initialized.")
-    {
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 0); }
-    }
-    THEN("Moves can be added.")
-    {
-      // Add +1 to each move
-      for (auto& move : tracked_moves.moves) { move += 1; }
-      // Now check that it's added
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
-    }
-    THEN("Two move trackers can be added.")
-    {
-      // Add +1 move to left hand side
-      for (auto& move : tracked_moves.moves) { move += 1; }
-      Move_tracker<manifolds::Manifold3> added_moves;
-      added_moves.two_three_moves() += 2;
-      added_moves.three_two_moves() += 2;
-      added_moves.two_six_moves() += 2;
-      added_moves.six_two_moves() += 2;
-      added_moves.four_four_moves() += 2;
-      // Add the Move_trackers
-      tracked_moves += added_moves;
-
-      // Now check
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 3); }
-    }
-  }
-  GIVEN("A 4D Move_tracker.")
-  {
-    Move_tracker<manifolds::Manifold4> tracked_moves;
-    THEN("There are the correct number of elements.")
-    {
-      REQUIRE(tracked_moves.moves.size() == NUMBER_OF_4D_MOVES);
-    }
-    THEN("Each element is zero-initialized.")
-    {
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 0); }
-    }
-    THEN("Moves can be added.")
-    {
-      // Add +1 to each move
-      for (auto& move : tracked_moves.moves) { move += 1; }
-      // Now check that it's added
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
-    }
-    THEN("Two move trackers can be added.")
-    {
-      // Add +1 move to left hand side
-      for (auto& move : tracked_moves.moves) { move += 1; }
-      Move_tracker<manifolds::Manifold4> added_moves;
-      added_moves.two_four_moves() += 2;
-      added_moves.four_two_moves() += 2;
-      added_moves.three_three_moves() += 2;
-      added_moves.four_six_moves() += 2;
-      added_moves.six_four_moves() += 2;
-      added_moves.two_eight_moves() += 2;
-      added_moves.eight_two_moves() += 2;
-      // Add the Move_trackers
-      tracked_moves += added_moves;
-
-      // Now check
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 3); }
-    }
-  }
-}
-
 SCENARIO("Move_command special members", "[move command]")
 {
   GIVEN("A Move_command.")
@@ -147,7 +71,7 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
         auto result = move23(manifold);
         result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -176,7 +100,7 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
         auto result = move23(manifold);
         result.update();
         CHECK(ergodic_moves::check_move(manifold, result,
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -204,7 +128,7 @@ SCENARIO("Invoking a move with apply_move and a function pointer",
         auto result = apply_move(manifold, move);
         result->update();
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -341,7 +265,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::FOUR_FOUR));
+                                          move_tracker::move_type::FOUR_FOUR));
         fmt::print("Move left triangulation unchanged.\n");
       }
     }
@@ -362,7 +286,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() + 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::TWO_THREE));
+                                          move_tracker::move_type::TWO_THREE));
         fmt::print("Triangulation added a finite cell.\n");
       }
     }
@@ -383,7 +307,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::THREE_TWO));
+                                          move_tracker::move_type::THREE_TWO));
         fmt::print("Triangulation removed a finite cell.\n");
       }
     }
@@ -404,7 +328,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() + 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::TWO_SIX));
+                                          move_tracker::move_type::TWO_SIX));
         fmt::print("Triangulation added 4 finite cells.\n");
       }
     }
@@ -425,7 +349,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         CHECK(result.get_triangulation().number_of_finite_cells() ==
               manifold.get_triangulation().number_of_finite_cells() - 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::SIX_TWO));
+                                          move_tracker::move_type::SIX_TWO));
         fmt::print("Triangulation removed 4 finite cells.\n");
       }
     }
@@ -461,7 +385,7 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         // Are there failed moves?
         command.print_errors();
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::FOUR_FOUR));
+                                          move_tracker::move_type::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");
       }
     }
@@ -493,7 +417,7 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         // Are there failed moves?
         command.print_errors();
         REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          ergodic_moves::move_type::FOUR_FOUR));
+                                          move_tracker::move_type::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");
       }
     }

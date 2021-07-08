@@ -14,23 +14,6 @@
 
 using namespace std;
 
-SCENARIO("Move type to integer conversion", "[utility]")
-{
-  GIVEN("A move type.")
-  {
-    auto move23 = ergodic_moves::move_type::TWO_THREE;
-    REQUIRE(ergodic_moves::as_integer(move23) == 0);
-    auto move32 = ergodic_moves::move_type::THREE_TWO;
-    REQUIRE(ergodic_moves::as_integer(move32) == 1);
-    auto move26 = ergodic_moves::move_type::TWO_SIX;
-    REQUIRE(ergodic_moves::as_integer(move26) == 2);
-    auto move62 = ergodic_moves::move_type::SIX_TWO;
-    REQUIRE(ergodic_moves::as_integer(move62) == 3);
-    auto move44 = ergodic_moves::move_type::FOUR_FOUR;
-    REQUIRE(ergodic_moves::as_integer(move44) == 4);
-  }
-}
-
 SCENARIO("Perform ergodic moves on 2+1 triangulations",
          "[ergodic moves][!mayfail]")
 {
@@ -65,7 +48,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         manifold.update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move + 1);
@@ -91,7 +74,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         manifold.update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        ergodic_moves::move_type::THREE_TWO));
+                                        move_tracker::move_type::THREE_TWO));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
         CHECK(manifold.N3_22() == N3_22_pre_move - 1);
@@ -118,7 +101,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         manifold.update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        ergodic_moves::move_type::TWO_SIX));
+                                        move_tracker::move_type::TWO_SIX));
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move + 2);
         CHECK(manifold.N3_22() == N3_22_pre_move);
@@ -145,7 +128,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         manifold.update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        ergodic_moves::move_type::SIX_TWO));
+                                        move_tracker::move_type::SIX_TWO));
         // Manual check
         CHECK(manifold.is_correct());
         CHECK(manifold.N3_31() == N3_31_pre_move - 2);
@@ -171,7 +154,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
         manifold.update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
-                                        ergodic_moves::move_type::FOUR_FOUR));
+                                        move_tracker::move_type::FOUR_FOUR));
 
         // A (4,4) move by itself does not break the Delaunay triangulation
 

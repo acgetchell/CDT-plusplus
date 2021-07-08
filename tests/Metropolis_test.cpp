@@ -114,24 +114,24 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
   constexpr auto Alpha                 = static_cast<long double>(0.6);
   constexpr auto K                     = static_cast<long double>(1.1);
   constexpr auto Lambda                = static_cast<long double>(0.1);
-  constexpr auto passes                = static_cast<Int_precision>(10);
+  constexpr auto passes                = static_cast<Int_precision>(1);
   constexpr auto output_every_n_passes = static_cast<Int_precision>(1);
   GIVEN("A correctly-constructed Manifold3.")
   {
-    constexpr auto       simplices  = static_cast<Int_precision>(640);
+    constexpr auto       simplices  = static_cast<Int_precision>(72);
     constexpr auto       timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
-    WHEN("A Metropolis function object is constructed.")
-    {
-      Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
-      //      THEN("A lot of moves are done.")
-      //      {
-      //        auto result = testrun(universe);
-      //        CHECK(result.is_valid());
-      //      }
-    }
+    //    WHEN("A Metropolis function object is constructed.")
+    //    {
+    //      Metropolis3 testrun(Alpha, K, Lambda, passes,
+    //      output_every_n_passes); THEN("A lot of moves are done.")
+    //      {
+    //        auto result = testrun(universe);
+    //        CHECK(result.is_valid());
+    //      }
+    //    }
   }
 }
 //    WHEN("The Metropolis functor is called.")

@@ -23,8 +23,8 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
-  Move_tracker<ManifoldType> m_attempted_moves;
-  Move_tracker<ManifoldType> m_failed_moves;
+  move_tracker::Move_tracker<ManifoldType> m_attempted_moves;
+  move_tracker::Move_tracker<ManifoldType> m_failed_moves;
 
  public:
   /// @brief Default dtor
@@ -100,7 +100,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
       {
         // Pick a move to attempt
         auto move_choice = generate_random_int(
-            0, moves_per_dimension(ManifoldType::dimension) - 1);
+            0, move_tracker::moves_per_dimension(ManifoldType::dimension) - 1);
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);
 #endif
@@ -138,10 +138,9 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
           m_attempted_moves[4] += 1;
           command.enqueue(move);
         }
-
-        command.execute();
-        m_failed_moves = command.get_errors();
       }
+      command.execute();
+      m_failed_moves = command.get_errors();
     }
     print_results();
     return command.get_results();

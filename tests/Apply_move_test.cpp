@@ -53,7 +53,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         result->update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::TWO_THREE));
+                                        move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -72,7 +72,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         result->update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::THREE_TWO));
+                                        move_tracker::move_type::THREE_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -91,7 +91,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         result->update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::TWO_SIX));
+                                        move_tracker::move_type::TWO_SIX));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -110,7 +110,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         result->update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::SIX_TWO));
+                                        move_tracker::move_type::SIX_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
@@ -129,7 +129,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         result->update();
         // The move is correct
         CHECK(ergodic_moves::check_move(manifold, result.value(),
-                                        ergodic_moves::move_type::FOUR_FOUR));
+                                        move_tracker::move_type::FOUR_FOUR));
         // Human verification
         fmt::print("Old manifold.\n");
         manifold.print_details();
