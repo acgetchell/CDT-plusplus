@@ -64,3 +64,16 @@ jobs:
         export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
         cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
         cmake --build build
+
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - name: SonarCloud scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR info, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
