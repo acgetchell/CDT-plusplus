@@ -92,7 +92,7 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](manifolds::Manifold3& m) -> manifolds::Manifold3 {
+      auto const move23 = [](manifolds::Manifold3& m) {
         return ergodic_moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
@@ -158,30 +158,30 @@ SCENARIO("Move Command initialization", "[move command]")
       }
       THEN("It contains the manifold.")
       {
-        CHECK(manifold.N3() == command.get_manifold().N3());
-        CHECK(manifold.N3_31() == command.get_manifold().N3_31());
-        CHECK(manifold.N3_22() == command.get_manifold().N3_22());
-        CHECK(manifold.N3_13() == command.get_manifold().N3_13());
-        CHECK(manifold.N3_31_13() == command.get_manifold().N3_31_13());
-        CHECK(manifold.N2() == command.get_manifold().N2());
-        CHECK(manifold.N1() == command.get_manifold().N1());
-        CHECK(manifold.N1_TL() == command.get_manifold().N1_TL());
-        CHECK(manifold.N1_SL() == command.get_manifold().N1_SL());
-        CHECK(manifold.N0() == command.get_manifold().N0());
-        CHECK(manifold.max_time() == command.get_manifold().max_time());
-        CHECK(manifold.min_time() == command.get_manifold().min_time());
+        CHECK(manifold.N3() == command.get_const_results().N3());
+        CHECK(manifold.N3_31() == command.get_const_results().N3_31());
+        CHECK(manifold.N3_22() == command.get_const_results().N3_22());
+        CHECK(manifold.N3_13() == command.get_const_results().N3_13());
+        CHECK(manifold.N3_31_13() == command.get_const_results().N3_31_13());
+        CHECK(manifold.N2() == command.get_const_results().N2());
+        CHECK(manifold.N1() == command.get_const_results().N1());
+        CHECK(manifold.N1_TL() == command.get_const_results().N1_TL());
+        CHECK(manifold.N1_SL() == command.get_const_results().N1_SL());
+        CHECK(manifold.N0() == command.get_const_results().N0());
+        CHECK(manifold.max_time() == command.get_const_results().max_time());
+        CHECK(manifold.min_time() == command.get_const_results().min_time());
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
         manifold.print_volume_per_timeslice();
-        fmt::print("Command.get_manifold() properties:\n");
-        command.get_manifold().print_details();
-        command.get_manifold().print_volume_per_timeslice();
+        fmt::print("Command.get_const_results() properties:\n");
+        command.get_const_results().print_details();
+        command.get_const_results().print_volume_per_timeslice();
       }
       THEN("The two manifolds are distinct.")
       {
         auto*       manifold_ptr  = &manifold;
-        auto const* manifold2_ptr = &command.get_manifold();
+        auto const* manifold2_ptr = &command.get_const_results();
         CHECK_FALSE(manifold_ptr == manifold2_ptr);
       }
     }
@@ -280,7 +280,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         command.execute();
 
         // Get the results
-        auto result = command.get_results();
+        auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have +1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
@@ -301,7 +301,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         command.execute();
 
         // Get the results
-        auto result = command.get_results();
+        auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
@@ -322,7 +322,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         command.execute();
 
         // Get the results
-        auto result = command.get_results();
+        auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have +4 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
@@ -343,7 +343,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         command.execute();
 
         // Get the results
-        auto result = command.get_results();
+        auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have -1 cell
         CHECK(result.get_triangulation().number_of_finite_cells() ==
@@ -377,7 +377,7 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         command.execute();
 
         // Get the results
-        auto result = command.get_results();
+        auto const& result = command.get_const_results();
 
         // The moves should cancel out
         CHECK(result.get_triangulation().number_of_finite_cells() ==
@@ -409,7 +409,7 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         command.execute();
 
         // Get the results
-        auto result = command.get_results();
+        auto const& result = command.get_const_results();
 
         // The moves should cancel out
         CHECK(result.get_triangulation().number_of_finite_cells() ==

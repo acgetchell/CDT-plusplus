@@ -39,7 +39,7 @@ class MoveCommand
   {}
 
   /// @return A read-only reference to the manifold
-  auto get_manifold() const -> ManifoldType const&
+  auto get_const_results() const -> ManifoldType const&
   {
     return std::cref(m_manifold);
   }
@@ -55,7 +55,7 @@ class MoveCommand
   }
 
   /// @brief Push a Pachner move onto the move queue
-  /// @param t_move The move to do on the manifold
+  /// @param t_move The move function object to do on the manifold
   void enqueue(FunctionType t_move) { m_moves.push_front(std::move(t_move)); }
 
   auto size() const { return m_moves.size(); }
@@ -98,8 +98,6 @@ class MoveCommand
   template <typename UnexpectedType>
   void parse_unexpected(UnexpectedType const error)
   {
-    if (ManifoldType::dimension == 3)
-    {
       // 3D
       if (error.find("(2,3)") != UnexpectedType::npos)
       {
@@ -121,9 +119,6 @@ class MoveCommand
       {
         m_failed_moves.four_four_moves() += 1;
       }
-    }
-    else
-    {
       // 4D
       if (error.find("(2,4)") != UnexpectedType::npos)
       {
@@ -153,7 +148,6 @@ class MoveCommand
       {
         m_failed_moves.eight_two_moves() += 1;
       }
-    }
   }  // parse_unexpected
 
   /// @brief Print Move errors

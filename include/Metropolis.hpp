@@ -331,7 +331,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @tparam T Type of manifold
   /// @param universe Manifold on which to operate
   /// @return The **universe** upon which the passes have been completed.
-  /// @todo: Fix segfaults here
   //  template <typename T>
   //  auto operator()(T&& universe) -> decltype(universe)
   auto operator()(ManifoldType& t_manifold) -> ManifoldType
@@ -386,7 +385,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
       fmt::print("=== Pass {} ===\n", pass_number);
-      auto total_simplices_this_pass = command.get_manifold().N3();
+      auto total_simplices_this_pass = command.get_const_results().N3();
       // Attempt a random move per simplex
       for (auto move_attempt = 0; move_attempt < total_simplices_this_pass;
            ++move_attempt)
