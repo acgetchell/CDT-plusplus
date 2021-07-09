@@ -168,7 +168,7 @@ $(function() {
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    WHEN(<span class="stringliteral">&quot;A lambda is constructed for a move.&quot;</span>)</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    {</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a>&amp; m) -&gt; <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a>&amp; m) {</div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a>(m).value();</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      };</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      THEN(<span class="stringliteral">&quot;Running the lambda makes the move.&quot;</span>)</div>
@@ -234,30 +234,30 @@ $(function() {
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;      }</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;      THEN(<span class="stringliteral">&quot;It contains the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;      {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        CHECK(manifold.N3() == command.get_manifold().N3());</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        CHECK(manifold.N3_31() == command.get_manifold().N3_31());</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        CHECK(manifold.N3_22() == command.get_manifold().N3_22());</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        CHECK(manifold.N3_13() == command.get_manifold().N3_13());</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        CHECK(manifold.N3_31_13() == command.get_manifold().N3_31_13());</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        CHECK(manifold.N2() == command.get_manifold().N2());</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        CHECK(manifold.N1() == command.get_manifold().N1());</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        CHECK(manifold.N1_TL() == command.get_manifold().N1_TL());</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        CHECK(manifold.N1_SL() == command.get_manifold().N1_SL());</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        CHECK(manifold.N0() == command.get_manifold().N0());</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        CHECK(manifold.max_time() == command.get_manifold().max_time());</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        CHECK(manifold.min_time() == command.get_manifold().min_time());</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;        CHECK(manifold.N3() == command.get_const_results().N3());</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;        CHECK(manifold.N3_31() == command.get_const_results().N3_31());</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;        CHECK(manifold.N3_22() == command.get_const_results().N3_22());</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        CHECK(manifold.N3_13() == command.get_const_results().N3_13());</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;        CHECK(manifold.N3_31_13() == command.get_const_results().N3_31_13());</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;        CHECK(manifold.N2() == command.get_const_results().N2());</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;        CHECK(manifold.N1() == command.get_const_results().N1());</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;        CHECK(manifold.N1_TL() == command.get_const_results().N1_TL());</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;        CHECK(manifold.N1_SL() == command.get_const_results().N1_SL());</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;        CHECK(manifold.N0() == command.get_const_results().N0());</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        CHECK(manifold.max_time() == command.get_const_results().max_time());</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        CHECK(manifold.min_time() == command.get_const_results().min_time());</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;        fmt::print(<span class="stringliteral">&quot;Manifold properties:\n&quot;</span>);</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        manifold.print_details();</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        manifold.print_volume_per_timeslice();</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        fmt::print(<span class="stringliteral">&quot;Command.get_manifold() properties:\n&quot;</span>);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        command.get_manifold().print_details();</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        command.get_manifold().print_volume_per_timeslice();</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;        fmt::print(<span class="stringliteral">&quot;Command.get_const_results() properties:\n&quot;</span>);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        command.get_const_results().print_details();</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        command.get_const_results().print_volume_per_timeslice();</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      }</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;      THEN(<span class="stringliteral">&quot;The two manifolds are distinct.&quot;</span>)</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;      {</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        <span class="keyword">auto</span>*       manifold_ptr  = &amp;manifold;</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>* manifold2_ptr = &amp;command.get_manifold();</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>* manifold2_ptr = &amp;command.get_const_results();</div>
 <div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        CHECK_FALSE(manifold_ptr == manifold2_ptr);</div>
 <div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;      }</div>
 <div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
@@ -356,7 +356,7 @@ $(function() {
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160; </div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160; </div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +1 cell</span></div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
@@ -377,7 +377,7 @@ $(function() {
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160; </div>
 <div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160; </div>
 <div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
@@ -398,7 +398,7 @@ $(function() {
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160; </div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +4 cell</span></div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
@@ -419,7 +419,7 @@ $(function() {
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
 <div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
@@ -453,7 +453,7 @@ $(function() {
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160; </div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
@@ -485,7 +485,7 @@ $(function() {
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160; </div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="keyword">auto</span> result = command.get_results();</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160; </div>
 <div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
 <div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
@@ -513,7 +513,7 @@ $(function() {
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a6dfb3b814a418d959cbdcf0b9b3c085e"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a6dfb3b814a418d959cbdcf0b9b3c085e">ergodic_moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00125">Ergodic_moves_3.hpp:125</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 8 2021 19:38:35 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 9 2021 22:17:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

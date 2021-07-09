@@ -102,10 +102,10 @@ Public Member Functions</h2></td></tr>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">execute</a> ()</td></tr>
 <tr class="memdesc:a18c916e22375e0b510e15fdfc0856cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute all moves in the queue on the manifold. <br /></td></tr>
 <tr class="separator:a18c916e22375e0b510e15fdfc0856cf2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa741829f68c6cf06d5bc14a9a0d17a1c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#aa741829f68c6cf06d5bc14a9a0d17a1c">get_const_results</a> () const -&gt; ManifoldType const &amp;</td></tr>
+<tr class="separator:aa741829f68c6cf06d5bc14a9a0d17a1c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a4a09cc6966f6f7474be8256295f8fa37"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a4a09cc6966f6f7474be8256295f8fa37">get_errors</a> () const -&gt; <a class="el" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker</a>&lt; ManifoldType &gt;</td></tr>
 <tr class="separator:a4a09cc6966f6f7474be8256295f8fa37"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa37a1ef3bea959964f4265a0afffe087"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#aa37a1ef3bea959964f4265a0afffe087">get_manifold</a> () const -&gt; ManifoldType const &amp;</td></tr>
-<tr class="separator:aa37a1ef3bea959964f4265a0afffe087"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2be0a2c3d6a65103afc21ee3d800064e"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2be0a2c3d6a65103afc21ee3d800064e">get_results</a> () -&gt; ManifoldType &amp;</td></tr>
 <tr class="separator:a2be0a2c3d6a65103afc21ee3d800064e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a60c12dcf54425cef3cf5539542e23624"><td class="memTemplParams" colspan="2">template&lt;typename UnexpectedType &gt; </td></tr>
@@ -210,7 +210,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 <p>Push a Pachner move onto the move queue. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t_move</td><td>The move to do on the manifold </td></tr>
+    <tr><td class="paramname">t_move</td><td>The move function object to do on the manifold </td></tr>
   </table>
   </dd>
 </dl>
@@ -219,7 +219,42 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00026">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_moves</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00337">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00336">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
+
+</div>
+</div>
+<a id="aa741829f68c6cf06d5bc14a9a0d17a1c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa741829f68c6cf06d5bc14a9a0d17a1c">&#9670;&nbsp;</a></span>get_const_results()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_const_results </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const -&gt; ManifoldType const&amp;
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the manifold </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00042">42</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00023">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00336">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
 
 </div>
 </div>
@@ -254,42 +289,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00029">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_failed_moves</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00337">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
-
-</div>
-</div>
-<a id="aa37a1ef3bea959964f4265a0afffe087"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa37a1ef3bea959964f4265a0afffe087">&#9670;&nbsp;</a></span>get_manifold()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<div class="memtemplate">
-template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">auto <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::get_manifold </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const -&gt; ManifoldType const&amp;
-  </td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-<dl class="section return"><dt>Returns</dt><dd>A read-only reference to the manifold </dd></dl>
-
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00042">42</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
-
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00023">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00337">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00336">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
 
 </div>
 </div>
@@ -323,7 +323,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00023">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00337">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00079">MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>, and <a class="el" href="_metropolis_8hpp_source.html#l00336">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::operator()()</a>.</p>
 
 </div>
 </div>
@@ -383,7 +383,7 @@ template&lt;typename UnexpectedType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 8 2021 19:38:36 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 9 2021 22:17:58 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
