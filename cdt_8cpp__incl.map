@@ -1,52 +1,52 @@
 <map id="src/cdt.cpp" name="src/cdt.cpp">
-<area shape="rect" id="node1" title="The main executable." alt="" coords="736,5,828,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="287,80,429,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="2405,408,2469,435"/>
-<area shape="rect" id="node4" title=" " alt="" coords="2325,319,2388,345"/>
-<area shape="rect" id="node5" title=" " alt="" coords="805,80,884,107"/>
-<area shape="rect" id="node6" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="453,80,572,107"/>
-<area shape="rect" id="node24" href="$_simulation_8hpp.html" title="Simulation class." alt="" coords="661,80,781,107"/>
-<area shape="rect" id="node7" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="153,155,299,181"/>
-<area shape="rect" id="node19" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="347,155,454,181"/>
-<area shape="rect" id="node8" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="121,229,280,256"/>
-<area shape="rect" id="node9" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="299,319,430,345"/>
-<area shape="rect" id="node17" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="111,319,275,345"/>
-<area shape="rect" id="node10" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference." alt="" coords="425,408,555,435"/>
-<area shape="rect" id="node14" title=" " alt="" coords="315,408,401,435"/>
-<area shape="rect" id="node15" title=" " alt="" coords="731,408,790,435"/>
-<area shape="rect" id="node16" title=" " alt="" coords="167,408,290,435"/>
-<area shape="rect" id="node11" title=" " alt="" coords="683,483,750,509"/>
-<area shape="rect" id="node12" title=" " alt="" coords="444,483,536,509"/>
-<area shape="rect" id="node13" title=" " alt="" coords="580,483,640,509"/>
-<area shape="rect" id="node18" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="5,408,143,435"/>
-<area shape="rect" id="node20" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="815,408,917,435"/>
-<area shape="rect" id="node22" title=" " alt="" coords="305,229,366,256"/>
-<area shape="rect" id="node23" title=" " alt="" coords="390,229,454,256"/>
-<area shape="rect" id="node21" title=" " alt="" coords="809,483,923,509"/>
-<area shape="rect" id="node25" href="$_simplicial_manifold_8hpp.html" title="Data structures for simplicial manifolds." alt="" coords="763,155,934,181"/>
-<area shape="rect" id="node26" href="$_s3_triangulation_8hpp.html" title="Functions on 3D Spherical Delaunay Triangulations." alt="" coords="1312,229,1463,256"/>
-<area shape="rect" id="node46" title=" " alt="" coords="681,319,758,345"/>
-<area shape="rect" id="node47" title=" " alt="" coords="782,319,825,345"/>
-<area shape="rect" id="node49" title=" " alt="" coords="832,229,975,256"/>
-<area shape="rect" id="node50" title=" " alt="" coords="999,229,1050,256"/>
-<area shape="rect" id="node27" title=" " alt="" coords="1655,319,1895,345"/>
-<area shape="rect" id="node28" title=" " alt="" coords="1920,304,2092,360"/>
-<area shape="rect" id="node29" title=" " alt="" coords="2117,311,2301,353"/>
-<area shape="rect" id="node30" title=" " alt="" coords="899,311,1102,353"/>
-<area shape="rect" id="node31" title=" " alt="" coords="1127,319,1325,345"/>
-<area shape="rect" id="node32" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="1450,319,1551,345"/>
-<area shape="rect" id="node36" title=" " alt="" coords="1053,408,1138,435"/>
-<area shape="rect" id="node43" title=" " alt="" coords="941,408,1028,435"/>
-<area shape="rect" id="node48" title=" " alt="" coords="1576,319,1631,345"/>
-<area shape="rect" id="node33" title=" " alt="" coords="1265,408,1376,435"/>
-<area shape="rect" id="node34" title=" " alt="" coords="1401,408,1518,435"/>
-<area shape="rect" id="node35" title=" " alt="" coords="1543,408,1699,435"/>
-<area shape="rect" id="node37" title=" " alt="" coords="1723,408,1793,435"/>
-<area shape="rect" id="node38" title=" " alt="" coords="1817,408,1883,435"/>
-<area shape="rect" id="node39" title=" " alt="" coords="1907,408,1980,435"/>
-<area shape="rect" id="node40" title=" " alt="" coords="2005,408,2085,435"/>
-<area shape="rect" id="node41" title=" " alt="" coords="2109,408,2173,435"/>
-<area shape="rect" id="node42" title=" " alt="" coords="2197,408,2269,435"/>
-<area shape="rect" id="node44" title=" " alt="" coords="2293,408,2380,435"/>
-<area shape="rect" id="node45" title=" " alt="" coords="1163,408,1241,435"/>
+<area shape="rect" id="node1" title="The main executable." alt="" coords="919,5,1011,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="497,80,640,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="801,408,865,435"/>
+<area shape="rect" id="node4" title=" " alt="" coords="2735,319,2797,345"/>
+<area shape="rect" id="node5" title=" " alt="" coords="2804,80,2883,107"/>
+<area shape="rect" id="node6" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="664,80,783,107"/>
+<area shape="rect" id="node22" href="$_simulation_8hpp.html" title="Simulation class." alt="" coords="1029,80,1149,107"/>
+<area shape="rect" id="node7" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="417,155,563,181"/>
+<area shape="rect" id="node16" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="659,155,766,181"/>
+<area shape="rect" id="node8" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="339,229,497,256"/>
+<area shape="rect" id="node9" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="353,319,483,345"/>
+<area shape="rect" id="node14" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="147,319,311,345"/>
+<area shape="rect" id="node10" title=" " alt="" coords="479,408,565,435"/>
+<area shape="rect" id="node11" title=" " alt="" coords="590,408,649,435"/>
+<area shape="rect" id="node12" title=" " alt="" coords="167,408,290,435"/>
+<area shape="rect" id="node13" title=" " alt="" coords="315,408,455,435"/>
+<area shape="rect" id="node15" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="5,408,143,435"/>
+<area shape="rect" id="node17" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="673,408,776,435"/>
+<area shape="rect" id="node20" title=" " alt="" coords="549,229,610,256"/>
+<area shape="rect" id="node21" title=" " alt="" coords="634,229,698,256"/>
+<area shape="rect" id="node18" title=" " alt="" coords="667,483,782,509"/>
+<area shape="rect" id="node19" title=" " alt="" coords="837,483,903,509"/>
+<area shape="rect" id="node23" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference." alt="" coords="921,229,1051,256"/>
+<area shape="rect" id="node25" title=" " alt="" coords="1056,319,1116,345"/>
+<area shape="rect" id="node26" href="$_simplicial_manifold_8hpp.html" title="Data structures for simplicial manifolds." alt="" coords="2261,155,2431,181"/>
+<area shape="rect" id="node24" title=" " alt="" coords="940,319,1032,345"/>
+<area shape="rect" id="node27" href="$_s3_triangulation_8hpp.html" title="Functions on 3D Spherical Delaunay Triangulations." alt="" coords="2132,229,2283,256"/>
+<area shape="rect" id="node46" title=" " alt="" coords="2566,319,2643,345"/>
+<area shape="rect" id="node47" title=" " alt="" coords="2667,319,2710,345"/>
+<area shape="rect" id="node49" title=" " alt="" coords="2460,229,2603,256"/>
+<area shape="rect" id="node50" title=" " alt="" coords="2627,229,2678,256"/>
+<area shape="rect" id="node28" title=" " alt="" coords="1266,319,1506,345"/>
+<area shape="rect" id="node29" title=" " alt="" coords="1531,304,1703,360"/>
+<area shape="rect" id="node30" title=" " alt="" coords="1727,311,1911,353"/>
+<area shape="rect" id="node31" title=" " alt="" coords="1935,311,2138,353"/>
+<area shape="rect" id="node32" title=" " alt="" coords="2163,319,2361,345"/>
+<area shape="rect" id="node33" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="1141,319,1242,345"/>
+<area shape="rect" id="node37" title=" " alt="" coords="2134,408,2219,435"/>
+<area shape="rect" id="node44" title=" " alt="" coords="2352,408,2439,435"/>
+<area shape="rect" id="node48" title=" " alt="" coords="2487,319,2541,345"/>
+<area shape="rect" id="node34" title=" " alt="" coords="940,408,1051,435"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1075,408,1193,435"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1217,408,1373,435"/>
+<area shape="rect" id="node38" title=" " alt="" coords="1398,408,1467,435"/>
+<area shape="rect" id="node39" title=" " alt="" coords="1492,408,1557,435"/>
+<area shape="rect" id="node40" title=" " alt="" coords="1581,408,1655,435"/>
+<area shape="rect" id="node41" title=" " alt="" coords="1679,408,1759,435"/>
+<area shape="rect" id="node42" title=" " alt="" coords="1783,408,1847,435"/>
+<area shape="rect" id="node43" title=" " alt="" coords="1871,408,1943,435"/>
+<area shape="rect" id="node45" title=" " alt="" coords="1968,408,2055,435"/>
 </map>

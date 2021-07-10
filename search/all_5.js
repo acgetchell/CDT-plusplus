@@ -24,6 +24,5 @@ var searchData=
   ['function_5fref_79',['function_ref',['../classfunction__ref.html',1,'']]],
   ['function_5fref_2ehpp_80',['Function_ref.hpp',['../_function__ref_8hpp.html',1,'']]],
   ['function_5fref_3c_20ret_28params_2e_2e_2e_29_3e_81',['function_ref&lt; Ret(Params...)&gt;',['../classfunction__ref_3_01_ret_07_params_8_8_8_08_4.html',1,'']]],
-  ['function_5fref_3c_20simplicialmanifold_28simplicialmanifold_29_3e_82',['function_ref&lt; SimplicialManifold(SimplicialManifold)&gt;',['../classfunction__ref.html',1,'']]],
-  ['function_5fref_3c_20tl_3a_3aexpected_3c_20manifoldtype_2c_20std_3a_3astring_20_3e_28manifoldtype_20_26_29_3e_83',['function_ref&lt; tl::expected&lt; ManifoldType, std::string &gt;(ManifoldType &amp;)&gt;',['../classfunction__ref.html',1,'']]]
+  ['function_5fref_3c_20simplicialmanifold_28simplicialmanifold_29_3e_82',['function_ref&lt; SimplicialManifold(SimplicialManifold)&gt;',['../classfunction__ref.html',1,'']]]
 ];

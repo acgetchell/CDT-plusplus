@@ -1,10 +1,7 @@
 <map id="include/Apply_move.hpp" name="include/Apply_move.hpp">
-<area shape="rect" id="node1" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="231,5,414,32"/>
-<area shape="rect" id="node2" href="$_function__ref_8hpp.html" title="Efficient, type&#45;erasing, non&#45;owning function reference." alt="" coords="78,80,207,107"/>
-<area shape="rect" id="node6" title=" " alt="" coords="231,80,318,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="343,80,401,107"/>
-<area shape="rect" id="node8" title=" " alt="" coords="425,80,548,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="5,155,72,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="97,155,189,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="213,155,273,181"/>
+<area shape="rect" id="node1" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="112,5,295,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="5,80,92,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="117,80,175,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="199,80,322,107"/>
+<area shape="rect" id="node5" title=" " alt="" coords="347,80,487,107"/>
 </map>
