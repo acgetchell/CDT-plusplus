@@ -94,7 +94,7 @@ jobs:
         run: |
           sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache lcov
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
           export CXX="g++-10" CC="gcc-10"
           cd $VCPKG_INSTALLATION_ROOT
@@ -108,9 +108,9 @@ jobs:
         run: |
           vcpkg install --feature-flags=manifests
           export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
-          cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
+          cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
-      - name: Cache SonarCloud packages
+      - name: Cache SonarCloud packages and analysis
         uses: actions/cache@v2
         id: sonarcloud-cache
         with:
@@ -142,8 +142,16 @@ jobs:
           echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
           echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
 
-      - name: Run build-wrapper
+      - name: Build
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
+
+      - name: Test and generate coverage
+        run: |
+          cd $GITHUB_WORKSPACE/build
+          ctest ctest --schedule-random -V
+          lcov --capture --directory . --output-file coverage.info
+          lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg/*' --output-file coverage.info
+          lcov --list coverage.info
 
       - name: Run sonar-scanner
         env:
