@@ -12,7 +12,7 @@ var searchData=
   ['get_5fcells_413',['get_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#af20e7d3f24a61f508f076fa999995239',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['get_5fconst_5fresults_414',['get_const_results',['../class_move_command.html#aa741829f68c6cf06d5bc14a9a0d17a1c',1,'MoveCommand']]],
   ['get_5fdelaunay_415',['get_delaunay',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a208826b112e1adb3214c5523c39b3c37',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['get_5ferrors_416',['get_errors',['../class_move_command.html#a4a09cc6966f6f7474be8256295f8fa37',1,'MoveCommand']]],
+  ['get_5ferrors_416',['get_errors',['../class_move_command.html#a56159dccc5e73af28f81dd7b1369b369',1,'MoveCommand']]],
   ['get_5ffailed_417',['get_failed',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae05029692d74b10959017ece02150e36',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::get_failed()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a0a4972d60c44529dc04a83d08ec5ef3e',1,'MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::get_failed()']]],
   ['get_5fgeometry_418',['get_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#a2f49108fe7bba800c59bfbf0604c1a17',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['get_5fone_5fthree_419',['get_one_three',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a0630761430685d584c5c928f5ee0a035',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],

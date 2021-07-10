@@ -10,9 +10,9 @@ var searchData=
   ['torus_5ftest_2ecpp_252',['Torus_test.cpp',['../_torus__test_8cpp.html',1,'']]],
   ['total_5fmoves_253',['total_moves',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aaf13c70402e3b5cf5d7a3f9a0aaa3cf5',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
   ['triangulation_254',['triangulation',['../struct_simplicial_manifold.html#a539e6a163d62076aac4067a16e7f16be',1,'SimplicialManifold::triangulation()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a5702ee66c3e7e988237ccc33fc14506f',1,'manifolds::Manifold&lt; 3 &gt;::triangulation()']]],
-  ['triangulation_5ftraits_255',['triangulation_traits',['../structtriangulation__traits.html',1,'']]],
-  ['triangulation_5ftraits_2ehpp_256',['Triangulation_traits.hpp',['../_triangulation__traits_8hpp.html',1,'']]],
-  ['triangulation_5ftraits_3c_203_20_3e_257',['triangulation_traits&lt; 3 &gt;',['../structtriangulation__traits_3_013_01_4.html',1,'']]],
+  ['triangulation_5ftraits_2ehpp_255',['Triangulation_traits.hpp',['../_triangulation__traits_8hpp.html',1,'']]],
+  ['triangulationtraits_256',['TriangulationTraits',['../struct_triangulation_traits.html',1,'']]],
+  ['triangulationtraits_3c_203_20_3e_257',['TriangulationTraits&lt; 3 &gt;',['../struct_triangulation_traits_3_013_01_4.html',1,'']]],
   ['try_5f23_5fmove_258',['try_23_move',['../_ergodic__moves__3_8hpp.html#aa3c54cbbbe08fccd6984cef5c33d7e90',1,'ergodic_moves']]],
   ['try_5f32_5fmove_259',['try_32_move',['../_ergodic__moves__3_8hpp.html#a46b62faa9f711e0e4ff1e110c3c41cec',1,'ergodic_moves']]],
   ['two_5ftwo_260',['two_two',['../struct_geometry_info.html#a57ac0dca72a21c03fdc4a95cdab9a0c5',1,'GeometryInfo']]]

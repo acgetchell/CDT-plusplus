@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['triangulation_5ftraits_298',['triangulation_traits',['../structtriangulation__traits.html',1,'']]],
-  ['triangulation_5ftraits_3c_203_20_3e_299',['triangulation_traits&lt; 3 &gt;',['../structtriangulation__traits_3_013_01_4.html',1,'']]]
+  ['triangulationtraits_298',['TriangulationTraits',['../struct_triangulation_traits.html',1,'']]],
+  ['triangulationtraits_3c_203_20_3e_299',['TriangulationTraits&lt; 3 &gt;',['../struct_triangulation_traits_3_013_01_4.html',1,'']]]
 ];

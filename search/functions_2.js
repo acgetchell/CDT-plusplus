@@ -10,5 +10,5 @@ var searchData=
   ['do_5f32_5fmove_375',['do_32_move',['../_ergodic__moves__3_8hpp.html#a6dfb3b814a418d959cbdcf0b9b3c085e',1,'ergodic_moves']]],
   ['do_5f44_5fmove_376',['do_44_move',['../_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a',1,'ergodic_moves']]],
   ['do_5f62_5fmove_377',['do_62_move',['../_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0',1,'ergodic_moves']]],
-  ['does_5fvertex_5fradius_5fmatch_5ftimevalue_378',['does_vertex_radius_match_timevalue',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7640d387083812a714179b98ac64447c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]]
+  ['does_5fvertex_5fradius_5fmatch_5ftimevalue_378',['does_vertex_radius_match_timevalue',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6874b57f398028aaf5e0ce7e1b7408eb',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]]
 ];

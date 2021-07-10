@@ -19,7 +19,7 @@ var searchData=
   ['spacelike_5ffacets_237',['spacelike_facets',['../struct_geometry_info.html#a19ec9abb6d432661658af885760387ca',1,'GeometryInfo']]],
   ['sphere_5fd_2ehpp_238',['Sphere_d.hpp',['../_sphere__d_8hpp.html',1,'']]],
   ['sphere_5ftest_2ecpp_239',['Sphere_test.cpp',['../_sphere__test_8cpp.html',1,'']]],
-  ['squared_5fdistance_240',['squared_distance',['../structtriangulation__traits_3_013_01_4.html#afd9d9acbb25344750a7e9b92e3dda283',1,'triangulation_traits&lt; 3 &gt;']]],
+  ['squared_5fdistance_240',['squared_distance',['../struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f',1,'TriangulationTraits&lt; 3 &gt;']]],
   ['squared_5fradius_241',['squared_radius',['../_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76',1,'foliated_triangulations']]],
   ['start_242',['start',['../class_simulation.html#a7985334d286f4d2d7dabe2f158da249e',1,'Simulation']]],
   ['strategies_243',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],

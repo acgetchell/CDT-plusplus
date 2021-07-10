@@ -84,7 +84,7 @@ $(function() {
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="initialize_8cpp.html#aa6a50bed89859f476336638bbad895ac">   17</a></span>&#160;<span class="keyword">static</span> constexpr <span class="keyword">auto</span> <a class="code" href="initialize_8cpp.html#aa6a50bed89859f476336638bbad895ac">USAGE</a>{</div>
+<div class="line"><a name="l00017"></a><span class="lineno"><a class="line" href="initialize_8cpp.html#a783a97da858313d8048e695a79fa893a">   17</a></span>&#160;<span class="keyword">static</span> constexpr <span class="keyword">auto</span>* <a class="code" href="initialize_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a>{</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;    R<span class="stringliteral">&quot;(Causal Dynamical Triangulations in C++ using CGAL.</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="stringliteral"></span> </div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="stringliteral">Copyright (c) 2014-2021 Adam Getchell</span></div>
@@ -116,7 +116,7 @@ $(function() {
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordflow">try</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">// docopt option parser</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="initialize_8cpp.html#aa6a50bed89859f476336638bbad895ac">USAGE</a>);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="initialize_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a>);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  map&lt;string, docopt::value&gt; args =</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                     <span class="keyword">true</span>, <span class="stringliteral">&quot;initializer 1.0&quot;</span>);</div>
@@ -188,7 +188,7 @@ $(function() {
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  }</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="keywordflow">return</span> 0;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;}</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordflow">catch</span> (invalid_argument&amp; InvalidArgument)</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;{</div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;  fmt::print(cerr, <span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  fmt::print(cerr, <span class="stringliteral">&quot;Invalid parameter ... exiting.\n&quot;</span>);</div>
@@ -204,15 +204,15 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_a4a15c6b0443947a62bbd350e0446c459"><div class="ttname"><a href="_utilities_8hpp.html#a4a15c6b0443947a62bbd350e0446c459">write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, Int_precision const t_dimension, Int_precision const t_number_of_simplices, Int_precision const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00214">Utilities.hpp:214</a></div></div>
 <div class="ttc" id="acdt-gv_8cpp_html_ab31733381fa049166a37a718e9eef7f5"><div class="ttname"><a href="cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5">main</a></div><div class="ttdeci">auto main(int argc, char const *argv[]) -&gt; int try</div><div class="ttdoc">The main path of the cdt-gv program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00075">cdt-gv.cpp:75</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00383">Manifold.hpp:383</a></div></div>
-<div class="ttc" id="ainitialize_8cpp_html_aa6a50bed89859f476336638bbad895ac"><div class="ttname"><a href="initialize_8cpp.html#aa6a50bed89859f476336638bbad895ac">USAGE</a></div><div class="ttdeci">static constexpr auto USAGE</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="initialize_8cpp_source.html#l00017">initialize.cpp:17</a></div></div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00356">Manifold.hpp:356</a></div></div>
+<div class="ttc" id="ainitialize_8cpp_html_a783a97da858313d8048e695a79fa893a"><div class="ttname"><a href="initialize_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a></div><div class="ttdeci">static constexpr auto * USAGE</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="initialize_8cpp_source.html#l00017">initialize.cpp:17</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html_af7450092e67d362692353a8b378059b6"><div class="ttname"><a href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00059">Geometry.hpp:59</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00058">Manifold.hpp:58</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 10 2021 07:40:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 10 2021 19:14:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

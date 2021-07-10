@@ -14,7 +14,7 @@ var searchData=
   ['fix_5fcells_69',['fix_cells',['../_foliated__triangulation_8hpp.html#a3b20fb29fe2c7d669d00ade1656addd9',1,'foliated_triangulations']]],
   ['fix_5ftimeslices_70',['fix_timeslices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6bf97d6130e3869f229bcddb6508e0b9',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::fix_timeslices()'],['../_s3_triangulation_8hpp.html#a6ab0724c904152ce4add1a86c77cc196',1,'fix_timeslices():&#160;S3Triangulation.hpp']]],
   ['fix_5ftriangulation_71',['fix_triangulation',['../_s3_triangulation_8hpp.html#abc9cbd159e8739ebb95c9709a1133485',1,'S3Triangulation.hpp']]],
-  ['fix_5fvertices_72',['fix_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ad4715237fa62bce1337a8479c6fb6672',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
+  ['fix_5fvertices_72',['fix_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#aab1fe3aaa0878ace2e874b55a608edd2',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['flip_73',['flip',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a706ea2071d76f1e4f28e9a66f66fbb9c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['foliated_5ftriangulation_2ehpp_74',['Foliated_triangulation.hpp',['../_foliated__triangulation_8hpp.html',1,'']]],
   ['foliated_5ftriangulation_5ftest_2ecpp_75',['Foliated_triangulation_test.cpp',['../_foliated__triangulation__test_8cpp.html',1,'']]],

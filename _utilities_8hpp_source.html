@@ -151,8 +151,8 @@ $(function() {
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;{</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <span class="keyword">using namespace </span>date;</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  <span class="keyword">using namespace </span>std::chrono;</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keyword">auto</span> t = make_zoned(current_zone(), system_clock::now());</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">return</span> format(<span class="stringliteral">&quot;%Y-%m-%d.%X%Z&quot;</span>, t);</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> time = make_zoned(current_zone(), system_clock::now());</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  <span class="keywordflow">return</span> format(<span class="stringliteral">&quot;%Y-%m-%d.%X%Z&quot;</span>, time);</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;}</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160; </div>
 <div class="line"><a name="l00102"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#ae07db1e6fb52c04efe6161afd5f84a1a">  102</a></span>&#160;[[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#ae07db1e6fb52c04efe6161afd5f84a1a">generate_filename</a>(</div>
@@ -247,7 +247,7 @@ $(function() {
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;      t_initial_radius, t_foliation_spacing));</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  fmt::print(<span class="stringliteral">&quot;Writing to file {}\n&quot;</span>, filename);</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  std::scoped_lock lock(mutex);</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;  std::scoped_lock <span class="keyword">const</span> lock(mutex);</div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;  std::ofstream file(filename, std::ios::out);</div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  <span class="keywordflow">if</span> (!file.is_open()) { <span class="keywordflow">throw</span> std::runtime_error(<span class="stringliteral">&quot;Unable to open file.&quot;</span>); }</div>
@@ -263,7 +263,7 @@ $(function() {
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  pcg64 rng(seed_source);</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="comment">// Choose random number from 1 to 6</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  std::uniform_int_distribution&lt;Int_precision&gt; uniform_dist(1, 6);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  std::uniform_int_distribution                uniform_dist(1, 6);  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> <span class="keyword">const</span>                          roll = uniform_dist(rng);</div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  <span class="keywordflow">return</span> roll;</div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;}  <span class="comment">// die_roll()</span></div>
@@ -386,7 +386,7 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_aa19186e57b36341a554e2b650de915dd"><div class="ttname"><a href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a></div><div class="ttdeci">auto currentDateTime()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00086">Utilities.hpp:86</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 10 2021 07:40:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 10 2021 19:14:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -110,7 +110,7 @@ $(function() {
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 3D Move_tracker.&quot;</span>)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;manifolds::Manifold3&gt;</a> tracked_moves;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold3&gt;</a> tracked_moves;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    THEN(<span class="stringliteral">&quot;There are the correct number of elements.&quot;</span>)</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      REQUIRE(tracked_moves.moves.size() == move_tracker::NUMBER_OF_3D_MOVES);</div>
@@ -130,7 +130,7 @@ $(function() {
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    {</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="comment">// Add +1 move to left hand side</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; move : tracked_moves.moves) { move += 1; }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;manifolds::Manifold3&gt;</a> added_moves;</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold3&gt;</a> added_moves;</div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;      added_moves.two_three_moves() += 2;</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      added_moves.three_two_moves() += 2;</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      added_moves.two_six_moves() += 2;</div>
@@ -145,7 +145,7 @@ $(function() {
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  }</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 4D Move_tracker.&quot;</span>)</div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  {</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;manifolds::Manifold4&gt;</a> tracked_moves;</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold4&gt;</a> tracked_moves;</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    THEN(<span class="stringliteral">&quot;There are the correct number of elements.&quot;</span>)</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    {</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      REQUIRE(tracked_moves.moves.size() == move_tracker::NUMBER_OF_4D_MOVES);</div>
@@ -165,7 +165,7 @@ $(function() {
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    {</div>
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;      <span class="comment">// Add +1 move to left hand side</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span>&amp; move : tracked_moves.moves) { move += 1; }</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <a class="code" href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker&lt;manifolds::Manifold4&gt;</a> added_moves;</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold4&gt;</a> added_moves;</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      added_moves.two_four_moves() += 2;</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      added_moves.four_two_moves() += 2;</div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      added_moves.three_three_moves() += 2;</div>
@@ -183,10 +183,10 @@ $(function() {
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_move__tracker_8hpp_html"><div class="ttname"><a href="_move__tracker_8hpp.html">Move_tracker.hpp</a></div><div class="ttdoc">Track ergodic moves.</div></div>
-<div class="ttc" id="astructmove__tracker_1_1_move__tracker_html"><div class="ttname"><a href="structmove__tracker_1_1_move__tracker.html">move_tracker::Move_tracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00070">Move_tracker.hpp:70</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00070">Move_tracker.hpp:70</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 10 2021 07:40:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 10 2021 19:14:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

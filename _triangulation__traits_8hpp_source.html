@@ -95,10 +95,10 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;CGAL/point_generators_3.h&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dimension&gt;</div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="structtriangulation__traits.html">   22</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtriangulation__traits.html">triangulation_traits</a>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="struct_triangulation_traits.html">   22</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_triangulation_traits.html">TriangulationTraits</a>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="structtriangulation__traits_3_013_01_4.html">   25</a></span>&#160;<span class="keyword">struct </span><a class="code" href="structtriangulation__traits.html">triangulation_traits</a>&lt;3&gt;</div>
+<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="struct_triangulation_traits_3_013_01_4.html">   25</a></span>&#160;<span class="keyword">struct </span><a class="code" href="struct_triangulation_traits.html">TriangulationTraits</a>&lt;3&gt;</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  <span class="keyword">using</span> Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  <span class="keyword">using</span> Vertex_base =</div>
@@ -122,7 +122,7 @@ $(function() {
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <span class="keyword">using</span> Point         = Delaunay::Point;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="keyword">using</span> Causal_vertices = std::vector&lt;std::pair&lt;Point, Int_precision&gt;&gt;;</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="structtriangulation__traits_3_013_01_4.html#afd9d9acbb25344750a7e9b92e3dda283">   53</a></span>&#160;  <span class="keyword">using</span> <a class="code" href="structtriangulation__traits_3_013_01_4.html#afd9d9acbb25344750a7e9b92e3dda283">squared_distance</a> = Kernel::Compute_squared_distance_3;</div>
+<div class="line"><a name="l00053"></a><span class="lineno"><a class="line" href="struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f">   53</a></span>&#160;  <span class="keyword">using</span> <a class="code" href="struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f">squared_distance</a> = Kernel::Compute_squared_distance_3;</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">using</span> Spherical_points_generator = CGAL::Random_points_on_sphere_3&lt;Point&gt;;</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
@@ -131,12 +131,12 @@ $(function() {
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="astructtriangulation__traits_html"><div class="ttname"><a href="structtriangulation__traits.html">triangulation_traits</a></div><div class="ttdef"><b>Definition:</b> <a href="_triangulation__traits_8hpp_source.html#l00022">Triangulation_traits.hpp:22</a></div></div>
-<div class="ttc" id="astructtriangulation__traits_3_013_01_4_html_afd9d9acbb25344750a7e9b92e3dda283"><div class="ttname"><a href="structtriangulation__traits_3_013_01_4.html#afd9d9acbb25344750a7e9b92e3dda283">triangulation_traits&lt; 3 &gt;::squared_distance</a></div><div class="ttdeci">Kernel::Compute_squared_distance_3 squared_distance</div><div class="ttdoc">CGAL::squared_distance See https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp....</div><div class="ttdef"><b>Definition:</b> <a href="_triangulation__traits_8hpp_source.html#l00053">Triangulation_traits.hpp:53</a></div></div>
+<div class="ttc" id="astruct_triangulation_traits_3_013_01_4_html_a5455e1c9ad6d44be587a7645b2bd967f"><div class="ttname"><a href="struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f">TriangulationTraits&lt; 3 &gt;::squared_distance</a></div><div class="ttdeci">Kernel::Compute_squared_distance_3 squared_distance</div><div class="ttdoc">CGAL::squared_distance See https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp....</div><div class="ttdef"><b>Definition:</b> <a href="_triangulation__traits_8hpp_source.html#l00053">Triangulation_traits.hpp:53</a></div></div>
+<div class="ttc" id="astruct_triangulation_traits_html"><div class="ttname"><a href="struct_triangulation_traits.html">TriangulationTraits</a></div><div class="ttdef"><b>Definition:</b> <a href="_triangulation__traits_8hpp_source.html#l00022">Triangulation_traits.hpp:22</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 10 2021 07:40:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 10 2021 19:14:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
