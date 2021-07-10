@@ -6,6 +6,7 @@
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)
 [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
 [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
@@ -345,6 +346,8 @@ Your code should pass Continuous Integration:
 
 - [LGTM] check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
   more details.
+  
+- [Sonarcloud] provides a lot of good suggestions.
 
 Optional:
 
@@ -357,6 +360,8 @@ Optional:
 [Eigen] does not work for c++20 and MSVC 2019 (issue [#1894]).
 
 [CLion] skips debugger breakpoints (issue [CPP-20158]).
+
+[vcpkg] does not build on [LGTM] (issue [18903]).
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
@@ -449,3 +454,5 @@ Optional:
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
+[18903]: https://github.com/microsoft/vcpkg/issues/18903
+[Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
