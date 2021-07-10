@@ -23,8 +23,8 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
   Int_precision m_passes{1};
   Int_precision m_checkpoint{1};
-  move_tracker::Move_tracker<ManifoldType> m_attempted_moves;
-  move_tracker::Move_tracker<ManifoldType> m_failed_moves;
+  move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+  move_tracker::MoveTracker<ManifoldType> m_failed_moves;
 
  public:
   /// @brief Default dtor
@@ -106,35 +106,35 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 #endif
         if (move_choice == 0 && ManifoldType::dimension == 3)
         {
-          auto move = ergodic_moves::do_23_move;
+          auto* move = ergodic_moves::do_23_move;
           m_attempted_moves[0] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 1 && ManifoldType::dimension == 3)
         {
-          auto move = ergodic_moves::do_32_move;
+          auto* move = ergodic_moves::do_32_move;
           m_attempted_moves[1] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 2 && ManifoldType::dimension == 3)
         {
-          auto move = ergodic_moves::do_26_move;
+          auto* move = ergodic_moves::do_26_move;
           m_attempted_moves[2] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 3 && ManifoldType::dimension == 3)
         {
-          auto move = ergodic_moves::do_62_move;
+          auto* move = ergodic_moves::do_62_move;
           m_attempted_moves[3] += 1;
           command.enqueue(move);
         }
 
         if (move_choice == 4 && ManifoldType::dimension == 3)
         {
-          auto move = ergodic_moves::do_44_move;
+          auto* move = ergodic_moves::do_44_move;
           m_attempted_moves[4] += 1;
           command.enqueue(move);
         }

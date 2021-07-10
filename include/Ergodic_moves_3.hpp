@@ -211,7 +211,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
         fmt::print("neighboring_31_index is {}\n", *neighboring_31_index);
 #endif
-        Cell_handle_t<3> top = bottom->neighbor(*neighboring_31_index);
+        Cell_handle_t<3> const top = bottom->neighbor(*neighboring_31_index);
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         Expects(bottom->has_neighbor(top, common_face_index));
@@ -220,19 +220,16 @@ namespace ergodic_moves
         // A face is denoted by the index of the opposite vertex
         // Thus, the indices of the vertices of the face are all other indices
         // except the common_face_index
-        // CGAL uses bitwise operations, e.g.
-        //        auto i1 = (common_face_index + 1) & 3;
-        //        auto i2 = (common_face_index + 2) & 3;
-        //        auto i3 = (common_face_index + 3) & 3;
+        // CGAL uses bitwise operations like (common_face_index +1) & 3
         // We use % 4 which is equivalent and doesn't trigger clang-tidy
-        auto i1 = (common_face_index + 1) % 4;
-        auto i2 = (common_face_index + 2) % 4;
-        auto i3 = (common_face_index + 3) % 4;
+        auto const i1 = (common_face_index + 1) % 4;
+        auto const i2 = (common_face_index + 2) % 4;
+        auto const i3 = (common_face_index + 3) % 4;
 
         // Get vertices of common face from indices
-        auto v1 = bottom->vertex(i1);
-        auto v2 = bottom->vertex(i2);
-        auto v3 = bottom->vertex(i3);
+        auto const v1 = bottom->vertex(i1);
+        auto const v2 = bottom->vertex(i2);
+        auto const v3 = bottom->vertex(i3);
 
         // Timeslice of vertices should be same
         Expects(v1->info() == v2->info() && v2->info() == v3->info());
@@ -260,7 +257,6 @@ namespace ergodic_moves
         auto center_point =
             CGAL::centroid(v1->point(), v2->point(), v3->point());
 #ifndef NDEBUG
-        //        std::cout << "Center point is: " << center_point << "\n";
         fmt::print("Center point is: ({})\n", center_point);
 #endif
         v_center->set_point(center_point);
@@ -276,11 +272,7 @@ namespace ergodic_moves
         {
           fmt::print("It's not a vertex in the TDS.\n");
         }
-        //        std::cout << "Spacelike face timevalue is " << timevalue <<
-        //        "\n";
         fmt::print("Spacelike face timevalue is {}\n", timevalue);
-        //        std::cout << "Inserted vertex (" << v_center->point()
-        //                  << ") with timevalue " << v_center->info() << "\n";
         fmt::print("Inserted vertex ({}) with timevalue {}\n",
                    v_center->point(), v_center->info());
 #endif
@@ -328,7 +320,7 @@ namespace ergodic_moves
     }
 
     // Obtain all incident cells
-    auto incident_cells = manifold.incident_cells(candidate);
+    auto const incident_cells = manifold.incident_cells(candidate);
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)  // NOLINT
     {
@@ -340,11 +332,11 @@ namespace ergodic_moves
       return false;
     }
 
-    auto incident_31 = foliated_triangulations::filter_cells<3>(
+    auto const incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);
-    auto incident_22 = foliated_triangulations::filter_cells<3>(
+    auto const incident_22 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::TWO_TWO);
-    auto incident_13 = foliated_triangulations::filter_cells<3>(
+    auto const incident_13 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified

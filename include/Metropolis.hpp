@@ -55,8 +55,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   Int_precision                     m_passes{1};
   Int_precision                     m_checkpoint{1};
   Geometry<ManifoldType::dimension> m_geometry;
-  move_tracker::Move_tracker<ManifoldType> m_attempted_moves{0};
-  move_tracker::Move_tracker<ManifoldType> m_failed_moves{0};
+  move_tracker::MoveTracker<ManifoldType> m_attempted_moves{0};
+  move_tracker::MoveTracker<ManifoldType> m_failed_moves{0};
 
  public:
   /// @brief Default dtor
@@ -347,11 +347,11 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     MoveCommand command(t_manifold);
 
     // All possible moves
-    auto move23 = ergodic_moves::do_23_move;
-    auto move32 = ergodic_moves::do_32_move;
-    auto move26 = ergodic_moves::do_26_move;
-    auto move62 = ergodic_moves::do_62_move;
-    auto move44 = ergodic_moves::do_44_move;
+    auto* move23 = ergodic_moves::do_23_move;
+    auto* move32 = ergodic_moves::do_32_move;
+    auto* move26 = ergodic_moves::do_26_move;
+    auto* move62 = ergodic_moves::do_62_move;
+    auto* move44 = ergodic_moves::do_44_move;
 
     // Populate m_attempted_moves and m_successful_moves
     fmt::print("Making initial moves ...\n");

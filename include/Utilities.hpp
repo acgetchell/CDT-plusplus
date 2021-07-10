@@ -87,8 +87,8 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 {
   using namespace date;
   using namespace std::chrono;
-  auto t = make_zoned(current_zone(), system_clock::now());
-  return format("%Y-%m-%d.%X%Z", t);
+  auto const time = make_zoned(current_zone(), system_clock::now());
+  return format("%Y-%m-%d.%X%Z", time);
 }
 
 /// @brief  Generate useful filenames
@@ -226,7 +226,7 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
       t_initial_radius, t_foliation_spacing));
   fmt::print("Writing to file {}\n", filename);
 
-  std::scoped_lock lock(mutex);
+  std::scoped_lock const lock(mutex);
 
   std::ofstream file(filename, std::ios::out);
   if (!file.is_open()) { throw std::runtime_error("Unable to open file."); }
@@ -243,7 +243,7 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
   pcg64 rng(seed_source);
 
   // Choose random number from 1 to 6
-  std::uniform_int_distribution<Int_precision> uniform_dist(1, 6);  // NOLINT
+  std::uniform_int_distribution                uniform_dist(1, 6);  // NOLINT
   Int_precision const                          roll = uniform_dist(rng);
   return roll;
 }  // die_roll()

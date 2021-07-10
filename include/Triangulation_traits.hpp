@@ -19,10 +19,10 @@
 #include <CGAL/point_generators_3.h>
 
 template <int dimension>
-struct triangulation_traits;
+struct TriangulationTraits;
 
 template <>
-struct triangulation_traits<3>
+struct TriangulationTraits<3>
 {
   using Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;
   using Vertex_base =

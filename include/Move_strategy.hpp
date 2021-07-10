@@ -36,31 +36,31 @@ void enqueue_move(MoveCommand&            move_command,
 {
   if (move_choice == move_tracker::move_type::TWO_THREE)
   {
-    auto move = ergodic_moves::do_23_move;
+    auto* move = ergodic_moves::do_23_move;
     move_command.enqueue(move);
   }
 
   if (move_choice == move_tracker::move_type::THREE_TWO)
   {
-    auto move = ergodic_moves::do_32_move;
+    auto* move = ergodic_moves::do_32_move;
     move_command.enqueue(move);
   }
 
   if (move_choice == move_tracker::move_type::TWO_SIX)
   {
-    auto move = ergodic_moves::do_26_move;
+    auto* move = ergodic_moves::do_26_move;
     move_command.enqueue(move);
   }
 
   if (move_choice == move_tracker::move_type::SIX_TWO)
   {
-    auto move = ergodic_moves::do_62_move;
+    auto* move = ergodic_moves::do_62_move;
     move_command.enqueue(move);
   }
 
   if (move_choice == move_tracker::move_type::FOUR_FOUR)
   {
-    auto move = ergodic_moves::do_44_move;
+    auto* move = ergodic_moves::do_44_move;
     move_command.enqueue(move);
   }
 }

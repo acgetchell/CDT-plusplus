@@ -67,8 +67,9 @@ namespace move_tracker
   /// @brief The data and methods to track ergodic moves
   /// @tparam ManifoldType The type of manifold on which moves are made
   template <typename ManifoldType>
-  struct Move_tracker
+  class MoveTracker
   {
+   public:
     std::array<Int_precision, moves_per_dimension(ManifoldType::dimension)>
         moves = {0};  // NOLINT
 
@@ -86,9 +87,9 @@ namespace move_tracker
     /// @param rhs The Move_tracker to add
     /// @return The sum of the individual elements of the left and right
     /// Move_trackers
-    auto operator+=(Move_tracker const& rhs)
+    auto operator+=(MoveTracker const& rhs)
     {
-      auto size = static_cast<size_t>(moves.size());
+      auto const size = static_cast<size_t>(moves.size());
       for (size_t i = 0; i < size; ++i) { moves[i] += rhs.moves[i]; }
       return *this;
     }

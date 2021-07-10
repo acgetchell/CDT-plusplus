@@ -27,29 +27,29 @@
 #include "Utilities.hpp"
 
 template <int dimension>
-using Delaunay_t = typename triangulation_traits<dimension>::Delaunay;
+using Delaunay_t = typename TriangulationTraits<dimension>::Delaunay;
 
 template <int dimension>
-using Point_t = typename triangulation_traits<dimension>::Point;
+using Point_t = typename TriangulationTraits<dimension>::Point;
 
 template <int dimension>
 using Causal_vertices_t =
     std::vector<std::pair<Point_t<dimension>, Int_precision>>;
 
 template <int dimension>
-using Cell_handle_t = typename triangulation_traits<dimension>::Cell_handle;
+using Cell_handle_t = typename TriangulationTraits<dimension>::Cell_handle;
 
 template <int dimension>
-using Face_handle_t = typename triangulation_traits<dimension>::Face_handle;
+using Face_handle_t = typename TriangulationTraits<dimension>::Face_handle;
 
 template <int dimension>
-using Facet_t = typename triangulation_traits<dimension>::Facet;
+using Facet_t = typename TriangulationTraits<dimension>::Facet;
 
 template <int dimension>
-using Edge_handle_t = typename triangulation_traits<dimension>::Edge_handle;
+using Edge_handle_t = typename TriangulationTraits<dimension>::Edge_handle;
 
 template <int dimension>
-using Vertex_handle_t = typename triangulation_traits<dimension>::Vertex_handle;
+using Vertex_handle_t = typename TriangulationTraits<dimension>::Vertex_handle;
 
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
@@ -91,7 +91,7 @@ namespace foliated_triangulations
     // std::distance may be negative if random-access iterators are used and
     // first is reachable from last
     Ensures(result_index >= 0);
-    auto index = static_cast<std::size_t>(std::abs(result_index));
+    auto const index = static_cast<std::size_t>(std::abs(result_index));
     return t_vertices[index]->info();
   }  // find_max_timevalue
 
@@ -107,7 +107,7 @@ namespace foliated_triangulations
                                compare_v_info<dimension>);
     auto result_index = std::distance(t_vertices.begin(), it);
     Ensures(result_index >= 0);
-    auto index = static_cast<std::size_t>(std::abs(result_index));
+    auto const index = static_cast<std::size_t>(std::abs(result_index));
     return t_vertices[index]->info();
   }  // find_min_timevalue
 
@@ -118,7 +118,8 @@ namespace foliated_triangulations
   /// @return True if timelike and false if spacelike
   template <int dimension>
   [[nodiscard]] inline auto classify_edge(
-      Edge_handle_t<dimension> const& t_edge, bool t_debug_flag = false) -> bool
+      Edge_handle_t<dimension> const& t_edge, bool const t_debug_flag = false)
+      -> bool
   {
     auto const& cell  = t_edge.first;
     auto        time1 = cell->vertex(t_edge.second)->info();
@@ -159,7 +160,7 @@ namespace foliated_triangulations
   [[nodiscard]] inline auto squared_radius(
       Vertex_handle_t<dimension> const& t_vertex) -> double
   {
-    typename triangulation_traits<dimension>::squared_distance r2;
+    typename TriangulationTraits<dimension>::squared_distance r2;
 
     if (dimension == 3) { return r2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
   }  // squared_radius
@@ -189,7 +190,7 @@ namespace foliated_triangulations
   /// @return The type of the simplex
   template <int dimension>
   [[nodiscard]] inline auto expected_cell_type(
-      Cell_handle_t<dimension> const& t_cell, bool t_debug_flag = false)
+      Cell_handle_t<dimension> const& t_cell, bool const t_debug_flag = false)
   {
     std::vector<int> vertex_timevalues;
     for (auto i = 0; i < dimension + 1; ++i)
@@ -197,16 +198,16 @@ namespace foliated_triangulations
       // Obtain timevalue of vertex
       vertex_timevalues.emplace_back(t_cell->vertex(i)->info());
     }
-    auto maxtime_ref =
+    auto const maxtime_ref =
         std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
-    auto mintime_ref =
+    auto const mintime_ref =
         std::min_element(vertex_timevalues.begin(), vertex_timevalues.end());
     auto maxtime = *maxtime_ref;
     auto mintime = *mintime_ref;
     // A properly foliated simplex should have a timevalue difference of 1
     if (maxtime - mintime != 1) { return Cell_type::ERROR; }
-    std::multiset<int> timevalues{vertex_timevalues.begin(),
-                                  vertex_timevalues.end()};
+    std::multiset<int> const timevalues{vertex_timevalues.begin(),
+                                        vertex_timevalues.end()};
     auto               max_vertices = timevalues.count(maxtime);
     auto               min_vertices = timevalues.count(mintime);
 
@@ -315,8 +316,9 @@ namespace foliated_triangulations
 
     for (gsl::index i = 0; i < t_timeslices; ++i)
     {
-      auto radius = initial_radius + static_cast<double>(i) * foliation_spacing;
-      typename triangulation_traits<dimension>::Spherical_points_generator gen{
+      auto const radius =
+          initial_radius + static_cast<double>(i) * foliation_spacing;
+      typename TriangulationTraits<dimension>::Spherical_points_generator gen{
           static_cast<double>(radius)};
       // Generate random points at the radius
       for (gsl::index j = 0;
@@ -337,10 +339,10 @@ namespace foliated_triangulations
   template <int dimension>
   [[nodiscard]] inline auto volume_per_timeslice(
       std::vector<Face_handle_t<dimension>> const& t_facets,
-      bool t_debug_flag = false) -> std::multimap<Int_precision, Facet_t<3>>
+      bool const                                   t_debug_flag = false)
+      -> std::multimap<Int_precision, Facet_t<3>>
   {
-    std::multimap<Int_precision,
-                  typename triangulation_traits<dimension>::Facet>
+    std::multimap<Int_precision, typename TriangulationTraits<dimension>::Facet>
         space_faces;
     for (auto const& face : t_facets)
     {
@@ -416,8 +418,8 @@ namespace foliated_triangulations
             std::make_pair(cit->vertex(i)->info(), cit->vertex(i)));
       }
       // Now it's sorted in the multimap
-      auto minvalue = this_cell.cbegin()->first;
-      auto maxvalue = this_cell.crbegin()->first;
+      auto const minvalue = this_cell.cbegin()->first;
+      auto const maxvalue = this_cell.crbegin()->first;
 
 #ifdef DETAILED_DEBUGGING
       auto min_vertex = this_cell.cbegin()->second;
@@ -436,8 +438,8 @@ namespace foliated_triangulations
       }
       else
       {
-        auto minvalue_count = this_cell.count(minvalue);
-        auto maxvalue_count = this_cell.count(maxvalue);
+        auto const minvalue_count = this_cell.count(minvalue);
+        auto const maxvalue_count = this_cell.count(maxvalue);
 #ifdef DETAILED_DEBUGGING
         fmt::print("This cell is invalid.\n");
         fmt::print("There are {} vertices with the minvalue.\n",
@@ -753,7 +755,7 @@ namespace foliated_triangulations
     /// @return Container of spacelike facets indexed by time value
     [[nodiscard]] auto N2_SL() const
         -> std::multimap<Int_precision,
-                         typename triangulation_traits<3>::Facet> const&
+                         typename TriangulationTraits<3>::Facet> const&
     {
       return m_spacelike_facets;
     }  // N2_SL
@@ -860,11 +862,11 @@ namespace foliated_triangulations
     /// @return True if the effective radial distance squared matches timevalue
     /// squared
     [[nodiscard]] auto does_vertex_radius_match_timevalue(
-        Vertex_handle_t<3> t_vertex) const -> bool
+        Vertex_handle_t<3> const t_vertex) const -> bool
     {
-      auto actual_radius_squared   = squared_radius<3>(t_vertex);
-      auto radius                  = expected_radius(t_vertex);
-      auto expected_radius_squared = std::pow(radius, 2);
+      auto const actual_radius_squared   = squared_radius<3>(t_vertex);
+      auto const radius                  = expected_radius(t_vertex);
+      auto const expected_radius_squared = std::pow(radius, 2);
       return (
           actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
           actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
@@ -876,7 +878,7 @@ namespace foliated_triangulations
     [[nodiscard]] auto is_vertex_timevalue_correct(
         Vertex_handle_t<3> const& t_vertex) const -> bool
     {
-      auto e_timevalue = this->expected_timevalue(t_vertex);
+      auto const e_timevalue = this->expected_timevalue(t_vertex);
 #ifdef DETAILED_DEBUGGING
       fmt::print("Vertex ({}) with info() {}: expected timevalue {}\n",
                  t_vertex->point(), t_vertex->info(), e_timevalue);
@@ -898,7 +900,7 @@ namespace foliated_triangulations
     [[nodiscard]] auto expected_radius(Vertex_handle_t<3> const& t_vertex) const
         -> double
     {
-      auto timevalue = t_vertex->info();
+      auto const timevalue = t_vertex->info();
       return m_initial_radius + m_foliation_spacing * (timevalue - 1);
     }  // expected_radial_distance
 
@@ -916,7 +918,7 @@ namespace foliated_triangulations
     [[nodiscard]] auto expected_timevalue(
         Vertex_handle_t<3> const& t_vertex) const -> int
     {
-      auto radius = std::sqrt(squared_radius<3>(t_vertex));
+      auto const radius = std::sqrt(squared_radius<3>(t_vertex));
       return static_cast<Int_precision>(
           std::lround((radius - m_initial_radius + m_foliation_spacing) /
                       m_foliation_spacing));
@@ -925,7 +927,7 @@ namespace foliated_triangulations
     /// @return True if all vertices have correct timevalues
     [[nodiscard]] auto check_all_vertices() const -> bool
     {
-      auto checked_vertices = this->get_vertices();
+      auto const checked_vertices = this->get_vertices();
       return this->check_vertices(checked_vertices);
     }  // check_all_vertices
 
@@ -960,7 +962,7 @@ namespace foliated_triangulations
     /// @param incorrect_vertices The container of incorrect vertices
     void fix_vertices(
         //        std::vector<Vertex_handle_3> const& incorrect_vertices) const
-        std::vector<typename triangulation_traits<3>::Vertex_handle> const&
+        std::vector<typename TriangulationTraits<3>::Vertex_handle> const&
             incorrect_vertices) const
     {
       for (auto const& vertex : incorrect_vertices)
@@ -1035,7 +1037,7 @@ namespace foliated_triangulations
     /// @return True if all cells are validly classified
     [[nodiscard]] auto check_all_cells() const -> bool
     {
-      auto checked_cells = this->get_cells();
+      auto const checked_cells = this->get_cells();
       Expects(!checked_cells.empty());
       return foliated_triangulations::check_cells<3>(checked_cells);
     }  // check_all_cells
@@ -1195,7 +1197,7 @@ namespace foliated_triangulations
     /// @return A container of simplices with Cell_type written to cell->info()
     [[nodiscard]] auto classify_cells(
         std::vector<Cell_handle_t<3>> const& cells,
-        bool t_debug_flag = false) const -> std::vector<Cell_handle_t<3>>
+        bool const t_debug_flag = false) const -> std::vector<Cell_handle_t<3>>
     {
       Expects(cells.size() == number_of_finite_cells());
       for (auto const& c : cells)
@@ -1235,7 +1237,7 @@ namespace foliated_triangulations
       for (auto eit = get_delaunay().finite_edges_begin();
            eit != get_delaunay().finite_edges_end(); ++eit)
       {
-        Cell_handle_t<3> ch = eit->first;
+        Cell_handle_t<3> const ch = eit->first;
         Edge_handle_t<3> thisEdge{ch, ch->index(ch->vertex(eit->second)),
                                   ch->index(ch->vertex(eit->third))};
         // Each edge is valid in the triangulation

@@ -26,7 +26,7 @@ class MoveCommand
   std::deque<FunctionType> m_moves;
 
   /// @brief Keep track of failed moves
-  move_tracker::Move_tracker<ManifoldType> m_failed_moves;
+  move_tracker::MoveTracker<ManifoldType> m_failed_moves;
 
  public:
   /// @brief No default ctor
@@ -49,7 +49,7 @@ class MoveCommand
 
   /// @return Failed moves by MoveCommand
   [[nodiscard]] auto get_errors() const
-      -> move_tracker::Move_tracker<ManifoldType>
+      -> move_tracker::MoveTracker<ManifoldType>
   {
     return m_failed_moves;
   }

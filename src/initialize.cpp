@@ -14,7 +14,7 @@
 using namespace std;
 
 /// Help message parsed by docopt into options
-static constexpr auto USAGE{
+static constexpr auto* USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2021 Adam Getchell
@@ -118,7 +118,7 @@ try
   }
   return 0;
 }
-catch (invalid_argument& InvalidArgument)
+catch (invalid_argument const& InvalidArgument)
 {
   fmt::print(cerr, "{}\n", InvalidArgument.what());
   fmt::print(cerr, "Invalid parameter ... exiting.\n");

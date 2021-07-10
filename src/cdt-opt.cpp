@@ -50,9 +50,7 @@ auto main() -> int
   // Run algorithm on triangulation
   auto result = run(universe);
 
-  auto max_timevalue = result.max_time();
-
-  if (max_timevalue < timeslices)
+  if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)
   {
     fmt::print("You wanted {} timeslices, but only got {}.\n", timeslices,
                max_timevalue);

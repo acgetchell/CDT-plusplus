@@ -91,7 +91,7 @@
   // Gmpzf only has a constructor taking a double, not a long double
   // Perhaps fixable later by switching to MP_Float, e.g.
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
-  auto result = mpfr_get_d(total, MPFR_RNDD);
+  auto const result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
@@ -170,7 +170,7 @@
   // Gmpzf only has a constructor taking a double, not a long double
   // Perhaps fixable later by switching to MP_Float, e.g.
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
-  auto result = mpfr_get_d(total, MPFR_RNDD);
+  auto const result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
@@ -318,7 +318,7 @@
   // Gmpzf only has a constructor taking a double, not a long double
   // Perhaps fixable later by switching to MP_Float, e.g.
   // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
-  auto result = mpfr_get_d(total, MPFR_RNDD);
+  auto const result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
   mpfr_clears(n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4,

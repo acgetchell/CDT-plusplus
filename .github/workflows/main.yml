@@ -28,7 +28,7 @@ jobs:
       env:
         cache-name: cache-vcpkg
       with:
-        path: ~/.cache/vcpkg
+        path: /home/runner/.cache/vcpkg/archives
         key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -54,7 +54,7 @@ jobs:
         git pull --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
-        cmake --version
+        pwd
 
     - name: Build
       shell: bash 
@@ -83,7 +83,7 @@ jobs:
         env:
           cache-name: cache-vcpkg
         with:
-          path: ~/.cache/vcpkg
+          path: /home/runner/.cache/vcpkg/archives
           key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-

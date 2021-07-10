@@ -113,9 +113,9 @@ namespace manifolds
     /// @param cv Causal_vertices to place into the Manifold
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    explicit Manifold(const Causal_vertices_t<3>& cv,
-                      double const t_initial_radius    = INITIAL_RADIUS,
-                      double const t_foliation_spacing = FOLIATION_SPACING)
+    explicit Manifold(Causal_vertices_t<3> const& cv,
+                      double t_initial_radius    = INITIAL_RADIUS,
+                      double t_foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
               cv, t_initial_radius, t_foliation_spacing)}
         , m_geometry{get_triangulation()}
@@ -180,7 +180,7 @@ namespace manifolds
     /// @return If base data structures are correct
     [[nodiscard]] auto is_correct() const -> bool
     {
-      auto simplices = m_triangulation.get_cells();
+      auto const simplices = m_triangulation.get_cells();
       return m_triangulation.is_correct() &&
              are_simplex_types_valid<3>(simplices) &&
              are_vertex_timevalues_valid(simplices);
@@ -419,7 +419,7 @@ namespace manifolds
 #ifndef NDEBUG
       fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      foliated_triangulations::FoliatedTriangulation3 local_triangulation(
+      foliated_triangulations::FoliatedTriangulation3 const local_triangulation(
           m_triangulation.get_delaunay());
       m_triangulation = local_triangulation;
     }

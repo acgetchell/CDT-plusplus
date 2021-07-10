@@ -84,7 +84,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
     WHEN("The Foliated triangulation is constructed with these points.")
     {
       foliated_triangulations::FoliatedTriangulation3 ft(cv);
-      triangulation_traits<3>::squared_distance      r2;
+      TriangulationTraits<3>::squared_distance        r2;
       THEN("The triangulation is initialized correctly.")
       {
         REQUIRE(ft.is_initialized());
