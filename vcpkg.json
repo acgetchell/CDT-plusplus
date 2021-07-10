@@ -11,6 +11,7 @@
     "pcg",
     "tbb",
     "tl-expected",
+    "tl-function-ref",
     {
       "name": "yasm-tool",
       "platform": "windows"

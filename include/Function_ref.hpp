@@ -309,13 +309,14 @@
 #include <type_traits>
 #include <utility>
 template <typename Fn>
-class function_ref;
+class [[deprecated("Use tl::function_ref instead")]] function_ref;
 
 template <typename Fn>
-class function_ref;
+class [[deprecated("Use tl::function_ref instead")]] function_ref;
 
 template <typename Ret, typename... Params>
-class function_ref<Ret(Params...)>
+class [[deprecated(
+    "Use tl::function_ref instead")]] function_ref<Ret(Params...)>
 {
   Ret (*callback)(intptr_t callable, Params... params) = nullptr;
   intptr_t callable{};

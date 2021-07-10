@@ -28,7 +28,7 @@ jobs:
       env:
         cache-name: cache-vcpkg
       with:
-        path: /home/runner/.cache/vcpkg/archives
+        path: $HOME/.cache/vcpkg/archives
         key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
         restore-keys: |
           ${{ runner.os }}-build-${{ env.cache-name }}-
@@ -55,6 +55,7 @@ jobs:
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
         pwd
+        echo $HOME
 
     - name: Build
       shell: bash 

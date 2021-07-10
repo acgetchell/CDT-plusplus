@@ -11,8 +11,9 @@
 /// delayed calls
 
 #include "Ergodic_moves_3.hpp"
-#include "Function_ref.hpp"
+//#include "Function_ref.hpp"
 #include <catch2/catch.hpp>
+#include <tl/function_ref.hpp>
 
 using namespace std;
 
@@ -48,7 +49,7 @@ SCENARIO("Complex lambda operations", "[function-ref]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](manifolds::Manifold3& m) -> manifolds::Manifold3 {
+      auto const move23 = [](manifolds::Manifold3& m) {
         return ergodic_moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
@@ -71,8 +72,8 @@ SCENARIO("Function_ref operations", "[function-ref]")
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {
-    auto                   increment_lambda = [](int a) { return ++a; };
-    function_ref<int(int)> lambda_ref(increment_lambda);
+    auto const                 increment_lambda = [](int a) { return ++a; };
+    tl::function_ref<int(int)> lambda_ref(increment_lambda);
     WHEN("Function_ref is called with 0.")
     {
       THEN("We should get 1.") { REQUIRE(lambda_ref(1) == 2); }
@@ -84,7 +85,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    function_ref<tl::expected<manifolds::Manifold3, std::string_view>(
+    tl::function_ref<tl::expected<manifolds::Manifold3, std::string_view>(
         manifolds::Manifold3&)>
         complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
@@ -109,10 +110,10 @@ SCENARIO("Function_ref operations", "[function-ref]")
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    auto const move23 = [](manifolds::Manifold3& m) -> manifolds::Manifold3 {
+    auto const move23 = [](manifolds::Manifold3& m) {
       return ergodic_moves::do_23_move(m).value();
     };
-    function_ref<manifolds::Manifold3(manifolds::Manifold3&)> complex_ref(
+    tl::function_ref<manifolds::Manifold3(manifolds::Manifold3&)> complex_ref(
         move23);
     WHEN("The function_ref is invoked.")
     {

@@ -16,7 +16,7 @@
 
 template <typename ManifoldType,
           typename ExpectedType = tl::expected<ManifoldType, std::string>,
-          typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
+          typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 class MoveCommand
 {
   /// @brief The Manifold on which to make the move

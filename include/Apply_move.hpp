@@ -12,10 +12,11 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
-#include "Function_ref.hpp"
+//#include "Function_ref.hpp"
 #include <functional>
 #include <string>
 #include <tl/expected.hpp>
+#include <tl/function_ref.hpp>
 
 /// @brief An applicative function similar to std::apply, but on manifolds
 /// @tparam ManifoldType The type (topology, dimensionality) of manifold
@@ -26,7 +27,7 @@
 /// @return The expected or unexpected result in a tl::expected<T,E>
 template <typename ManifoldType,
           typename ExpectedType = tl::expected<ManifoldType, std::string>,
-          typename FunctionType = function_ref<ExpectedType(ManifoldType&)>>
+          typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType&& t_move)
     -> decltype(auto)
 {
