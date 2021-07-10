@@ -683,14 +683,14 @@ namespace foliated_triangulations
 
     /// @return An InputIterator to the beginning of the finite cells stored in
     /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
-    [[nodiscard]] auto finite_cells_begin()
+    [[nodiscard]] auto finite_cells_begin() const
     {
       return m_triangulation.finite_cells_begin();
     }  // finite_cells_begin
 
     /// @return An InputIterator to the end of the finite cells stored in
     /// https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Compact__container.html
-    [[nodiscard]] auto finite_cells_end()
+    [[nodiscard]] auto finite_cells_end() const
     {
       return m_triangulation.finite_cells_end();
     }  // finite_cells_end
@@ -1142,7 +1142,8 @@ namespace foliated_triangulations
     template <typename Triangulation>
     [[nodiscard]] auto fix_timeslices(Triangulation&& t_triangulation) -> bool
     {
-      auto vertices_to_delete = check_timeslices<3>(t_triangulation);
+      auto vertices_to_delete =
+          check_timeslices<3>(std::forward<Triangulation>(t_triangulation));
       std::set<Vertex_handle_t<3>> deleted_vertices;
       // Remove duplicates
       if (vertices_to_delete)

@@ -419,9 +419,9 @@ namespace manifolds
 #ifndef NDEBUG
       fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      foliated_triangulations::FoliatedTriangulation3 triangulation(
+      foliated_triangulations::FoliatedTriangulation3 local_triangulation(
           m_triangulation.get_delaunay());
-      m_triangulation = triangulation;
+      m_triangulation = local_triangulation;
     }
     catch (std::system_error const& ex)
     {

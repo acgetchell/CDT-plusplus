@@ -145,14 +145,14 @@ jobs:
       - name: Build
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
 
-      - name: Test and generate coverage
-        continue-on-error: true
-        run: |
-          cd $GITHUB_WORKSPACE/build
-          ctest ctest --schedule-random -j2
-          lcov --capture --directory . --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg/*' --output-file coverage.info
-          lcov --list coverage.info
+#      - name: Test and generate coverage
+#        continue-on-error: true
+#        run: |
+#          cd $GITHUB_WORKSPACE/build
+#          ctest ctest --schedule-random -j2
+#          lcov --capture --directory . --output-file coverage.info
+#          lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg/*' --output-file coverage.info
+#          lcov --list coverage.info
 
       - name: Run sonar-scanner
         env:

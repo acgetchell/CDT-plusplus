@@ -226,7 +226,7 @@ void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
       t_initial_radius, t_foliation_spacing));
   fmt::print("Writing to file {}\n", filename);
 
-  std::lock_guard<std::mutex> lock(mutex);
+  std::scoped_lock lock(mutex);
 
   std::ofstream file(filename, std::ios::out);
   if (!file.is_open()) { throw std::runtime_error("Unable to open file."); }
@@ -296,7 +296,8 @@ template <typename IntegerType>
 [[nodiscard]] auto generate_random_timeslice(
     IntegerType&& t_max_timeslice) noexcept -> decltype(auto)
 {
-  return generate_random_int(static_cast<IntegerType>(1), t_max_timeslice);
+  return generate_random_int(static_cast<IntegerType>(1),
+                             std::forward<IntegerType>(t_max_timeslice));
 }  // generate_random_timeslice()
 
 /// @brief Generate random real numbers by calling generate_random, preserves

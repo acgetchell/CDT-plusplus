@@ -83,7 +83,7 @@ namespace ergodic_moves
     auto two_two = t_manifold.get_triangulation().get_two_two();
     // Shuffle the container to pick a random sequence of (2,2) cells to try
     std::shuffle(two_two.begin(), two_two.end(), make_random_generator());
-    for (auto& cell : two_two)
+    for (auto const& cell : two_two)
     {
       if (try_23_move(t_manifold, cell)) { return t_manifold; }
     }
@@ -132,7 +132,7 @@ namespace ergodic_moves
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(movable_timelike_edges.begin(), movable_timelike_edges.end(),
                  make_random_generator());
-    for (auto& edge : movable_timelike_edges)
+    for (auto const& edge : movable_timelike_edges)
     {
       if (try_32_move(t_manifold, edge))
       {
@@ -260,8 +260,8 @@ namespace ergodic_moves
         auto center_point =
             CGAL::centroid(v1->point(), v2->point(), v3->point());
 #ifndef NDEBUG
-        std::cout << "Center point is: " << center_point << "\n";
-// fmt::print("Center point is: {}\n", center_point);
+        //        std::cout << "Center point is: " << center_point << "\n";
+        fmt::print("Center point is: ({})\n", center_point);
 #endif
         v_center->set_point(center_point);
 
@@ -276,9 +276,13 @@ namespace ergodic_moves
         {
           fmt::print("It's not a vertex in the TDS.\n");
         }
-        std::cout << "Spacelike face timevalue is " << timevalue << "\n";
-        std::cout << "Inserted vertex (" << v_center->point()
-                  << ") with timevalue " << v_center->info() << "\n";
+        //        std::cout << "Spacelike face timevalue is " << timevalue <<
+        //        "\n";
+        fmt::print("Spacelike face timevalue is {}\n", timevalue);
+        //        std::cout << "Inserted vertex (" << v_center->point()
+        //                  << ") with timevalue " << v_center->info() << "\n";
+        fmt::print("Inserted vertex ({}) with timevalue {}\n",
+                   v_center->point(), v_center->info());
 #endif
 
         // Final check
@@ -469,14 +473,14 @@ namespace ergodic_moves
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),
                  make_random_generator());
-    for (auto& edge : spacelike_edges)
+    for (auto const& edge : spacelike_edges)
     {
       // Obtain all incident cells
       if (auto incident_cells = find_44_move(t_manifold, edge); incident_cells)
       {
         // Do move
 #ifndef NDEBUG
-        for (auto& cell : *incident_cells)
+        for (auto const& cell : *incident_cells)
         {
           fmt::print("Incident cell is of type {}\n", cell->info());
         }
