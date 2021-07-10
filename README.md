@@ -346,7 +346,7 @@ Your code should pass Continuous Integration:
 
 - [LGTM] check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
   more details.
-  
+
 - [Sonarcloud] provides a lot of good suggestions.
 
 Optional:
