@@ -19,8 +19,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
 {
   GIVEN("A 2+1-dimensional foliated triangulation")
   {
-    constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
-    constexpr auto desired_timeslices = static_cast<Int_precision>(7);
+    constexpr auto       desired_simplices  = static_cast<Int_precision>(9600);
+    constexpr auto       desired_timeslices = static_cast<Int_precision>(7);
     manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state

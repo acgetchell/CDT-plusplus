@@ -1048,13 +1048,10 @@ namespace foliated_triangulations
     {
       std::vector<Cell_handle_t<3>> incorrect_cells;
       auto                       checked_cells = this->get_cells();
-      for (auto& cell : checked_cells)
-      {
-        if (!is_cell_type_correct<3>(cell))
-        {
-          incorrect_cells.emplace_back(cell);
-        }
-      }
+      std::copy_if(checked_cells.begin(), checked_cells.end(),
+                   std::back_inserter(incorrect_cells), [&](auto const& cell) {
+                     return !is_cell_type_correct<3>(cell);
+                   });
       return incorrect_cells;
     }  // find_incorrect_cells
 

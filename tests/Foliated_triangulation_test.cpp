@@ -146,7 +146,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
         fmt::print("Base Delaunay number of vertices: {}\n",
                    ft.number_of_vertices());
         CHECK(ft.dimension() == 3);
-        std::cout << "Base Delaunay dimension is : " << ft.dimension() << "\n";
+        fmt::print("Base Delaunay dimension is: {}\n", ft.dimension());
       }
     }
     WHEN("Constructing the default triangulation.")
@@ -208,8 +208,8 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       THEN("The vertices are correct.") { CHECK(ft.check_all_vertices()); }
       AND_WHEN("The vertices are mis-labelled.")
       {
-        auto vertices = ft.get_vertices();
-        for (auto& vertex : vertices ) { vertex->info() = 0; }
+        auto const& vertices = ft.get_vertices();
+        for (auto const& vertex : vertices) { vertex->info() = 0; }
 
         THEN("The incorrect vertex labelling is identified.")
         {
@@ -244,8 +244,8 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     }
     AND_WHEN("The cells are mis-labelled.")
     {
-      auto cells = ft.get_cells();
-      for (auto& cell : cells) { cell->info() = 0; }
+      auto const& cells = ft.get_cells();
+      for (auto const& cell : cells) { cell->info() = 0; }
 
       THEN("The incorrect cell labelling is identified.")
       {
@@ -292,8 +292,8 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
     }
     THEN("Each vertex has a valid timevalue.")
     {
-      auto checked_vertices = ft.get_vertices();
-      for (auto& vertex : checked_vertices)
+      auto const& checked_vertices = ft.get_vertices();
+      for (auto const& vertex : checked_vertices)
       {
         CHECK(ft.does_vertex_radius_match_timevalue(vertex));
         fmt::print(
@@ -387,8 +387,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The vertices have correct timevalues.")
       {
-        auto checked_vertices = ft.get_vertices();
-        for (auto& vertex : checked_vertices)
+        auto const& checked_vertices = ft.get_vertices();
+        for (auto const& vertex : checked_vertices)
         {
           CHECK(ft.does_vertex_radius_match_timevalue(vertex));
           fmt::print(

@@ -301,6 +301,7 @@
 ///
 /// This class does not own the callable, so it is not in general safe to store
 /// a function_ref.
+/// Deprecated in favor of tl::function_ref
 
 #ifndef INCLUDE_FUNCTION_REF_HPP_
 #define INCLUDE_FUNCTION_REF_HPP_

@@ -153,7 +153,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_tracker::move_type move) const noexcept
   {
-    auto total_moves = this->total_moves();
+    auto all_moves   = this->total_moves();
     auto this_move   = m_attempted_moves[move];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -163,7 +163,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
 
     mpfr_init_set_ui(r1, this_move, MPFR_RNDD);    // r1 = this_move NOLINT
-    mpfr_init_set_ui(r2, total_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
+    mpfr_init_set_ui(r2, all_moves, MPFR_RNDD);    // r2 = total_moves NOLINT
 
     // The result
     mpfr_div(a1, r1, r2, MPFR_RNDD);  // a1 = r1/r2 NOLINT
@@ -177,7 +177,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
-    fmt::print("total_moves() = {}\n", total_moves);
+    fmt::print("total_moves() = {}\n", all_moves);
     fmt::print("A1 is {}\n", result);
 #endif
 

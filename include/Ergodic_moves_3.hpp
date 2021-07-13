@@ -53,7 +53,6 @@ namespace ergodic_moves
         flipped = true;
         break;
       }
-
 #ifndef NDEBUG
       fmt::print("Facet {} was not flippable.\n", i);
 #endif
@@ -81,11 +80,13 @@ namespace ergodic_moves
 #endif
 
     auto two_two = t_manifold.get_triangulation().get_two_two();
-    // Shuffle the container to pick a random sequence of (2,2) cells to try
+    // Shuffle the container to create a random sequence of (2,2) cells
     std::shuffle(two_two.begin(), two_two.end(), make_random_generator());
-    for (auto const& cell : two_two)
+    // Try a (2,3) move on successive cells in the sequence
+    if (std::any_of(two_two.begin(), two_two.end(),
+                    [&](auto& cell) { return try_23_move(t_manifold, cell); }))
     {
-      if (try_23_move(t_manifold, cell)) { return t_manifold; }
+      return t_manifold;
     }
     // We've run out of (2,2) cells
     return tl::make_unexpected("No (2,3) move possible.");
@@ -101,13 +102,18 @@ namespace ergodic_moves
   [[nodiscard]] inline auto try_32_move(manifolds::Manifold3&   t_manifold,
                                         Edge_handle_t<3> const& to_be_moved)
   {
-    auto flipped = false;
     if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
                                         to_be_moved.third))
     {
-      flipped = true;
+#ifndef NDEBUG
+      fmt::print("Edge was flippable.\n");
+#endif
+      return true;
     }
-    return flipped;
+#ifndef NDEBUG
+    fmt::print("Edge not flippable.\n");
+#endif
+    return false;
   }
 
   /// @brief Perform a (3,2) move
@@ -128,23 +134,15 @@ namespace ergodic_moves
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto movable_timelike_edges = t_manifold.get_timelike_edges();
-    // Shuffle the container to pick a random sequence of edges to try
-    std::shuffle(movable_timelike_edges.begin(), movable_timelike_edges.end(),
+    auto timelike_edges = t_manifold.get_timelike_edges();
+    // Shuffle the container to create a random sequence of edges
+    std::shuffle(timelike_edges.begin(), timelike_edges.end(),
                  make_random_generator());
-    for (auto const& edge : movable_timelike_edges)
+    // Try a (3,2) move on successive timelike edges in the sequence
+    if (std::any_of(timelike_edges.begin(), timelike_edges.end(),
+                    [&](auto& edge) { return try_32_move(t_manifold, edge); }))
     {
-      if (try_32_move(t_manifold, edge))
-      {
-#ifndef NDEBUG
-        fmt::print("Edge was flippable.\n");
-#endif
-        return t_manifold;
-      }
-
-#ifndef NDEBUG
-      fmt::print("Edge not flippable.\n");
-#endif
+      return t_manifold;
     }
     // We've run out of edges to try
     return tl::make_unexpected("No (3,2) move possible.");
@@ -384,16 +382,16 @@ namespace ergodic_moves
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto vertices = t_manifold.get_vertices();
-    // Shuffle the container to pick a random sequence of vertices to try
+    // Shuffle the container to create a random sequence of vertices
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
-    for (auto const& vertex : vertices)
+    // Try a (6,2) move on successive vertices in the sequence
+    if (auto movable_vertex_iterator = std::find_if(
+            vertices.begin(), vertices.end(),
+            [&](auto& vertex) { return is_62_movable(t_manifold, vertex); });
+        movable_vertex_iterator != vertices.end())
     {
-      if (is_62_movable(t_manifold, vertex))
-      {
-        t_manifold.triangulation().delaunay().remove(vertex);
-        return t_manifold;
-      }
-      // Try next vertex
+      t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);
+      return t_manifold;
     }
     // We've run out of vertices to try
     return tl::make_unexpected("No (6,2) move possible.");
