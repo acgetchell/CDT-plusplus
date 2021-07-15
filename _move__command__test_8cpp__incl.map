@@ -1,7 +1,8 @@
 <map id="tests/Move_command_test.cpp" name="tests/Move_command_test.cpp">
-<area shape="rect" id="node1" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="361,5,528,47"/>
+<area shape="rect" id="node1" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="447,5,613,47"/>
 <area shape="rect" id="node2" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="281,95,440,121"/>
 <area shape="rect" id="node43" title=" " alt="" coords="464,95,596,121"/>
+<area shape="rect" id="node44" title=" " alt="" coords="620,95,725,121"/>
 <area shape="rect" id="node3" href="$_apply__move_8hpp.html" title="Apply Pachner moves to foliated Delaunay triangulations." alt="" coords="210,169,341,196"/>
 <area shape="rect" id="node8" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="365,169,529,196"/>
 <area shape="rect" id="node4" title=" " alt="" coords="169,244,256,271"/>
