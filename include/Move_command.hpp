@@ -23,9 +23,11 @@ class MoveCommand
   ManifoldType m_manifold;
 
   /// @brief The queue of moves to make
-  std::deque<FunctionType> m_moves;
+  std::deque<move_tracker::move_type> m_moves;
 
-  /// @brief Keep track of failed moves
+  /// @brief Track attempted moves
+  move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+  /// @brief Track failed moves
   move_tracker::MoveTracker<ManifoldType> m_failed_moves;
 
  public:
@@ -42,36 +44,55 @@ class MoveCommand
   auto get_const_results() const -> ManifoldType const&
   {
     return std::cref(m_manifold);
-  }
+  }  // get_const_results
 
   /// @return The results of the moves invoked by MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
+  /// @return Attempted moves by MoveCommand
+  [[nodiscard]] auto get_attempts() const
+      -> move_tracker::MoveTracker<ManifoldType>
+  {
+    return m_attempted_moves;
+  }  // get_attempts
+
+  /// @return The sum of all attempted moves
+  [[nodiscard]] auto get_all_attempts() const
+  {
+    return std::accumulate(m_attempted_moves.moves.begin(),
+                           m_attempted_moves.moves.end(), 0);
+  }  // get_all_attempts
+
   /// @return Failed moves by MoveCommand
-  [[nodiscard]] auto get_errors() const
+  [[nodiscard]] auto get_failed() const
       -> move_tracker::MoveTracker<ManifoldType>
   {
     return m_failed_moves;
-  }
+  }  // get_errors
 
   /// @brief Push a Pachner move onto the move queue
   /// @param t_move The move function object to do on the manifold
-  void enqueue(FunctionType t_move) { m_moves.push_front(std::move(t_move)); }
+  void enqueue(move_tracker::move_type t_move) { m_moves.push_front(t_move); }
 
   auto size() const { return m_moves.size(); }
 
   /// Execute all moves in the queue on the manifold
   void execute()
   {
-    while (m_moves.size() > 0)
+    while (!m_moves.empty())
     {
 #ifndef NDEBUG
-      fmt::print("Before moves:\n");
+      fmt::print("=== Before moves ===\n");
       m_manifold.print_details();
+      fmt::print("====================\n");
 #endif
 
-      auto move   = m_moves.back();
-      auto result = apply_move(m_manifold, move);
+      auto move_type = m_moves.back();
+      // Record attempted move
+      m_attempted_moves[move_tracker::as_integer(move_type)]++;
+      // Convert move_type to function
+      auto move_function = as_move_function(move_type);
+      auto result        = apply_move(m_manifold, move_function);
       m_moves.pop_back();
       if (result)
       {
@@ -86,11 +107,29 @@ class MoveCommand
       }
     }
 #ifndef NDEBUG
-    fmt::print("After moves:\n");
+    fmt::print("=== After moves ===\n");
     m_manifold.print_details();
     print_errors();
+    fmt::print("===================\n");
 #endif
   }  // execute
+
+  auto as_move_function(move_tracker::move_type move) -> FunctionType
+  {
+    switch (move)
+    {
+      case move_tracker::move_type::TWO_THREE:
+        return ergodic_moves::do_23_move;
+      case move_tracker::move_type::THREE_TWO:
+        return ergodic_moves::do_32_move;
+      case move_tracker::move_type::TWO_SIX:
+        return ergodic_moves::do_26_move;
+      case move_tracker::move_type::SIX_TWO:
+        return ergodic_moves::do_62_move;
+      default:
+        return ergodic_moves::do_44_move;
+    }
+  }  // move_function
 
   /// @brief Parse errors
   /// @tparam UnexpectedType The type of the Unexpected
@@ -98,56 +137,56 @@ class MoveCommand
   template <typename UnexpectedType>
   void parse_unexpected(UnexpectedType const error)
   {
-      // 3D
-      if (error.find("(2,3)") != UnexpectedType::npos)
-      {
-        m_failed_moves.two_three_moves() += 1;
-      }
-      if (error.find("(3,2)") != UnexpectedType::npos)
-      {
-        m_failed_moves.three_two_moves() += 1;
-      }
-      if (error.find("(2,6)") != UnexpectedType::npos)
-      {
-        m_failed_moves.two_six_moves() += 1;
-      }
-      if (error.find("(6,2)") != UnexpectedType::npos)
-      {
-        m_failed_moves.six_two_moves() += 1;
-      }
-      if (error.find("(4,4)") != UnexpectedType::npos)
-      {
-        m_failed_moves.four_four_moves() += 1;
-      }
-      // 4D
-      if (error.find("(2,4)") != UnexpectedType::npos)
-      {
-        m_failed_moves.two_four_moves() += 1;
-      }
-      if (error.find("(4,2)") != UnexpectedType::npos)
-      {
-        m_failed_moves.four_two_moves() += 1;
-      }
-      if (error.find("(3,3)") != UnexpectedType::npos)
-      {
-        m_failed_moves.three_three_moves() += 1;
-      }
-      if (error.find("(4,6)") != UnexpectedType::npos)
-      {
-        m_failed_moves.four_six_moves() += 1;
-      }
-      if (error.find("(6,4)") != UnexpectedType::npos)
-      {
-        m_failed_moves.six_four_moves() += 1;
-      }
-      if (error.find("(2,8)") != UnexpectedType::npos)
-      {
-        m_failed_moves.two_eight_moves() += 1;
-      }
-      if (error.find("(8,2)") != UnexpectedType::npos)
-      {
-        m_failed_moves.eight_two_moves() += 1;
-      }
+    // 3D
+    if (error.find("(2,3)") != UnexpectedType::npos)
+    {
+      m_failed_moves.two_three_moves() += 1;
+    }
+    if (error.find("(3,2)") != UnexpectedType::npos)
+    {
+      m_failed_moves.three_two_moves() += 1;
+    }
+    if (error.find("(2,6)") != UnexpectedType::npos)
+    {
+      m_failed_moves.two_six_moves() += 1;
+    }
+    if (error.find("(6,2)") != UnexpectedType::npos)
+    {
+      m_failed_moves.six_two_moves() += 1;
+    }
+    if (error.find("(4,4)") != UnexpectedType::npos)
+    {
+      m_failed_moves.four_four_moves() += 1;
+    }
+    // 4D
+    if (error.find("(2,4)") != UnexpectedType::npos)
+    {
+      m_failed_moves.two_four_moves() += 1;
+    }
+    if (error.find("(4,2)") != UnexpectedType::npos)
+    {
+      m_failed_moves.four_two_moves() += 1;
+    }
+    if (error.find("(3,3)") != UnexpectedType::npos)
+    {
+      m_failed_moves.three_three_moves() += 1;
+    }
+    if (error.find("(4,6)") != UnexpectedType::npos)
+    {
+      m_failed_moves.four_six_moves() += 1;
+    }
+    if (error.find("(6,4)") != UnexpectedType::npos)
+    {
+      m_failed_moves.six_four_moves() += 1;
+    }
+    if (error.find("(2,8)") != UnexpectedType::npos)
+    {
+      m_failed_moves.two_eight_moves() += 1;
+    }
+    if (error.find("(8,2)") != UnexpectedType::npos)
+    {
+      m_failed_moves.eight_two_moves() += 1;
+    }
   }  // parse_unexpected
 
   /// @brief Print Move errors

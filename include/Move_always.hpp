@@ -106,41 +106,33 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 #endif
         if (move_choice == 0 && ManifoldType::dimension == 3)
         {
-          auto* move = ergodic_moves::do_23_move;
-          m_attempted_moves[0] += 1;
-          command.enqueue(move);
+          command.enqueue(move_tracker::move_type::TWO_THREE);
         }
 
         if (move_choice == 1 && ManifoldType::dimension == 3)
         {
-          auto* move = ergodic_moves::do_32_move;
-          m_attempted_moves[1] += 1;
-          command.enqueue(move);
+          command.enqueue(move_tracker::move_type::THREE_TWO);
         }
 
         if (move_choice == 2 && ManifoldType::dimension == 3)
         {
-          auto* move = ergodic_moves::do_26_move;
-          m_attempted_moves[2] += 1;
-          command.enqueue(move);
+          command.enqueue(move_tracker::move_type::TWO_SIX);
         }
 
         if (move_choice == 3 && ManifoldType::dimension == 3)
         {
-          auto* move = ergodic_moves::do_62_move;
-          m_attempted_moves[3] += 1;
-          command.enqueue(move);
+          command.enqueue(move_tracker::move_type::SIX_TWO);
         }
 
         if (move_choice == 4 && ManifoldType::dimension == 3)
         {
-          auto* move = ergodic_moves::do_44_move;
-          m_attempted_moves[4] += 1;
-          command.enqueue(move);
+          command.enqueue(move_tracker::move_type::FOUR_FOUR);
         }
       }
       command.execute();
-      m_failed_moves = command.get_errors();
+      // Update attempted and failed moves
+      m_attempted_moves = command.get_attempts();
+      m_failed_moves    = command.get_failed();
     }
     print_results();
     return command.get_results();

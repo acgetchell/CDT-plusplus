@@ -311,6 +311,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     if (trial <= a1 * a2)
     {
       // Move accepted
+      // attempted_moves will be updated by the MoveCommand
       return true;
     }
 
@@ -346,28 +347,22 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     // Start the move command
     MoveCommand command(t_manifold);
 
-    // All possible moves
-    auto* move23 = ergodic_moves::do_23_move;
-    auto* move32 = ergodic_moves::do_32_move;
-    auto* move26 = ergodic_moves::do_26_move;
-    auto* move62 = ergodic_moves::do_62_move;
-    auto* move44 = ergodic_moves::do_44_move;
-
     // Populate m_attempted_moves and m_successful_moves
     fmt::print("Making initial moves ...\n");
     try
     {
-      command.enqueue(move23);
-      command.enqueue(move32);
-      command.enqueue(move26);
-      command.enqueue(move62);
-      command.enqueue(move44);
+      command.enqueue(move_tracker::move_type::TWO_THREE);
+      command.enqueue(move_tracker::move_type::THREE_TWO);
+      command.enqueue(move_tracker::move_type::TWO_SIX);
+      command.enqueue(move_tracker::move_type::SIX_TWO);
+      command.enqueue(move_tracker::move_type::FOUR_FOUR);
 
       // Execute the moves
       command.execute();
 
-      // Update failed moves
-      m_failed_moves = command.get_errors();
+      // Update attempted and failed moves
+      m_attempted_moves = command.get_attempts();
+      m_failed_moves    = command.get_failed();
 
       // print initial results
       auto initial_results = command.get_results();
@@ -398,8 +393,9 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       // Do the moves
       command.execute();
 
-      // Update failed moves with errors
-      this->m_failed_moves += command.get_errors();
+      // Update attempted and failed moves
+      this->m_attempted_moves += command.get_attempts();
+      this->m_failed_moves += command.get_failed();
 
       // Do stuff on checkpoint
       if ((pass_number % m_checkpoint) == 0)

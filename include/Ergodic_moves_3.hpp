@@ -35,7 +35,7 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
-  /// @return True if move succeeded
+  /// @return If move succeeded
   [[nodiscard]] inline auto try_23_move(manifolds::Manifold3&   t_manifold,
                                         Cell_handle_t<3> const& to_be_moved)
       -> bool
@@ -98,7 +98,7 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
-  /// @return True if move succeeded
+  /// @return If move succeeded
   [[nodiscard]] inline auto try_32_move(manifolds::Manifold3&   t_manifold,
                                         Edge_handle_t<3> const& to_be_moved)
   {
@@ -299,7 +299,7 @@ namespace ergodic_moves
   ///
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
-  /// @return True if (6,2) move is possible
+  /// @return If (6,2) move is possible
   [[nodiscard]] inline auto is_62_movable(manifolds::Manifold3 const& manifold,
                                           Vertex_handle_t<3> const&   candidate)
   {

@@ -347,8 +347,6 @@ namespace foliated_triangulations
     for (auto const& face : t_facets)
     {
       Cell_handle_t<dimension> ch = face.first;
-      //      typename triangulation_traits<dimension>::Cell_handle ch =
-      //      face.first;
       auto          index_of_facet = face.second;
       if (t_debug_flag) { fmt::print("Facet index is {}\n", index_of_facet); }
       std::set<Int_precision> facet_timevalues;

@@ -46,14 +46,16 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
     THEN("Moves can be added.")
     {
       // Add +1 to each move
-      for (auto& move : tracked_moves.moves) { move += 1; }
+      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
+                    [](Int_precision& n) { n++; });
       // Now check that it's added
       for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
     }
     THEN("Two move trackers can be added.")
     {
       // Add +1 move to left hand side
-      for (auto& move : tracked_moves.moves) { move += 1; }
+      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
+                    [](Int_precision& n) { n++; });
       move_tracker::MoveTracker<manifolds::Manifold3> added_moves;
       added_moves.two_three_moves() += 2;
       added_moves.three_two_moves() += 2;
@@ -81,14 +83,16 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
     THEN("Moves can be added.")
     {
       // Add +1 to each move
-      for (auto& move : tracked_moves.moves) { move += 1; }
+      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
+                    [](Int_precision& n) { n++; });
       // Now check that it's added
       for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
     }
     THEN("Two move trackers can be added.")
     {
       // Add +1 move to left hand side
-      for (auto& move : tracked_moves.moves) { move += 1; }
+      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
+                    [](Int_precision& n) { n++; });
       move_tracker::MoveTracker<manifolds::Manifold4> added_moves;
       added_moves.two_four_moves() += 2;
       added_moves.four_two_moves() += 2;

@@ -57,14 +57,16 @@ jobs:
         pwd
         echo $HOME
 
-    - name: Build
+    - name: Install vcpkg packages and configure CMake
       shell: bash 
       run: |
         pwd
         vcpkg install --feature-flags=manifests
         export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
         cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
-        cmake --build build
+
+    - name: Build
+      run: cmake --build build
 
   sonarcloud:
     name: SonarCloud
@@ -150,7 +152,7 @@ jobs:
         continue-on-error: true
         run: |
           cd $GITHUB_WORKSPACE/build
-          ctest ctest --schedule-random -j2
+          ctest --schedule-random -j2
 
 
       - name: Compile coverage reports

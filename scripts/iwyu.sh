@@ -9,5 +9,5 @@
 
 cd ..
 rm -rf build/
-cmake -S . -B build -G Ninja -D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=TRUE
+cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_INCLUDE_WHAT_YOU_USE:BOOL=TRUE -S . -B build
 cmake --build build
