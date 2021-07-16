@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['update_515',['update',['../classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['update_5fgeometry_516',['update_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['update_5ftriangulation_517',['update_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85',1,'manifolds::Manifold&lt; 3 &gt;']]]
+  ['update_517',['update',['../classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5fgeometry_518',['update_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5ftriangulation_519',['update_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85',1,'manifolds::Manifold&lt; 3 &gt;']]]
 ];

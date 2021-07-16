@@ -382,7 +382,7 @@ $(function() {
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;      {</div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="comment">// Pick a move to attempt</span></div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        <span class="keyword">auto</span> move = move_tracker::generate_random_move_3();</div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> (attempt_move(move)) { enqueue_move(command, move); }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        <span class="keywordflow">if</span> (attempt_move(move)) { command.<a class="code" href="class_move_command.html#a94ab45874166cc6afee62c0b185d57d6">enqueue</a>(move); }</div>
 <div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;      }  <span class="comment">// End loop through CurrentTotalSimplices</span></div>
 <div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160; </div>
 <div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;      <span class="comment">// Do the moves</span></div>
@@ -479,7 +479,7 @@ $(function() {
 <div class="ttc" id="aclass_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4_html_ac6a5f6a8688f4b1120c5c767898368de"><div class="ttname"><a href="class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ac6a5f6a8688f4b1120c5c767898368de">MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::MoveStrategy</a></div><div class="ttdeci">MoveStrategy(long double Alpha, long double K, long double Lambda, Int_precision passes, Int_precision checkpoint)</div><div class="ttdoc">Metropolis function object constructor.</div><div class="ttdef"><b>Definition:</b> <a href="_metropolis_8hpp_source.html#l00091">Metropolis.hpp:91</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 15 2021 23:05:14 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Jul 16 2021 02:57:02 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

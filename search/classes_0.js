@@ -1,8 +1,8 @@
 var searchData=
 [
-  ['foliatedtriangulation_278',['FoliatedTriangulation',['../classfoliated__triangulations_1_1_foliated_triangulation.html',1,'foliated_triangulations']]],
-  ['foliatedtriangulation_3c_203_20_3e_279',['FoliatedTriangulation&lt; 3 &gt;',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html',1,'foliated_triangulations']]],
-  ['function_5fref_280',['function_ref',['../classfunction__ref.html',1,'']]],
-  ['function_5fref_3c_20ret_28params_2e_2e_2e_29_3e_281',['function_ref&lt; Ret(Params...)&gt;',['../classfunction__ref_3_01_ret_07_params_8_8_8_08_4.html',1,'']]],
-  ['function_5fref_3c_20simplicialmanifold_28simplicialmanifold_29_3e_282',['function_ref&lt; SimplicialManifold(SimplicialManifold)&gt;',['../classfunction__ref.html',1,'']]]
+  ['foliatedtriangulation_279',['FoliatedTriangulation',['../classfoliated__triangulations_1_1_foliated_triangulation.html',1,'foliated_triangulations']]],
+  ['foliatedtriangulation_3c_203_20_3e_280',['FoliatedTriangulation&lt; 3 &gt;',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html',1,'foliated_triangulations']]],
+  ['function_5fref_281',['function_ref',['../classfunction__ref.html',1,'']]],
+  ['function_5fref_3c_20ret_28params_2e_2e_2e_29_3e_282',['function_ref&lt; Ret(Params...)&gt;',['../classfunction__ref_3_01_ret_07_params_8_8_8_08_4.html',1,'']]],
+  ['function_5fref_3c_20simplicialmanifold_28simplicialmanifold_29_3e_283',['function_ref&lt; SimplicialManifold(SimplicialManifold)&gt;',['../classfunction__ref.html',1,'']]]
 ];
