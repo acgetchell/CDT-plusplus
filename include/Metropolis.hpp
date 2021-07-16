@@ -387,7 +387,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       {
         // Pick a move to attempt
         auto move = move_tracker::generate_random_move_3();
-        if (attempt_move(move)) { enqueue_move(command, move); }
+        if (attempt_move(move)) { command.enqueue(move); }
       }  // End loop through CurrentTotalSimplices
 
       // Do the moves

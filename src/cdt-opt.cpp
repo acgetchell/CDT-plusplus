@@ -13,11 +13,11 @@
 /// scripting parallel runs, e.g.
 ///
 /// ./cdt-opt 2>>errors 1>>output &
-/// @todo Invoke Metropolis algorithm
 /// @todo Print out graph of time-value vs. volume vs. pass number
 
 //#include <utility>
 
+#include <Metropolis.hpp>
 #include <Move_always.hpp>
 
 using namespace std;
@@ -28,16 +28,16 @@ auto main() -> int
   constexpr Int_precision simplices  = 64;
   constexpr Int_precision timeslices = 3;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
-  //  constexpr long double alpha = 0.6;
-  //  constexpr long double k     = 1.1;
+  constexpr auto alpha = static_cast<long double const>(0.6);
+  constexpr auto k     = static_cast<long double const>(1.1);
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
-  //  constexpr long double lambda     = 0.1;
+  constexpr auto          lambda     = static_cast<long double const>(0.1);
   constexpr Int_precision passes     = 10;
   constexpr Int_precision checkpoint = 10;
 
   // Initialize the Metropolis algorithm
-  //  Metropolis my_algorithm(alpha, k, lambda, passes, checkpoint);
-  MoveAlways3 run(passes, checkpoint);
+  Metropolis3 run(alpha, k, lambda, passes, checkpoint);
+  //  MoveAlways3 run(passes, checkpoint);
 
   // Make a triangulation
   manifolds::Manifold3 universe(simplices, timeslices);
@@ -55,6 +55,8 @@ auto main() -> int
     fmt::print("You wanted {} timeslices, but only got {}.\n", timeslices,
                max_timevalue);
   }
+
+  Ensures(result.is_valid());
 
   // Print results
   fmt::print("=== Run Results ===\n");

@@ -123,15 +123,15 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
     manifolds::Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
-    //    WHEN("A Metropolis function object is constructed.")
-    //    {
-    //      Metropolis3 testrun(Alpha, K, Lambda, passes,
-    //      output_every_n_passes); THEN("A lot of moves are done.")
-    //      {
-    //        auto result = testrun(universe);
-    //        CHECK(result.is_valid());
-    //      }
-    //    }
+    WHEN("A Metropolis function object is constructed.")
+    {
+      Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+      THEN("A lot of moves are done.")
+      {
+        auto result = testrun(universe);
+        CHECK(result.is_valid());
+      }
+    }
   }
 }
 //    WHEN("The Metropolis functor is called.")

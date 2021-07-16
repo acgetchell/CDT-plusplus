@@ -54,7 +54,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Build/debug with [Visual Studio 2019]
 - [x] Use [{fmt}] library (instead of `iostream`)
 - [x] Static code analysis with [PVS-Studio]
-- [ ] Metropolis algorithm
+- [x] 3D Metropolis algorithm
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex

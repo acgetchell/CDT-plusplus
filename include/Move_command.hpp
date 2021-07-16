@@ -79,14 +79,14 @@ class MoveCommand
   /// Execute all moves in the queue on the manifold
   void execute()
   {
-    while (!m_moves.empty())
-    {
 #ifndef NDEBUG
-      fmt::print("=== Before moves ===\n");
-      m_manifold.print_details();
-      fmt::print("====================\n");
+    fmt::print("=== Executing: Before moves ===\n");
+    m_manifold.print_details();
+    fmt::print("===============================\n");
 #endif
 
+    while (!m_moves.empty())
+    {
       auto move_type = m_moves.back();
       // Record attempted move
       m_attempted_moves[move_tracker::as_integer(move_type)]++;
@@ -108,8 +108,9 @@ class MoveCommand
     }
 #ifndef NDEBUG
     fmt::print("=== After moves ===\n");
-    m_manifold.print_details();
+    print_attempts();
     print_errors();
+    m_manifold.print_details();
     fmt::print("===================\n");
 #endif
   }  // execute
@@ -188,6 +189,37 @@ class MoveCommand
       m_failed_moves.eight_two_moves() += 1;
     }
   }  // parse_unexpected
+
+  /// @brief Print attempted moves
+  void print_attempts() const
+  {
+    if (ManifoldType::dimension == 3)
+    {
+      fmt::print(
+          "There were {} attempted (2,3) moves and {} attempted (3,2) moves "
+          "and {} "
+          "attempted (2,6) moves and {} attempted (6,2) moves and {} attempted "
+          "(4,4) "
+          "moves.\n",
+          m_attempted_moves.moves[0], m_attempted_moves.moves[1],
+          m_attempted_moves.moves[2], m_attempted_moves.moves[3],
+          m_attempted_moves.moves[4]);
+    }
+    else
+    {
+      // 4D
+      fmt::print(
+          "There were {} attempted (2,4) moves and {} attempted (4,2) moves "
+          "and {} "
+          "attempted (3,3) moves and {} attempted (4,6) moves and {} attempted "
+          "(6,4) "
+          "moves and {} attempted (2,8) moves and {} attempted (8,2) moves.\n",
+          m_attempted_moves.moves[0], m_attempted_moves.moves[1],
+          m_attempted_moves.moves[2], m_attempted_moves.moves[3],
+          m_attempted_moves.moves[4], m_attempted_moves.moves[5],  // NOLINT
+          m_attempted_moves.moves[6]);                             // NOLINT
+    }
+  }
 
   /// @brief Print Move errors
   void print_errors() const

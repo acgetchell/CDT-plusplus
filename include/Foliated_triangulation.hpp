@@ -1082,7 +1082,7 @@ namespace foliated_triangulations
         double const initial_radius    = INITIAL_RADIUS,
         double const foliation_spacing = FOLIATION_SPACING) -> Delaunay_t<3>
     {
-      fmt::print("Generating universe ...\n");
+      fmt::print("\nGenerating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
       // Construct the locking data-structure
       // using the bounding-box of the points
@@ -1208,7 +1208,6 @@ namespace foliated_triangulations
       Expects(is_tds_valid());
       std::vector<Face_handle_t<3>> init_faces;
       init_faces.reserve(get_delaunay().number_of_finite_facets());
-      //    Delaunay3::Finite_facets_iterator fit;
       for (auto fit = get_delaunay().finite_facets_begin();
            fit != get_delaunay().finite_facets_end(); ++fit)
       {
@@ -1228,7 +1227,6 @@ namespace foliated_triangulations
       Expects(is_tds_valid());
       std::vector<Edge_handle_t<3>> init_edges;
       init_edges.reserve(number_of_finite_edges());
-      //    Delaunay3::Finite_edges_iterator eit;
       for (auto eit = get_delaunay().finite_edges_begin();
            eit != get_delaunay().finite_edges_end(); ++eit)
       {
@@ -1251,7 +1249,6 @@ namespace foliated_triangulations
       Expects(is_tds_valid());
       std::vector<Vertex_handle_t<3>> init_vertices;
       init_vertices.reserve(get_delaunay().number_of_vertices());
-      //    Delaunay3::Finite_vertices_iterator vit;
       for (auto vit = get_delaunay().finite_vertices_begin();
            vit != get_delaunay().finite_vertices_end(); ++vit)
       {  // Each vertex is valid in the triangulation
