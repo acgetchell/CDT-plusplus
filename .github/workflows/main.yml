@@ -158,8 +158,14 @@ jobs:
       - name: Compile coverage reports
         run: |
           cd $GITHUB_WORKSPACE/build
-          lcov --capture --directory . --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg_installed/*' --output-file coverage.info
+          mkdir gcov-reports
+          pushd gcov-reports
+          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
+            echo "Processing $f file..."
+            gcov -o ${f} x
+          done
+          ls | wc -l
+          popd
 
       - name: Run sonar-scanner
         env:
