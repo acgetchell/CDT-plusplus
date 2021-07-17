@@ -7,6 +7,7 @@
 /// @file Ergodic_moves_3.hpp
 /// @brief Pachner moves on 2+1 dimensional foliated Delaunay triangulations
 /// @author Adam Getchell
+/// @todo Invoke complete set of ergodic (Pachner) moves
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
@@ -307,7 +308,6 @@ namespace ergodic_moves
     Expects(manifold.is_vertex(candidate));
 
     auto incident_edges = manifold.degree(candidate);
-
     // We must have 5 incident edges to have 6 incident cells
     if (incident_edges != 5)  // NOLINT
     {
@@ -453,6 +453,7 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
+  /// @todo Fix this move to do something
   [[nodiscard]] inline auto do_44_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
@@ -495,7 +496,7 @@ namespace ergodic_moves
   {
     switch (t_move)
     {
-      case move_tracker::move_type::FOUR_FOUR: {
+      case move_tracker::move_type::FOUR_FOUR:
         return (t_after.is_valid() && t_after.N3() == t_before.N3() &&
                 t_after.N3_31() == t_before.N3_31() &&
                 t_after.N3_22() == t_before.N3_22() &&
@@ -507,8 +508,7 @@ namespace ergodic_moves
                 t_after.N0() == t_before.N0() &&
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
-      }
-      case move_tracker::move_type::TWO_THREE: {
+      case move_tracker::move_type::TWO_THREE:
         return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
                 t_after.N3_31() == t_before.N3_31() &&
                 t_after.N3_22() == t_before.N3_22() + 1 &&
@@ -520,8 +520,7 @@ namespace ergodic_moves
                 t_after.N0() == t_before.N0() &&
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
-      }
-      case move_tracker::move_type::THREE_TWO: {
+      case move_tracker::move_type::THREE_TWO:
         return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
                 t_after.N3_31() == t_before.N3_31() &&
                 t_after.N3_22() == t_before.N3_22() - 1 &&
@@ -533,8 +532,7 @@ namespace ergodic_moves
                 t_after.N0() == t_before.N0() &&
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
-      }
-      case move_tracker::move_type::TWO_SIX: {
+      case move_tracker::move_type::TWO_SIX:
         return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
                 t_after.N3_31() == t_before.N3_31() + 2 &&
                 t_after.N3_22() == t_before.N3_22() &&
@@ -546,8 +544,7 @@ namespace ergodic_moves
                 t_after.N0() == t_before.N0() + 1 &&
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
-      }
-      case move_tracker::move_type::SIX_TWO: {
+      case move_tracker::move_type::SIX_TWO:
         return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
                 t_after.N3_31() == t_before.N3_31() - 2 &&
                 t_after.N3_22() == t_before.N3_22() &&
@@ -559,10 +556,8 @@ namespace ergodic_moves
                 t_after.N0() == t_before.N0() - 1 &&
                 t_after.max_time() == t_before.max_time() &&
                 t_after.min_time() == t_before.min_time());
-      }
-      default: {
+      default:
         return false;
-      }
     }
   }  // check_move()
 

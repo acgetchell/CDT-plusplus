@@ -73,11 +73,42 @@ else()
 endif()
 target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
+add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
+if(WIN32)
+  target_link_libraries(
+      cdt
+      PRIVATE project_options
+      project_warnings
+      docopt
+      date::date
+      date::date-tz
+      fmt::fmt-header-only
+      Eigen3::Eigen
+      TBB::tbb
+      CGAL::CGAL)
+else()
+  target_link_libraries(
+      cdt
+      PRIVATE project_options
+      project_warnings
+      docopt_s
+      date::date
+      date::date-tz
+      fmt::fmt-header-only
+      Eigen3::Eigen
+      TBB::tbb
+      CGAL::CGAL)
+endif()
+target_compile_features(cdt PRIVATE cxx_std_17)
+
 #
 # Tests    ##
 #
 
 # CTest basic testing Parameter initializer program
+add_test(NAME CDT COMMAND $<TARGET_FILE:cdt>)
+set_tests_properties(CDT PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt")
+
 add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
 set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
 

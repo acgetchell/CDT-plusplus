@@ -170,7 +170,7 @@ understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
 ~~~text
-./build/cdt --help
+./build/src/cdt --help
 Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2021 Adam Getchell

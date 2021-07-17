@@ -17,10 +17,7 @@
 /// @todo Implement concurrency
 /// @todo Change A1 to count successful moves, total moves gets dragged down by
 /// (6,2) attempts
-/// @bug There's a segfault in CalculateA1 on MacOS/gcc.
-/// @bug The call operator segfaults in Release mode
-/// @bug The number of attempted (6,2) moves makes A1 really low preventing
-/// other moves
+/// @bug The number of failed moves isn't tracked
 
 #ifndef INCLUDE_METROPOLIS_HPP_
 #define INCLUDE_METROPOLIS_HPP_

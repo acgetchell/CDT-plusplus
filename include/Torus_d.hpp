@@ -1,13 +1,14 @@
-/// Causal Dynamical Triangulations in C++ using CGAL
-///
-/// Copyright © 2014-2020 Adam Getchell
-///
-/// Inserts a given number of points into a d-dimensional grid (cube)
-/// @todo Make the vector compatible with the triangulation data structure
+/*******************************************************************************
+ Causal Dynamical Triangulations in C++ using CGAL
+
+ Copyright © 2014 Adam Getchell
+ ******************************************************************************/
 
 /// @file Torus_d.hpp
 /// @brief Functions on d-dimensional torus
 /// @author Adam Getchell
+/// @details Inserts a given number of points into a d-dimensional grid (cube)
+/// @todo Make the vector compatible with the triangulation data structure
 
 #ifndef INCLUDE_TORUS_D_HPP_
 #define INCLUDE_TORUS_D_HPP_

@@ -139,46 +139,6 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
   return filename;
 }  // generate_filename
 
-/// @brief Print out runtime results
-///
-/// This function prints out vertices, edges, facets (2D), and cells (3D).
-///
-/// @tparam Manifold The manifold type
-/// @param t_universe A SimplicialManifold
-template <typename Manifold>
-[[deprecated]] void print_results(Manifold const& t_universe) noexcept
-{
-  std::cout << t_universe.triangulation->number_of_vertices()
-            << " vertices and "
-            << t_universe.triangulation->number_of_finite_edges()
-            << " edges and "
-            << t_universe.triangulation->number_of_finite_facets() << " faces\n"
-            << "and " << t_universe.triangulation->number_of_finite_cells()
-            << " cells.\n";
-}  // print_results
-
-/// @brief Print out runtime results including time elapsed
-///
-/// This function prints out vertices, edges, facets (2D), cells (3D)
-/// and running time on a Triangulation. This calls a simpler version
-/// without a timer object.
-///
-/// @tparam Manifold The manifold type
-/// @tparam Timer The timer type
-/// @param universe A SimplicialManifold
-/// @param timer A timer object used to determine elapsed time
-template <typename Manifold, typename Timer>
-[[deprecated]] void print_results(Manifold const& universe,
-                                  Timer const&    timer) noexcept
-{
-  // C++17
-  print_results(std::as_const(universe));
-  //    print_results(universe);
-
-  // Display program running time
-  fmt::print("Running time is {} seconds.\n", timer.time());
-}  // print_results
-
 /// @brief Print triangulation statistics
 /// @tparam TriangulationType The triangulation type
 /// @param t_triangulation A triangulation (typically a Delaunay_t<3>
@@ -210,6 +170,7 @@ void print_delaunay(TriangulationType const& t_triangulation)
 /// @param t_number_of_timeslices The number of foliated timeslices
 /// @param t_initial_radius The radius of the first foliation t=1
 /// @param t_foliation_spacing The spacing between foliations
+/// @todo Fix write_file() to include cell->info() and vertex->info()
 template <typename ManifoldType>
 void write_file(ManifoldType const& t_universe, topology_type const& t_topology,
                 Int_precision const t_dimension,
