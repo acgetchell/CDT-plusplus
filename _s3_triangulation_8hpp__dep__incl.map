@@ -1,8 +1,0 @@
-<map id="include/S3Triangulation.hpp" name="include/S3Triangulation.hpp">
-<area shape="rect" id="node1" title="Functions on 3D Spherical Delaunay Triangulations." alt="" coords="129,5,331,32"/>
-<area shape="rect" id="node2" href="$_simplicial_manifold_8hpp.html" title="Data structures for simplicial manifolds." alt="" coords="119,80,341,107"/>
-<area shape="rect" id="node3" href="$_simulation_8hpp.html" title="Simulation class." alt="" coords="46,162,217,189"/>
-<area shape="rect" id="node6" href="$_simplicial_manifold_test_8cpp_source.html" title=" " alt="" coords="241,155,419,196"/>
-<area shape="rect" id="node4" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,244,97,271"/>
-<area shape="rect" id="node5" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="122,244,303,271"/>
-</map>

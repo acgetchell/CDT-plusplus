@@ -1,6 +1,5 @@
 <map id="include/Move_always.hpp" name="include/Move_always.hpp">
-<area shape="rect" id="node1" title="Randomly selects moves to always perform on triangulations." alt="" coords="156,5,347,32"/>
+<area shape="rect" id="node1" title="Randomly selects moves to always perform on triangulations." alt="" coords="63,5,253,32"/>
 <area shape="rect" id="node2" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="5,80,124,107"/>
 <area shape="rect" id="node3" href="$_move__always__test_8cpp_source.html" title=" " alt="" coords="148,80,355,107"/>
-<area shape="rect" id="node4" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="379,80,561,107"/>
 </map>

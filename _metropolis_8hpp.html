@@ -125,21 +125,18 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>Metropolis4</b> = <a
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Perform Metropolis-Hastings algorithm on Delaunay Triangulations. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell</dd></dl>
-<p>Performs the Metropolis-Hastings algorithm on the foliated Delaunay triangulations. For details see: M. Creutz, and B. Freedman. “A Statistical Approach to Quantum Mechanics.” Annals of Physics 132 (1981): 427–62. <a href="http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf">http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf</a> </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000004">Todo:</a></b></dt><dd><p class="startdd">Atomic integral types for safe multithreading </p>
+<p>Performs the Metropolis-Hastings algorithm on the foliated Delaunay triangulations. For details see: M. Creutz, and B. Freedman. “A Statistical Approach to Quantum Mechanics.” Annals of Physics 132 (1981): 427–62. <a href="http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf">http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf</a> </p><dl class="todo"><dt><b><a class="el" href="todo.html#_todo000006">Todo:</a></b></dt><dd><p class="startdd">Atomic integral types for safe multithreading </p>
 <p class="interdd">Debug occasional infinite loops and segfaults! </p>
 <p class="interdd">Implement concurrency </p>
 <p class="enddd">Change A1 to count successful moves, total moves gets dragged down by (6,2) attempts </p>
 </dd></dl>
-<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd><p class="startdd">There's a segfault in CalculateA1 on MacOS/gcc. </p>
-<p class="interdd">The call operator segfaults in Release mode </p>
-<p class="enddd">The number of attempted (6,2) moves makes A1 really low preventing other moves </p>
-</dd></dl>
+<dl class="bug"><dt><b><a class="el" href="bug.html#_bug000001">Bug:</a></b></dt><dd>The number of failed moves isn't tracked </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jul 16 2021 02:57:02 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Jul 17 2021 02:40:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

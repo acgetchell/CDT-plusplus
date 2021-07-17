@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['total_5fmoves_513',['total_moves',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aaf13c70402e3b5cf5d7a3f9a0aaa3cf5',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
-  ['triangulation_514',['triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a5702ee66c3e7e988237ccc33fc14506f',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['try_5f23_5fmove_515',['try_23_move',['../_ergodic__moves__3_8hpp.html#aa3c54cbbbe08fccd6984cef5c33d7e90',1,'ergodic_moves']]],
-  ['try_5f32_5fmove_516',['try_32_move',['../_ergodic__moves__3_8hpp.html#a46b62faa9f711e0e4ff1e110c3c41cec',1,'ergodic_moves']]]
+  ['update_460',['update',['../classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5fgeometry_461',['update_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5ftriangulation_462',['update_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85',1,'manifolds::Manifold&lt; 3 &gt;']]]
 ];

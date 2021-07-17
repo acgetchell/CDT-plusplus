@@ -1,18 +1,17 @@
 <map id="include/Move_tracker.hpp" name="include/Move_tracker.hpp">
-<area shape="rect" id="node1" title="Track ergodic moves." alt="" coords="827,5,1015,32"/>
-<area shape="rect" id="node2" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="743,80,915,121"/>
-<area shape="rect" id="node16" href="$_move__tracker__test_8cpp.html" title="Tests of MoveTracker, that is, that moves are tracked properly." alt="" coords="939,80,1086,121"/>
-<area shape="rect" id="node3" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="395,177,604,203"/>
-<area shape="rect" id="node13" href="$_apply__move__test_8cpp.html" title="Applying ergodic moves to manifolds." alt="" coords="628,177,827,203"/>
-<area shape="rect" id="node14" href="$_ergodic__moves__3__test_8cpp.html" title="Tests for ergodic moves on foliated triangulations." alt="" coords="851,169,1009,211"/>
-<area shape="rect" id="node15" href="$_function__ref__test_8cpp_source.html" title=" " alt="" coords="1033,169,1171,211"/>
-<area shape="rect" id="node4" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="299,266,495,293"/>
-<area shape="rect" id="node12" href="$_move__command__test_8cpp.html" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="519,259,685,300"/>
-<area shape="rect" id="node5" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="209,348,379,375"/>
-<area shape="rect" id="node9" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="444,348,635,375"/>
+<area shape="rect" id="node1" title="Track ergodic moves." alt="" coords="748,5,936,32"/>
+<area shape="rect" id="node2" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="664,80,836,121"/>
+<area shape="rect" id="node15" href="$_move__tracker__test_8cpp.html" title="Tests of MoveTracker, that is, that moves are tracked properly." alt="" coords="861,80,1007,121"/>
+<area shape="rect" id="node3" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="316,177,525,203"/>
+<area shape="rect" id="node12" href="$_apply__move__test_8cpp.html" title="Applying ergodic moves to manifolds." alt="" coords="549,177,748,203"/>
+<area shape="rect" id="node13" href="$_ergodic__moves__3__test_8cpp.html" title="Tests for ergodic moves on foliated triangulations." alt="" coords="773,169,930,211"/>
+<area shape="rect" id="node14" href="$_function__ref__test_8cpp_source.html" title=" " alt="" coords="954,169,1093,211"/>
+<area shape="rect" id="node4" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="220,266,416,293"/>
+<area shape="rect" id="node11" href="$_move__command__test_8cpp.html" title="Tests of MoveCommand, that is, that moves are handled properly." alt="" coords="440,259,607,300"/>
+<area shape="rect" id="node5" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="130,348,301,375"/>
+<area shape="rect" id="node9" href="$_move__always_8hpp.html" title="Randomly selects moves to always perform on triangulations." alt="" coords="325,348,516,375"/>
 <area shape="rect" id="node6" href="$cdt-opt_8cpp.html" title="Outputs values to determine optimizations." alt="" coords="333,423,452,449"/>
 <area shape="rect" id="node7" href="$cdt_8cpp.html" title="The main executable." alt="" coords="5,423,97,449"/>
 <area shape="rect" id="node8" href="$_metropolis__test_8cpp.html" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="122,423,309,449"/>
 <area shape="rect" id="node10" href="$_move__always__test_8cpp_source.html" title=" " alt="" coords="476,423,683,449"/>
-<area shape="rect" id="node11" href="$_simulation_test_8cpp_source.html" title=" " alt="" coords="707,423,889,449"/>
 </map>
