@@ -385,9 +385,11 @@ namespace ergodic_moves
     // Shuffle the container to create a random sequence of vertices
     std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
     // Try a (6,2) move on successive vertices in the sequence
-    if (auto movable_vertex_iterator = std::find_if(
-            vertices.begin(), vertices.end(),
-            [&](auto& vertex) { return is_62_movable(t_manifold, vertex); });
+    if (auto movable_vertex_iterator =
+            std::find_if(vertices.begin(), vertices.end(),
+                         [&](auto const& vertex) {
+                           return is_62_movable(t_manifold, vertex);
+                         });
         movable_vertex_iterator != vertices.end())
     {
       t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);

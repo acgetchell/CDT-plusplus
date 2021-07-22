@@ -105,19 +105,22 @@ target_compile_features(cdt PRIVATE cxx_std_17)
 # Tests    ##
 #
 
-# CTest basic testing Parameter initializer program
-add_test(NAME CDT COMMAND $<TARGET_FILE:cdt>)
-set_tests_properties(CDT PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt")
+add_test(NAME cdt COMMAND $<TARGET_FILE:cdt> --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10)
+set_tests_properties(cdt PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-3-")
 
-add_test(NAME CDT-Initialize COMMAND $<TARGET_FILE:initialize>)
-set_tests_properties(CDT-Initialize PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./initialize")
+add_test(NAME cdt-triangle-inequalities COMMAND $<TARGET_FILE:cdt> --s -n64 -t3 -a0.4 -k1.1 -l0.1)
+set_tests_properties(cdt-triangle-inequalities PROPERTIES PASS_REGULAR_EXPRESSION "Triangle inequalities violated")
+
+add_test(NAME cdt-toroidal COMMAND $<TARGET_FILE:cdt> --t -n64 -t3 -a0.6 -k1.1 -l0.1)
+set_tests_properties(cdt-toroidal PROPERTIES PASS_REGULAR_EXPRESSION "Toroidal triangulations not yet supported.")
+
+add_test(NAME initialize COMMAND $<TARGET_FILE:initialize> --s -n640 -t4 -o)
+set_tests_properties(initialize PROPERTIES PASS_REGULAR_EXPRESSION "Writing to file S3-4")
 
 if(UNIX)
-  add_test(NAME CDT-gv COMMAND $<TARGET_FILE:cdt-gv>)
-  set_tests_properties(CDT-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
+  add_test(NAME cdt-gv COMMAND $<TARGET_FILE:cdt-gv>)
+  set_tests_properties(cdt-gv PROPERTIES PASS_REGULAR_EXPRESSION "Usage:./cdt-gv")
 endif()
 
-add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>)
-set_tests_properties(CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started")
-# add_test(NAME CDT-Opt COMMAND $<TARGET_FILE:cdt-opt>) set_tests_properties( CDT-Opt PROPERTIES PASS_REGULAR_EXPRESSION
-# "64000 simplices on 16 timeslices desired.")
+add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
+set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "64 simplices on 3 timeslices desired.")

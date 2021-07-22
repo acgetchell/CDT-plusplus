@@ -10,18 +10,8 @@
 /// @details A program that generates spacetime ensembles. Inspired by
 /// https://github.com/ucdavis/CDT.
 
-// CGAL headers
 #include <CGAL/Real_timer.h>
-
-// C++ headers
-#include <gsl/gsl>
-#include <vector>
-
-// Docopt
 #include <docopt.h>
-
-// CDT headers
-#include <Manifold.hpp>
 #include <Metropolis.hpp>
 
 using Timer = CGAL::Real_timer;
@@ -80,9 +70,9 @@ try
                      "CDT 0.1.8");  // Version
 
   // Debugging
-  for (auto const& arg : args)
+  for (auto const& [key, value] : args)
   {
-    fmt::print("Key: {} Value: {}\n", arg.first, arg.second);
+    fmt::print("Key: {} Value: {}\n", key, value);
   }
 
   // Parse docopt::values in args map

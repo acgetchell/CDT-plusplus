@@ -37,7 +37,6 @@ auto main() -> int
 
   // Initialize the Metropolis algorithm
   Metropolis3 run(alpha, k, lambda, passes, checkpoint);
-  //  MoveAlways3 run(passes, checkpoint);
 
   // Make a triangulation
   manifolds::Manifold3 universe(simplices, timeslices);

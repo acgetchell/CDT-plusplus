@@ -34,6 +34,7 @@ extraction:
         - cmake --version
         - cd $LGTM_SRC
         - pwd
+        - ps aux | grep vcpkg
         - vcpkg install --feature-flags=manifests
     index:
       build_command:

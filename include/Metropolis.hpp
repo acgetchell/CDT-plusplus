@@ -17,7 +17,6 @@
 /// @todo Implement concurrency
 /// @todo Change A1 to count successful moves, total moves gets dragged down by
 /// (6,2) attempts
-/// @bug The number of failed moves isn't tracked
 
 #ifndef INCLUDE_METROPOLIS_HPP_
 #define INCLUDE_METROPOLIS_HPP_
@@ -297,7 +296,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     fmt::print("Attempting move.\n");
     fmt::print("Move type = {}\n", move_tracker::as_integer(move));
     fmt::print("Trial_value = {}\n", trial_value);
-    fmt::print("Trial = \n", trial);
+    fmt::print("Trial = {}\n", trial);
     fmt::print("A1 = {}\n", a1);
     fmt::print("A2 = {}\n", a2);
     fmt::print("A1*A2 = {}\n", a1 * a2);

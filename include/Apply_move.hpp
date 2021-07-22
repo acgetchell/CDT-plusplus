@@ -12,7 +12,6 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
-//#include "Function_ref.hpp"
 #include <functional>
 #include <string>
 #include <tl/expected.hpp>
