@@ -113,85 +113,114 @@ $(function() {
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold3&gt;</a> tracked_moves;</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    THEN(<span class="stringliteral">&quot;There are the correct number of elements.&quot;</span>)</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;    {</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      REQUIRE(tracked_moves.moves.size() == move_tracker::NUMBER_OF_3D_MOVES);</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      REQUIRE(tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ab989fcf20aa7bb1df705a9a8cc5214e1">size</a>() == move_tracker::NUMBER_OF_3D_MOVES);</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    }</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    THEN(<span class="stringliteral">&quot;Each element is zero-initialized.&quot;</span>)</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    {</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.moves) { REQUIRE(move == 0); }</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      REQUIRE(tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ac46f9a41de0dd593e326e2e500338b76">total</a>() == 0);</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    }</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    THEN(<span class="stringliteral">&quot;Moves can be added.&quot;</span>)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      <span class="comment">// Add +1 to each move</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;                    [](<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&amp; n) { n++; });</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="comment">// Now check that it&#39;s added</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.moves) { REQUIRE(move == 1); }</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;    }</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    THEN(<span class="stringliteral">&quot;Two move trackers can be added.&quot;</span>)</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    {</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      <span class="comment">// Add +1 move to left hand side</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;                    [](<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&amp; n) { n++; });</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold3&gt;</a> added_moves;</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      added_moves.two_three_moves() += 2;</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      added_moves.three_two_moves() += 2;</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      added_moves.two_six_moves() += 2;</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      added_moves.six_two_moves() += 2;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      added_moves.four_four_moves() += 2;</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="comment">// Add the Move_trackers</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      tracked_moves += added_moves;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      <span class="comment">// Now check</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.moves) { REQUIRE(move == 3); }</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    }</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  }</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 4D Move_tracker.&quot;</span>)</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  {</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold4&gt;</a> tracked_moves;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    THEN(<span class="stringliteral">&quot;There are the correct number of elements.&quot;</span>)</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      REQUIRE(tracked_moves.moves.size() == move_tracker::NUMBER_OF_4D_MOVES);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    }</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    THEN(<span class="stringliteral">&quot;Each element is zero-initialized.&quot;</span>)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.moves) { REQUIRE(move == 0); }</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    THEN(<span class="stringliteral">&quot;Moves can be added.&quot;</span>)</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    {</div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;      <span class="comment">// Add +1 to each move</span></div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;                    [](<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&amp; n) { n++; });</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="comment">// Now check that it&#39;s added</span></div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.moves) { REQUIRE(move == 1); }</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    }</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    THEN(<span class="stringliteral">&quot;Two move trackers can be added.&quot;</span>)</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    {</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="comment">// Add +1 move to left hand side</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;                    [](<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>&amp; n) { n++; });</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold4&gt;</a> added_moves;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      added_moves.two_four_moves() += 2;</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      added_moves.four_two_moves() += 2;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      added_moves.three_three_moves() += 2;</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      added_moves.four_six_moves() += 2;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      added_moves.six_four_moves() += 2;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      added_moves.two_eight_moves() += 2;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      added_moves.eight_two_moves() += 2;</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      <span class="comment">// Add the Move_trackers</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      tracked_moves += added_moves;</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      <span class="comment">// Now check</span></div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.moves) { REQUIRE(move == 3); }</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    }</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  }</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;}</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#af7e9229c81e79420337f1acf01a3f559">two_three_moves</a>()++;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#af46c82f84607c856d1872463ad89f65e">three_two_moves</a>()++;</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a448c2d8fd71db411161783eb0097e530">two_six_moves</a>()++;</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347">six_two_moves</a>()++;</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acbcd209a3d30cdd4a5e809078bf3ffdb">four_four_moves</a>()++;</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      <span class="comment">// Now check that it&#39;s added</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acad73b4698741f9a1d5c7c7681e52e2a">moves_view</a>()) { REQUIRE(move == 1); }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    THEN(<span class="stringliteral">&quot;Two move trackers can be added.&quot;</span>)</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    {</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;      <span class="comment">// Add +1 move to left hand side</span></div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#af7e9229c81e79420337f1acf01a3f559">two_three_moves</a>() += 1;</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#af46c82f84607c856d1872463ad89f65e">three_two_moves</a>() += 1;</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a448c2d8fd71db411161783eb0097e530">two_six_moves</a>() += 1;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347">six_two_moves</a>() += 1;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acbcd209a3d30cdd4a5e809078bf3ffdb">four_four_moves</a>() += 1;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold3&gt;</a> added_moves;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#af7e9229c81e79420337f1acf01a3f559">two_three_moves</a>() += 2;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#af46c82f84607c856d1872463ad89f65e">three_two_moves</a>() += 2;</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a448c2d8fd71db411161783eb0097e530">two_six_moves</a>() += 2;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347">six_two_moves</a>() += 2;</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acbcd209a3d30cdd4a5e809078bf3ffdb">four_four_moves</a>() += 2;</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;      <span class="comment">// Add the Move_trackers</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      tracked_moves += added_moves;</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160; </div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="comment">// Now check</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acad73b4698741f9a1d5c7c7681e52e2a">moves_view</a>()) { REQUIRE(move == 3); }</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  }</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 4D Move_tracker.&quot;</span>)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold4&gt;</a> tracked_moves;</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    THEN(<span class="stringliteral">&quot;There are the correct number of elements.&quot;</span>)</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    {</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;      REQUIRE(tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ab989fcf20aa7bb1df705a9a8cc5214e1">size</a>() == move_tracker::NUMBER_OF_4D_MOVES);</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    }</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    THEN(<span class="stringliteral">&quot;Each element is zero-initialized.&quot;</span>)</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    {</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      REQUIRE(tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ac46f9a41de0dd593e326e2e500338b76">total</a>() == 0);</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    }</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    THEN(<span class="stringliteral">&quot;Moves can be added.&quot;</span>)</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      <span class="comment">// Add +1 to each move</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#aa1007e01865c7e1bed11a6375599d4f8">two_four_moves</a>()++;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#abd8b4e478a124c746e706ef20219e48b">four_two_moves</a>()++;</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a537d4336d1a8e8b2888c64bf078c02b8">three_three_moves</a>()++;</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#abc3d0ab2f6960c8340a836c56971946b">four_six_moves</a>()++;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acdced4b4bca2c37d1f162541336360ea">six_four_moves</a>()++;</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a88051c3a8232c47bc2516dbc9c8ff04d">two_eight_moves</a>()++;</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ad64822727bfb428d1bb9c78cc143180b">eight_two_moves</a>()++;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acad73b4698741f9a1d5c7c7681e52e2a">moves_view</a>()) { REQUIRE(move == 1); }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    THEN(<span class="stringliteral">&quot;Two move trackers can be added.&quot;</span>)</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    {</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="comment">// Add +1 move to left hand side</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#aa1007e01865c7e1bed11a6375599d4f8">two_four_moves</a>() += 1;</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#abd8b4e478a124c746e706ef20219e48b">four_two_moves</a>() += 1;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a537d4336d1a8e8b2888c64bf078c02b8">three_three_moves</a>() += 1;</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#abc3d0ab2f6960c8340a836c56971946b">four_six_moves</a>() += 1;</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acdced4b4bca2c37d1f162541336360ea">six_four_moves</a>() += 1;</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a88051c3a8232c47bc2516dbc9c8ff04d">two_eight_moves</a>() += 1;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;      tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ad64822727bfb428d1bb9c78cc143180b">eight_two_moves</a>() += 1;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      <a class="code" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker&lt;manifolds::Manifold4&gt;</a> added_moves;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#aa1007e01865c7e1bed11a6375599d4f8">two_four_moves</a>() += 2;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#abd8b4e478a124c746e706ef20219e48b">four_two_moves</a>() += 2;</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a537d4336d1a8e8b2888c64bf078c02b8">three_three_moves</a>() += 2;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#abc3d0ab2f6960c8340a836c56971946b">four_six_moves</a>() += 2;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acdced4b4bca2c37d1f162541336360ea">six_four_moves</a>() += 2;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#a88051c3a8232c47bc2516dbc9c8ff04d">two_eight_moves</a>() += 2;</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      added_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ad64822727bfb428d1bb9c78cc143180b">eight_two_moves</a>() += 2;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="comment">// Add the Move_trackers</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      tracked_moves += added_moves;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160; </div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      <span class="comment">// Now check</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> move : tracked_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#acad73b4698741f9a1d5c7c7681e52e2a">moves_view</a>()) { REQUIRE(move == 3); }</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    }</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  }</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_ac46f9a41de0dd593e326e2e500338b76"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#ac46f9a41de0dd593e326e2e500338b76">move_tracker::MoveTracker::total</a></div><div class="ttdeci">auto total() const noexcept</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00102">Move_tracker.hpp:102</a></div></div>
 <div class="ttc" id="a_move__tracker_8hpp_html"><div class="ttname"><a href="_move__tracker_8hpp.html">Move_tracker.hpp</a></div><div class="ttdoc">Track ergodic moves.</div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_ae3ea9d3135b28c48f7411caba619c347"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#ae3ea9d3135b28c48f7411caba619c347">move_tracker::MoveTracker::six_two_moves</a></div><div class="ttdeci">auto six_two_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (6,2) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00131">Move_tracker.hpp:131</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_a448c2d8fd71db411161783eb0097e530"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#a448c2d8fd71db411161783eb0097e530">move_tracker::MoveTracker::two_six_moves</a></div><div class="ttdeci">auto two_six_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (2,6) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00125">Move_tracker.hpp:125</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_acdced4b4bca2c37d1f162541336360ea"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#acdced4b4bca2c37d1f162541336360ea">move_tracker::MoveTracker::six_four_moves</a></div><div class="ttdeci">auto six_four_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (6,4) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00168">Move_tracker.hpp:168</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_abd8b4e478a124c746e706ef20219e48b"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#abd8b4e478a124c746e706ef20219e48b">move_tracker::MoveTracker::four_two_moves</a></div><div class="ttdeci">auto four_two_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (4,2) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00150">Move_tracker.hpp:150</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_ab989fcf20aa7bb1df705a9a8cc5214e1"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#ab989fcf20aa7bb1df705a9a8cc5214e1">move_tracker::MoveTracker::size</a></div><div class="ttdeci">auto size() const noexcept</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00108">Move_tracker.hpp:108</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_a88051c3a8232c47bc2516dbc9c8ff04d"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#a88051c3a8232c47bc2516dbc9c8ff04d">move_tracker::MoveTracker::two_eight_moves</a></div><div class="ttdeci">auto two_eight_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (2,8) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00174">Move_tracker.hpp:174</a></div></div>
 <div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00070">Move_tracker.hpp:70</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_a537d4336d1a8e8b2888c64bf078c02b8"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#a537d4336d1a8e8b2888c64bf078c02b8">move_tracker::MoveTracker::three_three_moves</a></div><div class="ttdeci">auto three_three_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (3,3) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00156">Move_tracker.hpp:156</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_acad73b4698741f9a1d5c7c7681e52e2a"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#acad73b4698741f9a1d5c7c7681e52e2a">move_tracker::MoveTracker::moves_view</a></div><div class="ttdeci">auto moves_view() const</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00076">Move_tracker.hpp:76</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_af46c82f84607c856d1872463ad89f65e"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#af46c82f84607c856d1872463ad89f65e">move_tracker::MoveTracker::three_two_moves</a></div><div class="ttdeci">auto three_two_moves() -&gt; auto &amp;</div><div class="ttdoc">Writeable access to (3,2) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00119">Move_tracker.hpp:119</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_af7e9229c81e79420337f1acf01a3f559"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#af7e9229c81e79420337f1acf01a3f559">move_tracker::MoveTracker::two_three_moves</a></div><div class="ttdeci">auto two_three_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (2,3) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00113">Move_tracker.hpp:113</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_ad64822727bfb428d1bb9c78cc143180b"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#ad64822727bfb428d1bb9c78cc143180b">move_tracker::MoveTracker::eight_two_moves</a></div><div class="ttdeci">auto eight_two_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (8,2) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00180">Move_tracker.hpp:180</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_acbcd209a3d30cdd4a5e809078bf3ffdb"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#acbcd209a3d30cdd4a5e809078bf3ffdb">move_tracker::MoveTracker::four_four_moves</a></div><div class="ttdeci">auto four_four_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (4,4) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00137">Move_tracker.hpp:137</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_abc3d0ab2f6960c8340a836c56971946b"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#abc3d0ab2f6960c8340a836c56971946b">move_tracker::MoveTracker::four_six_moves</a></div><div class="ttdeci">auto four_six_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (4,6) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00162">Move_tracker.hpp:162</a></div></div>
+<div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html_aa1007e01865c7e1bed11a6375599d4f8"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html#aa1007e01865c7e1bed11a6375599d4f8">move_tracker::MoveTracker::two_four_moves</a></div><div class="ttdeci">auto two_four_moves() -&gt; auto &amp;</div><div class="ttdoc">Write access to (2,4) moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00144">Move_tracker.hpp:144</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jul 22 2021 17:53:08 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jul 28 2021 01:45:25 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
