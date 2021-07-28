@@ -21,30 +21,26 @@
 template <typename ManifoldType>
 class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
+  /// @brief The number of move passes executed by the algorithm
+  /// @details Each move pass makes a number of attempts equal to the number of
+  /// simplices in the triangulation.
   Int_precision m_passes{1};
+
+  /// @brief The number of passes before a checkpoint
+  /// @details Each checkpoint writes a file containing the current
+  /// triangulation.
   Int_precision m_checkpoint{1};
+
+  /// @brief The number of moves that were attempted by a MoveCommand.
   move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+
+  /// @brief The number of moves that a MoveCommand failed to make due to an
+  /// error.
   move_tracker::MoveTracker<ManifoldType> m_failed_moves;
 
  public:
-  /// @brief Default dtor
-  ~MoveStrategy() = default;
-
   /// @brief Default ctor
   MoveStrategy() = default;
-
-  /// @brief Default copy ctor
-  MoveStrategy(MoveStrategy const& other) = default;
-
-  /// @brief Default move ctor
-  MoveStrategy(MoveStrategy&& other) noexcept = default;
-
-  /// @brief Copy/Move Assignment operator
-  auto operator=(MoveStrategy other) noexcept -> MoveStrategy&
-  {
-    swap(*this, other);
-    return *this;
-  }
 
   /// @brief Constructor for MoveAlways
   /// @param t_number_of_passes Number of passes to run
@@ -54,22 +50,13 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
   {}
 
-  friend void swap(MoveStrategy& t_first, MoveStrategy& t_second) noexcept
-  {
-    using std::swap;
-    swap(t_first.m_passes, t_second.m_passes);
-    swap(t_first.m_checkpoint, t_second.m_checkpoint);
-    swap(t_first.m_attempted_moves, t_second.m_attempted_moves);
-    swap(t_first.m_failed_moves, t_second.m_failed_moves);
-  }
-
   /// @return The number of passes made on a triangulation
   [[nodiscard]] auto passes() const { return m_passes; }
 
   /// @return The number of passes per checkpoint
   [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
 
-  /// @return The array of attempted moves
+  /// @return The MoveTracker of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
   /// @return The array of failed moves

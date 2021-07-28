@@ -188,11 +188,12 @@ SCENARIO("Move Command initialization", "[move command]")
       THEN("Attempted moves and failed moves are initialized to 0.")
       {
         CHECK(command.get_all_attempts() == 0);
-        for (auto n : command.get_failed().moves) { CHECK(n == 0); }
+        for (auto n : command.get_failed().moves_view()) { CHECK(n == 0); }
 
         // Human verification
-        fmt::print("Attempted moves are {}\n", command.get_attempts().moves);
-        fmt::print("Failed moves are {}\n", command.get_failed().moves);
+        fmt::print("Attempted moves are {}\n",
+                   command.get_attempts().moves_view());
+        fmt::print("Failed moves are {}\n", command.get_failed().moves_view());
       }
     }
   }
@@ -277,12 +278,12 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         fmt::print("Move left triangulation unchanged.\n");
 
         // An attempted move was recorded
-        auto attempts = command.get_attempts().moves;
+        auto attempts = command.get_attempts().moves_view();
 
         CHECK(gsl::at(attempts, move_tracker::as_integer(
                                     move_tracker::move_type::FOUR_FOUR)) == 1);
         // No failures
-        auto fails = command.get_failed().moves;
+        auto fails = command.get_failed().moves_view();
         CHECK(gsl::at(fails, move_tracker::as_integer(
                                  move_tracker::move_type::FOUR_FOUR)) == 0);
       }
@@ -307,12 +308,12 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         fmt::print("Triangulation added a finite cell.\n");
 
         // An attempted move was recorded
-        auto attempts = command.get_attempts().moves;
+        auto attempts = command.get_attempts().moves_view();
 
         CHECK(gsl::at(attempts, move_tracker::as_integer(
                                     move_tracker::move_type::TWO_THREE)) == 1);
         // No failures
-        auto fails = command.get_failed().moves;
+        auto fails = command.get_failed().moves_view();
         CHECK(gsl::at(fails, move_tracker::as_integer(
                                  move_tracker::move_type::TWO_THREE)) == 0);
       }
@@ -337,12 +338,12 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         fmt::print("Triangulation removed a finite cell.\n");
 
         // An attempted move was recorded
-        auto attempts = command.get_attempts().moves;
+        auto attempts = command.get_attempts().moves_view();
 
         CHECK(gsl::at(attempts, move_tracker::as_integer(
                                     move_tracker::move_type::THREE_TWO)) == 1);
         // No failures
-        auto fails = command.get_failed().moves;
+        auto fails = command.get_failed().moves_view();
         CHECK(gsl::at(fails, move_tracker::as_integer(
                                  move_tracker::move_type::THREE_TWO)) == 0);
       }
@@ -367,12 +368,12 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         fmt::print("Triangulation added 4 finite cells.\n");
 
         // An attempted move was recorded
-        auto attempts = command.get_attempts().moves;
+        auto attempts = command.get_attempts().moves_view();
 
         CHECK(gsl::at(attempts, move_tracker::as_integer(
                                     move_tracker::move_type::TWO_SIX)) == 1);
         // No failures
-        auto fails = command.get_failed().moves;
+        auto fails = command.get_failed().moves_view();
         CHECK(gsl::at(fails, move_tracker::as_integer(
                                  move_tracker::move_type::TWO_SIX)) == 0);
       }
@@ -397,12 +398,12 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         fmt::print("Triangulation removed 4 finite cells.\n");
 
         // An attempted move was recorded
-        auto attempts = command.get_attempts().moves;
+        auto attempts = command.get_attempts().moves_view();
 
         CHECK(gsl::at(attempts, move_tracker::as_integer(
                                     move_tracker::move_type::SIX_TWO)) == 1);
         // No failures
-        auto fails = command.get_failed().moves;
+        auto fails = command.get_failed().moves_view();
         CHECK(gsl::at(fails, move_tracker::as_integer(
                                  move_tracker::move_type::SIX_TWO)) == 0);
       }

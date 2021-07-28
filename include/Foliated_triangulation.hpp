@@ -156,6 +156,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertex The vertex to check
   /// @return The squared radial distance of the vertex
+  /// @todo Generalize to d=3,4
   template <int dimension>
   [[nodiscard]] inline auto squared_radius(
       Vertex_handle_t<dimension> const& t_vertex) -> double
@@ -193,6 +194,7 @@ namespace foliated_triangulations
       Cell_handle_t<dimension> const& t_cell, bool const t_debug_flag = false)
   {
     std::vector<int> vertex_timevalues;
+    // There are d+1 vertices in a d-dimensional simplex
     for (auto i = 0; i < dimension + 1; ++i)
     {
       // Obtain timevalue of vertex
@@ -273,7 +275,7 @@ namespace foliated_triangulations
     {
       cell->info() = static_cast<int>(expected_cell_type<dimension>(cell));
     }
-  }
+  }  // fix_cells
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
@@ -285,7 +287,8 @@ namespace foliated_triangulations
     for (auto const& cell : t_cells)
     {
       fmt::print("Cell info => {}\n", cell->info());
-      for (int j = 0; j < 4; ++j)
+      // There are d+1 vertices in a d-dimensional simplex
+      for (int j = 0; j < dimension + 1; ++j)
       {
         fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
                    cell->vertex(j)->point(), cell->vertex(j)->info());
@@ -350,7 +353,8 @@ namespace foliated_triangulations
       auto          index_of_facet = face.second;
       if (t_debug_flag) { fmt::print("Facet index is {}\n", index_of_facet); }
       std::set<Int_precision> facet_timevalues;
-      for (int i = 0; i < 4; ++i)
+      // There are d+1 vertices in a d-dimensional simplex
+      for (int i = 0; i < dimension + 1; ++i)
       {
         if (i != index_of_facet)
         {
@@ -397,20 +401,21 @@ namespace foliated_triangulations
   /// Finite_full_cell_const_iterator and Finite_full_cell_iterator, so we'll
   /// have to abstract that too
   template <int dimension>
-  [[nodiscard]] auto check_timeslices(Delaunay_t<3> const& t_triangulation)
-      -> std::optional<std::vector<Vertex_handle_t<3>>>
+  [[nodiscard]] auto check_timeslices(
+      Delaunay_t<dimension> const& t_triangulation)
+      -> std::optional<std::vector<Vertex_handle_t<dimension>>>
   {
-    std::vector<Vertex_handle_t<3>> invalid_vertices;
+    std::vector<Vertex_handle_t<dimension>> invalid_vertices;
 
     // Iterate over all cells in the triangulation
-    for (Delaunay_t<3>::Finite_cells_iterator cit =
-             t_triangulation.finite_cells_begin();
+    for (auto cit = t_triangulation.finite_cells_begin();
          cit != t_triangulation.finite_cells_end(); ++cit)
     {
       Ensures(cit->is_valid());
-      std::multimap<int, Vertex_handle_t<3>> this_cell;
+      std::multimap<int, Vertex_handle_t<dimension>> this_cell;
       // Collect a map of timevalues and vertices in each cell
-      for (int i = 0; i < 4; ++i)
+      // There are d+1 vertices in a d-dimensional simplex
+      for (int i = 0; i < dimension + 1; ++i)
       {
         this_cell.emplace(
             std::make_pair(cit->vertex(i)->info(), cit->vertex(i)));
@@ -475,6 +480,106 @@ namespace foliated_triangulations
     return invalid_vertices;
 
   }  // check_timeslices
+
+  /// @brief Fix simplices with incorrect foliation
+  ///
+  /// This function iterates over all of the cells in the triangulation.
+  /// Within each cell, it iterates over all of the vertices and reads
+  /// timeslices.
+  /// Validity of the cell is first checked by the **is_valid()** function.
+  /// The foliation validity is then checked by finding maximum and minimum
+  /// timeslices for all the vertices of a cell and ensuring that the
+  /// difference
+  /// is exactly 1.
+  /// If a cell has a bad foliation, the vertex with the highest timeslice is
+  /// deleted. The Delaunay triangulation is then recomputed on the remaining
+  /// vertices.
+  ///
+  /// @tparam dimension Dimensionality of the Delaunay triangulation
+  /// @param t_triangulation Perfectly forwarded argument
+  /// @return True if there are no incorrectly foliated simplices
+  template <int dimension>
+  [[nodiscard]] auto fix_timeslices(Delaunay_t<dimension>& t_triangulation)
+      -> bool
+  {
+    auto vertices_to_delete = check_timeslices<dimension>(t_triangulation);
+    std::set<Vertex_handle_t<dimension>> deleted_vertices;
+    // Remove duplicates
+    if (vertices_to_delete)
+    {
+      for (auto& v : vertices_to_delete.value())
+      {
+        deleted_vertices.emplace(v);
+      }
+    }
+    auto invalid = deleted_vertices.size();
+
+    // Delete invalid vertices
+    t_triangulation.remove(deleted_vertices.begin(), deleted_vertices.end());
+    // Check that the triangulation is still valid
+    // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
+    //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
+    //    if (!_delaunay.tds().is_valid())
+    //      throw std::logic_error("Delaunay tds invalid!");
+    Ensures(t_triangulation.tds().is_valid());
+    Ensures(t_triangulation.is_valid());
+
+#ifndef NDEBUG
+    fmt::print("There are {} invalid simplices.\n", invalid);
+#endif
+    return invalid == 0;
+  }  // fix_timeslices
+
+  /// @brief Make a Delaunay triangulation
+  /// @tparam dimension Dimensionality of the Delaunay triangulation
+  /// @param t_simplices Number of desired simplices
+  /// @param t_timeslices Number of desired timeslices
+  /// @param initial_radius Radius of first timeslice
+  /// @param foliation_spacing Radial separation between timeslices
+  /// @return A Delaunay triangulation with a timevalue for each vertex
+  template <int dimension>
+  [[nodiscard]] inline auto make_triangulation(
+      Int_precision const t_simplices, Int_precision const t_timeslices,
+      double const initial_radius    = INITIAL_RADIUS,
+      double const foliation_spacing = FOLIATION_SPACING)
+      -> Delaunay_t<dimension>
+  {
+    fmt::print("\nGenerating universe ...\n");
+#ifdef CGAL_LINKED_WITH_TBB
+    // Construct the locking data-structure
+    // using the bounding-box of the points
+    auto bounding_box_size = static_cast<double>(t_timeslices + 1);
+    Delaunay_t<dimension>::Lock_data_structure locking_ds{
+        CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
+                     bounding_box_size, bounding_box_size, bounding_box_size},
+        50};
+    Delaunay_t<dimension> triangulation =
+        Delaunay_t<dimension>{Kernel{}, &locking_ds};
+#else
+    Delaunay_t<dimension> triangulation = Delaunay_t<dimension>{};
+#endif
+
+    // Make initial triangulation
+    auto causal_vertices = make_foliated_sphere<dimension>(
+        t_simplices, t_timeslices, initial_radius, foliation_spacing);
+    triangulation.insert(causal_vertices.begin(), causal_vertices.end());
+
+    // Fix vertices
+    //      triangulation.fix_vertices(triangulation.check_all_vertices());
+
+    // Fix timeslices
+    int passes = 1;
+    while (!fix_timeslices<dimension>(triangulation))
+    {
+#ifndef NDEBUG
+      fmt::print("Fix pass #{}\n", passes);
+#endif
+      ++passes;
+    }
+    print_delaunay(triangulation);
+    Ensures(!check_timeslices<dimension>(triangulation));
+    return triangulation;
+  }  // make_triangulation
 
   /// FoliatedTriangulation class template
   /// @tparam dimension Dimensionality of triangulation
@@ -594,7 +699,7 @@ namespace foliated_triangulations
         Int_precision const t_simplices, Int_precision const t_timeslices,
         double const t_initial_radius    = INITIAL_RADIUS,
         double const t_foliation_spacing = FOLIATION_SPACING)
-        : m_triangulation{make_triangulation(
+        : m_triangulation{make_triangulation<3>(
               t_simplices, t_timeslices, t_initial_radius, t_foliation_spacing)}
         , m_cells{classify_cells(collect_cells())}
         , m_three_one{filter_cells<3>(m_cells, Cell_type::THREE_ONE)}
@@ -1071,102 +1176,7 @@ namespace foliated_triangulations
     }
 
    private:
-    /// @brief Make a Delaunay Triangulation
-    /// @param t_simplices Number of desired simplices
-    /// @param t_timeslices Number of desired timeslices
-    /// @param initial_radius Radius of first timeslice
-    /// @param foliation_spacing Radial separation between timeslices
-    /// @return A Delaunay Triangulation
-    [[nodiscard]] auto make_triangulation(
-        Int_precision const t_simplices, Int_precision const t_timeslices,
-        double const initial_radius    = INITIAL_RADIUS,
-        double const foliation_spacing = FOLIATION_SPACING) -> Delaunay_t<3>
-    {
-      fmt::print("\nGenerating universe ...\n");
-#ifdef CGAL_LINKED_WITH_TBB
-      // Construct the locking data-structure
-      // using the bounding-box of the points
-      auto bounding_box_size = static_cast<double>(t_timeslices + 1);
-      Delaunay_t<3>::Lock_data_structure locking_ds{
-          CGAL::Bbox_3{-bounding_box_size, -bounding_box_size,
-                       -bounding_box_size, bounding_box_size, bounding_box_size,
-                       bounding_box_size},
-          50};
-      Delaunay_t<3> triangulation = Delaunay_t<3>{Kernel{}, &locking_ds};
-#else
-      Delaunay_t<3> triangulation = Delaunay_t<3>{};
-#endif
 
-      // Make initial triangulation
-      auto causal_vertices = make_foliated_sphere<3>(
-          t_simplices, t_timeslices, initial_radius, foliation_spacing);
-      triangulation.insert(causal_vertices.begin(), causal_vertices.end());
-
-      // Fix vertices
-      //      triangulation.fix_vertices(triangulation.check_all_vertices());
-
-      // Fix timeslices
-      int passes = 1;
-      while (!fix_timeslices(triangulation))
-      {
-#ifndef NDEBUG
-        fmt::print("Fix pass #{}\n", passes);
-#endif
-        ++passes;
-      }
-      print_delaunay(triangulation);
-      Ensures(!check_timeslices<3>(triangulation));
-      return triangulation;
-    }  // make_triangulation
-
-    /// @brief Fix simplices with incorrect foliation
-    ///
-    /// This function iterates over all of the cells in the triangulation.
-    /// Within each cell, it iterates over all of the vertices and reads
-    /// timeslices.
-    /// Validity of the cell is first checked by the **is_valid()** function.
-    /// The foliation validity is then checked by finding maximum and minimum
-    /// timeslices for all the vertices of a cell and ensuring that the
-    /// difference
-    /// is exactly 1.
-    /// If a cell has a bad foliation, the vertex with the highest timeslice is
-    /// deleted. The Delaunay triangulation is then recomputed on the remaining
-    /// vertices.
-    ///
-    /// @tparam Triangulation Perfectly forwarded argument type
-    /// @param t_triangulation Perfectly forwarded argument
-    /// @return True if there are no incorrectly foliated simplices
-    template <typename Triangulation>
-    [[nodiscard]] auto fix_timeslices(Triangulation&& t_triangulation) -> bool
-    {
-      auto vertices_to_delete =
-          check_timeslices<3>(std::forward<Triangulation>(t_triangulation));
-      std::set<Vertex_handle_t<3>> deleted_vertices;
-      // Remove duplicates
-      if (vertices_to_delete)
-      {
-        for (auto& v : vertices_to_delete.value())
-        {
-          deleted_vertices.emplace(v);
-        }
-      }
-      auto invalid = deleted_vertices.size();
-
-      // Delete invalid vertices
-      t_triangulation.remove(deleted_vertices.begin(), deleted_vertices.end());
-      // Check that the triangulation is still valid
-      // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
-      //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
-      //    if (!_delaunay.tds().is_valid())
-      //      throw std::logic_error("Delaunay tds invalid!");
-      Ensures(t_triangulation.tds().is_valid());
-      Ensures(t_triangulation.is_valid());
-
-#ifndef NDEBUG
-      fmt::print("There are {} invalid simplices.\n", invalid);
-#endif
-      return invalid == 0;
-    }  // fix_timeslices
 
     /// @return Container of all the finite simplices in the triangulation
     [[nodiscard]] auto collect_cells() const -> std::vector<Cell_handle_t<3>>

@@ -37,25 +37,31 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
     move_tracker::MoveTracker<manifolds::Manifold3> tracked_moves;
     THEN("There are the correct number of elements.")
     {
-      REQUIRE(tracked_moves.moves.size() == move_tracker::NUMBER_OF_3D_MOVES);
+      REQUIRE(tracked_moves.size() == move_tracker::NUMBER_OF_3D_MOVES);
     }
     THEN("Each element is zero-initialized.")
     {
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 0); }
+      REQUIRE(tracked_moves.total() == 0);
     }
     THEN("Moves can be added.")
     {
       // Add +1 to each move
-      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
-                    [](Int_precision& n) { n++; });
+      tracked_moves.two_three_moves()++;
+      tracked_moves.three_two_moves()++;
+      tracked_moves.two_six_moves()++;
+      tracked_moves.six_two_moves()++;
+      tracked_moves.four_four_moves()++;
       // Now check that it's added
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 1); }
     }
     THEN("Two move trackers can be added.")
     {
       // Add +1 move to left hand side
-      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
-                    [](Int_precision& n) { n++; });
+      tracked_moves.two_three_moves() += 1;
+      tracked_moves.three_two_moves() += 1;
+      tracked_moves.two_six_moves() += 1;
+      tracked_moves.six_two_moves() += 1;
+      tracked_moves.four_four_moves() += 1;
       move_tracker::MoveTracker<manifolds::Manifold3> added_moves;
       added_moves.two_three_moves() += 2;
       added_moves.three_two_moves() += 2;
@@ -66,7 +72,7 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
       tracked_moves += added_moves;
 
       // Now check
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 3); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 3); }
     }
   }
   GIVEN("A 4D Move_tracker.")
@@ -74,25 +80,34 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
     move_tracker::MoveTracker<manifolds::Manifold4> tracked_moves;
     THEN("There are the correct number of elements.")
     {
-      REQUIRE(tracked_moves.moves.size() == move_tracker::NUMBER_OF_4D_MOVES);
+      REQUIRE(tracked_moves.size() == move_tracker::NUMBER_OF_4D_MOVES);
     }
     THEN("Each element is zero-initialized.")
     {
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 0); }
+      REQUIRE(tracked_moves.total() == 0);
     }
     THEN("Moves can be added.")
     {
       // Add +1 to each move
-      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
-                    [](Int_precision& n) { n++; });
-      // Now check that it's added
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 1); }
+      tracked_moves.two_four_moves()++;
+      tracked_moves.four_two_moves()++;
+      tracked_moves.three_three_moves()++;
+      tracked_moves.four_six_moves()++;
+      tracked_moves.six_four_moves()++;
+      tracked_moves.two_eight_moves()++;
+      tracked_moves.eight_two_moves()++;
+      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 1); }
     }
     THEN("Two move trackers can be added.")
     {
       // Add +1 move to left hand side
-      std::for_each(tracked_moves.moves.begin(), tracked_moves.moves.end(),
-                    [](Int_precision& n) { n++; });
+      tracked_moves.two_four_moves() += 1;
+      tracked_moves.four_two_moves() += 1;
+      tracked_moves.three_three_moves() += 1;
+      tracked_moves.four_six_moves() += 1;
+      tracked_moves.six_four_moves() += 1;
+      tracked_moves.two_eight_moves() += 1;
+      tracked_moves.eight_two_moves() += 1;
       move_tracker::MoveTracker<manifolds::Manifold4> added_moves;
       added_moves.two_four_moves() += 2;
       added_moves.four_two_moves() += 2;
@@ -105,7 +120,7 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
       tracked_moves += added_moves;
 
       // Now check
-      for (auto move : tracked_moves.moves) { REQUIRE(move == 3); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 3); }
     }
   }
 }

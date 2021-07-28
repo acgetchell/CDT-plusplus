@@ -361,8 +361,6 @@ Optional:
 
 [CLion] skips debugger breakpoints (issue [CPP-20158]).
 
-[vcpkg] does not build on [LGTM] (issue [18903]).
-
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -454,5 +452,4 @@ Optional:
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
-[18903]: https://github.com/microsoft/vcpkg/issues/18903
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus

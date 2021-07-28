@@ -59,8 +59,7 @@ class MoveCommand
   /// @return The sum of all attempted moves
   [[nodiscard]] auto get_all_attempts() const
   {
-    return std::accumulate(m_attempted_moves.moves.begin(),
-                           m_attempted_moves.moves.end(), 0);
+    return m_attempted_moves.total();
   }  // get_all_attempts
 
   /// @return Failed moves by MoveCommand
@@ -201,9 +200,10 @@ class MoveCommand
           "attempted (2,6) moves and {} attempted (6,2) moves and {} attempted "
           "(4,4) "
           "moves.\n",
-          m_attempted_moves.moves[0], m_attempted_moves.moves[1],
-          m_attempted_moves.moves[2], m_attempted_moves.moves[3],
-          m_attempted_moves.moves[4]);
+          m_attempted_moves.two_three_moves(),
+          m_attempted_moves.three_two_moves(),
+          m_attempted_moves.two_six_moves(), m_attempted_moves.six_two_moves(),
+          m_attempted_moves.four_four_moves());
     }
     else
     {
@@ -214,17 +214,21 @@ class MoveCommand
           "attempted (3,3) moves and {} attempted (4,6) moves and {} attempted "
           "(6,4) "
           "moves and {} attempted (2,8) moves and {} attempted (8,2) moves.\n",
-          m_attempted_moves.moves[0], m_attempted_moves.moves[1],
-          m_attempted_moves.moves[2], m_attempted_moves.moves[3],
-          m_attempted_moves.moves[4], m_attempted_moves.moves[5],  // NOLINT
-          m_attempted_moves.moves[6]);                             // NOLINT
+          m_attempted_moves.two_four_moves(),
+          m_attempted_moves.four_two_moves(),
+          m_attempted_moves.three_three_moves(),
+          m_attempted_moves.four_six_moves(),
+          m_attempted_moves.six_four_moves(),
+          m_attempted_moves.two_eight_moves(),
+          m_attempted_moves.eight_two_moves());
     }
   }
 
   /// @brief Print Move errors
   void print_errors() const
   {
-    if (std::all_of(m_failed_moves.moves.begin(), m_failed_moves.moves.end(),
+    if (std::all_of(m_failed_moves.moves_view().begin(),
+                    m_failed_moves.moves_view().end(),
                     [](auto const& value) { return value == 0; }))
     {
       fmt::print("There were no failed moves.\n");
@@ -237,9 +241,9 @@ class MoveCommand
             "There were {} failed (2,3) moves and {} failed (3,2) moves and {} "
             "failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) "
             "moves.\n",
-            m_failed_moves.moves[0], m_failed_moves.moves[1],
-            m_failed_moves.moves[2], m_failed_moves.moves[3],
-            m_failed_moves.moves[4]);
+            m_failed_moves.two_three_moves(), m_failed_moves.three_two_moves(),
+            m_failed_moves.two_six_moves(), m_failed_moves.six_two_moves(),
+            m_failed_moves.four_four_moves());
       }
       else
       {
@@ -248,10 +252,10 @@ class MoveCommand
             "There were {} failed (2,4) moves and {} failed (4,2) moves and {} "
             "failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) "
             "moves and {} failed (2,8) moves and {} failed (8,2) moves.\n",
-            m_failed_moves.moves[0], m_failed_moves.moves[1],
-            m_failed_moves.moves[2], m_failed_moves.moves[3],
-            m_failed_moves.moves[4], m_failed_moves.moves[5],  // NOLINT
-            m_failed_moves.moves[6]);                          // NOLINT
+            m_failed_moves.two_four_moves(), m_failed_moves.four_two_moves(),
+            m_failed_moves.three_three_moves(), m_failed_moves.four_six_moves(),
+            m_failed_moves.six_four_moves(), m_failed_moves.two_eight_moves(),
+            m_failed_moves.eight_two_moves());
       }
     }
   }

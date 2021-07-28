@@ -12,8 +12,9 @@
 /// M. Creutz, and B. Freedman. “A Statistical Approach to Quantum Mechanics.”
 /// Annals of Physics 132 (1981): 427–62.
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
+///
+/// @bug Accepted moves != attempted moves
 /// @todo Atomic integral types for safe multithreading
-/// @todo Debug occasional infinite loops and segfaults!
 /// @todo Implement concurrency
 /// @todo Change A1 to count successful moves, total moves gets dragged down by
 /// (6,2) attempts
@@ -48,31 +49,36 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// the cosmological constant.
   long double m_Lambda{};
 
-  Int_precision                     m_passes{1};
-  Int_precision                     m_checkpoint{1};
+  /// @brief The number of move passes executed by the algorithm.
+  /// @details Each move pass makes a number of attempts equal to the number of
+  /// simplices in the triangulation.
+  Int_precision m_passes{1};
+
+  /// @brief The number of passes before a checkpoint.
+  /// @details Each checkpoint writes a file containing the current
+  /// triangulation.
+  Int_precision m_checkpoint{1};
+
+  /// @brief The current geometry of the manifold.
   Geometry<ManifoldType::dimension> m_geometry;
-  move_tracker::MoveTracker<ManifoldType> m_attempted_moves{0};
-  move_tracker::MoveTracker<ManifoldType> m_failed_moves{0};
+
+  /// @brief The number of moves accepted by the algorithm.
+  /// @details This equals the number of attempted moves + failed moves.
+  move_tracker::MoveTracker<ManifoldType> m_accepted_moves;
+
+  /// @brief The number of moves rejected by the algorithm.
+  move_tracker::MoveTracker<ManifoldType> m_rejected_moves;
+
+  /// @brief The number of moves that were attempted by a MoveCommand.
+  move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+
+  /// @brief The number of moves that a MoveCommand failed to make due to an
+  /// error.
+  move_tracker::MoveTracker<ManifoldType> m_failed_moves;
 
  public:
-  /// @brief Default dtor
-  ~MoveStrategy() = default;
-
   /// @brief Default ctor
   MoveStrategy() = default;
-
-  /// @brief Default copy ctor
-  MoveStrategy(MoveStrategy const& other) = default;
-
-  /// @brief Default move ctor
-  MoveStrategy(MoveStrategy&& other) noexcept = default;
-
-  /// @brief Copy/Move Assignment operator
-  auto operator=(MoveStrategy other) noexcept -> MoveStrategy&
-  {
-    swap(*this, other);
-    return *this;
-  }
 
   /// @brief Metropolis function object constructor
   ///
@@ -98,19 +104,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 #endif
   }
 
-  friend void swap(MoveStrategy& t_first, MoveStrategy& t_second) noexcept
-  {
-    using std::swap;
-    swap(t_first.m_Alpha, t_second.m_Alpha);
-    swap(t_first.m_K, t_second.m_K);
-    swap(t_first.m_Lambda, t_second.m_Lambda);
-    swap(t_first.m_passes, t_second.m_passes);
-    swap(t_first.m_checkpoint, t_second.m_checkpoint);
-    swap(t_first.m_geometry, t_second.m_geometry);
-    swap(t_first.m_attempted_moves, t_second.m_attempted_moves);
-    swap(t_first.m_failed_moves, t_second.m_failed_moves);
-  }
-
   /// @return The length of the timelike edge
   [[maybe_unused]] auto Alpha() const noexcept { return m_Alpha; }
 
@@ -126,18 +119,41 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @return The number of passes before writing a checkpoint file
   [[maybe_unused]] auto checkpoint() const noexcept { return m_checkpoint; }
 
-  /// @return The array of attempted moves
+  /// @return The MoveTracker of accepted moves
+  auto get_accepted() const { return m_accepted_moves; }
+
+  /// @ return The total number of accepted moves
+  auto total_accepted_moves() const noexcept
+  {
+    return m_accepted_moves.total();
+  }  // total_accepted_moves
+
+  /// @return The MoveTracker of rejected moves
+  auto get_rejected() const { return m_rejected_moves; }
+
+  /// @return The total number of rejected moves
+  auto total_rejected_moves() const noexcept
+  {
+    return m_rejected_moves.total();
+  }  // total_rejected_moves
+
+  /// @return The MoveTracker of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
   /// @return The total number of attempted moves
-  auto total_moves() const noexcept
+  auto total_attempted_moves() const noexcept
   {
-    return std::accumulate(m_attempted_moves.moves.begin(),
-                           m_attempted_moves.moves.end(), 0);
-  }
+    return m_attempted_moves.total();
+  }  // total_attempted_moves
 
-  /// @return The array of failed moves
+  /// @return The MoveTracker of failed moves
   auto get_failed() const { return m_failed_moves; }
+
+  /// @return The total number of failed moves
+  auto total_failed_moves() const noexcept
+  {
+    return m_failed_moves.total();
+  }  // total_failed_moves
 
   /// @brief Calculate A1
   ///
@@ -149,8 +165,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_tracker::move_type move) const noexcept
   {
-    auto all_moves   = this->total_moves();
-    auto this_move   = m_attempted_moves[move];
+    auto all_moves = this->total_attempted_moves();
+    auto this_move = m_attempted_moves[move];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
@@ -158,8 +174,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     mpfr_t r1, r2, a1;                            // NOLINT
     mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
 
-    mpfr_init_set_ui(r1, this_move, MPFR_RNDD);    // r1 = this_move NOLINT
-    mpfr_init_set_ui(r2, all_moves, MPFR_RNDD);    // r2 = total_moves NOLINT
+    mpfr_init_set_ui(r1, this_move, MPFR_RNDD);  // r1 = this_move NOLINT
+    mpfr_init_set_ui(r2, all_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
 
     // The result
     mpfr_div(a1, r1, r2, MPFR_RNDD);  // a1 = r1/r2 NOLINT
@@ -173,7 +189,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
-    fmt::print("total_moves() = {}\n", all_moves);
+    fmt::print("total_attempted_moves() = {}\n", all_moves);
     fmt::print("A1 is {}\n", result);
 #endif
 
@@ -191,84 +207,84 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   {
     if (dimension == 3)
     {
-        auto currentS3Action =
-            S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
-                           m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
-        auto newS3Action = static_cast<Gmpzf>(0);
-        switch (move)
-        {
-          case move_tracker::move_type::TWO_THREE:
-            // A (2,3) move adds a timelike edge
-            // and a (2,2) simplex
-            newS3Action =
-                S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
-                               m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
-            break;
-          case move_tracker::move_type::THREE_TWO:
-            // A (3,2) move removes a timelike edge
-            // and a (2,2) simplex
-            newS3Action =
-                S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
-                               m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
-            break;
-          case move_tracker::move_type::TWO_SIX:
-            // A (2,6) move adds 2 timelike edges and
-            // 2 (1,3) and 2 (3,1) simplices
-            newS3Action =
-                S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
-                               m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
-            break;
-          case move_tracker::move_type::SIX_TWO:
-            // A (6,2) move removes 2 timelike edges and
-            // 2 (1,3) and 2 (3,1) simplices
-            newS3Action =
-                S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
-                               m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
-            break;
-          case move_tracker::move_type::FOUR_FOUR:
-            // A (4,4) move changes nothing with respect to the action,
-            // and e^0==1
+      auto currentS3Action =
+          S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
+                         m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
+      auto newS3Action = static_cast<Gmpzf>(0);
+      switch (move)
+      {
+        case move_tracker::move_type::TWO_THREE:
+          // A (2,3) move adds a timelike edge
+          // and a (2,2) simplex
+          newS3Action =
+              S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
+                             m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
+          break;
+        case move_tracker::move_type::THREE_TWO:
+          // A (3,2) move removes a timelike edge
+          // and a (2,2) simplex
+          newS3Action =
+              S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
+                             m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
+          break;
+        case move_tracker::move_type::TWO_SIX:
+          // A (2,6) move adds 2 timelike edges and
+          // 2 (1,3) and 2 (3,1) simplices
+          newS3Action =
+              S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
+                             m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
+          break;
+        case move_tracker::move_type::SIX_TWO:
+          // A (6,2) move removes 2 timelike edges and
+          // 2 (1,3) and 2 (3,1) simplices
+          newS3Action =
+              S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
+                             m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
+          break;
+        case move_tracker::move_type::FOUR_FOUR:
+          // A (4,4) move changes nothing with respect to the action,
+          // and e^0==1
 #ifndef NDEBUG
-            fmt::print("A2 is 1\n");
+          fmt::print("A2 is 1\n");
 #endif
-            return static_cast<double>(1);
-          default:
-            break;
-        }
-
-        auto exponent        = currentS3Action - newS3Action;
-        auto exponent_double = Gmpzf_to_double(exponent);
-
-        // if exponent > 0 then e^exponent >=1 so according to Metropolis
-        // algorithm return A2=1
-        if (exponent >= 0) { return static_cast<double>(1); }
-
-        // Set precision for initialization and assignment functions
-        mpfr_set_default_prec(PRECISION);
-
-        // Initialize for MPFR
-        mpfr_t r1, a2;                            // NOLINT
-        mpfr_inits2(PRECISION, r1, a2, nullptr);  // NOLINT
-
-        // Set input parameters and constants to mpfr_t equivalents
-        mpfr_init_set_d(r1, exponent_double,  // NOLINT
-                        MPFR_RNDD);           // r1 = exponent
-
-        // e^exponent
-        mpfr_exp(a2, r1, MPFR_RNDD);  // NOLINT
-
-        // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-        auto result = mpfr_get_d(a2, MPFR_RNDD);  // NOLINT
-
-        // Free memory
-        mpfr_clears(r1, a2, nullptr);  // NOLINT
-
-#ifndef NDEBUG
-        fmt::print("A2 is {}\n", result);
-#endif
-
-        return result;
+          return static_cast<double>(1);
+        default:
+          break;
       }
+
+      auto exponent        = currentS3Action - newS3Action;
+      auto exponent_double = Gmpzf_to_double(exponent);
+
+      // if exponent > 0 then e^exponent >=1 so according to Metropolis
+      // algorithm return A2=1
+      if (exponent >= 0) { return static_cast<double>(1); }
+
+      // Set precision for initialization and assignment functions
+      mpfr_set_default_prec(PRECISION);
+
+      // Initialize for MPFR
+      mpfr_t r1, a2;                            // NOLINT
+      mpfr_inits2(PRECISION, r1, a2, nullptr);  // NOLINT
+
+      // Set input parameters and constants to mpfr_t equivalents
+      mpfr_init_set_d(r1, exponent_double,  // NOLINT
+                      MPFR_RNDD);           // r1 = exponent
+
+      // e^exponent
+      mpfr_exp(a2, r1, MPFR_RNDD);  // NOLINT
+
+      // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
+      auto result = mpfr_get_d(a2, MPFR_RNDD);  // NOLINT
+
+      // Free memory
+      mpfr_clears(r1, a2, nullptr);  // NOLINT
+
+#ifndef NDEBUG
+      fmt::print("A2 is {}\n", result);
+#endif
+
+      return result;
+    }
   }  // CalculateA2()
 
   /// @brief Attempt a move of the selected type
@@ -306,14 +322,11 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
     if (trial <= a1 * a2)
     {
-      // Move accepted
-      // attempted_moves will be updated by the MoveCommand
+      m_accepted_moves[move_tracker::as_integer(move)]++;
       return true;
     }
 
-    // Move rejected
-    // Increment attempted_moves_
-    ++m_attempted_moves[move_tracker::as_integer(move)];
+    m_rejected_moves[move_tracker::as_integer(move)]++;
     return false;
 
   }  // attempt_move()
@@ -328,8 +341,6 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @tparam T Type of manifold
   /// @param universe Manifold on which to operate
   /// @return The **universe** upon which the passes have been completed.
-  //  template <typename T>
-  //  auto operator()(T&& universe) -> decltype(universe)
   auto operator()(ManifoldType& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
@@ -348,10 +359,15 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     try
     {
       command.enqueue(move_tracker::move_type::TWO_THREE);
+      m_accepted_moves.two_three_moves()++;
       command.enqueue(move_tracker::move_type::THREE_TWO);
+      m_accepted_moves.three_two_moves()++;
       command.enqueue(move_tracker::move_type::TWO_SIX);
+      m_accepted_moves.two_six_moves()++;
       command.enqueue(move_tracker::move_type::SIX_TWO);
+      m_accepted_moves.six_two_moves()++;
       command.enqueue(move_tracker::move_type::FOUR_FOUR);
+      m_accepted_moves.four_four_moves()++;
 
       // Execute the moves
       command.execute();
@@ -365,13 +381,14 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       initial_results.print();
       initial_results.print_details();
     }
-    catch (std::logic_error const& LogicError)
+    catch (std::runtime_error const& RuntimeError)
     {
-      fmt::print("{}\n", LogicError.what());
+      fmt::print("{}\n", RuntimeError.what());
       fmt::print("Metropolis initialization failed ... exiting.\n");
     }
 
     fmt::print("Making random moves ...\n");
+    print_results();
     // Loop through m_passes
     for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
     {
@@ -418,21 +435,42 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     if (ManifoldType::dimension == 3)
     {
       fmt::print("=== Move Results ===\n");
-      fmt::print("(2,3) moves: {} attempted and {} failed\n",
-                 m_attempted_moves.two_three_moves(),
-                 m_failed_moves.two_three_moves());
-      fmt::print("(3,2) moves: {} attempted and {} failed\n",
-                 m_attempted_moves.three_two_moves(),
-                 m_failed_moves.three_two_moves());
-      fmt::print("(2,6) moves: {} attempted and {} failed\n",
-                 m_attempted_moves.two_six_moves(),
-                 m_failed_moves.two_six_moves());
-      fmt::print("(6,2) moves: {} attempted and {} failed\n",
-                 m_attempted_moves.six_two_moves(),
-                 m_failed_moves.six_two_moves());
-      fmt::print("(4,4) moves: {} attempted and {} failed\n",
-                 m_attempted_moves.four_four_moves(),
-                 m_failed_moves.four_four_moves());
+      fmt::print(
+          "There were {} total rejected moves and {} total accepted moves with "
+          "{} total attempted moves and {} total failed moves.\n",
+          m_rejected_moves.total(), m_accepted_moves.total(),
+          m_attempted_moves.total(), m_failed_moves.total());
+      fmt::print(
+          "(2,3) moves: {} rejected and {} accepted with {} attempted and {} "
+          "failed.\n",
+          m_rejected_moves.two_three_moves(),
+          m_accepted_moves.two_three_moves(),
+          m_attempted_moves.two_three_moves(),
+          m_failed_moves.two_three_moves());
+      fmt::print(
+          "(3,2) moves: {} rejected and {} accepted with {} attempted and {} "
+          "failed.\n",
+          m_rejected_moves.three_two_moves(),
+          m_accepted_moves.three_two_moves(),
+          m_attempted_moves.three_two_moves(),
+          m_failed_moves.three_two_moves());
+      fmt::print(
+          "(2,6) moves: {} rejected and {} accepted with {} attempted and {} "
+          "failed.\n",
+          m_rejected_moves.two_six_moves(), m_accepted_moves.two_six_moves(),
+          m_attempted_moves.two_six_moves(), m_failed_moves.two_six_moves());
+      fmt::print(
+          "(6,2) moves: {} rejected and {} accepted with {} attempted and {} "
+          "failed.\n",
+          m_rejected_moves.six_two_moves(), m_accepted_moves.six_two_moves(),
+          m_attempted_moves.six_two_moves(), m_failed_moves.six_two_moves());
+      fmt::print(
+          "(4,4) moves: {} rejected and {} accepted with {} attempted and {} "
+          "failed\n",
+          m_rejected_moves.four_four_moves(),
+          m_accepted_moves.four_four_moves(),
+          m_attempted_moves.four_four_moves(),
+          m_failed_moves.four_four_moves());
     }
   }  // print_results
 };   // Metropolis

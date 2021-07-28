@@ -61,6 +61,7 @@ try
   // Start running time
   Timer t;
   t.start();
+  fmt::print("cdt started at {}\n", currentDateTime());
 
   // docopt option parser
   gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
