@@ -361,6 +361,8 @@ Optional:
 
 [CLion] skips debugger breakpoints (issue [CPP-20158]).
 
+[CGAL] cannot write [Geomview] files (issue [#5873]).
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -453,3 +455,4 @@ Optional:
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
+[#5873]: https://github.com/CGAL/cgal/issues/5873
