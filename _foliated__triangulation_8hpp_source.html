@@ -336,7 +336,7 @@ $(function() {
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> radius =</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;          initial_radius + <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(i) * foliation_spacing;</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;      <span class="keyword">typename</span> <a class="code" href="struct_triangulation_traits.html">TriangulationTraits&lt;dimension&gt;::Spherical_points_generator</a> gen{</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;          <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(radius)};</div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;          radius};</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;      <span class="comment">// Generate random points at the radius</span></div>
 <div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      <span class="keywordflow">for</span> (gsl::index j = 0;</div>
 <div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;           j &lt; static_cast&lt;Int_precision&gt;(points_per_timeslice * radius); ++j)</div>
@@ -1191,7 +1191,7 @@ $(function() {
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a9c1044bb7f65952fb147b5a3e865b581"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a9c1044bb7f65952fb147b5a3e865b581">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::expected_timevalue</a></div><div class="ttdeci">auto expected_timevalue(Vertex_handle_t&lt; 3 &gt; const &amp;t_vertex) const -&gt; int</div><div class="ttdoc">Calculate the expected timevalue for a vertex.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01021">Foliated_triangulation.hpp:1021</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 28 2021 23:30:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Aug 1 2021 05:21:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -133,7 +133,7 @@ $(function() {
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="comment">// docopt option parser</span></div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="cdt_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a>);</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  map&lt;string, docopt::value&gt; args =</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  std::map&lt;std::string, docopt::value, std::less&lt;std::string&gt;&gt; args =</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;                     <span class="keyword">true</span>,          <span class="comment">// print help message automatically</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                     <span class="stringliteral">&quot;CDT 0.1.8&quot;</span>);  <span class="comment">// Version</span></div>
@@ -185,7 +185,7 @@ $(function() {
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160; </div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="comment">// Ensure Triangle inequalities hold</span></div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  <span class="comment">// See http://arxiv.org/abs/hep-th/0105267 for details</span></div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordflow">if</span> (dimensions == 3 &amp;&amp; abs(alpha) &lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.5))</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="keywordflow">if</span> (dimensions == 3 &amp;&amp; abs(alpha) &lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.5))  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  {</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    t.stop();  <span class="comment">// End running time counter</span></div>
 <div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="keywordflow">throw</span> domain_error(<span class="stringliteral">&quot;Alpha in 3D should be greater than 1/2.&quot;</span>);</div>
@@ -292,7 +292,7 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_aa19186e57b36341a554e2b650de915dd"><div class="ttname"><a href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a></div><div class="ttdeci">auto currentDateTime()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00086">Utilities.hpp:86</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jul 28 2021 23:30:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Aug 1 2021 05:21:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
