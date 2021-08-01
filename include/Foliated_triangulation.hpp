@@ -322,7 +322,7 @@ namespace foliated_triangulations
       auto const radius =
           initial_radius + static_cast<double>(i) * foliation_spacing;
       typename TriangulationTraits<dimension>::Spherical_points_generator gen{
-          static_cast<double>(radius)};
+          radius};
       // Generate random points at the radius
       for (gsl::index j = 0;
            j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)

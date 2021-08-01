@@ -63,7 +63,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   auto get_failed() const { return m_failed_moves; }
 
   /// @brief Call operator
-  auto operator()(ManifoldType& t_manifold) -> ManifoldType
+  auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);

@@ -341,7 +341,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @tparam T Type of manifold
   /// @param universe Manifold on which to operate
   /// @return The **universe** upon which the passes have been completed.
-  auto operator()(ManifoldType& t_manifold) -> ManifoldType
+  auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
@@ -401,7 +401,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         // Pick a move to attempt
         auto move = move_tracker::generate_random_move_3();
         if (attempt_move(move)) { command.enqueue(move); }
-      }  // End loop through CurrentTotalSimplices
+      }  // Ends loop through CurrentTotalSimplices
 
       // Do the moves
       command.execute();
@@ -421,7 +421,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
                    result.N3(), result.max_time(), INITIAL_RADIUS,
                    FOLIATION_SPACING);
       }
-    }  // End loop through m_passes
+    }  // Ends loop through m_passes
 
     // output results
     fmt::print("=== Run results ===\n");

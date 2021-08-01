@@ -123,7 +123,7 @@ SCENARIO("MoveAlways member functions", "[move always]")
   }
 }
 
-SCENARIO("Using the Move always algorithm", "[move always][!mayfail][.]")
+SCENARIO("Using the Move always algorithm", "[move always][!mayfail]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
@@ -138,7 +138,7 @@ SCENARIO("Using the Move always algorithm", "[move always][!mayfail][.]")
       MoveAlways3 mover(passes, checkpoint);
       THEN("A lot of moves are made.")
       {
-        // This may take awhile, so the scenario is tagged with [.]
+        // This may take a while, so the scenario is tagged with [.]
         // to disable by default
         auto result = mover(manifold);
         // Output

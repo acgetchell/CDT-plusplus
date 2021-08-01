@@ -65,7 +65,7 @@ try
 
   // docopt option parser
   gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
-  map<string, docopt::value> args =
+  std::map<std::string, docopt::value, std::less<std::string>> args =
       docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
                      true,          // print help message automatically
                      "CDT 0.1.8");  // Version
@@ -117,7 +117,7 @@ try
 
   // Ensure Triangle inequalities hold
   // See http://arxiv.org/abs/hep-th/0105267 for details
-  if (dimensions == 3 && abs(alpha) < static_cast<long double>(0.5))
+  if (dimensions == 3 && abs(alpha) < static_cast<long double>(0.5))  // NOLINT
   {
     t.stop();  // End running time counter
     throw domain_error("Alpha in 3D should be greater than 1/2.");
