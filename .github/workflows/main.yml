@@ -215,6 +215,7 @@ jobs:
 
       - name: Generate and upload coverage
         run: |
+          cd $GITHUB_WORKSPACE/build
           ctest --schedule-random -j2
           lcov --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg_installed/*' --output-file coverage.info

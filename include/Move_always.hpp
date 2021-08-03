@@ -31,8 +31,11 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   /// triangulation.
   Int_precision m_checkpoint{1};
 
-  /// @brief The number of moves that were attempted by a MoveCommand.
+  /// @brief The number of moves that were attempted by a MoveCommand
   move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+
+  /// @brief The number of moves that succeeded in the MoveCommand
+  move_tracker::MoveTracker<ManifoldType> m_successful_moves;
 
   /// @brief The number of moves that a MoveCommand failed to make due to an
   /// error.
@@ -58,6 +61,9 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
 
   /// @return The MoveTracker of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
+
+  /// @return The MoveTracker of successful moves
+  auto get_succeeded() const { return m_successful_moves; }
 
   /// @return The array of failed moves
   auto get_failed() const { return m_failed_moves; }
@@ -117,9 +123,10 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
         }
       }
       command.execute();
-      // Update attempted and failed moves
-      m_attempted_moves = command.get_attempts();
-      m_failed_moves    = command.get_failed();
+      // Update attempted, successful, and failed moves
+      m_attempted_moves += command.get_attempted();
+      m_successful_moves += command.get_succeeded();
+      m_failed_moves += command.get_failed();
     }
     print_results();
     return command.get_results();
@@ -131,20 +138,25 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
     if (ManifoldType::dimension == 3)
     {
       fmt::print("=== Move Results ===\n");
-      fmt::print("(2,3) moves: {} attempted and {} failed\n",
+      fmt::print("(2,3) moves: {} attempted = {} successful and {} failed.\n",
                  m_attempted_moves.two_three_moves(),
+                 m_successful_moves.two_three_moves(),
                  m_failed_moves.two_three_moves());
-      fmt::print("(3,2) moves: {} attempted and {} failed\n",
+      fmt::print("(3,2) moves: {} attempted = {} successful and {} failed.\n",
                  m_attempted_moves.three_two_moves(),
+                 m_successful_moves.three_two_moves(),
                  m_failed_moves.three_two_moves());
-      fmt::print("(2,6) moves: {} attempted and {} failed\n",
+      fmt::print("(2,6) moves: {} attempted = {} successful and {} failed.\n",
                  m_attempted_moves.two_six_moves(),
+                 m_successful_moves.two_six_moves(),
                  m_failed_moves.two_six_moves());
-      fmt::print("(6,2) moves: {} attempted and {} failed\n",
+      fmt::print("(6,2) moves: {} attempted = {} successful and {} failed.\n",
                  m_attempted_moves.six_two_moves(),
+                 m_successful_moves.six_two_moves(),
                  m_failed_moves.six_two_moves());
-      fmt::print("(4,4) moves: {} attempted and {} failed\n",
+      fmt::print("(4,4) moves: {} attempted = {} successful and {} failed.\n",
                  m_attempted_moves.four_four_moves(),
+                 m_successful_moves.four_four_moves(),
                  m_failed_moves.four_four_moves());
     }
   }

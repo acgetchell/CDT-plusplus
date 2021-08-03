@@ -82,18 +82,11 @@ SCENARIO("MoveAlways member functions", "[move always]")
         CHECK(mover.passes() == passes);
         CHECK(mover.checkpoint() == checkpoint);
       }
-      THEN("Attempted moves and successful moves are zero-initialized.")
+      THEN("Attempted, successful, and failed moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().two_three_moves() == 0);
-        CHECK(mover.get_failed().two_three_moves() == 0);
-        CHECK(mover.get_attempted().three_two_moves() == 0);
-        CHECK(mover.get_failed().three_two_moves() == 0);
-        CHECK(mover.get_attempted().two_six_moves() == 0);
-        CHECK(mover.get_failed().two_six_moves() == 0);
-        CHECK(mover.get_attempted().six_two_moves() == 0);
-        CHECK(mover.get_failed().six_two_moves() == 0);
-        CHECK(mover.get_attempted().four_four_moves() == 0);
-        CHECK(mover.get_failed().four_four_moves() == 0);
+        CHECK(mover.get_attempted().total() == 0);
+        CHECK(mover.get_succeeded().total() == 0);
+        CHECK(mover.get_failed().total() == 0);
       }
     }
     WHEN("A MoveAlways3 algorithm is instantiated.")
@@ -108,16 +101,9 @@ SCENARIO("MoveAlways member functions", "[move always]")
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().two_three_moves() == 0);
-        CHECK(mover.get_failed().two_three_moves() == 0);
-        CHECK(mover.get_attempted().three_two_moves() == 0);
-        CHECK(mover.get_failed().three_two_moves() == 0);
-        CHECK(mover.get_attempted().two_six_moves() == 0);
-        CHECK(mover.get_failed().two_six_moves() == 0);
-        CHECK(mover.get_attempted().six_two_moves() == 0);
-        CHECK(mover.get_failed().six_two_moves() == 0);
-        CHECK(mover.get_attempted().four_four_moves() == 0);
-        CHECK(mover.get_failed().four_four_moves() == 0);
+        CHECK(mover.get_attempted().total() == 0);
+        CHECK(mover.get_succeeded().total() == 0);
+        CHECK(mover.get_failed().total() == 0);
       }
     }
   }
@@ -127,8 +113,8 @@ SCENARIO("Using the Move always algorithm", "[move always][!mayfail]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(64);
-    auto constexpr timeslices = static_cast<Int_precision>(3);
+    auto constexpr simplices  = static_cast<Int_precision>(157);
+    auto constexpr timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 algorithm is used.")

@@ -26,9 +26,13 @@ class MoveCommand
   std::deque<move_tracker::move_type> m_moves;
 
   /// @brief Track attempted moves
-  move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+  move_tracker::MoveTracker<ManifoldType> m_attempted;
+
+  /// @brief Track successful moves
+  move_tracker::MoveTracker<ManifoldType> m_succeeded;
+
   /// @brief Track failed moves
-  move_tracker::MoveTracker<ManifoldType> m_failed_moves;
+  move_tracker::MoveTracker<ManifoldType> m_failed;
 
  public:
   /// @brief No default ctor
@@ -50,23 +54,23 @@ class MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
   /// @return Attempted moves by MoveCommand
-  [[nodiscard]] auto get_attempts() const
+  [[nodiscard]] auto get_attempted() const
       -> move_tracker::MoveTracker<ManifoldType>
   {
-    return m_attempted_moves;
+    return m_attempted;
   }  // get_attempts
 
-  /// @return The sum of all attempted moves
-  [[nodiscard]] auto get_all_attempts() const
+  /// @return Successful moves by MoveCommand
+  [[nodiscard]] auto get_succeeded() const
   {
-    return m_attempted_moves.total();
-  }  // get_all_attempts
+    return m_succeeded;
+  }  // get_succeeded
 
   /// @return Failed moves by MoveCommand
   [[nodiscard]] auto get_failed() const
       -> move_tracker::MoveTracker<ManifoldType>
   {
-    return m_failed_moves;
+    return m_failed;
   }  // get_errors
 
   /// @brief Push a Pachner move onto the move queue
@@ -88,7 +92,7 @@ class MoveCommand
     {
       auto move_type = m_moves.back();
       // Record attempted move
-      m_attempted_moves[move_tracker::as_integer(move_type)]++;
+      m_attempted[move_tracker::as_integer(move_type)]++;
       // Convert move_type to function
       auto move_function = as_move_function(move_type);
       auto result        = apply_move(m_manifold, move_function);
@@ -97,6 +101,7 @@ class MoveCommand
       {
         result->update();
         swap(result.value(), m_manifold);
+        m_succeeded[move_tracker::as_integer(move_type)]++;
       }
       else
       {
@@ -140,52 +145,52 @@ class MoveCommand
     // 3D
     if (error.find("(2,3)") != UnexpectedType::npos)
     {
-      m_failed_moves.two_three_moves() += 1;
+      m_failed.two_three_moves() += 1;
     }
     if (error.find("(3,2)") != UnexpectedType::npos)
     {
-      m_failed_moves.three_two_moves() += 1;
+      m_failed.three_two_moves() += 1;
     }
     if (error.find("(2,6)") != UnexpectedType::npos)
     {
-      m_failed_moves.two_six_moves() += 1;
+      m_failed.two_six_moves() += 1;
     }
     if (error.find("(6,2)") != UnexpectedType::npos)
     {
-      m_failed_moves.six_two_moves() += 1;
+      m_failed.six_two_moves() += 1;
     }
     if (error.find("(4,4)") != UnexpectedType::npos)
     {
-      m_failed_moves.four_four_moves() += 1;
+      m_failed.four_four_moves() += 1;
     }
     // 4D
     if (error.find("(2,4)") != UnexpectedType::npos)
     {
-      m_failed_moves.two_four_moves() += 1;
+      m_failed.two_four_moves() += 1;
     }
     if (error.find("(4,2)") != UnexpectedType::npos)
     {
-      m_failed_moves.four_two_moves() += 1;
+      m_failed.four_two_moves() += 1;
     }
     if (error.find("(3,3)") != UnexpectedType::npos)
     {
-      m_failed_moves.three_three_moves() += 1;
+      m_failed.three_three_moves() += 1;
     }
     if (error.find("(4,6)") != UnexpectedType::npos)
     {
-      m_failed_moves.four_six_moves() += 1;
+      m_failed.four_six_moves() += 1;
     }
     if (error.find("(6,4)") != UnexpectedType::npos)
     {
-      m_failed_moves.six_four_moves() += 1;
+      m_failed.six_four_moves() += 1;
     }
     if (error.find("(2,8)") != UnexpectedType::npos)
     {
-      m_failed_moves.two_eight_moves() += 1;
+      m_failed.two_eight_moves() += 1;
     }
     if (error.find("(8,2)") != UnexpectedType::npos)
     {
-      m_failed_moves.eight_two_moves() += 1;
+      m_failed.eight_two_moves() += 1;
     }
   }  // parse_unexpected
 
@@ -200,10 +205,9 @@ class MoveCommand
           "attempted (2,6) moves and {} attempted (6,2) moves and {} attempted "
           "(4,4) "
           "moves.\n",
-          m_attempted_moves.two_three_moves(),
-          m_attempted_moves.three_two_moves(),
-          m_attempted_moves.two_six_moves(), m_attempted_moves.six_two_moves(),
-          m_attempted_moves.four_four_moves());
+          m_attempted.two_three_moves(), m_attempted.three_two_moves(),
+          m_attempted.two_six_moves(), m_attempted.six_two_moves(),
+          m_attempted.four_four_moves());
     }
     else
     {
@@ -214,21 +218,17 @@ class MoveCommand
           "attempted (3,3) moves and {} attempted (4,6) moves and {} attempted "
           "(6,4) "
           "moves and {} attempted (2,8) moves and {} attempted (8,2) moves.\n",
-          m_attempted_moves.two_four_moves(),
-          m_attempted_moves.four_two_moves(),
-          m_attempted_moves.three_three_moves(),
-          m_attempted_moves.four_six_moves(),
-          m_attempted_moves.six_four_moves(),
-          m_attempted_moves.two_eight_moves(),
-          m_attempted_moves.eight_two_moves());
+          m_attempted.two_four_moves(), m_attempted.four_two_moves(),
+          m_attempted.three_three_moves(), m_attempted.four_six_moves(),
+          m_attempted.six_four_moves(), m_attempted.two_eight_moves(),
+          m_attempted.eight_two_moves());
     }
   }
 
   /// @brief Print Move errors
   void print_errors() const
   {
-    if (std::all_of(m_failed_moves.moves_view().begin(),
-                    m_failed_moves.moves_view().end(),
+    if (std::all_of(m_failed.moves_view().begin(), m_failed.moves_view().end(),
                     [](auto const& value) { return value == 0; }))
     {
       fmt::print("There were no failed moves.\n");
@@ -241,9 +241,9 @@ class MoveCommand
             "There were {} failed (2,3) moves and {} failed (3,2) moves and {} "
             "failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) "
             "moves.\n",
-            m_failed_moves.two_three_moves(), m_failed_moves.three_two_moves(),
-            m_failed_moves.two_six_moves(), m_failed_moves.six_two_moves(),
-            m_failed_moves.four_four_moves());
+            m_failed.two_three_moves(), m_failed.three_two_moves(),
+            m_failed.two_six_moves(), m_failed.six_two_moves(),
+            m_failed.four_four_moves());
       }
       else
       {
@@ -252,10 +252,10 @@ class MoveCommand
             "There were {} failed (2,4) moves and {} failed (4,2) moves and {} "
             "failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) "
             "moves and {} failed (2,8) moves and {} failed (8,2) moves.\n",
-            m_failed_moves.two_four_moves(), m_failed_moves.four_two_moves(),
-            m_failed_moves.three_three_moves(), m_failed_moves.four_six_moves(),
-            m_failed_moves.six_four_moves(), m_failed_moves.two_eight_moves(),
-            m_failed_moves.eight_two_moves());
+            m_failed.two_four_moves(), m_failed.four_two_moves(),
+            m_failed.three_three_moves(), m_failed.four_six_moves(),
+            m_failed.six_four_moves(), m_failed.two_eight_moves(),
+            m_failed.eight_two_moves());
       }
     }
   }

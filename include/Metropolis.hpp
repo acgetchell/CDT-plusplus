@@ -373,7 +373,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       command.execute();
 
       // Update attempted and failed moves
-      m_attempted_moves = command.get_attempts();
+      m_attempted_moves = command.get_attempted();
       m_failed_moves    = command.get_failed();
 
       // print initial results
@@ -407,7 +407,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       command.execute();
 
       // Update attempted and failed moves
-      this->m_attempted_moves += command.get_attempts();
+      this->m_attempted_moves += command.get_attempted();
       this->m_failed_moves += command.get_failed();
 
       // Do stuff on checkpoint
