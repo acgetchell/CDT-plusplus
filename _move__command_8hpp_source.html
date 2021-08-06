@@ -281,42 +281,75 @@ $(function() {
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    }</div>
 <div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;  }</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">  229</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">print_errors</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00229"></a><span class="lineno"><a class="line" href="class_move_command.html#a91957b40d78b88234c8abd79d402a60a">  229</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a91957b40d78b88234c8abd79d402a60a">print_successful</a>()<span class="keyword"> const</span></div>
 <div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;<span class="keyword">  </span>{</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">if</span> (std::all_of(<a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.moves_view().begin(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.moves_view().end(),</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;                    [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; value) { return value == 0; }))</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    {</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;      fmt::print(<span class="stringliteral">&quot;There were no failed moves.\n&quot;</span>);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    }</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;    {</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      {</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        fmt::print(</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,3) moves and {} failed (3,2) moves and {} &quot;</span></div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;            <span class="stringliteral">&quot;failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) &quot;</span></div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;            <span class="stringliteral">&quot;moves.\n&quot;</span>,</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_three_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.three_two_moves(),</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_six_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.six_two_moves(),</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.four_four_moves());</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      }</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;      {</div>
-<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;        <span class="comment">// 4D</span></div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        fmt::print(</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,4) moves and {} failed (4,2) moves and {} &quot;</span></div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;            <span class="stringliteral">&quot;failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) &quot;</span></div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;            <span class="stringliteral">&quot;moves and {} failed (2,8) moves and {} failed (8,2) moves.\n&quot;</span>,</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_four_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.four_two_moves(),</div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.three_three_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.four_six_moves(),</div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.six_four_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_eight_moves(),</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.eight_two_moves());</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      }</div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    }</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  }</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;};</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    {</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      fmt::print(</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;          <span class="stringliteral">&quot;There were {} successful (2,3) moves and {} successful (3,2) moves &quot;</span></div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;          <span class="stringliteral">&quot;and {} &quot;</span></div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;          <span class="stringliteral">&quot;successful (2,6) moves and {} successful (6,2) moves and {} &quot;</span></div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;          <span class="stringliteral">&quot;successful &quot;</span></div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;          <span class="stringliteral">&quot;(4,4) &quot;</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;          <span class="stringliteral">&quot;moves.\n&quot;</span>,</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.two_three_moves(), <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.three_two_moves(),</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.two_six_moves(), <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.six_two_moves(),</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.four_four_moves());</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    }</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    {</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <span class="comment">// 4D</span></div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      fmt::print(</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;          <span class="stringliteral">&quot;There were {} successful (2,4) moves and {} successful (4,2) moves &quot;</span></div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;          <span class="stringliteral">&quot;and {} &quot;</span></div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;          <span class="stringliteral">&quot;successful (3,3) moves and {} successful (4,6) moves and {} &quot;</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;          <span class="stringliteral">&quot;successful &quot;</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;          <span class="stringliteral">&quot;(6,4) &quot;</span></div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;          <span class="stringliteral">&quot;moves and {} successful (2,8) moves and {} successful (8,2) &quot;</span></div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;          <span class="stringliteral">&quot;moves.\n&quot;</span>,</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.two_four_moves(), <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.four_two_moves(),</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.three_three_moves(), <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.four_six_moves(),</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.six_four_moves(), <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.two_eight_moves(),</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;          <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>.eight_two_moves());</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    }</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  }</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
+<div class="line"><a name="l00263"></a><span class="lineno"><a class="line" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">  263</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">print_errors</a>()<span class="keyword"> const</span></div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;<span class="keyword">  </span>{</div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;    <span class="keywordflow">if</span> (std::all_of(<a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.moves_view().begin(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.moves_view().end(),</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;                    [](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; value) { return value == 0; }))</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    {</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;      fmt::print(<span class="stringliteral">&quot;There were no failed moves.\n&quot;</span>);</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    }</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    {</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;      <span class="keywordflow">if</span> (ManifoldType::dimension == 3)</div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      {</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;        fmt::print(</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,3) moves and {} failed (3,2) moves and {} &quot;</span></div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;            <span class="stringliteral">&quot;failed (2,6) moves and {} failed (6,2) moves and {} failed (4,4) &quot;</span></div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;            <span class="stringliteral">&quot;moves.\n&quot;</span>,</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_three_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.three_two_moves(),</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_six_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.six_two_moves(),</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.four_four_moves());</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;      }</div>
+<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;      {</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        <span class="comment">// 4D</span></div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;        fmt::print(</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;            <span class="stringliteral">&quot;There were {} failed (2,4) moves and {} failed (4,2) moves and {} &quot;</span></div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;            <span class="stringliteral">&quot;failed (3,3) moves and {} failed (4,6) moves and {} failed (6,4) &quot;</span></div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;            <span class="stringliteral">&quot;moves and {} failed (2,8) moves and {} failed (8,2) moves.\n&quot;</span>,</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_four_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.four_two_moves(),</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.three_three_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.four_six_moves(),</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.six_four_moves(), <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.two_eight_moves(),</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;            <a class="code" href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">m_failed</a>.eight_two_moves());</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;      }</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    }</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;  }</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;};</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160; </div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_MOVECOMMAND_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_move_command_html_a25600f0e10bc32e29661ae226f10deba"><div class="ttname"><a href="class_move_command.html#a25600f0e10bc32e29661ae226f10deba">MoveCommand::m_failed</a></div><div class="ttdeci">move_tracker::MoveTracker&lt; ManifoldType &gt; m_failed</div><div class="ttdoc">Track failed moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00035">Move_command.hpp:35</a></div></div>
 <div class="ttc" id="aclass_move_command_html_ab7ea3a86c5db8908e6d12cfbcfc3da47"><div class="ttname"><a href="class_move_command.html#ab7ea3a86c5db8908e6d12cfbcfc3da47">MoveCommand::m_moves</a></div><div class="ttdeci">std::deque&lt; move_tracker::move_type &gt; m_moves</div><div class="ttdoc">The queue of moves to make.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00026">Move_command.hpp:26</a></div></div>
@@ -332,7 +365,7 @@ $(function() {
 <div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:20</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a6a6b286dfda0138c2880c1259ddd02aa"><div class="ttname"><a href="class_move_command.html#a6a6b286dfda0138c2880c1259ddd02aa">MoveCommand::m_attempted</a></div><div class="ttdeci">move_tracker::MoveTracker&lt; ManifoldType &gt; m_attempted</div><div class="ttdoc">Track attempted moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00029">Move_command.hpp:29</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
-<div class="ttc" id="aclass_move_command_html_a4a9300e8b8887e065ad5a060db541763"><div class="ttname"><a href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">MoveCommand::print_errors</a></div><div class="ttdeci">void print_errors() const</div><div class="ttdoc">Print Move errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00229">Move_command.hpp:229</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a4a9300e8b8887e065ad5a060db541763"><div class="ttname"><a href="class_move_command.html#a4a9300e8b8887e065ad5a060db541763">MoveCommand::print_errors</a></div><div class="ttdeci">void print_errors() const</div><div class="ttdoc">Print Move errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00263">Move_command.hpp:263</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a409b2d4149c7e0fff03bcc18e78bd754"><div class="ttname"><a href="class_move_command.html#a409b2d4149c7e0fff03bcc18e78bd754">MoveCommand::print_attempts</a></div><div class="ttdeci">void print_attempts() const</div><div class="ttdoc">Print attempted moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00198">Move_command.hpp:198</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a2a59484e037acf39abfec0f1a4233969"><div class="ttname"><a href="class_move_command.html#a2a59484e037acf39abfec0f1a4233969">MoveCommand::MoveCommand</a></div><div class="ttdeci">MoveCommand(ManifoldType t_manifold)</div><div class="ttdoc">MoveCommand ctor.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00043">Move_command.hpp:43</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a94ab45874166cc6afee62c0b185d57d6"><div class="ttname"><a href="class_move_command.html#a94ab45874166cc6afee62c0b185d57d6">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(move_tracker::move_type t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00078">Move_command.hpp:78</a></div></div>
@@ -340,10 +373,11 @@ $(function() {
 <div class="ttc" id="aclass_move_command_html_a18c916e22375e0b510e15fdfc0856cf2"><div class="ttname"><a href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute all moves in the queue on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00083">Move_command.hpp:83</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html_af7450092e67d362692353a8b378059b6"><div class="ttname"><a href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00059">Geometry.hpp:59</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a1e55bd40cae117aea7bdba57cfb4f5ae"><div class="ttname"><a href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">MoveCommand::m_manifold</a></div><div class="ttdeci">ManifoldType m_manifold</div><div class="ttdoc">The Manifold on which to make the move.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00023">Move_command.hpp:23</a></div></div>
+<div class="ttc" id="aclass_move_command_html_a91957b40d78b88234c8abd79d402a60a"><div class="ttname"><a href="class_move_command.html#a91957b40d78b88234c8abd79d402a60a">MoveCommand::print_successful</a></div><div class="ttdeci">void print_successful() const</div><div class="ttdoc">Print successful moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00229">Move_command.hpp:229</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a60c12dcf54425cef3cf5539542e23624"><div class="ttname"><a href="class_move_command.html#a60c12dcf54425cef3cf5539542e23624">MoveCommand::parse_unexpected</a></div><div class="ttdeci">void parse_unexpected(UnexpectedType const error)</div><div class="ttdoc">Parse errors.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00143">Move_command.hpp:143</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 3 2021 07:53:49 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Aug 6 2021 05:52:06 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

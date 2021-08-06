@@ -2,7 +2,7 @@ var searchData=
 [
   ['main_433',['main',['../cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5',1,'main(int argc, char const *argv[]) -&gt; int try:&#160;cdt-gv.cpp'],['../cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef',1,'main() -&gt; int:&#160;cdt-opt.cpp'],['../cdt_8cpp.html#ae3c9ca9c80d59823d8711270d8a0d7c2',1,'main(int argc, char *const argv[]) -&gt; int try:&#160;cdt.cpp']]],
   ['make_5fd_5fcube_434',['make_d_cube',['../_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f',1,'Torus_d.hpp']]],
-  ['make_5fd_5fsphere_435',['make_d_sphere',['../_sphere__d_8hpp.html#a04b74615510e6ad6edf4cb2b403c2419',1,'make_d_sphere(std::size_t t_number_of_points, int t_dimension, double t_radius, bool t_output_flag, std::vector&lt; Kd::Point_d &gt; &amp;t_points) noexcept:&#160;Sphere_d.hpp'],['../_sphere__d_8hpp.html#a64c0c342c35e3b7431f2e82e5eca094a',1,'make_d_sphere(std::size_t t_number_of_points, int t_dimension, double t_radius, std::vector&lt; Kd::Point_d &gt; &amp;t_points) noexcept:&#160;Sphere_d.hpp']]],
+  ['make_5fd_5fsphere_435',['make_d_sphere',['../_sphere__d_8hpp.html#ae228abc712bbd05529aad9f41e27add7',1,'Sphere_d.hpp']]],
   ['make_5ffoliated_5fsphere_436',['make_foliated_sphere',['../_foliated__triangulation_8hpp.html#acce54ba7cf929e6f03cf1b86b863979d',1,'foliated_triangulations']]],
   ['make_5frandom_5fgenerator_437',['make_random_generator',['../_utilities_8hpp.html#a29cc6a1199a42d77546d12609ba7ea01',1,'Utilities.hpp']]],
   ['make_5frandom_5ft3_5fsimplicial_5fcomplex_438',['make_random_T3_simplicial_complex',['../_periodic__3__complex_8hpp.html#a77af2727b5f5883202b20e8ce9326d60',1,'Periodic_3_complex.hpp']]],
