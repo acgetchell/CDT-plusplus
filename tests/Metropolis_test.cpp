@@ -94,23 +94,28 @@ SCENARIO("Metropolis member functions", "[metropolis]")
         CHECK(testrun.Lambda() == Lambda);
         CHECK(testrun.passes() == passes);
         CHECK(testrun.checkpoint() == output_every_n_passes);
+        CHECK(testrun.get_trial().total() == 0);
+        CHECK(testrun.get_accepted().total() == 0);
+        CHECK(testrun.get_rejected().total() == 0);
+        CHECK(testrun.get_attempted().total() == 0);
+        CHECK(testrun.get_succeeded().total() == 0);
+        CHECK(testrun.get_failed().total() == 0);
+      }
+      THEN("The initial moves are made correctly.")
+      {
+        auto result           = testrun.initialize(universe);
+        auto total_attempted  = result->get_attempted().total();
+        auto total_successful = result->get_succeeded().total();
+        auto total_failed     = result->get_failed().total();
+        CHECK(total_attempted == 5);
+        CHECK(total_successful == 5);
+        CHECK(total_failed == 0);
+        CHECK(total_attempted == total_successful + total_failed);
 
-        for (auto move : testrun.get_rejected().moves_view())
-        {
-          CHECK(move == 0);
-        }
-        for (auto move : testrun.get_accepted().moves_view())
-        {
-          CHECK(move == 0);
-        }
-        for (auto move : testrun.get_attempted().moves_view())
-        {
-          CHECK(move == 0);
-        }
-        for (auto move : testrun.get_failed().moves_view())
-        {
-          CHECK(move == 0);
-        }
+        // Human verification
+        result->print_attempts();
+        result->print_successful();
+        result->print_errors();
       }
     }
   }
@@ -136,15 +141,20 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
       THEN("A lot of moves are done.")
       {
         auto result = testrun(universe);
-        auto total_rejected  = testrun.total_rejected_moves();
-        auto total_accepted  = testrun.total_accepted_moves();
-        auto total_attempted = testrun.total_attempted_moves();
-        auto total_failed    = testrun.total_failed_moves();
-        CHECK(total_rejected > 0);
+        auto total_trial      = testrun.get_trial().total();
+        auto total_accepted   = testrun.get_accepted().total();
+        auto total_rejected   = testrun.get_rejected().total();
+        auto total_attempted  = testrun.get_attempted().total();
+        auto total_successful = testrun.get_succeeded().total();
+        auto total_failed     = testrun.get_failed().total();
+        CHECK(total_trial > universe.N3() * passes);
         CHECK(total_accepted > 0);
-        CHECK(total_attempted > 0);
+        CHECK(total_rejected > 0);
+        CHECK(total_trial == total_accepted + total_rejected);
+        CHECK(total_attempted == total_accepted + 5);
+        CHECK(total_successful > 0);
         CHECK(total_failed >= 0);
-        CHECK(total_accepted == total_attempted);
+        CHECK(total_attempted == total_successful + total_failed);
         CHECK(result.is_valid());
       }
     }

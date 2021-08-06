@@ -51,6 +51,10 @@ using Edge_handle_t = typename TriangulationTraits<dimension>::Edge_handle;
 template <int dimension>
 using Vertex_handle_t = typename TriangulationTraits<dimension>::Vertex_handle;
 
+template <int dimension>
+using Spherical_points_generator_t =
+    typename TriangulationTraits<dimension>::Spherical_points_generator;
+
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
 {
@@ -321,8 +325,7 @@ namespace foliated_triangulations
     {
       auto const radius =
           initial_radius + static_cast<double>(i) * foliation_spacing;
-      typename TriangulationTraits<dimension>::Spherical_points_generator gen{
-          radius};
+      Spherical_points_generator_t<dimension> gen{radius};
       // Generate random points at the radius
       for (gsl::index j = 0;
            j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)

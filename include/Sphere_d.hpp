@@ -36,16 +36,19 @@ using Kd = CGAL::Cartesian_d<double>;
 /// @param t_radius Radius of sphere
 /// @param t_output_flag Toggles detailed output
 /// @param t_points The points ready to insert
-inline void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
-                          double t_radius, bool t_output_flag,
-                          std::vector<Kd::Point_d>& t_points) noexcept
+inline auto make_d_sphere(std::size_t t_number_of_points, int t_dimension,
+                          double t_radius, bool t_output_flag = false)
+    -> std::vector<Kd::Point_d>
 {
-  t_points.reserve(t_number_of_points);
+  std::vector<Kd::Point_d> points;
+  points.reserve(t_number_of_points);
 
   CGAL::Random_points_on_sphere_d<Kd::Point_d> gen(t_dimension, t_radius);
 
   for (decltype(t_number_of_points) i = 0; i < t_number_of_points; ++i)
-  { t_points.push_back(*gen++); }
+  {
+    points.push_back(*gen++);
+  }
   // If output = true, print out values of points in sphere
   if (t_output_flag)
   {
@@ -54,23 +57,9 @@ inline void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
         "center 0 and radius {}.\n",
         t_dimension, t_radius);
 
-    for (auto const& point : t_points) { std::cout << " " << point << "\n"; }
+    for (auto const& point : points) { std::cout << " " << point << "\n"; }
   }
+  return points;
 }  // make_d_sphere()
-
-/// @brief Make a d-dimensional sphere without output
-///
-/// Function overload of make_d_sphere to suppress output.
-///
-/// @param t_number_of_points Number of vertices at a given radius
-/// @param t_dimension Dimensionality of sphere
-/// @param t_radius Radius of sphere
-/// @param t_points The points ready to insert
-inline void make_d_sphere(std::size_t t_number_of_points, int t_dimension,
-                          double                    t_radius,
-                          std::vector<Kd::Point_d>& t_points) noexcept
-{
-  make_d_sphere(t_number_of_points, t_dimension, t_radius, false, t_points);
-}  // make_d_sphere
 
 #endif  // INCLUDE_SPHERE_D_HPP_

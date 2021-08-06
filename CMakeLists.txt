@@ -67,20 +67,28 @@ include(CMakeDependentOption)
 # https://github.com/catchorg/Catch2
 find_package(Catch2 CONFIG REQUIRED)
 
-# https://github.com/docopt/docopt.cpp
-find_package(docopt CONFIG REQUIRED)
+# https://github.com/CGAL/cgal
+find_package(CGAL CONFIG REQUIRED)
+# Don't let CGAL override flags
+set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
+    TRUE
+    CACHE BOOL "Force CGAL to maintain CMAKE flags")
+set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
 
 # https://howardhinnant.github.io/date/date.html
 find_package(date CONFIG REQUIRED)
 
-# https://github.com/fmtlib/fmt
-find_package(fmt CONFIG REQUIRED)
-
-# https://www.boost.org
-find_package(Boost REQUIRED)
+# https://github.com/docopt/docopt.cpp
+find_package(docopt CONFIG REQUIRED)
 
 # https://eigen.tuxfamily.org/index.php?title=Main_Page
 find_package(Eigen3 CONFIG REQUIRED)
+
+# https://github.com/fmtlib/fmt
+find_package(fmt CONFIG REQUIRED)
+
+# https://github.com/microsoft/GSL
+find_package(Microsoft.GSL CONFIG REQUIRED)
 
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
@@ -91,16 +99,11 @@ find_package(TBB CONFIG REQUIRED)
 # https://github.com/TartanLlama/expected
 find_package(tl-expected CONFIG REQUIRED)
 
-# https://github.com/CGAL/cgal
-find_package(CGAL CONFIG REQUIRED)
-# Don't let CGAL override flags
-set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
-    TRUE
-    CACHE BOOL "Force CGAL to maintain CMAKE flags")
-set(CGAL_DO_NOT_WARN_ABOUT_CMAKE_BUILD_TYPE TRUE)
+# https://github.com/TartanLlama/function_ref
+find_package(tl-function-ref CONFIG REQUIRED)
 
 # Header files
-include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include ${PCG_INCLUDE_DIRS})
+include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
 
 # Catch
 if(ENABLE_TESTING)

@@ -113,7 +113,7 @@ SCENARIO("Using the Move always algorithm", "[move always][!mayfail]")
 {
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(157);
+    auto constexpr simplices  = static_cast<Int_precision>(72);
     auto constexpr timeslices = static_cast<Int_precision>(4);
     manifolds::Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());

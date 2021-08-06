@@ -22,7 +22,6 @@ else()
             docopt_s
             date::date
             date::date-tz
-            fmt::fmt
             fmt::fmt-header-only
             Eigen3::Eigen
             TBB::tbb

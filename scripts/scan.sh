@@ -8,5 +8,5 @@ cd ..
 rm -rf build/
 mkdir build
 cd build || exit
-cmake -D CMAKE_BUILD_TYPE=Debug -G Ninja -D CMAKE_C_COMPILER=clang -D CMAKE_CXX_COMPILER=clang++ ..
+cmake -D CMAKE_BUILD_TYPE=Debug -G Ninja -D CMAKE_CXX_COMPILER=clang++ ..
 /usr/local/Cellar/llvm/12.0.1/bin/scan-build -o "$(pwd)"/scanresults -v ninja

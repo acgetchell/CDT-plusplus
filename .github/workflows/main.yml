@@ -154,7 +154,6 @@ jobs:
           cd $GITHUB_WORKSPACE/build
           ctest --schedule-random -j2
 
-
       - name: Compile coverage reports
         run: |
           cd $GITHUB_WORKSPACE/build
@@ -213,10 +212,15 @@ jobs:
       - name: Build
         run: cmake --build build
 
+      - name: Test and generate coverage
+        continue-on-error: true
+        run: |
+          cd $GITHUB_WORKSPACE/build
+          ctest --schedule-random --rerun-failed --output-on-failure -j2
+
       - name: Generate and upload coverage
         run: |
           cd $GITHUB_WORKSPACE/build
-          ctest --schedule-random -j2
           lcov --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg_installed/*' --output-file coverage.info
           lcov --list coverage.info

@@ -29,51 +29,59 @@
 using Gmpzf = CGAL::Gmpzf;
 
 /// @brief Metropolis-Hastings algorithm strategy
-///
-/// The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo method.
-/// The probability of making an ergodic (Pachner) move is:
+/// @details The Metropolis-Hastings algorithm is a Markov Chain Monte Carlo
+/// method. The probability of making an ergodic (Pachner) move is:
 ///
 /// \f[P_{ergodic move}=a_{1}a_{2}\f]
 /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
 /// \f[a_2=e^{\Delta S}\f]
+///
+/// @tparam ManifoldType The type of Manifold on which to apply the algorithm
 template <typename ManifoldType>
 class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 {
-  /// @brief The length of the timelike edges.
+  /// @brief The length of the timelike edges
   long double m_Alpha{};
 
   /// @brief \f$K=\frac{1}{8\pi G_{N}}\f$.
   long double m_K{};
 
   /// @brief \f$\lambda=\frac{\Lambda}{8\pi G_{N}}\f$ where \f$\Lambda\f$ is
-  /// the cosmological constant.
+  /// the cosmological constant
   long double m_Lambda{};
 
-  /// @brief The number of move passes executed by the algorithm.
+  /// @brief The number of move passes executed by the algorithm
   /// @details Each move pass makes a number of attempts equal to the number of
   /// simplices in the triangulation.
   Int_precision m_passes{1};
 
-  /// @brief The number of passes before a checkpoint.
+  /// @brief The number of passes before a checkpoint
   /// @details Each checkpoint writes a file containing the current
   /// triangulation.
   Int_precision m_checkpoint{1};
 
-  /// @brief The current geometry of the manifold.
+  /// @brief The current geometry of the manifold
   Geometry<ManifoldType::dimension> m_geometry;
 
-  /// @brief The number of moves accepted by the algorithm.
-  /// @details This equals the number of attempted moves + failed moves.
+  /// @brief The number of moves the algorithm tried
+  /// @details This equals accepted moves + rejected moves.
+  move_tracker::MoveTracker<ManifoldType> m_trial_moves;
+
+  /// @brief The number of moves accepted by the algorithm
   move_tracker::MoveTracker<ManifoldType> m_accepted_moves;
 
-  /// @brief The number of moves rejected by the algorithm.
+  /// @brief The number of moves rejected by the algorithm
   move_tracker::MoveTracker<ManifoldType> m_rejected_moves;
 
   /// @brief The number of moves that were attempted by a MoveCommand.
+  /// @details This should equal accepted moves.
   move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
 
+  /// @brief The number of moves that succeeded in the MoveCommand
+  move_tracker::MoveTracker<ManifoldType> m_succeeded_moves;
+
   /// @brief The number of moves that a MoveCommand failed to make due to an
-  /// error.
+  /// error
   move_tracker::MoveTracker<ManifoldType> m_failed_moves;
 
  public:
@@ -81,9 +89,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   MoveStrategy() = default;
 
   /// @brief Metropolis function object constructor
-  ///
-  /// Setup of runtime job parameters.
-  ///
+  /// @details Setup of runtime job parameters.
   /// @param Alpha \f$\alpha\f$ is the timelike edge length.
   /// @param K \f$k=\frac{1}{8\pi G_{Newton}}\f$
   /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
@@ -105,59 +111,40 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   }
 
   /// @return The length of the timelike edge
-  [[maybe_unused]] auto Alpha() const noexcept { return m_Alpha; }
+  [[nodiscard]] auto Alpha() const noexcept { return m_Alpha; }
 
   /// @return The normalized Newton's constant
-  auto K() const noexcept { return m_K; }
+  [[nodiscard]] auto K() const noexcept { return m_K; }
 
   /// @return The normalized Cosmological constant
-  auto Lambda() const noexcept { return m_Lambda; }
+  [[nodiscard]] auto Lambda() const noexcept { return m_Lambda; }
 
   /// @return The number of passes to make
-  [[maybe_unused]] auto passes() const noexcept { return m_passes; }
+  [[nodiscard]] auto passes() const noexcept { return m_passes; }
 
   /// @return The number of passes before writing a checkpoint file
-  [[maybe_unused]] auto checkpoint() const noexcept { return m_checkpoint; }
+  [[nodiscard]] auto checkpoint() const noexcept { return m_checkpoint; }
 
-  /// @return The MoveTracker of accepted moves
+  /// @return The container of trial moves
+  auto get_trial() const { return m_trial_moves; }
+
+  /// @return The container of accepted moves
   auto get_accepted() const { return m_accepted_moves; }
 
-  /// @ return The total number of accepted moves
-  auto total_accepted_moves() const noexcept
-  {
-    return m_accepted_moves.total();
-  }  // total_accepted_moves
-
-  /// @return The MoveTracker of rejected moves
+  /// @return The container of rejected moves
   auto get_rejected() const { return m_rejected_moves; }
 
-  /// @return The total number of rejected moves
-  auto total_rejected_moves() const noexcept
-  {
-    return m_rejected_moves.total();
-  }  // total_rejected_moves
-
-  /// @return The MoveTracker of attempted moves
+  /// @return The container of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
-  /// @return The total number of attempted moves
-  auto total_attempted_moves() const noexcept
-  {
-    return m_attempted_moves.total();
-  }  // total_attempted_moves
+  /// @return The container of successful moves
+  auto get_succeeded() const { return m_succeeded_moves; }
 
-  /// @return The MoveTracker of failed moves
+  /// @return The container of failed moves
   auto get_failed() const { return m_failed_moves; }
 
-  /// @return The total number of failed moves
-  auto total_failed_moves() const noexcept
-  {
-    return m_failed_moves.total();
-  }  // total_failed_moves
-
   /// @brief Calculate A1
-  ///
-  /// Calculate the probability of making a move divided by the
+  /// @details Calculate the probability of making a move divided by the
   /// probability of its reverse, that is:
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
   ///
@@ -165,7 +152,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_tracker::move_type move) const noexcept
   {
-    auto all_moves = this->total_attempted_moves();
+    auto all_moves = m_attempted_moves.total();
     auto this_move = m_attempted_moves[move];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
@@ -197,9 +184,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   }  // CalculateA1()
 
   /// @brief Calculate A2
-  ///
-  /// Calculate \f$a_2=e^{\Delta S}\f$
-  ///
+  /// @details Calculate \f$a_2=e^{\Delta S}\f$
+  /// @tparam dimension The dimensionality of the triangulation
   /// @param move The type of move
   /// @return \f$a_2=e^{-\Delta S}\f$
   template <int dimension>
@@ -288,17 +274,20 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   }  // CalculateA2()
 
   /// @brief Attempt a move of the selected type
-  ///
-  /// This function implements the core of the Metropolis-Hastings algorithm
-  /// by generating a random number and comparing with the results of
+  /// @details This function implements the core of the Metropolis-Hastings
+  /// algorithm by generating a random number and comparing with the results of
   /// CalculateA1 and CalculateA2. If the move is accepted, this function
   /// calls make_move(). If not, it updates **attempted_moves_**.
-  ///
   /// @param move The type of move
-  auto attempt_move(move_tracker::move_type move) -> bool
+  /// @return True if the move is accepted
+  auto try_move(move_tracker::move_type move) -> bool
   {
+    // Record the trial move
+    m_trial_moves[move_tracker::as_integer(move)]++;
+
     // Calculate probability
     auto a1 = CalculateA1(move);
+
     // Make move if random number < probability
     auto a2 = CalculateA2<3>(move);
 
@@ -309,7 +298,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
 #ifndef NDEBUG
     fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-    fmt::print("Attempting move.\n");
+    fmt::print("Trying move.\n");
     fmt::print("Move type = {}\n", move_tracker::as_integer(move));
     fmt::print("Trial_value = {}\n", trial_value);
     fmt::print("Trial = {}\n", trial);
@@ -329,18 +318,64 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     m_rejected_moves[move_tracker::as_integer(move)]++;
     return false;
 
-  }  // attempt_move()
+  }  // try_move()
+
+  [[nodiscard]] auto initialize(ManifoldType t_manifold)
+      -> std::optional<MoveCommand<ManifoldType>>
+  try
+  {
+    MoveCommand command(t_manifold);
+    fmt::print("Making initial moves ...\n");
+
+    command.enqueue(move_tracker::move_type::TWO_THREE);
+    m_trial_moves.two_three_moves()++;
+    m_accepted_moves.two_three_moves()++;
+
+    command.enqueue(move_tracker::move_type::THREE_TWO);
+    m_trial_moves.three_two_moves()++;
+    m_accepted_moves.three_two_moves()++;
+
+    command.enqueue(move_tracker::move_type::TWO_SIX);
+    m_trial_moves.two_six_moves()++;
+    m_accepted_moves.two_six_moves()++;
+
+    command.enqueue(move_tracker::move_type::SIX_TWO);
+    m_trial_moves.six_two_moves()++;
+    m_accepted_moves.six_two_moves()++;
+
+    command.enqueue(move_tracker::move_type::FOUR_FOUR);
+    m_trial_moves.four_four_moves()++;
+    m_accepted_moves.four_four_moves()++;
+
+    // Execute the moves
+    command.execute();
+
+    // Update attempted, succeeded, and failed moves
+    m_attempted_moves += command.get_attempted();
+    m_succeeded_moves += command.get_succeeded();
+    m_failed_moves += command.get_failed();
+
+    // print initial results
+    auto initial_results = command.get_results();
+    initial_results.print();
+    initial_results.print_details();
+
+    return command;
+  }
+  catch (std::runtime_error const& RuntimeError)
+  {
+    fmt::print("{}\n", RuntimeError.what());
+    fmt::print("Metropolis initialization failed ... exiting.\n");
+    return std::nullopt;
+  }
 
   /// @brief Call operator
-  ///
-  /// This makes the Metropolis class into a function object. Setup of the
-  /// runtime job parameters is handled by the constructor. This () operator
+  /// @details This makes the Metropolis class into a function object. Setup of
+  /// the runtime job parameters is handled by the constructor. This () operator
   /// conducts all of the algorithmic work for Metropolis-Hastings on the
   /// manifold.
-  ///
-  /// @tparam T Type of manifold
-  /// @param universe Manifold on which to operate
-  /// @return The **universe** upon which the passes have been completed.
+  /// @param t_manifold Manifold on which to operate
+  /// @return The manifold upon which the passes have been completed
   auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
@@ -351,41 +386,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
         "Starting Metropolis-Hastings algorithm in {}+1 dimensions ...\n",
         ManifoldType::dimension - 1);
 
-    // Start the move command
-    MoveCommand command(t_manifold);
-
-    // Populate m_attempted_moves and m_successful_moves
-    fmt::print("Making initial moves ...\n");
-    try
-    {
-      command.enqueue(move_tracker::move_type::TWO_THREE);
-      m_accepted_moves.two_three_moves()++;
-      command.enqueue(move_tracker::move_type::THREE_TWO);
-      m_accepted_moves.three_two_moves()++;
-      command.enqueue(move_tracker::move_type::TWO_SIX);
-      m_accepted_moves.two_six_moves()++;
-      command.enqueue(move_tracker::move_type::SIX_TWO);
-      m_accepted_moves.six_two_moves()++;
-      command.enqueue(move_tracker::move_type::FOUR_FOUR);
-      m_accepted_moves.four_four_moves()++;
-
-      // Execute the moves
-      command.execute();
-
-      // Update attempted and failed moves
-      m_attempted_moves = command.get_attempted();
-      m_failed_moves    = command.get_failed();
-
-      // print initial results
-      auto initial_results = command.get_results();
-      initial_results.print();
-      initial_results.print_details();
-    }
-    catch (std::runtime_error const& RuntimeError)
-    {
-      fmt::print("{}\n", RuntimeError.what());
-      fmt::print("Metropolis initialization failed ... exiting.\n");
-    }
+    auto command = initialize(t_manifold).value_or(MoveCommand(t_manifold));
 
     fmt::print("Making random moves ...\n");
     print_results();
@@ -400,7 +401,8 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
       {
         // Pick a move to attempt
         auto move = move_tracker::generate_random_move_3();
-        if (attempt_move(move)) { command.enqueue(move); }
+
+        if (try_move(move)) { command.enqueue(move); }
       }  // Ends loop through CurrentTotalSimplices
 
       // Do the moves
@@ -408,6 +410,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
 
       // Update attempted and failed moves
       this->m_attempted_moves += command.get_attempted();
+      this->m_succeeded_moves += command.get_succeeded();
       this->m_failed_moves += command.get_failed();
 
       // Do stuff on checkpoint
@@ -427,7 +430,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     fmt::print("=== Run results ===\n");
     print_results();
     return command.get_results();
-  }
+  }  // operator()
 
   /// @brief Display results of run
   void print_results()
@@ -436,40 +439,54 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
     {
       fmt::print("=== Move Results ===\n");
       fmt::print(
-          "There were {} total rejected moves and {} total accepted moves with "
-          "{} total attempted moves and {} total failed moves.\n",
-          m_rejected_moves.total(), m_accepted_moves.total(),
-          m_attempted_moves.total(), m_failed_moves.total());
+          "There were {} trial moves with {} accepted moves and {} rejected "
+          "moves.\n",
+          m_trial_moves.total(), m_accepted_moves.total(),
+          m_rejected_moves.total());
       fmt::print(
-          "(2,3) moves: {} rejected and {} accepted with {} attempted and {} "
-          "failed.\n",
+          "There were {} attempted moves with {} successful moves and {} "
+          "failed moves.\n",
+          m_attempted_moves.total(), m_succeeded_moves.total(),
+          m_failed_moves.total());
+      fmt::print(
+          "(2,3) moves: {} trial ({} accepted and {} rejected) with {} "
+          "attempted ({} successful and {} failed).\n",
+          m_trial_moves.two_three_moves(), m_accepted_moves.two_three_moves(),
           m_rejected_moves.two_three_moves(),
-          m_accepted_moves.two_three_moves(),
           m_attempted_moves.two_three_moves(),
+          m_succeeded_moves.two_three_moves(),
           m_failed_moves.two_three_moves());
+
       fmt::print(
-          "(3,2) moves: {} rejected and {} accepted with {} attempted and {} "
-          "failed.\n",
+          "(3,2) moves: {} trial ({} accepted and {} rejected) with {} "
+          "attempted ({} successful and {} failed).\n",
+          m_trial_moves.three_two_moves(), m_accepted_moves.three_two_moves(),
           m_rejected_moves.three_two_moves(),
-          m_accepted_moves.three_two_moves(),
           m_attempted_moves.three_two_moves(),
+          m_succeeded_moves.three_two_moves(),
           m_failed_moves.three_two_moves());
+
       fmt::print(
-          "(2,6) moves: {} rejected and {} accepted with {} attempted and {} "
-          "failed.\n",
-          m_rejected_moves.two_six_moves(), m_accepted_moves.two_six_moves(),
-          m_attempted_moves.two_six_moves(), m_failed_moves.two_six_moves());
+          "(2,6) moves: {} trial ({} accepted and {} rejected) with {} "
+          "attempted ({} successful and {} failed).\n",
+          m_trial_moves.two_six_moves(), m_accepted_moves.two_six_moves(),
+          m_rejected_moves.two_six_moves(), m_attempted_moves.two_six_moves(),
+          m_succeeded_moves.two_six_moves(), m_failed_moves.two_six_moves());
+
       fmt::print(
-          "(6,2) moves: {} rejected and {} accepted with {} attempted and {} "
-          "failed.\n",
-          m_rejected_moves.six_two_moves(), m_accepted_moves.six_two_moves(),
-          m_attempted_moves.six_two_moves(), m_failed_moves.six_two_moves());
+          "(6,2) moves: {} trial ({} accepted and {} rejected) with {} "
+          "attempted ({} successful and {} failed).\n",
+          m_trial_moves.six_two_moves(), m_accepted_moves.six_two_moves(),
+          m_rejected_moves.six_two_moves(), m_attempted_moves.six_two_moves(),
+          m_succeeded_moves.six_two_moves(), m_failed_moves.six_two_moves());
+
       fmt::print(
-          "(4,4) moves: {} rejected and {} accepted with {} attempted and {} "
-          "failed\n",
+          "(4,4) moves: {} trial ({} accepted and {} rejected) with {} "
+          "attempted ({} successful and {} failed).\n",
+          m_trial_moves.four_four_moves(), m_accepted_moves.four_four_moves(),
           m_rejected_moves.four_four_moves(),
-          m_accepted_moves.four_four_moves(),
           m_attempted_moves.four_four_moves(),
+          m_succeeded_moves.four_four_moves(),
           m_failed_moves.four_four_moves());
     }
   }  // print_results

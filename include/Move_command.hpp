@@ -225,6 +225,40 @@ class MoveCommand
     }
   }
 
+  /// @brief Print successful moves
+  void print_successful() const
+  {
+    if (ManifoldType::dimension == 3)
+    {
+      fmt::print(
+          "There were {} successful (2,3) moves and {} successful (3,2) moves "
+          "and {} "
+          "successful (2,6) moves and {} successful (6,2) moves and {} "
+          "successful "
+          "(4,4) "
+          "moves.\n",
+          m_succeeded.two_three_moves(), m_succeeded.three_two_moves(),
+          m_succeeded.two_six_moves(), m_succeeded.six_two_moves(),
+          m_succeeded.four_four_moves());
+    }
+    else
+    {
+      // 4D
+      fmt::print(
+          "There were {} successful (2,4) moves and {} successful (4,2) moves "
+          "and {} "
+          "successful (3,3) moves and {} successful (4,6) moves and {} "
+          "successful "
+          "(6,4) "
+          "moves and {} successful (2,8) moves and {} successful (8,2) "
+          "moves.\n",
+          m_succeeded.two_four_moves(), m_succeeded.four_two_moves(),
+          m_succeeded.three_three_moves(), m_succeeded.four_six_moves(),
+          m_succeeded.six_four_moves(), m_succeeded.two_eight_moves(),
+          m_succeeded.eight_two_moves());
+    }
+  }
+
   /// @brief Print Move errors
   void print_errors() const
   {
