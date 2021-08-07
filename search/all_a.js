@@ -23,7 +23,7 @@ var searchData=
   ['main_2ecpp_155',['main.cpp',['../main_8cpp.html',1,'']]],
   ['make_5fd_5fcube_156',['make_d_cube',['../_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f',1,'Torus_d.hpp']]],
   ['make_5fd_5fsphere_157',['make_d_sphere',['../_sphere__d_8hpp.html#ae228abc712bbd05529aad9f41e27add7',1,'Sphere_d.hpp']]],
-  ['make_5ffoliated_5fsphere_158',['make_foliated_sphere',['../_foliated__triangulation_8hpp.html#acce54ba7cf929e6f03cf1b86b863979d',1,'foliated_triangulations']]],
+  ['make_5ffoliated_5fball_158',['make_foliated_ball',['../_foliated__triangulation_8hpp.html#af605421c8c9804a0ecd2556308308346',1,'foliated_triangulations']]],
   ['make_5frandom_5fgenerator_159',['make_random_generator',['../_utilities_8hpp.html#a29cc6a1199a42d77546d12609ba7ea01',1,'Utilities.hpp']]],
   ['make_5frandom_5ft3_5fsimplicial_5fcomplex_160',['make_random_T3_simplicial_complex',['../_periodic__3__complex_8hpp.html#a77af2727b5f5883202b20e8ce9326d60',1,'Periodic_3_complex.hpp']]],
   ['make_5frandom_5ft3_5ftriangulation_161',['make_random_T3_triangulation',['../_periodic__3__triangulations_8hpp.html#a80761c04c540a5fdc40101d4c10f41b9',1,'Periodic_3_triangulations.hpp']]],
