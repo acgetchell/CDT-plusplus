@@ -63,6 +63,7 @@ jobs:
         git pull --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
+        cd $GITHUB_WORKSPACE
         vcpkg install --feature-flags=manifests
         export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
         cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -S . -B build
