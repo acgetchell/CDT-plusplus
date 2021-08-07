@@ -13,6 +13,52 @@
 
 using namespace std;
 
+SCENARIO("MoveTracker special members", "[move tracker]")
+{
+  GIVEN("A MoveTracker.")
+  {
+    WHEN("It's properties are examined.")
+    {
+      THEN("It is no-throw destructible.")
+      {
+        CHECK(is_nothrow_destructible_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+      }
+      THEN("It is no-throw default constructible.")
+      {
+        CHECK(is_nothrow_default_constructible_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+      }
+      THEN("It is copy constructible.")
+      {
+        CHECK(is_copy_constructible_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+      }
+      THEN("It is copy assignable.")
+      {
+        CHECK(is_copy_assignable_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+      }
+      THEN("It is no-throw move constructible.")
+      {
+        CHECK(is_nothrow_move_constructible_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        fmt::print("Small function optimization supported.");
+      }
+      THEN("It is no-throw move assignable.")
+      {
+        CHECK(is_nothrow_move_assignable_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+      }
+      THEN("It is no-throw swappable")
+      {
+        CHECK(is_nothrow_swappable_v<
+              move_tracker::MoveTracker<manifolds::Manifold3>>);
+      }
+    }
+  }
+}
+
 SCENARIO("Move type to integer conversion", "[move tracker]")
 {
   GIVEN("A move type.")
@@ -56,7 +102,7 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
     }
     THEN("Two move trackers can be added.")
     {
-      // Add +1 move to left hand side
+      // Add +1 move to left-hand side
       tracked_moves.two_three_moves() += 1;
       tracked_moves.three_two_moves() += 1;
       tracked_moves.two_six_moves() += 1;
@@ -68,7 +114,7 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
       added_moves.two_six_moves() += 2;
       added_moves.six_two_moves() += 2;
       added_moves.four_four_moves() += 2;
-      // Add the Move_trackers
+      // Add the MoveTrackers
       tracked_moves += added_moves;
 
       // Now check
@@ -100,7 +146,7 @@ SCENARIO("Move_tracker functionality", "[move tracker]")
     }
     THEN("Two move trackers can be added.")
     {
-      // Add +1 move to left hand side
+      // Add +1 move to left-hand side
       tracked_moves.two_four_moves() += 1;
       tracked_moves.four_two_moves() += 1;
       tracked_moves.three_three_moves() += 1;

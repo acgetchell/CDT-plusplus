@@ -14,9 +14,9 @@
 
 using namespace std;
 
-SCENARIO("Move_command special members", "[move command]")
+SCENARIO("MoveCommand special members", "[move command]")
 {
-  GIVEN("A Move_command.")
+  GIVEN("A MoveCommand.")
   {
     WHEN("It's properties are examined.")
     {
@@ -46,6 +46,10 @@ SCENARIO("Move_command special members", "[move command]")
       THEN("It is no-throw move assignable.")
       {
         CHECK(is_nothrow_move_assignable_v<MoveCommand<manifolds::Manifold3>>);
+      }
+      THEN("It is no-throw swappable")
+      {
+        CHECK(is_nothrow_swappable_v<MoveCommand<manifolds::Manifold3>>);
       }
       THEN("It is constructible from a Manifold.")
       {

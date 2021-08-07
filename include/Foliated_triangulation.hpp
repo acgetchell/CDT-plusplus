@@ -301,7 +301,9 @@ namespace foliated_triangulations
     }
   }  // print_cells
 
-  /// @brief Make foliated spheres
+  /// @brief Make foliated ball
+  /// @details Makes a solid ball of successive layers of spheres at
+  /// a given radius.
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_simplices The desired number of simplices in the triangulation
   /// @param t_timeslices The desired number of timeslices in the
@@ -310,7 +312,7 @@ namespace foliated_triangulations
   /// @param foliation_spacing The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   template <int dimension>
-  [[nodiscard]] inline auto make_foliated_sphere(
+  [[nodiscard]] inline auto make_foliated_ball(
       Int_precision const t_simplices, Int_precision const t_timeslices,
       double const initial_radius    = INITIAL_RADIUS,
       double const foliation_spacing = FOLIATION_SPACING)
@@ -563,7 +565,7 @@ namespace foliated_triangulations
 #endif
 
     // Make initial triangulation
-    auto causal_vertices = make_foliated_sphere<dimension>(
+    auto causal_vertices = make_foliated_ball<dimension>(
         t_simplices, t_timeslices, initial_radius, foliation_spacing);
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
 

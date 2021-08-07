@@ -52,7 +52,16 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - run: |
+    - name: Cache vcpkg
+      uses: actions/cache@v2
+      id: cache-vcpkg
+      with:
+        path: $HOME/.cache/vcpkg
+        key: ${{ runner.os }}-vcpkg
+        restore-keys: ${{ runner.os }}-vcpkg
+
+    - name: Setup
+      run: |
         sudo add-apt-repository ppa:ubuntu-toolchain-r/test
         sudo apt update
         sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache
@@ -63,11 +72,16 @@ jobs:
         git pull --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
-        cd $GITHUB_WORKSPACE
+
+    - name: Install vcpkgs and configure CMake
+      shell: bash
+      run: |
         vcpkg install --feature-flags=manifests
         export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
-        cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -S . -B build
-        cmake --build build
+        cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -S . -B build
+
+    - name: Build
+      run: cmake --build build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1

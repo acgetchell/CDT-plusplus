@@ -88,9 +88,7 @@
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  // Gmpzf only has a constructor taking a double, not a long double
-  // Perhaps fixable later by switching to MP_Float, e.g.
-  // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
+  // Perhaps fixable later by switching to MP_Float
   auto const result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
@@ -167,9 +165,7 @@
   mpfr_add(total, r11, r12, MPFR_RNDD);  // total = r11+r12
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  // Gmpzf only has a constructor taking a double, not a long double
-  // Perhaps fixable later by switching to MP_Float, e.g.
-  // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
+  // Perhaps fixable later by switching to MP_Float
   auto const result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
@@ -315,9 +311,7 @@
   mpfr_add(total, r51, r52, MPFR_RNDD);  // total = r51+r52
 
   // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-  // Gmpzf only has a constructor taking a double, not a long double
-  // Perhaps fixable later by switching to MP_Float, e.g.
-  // MP_Float result = MP_Float(mpfr_get_ld(total, MPFR_RNDD));
+  // Perhaps fixable later by switching to MP_Float
   auto const result = mpfr_get_d(total, MPFR_RNDD);
 
   // Free memory
