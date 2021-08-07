@@ -25,15 +25,11 @@ jobs:
 
     - name: Cache vcpkg
       uses: actions/cache@v2
-      env:
-        cache-name: cache-vcpkg
+      id: cache-vcpkg
       with:
-        path: $HOME/.cache/vcpkg/archives
-        key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+        path: $HOME/.cache/vcpkg
+        key:  ${{ runner.os }}-vcpkg
+        restore-keys: ${{ runner.os }}-vcpkg
 
     - name: Setup
       run: |
@@ -83,15 +79,11 @@ jobs:
 
       - name: Cache vcpkg
         uses: actions/cache@v2
-        env:
-          cache-name: cache-vcpkg
+        id: cache-vcpkg
         with:
-          path: /home/runner/.cache/vcpkg/archives
-          key:  ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/status') }}
-          restore-keys: |
-            ${{ runner.os }}-build-${{ env.cache-name }}-
-            ${{ runner.os }}-build-
-            ${{ runner.os }}-
+          path: /home/runner/.cache/vcpkg
+          key:  ${{ runner.os }}-vcpkg
+          restore-keys: ${{ runner.os }}-vcpkg
 
       - name: Setup
         run: |
@@ -182,8 +174,7 @@ jobs:
 
       - name: Cache vcpkg
         uses: actions/cache@v2
-        env:
-          cache-name: cache-vcpkg
+        id: cache-vcpkg
         with:
           path: /home/runner/.cache/vcpkg
           key: ${{ runner.os }}-vcpkg
