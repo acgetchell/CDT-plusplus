@@ -338,8 +338,7 @@ namespace foliated_triangulations
     return causal_vertices;
   }  // make_foliated_sphere
 
-  /// /// @brief Collect spacelike facets into a container indexed by time
-  /// value
+  /// @brief Collect spacelike facets into a container indexed by time value
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
   /// @param t_debug_flag Debugging info toggle

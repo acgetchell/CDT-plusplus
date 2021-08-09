@@ -19,7 +19,7 @@
 /// @brief The Move Always algorithm
 /// @tparam dimension The dimensionality of the algorithm's triangulation
 template <typename ManifoldType>
-class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
+class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
   /// @brief The number of move passes executed by the algorithm
   /// @details Each move pass makes a number of attempts equal to the number of
@@ -162,7 +162,7 @@ class MoveStrategy<MOVE_ALWAYS, ManifoldType>  // NOLINT
   }
 };
 
-using MoveAlways3 = MoveStrategy<MOVE_ALWAYS, manifolds::Manifold3>;
-using MoveAlways4 = MoveStrategy<MOVE_ALWAYS, manifolds::Manifold4>;
+using MoveAlways3 = MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold3>;
+using MoveAlways4 = MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold4>;
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

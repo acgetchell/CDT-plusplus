@@ -16,7 +16,7 @@
 #include "Move_command.hpp"
 
 /// @brief The algorithms available to make ergodic moves
-enum Strategies
+enum class Strategies
 {
   MOVE_ALWAYS,
   METROPOLIS

@@ -38,7 +38,7 @@ using Gmpzf = CGAL::Gmpzf;
 ///
 /// @tparam ManifoldType The type of Manifold on which to apply the algorithm
 template <typename ManifoldType>
-class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
+class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
 {
   /// @brief The length of the timelike edges
   long double m_Alpha{};
@@ -492,7 +492,7 @@ class MoveStrategy<METROPOLIS, ManifoldType>  // NOLINT
   }  // print_results
 };   // Metropolis
 
-using Metropolis3 = MoveStrategy<METROPOLIS, manifolds::Manifold3>;
-using Metropolis4 = MoveStrategy<METROPOLIS, manifolds::Manifold4>;
+using Metropolis3 = MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold3>;
+using Metropolis4 = MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold4>;
 
 #endif  // INCLUDE_METROPOLIS_HPP_

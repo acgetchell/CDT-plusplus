@@ -55,10 +55,9 @@ Options:
 )"};
 
 /// @brief The main path of the CDT++ program
-///
-/// @param[in,out]  argc  Argument count = 1 + number of arguments
-/// @param[in,out]  argv  Argument vector (array) to be passed to docopt
-/// @returns        Integer value 0 if successful, 1 on failure
+/// @param argc Argument count = 1 + number of arguments
+/// @param argv Argument vector (array) to be passed to docopt
+/// @return Integer value 0 if successful, 1 on failure
 auto main(int argc, char* const argv[]) -> int
 try
 {
