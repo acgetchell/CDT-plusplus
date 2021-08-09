@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['calculatea1_11',['CalculateA1',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#aa697e823c8621b486323ca249ce2bfa5',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
-  ['calculatea2_12',['CalculateA2',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a71564baa5d4147eea1b7535e1fc0ea32',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;']]],
+  ['calculatea1_11',['CalculateA1',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae3138a065512d134ead9a6f281809990',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
+  ['calculatea2_12',['CalculateA2',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad6d9339e23a3f3ddf229240c5b2996c3',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
   ['cdt_2dgv_2ecpp_13',['cdt-gv.cpp',['../cdt-gv_8cpp.html',1,'']]],
   ['cdt_2dopt_2ecpp_14',['cdt-opt.cpp',['../cdt-opt_8cpp.html',1,'']]],
   ['cdt_2ecpp_15',['cdt.cpp',['../cdt_8cpp.html',1,'']]],
@@ -13,7 +13,7 @@ var searchData=
   ['check_5fsimplices_21',['check_simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['check_5ftimeslices_22',['check_timeslices',['../_foliated__triangulation_8hpp.html#ab665a19674f47224f5bf2493cc23324f',1,'foliated_triangulations']]],
   ['check_5fvertices_23',['check_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#aa237c6814433985b7a7ab0b105801b86',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['checkpoint_24',['checkpoint',['../class_move_strategy_3_01_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a226e0cc9b2b915b59e1efa1475aa4b96',1,'MoveStrategy&lt; METROPOLIS, ManifoldType &gt;::checkpoint()'],['../class_move_strategy_3_01_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a464d2c7b896f8b964c282e10928b6c07',1,'MoveStrategy&lt; MOVE_ALWAYS, ManifoldType &gt;::checkpoint()']]],
+  ['checkpoint_24',['checkpoint',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a9d442a0d9eb99d61526c1af6887b176e',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::checkpoint()'],['../class_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a538cbc968d7bd30f6481803afa75c776',1,'MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::checkpoint()']]],
   ['classify_5fcells_25',['classify_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['classify_5fedge_26',['classify_edge',['../_foliated__triangulation_8hpp.html#a9c03e21c0d2337452ff1b35d7b34dca4',1,'foliated_triangulations']]],
   ['collect_5fcells_27',['collect_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
