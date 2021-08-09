@@ -42,16 +42,18 @@ jobs:
       - name: Build
         run: cmake --build build
 
-      - name: Test and generate coverage
+      - name: Generate coverage
         continue-on-error: true
         run: |
           cd $GITHUB_WORKSPACE/build
           ctest --schedule-random --rerun-failed --output-on-failure -j2
-
-      - name: Generate and upload coverage
-        run: |
-          cd $GITHUB_WORKSPACE/build
           lcov --capture --directory . --output-file coverage.info
           lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg_installed/*' --output-file coverage.info
           lcov --list coverage.info
-          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+
+      - name: Upload coverage to CodeCov
+        uses: codecov/codecov-action@v2
+        with:
+          directory: $GITHUB_WORKSPACE/build
+          files: coverage.info
+          verbose: true

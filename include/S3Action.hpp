@@ -49,8 +49,29 @@
   mpfr_set_default_prec(PRECISION);
 
   // Initialize for MPFR
-  mpfr_t n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const2673,
-      const118, r4, r5, r6, r7, const7386, r8, r9, r10, r11, r12, total;
+  mpfr_t n1_tl;
+  mpfr_t n3_31;
+  mpfr_t n3_22;
+  mpfr_t k;
+  mpfr_t lambda;
+  mpfr_t two;
+  mpfr_t pi;
+  mpfr_t r1;
+  mpfr_t r2;
+  mpfr_t r3;
+  mpfr_t const2673;
+  mpfr_t const118;
+  mpfr_t r4;
+  mpfr_t r5;
+  mpfr_t r6;
+  mpfr_t r7;
+  mpfr_t const7386;
+  mpfr_t r8;
+  mpfr_t r9;
+  mpfr_t r10;
+  mpfr_t r11;
+  mpfr_t r12;
+  mpfr_t total;
   mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12,
               total, nullptr);
 
@@ -124,9 +145,30 @@
   mpfr_set_default_prec(PRECISION);
 
   // Initialize for MPFR
-  mpfr_t n1_tl, n3_31, n3_22, k, lambda, two, pi, r1, r2, r3, const3548,
-      const167, r4, r5, r6, r7, const5355, const204, r8, r9, r10, r11, r12,
-      total;
+  mpfr_t n1_tl;
+  mpfr_t n3_31;
+  mpfr_t n3_22;
+  mpfr_t k;
+  mpfr_t lambda;
+  mpfr_t two;
+  mpfr_t pi;
+  mpfr_t r1;
+  mpfr_t r2;
+  mpfr_t r3;
+  mpfr_t const3548;
+  mpfr_t const167;
+  mpfr_t r4;
+  mpfr_t r5;
+  mpfr_t r6;
+  mpfr_t r7;
+  mpfr_t const5355;
+  mpfr_t const204;
+  mpfr_t r8;
+  mpfr_t r9;
+  mpfr_t r10;
+  mpfr_t r11;
+  mpfr_t r12;
+  mpfr_t total;
   mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12,
               total, nullptr);
 
@@ -212,11 +254,71 @@
   mpfr_set_default_prec(PRECISION);
 
   // Initialize for MPFR
-  mpfr_t n1_tl, n3_31, n3_22, alpha, k, lambda, two, pi, r1, r2, r3, r4, r5, r6,
-      three, r7, four, r8, one, r9, r10, r11, r12, r13, r14, r15, r16, r17, r18,
-      r19, r20, r21, twelve, r22, r23, r24, r25, r26, r27, r28, r29, r30, r31,
-      r32, r33, r34, r35, r36, r37, r38, r39, r40, r41, r42, r43, r44, r45, r46,
-      r47, r48, r49, r50, r51, r52, total;
+  mpfr_t n1_tl;
+  mpfr_t n3_31;
+  mpfr_t n3_22;
+  mpfr_t alpha;
+  mpfr_t k;
+  mpfr_t lambda;
+  mpfr_t two;
+  mpfr_t pi;
+  mpfr_t r1;
+  mpfr_t r2;
+  mpfr_t r3;
+  mpfr_t r4;
+  mpfr_t r5;
+  mpfr_t r6;
+  mpfr_t three;
+  mpfr_t r7;
+  mpfr_t four;
+  mpfr_t r8;
+  mpfr_t one;
+  mpfr_t r9;
+  mpfr_t r10;
+  mpfr_t r11;
+  mpfr_t r12;
+  mpfr_t r13;
+  mpfr_t r14;
+  mpfr_t r15;
+  mpfr_t r16;
+  mpfr_t r17;
+  mpfr_t r18;
+  mpfr_t r19;
+  mpfr_t r20;
+  mpfr_t r21;
+  mpfr_t twelve;
+  mpfr_t r22;
+  mpfr_t r23;
+  mpfr_t r24;
+  mpfr_t r25;
+  mpfr_t r26;
+  mpfr_t r27;
+  mpfr_t r28;
+  mpfr_t r29;
+  mpfr_t r30;
+  mpfr_t r31;
+  mpfr_t r32;
+  mpfr_t r33;
+  mpfr_t r34;
+  mpfr_t r35;
+  mpfr_t r36;
+  mpfr_t r37;
+  mpfr_t r38;
+  mpfr_t r39;
+  mpfr_t r40;
+  mpfr_t r41;
+  mpfr_t r42;
+  mpfr_t r43;
+  mpfr_t r44;
+  mpfr_t r45;
+  mpfr_t r46;
+  mpfr_t r47;
+  mpfr_t r48;
+  mpfr_t r49;
+  mpfr_t r50;
+  mpfr_t r51;
+  mpfr_t r52;
+  mpfr_t total;
   mpfr_inits2(PRECISION, pi, r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12,
               r13, r14, r15, r16, r17, r18, r19, r20, r21, r22, r23, r24, r25,
               r26, r27, r28, r29, r30, r31, r32, r33, r34, r35, r36, r37, r38,

@@ -5,6 +5,7 @@
 [![](https://github.com/acgetchell/CDT-plusplus/workflows/macOS/badge.svg?label=Actions)](https://github.com/acgetchell/CDT-plusplus/actions)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python)
+[![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)
 [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
@@ -171,6 +172,7 @@ is an unambiguous match to a longer one. The help message should be instructive:
 
 ~~~text
 ./build/src/cdt --help
+cdt started at 2021-08-08.20:18:58PDT
 Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2021 Adam Getchell
@@ -181,7 +183,9 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM]
+            [--init INITIAL] [--foliate FOLIATION] -k K --alpha ALPHA
+            --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
@@ -193,12 +197,16 @@ Options:
   -n SIMPLICES                Approximate number of simplices
   -t TIMESLICES               Number of timeslices
   -d DIM                      Dimensionality [default: 3]
+  -i --init INITIAL           Initial radius [default: 1]
+  --foliate FOLIATION         Foliation spacing between timeslices [default: 1]
   -a --alpha ALPHA            Negative squared geodesic length of 1-d
                               timelike edges
   -k K                        K = 1/(8*pi*G_newton)
   -l --lambda LAMBDA          K * Cosmological constant
   -p --passes PASSES          Number of passes [default: 100]
   -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]
+
+
 ~~~
 
 The dimensionality of the spacetime is such that each slice of spacetime is

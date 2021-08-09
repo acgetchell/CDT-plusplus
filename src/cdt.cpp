@@ -30,7 +30,9 @@ to the Metropolis algorithm. Specify the number of passes to control
 how much evolution is desired. Each pass attempts a number of ergodic
 moves equal to the number of simplices in the simulation.
 
-Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM] -k K --alpha ALPHA --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
+Usage:./cdt (--spherical | --toroidal) -n SIMPLICES -t TIMESLICES [-d DIM]
+            [--init INITIAL] [--foliate FOLIATION] -k K --alpha ALPHA
+            --lambda LAMBDA [-p PASSES] [-c CHECKPOINT]
 
 Examples:
 ./cdt --spherical -n 32000 -t 11 --alpha 0.6 -k 1.1 --lambda 0.1 --passes 1000
@@ -42,6 +44,8 @@ Options:
   -n SIMPLICES                Approximate number of simplices
   -t TIMESLICES               Number of timeslices
   -d DIM                      Dimensionality [default: 3]
+  -i --init INITIAL           Initial radius [default: 1]
+  --foliate FOLIATION         Foliation spacing between timeslices [default: 1]
   -a --alpha ALPHA            Negative squared geodesic length of 1-d
                               timelike edges
   -k K                        K = 1/(8*pi*G_newton)
@@ -80,8 +84,8 @@ try
   auto simplices  = stoll(args["-n"].asString());
   auto timeslices = stoll(args["-t"].asString());
   auto dimensions = stoll(args["-d"].asString());
-  //  auto initial_radius = stod(args["--init"].asString());
-  //  auto foliation_spacing = stod(args["--foliate"].asString());
+  auto initial_radius    = stod(args["--init"].asString());
+  auto foliation_spacing = stod(args["--foliate"].asString());
   auto alpha      = stold(args["--alpha"].asString());
   auto k          = stold(args["-k"].asString());
   auto lambda     = stold(args["--lambda"].asString());
@@ -99,6 +103,8 @@ try
   // Display job parameters
   fmt::print("Topology is {}\n", topology);
   fmt::print("Dimensionality: {}\n", dimensions);
+  fmt::print("Initial radius: {}\n", initial_radius);
+  fmt::print("Foliation spacing: {}\n", foliation_spacing);
   fmt::print("Number of desired simplices: {}\n", simplices);
   fmt::print("Number of desired timeslices: {}\n", timeslices);
   fmt::print("Number of passes: {}\n", passes);
@@ -137,7 +143,8 @@ try
       {
         manifolds::Manifold3 populated_universe(
             static_cast<Int_precision>(simplices),
-            static_cast<Int_precision>(timeslices));
+            static_cast<Int_precision>(timeslices), initial_radius,
+            foliation_spacing);
         // Manifold no-throw swapperator
         swap(universe, populated_universe);
       }
@@ -151,7 +158,7 @@ try
       t.stop();  // End running time counter
       throw invalid_argument("Toroidal triangulations not yet supported.");
     default:
-      throw logic_error("Simulation topology not parsed.");
+      throw domain_error("Simulation topology not parsed.");
   }
 
   // Look at triangulation
