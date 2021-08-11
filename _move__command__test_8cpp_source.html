@@ -206,7 +206,7 @@ $(function() {
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      <span class="keyword">auto</span>* move = <a class="code" href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a>;</div>
 <div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      THEN(<span class="stringliteral">&quot;Invoking apply_move() makes the move.&quot;</span>)</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      {</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a>(manifold, move);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;        <span class="keyword">auto</span> result = <a class="code" href="_apply__move_8hpp.html#afa97b1c614f34a78339d573d1ecb408e">apply_move</a>(manifold, move);</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        result-&gt;update();</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;                                        move_tracker::move_type::TWO_THREE));</div>
@@ -592,15 +592,15 @@ $(function() {
 <div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;  }</div>
 <div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_apply__move_8hpp_html_afcd4bb134ff666e245b652a3f0dd0db2"><div class="ttname"><a href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move) -&gt; decltype(auto)</div><div class="ttdoc">An applicative function similar to std::apply, but on manifolds.</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00030">Apply_move.hpp:30</a></div></div>
 <div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:20</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a2fe4a687edcecf9f672b1ae8d94d8446"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00076">Ergodic_moves_3.hpp:76</a></div></div>
 <div class="ttc" id="a_move__command_8hpp_html"><div class="ttname"><a href="_move__command_8hpp.html">Move_command.hpp</a></div><div class="ttdoc">Do ergodic moves using the Command pattern.</div></div>
+<div class="ttc" id="a_apply__move_8hpp_html_afa97b1c614f34a78339d573d1ecb408e"><div class="ttname"><a href="_apply__move_8hpp.html#afa97b1c614f34a78339d573d1ecb408e">apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move) -&gt; decltype(auto) try</div><div class="ttdoc">An applicative function similar to std::apply, but on manifolds.</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00029">Apply_move.hpp:29</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00058">Manifold.hpp:58</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 9 2021 21:48:43 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 11 2021 19:23:17 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
