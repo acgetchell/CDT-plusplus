@@ -7,7 +7,6 @@
 /// @file Apply_move.hpp
 /// @brief Apply Pachner moves to foliated Delaunay triangulations
 /// @author Adam Getchell
-/// @todo try-catch in constexpr functions (P1002R!) are in C++20
 
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
@@ -29,9 +28,14 @@ template <typename ManifoldType,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType&& t_move)
     -> decltype(auto)
+try
 {
   return std::invoke(std::forward<FunctionType>(t_move),
                      std::forward<ManifoldType>(t_manifold));
 }
-
+catch (...)
+{
+  constexpr auto* error = "Apply move failed.";
+  throw std::domain_error(error);
+}
 #endif  // CDT_PLUSPLUS_APPLY_MOVE_HPP

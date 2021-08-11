@@ -54,6 +54,5 @@ jobs:
       - name: Upload coverage to CodeCov
         uses: codecov/codecov-action@v2
         with:
-          directory: build
-          files: coverage.info
+          files: ./build/coverage.info
           verbose: true
