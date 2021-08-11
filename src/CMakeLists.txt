@@ -27,7 +27,7 @@ else()
             TBB::tbb
             CGAL::CGAL)
 endif()
-target_compile_features(initialize PRIVATE cxx_std_20)
+target_compile_features(initialize PRIVATE cxx_std_17)
 
 # add_executable(cdt-opt ${PROJECT_SOURCE_DIR}/src/cdt-opt.cpp) target_link_libraries( cdt-opt PRIVATE date::tz
 # date::date Catch2::Catch2 Eigen3::Eigen # TBB::tbb CGAL::CGAL) target_compile_features(cdt-opt PRIVATE cxx_std_17)
@@ -62,7 +62,7 @@ else()
             TBB::tbb
             CGAL::CGAL)
 endif()
-target_compile_features(cdt-opt PRIVATE cxx_std_20)
+target_compile_features(cdt-opt PRIVATE cxx_std_17)
 
 add_executable(cdt ${PROJECT_SOURCE_DIR}/src/cdt.cpp)
 if(WIN32)
@@ -90,7 +90,7 @@ else()
             TBB::tbb
             CGAL::CGAL)
 endif()
-target_compile_features(cdt PRIVATE cxx_std_20)
+target_compile_features(cdt PRIVATE cxx_std_17)
 
 #
 # Tests    ##
