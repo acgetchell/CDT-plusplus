@@ -107,22 +107,20 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:afa97b1c614f34a78339d573d1ecb408e"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </td></tr>
-<tr class="memitem:afa97b1c614f34a78339d573d1ecb408e"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#afa97b1c614f34a78339d573d1ecb408e">apply_move</a> (ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move) -&gt; decltype(auto) try</td></tr>
-<tr class="memdesc:afa97b1c614f34a78339d573d1ecb408e"><td class="mdescLeft">&#160;</td><td class="mdescRight">An applicative function similar to std::apply, but on manifolds.  <a href="_apply__move_8hpp.html#afa97b1c614f34a78339d573d1ecb408e">More...</a><br /></td></tr>
-<tr class="separator:afa97b1c614f34a78339d573d1ecb408e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1204fa6444ae7174767e202a6d39b815"><td class="memItemLeft" align="right" valign="top"><a id="a1204fa6444ae7174767e202a6d39b815"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>catch</b> (...)</td></tr>
-<tr class="separator:a1204fa6444ae7174767e202a6d39b815"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:afcd4bb134ff666e245b652a3f0dd0db2"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;ManifoldType, std::string&gt;, typename FunctionType  = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt; </td></tr>
+<tr class="memitem:afcd4bb134ff666e245b652a3f0dd0db2"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">apply_move</a> (ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move) -&gt; decltype(auto)</td></tr>
+<tr class="memdesc:afcd4bb134ff666e245b652a3f0dd0db2"><td class="mdescLeft">&#160;</td><td class="mdescRight">An applicative function similar to std::apply, but on manifolds.  <a href="_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2">More...</a><br /></td></tr>
+<tr class="separator:afcd4bb134ff666e245b652a3f0dd0db2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Apply Pachner moves to foliated Delaunay triangulations. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>try-catch in constexpr functions (P1002R!) are in C++20 </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="afa97b1c614f34a78339d573d1ecb408e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#afa97b1c614f34a78339d573d1ecb408e">&#9670;&nbsp;</a></span>apply_move()</h2>
+<a id="afcd4bb134ff666e245b652a3f0dd0db2"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#afcd4bb134ff666e245b652a3f0dd0db2">&#9670;&nbsp;</a></span>apply_move()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -148,7 +146,6 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
           <td></td>
           <td>)</td>
           <td></td><td> -&gt; decltype(auto)
-try
 </td>
         </tr>
       </table>
@@ -177,14 +174,14 @@ try
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The expected or unexpected result in a tl::expected&lt;T,E&gt; </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00029">29</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_apply__move_8hpp_source.html#l00030">30</a> of file <a class="el" href="_apply__move_8hpp_source.html">Apply_move.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 11 2021 19:23:17 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 11 2021 19:56:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
