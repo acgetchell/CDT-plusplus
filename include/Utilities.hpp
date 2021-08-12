@@ -49,6 +49,9 @@
 #include <fmt/format.h>
 #include <fmt/ostream.h>
 
+// G. Melman spdlog library
+#include "spdlog/spdlog.h"
+
 // Global project settings
 #include "Settings.hpp"
 

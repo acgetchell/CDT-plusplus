@@ -120,12 +120,12 @@ try
 }
 catch (invalid_argument const& InvalidArgument)
 {
-  fmt::print(cerr, "{}\n", InvalidArgument.what());
-  fmt::print(cerr, "Invalid parameter ... exiting.\n");
+  spdlog::error("{}\n", InvalidArgument.what());
+  spdlog::error("Invalid parameter ... Exiting.\n");
   return 1;
 }
 catch (...)
 {
-  fmt::print(cerr, "Something went wrong ... exiting.\n");
+  spdlog::error("Something went wrong ... Exiting.\n");
   return 1;
 }

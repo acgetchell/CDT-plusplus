@@ -31,6 +31,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [vcpkg] provides library management and building.
 [Doxygen] provides automated document generation.
 [{fmt}] provides a safe and fast alternative to `iostream`.
+[spdlog] provides fast, multi-threaded logging.
 [PVS-Studio] and [LGTM] provide commercial-grade static analysis and security checks.
 [CometML] provides machine learning for model building.
 
@@ -56,6 +57,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Use [{fmt}] library (instead of `iostream`)
 - [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
+- [x] Multi-threaded logging with [spdlog]
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
@@ -463,4 +465,5 @@ Optional:
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
+[spdlog]: https://github.com/gabime/spdlog
 [#5873]: https://github.com/CGAL/cgal/issues/5873

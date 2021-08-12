@@ -15,8 +15,6 @@
 /// ./cdt-opt 2>>errors 1>>output &
 /// @todo Print out graph of time-value vs. volume vs. pass number
 
-//#include <utility>
-
 #include <Metropolis.hpp>
 #include <Move_always.hpp>
 
@@ -51,8 +49,8 @@ auto main() -> int
 
   if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)
   {
-    fmt::print("You wanted {} timeslices, but only got {}.\n", timeslices,
-               max_timevalue);
+    spdlog::info("You wanted {} timeslices but only got {}.\n", timeslices,
+                 max_timevalue);
   }
 
   Ensures(result.is_valid());

@@ -12,6 +12,7 @@ if(WIN32)
             date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
+            spdlog::spdlog_header_only
             TBB::tbb
             CGAL::CGAL)
 else()
@@ -24,6 +25,7 @@ else()
             date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
+            spdlog::spdlog_header_only
             TBB::tbb
             CGAL::CGAL)
 endif()
@@ -47,6 +49,7 @@ if(WIN32)
             date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
+            spdlog::spdlog_header_only
             TBB::tbb
             CGAL::CGAL)
 else()
@@ -59,6 +62,7 @@ else()
             date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
+            spdlog::spdlog_header_only
             TBB::tbb
             CGAL::CGAL)
 endif()
@@ -75,6 +79,7 @@ if(WIN32)
             date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
+            spdlog::spdlog_header_only
             TBB::tbb
             CGAL::CGAL)
 else()
@@ -87,6 +92,7 @@ else()
             date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
+            spdlog::spdlog_header_only
             TBB::tbb
             CGAL::CGAL)
 endif()

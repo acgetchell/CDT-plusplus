@@ -9,6 +9,7 @@
     "ms-gsl",
     "eigen3",
     "pcg",
+    "spdlog",
     "tbb",
     "tl-expected",
     "tl-function-ref",

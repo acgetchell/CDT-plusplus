@@ -52,7 +52,6 @@ jobs:
           lcov --list coverage.info
 
       - name: Upload coverage to CodeCov
-        uses: codecov/codecov-action@v2
-        with:
-          files: ./build/coverage.info
-          verbose: true
+        run: |
+          cd $GITHUB_WORKSPACE/build
+          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"

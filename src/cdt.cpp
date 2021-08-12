@@ -194,24 +194,24 @@ try
 }
 catch (domain_error const& DomainError)
 {
-  cerr << DomainError.what() << "\n";
-  cerr << "Triangle inequalities violated ... Exiting.\n";
+  spdlog::error("{}\n", DomainError.what());
+  spdlog::error("Triangle inequalities violated ... Exiting.\n");
   return 1;
 }
 catch (invalid_argument const& InvalidArgument)
 {
-  cerr << InvalidArgument.what() << "\n";
-  cerr << "Invalid parameter ... Exiting.\n";
+  spdlog::error("{}\n", InvalidArgument.what());
+  spdlog::error("Invalid parameter ... Exiting.\n");
   return 1;
 }
 catch (logic_error const& LogicError)
 {
-  cerr << LogicError.what() << "\n";
-  cerr << "Simulation startup failed ... Exiting.\n";
+  spdlog::error("{}\n", LogicError.what());
+  spdlog::error("Simulation startup failed ... Exiting.\n");
   return 1;
 }
 catch (...)
 {
-  cerr << "Something went wrong ... Exiting.\n";
+  spdlog::error("Something went wrong ... Exiting.\n");
   return 1;
 }

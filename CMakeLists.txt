@@ -93,6 +93,9 @@ find_package(Microsoft.GSL CONFIG REQUIRED)
 # https://www.pcg-random.org
 find_path(PCG_INCLUDE_DIRS "pcg_extras.hpp")
 
+# https://github.com/gabime/spdlog
+find_package(spdlog CONFIG REQUIRED)
+
 # https://github.com/intel/tbb
 find_package(TBB CONFIG REQUIRED)
 
