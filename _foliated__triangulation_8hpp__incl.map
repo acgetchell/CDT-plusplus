@@ -1,7 +1,7 @@
 <map id="include/Foliated_triangulation.hpp" name="include/Foliated_triangulation.hpp">
-<area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="1332,5,1575,32"/>
+<area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="1380,5,1623,32"/>
 <area shape="rect" id="node2" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="689,80,863,107"/>
-<area shape="rect" id="node11" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2129,80,2231,107"/>
+<area shape="rect" id="node11" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2177,80,2279,107"/>
 <area shape="rect" id="node3" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1125,169,1227,196"/>
 <area shape="rect" id="node6" title=" " alt="" coords="5,169,245,196"/>
 <area shape="rect" id="node7" title=" " alt="" coords="270,155,442,211"/>
@@ -28,4 +28,5 @@
 <area shape="rect" id="node27" title=" " alt="" coords="2885,169,3016,196"/>
 <area shape="rect" id="node28" title=" " alt="" coords="3041,169,3146,196"/>
 <area shape="rect" id="node29" title=" " alt="" coords="3171,169,3285,196"/>
+<area shape="rect" id="node30" title=" " alt="" coords="3310,169,3434,196"/>
 </map>

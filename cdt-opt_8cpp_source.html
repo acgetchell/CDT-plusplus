@@ -84,56 +84,54 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment"> ******************************************************************************/</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160; </div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="comment">//#include &lt;utility&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160; </div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_metropolis_8hpp.html">Metropolis.hpp</a>&gt;</span></div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_move__always_8hpp.html">Move_always.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_metropolis_8hpp.html">Metropolis.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;<a class="code" href="_move__always_8hpp.html">Move_always.hpp</a>&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160; </div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160; </div>
-<div class="line"><a name="l00025"></a><span class="lineno"><a class="line" href="cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef">   25</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef">main</a>() -&gt; <span class="keywordtype">int</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;{</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  fmt::print(<span class="stringliteral">&quot;cdt-opt started at {}\n&quot;</span>, <a class="code" href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a>());</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> simplices  = 64;</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> timeslices = 3;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  constexpr <span class="keyword">auto</span> alpha = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span> const<span class="keyword">&gt;</span>(0.6);</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  constexpr <span class="keyword">auto</span> k     = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span> const<span class="keyword">&gt;</span>(1.1);</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  constexpr <span class="keyword">auto</span>          lambda     = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span> const<span class="keyword">&gt;</span>(0.1);</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> passes     = 10;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> checkpoint = 10;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160; </div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;  <span class="comment">// Initialize the Metropolis algorithm</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <a class="code" href="class_move_strategy.html">Metropolis3</a> run(alpha, k, lambda, passes, checkpoint);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="comment">// Make a triangulation</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> universe(simplices, timeslices);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <span class="comment">// Look at triangulation</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">print_details</a>();</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// Run algorithm on triangulation</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keyword">auto</span> result = run(universe);</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160; </div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;  <span class="keywordflow">if</span> (<span class="keyword">auto</span> max_timevalue = result.max_time(); max_timevalue &lt; timeslices)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;    fmt::print(<span class="stringliteral">&quot;You wanted {} timeslices, but only got {}.\n&quot;</span>, timeslices,</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;               max_timevalue);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00023"></a><span class="lineno"><a class="line" href="cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef">   23</a></span>&#160;<span class="keyword">auto</span> <a class="code" href="cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef">main</a>() -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  fmt::print(<span class="stringliteral">&quot;cdt-opt started at {}\n&quot;</span>, <a class="code" href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a>());</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> simplices  = 64;</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> timeslices = 3;</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;  constexpr <span class="keyword">auto</span> alpha = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span> const<span class="keyword">&gt;</span>(0.6);</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  constexpr <span class="keyword">auto</span> k     = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span> const<span class="keyword">&gt;</span>(1.1);</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  constexpr <span class="keyword">auto</span>          lambda     = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span> const<span class="keyword">&gt;</span>(0.1);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> passes     = 10;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;  constexpr <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> checkpoint = 10;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160; </div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;  <span class="comment">// Initialize the Metropolis algorithm</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;  <a class="code" href="class_move_strategy.html">Metropolis3</a> run(alpha, k, lambda, passes, checkpoint);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160; </div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;  <span class="comment">// Make a triangulation</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;  <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> universe(simplices, timeslices);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="comment">// Look at triangulation</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">print_details</a>();</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160; </div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  <span class="comment">// Run algorithm on triangulation</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="keyword">auto</span> result = run(universe);</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  <span class="keywordflow">if</span> (<span class="keyword">auto</span> max_timevalue = result.max_time(); max_timevalue &lt; timeslices)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    spdlog::info(<span class="stringliteral">&quot;You wanted {} timeslices but only got {}.\n&quot;</span>, timeslices,</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;                 max_timevalue);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160; </div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  Ensures(result.is_valid());</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  Ensures(result.is_valid());</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160; </div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="comment">// Print results</span></div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  fmt::print(<span class="stringliteral">&quot;=== Run Results ===\n&quot;</span>);</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  result.print();</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  result.print_details();</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  result.print_volume_per_timeslice();</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160; </div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  <span class="keywordflow">return</span> 0;</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;}</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="comment">// Print results</span></div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  fmt::print(<span class="stringliteral">&quot;=== Run Results ===\n&quot;</span>);</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  result.print();</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  result.print_details();</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  result.print_volume_per_timeslice();</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="keywordflow">return</span> 0;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="acdt-opt_8cpp_html_a8216c1645620cdb2f629cde3ac02ffef"><div class="ttname"><a href="cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef">main</a></div><div class="ttdeci">auto main() -&gt; int</div><div class="ttdef"><b>Definition:</b> <a href="cdt-opt_8cpp_source.html#l00025">cdt-opt.cpp:25</a></div></div>
+<div class="ttc" id="acdt-opt_8cpp_html_a8216c1645620cdb2f629cde3ac02ffef"><div class="ttname"><a href="cdt-opt_8cpp.html#a8216c1645620cdb2f629cde3ac02ffef">main</a></div><div class="ttdeci">auto main() -&gt; int</div><div class="ttdef"><b>Definition:</b> <a href="cdt-opt_8cpp_source.html#l00023">cdt-opt.cpp:23</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00383">Manifold.hpp:383</a></div></div>
 <div class="ttc" id="a_metropolis_8hpp_html"><div class="ttname"><a href="_metropolis_8hpp.html">Metropolis.hpp</a></div><div class="ttdoc">Perform Metropolis-Hastings algorithm on Delaunay Triangulations.</div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00356">Manifold.hpp:356</a></div></div>
@@ -142,10 +140,10 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 <div class="ttc" id="a_move__always_8hpp_html"><div class="ttname"><a href="_move__always_8hpp.html">Move_always.hpp</a></div><div class="ttdoc">Randomly selects moves to always perform on triangulations.</div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00058">Manifold.hpp:58</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aa19186e57b36341a554e2b650de915dd"><div class="ttname"><a href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a></div><div class="ttdeci">auto currentDateTime()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00086">Utilities.hpp:86</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aa19186e57b36341a554e2b650de915dd"><div class="ttname"><a href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a></div><div class="ttdeci">auto currentDateTime()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00089">Utilities.hpp:89</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 11 2021 19:56:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 12 2021 20:22:25 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

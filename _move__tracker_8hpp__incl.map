@@ -1,13 +1,13 @@
 <map id="include/Move_tracker.hpp" name="include/Move_tracker.hpp">
-<area shape="rect" id="node1" title="Track ergodic moves." alt="" coords="1534,5,1722,32"/>
-<area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1575,80,1681,107"/>
-<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1397,155,1510,181"/>
-<area shape="rect" id="node33" title=" " alt="" coords="1534,155,1605,181"/>
-<area shape="rect" id="node34" title=" " alt="" coords="1629,155,1744,181"/>
-<area shape="rect" id="node35" title=" " alt="" coords="1769,155,1829,181"/>
-<area shape="rect" id="node4" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1357,229,1549,256"/>
+<area shape="rect" id="node1" title="Track ergodic moves." alt="" coords="1582,5,1770,32"/>
+<area shape="rect" id="node2" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1623,80,1729,107"/>
+<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1445,155,1558,181"/>
+<area shape="rect" id="node34" title=" " alt="" coords="1582,155,1653,181"/>
+<area shape="rect" id="node35" title=" " alt="" coords="1677,155,1792,181"/>
+<area shape="rect" id="node36" title=" " alt="" coords="1817,155,1877,181"/>
+<area shape="rect" id="node4" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1405,229,1597,256"/>
 <area shape="rect" id="node5" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="689,304,863,331"/>
-<area shape="rect" id="node14" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2129,304,2231,331"/>
+<area shape="rect" id="node14" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2177,304,2279,331"/>
 <area shape="rect" id="node6" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1125,393,1227,420"/>
 <area shape="rect" id="node9" title=" " alt="" coords="5,393,245,420"/>
 <area shape="rect" id="node10" title=" " alt="" coords="270,379,442,435"/>
@@ -34,4 +34,5 @@
 <area shape="rect" id="node30" title=" " alt="" coords="2885,393,3016,420"/>
 <area shape="rect" id="node31" title=" " alt="" coords="3041,393,3146,420"/>
 <area shape="rect" id="node32" title=" " alt="" coords="3171,393,3285,420"/>
+<area shape="rect" id="node33" title=" " alt="" coords="3310,393,3434,420"/>
 </map>

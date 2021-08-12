@@ -82,7 +82,7 @@ Small foliated Delaunay triangulation</div></div>
    <h1><a class="anchor" id="autotoc_md1"></a>
 Introduction</h1>
 <p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> and <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
+<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multi-threaded logging. <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> and <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Goals</h1>
 <ul>
@@ -106,6 +106,7 @@ Goals</h1>
 <li>[x] Use <a href="https://github.com/fmtlib/fmt">{fmt}</a> library (instead of <code>iostream</code>)</li>
 <li>[x] Static code analysis with <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a></li>
 <li>[x] 3D Metropolis algorithm</li>
+<li>[x] Multi-threaded logging with <a href="https://github.com/gabime/spdlog">spdlog</a></li>
 <li>[ ] Output via <a href="https://www.hdfgroup.org">HDF5</a></li>
 <li>[ ] A <a href="https://doc.cgal.org/latest/Surface_mesher/index.html">Surface mesh</a> manifold of 3D Triangulation</li>
 <li>[ ] 4D Simplex</li>
@@ -298,7 +299,7 @@ Issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 11 2021 19:56:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 12 2021 20:22:25 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
