@@ -59,15 +59,15 @@ using Spherical_points_generator_t =
 enum class Cell_type
 {
   // 3D simplices
-  THREE_ONE = 31,  // (3,1)
-  TWO_TWO   = 22,  // (2,2)
-  ONE_THREE = 13,  // (1,3)
-                   // 4D simplices
-  FOUR_ONE  = 41,  // (4,1)
-  THREE_TWO = 32,  // (3,2)
-  TWO_THREE = 23,  // (2,3)
-  ONE_FOUR  = 14,  // (1,4)
-  ERROR     = 0    // An error happened classifying cell
+  THREE_ONE = 31,     // (3,1)
+  TWO_TWO   = 22,     // (2,2)
+  ONE_THREE = 13,     // (1,3)
+                      // 4D simplices
+  FOUR_ONE     = 41,  // (4,1)
+  THREE_TWO    = 32,  // (3,2)
+  TWO_THREE    = 23,  // (2,3)
+  ONE_FOUR     = 14,  // (1,4)
+  UNCLASSIFIED = 0    // An error happened classifying cell
 };
 
 namespace foliated_triangulations
@@ -211,7 +211,7 @@ namespace foliated_triangulations
     auto maxtime = *maxtime_ref;
     auto mintime = *mintime_ref;
     // A properly foliated simplex should have a timevalue difference of 1
-    if (maxtime - mintime != 1) { return Cell_type::ERROR; }
+    if (maxtime - mintime != 1) { return Cell_type::UNCLASSIFIED; }
     std::multiset<int> const timevalues{vertex_timevalues.begin(),
                                         vertex_timevalues.end()};
     auto               max_vertices = timevalues.count(maxtime);
@@ -231,16 +231,16 @@ namespace foliated_triangulations
     // If we got here, there's some kind of error
     if (t_debug_flag)
     {
-      fmt::print("This simplex has an error.\n");
-      fmt::print("Max timevalue is {}\n", maxtime);
-      fmt::print("There are {} vertices with the max timevalue.\n",
-                 max_vertices);
-      fmt::print("Min timevalue is {}\n", mintime);
-      fmt::print("There are {} vertices with the min timevalue.\n",
-                 min_vertices);
-      fmt::print("--\n");
+      spdlog::error("This simplex has an error:\n");
+      spdlog::error("Max timevalue is {} and min timevalue is {}.\n", maxtime,
+                    mintime);
+      spdlog::error(
+          "There are {} vertices with the max timevalue and {} vertices with "
+          "the min timevalue.\n",
+          max_vertices, min_vertices);
+      spdlog::error("--\n");
     }
-    return Cell_type::ERROR;
+    return Cell_type::UNCLASSIFIED;
   }  // expected_cell_type
 
   /// @tparam dimension The dimensionality of the simplices
@@ -251,7 +251,7 @@ namespace foliated_triangulations
       Cell_handle_t<dimension> const& t_cell) -> bool
   {
     auto cell_type = expected_cell_type<dimension>(t_cell);
-    return cell_type != Cell_type::ERROR &&
+    return cell_type != Cell_type::UNCLASSIFIED &&
            cell_type == static_cast<Cell_type>(t_cell->info());
   }  // is_cell_type_correct
 
@@ -376,14 +376,14 @@ namespace foliated_triangulations
       {
         if (t_debug_flag)
         {
-          fmt::print("Facet is spacelike on timevalue {}.\n",
-                     *facet_timevalues.begin());
+          spdlog::info("Facet is spacelike on timevalue {}.\n",
+                       *facet_timevalues.begin());
         }
         space_faces.insert({*facet_timevalues.begin(), face});
       }
       else
       {
-        if (t_debug_flag) { fmt::print("Facet is timelike.\n"); }
+        if (t_debug_flag) { spdlog::info("Facet is timelike.\n"); }
       }
     }
     return space_faces;
@@ -1180,8 +1180,6 @@ namespace foliated_triangulations
     }
 
    private:
-
-
     /// @return Container of all the finite simplices in the triangulation
     [[nodiscard]] auto collect_cells() const -> std::vector<Cell_handle_t<3>>
     {
