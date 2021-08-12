@@ -125,15 +125,15 @@ $(function() {
 <div class="line"><a name="l00059"></a><span class="lineno"><a class="line" href="_foliated__triangulation_8hpp.html#a73e46a0d9bc77f21cc68798c73282a1e">   59</a></span>&#160;<span class="keyword">enum class</span> <a class="code" href="_foliated__triangulation_8hpp.html#a73e46a0d9bc77f21cc68798c73282a1e">Cell_type</a></div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;{</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="comment">// 3D simplices</span></div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  THREE_ONE = 31,  <span class="comment">// (3,1)</span></div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  TWO_TWO   = 22,  <span class="comment">// (2,2)</span></div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  ONE_THREE = 13,  <span class="comment">// (1,3)</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                   <span class="comment">// 4D simplices</span></div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  FOUR_ONE  = 41,  <span class="comment">// (4,1)</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  THREE_TWO = 32,  <span class="comment">// (3,2)</span></div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  TWO_THREE = 23,  <span class="comment">// (2,3)</span></div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  ONE_FOUR  = 14,  <span class="comment">// (1,4)</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  ERROR     = 0    <span class="comment">// An error happened classifying cell</span></div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  THREE_ONE = 31,     <span class="comment">// (3,1)</span></div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;  TWO_TWO   = 22,     <span class="comment">// (2,2)</span></div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  ONE_THREE = 13,     <span class="comment">// (1,3)</span></div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;                      <span class="comment">// 4D simplices</span></div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  FOUR_ONE     = 41,  <span class="comment">// (4,1)</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  THREE_TWO    = 32,  <span class="comment">// (3,2)</span></div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  TWO_THREE    = 23,  <span class="comment">// (2,3)</span></div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  ONE_FOUR     = 14,  <span class="comment">// (1,4)</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  UNCLASSIFIED = 0    <span class="comment">// An error happened classifying cell</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;};</div>
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<span class="keyword">namespace </span>foliated_triangulations</div>
@@ -247,7 +247,7 @@ $(function() {
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keyword">auto</span> maxtime = *maxtime_ref;</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;    <span class="keyword">auto</span> mintime = *mintime_ref;</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;    <span class="comment">// A properly foliated simplex should have a timevalue difference of 1</span></div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> (maxtime - mintime != 1) { <span class="keywordflow">return</span> Cell_type::ERROR; }</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;    <span class="keywordflow">if</span> (maxtime - mintime != 1) { <span class="keywordflow">return</span> Cell_type::UNCLASSIFIED; }</div>
 <div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;    std::multiset&lt;int&gt; <span class="keyword">const</span> timevalues{vertex_timevalues.begin(),</div>
 <div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                                        vertex_timevalues.end()};</div>
 <div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keyword">auto</span>               max_vertices = timevalues.count(maxtime);</div>
@@ -267,16 +267,16 @@ $(function() {
 <div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="comment">// If we got here, there&#39;s some kind of error</span></div>
 <div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;    <span class="keywordflow">if</span> (t_debug_flag)</div>
 <div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    {</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;      fmt::print(<span class="stringliteral">&quot;This simplex has an error.\n&quot;</span>);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      fmt::print(<span class="stringliteral">&quot;Max timevalue is {}\n&quot;</span>, maxtime);</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      fmt::print(<span class="stringliteral">&quot;There are {} vertices with the max timevalue.\n&quot;</span>,</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;                 max_vertices);</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      fmt::print(<span class="stringliteral">&quot;Min timevalue is {}\n&quot;</span>, mintime);</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      fmt::print(<span class="stringliteral">&quot;There are {} vertices with the min timevalue.\n&quot;</span>,</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;                 min_vertices);</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      fmt::print(<span class="stringliteral">&quot;--\n&quot;</span>);</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;      spdlog::error(<span class="stringliteral">&quot;This simplex has an error:\n&quot;</span>);</div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      spdlog::error(<span class="stringliteral">&quot;Max timevalue is {} and min timevalue is {}.\n&quot;</span>, maxtime,</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;                    mintime);</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;      spdlog::error(</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;          <span class="stringliteral">&quot;There are {} vertices with the max timevalue and {} vertices with &quot;</span></div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;          <span class="stringliteral">&quot;the min timevalue.\n&quot;</span>,</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;          max_vertices, min_vertices);</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      spdlog::error(<span class="stringliteral">&quot;--\n&quot;</span>);</div>
 <div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;    }</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">return</span> Cell_type::ERROR;</div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;    <span class="keywordflow">return</span> Cell_type::UNCLASSIFIED;</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;  }  <span class="comment">// expected_cell_type</span></div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160; </div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keyword">template</span> &lt;<span class="keywordtype">int</span> dimension&gt;</div>
@@ -284,7 +284,7 @@ $(function() {
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      Cell_handle_t&lt;dimension&gt; <span class="keyword">const</span>&amp; t_cell) -&gt; <span class="keywordtype">bool</span></div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  {</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keyword">auto</span> cell_type = expected_cell_type&lt;dimension&gt;(t_cell);</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordflow">return</span> cell_type != Cell_type::ERROR &amp;&amp;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    <span class="keywordflow">return</span> cell_type != Cell_type::UNCLASSIFIED &amp;&amp;</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;           cell_type == <span class="keyword">static_cast&lt;</span><a class="code" href="_foliated__triangulation_8hpp.html#a73e46a0d9bc77f21cc68798c73282a1e">Cell_type</a><span class="keyword">&gt;</span>(t_cell-&gt;info());</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  }  <span class="comment">// is_cell_type_correct</span></div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
@@ -383,14 +383,14 @@ $(function() {
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;      {</div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="keywordflow">if</span> (t_debug_flag)</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        {</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;          fmt::print(<span class="stringliteral">&quot;Facet is spacelike on timevalue {}.\n&quot;</span>,</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                     *facet_timevalues.begin());</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;          spdlog::info(<span class="stringliteral">&quot;Facet is spacelike on timevalue {}.\n&quot;</span>,</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;                       *facet_timevalues.begin());</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        }</div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        space_faces.insert({*facet_timevalues.begin(), face});</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;      }</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;      <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;      {</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">if</span> (t_debug_flag) { fmt::print(<span class="stringliteral">&quot;Facet is timelike.\n&quot;</span>); }</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;        <span class="keywordflow">if</span> (t_debug_flag) { spdlog::info(<span class="stringliteral">&quot;Facet is timelike.\n&quot;</span>); }</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;      }</div>
 <div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    }</div>
 <div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="keywordflow">return</span> space_faces;</div>
@@ -1003,103 +1003,101 @@ $(function() {
 <div class="line"><a name="l01180"></a><span class="lineno"> 1180</span>&#160;    }</div>
 <div class="line"><a name="l01181"></a><span class="lineno"> 1181</span>&#160; </div>
 <div class="line"><a name="l01182"></a><span class="lineno"> 1182</span>&#160;   <span class="keyword">private</span>:</div>
-<div class="line"><a name="l01183"></a><span class="lineno"> 1183</span>&#160; </div>
-<div class="line"><a name="l01184"></a><span class="lineno"> 1184</span>&#160; </div>
-<div class="line"><a name="l01186"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c"> 1186</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c">collect_cells</a>() const -&gt; std::vector&lt;Cell_handle_t&lt;3&gt;&gt;</div>
-<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;    {</div>
-<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;      Expects(this-&gt;is_tds_valid());</div>
-<div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160;      std::vector&lt;Cell_handle_t&lt;3&gt;&gt; init_cells;</div>
-<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;      init_cells.reserve(number_of_finite_cells());</div>
-<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160; </div>
-<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> cit = get_delaunay().finite_cells_begin();</div>
-<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;           cit != get_delaunay().finite_cells_end(); ++cit)</div>
-<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;      {</div>
-<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;        <span class="comment">// Each cell is valid in the triangulation</span></div>
-<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;        Ensures(get_delaunay().tds().is_cell(cit));</div>
-<div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;        init_cells.emplace_back(cit);</div>
-<div class="line"><a name="l01198"></a><span class="lineno"> 1198</span>&#160;      }</div>
-<div class="line"><a name="l01199"></a><span class="lineno"> 1199</span>&#160;      Ensures(init_cells.size() == number_of_finite_cells());</div>
-<div class="line"><a name="l01200"></a><span class="lineno"> 1200</span>&#160;      <span class="keywordflow">return</span> init_cells;</div>
-<div class="line"><a name="l01201"></a><span class="lineno"> 1201</span>&#160;    }  <span class="comment">// collect_cells</span></div>
-<div class="line"><a name="l01202"></a><span class="lineno"> 1202</span>&#160; </div>
-<div class="line"><a name="l01207"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d"> 1207</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d">classify_cells</a>(</div>
-<div class="line"><a name="l01208"></a><span class="lineno"> 1208</span>&#160;        std::vector&lt;Cell_handle_t&lt;3&gt;&gt; <span class="keyword">const</span>&amp; cells,</div>
-<div class="line"><a name="l01209"></a><span class="lineno"> 1209</span>&#160;        <span class="keywordtype">bool</span> <span class="keyword">const</span> t_debug_flag = <span class="keyword">false</span>) const -&gt; std::vector&lt;Cell_handle_t&lt;3&gt;&gt;</div>
-<div class="line"><a name="l01210"></a><span class="lineno"> 1210</span>&#160;    {</div>
-<div class="line"><a name="l01211"></a><span class="lineno"> 1211</span>&#160;      Expects(cells.size() == number_of_finite_cells());</div>
-<div class="line"><a name="l01212"></a><span class="lineno"> 1212</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c : cells)</div>
-<div class="line"><a name="l01213"></a><span class="lineno"> 1213</span>&#160;      {</div>
-<div class="line"><a name="l01214"></a><span class="lineno"> 1214</span>&#160;        c-&gt;info() = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(expected_cell_type&lt;3&gt;(c, t_debug_flag));</div>
-<div class="line"><a name="l01215"></a><span class="lineno"> 1215</span>&#160;      }</div>
-<div class="line"><a name="l01216"></a><span class="lineno"> 1216</span>&#160;      <span class="keywordflow">return</span> cells;</div>
-<div class="line"><a name="l01217"></a><span class="lineno"> 1217</span>&#160;    }  <span class="comment">// classify_cells</span></div>
-<div class="line"><a name="l01218"></a><span class="lineno"> 1218</span>&#160; </div>
-<div class="line"><a name="l01220"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8"> 1220</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8">collect_faces</a>() const -&gt; std::vector&lt;Face_handle_t&lt;3&gt;&gt;</div>
-<div class="line"><a name="l01221"></a><span class="lineno"> 1221</span>&#160;    {</div>
-<div class="line"><a name="l01222"></a><span class="lineno"> 1222</span>&#160;      Expects(is_tds_valid());</div>
-<div class="line"><a name="l01223"></a><span class="lineno"> 1223</span>&#160;      std::vector&lt;Face_handle_t&lt;3&gt;&gt; init_faces;</div>
-<div class="line"><a name="l01224"></a><span class="lineno"> 1224</span>&#160;      init_faces.reserve(get_delaunay().number_of_finite_facets());</div>
-<div class="line"><a name="l01225"></a><span class="lineno"> 1225</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> fit = get_delaunay().finite_facets_begin();</div>
-<div class="line"><a name="l01226"></a><span class="lineno"> 1226</span>&#160;           fit != get_delaunay().finite_facets_end(); ++fit)</div>
-<div class="line"><a name="l01227"></a><span class="lineno"> 1227</span>&#160;      {</div>
-<div class="line"><a name="l01228"></a><span class="lineno"> 1228</span>&#160;        Cell_handle_t&lt;3&gt; ch = fit-&gt;first;</div>
-<div class="line"><a name="l01229"></a><span class="lineno"> 1229</span>&#160;        <span class="comment">// Each face is valid in the triangulation</span></div>
-<div class="line"><a name="l01230"></a><span class="lineno"> 1230</span>&#160;        Ensures(get_delaunay().tds().is_facet(ch, fit-&gt;second));</div>
-<div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;        Face_handle_t&lt;3&gt; thisFacet{std::make_pair(ch, fit-&gt;second)};</div>
-<div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160;        init_faces.emplace_back(thisFacet);</div>
-<div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;      }</div>
-<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;      Ensures(init_faces.size() == get_delaunay().number_of_finite_facets());</div>
-<div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160;      <span class="keywordflow">return</span> init_faces;</div>
-<div class="line"><a name="l01236"></a><span class="lineno"> 1236</span>&#160;    }  <span class="comment">// collect_faces</span></div>
-<div class="line"><a name="l01237"></a><span class="lineno"> 1237</span>&#160; </div>
-<div class="line"><a name="l01239"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788"> 1239</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788">collect_edges</a>() const -&gt; std::vector&lt;Edge_handle_t&lt;3&gt;&gt;</div>
-<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;    {</div>
-<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;      Expects(is_tds_valid());</div>
-<div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;      std::vector&lt;Edge_handle_t&lt;3&gt;&gt; init_edges;</div>
-<div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;      init_edges.reserve(number_of_finite_edges());</div>
-<div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> eit = get_delaunay().finite_edges_begin();</div>
-<div class="line"><a name="l01245"></a><span class="lineno"> 1245</span>&#160;           eit != get_delaunay().finite_edges_end(); ++eit)</div>
-<div class="line"><a name="l01246"></a><span class="lineno"> 1246</span>&#160;      {</div>
-<div class="line"><a name="l01247"></a><span class="lineno"> 1247</span>&#160;        Cell_handle_t&lt;3&gt; <span class="keyword">const</span> ch = eit-&gt;first;</div>
-<div class="line"><a name="l01248"></a><span class="lineno"> 1248</span>&#160;        Edge_handle_t&lt;3&gt; thisEdge{ch, ch-&gt;index(ch-&gt;vertex(eit-&gt;second)),</div>
-<div class="line"><a name="l01249"></a><span class="lineno"> 1249</span>&#160;                                  ch-&gt;index(ch-&gt;vertex(eit-&gt;third))};</div>
-<div class="line"><a name="l01250"></a><span class="lineno"> 1250</span>&#160;        <span class="comment">// Each edge is valid in the triangulation</span></div>
-<div class="line"><a name="l01251"></a><span class="lineno"> 1251</span>&#160;        Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,</div>
-<div class="line"><a name="l01252"></a><span class="lineno"> 1252</span>&#160;                                              thisEdge.third));</div>
-<div class="line"><a name="l01253"></a><span class="lineno"> 1253</span>&#160;        init_edges.emplace_back(thisEdge);</div>
-<div class="line"><a name="l01254"></a><span class="lineno"> 1254</span>&#160;      }</div>
-<div class="line"><a name="l01255"></a><span class="lineno"> 1255</span>&#160;      Ensures(init_edges.size() == number_of_finite_edges());</div>
-<div class="line"><a name="l01256"></a><span class="lineno"> 1256</span>&#160;      <span class="keywordflow">return</span> init_edges;</div>
-<div class="line"><a name="l01257"></a><span class="lineno"> 1257</span>&#160;    }  <span class="comment">// collect_edges</span></div>
-<div class="line"><a name="l01258"></a><span class="lineno"> 1258</span>&#160; </div>
-<div class="line"><a name="l01260"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828"> 1260</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828">collect_vertices</a>() const</div>
-<div class="line"><a name="l01261"></a><span class="lineno"> 1261</span>&#160;        -&gt; std::vector&lt;Vertex_handle_t&lt;3&gt;&gt;</div>
-<div class="line"><a name="l01262"></a><span class="lineno"> 1262</span>&#160;    {</div>
-<div class="line"><a name="l01263"></a><span class="lineno"> 1263</span>&#160;      Expects(is_tds_valid());</div>
-<div class="line"><a name="l01264"></a><span class="lineno"> 1264</span>&#160;      std::vector&lt;Vertex_handle_t&lt;3&gt;&gt; init_vertices;</div>
-<div class="line"><a name="l01265"></a><span class="lineno"> 1265</span>&#160;      init_vertices.reserve(get_delaunay().number_of_vertices());</div>
-<div class="line"><a name="l01266"></a><span class="lineno"> 1266</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> vit = get_delaunay().finite_vertices_begin();</div>
-<div class="line"><a name="l01267"></a><span class="lineno"> 1267</span>&#160;           vit != get_delaunay().finite_vertices_end(); ++vit)</div>
-<div class="line"><a name="l01268"></a><span class="lineno"> 1268</span>&#160;      {  <span class="comment">// Each vertex is valid in the triangulation</span></div>
-<div class="line"><a name="l01269"></a><span class="lineno"> 1269</span>&#160;        Ensures(get_delaunay().tds().is_vertex(vit));</div>
-<div class="line"><a name="l01270"></a><span class="lineno"> 1270</span>&#160;        init_vertices.emplace_back(vit);</div>
-<div class="line"><a name="l01271"></a><span class="lineno"> 1271</span>&#160;      }</div>
-<div class="line"><a name="l01272"></a><span class="lineno"> 1272</span>&#160;      Ensures(init_vertices.size() == get_delaunay().number_of_vertices());</div>
-<div class="line"><a name="l01273"></a><span class="lineno"> 1273</span>&#160;      <span class="keywordflow">return</span> init_vertices;</div>
-<div class="line"><a name="l01274"></a><span class="lineno"> 1274</span>&#160;    }  <span class="comment">// collect_vertices</span></div>
-<div class="line"><a name="l01275"></a><span class="lineno"> 1275</span>&#160;  };</div>
+<div class="line"><a name="l01184"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c"> 1184</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c">collect_cells</a>() const -&gt; std::vector&lt;Cell_handle_t&lt;3&gt;&gt;</div>
+<div class="line"><a name="l01185"></a><span class="lineno"> 1185</span>&#160;    {</div>
+<div class="line"><a name="l01186"></a><span class="lineno"> 1186</span>&#160;      Expects(this-&gt;is_tds_valid());</div>
+<div class="line"><a name="l01187"></a><span class="lineno"> 1187</span>&#160;      std::vector&lt;Cell_handle_t&lt;3&gt;&gt; init_cells;</div>
+<div class="line"><a name="l01188"></a><span class="lineno"> 1188</span>&#160;      init_cells.reserve(number_of_finite_cells());</div>
+<div class="line"><a name="l01189"></a><span class="lineno"> 1189</span>&#160; </div>
+<div class="line"><a name="l01190"></a><span class="lineno"> 1190</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> cit = get_delaunay().finite_cells_begin();</div>
+<div class="line"><a name="l01191"></a><span class="lineno"> 1191</span>&#160;           cit != get_delaunay().finite_cells_end(); ++cit)</div>
+<div class="line"><a name="l01192"></a><span class="lineno"> 1192</span>&#160;      {</div>
+<div class="line"><a name="l01193"></a><span class="lineno"> 1193</span>&#160;        <span class="comment">// Each cell is valid in the triangulation</span></div>
+<div class="line"><a name="l01194"></a><span class="lineno"> 1194</span>&#160;        Ensures(get_delaunay().tds().is_cell(cit));</div>
+<div class="line"><a name="l01195"></a><span class="lineno"> 1195</span>&#160;        init_cells.emplace_back(cit);</div>
+<div class="line"><a name="l01196"></a><span class="lineno"> 1196</span>&#160;      }</div>
+<div class="line"><a name="l01197"></a><span class="lineno"> 1197</span>&#160;      Ensures(init_cells.size() == number_of_finite_cells());</div>
+<div class="line"><a name="l01198"></a><span class="lineno"> 1198</span>&#160;      <span class="keywordflow">return</span> init_cells;</div>
+<div class="line"><a name="l01199"></a><span class="lineno"> 1199</span>&#160;    }  <span class="comment">// collect_cells</span></div>
+<div class="line"><a name="l01200"></a><span class="lineno"> 1200</span>&#160; </div>
+<div class="line"><a name="l01205"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d"> 1205</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d">classify_cells</a>(</div>
+<div class="line"><a name="l01206"></a><span class="lineno"> 1206</span>&#160;        std::vector&lt;Cell_handle_t&lt;3&gt;&gt; <span class="keyword">const</span>&amp; cells,</div>
+<div class="line"><a name="l01207"></a><span class="lineno"> 1207</span>&#160;        <span class="keywordtype">bool</span> <span class="keyword">const</span> t_debug_flag = <span class="keyword">false</span>) const -&gt; std::vector&lt;Cell_handle_t&lt;3&gt;&gt;</div>
+<div class="line"><a name="l01208"></a><span class="lineno"> 1208</span>&#160;    {</div>
+<div class="line"><a name="l01209"></a><span class="lineno"> 1209</span>&#160;      Expects(cells.size() == number_of_finite_cells());</div>
+<div class="line"><a name="l01210"></a><span class="lineno"> 1210</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; c : cells)</div>
+<div class="line"><a name="l01211"></a><span class="lineno"> 1211</span>&#160;      {</div>
+<div class="line"><a name="l01212"></a><span class="lineno"> 1212</span>&#160;        c-&gt;info() = <span class="keyword">static_cast&lt;</span><span class="keywordtype">int</span><span class="keyword">&gt;</span>(expected_cell_type&lt;3&gt;(c, t_debug_flag));</div>
+<div class="line"><a name="l01213"></a><span class="lineno"> 1213</span>&#160;      }</div>
+<div class="line"><a name="l01214"></a><span class="lineno"> 1214</span>&#160;      <span class="keywordflow">return</span> cells;</div>
+<div class="line"><a name="l01215"></a><span class="lineno"> 1215</span>&#160;    }  <span class="comment">// classify_cells</span></div>
+<div class="line"><a name="l01216"></a><span class="lineno"> 1216</span>&#160; </div>
+<div class="line"><a name="l01218"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8"> 1218</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8">collect_faces</a>() const -&gt; std::vector&lt;Face_handle_t&lt;3&gt;&gt;</div>
+<div class="line"><a name="l01219"></a><span class="lineno"> 1219</span>&#160;    {</div>
+<div class="line"><a name="l01220"></a><span class="lineno"> 1220</span>&#160;      Expects(is_tds_valid());</div>
+<div class="line"><a name="l01221"></a><span class="lineno"> 1221</span>&#160;      std::vector&lt;Face_handle_t&lt;3&gt;&gt; init_faces;</div>
+<div class="line"><a name="l01222"></a><span class="lineno"> 1222</span>&#160;      init_faces.reserve(get_delaunay().number_of_finite_facets());</div>
+<div class="line"><a name="l01223"></a><span class="lineno"> 1223</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> fit = get_delaunay().finite_facets_begin();</div>
+<div class="line"><a name="l01224"></a><span class="lineno"> 1224</span>&#160;           fit != get_delaunay().finite_facets_end(); ++fit)</div>
+<div class="line"><a name="l01225"></a><span class="lineno"> 1225</span>&#160;      {</div>
+<div class="line"><a name="l01226"></a><span class="lineno"> 1226</span>&#160;        Cell_handle_t&lt;3&gt; ch = fit-&gt;first;</div>
+<div class="line"><a name="l01227"></a><span class="lineno"> 1227</span>&#160;        <span class="comment">// Each face is valid in the triangulation</span></div>
+<div class="line"><a name="l01228"></a><span class="lineno"> 1228</span>&#160;        Ensures(get_delaunay().tds().is_facet(ch, fit-&gt;second));</div>
+<div class="line"><a name="l01229"></a><span class="lineno"> 1229</span>&#160;        Face_handle_t&lt;3&gt; thisFacet{std::make_pair(ch, fit-&gt;second)};</div>
+<div class="line"><a name="l01230"></a><span class="lineno"> 1230</span>&#160;        init_faces.emplace_back(thisFacet);</div>
+<div class="line"><a name="l01231"></a><span class="lineno"> 1231</span>&#160;      }</div>
+<div class="line"><a name="l01232"></a><span class="lineno"> 1232</span>&#160;      Ensures(init_faces.size() == get_delaunay().number_of_finite_facets());</div>
+<div class="line"><a name="l01233"></a><span class="lineno"> 1233</span>&#160;      <span class="keywordflow">return</span> init_faces;</div>
+<div class="line"><a name="l01234"></a><span class="lineno"> 1234</span>&#160;    }  <span class="comment">// collect_faces</span></div>
+<div class="line"><a name="l01235"></a><span class="lineno"> 1235</span>&#160; </div>
+<div class="line"><a name="l01237"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788"> 1237</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788">collect_edges</a>() const -&gt; std::vector&lt;Edge_handle_t&lt;3&gt;&gt;</div>
+<div class="line"><a name="l01238"></a><span class="lineno"> 1238</span>&#160;    {</div>
+<div class="line"><a name="l01239"></a><span class="lineno"> 1239</span>&#160;      Expects(is_tds_valid());</div>
+<div class="line"><a name="l01240"></a><span class="lineno"> 1240</span>&#160;      std::vector&lt;Edge_handle_t&lt;3&gt;&gt; init_edges;</div>
+<div class="line"><a name="l01241"></a><span class="lineno"> 1241</span>&#160;      init_edges.reserve(number_of_finite_edges());</div>
+<div class="line"><a name="l01242"></a><span class="lineno"> 1242</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> eit = get_delaunay().finite_edges_begin();</div>
+<div class="line"><a name="l01243"></a><span class="lineno"> 1243</span>&#160;           eit != get_delaunay().finite_edges_end(); ++eit)</div>
+<div class="line"><a name="l01244"></a><span class="lineno"> 1244</span>&#160;      {</div>
+<div class="line"><a name="l01245"></a><span class="lineno"> 1245</span>&#160;        Cell_handle_t&lt;3&gt; <span class="keyword">const</span> ch = eit-&gt;first;</div>
+<div class="line"><a name="l01246"></a><span class="lineno"> 1246</span>&#160;        Edge_handle_t&lt;3&gt; thisEdge{ch, ch-&gt;index(ch-&gt;vertex(eit-&gt;second)),</div>
+<div class="line"><a name="l01247"></a><span class="lineno"> 1247</span>&#160;                                  ch-&gt;index(ch-&gt;vertex(eit-&gt;third))};</div>
+<div class="line"><a name="l01248"></a><span class="lineno"> 1248</span>&#160;        <span class="comment">// Each edge is valid in the triangulation</span></div>
+<div class="line"><a name="l01249"></a><span class="lineno"> 1249</span>&#160;        Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,</div>
+<div class="line"><a name="l01250"></a><span class="lineno"> 1250</span>&#160;                                              thisEdge.third));</div>
+<div class="line"><a name="l01251"></a><span class="lineno"> 1251</span>&#160;        init_edges.emplace_back(thisEdge);</div>
+<div class="line"><a name="l01252"></a><span class="lineno"> 1252</span>&#160;      }</div>
+<div class="line"><a name="l01253"></a><span class="lineno"> 1253</span>&#160;      Ensures(init_edges.size() == number_of_finite_edges());</div>
+<div class="line"><a name="l01254"></a><span class="lineno"> 1254</span>&#160;      <span class="keywordflow">return</span> init_edges;</div>
+<div class="line"><a name="l01255"></a><span class="lineno"> 1255</span>&#160;    }  <span class="comment">// collect_edges</span></div>
+<div class="line"><a name="l01256"></a><span class="lineno"> 1256</span>&#160; </div>
+<div class="line"><a name="l01258"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828"> 1258</a></span>&#160;    [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828">collect_vertices</a>() const</div>
+<div class="line"><a name="l01259"></a><span class="lineno"> 1259</span>&#160;        -&gt; std::vector&lt;Vertex_handle_t&lt;3&gt;&gt;</div>
+<div class="line"><a name="l01260"></a><span class="lineno"> 1260</span>&#160;    {</div>
+<div class="line"><a name="l01261"></a><span class="lineno"> 1261</span>&#160;      Expects(is_tds_valid());</div>
+<div class="line"><a name="l01262"></a><span class="lineno"> 1262</span>&#160;      std::vector&lt;Vertex_handle_t&lt;3&gt;&gt; init_vertices;</div>
+<div class="line"><a name="l01263"></a><span class="lineno"> 1263</span>&#160;      init_vertices.reserve(get_delaunay().number_of_vertices());</div>
+<div class="line"><a name="l01264"></a><span class="lineno"> 1264</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> vit = get_delaunay().finite_vertices_begin();</div>
+<div class="line"><a name="l01265"></a><span class="lineno"> 1265</span>&#160;           vit != get_delaunay().finite_vertices_end(); ++vit)</div>
+<div class="line"><a name="l01266"></a><span class="lineno"> 1266</span>&#160;      {  <span class="comment">// Each vertex is valid in the triangulation</span></div>
+<div class="line"><a name="l01267"></a><span class="lineno"> 1267</span>&#160;        Ensures(get_delaunay().tds().is_vertex(vit));</div>
+<div class="line"><a name="l01268"></a><span class="lineno"> 1268</span>&#160;        init_vertices.emplace_back(vit);</div>
+<div class="line"><a name="l01269"></a><span class="lineno"> 1269</span>&#160;      }</div>
+<div class="line"><a name="l01270"></a><span class="lineno"> 1270</span>&#160;      Ensures(init_vertices.size() == get_delaunay().number_of_vertices());</div>
+<div class="line"><a name="l01271"></a><span class="lineno"> 1271</span>&#160;      <span class="keywordflow">return</span> init_vertices;</div>
+<div class="line"><a name="l01272"></a><span class="lineno"> 1272</span>&#160;    }  <span class="comment">// collect_vertices</span></div>
+<div class="line"><a name="l01273"></a><span class="lineno"> 1273</span>&#160;  };</div>
+<div class="line"><a name="l01274"></a><span class="lineno"> 1274</span>&#160; </div>
+<div class="line"><a name="l01275"></a><span class="lineno"> 1275</span>&#160;  <span class="keyword">using</span> FoliatedTriangulation3 = FoliatedTriangulation&lt;3&gt;;</div>
 <div class="line"><a name="l01276"></a><span class="lineno"> 1276</span>&#160; </div>
-<div class="line"><a name="l01277"></a><span class="lineno"> 1277</span>&#160;  <span class="keyword">using</span> FoliatedTriangulation3 = FoliatedTriangulation&lt;3&gt;;</div>
-<div class="line"><a name="l01278"></a><span class="lineno"> 1278</span>&#160; </div>
-<div class="line"><a name="l01280"></a><span class="lineno"> 1280</span>&#160;  <span class="comment">// template &lt;&gt;</span></div>
-<div class="line"><a name="l01281"></a><span class="lineno"> 1281</span>&#160;  <span class="comment">// class Foliated_triangulation&lt;4&gt; : Delaunay4</span></div>
-<div class="line"><a name="l01282"></a><span class="lineno"> 1282</span>&#160;  <span class="comment">//{};</span></div>
-<div class="line"><a name="l01283"></a><span class="lineno"> 1283</span>&#160;  <span class="comment">//</span></div>
-<div class="line"><a name="l01284"></a><span class="lineno"> 1284</span>&#160;  <span class="comment">// using FoliatedTriangulation4 = Foliated_triangulation&lt;4&gt;;</span></div>
+<div class="line"><a name="l01278"></a><span class="lineno"> 1278</span>&#160;  <span class="comment">// template &lt;&gt;</span></div>
+<div class="line"><a name="l01279"></a><span class="lineno"> 1279</span>&#160;  <span class="comment">// class Foliated_triangulation&lt;4&gt; : Delaunay4</span></div>
+<div class="line"><a name="l01280"></a><span class="lineno"> 1280</span>&#160;  <span class="comment">//{};</span></div>
+<div class="line"><a name="l01281"></a><span class="lineno"> 1281</span>&#160;  <span class="comment">//</span></div>
+<div class="line"><a name="l01282"></a><span class="lineno"> 1282</span>&#160;  <span class="comment">// using FoliatedTriangulation4 = Foliated_triangulation&lt;4&gt;;</span></div>
+<div class="line"><a name="l01283"></a><span class="lineno"> 1283</span>&#160; </div>
+<div class="line"><a name="l01284"></a><span class="lineno"> 1284</span>&#160;}  <span class="comment">// namespace FoliatedTriangulations</span></div>
 <div class="line"><a name="l01285"></a><span class="lineno"> 1285</span>&#160; </div>
-<div class="line"><a name="l01286"></a><span class="lineno"> 1286</span>&#160;}  <span class="comment">// namespace FoliatedTriangulations</span></div>
-<div class="line"><a name="l01287"></a><span class="lineno"> 1287</span>&#160; </div>
-<div class="line"><a name="l01288"></a><span class="lineno"> 1288</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP</span></div>
+<div class="line"><a name="l01286"></a><span class="lineno"> 1286</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a433bf746f0326f0f8d392a33ced89a5d"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a433bf746f0326f0f8d392a33ced89a5d">foliated_triangulations::find_max_timevalue</a></div><div class="ttdeci">auto find_max_timevalue(std::vector&lt; Vertex_handle_t&lt; dimension &gt;&gt; const &amp;t_vertices) -&gt; Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00087">Foliated_triangulation.hpp:87</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a28f44e248d61839c5eaa9923de6aea76"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76">foliated_triangulations::squared_radius</a></div><div class="ttdeci">auto squared_radius(Vertex_handle_t&lt; dimension &gt; const &amp;t_vertex) -&gt; double</div><div class="ttdoc">Calculate the squared radius from the origin.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00165">Foliated_triangulation.hpp:165</a></div></div>
@@ -1136,7 +1134,7 @@ $(function() {
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a56cafd71487e81bb5f18fce5b6ba0394"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a56cafd71487e81bb5f18fce5b6ba0394">foliated_triangulations::is_cell_type_correct</a></div><div class="ttdeci">auto is_cell_type_correct(Cell_handle_t&lt; dimension &gt; const &amp;t_cell) -&gt; bool</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00250">Foliated_triangulation.hpp:250</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a96df6bd4fe3412c39c8788db7811de8d"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a96df6bd4fe3412c39c8788db7811de8d">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::finite_cells_begin</a></div><div class="ttdeci">auto finite_cells_begin() const</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00795">Foliated_triangulation.hpp:795</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_af106f6f20f5526f2c42c48aeb143c5ab"><div class="ttname"><a href="_settings_8hpp.html#af106f6f20f5526f2c42c48aeb143c5ab">TOLERANCE</a></div><div class="ttdeci">static constexpr double TOLERANCE</div><div class="ttdoc">Sets epsilon values for floating point comparisons.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00046">Settings.hpp:46</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a7fba6c1735082880f8e74e9df4ba8a1d"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::classify_cells</a></div><div class="ttdeci">auto classify_cells(std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt; const &amp;cells, bool const t_debug_flag=false) const -&gt; std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt;</div><div class="ttdoc">Classify cells.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01207">Foliated_triangulation.hpp:1207</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a7fba6c1735082880f8e74e9df4ba8a1d"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7fba6c1735082880f8e74e9df4ba8a1d">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::classify_cells</a></div><div class="ttdeci">auto classify_cells(std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt; const &amp;cells, bool const t_debug_flag=false) const -&gt; std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt;</div><div class="ttdoc">Classify cells.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01205">Foliated_triangulation.hpp:1205</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_ae98294c7ce324639ed6043922a749f2d"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ae98294c7ce324639ed6043922a749f2d">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_delaunay</a></div><div class="ttdeci">auto is_delaunay() const -&gt; bool</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00759">Foliated_triangulation.hpp:759</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_adeec485a205b3a604cc1947e8a9a4333"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#adeec485a205b3a604cc1947e8a9a4333">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::N1_TL</a></div><div class="ttdeci">auto N1_TL() const</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00871">Foliated_triangulation.hpp:871</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_ab4be043b479bc81854c0bf8ea33cd585"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ab4be043b479bc81854c0bf8ea33cd585">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::delaunay</a></div><div class="ttdeci">auto delaunay() -&gt; Delaunay_t&lt; 3 &gt; &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00785">Foliated_triangulation.hpp:785</a></div></div>
@@ -1149,18 +1147,18 @@ $(function() {
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a73e46a0d9bc77f21cc68798c73282a1e"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a73e46a0d9bc77f21cc68798c73282a1e">Cell_type</a></div><div class="ttdeci">Cell_type</div><div class="ttdoc">(n,m) is number of vertices on (lower, higher) timeslice</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00059">Foliated_triangulation.hpp:59</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a5084a72b1392a487534fa692c6df6b30"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a5084a72b1392a487534fa692c6df6b30">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::max_time</a></div><div class="ttdeci">auto max_time() const</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00904">Foliated_triangulation.hpp:904</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a588875346283ec7b09d77605c83d939f"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a588875346283ec7b09d77605c83d939f">foliated_triangulations::volume_per_timeslice</a></div><div class="ttdeci">auto volume_per_timeslice(std::vector&lt; Face_handle_t&lt; dimension &gt;&gt; const &amp;t_facets, bool const t_debug_flag=false) -&gt; std::multimap&lt; Int_precision, Facet_t&lt; 3 &gt;&gt;</div><div class="ttdoc">Collect spacelike facets into a container indexed by time value.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00347">Foliated_triangulation.hpp:347</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a29c4e58b5c12610147b059b5c8f9c20c"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_cells</a></div><div class="ttdeci">auto collect_cells() const -&gt; std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01186">Foliated_triangulation.hpp:1186</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a29c4e58b5c12610147b059b5c8f9c20c"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_cells</a></div><div class="ttdeci">auto collect_cells() const -&gt; std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01184">Foliated_triangulation.hpp:1184</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_af87d0a9c0d31da0b4befc5d62a958641"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#af87d0a9c0d31da0b4befc5d62a958641">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap</a></div><div class="ttdeci">friend void swap(FoliatedTriangulation&lt; 3 &gt; &amp;swap_from, FoliatedTriangulation&lt; 3 &gt; &amp;swap_into) noexcept</div><div class="ttdoc">Non-member swap function for Foliated Triangulations. Note that this function calls swap() from CGAL'...</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00649">Foliated_triangulation.hpp:649</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a8a4b02006df092a030035585cf74feab"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a8a4b02006df092a030035585cf74feab">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::check_all_vertices</a></div><div class="ttdeci">auto check_all_vertices() const -&gt; bool</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01035">Foliated_triangulation.hpp:1035</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a53c208dcaafe029bf4470fa6aaf6ce10"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a53c208dcaafe029bf4470fa6aaf6ce10">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the number of spacelike faces per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01106">Foliated_triangulation.hpp:1106</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a9c03e21c0d2337452ff1b35d7b34dca4"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a9c03e21c0d2337452ff1b35d7b34dca4">foliated_triangulations::classify_edge</a></div><div class="ttdeci">auto classify_edge(Edge_handle_t&lt; dimension &gt; const &amp;t_edge, bool const t_debug_flag=false) -&gt; bool</div><div class="ttdoc">Predicate to classify edge as timelike or spacelike.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00124">Foliated_triangulation.hpp:124</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a795d298987e7f1e058607df53d56a1a8"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_faces</a></div><div class="ttdeci">auto collect_faces() const -&gt; std::vector&lt; Face_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01220">Foliated_triangulation.hpp:1220</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a795d298987e7f1e058607df53d56a1a8"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_faces</a></div><div class="ttdeci">auto collect_faces() const -&gt; std::vector&lt; Face_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01218">Foliated_triangulation.hpp:1218</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a28fb3e54b2f9c02b25ed8f2e2ff51b8b"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a28fb3e54b2f9c02b25ed8f2e2ff51b8b">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::degree</a></div><div class="ttdeci">auto degree(VertexHandle &amp;&amp;t_vertex) const</div><div class="ttdoc">See https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a51fce32aa7abf3d757bcab...</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00921">Foliated_triangulation.hpp:921</a></div></div>
 <div class="ttc" id="astruct_triangulation_traits_html"><div class="ttname"><a href="struct_triangulation_traits.html">TriangulationTraits</a></div><div class="ttdef"><b>Definition:</b> <a href="_triangulation__traits_8hpp_source.html#l00022">Triangulation_traits.hpp:22</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_ab665a19674f47224f5bf2493cc23324f"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#ab665a19674f47224f5bf2493cc23324f">foliated_triangulations::check_timeslices</a></div><div class="ttdeci">auto check_timeslices(Delaunay_t&lt; dimension &gt; const &amp;t_triangulation) -&gt; std::optional&lt; std::vector&lt; Vertex_handle_t&lt; dimension &gt;&gt;&gt;</div><div class="ttdoc">Check simplices for correct foliation.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00408">Foliated_triangulation.hpp:408</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_ab7b5e176cf183ccc95b77a456f076cb8"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ab7b5e176cf183ccc95b77a456f076cb8">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::min_time</a></div><div class="ttdeci">auto min_time() const</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00907">Foliated_triangulation.hpp:907</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a7afed56262e231af1d27d315a90739ee"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7afed56262e231af1d27d315a90739ee">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::incident_cells</a></div><div class="ttdeci">auto incident_cells(VertexHandle &amp;&amp;t_vh) const -&gt; decltype(auto)</div><div class="ttdoc">Call one of the TDS3.incident_cells functions.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00935">Foliated_triangulation.hpp:935</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a6f79ef5ab262abc3e1a0739b3daec828"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_vertices</a></div><div class="ttdeci">auto collect_vertices() const -&gt; std::vector&lt; Vertex_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01260">Foliated_triangulation.hpp:1260</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a6f79ef5ab262abc3e1a0739b3daec828"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_vertices</a></div><div class="ttdeci">auto collect_vertices() const -&gt; std::vector&lt; Vertex_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01258">Foliated_triangulation.hpp:1258</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a7ca9d20ec66c2b870a601c562693c32a"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7ca9d20ec66c2b870a601c562693c32a">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::FoliatedTriangulation</a></div><div class="ttdeci">FoliatedTriangulation(Causal_vertices_t&lt; 3 &gt; const &amp;cv, double const t_initial_radius=INITIAL_RADIUS, double const t_foliation_spacing=FOLIATION_SPACING)</div><div class="ttdoc">Constructor from Causal_vertices.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00726">Foliated_triangulation.hpp:726</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_ad4232ecebb4874c5f4cbcfef57fd3974"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ad4232ecebb4874c5f4cbcfef57fd3974">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells</a></div><div class="ttdeci">void print_cells() const</div><div class="ttdoc">Print timevalues of each vertex in the cell and the resulting cell-&gt;info()</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01167">Foliated_triangulation.hpp:1167</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
@@ -1171,7 +1169,7 @@ $(function() {
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a6874b57f398028aaf5e0ce7e1b7408eb"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6874b57f398028aaf5e0ce7e1b7408eb">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::does_vertex_radius_match_timevalue</a></div><div class="ttdeci">auto does_vertex_radius_match_timevalue(Vertex_handle_t&lt; 3 &gt; const t_vertex) const -&gt; bool</div><div class="ttdoc">Check the radius of a vertex from the origin with its timevalue.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00971">Foliated_triangulation.hpp:971</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a31d52ece3bd506360b4b52f1d94c7b4e"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a31d52ece3bd506360b4b52f1d94c7b4e">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::incident_cells</a></div><div class="ttdeci">auto incident_cells(Ts &amp;&amp;... args) const -&gt; decltype(auto)</div><div class="ttdoc">Perfect forwarding to Delaunay3.tds().incident_cells()</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00950">Foliated_triangulation.hpp:950</a></div></div>
 <div class="ttc" id="a_geometry_8hpp_html_af7450092e67d362692353a8b378059b6"><div class="ttname"><a href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00059">Geometry.hpp:59</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a7c4e89bda4ad0e8b22443618da970788"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_edges</a></div><div class="ttdeci">auto collect_edges() const -&gt; std::vector&lt; Edge_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01239">Foliated_triangulation.hpp:1239</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a7c4e89bda4ad0e8b22443618da970788"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_edges</a></div><div class="ttdeci">auto collect_edges() const -&gt; std::vector&lt; Edge_handle_t&lt; 3 &gt;&gt;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01237">Foliated_triangulation.hpp:1237</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_ae951ec1742e61c4fd7f1592e5594ac98"><div class="ttname"><a href="_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a></div><div class="ttdeci">static constexpr double INITIAL_RADIUS</div><div class="ttdoc">Default foliated triangulation spacings.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00042">Settings.hpp:42</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00595">Foliated_triangulation.hpp:595</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_ab84c033b74bff4112d0e5744438b4375"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ab84c033b74bff4112d0e5744438b4375">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::expected_radius</a></div><div class="ttdeci">auto expected_radius(Vertex_handle_t&lt; 3 &gt; const &amp;t_vertex) const -&gt; double</div><div class="ttdoc">Calculates the expected radial distance of a vertex given its timevalue.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01007">Foliated_triangulation.hpp:1007</a></div></div>
@@ -1194,7 +1192,7 @@ $(function() {
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a9c1044bb7f65952fb147b5a3e865b581"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a9c1044bb7f65952fb147b5a3e865b581">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::expected_timevalue</a></div><div class="ttdeci">auto expected_timevalue(Vertex_handle_t&lt; 3 &gt; const &amp;t_vertex) const -&gt; int</div><div class="ttdoc">Calculate the expected timevalue for a vertex.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01025">Foliated_triangulation.hpp:1025</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 12 2021 20:22:25 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Aug 12 2021 22:33:09 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
