@@ -126,8 +126,8 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5b64a68edd95b2b9b0449baf293c231f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac234277156eece6815ebc82479eb3d00"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ac234277156eece6815ebc82479eb3d00">get_trial</a> () const</td></tr>
 <tr class="separator:ac234277156eece6815ebc82479eb3d00"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af444c0bc28ab7b914e770e25d32778fa"><td class="memItemLeft" align="right" valign="top"><a id="af444c0bc28ab7b914e770e25d32778fa"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>initialize</b> (ManifoldType t_manifold) -&gt; std::optional&lt; <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType &gt;&gt; try</td></tr>
+<tr class="memitem:af444c0bc28ab7b914e770e25d32778fa"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#af444c0bc28ab7b914e770e25d32778fa">initialize</a> (ManifoldType t_manifold) -&gt; std::optional&lt; <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType &gt;&gt; try</td></tr>
+<tr class="memdesc:af444c0bc28ab7b914e770e25d32778fa"><td class="mdescLeft">&#160;</td><td class="mdescRight">Initialize the Metropolis algorithm.  <a href="class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#af444c0bc28ab7b914e770e25d32778fa">More...</a><br /></td></tr>
 <tr class="separator:af444c0bc28ab7b914e770e25d32778fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad5cfa55c2c5d547911bdb5199b9a324f"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad5cfa55c2c5d547911bdb5199b9a324f">K</a> () const noexcept</td></tr>
 <tr class="separator:ad5cfa55c2c5d547911bdb5199b9a324f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -621,6 +621,49 @@ template&lt;typename ManifoldType &gt; </div>
 
 </div>
 </div>
+<a id="af444c0bc28ab7b914e770e25d32778fa"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af444c0bc28ab7b914e770e25d32778fa">&#9670;&nbsp;</a></span>initialize()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename ManifoldType &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="class_move_strategy.html">MoveStrategy</a>&lt; Strategies::METROPOLIS, ManifoldType &gt;::initialize </td>
+          <td>(</td>
+          <td class="paramtype">ManifoldType&#160;</td>
+          <td class="paramname"><em>t_manifold</em></td><td>)</td>
+          <td> -&gt; std::optional&lt;<a class="el" href="class_move_command.html">MoveCommand</a>&lt;ManifoldType&gt;&gt;
+  try
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Initialize the Metropolis algorithm. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_manifold</td><td>Manifold on which to operate </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A manifold with a move of each type completed </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00326">326</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00078">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::enqueue()</a>.</p>
+
+</div>
+</div>
 <a id="ad5cfa55c2c5d547911bdb5199b9a324f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#ad5cfa55c2c5d547911bdb5199b9a324f">&#9670;&nbsp;</a></span>K()</h2>
 
@@ -717,7 +760,7 @@ template&lt;typename ManifoldType &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The manifold upon which the passes have been completed </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00379">379</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00382">382</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
 </div>
 </div>
@@ -916,7 +959,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Aug 12 2021 22:33:10 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Aug 23 2021 20:59:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
