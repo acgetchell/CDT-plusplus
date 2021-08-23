@@ -107,7 +107,8 @@ class MoveCommand
       {
         fmt::print("{}\n", result.error());
         // Track failed moves
-        parse_unexpected(result.error());
+        m_failed[move_tracker::as_integer(move_type)]++;
+        //        parse_unexpected(result.error());
       }
     }
 #ifndef NDEBUG
@@ -140,7 +141,7 @@ class MoveCommand
   /// @tparam UnexpectedType The type of the Unexpected
   /// @param error The value passed from Unexpected
   template <typename UnexpectedType>
-  void parse_unexpected(UnexpectedType const error)
+  [[maybe_unused]] void parse_unexpected(UnexpectedType const error)
   {
     // 3D
     if (error.find("(2,3)") != UnexpectedType::npos)

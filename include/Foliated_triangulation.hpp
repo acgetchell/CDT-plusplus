@@ -650,7 +650,7 @@ namespace foliated_triangulations
                      FoliatedTriangulation<3>& swap_into) noexcept
     {
 #ifndef NDEBUG
-      fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       // Uses the triangulation swap method in CGAL
       // This assumes that the first triangulation is not used afterwards!

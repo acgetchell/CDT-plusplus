@@ -126,7 +126,7 @@ namespace manifolds
     try
     {
 #ifndef NDEBUG
-      fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       update_triangulation();
       update_geometry();
@@ -372,7 +372,7 @@ namespace manifolds
     friend void swap(Manifold<3>& t_first, Manifold<3>& t_second) noexcept
     {
 #ifndef NDEBUG
-      fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       using std::swap;
       swap(t_first.m_triangulation, t_second.m_triangulation);
@@ -417,7 +417,7 @@ namespace manifolds
     try
     {
 #ifndef NDEBUG
-      fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       foliated_triangulations::FoliatedTriangulation3 const local_triangulation(
           m_triangulation.get_delaunay());
@@ -433,7 +433,7 @@ namespace manifolds
     void update_geometry() noexcept
     {
 #ifndef NDEBUG
-      fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       Geometry3 geom(m_triangulation);
       swap(m_geometry, geom);

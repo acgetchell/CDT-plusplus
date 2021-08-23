@@ -106,7 +106,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
       , m_checkpoint{checkpoint}
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
   }
 
@@ -297,16 +297,16 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
-    fmt::print("Trying move.\n");
-    fmt::print("Move type = {}\n", move_tracker::as_integer(move));
-    fmt::print("Trial_value = {}\n", trial_value);
-    fmt::print("Trial = {}\n", trial);
-    fmt::print("A1 = {}\n", a1);
-    fmt::print("A2 = {}\n", a2);
-    fmt::print("A1*A2 = {}\n", a1 * a2);
-    fmt::print("{}\n",
-               (trial <= a1 * a2) ? "Move accepted." : "Move rejected.");
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("Trying move.\n");
+    spdlog::info("Move type = {}\n", move_tracker::as_integer(move));
+    spdlog::info("Trial_value = {}\n", trial_value);
+    spdlog::info("Trial = {}\n", trial);
+    spdlog::info("A1 = {}\n", a1);
+    spdlog::info("A2 = {}\n", a2);
+    spdlog::info("A1*A2 = {}\n", a1 * a2);
+    spdlog::info("{}\n",
+                 (trial <= a1 * a2) ? "Move accepted." : "Move rejected.");
 #endif
 
     if (trial <= a1 * a2)
@@ -320,6 +320,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
 
   }  // try_move()
 
+  /// @brief Initialize the Metropolis algorithm
+  /// @param t_manifold Manifold on which to operate
+  /// @return A manifold with a move of each type completed
   [[nodiscard]] auto initialize(ManifoldType t_manifold)
       -> std::optional<MoveCommand<ManifoldType>>
   try
@@ -379,7 +382,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
   auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
     fmt::print(

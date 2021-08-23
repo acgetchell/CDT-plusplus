@@ -2,7 +2,7 @@
 # For use on Slurm
 # sbatch -p high -t 60 slurm.sh
 module load cmake/3.18.0
-module load gcc/9.2.0
+module load spack/gcc/10.3.0
 module load spack/autoconf-archive/2019.01.06
 cd ..
 rm -rf build/

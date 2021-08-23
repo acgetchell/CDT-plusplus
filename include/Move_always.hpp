@@ -72,7 +72,7 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
                ManifoldType::dimension - 1);

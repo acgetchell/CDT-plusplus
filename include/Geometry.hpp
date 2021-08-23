@@ -82,7 +82,7 @@ struct Geometry<3>
   friend void swap(Geometry<3>& t_first, Geometry<3>& t_second) noexcept
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     using std::swap;
     swap(t_first.N3, t_second.N3);

@@ -77,7 +77,7 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
     auto two_two = t_manifold.get_triangulation().get_two_two();
@@ -133,7 +133,7 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto timelike_edges = t_manifold.get_timelike_edges();
     // Shuffle the container to create a random sequence of edges
@@ -197,7 +197,7 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
@@ -379,7 +379,7 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto vertices = t_manifold.get_vertices();
     // Shuffle the container to create a random sequence of vertices
@@ -460,7 +460,7 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    fmt::print("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto spacelike_edges = t_manifold.get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
