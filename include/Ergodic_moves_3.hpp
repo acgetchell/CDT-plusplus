@@ -49,13 +49,13 @@ namespace ergodic_moves
       if (t_manifold.triangulation().flip(to_be_moved, i))
       {
 #ifndef NDEBUG
-        fmt::print("Facet {} was flippable.\n", i);
+        spdlog::trace("Facet {} was flippable.\n", i);
 #endif
         flipped = true;
         break;
       }
 #ifndef NDEBUG
-      fmt::print("Facet {} was not flippable.\n", i);
+      spdlog::trace("Facet {} was not flippable.\n", i);
 #endif
     }
     return flipped;
@@ -77,12 +77,13 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
     auto two_two = t_manifold.get_triangulation().get_two_two();
     // Shuffle the container to create a random sequence of (2,2) cells
-    std::shuffle(two_two.begin(), two_two.end(), make_random_generator());
+    std::shuffle(two_two.begin(), two_two.end(),
+                 utilities::make_random_generator());
     // Try a (2,3) move on successive cells in the sequence
     if (std::any_of(two_two.begin(), two_two.end(),
                     [&](auto& cell) { return try_23_move(t_manifold, cell); }))
@@ -90,7 +91,9 @@ namespace ergodic_moves
       return t_manifold;
     }
     // We've run out of (2,2) cells
-    return tl::make_unexpected("No (2,3) move possible.");
+    std::string msg = "No (2,3) move possible.\n";
+    spdlog::warn(msg);
+    return tl::make_unexpected(msg);
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
@@ -107,12 +110,12 @@ namespace ergodic_moves
                                         to_be_moved.third))
     {
 #ifndef NDEBUG
-      fmt::print("Edge was flippable.\n");
+      spdlog::trace("Edge was flippable.\n");
 #endif
       return true;
     }
 #ifndef NDEBUG
-    fmt::print("Edge not flippable.\n");
+    spdlog::trace("Edge not flippable.\n");
 #endif
     return false;
   }
@@ -133,12 +136,12 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto timelike_edges = t_manifold.get_timelike_edges();
     // Shuffle the container to create a random sequence of edges
     std::shuffle(timelike_edges.begin(), timelike_edges.end(),
-                 make_random_generator());
+                 utilities::make_random_generator());
     // Try a (3,2) move on successive timelike edges in the sequence
     if (std::any_of(timelike_edges.begin(), timelike_edges.end(),
                     [&](auto& edge) { return try_32_move(t_manifold, edge); }))
@@ -146,7 +149,9 @@ namespace ergodic_moves
       return t_manifold;
     }
     // We've run out of edges to try
-    return tl::make_unexpected("No (3,2) move possible.");
+    std::string msg = "No (3,2) move possible.\n";
+    spdlog::warn(msg);
+    return tl::make_unexpected(msg);
   }  // do_32_move()
 
   /// @brief Find a (2,6) move location
@@ -163,7 +168,8 @@ namespace ergodic_moves
     for (auto i = 0; i < 4; ++i)
     {
 #ifndef NDEBUG
-      fmt::print("Neighbor {} is of type {}\n", i, t_cell->neighbor(i)->info());
+      spdlog::trace("Neighbor {} is of type {}\n", i,
+                    t_cell->neighbor(i)->info());
 #endif
       if (t_cell->neighbor(i)->info() ==
           static_cast<Int_precision>(Cell_type::THREE_ONE))
@@ -197,18 +203,19 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
-    std::shuffle(one_three.begin(), one_three.end(), make_random_generator());
+    std::shuffle(one_three.begin(), one_three.end(),
+                 utilities::make_random_generator());
     for (auto const& bottom : one_three)
     {
       if (auto neighboring_31_index = find_26_move(bottom);
           neighboring_31_index)
       {
 #ifndef NDEBUG
-        fmt::print("neighboring_31_index is {}\n", *neighboring_31_index);
+        spdlog::trace("neighboring_31_index is {}.\n", *neighboring_31_index);
 #endif
         Cell_handle_t<3> const top = bottom->neighbor(*neighboring_31_index);
         // Calculate the common face with respect to the bottom cell
@@ -256,7 +263,7 @@ namespace ergodic_moves
         auto center_point =
             CGAL::centroid(v1->point(), v2->point(), v3->point());
 #ifndef NDEBUG
-        fmt::print("Center point is: ({})\n", center_point);
+        spdlog::trace("Center point is: ({}).\n", center_point);
 #endif
         v_center->set_point(center_point);
 
@@ -266,14 +273,16 @@ namespace ergodic_moves
 
 #ifndef NDEBUG
         if (t_manifold.is_vertex(v_center))
-        { fmt::print("It's a vertex in the TDS.\n"); }
+        {
+          spdlog::trace("It's a vertex in the TDS.\n");
+        }
         else
         {
-          fmt::print("It's not a vertex in the TDS.\n");
+          spdlog::trace("It's not a vertex in the TDS.\n");
         }
-        fmt::print("Spacelike face timevalue is {}\n", timevalue);
-        fmt::print("Inserted vertex ({}) with timevalue {}\n",
-                   v_center->point(), v_center->info());
+        spdlog::trace("Spacelike face timevalue is {}.\n", timevalue);
+        spdlog::trace("Inserted vertex ({}) with timevalue {}.\n",
+                      v_center->point(), v_center->info());
 #endif
 
         // Final check
@@ -284,11 +293,13 @@ namespace ergodic_moves
       }
       // Try next cell
 #ifndef NDEBUG
-      fmt::print("Cell not insertable.\n");
+      spdlog::debug("Cell not insertable.\n");
 #endif
     }
     // We've run out of (1,3) simplices to try
-    return tl::make_unexpected("No (2,6) move possible.");
+    std::string msg = "No (2,6) move possible.\n";
+    spdlog::warn(msg);
+    return tl::make_unexpected(msg);
   }  // do_26_move()
 
   /// @brief Find a (6,2) move location
@@ -311,8 +322,8 @@ namespace ergodic_moves
     // We must have 5 incident edges to have 6 incident cells
     if (incident_edges != 5)  // NOLINT
     {
-#ifdef DETAILED_DEBUGGING
-      fmt::print("Vertex has {} incident edges/vertices.\n", incident_edges);
+#ifndef NDEBUG
+      spdlog::trace("Vertex has {} incident edges.\n", incident_edges);
 #endif
       return false;
     }
@@ -322,10 +333,9 @@ namespace ergodic_moves
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)  // NOLINT
     {
-#ifdef DETAILED_DEBUGGING
-      fmt::print(
-          "Vertex has {} incident edges/vertices and {} incident cells.\n",
-          incident_edges, incident_cells.size());
+#ifndef NDEBUG
+      spdlog::trace("Vertex has {} incident edges and {} incident cells.\n",
+                    incident_edges, incident_cells.size());
 #endif
       return false;
     }
@@ -341,16 +351,16 @@ namespace ergodic_moves
     if ((incident_13.size() + incident_22.size() + incident_31.size()) !=
         6)  // NOLINT
     {
-      fmt::print("Some incident cells on this vertex need to be fixed.\n");
+      spdlog::warn("Some incident cells on this vertex need to be fixed.\n");
     }
 
 #ifndef NDEBUG
-    fmt::print(
-        "Vertex has {} incident edges/vertices and {} incident (3,1) simplices "
-        "and {} incident (2,2) simplices and {} incident (1,3) simplices.\n",
+    spdlog::trace(
+        "Vertex has {} incident edges and {} incident (3,1) simplices and {} "
+        "incident (2,2) simplices and {} incident (1,3) simplices.\n",
         incident_edges, incident_31.size(), incident_22.size(),
         incident_13.size());
-    foliated_triangulations::print_cells<3>(incident_cells);
+    foliated_triangulations::debug_print_cells<3>(incident_cells);
 #endif
     return ((incident_31.size() == 3) && (incident_22.empty()) &&
             (incident_13.size() == 3));
@@ -379,11 +389,12 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto vertices = t_manifold.get_vertices();
     // Shuffle the container to create a random sequence of vertices
-    std::shuffle(vertices.begin(), vertices.end(), make_random_generator());
+    std::shuffle(vertices.begin(), vertices.end(),
+                 utilities::make_random_generator());
     // Try a (6,2) move on successive vertices in the sequence
     if (auto movable_vertex_iterator =
             std::find_if(vertices.begin(), vertices.end(),
@@ -396,7 +407,9 @@ namespace ergodic_moves
       return t_manifold;
     }
     // We've run out of vertices to try
-    return tl::make_unexpected("No (6,2) move possible.");
+    std::string msg = "No (6,2) move possible.\n";
+    spdlog::warn(msg);
+    return tl::make_unexpected(msg);
   }  // do_62_move()
 
   /// @brief Find a (4,4) move location
@@ -428,7 +441,7 @@ namespace ergodic_moves
       incident_cells.emplace_back(circulator++);
     } while (circulator != t_edge_candidate.first);
 #ifndef NDEBUG
-    fmt::print("Edge has {} incident cells.\n", incident_cells.size());
+    spdlog::trace("Edge has {} incident cells.\n", incident_cells.size());
 #endif
 
     if (incident_cells.size() == 4) { return incident_cells; }
@@ -460,12 +473,12 @@ namespace ergodic_moves
       -> Expected
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     auto spacelike_edges = t_manifold.get_spacelike_edges();
     // Shuffle the container to pick a random sequence of edges to try
     std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),
-                 make_random_generator());
+                 utilities::make_random_generator());
     for (auto const& edge : spacelike_edges)
     {
       // Obtain all incident cells
@@ -475,7 +488,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
         for (auto const& cell : *incident_cells)
         {
-          fmt::print("Incident cell is of type {}\n", cell->info());
+          spdlog::trace("Incident cell is of type {}.\n", cell->info());
         }
 #endif
         return t_manifold;
@@ -483,7 +496,9 @@ namespace ergodic_moves
       // Try next edge
     }
     // We've run out of edges to try
-    return tl::make_unexpected("No (4,4) move possible.");
+    std::string msg = "No (4,4) move possible.\n";
+    spdlog::warn(msg);
+    return tl::make_unexpected(msg);
   }  // do_44_move()
 
   /// @brief Check move correctness

@@ -106,7 +106,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
       , m_checkpoint{checkpoint}
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
   }
 
@@ -239,7 +239,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
       }
 
       auto exponent        = currentS3Action - newS3Action;
-      auto exponent_double = Gmpzf_to_double(exponent);
+      auto exponent_double = utilities::Gmpzf_to_double(exponent);
 
       // if exponent > 0 then e^exponent >=1 so according to Metropolis
       // algorithm return A2=1
@@ -291,22 +291,22 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     // Make move if random number < probability
     auto a2 = CalculateA2<3>(move);
 
-    const auto trial_value = generate_probability();
+    const auto trial_value = utilities::generate_probability();
     // Convert to Gmpzf because trial_value will be set to 0 when
     // comparing with a1 and a2!
     const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
-    spdlog::info("Trying move.\n");
-    spdlog::info("Move type = {}\n", move_tracker::as_integer(move));
-    spdlog::info("Trial_value = {}\n", trial_value);
-    spdlog::info("Trial = {}\n", trial);
-    spdlog::info("A1 = {}\n", a1);
-    spdlog::info("A2 = {}\n", a2);
-    spdlog::info("A1*A2 = {}\n", a1 * a2);
-    spdlog::info("{}\n",
-                 (trial <= a1 * a2) ? "Move accepted." : "Move rejected.");
+    spdlog::trace("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::trace("Trying move.\n");
+    spdlog::trace("Move type = {}\n", move_tracker::as_integer(move));
+    spdlog::trace("Trial_value = {}\n", trial_value);
+    spdlog::trace("Trial = {}\n", trial);
+    spdlog::trace("A1 = {}\n", a1);
+    spdlog::trace("A2 = {}\n", a2);
+    spdlog::trace("A1*A2 = {}\n", a1 * a2);
+    spdlog::trace("{}\n",
+                  (trial <= a1 * a2) ? "Move accepted." : "Move rejected.");
 #endif
 
     if (trial <= a1 * a2)
@@ -382,7 +382,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
   auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
 
     fmt::print(
@@ -423,9 +423,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
         fmt::print("Writing to file.\n");
         print_results();
         auto result = command.get_results();
-        write_file(result, topology_type::SPHERICAL, ManifoldType::dimension,
-                   result.N3(), result.max_time(), INITIAL_RADIUS,
-                   FOLIATION_SPACING);
+        utilities::write_file(
+            result, topology_type::SPHERICAL, ManifoldType::dimension,
+            result.N3(), result.max_time(), INITIAL_RADIUS, FOLIATION_SPACING);
       }
     }  // Ends loop through m_passes
 

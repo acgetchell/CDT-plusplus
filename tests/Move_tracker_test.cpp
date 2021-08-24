@@ -15,45 +15,53 @@ using namespace std;
 
 SCENARIO("MoveTracker special members", "[move tracker]")
 {
+  spdlog::debug("MoveTracker special members.\n");
   GIVEN("A MoveTracker.")
   {
     WHEN("It's properties are examined.")
     {
       THEN("It is no-throw destructible.")
       {
-        CHECK(is_nothrow_destructible_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_destructible_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
-        CHECK(is_nothrow_default_constructible_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_default_constructible_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is copy constructible.")
       {
-        CHECK(is_copy_constructible_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        REQUIRE(is_copy_constructible_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("It is copy constructible.\n");
       }
       THEN("It is copy assignable.")
       {
-        CHECK(is_copy_assignable_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        REQUIRE(is_copy_assignable_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("It is copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
-        fmt::print("Small function optimization supported.");
+        REQUIRE(is_nothrow_move_constructible_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("Small function optimization supported.");
+        spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_move_assignable_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable")
       {
-        CHECK(is_nothrow_swappable_v<
-              move_tracker::MoveTracker<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_swappable_v<
+                move_tracker::MoveTracker<manifolds::Manifold3>>);
+        spdlog::debug("It is no-throw swappable.\n");
       }
     }
   }
@@ -61,6 +69,7 @@ SCENARIO("MoveTracker special members", "[move tracker]")
 
 SCENARIO("Move type to integer conversion", "[move tracker]")
 {
+  spdlog::debug("Move type to integer conversion.\n");
   GIVEN("A move type.")
   {
     auto move23 = move_tracker::move_type::TWO_THREE;
@@ -76,8 +85,9 @@ SCENARIO("Move type to integer conversion", "[move tracker]")
   }
 }
 
-SCENARIO("Move_tracker functionality", "[move tracker]")
+SCENARIO("MoveTracker functionality", "[move tracker]")
 {
+  spdlog::debug("MoveTracker functionality.\n");
   GIVEN("A 3D Move_tracker.")
   {
     move_tracker::MoveTracker<manifolds::Manifold3> tracked_moves;

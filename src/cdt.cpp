@@ -64,7 +64,7 @@ try
   // Start running time
   Timer t;
   t.start();
-  fmt::print("cdt started at {}\n", currentDateTime());
+  fmt::print("cdt started at {}\n", utilities::currentDateTime());
 
   // docopt option parser
   gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
@@ -187,31 +187,32 @@ try
 
   // Write results to file
   // Strong exception-safety guarantee
-  write_file(result, topology, static_cast<Int_precision>(dimensions),
-             result.N3(), static_cast<Int_precision>(timeslices), 1.0, 1.0);
+  utilities::write_file(result, topology,
+                        static_cast<Int_precision>(dimensions), result.N3(),
+                        static_cast<Int_precision>(timeslices), 1.0, 1.0);
 
   return 0;
 }
 catch (domain_error const& DomainError)
 {
-  spdlog::error("{}\n", DomainError.what());
-  spdlog::error("Triangle inequalities violated ... Exiting.\n");
+  spdlog::critical("{}\n", DomainError.what());
+  spdlog::critical("Triangle inequalities violated ... Exiting.\n");
   return 1;
 }
 catch (invalid_argument const& InvalidArgument)
 {
-  spdlog::error("{}\n", InvalidArgument.what());
-  spdlog::error("Invalid parameter ... Exiting.\n");
+  spdlog::critical("{}\n", InvalidArgument.what());
+  spdlog::critical("Invalid parameter ... Exiting.\n");
   return 1;
 }
 catch (logic_error const& LogicError)
 {
-  spdlog::error("{}\n", LogicError.what());
-  spdlog::error("Simulation startup failed ... Exiting.\n");
+  spdlog::critical("{}\n", LogicError.what());
+  spdlog::critical("Simulation startup failed ... Exiting.\n");
   return 1;
 }
 catch (...)
 {
-  spdlog::error("Something went wrong ... Exiting.\n");
+  spdlog::critical("Something went wrong ... Exiting.\n");
   return 1;
 }

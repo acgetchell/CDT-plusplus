@@ -42,7 +42,7 @@ jobs:
         run: |
           vcpkg install --feature-flags=manifests
           export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
-          cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
+          cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
       - name: Cache SonarCloud packages and analysis
         uses: actions/cache@v2

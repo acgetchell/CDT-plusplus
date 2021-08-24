@@ -17,9 +17,10 @@ using namespace std;
 
 static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
 
-SCENARIO("Foliated_triangulation special member and swap properties",
+SCENARIO("FoliatedTriangulation special member and swap properties",
          "[triangulation]")
 {
+  spdlog::debug("FoliatedTriangulation special member and swap properties.\n");
   GIVEN("A FoliatedTriangulation3 class.")
   {
     WHEN("It's properties are examined.")
@@ -28,11 +29,13 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(is_nothrow_destructible_v<
                 foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is default constructible.")
       {
         REQUIRE(is_default_constructible_v<
                 foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is default destructible.\n");
       }
       THEN("It is NOT trivially default constructible.")
       {
@@ -49,6 +52,7 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(is_copy_constructible_v<
                 foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is copy constructible.\n");
       }
       /// TODO: Make FoliatedTriangulation no-throw copy constructible
       THEN("It is NOT no-throw copy constructible.")
@@ -60,6 +64,7 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       {
         REQUIRE(is_copy_assignable_v<
                 foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is copy assignable.\n");
       }
       /// TODO: Make FoliatedTriangulation no-throw copy assignable
       THEN("It is NOT no-throw copy assignable.")
@@ -69,42 +74,50 @@ SCENARIO("Foliated_triangulation special member and swap properties",
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<
-              foliated_triangulations::FoliatedTriangulation3>);
+        REQUIRE(is_nothrow_move_constructible_v<
+                foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<
-              foliated_triangulations::FoliatedTriangulation3>);
+        REQUIRE(is_nothrow_move_assignable_v<
+                foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
-        CHECK(is_nothrow_swappable_v<
-              foliated_triangulations::FoliatedTriangulation3>);
+        REQUIRE(is_nothrow_swappable_v<
+                foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is no-throw swappable.\n");
       }
       THEN("It is constructible from a Delaunay triangulation.")
       {
         REQUIRE(
             is_constructible_v<foliated_triangulations::FoliatedTriangulation3,
                                Delaunay_t<3>>);
+        spdlog::debug("It is constructible from a Delaunay triangulation.\n");
       }
       THEN("It is constructible from parameters.")
       {
         REQUIRE(
             is_constructible_v<foliated_triangulations::FoliatedTriangulation3,
                                Int_precision, Int_precision, double, double>);
+        spdlog::debug("It is constructible from parameters.\n");
       }
       THEN("It is constructible from Causal_vertices.")
       {
         REQUIRE(
             is_constructible_v<foliated_triangulations::FoliatedTriangulation3,
                                Causal_vertices_t<3>>);
+        spdlog::debug("It is constructible from Causal_vertices.\n");
       }
       THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
       {
         REQUIRE(
             is_constructible_v<foliated_triangulations::FoliatedTriangulation3,
                                Causal_vertices_t<3>, double>);
+        spdlog::debug(
+            "It is constructible from Causal_vertices and INITIAL_RADIUS.\n");
       }
       THEN(
           "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
@@ -113,6 +126,9 @@ SCENARIO("Foliated_triangulation special member and swap properties",
         REQUIRE(
             is_constructible_v<foliated_triangulations::FoliatedTriangulation3,
                                Causal_vertices_t<3>, double, double>);
+        spdlog::debug(
+            "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
+            "RADIAL_SEPARATION.\n");
       }
     }
   }
@@ -120,6 +136,7 @@ SCENARIO("Foliated_triangulation special member and swap properties",
 
 SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
 {
+  spdlog::debug("FoliatedTriangulation3 functions from Delaunay3.\n");
   GIVEN("A FoliatedTriangulation3.")
   {
     WHEN("Constructing a small triangulation.")
@@ -189,6 +206,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
 
 SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 {
+  spdlog::debug("FoliatedTriangulation functions.\n");
   GIVEN("A small foliated triangulation.")
   {
     vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
@@ -309,6 +327,7 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
 }
 SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
 {
+  spdlog::debug("FoliatedTriangulation initialization.\n");
   GIVEN("A 3D foliated triangulation.")
   {
     WHEN("It is default constructed.")
@@ -499,6 +518,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
 
 SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
 {
+  spdlog::debug("FoliatedTriangulation3 copying.\n");
   GIVEN("A FoliatedTriangulation3")
   {
     constexpr auto         desired_simplices = static_cast<Int_precision>(6400);
@@ -532,6 +552,7 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
 SCENARIO("Detecting and fixing problems with vertices and cells",
          "[triangulation]")
 {
+  spdlog::debug("Detecting and fixing problems with vertices and cells.\n");
   GIVEN("A FoliatedTriangulation3.")
   {
     WHEN("Constructing a triangulation with 4 correct vertices.")

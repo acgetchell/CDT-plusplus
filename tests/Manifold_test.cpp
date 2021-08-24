@@ -15,8 +15,9 @@ using namespace std;
 
 static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
 
-SCENARIO("3-Manifold special member and swap properties", "[manifold]")
+SCENARIO("Manifold special member and swap properties", "[manifold]")
 {
+  spdlog::debug("Manifold special member and swap properties.\n");
   GIVEN("A 3-dimensional manifold.")
   {
     WHEN("Special members are examined.")
@@ -24,10 +25,12 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       THEN("It is no-throw destructible.")
       {
         REQUIRE(is_nothrow_destructible_v<manifolds::Manifold3>);
+        spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is default constructible.")
       {
         REQUIRE(is_default_constructible_v<manifolds::Manifold3>);
+        spdlog::debug("It is default constructible.\n");
       }
       THEN("It is NOT trivially constructible.")
       {
@@ -45,6 +48,7 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       THEN("It is copy constructible.")
       {
         REQUIRE(is_copy_constructible_v<manifolds::Manifold3>);
+        spdlog::debug("It is copy constructible.\n");
       }
       /// TODO: Make Manifold no-throw copy constructible
       THEN("It is NOT no-throw copy constructible.")
@@ -53,44 +57,54 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK(is_nothrow_copy_assignable_v<manifolds::Manifold3>);
+        REQUIRE(is_nothrow_copy_assignable_v<manifolds::Manifold3>);
+        spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<manifolds::Manifold3>);
+        REQUIRE(is_nothrow_move_constructible_v<manifolds::Manifold3>);
+        spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<manifolds::Manifold3>);
+        REQUIRE(is_nothrow_move_assignable_v<manifolds::Manifold3>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<manifolds::Manifold3>);
+        spdlog::debug("It is no-throw swappable.\n");
       }
-      THEN("It is constructible from a Foliated triangulation.")
+      THEN("It is constructible from a FoliatedTriangulation.")
       {
         REQUIRE(is_constructible_v<
                 manifolds::Manifold3,
                 foliated_triangulations::FoliatedTriangulation3>);
+        spdlog::debug("It is constructible from a FoliatedTriangulation.\n");
       }
       THEN("It is constructible from 2 parameters.")
       {
         REQUIRE(is_constructible_v<manifolds::Manifold3, Int_precision,
                                    Int_precision>);
+        spdlog::debug("It is constructible from 2 parameters.\n");
       }
       THEN("It is constructible from 4 parameters.")
       {
         REQUIRE(is_constructible_v<manifolds::Manifold3, Int_precision,
                                    Int_precision, double, double>);
+        spdlog::debug("It is constructible from 4 parameters.\n");
       }
       THEN("It is constructible from Causal_vertices.")
       {
         REQUIRE(is_constructible_v<manifolds::Manifold3, Causal_vertices_t<3>>);
+        spdlog::debug("It is constructible from Causal_vertices.\n");
       }
       THEN("It is constructible from Causal_vertices and INITIAL_RADIUS.")
       {
         REQUIRE(is_constructible_v<manifolds::Manifold3, Causal_vertices_t<3>,
                                    double>);
+        spdlog::debug(
+            "It is constructible from Causal_vertices and INITIAL_RADIUS.\n");
       }
       THEN(
           "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
@@ -98,6 +112,9 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
       {
         REQUIRE(is_constructible_v<manifolds::Manifold3, Causal_vertices_t<3>,
                                    double, double>);
+        spdlog::debug(
+            "It is constructible from Causal_vertices, INITIAL_RADIUS, and "
+            "RADIAL_SEPARATION.\n");
       }
     }
   }
@@ -105,6 +122,7 @@ SCENARIO("3-Manifold special member and swap properties", "[manifold]")
 
 SCENARIO("Manifold static members", "[manifold]")
 {
+  spdlog::debug("Manifold static members.\n");
   GIVEN("A default constructed Manifold3")
   {
     manifolds::Manifold3 test{};
@@ -120,6 +138,7 @@ SCENARIO("Manifold static members", "[manifold]")
 
 SCENARIO("Manifold functions", "[manifold]")
 {
+  spdlog::debug("Manifold functions.\n");
   GIVEN("A manifold with four vertices.")
   {
     Causal_vertices_t<3> cv;
@@ -163,6 +182,7 @@ SCENARIO("Manifold functions", "[manifold]")
 
 SCENARIO("3-Manifold initialization", "[manifold]")
 {
+  spdlog::debug("Manifold initialization.\n");
   GIVEN("A 3-manifold.")
   {
     WHEN("It is default constructed.")
@@ -343,6 +363,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 
 SCENARIO("3-Manifold function checks", "[manifold]")
 {
+  spdlog::debug("3-Manifold function checks.\n");
   GIVEN("The default manifold from the default triangulation")
   {
     manifolds::Manifold3 manifold;
@@ -384,6 +405,7 @@ SCENARIO("3-Manifold function checks", "[manifold]")
 }
 SCENARIO("3-Manifold copying", "[manifold]")
 {
+  spdlog::debug("3-Manifold copying.\n");
   GIVEN("A 3-manifold.")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
@@ -436,6 +458,7 @@ SCENARIO("3-Manifold copying", "[manifold]")
 
 SCENARIO("3-Manifold update geometry", "[manifold]")
 {
+  spdlog::debug("3-Manifold update geometry.\n");
   GIVEN("A 3-manifold.")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
@@ -471,6 +494,7 @@ SCENARIO("3-Manifold update geometry", "[manifold]")
 
 SCENARIO("3-Manifold mutation", "[manifold]")
 {
+  spdlog::debug("3-Manifold mutation.\n");
   GIVEN("A pair of 3-manifolds.")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
@@ -530,6 +554,7 @@ SCENARIO("3-Manifold mutation", "[manifold]")
 
 SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
 {
+  spdlog::debug("3-Manifold validation and fixing.\n");
   GIVEN("A (1,3) and (3,1) stacked on each other.")
   {
     Causal_vertices_t<3> cv;

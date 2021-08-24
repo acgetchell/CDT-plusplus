@@ -17,6 +17,7 @@ using namespace std;
 SCENARIO("Perform ergodic moves on 2+1 triangulations",
          "[ergodic moves][!mayfail]")
 {
+  spdlog::debug("Perform ergodic moves on 2+1 triangulation.\n");
   GIVEN("A 2+1-dimensional foliated triangulation")
   {
     constexpr auto       desired_simplices  = static_cast<Int_precision>(9600);
@@ -34,13 +35,10 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     auto manifold_before = manifold;
     WHEN("A (2,3) move is performed")
     {
+      spdlog::debug("When a (2,3) move is performed.\n");
       // Use copy elision
       auto result = ergodic_moves::do_23_move(manifold);
       if (result) { manifold = result.value(); }
-      else
-      {
-        fmt::print(result.error());
-      }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
@@ -61,12 +59,9 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (3,2) move is performed")
     {
+      spdlog::debug("When a (3,2) move is performed.\n");
       auto result = ergodic_moves::do_32_move(manifold);
       if (result) { manifold = result.value(); }
-      else
-      {
-        fmt::print(result.error());
-      }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
@@ -88,12 +83,9 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (2,6) move is performed")
     {
+      spdlog::debug("When a (2,6) move is performed.\n");
       auto result = ergodic_moves::do_26_move(manifold);
       if (result) { manifold = result.value(); }
-      else
-      {
-        fmt::print(result.error());
-      }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
@@ -115,12 +107,9 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (6,2) move is performed")
     {
+      spdlog::debug("When a (6,2) move is performed.\n");
       auto result = ergodic_moves::do_62_move(manifold);
       if (result) { manifold = result.value(); }
-      else
-      {
-        fmt::print(result.error());
-      }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {
@@ -141,12 +130,9 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     }
     WHEN("A (4,4) move is performed")
     {
+      spdlog::debug("When a (4,4) move is performed.\n");
       auto result = ergodic_moves::do_44_move(manifold);
       if (result) { manifold = result.value(); }
-      else
-      {
-        fmt::print(result.error());
-      }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The move is correct and the manifold invariants are maintained")
       {

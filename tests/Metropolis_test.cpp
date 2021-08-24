@@ -20,6 +20,8 @@ using namespace std;
 SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
          "[metropolis]")
 {
+  spdlog::debug(
+      "MoveStrategy<METROPOLIS> special member and swap properties.\n");
   GIVEN("A Metropolis move strategy.")
   {
     WHEN("Special members are examined.")
@@ -28,36 +30,43 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
       {
         REQUIRE(is_nothrow_destructible_v<Metropolis3>);
         REQUIRE(is_nothrow_destructible_v<Metropolis4>);
+        spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
-        CHECK(is_nothrow_default_constructible_v<Metropolis3>);
-        CHECK(is_nothrow_default_constructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_default_constructible_v<Metropolis3>);
+        REQUIRE(is_nothrow_default_constructible_v<Metropolis4>);
+        spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {
-        CHECK(is_nothrow_copy_constructible_v<Metropolis3>);
-        CHECK(is_nothrow_copy_constructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_copy_constructible_v<Metropolis3>);
+        REQUIRE(is_nothrow_copy_constructible_v<Metropolis4>);
+        spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK(is_nothrow_copy_assignable_v<Metropolis3>);
-        CHECK(is_nothrow_copy_assignable_v<Metropolis4>);
+        REQUIRE(is_nothrow_copy_assignable_v<Metropolis3>);
+        REQUIRE(is_nothrow_copy_assignable_v<Metropolis4>);
+        spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<Metropolis3>);
-        CHECK(is_nothrow_move_constructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_move_constructible_v<Metropolis3>);
+        REQUIRE(is_nothrow_move_constructible_v<Metropolis4>);
+        spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<Metropolis3>);
-        CHECK(is_nothrow_move_assignable_v<Metropolis4>);
+        REQUIRE(is_nothrow_move_assignable_v<Metropolis3>);
+        REQUIRE(is_nothrow_move_assignable_v<Metropolis4>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<Metropolis3>);
         REQUIRE(is_nothrow_swappable_v<Metropolis4>);
+        spdlog::debug("It is no-throw swappable.\n");
       }
       THEN("It is constructible from 5 parameters.")
       {
@@ -65,6 +74,7 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
                                    long double, Int_precision, Int_precision>);
         REQUIRE(is_constructible_v<Metropolis4, long double, long double,
                                    long double, Int_precision, Int_precision>);
+        spdlog::debug("It is constructible from 5 parameters.\n");
       }
     }
   }

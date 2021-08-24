@@ -111,21 +111,22 @@ try
   fmt::print("Final number of simplices: {}\n", universe.N3());
   if (save_file)
   {
-    write_file(universe, topology, static_cast<Int_precision>(dimensions),
-               static_cast<Int_precision>(universe.N3()),
-               static_cast<Int_precision>(timeslices), initial_radius,
-               foliation_spacing);
+    utilities::write_file(universe, topology,
+                          static_cast<Int_precision>(dimensions),
+                          static_cast<Int_precision>(universe.N3()),
+                          static_cast<Int_precision>(timeslices),
+                          initial_radius, foliation_spacing);
   }
   return 0;
 }
 catch (invalid_argument const& InvalidArgument)
 {
-  spdlog::error("{}\n", InvalidArgument.what());
-  spdlog::error("Invalid parameter ... Exiting.\n");
+  spdlog::critical("{}\n", InvalidArgument.what());
+  spdlog::critical("Invalid parameter ... Exiting.\n");
   return 1;
 }
 catch (...)
 {
-  spdlog::error("Something went wrong ... Exiting.\n");
+  spdlog::critical("Something went wrong ... Exiting.\n");
   return 1;
 }

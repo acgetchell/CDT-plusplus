@@ -16,6 +16,7 @@ using namespace std;
 
 SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
 {
+  spdlog::debug("Various string/stream/time utilities.\n");
   GIVEN("A topology_type.")
   {
     auto constexpr this_topology = topology_type::SPHERICAL;
@@ -39,9 +40,10 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       THEN("The output is correct.")
       {
         // Update test yearly
-        CHECK_THAT(currentDateTime(), Catch::Contains("2021"));
+        CHECK_THAT(utilities::currentDateTime(), Catch::Contains("2021"));
         // Human verification
-        fmt::print("Current date and time is: {}\n", currentDateTime());
+        fmt::print("Current date and time is: {}\n",
+                   utilities::currentDateTime());
       }
     }
     WHEN("A filename is generated.")
@@ -50,9 +52,9 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       auto constexpr dimensions    = static_cast<Int_precision>(3);
       auto constexpr simplices     = static_cast<Int_precision>(6700);
       auto constexpr timeslices    = static_cast<Int_precision>(16);
-      auto const filename =
-          generate_filename(this_topology, dimensions, simplices, timeslices,
-                            INITIAL_RADIUS, FOLIATION_SPACING);
+      auto const filename          = utilities::generate_filename(
+          this_topology, dimensions, simplices, timeslices, INITIAL_RADIUS,
+          FOLIATION_SPACING);
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,
@@ -69,6 +71,7 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
 
 SCENARIO("Printing Delaunay triangulations", "[utility]")
 {
+  spdlog::debug("Printing Delaunay triangulations.\n");
   GIVEN("A Delaunay_t<3> triangulation.")
   {
     Delaunay_t<3> triangulation;
@@ -80,7 +83,7 @@ SCENARIO("Printing Delaunay triangulations", "[utility]")
     {
       THEN("No exception is thrown.")
       {
-        CHECK_NOTHROW(print_delaunay(triangulation));
+        CHECK_NOTHROW(utilities::print_delaunay(triangulation));
       }
     }
   }
@@ -88,12 +91,13 @@ SCENARIO("Printing Delaunay triangulations", "[utility]")
 
 SCENARIO("Randomizing functions", "[utility][!mayfail]")
 {
+  spdlog::debug("Randomizing functions.\n");
   GIVEN("A PCG die roller")
   {
     WHEN("We roll a die twice.")
     {
-      auto const roll1 = die_roll();
-      auto const roll2 = die_roll();
+      auto const roll1 = utilities::die_roll();
+      auto const roll2 = utilities::die_roll();
       THEN("They should probably be different.")
       {
         CHECK_FALSE(roll1 == roll2);
@@ -107,7 +111,7 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
     iota(v.begin(), v.end(), 0);
     WHEN("The container is shuffled.")
     {
-      std::shuffle(v.begin(), v.end(), make_random_generator());
+      std::shuffle(v.begin(), v.end(), utilities::make_random_generator());
       THEN("We get back the elements in random order.")
       {
         auto j = 0;
@@ -123,12 +127,12 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
     {
       auto constexpr min = static_cast<Int_precision>(64);
       auto constexpr max = static_cast<Int_precision>(6400);
-      auto const value1  = generate_random_int(min, max);
-      auto const value2  = generate_random_int(min, max);
-      auto const value3  = generate_random_int(min, max);
-      auto const value4  = generate_random_int(min, max);
-      auto const value5  = generate_random_int(min, max);
-      auto const value6  = generate_random_int(min, max);
+      auto const value1  = utilities::generate_random_int(min, max);
+      auto const value2  = utilities::generate_random_int(min, max);
+      auto const value3  = utilities::generate_random_int(min, max);
+      auto const value4  = utilities::generate_random_int(min, max);
+      auto const value5  = utilities::generate_random_int(min, max);
+      auto const value6  = utilities::generate_random_int(min, max);
       THEN("They should all fall within the range and all be different.")
       {
         CHECK(value1 >= min);
@@ -166,12 +170,12 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
     WHEN("We generate six different timeslices within the range.")
     {
       auto constexpr max = static_cast<Int_precision>(256);
-      auto const value1  = generate_random_timeslice(max);
-      auto const value2  = generate_random_timeslice(max);
-      auto const value3  = generate_random_timeslice(max);
-      auto const value4  = generate_random_timeslice(max);
-      auto const value5  = generate_random_timeslice(max);
-      auto const value6  = generate_random_timeslice(max);
+      auto const value1  = utilities::generate_random_timeslice(max);
+      auto const value2  = utilities::generate_random_timeslice(max);
+      auto const value3  = utilities::generate_random_timeslice(max);
+      auto const value4  = utilities::generate_random_timeslice(max);
+      auto const value5  = utilities::generate_random_timeslice(max);
+      auto const value6  = utilities::generate_random_timeslice(max);
       THEN("They should all fall within the range and be different.")
       {
         CHECK(value1 >= 1);
@@ -210,7 +214,7 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
     {
       auto constexpr min = 0.0L;
       auto constexpr max = 1.0L;
-      auto const value   = generate_random_real(min, max);
+      auto const value   = utilities::generate_random_real(min, max);
       THEN("The real number should lie within that range.")
       {
         REQUIRE(min <= value);
@@ -222,12 +226,12 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six probabilities.")
     {
-      auto const value1 = generate_probability();
-      auto const value2 = generate_probability();
-      auto const value3 = generate_probability();
-      auto const value4 = generate_probability();
-      auto const value5 = generate_probability();
-      auto const value6 = generate_probability();
+      auto const value1 = utilities::generate_probability();
+      auto const value2 = utilities::generate_probability();
+      auto const value3 = utilities::generate_probability();
+      auto const value4 = utilities::generate_probability();
+      auto const value5 = utilities::generate_probability();
+      auto const value6 = utilities::generate_probability();
 
       THEN("They should all be different.")
       {
@@ -253,41 +257,43 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
 
 SCENARIO("Expected points per timeslice", "[utility]")
 {
+  spdlog::debug("Expected points per timeslice.\n");
   GIVEN("Simplices and timeslices for various foliations")
   {
     WHEN("We request 2 simplices on 2 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 2, 2, true) == 2);
+        REQUIRE(utilities::expected_points_per_timeslice(3, 2, 2) == 2);
       }
     }
     WHEN("We request 500 simplices on 4 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 500, 4, true) == 50);
+        REQUIRE(utilities::expected_points_per_timeslice(3, 500, 4) == 50);
       }
     }
     WHEN("We request 5000 simplices on 8 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 5000, 8, true) == 125);
+        REQUIRE(utilities::expected_points_per_timeslice(3, 5000, 8) == 125);
       }
     }
     WHEN("We request 64,000 simplices on 16 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 64000, 16, true) == 600);
+        REQUIRE(utilities::expected_points_per_timeslice(3, 64000, 16) == 600);
       }
     }
     WHEN("We request 640,000 simplices on 64 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 640000, 64, true) == 1000);
+        REQUIRE(utilities::expected_points_per_timeslice(3, 640000, 64) ==
+                1000);
       }
     }
   }
@@ -295,12 +301,13 @@ SCENARIO("Expected points per timeslice", "[utility]")
 
 SCENARIO("Exact number (Gmpzf) conversion", "[utility]")
 {
+  spdlog::debug("Exact number (Gmpzf) conversion.\n");
   GIVEN("A number not exactly representable in binary.")
   {
     Gmpzf const TEST_VALUE = 0.17;
     WHEN("We convert it to double.")
     {
-      auto const converted_value = Gmpzf_to_double(TEST_VALUE);
+      auto const converted_value = utilities::Gmpzf_to_double(TEST_VALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
       {
         REQUIRE(TEST_VALUE == Gmpzf(converted_value));

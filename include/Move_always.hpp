@@ -72,7 +72,7 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG
-    spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     fmt::print("Starting Move Always algorithm in {}+1 dimensions ...\n",
                ManifoldType::dimension - 1);
@@ -92,7 +92,7 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
            ++move_attempt)
       {
         // Pick a move to attempt
-        auto move_choice = generate_random_int(
+        auto move_choice = utilities::generate_random_int(
             0, move_tracker::moves_per_dimension(ManifoldType::dimension) - 1);
 #ifndef NDEBUG
         fmt::print("Move choice = {}\n", move_choice);

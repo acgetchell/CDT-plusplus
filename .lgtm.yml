@@ -41,5 +41,5 @@ extraction:
         - cd $LGTM_SRC
         - mkdir build
         - cd build || exit
-        - cmake -G Ninja -D CMAKE_BUILD_TYPE=Debug ..
+        - cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE ..
         - cmake --build .

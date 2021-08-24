@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.16...3.20)
+cmake_minimum_required(VERSION 3.16...3.21)
 
 # vcpkg settings must be set before project()
 if(DEFINED ENV{VCPKG_ROOT} AND NOT DEFINED CMAKE_TOOLCHAIN_FILE)
@@ -111,7 +111,9 @@ include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
 # Catch
 if(ENABLE_TESTING)
   enable_testing()
-  message(STATUS "Building tests. Check out /tests for unit tests.")
+  message(STATUS "Building tests. Look at /tests for unit tests.")
+  message(STATUS "Look at /tests/logs for spdlog results from unit tests.")
+  message(NOTICE "These logs can get quite big in DEBUG mode if you run all tests.")
   add_subdirectory(tests)
 endif()
 

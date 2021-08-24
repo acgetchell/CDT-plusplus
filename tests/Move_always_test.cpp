@@ -16,6 +16,8 @@ using namespace std;
 SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
          "[move always]")
 {
+  spdlog::debug(
+      "MoveStrategy<MOVE_ALWAYS> special member and swap properties.\n");
   GIVEN("A Move always move strategy.")
   {
     WHEN("Special members are examined.")
@@ -24,41 +26,49 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
       {
         REQUIRE(is_nothrow_destructible_v<MoveAlways3>);
         REQUIRE(is_nothrow_destructible_v<MoveAlways4>);
+        spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
-        CHECK(is_nothrow_default_constructible_v<MoveAlways3>);
-        CHECK(is_nothrow_default_constructible_v<MoveAlways4>);
+        REQUIRE(is_nothrow_default_constructible_v<MoveAlways3>);
+        REQUIRE(is_nothrow_default_constructible_v<MoveAlways4>);
+        spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {
-        CHECK(is_nothrow_copy_constructible_v<MoveAlways3>);
-        CHECK(is_nothrow_copy_constructible_v<MoveAlways4>);
+        REQUIRE(is_nothrow_copy_constructible_v<MoveAlways3>);
+        REQUIRE(is_nothrow_copy_constructible_v<MoveAlways4>);
+        spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK(is_nothrow_copy_assignable_v<MoveAlways3>);
-        CHECK(is_nothrow_copy_assignable_v<MoveAlways4>);
+        REQUIRE(is_nothrow_copy_assignable_v<MoveAlways3>);
+        REQUIRE(is_nothrow_copy_assignable_v<MoveAlways4>);
+        spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        CHECK(is_nothrow_move_constructible_v<MoveAlways3>);
-        CHECK(is_nothrow_move_constructible_v<MoveAlways4>);
+        REQUIRE(is_nothrow_move_constructible_v<MoveAlways3>);
+        REQUIRE(is_nothrow_move_constructible_v<MoveAlways4>);
+        spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        CHECK(is_nothrow_move_assignable_v<MoveAlways3>);
-        CHECK(is_nothrow_move_assignable_v<MoveAlways4>);
+        REQUIRE(is_nothrow_move_assignable_v<MoveAlways3>);
+        REQUIRE(is_nothrow_move_assignable_v<MoveAlways4>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<MoveAlways3>);
         REQUIRE(is_nothrow_swappable_v<MoveAlways4>);
+        spdlog::debug("It is no-throw swappable.\n");
       }
       THEN("It is constructible from 2 parameters.")
       {
         REQUIRE(is_constructible_v<MoveAlways3, Int_precision, Int_precision>);
         REQUIRE(is_constructible_v<MoveAlways4, Int_precision, Int_precision>);
+        spdlog::debug("It is constructible from 2 parameters.\n");
       }
     }
   }
@@ -66,6 +76,7 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
 
 SCENARIO("MoveAlways member functions", "[move always]")
 {
+  spdlog::debug("MoveAlways member functions.\n");
   GIVEN("A correctly-constructed Manifold3.")
   {
     auto constexpr simplices  = static_cast<Int_precision>(640);
@@ -109,8 +120,9 @@ SCENARIO("MoveAlways member functions", "[move always]")
   }
 }
 
-SCENARIO("Using the Move always algorithm", "[move always][!mayfail]")
+SCENARIO("Using the MoveAlways algorithm", "[move always][!mayfail]")
 {
+  spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold3.")
   {
     auto constexpr simplices  = static_cast<Int_precision>(72);

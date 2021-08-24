@@ -19,10 +19,6 @@
 #ifndef CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 #define CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP
 
-/// Toggles detailed per-simplex debugging output
-#define DETAILED_DEBUGGING
-#undef DETAILED_DEBUGGING
-
 #include "Triangulation_traits.hpp"
 #include "Utilities.hpp"
 
@@ -122,17 +118,22 @@ namespace foliated_triangulations
   /// @return True if timelike and false if spacelike
   template <int dimension>
   [[nodiscard]] inline auto classify_edge(
-      Edge_handle_t<dimension> const& t_edge, bool const t_debug_flag = false)
+      Edge_handle_t<dimension> const&
+          t_edge)  //, bool const t_debug_flag = false)
       -> bool
   {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
     auto const& cell  = t_edge.first;
     auto        time1 = cell->vertex(t_edge.second)->info();
     auto        time2 = cell->vertex(t_edge.third)->info();
-    if (t_debug_flag)
-    {
-      fmt::print("Edge: Vertex(1) timevalue: {} Vertex(2) timevalue: {}\n",
-                 time1, time2);
-    }
+
+#ifndef NDEBUG
+    spdlog::trace("Edge: Vertex(1) timevalue: {} Vertex(2) timevalue: {}\n",
+                  time1, time2);
+#endif
+
     return time1 != time2;
   }  // classify_edge
 
@@ -195,8 +196,11 @@ namespace foliated_triangulations
   /// @return The type of the simplex
   template <int dimension>
   [[nodiscard]] inline auto expected_cell_type(
-      Cell_handle_t<dimension> const& t_cell, bool const t_debug_flag = false)
+      Cell_handle_t<dimension> const& t_cell)
   {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
     std::vector<int> vertex_timevalues;
     // There are d+1 vertices in a d-dimensional simplex
     for (auto i = 0; i < dimension + 1; ++i)
@@ -229,17 +233,16 @@ namespace foliated_triangulations
     if (max_vertices == 1 && min_vertices == 4) { return Cell_type::FOUR_ONE; }
 
     // If we got here, there's some kind of error
-    if (t_debug_flag)
-    {
-      spdlog::error("This simplex has an error:\n");
-      spdlog::error("Max timevalue is {} and min timevalue is {}.\n", maxtime,
-                    mintime);
-      spdlog::error(
-          "There are {} vertices with the max timevalue and {} vertices with "
-          "the min timevalue.\n",
-          max_vertices, min_vertices);
-      spdlog::error("--\n");
-    }
+#ifndef NDEBUG
+    spdlog::trace("This simplex has an error:\n");
+    spdlog::trace("Max timevalue is {} and min timevalue is {}.\n", maxtime,
+                  mintime);
+    spdlog::trace(
+        "There are {} vertices with the max timevalue and {} vertices with "
+        "the min timevalue.\n",
+        max_vertices, min_vertices);
+    spdlog::trace("--\n");
+#endif
     return Cell_type::UNCLASSIFIED;
   }  // expected_cell_type
 
@@ -301,6 +304,26 @@ namespace foliated_triangulations
     }
   }  // print_cells
 
+  /// @brief Write to debug log timevalues of each vertex in the cell and the
+  /// resulting cell->info
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param t_cells The cells to write to debug log
+  template <int dimension>
+  inline void debug_print_cells(
+      std::vector<Cell_handle_t<dimension>> const& t_cells)
+  {
+    for (auto const& cell : t_cells)
+    {
+      spdlog::debug("Cell info => {}\n", cell->info());
+      for (int j = 0; j < dimension + 1; ++j)
+      {
+        spdlog::debug("Vertex({}) Point: ({}) Timevalue: {}\n", j,
+                      cell->vertex(j)->point(), cell->vertex(j)->info());
+      }
+      spdlog::debug("---\n");
+    }
+  }  // debug_print_cells
+
   /// @brief Make foliated ball
   /// @details Makes a solid ball of successive layers of spheres at
   /// a given radius.
@@ -319,8 +342,8 @@ namespace foliated_triangulations
   {
     Causal_vertices_t<dimension> causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
-    const auto points_per_timeslice =
-        expected_points_per_timeslice(dimension, t_simplices, t_timeslices);
+    const auto points_per_timeslice = utilities::expected_points_per_timeslice(
+        dimension, t_simplices, t_timeslices);
     Expects(points_per_timeslice >= 2);
 
     for (gsl::index i = 0; i < t_timeslices; ++i)
@@ -339,34 +362,39 @@ namespace foliated_triangulations
   }  // make_foliated_sphere
 
   /// @brief Collect spacelike facets into a container indexed by time value
+  /// @details *Warning!* Turning on debugging info will generate gigabytes
+  /// of logs.
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_facets A container of facets
   /// @param t_debug_flag Debugging info toggle
   /// @return Container with spacelike facets per timeslice
   template <int dimension>
   [[nodiscard]] inline auto volume_per_timeslice(
-      std::vector<Face_handle_t<dimension>> const& t_facets,
-      bool const                                   t_debug_flag = false)
+      std::vector<Face_handle_t<dimension>> const& t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
   {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
     std::multimap<Int_precision, typename TriangulationTraits<dimension>::Facet>
         space_faces;
     for (auto const& face : t_facets)
     {
       Cell_handle_t<dimension> ch = face.first;
       auto          index_of_facet = face.second;
-      if (t_debug_flag) { fmt::print("Facet index is {}\n", index_of_facet); }
+#ifndef NDEBUG
+      spdlog::trace("Facet index is {}\n", index_of_facet);
+#endif
       std::set<Int_precision> facet_timevalues;
       // There are d+1 vertices in a d-dimensional simplex
       for (int i = 0; i < dimension + 1; ++i)
       {
         if (i != index_of_facet)
         {
-          if (t_debug_flag)
-          {
-            fmt::print("Vertex[{}] has timevalue {}\n", i,
-                       ch->vertex(i)->info());
-          }
+#ifndef NDEBUG
+          spdlog::trace("Vertex[{}] has timevalue {}\n", i,
+                        ch->vertex(i)->info());
+#endif
           facet_timevalues.insert(ch->vertex(i)->info());
         }
       }
@@ -374,16 +402,17 @@ namespace foliated_triangulations
       // equal
       if (facet_timevalues.size() == 1)
       {
-        if (t_debug_flag)
-        {
-          spdlog::info("Facet is spacelike on timevalue {}.\n",
-                       *facet_timevalues.begin());
-        }
+#ifndef NDEBUG
+        spdlog::trace("Facet is spacelike on timevalue {}.\n",
+                      *facet_timevalues.begin());
+#endif
         space_faces.insert({*facet_timevalues.begin(), face});
       }
       else
       {
-        if (t_debug_flag) { spdlog::info("Facet is timelike.\n"); }
+#ifndef NDEBUG
+        spdlog::trace("Facet is timelike.\n");
+#endif
       }
     }
     return space_faces;
@@ -409,6 +438,9 @@ namespace foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation)
       -> std::optional<std::vector<Vertex_handle_t<dimension>>>
   {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
     std::vector<Vertex_handle_t<dimension>> invalid_vertices;
 
     // Iterate over all cells in the triangulation
@@ -428,57 +460,62 @@ namespace foliated_triangulations
       auto const minvalue = this_cell.cbegin()->first;
       auto const maxvalue = this_cell.crbegin()->first;
 
-#ifdef DETAILED_DEBUGGING
+      // This logs a lot of stuff
+#ifndef NDEBUG
       auto min_vertex = this_cell.cbegin()->second;
       auto max_vertex = this_cell.crbegin()->second;
-      fmt::print("Smallest timevalue in this cell is: {}\n", minvalue);
-      fmt::print("Largest timevalue in this cell is: {}\n", maxvalue);
-      fmt::print("Min vertex info() {}\n", min_vertex->info());
-      fmt::print("Max vertex info() {}\n", max_vertex->info());
+      spdlog::trace("Smallest timevalue in this cell is: {}\n", minvalue);
+      spdlog::trace("Largest timevalue in this cell is: {}\n", maxvalue);
+      spdlog::trace("Min vertex info() {}\n", min_vertex->info());
+      spdlog::trace("Max vertex info() {}\n", max_vertex->info());
 #endif
       // There must be a timevalue delta of 1 for a validly foliated simplex
       if (maxvalue - minvalue == 1)
       {
-#ifdef DETAILED_DEBUGGING
-        fmt::print("This cell is valid.\n");
+        // This logs a lot of stuff
+#ifndef NDEBUG
+        spdlog::trace("This cell is valid.\n");
 #endif
       }
       else
       {
         auto const minvalue_count = this_cell.count(minvalue);
         auto const maxvalue_count = this_cell.count(maxvalue);
-#ifdef DETAILED_DEBUGGING
-        fmt::print("This cell is invalid.\n");
-        fmt::print("There are {} vertices with the minvalue.\n",
-                   minvalue_count);
-        fmt::print("There are {} vertices with the maxvalue.\n",
-                   maxvalue_count);
-        fmt::print("So we should remove ");
+        // This logs a lot of stuff
+#ifndef NDEBUG
+        spdlog::trace("This cell is invalid.\n");
+        spdlog::trace("There are {} vertices with the minvalue.\n",
+                      minvalue_count);
+        spdlog::trace("There are {} vertices with the maxvalue.\n",
+                      maxvalue_count);
+        spdlog::trace("So we should remove: ");
 #endif
-
         if (minvalue_count > maxvalue_count)
         {
           invalid_vertices.emplace_back(this_cell.rbegin()->second);
-#ifdef DETAILED_DEBUGGING
-          fmt::print("maxvalue.\n");
+          // This logs a lot of stuff
+#ifndef NDEBUG
+          spdlog::trace("... maxvalue.\n");
 #endif
         }
         else
         {
           invalid_vertices.emplace_back(this_cell.begin()->second);
-#ifdef DETAILED_DEBUGGING
-          fmt::print("minvalue.\n");
+          // This logs a lot of stuff
+#ifndef NDEBUG
+          spdlog::trace("... minvalue.\n");
 #endif
         }
       }
     }
     if (invalid_vertices.empty()) { return std::nullopt; }
 
-#ifdef DETAILED_DEBUGGING
-    fmt::print("Removing ...\n");
+    // This logs a lot of stuff
+#ifndef NDEBUG
+    spdlog::trace("Removing ...\n");
     for (auto& v : invalid_vertices)
     {
-      fmt::print("Vertex {} with timevalue {}\n", v->point(), v->info());
+      spdlog::trace("Vertex {} with timevalue {}\n", v->point(), v->info());
     }
 #endif
     return invalid_vertices;
@@ -506,6 +543,9 @@ namespace foliated_triangulations
   [[nodiscard]] auto fix_timeslices(Delaunay_t<dimension>& t_triangulation)
       -> bool
   {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
     auto vertices_to_delete = check_timeslices<dimension>(t_triangulation);
     std::set<Vertex_handle_t<dimension>> deleted_vertices;
     // Remove duplicates
@@ -529,7 +569,7 @@ namespace foliated_triangulations
     Ensures(t_triangulation.is_valid());
 
 #ifndef NDEBUG
-    fmt::print("There are {} invalid simplices.\n", invalid);
+    spdlog::trace("There are {} invalid simplices.\n", invalid);
 #endif
     return invalid == 0;
   }  // fix_timeslices
@@ -548,6 +588,9 @@ namespace foliated_triangulations
       double const foliation_spacing = FOLIATION_SPACING)
       -> Delaunay_t<dimension>
   {
+#ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
     fmt::print("\nGenerating universe ...\n");
 #ifdef CGAL_LINKED_WITH_TBB
     // Construct the locking data-structure
@@ -576,11 +619,11 @@ namespace foliated_triangulations
     while (!fix_timeslices<dimension>(triangulation))
     {
 #ifndef NDEBUG
-      fmt::print("Fix pass #{}\n", passes);
+      spdlog::trace("Fix pass #{}\n", passes);
 #endif
       ++passes;
     }
-    print_delaunay(triangulation);
+    utilities::print_delaunay(triangulation);
     Ensures(!check_timeslices<dimension>(triangulation));
     return triangulation;
   }  // make_triangulation
@@ -650,7 +693,7 @@ namespace foliated_triangulations
                      FoliatedTriangulation<3>& swap_into) noexcept
     {
 #ifndef NDEBUG
-      spdlog::info("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       // Uses the triangulation swap method in CGAL
       // This assumes that the first triangulation is not used afterwards!
@@ -985,10 +1028,13 @@ namespace foliated_triangulations
     [[nodiscard]] auto is_vertex_timevalue_correct(
         Vertex_handle_t<3> const& t_vertex) const -> bool
     {
+#ifndef NDEBUG
+      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
       auto const e_timevalue = this->expected_timevalue(t_vertex);
-#ifdef DETAILED_DEBUGGING
-      fmt::print("Vertex ({}) with info() {}: expected timevalue {}\n",
-                 t_vertex->point(), t_vertex->info(), e_timevalue);
+#ifndef NDEBUG
+      spdlog::trace("Vertex ({}) with info() {}: expected timevalue {}\n",
+                    t_vertex->point(), t_vertex->info(), e_timevalue);
 #endif
       return e_timevalue == t_vertex->info();
     }  // is_vertex_timevalue_correct
@@ -1094,7 +1140,7 @@ namespace foliated_triangulations
     {
       for (auto const& edge : m_edges)
       {
-        if (classify_edge<3>(edge, true)) { fmt::print("==> timelike\n"); }
+        if (classify_edge<3>(edge)) { fmt::print("==> timelike\n"); }
         else
         {
           fmt::print("==> spacelike\n");
@@ -1203,13 +1249,14 @@ namespace foliated_triangulations
     /// @param t_debug_flag Debugging info toggle
     /// @return A container of simplices with Cell_type written to cell->info()
     [[nodiscard]] auto classify_cells(
-        std::vector<Cell_handle_t<3>> const& cells,
-        bool const t_debug_flag = false) const -> std::vector<Cell_handle_t<3>>
+        std::vector<Cell_handle_t<3>> const&
+            cells)  //, bool const t_debug_flag = false)
+        const -> std::vector<Cell_handle_t<3>>
     {
       Expects(cells.size() == number_of_finite_cells());
       for (auto const& c : cells)
       {
-        c->info() = static_cast<int>(expected_cell_type<3>(c, t_debug_flag));
+        c->info() = static_cast<int>(expected_cell_type<3>(c));
       }
       return cells;
     }  // classify_cells

@@ -47,7 +47,7 @@ namespace move_tracker
 
   [[nodiscard]] inline auto generate_random_move_3() -> move_type
   {
-    auto move_choice = generate_random_int(0, 4);
+    auto move_choice = utilities::generate_random_int(0, 4);
 #ifndef NDEBUG
     fmt::print("Move choice = {}\n", move_choice);
 #endif

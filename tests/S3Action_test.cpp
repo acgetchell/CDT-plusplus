@@ -18,6 +18,7 @@ using namespace std;
 
 SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
 {
+  spdlog::debug("Calculate the bulk action on S3 triangulations.\n");
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
     constexpr auto simplices  = static_cast<Int_precision>(6400);
@@ -42,7 +43,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        cout << "S3_bulk_action_alpha_minus_one() = " << Bulk_action << "\n";
+        spdlog::debug("S3_bulk_action_alpha_minus_one() = {}\n", Bulk_action);
         REQUIRE(3500 <= Bulk_action);
         REQUIRE(Bulk_action <= 4500);
       }
@@ -53,7 +54,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        cout << "S3_bulk_action_alpha_one() = " << Bulk_action << "\n";
+        spdlog::debug("S3_bulk_action_alpha_one() = {}\n", Bulk_action);
         REQUIRE(2000 <= Bulk_action);
         REQUIRE(Bulk_action <= 3000);
       }
@@ -61,12 +62,12 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     WHEN("The generalized Bulk Action is calculated.")
     {
       constexpr auto Alpha = 0.6L;
-      cout << "(Long double) Alpha = " << Alpha << '\n';
+      spdlog::debug("(Long double) Alpha = {}\n", Alpha);
       auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
                                         universe.N3_22(), Alpha, K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        cout << "S3_bulk_action() = " << Bulk_action << "\n";
+        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action);
         REQUIRE(2700 <= Bulk_action);
         REQUIRE(Bulk_action <= 3700);
       }
@@ -84,10 +85,11 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
           "S3_bulk_action(alpha=1) == S3_bulk_action_alpha_one() within "
           "tolerances.")
       {
-        cout << "S3_bulk_action() = " << Bulk_action << "\n";
-        cout << "S3_bulk_action_alpha_one() = " << Bulk_action_one << "\n";
-        Approx target = Approx(Gmpzf_to_double(Bulk_action)).epsilon(TOLERANCE);
-        REQUIRE(Gmpzf_to_double(Bulk_action_one) == target);
+        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action);
+        spdlog::debug("S3_bulk_action_alpha_one() = {}\n", Bulk_action_one);
+        Approx target =
+            Approx(utilities::Gmpzf_to_double(Bulk_action)).epsilon(TOLERANCE);
+        REQUIRE(utilities::Gmpzf_to_double(Bulk_action_one) == target);
       }
     }
   }

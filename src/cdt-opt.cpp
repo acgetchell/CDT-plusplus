@@ -22,7 +22,7 @@ using namespace std;
 
 auto main() -> int
 {
-  fmt::print("cdt-opt started at {}\n", currentDateTime());
+  fmt::print("cdt-opt started at {}\n", utilities::currentDateTime());
   constexpr Int_precision simplices  = 64;
   constexpr Int_precision timeslices = 3;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$

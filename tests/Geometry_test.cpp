@@ -13,8 +13,9 @@
 
 using namespace std;
 
-SCENARIO("3-Geometry special member and swap properties", "[geometry]")
+SCENARIO("Geometry special member and swap properties", "[geometry]")
 {
+  spdlog::debug("Geometry special member and swap properties.\n");
   GIVEN("A 3-dimensional geometry.")
   {
     WHEN("Special members are examined.")
@@ -22,30 +23,37 @@ SCENARIO("3-Geometry special member and swap properties", "[geometry]")
       THEN("It is trivially destructible.")
       {
         REQUIRE(is_trivially_destructible_v<Geometry3>);
+        spdlog::debug("It is trivially destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
-        CHECK(is_nothrow_default_constructible_v<Geometry3>);
+        REQUIRE(is_nothrow_default_constructible_v<Geometry3>);
+        spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {
-        CHECK(is_nothrow_copy_constructible_v<Geometry3>);
+        REQUIRE(is_nothrow_copy_constructible_v<Geometry3>);
+        spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
-        CHECK(is_nothrow_copy_assignable_v<Geometry3>);
+        REQUIRE(is_nothrow_copy_assignable_v<Geometry3>);
+        spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
         REQUIRE(is_nothrow_move_constructible_v<Geometry3>);
+        spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
         REQUIRE(is_nothrow_move_assignable_v<Geometry3>);
+        spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
         REQUIRE(is_nothrow_swappable_v<Geometry3>);
+        spdlog::debug("It is no-throw swappable.\n");
       }
     }
   }
@@ -53,6 +61,7 @@ SCENARIO("3-Geometry special member and swap properties", "[geometry]")
 
 SCENARIO("3-Geometry classification", "[geometry]")
 {
+  spdlog::debug("3-Geometry classification.\n");
   GIVEN("A small 3-dimensional geometry.")
   {
     WHEN("It is constructed with a Delaunay triangulation.")
@@ -107,6 +116,7 @@ SCENARIO("3-Geometry classification", "[geometry]")
 
 SCENARIO("3-Geometry initialization", "[geometry]")
 {
+  spdlog::debug("3-Geometry initialization.\n");
   GIVEN("A 3-dimensional geometry.")
   {
     WHEN("It is default constructed.")
