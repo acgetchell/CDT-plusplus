@@ -74,7 +74,6 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#define-members">Macros</a> &#124;
 <a href="#enum-members">Enumerations</a> &#124;
 <a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
@@ -102,14 +101,16 @@ $(function() {
 <code>#include &quot;pcg_random.hpp&quot;</code><br />
 <code>#include &lt;fmt/format.h&gt;</code><br />
 <code>#include &lt;fmt/ostream.h&gt;</code><br />
-<code>#include &quot;spdlog/spdlog.h&quot;</code><br />
+<code>#include &lt;spdlog/sinks/basic_file_sink.h&gt;</code><br />
+<code>#include &lt;spdlog/sinks/stdout_color_sinks.h&gt;</code><br />
+<code>#include &lt;spdlog/spdlog.h&gt;</code><br />
 <code>#include &quot;<a class="el" href="_settings_8hpp_source.html">Settings.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Utilities.hpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
 </div>
 <div id="dynsection-0-content" class="dyncontent" style="display:none;">
-<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_utilities_8hpp__incl.svg" width="100%" height="440"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
+<div class="center"><div class="zoom"><iframe scrolling="no" frameborder="0" src="_utilities_8hpp__incl.svg" width="100%" height="451"><p><b>This browser is not able to show SVG: try Firefox, Chrome, Safari, or Opera instead.</b></p></iframe></div>
 </div>
 </div>
 </div><div class="textblock"><div id="dynsection-1" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
@@ -123,13 +124,6 @@ $(function() {
 </div>
 <p><a href="_utilities_8hpp_source.html">Go to the source code of this file.</a></p>
 <table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="define-members"></a>
-Macros</h2></td></tr>
-<tr class="memitem:a9a0c2b3d03bbbef60eff20621e4e951a"><td class="memItemLeft" align="right" valign="top"><a id="a9a0c2b3d03bbbef60eff20621e4e951a"></a>
-#define&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a9a0c2b3d03bbbef60eff20621e4e951a">DETAILED_DEBUGGING</a></td></tr>
-<tr class="memdesc:a9a0c2b3d03bbbef60eff20621e4e951a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Toggles detailed random number generator debugging output. <br /></td></tr>
-<tr class="separator:a9a0c2b3d03bbbef60eff20621e4e951a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-</table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
 Enumerations</h2></td></tr>
 <tr class="memitem:ad9c9232841af64b400d39d994e5564c5"><td class="memItemLeft" align="right" valign="top"><a id="ad9c9232841af64b400d39d994e5564c5"></a>enum &#160;</td><td class="memItemRight" valign="bottom"><b>topology_type</b> { <b>TOROIDAL</b>, 
@@ -139,59 +133,62 @@ Enumerations</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa19186e57b36341a554e2b650de915dd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">currentDateTime</a> ()</td></tr>
-<tr class="memdesc:aa19186e57b36341a554e2b650de915dd"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current date and time.  <a href="_utilities_8hpp.html#aa19186e57b36341a554e2b650de915dd">More...</a><br /></td></tr>
-<tr class="separator:aa19186e57b36341a554e2b650de915dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a171c31ff047c94717de089933f7dab45"><td class="memItemLeft" align="right" valign="top"><a id="a171c31ff047c94717de089933f7dab45"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a171c31ff047c94717de089933f7dab45">die_roll</a> () noexcept</td></tr>
-<tr class="memdesc:a171c31ff047c94717de089933f7dab45"><td class="mdescLeft">&#160;</td><td class="mdescRight">Roll a die with PCG. <br /></td></tr>
-<tr class="separator:a171c31ff047c94717de089933f7dab45"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5b0cf3d2ac2f8372441d30d9a1fd6ca9"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a5b0cf3d2ac2f8372441d30d9a1fd6ca9">expected_points_per_timeslice</a> (std::size_t const t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_timeslices, bool const t_output_flag=true)</td></tr>
-<tr class="memdesc:a5b0cf3d2ac2f8372441d30d9a1fd6ca9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate expected # of points per simplex.  <a href="_utilities_8hpp.html#a5b0cf3d2ac2f8372441d30d9a1fd6ca9">More...</a><br /></td></tr>
-<tr class="separator:a5b0cf3d2ac2f8372441d30d9a1fd6ca9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae07db1e6fb52c04efe6161afd5f84a1a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ae07db1e6fb52c04efe6161afd5f84a1a">generate_filename</a> (topology_type const &amp;t_topology, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing) noexcept</td></tr>
-<tr class="memdesc:ae07db1e6fb52c04efe6161afd5f84a1a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate useful filenames.  <a href="_utilities_8hpp.html#ae07db1e6fb52c04efe6161afd5f84a1a">More...</a><br /></td></tr>
-<tr class="separator:ae07db1e6fb52c04efe6161afd5f84a1a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9a9ab64d518ecba1c9f69229fdf3180c"><td class="memItemLeft" align="right" valign="top"><a id="a9a9ab64d518ecba1c9f69229fdf3180c"></a>
-constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a9a9ab64d518ecba1c9f69229fdf3180c">generate_probability</a> () noexcept</td></tr>
-<tr class="memdesc:a9a9ab64d518ecba1c9f69229fdf3180c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a probability. <br /></td></tr>
-<tr class="separator:a9a9ab64d518ecba1c9f69229fdf3180c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a54ec1eeda4a90a5907c92da7f261d3"><td class="memTemplParams" colspan="2">template&lt;typename NumberType , class Distribution &gt; </td></tr>
-<tr class="memitem:a4a54ec1eeda4a90a5907c92da7f261d3"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a4a54ec1eeda4a90a5907c92da7f261d3">generate_random</a> (NumberType const t_min_value, NumberType const t_max_value) noexcept</td></tr>
-<tr class="memdesc:a4a54ec1eeda4a90a5907c92da7f261d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random numbers.  <a href="_utilities_8hpp.html#a4a54ec1eeda4a90a5907c92da7f261d3">More...</a><br /></td></tr>
-<tr class="separator:a4a54ec1eeda4a90a5907c92da7f261d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af11649ce763de4d43a654876ab4f394b"><td class="memTemplParams" colspan="2"><a id="af11649ce763de4d43a654876ab4f394b"></a>
+<tr class="memitem:aa715f4183fc64cef39399db9906f229b"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">utilities::create_logger</a> ()</td></tr>
+<tr class="memdesc:aa715f4183fc64cef39399db9906f229b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create console and file loggers.  <a href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">More...</a><br /></td></tr>
+<tr class="separator:aa715f4183fc64cef39399db9906f229b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae12eaebae3959e19369ca2135725d448"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">utilities::currentDateTime</a> ()</td></tr>
+<tr class="memdesc:ae12eaebae3959e19369ca2135725d448"><td class="mdescLeft">&#160;</td><td class="mdescRight">Return current date and time.  <a href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">More...</a><br /></td></tr>
+<tr class="separator:ae12eaebae3959e19369ca2135725d448"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a32b5c5bace5c9debca9551e61b0ec4f6"><td class="memItemLeft" align="right" valign="top"><a id="a32b5c5bace5c9debca9551e61b0ec4f6"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">utilities::die_roll</a> () noexcept</td></tr>
+<tr class="memdesc:a32b5c5bace5c9debca9551e61b0ec4f6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Roll a die with PCG. <br /></td></tr>
+<tr class="separator:a32b5c5bace5c9debca9551e61b0ec4f6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1cd0a9cc65a02a75427db18f40325aa1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a1cd0a9cc65a02a75427db18f40325aa1">utilities::expected_points_per_timeslice</a> (std::size_t const t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_timeslices)</td></tr>
+<tr class="memdesc:a1cd0a9cc65a02a75427db18f40325aa1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate expected # of points per simplex.  <a href="_utilities_8hpp.html#a1cd0a9cc65a02a75427db18f40325aa1">More...</a><br /></td></tr>
+<tr class="separator:a1cd0a9cc65a02a75427db18f40325aa1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9a2769a08dd3c337682e75f20cb7566a"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a9a2769a08dd3c337682e75f20cb7566a">utilities::generate_filename</a> (topology_type const &amp;t_topology, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing) noexcept</td></tr>
+<tr class="memdesc:a9a2769a08dd3c337682e75f20cb7566a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate useful filenames.  <a href="_utilities_8hpp.html#a9a2769a08dd3c337682e75f20cb7566a">More...</a><br /></td></tr>
+<tr class="separator:a9a2769a08dd3c337682e75f20cb7566a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa319cef130cb2a030f46a4f14bd18c65"><td class="memItemLeft" align="right" valign="top"><a id="aa319cef130cb2a030f46a4f14bd18c65"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">utilities::generate_probability</a> () noexcept</td></tr>
+<tr class="memdesc:aa319cef130cb2a030f46a4f14bd18c65"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a probability. <br /></td></tr>
+<tr class="separator:aa319cef130cb2a030f46a4f14bd18c65"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7b8518f29136ff80c65df353053f657"><td class="memTemplParams" colspan="2">template&lt;typename NumberType , class Distribution &gt; </td></tr>
+<tr class="memitem:af7b8518f29136ff80c65df353053f657"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#af7b8518f29136ff80c65df353053f657">utilities::generate_random</a> (NumberType const t_min_value, NumberType const t_max_value) noexcept</td></tr>
+<tr class="memdesc:af7b8518f29136ff80c65df353053f657"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random numbers.  <a href="_utilities_8hpp.html#af7b8518f29136ff80c65df353053f657">More...</a><br /></td></tr>
+<tr class="separator:af7b8518f29136ff80c65df353053f657"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac49cbb4e64ff1c0592f3ced5d3e6e410"><td class="memTemplParams" colspan="2"><a id="ac49cbb4e64ff1c0592f3ced5d3e6e410"></a>
 template&lt;typename IntegerType &gt; </td></tr>
-<tr class="memitem:af11649ce763de4d43a654876ab4f394b"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#af11649ce763de4d43a654876ab4f394b">generate_random_int</a> (IntegerType const t_min_value, IntegerType const t_max_value) noexcept</td></tr>
-<tr class="memdesc:af11649ce763de4d43a654876ab4f394b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random integers by calling generate_random, preserves template argument deduction. <br /></td></tr>
-<tr class="separator:af11649ce763de4d43a654876ab4f394b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af1f800b61278d6db0f848c17362a2e31"><td class="memTemplParams" colspan="2"><a id="af1f800b61278d6db0f848c17362a2e31"></a>
+<tr class="memitem:ac49cbb4e64ff1c0592f3ced5d3e6e410"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ac49cbb4e64ff1c0592f3ced5d3e6e410">utilities::generate_random_int</a> (IntegerType const t_min_value, IntegerType const t_max_value) noexcept</td></tr>
+<tr class="memdesc:ac49cbb4e64ff1c0592f3ced5d3e6e410"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random integers by calling generate_random, preserves template argument deduction. <br /></td></tr>
+<tr class="separator:ac49cbb4e64ff1c0592f3ced5d3e6e410"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae78ac07f3b282adaac9ce8077b8ca821"><td class="memTemplParams" colspan="2"><a id="ae78ac07f3b282adaac9ce8077b8ca821"></a>
 template&lt;typename FloatingPointType &gt; </td></tr>
-<tr class="memitem:af1f800b61278d6db0f848c17362a2e31"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#af1f800b61278d6db0f848c17362a2e31">generate_random_real</a> (FloatingPointType const t_min_value, FloatingPointType const t_max_value) noexcept</td></tr>
-<tr class="memdesc:af1f800b61278d6db0f848c17362a2e31"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random real numbers by calling generate_random, preserves template argument deduction. <br /></td></tr>
-<tr class="separator:af1f800b61278d6db0f848c17362a2e31"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aec487237dfc1bf566263c572f31a6d6f"><td class="memTemplParams" colspan="2"><a id="aec487237dfc1bf566263c572f31a6d6f"></a>
+<tr class="memitem:ae78ac07f3b282adaac9ce8077b8ca821"><td class="memTemplItemLeft" align="right" valign="top">constexpr auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ae78ac07f3b282adaac9ce8077b8ca821">utilities::generate_random_real</a> (FloatingPointType const t_min_value, FloatingPointType const t_max_value) noexcept</td></tr>
+<tr class="memdesc:ae78ac07f3b282adaac9ce8077b8ca821"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate random real numbers by calling generate_random, preserves template argument deduction. <br /></td></tr>
+<tr class="separator:ae78ac07f3b282adaac9ce8077b8ca821"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25ab15197d039e3e3abe6538456af359"><td class="memTemplParams" colspan="2"><a id="a25ab15197d039e3e3abe6538456af359"></a>
 template&lt;typename IntegerType &gt; </td></tr>
-<tr class="memitem:aec487237dfc1bf566263c572f31a6d6f"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aec487237dfc1bf566263c572f31a6d6f">generate_random_timeslice</a> (IntegerType &amp;&amp;t_max_timeslice) noexcept -&gt; decltype(auto)</td></tr>
-<tr class="memdesc:aec487237dfc1bf566263c572f31a6d6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random timeslice. <br /></td></tr>
-<tr class="separator:aec487237dfc1bf566263c572f31a6d6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3aa36684c5b956a9a2ae0d339288325c"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a3aa36684c5b956a9a2ae0d339288325c">Gmpzf_to_double</a> (<a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a> const &amp;t_value) -&gt; double</td></tr>
-<tr class="memdesc:a3aa36684c5b956a9a2ae0d339288325c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Gmpzf into a double.  <a href="_utilities_8hpp.html#a3aa36684c5b956a9a2ae0d339288325c">More...</a><br /></td></tr>
-<tr class="separator:a3aa36684c5b956a9a2ae0d339288325c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a29cc6a1199a42d77546d12609ba7ea01"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a29cc6a1199a42d77546d12609ba7ea01">make_random_generator</a> ()</td></tr>
-<tr class="memdesc:a29cc6a1199a42d77546d12609ba7ea01"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a high-quality random number generator usable by std::shuffle.  <a href="_utilities_8hpp.html#a29cc6a1199a42d77546d12609ba7ea01">More...</a><br /></td></tr>
-<tr class="separator:a29cc6a1199a42d77546d12609ba7ea01"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a25ab15197d039e3e3abe6538456af359"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">utilities::generate_random_timeslice</a> (IntegerType &amp;&amp;t_max_timeslice) noexcept -&gt; decltype(auto)</td></tr>
+<tr class="memdesc:a25ab15197d039e3e3abe6538456af359"><td class="mdescLeft">&#160;</td><td class="mdescRight">Generate a random timeslice. <br /></td></tr>
+<tr class="separator:a25ab15197d039e3e3abe6538456af359"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4f84a968c94e9a185b147439dcae1ce1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">utilities::Gmpzf_to_double</a> (<a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a> const &amp;t_value) -&gt; double</td></tr>
+<tr class="memdesc:a4f84a968c94e9a185b147439dcae1ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Gmpzf into a double.  <a href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">More...</a><br /></td></tr>
+<tr class="separator:a4f84a968c94e9a185b147439dcae1ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac676e6af3ae3dcf1e35a1210ec6fead6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ac676e6af3ae3dcf1e35a1210ec6fead6">utilities::make_random_generator</a> ()</td></tr>
+<tr class="memdesc:ac676e6af3ae3dcf1e35a1210ec6fead6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a high-quality random number generator usable by std::shuffle.  <a href="_utilities_8hpp.html#ac676e6af3ae3dcf1e35a1210ec6fead6">More...</a><br /></td></tr>
+<tr class="separator:ac676e6af3ae3dcf1e35a1210ec6fead6"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a> (std::ostream &amp;t_os, topology_type const &amp;t_topology) -&gt; std::ostream &amp;</td></tr>
 <tr class="memdesc:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert topology_type to string output.  <a href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">More...</a><br /></td></tr>
 <tr class="separator:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a32008da4871c79810946b50721fc5f3c"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType &gt; </td></tr>
-<tr class="memitem:a32008da4871c79810946b50721fc5f3c"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a32008da4871c79810946b50721fc5f3c">print_delaunay</a> (TriangulationType const &amp;t_triangulation)</td></tr>
-<tr class="memdesc:a32008da4871c79810946b50721fc5f3c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print triangulation statistics.  <a href="_utilities_8hpp.html#a32008da4871c79810946b50721fc5f3c">More...</a><br /></td></tr>
-<tr class="separator:a32008da4871c79810946b50721fc5f3c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a4a15c6b0443947a62bbd350e0446c459"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType &gt; </td></tr>
-<tr class="memitem:a4a15c6b0443947a62bbd350e0446c459"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a4a15c6b0443947a62bbd350e0446c459">write_file</a> (ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing)</td></tr>
-<tr class="memdesc:a4a15c6b0443947a62bbd350e0446c459"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the runtime results to a file.  <a href="_utilities_8hpp.html#a4a15c6b0443947a62bbd350e0446c459">More...</a><br /></td></tr>
-<tr class="separator:a4a15c6b0443947a62bbd350e0446c459"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a343d224c91b607f37980bf84760347c4"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType &gt; </td></tr>
+<tr class="memitem:a343d224c91b607f37980bf84760347c4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a> (TriangulationType const &amp;t_triangulation)</td></tr>
+<tr class="memdesc:a343d224c91b607f37980bf84760347c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print triangulation statistics.  <a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">More...</a><br /></td></tr>
+<tr class="separator:a343d224c91b607f37980bf84760347c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a38f730917bbb951e4e3e39a4a8ef6a9a"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType &gt; </td></tr>
+<tr class="memitem:a38f730917bbb951e4e3e39a4a8ef6a9a"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a">utilities::write_file</a> (ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing)</td></tr>
+<tr class="memdesc:a38f730917bbb951e4e3e39a4a8ef6a9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the runtime results to a file.  <a href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a">More...</a><br /></td></tr>
+<tr class="separator:a38f730917bbb951e4e3e39a4a8ef6a9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Utility functions. </p>
@@ -199,8 +196,8 @@ template&lt;typename IntegerType &gt; </td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aa19186e57b36341a554e2b650de915dd"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa19186e57b36341a554e2b650de915dd">&#9670;&nbsp;</a></span>currentDateTime()</h2>
+<a id="aa715f4183fc64cef39399db9906f229b"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa715f4183fc64cef39399db9906f229b">&#9670;&nbsp;</a></span>create_logger()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -209,7 +206,64 @@ template&lt;typename IntegerType &gt; </td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto currentDateTime </td>
+          <td class="memname">void utilities::create_logger </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create console and file loggers. </p>
+<p>Create a console and file loggers. There are six logging levels by default: </p><table class="markdownTable">
+<tr class="markdownTableHead">
+<th class="markdownTableHeadNone">Logging level </th><th class="markdownTableHeadNone">Description  </th></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Trace </td><td class="markdownTableBodyNone">Used to trace the internals  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Debug </td><td class="markdownTableBodyNone">Diagnostic information  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Info </td><td class="markdownTableBodyNone">General information  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Warn </td><td class="markdownTableBodyNone">Errors that are handled  </td></tr>
+<tr class="markdownTableRowOdd">
+<td class="markdownTableBodyNone">Err </td><td class="markdownTableBodyNone">Errors which cause a function to fail  </td></tr>
+<tr class="markdownTableRowEven">
+<td class="markdownTableBodyNone">Critical </td><td class="markdownTableBodyNone">Errors which cause the program to fail  </td></tr>
+</table>
+<p>A logging level covers all levels beneath it, e.g. trace covers everything, critical only shows up in spdlog::level::critical.</p>
+<p>Logging levels and formatting are set by loggers. The sink is the object that writes the log to the target.</p>
+<p>So, this function creates 3 sinks:</p><ol type="1">
+<li>Console, which logs <em>Info</em> and below to the terminal</li>
+<li>Debug, which logs <em>Debug</em> and below to logs/debug-log.txt</li>
+<li>Trace, which logs everything to logs/trace-log.txt</li>
+</ol>
+<p>If an exception is thrown, then the default global console logger is used. </p>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00383">383</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00383">utilities::create_logger()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00383">utilities::create_logger()</a>.</p>
+
+</div>
+</div>
+<a id="ae12eaebae3959e19369ca2135725d448"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae12eaebae3959e19369ca2135725d448">&#9670;&nbsp;</a></span>currentDateTime()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::currentDateTime </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -228,12 +282,14 @@ template&lt;typename IntegerType &gt; </td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00089">89</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="cdt-opt_8cpp_source.html#l00023">main()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00089">utilities::currentDateTime()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00089">utilities::currentDateTime()</a>.</p>
 
 </div>
 </div>
-<a id="a5b0cf3d2ac2f8372441d30d9a1fd6ca9"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a5b0cf3d2ac2f8372441d30d9a1fd6ca9">&#9670;&nbsp;</a></span>expected_points_per_timeslice()</h2>
+<a id="a1cd0a9cc65a02a75427db18f40325aa1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a1cd0a9cc65a02a75427db18f40325aa1">&#9670;&nbsp;</a></span>expected_points_per_timeslice()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -242,7 +298,7 @@ template&lt;typename IntegerType &gt; </td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto expected_points_per_timeslice </td>
+          <td class="memname">auto utilities::expected_points_per_timeslice </td>
           <td>(</td>
           <td class="paramtype">std::size_t const&#160;</td>
           <td class="paramname"><em>t_dimension</em>, </td>
@@ -257,13 +313,7 @@ template&lt;typename IntegerType &gt; </td></tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const&#160;</td>
-          <td class="paramname"><em>t_number_of_timeslices</em>, </td>
-        </tr>
-        <tr>
-          <td class="paramkey"></td>
-          <td></td>
-          <td class="paramtype">bool const&#160;</td>
-          <td class="paramname"><em>t_output_flag</em> = <code>true</code>&#160;</td>
+          <td class="paramname"><em>t_number_of_timeslices</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -291,12 +341,16 @@ template&lt;typename IntegerType &gt; </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of points per timeslice to obtain the desired number of simplices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00301">301</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00302">302</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00302">utilities::expected_points_per_timeslice()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00302">utilities::expected_points_per_timeslice()</a>.</p>
 
 </div>
 </div>
-<a id="ae07db1e6fb52c04efe6161afd5f84a1a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae07db1e6fb52c04efe6161afd5f84a1a">&#9670;&nbsp;</a></span>generate_filename()</h2>
+<a id="a9a2769a08dd3c337682e75f20cb7566a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a9a2769a08dd3c337682e75f20cb7566a">&#9670;&nbsp;</a></span>generate_filename()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -305,7 +359,7 @@ template&lt;typename IntegerType &gt; </td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto generate_filename </td>
+          <td class="memname">auto utilities::generate_filename </td>
           <td>(</td>
           <td class="paramtype">topology_type const &amp;&#160;</td>
           <td class="paramname"><em>t_topology</em>, </td>
@@ -369,12 +423,14 @@ template&lt;typename IntegerType &gt; </td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00105">105</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00178">write_file()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00105">utilities::generate_filename()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00105">utilities::generate_filename()</a>, and <a class="el" href="_utilities_8hpp_source.html#l00178">utilities::write_file()</a>.</p>
 
 </div>
 </div>
-<a id="a4a54ec1eeda4a90a5907c92da7f261d3"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a54ec1eeda4a90a5907c92da7f261d3">&#9670;&nbsp;</a></span>generate_random()</h2>
+<a id="af7b8518f29136ff80c65df353053f657"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#af7b8518f29136ff80c65df353053f657">&#9670;&nbsp;</a></span>generate_random()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -385,7 +441,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto generate_random </td>
+          <td class="memname">auto utilities::generate_random </td>
           <td>(</td>
           <td class="paramtype">NumberType const&#160;</td>
           <td class="paramname"><em>t_min_value</em>, </td>
@@ -427,12 +483,16 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A random value in the distribution between min_value and max_value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00228">228</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00230">230</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00230">utilities::generate_random()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00230">utilities::generate_random()</a>.</p>
 
 </div>
 </div>
-<a id="a3aa36684c5b956a9a2ae0d339288325c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a3aa36684c5b956a9a2ae0d339288325c">&#9670;&nbsp;</a></span>Gmpzf_to_double()</h2>
+<a id="a4f84a968c94e9a185b147439dcae1ce1"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a4f84a968c94e9a185b147439dcae1ce1">&#9670;&nbsp;</a></span>Gmpzf_to_double()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -441,12 +501,12 @@ template&lt;typename NumberType , class Distribution &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto Gmpzf_to_double </td>
+          <td class="memname">auto utilities::Gmpzf_to_double </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a> const &amp;&#160;</td>
           <td class="paramname"><em>t_value</em></td><td>)</td>
           <td> -&gt; double
-</td>
+  </td>
         </tr>
       </table>
   </td>
@@ -466,12 +526,16 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The double conversion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00349">349</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00354">354</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00354">utilities::Gmpzf_to_double()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00354">utilities::Gmpzf_to_double()</a>.</p>
 
 </div>
 </div>
-<a id="a29cc6a1199a42d77546d12609ba7ea01"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a29cc6a1199a42d77546d12609ba7ea01">&#9670;&nbsp;</a></span>make_random_generator()</h2>
+<a id="ac676e6af3ae3dcf1e35a1210ec6fead6"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ac676e6af3ae3dcf1e35a1210ec6fead6">&#9670;&nbsp;</a></span>make_random_generator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -480,7 +544,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">auto make_random_generator </td>
+          <td class="memname">auto utilities::make_random_generator </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -496,9 +560,11 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 <p>Make a high-quality random number generator usable by std::shuffle. </p>
 <dl class="section return"><dt>Returns</dt><dd>A RNG </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00241">241</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00242">242</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00076">ergodic_moves::do_23_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00196">ergodic_moves::do_26_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00132">ergodic_moves::do_32_move()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00459">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00378">ergodic_moves::do_62_move()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00242">utilities::make_random_generator()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00242">utilities::make_random_generator()</a>.</p>
 
 </div>
 </div>
@@ -548,12 +614,12 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 <dl class="section return"><dt>Returns</dt><dd>An output string of the topology </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000010">Todo:</a></b></dt><dd>Make compatible with fmt::print. </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00069">69</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00067">67</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
-<a id="a32008da4871c79810946b50721fc5f3c"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a32008da4871c79810946b50721fc5f3c">&#9670;&nbsp;</a></span>print_delaunay()</h2>
+<a id="a343d224c91b607f37980bf84760347c4"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a343d224c91b607f37980bf84760347c4">&#9670;&nbsp;</a></span>print_delaunay()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -561,7 +627,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 template&lt;typename TriangulationType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void print_delaunay </td>
+          <td class="memname">void utilities::print_delaunay </td>
           <td>(</td>
           <td class="paramtype">TriangulationType const &amp;&#160;</td>
           <td class="paramname"><em>t_triangulation</em></td><td>)</td>
@@ -586,10 +652,14 @@ template&lt;typename TriangulationType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00150">150</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00150">utilities::print_delaunay()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00150">utilities::print_delaunay()</a>.</p>
+
 </div>
 </div>
-<a id="a4a15c6b0443947a62bbd350e0446c459"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a4a15c6b0443947a62bbd350e0446c459">&#9670;&nbsp;</a></span>write_file()</h2>
+<a id="a38f730917bbb951e4e3e39a4a8ef6a9a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a38f730917bbb951e4e3e39a4a8ef6a9a">&#9670;&nbsp;</a></span>write_file()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -597,7 +667,7 @@ template&lt;typename TriangulationType &gt; </div>
 template&lt;typename ManifoldType &gt; </div>
       <table class="memname">
         <tr>
-          <td class="memname">void write_file </td>
+          <td class="memname">void utilities::write_file </td>
           <td>(</td>
           <td class="paramtype">ManifoldType const &amp;&#160;</td>
           <td class="paramname"><em>t_universe</em>, </td>
@@ -647,7 +717,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><div class="memdoc">
 
 <p>Writes the runtime results to a file. </p>
-<p>This function writes the Delaunay triangulation in the manifold to an OFF file. <a href="http://www.geomview.org/docs/html/OFF.html#OFF">http://www.geomview.org/docs/html/OFF.html#OFF</a> The filename is generated by the <b><a class="el" href="_utilities_8hpp.html#ae07db1e6fb52c04efe6161afd5f84a1a" title="Generate useful filenames.">generate_filename()</a></b> function. Provides strong exception-safety.</p>
+<p>This function writes the Delaunay triangulation in the manifold to an OFF file. <a href="http://www.geomview.org/docs/html/OFF.html#OFF">http://www.geomview.org/docs/html/OFF.html#OFF</a> The filename is generated by the <b><a class="el" href="_utilities_8hpp.html#a9a2769a08dd3c337682e75f20cb7566a" title="Generate useful filenames.">generate_filename()</a></b> function. Provides strong exception-safety.</p>
 <dl class="tparams"><dt>Template Parameters</dt><dd>
   <table class="tparams">
     <tr><td class="paramname">ManifoldType</td><td>The manifold type </td></tr>
@@ -666,18 +736,20 @@ template&lt;typename ManifoldType &gt; </div>
   </table>
   </dd>
 </dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Fix <a class="el" href="_utilities_8hpp.html#a4a15c6b0443947a62bbd350e0446c459" title="Writes the runtime results to a file.">write_file()</a> to include cell-&gt;info() and vertex-&gt;info() </dd></dl>
+<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000011">Todo:</a></b></dt><dd>Fix <a class="el" href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a" title="Writes the runtime results to a file.">write_file()</a> to include cell-&gt;info() and vertex-&gt;info() </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00178">178</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00105">generate_filename()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00105">utilities::generate_filename()</a>, and <a class="el" href="_utilities_8hpp_source.html#l00178">utilities::write_file()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00178">utilities::write_file()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Aug 23 2021 20:59:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Aug 24 2021 23:13:21 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
