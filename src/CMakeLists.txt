@@ -132,4 +132,4 @@ set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
 # PASS_REGULAR_EXPRESSION "Usage:./cdt-gv") endif()
 
 add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
-set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "64 simplices on 3 timeslices desired.")
+set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")

@@ -56,7 +56,7 @@ jobs:
       run: |
         vcpkg install --feature-flags=manifests
         export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
-        cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D -S . -B build
+        cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -S . -B build
 
     - name: Build
       run: cmake --build build
