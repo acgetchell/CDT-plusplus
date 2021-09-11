@@ -61,5 +61,5 @@ auto main() -> int
   result.print_details();
   result.print_volume_per_timeslice();
 
-  return 0;
+  return EXIT_SUCCESS;
 }

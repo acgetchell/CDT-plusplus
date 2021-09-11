@@ -29,6 +29,16 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       THEN("The output is correct.")
       {
         CHECK_THAT(buffer.str(), Catch::Equals("spherical"));
+        spdlog::debug("buffer.str() contents: {}.\n", buffer.str());
+      }
+      WHEN("fmt::print is invoked.")
+      {
+        THEN("The output is correct.")
+        {
+          auto s = fmt::format("Topology type is: {}.\n", this_topology);
+          CHECK_THAT(s, Catch::Equals("Topology type is: spherical.\n"));
+          spdlog::debug("Topology type is: {}.\n", this_topology);
+        }
       }
     }
   }

@@ -8,7 +8,7 @@ rm -rf build/
 cmake -G Ninja -D ENABLE_COVERAGE:BOOL=TRUE -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING:BOOL=TRUE -S . -B build
 cmake --build build
 cd build || exit
-ctest --output-on-failure -j8
+ctest --output-on-failure -j2
 mkdir gcov-reports
 pushd gcov-reports
 for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do

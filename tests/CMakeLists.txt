@@ -34,4 +34,4 @@ target_link_libraries(
 target_compile_features(CDT_test PRIVATE cxx_std_17)
 
 # Run unit tests
-add_test(NAME CDT-unit-tests COMMAND $<TARGET_FILE:CDT_test>)
+add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_test>)

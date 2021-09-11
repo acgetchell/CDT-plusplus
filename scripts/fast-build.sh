@@ -8,4 +8,4 @@ rm -rf build/
 cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_TESTING:BOOL=FALSE -S . -B build
 cmake --build build
 cd build || exit
-ctest --output-on-failure
+ctest --output-on-failure -j2

@@ -63,7 +63,6 @@ enum class topology_type
 /// @param t_os The output stream
 /// @param t_topology The topology
 /// @return An output string of the topology
-/// @todo Make compatible with fmt::print.
 inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
     -> std::ostream&
 {

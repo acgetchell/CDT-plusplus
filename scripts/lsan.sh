@@ -5,10 +5,10 @@
 
 cd ..
 rm -rf build
-cmake -S . -B build -G Ninja -D ENABLE_SANITIZER_LEAK:BOOL=TRUE
+cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_SANITIZER_LEAK:BOOL=TRUE
 cmake --build build
 pwd
 cd build/src || exit
 ./initialize --s -n32000 -t11 -o
 cd .. || exit
-ctest --output-on-failure
+ctest --output-on-failure -j2

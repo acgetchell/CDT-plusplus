@@ -117,16 +117,16 @@ try
                           static_cast<Int_precision>(timeslices),
                           initial_radius, foliation_spacing);
   }
-  return 0;
+  return EXIT_SUCCESS;
 }
 catch (invalid_argument const& InvalidArgument)
 {
   spdlog::critical("{}\n", InvalidArgument.what());
   spdlog::critical("Invalid parameter ... Exiting.\n");
-  return 1;
+  return EXIT_FAILURE;
 }
 catch (...)
 {
   spdlog::critical("Something went wrong ... Exiting.\n");
-  return 1;
+  return EXIT_FAILURE;
 }

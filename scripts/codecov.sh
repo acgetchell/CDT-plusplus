@@ -10,7 +10,7 @@ cd build || exit
 cmake -D ENABLE_COVERAGE:BOOL=TRUE --trace-source=CMakeLists.txt --trace-source=Sanitizers.cmake ..
 cmake --build . --config Debug
 pwd
-ctest --schedule-random -V
+ctest --schedule-random -V -j2
 lcov --directory . --capture --output-file coverage.info
 lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg/*' --output-file coverage.info
 lcov --list coverage.info

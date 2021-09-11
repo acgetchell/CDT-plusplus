@@ -191,28 +191,28 @@ try
                         static_cast<Int_precision>(dimensions), result.N3(),
                         static_cast<Int_precision>(timeslices), 1.0, 1.0);
 
-  return 0;
+  return EXIT_SUCCESS;
 }
 catch (domain_error const& DomainError)
 {
   spdlog::critical("{}\n", DomainError.what());
   spdlog::critical("Triangle inequalities violated ... Exiting.\n");
-  return 1;
+  return EXIT_FAILURE;
 }
 catch (invalid_argument const& InvalidArgument)
 {
   spdlog::critical("{}\n", InvalidArgument.what());
   spdlog::critical("Invalid parameter ... Exiting.\n");
-  return 1;
+  return EXIT_FAILURE;
 }
 catch (logic_error const& LogicError)
 {
   spdlog::critical("{}\n", LogicError.what());
   spdlog::critical("Simulation startup failed ... Exiting.\n");
-  return 1;
+  return EXIT_FAILURE;
 }
 catch (...)
 {
   spdlog::critical("Something went wrong ... Exiting.\n");
-  return 1;
+  return EXIT_FAILURE;
 }
