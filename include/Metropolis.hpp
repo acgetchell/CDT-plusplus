@@ -65,7 +65,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
 
   /// @brief The number of moves the algorithm tried
   /// @details This equals accepted moves + rejected moves.
-  move_tracker::MoveTracker<ManifoldType> m_trial_moves;
+  move_tracker::MoveTracker<ManifoldType> m_proposed_moves;
 
   /// @brief The number of moves accepted by the algorithm
   move_tracker::MoveTracker<ManifoldType> m_accepted_moves;
@@ -126,7 +126,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
   [[nodiscard]] auto checkpoint() const noexcept { return m_checkpoint; }
 
   /// @return The container of trial moves
-  auto get_trial() const { return m_trial_moves; }
+  auto get_proposed() const { return m_proposed_moves; }
 
   /// @return The container of accepted moves
   auto get_accepted() const { return m_accepted_moves; }
@@ -152,8 +152,8 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
   /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_tracker::move_type move) const noexcept
   {
-    auto all_moves = m_attempted_moves.total();
-    auto this_move = m_attempted_moves[move];
+    auto all_moves = m_proposed_moves.total();
+    auto this_move = m_proposed_moves[move];
     // Set precision for initialization and assignment functions
     mpfr_set_default_prec(PRECISION);
 
@@ -176,8 +176,8 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
-    fmt::print("total_attempted_moves() = {}\n", all_moves);
-    fmt::print("A1 is {}\n", result);
+    spdlog::trace("Total proposed moves = {}\n", all_moves);
+    spdlog::trace("A1 is {}\n", result);
 #endif
 
     return result;
@@ -283,7 +283,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
   auto try_move(move_tracker::move_type move) -> bool
   {
     // Record the trial move
-    m_trial_moves[move_tracker::as_integer(move)]++;
+    m_proposed_moves[move_tracker::as_integer(move)]++;
 
     // Calculate probability
     auto a1 = CalculateA1(move);
@@ -331,23 +331,23 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     fmt::print("Making initial moves ...\n");
 
     command.enqueue(move_tracker::move_type::TWO_THREE);
-    m_trial_moves.two_three_moves()++;
+    m_proposed_moves.two_three_moves()++;
     m_accepted_moves.two_three_moves()++;
 
     command.enqueue(move_tracker::move_type::THREE_TWO);
-    m_trial_moves.three_two_moves()++;
+    m_proposed_moves.three_two_moves()++;
     m_accepted_moves.three_two_moves()++;
 
     command.enqueue(move_tracker::move_type::TWO_SIX);
-    m_trial_moves.two_six_moves()++;
+    m_proposed_moves.two_six_moves()++;
     m_accepted_moves.two_six_moves()++;
 
     command.enqueue(move_tracker::move_type::SIX_TWO);
-    m_trial_moves.six_two_moves()++;
+    m_proposed_moves.six_two_moves()++;
     m_accepted_moves.six_two_moves()++;
 
     command.enqueue(move_tracker::move_type::FOUR_FOUR);
-    m_trial_moves.four_four_moves()++;
+    m_proposed_moves.four_four_moves()++;
     m_accepted_moves.four_four_moves()++;
 
     // Execute the moves
@@ -442,9 +442,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     {
       fmt::print("=== Move Results ===\n");
       fmt::print(
-          "There were {} trial moves with {} accepted moves and {} rejected "
+          "There were {} proposed moves with {} accepted moves and {} rejected "
           "moves.\n",
-          m_trial_moves.total(), m_accepted_moves.total(),
+          m_proposed_moves.total(), m_accepted_moves.total(),
           m_rejected_moves.total());
       fmt::print(
           "There were {} attempted moves with {} successful moves and {} "
@@ -452,41 +452,44 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
           m_attempted_moves.total(), m_succeeded_moves.total(),
           m_failed_moves.total());
       fmt::print(
-          "(2,3) moves: {} trial ({} accepted and {} rejected) with {} "
+          "(2,3) moves: {} proposed ({} accepted and {} rejected) with {} "
           "attempted ({} successful and {} failed).\n",
-          m_trial_moves.two_three_moves(), m_accepted_moves.two_three_moves(),
+          m_proposed_moves.two_three_moves(),
+          m_accepted_moves.two_three_moves(),
           m_rejected_moves.two_three_moves(),
           m_attempted_moves.two_three_moves(),
           m_succeeded_moves.two_three_moves(),
           m_failed_moves.two_three_moves());
 
       fmt::print(
-          "(3,2) moves: {} trial ({} accepted and {} rejected) with {} "
+          "(3,2) moves: {} proposed ({} accepted and {} rejected) with {} "
           "attempted ({} successful and {} failed).\n",
-          m_trial_moves.three_two_moves(), m_accepted_moves.three_two_moves(),
+          m_proposed_moves.three_two_moves(),
+          m_accepted_moves.three_two_moves(),
           m_rejected_moves.three_two_moves(),
           m_attempted_moves.three_two_moves(),
           m_succeeded_moves.three_two_moves(),
           m_failed_moves.three_two_moves());
 
       fmt::print(
-          "(2,6) moves: {} trial ({} accepted and {} rejected) with {} "
+          "(2,6) moves: {} proposed ({} accepted and {} rejected) with {} "
           "attempted ({} successful and {} failed).\n",
-          m_trial_moves.two_six_moves(), m_accepted_moves.two_six_moves(),
+          m_proposed_moves.two_six_moves(), m_accepted_moves.two_six_moves(),
           m_rejected_moves.two_six_moves(), m_attempted_moves.two_six_moves(),
           m_succeeded_moves.two_six_moves(), m_failed_moves.two_six_moves());
 
       fmt::print(
-          "(6,2) moves: {} trial ({} accepted and {} rejected) with {} "
+          "(6,2) moves: {} proposed ({} accepted and {} rejected) with {} "
           "attempted ({} successful and {} failed).\n",
-          m_trial_moves.six_two_moves(), m_accepted_moves.six_two_moves(),
+          m_proposed_moves.six_two_moves(), m_accepted_moves.six_two_moves(),
           m_rejected_moves.six_two_moves(), m_attempted_moves.six_two_moves(),
           m_succeeded_moves.six_two_moves(), m_failed_moves.six_two_moves());
 
       fmt::print(
-          "(4,4) moves: {} trial ({} accepted and {} rejected) with {} "
+          "(4,4) moves: {} proposed ({} accepted and {} rejected) with {} "
           "attempted ({} successful and {} failed).\n",
-          m_trial_moves.four_four_moves(), m_accepted_moves.four_four_moves(),
+          m_proposed_moves.four_four_moves(),
+          m_accepted_moves.four_four_moves(),
           m_rejected_moves.four_four_moves(),
           m_attempted_moves.four_four_moves(),
           m_succeeded_moves.four_four_moves(),

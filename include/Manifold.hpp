@@ -227,7 +227,7 @@ namespace manifolds
     [[nodiscard]] auto N3_31_13() const { return m_geometry.N3_31_13; }
 
     /// @return Number of 3D simplices in triangulation data structure
-    [[nodiscard]] auto number_of_simplices() const
+    [[nodiscard]] auto simplices() const
     {
       return static_cast<Int_precision>(m_triangulation.get_cells().size());
     }  // number_of_simplices
@@ -321,7 +321,7 @@ namespace manifolds
     /// number in geometry
     [[nodiscard]] auto check_simplices() const -> bool
     {
-      return (this->number_of_simplices() == this->N3() &&
+      return (this->simplices() == this->N3() &&
               m_triangulation.check_all_cells());
     }  // check_simplices
 

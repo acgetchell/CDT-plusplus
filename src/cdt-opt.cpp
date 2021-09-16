@@ -33,6 +33,9 @@ auto main() -> int
   constexpr Int_precision passes     = 10;
   constexpr Int_precision checkpoint = 10;
 
+  // Create logs
+  utilities::create_logger();
+
   // Initialize the Metropolis algorithm
   Metropolis3 run(alpha, k, lambda, passes, checkpoint);
 

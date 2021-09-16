@@ -31,7 +31,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
       THEN("The resulting manifold is valid and unchanged.")
       {
         CHECK(result->is_valid());
-        CHECK(manifold.number_of_simplices() == result->number_of_simplices());
+        CHECK(manifold.simplices() == result->simplices());
         CHECK(manifold.faces() == result->faces());
         CHECK(manifold.edges() == result->edges());
         CHECK(manifold.vertices() == result->vertices());

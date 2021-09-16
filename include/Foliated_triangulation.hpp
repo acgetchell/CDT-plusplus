@@ -596,12 +596,12 @@ namespace foliated_triangulations
     // Construct the locking data-structure
     // using the bounding-box of the points
     auto bounding_box_size = static_cast<double>(t_timeslices + 1);
-    Delaunay_t<dimension>::Lock_data_structure locking_ds{
+    typename Delaunay_t<dimension>::Lock_data_structure locking_ds{
         CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
                      bounding_box_size, bounding_box_size, bounding_box_size},
         50};
     Delaunay_t<dimension> triangulation =
-        Delaunay_t<dimension>{Kernel{}, &locking_ds};
+        Delaunay_t<dimension>{TriangulationTraits<3>::Kernel{}, &locking_ds};
 #else
     Delaunay_t<dimension> triangulation = Delaunay_t<dimension>{};
 #endif

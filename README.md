@@ -373,6 +373,8 @@ Optional:
 
 [CGAL] cannot write [Geomview] files (issue [#5873]).
 
+[{fmt}] has a linker error with Visual Studio 2019 (issue [#2496]).
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -467,3 +469,4 @@ Optional:
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
 [spdlog]: https://github.com/gabime/spdlog
 [#5873]: https://github.com/CGAL/cgal/issues/5873
+[#2496]: https://github.com/fmtlib/fmt/issues/2496

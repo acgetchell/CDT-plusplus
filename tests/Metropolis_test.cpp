@@ -104,7 +104,7 @@ SCENARIO("Metropolis member functions", "[metropolis]")
         CHECK(testrun.Lambda() == Lambda);
         CHECK(testrun.passes() == passes);
         CHECK(testrun.checkpoint() == output_every_n_passes);
-        CHECK(testrun.get_trial().total() == 0);
+        CHECK(testrun.get_proposed().total() == 0);
         CHECK(testrun.get_accepted().total() == 0);
         CHECK(testrun.get_rejected().total() == 0);
         CHECK(testrun.get_attempted().total() == 0);
@@ -151,7 +151,7 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
       THEN("A lot of moves are done.")
       {
         auto result = testrun(universe);
-        auto total_trial      = testrun.get_trial().total();
+        auto total_trial      = testrun.get_proposed().total();
         auto total_accepted   = testrun.get_accepted().total();
         auto total_rejected   = testrun.get_rejected().total();
         auto total_attempted  = testrun.get_attempted().total();
