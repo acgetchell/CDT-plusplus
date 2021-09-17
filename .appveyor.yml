@@ -48,7 +48,7 @@ install:
 #  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% cgal
   # Upgrade required libraries
 #  - vcpkg upgrade --no-dry-run --x-install-root=%VCPKG_INSTALL_ROOT%
-#  - vcpkg list --x-install-root=%VCPKG_INSTALL_ROOT%
+  - vcpkg list --x-install-root=%VCPKG_INSTALL_ROOT%
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v

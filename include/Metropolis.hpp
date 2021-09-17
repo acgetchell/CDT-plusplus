@@ -16,8 +16,6 @@
 /// @bug Accepted moves != attempted moves
 /// @todo Atomic integral types for safe multithreading
 /// @todo Implement concurrency
-/// @todo Change A1 to count successful moves, total moves gets dragged down by
-/// (6,2) attempts
 
 #ifndef INCLUDE_METROPOLIS_HPP_
 #define INCLUDE_METROPOLIS_HPP_
@@ -170,12 +168,13 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    auto result = mpfr_get_d(a1, MPFR_RNDD);  // NOLINT
+    auto result = mpfr_get_ld(a1, MPFR_RNDD);  // NOLINT
 
     // Free memory
     mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
     spdlog::trace("Total proposed moves = {}\n", all_moves);
     spdlog::trace("A1 is {}\n", result);
 #endif
@@ -231,9 +230,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
           // A (4,4) move changes nothing with respect to the action,
           // and e^0==1
 #ifndef NDEBUG
-          fmt::print("A2 is 1\n");
+          spdlog::trace("A2 is 1\n");
 #endif
-          return static_cast<double>(1);
+          return static_cast<long double>(1);
         default:
           break;
       }
@@ -243,7 +242,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
 
       // if exponent > 0 then e^exponent >=1 so according to Metropolis
       // algorithm return A2=1
-      if (exponent >= 0) { return static_cast<double>(1); }
+      if (exponent >= 0) { return static_cast<long double>(1); }
 
       // Set precision for initialization and assignment functions
       mpfr_set_default_prec(PRECISION);
@@ -253,20 +252,20 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
       mpfr_inits2(PRECISION, r1, a2, nullptr);  // NOLINT
 
       // Set input parameters and constants to mpfr_t equivalents
-      mpfr_init_set_d(r1, exponent_double,  // NOLINT
-                      MPFR_RNDD);           // r1 = exponent
+      mpfr_init_set_ld(r1, exponent_double,  // NOLINT
+                       MPFR_RNDD);           // r1 = exponent
 
       // e^exponent
       mpfr_exp(a2, r1, MPFR_RNDD);  // NOLINT
 
       // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-      auto result = mpfr_get_d(a2, MPFR_RNDD);  // NOLINT
+      auto result = mpfr_get_ld(a2, MPFR_RNDD);  // NOLINT
 
       // Free memory
       mpfr_clears(r1, a2, nullptr);  // NOLINT
 
 #ifndef NDEBUG
-      fmt::print("A2 is {}\n", result);
+      spdlog::trace("A2 is {}\n", result);
 #endif
 
       return result;
@@ -292,24 +291,21 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     auto a2 = CalculateA2<3>(move);
 
     const auto trial_value = utilities::generate_probability();
-    // Convert to Gmpzf because trial_value will be set to 0 when
-    // comparing with a1 and a2!
-    const auto trial = static_cast<double>(trial_value);
 
 #ifndef NDEBUG
-    spdlog::trace("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
     spdlog::trace("Trying move.\n");
     spdlog::trace("Move type = {}\n", move_tracker::as_integer(move));
     spdlog::trace("Trial_value = {}\n", trial_value);
-    spdlog::trace("Trial = {}\n", trial);
     spdlog::trace("A1 = {}\n", a1);
     spdlog::trace("A2 = {}\n", a2);
     spdlog::trace("A1*A2 = {}\n", a1 * a2);
-    spdlog::trace("{}\n",
-                  (trial <= a1 * a2) ? "Move accepted." : "Move rejected.");
+    spdlog::trace(
+        "{}\n", (trial_value <= a1 * a2) ? "Move accepted." : "Move rejected.");
 #endif
 
-    if (trial <= a1 * a2)
+    if (auto const trial = static_cast<long double>(trial_value);
+        trial <= a1 * a2)
     {
       m_accepted_moves[move_tracker::as_integer(move)]++;
       return true;
@@ -367,8 +363,8 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
   }
   catch (std::runtime_error const& RuntimeError)
   {
-    fmt::print("{}\n", RuntimeError.what());
-    fmt::print("Metropolis initialization failed ... exiting.\n");
+    spdlog::debug("Metropolis initialization failed ... exiting.\n");
+    spdlog::trace("{}\n", RuntimeError.what());
     return std::nullopt;
   }
 

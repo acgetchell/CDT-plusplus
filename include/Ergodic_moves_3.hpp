@@ -318,9 +318,9 @@ namespace ergodic_moves
     Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     Expects(manifold.is_vertex(candidate));
 
-    auto incident_edges = manifold.degree(candidate);
     // We must have 5 incident edges to have 6 incident cells
-    if (incident_edges != 5)  // NOLINT
+    if (auto incident_edges = manifold.degree(candidate);
+        incident_edges != 5)  // NOLINT
     {
 #ifndef NDEBUG
       spdlog::trace("Vertex has {} incident edges.\n", incident_edges);
@@ -334,8 +334,7 @@ namespace ergodic_moves
     if (incident_cells.size() != 6)  // NOLINT
     {
 #ifndef NDEBUG
-      spdlog::trace("Vertex has {} incident edges and {} incident cells.\n",
-                    incident_edges, incident_cells.size());
+      spdlog::trace("Vertex has {} incident cells.\n", incident_cells.size());
 #endif
       return false;
     }
@@ -356,9 +355,9 @@ namespace ergodic_moves
 
 #ifndef NDEBUG
     spdlog::trace(
-        "Vertex has {} incident edges and {} incident (3,1) simplices and {} "
+        "Vertex has {} incident cells with {} incident (3,1) simplices and {} "
         "incident (2,2) simplices and {} incident (1,3) simplices.\n",
-        incident_edges, incident_31.size(), incident_22.size(),
+        incident_cells.size(), incident_31.size(), incident_22.size(),
         incident_13.size());
     foliated_triangulations::debug_print_cells<3>(incident_cells);
 #endif

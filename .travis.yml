@@ -197,6 +197,7 @@ install:
   - pwd
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
   - travis_wait 120 vcpkg install --feature-flags=manifests
+  - vcpkg list
 
 script:
   - cmake $CMAKE_ARGS -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
