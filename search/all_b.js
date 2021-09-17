@@ -15,6 +15,5 @@ var searchData=
   ['number_5fof_5ffinite_5fcells_199',['number_of_finite_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#abb261217e69d63a273bbc3ae3c0c02ac',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['number_5fof_5ffinite_5fedges_200',['number_of_finite_edges',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a467f15db84d87229976305d42ca4b330',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['number_5fof_5ffinite_5ffacets_201',['number_of_finite_facets',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ada22f02a234b99f894f57e606002ab88',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['number_5fof_5fsimplices_202',['number_of_simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a1953d90bb170930f8adccab28d7e4699',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['number_5fof_5fvertices_203',['number_of_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ae50c569a9492269a373cb0454336fc95',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]]
+  ['number_5fof_5fvertices_202',['number_of_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ae50c569a9492269a373cb0454336fc95',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]]
 ];
