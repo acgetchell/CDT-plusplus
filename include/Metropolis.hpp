@@ -156,7 +156,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     mpfr_set_default_prec(PRECISION);
 
     // Initialize for MPFR
-    mpfr_t r1, r2, a1;                            // NOLINT
+    mpfr_t r1;
+    mpfr_t r2;
+    mpfr_t a1;
     mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
 
     mpfr_init_set_ui(r1, this_move, MPFR_RNDD);  // r1 = this_move NOLINT
@@ -248,7 +250,8 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
       mpfr_set_default_prec(PRECISION);
 
       // Initialize for MPFR
-      mpfr_t r1, a2;                            // NOLINT
+      mpfr_t r1;
+      mpfr_t a2;
       mpfr_inits2(PRECISION, r1, a2, nullptr);  // NOLINT
 
       // Set input parameters and constants to mpfr_t equivalents
@@ -304,8 +307,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
         "{}\n", (trial_value <= a1 * a2) ? "Move accepted." : "Move rejected.");
 #endif
 
-    if (auto const trial = static_cast<long double>(trial_value);
-        trial <= a1 * a2)
+    if (trial_value <= a1 * a2)
     {
       m_accepted_moves[move_tracker::as_integer(move)]++;
       return true;

@@ -108,7 +108,6 @@ class MoveCommand
         fmt::print("{}\n", result.error());
         // Track failed moves
         m_failed[move_tracker::as_integer(move_type)]++;
-        //        parse_unexpected(result.error());
       }
     }
 #ifndef NDEBUG
@@ -136,64 +135,6 @@ class MoveCommand
         return ergodic_moves::do_44_move;
     }
   }  // move_function
-
-  /// @brief Parse errors
-  /// @tparam UnexpectedType The type of the Unexpected
-  /// @param error The value passed from Unexpected
-  template <typename UnexpectedType>
-  [[maybe_unused]] void parse_unexpected(UnexpectedType const error)
-  {
-    // 3D
-    if (error.find("(2,3)") != UnexpectedType::npos)
-    {
-      m_failed.two_three_moves() += 1;
-    }
-    if (error.find("(3,2)") != UnexpectedType::npos)
-    {
-      m_failed.three_two_moves() += 1;
-    }
-    if (error.find("(2,6)") != UnexpectedType::npos)
-    {
-      m_failed.two_six_moves() += 1;
-    }
-    if (error.find("(6,2)") != UnexpectedType::npos)
-    {
-      m_failed.six_two_moves() += 1;
-    }
-    if (error.find("(4,4)") != UnexpectedType::npos)
-    {
-      m_failed.four_four_moves() += 1;
-    }
-    // 4D
-    if (error.find("(2,4)") != UnexpectedType::npos)
-    {
-      m_failed.two_four_moves() += 1;
-    }
-    if (error.find("(4,2)") != UnexpectedType::npos)
-    {
-      m_failed.four_two_moves() += 1;
-    }
-    if (error.find("(3,3)") != UnexpectedType::npos)
-    {
-      m_failed.three_three_moves() += 1;
-    }
-    if (error.find("(4,6)") != UnexpectedType::npos)
-    {
-      m_failed.four_six_moves() += 1;
-    }
-    if (error.find("(6,4)") != UnexpectedType::npos)
-    {
-      m_failed.six_four_moves() += 1;
-    }
-    if (error.find("(2,8)") != UnexpectedType::npos)
-    {
-      m_failed.two_eight_moves() += 1;
-    }
-    if (error.find("(8,2)") != UnexpectedType::npos)
-    {
-      m_failed.eight_two_moves() += 1;
-    }
-  }  // parse_unexpected
 
   /// @brief Print attempted moves
   void print_attempts() const
