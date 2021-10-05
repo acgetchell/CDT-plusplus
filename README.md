@@ -369,8 +369,6 @@ Optional:
 
 [Eigen] does not work for c++20 and MSVC 2019 (issue [#1894]).
 
-[CLion] skips debugger breakpoints (issue [CPP-20158]).
-
 [CGAL] cannot write [Geomview] files (issue [#5873]).
 
 [{fmt}] has a linker error with Visual Studio 2019 (issue [#2496]).
@@ -461,7 +459,6 @@ Optional:
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
 [#1894]: https://gitlab.com/libeigen/eigen/-/issues/1894
 [CLion]: https://www.jetbrains.com/clion/
-[CPP-20158]: https://youtrack.jetbrains.com/issue/CPP-20158
 [Docker]: https://www.docker.com/
 [GitPod]: https://gitpod.io
 [vcpkg manifest]: https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md

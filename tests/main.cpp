@@ -20,6 +20,7 @@
 #include <catch2/catch.hpp>
 
 auto main(int argc, char* argv[]) -> int
+try
 {
   Catch::Session session;  // There must be exactly one instance
 
@@ -43,4 +44,9 @@ auto main(int argc, char* argv[]) -> int
   // This clamping has already been applied, so just return it here
   // You can also do any post run clean-up here
   return numFailed;
+}
+catch (...)
+{
+  spdlog::critical("Exception thrown in CDT_test ... Exiting.\n");
+  return EXIT_FAILURE;
 }

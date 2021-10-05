@@ -169,6 +169,8 @@ namespace foliated_triangulations
     typename TriangulationTraits<dimension>::squared_distance r2;
 
     if (dimension == 3) { return r2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
+
+    return 0;
   }  // squared_radius
 
   /// @tparam dimension The dimensionality of the simplices

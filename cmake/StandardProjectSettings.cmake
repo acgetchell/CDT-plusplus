@@ -22,7 +22,8 @@ endif()
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 # Link time optimization
-option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" ON)
+# Turning this on disables debugging
+option(ENABLE_IPO "Enable Interprocedural Optimization, aka Link Time Optimization (LTO)" OFF)
 if(ENABLE_IPO)
   include(CheckIPOSupported)
   check_ipo_supported(RESULT result OUTPUT output)

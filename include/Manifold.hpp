@@ -180,10 +180,10 @@ namespace manifolds
     /// @return If base data structures are correct
     [[nodiscard]] auto is_correct() const -> bool
     {
-      auto const simplices = m_triangulation.get_cells();
+      auto const t_cells = m_triangulation.get_cells();
       return m_triangulation.is_correct() &&
-             are_simplex_types_valid<3>(simplices) &&
-             are_vertex_timevalues_valid(simplices);
+             are_simplex_types_valid<3>(t_cells) &&
+             are_vertex_timevalues_valid(t_cells);
     }  // is_correct
 
     /// @brief Perfect forwarding to FoliatedTriangulation3.is_vertex()
