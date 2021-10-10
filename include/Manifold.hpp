@@ -38,6 +38,7 @@ namespace manifolds
     for (auto const& cell : t_cells)
     {
       // Emplace each vertex in the cell into the container of unique elements
+#pragma unroll dimension + 1
       for (int j = 0; j < dimension + 1; ++j)
       {
         cell_vertices.emplace(cell->vertex(j));

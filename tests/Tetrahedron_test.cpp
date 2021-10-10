@@ -77,10 +77,10 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
     auto                 v3 = Point_t<3>{0, 0, 1};
     auto                 v4 = Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2};
     Causal_vertices_t<3> cv;
-    cv.emplace_back(make_pair(v1, 1));
-    cv.emplace_back(make_pair(v2, 1));
-    cv.emplace_back(make_pair(v3, 1));
-    cv.emplace_back(make_pair(v4, 2));
+    cv.emplace_back(v1, 1);
+    cv.emplace_back(v2, 1);
+    cv.emplace_back(v3, 1);
+    cv.emplace_back(v4, 2);
     WHEN("The Foliated triangulation is constructed with these points.")
     {
       foliated_triangulations::FoliatedTriangulation3 ft(cv);
@@ -130,10 +130,10 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
       }
       THEN("All vertices have correct timevalues.")
       {
-        auto vertices = ft.get_vertices();
+        auto const& vertices = ft.get_vertices();
         CHECK(ft.check_vertices(vertices));
         // Human verification
-        for (auto& vertex : vertices)
+        for (auto const& vertex : vertices)
         {
           fmt::print(
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "
@@ -204,9 +204,9 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
 
       THEN("Timevalues are correct.")
       {
-        auto checked_vertices = ft.get_vertices();
+        auto const& checked_vertices = ft.get_vertices();
         REQUIRE(ft.check_vertices(checked_vertices));
-        for (auto& vertex : checked_vertices)
+        for (auto const& vertex : checked_vertices)
         {
           CHECK(ft.is_vertex_timevalue_correct(vertex));
         }

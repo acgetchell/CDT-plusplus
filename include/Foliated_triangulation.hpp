@@ -205,6 +205,7 @@ namespace foliated_triangulations
 #endif
     std::vector<int> vertex_timevalues;
     // There are d+1 vertices in a d-dimensional simplex
+#pragma unroll dimension + 1
     for (auto i = 0; i < dimension + 1; ++i)
     {
       // Obtain timevalue of vertex
@@ -297,6 +298,7 @@ namespace foliated_triangulations
     {
       fmt::print("Cell info => {}\n", cell->info());
       // There are d+1 vertices in a d-dimensional simplex
+#pragma unroll dimension + 1
       for (int j = 0; j < dimension + 1; ++j)
       {
         fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
@@ -317,6 +319,7 @@ namespace foliated_triangulations
     for (auto const& cell : t_cells)
     {
       spdlog::debug("Cell info => {}\n", cell->info());
+#pragma unroll dimension + 1
       for (int j = 0; j < dimension + 1; ++j)
       {
         spdlog::debug("Vertex({}) Point: ({}) Timevalue: {}\n", j,
@@ -357,7 +360,7 @@ namespace foliated_triangulations
       for (gsl::index j = 0;
            j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)
       {
-        causal_vertices.emplace_back(std::make_pair(*gen++, i + 1));
+        causal_vertices.emplace_back(*gen++, i + 1);
       }  // j
     }    // i
     return causal_vertices;
@@ -389,6 +392,7 @@ namespace foliated_triangulations
 #endif
       std::set<Int_precision> facet_timevalues;
       // There are d+1 vertices in a d-dimensional simplex
+#pragma unroll dimension + 1
       for (int i = 0; i < dimension + 1; ++i)
       {
         if (i != index_of_facet)
@@ -453,6 +457,7 @@ namespace foliated_triangulations
       std::multimap<int, Vertex_handle_t<dimension>> this_cell;
       // Collect a map of timevalues and vertices in each cell
       // There are d+1 vertices in a d-dimensional simplex
+#pragma unroll dimension + 1
       for (int i = 0; i < dimension + 1; ++i)
       {
         this_cell.emplace(
@@ -691,6 +696,7 @@ namespace foliated_triangulations
     /// it is swapped into the second one.
     /// @param swap_from The value to be swapped from. Assumed to be discarded.
     /// @param swap_into The value to be swapped into.
+    /// @todo Look at swap through the entire stack
     friend void swap(FoliatedTriangulation<3>& swap_from,
                      FoliatedTriangulation<3>& swap_into) noexcept
     {
@@ -1234,7 +1240,6 @@ namespace foliated_triangulations
       Expects(this->is_tds_valid());
       std::vector<Cell_handle_t<3>> init_cells;
       init_cells.reserve(number_of_finite_cells());
-
       for (auto cit = get_delaunay().finite_cells_begin();
            cit != get_delaunay().finite_cells_end(); ++cit)
       {

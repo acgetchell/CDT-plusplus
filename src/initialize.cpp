@@ -62,12 +62,8 @@ try
   manifolds::Manifold3 universe;
 
   // Topology of simulation
-  topology_type topology;
-  if (args["--spherical"].asBool()) { topology = topology_type::SPHERICAL; }
-  else
-  {
-    topology = topology_type::TOROIDAL;
-  }
+  auto topology = (args["--spherical"].asBool()) ? topology_type::SPHERICAL
+                                                 : topology_type::TOROIDAL;
 
   // Display job parameters
   fmt::print("Topology is {}\n", topology);

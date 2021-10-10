@@ -142,10 +142,10 @@ SCENARIO("Manifold functions", "[manifold]")
   GIVEN("A manifold with four vertices.")
   {
     Causal_vertices_t<3> cv;
-    cv.emplace_back(make_pair(Point_t<3>(1, 0, 0), 1));
-    cv.emplace_back(make_pair(Point_t<3>(0, 1, 0), 1));
-    cv.emplace_back(make_pair(Point_t<3>(0, 0, 1), 1));
-    cv.emplace_back(make_pair(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 2));
+    cv.emplace_back(Point_t<3>(1, 0, 0), 1);
+    cv.emplace_back(Point_t<3>(0, 1, 0), 1);
+    cv.emplace_back(Point_t<3>(0, 0, 1), 1);
+    cv.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 2);
     manifolds::Manifold3 manifold(cv);
 
     REQUIRE(manifold.is_correct());
@@ -208,11 +208,11 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     WHEN("It is constructed from causal vertices.")
     {
       Causal_vertices_t<3> cv;
-      cv.emplace_back(make_pair(Point_t<3>(0, 0, 0), 1));
-      cv.emplace_back(make_pair(Point_t<3>(1, 0, 0), 2));
-      cv.emplace_back(make_pair(Point_t<3>(0, 1, 0), 2));
-      cv.emplace_back(make_pair(Point_t<3>(0, 0, 1), 2));
-      cv.emplace_back(make_pair(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+      cv.emplace_back(Point_t<3>(0, 0, 0), 1);
+      cv.emplace_back(Point_t<3>(1, 0, 0), 2);
+      cv.emplace_back(Point_t<3>(0, 1, 0), 2);
+      cv.emplace_back(Point_t<3>(0, 0, 1), 2);
+      cv.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
       manifolds::Manifold3 manifold(cv, 0, 1.0);
 
       THEN("The triangulation is valid.")
@@ -249,11 +249,11 @@ SCENARIO("3-Manifold initialization", "[manifold]")
     WHEN("It is constructed from a Foliated triangulation.")
     {
       Causal_vertices_t<3> cv;
-      cv.emplace_back(make_pair(Point_t<3>(0, 0, 0), 1));
-      cv.emplace_back(make_pair(Point_t<3>(1, 0, 0), 2));
-      cv.emplace_back(make_pair(Point_t<3>(0, 1, 0), 2));
-      cv.emplace_back(make_pair(Point_t<3>(0, 0, 1), 2));
-      cv.emplace_back(make_pair(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+      cv.emplace_back(Point_t<3>(0, 0, 0), 1);
+      cv.emplace_back(Point_t<3>(1, 0, 0), 2);
+      cv.emplace_back(Point_t<3>(0, 1, 0), 2);
+      cv.emplace_back(Point_t<3>(0, 0, 1), 2);
+      cv.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
       manifolds::Manifold3 manifold(cv, 0, 1.0);
 
       THEN("The triangulation is valid.")
@@ -558,11 +558,11 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
   GIVEN("A (1,3) and (3,1) stacked on each other.")
   {
     Causal_vertices_t<3> cv;
-    cv.emplace_back(make_pair(Point_t<3>(0, 0, 0), 1));
-    cv.emplace_back(make_pair(Point_t<3>(1, 0, 0), 2));
-    cv.emplace_back(make_pair(Point_t<3>(0, 1, 0), 2));
-    cv.emplace_back(make_pair(Point_t<3>(0, 0, 1), 2));
-    cv.emplace_back(make_pair(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3));
+    cv.emplace_back(Point_t<3>(0, 0, 0), 1);
+    cv.emplace_back(Point_t<3>(1, 0, 0), 2);
+    cv.emplace_back(Point_t<3>(0, 1, 0), 2);
+    cv.emplace_back(Point_t<3>(0, 0, 1), 2);
+    cv.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
     manifolds::Manifold3 manifold(cv, 0.0, 1.0);
     WHEN("We ask for a container of vertices given a container of cells.")
     {
@@ -571,6 +571,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       THEN("We get back the correct number of vertices.")
       {
         REQUIRE(vertices.size() == 5);
+#pragma unroll 5
         for (auto& vertex : vertices)
         {
           fmt::print(
