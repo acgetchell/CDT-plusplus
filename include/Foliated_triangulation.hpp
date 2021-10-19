@@ -819,10 +819,10 @@ namespace foliated_triangulations
     }  // is_tds_valid
 
     /// @return True if the Foliated Triangulation class invariants hold
-    /// @todo Fix fatal error that occurs if check_all_cells() is added
     [[nodiscard]] auto is_correct() const -> bool
     {
-      return is_foliated() && is_tds_valid() && check_all_vertices();
+      return is_foliated() && is_tds_valid() && check_all_vertices() &&
+             check_all_cells();
     }  // is_correct
 
     /// @return True if the Foliated Triangulation has been initialized
@@ -1195,12 +1195,16 @@ namespace foliated_triangulations
     }  // get_one_three
 
     /// @brief Check that all cells are correctly classified
-    /// @return True if all cells are validly classified
+    /// @details A default triangulation will have no cells, and for this case
+    /// the triangulation is correctly classified. A triangulation with cells
+    /// will have them checked via check_cells.
+    /// @return True if there are no cells or all cells are validly classified
     [[nodiscard]] auto check_all_cells() const -> bool
     {
       auto const checked_cells = this->get_cells();
-      Expects(!checked_cells.empty());
-      return foliated_triangulations::check_cells<3>(checked_cells);
+      return (checked_cells.empty())
+                 ? true
+                 : foliated_triangulations::check_cells<3>(checked_cells);
     }  // check_all_cells
 
     /// @return A container of incorrect cells

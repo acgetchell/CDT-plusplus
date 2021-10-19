@@ -336,7 +336,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(ft.is_initialized());
-        //        REQUIRE(triangulation.check_vertices());
         REQUIRE(ft.max_time() == 0);
         REQUIRE(ft.min_time() == 0);
         REQUIRE(ft.initial_radius() == INITIAL_RADIUS);

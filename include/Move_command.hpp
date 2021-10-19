@@ -39,6 +39,9 @@ class MoveCommand
   MoveCommand() = delete;
 
   /// @brief MoveCommand ctor
+  /// @details The manifold to be moved should be copied by value into the
+  /// MoveCommand to ensure moves are done atomically and either succeed
+  /// or fail and can be discarded without affecting the original.
   /// @param t_manifold The manifold to perform moves upon
   explicit MoveCommand(ManifoldType t_manifold)
       : m_manifold{std::move(t_manifold)}
