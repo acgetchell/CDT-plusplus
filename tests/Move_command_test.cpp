@@ -13,6 +13,7 @@
 #include <fmt/ranges.h>
 
 using namespace std;
+using namespace manifolds;
 
 SCENARIO("MoveCommand special members", "[move command]")
 {
@@ -23,46 +24,42 @@ SCENARIO("MoveCommand special members", "[move command]")
     {
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(is_nothrow_destructible_v<MoveCommand<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_destructible_v<MoveCommand<Manifold3>>);
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is not default constructible.")
       {
-        CHECK_FALSE(
-            is_default_constructible_v<MoveCommand<manifolds::Manifold3>>);
+        CHECK_FALSE(is_default_constructible_v<MoveCommand<Manifold3>>);
       }
       THEN("It is copy constructible.")
       {
-        REQUIRE(is_copy_constructible_v<MoveCommand<manifolds::Manifold3>>);
+        REQUIRE(is_copy_constructible_v<MoveCommand<Manifold3>>);
         spdlog::debug("It is copy constructible.\n");
       }
       THEN("It is copy assignable.")
       {
-        REQUIRE(is_copy_assignable_v<MoveCommand<manifolds::Manifold3>>);
+        REQUIRE(is_copy_assignable_v<MoveCommand<Manifold3>>);
         spdlog::debug("It is copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        REQUIRE(
-            is_nothrow_move_constructible_v<MoveCommand<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_move_constructible_v<MoveCommand<Manifold3>>);
         spdlog::debug("Small function optimization supported.");
         spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        REQUIRE(
-            is_nothrow_move_assignable_v<MoveCommand<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_move_assignable_v<MoveCommand<Manifold3>>);
         spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable")
       {
-        REQUIRE(is_nothrow_swappable_v<MoveCommand<manifolds::Manifold3>>);
+        REQUIRE(is_nothrow_swappable_v<MoveCommand<Manifold3>>);
         spdlog::debug("It is no-throw swappable.\n");
       }
       THEN("It is constructible from a Manifold.")
       {
-        REQUIRE(is_constructible_v<MoveCommand<manifolds::Manifold3>,
-                                   manifolds::Manifold3>);
+        REQUIRE(is_constructible_v<MoveCommand<Manifold3>, Manifold3>);
         spdlog::debug("It is constructible from a Manifold.\n");
       }
     }
@@ -76,7 +73,7 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move.")
     {
@@ -104,11 +101,11 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](manifolds::Manifold3& m) {
+      auto const move23 = [](Manifold3& m) {
         return ergodic_moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
@@ -135,7 +132,7 @@ SCENARIO("Invoking a move with apply_move and a function pointer",
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Apply_move is used for a move.")
     {
@@ -163,7 +160,7 @@ SCENARIO("MoveCommand initialization", "[move command]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(640);
     auto constexpr desired_timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
     {
@@ -226,7 +223,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Move_command copies the manifold and applies the move.")
     {
@@ -421,7 +418,7 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
   {
     auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
     auto constexpr desired_timeslices = static_cast<Int_precision>(7);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("(2,3) and (3,2) moves are queued.")
     {

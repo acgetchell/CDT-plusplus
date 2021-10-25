@@ -13,6 +13,7 @@
 #include <catch2/catch.hpp>
 
 using namespace std;
+using namespace manifolds;
 
 static inline double const RADIUS_2   = sqrt(4.0 / 3.0);  // NOLINT
 static inline double const RADIUS_2_0 = sqrt(2);          // NOLINT
@@ -25,7 +26,7 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
   {
     constexpr auto       desired_simplices  = static_cast<Int_precision>(9600);
     constexpr auto       desired_timeslices = static_cast<Int_precision>(7);
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold3            manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state
     auto N3_31_pre_move = manifold.N3_31();
@@ -181,7 +182,7 @@ SCENARIO(
     transform(vertices.begin(), vertices.end(), timevalue.begin(),
               back_inserter(cv),
               [](Point_t<3> a, size_t b) { return make_pair(a, b); });
-    manifolds::Manifold3 manifold(cv);
+    Manifold3 manifold(cv);
 
     REQUIRE(manifold.is_correct());
     REQUIRE(manifold.vertices() == 5);
@@ -283,7 +284,7 @@ SCENARIO(
     transform(vertices.begin(), vertices.end(), timevalue.begin(),
               back_inserter(cv),
               [](Point_t<3> a, size_t b) { return make_pair(a, b); });
-    manifolds::Manifold3 manifold(cv, 0);
+    Manifold3 manifold(cv, 0);
 
     REQUIRE(manifold.is_correct());
     REQUIRE(manifold.vertices() == 5);

@@ -12,11 +12,13 @@
 #include "Manifold.hpp"
 #include <catch2/catch.hpp>
 
+using namespace foliated_triangulations;
+
 SCENARIO("Vertex operations", "[vertex]")
 {
   GIVEN("A Delaunay triangulation.")
   {
-    foliated_triangulations::FoliatedTriangulation3 triangulation;
+    FoliatedTriangulation3 triangulation;
 
     WHEN("A vertex is inserted.")
     {

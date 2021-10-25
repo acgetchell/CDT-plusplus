@@ -14,6 +14,7 @@
 #include <catch2/catch.hpp>
 
 using namespace std;
+using namespace foliated_triangulations;
 
 static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
 
@@ -25,7 +26,7 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
                                 Point_t<3>{0, 0, 1}, Point_t<3>{1, 0, 0}};
     WHEN("A triangulation is constructed using the vector.")
     {
-      foliated_triangulations::FoliatedTriangulation3 triangulation;
+      FoliatedTriangulation3 triangulation;
       triangulation.insert(Vertices.begin(), Vertices.end());
 
       THEN("The triangulation has dimension 3.")
@@ -83,7 +84,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
     cv.emplace_back(v4, 2);
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      foliated_triangulations::FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulation3                          ft(cv);
       TriangulationTraits<3>::squared_distance        r2;
       THEN("The triangulation is initialized correctly.")
       {
@@ -140,8 +141,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
               "a "
               "squared expected radius of {} with an expected timevalue of "
               "{}.\n",
-              vertex->point(), vertex->info(),
-              foliated_triangulations::squared_radius<3>(vertex),
+              vertex->point(), vertex->info(), squared_radius<3>(vertex),
               std::pow(ft.expected_radius(vertex), 2),
               ft.expected_timevalue(vertex));
         }
@@ -170,7 +170,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
                      std::back_inserter(cv), [](Point_t<3> a, std::size_t b) {
                        return std::make_pair(a, b);
                      });
-      foliated_triangulations::FoliatedTriangulation3 ft(cv);
+      FoliatedTriangulation3 ft(cv);
 
       THEN("The triangulation is initialized correctly.")
       {

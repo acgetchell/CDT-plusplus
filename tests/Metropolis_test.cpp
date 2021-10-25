@@ -13,6 +13,7 @@
 #include <catch2/catch.hpp>
 
 using namespace std;
+using namespace manifolds;
 
 // bool IsProbabilityRange(CGAL::Gmpzf const& arg) { return arg > 0 && arg <= 1;
 // }
@@ -91,7 +92,7 @@ SCENARIO("Metropolis member functions", "[metropolis]")
   {
     auto constexpr simplices  = static_cast<Int_precision>(640);
     auto constexpr timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 universe(simplices, timeslices);
+    Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
@@ -142,7 +143,7 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
   {
     auto constexpr simplices  = static_cast<Int_precision>(72);
     auto constexpr timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 universe(simplices, timeslices);
+    Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")

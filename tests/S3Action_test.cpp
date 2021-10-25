@@ -15,6 +15,7 @@
 #include <catch2/catch.hpp>
 
 using namespace std;
+using namespace manifolds;
 
 SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
 {
@@ -25,7 +26,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
     constexpr auto timeslices = static_cast<Int_precision>(7);
     constexpr auto K          = 1.1L;
     constexpr auto Lambda     = 0.1L;
-    manifolds::Manifold3 universe(simplices, timeslices);
+    Manifold3      universe(simplices, timeslices);
     // Verify triangulation
     CHECK(universe.N3() == universe.simplices());
     CHECK(universe.N1() == universe.edges());

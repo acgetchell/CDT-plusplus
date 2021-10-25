@@ -12,6 +12,7 @@
 #include <catch2/catch.hpp>
 
 using namespace std;
+using namespace manifolds;
 
 SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
          "[move always]")
@@ -81,7 +82,7 @@ SCENARIO("MoveAlways member functions", "[move always]")
   {
     auto constexpr simplices  = static_cast<Int_precision>(640);
     auto constexpr timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 manifold(simplices, timeslices);
+    Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 is constructed.")
     {
@@ -127,7 +128,7 @@ SCENARIO("Using the MoveAlways algorithm", "[move always][!mayfail]")
   {
     auto constexpr simplices  = static_cast<Int_precision>(72);
     auto constexpr timeslices = static_cast<Int_precision>(4);
-    manifolds::Manifold3 manifold(simplices, timeslices);
+    Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 algorithm is used.")
     {

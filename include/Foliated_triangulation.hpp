@@ -553,17 +553,21 @@ namespace foliated_triangulations
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    auto vertices_to_delete = check_timeslices<dimension>(t_triangulation);
+
     std::set<Vertex_handle_t<dimension>> deleted_vertices;
     // Remove duplicates
-    if (vertices_to_delete)
+    if (auto vertices_to_delete = check_timeslices<dimension>(t_triangulation);
+        vertices_to_delete)
     {
       for (auto& v : vertices_to_delete.value())
       {
         deleted_vertices.emplace(v);
       }
     }
-    auto invalid = deleted_vertices.size();
+
+#ifndef NDEBUG
+    spdlog::trace("There are {} invalid simplices.\n", deleted_vertices.size());
+#endif
 
     // Delete invalid vertices
     t_triangulation.remove(deleted_vertices.begin(), deleted_vertices.end());
@@ -575,10 +579,7 @@ namespace foliated_triangulations
     Ensures(t_triangulation.tds().is_valid());
     Ensures(t_triangulation.is_valid());
 
-#ifndef NDEBUG
-    spdlog::trace("There are {} invalid simplices.\n", invalid);
-#endif
-    return invalid == 0;
+    return deleted_vertices.empty();
   }  // fix_timeslices
 
   /// @brief Make a Delaunay triangulation
