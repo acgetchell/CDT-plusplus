@@ -152,9 +152,7 @@ SCENARIO("Manifold functions", "[manifold]")
       THEN("The vertices have valid timevalues.")
       {
         REQUIRE(manifold.N0() == 4);
-        CHECK(manifold.are_vertex_timevalues_valid(
-            manifold.get_triangulation().get_cells()));
-        CHECK(manifold.are_all_vertex_timevalues_valid());
+        CHECK(manifold.is_correct());
         // Human verification
         manifold.print_vertices();
       }
@@ -168,9 +166,7 @@ SCENARIO("Manifold functions", "[manifold]")
       }
       THEN("The incorrect vertex time-values are identified.")
       {
-        CHECK_FALSE(manifold.are_vertex_timevalues_valid(
-            manifold.get_triangulation().get_cells()));
-        CHECK_FALSE(manifold.are_all_vertex_timevalues_valid());
+        CHECK_FALSE(manifold.is_correct());
         // Human verification
         manifold.print_vertices();
       }
@@ -608,7 +604,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       fmt::print("Info on vertex is now {}\n", broken_vertex->info());
       THEN("We can detect invalid vertex timevalues.")
       {
-        CHECK_FALSE(manifold.are_vertex_timevalues_valid(cells));
+        CHECK_FALSE(manifold.is_correct());
         auto bad_vertices =
             manifold.get_triangulation().find_incorrect_vertices();
         for (auto& vertex : bad_vertices)

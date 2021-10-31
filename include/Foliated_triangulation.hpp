@@ -157,22 +157,6 @@ namespace foliated_triangulations
     return filtered_edges;
   }  // filter_edges
 
-  /// @brief Calculate the squared radius from the origin
-  /// @tparam dimension The dimensionality of the simplices
-  /// @param t_vertex The vertex to check
-  /// @return The squared radial distance of the vertex
-  /// @todo Generalize to d=3,4
-  template <int dimension>
-  [[nodiscard]] inline auto squared_radius(
-      Vertex_handle_t<dimension> const& t_vertex) -> double
-  {
-    typename TriangulationTraits<dimension>::squared_distance r2;
-
-    if (dimension == 3) { return r2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
-
-    return 0;
-  }  // squared_radius
-
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The container of simplices
   /// @param t_cell_type The type of simplex to filter by
@@ -191,6 +175,135 @@ namespace foliated_triangulations
                  });
     return filtered_cells;
   }  // filter_cells
+
+  /// @brief Calculate the squared radius from the origin
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param t_vertex The vertex to check
+  /// @return The squared radial distance of the vertex
+  /// @todo Generalize to d=3,4
+  template <int dimension>
+  [[nodiscard]] inline auto squared_radius(
+      Vertex_handle_t<dimension> const& t_vertex) -> double
+  {
+    typename TriangulationTraits<dimension>::squared_distance r2;
+
+    if (dimension == 3) { return r2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
+
+    return 0;
+  }  // squared_radius
+
+  /// @brief Find the expected timevalue for a vertex
+  /// @tparam dimension Dimensionality of the vertex
+  /// @param t_vertex The vertex
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
+  /// @return The effective radius of the vertex
+  template <int dimension>
+  [[nodiscard]] auto expected_timevalue(
+      Vertex_handle_t<dimension> const& t_vertex, double t_initial_radius,
+      double t_foliation_spacing) -> Int_precision
+  {
+    auto const radius = std::sqrt(squared_radius<dimension>(t_vertex));
+    return static_cast<Int_precision>(
+        std::lround((radius - t_initial_radius + t_foliation_spacing) /
+                    (t_foliation_spacing)));
+  }  // expected_timevalue
+
+  /// @brief Checks if vertex timevalue is correct
+  /// @tparam dimension Dimensionality of the vertex
+  /// @param t_vertex The vertex
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
+  /// @return True if the timevalue of the vertex matches its effective radius
+  template <int dimension>
+  [[nodiscard]] auto is_vertex_timevalue_correct(
+      Vertex_handle_t<dimension> const& t_vertex, double t_initial_radius,
+      double t_foliation_spacing) -> bool
+  {
+    auto const timevalue = expected_timevalue<dimension>(
+        t_vertex, t_initial_radius, t_foliation_spacing);
+    return timevalue == t_vertex->info();
+  }  // is_vertex_timevalue_correct
+
+  /// @brief Obtain all finite vertices in the Delaunay triangulation
+  /// @tparam dimension Dimensionality of the Delaunay triangulation
+  /// @param t_triangulation The triangulation
+  /// @return A container of finite vertices
+  template <int dimension>
+  [[nodiscard]] auto get_all_finite_vertices(
+      Delaunay_t<dimension> const& t_triangulation)
+  {
+    std::vector<Vertex_handle_t<dimension>> vertices;
+    //    std::copy(t_triangulation.finite_vertices_begin(),
+    //    t_triangulation.finite_vertices_end(), vertices.begin());
+    for (auto vit = t_triangulation.finite_vertices_begin();
+         vit != t_triangulation.finite_vertices_end(); ++vit)
+    {
+      vertices.emplace_back(vit);
+    }
+    return vertices;
+  }  // get_all_finite_vertices
+
+  /// @brief Check if vertices have the correct timevalues
+  /// @tparam dimension Dimensionality of the vertices and Delaunay
+  /// triangulation
+  /// @param t_triangulation The triangulation
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
+  /// @return True if all vertices have correct timevalues
+  template <int dimension>
+  [[nodiscard]] auto check_vertices(
+      Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
+      double t_foliation_spacing)
+  {
+    auto checked_vertices = get_all_finite_vertices<dimension>(t_triangulation);
+    return std::all_of(checked_vertices.begin(), checked_vertices.end(),
+                       [&](auto const& vertex) {
+                         return is_vertex_timevalue_correct<dimension>(
+                             vertex, t_initial_radius, t_foliation_spacing);
+                       });
+  }  // check_vertices
+
+  /// @brief Obtain vertices with incorrect timevalues
+  /// @tparam dimension Dimensionality of the vertices and Delaunay
+  /// triangulation
+  /// @param t_triangulation The triangulation
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
+  /// @return A container of vertices with incorrect timevalues
+  template <int dimension>
+  [[nodiscard]] auto find_incorrect_vertices(
+      Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
+      double t_foliation_spacing)
+  {
+    auto checked_vertices = get_all_finite_vertices<dimension>(t_triangulation);
+
+    std::vector<Vertex_handle_t<dimension>> incorrect_vertices;
+    std::copy_if(checked_vertices.begin(), checked_vertices.end(),
+                 std::back_inserter(incorrect_vertices),
+                 [&](auto const& vertex) {
+                   return !is_vertex_timevalue_correct<dimension>(
+                       vertex, t_initial_radius, t_foliation_spacing);
+                 });
+    return incorrect_vertices;
+  }  // find_incorrect_vertices
+
+  /// @brief Fix vertices with wrong timevalues
+  /// @tparam dimension Dimensionality of the vertices and Delaunay
+  /// triangulation
+  /// @param t_triangulation The triangulation
+  template <int dimension>
+  void fix_vertices(Delaunay_t<dimension> const& t_triangulation,
+                    double t_initial_radius, double t_foliation_spacing)
+  {
+    auto incorrect_vertices = find_incorrect_vertices<dimension>(
+        t_triangulation, t_initial_radius, t_foliation_spacing);
+    for (auto const& vertex : incorrect_vertices)
+    {
+      vertex->info() = expected_timevalue<dimension>(vertex, t_initial_radius,
+                                                     t_foliation_spacing);
+    }
+  }  // fix_vertices
 
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cell The simplex to check
@@ -261,27 +374,72 @@ namespace foliated_triangulations
            cell_type == static_cast<Cell_type>(t_cell->info());
   }  // is_cell_type_correct
 
+  /// @brief Obtain all finite cells in the Delaunay triangulation
+  /// @tparam dimension Dimensionality of the Delaunay triangulation
+  /// @param t_triangulation The triangulation
+  /// @return A container of finite vertices
+  template <int dimension>
+  [[nodiscard]] auto get_all_finite_cells(
+      Delaunay_t<dimension> const& t_triangulation)
+  {
+    std::vector<Cell_handle_t<dimension>> cells;
+    //    std::copy(t_triangulation.finite_vertices_begin(),
+    //    t_triangulation.finite_vertices_end(), vertices.begin());
+    for (auto cit = t_triangulation.finite_cells_begin();
+         cit != t_triangulation.finite_cells_end(); ++cit)
+    {
+      cells.emplace_back(cit);
+    }
+    return cells;
+  }  // get_all_finite_cells
+
   /// @brief Check that all cells in a container are correctly classified
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The container of cells to check
   /// @return True if all cells in the container are validly classified
   template <int dimension>
   [[nodiscard]] inline auto check_cells(
-      std::vector<Cell_handle_t<dimension>> const& t_cells) -> bool
+      //      std::vector<Cell_handle_t<dimension>> const& t_cells) -> bool
+      Delaunay_t<dimension> const& t_triangulation) -> bool
   {
-    Expects(!t_cells.empty());
-    return std::all_of(t_cells.begin(), t_cells.end(),
-                       is_cell_type_correct<dimension>);
+    //    Expects(!t_cells.empty());
+    auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
+
+    return (checked_cells.empty())
+               ? true
+               : std::all_of(checked_cells.begin(), checked_cells.end(),
+                             [&](auto const& cell) {
+                               return is_cell_type_correct<dimension>(cell);
+                             });
   }  // check_cells
+
+  template <int dimension>
+  auto find_incorrect_cells(Delaunay_t<dimension> t_triangulation)
+  {
+    auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
+
+    std::vector<Cell_handle_t<dimension>> incorrect_cells;
+    std::copy_if(checked_cells.begin(), checked_cells.end(),
+                 std::back_inserter(incorrect_cells), [&](auto const& cell) {
+                   return !is_cell_type_correct<dimension>(cell);
+                 });
+    return incorrect_cells;
+  }  // find_incorrect_cells
 
   /// @brief Fix simplices with the wrong type
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells t_cells The container of incorrect simplices
   template <int dimension>
-  inline void fix_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
+  inline void fix_cells(Delaunay_t<dimension> const& t_triangulation)
   {
-    Expects(!t_cells.empty());
-    for (auto const& cell : t_cells)
+    //    Expects(!t_cells.empty());
+    //    for (auto const& cell : t_cells)
+    //    {
+    //      cell->info() =
+    //      static_cast<int>(expected_cell_type<dimension>(cell));
+    //    }
+    auto incorrect_cells = find_incorrect_cells<dimension>(t_triangulation);
+    for (auto const& cell : incorrect_cells)
     {
       cell->info() = static_cast<int>(expected_cell_type<dimension>(cell));
     }
@@ -329,43 +487,6 @@ namespace foliated_triangulations
     }
   }  // debug_print_cells
 
-  /// @brief Make foliated ball
-  /// @details Makes a solid ball of successive layers of spheres at
-  /// a given radius.
-  /// @tparam dimension The dimensionality of the simplices
-  /// @param t_simplices The desired number of simplices in the triangulation
-  /// @param t_timeslices The desired number of timeslices in the
-  /// triangulation
-  /// @param initial_radius The radius of the first time slice
-  /// @param foliation_spacing The distance between successive time slices
-  /// @return A container of (vertex, timevalue) pairs
-  template <int dimension>
-  [[nodiscard]] inline auto make_foliated_ball(
-      Int_precision const t_simplices, Int_precision const t_timeslices,
-      double const initial_radius    = INITIAL_RADIUS,
-      double const foliation_spacing = FOLIATION_SPACING)
-  {
-    Causal_vertices_t<dimension> causal_vertices;
-    causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
-    const auto points_per_timeslice = utilities::expected_points_per_timeslice(
-        dimension, t_simplices, t_timeslices);
-    Expects(points_per_timeslice >= 2);
-
-    for (gsl::index i = 0; i < t_timeslices; ++i)
-    {
-      auto const radius =
-          initial_radius + static_cast<double>(i) * foliation_spacing;
-      Spherical_points_generator_t<dimension> gen{radius};
-      // Generate random points at the radius
-      for (gsl::index j = 0;
-           j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)
-      {
-        causal_vertices.emplace_back(*gen++, i + 1);
-      }  // j
-    }    // i
-    return causal_vertices;
-  }  // make_foliated_sphere
-
   /// @brief Collect spacelike facets into a container indexed by time value
   /// @details *Warning!* Turning on debugging info will generate gigabytes
   /// of logs.
@@ -373,6 +494,7 @@ namespace foliated_triangulations
   /// @param t_facets A container of facets
   /// @param t_debug_flag Debugging info toggle
   /// @return Container with spacelike facets per timeslice
+  /// @todo Generalize to d=3, 4
   template <int dimension>
   [[nodiscard]] inline auto volume_per_timeslice(
       std::vector<Face_handle_t<dimension>> const& t_facets)
@@ -381,8 +503,7 @@ namespace foliated_triangulations
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    std::multimap<Int_precision, typename TriangulationTraits<dimension>::Facet>
-        space_faces;
+    std::multimap<Int_precision, Facet_t<3>> space_faces;
     for (auto const& face : t_facets)
     {
       Cell_handle_t<dimension> ch = face.first;
@@ -582,6 +703,43 @@ namespace foliated_triangulations
     return deleted_vertices.empty();
   }  // fix_timeslices
 
+  /// @brief Make foliated ball
+  /// @details Makes a solid ball of successive layers of spheres at
+  /// a given radius.
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param t_simplices The desired number of simplices in the triangulation
+  /// @param t_timeslices The desired number of timeslices in the
+  /// triangulation
+  /// @param initial_radius The radius of the first time slice
+  /// @param foliation_spacing The distance between successive time slices
+  /// @return A container of (vertex, timevalue) pairs
+  template <int dimension>
+  [[nodiscard]] inline auto make_foliated_ball(
+      Int_precision const t_simplices, Int_precision const t_timeslices,
+      double const initial_radius    = INITIAL_RADIUS,
+      double const foliation_spacing = FOLIATION_SPACING)
+  {
+    Causal_vertices_t<dimension> causal_vertices;
+    causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
+    const auto points_per_timeslice = utilities::expected_points_per_timeslice(
+        dimension, t_simplices, t_timeslices);
+    Expects(points_per_timeslice >= 2);
+
+    for (gsl::index i = 0; i < t_timeslices; ++i)
+    {
+      auto const radius =
+          initial_radius + static_cast<double>(i) * foliation_spacing;
+      Spherical_points_generator_t<dimension> gen{radius};
+      // Generate random points at the radius
+      for (gsl::index j = 0;
+           j < static_cast<Int_precision>(points_per_timeslice * radius); ++j)
+      {
+        causal_vertices.emplace_back(*gen++, i + 1);
+      }  // j
+    }    // i
+    return causal_vertices;
+  }  // make_foliated_ball
+
   /// @brief Make a Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_simplices Number of desired simplices
@@ -620,7 +778,14 @@ namespace foliated_triangulations
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
 
     // Fix vertices
-    //      triangulation.fix_vertices(triangulation.check_all_vertices());
+    while (!check_vertices<dimension>(triangulation, initial_radius,
+                                      foliation_spacing))
+    {
+#ifndef NDEBUG
+      spdlog::trace("Deleting incorrect vertices ....\n");
+#endif
+      fix_vertices<dimension>(triangulation, initial_radius, foliation_spacing);
+    }
 
     // Fix timeslices
     int passes = 1;
@@ -1034,7 +1199,7 @@ namespace foliated_triangulations
     /// @brief Checks if vertex timevalue is correct
     /// @param t_vertex The vertex to check
     /// @return True if vertex->info() equals expected_timevalue()
-    [[nodiscard]] auto is_vertex_timevalue_correct(
+    [[deprecated]] auto is_vertex_timevalue_correct(
         Vertex_handle_t<3> const& t_vertex) const -> bool
     {
 #ifndef NDEBUG
@@ -1077,7 +1242,7 @@ namespace foliated_triangulations
     ///
     /// @param t_vertex The vertex to check
     /// @return The expected timevalue of the vertex
-    [[nodiscard]] auto expected_timevalue(
+    [[deprecated]] auto expected_timevalue(
         Vertex_handle_t<3> const& t_vertex) const -> int
     {
       auto const radius = std::sqrt(squared_radius<3>(t_vertex));
@@ -1089,14 +1254,14 @@ namespace foliated_triangulations
     /// @return True if all vertices have correct timevalues
     [[nodiscard]] auto check_all_vertices() const -> bool
     {
-      auto const checked_vertices = this->get_vertices();
-      return this->check_vertices(checked_vertices);
+      return foliated_triangulations::check_vertices<3>(
+          m_triangulation, m_initial_radius, m_foliation_spacing);
     }  // check_all_vertices
 
     /// @brief Check if vertices have the correct timevalues
     /// @param vertices The container of vertices to check
     /// @return True if all vertices in the container have correct timevalues
-    [[nodiscard]] auto check_vertices(
+    [[deprecated]] auto check_vertices(
         std::vector<Vertex_handle_t<3>> const& vertices) const -> bool
     {
       return std::all_of(vertices.begin(), vertices.end(),
@@ -1107,31 +1272,23 @@ namespace foliated_triangulations
 
     /// @return A container of incorrect vertices
     [[nodiscard]] auto find_incorrect_vertices() const
-        -> std::vector<Vertex_handle_t<3>>
     {
-      std::vector<Vertex_handle_t<3>> incorrect_vertices;
-      auto                         checked_vertices = this->get_vertices();
-      std::copy_if(checked_vertices.begin(), checked_vertices.end(),
-                   std::back_inserter(incorrect_vertices),
-                   [&](auto const& vertex) {
-                     return !is_vertex_timevalue_correct(vertex);
-                   });
-
-      return incorrect_vertices;
+      return foliated_triangulations::find_incorrect_vertices<3>(
+          m_triangulation, m_initial_radius, m_foliation_spacing);
     }  // find_incorrect_vertices
 
     /// @brief Fix vertices with wrong timevalues after foliation
     /// @param incorrect_vertices The container of incorrect vertices
-    void fix_vertices(
-        //        std::vector<Vertex_handle_3> const& incorrect_vertices) const
-        std::vector<typename TriangulationTraits<3>::Vertex_handle> const&
-            incorrect_vertices) const
+    void fix_vertices()
     {
-      for (auto const& vertex : incorrect_vertices)
-      {
-        vertex->info() = expected_timevalue(vertex);
-      }
+      foliated_triangulations::fix_vertices<3>(
+          m_triangulation, m_initial_radius, m_foliation_spacing);
     }  // fix_vertices
+
+    void fix_cells()
+    {
+      foliated_triangulations::fix_cells<3>(m_triangulation);
+    }  // fix_cells
 
     /// @brief Print values of a vertex
     void print_vertices() const
@@ -1202,14 +1359,11 @@ namespace foliated_triangulations
     /// @return True if there are no cells or all cells are validly classified
     [[nodiscard]] auto check_all_cells() const -> bool
     {
-      auto const checked_cells = this->get_cells();
-      return (checked_cells.empty())
-                 ? true
-                 : foliated_triangulations::check_cells<3>(checked_cells);
+      return foliated_triangulations::check_cells<3>(get_delaunay());
     }  // check_all_cells
 
     /// @return A container of incorrect cells
-    [[nodiscard]] auto find_incorrect_cells() const
+    [[deprecated]] auto find_incorrect_cells() const
         -> std::vector<Cell_handle_t<3>>
     {
       std::vector<Cell_handle_t<3>> incorrect_cells;

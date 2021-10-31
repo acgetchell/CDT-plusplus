@@ -131,10 +131,11 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
       }
       THEN("All vertices have correct timevalues.")
       {
-        auto const& vertices = ft.get_vertices();
-        CHECK(ft.check_vertices(vertices));
+        //        auto const& vertices = ft.get_vertices();
+        CHECK(ft.check_all_vertices());
         // Human verification
-        for (auto const& vertex : vertices)
+        for (auto const& vertices = ft.get_vertices();
+             auto const& vertex : vertices)
         {
           fmt::print(
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "

@@ -18,16 +18,6 @@
 
 namespace manifolds
 {
-  /// @tparam SimplexType The Cell_handle to the simplex
-  /// @param t_cells The container of simplices
-  /// @return True if all simplices in the container have valid types
-  template <int dimension>
-  [[nodiscard]] inline auto are_simplex_types_valid(
-      std::vector<Cell_handle_t<dimension>> const& t_cells) -> bool
-  {
-    return foliated_triangulations::check_cells<dimension>(t_cells);
-  }  // are_simplex_types_valid
-
   /// @param t_cells The cells from which to extract vertices
   /// @return All of the vertices contained in the cells
   template <int dimension>
@@ -157,6 +147,13 @@ namespace manifolds
       return m_geometry;
     }  // get_geometry
 
+    /// @brief Forwarding to FoliatedTriangulation3.is_foliated()
+    /// @return True if the Manifold triangulation is foliated
+    [[nodiscard]] auto is_foliated() const -> bool
+    {
+      return m_triangulation.is_foliated();
+    }  // is_foliated
+
     /// @brief Forwarding to FoliatedTriangulation.is_delaunay()
     /// @return True if the Manifold triangulation is Delaunay
     [[nodiscard]] auto is_delaunay() const -> bool
@@ -171,20 +168,11 @@ namespace manifolds
       return m_triangulation.is_tds_valid();
     }  // is_valid
 
-    /// @brief Forwarding to FoliatedTriangulation3.is_foliated()
-    /// @return True if the Manifold triangulation is foliated
-    [[nodiscard]] auto is_foliated() const -> bool
-    {
-      return m_triangulation.is_foliated();
-    }  // is_foliated
-
     /// @return If base data structures are correct
     [[nodiscard]] auto is_correct() const -> bool
     {
       auto const t_cells = m_triangulation.get_cells();
-      return m_triangulation.is_correct() &&
-             are_simplex_types_valid<3>(t_cells) &&
-             are_vertex_timevalues_valid(t_cells);
+      return m_triangulation.is_correct();
     }  // is_correct
 
     /// @brief Perfect forwarding to FoliatedTriangulation3.is_vertex()
@@ -325,33 +313,6 @@ namespace manifolds
       return (this->simplices() == this->N3() &&
               m_triangulation.check_all_cells());
     }  // check_simplices
-
-    /// @brief Check vertices in a container of simplices to ensure they have
-    /// valid timevalues
-    /// @param t_cells The container of simplices to check
-    /// @return True if all vertices in the container have reasonable timevalues
-    [[nodiscard]] auto are_vertex_timevalues_valid(
-        std::vector<Cell_handle_t<3>> const& t_cells) const -> bool
-    {
-      auto checked_vertices = get_vertices_from_cells<3>(t_cells);
-      return std::all_of(checked_vertices.begin(), checked_vertices.end(),
-                         [this](Vertex_handle_t<3> const& vertex) {
-                           return vertex->info() >= min_time() &&
-                                  vertex->info() <= max_time();
-                         });
-    }  // are_vertex_timevalues_valid
-
-    /// @brief Check all vertices to ensure they have valid timevalues
-    /// @return True if all vertices in the manifold have reasonable timevalues
-    [[nodiscard]] auto are_all_vertex_timevalues_valid() const -> bool
-    {
-      auto checked_vertices = this->get_vertices();
-      return std::all_of(checked_vertices.begin(), checked_vertices.end(),
-                         [this](Vertex_handle_t<3> const& vertex) {
-                           return vertex->info() >= min_time() &&
-                                  vertex->info() <= max_time();
-                         });
-    }  // are_all_vertex_timevalues_valid
 
     /// @brief Print the codimension 1 volume of simplices (faces) per timeslice
     void print_volume_per_timeslice() const
