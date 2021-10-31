@@ -6,8 +6,5 @@ var searchData=
   ['apply_5fmove_3',['apply_move',['../_apply__move_8hpp.html#afcd4bb134ff666e245b652a3f0dd0db2',1,'Apply_move.hpp']]],
   ['apply_5fmove_2ehpp_4',['Apply_move.hpp',['../_apply__move_8hpp.html',1,'']]],
   ['apply_5fmove_5ftest_2ecpp_5',['Apply_move_test.cpp',['../_apply__move__test_8cpp.html',1,'']]],
-  ['are_5fall_5fvertex_5ftimevalues_5fvalid_6',['are_all_vertex_timevalues_valid',['../classmanifolds_1_1_manifold_3_013_01_4.html#ade4d42e231238623ca3e1aa1a6118758',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['are_5fsimplex_5ftypes_5fvalid_7',['are_simplex_types_valid',['../_manifold_8hpp.html#adf1859965ac40c4e1c57c2dd7d1ae6d5',1,'manifolds']]],
-  ['are_5fvertex_5ftimevalues_5fvalid_8',['are_vertex_timevalues_valid',['../classmanifolds_1_1_manifold_3_013_01_4.html#a2ce04d110bdbfae3d99a996ebf01a6f1',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['as_5finteger_9',['as_integer',['../_move__tracker_8hpp.html#a532ba88e802845b59d7e7adddc217c61',1,'move_tracker']]]
+  ['as_5finteger_6',['as_integer',['../_move__tracker_8hpp.html#a532ba88e802845b59d7e7adddc217c61',1,'move_tracker']]]
 ];
