@@ -260,12 +260,11 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
       THEN("The incorrect cell labelling is fixed.")
       {
         CHECK_FALSE(ft.check_all_cells());
-        //        fix_cells<3>(ft.find_incorrect_cells());
         ft.fix_cells();
-        CHECK(ft.check_all_cells());
         // Human verification
         fmt::print("=== Corrected cell info ===\n");
         ft.print_cells();
+        CHECK(ft.check_all_cells());
       }
     }
   }
@@ -615,17 +614,33 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulation3 ft(cv);
-      THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
-      /// TODO: Use fix_vertex and fix_simplex here
-      //#ifndef _WIN64
-      //      // MSVC doesn't like this
-      //      AND_THEN("The low value is discarded.")
-      //      {
-      //        auto discarded =
-      //            foliatedTriangulation.check_timeslices(foliatedTriangulation);
-      //        CHECK(discarded.value().front()->info() == 0);
-      //      }
-      //#endif
+      THEN("The vertex error is detected.")
+      {
+        CHECK_FALSE(ft.is_initialized());
+        // Human verification
+        fmt::print("Incorrect low timevalue vertex:\n");
+        ft.print_vertices();
+        fmt::print("Causes incorrect cell:\n");
+        ft.print_cells();
+      }
+      AND_THEN("The vertex error is fixed.")
+      {
+        ft.fix_vertices();
+        ft.print_vertices();
+        fmt::print("But the cell is still incorrect.\n");
+        CHECK_FALSE(ft.is_initialized());
+        ft.print_cells();
+      }
+      AND_THEN("The cell error is fixed.")
+      {
+        ft.fix_vertices();
+        fmt::print("Before fix_cells()\n");
+        ft.print_cells();
+        ft.fix_cells();
+        fmt::print("After fix_cells()\n");
+        ft.print_cells();
+        CHECK(ft.is_initialized());
+      }
     }
     WHEN(
         "Constructing a triangulation with two incorrect low values and two "
@@ -641,17 +656,33 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulation3 ft(cv);
-      THEN("An error is detected.") { CHECK_FALSE(ft.is_foliated()); }
-      /// TODO: Use fix_vertex and fix_simplex here
-      //#ifndef _WIN64
-      //      // Visual Studio doesn't like this
-      //      AND_THEN("The low value is preferentially discarded.")
-      //      {
-      //        auto discarded =
-      //            foliatedTriangulation.check_timeslices(foliatedTriangulation);
-      //        CHECK(discarded.value().front()->info() == 0);
-      //      }
-      //#endif
+      THEN("The vertex errors are detected.")
+      {
+        CHECK_FALSE(ft.is_initialized());
+        // Human verification
+        fmt::print("Incorrect high timevalue vertex:\n");
+        ft.print_vertices();
+        fmt::print("Causes incorrect cell:\n");
+        ft.print_cells();
+      }
+      AND_THEN("The vertex errors are fixed.")
+      {
+        ft.fix_vertices();
+        ft.print_vertices();
+        fmt::print("But the cell is still incorrect.\n");
+        CHECK_FALSE(ft.is_initialized());
+        ft.print_cells();
+      }
+      AND_THEN("The cell error is fixed.")
+      {
+        ft.fix_vertices();
+        fmt::print("Before fix_cells()\n");
+        ft.print_cells();
+        ft.fix_cells();
+        fmt::print("After fix_cells()\n");
+        ft.print_cells();
+        CHECK(ft.is_initialized());
+      }
     }
   }
 }

@@ -203,15 +203,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
         REQUIRE(ft.number_of_finite_cells() == 1);
       }
 
-      THEN("Timevalues are correct.")
-      {
-        auto const& checked_vertices = ft.get_vertices();
-        REQUIRE(ft.check_vertices(checked_vertices));
-        for (auto const& vertex : checked_vertices)
-        {
-          CHECK(ft.is_vertex_timevalue_correct(vertex));
-        }
-      }
+      THEN("Timevalues are correct.") { CHECK(ft.check_all_vertices()); }
 
       THEN("The cell info is correct.")
       {

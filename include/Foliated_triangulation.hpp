@@ -206,7 +206,7 @@ namespace foliated_triangulations
     auto const radius = std::sqrt(squared_radius<dimension>(t_vertex));
     return static_cast<Int_precision>(
         std::lround((radius - t_initial_radius + t_foliation_spacing) /
-                    (t_foliation_spacing)));
+                    t_foliation_spacing));
   }  // expected_timevalue
 
   /// @brief Checks if vertex timevalue is correct
@@ -310,8 +310,7 @@ namespace foliated_triangulations
   /// @param t_debug_flag Toggle for detailed debugging
   /// @return The type of the simplex
   template <int dimension>
-  [[nodiscard]] inline auto expected_cell_type(
-      Cell_handle_t<dimension> const& t_cell)
+  [[nodiscard]] auto expected_cell_type(Cell_handle_t<dimension> const& t_cell)
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -381,6 +380,7 @@ namespace foliated_triangulations
   template <int dimension>
   [[nodiscard]] auto get_all_finite_cells(
       Delaunay_t<dimension> const& t_triangulation)
+      -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> cells;
     //    std::copy(t_triangulation.finite_vertices_begin(),
@@ -399,12 +399,9 @@ namespace foliated_triangulations
   /// @return True if all cells in the container are validly classified
   template <int dimension>
   [[nodiscard]] inline auto check_cells(
-      //      std::vector<Cell_handle_t<dimension>> const& t_cells) -> bool
       Delaunay_t<dimension> const& t_triangulation) -> bool
   {
-    //    Expects(!t_cells.empty());
     auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
-
     return (checked_cells.empty())
                ? true
                : std::all_of(checked_cells.begin(), checked_cells.end(),
@@ -413,8 +410,13 @@ namespace foliated_triangulations
                              });
   }  // check_cells
 
+  /// @brief Check that all cells in a container are correctly classified
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param t_triangulation The triangulation
+  /// @return A container of cells that are classified correctly
   template <int dimension>
-  auto find_incorrect_cells(Delaunay_t<dimension> t_triangulation)
+  [[nodiscard]] auto find_incorrect_cells(
+      Delaunay_t<dimension> const& t_triangulation)
   {
     auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
 
@@ -428,20 +430,15 @@ namespace foliated_triangulations
 
   /// @brief Fix simplices with the wrong type
   /// @tparam dimension The dimensionality of the simplices
-  /// @param t_cells t_cells The container of incorrect simplices
+  /// @param t_triangulation The triangulation
   template <int dimension>
   inline void fix_cells(Delaunay_t<dimension> const& t_triangulation)
   {
-    //    Expects(!t_cells.empty());
-    //    for (auto const& cell : t_cells)
-    //    {
-    //      cell->info() =
-    //      static_cast<int>(expected_cell_type<dimension>(cell));
-    //    }
     auto incorrect_cells = find_incorrect_cells<dimension>(t_triangulation);
     for (auto const& cell : incorrect_cells)
     {
-      cell->info() = static_cast<int>(expected_cell_type<dimension>(cell));
+      cell->info() =
+          static_cast<Int_precision>(expected_cell_type<dimension>(cell));
     }
   }  // fix_cells
 
@@ -1242,13 +1239,11 @@ namespace foliated_triangulations
     ///
     /// @param t_vertex The vertex to check
     /// @return The expected timevalue of the vertex
-    [[deprecated]] auto expected_timevalue(
+    [[nodiscard]] auto expected_timevalue(
         Vertex_handle_t<3> const& t_vertex) const -> int
     {
-      auto const radius = std::sqrt(squared_radius<3>(t_vertex));
-      return static_cast<Int_precision>(
-          std::lround((radius - m_initial_radius + m_foliation_spacing) /
-                      m_foliation_spacing));
+      return foliated_triangulations::expected_timevalue<3>(
+          t_vertex, m_initial_radius, m_foliation_spacing);
     }  // expected_timevalue
 
     /// @return True if all vertices have correct timevalues
@@ -1257,18 +1252,6 @@ namespace foliated_triangulations
       return foliated_triangulations::check_vertices<3>(
           m_triangulation, m_initial_radius, m_foliation_spacing);
     }  // check_all_vertices
-
-    /// @brief Check if vertices have the correct timevalues
-    /// @param vertices The container of vertices to check
-    /// @return True if all vertices in the container have correct timevalues
-    [[deprecated]] auto check_vertices(
-        std::vector<Vertex_handle_t<3>> const& vertices) const -> bool
-    {
-      return std::all_of(vertices.begin(), vertices.end(),
-                         [this](auto const& vertex) {
-                           return is_vertex_timevalue_correct(vertex);
-                         });
-    }  // check_vertices
 
     /// @return A container of incorrect vertices
     [[nodiscard]] auto find_incorrect_vertices() const
@@ -1279,16 +1262,11 @@ namespace foliated_triangulations
 
     /// @brief Fix vertices with wrong timevalues after foliation
     /// @param incorrect_vertices The container of incorrect vertices
-    void fix_vertices()
+    void fix_vertices() const
     {
       foliated_triangulations::fix_vertices<3>(
           m_triangulation, m_initial_radius, m_foliation_spacing);
     }  // fix_vertices
-
-    void fix_cells()
-    {
-      foliated_triangulations::fix_cells<3>(m_triangulation);
-    }  // fix_cells
 
     /// @brief Print values of a vertex
     void print_vertices() const
@@ -1363,17 +1341,17 @@ namespace foliated_triangulations
     }  // check_all_cells
 
     /// @return A container of incorrect cells
-    [[deprecated]] auto find_incorrect_cells() const
+    [[nodiscard]] auto find_incorrect_cells() const
         -> std::vector<Cell_handle_t<3>>
     {
-      std::vector<Cell_handle_t<3>> incorrect_cells;
-      auto                       checked_cells = this->get_cells();
-      std::copy_if(checked_cells.begin(), checked_cells.end(),
-                   std::back_inserter(incorrect_cells), [&](auto const& cell) {
-                     return !is_cell_type_correct<3>(cell);
-                   });
-      return incorrect_cells;
+      return foliated_triangulations::find_incorrect_cells<3>(get_delaunay());
     }  // find_incorrect_cells
+
+    /// @brief Fix all cells in the triangulation
+    void fix_cells() const
+    {
+      foliated_triangulations::fix_cells<3>(get_delaunay());
+    }  // fix_cells
 
     /// @brief Print timevalues of each vertex in the cell and the resulting
     /// cell->info()
@@ -1415,9 +1393,8 @@ namespace foliated_triangulations
     /// @param t_debug_flag Debugging info toggle
     /// @return A container of simplices with Cell_type written to cell->info()
     [[nodiscard]] auto classify_cells(
-        std::vector<Cell_handle_t<3>> const&
-            cells)  //, bool const t_debug_flag = false)
-        const -> std::vector<Cell_handle_t<3>>
+        std::vector<Cell_handle_t<3>> const& cells) const
+        -> std::vector<Cell_handle_t<3>>
     {
       Expects(cells.size() == number_of_finite_cells());
       for (auto const& c : cells)
