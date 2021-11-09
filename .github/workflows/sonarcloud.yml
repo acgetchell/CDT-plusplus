@@ -16,32 +16,26 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Cache vcpkg
-        uses: actions/cache@v2
-        id: cache-vcpkg
+      - name: Setup GCC
+        uses: egor-tensin/setup-gcc@v1
         with:
-          path: $HOME/.cache/vcpkg
-          key: ${{ runner.os }}-vcpkg-v1
-          restore-keys: ${{ runner.os }}-vcpkg-v1
+          version: 11
+          platform: x64
 
       - name: Setup
         run: |
-          sudo add-apt-repository ppa:ubuntu-toolchain-r/test
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build g++-10 ccache lcov
-          sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
-          export CXX="g++-10" CC="gcc-10"
-          cd $VCPKG_INSTALLATION_ROOT
-          git reset --hard
-          git pull origin master --no-rebase
-          ./bootstrap-vcpkg.sh
-          vcpkg integrate install
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
+
+      - name: Restore artifacts, or setup vcpkg
+        uses: lukka/run-vcpkg@v10
+        with:
+          vcpkgGitCommitId: 3730cbe99a0035a85158dec3c8cf0f783a9ca16b
 
       - name: Install vcpkg packages and configure CMake
         shell: bash
         run: |
           vcpkg install --feature-flags=manifests
-          export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
           cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
       - name: Cache SonarCloud packages and analysis
