@@ -1,0 +1,40 @@
+name: macOS
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+        submodules: true
+
+    - name: Cache vcpkg
+      uses: actions/cache@v2
+      id: cache-vcpkg
+      with:
+        path: $HOME/.cache/vcpkg
+        key:  ${{ runner.os }}-vcpkg-v1
+        restore-keys: ${{ runner.os }}-vcpkg-v1
+
+    - name: Setup
+      run: |
+        brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache
+        cd $VCPKG_INSTALLATION_ROOT
+        git fetch --unshallow
+        ./bootstrap-vcpkg.sh
+        vcpkg integrate install
+
+    - name: Install vcpkg packages and configure CMake
+      shell: bash
+      run: |
+        vcpkg install --feature-flags=manifests
+        export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
+        vcpkg list
+        cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -S . -B build
+
+    - name: Build
+      run: cmake --build build
