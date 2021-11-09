@@ -1,0 +1,32 @@
+name: Windows MSVC
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup Clang
+        uses: egor-tensin/setup-clang@v1
+        with:
+          version: 13
+          platform: x64
+
+      - name: Restore artifacts, or setup vcpkg
+        uses: lukka/run-vcpkg@v10
+        with:
+          vcpkgGitCommitId: 3730cbe99a0035a85158dec3c8cf0f783a9ca16b
+
+      - name: Install vcpkg packages and configure CMake
+        run: |
+          vcpkg install --feature-flags=manifests
+          cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
+
+      - name: Build
+        run: cmake --build build
