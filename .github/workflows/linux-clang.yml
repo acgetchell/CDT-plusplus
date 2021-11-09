@@ -45,7 +45,7 @@ jobs:
         shell: bash
         run: |
           vcpkg install --feature-flags=manifests
-          export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
+#          export VCPKG_ROOT="$VCPKG_INSTALLATION_ROOT"
           cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
       - name: Build
