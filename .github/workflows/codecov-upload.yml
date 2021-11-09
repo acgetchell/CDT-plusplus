@@ -27,8 +27,8 @@ jobs:
           sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-10 100 --slave /usr/bin/g++ g++ /usr/bin/g++-10
           export CXX="g++-10" CC="gcc-10"
           cd $VCPKG_INSTALLATION_ROOT
-          git checkout master
-          git pull
+          git reset --hard
+          git pull origin master --no-rebase
           ./bootstrap-vcpkg.sh
           vcpkg integrate install
 

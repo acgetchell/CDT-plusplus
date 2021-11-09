@@ -46,8 +46,8 @@ jobs:
           exit 1
         fi
         cd $VCPKG_INSTALLATION_ROOT
-        git checkout master
-        git pull
+        git reset --hard
+        git pull origin master --no-rebase
         ./bootstrap-vcpkg.sh
         vcpkg integrate install
 
