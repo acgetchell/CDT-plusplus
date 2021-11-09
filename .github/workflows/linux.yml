@@ -31,8 +31,9 @@ jobs:
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
           cd $VCPKG_INSTALLATION_ROOT
-          git checkout master
-          git pull
+          git fetch
+          git reset --hard HEAD
+          git merge '@{u}'
           ./bootstrap-vcpkg.sh
           vcpkg integrate install
 
