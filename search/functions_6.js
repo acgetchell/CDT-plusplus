@@ -16,5 +16,5 @@ var searchData=
   ['is_5ftds_5fvalid_429',['is_tds_valid',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#acaa86a3a4d4415cda8b14ddd8a219f50',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['is_5fvalid_430',['is_valid',['../classmanifolds_1_1_manifold_3_013_01_4.html#ad32097f96dc5e033bca522fc8bb4ca98',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['is_5fvertex_431',['is_vertex',['../classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['is_5fvertex_5ftimevalue_5fcorrect_432',['is_vertex_timevalue_correct',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a3f653907de1f3b0a9ac6fac6a3e35967',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_vertex_timevalue_correct()'],['../_foliated__triangulation_8hpp.html#a20723224841439306538c431f796927a',1,'foliated_triangulations::is_vertex_timevalue_correct()']]]
+  ['is_5fvertex_5ftimevalue_5fcorrect_432',['is_vertex_timevalue_correct',['../_foliated__triangulation_8hpp.html#a20723224841439306538c431f796927a',1,'foliated_triangulations']]]
 ];

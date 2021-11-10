@@ -79,7 +79,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="290" y="-95.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_cells()</text>
 <text text-anchor="start" x="290" y="-84.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_vertices()</text>
 <text text-anchor="start" x="290" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ degree()</text>
-<text text-anchor="start" x="290" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 48 more...</text>
+<text text-anchor="start" x="290" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 47 more...</text>
 <text text-anchor="start" x="290" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_cells()</text>
 <text text-anchor="start" x="290" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_cells()</text>
 <text text-anchor="start" x="290" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_edges()</text>
