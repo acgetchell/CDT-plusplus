@@ -193,6 +193,12 @@ namespace foliated_triangulations
   }  // squared_radius
 
   /// @brief Find the expected timevalue for a vertex
+  /// @details The formula for the expected timevalue is:
+  ///
+  /// \f[t=\frac{R-I+S}{S}\f]
+  ///
+  /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
+  ///
   /// @tparam dimension Dimensionality of the vertex
   /// @param t_vertex The vertex
   /// @param t_initial_radius The initial radius of the radial foliation
@@ -234,11 +240,11 @@ namespace foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation)
   {
     std::vector<Vertex_handle_t<dimension>> vertices;
-    //    std::copy(t_triangulation.finite_vertices_begin(),
-    //    t_triangulation.finite_vertices_end(), vertices.begin());
     for (auto vit = t_triangulation.finite_vertices_begin();
          vit != t_triangulation.finite_vertices_end(); ++vit)
     {
+      // Each vertex is valid
+      Ensures(t_triangulation.tds().is_vertex(vit));
       vertices.emplace_back(vit);
     }
     return vertices;
@@ -383,11 +389,11 @@ namespace foliated_triangulations
       -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> cells;
-    //    std::copy(t_triangulation.finite_vertices_begin(),
-    //    t_triangulation.finite_vertices_end(), vertices.begin());
     for (auto cit = t_triangulation.finite_cells_begin();
          cit != t_triangulation.finite_cells_end(); ++cit)
     {
+      // Each cell is valid
+      Ensures(t_triangulation.tds().is_cell(cit));
       cells.emplace_back(cit);
     }
     return cells;
@@ -555,6 +561,7 @@ namespace foliated_triangulations
   /// @param t_triangulation The Delaunay triangulation
   /// @return A container of invalidly foliated vertices if they exist
   /// @todo The iterator for dD triangulations is called
+  /// @todo Refactor to use get_all_finite_cells
   /// Finite_full_cell_const_iterator and Finite_full_cell_iterator, so we'll
   /// have to abstract that too
   template <int dimension>
@@ -793,6 +800,16 @@ namespace foliated_triangulations
 #endif
       ++passes;
     }
+
+    // Fix cells
+    while (!check_cells<dimension>(triangulation))
+    {
+#ifndef NDEBUG
+      spdlog::trace("Fixing incorrect cells ...\n");
+#endif
+      fix_cells<dimension>(triangulation);
+    }
+
     utilities::print_delaunay(triangulation);
     Ensures(!check_timeslices<dimension>(triangulation));
     return triangulation;
@@ -1193,23 +1210,6 @@ namespace foliated_triangulations
           actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
     }  // does_vertex_radius_match_timevalue
 
-    /// @brief Checks if vertex timevalue is correct
-    /// @param t_vertex The vertex to check
-    /// @return True if vertex->info() equals expected_timevalue()
-    [[deprecated]] auto is_vertex_timevalue_correct(
-        Vertex_handle_t<3> const& t_vertex) const -> bool
-    {
-#ifndef NDEBUG
-      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-      auto const e_timevalue = this->expected_timevalue(t_vertex);
-#ifndef NDEBUG
-      spdlog::trace("Vertex ({}) with info() {}: expected timevalue {}\n",
-                    t_vertex->point(), t_vertex->info(), e_timevalue);
-#endif
-      return e_timevalue == t_vertex->info();
-    }  // is_vertex_timevalue_correct
-
     /// @brief Calculates the expected radial distance of a vertex given its
     /// timevalue
     ///
@@ -1229,14 +1229,6 @@ namespace foliated_triangulations
     }  // expected_radial_distance
 
     /// @brief Calculate the expected timevalue for a vertex
-    ///
-    /// The formula for the expected timevalue is:
-    ///
-    /// \f[t=\frac{R-I+S}{S}\f]
-    ///
-    /// Where R is radius, I is INITIAL_RADIUS, and S is RADIAL_SEPARATION
-    ///
-    ///
     /// @param t_vertex The vertex to check
     /// @return The expected timevalue of the vertex
     [[nodiscard]] auto expected_timevalue(
@@ -1374,18 +1366,10 @@ namespace foliated_triangulations
     /// @return Container of all the finite simplices in the triangulation
     [[nodiscard]] auto collect_cells() const -> std::vector<Cell_handle_t<3>>
     {
-      Expects(this->is_tds_valid());
-      std::vector<Cell_handle_t<3>> init_cells;
-      init_cells.reserve(number_of_finite_cells());
-      for (auto cit = get_delaunay().finite_cells_begin();
-           cit != get_delaunay().finite_cells_end(); ++cit)
-      {
-        // Each cell is valid in the triangulation
-        Ensures(get_delaunay().tds().is_cell(cit));
-        init_cells.emplace_back(cit);
-      }
-      Ensures(init_cells.size() == number_of_finite_cells());
-      return init_cells;
+      auto result =
+          foliated_triangulations::get_all_finite_cells<3>(get_delaunay());
+      Ensures(result.size() == number_of_finite_cells());
+      return result;
     }  // collect_cells
 
     /// @brief Classify cells
@@ -1449,16 +1433,10 @@ namespace foliated_triangulations
         -> std::vector<Vertex_handle_t<3>>
     {
       Expects(is_tds_valid());
-      std::vector<Vertex_handle_t<3>> init_vertices;
-      init_vertices.reserve(get_delaunay().number_of_vertices());
-      for (auto vit = get_delaunay().finite_vertices_begin();
-           vit != get_delaunay().finite_vertices_end(); ++vit)
-      {  // Each vertex is valid in the triangulation
-        Ensures(get_delaunay().tds().is_vertex(vit));
-        init_vertices.emplace_back(vit);
-      }
-      Ensures(init_vertices.size() == get_delaunay().number_of_vertices());
-      return init_vertices;
+      auto result =
+          foliated_triangulations::get_all_finite_vertices<3>(get_delaunay());
+      Ensures(result.size() == get_delaunay().number_of_vertices());
+      return result;
     }  // collect_vertices
   };
 
