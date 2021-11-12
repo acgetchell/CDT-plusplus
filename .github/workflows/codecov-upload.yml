@@ -12,7 +12,7 @@ jobs:
           fetch-depth: 0
 
       - name: Setup GCC
-        uses: egor/gcc-setup@v1
+        uses: egor-tensin/setup-gcc@v1
         with:
           version: 11
           platform: x64

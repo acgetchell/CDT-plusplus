@@ -63,6 +63,7 @@ enum class Cell_type
   THREE_TWO    = 32,  // (3,2)
   TWO_THREE    = 23,  // (2,3)
   ONE_FOUR     = 14,  // (1,4)
+  ACAUSAL      = 99,  // The vertex timevalues differ by > 1 or are all equal
   UNCLASSIFIED = 0    // An error happened classifying cell
 };
 
@@ -80,7 +81,7 @@ namespace foliated_triangulations
   /// @param t_vertices The container of vertices
   /// @return The maximum timevalue in the container
   template <int dimension>
-  [[nodiscard]] inline auto find_max_timevalue(
+  [[nodiscard]] auto find_max_timevalue(
       std::vector<Vertex_handle_t<dimension>> const& t_vertices)
       -> Int_precision
   {
@@ -99,7 +100,7 @@ namespace foliated_triangulations
   /// @param t_vertices The container of vertices
   /// @return The minimum timevalue in the container
   template <int dimension>
-  [[nodiscard]] inline auto find_min_timevalue(
+  [[nodiscard]] auto find_min_timevalue(
       std::vector<Vertex_handle_t<dimension>> const& t_vertices) -> int
   {
     Expects(!t_vertices.empty());
@@ -117,7 +118,7 @@ namespace foliated_triangulations
   /// @param t_debug_flag Debugging info toggle
   /// @return True if timelike and false if spacelike
   template <int dimension>
-  [[nodiscard]] inline auto classify_edge(
+  [[nodiscard]] auto classify_edge(
       Edge_handle_t<dimension> const&
           t_edge)  //, bool const t_debug_flag = false)
       -> bool
@@ -142,7 +143,7 @@ namespace foliated_triangulations
   /// @param t_is_Timelike_pred The predicate to filter by
   /// @return A container of is_Timelike edges
   template <int dimension>
-  [[nodiscard]] inline auto filter_edges(
+  [[nodiscard]] auto filter_edges(
       std::vector<Edge_handle_t<dimension>> const& t_edges,
       bool t_is_Timelike_pred) -> std::vector<Edge_handle_t<dimension>>
   {
@@ -153,7 +154,7 @@ namespace foliated_triangulations
         [&](auto const& edge) {
           return (t_is_Timelike_pred == classify_edge<dimension>(edge));
         });
-    Ensures(!filtered_edges.empty());
+    //    Ensures(!filtered_edges.empty());
     return filtered_edges;
   }  // filter_edges
 
@@ -162,7 +163,7 @@ namespace foliated_triangulations
   /// @param t_cell_type The type of simplex to filter by
   /// @return A container of simplices filtered by type
   template <int dimension>
-  [[nodiscard]] inline auto filter_cells(
+  [[nodiscard]] auto filter_cells(
       std::vector<Cell_handle_t<dimension>> const& t_cells,
       Cell_type const& t_cell_type) -> std::vector<Cell_handle_t<dimension>>
   {
@@ -182,8 +183,8 @@ namespace foliated_triangulations
   /// @return The squared radial distance of the vertex
   /// @todo Generalize to d=3,4
   template <int dimension>
-  [[nodiscard]] inline auto squared_radius(
-      Vertex_handle_t<dimension> const& t_vertex) -> double
+  [[nodiscard]] auto squared_radius(Vertex_handle_t<dimension> const& t_vertex)
+      -> double
   {
     typename TriangulationTraits<dimension>::squared_distance r2;
 
@@ -311,6 +312,23 @@ namespace foliated_triangulations
     }
   }  // fix_vertices
 
+  /// @brief Extracts vertices in a cell into a key-value pair
+  /// @details The key is the vertex timevalue and the value is the vertex
+  /// handle
+  /// @tparam dimension Dimensionality of the cell
+  /// @param t_cell The cell
+  /// @return A container of vertices in the cell
+  template <int dimension>
+  [[nodiscard]] auto vertices_from_cell(Cell_handle_t<dimension> const& t_cell)
+  {
+    std::multimap<int, Vertex_handle_t<dimension>> vertices;
+    for (auto i = 0; i < dimension + 1; ++i)
+    {
+      vertices.emplace(t_cell->vertex(i)->info(), t_cell->vertex(i));
+    }
+    return vertices;
+  }  // vertices_from_cell
+
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cell The simplex to check
   /// @param t_debug_flag Toggle for detailed debugging
@@ -336,7 +354,16 @@ namespace foliated_triangulations
     auto maxtime = *maxtime_ref;
     auto mintime = *mintime_ref;
     // A properly foliated simplex should have a timevalue difference of 1
-    if (maxtime - mintime != 1) { return Cell_type::UNCLASSIFIED; }
+    if (maxtime - mintime != 1 || maxtime == mintime)
+    {
+#ifndef NDEBUG
+      spdlog::trace("This simplex is acausal:\n");
+      spdlog::trace("Max timevalue is {} and min timevalue is {}.\n", maxtime,
+                    mintime);
+      spdlog::trace("--\n");
+#endif
+      return Cell_type::ACAUSAL;
+    }
     std::multiset<int> const timevalues{vertex_timevalues.begin(),
                                         vertex_timevalues.end()};
     auto               max_vertices = timevalues.count(maxtime);
@@ -371,11 +398,12 @@ namespace foliated_triangulations
   /// @param t_cell The simplex to check
   /// @return True if the cell_info matches expected cell_info
   template <int dimension>
-  [[nodiscard]] inline auto is_cell_type_correct(
+  [[nodiscard]] auto is_cell_type_correct(
       Cell_handle_t<dimension> const& t_cell) -> bool
   {
     auto cell_type = expected_cell_type<dimension>(t_cell);
-    return cell_type != Cell_type::UNCLASSIFIED &&
+    return cell_type != Cell_type::ACAUSAL &&
+           cell_type != Cell_type::UNCLASSIFIED &&
            cell_type == static_cast<Cell_type>(t_cell->info());
   }  // is_cell_type_correct
 
@@ -404,8 +432,8 @@ namespace foliated_triangulations
   /// @param t_cells The container of cells to check
   /// @return True if all cells in the container are validly classified
   template <int dimension>
-  [[nodiscard]] inline auto check_cells(
-      Delaunay_t<dimension> const& t_triangulation) -> bool
+  [[nodiscard]] auto check_cells(Delaunay_t<dimension> const& t_triangulation)
+      -> bool
   {
     auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
     return (checked_cells.empty())
@@ -438,7 +466,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_triangulation The triangulation
   template <int dimension>
-  inline void fix_cells(Delaunay_t<dimension> const& t_triangulation)
+  void fix_cells(Delaunay_t<dimension> const& t_triangulation)
   {
     auto incorrect_cells = find_incorrect_cells<dimension>(t_triangulation);
     for (auto const& cell : incorrect_cells)
@@ -453,7 +481,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to print
   template <int dimension>
-  inline void print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
+  void print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     for (auto const& cell : t_cells)
     {
@@ -474,8 +502,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to write to debug log
   template <int dimension>
-  inline void debug_print_cells(
-      std::vector<Cell_handle_t<dimension>> const& t_cells)
+  void debug_print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     for (auto const& cell : t_cells)
     {
@@ -499,7 +526,7 @@ namespace foliated_triangulations
   /// @return Container with spacelike facets per timeslice
   /// @todo Generalize to d=3, 4
   template <int dimension>
-  [[nodiscard]] inline auto volume_per_timeslice(
+  [[nodiscard]] auto volume_per_timeslice(
       std::vector<Face_handle_t<dimension>> const& t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
   {
@@ -547,6 +574,37 @@ namespace foliated_triangulations
     }
     return space_faces;
   }  // volume_per_timeslice
+
+  /// @brief Check cells for correct foliation
+  /// @details The timevalues of the vertices of a cell differ by at most one
+  /// and cannot all be the same. The first case would correspond to the
+  /// cell (simplex) spanning more than one timeslice; the second would
+  /// correspond to the cell being purely spacelike. Both of these cases are
+  /// causally inconsistent.
+  /// Note that this takes a Delaunay triangulation as input, as it is
+  /// expected to be called while the Foliated triangulation is still being
+  /// constructed.
+  /// @tparam dimension The dimensionality of the cells and triangulation
+  /// @param t_triangulation The Delaunay triangulation
+  /// @return
+  template <int dimension>
+  [[nodiscard]] auto check_timevalues(
+      Delaunay_t<dimension> const& t_triangulation)
+  {
+    auto const& cells = get_all_finite_cells<dimension>(t_triangulation);
+    std::vector<Cell_handle_t<dimension>> invalid_cells;
+    for (auto cell : cells)
+    {
+      if (expected_cell_type<dimension>(cell) == Cell_type::ACAUSAL ||
+          expected_cell_type<dimension>(cell) == Cell_type::UNCLASSIFIED)
+      {
+        invalid_cells.push_back(cell);
+      }
+    }
+    auto result = (invalid_cells.empty()) ? std::nullopt
+                                          : std::make_optional(invalid_cells);
+    return result;
+  }
 
   /// @brief Check simplices for correct foliation
   ///
@@ -718,7 +776,7 @@ namespace foliated_triangulations
   /// @param foliation_spacing The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   template <int dimension>
-  [[nodiscard]] inline auto make_foliated_ball(
+  [[nodiscard]] auto make_foliated_ball(
       Int_precision const t_simplices, Int_precision const t_timeslices,
       double const initial_radius    = INITIAL_RADIUS,
       double const foliation_spacing = FOLIATION_SPACING)
@@ -752,7 +810,7 @@ namespace foliated_triangulations
   /// @param foliation_spacing Radial separation between timeslices
   /// @return A Delaunay triangulation with a timevalue for each vertex
   template <int dimension>
-  [[nodiscard]] inline auto make_triangulation(
+  [[nodiscard]] auto make_triangulation(
       Int_precision const t_simplices, Int_precision const t_timeslices,
       double const initial_radius    = INITIAL_RADIUS,
       double const foliation_spacing = FOLIATION_SPACING)

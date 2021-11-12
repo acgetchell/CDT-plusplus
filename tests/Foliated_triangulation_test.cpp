@@ -188,7 +188,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
   }
 }
 
-SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
+SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
 {
   spdlog::debug("FoliatedTriangulation functions.\n");
   GIVEN("A small foliated triangulation.")
@@ -265,6 +265,27 @@ SCENARIO("FoliatedTriangulation functions", "[triangulation][!mayfail]")
         fmt::print("=== Corrected cell info ===\n");
         ft.print_cells();
         CHECK(ft.check_all_cells());
+      }
+    }
+    WHEN("vertices_from_cell is called")
+    {
+      auto const& cells                   = ft.get_cells();
+      auto        cell                    = cells.front();
+      auto        vertices_and_timevalues = vertices_from_cell<3>(cell);
+      THEN("The vertices are correctly returned.")
+      {
+        // Human verification
+        CHECK(vertices_and_timevalues.size() == 4);
+        auto print = [](std::pair<int, Vertex_handle_t<3>> const& p) {
+          fmt::print("Vertex {} timevalue == {}\n", p.second->point(), p.first);
+        };
+        std::for_each(vertices_and_timevalues.begin(),
+                      vertices_and_timevalues.end(), print);
+        auto check = [](std::pair<int, Vertex_handle_t<3>> const& p) {
+          CHECK(p.first == p.second->info());
+        };
+        std::for_each(vertices_and_timevalues.begin(),
+                      vertices_and_timevalues.end(), check);
       }
     }
   }
@@ -555,6 +576,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       THEN("No errors in the simplex are detected.")
       {
         CHECK(ft.is_correct());
+        CHECK_FALSE(check_timevalues<3>(ft.get_delaunay()));
         // Human verification
         ft.print_cells();
       }
@@ -577,6 +599,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       THEN("The vertex error is detected.")
       {
         CHECK_FALSE(ft.is_initialized());
+        auto cell = ft.get_delaunay().finite_cells_begin();
+        CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
         // Human verification
         fmt::print("Incorrect high timevalue vertex:\n");
         ft.print_vertices();
@@ -617,6 +641,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       THEN("The vertex error is detected.")
       {
         CHECK_FALSE(ft.is_initialized());
+        auto cell = ft.get_delaunay().finite_cells_begin();
+        CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
         // Human verification
         fmt::print("Incorrect low timevalue vertex:\n");
         ft.print_vertices();
@@ -656,6 +682,12 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
                        return std::make_pair(a, b);
                      });
       FoliatedTriangulation3 ft(cv);
+      THEN("Timevalue errors are detected.")
+      {
+        auto invalid_cells =
+            foliated_triangulations::check_timevalues<3>(ft.get_delaunay());
+        CHECK_FALSE(invalid_cells->empty());
+      }
       THEN("The vertex errors are detected.")
       {
         CHECK_FALSE(ft.is_initialized());
@@ -682,6 +714,28 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         fmt::print("After fix_cells()\n");
         ft.print_cells();
         CHECK(ft.is_initialized());
+      }
+    }
+    WHEN(
+        "Constructing a triangulation with all vertices on the same timeslice.")
+    {
+      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
+                                  Point_t<3>{0, 0, 1}, Point_t<3>{0, 0, -1}};
+      vector<std::size_t>  timevalue{1, 1, 1, 1};
+      Causal_vertices_t<3> cv;
+      cv.reserve(Vertices.size());
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
+                       return std::make_pair(a, b);
+                     });
+      FoliatedTriangulation3 ft(cv);
+      THEN("The vertex error is detected.")
+      {
+        CHECK_FALSE(ft.is_initialized());
+        auto cell = ft.get_delaunay().finite_cells_begin();
+        CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
+        // Human verification
+        ft.print_cells();
       }
     }
   }

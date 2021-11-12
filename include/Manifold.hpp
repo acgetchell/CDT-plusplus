@@ -171,7 +171,6 @@ namespace manifolds
     /// @return If base data structures are correct
     [[nodiscard]] auto is_correct() const -> bool
     {
-      auto const t_cells = m_triangulation.get_cells();
       return m_triangulation.is_correct();
     }  // is_correct
 
