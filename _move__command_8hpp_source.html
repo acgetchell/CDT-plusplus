@@ -160,7 +160,7 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">if</span> (result)</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      {</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;        result-&gt;update();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        <a class="code" href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a>(result.value(), <a class="code" href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">m_manifold</a>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;        swap(result.value(), <a class="code" href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">m_manifold</a>);</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;        <a class="code" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a>[move_tracker::as_integer(move_type)]++;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      }</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keywordflow">else</span></div>
@@ -316,12 +316,11 @@ $(function() {
 <div class="ttc" id="aclass_move_command_html_a94ab45874166cc6afee62c0b185d57d6"><div class="ttname"><a href="class_move_command.html#a94ab45874166cc6afee62c0b185d57d6">MoveCommand::enqueue</a></div><div class="ttdeci">void enqueue(move_tracker::move_type t_move)</div><div class="ttdoc">Push a Pachner move onto the move queue.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00081">Move_command.hpp:81</a></div></div>
 <div class="ttc" id="aclassmove__tracker_1_1_move_tracker_html"><div class="ttname"><a href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a></div><div class="ttdoc">The data and methods to track ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__tracker_8hpp_source.html#l00070">Move_tracker.hpp:70</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a18c916e22375e0b510e15fdfc0856cf2"><div class="ttname"><a href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute all moves in the queue on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00086">Move_command.hpp:86</a></div></div>
-<div class="ttc" id="a_geometry_8hpp_html_af7450092e67d362692353a8b378059b6"><div class="ttname"><a href="_geometry_8hpp.html#af7450092e67d362692353a8b378059b6">swap</a></div><div class="ttdeci">friend void swap(Geometry&lt; 3 &gt; &amp;t_first, Geometry&lt; 3 &gt; &amp;t_second) noexcept</div><div class="ttdoc">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from...</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00059">Geometry.hpp:59</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a1e55bd40cae117aea7bdba57cfb4f5ae"><div class="ttname"><a href="class_move_command.html#a1e55bd40cae117aea7bdba57cfb4f5ae">MoveCommand::m_manifold</a></div><div class="ttdeci">ManifoldType m_manifold</div><div class="ttdoc">The Manifold on which to make the move.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00023">Move_command.hpp:23</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a91957b40d78b88234c8abd79d402a60a"><div class="ttname"><a href="class_move_command.html#a91957b40d78b88234c8abd79d402a60a">MoveCommand::print_successful</a></div><div class="ttdeci">void print_successful() const</div><div class="ttdoc">Print successful moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00174">Move_command.hpp:174</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Nov 12 2021 06:40:01 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sat Nov 13 2021 01:32:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

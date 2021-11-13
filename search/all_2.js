@@ -17,12 +17,10 @@ var searchData=
   ['checkpoint_22',['checkpoint',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a9d442a0d9eb99d61526c1af6887b176e',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::checkpoint()'],['../class_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a538cbc968d7bd30f6481803afa75c776',1,'MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::checkpoint()']]],
   ['classify_5fcells_23',['classify_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a50b3345da2b1733f95a27de7dac2f407',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['classify_5fedge_24',['classify_edge',['../_foliated__triangulation_8hpp.html#a5e25db99e58daf58c86e60932f75fd4a',1,'foliated_triangulations']]],
-  ['collect_5fcells_25',['collect_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a29c4e58b5c12610147b059b5c8f9c20c',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['collect_5fedges_26',['collect_edges',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['collect_5ffaces_27',['collect_faces',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['collect_5fvertices_28',['collect_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6f79ef5ab262abc3e1a0739b3daec828',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
-  ['compare_5fv_5finfo_29',['compare_v_info',['../_foliated__triangulation_8hpp.html#a7c398b2ddd4335e274143dcae9e524b1',1,'foliated_triangulations']]],
-  ['create_5flogger_30',['create_logger',['../_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b',1,'utilities']]],
-  ['currentdatetime_31',['currentDateTime',['../_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448',1,'utilities']]],
-  ['cdt_2dplusplus_32',['CDT-plusplus',['../index.html',1,'']]]
+  ['collect_5fedges_25',['collect_edges',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
+  ['collect_5ffaces_26',['collect_faces',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
+  ['compare_5fv_5finfo_27',['compare_v_info',['../_foliated__triangulation_8hpp.html#a7c398b2ddd4335e274143dcae9e524b1',1,'foliated_triangulations']]],
+  ['create_5flogger_28',['create_logger',['../_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b',1,'utilities']]],
+  ['currentdatetime_29',['currentDateTime',['../_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448',1,'utilities']]],
+  ['cdt_2dplusplus_30',['CDT-plusplus',['../index.html',1,'']]]
 ];
