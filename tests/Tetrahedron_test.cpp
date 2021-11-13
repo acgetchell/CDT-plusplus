@@ -131,21 +131,18 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
       }
       THEN("All vertices have correct timevalues.")
       {
-        //        auto const& vertices = ft.get_vertices();
         CHECK(ft.check_all_vertices());
         // Human verification
-        for (auto const& vertices = ft.get_vertices();
-             auto const& vertex : vertices)
-        {
+        auto print = [&ft](Vertex_handle_t<3> const& v) {
           fmt::print(
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "
-              "a "
-              "squared expected radius of {} with an expected timevalue of "
+              "a squared expected radius of {} with an expected timevalue of "
               "{}.\n",
-              vertex->point(), vertex->info(), squared_radius<3>(vertex),
-              std::pow(ft.expected_radius(vertex), 2),
-              ft.expected_timevalue(vertex));
-        }
+              v->point(), v->info(), squared_radius<3>(v),
+              std::pow(ft.expected_radius(v), 2), ft.expected_timevalue(v));
+        };
+        std::for_each(ft.get_vertices().begin(), ft.get_vertices().end(),
+                      print);
       }
     }
   }
@@ -207,11 +204,8 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
 
       THEN("The cell info is correct.")
       {
-        for (auto&& cit = ft.finite_cells_begin(); cit != ft.finite_cells_end();
-             ++cit)
-        {
-          REQUIRE(cit->info() == static_cast<int>(Cell_type::THREE_ONE));
-        }
+        auto cell = ft.get_delaunay().finite_cells_begin();
+        CHECK(expected_cell_type<3>(cell) == Cell_type::THREE_ONE);
         // Human verification
         ft.print_cells();
       }

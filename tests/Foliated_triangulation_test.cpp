@@ -228,7 +228,6 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
           auto bad_vertices = ft.find_incorrect_vertices();
           CHECK_FALSE(bad_vertices.empty());
 
-          //          ft.fix_vertices(bad_vertices);
           ft.fix_vertices();
           CHECK(ft.check_all_vertices());
           fmt::print("=== Corrected vertex info ===\n");

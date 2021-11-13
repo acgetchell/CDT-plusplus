@@ -14,7 +14,6 @@
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 ///
 /// @bug Accepted moves != attempted moves
-/// @todo Atomic integral types for safe multithreading
 /// @todo Implement concurrency
 
 #ifndef INCLUDE_METROPOLIS_HPP_
@@ -161,13 +160,11 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     mpfr_t a1;
     mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
 
-    mpfr_init_set_ui(r1, this_move, MPFR_RNDD);  // r1 = this_move NOLINT
-    mpfr_init_set_ui(r2, all_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
+    mpfr_init_set_si(r1, this_move, MPFR_RNDD);  // r1 = this_move NOLINT
+    mpfr_init_set_si(r2, all_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
 
     // The result
     mpfr_div(a1, r1, r2, MPFR_RNDD);  // a1 = r1/r2 NOLINT
-
-    // std::cout << "A1 is " << mpfr_out_str(stdout, 10, 0, a1, MPFR_RNDD)
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
     auto result = mpfr_get_ld(a1, MPFR_RNDD);  // NOLINT
@@ -293,22 +290,20 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
     // Make move if random number < probability
     auto a2 = CalculateA2<3>(move);
 
-    const auto trial_value = utilities::generate_probability();
-
-#ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-    spdlog::trace("Trying move.\n");
-    spdlog::trace("Move type = {}\n", move_tracker::as_integer(move));
-    spdlog::trace("Trial_value = {}\n", trial_value);
-    spdlog::trace("A1 = {}\n", a1);
-    spdlog::trace("A2 = {}\n", a2);
-    spdlog::trace("A1*A2 = {}\n", a1 * a2);
-    spdlog::trace(
-        "{}\n", (trial_value <= a1 * a2) ? "Move accepted." : "Move rejected.");
-#endif
-
-    if (trial_value <= a1 * a2)
+    if (auto const trial_value = utilities::generate_probability();
+        trial_value <= a1 * a2)
     {
+#ifndef NDEBUG
+      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+      spdlog::trace("Trying move.\n");
+      spdlog::trace("Move type = {}\n", move_tracker::as_integer(move));
+      spdlog::trace("Trial_value = {}\n", trial_value);
+      spdlog::trace("A1 = {}\n", a1);
+      spdlog::trace("A2 = {}\n", a2);
+      spdlog::trace("A1*A2 = {}\n", a1 * a2);
+      spdlog::trace("{}\n", (trial_value <= a1 * a2) ? "Move accepted."
+                                                     : "Move rejected.");
+#endif
       m_accepted_moves[move_tracker::as_integer(move)]++;
       return true;
     }
