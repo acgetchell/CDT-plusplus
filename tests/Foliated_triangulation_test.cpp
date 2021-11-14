@@ -119,75 +119,6 @@ SCENARIO("FoliatedTriangulation special member and swap properties",
   }
 }
 
-SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
-{
-  spdlog::debug("FoliatedTriangulation3 functions from Delaunay3.\n");
-  GIVEN("A FoliatedTriangulation3.")
-  {
-    WHEN("Constructing a small triangulation.")
-    {
-      constexpr auto         desired_simplices = static_cast<Int_precision>(47);
-      constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
-      REQUIRE(ft.is_initialized());
-      THEN("Delaunay3 functions work as expected.")
-      {
-        CHECK(ft.number_of_finite_cells() > 12);
-        fmt::print("Base Delaunay number of cells: {}\n",
-                   ft.number_of_finite_cells());
-        CHECK(ft.number_of_finite_facets() > 24);
-        fmt::print("Base Delaunay number of faces: {}\n",
-                   ft.number_of_finite_facets());
-        ft.print_volume_per_timeslice();
-        CHECK(ft.number_of_finite_edges() > 24);
-        fmt::print("Base Delaunay number of edges: {}\n",
-                   ft.number_of_finite_edges());
-        ft.print_edges();
-        CHECK(ft.number_of_vertices() > 12);
-        fmt::print("Base Delaunay number of vertices: {}\n",
-                   ft.number_of_vertices());
-        CHECK(ft.dimension() == 3);
-        fmt::print("Base Delaunay dimension is: {}\n", ft.dimension());
-      }
-    }
-    WHEN("Constructing the default triangulation.")
-    {
-      FoliatedTriangulation3 ft;
-      REQUIRE(ft.is_initialized());
-      THEN("is_infinite() identifies a single infinite vertex.")
-      {
-        auto&& vertices = ft.get_delaunay().tds().vertices();
-        auto&& vertex   = vertices.begin();
-        CHECK(vertices.size() == 1);
-        CHECK(ft.get_delaunay().tds().is_vertex(vertex));
-        CHECK(ft.is_infinite(vertex));
-      }
-    }
-    WHEN("Constructing a triangulation with 4 causal vertices.")
-    {
-      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
-                                  Point_t<3>{0, 0, 1},
-                                  Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
-      vector<std::size_t> timevalue{1, 1, 1, 2};
-      Causal_vertices_t<3> cv;
-      cv.reserve(Vertices.size());
-      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv), [](Point_t<3> a, std::size_t b) {
-                       return std::make_pair(a, b);
-                     });
-      FoliatedTriangulation3 ft(cv);
-      REQUIRE(ft.is_initialized());
-      THEN("The degree of each vertex is 4 (including infinite vertex).")
-      {
-        for (auto const& vertex : ft.get_vertices())
-        {
-          CHECK(ft.degree(vertex) == 4);
-        }
-      }
-    }
-  }
-}
-
 SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
 {
   spdlog::debug("FoliatedTriangulation functions.\n");
@@ -207,63 +138,19 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
     REQUIRE(ft.is_initialized());
     WHEN("check_vertices() is called.")
     {
-      THEN("The vertices are correct.") { CHECK(ft.check_all_vertices()); }
-      AND_WHEN("The vertices are mis-labelled.")
+      THEN("The vertices are correct.")
       {
-        auto const& vertices = ft.get_vertices();
-        for (auto const& vertex : vertices) { vertex->info() = 0; }
-
-        THEN("The incorrect vertex labelling is identified.")
-        {
-          CHECK_FALSE(ft.check_all_vertices());
-          auto bad_vertices = ft.find_incorrect_vertices();
-          CHECK_FALSE(bad_vertices.empty());
-          // Human verification
-          fmt::print("=== Wrong vertex info! ===\n");
-          ft.print_vertices();
-        }
-        AND_THEN("The incorrect vertex labelling is fixed.")
-        {
-          CHECK_FALSE(ft.check_all_vertices());
-          auto bad_vertices = ft.find_incorrect_vertices();
-          CHECK_FALSE(bad_vertices.empty());
-
-          ft.fix_vertices();
-          CHECK(ft.check_all_vertices());
-          fmt::print("=== Corrected vertex info ===\n");
-          ft.print_vertices();
-        }
+        CHECK(foliated_triangulations::check_vertices<3>(ft.get_delaunay(), 1.0,
+                                                         1.0));
       }
     }
     WHEN("check_cells() is called.")
     {
       THEN("Cells are correctly classified.")
       {
-        CHECK(ft.check_all_cells());
+        CHECK(foliated_triangulations::check_cells<3>(ft.get_delaunay()));
         // Human verification
         ft.print_cells();
-      }
-    }
-    AND_WHEN("The cells are mis-labelled.")
-    {
-      auto const& cells = ft.get_cells();
-      for (auto const& cell : cells) { cell->info() = 0; }
-
-      THEN("The incorrect cell labelling is identified.")
-      {
-        CHECK_FALSE(ft.check_all_cells());
-        // Human verification
-        fmt::print("=== Wrong cell info! ===\n");
-        ft.print_cells();
-      }
-      THEN("The incorrect cell labelling is fixed.")
-      {
-        CHECK_FALSE(ft.check_all_cells());
-        ft.fix_cells();
-        // Human verification
-        fmt::print("=== Corrected cell info ===\n");
-        ft.print_cells();
-        CHECK(ft.check_all_cells());
       }
     }
     WHEN("vertices_from_cell is called")
@@ -328,6 +215,7 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
     }
   }
 }
+
 SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
 {
   spdlog::debug("FoliatedTriangulation initialization.\n");
@@ -407,18 +295,20 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The vertices have correct timevalues.")
       {
-        auto const& checked_vertices = ft.get_vertices();
-        for (auto const& vertex : checked_vertices)
-        {
-          CHECK(ft.does_vertex_radius_match_timevalue(vertex));
+        auto check = [&ft](Vertex_handle_t<3> const& v) {
+          CHECK(ft.does_vertex_radius_match_timevalue(v));
+        };
+        for_each(ft.get_vertices().begin(), ft.get_vertices().end(), check);
+        // Human verification
+        auto print = [&ft](Vertex_handle_t<3> const& v) {
           fmt::print(
-              "Vertex ({}) with timevalue of {} has a squared radial distance "
-              "of {} and a squared expected radius of {} with an expected "
-              "timevalue of {}.\n",
-              vertex->point(), vertex->info(), squared_radius<3>(vertex),
-              std::pow(ft.expected_radius(vertex), 2),
-              ft.expected_timevalue(vertex));
-        }
+              "Vertex ({}) with timevalue of {} has a squared radius of {} and "
+              "a squared expected radius of {} with an expected timevalue of "
+              "{}.\n",
+              v->point(), v->info(), squared_radius<3>(v),
+              std::pow(ft.expected_radius(v), 2), ft.expected_timevalue(v));
+        };
+        for_each(ft.get_vertices().begin(), ft.get_vertices().end(), print);
       }
     }
     WHEN(
@@ -475,24 +365,24 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
               (ft.get_three_one().size() + ft.get_two_two().size() +
                ft.get_one_three().size()));
         // Every cell is properly labelled
-        for (auto const& cell : ft.get_three_one())
-        {
-          CHECK(cell->info() == static_cast<int>(Cell_type::THREE_ONE));
-        }
-        for (auto const& cell : ft.get_two_two())
-        {
-          CHECK(cell->info() == static_cast<int>(Cell_type::TWO_TWO));
-        }
-        for (auto const& cell : ft.get_one_three())
-        {
-          CHECK(cell->info() == static_cast<int>(Cell_type::ONE_THREE));
-        }
         CHECK(ft.check_all_cells());
+
         CHECK_FALSE(ft.N2_SL().empty());
 
         CHECK(ft.max_time() > 0);
         CHECK(ft.min_time() > 0);
         CHECK(ft.max_time() > ft.min_time());
+        auto check_timelike = [](Edge_handle_t<3> const& e) {
+          CHECK(classify_edge<3>(e));
+        };
+        for_each(ft.get_timelike_edges().begin(), ft.get_timelike_edges().end(),
+                 check_timelike);
+
+        auto check_spacelike = [](Edge_handle_t<3> const& e) {
+          CHECK(!classify_edge<3>(e));
+        };
+        for_each(ft.get_spacelike_edges().begin(),
+                 ft.get_spacelike_edges().end(), check_spacelike);
         // Human verification
         fmt::print("There are {} edges.\n", ft.number_of_finite_edges());
         fmt::print("There are {} timelike edges and {} spacelike edges.\n",
@@ -502,14 +392,6 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
             "timevalue of {}.\n",
             ft.number_of_vertices(), ft.max_time(), ft.min_time());
         ft.print_volume_per_timeslice();
-        for (auto const& edge : ft.get_timelike_edges())
-        {
-          CHECK(classify_edge<3>(edge));
-        }
-        for (auto const& edge : ft.get_spacelike_edges())
-        {
-          CHECK_FALSE(classify_edge<3>(edge));
-        }
       }
     }
   }
@@ -578,6 +460,56 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         CHECK_FALSE(check_timevalues<3>(ft.get_delaunay()));
         // Human verification
         ft.print_cells();
+      }
+      AND_WHEN("The vertices are mis-labelled.")
+      {
+        auto break_vertices = [](Vertex_handle_t<3> const& v) {
+          v->info() = 0;
+        };
+        for_each(ft.get_vertices().begin(), ft.get_vertices().end(),
+                 break_vertices);
+
+        THEN("The incorrect vertex labelling is identified.")
+        {
+          CHECK_FALSE(ft.check_all_vertices());
+          auto bad_vertices = ft.find_incorrect_vertices();
+          CHECK_FALSE(bad_vertices.empty());
+          // Human verification
+          fmt::print("=== Wrong vertex info! ===\n");
+          ft.print_vertices();
+        }
+        AND_THEN("The incorrect vertex labelling is fixed.")
+        {
+          CHECK_FALSE(ft.check_all_vertices());
+          auto bad_vertices = ft.find_incorrect_vertices();
+          CHECK_FALSE(bad_vertices.empty());
+
+          ft.fix_vertices();
+          CHECK(ft.check_all_vertices());
+          fmt::print("=== Corrected vertex info ===\n");
+          ft.print_vertices();
+        }
+      }
+      AND_WHEN("The cells are mis-labelled.")
+      {
+        auto break_cells = [](Cell_handle_t<3> const& c) { c->info() = 0; };
+        for_each(ft.get_cells().begin(), ft.get_cells().end(), break_cells);
+        THEN("The incorrect cell labelling is identified.")
+        {
+          CHECK_FALSE(ft.check_all_cells());
+          // Human verification
+          fmt::print("=== Wrong cell info! ===\n");
+          ft.print_cells();
+        }
+        THEN("The incorrect cell labelling is fixed.")
+        {
+          CHECK_FALSE(ft.check_all_cells());
+          ft.fix_cells();
+          // Human verification
+          fmt::print("=== Corrected cell info ===\n");
+          ft.print_cells();
+          CHECK(ft.check_all_cells());
+        }
       }
     }
     WHEN(
@@ -735,6 +667,110 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
         // Human verification
         ft.print_cells();
+      }
+    }
+    WHEN("Constructing a triangulation with an unfixable vertex.")
+    {
+      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
+                                  Point_t<3>{0, 0, 1}, Point_t<3>{0, 0, 2},
+                                  Point_t<3>{2, 0, 0}, Point_t<3>{0, 3, 0}};
+      vector<std::size_t>  timevalue{1, 1, 1, 2, 2, 3};
+      Causal_vertices_t<3> cv;
+      cv.reserve(Vertices.size());
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
+                       return std::make_pair(a, b);
+                     });
+      Delaunay_t<3> dt{cv.begin(), cv.end()};
+      // Passing in a Delaunay triangulation directly allows us to skip the
+      // normal construction process with sanity checks on the triangulation,
+      // which is what we're testing here individually.
+      FoliatedTriangulation3 ft(dt);
+      ft.print_cells();
+      THEN("The incorrect cell can be identified.")
+      {
+        auto bad_cells = check_timevalues<3>(dt);
+        CHECK(bad_cells.has_value());
+        fmt::print("Bad cells:\n");
+        print_cells<3>(bad_cells.value());
+      }
+      AND_THEN("The incorrect vertex can be identified.")
+      {
+        auto bad_cells  = check_timevalues<3>(dt).value();
+        auto bad_vertex = find_bad_vertex<3>(bad_cells.front());
+        fmt::print("Bad vertex ({}) has timevalue {}.\n", bad_vertex->point(),
+                   bad_vertex->info());
+        // TODO: Fix this.
+        //        CHECK(bad_vertex->info() == 3);
+      }
+    }
+  }
+}
+
+SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
+{
+  spdlog::debug("FoliatedTriangulation3 functions from Delaunay3.\n");
+  GIVEN("A FoliatedTriangulation3.")
+  {
+    WHEN("Constructing a small triangulation.")
+    {
+      constexpr auto         desired_simplices = static_cast<Int_precision>(47);
+      constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
+      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
+      REQUIRE(ft.is_initialized());
+      THEN("Delaunay3 functions work as expected.")
+      {
+        CHECK(ft.number_of_finite_cells() > 12);
+        fmt::print("Base Delaunay number of cells: {}\n",
+                   ft.number_of_finite_cells());
+        CHECK(ft.number_of_finite_facets() > 24);
+        fmt::print("Base Delaunay number of faces: {}\n",
+                   ft.number_of_finite_facets());
+        ft.print_volume_per_timeslice();
+        CHECK(ft.number_of_finite_edges() > 24);
+        fmt::print("Base Delaunay number of edges: {}\n",
+                   ft.number_of_finite_edges());
+        ft.print_edges();
+        CHECK(ft.number_of_vertices() > 12);
+        fmt::print("Base Delaunay number of vertices: {}\n",
+                   ft.number_of_vertices());
+        CHECK(ft.dimension() == 3);
+        fmt::print("Base Delaunay dimension is: {}\n", ft.dimension());
+      }
+    }
+    WHEN("Constructing the default triangulation.")
+    {
+      FoliatedTriangulation3 ft;
+      REQUIRE(ft.is_initialized());
+      THEN("is_infinite() identifies a single infinite vertex.")
+      {
+        auto&& vertices = ft.get_delaunay().tds().vertices();
+        auto&& vertex   = vertices.begin();
+        CHECK(vertices.size() == 1);
+        CHECK(ft.get_delaunay().tds().is_vertex(vertex));
+        CHECK(ft.is_infinite(vertex));
+      }
+    }
+    WHEN("Constructing a triangulation with 4 causal vertices.")
+    {
+      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
+                                  Point_t<3>{0, 0, 1},
+                                  Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<std::size_t>  timevalue{1, 1, 1, 2};
+      Causal_vertices_t<3> cv;
+      cv.reserve(Vertices.size());
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(cv), [](Point_t<3> a, std::size_t b) {
+                       return std::make_pair(a, b);
+                     });
+      FoliatedTriangulation3 ft(cv);
+      REQUIRE(ft.is_initialized());
+      THEN("The degree of each vertex is 4 (including infinite vertex).")
+      {
+        auto check = [&ft](Vertex_handle_t<3> const& v) {
+          CHECK(ft.degree(v) == 4);
+        };
+        for_each(ft.get_vertices().begin(), ft.get_vertices().end(), check);
       }
     }
   }

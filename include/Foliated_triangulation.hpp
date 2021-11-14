@@ -118,9 +118,7 @@ namespace foliated_triangulations
   /// @param t_debug_flag Debugging info toggle
   /// @return True if timelike and false if spacelike
   template <int dimension>
-  [[nodiscard]] auto classify_edge(
-      Edge_handle_t<dimension> const&
-          t_edge)  //, bool const t_debug_flag = false)
+  [[nodiscard]] auto classify_edge(Edge_handle_t<dimension> const& t_edge)
       -> bool
   {
 #ifndef NDEBUG
@@ -1087,10 +1085,10 @@ namespace foliated_triangulations
       return is_correct() && is_delaunay();
     }  // is_initialized
 
-    /// @return A mutable reference to the Delaunay base class
+    /// @return A mutable reference to the Delaunay triangulation
     [[nodiscard]] auto delaunay() -> Delaunay_t<3>& { return m_triangulation; }
 
-    /// @return A read-only reference to the Delaunay base class
+    /// @return A read-only reference to the Delaunay triangulation
     [[nodiscard]] auto get_delaunay() const -> Delaunay_t<3> const&
     {
       return std::cref(m_triangulation);
