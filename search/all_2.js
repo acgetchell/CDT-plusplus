@@ -20,7 +20,8 @@ var searchData=
   ['collect_5fedges_25',['collect_edges',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a7c4e89bda4ad0e8b22443618da970788',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['collect_5ffaces_26',['collect_faces',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a795d298987e7f1e058607df53d56a1a8',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['compare_5fv_5finfo_27',['compare_v_info',['../_foliated__triangulation_8hpp.html#a7c398b2ddd4335e274143dcae9e524b1',1,'foliated_triangulations']]],
-  ['create_5flogger_28',['create_logger',['../_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b',1,'utilities']]],
-  ['currentdatetime_29',['currentDateTime',['../_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448',1,'utilities']]],
-  ['cdt_2dplusplus_30',['CDT-plusplus',['../index.html',1,'']]]
+  ['correct_5ftimevalues_28',['correct_timevalues',['../_foliated__triangulation_8hpp.html#a5fec2ea4e9805f4a2648b1237f85c852',1,'foliated_triangulations']]],
+  ['create_5flogger_29',['create_logger',['../_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b',1,'utilities']]],
+  ['currentdatetime_30',['currentDateTime',['../_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448',1,'utilities']]],
+  ['cdt_2dplusplus_31',['CDT-plusplus',['../index.html',1,'']]]
 ];
