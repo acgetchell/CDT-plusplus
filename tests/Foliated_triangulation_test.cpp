@@ -461,6 +461,12 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         // Human verification
         ft.print_cells();
       }
+      THEN("No errors in the triangulation foliation are detected")
+      {
+        CHECK(foliated_triangulations::correct_timevalues<3>(ft.delaunay()));
+        // Human verification
+        utilities::print_delaunay(ft.get_delaunay());
+      }
       AND_WHEN("The vertices are mis-labelled.")
       {
         auto break_vertices = [](Vertex_handle_t<3> const& v) {
@@ -686,7 +692,6 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       // normal construction process with sanity checks on the triangulation,
       // which is what we're testing here individually.
       FoliatedTriangulation3 ft(dt);
-      ft.print_cells();
       THEN("The incorrect cell can be identified.")
       {
         auto bad_cells = check_timevalues<3>(dt);
@@ -700,8 +705,17 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         auto bad_vertex = find_bad_vertex<3>(bad_cells.front());
         fmt::print("Bad vertex ({}) has timevalue {}.\n", bad_vertex->point(),
                    bad_vertex->info());
-        // TODO: Fix this.
-        //        CHECK(bad_vertex->info() == 3);
+        CHECK(bad_vertex->info() == 3);
+      }
+      AND_THEN("The triangulation is fixed.")
+      {
+        fmt::print("Unfixed triangulation:\n");
+        ft.print_cells();
+        CHECK_FALSE(
+            foliated_triangulations::correct_timevalues<3>(ft.delaunay()));
+        CHECK(ft.is_initialized());
+        fmt::print("Fixed triangulation:\n");
+        print_cells<3>(get_all_finite_cells<3>(ft.delaunay()));
       }
     }
   }
@@ -720,7 +734,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       REQUIRE(ft.is_initialized());
       THEN("Delaunay3 functions work as expected.")
       {
-        CHECK(ft.number_of_finite_cells() > 12);
+        CHECK(ft.number_of_finite_cells() > 10);
         fmt::print("Base Delaunay number of cells: {}\n",
                    ft.number_of_finite_cells());
         CHECK(ft.number_of_finite_facets() > 24);

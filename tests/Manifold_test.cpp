@@ -558,6 +558,13 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     cv.emplace_back(Point_t<3>(0, 0, 1), 2);
     cv.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
     Manifold3 manifold(cv, 0.0, 1.0);
+    auto      print = [&manifold](auto& v) {
+      fmt::print(
+               "Vertex ({}) with timevalue of {} is a vertex: {} and is "
+                    "infinite: {}\n",
+               v->point(), v->info(), manifold.is_vertex(v),
+               manifold.get_triangulation().is_infinite(v));
+    };
     WHEN("We ask for a container of vertices given a container of cells.")
     {
       auto&& vertices =
@@ -565,15 +572,8 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       THEN("We get back the correct number of vertices.")
       {
         REQUIRE(vertices.size() == 5);
-#pragma unroll 5
-        for (auto& vertex : vertices)
-        {
-          fmt::print(
-              "Vertex ({}) with timevalue of {} is a vertex: {} and is "
-              "infinite: {}\n",
-              vertex->point(), vertex->info(), manifold.is_vertex(vertex),
-              manifold.get_triangulation().is_infinite(vertex));
-        }
+        // Human verification
+        for_each(vertices.begin(), vertices.end(), print);
       }
     }
     WHEN("It is constructed.")
@@ -605,16 +605,10 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       THEN("We can detect invalid vertex timevalues.")
       {
         CHECK_FALSE(manifold.is_correct());
+        // Human verification
         auto bad_vertices =
             manifold.get_triangulation().find_incorrect_vertices();
-        for (auto& vertex : bad_vertices)
-        {
-          fmt::print(
-              "Incorrect vertex ({}) with timevalue of {} is a vertex: {} and "
-              "is infinite: {}\n",
-              vertex->point(), vertex->info(), manifold.is_vertex(vertex),
-              manifold.get_triangulation().is_infinite(vertex));
-        }
+        for_each(bad_vertices.begin(), bad_vertices.end(), print);
       }
       THEN("We can detect invalid cells.")
       {

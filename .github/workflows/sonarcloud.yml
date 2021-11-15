@@ -44,7 +44,7 @@ jobs:
         with:
           path: ~/.sonar
           key: ${{ runner.os }}-sonar-v1
-          restore-keys: ${{ runner.os }}-sonar-v1
+          restore-keys: ${{ runner.os }}-sonar-v2
 
       - name: Download and setup sonar-scanner
         shell: bash
