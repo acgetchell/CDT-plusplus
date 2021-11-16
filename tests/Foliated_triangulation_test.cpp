@@ -163,7 +163,8 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
         // Human verification
         CHECK(vertices_and_timevalues.size() == 4);
         auto print = [](std::pair<int, Vertex_handle_t<3>> const& p) {
-          fmt::print("Vertex {} timevalue == {}\n", p.second->point(), p.first);
+          fmt::print("Vertex: ({}) Timevalue: {}\n", p.second->point(),
+                     p.first);
         };
         std::for_each(vertices_and_timevalues.begin(),
                       vertices_and_timevalues.end(), print);
@@ -302,7 +303,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         // Human verification
         auto print = [&ft](Vertex_handle_t<3> const& v) {
           fmt::print(
-              "Vertex ({}) with timevalue of {} has a squared radius of {} and "
+              "Vertex: ({}) Timevalue: {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
               "{}.\n",
               v->point(), v->info(), squared_radius<3>(v),
@@ -463,7 +464,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       THEN("No errors in the triangulation foliation are detected")
       {
-        CHECK(foliated_triangulations::correct_timevalues<3>(ft.delaunay()));
+        CHECK(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
         // Human verification
         utilities::print_delaunay(ft.get_delaunay());
       }
@@ -711,8 +712,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       {
         fmt::print("Unfixed triangulation:\n");
         ft.print_cells();
-        CHECK_FALSE(
-            foliated_triangulations::correct_timevalues<3>(ft.delaunay()));
+        CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
         CHECK(ft.is_initialized());
         fmt::print("Fixed triangulation:\n");
         print_cells<3>(get_all_finite_cells<3>(ft.delaunay()));
@@ -728,28 +728,46 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
   {
     WHEN("Constructing a small triangulation.")
     {
-      constexpr auto         desired_simplices = static_cast<Int_precision>(47);
-      constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
-      FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
-      REQUIRE(ft.is_initialized());
-      THEN("Delaunay3 functions work as expected.")
+      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
+                                  Point_t<3>{0, 0, 1}, Point_t<3>{0, 0, 2},
+                                  Point_t<3>{2, 0, 0}, Point_t<3>{0, 3, 0}};
+      vector<std::size_t>  timevalue{1, 1, 1, 2, 2, 3};
+      Causal_vertices_t<3> cv;
+      cv.reserve(Vertices.size());
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(cv), [](auto a, std::size_t b) {
+                       return std::make_pair(a, b);
+                     });
+      FoliatedTriangulation3 ft(cv);
+      THEN("The Foliated triangulation is initially wrong.")
       {
-        CHECK(ft.number_of_finite_cells() > 10);
+        CHECK_FALSE(ft.is_initialized());
+        // Human verification
+        fmt::print("Unfixed triangulation:\n");
+        ft.print_cells();
+      }
+      THEN("After being fixed, Delaunay3 functions work as expected.")
+      {
+        // Fix the triangulation
+        CHECK(ft.fix());
+        CHECK(ft.number_of_finite_cells() == 2);
         fmt::print("Base Delaunay number of cells: {}\n",
                    ft.number_of_finite_cells());
-        CHECK(ft.number_of_finite_facets() > 24);
+        CHECK(ft.number_of_finite_facets() == 7);
         fmt::print("Base Delaunay number of faces: {}\n",
                    ft.number_of_finite_facets());
         ft.print_volume_per_timeslice();
-        CHECK(ft.number_of_finite_edges() > 24);
+        CHECK(ft.number_of_finite_edges() == 9);
         fmt::print("Base Delaunay number of edges: {}\n",
                    ft.number_of_finite_edges());
         ft.print_edges();
-        CHECK(ft.number_of_vertices() > 12);
+        CHECK(ft.number_of_vertices() == 5);
         fmt::print("Base Delaunay number of vertices: {}\n",
                    ft.number_of_vertices());
         CHECK(ft.dimension() == 3);
         fmt::print("Base Delaunay dimension is: {}\n", ft.dimension());
+        // Human verification
+        utilities::print_delaunay(ft.delaunay());
       }
     }
     WHEN("Constructing the default triangulation.")

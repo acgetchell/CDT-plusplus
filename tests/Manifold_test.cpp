@@ -560,7 +560,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     Manifold3 manifold(cv, 0.0, 1.0);
     auto      print = [&manifold](auto& v) {
       fmt::print(
-               "Vertex ({}) with timevalue of {} is a vertex: {} and is "
+               "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
                     "infinite: {}\n",
                v->point(), v->info(), manifold.is_vertex(v),
                manifold.get_triangulation().is_infinite(v));

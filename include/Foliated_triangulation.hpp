@@ -303,16 +303,16 @@ namespace foliated_triangulations
   {
     auto incorrect_vertices = find_incorrect_vertices<dimension>(
         t_triangulation, t_initial_radius, t_foliation_spacing);
-    for (auto const& vertex : incorrect_vertices)
-    {
-      vertex->info() = expected_timevalue<dimension>(vertex, t_initial_radius,
-                                                     t_foliation_spacing);
-    }
+    std::for_each(incorrect_vertices.begin(), incorrect_vertices.end(),
+                  [&](auto const& vertex) {
+                    vertex->info() = expected_timevalue<dimension>(
+                        vertex, t_initial_radius, t_foliation_spacing);
+                  });
   }  // fix_vertices
 
   /// @brief Extracts vertices in a cell into a key-value pair
   /// @details The key is the vertex timevalue and the value is the vertex
-  /// handle
+  /// handle. A d-dimensional cell always has d+1 vertices.
   /// @tparam dimension Dimensionality of the cell
   /// @param t_cell The cell
   /// @return A container of vertices in the cell
@@ -469,11 +469,11 @@ namespace foliated_triangulations
   void fix_cells(Delaunay_t<dimension> const& t_triangulation)
   {
     auto incorrect_cells = find_incorrect_cells<dimension>(t_triangulation);
-    for (auto const& cell : incorrect_cells)
-    {
-      cell->info() =
-          static_cast<Int_precision>(expected_cell_type<dimension>(cell));
-    }
+    std::for_each(
+        incorrect_cells.begin(), incorrect_cells.end(), [&](auto const& cell) {
+          cell->info() =
+              static_cast<Int_precision>(expected_cell_type<dimension>(cell));
+        });
   }  // fix_cells
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
@@ -592,14 +592,12 @@ namespace foliated_triangulations
   {
     auto const& cells = get_all_finite_cells<dimension>(t_triangulation);
     std::vector<Cell_handle_t<dimension>> invalid_cells;
-    for (auto cell : cells)
-    {
-      if (expected_cell_type<dimension>(cell) == Cell_type::ACAUSAL ||
-          expected_cell_type<dimension>(cell) == Cell_type::UNCLASSIFIED)
-      {
-        invalid_cells.emplace_back(cell);
-      }
-    }
+    std::copy_if(
+        cells.begin(), cells.end(), std::back_inserter(invalid_cells),
+        [](auto const& cell) {
+          return expected_cell_type<dimension>(cell) == Cell_type::ACAUSAL ||
+                 expected_cell_type<dimension>(cell) == Cell_type::UNCLASSIFIED;
+        });
     auto result = (invalid_cells.empty()) ? std::nullopt
                                           : std::make_optional(invalid_cells);
     return result;
@@ -645,7 +643,8 @@ namespace foliated_triangulations
   /// @return True if there are no incorrectly foliated simplices; false if they
   /// were fixed
   template <int dimension>
-  [[nodiscard]] auto correct_timevalues(Delaunay_t<dimension>& t_triangulation)
+  [[nodiscard]] auto fix_timevalues(Delaunay_t<dimension>& t_triangulation)
+      -> bool
   {
     // Obtain a container of cells that are incorrectly foliated
     if (auto invalid_cells = check_timevalues<dimension>(t_triangulation);
@@ -667,163 +666,7 @@ namespace foliated_triangulations
       return vertices_to_remove.empty();
     }
     return true;
-  }
-
-  /// @brief Check simplices for correct foliation
-  ///
-  /// This function is called by fix_timeslices which is called by
-  /// make_triangulation which is called by the constructor, and so must take
-  /// the triangulation as an argument.
-  ///
-  /// It should also be perfectly valid to call once the triangulation has
-  /// been constructed; several unit tests do so.
-  ///
-  /// @tparam dimension The dimensionality of the simplices
-  /// @param t_triangulation The Delaunay triangulation
-  /// @return A container of invalidly foliated vertices if they exist
-  /// Finite_full_cell_const_iterator and Finite_full_cell_iterator, so we'll
-  /// have to abstract that too
-  template <int dimension>
-  [[deprecated("Use check_timevalues instead")]] auto check_timeslices(
-      Delaunay_t<dimension> const& t_triangulation)
-      -> std::optional<std::vector<Vertex_handle_t<dimension>>>
-  {
-#ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-    std::vector<Vertex_handle_t<dimension>> invalid_vertices;
-
-    // Iterate over all cells in the triangulation
-    for (auto cit = t_triangulation.finite_cells_begin();
-         cit != t_triangulation.finite_cells_end(); ++cit)
-    {
-      Ensures(cit->is_valid());
-      std::multimap<int, Vertex_handle_t<dimension>> this_cell;
-      // Collect a map of timevalues and vertices in each cell
-      // There are d+1 vertices in a d-dimensional simplex
-      for (int i = 0; i < dimension + 1; ++i)
-      {
-        this_cell.emplace(
-            std::make_pair(cit->vertex(i)->info(), cit->vertex(i)));
-      }
-      // Now it's sorted in the multimap
-      auto const minvalue = this_cell.cbegin()->first;
-      auto const maxvalue = this_cell.crbegin()->first;
-
-      // This logs a lot of stuff
-#ifndef NDEBUG
-      auto min_vertex = this_cell.cbegin()->second;
-      auto max_vertex = this_cell.crbegin()->second;
-      spdlog::trace("Smallest timevalue in this cell is: {}\n", minvalue);
-      spdlog::trace("Largest timevalue in this cell is: {}\n", maxvalue);
-      spdlog::trace("Min vertex info() {}\n", min_vertex->info());
-      spdlog::trace("Max vertex info() {}\n", max_vertex->info());
-#endif
-      // There must be a timevalue delta of 1 for a validly foliated simplex
-      if (maxvalue - minvalue == 1)
-      {
-        // This logs a lot of stuff
-#ifndef NDEBUG
-        spdlog::trace("This cell is valid.\n");
-#endif
-      }
-      else
-      {
-        auto const minvalue_count = this_cell.count(minvalue);
-        auto const maxvalue_count = this_cell.count(maxvalue);
-        // This logs a lot of stuff
-#ifndef NDEBUG
-        spdlog::trace("This cell is invalid.\n");
-        spdlog::trace("There are {} vertices with the minvalue.\n",
-                      minvalue_count);
-        spdlog::trace("There are {} vertices with the maxvalue.\n",
-                      maxvalue_count);
-        spdlog::trace("So we should remove: ");
-#endif
-        if (minvalue_count > maxvalue_count)
-        {
-          invalid_vertices.emplace_back(this_cell.rbegin()->second);
-          // This logs a lot of stuff
-#ifndef NDEBUG
-          spdlog::trace("... maxvalue.\n");
-#endif
-        }
-        else
-        {
-          invalid_vertices.emplace_back(this_cell.begin()->second);
-          // This logs a lot of stuff
-#ifndef NDEBUG
-          spdlog::trace("... minvalue.\n");
-#endif
-        }
-      }
-    }
-    if (invalid_vertices.empty()) { return std::nullopt; }
-
-    // This logs a lot of stuff
-#ifndef NDEBUG
-    spdlog::trace("Removing ...\n");
-    for (auto& v : invalid_vertices)
-    {
-      spdlog::trace("Vertex {} with timevalue {}\n", v->point(), v->info());
-    }
-#endif
-    return invalid_vertices;
-
-  }  // check_timeslices
-
-  /// @brief Fix simplices with incorrect foliation
-  ///
-  /// This function iterates over all of the cells in the triangulation.
-  /// Within each cell, it iterates over all of the vertices and reads
-  /// timeslices.
-  /// Validity of the cell is first checked by the **is_valid()** function.
-  /// The foliation validity is then checked by finding maximum and minimum
-  /// timeslices for all the vertices of a cell and ensuring that the
-  /// difference
-  /// is exactly 1.
-  /// If a cell has a bad foliation, the vertex with the highest timeslice is
-  /// deleted. The Delaunay triangulation is then recomputed on the remaining
-  /// vertices.
-  ///
-  /// @tparam dimension Dimensionality of the Delaunay triangulation
-  /// @param t_triangulation Perfectly forwarded argument
-  /// @return True if there are no incorrectly foliated simplices
-  template <int dimension>
-  [[deprecated("Use correct_timevalues instead.")]] auto fix_timeslices(
-      Delaunay_t<dimension>& t_triangulation) -> bool
-  {
-#ifndef NDEBUG
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-
-    std::set<Vertex_handle_t<dimension>> deleted_vertices;
-    // Remove duplicates
-    if (auto vertices_to_delete = check_timeslices<dimension>(t_triangulation);
-        vertices_to_delete)
-    {
-      for (auto& v : vertices_to_delete.value())
-      {
-        deleted_vertices.emplace(v);
-      }
-    }
-
-#ifndef NDEBUG
-    spdlog::trace("There are {} invalid simplices.\n", deleted_vertices.size());
-#endif
-
-    // Delete invalid vertices
-    t_triangulation.remove(deleted_vertices.begin(), deleted_vertices.end());
-    // Check that the triangulation is still valid
-    // Turned off by -DCGAL_TRIANGULATION_NO_POSTCONDITIONS
-    //  CGAL_triangulation_expensive_postcondition(universe_ptr->is_valid());
-    //    if (!_delaunay.tds().is_valid())
-    //      throw std::logic_error("Delaunay tds invalid!");
-    Ensures(t_triangulation.tds().is_valid());
-    Ensures(t_triangulation.is_valid());
-
-    return deleted_vertices.empty();
-  }  // fix_timeslices
+  }  // fix_timevalues
 
   /// @brief Make foliated ball
   /// @details Makes a solid ball of successive layers of spheres at
@@ -911,7 +754,7 @@ namespace foliated_triangulations
 
     // Fix timeslices
     int passes = 1;
-    while (!correct_timevalues<dimension>(triangulation))
+    while (!fix_timevalues<dimension>(triangulation))
     {
 #ifndef NDEBUG
       fmt::print("Fix pass #{}\n", passes);
@@ -1129,6 +972,15 @@ namespace foliated_triangulations
     {
       return is_correct() && is_delaunay();
     }  // is_initialized
+
+    /// @return True if fixes were done on the Delaunay triangulation
+    [[nodiscard]] auto fix() -> bool
+    {
+      foliated_triangulations::fix_vertices<3>(
+          m_triangulation, m_initial_radius, m_foliation_spacing);
+      foliated_triangulations::fix_cells<3>(m_triangulation);
+      return !foliated_triangulations::fix_timevalues<3>(m_triangulation);
+    }
 
     /// @return A mutable reference to the Delaunay triangulation
     [[nodiscard]] auto delaunay() -> Delaunay_t<3>& { return m_triangulation; }
