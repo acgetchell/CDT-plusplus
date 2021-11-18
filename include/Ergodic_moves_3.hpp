@@ -217,7 +217,8 @@ namespace ergodic_moves
 #ifndef NDEBUG
         spdlog::trace("neighboring_31_index is {}.\n", *neighboring_31_index);
 #endif
-        Cell_handle_t<3> const top = bottom->neighbor(*neighboring_31_index);
+        Cell_handle_t<3> const top =
+            bottom->neighbor(neighboring_31_index.value());
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         Expects(bottom->has_neighbor(top, common_face_index));
@@ -340,6 +341,22 @@ namespace ergodic_moves
 #endif
       return false;
     }
+
+    //    // Vertices should be correct
+    //    while(!foliated_triangulations::check_vertices<3>(manifold.get_triangulation().get_delaunay(),
+    //    manifold.get_triangulation().initial_radius(),
+    //    manifold.get_triangulation().foliation_spacing()))
+    //    {
+    //      foliated_triangulations::fix_vertices<3>(manifold.get_triangulation().get_delaunay(),
+    //      manifold.get_triangulation().initial_radius(),
+    //      manifold.get_triangulation().foliation_spacing());
+    //    }
+    //
+    //    // Cells should be correct
+    //    while(!foliated_triangulations::check_cells<3>(manifold.get_triangulation().get_delaunay()))
+    //    {
+    //      foliated_triangulations::fix_cells<3>(manifold.get_triangulation().get_delaunay());
+    //    }
 
     auto const incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);

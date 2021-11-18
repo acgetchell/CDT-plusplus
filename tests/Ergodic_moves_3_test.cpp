@@ -211,6 +211,7 @@ SCENARIO(
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_THREE));
         // Manual check
+        REQUIRE(manifold.is_correct());
         CHECK(manifold.vertices() == 5);
         CHECK(manifold.edges() == 10);     // +1 timelike edge
         CHECK(manifold.faces() == 9);      // +2 faces
@@ -220,6 +221,9 @@ SCENARIO(
         CHECK(manifold.N1_SL() == 4);
         CHECK(manifold.N1_TL() == 6);
         CHECK_FALSE(manifold.is_delaunay());
+        // Human-readable output
+        manifold.print_details();
+        manifold.print_cells();
       }
     }
     WHEN("A (3,2) move is performed")
@@ -270,6 +274,9 @@ SCENARIO(
         CHECK(manifold.N1_SL() == 4);
         CHECK(manifold.N1_TL() == 5);
         CHECK(manifold.is_delaunay());
+        // Human-readable output
+        manifold.print_details();
+        manifold.print_cells();
       }
     }
   }
@@ -318,6 +325,7 @@ SCENARIO(
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_SIX));
         // Manual check
+        //        REQUIRE(manifold.is_correct());
         CHECK(manifold.vertices() == 6);   // +1 vertex
         CHECK(manifold.edges() == 14);     // +3 spacelike and +2 timelike edges
         CHECK(manifold.faces() == 15);     // +8 faces
@@ -329,62 +337,68 @@ SCENARIO(
         CHECK(manifold.N1_SL() == 6);  // +3 spacelike edges
         CHECK(manifold.N1_TL() == 8);  // +2 timelike edges
         CHECK(manifold.is_delaunay());
+        // Human-readable output
+        manifold.print_details();
+        manifold.print_cells();
       }
     }
-    //    WHEN("A (6,2) move is performed")
-    //    {
-    //      spdlog::debug("When a (6,2) move is performed.\n");
-    //      // First, do a (2,6) move to set up the manifold
-    //      auto start = ergodic_moves::do_26_move(manifold);
-    //      if (!start)
-    //      {
-    //        spdlog::trace("The (2,6) move to set up the manifold for the (6,2)
-    //        move failed.\n");
-    //      }
-    //      REQUIRE(start);
-    //      manifold = start.value();
-    //      manifold.update();
-    //      // Verify we have 3 (3,1) simplices and 3 (1,3) simplices, etc.
-    //      REQUIRE(manifold.vertices() == 6);
-    //      REQUIRE(manifold.edges() == 14);
-    //      REQUIRE(manifold.faces() == 15);
-    //      REQUIRE(manifold.simplices() == 6);
-    //      REQUIRE(manifold.N3_31() == 3);
-    //      REQUIRE(manifold.N3_22() == 0);
-    //      REQUIRE(manifold.N3_13() == 3);
-    //      REQUIRE(manifold.N3_31_13() == 6);
-    //      REQUIRE(manifold.N1_SL() == 6);
-    //      REQUIRE(manifold.N1_TL() == 8);
-    //      REQUIRE(manifold.is_delaunay());
-    //
-    //      // Copy manifold
-    //      auto manifold_before = manifold;
-    //      // Do move
-    //      auto result = ergodic_moves::do_62_move(manifold);
-    //      // Check results
-    //      if (result) { manifold = result.value();}
-    //      REQUIRE(result);
-    //      THEN("The move is correct and the manifold invariants are
-    //      maintained")
-    //      {
-    //        manifold.update();
-    //        // Check the move
-    //        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-    //        move_tracker::move_type::SIX_TWO));
-    //        // Manual check
-    //        CHECK(manifold.is_correct());
-    //        CHECK(manifold.vertices() == 5);
-    //        CHECK(manifold.edges() == 9);
-    //        CHECK(manifold.faces() == 7);
-    //        CHECK(manifold.simplices() == 2);
-    //        CHECK(manifold.N3_31() == 1);
-    //        CHECK(manifold.N3_22() == 0);
-    //        CHECK(manifold.N3_13() == 1);
-    //        CHECK(manifold.N3_31_13() == 2);
-    //        CHECK(manifold.N1_SL() == 3);
-    //        CHECK(manifold.N1_TL() == 6);
-    //        CHECK(manifold.is_delaunay());
-    //      }
-    //    }
+    WHEN("A (6,2) move is performed")
+    {
+      spdlog::debug("When a (6,2) move is performed.\n");
+      // First, do a (2,6) move to set up the manifold
+      auto start = ergodic_moves::do_26_move(manifold);
+      if (!start)
+      {
+        spdlog::trace(
+            "The (2,6) move to set up the manifold for the (6,2) move "
+            "failed.\n");
+      }
+      REQUIRE(start);
+      manifold = start.value();
+      manifold.update();
+      // Verify we have 3 (3,1) simplices and 3 (1,3) simplices, etc.
+      REQUIRE(manifold.vertices() == 6);
+      REQUIRE(manifold.edges() == 14);
+      REQUIRE(manifold.faces() == 15);
+      REQUIRE(manifold.simplices() == 6);
+      REQUIRE(manifold.N3_31() == 3);
+      REQUIRE(manifold.N3_22() == 0);
+      REQUIRE(manifold.N3_13() == 3);
+      REQUIRE(manifold.N3_31_13() == 6);
+      REQUIRE(manifold.N1_SL() == 6);
+      REQUIRE(manifold.N1_TL() == 8);
+      REQUIRE(manifold.is_delaunay());
+
+      // Copy manifold
+      auto manifold_before = manifold;
+      // Do move
+      auto result = ergodic_moves::do_62_move(manifold);
+      // Check results
+      if (result) { manifold = result.value(); }
+      REQUIRE(result);
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
+        manifold.update();
+        // Check the move
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        move_tracker::move_type::SIX_TWO));
+        // Manual check
+        //        REQUIRE(manifold.is_correct());
+        CHECK(manifold.vertices() == 5);
+        CHECK(manifold.edges() == 9);
+        CHECK(manifold.faces() == 7);
+        CHECK(manifold.simplices() == 2);
+        CHECK(manifold.N3_31() == 1);
+        CHECK(manifold.N3_22() == 0);
+        CHECK(manifold.N3_13() == 1);
+        CHECK(manifold.N3_31_13() == 2);
+        CHECK(manifold.N1_SL() == 3);
+        CHECK(manifold.N1_TL() == 6);
+        CHECK(manifold.is_delaunay());
+        // Human-readable output
+        manifold.print_details();
+        manifold.print_cells();
+      }
+    }
   }
 }
