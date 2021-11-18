@@ -25,14 +25,13 @@ namespace manifolds
       std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     std::unordered_set<Vertex_handle_t<dimension>> cell_vertices;
-    for (auto const& cell : t_cells)
-    {
-      // Emplace each vertex in the cell into the container of unique elements
-      for (int j = 0; j < dimension + 1; ++j)
+    auto get_vertices = [&cell_vertices](auto const& t_cell) {
+      for (int i = 0; i < dimension + 1; ++i)
       {
-        cell_vertices.emplace(cell->vertex(j));
+        cell_vertices.emplace(t_cell->vertex(i));
       }
-    }
+    };
+    std::for_each(t_cells.begin(), t_cells.end(), get_vertices);
     std::vector<Vertex_handle_t<dimension>> result(cell_vertices.begin(),
                                                    cell_vertices.end());
     return result;

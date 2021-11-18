@@ -273,7 +273,7 @@ SCENARIO(
       }
     }
   }
-  GIVEN("A triangulation setup for (2,6) moves")
+  GIVEN("A triangulation setup for a (2,6) move")
   {
     vector<Point_t<3>>   vertices{Point_t<3>{0, 0, 0}, Point_t<3>{1, 0, 0},
                                 Point_t<3>{0, 1, 0}, Point_t<3>{0, 0, 1},
@@ -298,36 +298,39 @@ SCENARIO(
     REQUIRE(manifold.N1_SL() == 3);
     REQUIRE(manifold.N1_TL() == 6);
     REQUIRE(manifold.is_delaunay());
-    //    WHEN("A (2,6) move is performed")
-    //    {
-    //      spdlog::debug("When a (2,6) move is performed.\n");
-    //      // Copy manifold
-    //      auto manifold_before = manifold;
-    //      // Do move
-    //      auto result = ergodic_moves::do_26_move(manifold);
-    //      // Check results
-    //      if (result) { manifold = result.value(); } else {
-    //        spdlog::info("The (2,6) move failed.\n");
-    //      }
-    //      THEN("The move is correct and the manifold invariants are
-    //      maintained")
-    //      {
-    //        manifold.update();
-    //        // Check the move
-    //        CHECK(ergodic_moves::check_move(manifold_before, manifold,
-    //                                        move_tracker::move_type::TWO_SIX));
-    //        // Manual check
-    //        CHECK(manifold.vertices() == 6);   // +1 vertex
-    //        CHECK(manifold.edges() == 14);     // +3 spacelike and +2 timelike
-    //        edges CHECK(manifold.faces() == 15);     // +8 faces
-    //        CHECK(manifold.simplices() == 6);  // +2 (3,1) and +2 (1,3)
-    //        simplices CHECK(manifold.N3_31() == 3); CHECK(manifold.N3_22() ==
-    //        0); CHECK(manifold.N3_13() == 3); CHECK(manifold.N3_31_13() == 6);
-    //        CHECK(manifold.N1_SL() == 6);  // +3 spacelike edges
-    //        CHECK(manifold.N1_TL() == 8);  // +2 timelike edges
-    //        CHECK(manifold.is_delaunay());
-    //      }
-    //    }
+    WHEN("A (2,6) move is performed")
+    {
+      spdlog::debug("When a (2,6) move is performed.\n");
+      // Copy manifold
+      auto manifold_before = manifold;
+      // Do move
+      auto result = ergodic_moves::do_26_move(manifold);
+      // Check results
+      if (result) { manifold = result.value(); }
+      else
+      {
+        spdlog::info("The (2,6) move failed.\n");
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
+        manifold.update();
+        // Check the move
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        move_tracker::move_type::TWO_SIX));
+        // Manual check
+        CHECK(manifold.vertices() == 6);   // +1 vertex
+        CHECK(manifold.edges() == 14);     // +3 spacelike and +2 timelike edges
+        CHECK(manifold.faces() == 15);     // +8 faces
+        CHECK(manifold.simplices() == 6);  // +2 (3,1) and +2 (1,3) simplices
+        CHECK(manifold.N3_31() == 3);
+        CHECK(manifold.N3_22() == 0);
+        CHECK(manifold.N3_13() == 3);
+        CHECK(manifold.N3_31_13() == 6);
+        CHECK(manifold.N1_SL() == 6);  // +3 spacelike edges
+        CHECK(manifold.N1_TL() == 8);  // +2 timelike edges
+        CHECK(manifold.is_delaunay());
+      }
+    }
     //    WHEN("A (6,2) move is performed")
     //    {
     //      spdlog::debug("When a (6,2) move is performed.\n");

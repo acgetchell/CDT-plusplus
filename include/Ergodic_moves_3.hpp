@@ -161,8 +161,8 @@ namespace ergodic_moves
   ///
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
-  [[nodiscard]] inline auto find_26_move(Cell_handle_t<3> const& t_cell)
-      -> std::optional<int>
+  [[nodiscard]] inline auto find_adjacent_31_cell(
+      Cell_handle_t<3> const& t_cell) -> std::optional<int>
   {
     Expects(t_cell->info() == 13);
     for (auto i = 0; i < 4; ++i)
@@ -171,10 +171,10 @@ namespace ergodic_moves
       spdlog::trace("Neighbor {} is of type {}\n", i,
                     t_cell->neighbor(i)->info());
 #endif
-      if (t_cell->neighbor(i)->info() ==
-          static_cast<Int_precision>(Cell_type::THREE_ONE))
+      if (foliated_triangulations::expected_cell_type<3>(t_cell->neighbor(i)) ==
+          Cell_type::THREE_ONE)
       {
-        return i;
+        return std::make_optional(i);
       }
     }
     return std::nullopt;
@@ -189,7 +189,7 @@ namespace ergodic_moves
   /// It also adds 2 timelike edges and 3 spacelike edges, as well as the
   /// vertex.
   ///
-  /// This function calls find_26_move on (1,3) simplices drawn from a
+  /// This function calls find_adjacent_31_cell on (1,3) simplices drawn from a
   /// randomly shuffled container until it succeeds or runs out of simplices.
   ///
   /// If successful, the triangulation is no longer Delaunay.
@@ -211,7 +211,7 @@ namespace ergodic_moves
                  utilities::make_random_generator());
     for (auto const& bottom : one_three)
     {
-      if (auto neighboring_31_index = find_26_move(bottom);
+      if (auto neighboring_31_index = find_adjacent_31_cell(bottom);
           neighboring_31_index)
       {
 #ifndef NDEBUG
@@ -253,11 +253,13 @@ namespace ergodic_moves
         // the (2,6) center vertex should be bounded by 6 simplices
         Expects(incident_cells.size() == 6);
         // Each incident cell should be combinatorially and geometrically valid
-        for (auto const& cell : incident_cells)
-        {
-          Expects(t_manifold.get_triangulation().get_delaunay().tds().is_valid(
-              cell));
-        }
+        std::for_each(
+            incident_cells.begin(), incident_cells.end(),
+            [&t_manifold](auto const& cell) {
+              Expects(
+                  t_manifold.get_triangulation().get_delaunay().tds().is_cell(
+                      cell));
+            });
 
         // Now assign a geometric point to the center vertex
         auto center_point =
