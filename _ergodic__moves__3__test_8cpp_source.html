@@ -348,7 +348,7 @@ $(function() {
 <div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;      }</div>
 <div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;    }</div>
 <div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;  }</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  GIVEN(<span class="stringliteral">&quot;A triangulation setup for (2,6) moves&quot;</span>)</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  GIVEN(<span class="stringliteral">&quot;A triangulation setup for a (2,6) move&quot;</span>)</div>
 <div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;  {</div>
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;    vector&lt;Point_t&lt;3&gt;&gt;   vertices{Point_t&lt;3&gt;{0, 0, 0}, Point_t&lt;3&gt;{1, 0, 0},</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;                                Point_t&lt;3&gt;{0, 1, 0}, Point_t&lt;3&gt;{0, 0, 1},</div>
@@ -373,105 +373,108 @@ $(function() {
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    REQUIRE(manifold.N1_SL() == 3);</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    REQUIRE(manifold.N1_TL() == 6);</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;    REQUIRE(manifold.is_delaunay());</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="comment">//    WHEN(&quot;A (2,6) move is performed&quot;)</span></div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    <span class="comment">//    {</span></div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;    <span class="comment">//      spdlog::debug(&quot;When a (2,6) move is performed.\n&quot;);</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;    <span class="comment">//      // Copy manifold</span></div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;    <span class="comment">//      auto manifold_before = manifold;</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;    <span class="comment">//      // Do move</span></div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;    <span class="comment">//      auto result = ergodic_moves::do_26_move(manifold);</span></div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;    <span class="comment">//      // Check results</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;    <span class="comment">//      if (result) { manifold = result.value(); } else {</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;    <span class="comment">//        spdlog::info(&quot;The (2,6) move failed.\n&quot;);</span></div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    <span class="comment">//      }</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    <span class="comment">//      THEN(&quot;The move is correct and the manifold invariants are</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    <span class="comment">//      maintained&quot;)</span></div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;    <span class="comment">//      {</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;    <span class="comment">//        manifold.update();</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;    <span class="comment">//        // Check the move</span></div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;    <span class="comment">//        CHECK(ergodic_moves::check_move(manifold_before, manifold,</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;    <span class="comment">//                                        move_tracker::move_type::TWO_SIX));</span></div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;    <span class="comment">//        // Manual check</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;    <span class="comment">//        CHECK(manifold.vertices() == 6);   // +1 vertex</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;    <span class="comment">//        CHECK(manifold.edges() == 14);     // +3 spacelike and +2 timelike</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;    <span class="comment">//        edges CHECK(manifold.faces() == 15);     // +8 faces</span></div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;    <span class="comment">//        CHECK(manifold.simplices() == 6);  // +2 (3,1) and +2 (1,3)</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;    <span class="comment">//        simplices CHECK(manifold.N3_31() == 3); CHECK(manifold.N3_22() ==</span></div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    <span class="comment">//        0); CHECK(manifold.N3_13() == 3); CHECK(manifold.N3_31_13() == 6);</span></div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="comment">//        CHECK(manifold.N1_SL() == 6);  // +3 spacelike edges</span></div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;    <span class="comment">//        CHECK(manifold.N1_TL() == 8);  // +2 timelike edges</span></div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;    <span class="comment">//        CHECK(manifold.is_delaunay());</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    <span class="comment">//      }</span></div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    <span class="comment">//    }</span></div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;    <span class="comment">//    WHEN(&quot;A (6,2) move is performed&quot;)</span></div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;    <span class="comment">//    {</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    <span class="comment">//      spdlog::debug(&quot;When a (6,2) move is performed.\n&quot;);</span></div>
-<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="comment">//      // First, do a (2,6) move to set up the manifold</span></div>
-<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="comment">//      auto start = ergodic_moves::do_26_move(manifold);</span></div>
-<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="comment">//      if (!start)</span></div>
-<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="comment">//      {</span></div>
-<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="comment">//        spdlog::trace(&quot;The (2,6) move to set up the manifold for the (6,2)</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    <span class="comment">//        move failed.\n&quot;);</span></div>
-<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="comment">//      }</span></div>
-<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="comment">//      REQUIRE(start);</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    <span class="comment">//      manifold = start.value();</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="comment">//      manifold.update();</span></div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="comment">//      // Verify we have 3 (3,1) simplices and 3 (1,3) simplices, etc.</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment">//      REQUIRE(manifold.vertices() == 6);</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="comment">//      REQUIRE(manifold.edges() == 14);</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="comment">//      REQUIRE(manifold.faces() == 15);</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="comment">//      REQUIRE(manifold.simplices() == 6);</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_31() == 3);</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_22() == 0);</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_13() == 3);</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_31_13() == 6);</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="comment">//      REQUIRE(manifold.N1_SL() == 6);</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="comment">//      REQUIRE(manifold.N1_TL() == 8);</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="comment">//      REQUIRE(manifold.is_delaunay());</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="comment">//      // Copy manifold</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="comment">//      auto manifold_before = manifold;</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="comment">//      // Do move</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="comment">//      auto result = ergodic_moves::do_62_move(manifold);</span></div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="comment">//      // Check results</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="comment">//      if (result) { manifold = result.value();}</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="comment">//      REQUIRE(result);</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="comment">//      THEN(&quot;The move is correct and the manifold invariants are</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="comment">//      maintained&quot;)</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="comment">//      {</span></div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="comment">//        manifold.update();</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="comment">//        // Check the move</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="comment">//        CHECK(ergodic_moves::check_move(manifold_before, manifold,</span></div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="comment">//        move_tracker::move_type::SIX_TWO));</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="comment">//        // Manual check</span></div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="comment">//        CHECK(manifold.is_correct());</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="comment">//        CHECK(manifold.vertices() == 5);</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="comment">//        CHECK(manifold.edges() == 9);</span></div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="comment">//        CHECK(manifold.faces() == 7);</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="comment">//        CHECK(manifold.simplices() == 2);</span></div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment">//        CHECK(manifold.N3_31() == 1);</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="comment">//        CHECK(manifold.N3_22() == 0);</span></div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="comment">//        CHECK(manifold.N3_13() == 1);</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="comment">//        CHECK(manifold.N3_31_13() == 2);</span></div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="comment">//        CHECK(manifold.N1_SL() == 3);</span></div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="comment">//        CHECK(manifold.N1_TL() == 6);</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="comment">//        CHECK(manifold.is_delaunay());</span></div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="comment">//      }</span></div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="comment">//    }</span></div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  }</div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;}</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    WHEN(<span class="stringliteral">&quot;A (2,6) move is performed&quot;</span>)</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    {</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      spdlog::debug(<span class="stringliteral">&quot;When a (2,6) move is performed.\n&quot;</span>);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      <span class="comment">// Copy manifold</span></div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      <span class="keyword">auto</span> manifold_before = manifold;</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;      <span class="comment">// Do move</span></div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_ergodic__moves__3_8hpp.html#afb45de56a52416a9000e4c0f5254abe0">ergodic_moves::do_26_move</a>(manifold);</div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;      <span class="comment">// Check results</span></div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      <span class="keywordflow">if</span> (result) { manifold = result.value(); }</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;      {</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        spdlog::info(<span class="stringliteral">&quot;The (2,6) move failed.\n&quot;</span>);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      }</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      THEN(<span class="stringliteral">&quot;The move is correct and the manifold invariants are maintained&quot;</span>)</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;      {</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        manifold.update();</div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="comment">// Check the move</span></div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        CHECK(ergodic_moves::check_move(manifold_before, manifold,</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;                                        move_tracker::move_type::TWO_SIX));</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        <span class="comment">// Manual check</span></div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        CHECK(manifold.vertices() == 6);   <span class="comment">// +1 vertex</span></div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        CHECK(manifold.edges() == 14);     <span class="comment">// +3 spacelike and +2 timelike edges</span></div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;        CHECK(manifold.faces() == 15);     <span class="comment">// +8 faces</span></div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        CHECK(manifold.simplices() == 6);  <span class="comment">// +2 (3,1) and +2 (1,3) simplices</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;        CHECK(manifold.N3_31() == 3);</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        CHECK(manifold.N3_22() == 0);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;        CHECK(manifold.N3_13() == 3);</div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;        CHECK(manifold.N3_31_13() == 6);</div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;        CHECK(manifold.N1_SL() == 6);  <span class="comment">// +3 spacelike edges</span></div>
+<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;        CHECK(manifold.N1_TL() == 8);  <span class="comment">// +2 timelike edges</span></div>
+<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160;        CHECK(manifold.is_delaunay());</div>
+<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;      }</div>
+<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160;    }</div>
+<div class="line"><a name="l00334"></a><span class="lineno">  334</span>&#160;    <span class="comment">//    WHEN(&quot;A (6,2) move is performed&quot;)</span></div>
+<div class="line"><a name="l00335"></a><span class="lineno">  335</span>&#160;    <span class="comment">//    {</span></div>
+<div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;    <span class="comment">//      spdlog::debug(&quot;When a (6,2) move is performed.\n&quot;);</span></div>
+<div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160;    <span class="comment">//      // First, do a (2,6) move to set up the manifold</span></div>
+<div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;    <span class="comment">//      auto start = ergodic_moves::do_26_move(manifold);</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;    <span class="comment">//      if (!start)</span></div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="comment">//      {</span></div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;    <span class="comment">//        spdlog::trace(&quot;The (2,6) move to set up the manifold for the (6,2)</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;    <span class="comment">//        move failed.\n&quot;);</span></div>
+<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    <span class="comment">//      }</span></div>
+<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="comment">//      REQUIRE(start);</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment">//      manifold = start.value();</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="comment">//      manifold.update();</span></div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="comment">//      // Verify we have 3 (3,1) simplices and 3 (1,3) simplices, etc.</span></div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="comment">//      REQUIRE(manifold.vertices() == 6);</span></div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="comment">//      REQUIRE(manifold.edges() == 14);</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="comment">//      REQUIRE(manifold.faces() == 15);</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="comment">//      REQUIRE(manifold.simplices() == 6);</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_31() == 3);</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_22() == 0);</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_13() == 3);</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="comment">//      REQUIRE(manifold.N3_31_13() == 6);</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="comment">//      REQUIRE(manifold.N1_SL() == 6);</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="comment">//      REQUIRE(manifold.N1_TL() == 8);</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="comment">//      REQUIRE(manifold.is_delaunay());</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="comment">//</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="comment">//      // Copy manifold</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="comment">//      auto manifold_before = manifold;</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;    <span class="comment">//      // Do move</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="comment">//      auto result = ergodic_moves::do_62_move(manifold);</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;    <span class="comment">//      // Check results</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="comment">//      if (result) { manifold = result.value();}</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;    <span class="comment">//      REQUIRE(result);</span></div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="comment">//      THEN(&quot;The move is correct and the manifold invariants are</span></div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="comment">//      maintained&quot;)</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="comment">//      {</span></div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="comment">//        manifold.update();</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="comment">//        // Check the move</span></div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;    <span class="comment">//        CHECK(ergodic_moves::check_move(manifold_before, manifold,</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="comment">//        move_tracker::move_type::SIX_TWO));</span></div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="comment">//        // Manual check</span></div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    <span class="comment">//        CHECK(manifold.is_correct());</span></div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    <span class="comment">//        CHECK(manifold.vertices() == 5);</span></div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="comment">//        CHECK(manifold.edges() == 9);</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    <span class="comment">//        CHECK(manifold.faces() == 7);</span></div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    <span class="comment">//        CHECK(manifold.simplices() == 2);</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;    <span class="comment">//        CHECK(manifold.N3_31() == 1);</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="comment">//        CHECK(manifold.N3_22() == 0);</span></div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;    <span class="comment">//        CHECK(manifold.N3_13() == 1);</span></div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="comment">//        CHECK(manifold.N3_31_13() == 2);</span></div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;    <span class="comment">//        CHECK(manifold.N1_SL() == 3);</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="comment">//        CHECK(manifold.N1_TL() == 6);</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    <span class="comment">//        CHECK(manifold.is_delaunay());</span></div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="comment">//      }</span></div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    <span class="comment">//    }</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;  }</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a7a4086b73d0d22a24a6c855fabf385d0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00387">Ergodic_moves_3.hpp:387</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a7a4086b73d0d22a24a6c855fabf385d0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00389">Ergodic_moves_3.hpp:389</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_afb45de56a52416a9000e4c0f5254abe0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#afb45de56a52416a9000e4c0f5254abe0">ergodic_moves::do_26_move</a></div><div class="ttdeci">auto do_26_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,6) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00202">Ergodic_moves_3.hpp:202</a></div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a15271475bfc60532ba0d0efa4017aa1a"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">ergodic_moves::do_44_move</a></div><div class="ttdeci">auto do_44_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (4,4) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00471">Ergodic_moves_3.hpp:471</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a15271475bfc60532ba0d0efa4017aa1a"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">ergodic_moves::do_44_move</a></div><div class="ttdeci">auto do_44_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (4,4) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00473">Ergodic_moves_3.hpp:473</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a2fe4a687edcecf9f672b1ae8d94d8446"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00076">Ergodic_moves_3.hpp:76</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00048">Manifold.hpp:48</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00047">Manifold.hpp:47</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a6dfb3b814a418d959cbdcf0b9b3c085e"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a6dfb3b814a418d959cbdcf0b9b3c085e">ergodic_moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00135">Ergodic_moves_3.hpp:135</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 16 2021 05:23:20 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Nov 18 2021 07:21:26 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
