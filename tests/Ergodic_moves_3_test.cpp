@@ -285,13 +285,13 @@ SCENARIO(
     vector<Point_t<3>>   vertices{Point_t<3>{0, 0, 0}, Point_t<3>{1, 0, 0},
                                 Point_t<3>{0, 1, 0}, Point_t<3>{0, 0, 1},
                                 Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
-    vector<size_t>       timevalue{1, 2, 2, 2, 3};
+    vector<size_t>       timevalue{0, 1, 1, 1, 2};
     Causal_vertices_t<3> cv;
     cv.reserve(vertices.size());
     transform(vertices.begin(), vertices.end(), timevalue.begin(),
               back_inserter(cv),
               [](Point_t<3> a, size_t b) { return make_pair(a, b); });
-    Manifold3 manifold(cv, 0);
+    Manifold3 manifold(cv);
 
     REQUIRE(manifold.is_correct());
     REQUIRE(manifold.vertices() == 5);
@@ -325,7 +325,7 @@ SCENARIO(
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_SIX));
         // Manual check
-        //        REQUIRE(manifold.is_correct());
+        REQUIRE(manifold.is_correct());
         CHECK(manifold.vertices() == 6);   // +1 vertex
         CHECK(manifold.edges() == 14);     // +3 spacelike and +2 timelike edges
         CHECK(manifold.faces() == 15);     // +8 faces
@@ -338,6 +338,10 @@ SCENARIO(
         CHECK(manifold.N1_TL() == 8);  // +2 timelike edges
         CHECK(manifold.is_delaunay());
         // Human-readable output
+        fmt::print("Manifold before (2,6):\n");
+        manifold_before.print_details();
+        manifold_before.print_cells();
+        fmt::print("Manifold after (2,6):\n");
         manifold.print_details();
         manifold.print_cells();
       }
@@ -383,7 +387,10 @@ SCENARIO(
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::SIX_TWO));
         // Manual check
-        //        REQUIRE(manifold.is_correct());
+        REQUIRE(manifold.is_correct());
+        CHECK(manifold.get_triangulation().is_foliated());
+        CHECK(manifold.get_triangulation().is_tds_valid());
+        CHECK(manifold.get_triangulation().check_all_cells());
         CHECK(manifold.vertices() == 5);
         CHECK(manifold.edges() == 9);
         CHECK(manifold.faces() == 7);
@@ -396,6 +403,10 @@ SCENARIO(
         CHECK(manifold.N1_TL() == 6);
         CHECK(manifold.is_delaunay());
         // Human-readable output
+        fmt::print("Manifold before (6,2):\n");
+        manifold_before.print_details();
+        manifold_before.print_cells();
+        fmt::print("Manifold after (6,2):\n");
         manifold.print_details();
         manifold.print_cells();
       }

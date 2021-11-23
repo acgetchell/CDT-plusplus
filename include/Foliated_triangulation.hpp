@@ -226,6 +226,10 @@ namespace foliated_triangulations
   {
     auto const timevalue = expected_timevalue<dimension>(
         t_vertex, t_initial_radius, t_foliation_spacing);
+#ifndef NDEBUG
+    spdlog::trace("Vertex({}) timevalue {} has expected timevalue == {}\n",
+                  t_vertex->point(), t_vertex->info(), timevalue);
+#endif
     return timevalue == t_vertex->info();
   }  // is_vertex_timevalue_correct
 
