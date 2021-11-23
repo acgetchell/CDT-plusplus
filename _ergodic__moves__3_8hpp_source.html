@@ -339,226 +339,229 @@ $(function() {
 <div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;    }</div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160; </div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment">//    // Vertices should be correct</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="comment">//    while(!foliated_triangulations::check_vertices&lt;3&gt;(manifold.get_triangulation().get_delaunay(),</span></div>
-<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;    <span class="comment">//    manifold.get_triangulation().initial_radius(),</span></div>
-<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;    <span class="comment">//    manifold.get_triangulation().foliation_spacing()))</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;    <span class="comment">//    {</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    <span class="comment">//      foliated_triangulations::fix_vertices&lt;3&gt;(manifold.get_triangulation().get_delaunay(),</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;    <span class="comment">//      manifold.get_triangulation().initial_radius(),</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;    <span class="comment">//      manifold.get_triangulation().foliation_spacing());</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;    <span class="comment">//    }</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;    <span class="comment">//</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    <span class="comment">//    // Cells should be correct</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <span class="comment">//    while(!foliated_triangulations::check_cells&lt;3&gt;(manifold.get_triangulation().get_delaunay()))</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="comment">//    {</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="comment">//      foliated_triangulations::fix_cells&lt;3&gt;(manifold.get_triangulation().get_delaunay());</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="comment">//    }</span></div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> incident_31 = foliated_triangulations::filter_cells&lt;3&gt;(</div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;        incident_cells, Cell_type::THREE_ONE);</div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> incident_22 = foliated_triangulations::filter_cells&lt;3&gt;(</div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        incident_cells, Cell_type::TWO_TWO);</div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> incident_13 = foliated_triangulations::filter_cells&lt;3&gt;(</div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        incident_cells, Cell_type::ONE_THREE);</div>
-<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;    <span class="comment">// All cells should be classified</span></div>
-<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;    <span class="keywordflow">if</span> ((incident_13.size() + incident_22.size() + incident_31.size()) !=</div>
-<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        6)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    {</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;      spdlog::warn(<span class="stringliteral">&quot;Some incident cells on this vertex need to be fixed.\n&quot;</span>);</div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    }</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160; </div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;    spdlog::trace(</div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="stringliteral">&quot;Vertex has {} incident cells with {} incident (3,1) simplices and {} &quot;</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="stringliteral">&quot;incident (2,2) simplices and {} incident (1,3) simplices.\n&quot;</span>,</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        incident_cells.size(), incident_31.size(), incident_22.size(),</div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        incident_13.size());</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    foliated_triangulations::debug_print_cells&lt;3&gt;(incident_cells);</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keywordflow">return</span> ((incident_31.size() == 3) &amp;&amp; (incident_22.empty()) &amp;&amp;</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;            (incident_13.size() == 3));</div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160; </div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;  }  <span class="comment">// find_62_moves()</span></div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;    <span class="comment">// Vertices should be correct</span></div>
+<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;    <span class="keywordflow">while</span> (!foliated_triangulations::check_vertices&lt;3&gt;(</div>
+<div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">get_triangulation</a>().get_delaunay(),</div>
+<div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">get_triangulation</a>().initial_radius(),</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">get_triangulation</a>().foliation_spacing()))</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;    {</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;      foliated_triangulations::fix_vertices&lt;3&gt;(</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;          manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">get_triangulation</a>().get_delaunay(),</div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;          manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">get_triangulation</a>().initial_radius(),</div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;          manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">get_triangulation</a>().foliation_spacing());</div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;    }</div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160; </div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    <span class="comment">//        // Cells should be correct</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    <span class="comment">//        while(!foliated_triangulations::check_cells&lt;3&gt;(manifold.get_triangulation().get_delaunay()))</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;    <span class="comment">//        {</span></div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;    <span class="comment">//          foliated_triangulations::fix_cells&lt;3&gt;(manifold.get_triangulation().get_delaunay());</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;    <span class="comment">//        }</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160; </div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> incident_31 = foliated_triangulations::filter_cells&lt;3&gt;(</div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;        incident_cells, Cell_type::THREE_ONE);</div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> incident_22 = foliated_triangulations::filter_cells&lt;3&gt;(</div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;        incident_cells, Cell_type::TWO_TWO);</div>
+<div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> incident_13 = foliated_triangulations::filter_cells&lt;3&gt;(</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        incident_cells, Cell_type::ONE_THREE);</div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="comment">// All cells should be classified</span></div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    <span class="keywordflow">if</span> ((incident_13.size() + incident_22.size() + incident_31.size()) !=</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;        6)  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    {</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;      spdlog::warn(<span class="stringliteral">&quot;Some incident cells on this vertex need to be fixed.\n&quot;</span>);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    }</div>
+<div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;    spdlog::trace(</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="stringliteral">&quot;Vertex has {} incident cells with {} incident (3,1) simplices and {} &quot;</span></div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        <span class="stringliteral">&quot;incident (2,2) simplices and {} incident (1,3) simplices.\n&quot;</span>,</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;        incident_cells.size(), incident_31.size(), incident_22.size(),</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        incident_13.size());</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    foliated_triangulations::debug_print_cells&lt;3&gt;(incident_cells);</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="keywordflow">return</span> ((incident_31.size() == 3) &amp;&amp; (incident_22.empty()) &amp;&amp;</div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;            (incident_13.size() == 3));</div>
 <div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160; </div>
-<div class="line"><a name="l00406"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">  406</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">do_62_move</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a>&amp; t_manifold)</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;      -&gt; Expected</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  {</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
-<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    <span class="keyword">auto</span> vertices = t_manifold.get_vertices();</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    <span class="comment">// Shuffle the container to create a random sequence of vertices</span></div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    std::shuffle(vertices.begin(), vertices.end(),</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                 utilities::make_random_generator());</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    <span class="comment">// Try a (6,2) move on successive vertices in the sequence</span></div>
-<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">auto</span> movable_vertex_iterator =</div>
-<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;            std::find_if(vertices.begin(), vertices.end(),</div>
-<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;                         [&amp;](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; vertex) {</div>
-<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;                           return is_62_movable(t_manifold, vertex);</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                         });</div>
-<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        movable_vertex_iterator != vertices.end())</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    {</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;      t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;      <span class="keywordflow">return</span> t_manifold;</div>
-<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;    }</div>
-<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    <span class="comment">// We&#39;ve run out of vertices to try</span></div>
-<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    std::string msg = <span class="stringliteral">&quot;No (6,2) move possible.\n&quot;</span>;</div>
-<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    spdlog::warn(msg);</div>
-<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    <span class="keywordflow">return</span> tl::make_unexpected(msg);</div>
-<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;  }  <span class="comment">// do_62_move()</span></div>
-<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160; </div>
-<div class="line"><a name="l00443"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">  443</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">find_44_move</a>(</div>
-<div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> <span class="keyword">const</span>&amp; t_manifold,</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;      Edge_handle_t&lt;3&gt; <span class="keyword">const</span>&amp;     t_edge_candidate)</div>
-<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;      -&gt; std::optional&lt;std::vector&lt;Cell_handle_t&lt;3&gt;&gt;&gt;</div>
-<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;  {</div>
-<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;    Expects(t_manifold.dim() &gt; 0);  <span class="comment">// Precondition of is_edge()</span></div>
-<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;    Expects(t_manifold.is_edge(t_edge_candidate));</div>
-<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160; </div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    <span class="comment">// Create the circulator of cells around the edge, starting with the cell</span></div>
-<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;    <span class="comment">// the edge is in</span></div>
-<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    <span class="keyword">auto</span> circulator =</div>
-<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;        t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);</div>
-<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160; </div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;    std::vector&lt;Cell_handle_t&lt;3&gt;&gt; incident_cells;</div>
-<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;    <span class="keywordflow">do</span></div>
-<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    {</div>
-<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;      incident_cells.emplace_back(circulator++);</div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    } <span class="keywordflow">while</span> (circulator != t_edge_candidate.first);</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    spdlog::trace(<span class="stringliteral">&quot;Edge has {} incident cells.\n&quot;</span>, incident_cells.size());</div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160; </div>
-<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;    <span class="keywordflow">if</span> (incident_cells.size() == 4) { <span class="keywordflow">return</span> incident_cells; }</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;  }  <span class="comment">// find_62_moves()</span></div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160; </div>
+<div class="line"><a name="l00408"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">  408</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">do_62_move</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a>&amp; t_manifold)</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;      -&gt; Expected</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  {</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    <span class="keyword">auto</span> vertices = t_manifold.get_vertices();</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="comment">// Shuffle the container to create a random sequence of vertices</span></div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;    std::shuffle(vertices.begin(), vertices.end(),</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                 utilities::make_random_generator());</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;    <span class="comment">// Try a (6,2) move on successive vertices in the sequence</span></div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">auto</span> movable_vertex_iterator =</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            std::find_if(vertices.begin(), vertices.end(),</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;                         [&amp;](<span class="keyword">auto</span> <span class="keyword">const</span>&amp; vertex) {</div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;                           return is_62_movable(t_manifold, vertex);</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;                         });</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        movable_vertex_iterator != vertices.end())</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    {</div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;      t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);</div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;      <span class="keywordflow">return</span> t_manifold;</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;    }</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;    <span class="comment">// We&#39;ve run out of vertices to try</span></div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;    std::string msg = <span class="stringliteral">&quot;No (6,2) move possible.\n&quot;</span>;</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    spdlog::warn(msg);</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;    <span class="keywordflow">return</span> tl::make_unexpected(msg);</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;  }  <span class="comment">// do_62_move()</span></div>
+<div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160; </div>
+<div class="line"><a name="l00445"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">  445</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">find_44_move</a>(</div>
+<div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> <span class="keyword">const</span>&amp; t_manifold,</div>
+<div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;      Edge_handle_t&lt;3&gt; <span class="keyword">const</span>&amp;     t_edge_candidate)</div>
+<div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160;      -&gt; std::optional&lt;std::vector&lt;Cell_handle_t&lt;3&gt;&gt;&gt;</div>
+<div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;  {</div>
+<div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;    Expects(t_manifold.dim() &gt; 0);  <span class="comment">// Precondition of is_edge()</span></div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;    Expects(t_manifold.is_edge(t_edge_candidate));</div>
+<div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160; </div>
+<div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;    <span class="comment">// Create the circulator of cells around the edge, starting with the cell</span></div>
+<div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160;    <span class="comment">// the edge is in</span></div>
+<div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;    <span class="keyword">auto</span> circulator =</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);</div>
+<div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160; </div>
+<div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160;    std::vector&lt;Cell_handle_t&lt;3&gt;&gt; incident_cells;</div>
+<div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;    <span class="keywordflow">do</span></div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;    {</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;      incident_cells.emplace_back(circulator++);</div>
+<div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;    } <span class="keywordflow">while</span> (circulator != t_edge_candidate.first);</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;    spdlog::trace(<span class="stringliteral">&quot;Edge has {} incident cells.\n&quot;</span>, incident_cells.size());</div>
+<div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160; </div>
-<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    <span class="keywordflow">return</span> std::nullopt;</div>
+<div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;    <span class="keywordflow">if</span> (incident_cells.size() == 4) { <span class="keywordflow">return</span> incident_cells; }</div>
 <div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160; </div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;  }  <span class="comment">// find_44_move()</span></div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    <span class="keywordflow">return</span> std::nullopt;</div>
 <div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160; </div>
-<div class="line"><a name="l00490"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">  490</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">do_44_move</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a>&amp; t_manifold)</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;      -&gt; Expected</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;  {</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    <span class="keyword">auto</span> spacelike_edges = t_manifold.get_spacelike_edges();</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;    <span class="comment">// Shuffle the container to pick a random sequence of edges to try</span></div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;                 utilities::make_random_generator());</div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; edge : spacelike_edges)</div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;    {</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;      <span class="comment">// Obtain all incident cells</span></div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;      <span class="keywordflow">if</span> (<span class="keyword">auto</span> incident_cells = <a class="code" href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">find_44_move</a>(t_manifold, edge); incident_cells)</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;      {</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;        <span class="comment">// Do move</span></div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; cell : *incident_cells)</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        {</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;          spdlog::trace(<span class="stringliteral">&quot;Incident cell is of type {}.\n&quot;</span>, cell-&gt;info());</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        }</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        <span class="keywordflow">return</span> t_manifold;</div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;      }</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;      <span class="comment">// Try next edge</span></div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;    }</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;    <span class="comment">// We&#39;ve run out of edges to try</span></div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    std::string msg = <span class="stringliteral">&quot;No (4,4) move possible.\n&quot;</span>;</div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;    spdlog::warn(msg);</div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;    <span class="keywordflow">return</span> tl::make_unexpected(msg);</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;  }  <span class="comment">// do_44_move()</span></div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
-<div class="line"><a name="l00527"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">  527</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">check_move</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> <span class="keyword">const</span>&amp;    t_before,</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;                                       <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> <span class="keyword">const</span>&amp;    t_after,</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                                       move_tracker::move_type <span class="keyword">const</span>&amp; t_move)</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;      -&gt; <span class="keywordtype">bool</span></div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;  {</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;    <span class="keywordflow">switch</span> (t_move)</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;    {</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::FOUR_FOUR:</div>
-<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() &amp;&amp;</div>
-<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
-<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
-<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
-<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                t_after.N2() == t_before.N2() &amp;&amp;</div>
-<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;                t_after.N1() == t_before.N1() &amp;&amp;</div>
-<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;                t_after.N1_TL() == t_before.N1_TL() &amp;&amp;</div>
-<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
-<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
-<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;                t_after.min_time() == t_before.min_time());</div>
-<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::TWO_THREE:</div>
-<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
-<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;                t_after.N3_22() == t_before.N3_22() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
-<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;                t_after.N2() == t_before.N2() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;                t_after.N1() == t_before.N1() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
-<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
-<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                t_after.min_time() == t_before.min_time());</div>
-<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::THREE_TWO:</div>
-<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
-<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;                t_after.N3_22() == t_before.N3_22() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;                t_after.N2() == t_before.N2() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;                t_after.N1() == t_before.N1() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
-<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                t_after.min_time() == t_before.min_time());</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::TWO_SIX:</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 4 &amp;&amp;</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                t_after.N3_31() == t_before.N3_31() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                t_after.N3_13() == t_before.N3_13() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                t_after.N2() == t_before.N2() + 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                t_after.N1() == t_before.N1() + 5 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                t_after.N1_SL() == t_before.N1_SL() + 3 &amp;&amp;</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                t_after.N0() == t_before.N0() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;                t_after.min_time() == t_before.min_time());</div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::SIX_TWO:</div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 4 &amp;&amp;</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;                t_after.N3_31() == t_before.N3_31() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                t_after.N3_13() == t_before.N3_13() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                t_after.N2() == t_before.N2() - 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                t_after.N1() == t_before.N1() - 5 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                t_after.N1_SL() == t_before.N1_SL() - 3 &amp;&amp;</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                t_after.N0() == t_before.N0() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                t_after.min_time() == t_before.min_time());</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;    }</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;  }  <span class="comment">// check_move()</span></div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160; </div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;}  <span class="comment">// namespace Moves</span></div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;  }  <span class="comment">// find_44_move()</span></div>
+<div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160; </div>
+<div class="line"><a name="l00492"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">  492</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">do_44_move</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a>&amp; t_manifold)</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;      -&gt; Expected</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;  {</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;    <span class="keyword">auto</span> spacelike_edges = t_manifold.get_spacelike_edges();</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;    <span class="comment">// Shuffle the container to pick a random sequence of edges to try</span></div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;    std::shuffle(spacelike_edges.begin(), spacelike_edges.end(),</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                 utilities::make_random_generator());</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; edge : spacelike_edges)</div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;    {</div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;      <span class="comment">// Obtain all incident cells</span></div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;      <span class="keywordflow">if</span> (<span class="keyword">auto</span> incident_cells = <a class="code" href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">find_44_move</a>(t_manifold, edge); incident_cells)</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;      {</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        <span class="comment">// Do move</span></div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; cell : *incident_cells)</div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        {</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;          spdlog::trace(<span class="stringliteral">&quot;Incident cell is of type {}.\n&quot;</span>, cell-&gt;info());</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        }</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;        <span class="keywordflow">return</span> t_manifold;</div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;      }</div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;      <span class="comment">// Try next edge</span></div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;    }</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;    <span class="comment">// We&#39;ve run out of edges to try</span></div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;    std::string msg = <span class="stringliteral">&quot;No (4,4) move possible.\n&quot;</span>;</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;    spdlog::warn(msg);</div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;    <span class="keywordflow">return</span> tl::make_unexpected(msg);</div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;  }  <span class="comment">// do_44_move()</span></div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160; </div>
+<div class="line"><a name="l00529"></a><span class="lineno"><a class="line" href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">  529</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">check_move</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> <span class="keyword">const</span>&amp;    t_before,</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;                                       <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> <span class="keyword">const</span>&amp;    t_after,</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;                                       move_tracker::move_type <span class="keyword">const</span>&amp; t_move)</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;      -&gt; <span class="keywordtype">bool</span></div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;  {</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;    <span class="keywordflow">switch</span> (t_move)</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    {</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::FOUR_FOUR:</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() &amp;&amp;</div>
+<div class="line"><a name="l00538"></a><span class="lineno">  538</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
+<div class="line"><a name="l00539"></a><span class="lineno">  539</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
+<div class="line"><a name="l00540"></a><span class="lineno">  540</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
+<div class="line"><a name="l00541"></a><span class="lineno">  541</span>&#160;                t_after.N2() == t_before.N2() &amp;&amp;</div>
+<div class="line"><a name="l00542"></a><span class="lineno">  542</span>&#160;                t_after.N1() == t_before.N1() &amp;&amp;</div>
+<div class="line"><a name="l00543"></a><span class="lineno">  543</span>&#160;                t_after.N1_TL() == t_before.N1_TL() &amp;&amp;</div>
+<div class="line"><a name="l00544"></a><span class="lineno">  544</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
+<div class="line"><a name="l00545"></a><span class="lineno">  545</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
+<div class="line"><a name="l00546"></a><span class="lineno">  546</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
+<div class="line"><a name="l00547"></a><span class="lineno">  547</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00548"></a><span class="lineno">  548</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::TWO_THREE:</div>
+<div class="line"><a name="l00549"></a><span class="lineno">  549</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 1 &amp;&amp;</div>
+<div class="line"><a name="l00550"></a><span class="lineno">  550</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
+<div class="line"><a name="l00551"></a><span class="lineno">  551</span>&#160;                t_after.N3_22() == t_before.N3_22() + 1 &amp;&amp;</div>
+<div class="line"><a name="l00552"></a><span class="lineno">  552</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
+<div class="line"><a name="l00553"></a><span class="lineno">  553</span>&#160;                t_after.N2() == t_before.N2() + 2 &amp;&amp;</div>
+<div class="line"><a name="l00554"></a><span class="lineno">  554</span>&#160;                t_after.N1() == t_before.N1() + 1 &amp;&amp;</div>
+<div class="line"><a name="l00555"></a><span class="lineno">  555</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 1 &amp;&amp;</div>
+<div class="line"><a name="l00556"></a><span class="lineno">  556</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
+<div class="line"><a name="l00557"></a><span class="lineno">  557</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
+<div class="line"><a name="l00558"></a><span class="lineno">  558</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
+<div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::THREE_TWO:</div>
+<div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 1 &amp;&amp;</div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;                t_after.N3_22() == t_before.N3_22() - 1 &amp;&amp;</div>
+<div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
+<div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;                t_after.N2() == t_before.N2() - 2 &amp;&amp;</div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;                t_after.N1() == t_before.N1() - 1 &amp;&amp;</div>
+<div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 1 &amp;&amp;</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::TWO_SIX:</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 4 &amp;&amp;</div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;                t_after.N3_31() == t_before.N3_31() + 2 &amp;&amp;</div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;                t_after.N3_13() == t_before.N3_13() + 2 &amp;&amp;</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;                t_after.N2() == t_before.N2() + 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;                t_after.N1() == t_before.N1() + 5 &amp;&amp;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 2 &amp;&amp;</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;                t_after.N1_SL() == t_before.N1_SL() + 3 &amp;&amp;</div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;                t_after.N0() == t_before.N0() + 1 &amp;&amp;</div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::SIX_TWO:</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 4 &amp;&amp;</div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;                t_after.N3_31() == t_before.N3_31() - 2 &amp;&amp;</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                t_after.N3_13() == t_before.N3_13() - 2 &amp;&amp;</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                t_after.N2() == t_before.N2() - 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                t_after.N1() == t_before.N1() - 5 &amp;&amp;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 2 &amp;&amp;</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                t_after.N1_SL() == t_before.N1_SL() - 3 &amp;&amp;</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                t_after.N0() == t_before.N0() - 1 &amp;&amp;</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;    }</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;  }  <span class="comment">// check_move()</span></div>
 <div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160; </div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP</span></div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;}  <span class="comment">// namespace Moves</span></div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160; </div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a8b433b69f3a0e636a77241168ba6937b"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a8b433b69f3a0e636a77241168ba6937b">manifolds::Manifold&lt; 3 &gt;::incident_cells</a></div><div class="ttdeci">auto incident_cells(Ts &amp;&amp;... args) const -&gt; decltype(auto)</div><div class="ttdoc">Perfect forwarding to FoliatedTriangulation3.incident_cells()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00283">Manifold.hpp:283</a></div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a7a4086b73d0d22a24a6c855fabf385d0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00406">Ergodic_moves_3.hpp:406</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a7a4086b73d0d22a24a6c855fabf385d0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a7a4086b73d0d22a24a6c855fabf385d0">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00408">Ergodic_moves_3.hpp:408</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a46b62faa9f711e0e4ff1e110c3c41cec"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a46b62faa9f711e0e4ff1e110c3c41cec">ergodic_moves::try_32_move</a></div><div class="ttdeci">auto try_32_move(manifolds::Manifold3 &amp;t_manifold, Edge_handle_t&lt; 3 &gt; const &amp;to_be_moved)</div><div class="ttdoc">Perform a TriangulationDataStructure_3::flip on an edge.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00106">Ergodic_moves_3.hpp:106</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_af76c818684a27ed854e5abbb6629f7c5"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5">manifolds::Manifold&lt; 3 &gt;::is_vertex</a></div><div class="ttdeci">auto is_vertex(VertexType &amp;&amp;t_vertex_candidate) const -&gt; bool</div><div class="ttdoc">Perfect forwarding to FoliatedTriangulation3.is_vertex()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00180">Manifold.hpp:180</a></div></div>
 <div class="ttc" id="a_move__tracker_8hpp_html"><div class="ttname"><a href="_move__tracker_8hpp.html">Move_tracker.hpp</a></div><div class="ttdoc">Track ergodic moves.</div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a6ecf79a845d2f0423e330f7384d67c2f"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a6ecf79a845d2f0423e330f7384d67c2f">ergodic_moves::null_move</a></div><div class="ttdeci">auto null_move(manifolds::Manifold3 const &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a null move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00027">Ergodic_moves_3.hpp:27</a></div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_af03a6989020daa08c8c75a54482b4649"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">ergodic_moves::check_move</a></div><div class="ttdeci">auto check_move(manifolds::Manifold3 const &amp;t_before, manifolds::Manifold3 const &amp;t_after, move_tracker::move_type const &amp;t_move) -&gt; bool</div><div class="ttdoc">Check move correctness.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00527">Ergodic_moves_3.hpp:527</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_af03a6989020daa08c8c75a54482b4649"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">ergodic_moves::check_move</a></div><div class="ttdeci">auto check_move(manifolds::Manifold3 const &amp;t_before, manifolds::Manifold3 const &amp;t_after, move_tracker::move_type const &amp;t_move) -&gt; bool</div><div class="ttdoc">Check move correctness.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00529">Ergodic_moves_3.hpp:529</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a335afa5da4ae6c3ecbb4f76642e69c1b"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a335afa5da4ae6c3ecbb4f76642e69c1b">manifolds::Manifold&lt; 3 &gt;::get_triangulation</a></div><div class="ttdeci">auto get_triangulation() const -&gt; foliated_triangulations::FoliatedTriangulation3 const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00129">Manifold.hpp:129</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_aa8b8724ff99c2c77469f4babe365f989"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#aa8b8724ff99c2c77469f4babe365f989">ergodic_moves::find_adjacent_31_cell</a></div><div class="ttdeci">auto find_adjacent_31_cell(Cell_handle_t&lt; 3 &gt; const &amp;t_cell) -&gt; std::optional&lt; int &gt;</div><div class="ttdoc">Find a (2,6) move location.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00164">Ergodic_moves_3.hpp:164</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_afb45de56a52416a9000e4c0f5254abe0"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#afb45de56a52416a9000e4c0f5254abe0">ergodic_moves::do_26_move</a></div><div class="ttdeci">auto do_26_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,6) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00202">Ergodic_moves_3.hpp:202</a></div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a15271475bfc60532ba0d0efa4017aa1a"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">ergodic_moves::do_44_move</a></div><div class="ttdeci">auto do_44_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (4,4) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00490">Ergodic_moves_3.hpp:490</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a15271475bfc60532ba0d0efa4017aa1a"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a">ergodic_moves::do_44_move</a></div><div class="ttdeci">auto do_44_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (4,4) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00492">Ergodic_moves_3.hpp:492</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a2fe4a687edcecf9f672b1ae8d94d8446"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00076">Ergodic_moves_3.hpp:76</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a141e95ef71b9bf8c86c5c16a31712d43"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a141e95ef71b9bf8c86c5c16a31712d43">ergodic_moves::is_62_movable</a></div><div class="ttdeci">auto is_62_movable(manifolds::Manifold3 const &amp;manifold, Vertex_handle_t&lt; 3 &gt; const &amp;candidate)</div><div class="ttdoc">Find a (6,2) move location.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00318">Ergodic_moves_3.hpp:318</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a21ca973f04ba61406b6cddfcfb1a5991"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a21ca973f04ba61406b6cddfcfb1a5991">manifolds::Manifold&lt; 3 &gt;::degree</a></div><div class="ttdeci">auto degree(VertexHandle &amp;&amp;t_vertex) const -&gt; decltype(auto)</div><div class="ttdoc">Perfect forwarding to FoliatedTriangulation3.degree()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00276">Manifold.hpp:276</a></div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_ae85de5124d96a580b9f7be61938e5298"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">ergodic_moves::find_44_move</a></div><div class="ttdeci">auto find_44_move(manifolds::Manifold3 const &amp;t_manifold, Edge_handle_t&lt; 3 &gt; const &amp;t_edge_candidate) -&gt; std::optional&lt; std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt;&gt;</div><div class="ttdoc">Find a (4,4) move location.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00443">Ergodic_moves_3.hpp:443</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_ae85de5124d96a580b9f7be61938e5298"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ae85de5124d96a580b9f7be61938e5298">ergodic_moves::find_44_move</a></div><div class="ttdeci">auto find_44_move(manifolds::Manifold3 const &amp;t_manifold, Edge_handle_t&lt; 3 &gt; const &amp;t_edge_candidate) -&gt; std::optional&lt; std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt;&gt;</div><div class="ttdoc">Find a (4,4) move location.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00445">Ergodic_moves_3.hpp:445</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a5c721b1c8af138f5825d164e81d9fe97"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a5c721b1c8af138f5825d164e81d9fe97">manifolds::Manifold&lt; 3 &gt;::dim</a></div><div class="ttdeci">auto dim() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00198">Manifold.hpp:198</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00047">Manifold.hpp:47</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a6dfb3b814a418d959cbdcf0b9b3c085e"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a6dfb3b814a418d959cbdcf0b9b3c085e">ergodic_moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00135">Ergodic_moves_3.hpp:135</a></div></div>
@@ -566,7 +569,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a5702ee66c3e7e988237ccc33fc14506f"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a5702ee66c3e7e988237ccc33fc14506f">manifolds::Manifold&lt; 3 &gt;::triangulation</a></div><div class="ttdeci">auto triangulation() -&gt; foliated_triangulations::FoliatedTriangulation3 &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00136">Manifold.hpp:136</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 18 2021 22:03:24 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 23 2021 06:57:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
