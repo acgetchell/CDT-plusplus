@@ -30,8 +30,8 @@ target_link_libraries(
           TBB::tbb
           CGAL::CGAL)
 
-# Activate C++17
-target_compile_features(CDT_test PRIVATE cxx_std_17)
+# Activate C++20 features
+target_compile_features(CDT_test PRIVATE cxx_std_20)
 
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_test>)

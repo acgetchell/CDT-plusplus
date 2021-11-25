@@ -35,11 +35,11 @@ if(ENABLE_IPO)
   endif()
 endif()
 
-# Set minimum Boost using LEAF which requires 1.75.0 or greater
+# Set minimum Boost version
 set(BOOST_MIN_VERSION "1.75.0")
 
-# Use C++17 for std::optional
-set(CMAKE_CXX_STANDARD 17)
+# Use C++20
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
