@@ -23,7 +23,7 @@
 #ifdef _WIN32
 #define NOMINMAX
 #define __PRETTY_FUNCTION__ __FUNCSIG__
-#define _HAS_DEPRECATED_RESULT_OF=1
+#define _HAS_DEPRECATED_RESULT_OF 1
 #endif
 #include <algorithm>
 #include <cassert>
