@@ -1,7 +1,7 @@
 # CDT-plusplus
 
 [![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux)](https://app.travis-ci.com/acgetchell/CDT-plusplus)
-[![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
+[![Windows](https://github.com/acgetchell/CDT-plusplus/actions/workflows/windows-msvc.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/windows-msvc.yml)
 [![](https://github.com/acgetchell/CDT-plusplus/workflows/macOS/badge.svg?label=Actions)](https://github.com/acgetchell/CDT-plusplus/actions)
 [![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
 [![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python)

@@ -20,9 +20,11 @@
 #include <boost/date_time.hpp>
 #endif
 // Workaround for https://github.com/CGAL/cgal/issues/4665
+// and https://gitlab.com/libeigen/eigen/-/issues/1894
 #ifdef _WIN32
 #define NOMINMAX
 #define __PRETTY_FUNCTION__ __FUNCSIG__
+#define _HAS_DEPRECATED_RESULT_OF
 #endif
 #include <algorithm>
 #include <cassert>
@@ -97,7 +99,7 @@ namespace utilities
     {
       struct tm* timeInfo = localtime(&rawTime);
       char timeString[32] = {};
-      if (strftime(timeString, 32, "%Y-%m-%dT%H-%M-%SZ", timeInfo) > 0)
+      if (strftime(timeString, 32, "%Y-%m-%d.%X%Z", timeInfo) > 0)
         return std::string(timeString);
     }
     return std::string();
