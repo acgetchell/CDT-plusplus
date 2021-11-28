@@ -26,7 +26,7 @@ jobs:
       - name: Install vcpkg packages and configure CMake
         run: |
           vcpkg install --feature-flags=manifests
-          cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
+          cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CACHE:BOOL=FALSE -S . -B build
 
       - name: Build
         run: cmake --build build
