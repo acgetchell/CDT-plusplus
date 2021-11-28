@@ -8,8 +8,6 @@ if(WIN32)
     PRIVATE project_options
             project_warnings
             docopt
-            date::date
-            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
@@ -21,8 +19,6 @@ else()
     PRIVATE project_options
             project_warnings
             docopt_s
-            date::date
-            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
@@ -45,8 +41,6 @@ if(WIN32)
     PRIVATE project_options
             project_warnings
             docopt
-            date::date
-            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
@@ -58,8 +52,6 @@ else()
     PRIVATE project_options
             project_warnings
             docopt_s
-            date::date
-            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
@@ -75,8 +67,6 @@ if(WIN32)
     PRIVATE project_options
             project_warnings
             docopt
-            date::date
-            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
@@ -88,8 +78,6 @@ else()
     PRIVATE project_options
             project_warnings
             docopt_s
-            date::date
-            date::date-tz
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only

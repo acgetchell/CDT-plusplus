@@ -36,7 +36,8 @@
 #include <string>
 #include <typeindex>
 // H. Hinnant date and time library
-#include <date/tz.h>
+//#include <date/tz.h>
+#include <ctime>
 
 // M. O'Neill Permutation Congruential Generator library
 #include "pcg_random.hpp"
@@ -87,10 +88,19 @@ namespace utilities
   /// @return A formatted string with the system local time
   [[nodiscard]] inline auto currentDateTime()
   {
-    using namespace date;
-    using namespace std::chrono;
-    auto const time = make_zoned(current_zone(), system_clock::now());
-    return format("%Y-%m-%d.%X%Z", time);
+    //using namespace date;
+    //using namespace std::chrono;
+    //auto const time = make_zoned(current_zone(), system_clock::now());
+    //return format("%Y-%m-%d.%X%Z", time);
+    time_t rawTime = -1;
+    if (time(&rawTime) != -1)
+    {
+      struct tm* timeInfo = localtime(&rawTime);
+      char timeString[32] = {};
+      if (strftime(timeString, 32, "%Y-%m-%dT%H-%M-%SZ", timeInfo) > 0)
+        return std::string(timeString);
+    }
+    return std::string();
   }
 
   /// @brief  Generate useful filenames
