@@ -71,7 +71,7 @@ before_build:
   - vcpkg install --feature-flags=manifests
 
 build_script:
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D CMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -D_HAS_DEPRECATED_RESULT_OF=1 -S . -B build
+  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D CMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -S . -B build
   - cmake --build build
 
 #on_success:

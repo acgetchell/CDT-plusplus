@@ -12,6 +12,10 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
+#ifdef _WIN32
+#define _HAS_DEPRECATED_RESULT_OF 1
+#endif
+
 #include <functional>
 #include <string>
 #include <tl/expected.hpp>
