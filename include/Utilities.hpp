@@ -20,11 +20,9 @@
 #include <boost/date_time.hpp>
 #endif
 // Workaround for https://github.com/CGAL/cgal/issues/4665
-// and https://gitlab.com/libeigen/eigen/-/issues/1894
 #ifdef _WIN32
 #define NOMINMAX
 #define __PRETTY_FUNCTION__ __FUNCSIG__
-#define _HAS_DEPRECATED_RESULT_OF 1
 #endif
 #include <algorithm>
 #include <cassert>
