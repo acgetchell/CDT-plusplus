@@ -99,75 +99,75 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="preprocessor">#ifdef _WIN32</span></div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;<span class="preprocessor">#define NOMINMAX</span></div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;<span class="preprocessor">#define __PRETTY_FUNCTION__ __FUNCSIG__</span></div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#define _HAS_DEPRECATED_RESULT_OF 1</span></div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;cassert&gt;</span></div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;gsl/gsl&gt;</span></div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;random&gt;</span></div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="preprocessor">#include &lt;typeindex&gt;</span></div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="comment">// H. Hinnant date and time library</span></div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">//#include &lt;date/tz.h&gt;</span></div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="preprocessor">#include &lt;ctime&gt;</span></div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="comment">// M. O&#39;Neill Permutation Congruential Generator library</span></div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="preprocessor">#include &quot;pcg_random.hpp&quot;</span></div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="comment">// V. Zverovich {fmt} library</span></div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &lt;fmt/format.h&gt;</span></div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;<span class="preprocessor">#include &lt;fmt/ostream.h&gt;</span></div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160; </div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="comment">// G. Melman spdlog library</span></div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &lt;spdlog/sinks/basic_file_sink.h&gt;</span></div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#include &lt;spdlog/sinks/stdout_color_sinks.h&gt;</span></div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;<span class="preprocessor">#include &lt;spdlog/spdlog.h&gt;</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="comment">// Global project settings</span></div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_settings_8hpp.html">Settings.hpp</a>&quot;</span></div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;<span class="keyword">enum class</span> topology_type</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
-<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  TOROIDAL,</div>
-<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  SPHERICAL</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;};</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
-<div class="line"><a name="l00068"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">   68</a></span>&#160;<span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a>(std::ostream&amp; t_os, topology_type <span class="keyword">const</span>&amp; t_topology)</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    -&gt; std::ostream&amp;</div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;{</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  <span class="keywordflow">switch</span> (t_topology)</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  {</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;    <span class="keywordflow">case</span> topology_type::SPHERICAL:</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;spherical&quot;</span>;</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;toroidal&quot;</span>;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;none&quot;</span>;</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  }</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;}  <span class="comment">// operator&lt;&lt;</span></div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;<span class="keyword">namespace </span>utilities</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;{</div>
-<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">   90</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">currentDateTime</a>()</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;  {</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="comment">//using namespace date;</span></div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">//using namespace std::chrono;</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    <span class="comment">//auto const time = make_zoned(current_zone(), system_clock::now());</span></div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="comment">//return format(&quot;%Y-%m-%d.%X%Z&quot;, time);</span></div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    time_t rawTime = -1;</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">if</span> (time(&amp;rawTime) != -1)</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keyword">struct </span>tm* timeInfo = localtime(&amp;rawTime);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordtype">char</span> timeString[32] = {};</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keywordflow">if</span> (strftime(timeString, 32, <span class="stringliteral">&quot;%Y-%m-%d.%X%Z&quot;</span>, timeInfo) &gt; 0)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        <span class="keywordflow">return</span> std::string(timeString);</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keywordflow">return</span> std::string();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="preprocessor">#include &lt;cassert&gt;</span></div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="preprocessor">#include &lt;fstream&gt;</span></div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="preprocessor">#include &lt;gsl/gsl&gt;</span></div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="preprocessor">#include &lt;iostream&gt;</span></div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="preprocessor">#include &lt;mutex&gt;</span></div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="preprocessor">#include &lt;random&gt;</span></div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="preprocessor">#include &lt;stdexcept&gt;</span></div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="preprocessor">#include &lt;typeindex&gt;</span></div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="comment">// H. Hinnant date and time library</span></div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="preprocessor">#include &lt;date/tz.h&gt;</span></div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="comment">//#include &lt;ctime&gt;</span></div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="comment">// M. O&#39;Neill Permutation Congruential Generator library</span></div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="preprocessor">#include &quot;pcg_random.hpp&quot;</span></div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160; </div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="comment">// V. Zverovich {fmt} library</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="preprocessor">#include &lt;fmt/format.h&gt;</span></div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="preprocessor">#include &lt;fmt/ostream.h&gt;</span></div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160; </div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;<span class="comment">// G. Melman spdlog library</span></div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;<span class="preprocessor">#include &lt;spdlog/sinks/basic_file_sink.h&gt;</span></div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;<span class="preprocessor">#include &lt;spdlog/sinks/stdout_color_sinks.h&gt;</span></div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;<span class="preprocessor">#include &lt;spdlog/spdlog.h&gt;</span></div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;<span class="comment">// Global project settings</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_settings_8hpp.html">Settings.hpp</a>&quot;</span></div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160; </div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;<span class="keyword">enum class</span> topology_type</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;{</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  TOROIDAL,</div>
+<div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  SPHERICAL</div>
+<div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;};</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160; </div>
+<div class="line"><a name="l00067"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">   67</a></span>&#160;<span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a>(std::ostream&amp; t_os, topology_type <span class="keyword">const</span>&amp; t_topology)</div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    -&gt; std::ostream&amp;</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="keywordflow">switch</span> (t_topology)</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  {</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;    <span class="keywordflow">case</span> topology_type::SPHERICAL:</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;spherical&quot;</span>;</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;toroidal&quot;</span>;</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;none&quot;</span>;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  }</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;}  <span class="comment">// operator&lt;&lt;</span></div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160; </div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;<span class="keyword">namespace </span>utilities</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;{</div>
+<div class="line"><a name="l00089"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">   89</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">currentDateTime</a>()</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;  {</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">// using namespace date;</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <span class="keyword">using namespace </span>std::chrono;</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">// auto const time = make_zoned(current_zone(), system_clock::now());</span></div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    date::zoned_time <span class="keyword">const</span> time(date::current_zone(), system_clock::now());</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    <span class="keywordflow">return</span> date::format(<span class="stringliteral">&quot;%Y-%m-%d.%X%Z&quot;</span>, time);</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="comment">//    time_t rawTime = -1;</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="comment">//    if (time(&amp;rawTime) != -1)</span></div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="comment">//    {</span></div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="comment">//      struct tm* timeInfo = localtime(&amp;rawTime);</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">//      char timeString[32] = {};</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="comment">//      if (strftime(timeString, 32, &quot;%Y-%m-%d.%X%Z&quot;, timeInfo) &gt; 0)</span></div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="comment">//        return std::string(timeString);</span></div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="comment">//    }</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">//    return std::string();</span></div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  }</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00115"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a9a2769a08dd3c337682e75f20cb7566a">  115</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a9a2769a08dd3c337682e75f20cb7566a">generate_filename</a>(</div>
@@ -403,7 +403,7 @@ $(function() {
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;<span class="preprocessor">#endif  // INCLUDE_UTILITIES_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_utilities_8hpp_html_ac49cbb4e64ff1c0592f3ced5d3e6e410"><div class="ttname"><a href="_utilities_8hpp.html#ac49cbb4e64ff1c0592f3ced5d3e6e410">utilities::generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType const t_min_value, IntegerType const t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00262">Utilities.hpp:262</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a009d76fda8b31ee925f5b4c5eb1d12f1"><div class="ttname"><a href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a></div><div class="ttdeci">auto operator&lt;&lt;(std::ostream &amp;t_os, topology_type const &amp;t_topology) -&gt; std::ostream &amp;</div><div class="ttdoc">Convert topology_type to string output.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00068">Utilities.hpp:68</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a009d76fda8b31ee925f5b4c5eb1d12f1"><div class="ttname"><a href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a></div><div class="ttdeci">auto operator&lt;&lt;(std::ostream &amp;t_os, topology_type const &amp;t_topology) -&gt; std::ostream &amp;</div><div class="ttdoc">Convert topology_type to string output.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00067">Utilities.hpp:67</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a1cd0a9cc65a02a75427db18f40325aa1"><div class="ttname"><a href="_utilities_8hpp.html#a1cd0a9cc65a02a75427db18f40325aa1">utilities::expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(std::size_t const t_dimension, Int_precision const t_number_of_simplices, Int_precision const t_number_of_timeslices)</div><div class="ttdoc">Calculate expected # of points per simplex.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00312">Utilities.hpp:312</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_af7b8518f29136ff80c65df353053f657"><div class="ttname"><a href="_utilities_8hpp.html#af7b8518f29136ff80c65df353053f657">utilities::generate_random</a></div><div class="ttdeci">auto generate_random(NumberType const t_min_value, NumberType const t_max_value) noexcept</div><div class="ttdoc">Generate random numbers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00240">Utilities.hpp:240</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_ae78ac07f3b282adaac9ce8077b8ca821"><div class="ttname"><a href="_utilities_8hpp.html#ae78ac07f3b282adaac9ce8077b8ca821">utilities::generate_random_real</a></div><div class="ttdeci">constexpr auto generate_random_real(FloatingPointType const t_min_value, FloatingPointType const t_max_value) noexcept</div><div class="ttdoc">Generate random real numbers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00281">Utilities.hpp:281</a></div></div>
@@ -417,11 +417,11 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_a343d224c91b607f37980bf84760347c4"><div class="ttname"><a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a></div><div class="ttdeci">void print_delaunay(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00160">Utilities.hpp:160</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_ac676e6af3ae3dcf1e35a1210ec6fead6"><div class="ttname"><a href="_utilities_8hpp.html#ac676e6af3ae3dcf1e35a1210ec6fead6">utilities::make_random_generator</a></div><div class="ttdeci">auto make_random_generator()</div><div class="ttdoc">Make a high-quality random number generator usable by std::shuffle.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00252">Utilities.hpp:252</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a9a2769a08dd3c337682e75f20cb7566a"><div class="ttname"><a href="_utilities_8hpp.html#a9a2769a08dd3c337682e75f20cb7566a">utilities::generate_filename</a></div><div class="ttdeci">auto generate_filename(topology_type const &amp;t_topology, Int_precision const t_dimension, Int_precision const t_number_of_simplices, Int_precision const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing) noexcept</div><div class="ttdoc">Generate useful filenames.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00115">Utilities.hpp:115</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_ae12eaebae3959e19369ca2135725d448"><div class="ttname"><a href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">utilities::currentDateTime</a></div><div class="ttdeci">auto currentDateTime()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00090">Utilities.hpp:90</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_ae12eaebae3959e19369ca2135725d448"><div class="ttname"><a href="_utilities_8hpp.html#ae12eaebae3959e19369ca2135725d448">utilities::currentDateTime</a></div><div class="ttdeci">auto currentDateTime()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00089">Utilities.hpp:89</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_aa715f4183fc64cef39399db9906f229b"><div class="ttname"><a href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">utilities::create_logger</a></div><div class="ttdeci">void create_logger()</div><div class="ttdoc">Create console and file loggers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00393">Utilities.hpp:393</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Nov 28 2021 21:54:06 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 29 2021 03:34:38 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
