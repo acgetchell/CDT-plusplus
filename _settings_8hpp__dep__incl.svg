@@ -59,8 +59,8 @@ var sectionId = 'dynsection-1';
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Global integer and precision settings.">
-<polygon fill="#bfbfbf" stroke="black" points="605.5,-615.5 605.5,-634.5 721.5,-634.5 721.5,-615.5 605.5,-615.5"/>
-<text text-anchor="middle" x="663.5" y="-622.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Settings.hpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="562.5,-615.5 562.5,-634.5 678.5,-634.5 678.5,-615.5 562.5,-615.5"/>
+<text text-anchor="middle" x="620.5" y="-622.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Settings.hpp</text>
 </a>
 </g>
 </g>
@@ -77,8 +77,8 @@ var sectionId = 'dynsection-1';
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M620.62,-612.86C583.23,-603.14 528.82,-589.01 488.47,-578.52"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="620.13,-616.35 630.69,-615.48 621.89,-609.57 620.13,-616.35"/>
+<path fill="none" stroke="midnightblue" d="M584.1,-612.36C553.8,-602.66 510.55,-588.83 478.34,-578.52"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="583.26,-615.76 593.85,-615.48 585.39,-609.09 583.26,-615.76"/>
 </g>
 <!-- Node29 -->
 <g id="node29" class="node">
@@ -92,8 +92,8 @@ var sectionId = 'dynsection-1';
 <!-- Node1&#45;&gt;Node29 -->
 <g id="edge29" class="edge">
 <title>Node1&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M642.95,-609.61C626.6,-598.17 604.28,-582.55 590.66,-573.01"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="641.12,-612.61 651.32,-615.48 645.14,-606.87 641.12,-612.61"/>
+<path fill="none" stroke="midnightblue" d="M608.5,-607.01C600.66,-595.89 590.74,-581.84 584.51,-573.01"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="605.86,-609.32 614.48,-615.48 611.57,-605.29 605.86,-609.32"/>
 </g>
 <!-- Node31 -->
 <g id="node31" class="node">
@@ -107,38 +107,23 @@ var sectionId = 'dynsection-1';
 <!-- Node1&#45;&gt;Node31 -->
 <g id="edge32" class="edge">
 <title>Node1&#45;&gt;Node31</title>
-<path fill="none" stroke="midnightblue" d="M666.86,-605.4C669.99,-589.78 675.26,-567.02 682.5,-548 706.87,-484 749.73,-413.09 764.95,-388.75"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="663.4,-604.89 664.97,-615.36 670.27,-606.19 663.4,-604.89"/>
+<path fill="none" stroke="midnightblue" d="M631.18,-606.63C660.85,-558.37 743.52,-423.89 765.23,-388.58"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="628.09,-604.96 625.84,-615.32 634.06,-608.63 628.09,-604.96"/>
 </g>
 <!-- Node32 -->
 <g id="node32" class="node">
 <title>Node32</title>
-<g id="a_node32"><a xlink:href="cdt-gv_8cpp.html" target="_top" xlink:title="A pipeline from CDT++ to Geomview , a visualizer.">
-<polygon fill="white" stroke="black" points="691.5,-554 691.5,-573 775.5,-573 775.5,-554 691.5,-554"/>
-<text text-anchor="middle" x="733.5" y="-561" font-family="Helvetica,sans-Serif" font-size="10.00">src/cdt&#45;gv.cpp</text>
+<g id="a_node32"><a xlink:href="_settings__test_8cpp.html" target="_top" xlink:title="Global settings on integer types and MPFR precision.">
+<polygon fill="white" stroke="black" points="691.5,-554 691.5,-573 819.5,-573 819.5,-554 691.5,-554"/>
+<text text-anchor="middle" x="755.5" y="-561" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Settings_test.cpp</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node32 -->
 <g id="edge35" class="edge">
 <title>Node1&#45;&gt;Node32</title>
-<path fill="none" stroke="midnightblue" d="M681.18,-608.97C694.57,-597.59 712.48,-582.37 723.49,-573.01"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="678.88,-606.33 673.53,-615.48 683.42,-611.67 678.88,-606.33"/>
-</g>
-<!-- Node33 -->
-<g id="node33" class="node">
-<title>Node33</title>
-<g id="a_node33"><a xlink:href="_settings__test_8cpp.html" target="_top" xlink:title="Global settings on integer types and MPFR precision.">
-<polygon fill="white" stroke="black" points="793.5,-554 793.5,-573 921.5,-573 921.5,-554 793.5,-554"/>
-<text text-anchor="middle" x="857.5" y="-561" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Settings_test.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node33 -->
-<g id="edge36" class="edge">
-<title>Node1&#45;&gt;Node33</title>
-<path fill="none" stroke="midnightblue" d="M700.9,-612.53C738.61,-600.96 795.93,-583.38 829.76,-573.01"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="699.83,-609.2 691.3,-615.48 701.88,-615.89 699.83,-609.2"/>
+<path fill="none" stroke="midnightblue" d="M649.25,-611.33C675.46,-599.78 713.45,-583.03 736.19,-573.01"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="647.58,-608.24 639.84,-615.48 650.4,-614.64 647.58,-608.24"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">

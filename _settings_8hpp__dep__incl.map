@@ -1,10 +1,9 @@
 <map id="include/Settings.hpp" name="include/Settings.hpp">
-<area shape="rect" id="node1" title="Global integer and precision settings." alt="" coords="813,5,967,32"/>
+<area shape="rect" id="node1" title="Global integer and precision settings." alt="" coords="755,5,910,32"/>
 <area shape="rect" id="node2" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="506,80,663,121"/>
 <area shape="rect" id="node29" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="701,87,853,114"/>
 <area shape="rect" id="node31" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="953,333,1112,360"/>
-<area shape="rect" id="node32" href="$cdt-gv_8cpp.html" title="A pipeline from CDT++ to Geomview , a visualizer." alt="" coords="927,87,1039,114"/>
-<area shape="rect" id="node33" href="$_settings__test_8cpp.html" title="Global settings on integer types and MPFR precision." alt="" coords="1063,87,1234,114"/>
+<area shape="rect" id="node32" href="$_settings__test_8cpp.html" title="Global settings on integer types and MPFR precision." alt="" coords="927,87,1098,114"/>
 <area shape="rect" id="node3" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="457,169,699,196"/>
 <area shape="rect" id="node4" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="592,251,756,278"/>
 <area shape="rect" id="node27" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="149,244,349,285"/>

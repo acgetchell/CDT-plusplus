@@ -126,7 +126,7 @@ Quickstart</h1>
 <p><a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"><object type="image/svg+xml" data="https://gitpod.io/button/open-in-gitpod.svg" style="pointer-events: none;">Open in Gitpod</object></a></p>
 <h1><a class="anchor" id="autotoc_md4"></a>
 Setup</h1>
-<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> to manage C++ libraries. Using <a href="https://isocpp.org/">C++</a>17 features, it successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-10/">gcc-10</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>.</p>
+<p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> to manage C++ libraries. Using <a href="https://isocpp.org/">C++</a>20 features, it successfully builds with AppleClang, <a href="https://gcc.gnu.org/gcc-10/">gcc-10</a>, <a href="https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html">clang-10</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>.</p>
 <h2><a class="anchor" id="autotoc_md5"></a>
 Short</h2>
 <p>If you use [Docker]:</p>
@@ -180,7 +180,6 @@ Run</h2>
 <p>If you want to get started right away, run <code>fast-build.sh</code> or <code>fast-build.bat</code>, depending on your operating system, from <code>scripts</code>. This will compile the appropriate executables in <code>RELEASE</code> mode with no tests.</p>
 <p>This should result in the main program executable, <code>cdt</code> in <code>build/src</code> or <code>build\Debug</code>, along with several others.</p>
 <ul>
-<li><code>cdt-gv</code> converts output files to <a href="http://www.geomview.org/">Geomview</a> format for <a href="#visualize">visualization</a></li>
 <li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
 <li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run <a href="#optimize-parameters">parameter optimization</a></li>
 </ul>
@@ -265,10 +264,7 @@ Optimize Parameters</h1>
 </div><!-- fragment --><p>You can then run experiments and look at results on <a href="https://www.comet.ml!">https://www.comet.ml!</a></p>
 <h1><a class="anchor" id="autotoc_md16"></a>
 Visualize</h1>
-<p><a href="http://www.geomview.org/">Geomview</a> is used to generate pictures of triangulations using the <code>cdt-gv</code> binary. In order for this to work, you must have <a href="http://www.geomview.org/">Geomview</a> installed (which doesn't work on Windows). On macOS:</p>
-<div class="fragment"><div class="line">brew cask install xquartz</div>
-<div class="line">brew install geomview</div>
-</div><!-- fragment --><p>If you get a <code>Can't open display</code> problem, look at the <a href="http://www.geomview.org/FAQ/answers.shtml">Geomview FAQ</a>.</p>
+<p>Currently, looking for a good visualization library. <a href="https://www.geomview.org">GeomView</a> has been deprecated and the interface with <a href="https://www.cgal.org">CGAL</a> is not maintained.</p>
 <h1><a class="anchor" id="autotoc_md17"></a>
 Contribute</h1>
 <p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
@@ -292,14 +288,11 @@ Contribute</h1>
 </ul>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Issues</h1>
-<p><a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> does not work for c++20 and MSVC 2019 (issue <a href="https://gitlab.com/libeigen/eigen/-/issues/1894">#1894</a>).</p>
-<p><a href="https://www.cgal.org">CGAL</a> cannot write <a href="http://www.geomview.org/">Geomview</a> files (issue <a href="https://github.com/CGAL/cgal/issues/5873">#5873</a>).</p>
-<p><a href="https://github.com/fmtlib/fmt">{fmt}</a> has a linker error with Visual Studio 2019 (issue <a href="https://github.com/fmtlib/fmt/issues/2496">#2496</a>). </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 03:34:39 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 29 2021 07:21:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

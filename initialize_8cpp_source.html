@@ -117,7 +117,7 @@ $(function() {
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral">  -o --output                 Save triangulation into OFF file</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">)&quot;};</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral"></span> </div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral"></span><span class="keyword">auto</span> <a class="code" href="cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]) -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral"></span><span class="keyword">auto</span> <a class="code" href="cdt-opt_8cpp.html#a72754cd5f3fb19e8241b13dd3f58a01a">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]) -&gt; <span class="keywordtype">int</span></div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keywordflow">try</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;{</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;  <span class="comment">// docopt option parser</span></div>
@@ -147,73 +147,72 @@ $(function() {
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  fmt::print(<span class="stringliteral">&quot;Number of desired timeslices = {}\n&quot;</span>, timeslices);</div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;  fmt::print(<span class="stringliteral">&quot;Initial radius = {}\n&quot;</span>, initial_radius);</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  fmt::print(<span class="stringliteral">&quot;Foliation spacing = {}\n&quot;</span>, foliation_spacing);</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <span class="comment">//  fmt::print(&quot;User = {}\n&quot;, getEnvVar(&quot;USER&quot;));</span></div>
-<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">//  fmt::print(&quot;Hostname = {}\n&quot;, hostname());</span></div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">if</span> (save_file) { fmt::print(<span class="stringliteral">&quot;Output will be saved.\n&quot;</span>); }</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160; </div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  <span class="keywordflow">if</span> (simplices &lt; 2 || timeslices &lt; 2)</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  {</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    <span class="keywordflow">throw</span> invalid_argument(</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;        <span class="stringliteral">&quot;Simplices and timeslices should be greater or equal to 2.&quot;</span>);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keywordflow">switch</span> (topology)</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  {</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keywordflow">case</span> topology_type::SPHERICAL:</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      <span class="keywordflow">if</span> (dimensions == 3)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;      {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <span class="comment">// Start your run</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> populated_universe(</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(simplices),</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices), initial_radius,</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;            foliation_spacing);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;        swap(universe, populated_universe);</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      }</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      {</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      }</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;      <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Toroidal triangulations not yet supported.&quot;</span>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  fmt::print(<span class="stringliteral">&quot;Final number of simplices: {}\n&quot;</span>, universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>());</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keywordflow">if</span> (save_file)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <a class="code" href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a">utilities::write_file</a>(universe, topology,</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                          <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(dimensions),</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                          <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>()),</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                          <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices),</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;                          initial_radius, foliation_spacing);</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  }</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;{</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;}</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;<span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;{</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;}</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="keywordflow">if</span> (save_file) { fmt::print(<span class="stringliteral">&quot;Output will be saved.\n&quot;</span>); }</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160; </div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">if</span> (simplices &lt; 2 || timeslices &lt; 2)</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  {</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keywordflow">throw</span> invalid_argument(</div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;        <span class="stringliteral">&quot;Simplices and timeslices should be greater or equal to 2.&quot;</span>);</div>
+<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;  }</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160; </div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keywordflow">switch</span> (topology)</div>
+<div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keywordflow">case</span> topology_type::SPHERICAL:</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;      <span class="keywordflow">if</span> (dimensions == 3)</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;      {</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;        <span class="comment">// Start your run</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;        <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> populated_universe(</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;            <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(simplices),</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;            <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices), initial_radius,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;            foliation_spacing);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;        swap(universe, populated_universe);</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      }</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Toroidal triangulations not yet supported.&quot;</span>);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  }</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  fmt::print(<span class="stringliteral">&quot;Final number of simplices: {}\n&quot;</span>, universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>());</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">if</span> (save_file)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <a class="code" href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a">utilities::write_file</a>(universe, topology,</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;                          <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(dimensions),</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;                          <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>()),</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;                          <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices),</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;                          initial_radius, foliation_spacing);</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;  }</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;}</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;{</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;}</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;{</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_af3670e170b9e355de1ff1955fc7f4bf9"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">manifolds::Manifold&lt; 3 &gt;::N3</a></div><div class="ttdeci">auto N3() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00201">Manifold.hpp:201</a></div></div>
-<div class="ttc" id="acdt-gv_8cpp_html_ab31733381fa049166a37a718e9eef7f5"><div class="ttname"><a href="cdt-gv_8cpp.html#ab31733381fa049166a37a718e9eef7f5">main</a></div><div class="ttdeci">auto main(int argc, char const *argv[]) -&gt; int try</div><div class="ttdoc">The main path of the cdt-gv program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-gv_8cpp_source.html#l00075">cdt-gv.cpp:75</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00342">Manifold.hpp:342</a></div></div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00315">Manifold.hpp:315</a></div></div>
 <div class="ttc" id="ainitialize_8cpp_html_a783a97da858313d8048e695a79fa893a"><div class="ttname"><a href="initialize_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a></div><div class="ttdeci">static constexpr auto * USAGE</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="initialize_8cpp_source.html#l00017">initialize.cpp:17</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a38f730917bbb951e4e3e39a4a8ef6a9a"><div class="ttname"><a href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a">utilities::write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, Int_precision const t_dimension, Int_precision const t_number_of_simplices, Int_precision const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00188">Utilities.hpp:188</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a38f730917bbb951e4e3e39a4a8ef6a9a"><div class="ttname"><a href="_utilities_8hpp.html#a38f730917bbb951e4e3e39a4a8ef6a9a">utilities::write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, Int_precision const t_dimension, Int_precision const t_number_of_simplices, Int_precision const t_number_of_timeslices, double const t_initial_radius, double const t_foliation_spacing)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00168">Utilities.hpp:168</a></div></div>
+<div class="ttc" id="acdt-opt_8cpp_html_a72754cd5f3fb19e8241b13dd3f58a01a"><div class="ttname"><a href="cdt-opt_8cpp.html#a72754cd5f3fb19e8241b13dd3f58a01a">main</a></div><div class="ttdeci">auto main() -&gt; int try</div><div class="ttdef"><b>Definition:</b> <a href="cdt-opt_8cpp_source.html#l00023">cdt-opt.cpp:23</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00047">Manifold.hpp:47</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Nov 29 2021 03:34:38 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Nov 29 2021 07:21:55 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
