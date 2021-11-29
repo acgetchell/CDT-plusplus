@@ -19,14 +19,14 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {
-    constexpr auto desired_simplices  = static_cast<Int_precision>(9600);
-    constexpr auto desired_timeslices = static_cast<Int_precision>(7);
+    constexpr auto       desired_simplices  = static_cast<Int_precision>(9600);
+    constexpr auto       desired_timeslices = static_cast<Int_precision>(7);
     manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A null move is applied to the manifold.")
     {
       auto result = apply_move(manifold, ergodic_moves::null_move);
-      if (!result) { fmt::print(result.error()); }
+      if (!result) { fmt::print("{}", result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold is valid and unchanged.")
       {
@@ -45,7 +45,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     WHEN("A (2,3) move is applied to the manifold.")
     {
       auto result = apply_move(manifold, ergodic_moves::do_23_move);
-      if (!result) { fmt::print(result.error()); }
+      if (!result) { fmt::print("{}", result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
       {
@@ -64,7 +64,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     WHEN("A (3,2) move is applied to the manifold.")
     {
       auto result = apply_move(manifold, ergodic_moves::do_32_move);
-      if (!result) { fmt::print(result.error()); }
+      if (!result) { fmt::print("{}", result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
       {
@@ -83,7 +83,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     WHEN("A (2,6) move is applied to the manifold.")
     {
       auto result = apply_move(manifold, ergodic_moves::do_26_move);
-      if (!result) { fmt::print(result.error()); }
+      if (!result) { fmt::print("{}", result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
       {
@@ -102,7 +102,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     WHEN("A (6,2) move is applied to the manifold.")
     {
       auto result = apply_move(manifold, ergodic_moves::do_62_move);
-      if (!result) { fmt::print(result.error()); }
+      if (!result) { fmt::print("{}", result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
       {
@@ -121,7 +121,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     WHEN("A (4,4) move is applied to the manifold.")
     {
       auto result = apply_move(manifold, ergodic_moves::do_44_move);
-      if (!result) { fmt::print(result.error()); }
+      if (!result) { fmt::print("{}", result.error()); }
       REQUIRE(result);  // Did the move return a value or an error?
       THEN("The resulting manifold has the applied move.")
       {

@@ -3,6 +3,7 @@
   "version": "0.1.8",
   "dependencies": [
     "catch2",
+    "date",
     "docopt",
     "fmt",
     "ms-gsl",

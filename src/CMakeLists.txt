@@ -7,6 +7,7 @@ if(WIN32)
     initialize
     PRIVATE project_options
             project_warnings
+            date::date-tz
             docopt
             fmt::fmt-header-only
             Eigen3::Eigen
@@ -18,6 +19,7 @@ else()
     initialize
     PRIVATE project_options
             project_warnings
+            date::date-tz
             docopt_s
             fmt::fmt-header-only
             Eigen3::Eigen
@@ -40,6 +42,7 @@ if(WIN32)
     cdt-opt
     PRIVATE project_options
             project_warnings
+            date::date-tz
             docopt
             fmt::fmt-header-only
             Eigen3::Eigen
@@ -51,6 +54,7 @@ else()
     cdt-opt
     PRIVATE project_options
             project_warnings
+            date::date-tz
             docopt_s
             fmt::fmt-header-only
             Eigen3::Eigen
@@ -66,6 +70,7 @@ if(WIN32)
     cdt
     PRIVATE project_options
             project_warnings
+            date::date-tz
             docopt
             fmt::fmt-header-only
             Eigen3::Eigen
@@ -77,6 +82,7 @@ else()
     cdt
     PRIVATE project_options
             project_warnings
+            date::date-tz
             docopt_s
             fmt::fmt-header-only
             Eigen3::Eigen
