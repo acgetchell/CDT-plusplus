@@ -78,7 +78,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 
 ## Setup
 
-This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++]17 features, it successfully
+This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++]20 features, it successfully
 builds with AppleClang, [gcc-10], [clang-10], and [Visual Studio 2019].
 
 ### Short
@@ -162,7 +162,6 @@ from `scripts`. This will compile the appropriate executables in `RELEASE` mode 
 This should result in the main program executable, `cdt` in `build/src` or `build\Debug`,
 along with several others.
 
-- `cdt-gv` converts output files to [Geomview] format for [visualization](#visualize)
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
 
@@ -322,15 +321,8 @@ You can then run experiments and look at results on https://www.comet.ml!
 
 ## Visualize
 
-[Geomview] is used to generate pictures of triangulations using the `cdt-gv` binary. In order for this to
-work, you must have [Geomview] installed (which doesn't work on Windows). On macOS:
-
-~~~bash
-brew cask install xquartz
-brew install geomview
-~~~
-
-If you get a `Can't open display` problem, look at the [Geomview FAQ].
+Currently, looking for a good visualization library. [GeomView] has been deprecated
+and the interface with [CGAL] is not maintained.
 
 ## Contribute
 
@@ -366,12 +358,6 @@ Optional:
 - [PVS-Studio] using [pvs-studio.sh] if you have it installed
 
 ## Issues
-
-[Eigen] does not work for c++20 and MSVC 2019 (issue [#1894]).
-
-[CGAL] cannot write [Geomview] files (issue [#5873]).
-
-[{fmt}] has a linker error with Visual Studio 2019 (issue [#2496]).
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
@@ -423,8 +409,7 @@ Optional:
 [clang-10]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html
 [gcc-10]: https://gcc.gnu.org/gcc-10/
 [C++]: https://isocpp.org/
-[Geomview]: http://www.geomview.org/
-[Geomview FAQ]: http://www.geomview.org/FAQ/answers.shtml
+[GeomView]: https://www.geomview.org
 [development]: https://github.com/acgetchell/CDT-plusplus
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
 [Surface mesh]: https://doc.cgal.org/latest/Surface_mesher/index.html
@@ -457,7 +442,6 @@ Optional:
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
 [PVS-Studio]: https://www.viva64.com/en/pvs-studio/
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
-[#1894]: https://gitlab.com/libeigen/eigen/-/issues/1894
 [CLion]: https://www.jetbrains.com/clion/
 [Docker]: https://www.docker.com/
 [GitPod]: https://gitpod.io
@@ -465,5 +449,3 @@ Optional:
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
 [spdlog]: https://github.com/gabime/spdlog
-[#5873]: https://github.com/CGAL/cgal/issues/5873
-[#2496]: https://github.com/fmtlib/fmt/issues/2496

@@ -54,7 +54,7 @@ namespace manifolds
 
    public:
     /// @brief Dimensionality of the manifold
-    static inline int constexpr dimension = 3;
+    static int constexpr dimension = 3;
 
     /// @brief Default dtor
     ~Manifold() = default;
@@ -410,7 +410,7 @@ namespace manifolds
 
    public:
     /// @brief Dimensionality of the manifold
-    static inline int constexpr dimension = 4;
+    static int constexpr dimension = 4;
   };
 
   using Manifold4 = Manifold<4>;

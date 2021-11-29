@@ -51,9 +51,9 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       THEN("The output is correct.")
       {
         // Update test yearly
-        CHECK_THAT(currentDateTime(), Catch::Contains("2021"));
+        CHECK_THAT(current_date_time(), Catch::Contains("2021"));
         // Human verification
-        fmt::print("Current date and time is: {}\n", currentDateTime());
+        fmt::print("Current date and time is: {}\n", current_date_time());
       }
     }
     WHEN("A filename is generated.")

@@ -11,14 +11,7 @@
 #ifndef INCLUDE_UTILITIES_HPP_
 #define INCLUDE_UTILITIES_HPP_
 
-//#include <CGAL/Gmpzf.h>
 #include <CGAL/Timer.h>
-#ifndef _WIN32
-#include <sys/utsname.h>
-// Boost date/time doesn't link on Windows in vcpkg
-// https://github.com/microsoft/vcpkg/issues/9087
-#include <boost/date_time.hpp>
-#endif
 // Workaround for https://github.com/CGAL/cgal/issues/4665
 #ifdef _WIN32
 #define NOMINMAX
@@ -37,7 +30,6 @@
 #include <typeindex>
 // H. Hinnant date and time library
 #include <date/tz.h>
-//#include <ctime>
 
 // M. O'Neill Permutation Congruential Generator library
 #include "pcg_random.hpp"
@@ -81,28 +73,16 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 namespace utilities
 {
   /// @brief Return current date and time
-  ///
+  /// @details Return current date and time in ISO 8601 format
   /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
   /// Parser. https://github.com/HowardHinnant/date
-  ///
   /// @return A formatted string with the system local time
-  [[nodiscard]] inline auto currentDateTime()
+  [[nodiscard]] inline auto current_date_time()
   {
-    // using namespace date;
     using namespace std::chrono;
-    // auto const time = make_zoned(current_zone(), system_clock::now());
     date::zoned_time const time(date::current_zone(), system_clock::now());
     return date::format("%Y-%m-%d.%X%Z", time);
-    //    time_t rawTime = -1;
-    //    if (time(&rawTime) != -1)
-    //    {
-    //      struct tm* timeInfo = localtime(&rawTime);
-    //      char timeString[32] = {};
-    //      if (strftime(timeString, 32, "%Y-%m-%d.%X%Z", timeInfo) > 0)
-    //        return std::string(timeString);
-    //    }
-    //    return std::string();
-  }
+  }  // current_date_time
 
   /// @brief  Generate useful filenames
   /// @param t_topology The topology type from the scoped enum topology_type
@@ -145,7 +125,7 @@ namespace utilities
 
     // Append current time
     filename += "-";
-    filename += currentDateTime();
+    filename += current_date_time();
 
     // Append .off file extension
     filename += ".off";
