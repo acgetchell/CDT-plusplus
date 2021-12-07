@@ -73,7 +73,7 @@ namespace move_tracker
         moves = {0};  // NOLINT
    public:
     /// @return Read-only container of moves
-    auto moves_view() const { return gsl::span(moves); }
+    auto moves_view() const { return std::span(moves); }
 
     /// @param index The index of the element to be accessed
     /// @return The number of moves at the index
@@ -174,13 +174,13 @@ namespace move_tracker
     auto two_eight_moves() -> auto& { return gsl::at(moves, 5); }  // NOLINT
 
     /// @brief Read access to (2,8) moves
-    auto two_eight_moves() const { return gsl::at(moves, 5); }
+    auto two_eight_moves() const { return gsl::at(moves, 5); }  // NOLINT
 
     /// @brief Write access to (8,2) moves
     auto eight_two_moves() -> auto& { return gsl::at(moves, 6); }  // NOLINT
 
     /// @brief Read access to (8,2) moves
-    auto eight_two_moves() const { return gsl::at(moves, 6); }
+    auto eight_two_moves() const { return gsl::at(moves, 6); }  // NOLINT
   };
 
 }  // namespace move_tracker

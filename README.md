@@ -31,7 +31,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [vcpkg] provides library management and building.
 [Doxygen] provides automated document generation.
 [{fmt}] provides a safe and fast alternative to `iostream`.
-[spdlog] provides fast, multi-threaded logging.
+[spdlog] provides fast, multithreaded logging.
 [PVS-Studio] and [LGTM] provide commercial-grade static analysis and security checks.
 [CometML] provides machine learning for model building.
 
@@ -57,7 +57,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Use [{fmt}] library (instead of `iostream`)
 - [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
-- [x] Multi-threaded logging with [spdlog]
+- [x] Multithreaded logging with [spdlog]
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
@@ -102,6 +102,7 @@ package manager (e.g. [homebrew] or [apt]):
 - autoconf
 - autoconf-archive
 - libtool (macOS) or libtool-bin (Linux)
+- pkg-config
 - texinfo
 - yasm
 - ninja (macOS) or ninja-build (Linux)
@@ -143,7 +144,7 @@ vcpkg install --feature-flags=manifests
 
 ### Project Layout
 
-The project is similar to the [PitchFork Layout], as follows:
+The project is similar to [PitchFork Layout], as follows:
 
 - .github - GitHub specific settings
 - build - Ephemeral out-of-source build directory

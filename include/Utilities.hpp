@@ -25,6 +25,7 @@
 #include <iostream>
 #include <mutex>
 #include <random>
+#include <span>
 #include <stdexcept>
 #include <string>
 #include <typeindex>
@@ -185,7 +186,12 @@ namespace utilities
     std::scoped_lock const lock(mutex);
 
     std::ofstream file(filename, std::ios::out);
-    if (!file.is_open()) { throw std::runtime_error("Unable to open file."); }
+    if (!file.is_open())
+    {
+      throw std::filesystem::filesystem_error(
+          "Unable to open file.",
+          std::make_error_code(std::errc::bad_file_descriptor));
+    }
 
     file << t_universe.get_triangulation().get_delaunay();
   }  // write_file

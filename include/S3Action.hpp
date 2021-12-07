@@ -17,8 +17,6 @@
 #ifndef INCLUDE_S3ACTION_HPP_
 #define INCLUDE_S3ACTION_HPP_
 
-#include "Settings.hpp"
-#include <cstdio>
 #include <mpfr.h>
 
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
