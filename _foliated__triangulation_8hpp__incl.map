@@ -1,7 +1,7 @@
 <map id="include/Foliated_triangulation.hpp" name="include/Foliated_triangulation.hpp">
-<area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="1313,5,1556,32"/>
+<area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="1371,5,1613,32"/>
 <area shape="rect" id="node2" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="689,80,863,107"/>
-<area shape="rect" id="node11" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2085,80,2187,107"/>
+<area shape="rect" id="node11" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2159,80,2260,107"/>
 <area shape="rect" id="node3" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1125,169,1227,196"/>
 <area shape="rect" id="node6" title=" " alt="" coords="5,169,245,196"/>
 <area shape="rect" id="node7" title=" " alt="" coords="270,155,442,211"/>
@@ -14,20 +14,21 @@
 <area shape="rect" id="node13" title=" " alt="" coords="1387,169,1472,196"/>
 <area shape="rect" id="node14" title=" " alt="" coords="1496,169,1565,196"/>
 <area shape="rect" id="node15" title=" " alt="" coords="1590,169,1655,196"/>
-<area shape="rect" id="node16" title=" " alt="" coords="1679,169,1753,196"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1777,169,1841,196"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1865,169,1945,196"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1969,169,2033,196"/>
-<area shape="rect" id="node20" title=" " alt="" coords="2057,169,2129,196"/>
-<area shape="rect" id="node21" title=" " alt="" coords="2153,169,2207,196"/>
-<area shape="rect" id="node22" title=" " alt="" coords="2231,169,2318,196"/>
-<area shape="rect" id="node23" title=" " alt="" coords="2343,169,2401,196"/>
-<area shape="rect" id="node24" title=" " alt="" coords="2426,169,2513,196"/>
-<area shape="rect" id="node25" title=" " alt="" coords="2537,169,2615,196"/>
-<area shape="rect" id="node26" title=" " alt="" coords="2640,169,2771,196"/>
-<area shape="rect" id="node27" title=" " alt="" coords="2795,169,2901,196"/>
-<area shape="rect" id="node28" title=" " alt="" coords="2925,169,3040,196"/>
-<area shape="rect" id="node29" title=" " alt="" coords="3064,162,3205,203"/>
-<area shape="rect" id="node30" title=" " alt="" coords="3230,162,3378,203"/>
-<area shape="rect" id="node31" title=" " alt="" coords="3402,169,3526,196"/>
+<area shape="rect" id="node16" title=" " alt="" coords="1680,169,1771,196"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1795,169,1869,196"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1893,169,1957,196"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1981,169,2061,196"/>
+<area shape="rect" id="node20" title=" " alt="" coords="2085,169,2149,196"/>
+<area shape="rect" id="node21" title=" " alt="" coords="2173,169,2245,196"/>
+<area shape="rect" id="node22" title=" " alt="" coords="2269,169,2323,196"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2347,169,2434,196"/>
+<area shape="rect" id="node24" title=" " alt="" coords="2459,169,2517,196"/>
+<area shape="rect" id="node25" title=" " alt="" coords="2542,169,2629,196"/>
+<area shape="rect" id="node26" title=" " alt="" coords="2653,169,2731,196"/>
+<area shape="rect" id="node27" title=" " alt="" coords="2756,169,2887,196"/>
+<area shape="rect" id="node28" title=" " alt="" coords="2911,169,3017,196"/>
+<area shape="rect" id="node29" title=" " alt="" coords="3041,169,3156,196"/>
+<area shape="rect" id="node30" title=" " alt="" coords="3180,162,3321,203"/>
+<area shape="rect" id="node31" title=" " alt="" coords="3346,162,3494,203"/>
+<area shape="rect" id="node32" title=" " alt="" coords="3518,169,3642,196"/>
 </map>
