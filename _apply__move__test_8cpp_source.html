@@ -94,8 +94,8 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;{</div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 2+1 dimensional spherical manifold.&quot;</span>)</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  {</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    constexpr <span class="keyword">auto</span>       desired_simplices  = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(9600);</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    constexpr <span class="keyword">auto</span>       desired_timeslices = <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(7);</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;    constexpr <span class="keyword">auto</span>       desired_simplices  = 9600;</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    constexpr <span class="keyword">auto</span>       desired_timeslices = 7;</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    WHEN(<span class="stringliteral">&quot;A null move is applied to the manifold.&quot;</span>)</div>
@@ -218,11 +218,10 @@ $(function() {
 <div class="ttc" id="a_apply__move_8hpp_html"><div class="ttname"><a href="_apply__move_8hpp.html">Apply_move.hpp</a></div><div class="ttdoc">Apply Pachner moves to foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_apply__move_8hpp_html_afa97b1c614f34a78339d573d1ecb408e"><div class="ttname"><a href="_apply__move_8hpp.html#afa97b1c614f34a78339d573d1ecb408e">apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType &amp;&amp;t_move) -&gt; decltype(auto) try</div><div class="ttdoc">An applicative function similar to std::apply, but on manifolds.</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00030">Apply_move.hpp:30</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00030">Settings.hpp:30</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00047">Manifold.hpp:47</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 7 2021 19:53:44 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 8 2021 00:38:43 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

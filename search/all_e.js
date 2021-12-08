@@ -5,7 +5,7 @@ var searchData=
   ['s3_5fbulk_5faction_5falpha_5fone_222',['S3_bulk_action_alpha_one',['../_s3_action_8hpp.html#aa873fb6fe74703f76d277eedfd1a2148',1,'S3Action.hpp']]],
   ['s3action_2ehpp_223',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
   ['s3action_5ftest_2ecpp_224',['S3Action_test.cpp',['../_s3_action__test_8cpp.html',1,'']]],
-  ['scenario_225',['SCENARIO',['../_foliated__triangulation__test_8cpp.html#a270d6671299f5e62b11eadfc10530d10',1,'SCENARIO(&quot;FoliatedTriangulation special member and swap properties&quot;, &quot;[triangulation]&quot;):&#160;Foliated_triangulation_test.cpp'],['../_manifold__test_8cpp.html#a6423c86168046b5f9e9e5bc9be05b40d',1,'SCENARIO(&quot;Manifold special member and swap properties&quot;, &quot;[manifold]&quot;):&#160;Manifold_test.cpp'],['../_manifold__test_8cpp.html#a86c0feb15fe431d86236338356a0481e',1,'SCENARIO(&quot;3-Manifold function checks&quot;, &quot;[manifold]&quot;):&#160;Manifold_test.cpp']]],
+  ['scenario_225',['SCENARIO',['../_foliated__triangulation__test_8cpp.html#a270d6671299f5e62b11eadfc10530d10',1,'SCENARIO(&quot;FoliatedTriangulation special member and swap properties&quot;, &quot;[triangulation]&quot;):&#160;Foliated_triangulation_test.cpp'],['../_manifold__test_8cpp.html#a86c0feb15fe431d86236338356a0481e',1,'SCENARIO(&quot;3-Manifold function checks&quot;, &quot;[manifold]&quot;):&#160;Manifold_test.cpp']]],
   ['settings_2ehpp_226',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
   ['settings_5ftest_2ecpp_227',['Settings_test.cpp',['../_settings__test_8cpp.html',1,'']]],
   ['simplices_228',['simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220',1,'manifolds::Manifold&lt; 3 &gt;']]],
