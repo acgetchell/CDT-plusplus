@@ -80,14 +80,14 @@ SCENARIO("MoveAlways member functions", "[move always]")
   spdlog::debug("MoveAlways member functions.\n");
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(640);
-    auto constexpr timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = 640;
+    auto constexpr timeslices = 4;
     Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 is constructed.")
     {
-      auto constexpr passes     = static_cast<Int_precision>(10);
-      auto constexpr checkpoint = static_cast<Int_precision>(5);
+      auto constexpr passes     = 10;
+      auto constexpr checkpoint = 5;
       MoveAlways3 mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
@@ -103,8 +103,8 @@ SCENARIO("MoveAlways member functions", "[move always]")
     }
     WHEN("A MoveAlways3 algorithm is instantiated.")
     {
-      auto constexpr passes     = static_cast<Int_precision>(1);
-      auto constexpr checkpoint = static_cast<Int_precision>(1);
+      auto constexpr passes     = 1;
+      auto constexpr checkpoint = 1;
       MoveAlways3 mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
@@ -126,14 +126,14 @@ SCENARIO("Using the MoveAlways algorithm", "[move always][!mayfail]")
   spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(72);
-    auto constexpr timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = 72;
+    auto constexpr timeslices = 4;
     Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways3 algorithm is used.")
     {
-      auto constexpr passes     = static_cast<Int_precision>(1);
-      auto constexpr checkpoint = static_cast<Int_precision>(1);
+      auto constexpr passes     = 1;
+      auto constexpr checkpoint = 1;
       MoveAlways3 mover(passes, checkpoint);
       THEN("A lot of moves are made.")
       {
@@ -149,8 +149,8 @@ SCENARIO("Using the MoveAlways algorithm", "[move always][!mayfail]")
   {
     WHEN("A MoveStrategy4 is constructed.")
     {
-      auto constexpr passes     = static_cast<Int_precision>(1);
-      auto constexpr checkpoint = static_cast<Int_precision>(1);
+      auto constexpr passes     = 1;
+      auto constexpr checkpoint = 1;
       MoveAlways4 mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {

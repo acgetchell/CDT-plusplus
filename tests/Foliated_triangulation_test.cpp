@@ -180,8 +180,8 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
       "A minimal triangulation with non-default initial radius and radial "
       "separation.")
   {
-    constexpr auto         desired_simplices  = static_cast<Int_precision>(2);
-    constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
+    constexpr auto         desired_simplices  = 2;
+    constexpr auto         desired_timeslices = 2;
     constexpr auto         initial_radius     = 3.0;
     constexpr auto         foliation_spacing  = 2.0;
     FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
@@ -268,8 +268,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     }
     WHEN("Constructing the minimum triangulation.")
     {
-      constexpr auto         desired_simplices  = static_cast<Int_precision>(2);
-      constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
+      constexpr auto         desired_simplices  = 2;
+      constexpr auto         desired_timeslices = 2;
       FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
@@ -316,8 +316,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         "Constructing the minimal triangulation with non-default initial "
         "radius and separation.")
     {
-      constexpr auto         desired_simplices  = static_cast<Int_precision>(2);
-      constexpr auto         desired_timeslices = static_cast<Int_precision>(2);
+      constexpr auto         desired_simplices  = 2;
+      constexpr auto         desired_timeslices = 2;
       constexpr auto         initial_radius     = 3.0;
       constexpr auto         radial_factor      = 2.0;
       FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
@@ -336,8 +336,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         "Constructing a small triangulation with fractional initial radius and "
         "separation.")
     {
-      constexpr auto         desired_simplices = static_cast<Int_precision>(24);
-      constexpr auto         desired_timeslices = static_cast<Int_precision>(3);
+      constexpr auto         desired_simplices  = 24;
+      constexpr auto         desired_timeslices = 3;
       constexpr auto         initial_radius     = 1.5;
       constexpr auto         radial_factor      = 1.1;
       FoliatedTriangulation3 ft(desired_simplices, desired_timeslices,
@@ -345,8 +345,8 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
     }
     WHEN("Constructing a medium triangulation.")
     {
-      constexpr auto desired_simplices  = static_cast<Int_precision>(6400);
-      constexpr auto desired_timeslices = static_cast<Int_precision>(7);
+      constexpr auto         desired_simplices  = 6400;
+      constexpr auto         desired_timeslices = 7;
       FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
@@ -403,8 +403,8 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
   spdlog::debug("FoliatedTriangulation3 copying.\n");
   GIVEN("A FoliatedTriangulation3")
   {
-    constexpr auto         desired_simplices = static_cast<Int_precision>(6400);
-    constexpr auto         desired_timeslices = static_cast<Int_precision>(7);
+    constexpr auto         desired_simplices  = 6400;
+    constexpr auto         desired_timeslices = 7;
     FoliatedTriangulation3 ft(desired_simplices, desired_timeslices);
     WHEN("It is copied")
     {

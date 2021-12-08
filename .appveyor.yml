@@ -25,7 +25,7 @@ environment:
 
 cache:
   - c:\Users\appveyor\AppData\Local\vcpkg\archives\
-  - c:\tools\vcpkg\installed\
+  - c:\tools\vcpkg\packages\
 
 install:
   # Setup vcpkg

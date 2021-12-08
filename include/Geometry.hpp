@@ -68,8 +68,8 @@ struct Geometry<3>
       , N3_22{static_cast<Int_precision>(triangulation.get_two_two().size())}
       , N2{static_cast<Int_precision>(triangulation.number_of_finite_facets())}
       , N1{static_cast<Int_precision>(triangulation.number_of_finite_edges())}
-      , N1_TL{static_cast<Int_precision>(triangulation.N1_TL())}
-      , N1_SL{static_cast<Int_precision>(triangulation.N1_SL())}
+      , N1_TL{triangulation.N1_TL()}
+      , N1_SL{triangulation.N1_SL()}
       , N0{static_cast<Int_precision>(triangulation.number_of_vertices())}
 
   {}

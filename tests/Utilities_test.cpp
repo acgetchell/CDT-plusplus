@@ -59,9 +59,9 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
     WHEN("A filename is generated.")
     {
       auto constexpr this_topology = topology_type::SPHERICAL;
-      auto constexpr dimensions    = static_cast<Int_precision>(3);
-      auto constexpr simplices     = static_cast<Int_precision>(6700);
-      auto constexpr timeslices    = static_cast<Int_precision>(16);
+      auto constexpr dimensions    = 3;
+      auto constexpr simplices     = 6700;
+      auto constexpr timeslices    = 16;
       auto const filename =
           generate_filename(this_topology, dimensions, simplices, timeslices,
                             INITIAL_RADIUS, FOLIATION_SPACING);
@@ -135,8 +135,8 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr min = static_cast<Int_precision>(64);
-      auto constexpr max = static_cast<Int_precision>(6400);
+      auto constexpr min = 64;
+      auto constexpr max = 6400;
       auto const value1  = generate_random_int(min, max);
       auto const value2  = generate_random_int(min, max);
       auto const value3  = generate_random_int(min, max);
@@ -179,7 +179,7 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr max = static_cast<Int_precision>(256);
+      auto constexpr max = 256;
       auto const value1  = generate_random_timeslice(max);
       auto const value2  = generate_random_timeslice(max);
       auto const value3  = generate_random_timeslice(max);

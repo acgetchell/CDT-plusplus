@@ -317,20 +317,20 @@ namespace utilities
       if (t_number_of_simplices < 1000)  // NOLINT
       {
         return static_cast<Int_precision>(
-            0.4L *
-            static_cast<long double>(simplices_per_timeslice));  // NOLINT
+            0.4L *  // NOLINT
+            static_cast<long double>(simplices_per_timeslice));
       }
       if (t_number_of_simplices < 10000)  // NOLINT
       {
         return static_cast<Int_precision>(
-            0.2L *
-            static_cast<long double>(simplices_per_timeslice));  // NOLINT
+            0.2L *  // NOLINT
+            static_cast<long double>(simplices_per_timeslice));
       }
       if (t_number_of_simplices < 100000)  // NOLINT
       {
         return static_cast<Int_precision>(
-            0.15L *
-            static_cast<long double>(simplices_per_timeslice));  // NOLINT
+            0.15L *  // NOLINT
+            static_cast<long double>(simplices_per_timeslice));
       }
 
       return static_cast<Int_precision>(

@@ -44,8 +44,8 @@ SCENARIO("Complex lambda operations", "[function-ref]")
 {
   GIVEN("A lambda storing a move.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
@@ -82,8 +82,8 @@ SCENARIO("Function_ref operations", "[function-ref]")
   }
   GIVEN("A function pointer to a move stored in a function_ref.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     tl::function_ref<tl::expected<Manifold3, std::string_view>(Manifold3&)>
@@ -106,8 +106,8 @@ SCENARIO("Function_ref operations", "[function-ref]")
   }
   GIVEN("A lambda invoking a move stored in a function_ref.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     auto const move23 = [](Manifold3& m) {

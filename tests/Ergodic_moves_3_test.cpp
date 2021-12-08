@@ -24,8 +24,8 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
   spdlog::debug("Perform ergodic moves on 2+1 triangulation.\n");
   GIVEN("A 2+1-dimensional foliated triangulation")
   {
-    constexpr auto       desired_simplices  = static_cast<Int_precision>(9600);
-    constexpr auto       desired_timeslices = static_cast<Int_precision>(7);
+    constexpr auto       desired_simplices  = 9600;
+    constexpr auto       desired_timeslices = 7;
     Manifold3            manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state
@@ -310,10 +310,11 @@ SCENARIO(
       spdlog::debug("When a (2,6) move is performed.\n");
       // Copy manifold
       auto manifold_before = manifold;
-      // Do move
-      auto result = ergodic_moves::do_26_move(manifold);
-      // Check results
-      if (result) { manifold = result.value(); }
+      // Do move and check results
+      if (auto result = ergodic_moves::do_26_move(manifold); result)
+      {
+        manifold = result.value();
+      }
       else
       {
         spdlog::info("The (2,6) move failed.\n");

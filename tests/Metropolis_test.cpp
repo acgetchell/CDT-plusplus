@@ -15,9 +15,6 @@
 using namespace std;
 using namespace manifolds;
 
-// bool IsProbabilityRange(CGAL::Gmpzf const& arg) { return arg > 0 && arg <= 1;
-// }
-
 SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
          "[metropolis]")
 {
@@ -86,12 +83,12 @@ SCENARIO("Metropolis member functions", "[metropolis]")
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);
   auto constexpr Lambda                = static_cast<long double>(0.1);
-  auto constexpr passes                = static_cast<Int_precision>(10);
-  auto constexpr output_every_n_passes = static_cast<Int_precision>(1);
+  auto constexpr passes                = 10;
+  auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(640);
-    auto constexpr timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = 640;
+    auto constexpr timeslices = 4;
     Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
@@ -137,12 +134,12 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);
   auto constexpr Lambda                = static_cast<long double>(0.1);
-  auto constexpr passes                = static_cast<Int_precision>(1);
-  auto constexpr output_every_n_passes = static_cast<Int_precision>(1);
+  auto constexpr passes                = 1;
+  auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = static_cast<Int_precision>(72);
-    auto constexpr timeslices = static_cast<Int_precision>(4);
+    auto constexpr simplices  = 72;
+    auto constexpr timeslices = 4;
     Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
@@ -163,7 +160,7 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
         CHECK(total_rejected > 0);
         CHECK(total_trial == total_accepted + total_rejected);
         // Why does this fail?
-        //        CHECK(total_attempted == total_accepted);
+        //                CHECK(total_attempted == total_accepted);
         CHECK(total_successful > 0);
         CHECK(total_failed >= 0);
         CHECK(total_attempted == total_successful + total_failed);

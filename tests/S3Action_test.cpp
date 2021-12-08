@@ -22,8 +22,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
   spdlog::debug("Calculate the bulk action on S3 triangulations.\n");
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    constexpr auto simplices  = static_cast<Int_precision>(6400);
-    constexpr auto timeslices = static_cast<Int_precision>(7);
+    constexpr auto simplices  = 6400;
+    constexpr auto timeslices = 7;
     constexpr auto K          = 1.1L;
     constexpr auto Lambda     = 0.1L;
     Manifold3      universe(simplices, timeslices);

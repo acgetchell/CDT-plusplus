@@ -71,8 +71,8 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
   spdlog::debug("Invoking a move with a function pointer.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A function pointer is constructed for a move.")
@@ -99,8 +99,8 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
   spdlog::debug("Invoking a move with a lambda.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
@@ -130,8 +130,8 @@ SCENARIO("Invoking a move with apply_move and a function pointer",
   spdlog::debug("Invoking a move with apply_move and a function pointer.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Apply_move is used for a move.")
@@ -158,8 +158,8 @@ SCENARIO("MoveCommand initialization", "[move command]")
   spdlog::debug("MoveCommand initialization.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(640);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(4);
+    auto constexpr desired_simplices  = 640;
+    auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
@@ -221,8 +221,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
   spdlog::debug("Queueing and executing moves.\n");
   GIVEN("A valid manifold.")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
+    auto constexpr desired_simplices  = 9600;
+    auto constexpr desired_timeslices = 7;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("Move_command copies the manifold and applies the move.")
@@ -416,8 +416,8 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
   spdlog::debug("Executing multiple moves on the queue.\n");
   GIVEN("A valid manifold")
   {
-    auto constexpr desired_simplices  = static_cast<Int_precision>(9600);
-    auto constexpr desired_timeslices = static_cast<Int_precision>(7);
+    auto constexpr desired_simplices  = 9600;
+    auto constexpr desired_timeslices = 7;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("(2,3) and (3,2) moves are queued.")

@@ -37,6 +37,8 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 
 ## Goals
 
+- [x] Cross-platform support on Linux, macOS (x64 & arm64), and Windows
+- [x] Cross-compiler support on gcc, clang, and MSVC
 - [x] Develop with [literate programming] using [Doxygen]
 - [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
 - [x] Test using [CTest]
