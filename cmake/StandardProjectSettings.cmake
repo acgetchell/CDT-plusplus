@@ -50,7 +50,7 @@ set(TBB_ON ON)
 set(CMAKE_THREAD_PREFER_PTHREAD TRUE)
 
 # Turn off CGAL Triangulation Assertions and Postconditions, fix https://gitlab.com/libeigen/eigen/-/issues/1894
-add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS -D_HAS_DEPRECATED_RESULT_OF=1)
+add_definitions(-DCGAL_TRIANGULATION_NO_ASSERTIONS -DCGAL_TRIANGULATION_NO_POSTCONDITIONS -D_HAS_DEPRECATED_RESULT_OF=1 -DEIGEN_HAS_STD_RESULT_OF=0)
 
 # Easier navigation in an IDE when projects are organized in folders.
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)

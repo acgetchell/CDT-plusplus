@@ -27,12 +27,11 @@
 template <typename ManifoldType,
           typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
-constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType&& t_move)
+constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType t_move)
     -> decltype(auto)
 try
 {
-  return std::invoke(std::forward<FunctionType>(t_move),
-                     std::forward<ManifoldType>(t_manifold));
+  return std::invoke(t_move, std::forward<ManifoldType>(t_manifold));
 }
 catch (std::exception const& e)
 {

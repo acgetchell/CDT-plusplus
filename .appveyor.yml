@@ -36,9 +36,6 @@ install:
   - .\bootstrap-vcpkg.bat
   - set PATH=%PATH%;%VCPKG_ROOT%
   - vcpkg integrate install
-#  - if exist c:\tools\vcpkg\downloads\ rmdir /q /s c:\tools\vcpkg\downloads
-#  - if exist c:\tools\vcpkg\buildtrees\ rmdir /q /s c:\tools\vcpkg\buildtrees
-#  - if exist c:\tools\vcpkg\packages\ rmdir /q /s c:\tools\vcpkg\packages
   - cmake --version
   # Install required libraries in classic mode
 #  - set VCPKG_INSTALL_ROOT=%APPVEYOR_BUILD_FOLDER%\vcpkg_installed
