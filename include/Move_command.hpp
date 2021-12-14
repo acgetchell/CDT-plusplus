@@ -25,6 +25,9 @@ class MoveCommand
   /// @brief The queue of moves to make
   std::deque<move_tracker::move_type> m_moves;
 
+  /// @brief The queue of moves to retry
+  std::deque<move_tracker::move_type> m_moves_to_retry;
+
   /// @brief Track attempted moves
   move_tracker::MoveTracker<ManifoldType> m_attempted;
 
@@ -98,9 +101,8 @@ class MoveCommand
       m_attempted[move_tracker::as_integer(move_type)]++;
       // Convert move_type to function
       auto move_function = as_move_function(move_type);
-      auto result        = apply_move(m_manifold, move_function);
-      m_moves.pop_back();
-      if (result)
+      // Execute move
+      if (auto result = apply_move(m_manifold, move_function); result)
       {
         result->update();
         swap(result.value(), m_manifold);
@@ -111,7 +113,10 @@ class MoveCommand
         fmt::print("{}\n", result.error());
         // Track failed moves
         m_failed[move_tracker::as_integer(move_type)]++;
+        m_moves_to_retry.push_front(move_type);
       }
+      // Remove move from queue
+      m_moves.pop_back();
     }
 #ifndef NDEBUG
     fmt::print("=== After moves ===\n");

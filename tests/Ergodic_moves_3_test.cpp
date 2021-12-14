@@ -24,9 +24,9 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
   spdlog::debug("Perform ergodic moves on 2+1 triangulation.\n");
   GIVEN("A 2+1-dimensional foliated triangulation")
   {
-    constexpr auto       desired_simplices  = 9600;
-    constexpr auto       desired_timeslices = 7;
-    Manifold3            manifold(desired_simplices, desired_timeslices);
+    constexpr auto desired_simplices  = 9600;
+    constexpr auto desired_timeslices = 7;
+    Manifold3      manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state
     auto N3_31_pre_move = manifold.N3_31();
@@ -40,15 +40,21 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (2,3) move is performed")
     {
       spdlog::debug("When a (2,3) move is performed.\n");
-      // Use copy elision
-      auto result = ergodic_moves::do_23_move(manifold);
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);  // Did the move return a value or an error?
-      THEN("The move is correct and the manifold invariants are maintained")
+      if (auto result = ergodic_moves::do_23_move(manifold); result)
       {
+        manifold = result.value();
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
-        // The move is correct
+      }
+      else
+      {
+        // A warning message is already logged to the console by the move
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_THREE));
         // Manual check
@@ -64,14 +70,21 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (3,2) move is performed")
     {
       spdlog::debug("When a (3,2) move is performed.\n");
-      auto result = ergodic_moves::do_32_move(manifold);
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);  // Did the move return a value or an error?
-      THEN("The move is correct and the manifold invariants are maintained")
+      if (auto result = ergodic_moves::do_32_move(manifold); result)
       {
+        manifold = result.value();
         // Update geometry with new triangulation info
         manifold.update();
-        // The move is correct
+      }
+      else
+      {
+        // A warning message is already logged to the console by the move
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::THREE_TWO));
         // Manual check
@@ -88,14 +101,21 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (2,6) move is performed")
     {
       spdlog::debug("When a (2,6) move is performed.\n");
-      auto result = ergodic_moves::do_26_move(manifold);
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);  // Did the move return a value or an error?
-      THEN("The move is correct and the manifold invariants are maintained")
+      if (auto result = ergodic_moves::do_26_move(manifold); result)
       {
+        manifold = result.value();
         // Update geometry with new triangulation info
         manifold.update();
-        // The move is correct
+      }
+      else
+      {
+        // A warning message is already logged to the console by the move
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_SIX));
         // Manual check
@@ -112,14 +132,21 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (6,2) move is performed")
     {
       spdlog::debug("When a (6,2) move is performed.\n");
-      auto result = ergodic_moves::do_62_move(manifold);
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);  // Did the move return a value or an error?
-      THEN("The move is correct and the manifold invariants are maintained")
+      if (auto result = ergodic_moves::do_62_move(manifold); result)
       {
+        manifold = result.value();
         // Update geometry with new triangulation info
         manifold.update();
-        // The move is correct
+      }
+      else
+      {
+        // A warning message is already logged to the console by the move
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::SIX_TWO));
         // Manual check
@@ -135,19 +162,25 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     WHEN("A (4,4) move is performed")
     {
       spdlog::debug("When a (4,4) move is performed.\n");
-      auto result = ergodic_moves::do_44_move(manifold);
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);  // Did the move return a value or an error?
-      THEN("The move is correct and the manifold invariants are maintained")
+      if (auto result = ergodic_moves::do_44_move(manifold); result)
       {
+        manifold = result.value();
         // Update geometry with new triangulation info
         manifold.update();
-        // The move is correct
+      }
+      else
+      {
+        // A warning message is already logged to the console by the move
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::FOUR_FOUR));
 
         // A (4,4) move by itself does not break the Delaunay triangulation
-
         CHECK(manifold.is_correct());
         // Manual check
         CHECK(manifold.N3_31() == N3_31_pre_move);
@@ -177,12 +210,12 @@ SCENARIO(
                                 Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2},
                                 Point_t<3>{RADIUS_2_0, RADIUS_2_0, 0}};
     vector<size_t>       timevalue{1, 1, 1, 2, 2};
-    Causal_vertices_t<3> cv;
-    cv.reserve(vertices.size());
+    Causal_vertices_t<3> causal_vertices;
+    causal_vertices.reserve(vertices.size());
     transform(vertices.begin(), vertices.end(), timevalue.begin(),
-              back_inserter(cv),
+              back_inserter(causal_vertices),
               [](Point_t<3> a, size_t b) { return make_pair(a, b); });
-    Manifold3 manifold(cv);
+    Manifold3 manifold(causal_vertices);
 
     REQUIRE(manifold.is_correct());
     REQUIRE(manifold.vertices() == 5);
@@ -199,15 +232,20 @@ SCENARIO(
       spdlog::debug("When a (2,3) move is performed.\n");
       // Copy manifold
       auto manifold_before = manifold;
-      // Do move
-      auto result = ergodic_moves::do_23_move(manifold);
-      // Check results
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);
+      if (auto result = ergodic_moves::do_23_move(manifold); result)
+      {
+        manifold = result.value();
+        // Update geometry with new triangulation info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
       THEN("The move is correct and the manifold invariants are maintained")
       {
-        manifold.update();
-        // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_THREE));
         // Manual check
@@ -230,16 +268,20 @@ SCENARIO(
     {
       spdlog::debug("When a (3,2) move is performed.\n");
       // First, do a (2,3) move to set up the manifold
-      auto start = ergodic_moves::do_23_move(manifold);
-      if (!start)
+      if (auto start = ergodic_moves::do_23_move(manifold); start)
       {
-        spdlog::trace(
+        manifold = start.value();
+        // Update geometry with new triangulation info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug(
             "The (2,3) move to set up the manifold for the (3,2) move "
             "failed.\n");
+        // Stop further tests
+        REQUIRE(start.has_value());
       }
-      REQUIRE(start);
-      manifold = start.value();
-      manifold.update();
       // Verify we have 1 (3,1) simplex and 2 (2,2) simplices, etc.
       REQUIRE(manifold.vertices() == 5);
       REQUIRE(manifold.edges() == 10);
@@ -253,14 +295,20 @@ SCENARIO(
       // Copy manifold
       auto manifold_before = manifold;
       // Do move
-      auto result = ergodic_moves::do_32_move(manifold);
-      // Check results
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);
+      if (auto result = ergodic_moves::do_32_move(manifold); result)
+      {
+        manifold = result.value();
+        // Update geometry with new triangulation info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
       THEN("The move is correct and the manifold invariants are maintained")
       {
-        manifold.update();
-        // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::THREE_TWO));
         // Manual check
@@ -277,6 +325,15 @@ SCENARIO(
         // Human-readable output
         manifold.print_details();
         manifold.print_cells();
+      }
+    }
+    WHEN("An improperly prepared (3,2) move is performed")
+    {
+      auto result = ergodic_moves::do_32_move(manifold);
+      THEN("The move is not performed")
+      {
+        CHECK_FALSE(result);
+        CHECK(result.error() == "No (3,2) move possible.\n");
       }
     }
   }
@@ -314,15 +371,17 @@ SCENARIO(
       if (auto result = ergodic_moves::do_26_move(manifold); result)
       {
         manifold = result.value();
+        // Update geometry with new triangulation info
+        manifold.update();
       }
       else
       {
-        spdlog::info("The (2,6) move failed.\n");
+        spdlog::debug("The (2,6) move failed.\n");
+        // Stop further tests
+        REQUIRE(result.has_value());
       }
       THEN("The move is correct and the manifold invariants are maintained")
       {
-        manifold.update();
-        // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_SIX));
         // Manual check
@@ -351,16 +410,20 @@ SCENARIO(
     {
       spdlog::debug("When a (6,2) move is performed.\n");
       // First, do a (2,6) move to set up the manifold
-      auto start = ergodic_moves::do_26_move(manifold);
-      if (!start)
+      if (auto start = ergodic_moves::do_26_move(manifold); start)
       {
-        spdlog::trace(
+        manifold = start.value();
+        // Update geometry with new triangulation info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug(
             "The (2,6) move to set up the manifold for the (6,2) move "
             "failed.\n");
+        // Stop further tests
+        REQUIRE(start.has_value());
       }
-      REQUIRE(start);
-      manifold = start.value();
-      manifold.update();
       // Verify we have 3 (3,1) simplices and 3 (1,3) simplices, etc.
       REQUIRE(manifold.vertices() == 6);
       REQUIRE(manifold.edges() == 14);
@@ -376,14 +439,17 @@ SCENARIO(
 
       // Copy manifold
       auto manifold_before = manifold;
-      // Do move
-      auto result = ergodic_moves::do_62_move(manifold);
-      // Check results
-      if (result) { manifold = result.value(); }
-      REQUIRE(result);
-      THEN("The move is correct and the manifold invariants are maintained")
+      // Do move and check results
+      if (auto result = ergodic_moves::do_62_move(manifold); result)
       {
         manifold.update();
+      }
+      else
+      {
+        spdlog::info("The (6,2) move failed.\n");
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
         // Check the move
         CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::SIX_TWO));
@@ -410,6 +476,15 @@ SCENARIO(
         fmt::print("Manifold after (6,2):\n");
         manifold.print_details();
         manifold.print_cells();
+      }
+    }
+    WHEN("An improperly prepared (6,2) move is performed")
+    {
+      auto result = ergodic_moves::do_62_move(manifold);
+      THEN("The move is not performed")
+      {
+        CHECK_FALSE(result);
+        CHECK(result.error() == "No (6,2) move possible.\n");
       }
     }
   }

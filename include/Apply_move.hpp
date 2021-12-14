@@ -31,11 +31,23 @@ constexpr auto apply_move(ManifoldType&& t_manifold, FunctionType t_move)
     -> decltype(auto)
 try
 {
-  return std::invoke(t_move, std::forward<ManifoldType>(t_manifold));
+  if (auto result = std::invoke(t_move, std::forward<ManifoldType>(t_manifold));
+      result)
+  {
+    return result;
+  }
+  else  // NOLINT
+  {
+    // Log errors
+    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("{}", result.error());
+    return result;
+  }
 }
 catch (std::exception const& e)
 {
-  spdlog::trace("apply_move caused an exception: {}", e.what());
+  // Log exceptions
+  spdlog::debug("apply_move caused an exception: {}", e.what());
 }
 
 #endif  // CDT_PLUSPLUS_APPLY_MOVE_HPP

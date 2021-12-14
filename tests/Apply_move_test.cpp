@@ -23,118 +23,163 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
     constexpr auto       desired_timeslices = 7;
     manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
+    // Copy of manifold
+    auto manifold_before = manifold;
     WHEN("A null move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, ergodic_moves::null_move);
-      if (!result) { fmt::print("{}", result.error()); }
-      REQUIRE(result);  // Did the move return a value or an error?
+      spdlog::debug("Applying null move to manifold.\n");
+      if (auto result = apply_move(manifold, ergodic_moves::null_move); result)
+      {
+        manifold = result.value();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        REQUIRE(result.has_value());
+      }
       THEN("The resulting manifold is valid and unchanged.")
       {
-        CHECK(result->is_valid());
-        CHECK(manifold.simplices() == result->simplices());
-        CHECK(manifold.faces() == result->faces());
-        CHECK(manifold.edges() == result->edges());
-        CHECK(manifold.vertices() == result->vertices());
+        CHECK(manifold.is_valid());
+        CHECK(manifold_before.simplices() == manifold.simplices());
+        CHECK(manifold_before.faces() == manifold.faces());
+        CHECK(manifold_before.edges() == manifold.edges());
+        CHECK(manifold_before.vertices() == manifold.vertices());
         // Human verification
         fmt::print("Old manifold.\n");
-        manifold.print_details();
+        manifold_before.print_details();
         fmt::print("New manifold after null move:\n");
-        result->print_details();
+        manifold.print_details();
       }
     }
     WHEN("A (2,3) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, ergodic_moves::do_23_move);
-      if (!result) { fmt::print("{}", result.error()); }
-      REQUIRE(result);  // Did the move return a value or an error?
+      spdlog::debug("Applying (2,3) move to manifold.\n");
+      if (auto result = apply_move(manifold, ergodic_moves::do_23_move); result)
+      {
+        manifold = result.value();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        REQUIRE(result.has_value());
+      }
       THEN("The resulting manifold has the applied move.")
       {
-        // Update Geometry and Foliated_triangulation with new info
-        result->update();
-        // The move is correct
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_THREE));
         // Human verification
         fmt::print("Old manifold.\n");
-        manifold.print_details();
+        manifold_before.print_details();
         fmt::print("New manifold after (2,3) move:\n");
-        result->print_details();
+        manifold.print_details();
       }
     }
     WHEN("A (3,2) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, ergodic_moves::do_32_move);
-      if (!result) { fmt::print("{}", result.error()); }
-      REQUIRE(result);  // Did the move return a value or an error?
+      spdlog::debug("Applying (3,2) move to manifold.\n");
+      if (auto result = apply_move(manifold, ergodic_moves::do_32_move); result)
+      {
+        manifold = result.value();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
       THEN("The resulting manifold has the applied move.")
       {
-        // Update Geometry and Foliated_triangulation with new info
-        result->update();
-        // The move is correct
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::THREE_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
-        manifold.print_details();
+        manifold_before.print_details();
         fmt::print("New manifold after (3,2) move:\n");
-        result->print_details();
+        manifold.print_details();
       }
     }
     WHEN("A (2,6) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, ergodic_moves::do_26_move);
-      if (!result) { fmt::print("{}", result.error()); }
-      REQUIRE(result);  // Did the move return a value or an error?
+      spdlog::debug("Applying (2,6) move to manifold.\n");
+      if (auto result = apply_move(manifold, ergodic_moves::do_26_move); result)
+      {
+        manifold = result.value();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
       THEN("The resulting manifold has the applied move.")
       {
-        // Update Geometry and Foliated_triangulation with new info
-        result->update();
-        // The move is correct
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::TWO_SIX));
         // Human verification
         fmt::print("Old manifold.\n");
-        manifold.print_details();
+        manifold_before.print_details();
         fmt::print("New manifold after (2,6) move:\n");
-        result->print_details();
+        manifold.print_details();
       }
     }
     WHEN("A (6,2) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, ergodic_moves::do_62_move);
-      if (!result) { fmt::print("{}", result.error()); }
-      REQUIRE(result);  // Did the move return a value or an error?
+      spdlog::debug("Applying (6,2) move to manifold.\n");
+      if (auto result = apply_move(manifold, ergodic_moves::do_62_move); result)
+      {
+        manifold = result.value();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
       THEN("The resulting manifold has the applied move.")
       {
-        // Update Geometry and Foliated_triangulation with new info
-        result->update();
-        // The move is correct
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::SIX_TWO));
         // Human verification
         fmt::print("Old manifold.\n");
-        manifold.print_details();
+        manifold_before.print_details();
         fmt::print("New manifold after (6,2) move:\n");
-        result->print_details();
+        manifold.print_details();
       }
     }
     WHEN("A (4,4) move is applied to the manifold.")
     {
-      auto result = apply_move(manifold, ergodic_moves::do_44_move);
-      if (!result) { fmt::print("{}", result.error()); }
-      REQUIRE(result);  // Did the move return a value or an error?
+      spdlog::debug("Applying (4,4) move to manifold.\n");
+      if (auto result = apply_move(manifold, ergodic_moves::do_44_move); result)
+      {
+        manifold = result.value();
+        // Update Geometry and Foliated_triangulation with new info
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        // Stop further tests
+        REQUIRE(result.has_value());
+      }
       THEN("The resulting manifold has the applied move.")
       {
-        // Update Geometry and Foliated_triangulation with new info
-        result->update();
-        // The move is correct
-        CHECK(ergodic_moves::check_move(manifold, result.value(),
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
                                         move_tracker::move_type::FOUR_FOUR));
         // Human verification
         fmt::print("Old manifold.\n");
-        manifold.print_details();
+        manifold_before.print_details();
         fmt::print("New manifold after (4,4) move:\n");
-        result->print_details();
+        manifold.print_details();
       }
     }
   }
