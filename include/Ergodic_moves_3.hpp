@@ -41,7 +41,7 @@ namespace ergodic_moves
                                         Cell_handle_t<3> const& to_be_moved)
       -> bool
   {
-    Expects(to_be_moved->info() == 22);
+    if (to_be_moved->info() != 22) { return false; }  // NOLINT
     auto flipped = false;
     // Try every facet of the (2,2) cell
     for (auto i = 0; i < 4; ++i)
@@ -164,7 +164,7 @@ namespace ergodic_moves
   [[nodiscard]] inline auto find_adjacent_31_cell(
       Cell_handle_t<3> const& t_cell) -> std::optional<int>
   {
-    Expects(t_cell->info() == 13);
+    if (t_cell->info() != 13) { return std::nullopt; }  // NOLINT
     for (auto i = 0; i < 4; ++i)
     {
 #ifndef NDEBUG
@@ -221,7 +221,14 @@ namespace ergodic_moves
             bottom->neighbor(neighboring_31_index.value());
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
-        Expects(bottom->has_neighbor(top, common_face_index));
+        if (!bottom->has_neighbor(top, common_face_index))
+        {
+          std::string msg = "Bottom cell does not have a neighbor.\n";
+#ifndef NDEBUG
+          spdlog::trace(msg);
+#endif
+          return tl::make_unexpected(msg);
+        }
 
         // Get indices of vertices of common face with respect to bottom cell
         // A face is denoted by the index of the opposite vertex
@@ -239,7 +246,14 @@ namespace ergodic_moves
         auto const v3 = bottom->vertex(i3);
 
         // Timeslice of vertices should be same
-        Expects(v1->info() == v2->info() && v2->info() == v3->info());
+        if (v1->info() != v2->info() || v2->info() != v3->info())
+        {
+          std::string msg = "Vertices have different timeslices.\n";
+#ifndef NDEBUG
+          spdlog::trace(msg);
+#endif
+          return tl::make_unexpected(msg);
+        }
 
         // Do the (2,6) move
         // Insert new vertex
@@ -252,15 +266,32 @@ namespace ergodic_moves
         t_manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
-        Expects(incident_cells.size() == 6);
+        if (incident_cells.size() != 6)
+        {
+          std::string msg = "Center vertex is not bounded by 6 simplices.\n";
+#ifndef NDEBUG
+          spdlog::trace(msg);
+#endif
+          return tl::make_unexpected(msg);
+        }
+
         // Each incident cell should be combinatorially and geometrically valid
-        std::for_each(
-            incident_cells.begin(), incident_cells.end(),
-            [&t_manifold](auto const& cell) {
-              Expects(
-                  t_manifold.get_triangulation().get_delaunay().tds().is_cell(
-                      cell));
-            });
+        if (auto check_cells =
+                std::all_of(incident_cells.begin(), incident_cells.end(),
+                            [&t_manifold](auto const& cell) {
+                              return t_manifold.get_triangulation()
+                                  .get_delaunay()
+                                  .tds()
+                                  .is_cell(cell);
+                            });
+            !check_cells)
+        {
+          std::string msg = "A cell is invalid.\n";
+#ifndef NDEBUG
+          spdlog::trace(msg);
+#endif
+          return tl::make_unexpected(msg);
+        }
 
         // Now assign a geometric point to the center vertex
         auto center_point =
@@ -288,9 +319,18 @@ namespace ergodic_moves
                       v_center->point(), v_center->info());
 #endif
 
-        // Final check
-        Expects(t_manifold.get_triangulation().get_delaunay().tds().is_valid(
-            v_center, true, 1));
+        // Final checks
+        // is_valid() checks for combinatorial and geometric validity
+        // and outputs to std::cerr
+        if (!t_manifold.get_triangulation().get_delaunay().tds().is_valid(
+                v_center, true, 1))
+        {
+          std::string msg = "v_center is invalid.\n";
+#ifndef NDEBUG
+          spdlog::trace(msg);
+#endif
+          return tl::make_unexpected(msg);
+        }
 
         return t_manifold;
       }
@@ -318,8 +358,22 @@ namespace ergodic_moves
   [[nodiscard]] inline auto is_62_movable(manifolds::Manifold3 const& manifold,
                                           Vertex_handle_t<3> const&   candidate)
   {
-    Expects(manifold.dim() == 3);  // Precondition of incident_cells()
-    Expects(manifold.is_vertex(candidate));
+    //    Expects(manifold.dim() == 3);  // Precondition of incident_cells()
+    if (manifold.dim() != 3)
+    {
+#ifndef NDEBUG
+      spdlog::trace("Manifold is not 3-dimensional.\n");
+#endif
+      return false;
+    }
+
+    if (!manifold.is_vertex(candidate))
+    {
+#ifndef NDEBUG
+      spdlog::trace("Candidate is not a vertex.\n");
+#endif
+      return false;
+    }
 
     // We must have 5 incident edges to have 6 incident cells
     if (auto incident_edges = manifold.degree(candidate);
@@ -447,8 +501,7 @@ namespace ergodic_moves
       Edge_handle_t<3> const&     t_edge_candidate)
       -> std::optional<std::vector<Cell_handle_t<3>>>
   {
-    Expects(t_manifold.dim() > 0);  // Precondition of is_edge()
-    Expects(t_manifold.is_edge(t_edge_candidate));
+    if (!t_manifold.is_edge(t_edge_candidate)) { return std::nullopt; }
 
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in
@@ -456,8 +509,7 @@ namespace ergodic_moves
         t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
     std::vector<Cell_handle_t<3>> incident_cells;
-    do
-    {
+    do {
       incident_cells.emplace_back(circulator++);
     } while (circulator != t_edge_candidate.first);
 #ifndef NDEBUG
@@ -598,6 +650,6 @@ namespace ergodic_moves
     }
   }  // check_move()
 
-}  // namespace Moves
+}  // namespace ergodic_moves
 
 #endif  // CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP

@@ -95,10 +95,9 @@ namespace utilities
   /// @param t_foliation_spacing The spacing between foliations
   /// @return A filename
   [[nodiscard]] inline auto generate_filename(
-      topology_type const& t_topology, Int_precision const t_dimension,
-      Int_precision const t_number_of_simplices,
-      Int_precision const t_number_of_timeslices, double const t_initial_radius,
-      double const t_foliation_spacing) noexcept
+      topology_type const& t_topology, Int_precision t_dimension,
+      Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices,
+      double t_initial_radius, double t_foliation_spacing) noexcept
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
@@ -168,12 +167,10 @@ namespace utilities
   /// @todo Fix write_file() to include cell->info() and vertex->info()
   template <typename ManifoldType>
   void write_file(ManifoldType const&  t_universe,
-                  topology_type const& t_topology,
-                  Int_precision const  t_dimension,
-                  Int_precision const  t_number_of_simplices,
-                  Int_precision const  t_number_of_timeslices,
-                  double const         t_initial_radius,
-                  double const         t_foliation_spacing)
+                  topology_type const& t_topology, Int_precision t_dimension,
+                  Int_precision t_number_of_simplices,
+                  Int_precision t_number_of_timeslices, double t_initial_radius,
+                  double t_foliation_spacing)
   {
     // mutex to protect file access across threads
     static std::mutex mutex;
@@ -224,8 +221,8 @@ namespace utilities
   /// @param t_max_value The maximum value
   /// @return A random value in the distribution between min_value and max_value
   template <typename NumberType, class Distribution>
-  [[nodiscard]] auto generate_random(NumberType const t_min_value,
-                                     NumberType const t_max_value) noexcept
+  [[nodiscard]] auto generate_random(NumberType t_min_value,
+                                     NumberType t_max_value) noexcept
   {
     pcg_extras::seed_seq_from<std::random_device> seed_source;
     // Make a random number generator
@@ -247,7 +244,7 @@ namespace utilities
   /// template argument deduction
   template <typename IntegerType>
   [[nodiscard]] auto constexpr generate_random_int(
-      IntegerType const t_min_value, IntegerType const t_max_value) noexcept
+      IntegerType t_min_value, IntegerType t_max_value) noexcept
   {
     using int_dist = std::uniform_int_distribution<IntegerType>;
     return generate_random<IntegerType, int_dist>(t_min_value, t_max_value);
@@ -266,8 +263,7 @@ namespace utilities
   /// template argument deduction
   template <typename FloatingPointType>
   [[nodiscard]] auto constexpr generate_random_real(
-      FloatingPointType const t_min_value,
-      FloatingPointType const t_max_value) noexcept
+      FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept
   {
     using real_dist = std::uniform_real_distribution<FloatingPointType>;
     return generate_random<FloatingPointType, real_dist>(t_min_value,
@@ -297,8 +293,8 @@ namespace utilities
   /// @return  The number of points per timeslice to obtain
   /// the desired number of simplices
   [[nodiscard]] inline auto expected_points_per_timeslice(
-      std::size_t const t_dimension, Int_precision const t_number_of_simplices,
-      Int_precision const t_number_of_timeslices)
+      Int_precision t_dimension, Int_precision t_number_of_simplices,
+      Int_precision t_number_of_timeslices)
   {
 #ifndef NDEBUG
     spdlog::debug("{} simplices on {} timeslices desired.\n",

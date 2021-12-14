@@ -570,7 +570,7 @@ CheckOptions:
   - key:             performance-inefficient-vector-operation.VectorLikeClasses
     value:           '::std::vector'
   - key:             readability-magic-numbers.IgnoredIntegerValues
-    value:           '1;2;3;4;'
+    value:           '1;2;3;4;5;6'
   - key:             modernize-use-auto.RemoveStars
     value:           'false'
   - key:             bugprone-implicit-widening-of-multiplication-result.IncludeStyle
