@@ -149,6 +149,10 @@ ManifoldType&#160;</td><td class="memItemRight" valign="bottom"><a class="el" hr
 std::deque&lt; move_tracker::move_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ab7ea3a86c5db8908e6d12cfbcfc3da47">m_moves</a></td></tr>
 <tr class="memdesc:ab7ea3a86c5db8908e6d12cfbcfc3da47"><td class="mdescLeft">&#160;</td><td class="mdescRight">The queue of moves to make. <br /></td></tr>
 <tr class="separator:ab7ea3a86c5db8908e6d12cfbcfc3da47"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2e719906d5040907b176e93192204396"><td class="memItemLeft" align="right" valign="top"><a id="a2e719906d5040907b176e93192204396"></a>
+std::deque&lt; move_tracker::move_type &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2e719906d5040907b176e93192204396">m_moves_to_retry</a></td></tr>
+<tr class="memdesc:a2e719906d5040907b176e93192204396"><td class="mdescLeft">&#160;</td><td class="mdescRight">The queue of moves to retry. <br /></td></tr>
+<tr class="separator:a2e719906d5040907b176e93192204396"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6e987359a1fe93104e71cfcb01ded0f3"><td class="memItemLeft" align="right" valign="top"><a id="a6e987359a1fe93104e71cfcb01ded0f3"></a>
 <a class="el" href="classmove__tracker_1_1_move_tracker.html">move_tracker::MoveTracker</a>&lt; ManifoldType &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a6e987359a1fe93104e71cfcb01ded0f3">m_succeeded</a></td></tr>
 <tr class="memdesc:a6e987359a1fe93104e71cfcb01ded0f3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Track successful moves. <br /></td></tr>
@@ -195,7 +199,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00046">46</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00049">49</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 </div>
 </div>
@@ -234,7 +238,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00081">81</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00084">84</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00026">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_moves</a>.</p>
 
@@ -269,9 +273,9 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Attempted moves by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00060">60</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00063">63</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00029">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_attempted</a>.</p>
+<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00032">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_attempted</a>.</p>
 
 </div>
 </div>
@@ -302,7 +306,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>A read-only reference to the manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00051">51</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00054">54</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00023">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
 
@@ -337,9 +341,9 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Failed moves by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00073">73</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00076">76</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00035">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_failed</a>.</p>
+<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00038">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_failed</a>.</p>
 
 </div>
 </div>
@@ -369,7 +373,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>The results of the moves invoked by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00057">57</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00060">60</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00023">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
 
@@ -401,9 +405,9 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><div class="memdoc">
 <dl class="section return"><dt>Returns</dt><dd>Successful moves by <a class="el" href="class_move_command.html">MoveCommand</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00067">67</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_move__command_8hpp_source.html#l00070">70</a> of file <a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00032">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_succeeded</a>.</p>
+<p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00035">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_succeeded</a>.</p>
 
 </div>
 </div>
@@ -413,7 +417,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Dec 13 2021 00:16:22 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 14 2021 03:19:33 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
