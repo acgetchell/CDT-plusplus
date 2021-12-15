@@ -301,9 +301,11 @@ namespace foliated_triangulations
   /// @tparam dimension Dimensionality of the vertices and Delaunay
   /// triangulation
   /// @param t_triangulation The triangulation
+  /// @return True if any vertex->info() was fixed
   template <int dimension>
-  void fix_vertices(Delaunay_t<dimension> const& t_triangulation,
-                    double t_initial_radius, double t_foliation_spacing)
+  [[nodiscard]] auto fix_vertices(Delaunay_t<dimension> const& t_triangulation,
+                                  double                       t_initial_radius,
+                                  double t_foliation_spacing) -> bool
   {
     auto incorrect_vertices = find_incorrect_vertices<dimension>(
         t_triangulation, t_initial_radius, t_foliation_spacing);
@@ -312,6 +314,7 @@ namespace foliated_triangulations
                     vertex->info() = expected_timevalue<dimension>(
                         vertex, t_initial_radius, t_foliation_spacing);
                   });
+    return !incorrect_vertices.empty();
   }  // fix_vertices
 
   /// @brief Extracts vertices in a cell into a key-value pair
@@ -469,8 +472,10 @@ namespace foliated_triangulations
   /// @brief Fix simplices with the wrong type
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_triangulation The Delaunay triangulation
+  /// @return True if cells->info() was fixed
   template <int dimension>
-  void fix_cells(Delaunay_t<dimension> const& t_triangulation)
+  [[nodiscard]] auto fix_cells(Delaunay_t<dimension> const& t_triangulation)
+      -> bool
   {
     auto incorrect_cells = find_incorrect_cells<dimension>(t_triangulation);
     std::for_each(
@@ -478,6 +483,7 @@ namespace foliated_triangulations
           cell->info() =
               static_cast<Int_precision>(expected_cell_type<dimension>(cell));
         });
+    return !incorrect_cells.empty();
   }  // fix_cells
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
@@ -644,8 +650,7 @@ namespace foliated_triangulations
   ///
   /// @tparam dimension Dimensionality of the triangulation
   /// @param t_triangulation The Delaunay triangulation
-  /// @return True if there are no incorrectly foliated simplices; false if they
-  /// were fixed
+  /// @return True if incorrectly foliated simplices were fixed
   template <int dimension>
   [[nodiscard]] auto fix_timevalues(Delaunay_t<dimension>& t_triangulation)
       -> bool
@@ -667,9 +672,9 @@ namespace foliated_triangulations
                              vertices_to_remove.end());
       Ensures(t_triangulation.tds().is_valid());
       Ensures(t_triangulation.is_valid());
-      return vertices_to_remove.empty();
+      return true;
     }
-    return true;
+    return false;
   }  // fix_timevalues
 
   /// @brief Make foliated ball
@@ -747,32 +752,34 @@ namespace foliated_triangulations
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
 
     // Fix vertices
-    while (!check_vertices<dimension>(triangulation, initial_radius,
-                                      foliation_spacing))
+    auto vertex_fix_passes = 1;
+    while (fix_vertices<dimension>(triangulation, initial_radius,
+                                   foliation_spacing))
     {
 #ifndef NDEBUG
-      fmt::print("Deleting incorrect vertices ....\n");
+      spdlog::warn("Deleting incorrect vertices pass #{}\n", vertex_fix_passes);
 #endif
-      fix_vertices<dimension>(triangulation, initial_radius, foliation_spacing);
+      ++vertex_fix_passes;
     }
 
     // Fix timeslices
-    int passes = 1;
-    while (!fix_timevalues<dimension>(triangulation))
+    auto passes = 1;
+    while (fix_timevalues<dimension>(triangulation))
     {
 #ifndef NDEBUG
-      fmt::print("Fix pass #{}\n", passes);
+      spdlog::warn("Fixing timeslices pass #{}\n", passes);
 #endif
       ++passes;
     }
 
     // Fix cells
-    while (!check_cells<dimension>(triangulation))
+    auto cell_fix_passes = 1;
+    while (fix_cells<dimension>(triangulation))
     {
 #ifndef NDEBUG
-      fmt::print("Fixing incorrect cells ...\n");
+      spdlog::warn("Fixing incorrect cells pass #{}\n", cell_fix_passes);
 #endif
-      fix_cells<dimension>(triangulation);
+      ++cell_fix_passes;
     }
 
     utilities::print_delaunay(triangulation);
@@ -980,10 +987,12 @@ namespace foliated_triangulations
     /// @return True if fixes were done on the Delaunay triangulation
     [[nodiscard]] auto fix() -> bool
     {
-      foliated_triangulations::fix_vertices<3>(
+      auto fixed_vertices = foliated_triangulations::fix_vertices<3>(
           m_triangulation, m_initial_radius, m_foliation_spacing);
-      foliated_triangulations::fix_cells<3>(m_triangulation);
-      return !foliated_triangulations::fix_timevalues<3>(m_triangulation);
+      auto fixed_cells = foliated_triangulations::fix_cells<3>(m_triangulation);
+      auto fixed_timeslices =
+          foliated_triangulations::fix_timevalues<3>(m_triangulation);
+      return fixed_vertices || fixed_cells || fixed_timeslices;
     }
 
     /// @return A mutable reference to the Delaunay triangulation
@@ -1071,7 +1080,7 @@ namespace foliated_triangulations
     }  // N1_SL
 
     /// @return Container of timelike edges
-    [[nodiscard]] auto get_timelike_edges() const
+    [[nodiscard]] auto get_timelike_edges() const noexcept
         -> std::vector<Edge_handle_t<3>> const&
     {
       return m_timelike_edges;
@@ -1085,7 +1094,7 @@ namespace foliated_triangulations
     }  // get_spacelike_edges
 
     /// @return Container of vertices
-    [[nodiscard]] auto get_vertices() const
+    [[nodiscard]] auto get_vertices() const noexcept
         -> std::vector<Vertex_handle_t<3>> const&
     {
       return m_points;
@@ -1123,7 +1132,7 @@ namespace foliated_triangulations
     /// @param t_vh Vertex
     /// @return A container of incident cells
     template <typename VertexHandle>
-    [[nodiscard]] auto incident_cells(VertexHandle&& t_vh) const
+    [[nodiscard]] auto incident_cells(VertexHandle&& t_vh) const noexcept
         -> decltype(auto)
     {
       std::vector<Cell_handle_t<3>> inc_cells;
@@ -1138,7 +1147,8 @@ namespace foliated_triangulations
     /// @param args Parameter pack of arguments to call incident_cells()
     /// @return A Cell_circulator
     template <typename... Ts>
-    [[nodiscard]] auto incident_cells(Ts&&... args) const -> decltype(auto)
+    [[nodiscard]] auto incident_cells(Ts&&... args) const noexcept
+        -> decltype(auto)
     {
       return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
     }  // incident_cells
@@ -1214,9 +1224,9 @@ namespace foliated_triangulations
 
     /// @brief Fix vertices with wrong timevalues after foliation
     /// @param incorrect_vertices The container of incorrect vertices
-    void fix_vertices() const
+    [[nodiscard]] auto fix_vertices() const -> bool
     {
-      foliated_triangulations::fix_vertices<3>(
+      return foliated_triangulations::fix_vertices<3>(
           m_triangulation, m_initial_radius, m_foliation_spacing);
     }  // fix_vertices
 
@@ -1269,14 +1279,14 @@ namespace foliated_triangulations
     }  // get_three_one
 
     /// @return Container of (2,2) cells
-    [[nodiscard]] auto get_two_two() const
+    [[nodiscard]] auto get_two_two() const noexcept
         -> std::vector<Cell_handle_t<3>> const&
     {
       return m_two_two;
     }  // get_two_two
 
     /// @return Container of (1,3) cells
-    [[nodiscard]] auto get_one_three() const
+    [[nodiscard]] auto get_one_three() const noexcept
         -> std::vector<Cell_handle_t<3>> const&
     {
       return m_one_three;
@@ -1293,9 +1303,9 @@ namespace foliated_triangulations
     }  // check_all_cells
 
     /// @brief Fix all cells in the triangulation
-    void fix_cells() const
+    auto fix_cells() const -> bool
     {
-      foliated_triangulations::fix_cells<3>(get_delaunay());
+      return foliated_triangulations::fix_cells<3>(get_delaunay());
     }  // fix_cells
 
     /// @brief Print timevalues of each vertex in the cell and the resulting

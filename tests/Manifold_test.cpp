@@ -157,7 +157,7 @@ SCENARIO("Manifold functions", "[manifold]")
     }
     AND_WHEN("The vertices are mis-labelled.")
     {
-      for (auto        vertices = manifold.get_triangulation().get_vertices();
+      for (std::span   vertices(manifold.get_vertices());
            auto const& vertex : vertices)
       {
         vertex->info() = std::numeric_limits<int>::max();

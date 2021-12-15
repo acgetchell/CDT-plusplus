@@ -24,8 +24,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(manifolds::Manifold3 const& t_manifold)
-      -> Expected
+  [[nodiscard]] inline auto null_move(
+      manifolds::Manifold3 const& t_manifold) noexcept -> Expected
   {
     return t_manifold;
   }  // null_move
@@ -37,9 +37,9 @@ namespace ergodic_moves
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return If move succeeded
-  [[nodiscard]] inline auto try_23_move(manifolds::Manifold3&   t_manifold,
-                                        Cell_handle_t<3> const& to_be_moved)
-      -> bool
+  [[nodiscard]] inline auto try_23_move(
+      manifolds::Manifold3&   t_manifold,
+      Cell_handle_t<3> const& to_be_moved) noexcept -> bool
   {
     if (to_be_moved->info() != 22) { return false; }  // NOLINT
     auto flipped = false;
@@ -73,8 +73,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline auto do_23_move(manifolds::Manifold3& t_manifold)
-      -> Expected
+  [[nodiscard]] inline auto do_23_move(
+      manifolds::Manifold3& t_manifold) noexcept -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -103,8 +103,9 @@ namespace ergodic_moves
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return If move succeeded
-  [[nodiscard]] inline auto try_32_move(manifolds::Manifold3&   t_manifold,
-                                        Edge_handle_t<3> const& to_be_moved)
+  [[nodiscard]] inline auto try_32_move(
+      manifolds::Manifold3&   t_manifold,
+      Edge_handle_t<3> const& to_be_moved) noexcept -> bool
   {
     if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
                                         to_be_moved.third))
@@ -132,8 +133,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
-  [[nodiscard]] inline auto do_32_move(manifolds::Manifold3& t_manifold)
-      -> Expected
+  [[nodiscard]] inline auto do_32_move(
+      manifolds::Manifold3& t_manifold) noexcept -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -162,7 +163,7 @@ namespace ergodic_moves
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
   [[nodiscard]] inline auto find_adjacent_31_cell(
-      Cell_handle_t<3> const& t_cell) -> std::optional<int>
+      Cell_handle_t<3> const& t_cell) noexcept -> std::optional<int>
   {
     if (t_cell->info() != 13) { return std::nullopt; }  // NOLINT
     for (auto i = 0; i < 4; ++i)
@@ -199,8 +200,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
-  [[nodiscard]] inline auto do_26_move(manifolds::Manifold3& t_manifold)
-      -> Expected
+  [[nodiscard]] inline auto do_26_move(
+      manifolds::Manifold3& t_manifold) noexcept -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -355,10 +356,10 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return If (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(manifolds::Manifold3 const& manifold,
-                                          Vertex_handle_t<3> const&   candidate)
+  [[nodiscard]] inline auto is_62_movable(
+      manifolds::Manifold3 const& manifold,
+      Vertex_handle_t<3> const&   candidate) noexcept -> bool
   {
-    //    Expects(manifold.dim() == 3);  // Precondition of incident_cells()
     if (manifold.dim() != 3)
     {
 #ifndef NDEBUG
@@ -397,22 +398,19 @@ namespace ergodic_moves
     }
 
     // Vertices should be correct
-    while (!foliated_triangulations::check_vertices<3>(
+    while (foliated_triangulations::fix_vertices<3>(
         manifold.get_triangulation().get_delaunay(),
         manifold.get_triangulation().initial_radius(),
         manifold.get_triangulation().foliation_spacing()))
     {
-      foliated_triangulations::fix_vertices<3>(
-          manifold.get_triangulation().get_delaunay(),
-          manifold.get_triangulation().initial_radius(),
-          manifold.get_triangulation().foliation_spacing());
+      spdlog::warn("Fixing vertices found by is_62_movable().\n");
     }
 
-    //        // Cells should be correct
-    //        while(!foliated_triangulations::check_cells<3>(manifold.get_triangulation().get_delaunay()))
-    //        {
-    //          foliated_triangulations::fix_cells<3>(manifold.get_triangulation().get_delaunay());
-    //        }
+    //            // Cells should be correct
+    //            while(!foliated_triangulations::check_cells<3>(manifold.get_triangulation().get_delaunay()))
+    //            {
+    //              foliated_triangulations::fix_cells<3>(manifold.get_triangulation().get_delaunay());
+    //            }
 
     auto const incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);
@@ -459,8 +457,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
-  [[nodiscard]] inline auto do_62_move(manifolds::Manifold3& t_manifold)
-      -> Expected
+  [[nodiscard]] inline auto do_62_move(
+      manifolds::Manifold3& t_manifold) noexcept -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -498,7 +496,7 @@ namespace ergodic_moves
   /// @return A container of incident cells if there are exactly 4 of them
   [[nodiscard]] inline auto find_44_move(
       manifolds::Manifold3 const& t_manifold,
-      Edge_handle_t<3> const&     t_edge_candidate)
+      Edge_handle_t<3> const&     t_edge_candidate) noexcept
       -> std::optional<std::vector<Cell_handle_t<3>>>
   {
     if (!t_manifold.is_edge(t_edge_candidate)) { return std::nullopt; }

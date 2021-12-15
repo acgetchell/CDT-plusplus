@@ -126,7 +126,7 @@ namespace manifolds
     }  // update
 
     /// @return A read-only reference to the triangulation
-    [[nodiscard]] auto get_triangulation() const
+    [[nodiscard]] auto get_triangulation() const noexcept
         -> foliated_triangulations::FoliatedTriangulation3 const&
     {
       return std::cref(m_triangulation);
@@ -186,8 +186,8 @@ namespace manifolds
     /// @brief Forwarding to FoliatedTriangulation3.is_edge()
     /// @param t_edge_candidate The edge to test
     /// @return True if the candidate is an edge
-    [[nodiscard]] auto is_edge(Edge_handle_t<3> const& t_edge_candidate) const
-        -> bool
+    [[nodiscard]] auto is_edge(
+        Edge_handle_t<3> const& t_edge_candidate) const noexcept -> bool
     {
       return m_triangulation.get_delaunay().tds().is_edge(
           t_edge_candidate.first, t_edge_candidate.second,
@@ -280,13 +280,14 @@ namespace manifolds
 
     /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
     template <typename... Ts>
-    [[nodiscard]] auto incident_cells(Ts&&... args) const -> decltype(auto)
+    [[nodiscard]] auto incident_cells(Ts&&... args) const noexcept
+        -> decltype(auto)
     {
       return m_triangulation.incident_cells(std::forward<Ts>(args)...);
     }  // incident_cells
 
     /// @brief Call to triangulation_.get_timelike_edges()
-    [[nodiscard]] auto get_timelike_edges() const -> auto const&
+    [[nodiscard]] auto get_timelike_edges() const noexcept -> auto const&
     {
       return m_triangulation.get_timelike_edges();
     }  // get_timelike_edges
@@ -298,7 +299,7 @@ namespace manifolds
     }  // get_spacelike_edges
 
     /// @brief Call FoliatedTriangulation3.get_vertices()
-    [[nodiscard]] auto get_vertices() const -> auto const&
+    [[nodiscard]] auto get_vertices() const noexcept -> auto const&
     {
       return m_triangulation.get_vertices();
     }  // get_vertices

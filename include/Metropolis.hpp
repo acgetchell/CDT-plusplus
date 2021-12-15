@@ -358,10 +358,11 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
 
     return command;
   }
-  catch (std::runtime_error const& RuntimeError)
+  catch (std::system_error const& SystemError)
   {
-    spdlog::debug("Metropolis initialization failed ... exiting.\n");
-    spdlog::trace("{}\n", RuntimeError.what());
+    spdlog::debug("Metropolis initialization failed with {} ... exiting.\n",
+                  SystemError.code());
+    spdlog::trace("{}\n", SystemError.code().message());
     return std::nullopt;
   }
 

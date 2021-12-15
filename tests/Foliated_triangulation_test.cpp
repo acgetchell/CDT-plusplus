@@ -202,8 +202,8 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
     }
     THEN("Each vertex has a valid timevalue.")
     {
-      auto const& checked_vertices = ft.get_vertices();
-      for (auto const& vertex : checked_vertices)
+      for (std::span   checked_vertices(ft.get_vertices());
+           auto const& vertex : checked_vertices)
       {
         CHECK(ft.does_vertex_radius_match_timevalue(vertex));
         fmt::print(
@@ -464,7 +464,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       THEN("No errors in the triangulation foliation are detected")
       {
-        CHECK(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
+        CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
         // Human verification
         utilities::print_delaunay(ft.get_delaunay());
       }
@@ -491,7 +491,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
           auto bad_vertices = ft.find_incorrect_vertices();
           CHECK_FALSE(bad_vertices.empty());
 
-          ft.fix_vertices();
+          CHECK(ft.fix_vertices());
           CHECK(ft.check_all_vertices());
           fmt::print("=== Corrected vertex info ===\n");
           ft.print_vertices();
@@ -511,7 +511,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         THEN("The incorrect cell labelling is fixed.")
         {
           CHECK_FALSE(ft.check_all_cells());
-          ft.fix_cells();
+          CHECK(ft.fix_cells());
           // Human verification
           fmt::print("=== Corrected cell info ===\n");
           ft.print_cells();
@@ -547,7 +547,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_THEN("The vertex error is fixed.")
       {
-        ft.fix_vertices();
+        CHECK(ft.fix_vertices());
         ft.print_vertices();
         fmt::print("But the cell is still incorrect.\n");
         CHECK_FALSE(ft.is_initialized());
@@ -555,10 +555,10 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_THEN("The cell error is fixed.")
       {
-        ft.fix_vertices();
+        CHECK(ft.fix_vertices());
         fmt::print("Before fix_cells()\n");
         ft.print_cells();
-        ft.fix_cells();
+        CHECK(ft.fix_cells());
         fmt::print("After fix_cells()\n");
         ft.print_cells();
         CHECK(ft.is_initialized());
@@ -589,7 +589,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_THEN("The vertex error is fixed.")
       {
-        ft.fix_vertices();
+        CHECK(ft.fix_vertices());
         ft.print_vertices();
         fmt::print("But the cell is still incorrect.\n");
         CHECK_FALSE(ft.is_initialized());
@@ -597,10 +597,10 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_THEN("The cell error is fixed.")
       {
-        ft.fix_vertices();
+        CHECK(ft.fix_vertices());
         fmt::print("Before fix_cells()\n");
         ft.print_cells();
-        ft.fix_cells();
+        CHECK(ft.fix_cells());
         fmt::print("After fix_cells()\n");
         ft.print_cells();
         CHECK(ft.is_initialized());
@@ -637,7 +637,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_THEN("The vertex errors are fixed.")
       {
-        ft.fix_vertices();
+        CHECK(ft.fix_vertices());
         ft.print_vertices();
         fmt::print("But the cell is still incorrect.\n");
         CHECK_FALSE(ft.is_initialized());
@@ -645,10 +645,10 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_THEN("The cell error is fixed.")
       {
-        ft.fix_vertices();
+        CHECK(ft.fix_vertices());
         fmt::print("Before fix_cells()\n");
         ft.print_cells();
-        ft.fix_cells();
+        CHECK(ft.fix_cells());
         fmt::print("After fix_cells()\n");
         ft.print_cells();
         CHECK(ft.is_initialized());
@@ -712,7 +712,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       {
         fmt::print("Unfixed triangulation:\n");
         ft.print_cells();
-        CHECK_FALSE(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
+        CHECK(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
         CHECK(ft.is_initialized());
         fmt::print("Fixed triangulation:\n");
         print_cells<3>(get_all_finite_cells<3>(ft.delaunay()));

@@ -233,7 +233,7 @@ namespace utilities
 
   /// @brief Make a high-quality random number generator usable by std::shuffle
   /// @return A RNG
-  inline auto make_random_generator()
+  inline auto make_random_generator() noexcept
   {
     pcg_extras::seed_seq_from<std::random_device> seed_source;
     pcg64                                         generator(seed_source);
