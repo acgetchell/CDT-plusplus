@@ -175,9 +175,9 @@ template&lt;typename IntegerType &gt; </td></tr>
 <tr class="memitem:a4f84a968c94e9a185b147439dcae1ce1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">utilities::Gmpzf_to_double</a> (<a class="el" href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a> const &amp;t_value) -&gt; double</td></tr>
 <tr class="memdesc:a4f84a968c94e9a185b147439dcae1ce1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert Gmpzf into a double.  <a href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">More...</a><br /></td></tr>
 <tr class="separator:a4f84a968c94e9a185b147439dcae1ce1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac676e6af3ae3dcf1e35a1210ec6fead6"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ac676e6af3ae3dcf1e35a1210ec6fead6">utilities::make_random_generator</a> ()</td></tr>
-<tr class="memdesc:ac676e6af3ae3dcf1e35a1210ec6fead6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a high-quality random number generator usable by std::shuffle.  <a href="_utilities_8hpp.html#ac676e6af3ae3dcf1e35a1210ec6fead6">More...</a><br /></td></tr>
-<tr class="separator:ac676e6af3ae3dcf1e35a1210ec6fead6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7e3042729088a28e05ae118c433b8669"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">utilities::make_random_generator</a> () noexcept</td></tr>
+<tr class="memdesc:a7e3042729088a28e05ae118c433b8669"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a high-quality random number generator usable by std::shuffle.  <a href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">More...</a><br /></td></tr>
+<tr class="separator:a7e3042729088a28e05ae118c433b8669"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a> (std::ostream &amp;t_os, topology_type const &amp;t_topology) -&gt; std::ostream &amp;</td></tr>
 <tr class="memdesc:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert topology_type to string output.  <a href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">More...</a><br /></td></tr>
 <tr class="separator:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -533,8 +533,8 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 
 </div>
 </div>
-<a id="ac676e6af3ae3dcf1e35a1210ec6fead6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac676e6af3ae3dcf1e35a1210ec6fead6">&#9670;&nbsp;</a></span>make_random_generator()</h2>
+<a id="a7e3042729088a28e05ae118c433b8669"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a7e3042729088a28e05ae118c433b8669">&#9670;&nbsp;</a></span>make_random_generator()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -551,7 +551,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">noexcept</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
@@ -747,7 +747,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 14 2021 08:10:47 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 15 2021 06:28:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

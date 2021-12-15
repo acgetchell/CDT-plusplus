@@ -125,7 +125,7 @@ $(function() {
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;    WHEN(<span class="stringliteral">&quot;A lambda is constructed for a move.&quot;</span>)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;    {</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a>&amp; m) {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a>(m).value();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#adc95cf983abc1bad71de22122cdb012f">ergodic_moves::do_23_move</a>(m).value();</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      };</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      THEN(<span class="stringliteral">&quot;Running the lambda makes the move.&quot;</span>)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      {</div>
@@ -185,7 +185,7 @@ $(function() {
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a>&amp; m) {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a>(m).value();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#adc95cf983abc1bad71de22122cdb012f">ergodic_moves::do_23_move</a>(m).value();</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    };</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    tl::function_ref&lt;<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a>&amp;)&gt; complex_ref(move23);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
@@ -208,12 +208,12 @@ $(function() {
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  }</div>
 <div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a2fe4a687edcecf9f672b1ae8d94d8446"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a2fe4a687edcecf9f672b1ae8d94d8446">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(manifolds::Manifold3 &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00076">Ergodic_moves_3.hpp:76</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_adc95cf983abc1bad71de22122cdb012f"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#adc95cf983abc1bad71de22122cdb012f">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(manifolds::Manifold3 &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00076">Ergodic_moves_3.hpp:76</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00047">Manifold.hpp:47</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 14 2021 08:10:47 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Dec 15 2021 06:28:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
