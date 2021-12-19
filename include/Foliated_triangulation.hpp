@@ -82,8 +82,7 @@ namespace foliated_triangulations
   /// @return The maximum timevalue in the container
   template <int dimension>
   [[nodiscard]] auto find_max_timevalue(
-      std::vector<Vertex_handle_t<dimension>> const& t_vertices)
-      -> Int_precision
+      std::span<Vertex_handle_t<dimension> const> t_vertices) -> Int_precision
   {
     Expects(!t_vertices.empty());
     auto it           = std::max_element(t_vertices.begin(), t_vertices.end(),
@@ -101,7 +100,7 @@ namespace foliated_triangulations
   /// @return The minimum timevalue in the container
   template <int dimension>
   [[nodiscard]] auto find_min_timevalue(
-      std::vector<Vertex_handle_t<dimension>> const& t_vertices) -> int
+      std::span<Vertex_handle_t<dimension> const> t_vertices) -> Int_precision
   {
     Expects(!t_vertices.empty());
     auto it           = std::min_element(t_vertices.begin(), t_vertices.end(),
@@ -491,7 +490,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to print
   template <int dimension>
-  void print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
+  void print_cells(std::span<Cell_handle_t<dimension> const> t_cells)
   {
     for (auto const& cell : t_cells)
     {
@@ -511,7 +510,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to write to debug log
   template <int dimension>
-  void debug_print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
+  void debug_print_cells(std::span<Cell_handle_t<dimension> const> t_cells)
   {
     for (auto const& cell : t_cells)
     {
@@ -535,7 +534,7 @@ namespace foliated_triangulations
   /// @todo Generalize to d=3, 4
   template <int dimension>
   [[nodiscard]] auto volume_per_timeslice(
-      std::vector<Face_handle_t<dimension>> const& t_facets)
+      std::span<Face_handle_t<dimension> const> t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
   {
 #ifndef NDEBUG
@@ -625,7 +624,7 @@ namespace foliated_triangulations
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
     spdlog::debug("===Invalid Cell===\n");
     std::vector<Cell_handle_t<dimension>> bad_cell{cell};
-    debug_print_cells<dimension>(bad_cell);
+    debug_print_cells<dimension>(std::span{bad_cell});
 #endif
     std::multimap<Int_precision, Vertex_handle_t<dimension>> vertices;
     for (int i = 0; i < dimension + 1; ++i)
@@ -642,8 +641,8 @@ namespace foliated_triangulations
     // vertices with lower values. Note that we preferentially return higher
     // timeslice vertices because there are typically more cells at higher
     // timeslices (see expected_points_per_timeslice())
-    if (minvalue_count >= maxvalue_count) { return vertices.rbegin()->second; }
-    return vertices.begin()->second;
+    return (minvalue_count >= maxvalue_count) ? vertices.rbegin()->second
+                                              : vertices.begin()->second;
   }  // find_bad_vertex
 
   /// @brief Fix the vertices of a cell to be consistent with the foliation
@@ -888,13 +887,13 @@ namespace foliated_triangulations
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
         , m_faces{collect_faces()}
-        , m_spacelike_facets{volume_per_timeslice<3>(m_faces)}
+        , m_spacelike_facets{volume_per_timeslice<3>(std::span{m_faces})}
         , m_edges{collect_edges()}
         , m_timelike_edges{filter_edges<3>(m_edges, true)}
         , m_spacelike_edges{filter_edges<3>(m_edges, false)}
         , m_points{get_all_finite_vertices<3>(m_triangulation)}
-        , m_max_timevalue{find_max_timevalue<3>(m_points)}
-        , m_min_timevalue{find_min_timevalue<3>(m_points)}
+        , m_max_timevalue{find_max_timevalue<3>(std::span{m_points})}
+        , m_min_timevalue{find_min_timevalue<3>(std::span{m_points})}
     {}
 
     /// @brief Constructor with parameters
@@ -913,13 +912,13 @@ namespace foliated_triangulations
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
         , m_faces{collect_faces()}
-        , m_spacelike_facets{volume_per_timeslice<3>(m_faces)}
+        , m_spacelike_facets{volume_per_timeslice<3>(std::span{m_faces})}
         , m_edges{collect_edges()}
         , m_timelike_edges{filter_edges<3>(m_edges, true)}
         , m_spacelike_edges{filter_edges<3>(m_edges, false)}
         , m_points{get_all_finite_vertices<3>(m_triangulation)}
-        , m_max_timevalue{find_max_timevalue<3>(m_points)}
-        , m_min_timevalue{find_min_timevalue<3>(m_points)}
+        , m_max_timevalue{find_max_timevalue<3>(std::span{m_points})}
+        , m_min_timevalue{find_min_timevalue<3>(std::span{m_points})}
         , m_initial_radius{t_initial_radius}
         , m_foliation_spacing{t_foliation_spacing}
     {}
@@ -936,13 +935,13 @@ namespace foliated_triangulations
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
         , m_faces{collect_faces()}
-        , m_spacelike_facets{volume_per_timeslice<3>(m_faces)}
+        , m_spacelike_facets{volume_per_timeslice<3>(std::span{m_faces})}
         , m_edges{collect_edges()}
         , m_timelike_edges{filter_edges<3>(m_edges, true)}
         , m_spacelike_edges{filter_edges<3>(m_edges, false)}
         , m_points{get_all_finite_vertices<3>(m_triangulation)}
-        , m_max_timevalue{find_max_timevalue<3>(m_points)}
-        , m_min_timevalue{find_min_timevalue<3>(m_points)}
+        , m_max_timevalue{find_max_timevalue<3>(std::span{m_points})}
+        , m_min_timevalue{find_min_timevalue<3>(std::span{m_points})}
         , m_initial_radius{t_initial_radius}
         , m_foliation_spacing{t_foliation_spacing}
     {}
@@ -1312,7 +1311,7 @@ namespace foliated_triangulations
     /// cell->info()
     void print_cells() const
     {
-      foliated_triangulations::print_cells<3>(m_cells);
+      foliated_triangulations::print_cells<3>(std::span{m_cells});
     }
 
     /// @brief Print triangulation statistics

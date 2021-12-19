@@ -432,7 +432,7 @@ namespace ergodic_moves
         "incident (2,2) simplices and {} incident (1,3) simplices.\n",
         incident_cells.size(), incident_31.size(), incident_22.size(),
         incident_13.size());
-    foliated_triangulations::debug_print_cells<3>(incident_cells);
+    foliated_triangulations::debug_print_cells<3>(std::span{incident_cells});
 #endif
     return ((incident_31.size() == 3) && (incident_22.empty()) &&
             (incident_13.size() == 3));
