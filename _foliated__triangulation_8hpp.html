@@ -272,10 +272,10 @@ Functions</h2></td></tr>
 <tr class="memitem:a65e37dea46bdaecb26b4e82ec18ab952"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#a65e37dea46bdaecb26b4e82ec18ab952">foliated_triangulations::make_triangulation</a> (<a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> const t_timeslices, double const initial_radius=<a class="el" href="_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a>, double const foliation_spacing=FOLIATION_SPACING) -&gt; Delaunay_t&lt; dimension &gt;</td></tr>
 <tr class="memdesc:a65e37dea46bdaecb26b4e82ec18ab952"><td class="mdescLeft">&#160;</td><td class="mdescRight">Make a Delaunay triangulation.  <a href="_foliated__triangulation_8hpp.html#a65e37dea46bdaecb26b4e82ec18ab952">More...</a><br /></td></tr>
 <tr class="separator:a65e37dea46bdaecb26b4e82ec18ab952"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a45f4245f748807979c556630a8e6848e"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
-<tr class="memitem:a45f4245f748807979c556630a8e6848e"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#a45f4245f748807979c556630a8e6848e">foliated_triangulations::print_cells</a> (std::span&lt; Cell_handle_t&lt; dimension &gt; const &gt; t_cells)</td></tr>
-<tr class="memdesc:a45f4245f748807979c556630a8e6848e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print timevalues of each vertex in the cell and the resulting cell-&gt;info()  <a href="_foliated__triangulation_8hpp.html#a45f4245f748807979c556630a8e6848e">More...</a><br /></td></tr>
-<tr class="separator:a45f4245f748807979c556630a8e6848e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abbbe82a9ec5c49d1261fc84ee2bef219"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
+<tr class="memitem:abbbe82a9ec5c49d1261fc84ee2bef219"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#abbbe82a9ec5c49d1261fc84ee2bef219">foliated_triangulations::print_cells</a> (std::vector&lt; Cell_handle_t&lt; dimension &gt;&gt; const &amp;t_cells)</td></tr>
+<tr class="memdesc:abbbe82a9ec5c49d1261fc84ee2bef219"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print timevalues of each vertex in the cell and the resulting cell-&gt;info()  <a href="_foliated__triangulation_8hpp.html#abbbe82a9ec5c49d1261fc84ee2bef219">More...</a><br /></td></tr>
+<tr class="separator:abbbe82a9ec5c49d1261fc84ee2bef219"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a28f44e248d61839c5eaa9923de6aea76"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
 <tr class="memitem:a28f44e248d61839c5eaa9923de6aea76"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76">foliated_triangulations::squared_radius</a> (Vertex_handle_t&lt; dimension &gt; const &amp;t_vertex) -&gt; double</td></tr>
 <tr class="memdesc:a28f44e248d61839c5eaa9923de6aea76"><td class="mdescLeft">&#160;</td><td class="mdescRight">Calculate the squared radius from the origin.  <a href="_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76">More...</a><br /></td></tr>
@@ -1419,8 +1419,8 @@ template&lt;int dimension&gt; </div>
 
 </div>
 </div>
-<a id="a45f4245f748807979c556630a8e6848e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a45f4245f748807979c556630a8e6848e">&#9670;&nbsp;</a></span>print_cells()</h2>
+<a id="abbbe82a9ec5c49d1261fc84ee2bef219"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abbbe82a9ec5c49d1261fc84ee2bef219">&#9670;&nbsp;</a></span>print_cells()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -1430,7 +1430,7 @@ template&lt;int dimension&gt; </div>
         <tr>
           <td class="memname">void foliated_triangulations::print_cells </td>
           <td>(</td>
-          <td class="paramtype">std::span&lt; Cell_handle_t&lt; dimension &gt; const &gt;&#160;</td>
+          <td class="paramtype">std::vector&lt; Cell_handle_t&lt; dimension &gt;&gt; const &amp;&#160;</td>
           <td class="paramname"><em>t_cells</em></td><td>)</td>
           <td></td>
         </tr>
@@ -1620,7 +1620,7 @@ template&lt;int dimension&gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 19 2021 01:42:40 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 19 2021 17:27:23 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

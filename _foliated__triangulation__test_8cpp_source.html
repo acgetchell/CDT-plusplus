@@ -769,7 +769,7 @@ $(function() {
 <div class="line"><a name="l00698"></a><span class="lineno">  698</span>&#160;        <span class="keyword">auto</span> bad_cells = check_timevalues&lt;3&gt;(dt);</div>
 <div class="line"><a name="l00699"></a><span class="lineno">  699</span>&#160;        CHECK(bad_cells.has_value());</div>
 <div class="line"><a name="l00700"></a><span class="lineno">  700</span>&#160;        fmt::print(<span class="stringliteral">&quot;Bad cells:\n&quot;</span>);</div>
-<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;        print_cells&lt;3&gt;(std::span{bad_cells.value()});</div>
+<div class="line"><a name="l00701"></a><span class="lineno">  701</span>&#160;        print_cells&lt;3&gt;(bad_cells.value());</div>
 <div class="line"><a name="l00702"></a><span class="lineno">  702</span>&#160;      }</div>
 <div class="line"><a name="l00703"></a><span class="lineno">  703</span>&#160;      AND_THEN(<span class="stringliteral">&quot;The incorrect vertex can be identified.&quot;</span>)</div>
 <div class="line"><a name="l00704"></a><span class="lineno">  704</span>&#160;      {</div>
@@ -786,7 +786,7 @@ $(function() {
 <div class="line"><a name="l00715"></a><span class="lineno">  715</span>&#160;        CHECK(foliated_triangulations::fix_timevalues&lt;3&gt;(ft.delaunay()));</div>
 <div class="line"><a name="l00716"></a><span class="lineno">  716</span>&#160;        CHECK(ft.is_initialized());</div>
 <div class="line"><a name="l00717"></a><span class="lineno">  717</span>&#160;        fmt::print(<span class="stringliteral">&quot;Fixed triangulation:\n&quot;</span>);</div>
-<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;        print_cells&lt;3&gt;(std::span{get_all_finite_cells&lt;3&gt;(ft.delaunay())});</div>
+<div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;        print_cells&lt;3&gt;(get_all_finite_cells&lt;3&gt;(ft.delaunay()));</div>
 <div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;      }</div>
 <div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;    }</div>
 <div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;  }</div>
@@ -896,7 +896,7 @@ $(function() {
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_a208826b112e1adb3214c5523c39b3c37"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a208826b112e1adb3214c5523c39b3c37">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay</a></div><div class="ttdeci">auto get_delaunay() const -&gt; Delaunay_t&lt; 3 &gt; const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01001">Foliated_triangulation.hpp:1001</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sun Dec 19 2021 01:42:40 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 19 2021 17:27:22 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
