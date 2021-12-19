@@ -698,7 +698,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         auto bad_cells = check_timevalues<3>(dt);
         CHECK(bad_cells.has_value());
         fmt::print("Bad cells:\n");
-        print_cells<3>(std::span{bad_cells.value()});
+        print_cells<3>(bad_cells.value());
       }
       AND_THEN("The incorrect vertex can be identified.")
       {
@@ -715,7 +715,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
         CHECK(foliated_triangulations::fix_timevalues<3>(ft.delaunay()));
         CHECK(ft.is_initialized());
         fmt::print("Fixed triangulation:\n");
-        print_cells<3>(std::span{get_all_finite_cells<3>(ft.delaunay())});
+        print_cells<3>(get_all_finite_cells<3>(ft.delaunay()));
       }
     }
   }

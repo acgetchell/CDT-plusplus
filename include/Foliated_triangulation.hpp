@@ -490,7 +490,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to print
   template <int dimension>
-  void print_cells(std::span<Cell_handle_t<dimension> const> t_cells)
+  void print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     for (auto const& cell : t_cells)
     {
@@ -1311,7 +1311,7 @@ namespace foliated_triangulations
     /// cell->info()
     void print_cells() const
     {
-      foliated_triangulations::print_cells<3>(std::span{m_cells});
+      foliated_triangulations::print_cells<3>(m_cells);
     }
 
     /// @brief Print triangulation statistics
