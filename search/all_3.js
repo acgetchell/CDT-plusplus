@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['debug_5fprint_5fcells_29',['debug_print_cells',['../_foliated__triangulation_8hpp.html#acc35ac8d5a6642604c48e316dfea264f',1,'foliated_triangulations']]],
+  ['debug_5fprint_5fcells_29',['debug_print_cells',['../_foliated__triangulation_8hpp.html#a0eb323076595d0545d76b15df1175de1',1,'foliated_triangulations']]],
   ['degree_30',['degree',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a28fb3e54b2f9c02b25ed8f2e2ff51b8b',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::degree()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a21ca973f04ba61406b6cddfcfb1a5991',1,'manifolds::Manifold&lt; 3 &gt;::degree()']]],
   ['delaunay_31',['delaunay',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ab4be043b479bc81854c0bf8ea33cd585',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['die_5froll_32',['die_roll',['../_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6',1,'utilities']]],

@@ -429,7 +429,7 @@ $(function() {
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;        <span class="stringliteral">&quot;incident (2,2) simplices and {} incident (1,3) simplices.\n&quot;</span>,</div>
 <div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;        incident_cells.size(), incident_31.size(), incident_22.size(),</div>
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        incident_13.size());</div>
-<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    foliated_triangulations::debug_print_cells&lt;3&gt;(incident_cells);</div>
+<div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    foliated_triangulations::debug_print_cells&lt;3&gt;(std::span{incident_cells});</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="keywordflow">return</span> ((incident_31.size() == 3) &amp;&amp; (incident_22.empty()) &amp;&amp;</div>
 <div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            (incident_13.size() == 3));</div>
@@ -613,7 +613,7 @@ $(function() {
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a697e71ab3c64caa8890fd945198dab1c"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a697e71ab3c64caa8890fd945198dab1c">ergodic_moves::try_23_move</a></div><div class="ttdeci">auto try_23_move(manifolds::Manifold3 &amp;t_manifold, Cell_handle_t&lt; 3 &gt; const &amp;to_be_moved) noexcept -&gt; bool</div><div class="ttdoc">Perform a TriangulationDataStructure_3::flip on a facet.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00040">Ergodic_moves_3.hpp:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Dec 15 2021 06:28:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Dec 19 2021 01:42:39 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
