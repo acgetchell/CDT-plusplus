@@ -21,6 +21,7 @@
 
 #include "Triangulation_traits.hpp"
 #include "Utilities.hpp"
+#include <concepts>
 
 template <int dimension>
 using Delaunay_t = typename TriangulationTraits<dimension>::Delaunay;
@@ -51,6 +52,16 @@ template <int dimension>
 using Spherical_points_generator_t =
     typename TriangulationTraits<dimension>::Spherical_points_generator;
 
+/// @brief This is equivalent to std::movable from <concepts>
+/// @details Right now the real restriction on Containers is that elements must
+/// be swappable in order for std::shuffle to work. However, std::movable
+/// doesn't seem to be in <concepts> yet.
+/// @todo Add concepts related to Iterators
+template <typename C>
+concept                    ContainerType =
+    std::is_object_v<C> and std::is_move_constructible_v<C> and
+        std::is_assignable_v<C&, C> and std::is_swappable_v<C>;
+
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
 {
@@ -80,35 +91,35 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @return The maximum timevalue in the container
-  template <int dimension>
-  [[nodiscard]] auto find_max_timevalue(
-      std::span<Vertex_handle_t<dimension> const> t_vertices) -> Int_precision
+  template <int dimension, ContainerType Container>
+  [[nodiscard]] auto find_max_timevalue(Container&& t_vertices) -> Int_precision
   {
-    Expects(!t_vertices.empty());
-    auto it           = std::max_element(t_vertices.begin(), t_vertices.end(),
-                               compare_v_info<dimension>);
-    auto result_index = std::distance(t_vertices.begin(), it);
+    auto vertices = std::forward<Container>(t_vertices);
+    Expects(!vertices.empty());
+    auto it           = std::max_element(vertices.begin(), vertices.end(),
+                                         compare_v_info<dimension>);
+    auto result_index = std::distance(vertices.begin(), it);
     // std::distance may be negative if random-access iterators are used and
     // first is reachable from last
     Ensures(result_index >= 0);
     auto const index = static_cast<std::size_t>(std::abs(result_index));
-    return t_vertices[index]->info();
+    return vertices[index]->info();
   }  // find_max_timevalue
 
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
   /// @return The minimum timevalue in the container
-  template <int dimension>
-  [[nodiscard]] auto find_min_timevalue(
-      std::span<Vertex_handle_t<dimension> const> t_vertices) -> Int_precision
+  template <int dimension, ContainerType Container>
+  [[nodiscard]] auto find_min_timevalue(Container&& t_vertices) -> Int_precision
   {
-    Expects(!t_vertices.empty());
-    auto it           = std::min_element(t_vertices.begin(), t_vertices.end(),
-                               compare_v_info<dimension>);
-    auto result_index = std::distance(t_vertices.begin(), it);
+    auto vertices = std::forward<Container>(t_vertices);
+    Expects(!vertices.empty());
+    auto it           = std::min_element(vertices.begin(), vertices.end(),
+                                         compare_v_info<dimension>);
+    auto result_index = std::distance(vertices.begin(), it);
     Ensures(result_index >= 0);
     auto const index = static_cast<std::size_t>(std::abs(result_index));
-    return t_vertices[index]->info();
+    return vertices[index]->info();
   }  // find_min_timevalue
 
   /// @brief Predicate to classify edge as timelike or spacelike
@@ -489,10 +500,11 @@ namespace foliated_triangulations
   /// cell->info()
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to print
-  template <int dimension>
-  void print_cells(std::vector<Cell_handle_t<dimension>> const& t_cells)
+  template <int dimension, typename Container>
+  void print_cells(Container&& t_cells)
   {
-    for (auto const& cell : t_cells)
+    for (auto        cells = std::forward<Container>(t_cells);
+         auto const& cell : cells)
     {
       fmt::print("Cell info => {}\n", cell->info());
       // There are d+1 vertices in a d-dimensional simplex
@@ -509,10 +521,11 @@ namespace foliated_triangulations
   /// resulting cell->info
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The cells to write to debug log
-  template <int dimension>
-  void debug_print_cells(std::span<Cell_handle_t<dimension> const> t_cells)
+  template <int dimension, ContainerType Container>
+  void debug_print_cells(Container&& t_cells)
   {
-    for (auto const& cell : t_cells)
+    for (auto        cells = std::forward<Container>(t_cells);
+         auto const& cell : cells)
     {
       spdlog::debug("Cell info => {}\n", cell->info());
       for (int j = 0; j < dimension + 1; ++j)
@@ -532,16 +545,16 @@ namespace foliated_triangulations
   /// @param t_debug_flag Debugging info toggle
   /// @return Container with spacelike facets per timeslice
   /// @todo Generalize to d=3, 4
-  template <int dimension>
-  [[nodiscard]] auto volume_per_timeslice(
-      std::span<Face_handle_t<dimension> const> t_facets)
+  template <int dimension, ContainerType Container>
+  [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     std::multimap<Int_precision, Facet_t<3>> space_faces;
-    for (auto const& face : t_facets)
+    for (auto        facets = std::forward<Container>(t_facets);
+         auto const& face : facets)
     {
       Cell_handle_t<dimension> ch = face.first;
       auto          index_of_facet = face.second;
