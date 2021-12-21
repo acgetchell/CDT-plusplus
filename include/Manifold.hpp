@@ -54,13 +54,13 @@ namespace manifolds
 
    public:
     /// @brief Dimensionality of the manifold
-    static int constexpr dimension = 3;
+    static int constexpr dimension  = 3;
 
     /// @brief Default dtor
-    ~Manifold() = default;
+    ~Manifold()                     = default;
 
     /// @brief Default ctor
-    Manifold() = default;
+    Manifold()                      = default;
 
     /// @brief Default copy ctor
     Manifold(Manifold const& other) = default;
@@ -69,7 +69,7 @@ namespace manifolds
     auto operator=(Manifold const& other) -> Manifold& = default;
 
     /// @brief Default move ctor
-    Manifold(Manifold&& other) = default;
+    Manifold(Manifold&& other)                         = default;
 
     /// @brief Default move assignment
     auto operator=(Manifold&& other) -> Manifold& = default;
@@ -92,8 +92,8 @@ namespace manifolds
              double        t_initial_radius    = INITIAL_RADIUS,
              double        t_foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
-              t_desired_simplices, t_desired_timeslices, t_initial_radius,
-              t_foliation_spacing)}
+            t_desired_simplices, t_desired_timeslices, t_initial_radius,
+            t_foliation_spacing)}
         , m_geometry{get_triangulation()}
     {}
 
@@ -106,7 +106,7 @@ namespace manifolds
                       double t_initial_radius    = INITIAL_RADIUS,
                       double t_foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
-              cv, t_initial_radius, t_foliation_spacing)}
+            cv, t_initial_radius, t_foliation_spacing)}
         , m_geometry{get_triangulation()}
     {}
 
@@ -308,8 +308,8 @@ namespace manifolds
     /// number in geometry
     [[nodiscard]] auto check_simplices() const -> bool
     {
-      return (this->simplices() == this->N3() &&
-              m_triangulation.check_all_cells());
+      return (this->simplices() == this->N3()
+              && m_triangulation.check_all_cells());
     }  // check_simplices
 
     /// @brief Print the codimension 1 volume of simplices (faces) per timeslice
@@ -416,6 +416,6 @@ namespace manifolds
 
   using Manifold4 = Manifold<4>;
 
-}  // namespace Manifolds
+}  // namespace manifolds
 
 #endif  // CDT_PLUSPLUS_MANIFOLD_HPP

@@ -3,23 +3,26 @@ Language:        Cpp
 # BasedOnStyle:  Google
 AccessModifierOffset: -1
 AlignAfterOpenBracket: true
-AlignConsecutiveAssignments: true
-AlignConsecutiveDeclarations: true
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments: AcrossEmptyLinesAndComments
+AlignConsecutiveDeclarations: AcrossEmptyLines
 AlignOperands:   true
 AlignTrailingComments: true
+AllowAllArgumentsOnNextLine: true
 AllowAllParametersOfDeclarationOnNextLine: true
-AllowShortBlocksOnASingleLine: true
+AllowShortBlocksOnASingleLine: Always
 AllowShortCaseLabelsOnASingleLine: false
 AllowShortIfStatementsOnASingleLine: true
+AllowShortLambdasOnASingleLine: Inline
 AllowShortLoopsOnASingleLine: true
 AllowShortFunctionsOnASingleLine: All
 AlwaysBreakBeforeMultilineStrings: true
-AlwaysBreakTemplateDeclarations: true
+AlwaysBreakTemplateDeclarations: Yes
 BinPackParameters: true
 BinPackArguments: true
 BraceWrapping:
     AfterClass: true
-    AfterControlStatement: true
+    AfterControlStatement: Always
     AfterEnum: true
     AfterFunction: true
     AfterNamespace: true
@@ -30,7 +33,7 @@ BraceWrapping:
     IndentBraces: false
     SplitEmptyFunction: false
 BreakBeforeBraces: Custom
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: NonAssignment
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
 ColumnLimit:     80
@@ -49,6 +52,7 @@ IndentCaseLabels: true
 IndentWidth:     2
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: Signature
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: All
 ObjCBlockIndentWidth: 2
@@ -62,8 +66,11 @@ PenaltyExcessCharacter: 1000000
 PenaltyReturnTypeOnItsOwnLine: 200
 PointerAlignment: Left
 ReflowComments: true
-SortIncludes: true
+SortIncludes: CaseInsensitive
 SortUsingDeclarations: true
+SpaceBeforeCaseColon: false
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: false
 SpacesBeforeTrailingComments: 2
 SpacesInParentheses: false
 SpacesInSquareBrackets: false
@@ -74,7 +81,7 @@ SpaceAfterCStyleCast: false
 SpacesInContainerLiterals: true
 SpaceBeforeAssignmentOperators: true
 SpaceBeforeParens: ControlStatements
-Standard: c++17
+Standard: c++20
 TabWidth:        8
 UseTab:          Never
 ...

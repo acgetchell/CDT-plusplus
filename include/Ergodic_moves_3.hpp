@@ -172,8 +172,8 @@ namespace ergodic_moves
       spdlog::trace("Neighbor {} is of type {}\n", i,
                     t_cell->neighbor(i)->info());
 #endif
-      if (foliated_triangulations::expected_cell_type<3>(t_cell->neighbor(i)) ==
-          Cell_type::THREE_ONE)
+      if (foliated_triangulations::expected_cell_type<3>(t_cell->neighbor(i))
+          == Cell_type::THREE_ONE)
       {
         return std::make_optional(i);
       }
@@ -420,8 +420,8 @@ namespace ergodic_moves
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified
-    if ((incident_13.size() + incident_22.size() + incident_31.size()) !=
-        6)  // NOLINT
+    if ((incident_13.size() + incident_22.size() + incident_31.size())
+        != 6)  // NOLINT
     {
       spdlog::warn("Some incident cells on this vertex need to be fixed.\n");
     }
@@ -434,8 +434,8 @@ namespace ergodic_moves
         incident_13.size());
     foliated_triangulations::debug_print_cells<3>(std::span{incident_cells});
 #endif
-    return ((incident_31.size() == 3) && (incident_22.empty()) &&
-            (incident_13.size() == 3));
+    return ((incident_31.size() == 3) && (incident_22.empty())
+            && (incident_13.size() == 3));
 
   }  // find_62_moves()
 
@@ -584,65 +584,65 @@ namespace ergodic_moves
     switch (t_move)
     {
       case move_tracker::move_type::FOUR_FOUR:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() &&
-                t_after.N3_31() == t_before.N3_31() &&
-                t_after.N3_22() == t_before.N3_22() &&
-                t_after.N3_13() == t_before.N3_13() &&
-                t_after.N2() == t_before.N2() &&
-                t_after.N1() == t_before.N1() &&
-                t_after.N1_TL() == t_before.N1_TL() &&
-                t_after.N1_SL() == t_before.N1_SL() &&
-                t_after.N0() == t_before.N0() &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3()
+                && t_after.N3_31() == t_before.N3_31()
+                && t_after.N3_22() == t_before.N3_22()
+                && t_after.N3_13() == t_before.N3_13()
+                && t_after.N2() == t_before.N2()
+                && t_after.N1() == t_before.N1()
+                && t_after.N1_TL() == t_before.N1_TL()
+                && t_after.N1_SL() == t_before.N1_SL()
+                && t_after.N0() == t_before.N0()
+                && t_after.max_time() == t_before.max_time()
+                && t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::TWO_THREE:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
-                t_after.N3_31() == t_before.N3_31() &&
-                t_after.N3_22() == t_before.N3_22() + 1 &&
-                t_after.N3_13() == t_before.N3_13() &&
-                t_after.N2() == t_before.N2() + 2 &&
-                t_after.N1() == t_before.N1() + 1 &&
-                t_after.N1_TL() == t_before.N1_TL() + 1 &&
-                t_after.N1_SL() == t_before.N1_SL() &&
-                t_after.N0() == t_before.N0() &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1
+                && t_after.N3_31() == t_before.N3_31()
+                && t_after.N3_22() == t_before.N3_22() + 1
+                && t_after.N3_13() == t_before.N3_13()
+                && t_after.N2() == t_before.N2() + 2
+                && t_after.N1() == t_before.N1() + 1
+                && t_after.N1_TL() == t_before.N1_TL() + 1
+                && t_after.N1_SL() == t_before.N1_SL()
+                && t_after.N0() == t_before.N0()
+                && t_after.max_time() == t_before.max_time()
+                && t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::THREE_TWO:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
-                t_after.N3_31() == t_before.N3_31() &&
-                t_after.N3_22() == t_before.N3_22() - 1 &&
-                t_after.N3_13() == t_before.N3_13() &&
-                t_after.N2() == t_before.N2() - 2 &&
-                t_after.N1() == t_before.N1() - 1 &&
-                t_after.N1_TL() == t_before.N1_TL() - 1 &&
-                t_after.N1_SL() == t_before.N1_SL() &&
-                t_after.N0() == t_before.N0() &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1
+                && t_after.N3_31() == t_before.N3_31()
+                && t_after.N3_22() == t_before.N3_22() - 1
+                && t_after.N3_13() == t_before.N3_13()
+                && t_after.N2() == t_before.N2() - 2
+                && t_after.N1() == t_before.N1() - 1
+                && t_after.N1_TL() == t_before.N1_TL() - 1
+                && t_after.N1_SL() == t_before.N1_SL()
+                && t_after.N0() == t_before.N0()
+                && t_after.max_time() == t_before.max_time()
+                && t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::TWO_SIX:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
-                t_after.N3_31() == t_before.N3_31() + 2 &&
-                t_after.N3_22() == t_before.N3_22() &&
-                t_after.N3_13() == t_before.N3_13() + 2 &&
-                t_after.N2() == t_before.N2() + 8 &&  // NOLINT
-                t_after.N1() == t_before.N1() + 5 &&  // NOLINT
-                t_after.N1_TL() == t_before.N1_TL() + 2 &&
-                t_after.N1_SL() == t_before.N1_SL() + 3 &&
-                t_after.N0() == t_before.N0() + 1 &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4
+                && t_after.N3_31() == t_before.N3_31() + 2
+                && t_after.N3_22() == t_before.N3_22()
+                && t_after.N3_13() == t_before.N3_13() + 2
+                && t_after.N2() == t_before.N2() + 8 &&  // NOLINT
+                t_after.N1() == t_before.N1() + 5 &&     // NOLINT
+                t_after.N1_TL() == t_before.N1_TL() + 2
+                && t_after.N1_SL() == t_before.N1_SL() + 3
+                && t_after.N0() == t_before.N0() + 1
+                && t_after.max_time() == t_before.max_time()
+                && t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::SIX_TWO:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
-                t_after.N3_31() == t_before.N3_31() - 2 &&
-                t_after.N3_22() == t_before.N3_22() &&
-                t_after.N3_13() == t_before.N3_13() - 2 &&
-                t_after.N2() == t_before.N2() - 8 &&  // NOLINT
-                t_after.N1() == t_before.N1() - 5 &&  // NOLINT
-                t_after.N1_TL() == t_before.N1_TL() - 2 &&
-                t_after.N1_SL() == t_before.N1_SL() - 3 &&
-                t_after.N0() == t_before.N0() - 1 &&
-                t_after.max_time() == t_before.max_time() &&
-                t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4
+                && t_after.N3_31() == t_before.N3_31() - 2
+                && t_after.N3_22() == t_before.N3_22()
+                && t_after.N3_13() == t_before.N3_13() - 2
+                && t_after.N2() == t_before.N2() - 8 &&  // NOLINT
+                t_after.N1() == t_before.N1() - 5 &&     // NOLINT
+                t_after.N1_TL() == t_before.N1_TL() - 2
+                && t_after.N1_SL() == t_before.N1_SL() - 3
+                && t_after.N0() == t_before.N0() - 1
+                && t_after.max_time() == t_before.max_time()
+                && t_after.min_time() == t_before.min_time());
       default:
         return false;
     }
