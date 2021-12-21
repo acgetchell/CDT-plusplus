@@ -1,7 +1,8 @@
 <map id="include/Foliated_triangulation.hpp" name="include/Foliated_triangulation.hpp">
-<area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="1371,5,1613,32"/>
+<area shape="rect" id="node1" title="Create foliated spherical triangulations." alt="" coords="2088,5,2331,32"/>
 <area shape="rect" id="node2" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="689,80,863,107"/>
 <area shape="rect" id="node11" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2159,80,2260,107"/>
+<area shape="rect" id="node33" title=" " alt="" coords="2284,80,2364,107"/>
 <area shape="rect" id="node3" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="1125,169,1227,196"/>
 <area shape="rect" id="node6" title=" " alt="" coords="5,169,245,196"/>
 <area shape="rect" id="node7" title=" " alt="" coords="270,155,442,211"/>
