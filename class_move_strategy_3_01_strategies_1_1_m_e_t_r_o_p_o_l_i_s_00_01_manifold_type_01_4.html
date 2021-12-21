@@ -358,7 +358,7 @@ template&lt;typename ManifoldType &gt; </div>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00150">150</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_settings_8hpp_source.html#l00039">PRECISION</a>, and <a class="el" href="_move__tracker_8hpp_source.html#l00102">move_tracker::MoveTracker&lt; ManifoldType &gt;::total()</a>.</p>
+<p class="reference">References <a class="el" href="_settings_8hpp_source.html#l00045">PRECISION</a>, and <a class="el" href="_move__tracker_8hpp_source.html#l00102">move_tracker::MoveTracker&lt; ManifoldType &gt;::total()</a>.</p>
 
 </div>
 </div>
@@ -752,7 +752,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><div class="memdoc">
 
 <p>Call operator. </p>
-<p>This makes the Metropolis class into a function object. Setup of the runtime job parameters is handled by the constructor. This () operator conducts all of the algorithmic work for Metropolis-Hastings on the manifold. </p><dl class="params"><dt>Parameters</dt><dd>
+<p><a class="el" href="interface_this.html">This</a> makes the Metropolis class into a function object. Setup of the runtime job parameters is handled by the constructor. <a class="el" href="interface_this.html">This</a> () operator conducts all of the algorithmic work for Metropolis-Hastings on the manifold. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_manifold</td><td>Manifold on which to operate </td></tr>
   </table>
@@ -822,7 +822,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><div class="memdoc">
 
 <p>Attempt a move of the selected type. </p>
-<p>This function implements the core of the Metropolis-Hastings algorithm by generating a random number and comparing with the results of CalculateA1 and CalculateA2. If the move is accepted, this function calls make_move(). If not, it updates <b>attempted_moves_</b>. </p><dl class="params"><dt>Parameters</dt><dd>
+<p><a class="el" href="interface_this.html">This</a> function implements the core of the Metropolis-Hastings algorithm by generating a random number and comparing with the results of CalculateA1 and CalculateA2. If the move is accepted, this function calls make_move(). If not, it updates <b>attempted_moves_</b>. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">move</td><td>The type of move </td></tr>
   </table>
@@ -858,7 +858,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><div class="memdoc">
 
 <p>The number of moves that were attempted by a <a class="el" href="class_move_command.html">MoveCommand</a>. </p>
-<p>This should equal accepted moves. </p>
+<p><a class="el" href="interface_this.html">This</a> should equal accepted moves. </p>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00075">75</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
@@ -945,7 +945,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><div class="memdoc">
 
 <p>The number of moves the algorithm tried. </p>
-<p>This equals accepted moves + rejected moves. </p>
+<p><a class="el" href="interface_this.html">This</a> equals accepted moves + rejected moves. </p>
 
 <p class="definition">Definition at line <a class="el" href="_metropolis_8hpp_source.html#l00065">65</a> of file <a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>.</p>
 
@@ -957,7 +957,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 21 2021 00:41:42 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 21 2021 22:21:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

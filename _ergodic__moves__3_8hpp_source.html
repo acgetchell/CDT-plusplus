@@ -198,8 +198,8 @@ $(function() {
 <div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;Neighbor {} is of type {}\n&quot;</span>, i,</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;                    t_cell-&gt;neighbor(i)-&gt;info());</div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      <span class="keywordflow">if</span> (foliated_triangulations::expected_cell_type&lt;3&gt;(t_cell-&gt;neighbor(i)) ==</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;          Cell_type::THREE_ONE)</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;      <span class="keywordflow">if</span> (foliated_triangulations::expected_cell_type&lt;3&gt;(t_cell-&gt;neighbor(i))</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;          == Cell_type::THREE_ONE)</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      {</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;        <span class="keywordflow">return</span> std::make_optional(i);</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      }</div>
@@ -417,8 +417,8 @@ $(function() {
 <div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;        incident_cells, Cell_type::ONE_THREE);</div>
 <div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160; </div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    <span class="comment">// All cells should be classified</span></div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    <span class="keywordflow">if</span> ((incident_13.size() + incident_22.size() + incident_31.size()) !=</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        6)  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    <span class="keywordflow">if</span> ((incident_13.size() + incident_22.size() + incident_31.size())</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        != 6)  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    {</div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;      spdlog::warn(<span class="stringliteral">&quot;Some incident cells on this vertex need to be fixed.\n&quot;</span>);</div>
 <div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;    }</div>
@@ -431,8 +431,8 @@ $(function() {
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;        incident_13.size());</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;    foliated_triangulations::debug_print_cells&lt;3&gt;(std::span{incident_cells});</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="keywordflow">return</span> ((incident_31.size() == 3) &amp;&amp; (incident_22.empty()) &amp;&amp;</div>
-<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            (incident_13.size() == 3));</div>
+<div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;    <span class="keywordflow">return</span> ((incident_31.size() == 3) &amp;&amp; (incident_22.empty())</div>
+<div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160;            &amp;&amp; (incident_13.size() == 3));</div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160; </div>
 <div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;  }  <span class="comment">// find_62_moves()</span></div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160; </div>
@@ -529,65 +529,65 @@ $(function() {
 <div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;    <span class="keywordflow">switch</span> (t_move)</div>
 <div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;    {</div>
 <div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::FOUR_FOUR:</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() &amp;&amp;</div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                t_after.N2() == t_before.N2() &amp;&amp;</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                t_after.N1() == t_before.N1() &amp;&amp;</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                t_after.N1_TL() == t_before.N1_TL() &amp;&amp;</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3()</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;                &amp;&amp; t_after.N3_31() == t_before.N3_31()</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;                &amp;&amp; t_after.N3_22() == t_before.N3_22()</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;                &amp;&amp; t_after.N3_13() == t_before.N3_13()</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;                &amp;&amp; t_after.N2() == t_before.N2()</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;                &amp;&amp; t_after.N1() == t_before.N1()</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;                &amp;&amp; t_after.N1_TL() == t_before.N1_TL()</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;                &amp;&amp; t_after.N1_SL() == t_before.N1_SL()</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;                &amp;&amp; t_after.N0() == t_before.N0()</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;                &amp;&amp; t_after.max_time() == t_before.max_time()</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;                &amp;&amp; t_after.min_time() == t_before.min_time());</div>
 <div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::TWO_THREE:</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;                t_after.N3_22() == t_before.N3_22() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;                t_after.N2() == t_before.N2() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                t_after.N1() == t_before.N1() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 1</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;                &amp;&amp; t_after.N3_31() == t_before.N3_31()</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;                &amp;&amp; t_after.N3_22() == t_before.N3_22() + 1</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;                &amp;&amp; t_after.N3_13() == t_before.N3_13()</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;                &amp;&amp; t_after.N2() == t_before.N2() + 2</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;                &amp;&amp; t_after.N1() == t_before.N1() + 1</div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;                &amp;&amp; t_after.N1_TL() == t_before.N1_TL() + 1</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;                &amp;&amp; t_after.N1_SL() == t_before.N1_SL()</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;                &amp;&amp; t_after.N0() == t_before.N0()</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;                &amp;&amp; t_after.max_time() == t_before.max_time()</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;                &amp;&amp; t_after.min_time() == t_before.min_time());</div>
 <div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::THREE_TWO:</div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                t_after.N3_31() == t_before.N3_31() &amp;&amp;</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                t_after.N3_22() == t_before.N3_22() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                t_after.N3_13() == t_before.N3_13() &amp;&amp;</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                t_after.N2() == t_before.N2() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                t_after.N1() == t_before.N1() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                t_after.N1_SL() == t_before.N1_SL() &amp;&amp;</div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                t_after.N0() == t_before.N0() &amp;&amp;</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 1</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;                &amp;&amp; t_after.N3_31() == t_before.N3_31()</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;                &amp;&amp; t_after.N3_22() == t_before.N3_22() - 1</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;                &amp;&amp; t_after.N3_13() == t_before.N3_13()</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;                &amp;&amp; t_after.N2() == t_before.N2() - 2</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;                &amp;&amp; t_after.N1() == t_before.N1() - 1</div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;                &amp;&amp; t_after.N1_TL() == t_before.N1_TL() - 1</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;                &amp;&amp; t_after.N1_SL() == t_before.N1_SL()</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;                &amp;&amp; t_after.N0() == t_before.N0()</div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;                &amp;&amp; t_after.max_time() == t_before.max_time()</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;                &amp;&amp; t_after.min_time() == t_before.min_time());</div>
 <div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::TWO_SIX:</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 4 &amp;&amp;</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                t_after.N3_31() == t_before.N3_31() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                t_after.N3_13() == t_before.N3_13() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;                t_after.N2() == t_before.N2() + 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;                t_after.N1() == t_before.N1() + 5 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 2 &amp;&amp;</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                t_after.N1_SL() == t_before.N1_SL() + 3 &amp;&amp;</div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;                t_after.N0() == t_before.N0() + 1 &amp;&amp;</div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() + 4</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;                &amp;&amp; t_after.N3_31() == t_before.N3_31() + 2</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;                &amp;&amp; t_after.N3_22() == t_before.N3_22()</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;                &amp;&amp; t_after.N3_13() == t_before.N3_13() + 2</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;                &amp;&amp; t_after.N2() == t_before.N2() + 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;                t_after.N1() == t_before.N1() + 5 &amp;&amp;     <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;                t_after.N1_TL() == t_before.N1_TL() + 2</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;                &amp;&amp; t_after.N1_SL() == t_before.N1_SL() + 3</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;                &amp;&amp; t_after.N0() == t_before.N0() + 1</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;                &amp;&amp; t_after.max_time() == t_before.max_time()</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;                &amp;&amp; t_after.min_time() == t_before.min_time());</div>
 <div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;      <span class="keywordflow">case</span> move_tracker::move_type::SIX_TWO:</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 4 &amp;&amp;</div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;                t_after.N3_31() == t_before.N3_31() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;                t_after.N3_22() == t_before.N3_22() &amp;&amp;</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;                t_after.N3_13() == t_before.N3_13() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;                t_after.N2() == t_before.N2() - 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;                t_after.N1() == t_before.N1() - 5 &amp;&amp;  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 2 &amp;&amp;</div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;                t_after.N1_SL() == t_before.N1_SL() - 3 &amp;&amp;</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;                t_after.N0() == t_before.N0() - 1 &amp;&amp;</div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;                t_after.max_time() == t_before.max_time() &amp;&amp;</div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;                t_after.min_time() == t_before.min_time());</div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;        <span class="keywordflow">return</span> (t_after.is_valid() &amp;&amp; t_after.N3() == t_before.N3() - 4</div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;                &amp;&amp; t_after.N3_31() == t_before.N3_31() - 2</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;                &amp;&amp; t_after.N3_22() == t_before.N3_22()</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;                &amp;&amp; t_after.N3_13() == t_before.N3_13() - 2</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;                &amp;&amp; t_after.N2() == t_before.N2() - 8 &amp;&amp;  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;                t_after.N1() == t_before.N1() - 5 &amp;&amp;     <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;                t_after.N1_TL() == t_before.N1_TL() - 2</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;                &amp;&amp; t_after.N1_SL() == t_before.N1_SL() - 3</div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;                &amp;&amp; t_after.N0() == t_before.N0() - 1</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;                &amp;&amp; t_after.max_time() == t_before.max_time()</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;                &amp;&amp; t_after.min_time() == t_before.min_time());</div>
 <div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;      <span class="keywordflow">default</span>:</div>
 <div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">false</span>;</div>
 <div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;    }</div>
@@ -613,7 +613,7 @@ $(function() {
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a697e71ab3c64caa8890fd945198dab1c"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a697e71ab3c64caa8890fd945198dab1c">ergodic_moves::try_23_move</a></div><div class="ttdeci">auto try_23_move(manifolds::Manifold3 &amp;t_manifold, Cell_handle_t&lt; 3 &gt; const &amp;to_be_moved) noexcept -&gt; bool</div><div class="ttdoc">Perform a TriangulationDataStructure_3::flip on a facet.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00040">Ergodic_moves_3.hpp:40</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Dec 21 2021 00:41:42 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Dec 21 2021 22:21:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

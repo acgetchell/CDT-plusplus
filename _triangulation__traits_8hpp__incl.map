@@ -1,11 +1,11 @@
 <map id="include/Triangulation_traits.hpp" name="include/Triangulation_traits.hpp">
-<area shape="rect" id="node1" title="Traits class for particular uses of CGAL." alt="" coords="569,5,727,47"/>
+<area shape="rect" id="node1" title="Traits class for particular uses of CGAL." alt="" coords="572,5,729,47"/>
 <area shape="rect" id="node2" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="69,109,171,136"/>
 <area shape="rect" id="node5" title=" " alt="" coords="196,109,436,136"/>
 <area shape="rect" id="node6" title=" " alt="" coords="461,95,633,151"/>
-<area shape="rect" id="node7" title=" " alt="" coords="657,102,841,143"/>
-<area shape="rect" id="node8" title=" " alt="" coords="865,102,1068,143"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1093,109,1291,136"/>
+<area shape="rect" id="node7" title=" " alt="" coords="657,109,855,136"/>
+<area shape="rect" id="node8" title=" " alt="" coords="880,102,1064,143"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1088,102,1291,143"/>
 <area shape="rect" id="node3" title=" " alt="" coords="5,199,120,225"/>
 <area shape="rect" id="node4" title=" " alt="" coords="144,199,211,225"/>
 </map>
