@@ -38,7 +38,7 @@ constexpr auto apply_move(ManifoldType&& t_manifold,
   else  // NOLINT
   {
     // Log errors
-    spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+    spdlog::debug("apply_move called.\n");
     spdlog::debug("{}", result.error());
     return result;
   }

@@ -14,9 +14,9 @@
 #include "Settings.hpp"
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
+#include <CGAL/point_generators_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
-#include <CGAL/point_generators_3.h>
 
 template <int dimension>
 struct TriangulationTraits;
@@ -36,7 +36,7 @@ struct TriangulationTraits<3>
   using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
                                                    CGAL::Sequential_tag>;
 #endif
-  using Delaunay = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
+  using Delaunay      = CGAL::Delaunay_triangulation_3<Kernel, Tds>;
 
   using Cell_handle   = Delaunay::Cell_handle;
   using Face_handle   = std::pair<Cell_handle, Int_precision>;
@@ -44,7 +44,7 @@ struct TriangulationTraits<3>
   using Edge_handle   = CGAL::Triple<Cell_handle, Int_precision, Int_precision>;
   using Vertex_handle = Delaunay::Vertex_handle;
   using Point         = Delaunay::Point;
-  using Causal_vertices = std::vector<std::pair<Point, Int_precision>>;
+  using Causal_vertices  = std::vector<std::pair<Point, Int_precision>>;
 
   /// @brief CGAL::squared_distance
   /// See
@@ -54,7 +54,7 @@ struct TriangulationTraits<3>
 
   using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
 
-  static constexpr int origin = 0;
+  static constexpr int origin      = 0;
 };
 
 #endif  // CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP

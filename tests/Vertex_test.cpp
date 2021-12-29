@@ -14,9 +14,22 @@
 
 using namespace foliated_triangulations;
 
+SCENARIO("Point operations", "[vertex]")
+{
+  GIVEN("A pair of points.")
+  {
+    auto v1 = Point_t<3>(0, 0, 0);
+    auto v2 = Point_t<3>(0, 0.0, 0.0);
+    WHEN("The points are compared.")
+    {
+      THEN("The points are equal.") { REQUIRE(v1 == v2); }
+    }
+  }
+}
+
 SCENARIO("Vertex operations", "[vertex]")
 {
-  GIVEN("A Delaunay triangulation.")
+  GIVEN("A foliated Delaunay triangulation.")
   {
     FoliatedTriangulation3 triangulation;
 
@@ -37,6 +50,12 @@ SCENARIO("Vertex operations", "[vertex]")
       THEN("A 1 point triangulation has dimension 0.")
       {
         REQUIRE(triangulation.dimension() == 0);
+      }
+
+      THEN("The vertex is valid.")
+      {
+        CHECK(triangulation.check_all_vertices());
+        triangulation.print_vertices();
       }
     }
 

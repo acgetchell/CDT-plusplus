@@ -11,14 +11,9 @@
 #ifndef INCLUDE_UTILITIES_HPP_
 #define INCLUDE_UTILITIES_HPP_
 
-#include <CGAL/Timer.h>
-// Workaround for https://github.com/CGAL/cgal/issues/4665
-#ifdef _WIN32
-#define NOMINMAX
-#define __PRETTY_FUNCTION__ __FUNCSIG__
-#endif
 #include <algorithm>
 #include <cassert>
+#include <CGAL/Timer.h>
 #include <cstdlib>
 #include <filesystem>
 #include <fstream>
@@ -175,7 +170,7 @@ namespace utilities
     // mutex to protect file access across threads
     static std::mutex mutex;
 
-    std::string filename;
+    std::string       filename;
     filename.assign(generate_filename(
         t_topology, t_dimension, t_number_of_simplices, t_number_of_timeslices,
         t_initial_radius, t_foliation_spacing));
@@ -183,7 +178,7 @@ namespace utilities
 
     std::scoped_lock const lock(mutex);
 
-    std::ofstream file(filename, std::ios::out);
+    std::ofstream          file(filename, std::ios::out);
     if (!file.is_open())
     {
       throw std::filesystem::filesystem_error(
@@ -389,7 +384,7 @@ namespace utilities
 
     spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};
 
-    auto logger = std::make_shared<spdlog::logger>(
+    auto                    logger    = std::make_shared<spdlog::logger>(
         "multi_sink", sink_list.begin(), sink_list.end());
     // This allows the logger to capture all events
     logger->set_level(spdlog::level::trace);

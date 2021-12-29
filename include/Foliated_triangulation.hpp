@@ -52,23 +52,23 @@ template <int dimension>
 using Spherical_points_generator_t =
     typename TriangulationTraits<dimension>::Spherical_points_generator;
 
-/// @brief This is equivalent to std::movable from <concepts>
+/// @interface This is equivalent to std::movable from <concepts>
 /// @details Right now the real restriction on Containers is that elements must
 /// be swappable in order for std::shuffle to work. However, std::movable
 /// doesn't seem to be in <concepts> yet.
+/// @sa https://en.cppreference.com/w/cpp/concept/Movable
 /// @todo Add concepts related to Iterators
 template <typename C>
-concept                    ContainerType =
-    std::is_object_v<C> and std::is_move_constructible_v<C> and
-        std::is_assignable_v<C&, C> and std::is_swappable_v<C>;
+concept ContainerType = std::is_object_v<C> && std::is_move_constructible_v<
+    C> && std::is_assignable_v<C&, C> && std::is_swappable_v<C>;
 
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type
 {
   // 3D simplices
-  THREE_ONE = 31,     // (3,1)
-  TWO_TWO   = 22,     // (2,2)
-  ONE_THREE = 13,     // (1,3)
+  THREE_ONE    = 31,  // (3,1)
+  TWO_TWO      = 22,  // (2,2)
+  ONE_THREE    = 13,  // (1,3)
                       // 4D simplices
   FOUR_ONE     = 41,  // (4,1)
   THREE_TWO    = 32,  // (3,2)
@@ -219,8 +219,8 @@ namespace foliated_triangulations
   {
     auto const radius = std::sqrt(squared_radius<dimension>(t_vertex));
     return static_cast<Int_precision>(
-        std::lround((radius - t_initial_radius + t_foliation_spacing) /
-                    t_foliation_spacing));
+        std::lround((radius - t_initial_radius + t_foliation_spacing)
+                    / t_foliation_spacing));
   }  // expected_timevalue
 
   /// @brief Checks if vertex timevalue is correct
@@ -381,8 +381,8 @@ namespace foliated_triangulations
     }
     std::multiset<int> const timevalues{vertex_timevalues.begin(),
                                         vertex_timevalues.end()};
-    auto               max_vertices = timevalues.count(maxtime);
-    auto               min_vertices = timevalues.count(mintime);
+    auto                     max_vertices = timevalues.count(maxtime);
+    auto                     min_vertices = timevalues.count(mintime);
 
     // 3D simplices
     if (max_vertices == 3 && min_vertices == 1) { return Cell_type::ONE_THREE; }
@@ -418,9 +418,9 @@ namespace foliated_triangulations
       Cell_handle_t<dimension> const& t_cell) -> bool
   {
     auto cell_type = expected_cell_type<dimension>(t_cell);
-    return cell_type != Cell_type::ACAUSAL &&
-           cell_type != Cell_type::UNCLASSIFIED &&
-           cell_type == static_cast<Cell_type>(t_cell->info());
+    return cell_type != Cell_type::ACAUSAL
+           && cell_type != Cell_type::UNCLASSIFIED
+           && cell_type == static_cast<Cell_type>(t_cell->info());
   }  // is_cell_type_correct
 
   /// @brief Obtain all finite cells in the Delaunay triangulation
@@ -556,8 +556,8 @@ namespace foliated_triangulations
     for (auto        facets = std::forward<Container>(t_facets);
          auto const& face : facets)
     {
-      Cell_handle_t<dimension> ch = face.first;
-      auto          index_of_facet = face.second;
+      Cell_handle_t<dimension> ch             = face.first;
+      auto                     index_of_facet = face.second;
 #ifndef NDEBUG
       spdlog::trace("Facet index is {}\n", index_of_facet);
 #endif
@@ -614,12 +614,13 @@ namespace foliated_triangulations
   {
     auto const& cells = get_all_finite_cells<dimension>(t_triangulation);
     std::vector<Cell_handle_t<dimension>> invalid_cells;
-    std::copy_if(
-        cells.begin(), cells.end(), std::back_inserter(invalid_cells),
-        [](auto const& cell) {
-          return expected_cell_type<dimension>(cell) == Cell_type::ACAUSAL ||
-                 expected_cell_type<dimension>(cell) == Cell_type::UNCLASSIFIED;
-        });
+    std::copy_if(cells.begin(), cells.end(), std::back_inserter(invalid_cells),
+                 [](auto const& cell) {
+                   return expected_cell_type<dimension>(cell)
+                              == Cell_type::ACAUSAL
+                          || expected_cell_type<dimension>(cell)
+                                 == Cell_type::UNCLASSIFIED;
+                 });
     auto result = (invalid_cells.empty()) ? std::nullopt
                                           : std::make_optional(invalid_cells);
     return result;
@@ -751,7 +752,8 @@ namespace foliated_triangulations
     typename Delaunay_t<dimension>::Lock_data_structure locking_ds{
         CGAL::Bbox_3{-bounding_box_size, -bounding_box_size, -bounding_box_size,
                      bounding_box_size, bounding_box_size, bounding_box_size},
-        50};
+        50
+    };
     Delaunay_t<dimension> triangulation =
         Delaunay_t<dimension>{TriangulationTraits<3>::Kernel{}, &locking_ds};
 #else
@@ -821,9 +823,9 @@ namespace foliated_triangulations
     std::vector<Edge_handle_t<3>>            m_timelike_edges;
     std::vector<Edge_handle_t<3>>            m_spacelike_edges;
     std::vector<Vertex_handle_t<3>>          m_points;
-    Int_precision                         m_max_timevalue{0};
-    Int_precision                         m_min_timevalue{0};
-    double                                m_initial_radius{INITIAL_RADIUS};
+    Int_precision                            m_max_timevalue{0};
+    Int_precision                            m_min_timevalue{0};
+    double                                   m_initial_radius{INITIAL_RADIUS};
     double m_foliation_spacing{FOLIATION_SPACING};
 
    public:
@@ -831,12 +833,12 @@ namespace foliated_triangulations
     ~FoliatedTriangulation() = default;
 
     /// @brief Default ctor
-    FoliatedTriangulation() = default;
+    FoliatedTriangulation()  = default;
 
     /// @brief Copy Constructor
     FoliatedTriangulation(FoliatedTriangulation const& other)
         : FoliatedTriangulation(
-              static_cast<Delaunay_t<3> const&>(other.get_delaunay()))
+            static_cast<Delaunay_t<3> const&>(other.get_delaunay()))
     {}
 
     /// @brief Copy/Move Assignment operator
@@ -919,7 +921,7 @@ namespace foliated_triangulations
         double const t_initial_radius    = INITIAL_RADIUS,
         double const t_foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{make_triangulation<3>(
-              t_simplices, t_timeslices, t_initial_radius, t_foliation_spacing)}
+            t_simplices, t_timeslices, t_initial_radius, t_foliation_spacing)}
         , m_cells{classify_cells(get_all_finite_cells<3>(m_triangulation))}
         , m_three_one{filter_cells<3>(m_cells, Cell_type::THREE_ONE)}
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
@@ -985,8 +987,8 @@ namespace foliated_triangulations
     /// @return True if the Foliated Triangulation class invariants hold
     [[nodiscard]] auto is_correct() const -> bool
     {
-      return is_foliated() && is_tds_valid() && check_all_vertices() &&
-             check_all_cells();
+      return is_foliated() && is_tds_valid() && check_all_vertices()
+             && check_all_cells();
     }  // is_correct
 
     /// @return True if the Foliated Triangulation has been initialized
@@ -1187,9 +1189,9 @@ namespace foliated_triangulations
       auto const actual_radius_squared   = squared_radius<3>(t_vertex);
       auto const radius                  = expected_radius(t_vertex);
       auto const expected_radius_squared = std::pow(radius, 2);
-      return (
-          actual_radius_squared > expected_radius_squared * (1 - TOLERANCE) &&
-          actual_radius_squared < expected_radius_squared * (1 + TOLERANCE));
+      return (actual_radius_squared > expected_radius_squared * (1 - TOLERANCE)
+              && actual_radius_squared
+                     < expected_radius_squared * (1 + TOLERANCE));
     }  // does_vertex_radius_match_timevalue
 
     /// @brief Calculates the expected radial distance of a vertex given its
@@ -1383,7 +1385,7 @@ namespace foliated_triangulations
            eit != get_delaunay().finite_edges_end(); ++eit)
       {
         Cell_handle_t<3> const ch = eit->first;
-        Edge_handle_t<3> thisEdge{ch, ch->index(ch->vertex(eit->second)),
+        Edge_handle_t<3>       thisEdge{ch, ch->index(ch->vertex(eit->second)),
                                   ch->index(ch->vertex(eit->third))};
         // Each edge is valid in the triangulation
         Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,

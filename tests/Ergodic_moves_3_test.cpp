@@ -16,7 +16,8 @@ using namespace std;
 using namespace manifolds;
 
 static inline double const RADIUS_2   = sqrt(4.0 / 3.0);  // NOLINT
-static inline double const RADIUS_2_0 = sqrt(2);          // NOLINT
+static inline double const SQRT_2     = sqrt(2);          // NOLINT
+static inline double const INV_SQRT_2 = 1 / sqrt(2);      // NOLINT
 
 SCENARIO("Perform ergodic moves on 2+1 triangulations",
          "[ergodic moves][!mayfail]")
@@ -29,12 +30,12 @@ SCENARIO("Perform ergodic moves on 2+1 triangulations",
     Manifold3      manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Previous state
-    auto N3_31_pre_move = manifold.N3_31();
-    auto N3_22_pre_move = manifold.N3_22();
-    auto N3_13_pre_move = manifold.N3_13();
-    auto N1_TL_pre_move = manifold.N1_TL();
-    auto N1_SL_pre_move = manifold.N1_SL();
-    auto N0_pre_move    = manifold.N0();
+    auto N3_31_pre_move  = manifold.N3_31();
+    auto N3_22_pre_move  = manifold.N3_22();
+    auto N3_13_pre_move  = manifold.N3_13();
+    auto N1_TL_pre_move  = manifold.N1_TL();
+    auto N1_SL_pre_move  = manifold.N1_SL();
+    auto N0_pre_move     = manifold.N0();
     // Copy of manifold
     auto manifold_before = manifold;
     WHEN("A (2,3) move is performed")
@@ -205,10 +206,13 @@ SCENARIO(
       "that move.\n");
   GIVEN("A triangulation setup for (2,3) moves")
   {
-    vector<Point_t<3>>   vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
-                                Point_t<3>{0, 0, 1},
-                                Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2},
-                                Point_t<3>{RADIUS_2_0, RADIUS_2_0, 0}};
+    vector<Point_t<3>> vertices{
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2},
+        Point_t<3>{  SQRT_2,   SQRT_2,        0}
+    };
     vector<size_t>       timevalue{1, 1, 1, 2, 2};
     Causal_vertices_t<3> causal_vertices;
     causal_vertices.reserve(vertices.size());
@@ -339,9 +343,13 @@ SCENARIO(
   }
   GIVEN("A triangulation setup for a (2,6) move")
   {
-    vector<Point_t<3>>   vertices{Point_t<3>{0, 0, 0}, Point_t<3>{1, 0, 0},
-                                Point_t<3>{0, 1, 0}, Point_t<3>{0, 0, 1},
-                                Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point_t<3>> vertices{
+        Point_t<3>{       0,        0,        0},
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
+    };
     vector<size_t>       timevalue{0, 1, 1, 1, 2};
     Causal_vertices_t<3> cv;
     cv.reserve(vertices.size());
@@ -485,6 +493,69 @@ SCENARIO(
       {
         CHECK_FALSE(result);
         CHECK(result.error() == "No (6,2) move possible.\n");
+      }
+    }
+  }
+  GIVEN("A triangulation setup for a (4,4) move")
+  {
+    vector<Point_t<3>> vertices{
+        Point_t<3>{          0,           0,          0},
+        Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{-INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{          0,           0,          2}
+    };
+    vector<size_t>       timevalue{0, 1, 1, 1, 1, 2};
+    Causal_vertices_t<3> cv;
+    cv.reserve(vertices.size());
+    transform(vertices.begin(), vertices.end(), timevalue.begin(),
+              back_inserter(cv),
+              [](Point_t<3> a, size_t b) { return make_pair(a, b); });
+    Manifold3 manifold(cv, 0, 1);
+    // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
+    REQUIRE(manifold.vertices() == 6);
+    REQUIRE(manifold.edges() == 13);
+    REQUIRE(manifold.faces() == 12);
+    REQUIRE(manifold.simplices() == 4);
+    REQUIRE(manifold.N3_31() == 2);
+    REQUIRE(manifold.N3_22() == 0);
+    REQUIRE(manifold.N3_13() == 2);
+    REQUIRE(manifold.N3_31_13() == 4);
+    REQUIRE(manifold.N1_SL() == 5);
+    REQUIRE(manifold.N1_TL() == 8);
+    CHECK(manifold.initial_radius() == 0);
+    CHECK(manifold.foliation_spacing() == 1);
+    REQUIRE(manifold.is_delaunay());
+    REQUIRE(manifold.get_triangulation().is_foliated());
+    REQUIRE(manifold.get_triangulation().is_tds_valid());
+    REQUIRE(manifold.get_triangulation().check_all_cells());
+    //    REQUIRE(manifold.get_triangulation().check_all_vertices());
+    //    REQUIRE(manifold.is_correct());
+
+    WHEN("A (4,4) move is performed")
+    {
+      spdlog::debug("When a (4,4) move is performed.\n");
+      // Copy manifold
+      auto manifold_before = manifold;
+      // Human verification
+      fmt::print("Manifold before (4,4):\n");
+      manifold_before.print_details();
+      manifold_before.print_cells();
+      // Do move and check results
+      if (auto result = ergodic_moves::do_44_move(manifold); result)
+      {
+        manifold.update();
+      }
+      else
+      {
+        spdlog::info("The (4,4) move failed.\n");
+      }
+      THEN("The move is correct and the manifold invariants are maintained")
+      {
+        // Check the move
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        move_tracker::move_type::FOUR_FOUR));
       }
     }
   }
