@@ -486,46 +486,46 @@ var sectionId = 'dynsection-0';
 <g id="node24" class="node">
 <title>Node24</title>
 <g id="a_node24"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="302.5,-67.5 302.5,-86.5 385.5,-86.5 385.5,-67.5 302.5,-67.5"/>
-<text text-anchor="middle" x="344" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">CGAL/Timer.h</text>
+<polygon fill="white" stroke="#bfbfbf" points="303,-67.5 303,-86.5 367,-86.5 367,-67.5 303,-67.5"/>
+<text text-anchor="middle" x="335" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">algorithm</text>
 </a>
 </g>
 </g>
 <!-- Node23&#45;&gt;Node24 -->
 <g id="edge23" class="edge">
 <title>Node23&#45;&gt;Node24</title>
-<path fill="none" stroke="midnightblue" d="M877.84,-135.32C874.86,-134.83 871.88,-134.38 869,-134 659.58,-106.09 600.96,-145.09 395,-98 387.14,-96.2 378.88,-93.4 371.36,-90.46"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="372.57,-87.17 361.99,-86.58 369.9,-93.64 372.57,-87.17"/>
+<path fill="none" stroke="midnightblue" d="M877.84,-135.31C874.86,-134.82 871.88,-134.38 869,-134 651.19,-105.29 588.12,-155.19 376,-98 370.02,-96.39 363.87,-93.9 358.22,-91.21"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="359.77,-88.08 349.27,-86.64 356.58,-94.31 359.77,-88.08"/>
 </g>
 <!-- Node25 -->
 <g id="node25" class="node">
 <title>Node25</title>
 <g id="a_node25"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="404,-67.5 404,-86.5 468,-86.5 468,-67.5 404,-67.5"/>
-<text text-anchor="middle" x="436" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">algorithm</text>
+<polygon fill="white" stroke="#bfbfbf" points="385,-67.5 385,-86.5 437,-86.5 437,-67.5 385,-67.5"/>
+<text text-anchor="middle" x="411" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">cassert</text>
 </a>
 </g>
 </g>
 <!-- Node23&#45;&gt;Node25 -->
 <g id="edge24" class="edge">
 <title>Node23&#45;&gt;Node25</title>
-<path fill="none" stroke="midnightblue" d="M877.83,-135.37C874.85,-134.87 871.88,-134.41 869,-134 695.77,-109.52 645.49,-145.12 477,-98 471.04,-96.33 464.9,-93.82 459.24,-91.13"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="460.79,-87.99 450.29,-86.56 457.61,-94.23 460.79,-87.99"/>
+<path fill="none" stroke="midnightblue" d="M877.84,-135.35C874.85,-134.85 871.88,-134.4 869,-134 682.53,-108.26 627.05,-152.93 447,-98 442.05,-96.49 437.01,-94.23 432.34,-91.77"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="433.82,-88.58 423.41,-86.61 430.32,-94.64 433.82,-88.58"/>
 </g>
 <!-- Node26 -->
 <g id="node26" class="node">
 <title>Node26</title>
 <g id="a_node26"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="486,-67.5 486,-86.5 538,-86.5 538,-67.5 486,-67.5"/>
-<text text-anchor="middle" x="512" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">cassert</text>
+<polygon fill="white" stroke="#bfbfbf" points="455.5,-67.5 455.5,-86.5 538.5,-86.5 538.5,-67.5 455.5,-67.5"/>
+<text text-anchor="middle" x="497" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">CGAL/Timer.h</text>
 </a>
 </g>
 </g>
 <!-- Node23&#45;&gt;Node26 -->
 <g id="edge25" class="edge">
 <title>Node23&#45;&gt;Node26</title>
-<path fill="none" stroke="midnightblue" d="M877.82,-135.43C874.84,-134.92 871.87,-134.44 869,-134 727.06,-112.48 684.74,-141.71 548,-98 543.07,-96.42 538.04,-94.14 533.37,-91.67"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="534.85,-88.48 524.44,-86.52 531.35,-94.54 534.85,-88.48"/>
+<path fill="none" stroke="midnightblue" d="M877.82,-135.43C874.84,-134.92 871.87,-134.44 869,-134 727.06,-112.48 687.35,-132.5 548,-98 540.38,-96.11 532.38,-93.37 525.03,-90.51"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="526.09,-87.16 515.51,-86.61 523.44,-93.64 526.09,-87.16"/>
 </g>
 <!-- Node27 -->
 <g id="node27" class="node">
@@ -766,8 +766,8 @@ var sectionId = 'dynsection-0';
 <!-- Node23&#45;&gt;Node42 -->
 <g id="edge42" class="edge">
 <title>Node23&#45;&gt;Node42</title>
-<path fill="none" stroke="midnightblue" d="M877.85,-135.27C874.86,-134.8 871.88,-134.36 869,-134 614.53,-101.82 545.23,-144.59 293,-98 288.31,-97.13 283.48,-96.03 278.68,-94.79"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="279.49,-91.38 268.91,-92.09 277.62,-98.13 279.49,-91.38"/>
+<path fill="none" stroke="midnightblue" d="M877.85,-135.27C874.86,-134.8 871.88,-134.37 869,-134 614.97,-101.86 545.9,-143.97 294,-98 289.24,-97.13 284.34,-96.03 279.47,-94.79"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="280.12,-91.34 269.55,-92.08 278.28,-98.09 280.12,-91.34"/>
 </g>
 </g>
 </svg>

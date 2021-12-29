@@ -341,53 +341,53 @@ var sectionId = 'dynsection-0';
 <!-- Node14&#45;&gt;Node6 -->
 <g id="edge35" class="edge">
 <title>Node14&#45;&gt;Node6</title>
-<path fill="none" stroke="midnightblue" d="M1614.98,-142.35C1484.87,-139.86 1058.1,-129.45 925,-98 917.93,-96.33 910.56,-93.68 903.82,-90.84"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="905.05,-87.56 894.5,-86.66 902.19,-93.95 905.05,-87.56"/>
+<path fill="none" stroke="midnightblue" d="M1614.59,-142.3C1484.15,-139.67 1058.88,-128.87 926,-98 918.79,-96.33 911.28,-93.67 904.39,-90.84"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="905.43,-87.47 894.87,-86.65 902.62,-93.88 905.43,-87.47"/>
 </g>
 <!-- Node15 -->
 <g id="node15" class="node">
 <title>Node15</title>
 <g id="a_node15"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="934.5,-67.5 934.5,-86.5 1017.5,-86.5 1017.5,-67.5 934.5,-67.5"/>
-<text text-anchor="middle" x="976" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">CGAL/Timer.h</text>
+<polygon fill="white" stroke="#bfbfbf" points="935,-67.5 935,-86.5 999,-86.5 999,-67.5 935,-67.5"/>
+<text text-anchor="middle" x="967" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">algorithm</text>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node15 -->
 <g id="edge14" class="edge">
 <title>Node14&#45;&gt;Node15</title>
-<path fill="none" stroke="midnightblue" d="M1614.7,-141.76C1496.7,-137.7 1139.91,-123.57 1027,-98 1019.13,-96.22 1010.88,-93.42 1003.36,-90.48"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1004.57,-87.19 993.99,-86.6 1001.89,-93.66 1004.57,-87.19"/>
+<path fill="none" stroke="midnightblue" d="M1614.72,-142.25C1494.18,-139.57 1123.61,-128.97 1008,-98 1002.02,-96.4 995.87,-93.91 990.21,-91.23"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="991.77,-88.09 981.27,-86.65 988.57,-94.32 991.77,-88.09"/>
 </g>
 <!-- Node16 -->
 <g id="node16" class="node">
 <title>Node16</title>
 <g id="a_node16"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="1036,-67.5 1036,-86.5 1100,-86.5 1100,-67.5 1036,-67.5"/>
-<text text-anchor="middle" x="1068" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">algorithm</text>
+<polygon fill="white" stroke="#bfbfbf" points="1017,-67.5 1017,-86.5 1069,-86.5 1069,-67.5 1017,-67.5"/>
+<text text-anchor="middle" x="1043" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">cassert</text>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node16 -->
 <g id="edge15" class="edge">
 <title>Node14&#45;&gt;Node16</title>
-<path fill="none" stroke="midnightblue" d="M1614.77,-141.67C1507.37,-137.66 1204.61,-124.27 1109,-98 1103.03,-96.36 1096.89,-93.86 1091.23,-91.17"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1092.78,-88.03 1082.28,-86.6 1089.59,-94.27 1092.78,-88.03"/>
+<path fill="none" stroke="midnightblue" d="M1614.91,-142.19C1503.34,-139.47 1178.84,-129.04 1078,-98 1073.15,-96.51 1068.25,-94.26 1063.71,-91.8"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1065.41,-88.74 1055.02,-86.64 1061.83,-94.76 1065.41,-88.74"/>
 </g>
 <!-- Node17 -->
 <g id="node17" class="node">
 <title>Node17</title>
 <g id="a_node17"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="1118,-67.5 1118,-86.5 1170,-86.5 1170,-67.5 1118,-67.5"/>
-<text text-anchor="middle" x="1144" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">cassert</text>
+<polygon fill="white" stroke="#bfbfbf" points="1087.5,-67.5 1087.5,-86.5 1170.5,-86.5 1170.5,-67.5 1087.5,-67.5"/>
+<text text-anchor="middle" x="1129" y="-74.5" font-family="Helvetica,sans-Serif" font-size="10.00">CGAL/Timer.h</text>
 </a>
 </g>
 </g>
 <!-- Node14&#45;&gt;Node17 -->
 <g id="edge16" class="edge">
 <title>Node14&#45;&gt;Node17</title>
-<path fill="none" stroke="midnightblue" d="M1614.75,-141.45C1517.01,-137.15 1260.06,-123.69 1179,-98 1174.17,-96.47 1169.27,-94.2 1164.72,-91.74"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1166.42,-88.68 1156.04,-86.58 1162.85,-94.7 1166.42,-88.68"/>
+<path fill="none" stroke="midnightblue" d="M1614.91,-143.04C1533.64,-142.34 1337.67,-136.42 1179,-98 1171.5,-96.18 1163.65,-93.46 1156.44,-90.61"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1157.68,-87.33 1147.11,-86.7 1154.98,-93.79 1157.68,-87.33"/>
 </g>
 <!-- Node18 -->
 <g id="node18" class="node">
