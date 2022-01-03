@@ -19,7 +19,7 @@
     },
     "cgal"
   ],
-  "builtin-baseline": "bfbdf28bf43a9db5585cb4515c87d594b0a6d21b",
+  "builtin-baseline": "f4e258ac885fb283cfed549a1d34fabd9611165e",
   "overrides": [
     {
       "name": "fmt",
