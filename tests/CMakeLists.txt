@@ -12,7 +12,6 @@ add_executable(
   Move_command_test.cpp
   Move_tracker_test.cpp
   S3Action_test.cpp
-  Sphere_test.cpp
   Tetrahedron_test.cpp
   Torus_test.cpp
   Utilities_test.cpp
