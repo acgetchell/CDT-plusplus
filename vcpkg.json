@@ -18,16 +18,5 @@
       "platform": "windows"
     },
     "cgal"
-  ],
-  "builtin-baseline": "f4e258ac885fb283cfed549a1d34fabd9611165e",
-  "overrides": [
-    {
-      "name": "fmt",
-      "version": "7.1.3"
-    },
-    {
-      "name": "spdlog",
-      "version": "1.8.5"
-    }
   ]
 }
