@@ -1,17 +1,17 @@
 <map id="include/Triangulation_traits.hpp" name="include/Triangulation_traits.hpp">
-<area shape="rect" id="node1" title="Traits class for particular uses of CGAL." alt="" coords="1525,5,1682,47"/>
-<area shape="rect" id="node2" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1482,95,1725,121"/>
-<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1315,177,1479,203"/>
-<area shape="rect" id="node26" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="1503,169,1703,211"/>
-<area shape="rect" id="node27" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons." alt="" coords="1727,177,1922,203"/>
-<area shape="rect" id="node4" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1220,259,1379,285"/>
-<area shape="rect" id="node25" href="$_geometry__test_8cpp.html" title="Tests of new geometry data structure." alt="" coords="1403,259,1585,285"/>
+<area shape="rect" id="node1" title="Traits class for particular uses of CGAL." alt="" coords="1537,5,1694,47"/>
+<area shape="rect" id="node2" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1494,95,1737,121"/>
+<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1216,177,1380,203"/>
+<area shape="rect" id="node25" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="1405,169,1605,211"/>
+<area shape="rect" id="node26" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons." alt="" coords="1629,177,1823,203"/>
+<area shape="rect" id="node27" href="$_vertex__test_8cpp.html" title="Tests on points and vertices in foliated Delaunay triangulations." alt="" coords="1848,177,2007,203"/>
+<area shape="rect" id="node4" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1121,259,1280,285"/>
+<area shape="rect" id="node24" href="$_geometry__test_8cpp.html" title="Tests of new geometry data structure." alt="" coords="1304,259,1487,285"/>
 <area shape="rect" id="node5" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="748,333,936,360"/>
 <area shape="rect" id="node20" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="961,333,1089,360"/>
 <area shape="rect" id="node21" href="$_manifold__test_8cpp.html" title="Tests of new manifold data structure." alt="" coords="1113,333,1288,360"/>
 <area shape="rect" id="node22" href="$_s3_action__test_8cpp.html" title="Tests for the S3 action functions." alt="" coords="1312,333,1487,360"/>
 <area shape="rect" id="node23" href="$_utilities__test_8cpp.html" title="Tests on utility functions." alt="" coords="1511,333,1679,360"/>
-<area shape="rect" id="node24" href="$_vertex__test_8cpp.html" title="Tests on vertices in Delaunay triangulations." alt="" coords="1704,333,1863,360"/>
 <area shape="rect" id="node6" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="664,408,836,449"/>
 <area shape="rect" id="node19" href="$_move__tracker__test_8cpp.html" title="Tests of MoveTracker, that is, that moves are tracked properly." alt="" coords="861,408,1007,449"/>
 <area shape="rect" id="node7" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="316,505,525,531"/>

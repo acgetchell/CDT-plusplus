@@ -152,11 +152,12 @@ Long</h2>
 <p>Next, install [vcpkg]:</p>
 <div class="fragment"><div class="line">git clone https://github.com/Microsoft/vcpkg.git</div>
 <div class="line">cd vcpkg</div>
-<div class="line">./bootstrap-vcpkg.sh -useSystemBinaries</div>
+<div class="line">./bootstrap-vcpkg.sh</div>
 <div class="line">./vcpkg integrate install</div>
 </div><!-- fragment --><p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> is then invoked by CMake in <a href="https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md">vcpkg manifest</a> mode and install the project dependencies listed in <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json">vcpkg.json</a> into a local <code>vcpkg_installed</code> directory.</p>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Build</h1>
+<p>You'll need a reasonably modern compiler that supports C++20 features.</p>
 <p>Clone the repo:</p>
 <div class="fragment"><div class="line">git clone https://github.com/acgetchell/CDT-plusplus.git</div>
 </div><!-- fragment --><p>To get <a href="https://www.cmake.org">CMake</a> and the build scripts to run correctly, you'll need to set <code>$VCPKG_ROOT</code> to wherever you cloned <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, e.g.</p>
@@ -295,7 +296,7 @@ Issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 12 2022 07:04:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 23 2022 06:19:30 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

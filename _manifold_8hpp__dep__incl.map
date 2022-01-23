@@ -1,11 +1,10 @@
 <map id="include/Manifold.hpp" name="include/Manifold.hpp">
-<area shape="rect" id="node1" title="Data structures for manifolds." alt="" coords="1220,5,1379,32"/>
+<area shape="rect" id="node1" title="Data structures for manifolds." alt="" coords="1121,5,1280,32"/>
 <area shape="rect" id="node2" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="748,80,936,107"/>
 <area shape="rect" id="node17" href="$initialize_8cpp.html" title="Generates initial spacetimes." alt="" coords="961,80,1089,107"/>
 <area shape="rect" id="node18" href="$_manifold__test_8cpp.html" title="Tests of new manifold data structure." alt="" coords="1113,80,1288,107"/>
 <area shape="rect" id="node19" href="$_s3_action__test_8cpp.html" title="Tests for the S3 action functions." alt="" coords="1312,80,1487,107"/>
 <area shape="rect" id="node20" href="$_utilities__test_8cpp.html" title="Tests on utility functions." alt="" coords="1511,80,1679,107"/>
-<area shape="rect" id="node21" href="$_vertex__test_8cpp.html" title="Tests on vertices in Delaunay triangulations." alt="" coords="1704,80,1863,107"/>
 <area shape="rect" id="node3" href="$_ergodic__moves__3_8hpp.html" title="Pachner moves on 2+1 dimensional foliated Delaunay triangulations." alt="" coords="664,155,836,196"/>
 <area shape="rect" id="node16" href="$_move__tracker__test_8cpp.html" title="Tests of MoveTracker, that is, that moves are tracked properly." alt="" coords="861,155,1007,196"/>
 <area shape="rect" id="node4" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="316,251,525,278"/>

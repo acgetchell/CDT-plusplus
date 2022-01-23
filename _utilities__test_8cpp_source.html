@@ -126,7 +126,7 @@ $(function() {
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      THEN(<span class="stringliteral">&quot;The output is correct.&quot;</span>)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      {</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        <span class="comment">// Update test yearly</span></div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        CHECK_THAT(<a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>(), Catch::Contains(<span class="stringliteral">&quot;2021&quot;</span>));</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        CHECK_THAT(<a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>(), Catch::Contains(<span class="stringliteral">&quot;2022&quot;</span>));</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;        fmt::print(<span class="stringliteral">&quot;Current date and time is: {}\n&quot;</span>, <a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>());</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      }</div>
@@ -143,9 +143,9 @@ $(function() {
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;      THEN(<span class="stringliteral">&quot;The output is correct.&quot;</span>)</div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;      {</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;        CHECK_THAT(filename,</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                   Catch::Contains(<span class="stringliteral">&quot;S3&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;16&quot;</span>) &amp;&amp;</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                       Catch::Contains(<span class="stringliteral">&quot;6700&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;1.0&quot;</span>) &amp;&amp;</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                       Catch::Contains(<span class="stringliteral">&quot;2021&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;off&quot;</span>));</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;                   Catch::Contains(<span class="stringliteral">&quot;S3&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;16&quot;</span>)</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;                       &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;6700&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;1.0&quot;</span>)</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                       &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;2022&quot;</span>) &amp;&amp; Catch::Contains(<span class="stringliteral">&quot;off&quot;</span>));</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;        fmt::print(<span class="stringliteral">&quot;Filename is: {}\n&quot;</span>, filename);</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;      }</div>
@@ -191,7 +191,7 @@ $(function() {
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  }</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  GIVEN(<span class="stringliteral">&quot;A container of ints&quot;</span>)</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  {</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> constexpr VECTOR_TEST_SIZE = 20;</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> constexpr VECTOR_TEST_SIZE = 16;</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    vector&lt;Int_precision&gt; v(VECTOR_TEST_SIZE);</div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    iota(v.begin(), v.end(), 0);</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;    WHEN(<span class="stringliteral">&quot;The container is shuffled.&quot;</span>)</div>
@@ -417,7 +417,7 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html_ae951ec1742e61c4fd7f1592e5594ac98"><div class="ttname"><a href="_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a></div><div class="ttdeci">static constexpr double INITIAL_RADIUS</div><div class="ttdoc">Default foliated triangulation spacings.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00048">Settings.hpp:48</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jan 12 2022 07:04:00 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Sun Jan 23 2022 06:19:29 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
