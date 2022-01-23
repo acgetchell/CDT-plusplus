@@ -51,7 +51,7 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       THEN("The output is correct.")
       {
         // Update test yearly
-        CHECK_THAT(current_date_time(), Catch::Contains("2021"));
+        CHECK_THAT(current_date_time(), Catch::Contains("2022"));
         // Human verification
         fmt::print("Current date and time is: {}\n", current_date_time());
       }
@@ -68,9 +68,9 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,
-                   Catch::Contains("S3") && Catch::Contains("16") &&
-                       Catch::Contains("6700") && Catch::Contains("1.0") &&
-                       Catch::Contains("2021") && Catch::Contains("off"));
+                   Catch::Contains("S3") && Catch::Contains("16")
+                       && Catch::Contains("6700") && Catch::Contains("1.0")
+                       && Catch::Contains("2022") && Catch::Contains("off"));
         // Human verification
         fmt::print("Filename is: {}\n", filename);
       }
@@ -116,7 +116,7 @@ SCENARIO("Randomizing functions", "[utility][!mayfail]")
   }
   GIVEN("A container of ints")
   {
-    Int_precision constexpr VECTOR_TEST_SIZE = 20;
+    Int_precision constexpr VECTOR_TEST_SIZE = 16;
     vector<Int_precision> v(VECTOR_TEST_SIZE);
     iota(v.begin(), v.end(), 0);
     WHEN("The container is shuffled.")

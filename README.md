@@ -114,7 +114,7 @@ Next, install [vcpkg]:
 ```bash
 git clone https://github.com/Microsoft/vcpkg.git
 cd vcpkg
-./bootstrap-vcpkg.sh -useSystemBinaries
+./bootstrap-vcpkg.sh
 ./vcpkg integrate install
 ```
 
@@ -122,6 +122,8 @@ cd vcpkg
 listed in [vcpkg.json] into a local `vcpkg_installed` directory.
 
 ## Build
+
+You'll need a reasonably modern compiler that supports C++20 features.
 
 Clone the repo:
 
@@ -143,7 +145,6 @@ You can optionally pre-build the project dependencies (100+ packages) by running
 ```
 vcpkg install --feature-flags=manifests
 ```
-
 ### Project Layout
 
 The project is similar to [PitchFork Layout], as follows:

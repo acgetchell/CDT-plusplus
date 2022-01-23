@@ -527,11 +527,7 @@ SCENARIO(
     CHECK(manifold.initial_radius() == 0);
     CHECK(manifold.foliation_spacing() == 1);
     REQUIRE(manifold.is_delaunay());
-    REQUIRE(manifold.get_triangulation().is_foliated());
-    REQUIRE(manifold.get_triangulation().is_tds_valid());
-    REQUIRE(manifold.get_triangulation().check_all_cells());
-    //    REQUIRE(manifold.get_triangulation().check_all_vertices());
-    //    REQUIRE(manifold.is_correct());
+    REQUIRE(manifold.is_correct());
 
     WHEN("A (4,4) move is performed")
     {

@@ -44,7 +44,7 @@ namespace manifolds
 
   /// 3D Manifold
   template <>
-  class Manifold<3>
+  class [[nodiscard("This contains data!")]] Manifold<3>
   {
     /// @brief The data structure of geometric and combinatorial relationships
     foliated_triangulations::FoliatedTriangulation3 m_triangulation;

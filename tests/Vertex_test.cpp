@@ -5,24 +5,26 @@
  ******************************************************************************/
 
 /// @file Vertex_test.cpp
-/// @brief Tests on vertices in Delaunay triangulations
+/// @brief Tests on points and vertices in foliated Delaunay triangulations
 /// @author Adam Getchell
 /// @details Tests for inserting and deleting vertices.
 
-#include "Manifold.hpp"
+#include "Foliated_triangulation.hpp"
 #include <catch2/catch.hpp>
 
 using namespace foliated_triangulations;
 
 SCENARIO("Point operations", "[vertex]")
 {
-  GIVEN("A pair of points.")
+  GIVEN("Some points.")
   {
-    auto v1 = Point_t<3>(0, 0, 0);
-    auto v2 = Point_t<3>(0, 0.0, 0.0);
-    WHEN("The points are compared.")
+    auto point_1 = Point_t<3>(0, 0, 0);
+    auto point_2 = Point_t<3>(0, 0.0, 0.0);
+    auto point_3 = Point_t<3>(1, 1, 1);
+    WHEN("They are compared.")
     {
-      THEN("The points are equal.") { REQUIRE(v1 == v2); }
+      THEN("Similar points are equal.") { REQUIRE(point_1 == point_2); }
+      THEN("Dissimilar points are not equal.") { REQUIRE(point_1 != point_3); }
     }
   }
 }
@@ -32,7 +34,6 @@ SCENARIO("Vertex operations", "[vertex]")
   GIVEN("A foliated Delaunay triangulation.")
   {
     FoliatedTriangulation3 triangulation;
-
     WHEN("A vertex is inserted.")
     {
       triangulation.insert(Point_t<3>(0, 0, 0));
@@ -55,6 +56,7 @@ SCENARIO("Vertex operations", "[vertex]")
       THEN("The vertex is valid.")
       {
         CHECK(triangulation.check_all_vertices());
+        fmt::print("The vertices are:\n");
         triangulation.print_vertices();
       }
     }

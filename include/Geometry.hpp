@@ -20,7 +20,7 @@ struct Geometry;
 
 /// 3D Geometry
 template <>
-struct Geometry<3>
+struct [[nodiscard("This contains data!")]] Geometry<3>
 {
   /// @brief Number of 3D simplices
   Int_precision N3{0};  // NOLINT
@@ -58,7 +58,7 @@ struct Geometry<3>
   /// @brief Constructor with triangulation
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
-  [[maybe_unused]] explicit Geometry(
+  explicit Geometry(
       foliated_triangulations::FoliatedTriangulation3 const& triangulation)
 
       : N3{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
