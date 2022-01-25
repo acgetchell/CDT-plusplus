@@ -57,7 +57,6 @@ using Spherical_points_generator_t =
 /// be swappable in order for std::shuffle to work. However, std::movable
 /// doesn't seem to be in <concepts> yet.
 /// @sa https://en.cppreference.com/w/cpp/concept/Movable
-/// @todo Add concepts related to Iterators
 template <typename C>
 concept ContainerType = std::is_object_v<C> && std::is_move_constructible_v<
     C> && std::is_assignable_v<C&, C> && std::is_swappable_v<C>;
@@ -96,9 +95,9 @@ namespace foliated_triangulations
   {
     auto vertices = std::forward<Container>(t_vertices);
     Expects(!vertices.empty());
-    auto it           = std::max_element(vertices.begin(), vertices.end(),
+    auto max_element  = std::max_element(vertices.begin(), vertices.end(),
                                          compare_v_info<dimension>);
-    auto result_index = std::distance(vertices.begin(), it);
+    auto result_index = std::distance(vertices.begin(), max_element);
     // std::distance may be negative if random-access iterators are used and
     // first is reachable from last
     Ensures(result_index >= 0);
@@ -114,9 +113,9 @@ namespace foliated_triangulations
   {
     auto vertices = std::forward<Container>(t_vertices);
     Expects(!vertices.empty());
-    auto it           = std::min_element(vertices.begin(), vertices.end(),
+    auto min_element  = std::min_element(vertices.begin(), vertices.end(),
                                          compare_v_info<dimension>);
-    auto result_index = std::distance(vertices.begin(), it);
+    auto result_index = std::distance(vertices.begin(), min_element);
     Ensures(result_index >= 0);
     auto const index = static_cast<std::size_t>(std::abs(result_index));
     return vertices[index]->info();
@@ -193,9 +192,9 @@ namespace foliated_triangulations
   [[nodiscard]] auto squared_radius(Vertex_handle_t<dimension> const& t_vertex)
       -> double
   {
-    typename TriangulationTraits<dimension>::squared_distance r2;
+    typename TriangulationTraits<dimension>::squared_distance r_2;
 
-    if (dimension == 3) { return r2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
+    if (dimension == 3) { return r_2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
 
     return 0;
   }  // squared_radius
@@ -355,12 +354,13 @@ namespace foliated_triangulations
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    std::vector<int> vertex_timevalues;
+    std::array<int, dimension + 1> vertex_timevalues{};
     // There are d+1 vertices in a d-dimensional simplex
     for (auto i = 0; i < dimension + 1; ++i)
     {
       // Obtain timevalue of vertex
-      vertex_timevalues.emplace_back(t_cell->vertex(i)->info());
+      vertex_timevalues.at(static_cast<std::size_t>(i))
+          = t_cell->vertex(i)->info();
     }
     auto const maxtime_ref =
         std::max_element(vertex_timevalues.begin(), vertex_timevalues.end());
@@ -701,14 +701,15 @@ namespace foliated_triangulations
   /// @param foliation_spacing The distance between successive time slices
   /// @return A container of (vertex, timevalue) pairs
   template <int dimension>
-  [[nodiscard]] auto make_foliated_ball(
-      Int_precision const t_simplices, Int_precision const t_timeslices,
-      double const initial_radius    = INITIAL_RADIUS,
-      double const foliation_spacing = FOLIATION_SPACING)
+  [[nodiscard]] auto make_foliated_ball(Int_precision t_simplices,
+                                        Int_precision t_timeslices,
+                                        double initial_radius = INITIAL_RADIUS,
+                                        double foliation_spacing
+                                        = FOLIATION_SPACING)
   {
     Causal_vertices_t<dimension> causal_vertices;
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
-    const auto points_per_timeslice = utilities::expected_points_per_timeslice(
+    auto const points_per_timeslice = utilities::expected_points_per_timeslice(
         dimension, t_simplices, t_timeslices);
     Expects(points_per_timeslice >= 2);
 
@@ -735,10 +736,11 @@ namespace foliated_triangulations
   /// @param foliation_spacing Radial separation between timeslices
   /// @return A Delaunay triangulation with a timevalue for each vertex
   template <int dimension>
-  [[nodiscard]] auto make_triangulation(
-      Int_precision const t_simplices, Int_precision const t_timeslices,
-      double const initial_radius    = INITIAL_RADIUS,
-      double const foliation_spacing = FOLIATION_SPACING)
+  [[nodiscard]] auto make_triangulation(Int_precision t_simplices,
+                                        Int_precision t_timeslices,
+                                        double initial_radius = INITIAL_RADIUS,
+                                        double foliation_spacing
+                                        = FOLIATION_SPACING)
       -> Delaunay_t<dimension>
   {
 #ifndef NDEBUG
@@ -810,28 +812,29 @@ namespace foliated_triangulations
   template <>
   class [[nodiscard("This contains data!")]] FoliatedTriangulation<3>  // NOLINT
   {
-    using Cell_container   = std::vector<Cell_handle_t<3>>;
-    using Face_container   = std::vector<Face_handle_t<3>>;
-    using Edge_container   = std::vector<Edge_handle_t<3>>;
-    using Vertex_container = std::vector<Vertex_handle_t<3>>;
+    using Cell_container      = std::vector<Cell_handle_t<3>>;
+    using Face_container      = std::vector<Face_handle_t<3>>;
+    using Edge_container      = std::vector<Edge_handle_t<3>>;
+    using Vertex_container    = std::vector<Vertex_handle_t<3>>;
+    using Volume_by_timeslice = std::multimap<Int_precision, Facet_t<3>>;
 
     /// Data members initialized in order of declaration (Working Draft,
     /// Standard for C++ Programming Language, 12.6.2 section 13.3)
-    Delaunay_t<3>                            m_triangulation{Delaunay_t<3>{}};
-    Cell_container                           m_cells;
-    Cell_container                           m_three_one;
-    Cell_container                           m_two_two;
-    Cell_container                           m_one_three;
-    Face_container                           m_faces;
-    std::multimap<Int_precision, Facet_t<3>> m_spacelike_facets;
-    Edge_container                           m_edges;
-    Edge_container                           m_timelike_edges;
-    Edge_container                           m_spacelike_edges;
-    Vertex_container                         m_points;
-    Int_precision                            m_max_timevalue{0};
-    Int_precision                            m_min_timevalue{0};
-    double                                   m_initial_radius{INITIAL_RADIUS};
-    double m_foliation_spacing{FOLIATION_SPACING};
+    Delaunay_t<3>       m_triangulation{Delaunay_t<3>{}};
+    Cell_container      m_cells;
+    Cell_container      m_three_one;
+    Cell_container      m_two_two;
+    Cell_container      m_one_three;
+    Face_container      m_faces;
+    Volume_by_timeslice m_spacelike_facets;
+    Edge_container      m_edges;
+    Edge_container      m_timelike_edges;
+    Edge_container      m_spacelike_edges;
+    Vertex_container    m_points;
+    Int_precision       m_max_timevalue{0};
+    Int_precision       m_min_timevalue{0};
+    double              m_initial_radius{INITIAL_RADIUS};
+    double              m_foliation_spacing{FOLIATION_SPACING};
 
    public:
     /// @brief Default dtor
@@ -935,15 +938,15 @@ namespace foliated_triangulations
     {}
 
     /// @brief Constructor from Causal_vertices
-    /// @param cv Causal_vertices to place into the FoliatedTriangulation
+    /// @param causal_vertices Causal_vertices to place into the
+    /// FoliatedTriangulation
     explicit FoliatedTriangulation(
-        Causal_vertices_t<3> const& cv,
+        Causal_vertices_t<3> const& causal_vertices,
         double                      t_initial_radius    = INITIAL_RADIUS,
         double                      t_foliation_spacing = FOLIATION_SPACING)
         : FoliatedTriangulation{
-            Delaunay_t<3>{cv.begin(), cv.end()},
-            t_initial_radius,
-            t_foliation_spacing
+            Delaunay_t<3>{causal_vertices.begin(), causal_vertices.end()},
+            t_initial_radius, t_foliation_spacing
     }
     {}
 
@@ -1328,9 +1331,9 @@ namespace foliated_triangulations
         const->Cell_container
     {
       Expects(cells.size() == number_of_finite_cells());
-      for (auto const& c : cells)
+      for (auto const& cell : cells)
       {
-        c->info() = static_cast<int>(expected_cell_type<3>(c));
+        cell->info() = static_cast<int>(expected_cell_type<3>(cell));
       }
       return cells;
     }  // classify_cells
@@ -1363,9 +1366,9 @@ namespace foliated_triangulations
       for (auto eit = get_delaunay().finite_edges_begin();
            eit != get_delaunay().finite_edges_end(); ++eit)
       {
-        Cell_handle_t<3> const ch = eit->first;
-        Edge_handle_t<3>       thisEdge{ch, ch->index(ch->vertex(eit->second)),
-                                  ch->index(ch->vertex(eit->third))};
+        Cell_handle_t<3> const cell = eit->first;
+        Edge_handle_t<3> thisEdge{cell, cell->index(cell->vertex(eit->second)),
+                                  cell->index(cell->vertex(eit->third))};
         // Each edge is valid in the triangulation
         Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,
                                               thisEdge.third));
@@ -1380,9 +1383,7 @@ namespace foliated_triangulations
 
   /// 4D Triangulation
   template <>
-  class FoliatedTriangulation<4>
-  {
-  };
+  class [[nodiscard("This contains data!")]] FoliatedTriangulation<4>{};
 
   using FoliatedTriangulation4 = FoliatedTriangulation<4>;
 

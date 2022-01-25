@@ -101,7 +101,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
 using Geometry3 = Geometry<3>;
 
 template <>
-struct Geometry<4>
+struct [[nodiscard("This contains data!")]] Geometry<4>
 {
   Int_precision N4{0};
   Int_precision N3{0};

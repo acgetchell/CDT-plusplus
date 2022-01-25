@@ -19,7 +19,7 @@
 #include "Utilities.hpp"
 #include <catch2/catch.hpp>
 
-auto main(int argc, char* argv[]) -> int
+auto main(int argc, char* argv[]) -> int  // NOLINT
 try
 {
   Catch::Session session;  // There must be exactly one instance

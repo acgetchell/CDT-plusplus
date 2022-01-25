@@ -58,7 +58,7 @@ Options:
 /// @param argc Argument count = 1 + number of arguments
 /// @param argv Argument vector (array) to be passed to docopt
 /// @return Integer value 0 if successful, 1 on failure
-auto main(int argc, char* const argv[]) -> int
+auto main(int argc, char* const argv[]) -> int  // NOLINT
 try
 {
   // Start running time

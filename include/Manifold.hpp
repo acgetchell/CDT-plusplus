@@ -46,11 +46,14 @@ namespace manifolds
   template <>
   class [[nodiscard("This contains data!")]] Manifold<3>
   {
+    using Triangulation = foliated_triangulations::FoliatedTriangulation3;
+    using Geometry      = Geometry3;
+
     /// @brief The data structure of geometric and combinatorial relationships
-    foliated_triangulations::FoliatedTriangulation3 m_triangulation;
+    Triangulation m_triangulation;
 
     /// @brief The data structure of scalar values for computations
-    Geometry3 m_geometry;
+    Geometry m_geometry;
 
    public:
     /// @brief Dimensionality of the manifold
@@ -76,8 +79,7 @@ namespace manifolds
 
     /// @brief Construct manifold from a Foliated triangulation
     /// @param t_foliated_triangulation Triangulation used to construct manifold
-    explicit Manifold(foliated_triangulations::FoliatedTriangulation3
-                          t_foliated_triangulation)
+    explicit Manifold(Triangulation t_foliated_triangulation)
         : m_triangulation{std::move(t_foliated_triangulation)}
         , m_geometry{get_triangulation()}
     {}
@@ -91,23 +93,24 @@ namespace manifolds
              Int_precision t_desired_timeslices,
              double        t_initial_radius    = INITIAL_RADIUS,
              double        t_foliation_spacing = FOLIATION_SPACING)
-        : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
-            t_desired_simplices, t_desired_timeslices, t_initial_radius,
-            t_foliation_spacing)}
-        , m_geometry{get_triangulation()}
+        : Manifold{
+            Triangulation{t_desired_simplices, t_desired_timeslices,
+                          t_initial_radius, t_foliation_spacing}
+    }
     {}
 
     /// @brief Construct manifold from Causal_vertices
     /// Pass-by-value-then-move.
-    /// @param cv Causal_vertices to place into the Manifold
+    /// @param causal_vertices Causal_vertices to place into the Manifold
     /// @param t_initial_radius Radius of first timeslice
     /// @param t_foliation_spacing Radial separation between timeslices
-    explicit Manifold(Causal_vertices_t<3> const& cv,
+    explicit Manifold(Causal_vertices_t<3> const& causal_vertices,
                       double t_initial_radius    = INITIAL_RADIUS,
                       double t_foliation_spacing = FOLIATION_SPACING)
-        : m_triangulation{foliated_triangulations::FoliatedTriangulation3(
-            cv, t_initial_radius, t_foliation_spacing)}
-        , m_geometry{get_triangulation()}
+        : Manifold{
+            Triangulation{causal_vertices, t_initial_radius,
+                          t_foliation_spacing}
+    }
     {}
 
     /// @brief Update the Manifold data structures
@@ -126,21 +129,19 @@ namespace manifolds
     }  // update
 
     /// @return A read-only reference to the triangulation
-    [[nodiscard]] auto get_triangulation() const noexcept
-        -> foliated_triangulations::FoliatedTriangulation3 const&
+    [[nodiscard]] auto get_triangulation() const noexcept->Triangulation const&
     {
       return std::cref(m_triangulation);
     }  // get_triangulation
 
     /// @return A mutable reference to the triangulation
-    [[nodiscard]] auto triangulation()
-        -> foliated_triangulations::FoliatedTriangulation3&
+    [[nodiscard]] auto triangulation()->Triangulation&
     {
       return m_triangulation;
     }  // triangulation
 
     /// @return A read-only reference to the Geometry
-    [[nodiscard]] auto get_geometry() const -> Geometry3 const&
+    [[nodiscard]] auto get_geometry() const->Geometry const&
     {
       return m_geometry;
     }  // get_geometry
@@ -389,8 +390,7 @@ namespace manifolds
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      foliated_triangulations::FoliatedTriangulation3 const local_triangulation(
-          m_triangulation.get_delaunay());
+      Triangulation const local_triangulation(m_triangulation.get_delaunay());
       m_triangulation = local_triangulation;
     }
     catch (std::system_error const& ex)
@@ -405,7 +405,7 @@ namespace manifolds
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      Geometry3 geom(m_triangulation);
+      Geometry geom(m_triangulation);
       swap(m_geometry, geom);
     }  // update_geometry
   };
@@ -414,7 +414,7 @@ namespace manifolds
 
   /// 4D Manifold
   template <>
-  class Manifold<4>
+  class [[nodiscard("This contains data!")]] Manifold<4>
   {
     /// @brief The data structure of scalar values for computations
     Geometry4 m_geometry;

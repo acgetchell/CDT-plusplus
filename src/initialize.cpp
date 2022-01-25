@@ -42,7 +42,7 @@ Options:
   -o --output                 Save triangulation into OFF file
 )"};
 
-auto main(int argc, char* const argv[]) -> int
+auto main(int argc, char* const argv[]) -> int  // NOLINT
 try
 {
   // docopt option parser
