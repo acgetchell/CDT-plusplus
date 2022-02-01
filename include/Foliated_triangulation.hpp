@@ -154,8 +154,9 @@ namespace foliated_triangulations
       std::vector<Edge_handle_t<dimension>> const& t_edges,
       bool t_is_Timelike_pred) -> std::vector<Edge_handle_t<dimension>>
   {
-    Expects(!t_edges.empty());
     std::vector<Edge_handle_t<dimension>> filtered_edges;
+    // Short-circuit if no edges
+    if (t_edges.empty()) { return filtered_edges; }
     std::copy_if(
         t_edges.begin(), t_edges.end(), std::back_inserter(filtered_edges),
         [&](auto const& edge) {
@@ -173,8 +174,9 @@ namespace foliated_triangulations
       std::vector<Cell_handle_t<dimension>> const& t_cells,
       Cell_type const& t_cell_type) -> std::vector<Cell_handle_t<dimension>>
   {
-    Expects(!t_cells.empty());
     std::vector<Cell_handle_t<dimension>> filtered_cells;
+    // Short-circuit if no cells
+    if (t_cells.empty()) { return filtered_cells; }
     std::copy_if(t_cells.begin(), t_cells.end(),
                  std::back_inserter(filtered_cells),
                  [&t_cell_type](auto const& cell) {
@@ -974,6 +976,7 @@ namespace foliated_triangulations
     }  // is_tds_valid
 
     /// @return True if the Foliated Triangulation class invariants hold
+    /// @todo Add check_all_vertices
     [[nodiscard]] auto is_correct() const -> bool
     {
       return is_foliated() && is_tds_valid() && check_all_cells();
@@ -1152,18 +1155,6 @@ namespace foliated_triangulations
     {
       return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
     }  // incident_cells
-
-    /// @brief Perfect forwarding to Delaunay3.insert()
-    /// See
-    /// https://doc.cgal.org/latest/Triangulation_3/group__PkgDrawTriangulation3.html#ga6a09318e75a0fb017c3ee02521f62742
-    /// @tparam Ts Variadic template used to forward
-    /// @param args Parameter pack of arguments to call insert()
-    /// @return A Vertex_handle
-    template <typename... Ts>
-    auto insert(Ts&&... args) -> decltype(auto)
-    {
-      return delaunay().insert(std::forward<Ts>(args)...);
-    }  // insert
 
     /// @brief Check the radius of a vertex from the origin with its timevalue
     /// @param t_vertex The vertex to check

@@ -20,14 +20,18 @@ static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
 
 SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
 {
+  using Causal_vertices = Causal_vertices_t<3>;
+  using Point           = Point_t<3>;
   GIVEN("A vector of 4 vertices.")
   {
-    vector<Point_t<3>> Vertices{Point_t<3>{0, 0, 0}, Point_t<3>{0, 1, 0},
-                                Point_t<3>{0, 0, 1}, Point_t<3>{1, 0, 0}};
+    Causal_vertices causal_vertices;
+    causal_vertices.emplace_back(Point(0, 0, 0), 1);
+    causal_vertices.emplace_back(Point(1, 0, 0), 2);
+    causal_vertices.emplace_back(Point(0, 1, 0), 2);
+    causal_vertices.emplace_back(Point(0, 0, 1), 2);
     WHEN("A triangulation is constructed using the vector.")
     {
-      FoliatedTriangulation3 triangulation;
-      triangulation.insert(Vertices.begin(), Vertices.end());
+      FoliatedTriangulation3 triangulation(causal_vertices, 0, 1);
 
       THEN("The triangulation has dimension 3.")
       {
@@ -63,86 +67,97 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
       {
         REQUIRE(triangulation.is_tds_valid());
       }
+
+      THEN("The vertices are valid.")
+      {
+        REQUIRE(triangulation.check_all_vertices());
+      }
     }
   }
 }
 
 SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
 {
+  using Point                 = Point_t<3>;
+  using Causal_vertices       = Causal_vertices_t<3>;
+  using FoliatedTriangulation = FoliatedTriangulation3;
+  using squared_distance      = TriangulationTraits<3>::squared_distance;
   GIVEN("Points in a tetrahedron.")
   {
-    auto origin = Point_t<3>{0, 0, 0};
+    auto origin         = Point{0, 0, 0};
     // These points have a radius of 1
-    auto                 v1 = Point_t<3>{1, 0, 0};
-    auto                 v2 = Point_t<3>{0, 1, 0};
-    auto                 v3 = Point_t<3>{0, 0, 1};
-    auto                 v4 = Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2};
-    Causal_vertices_t<3> cv;
-    cv.emplace_back(v1, 1);
-    cv.emplace_back(v2, 1);
-    cv.emplace_back(v3, 1);
-    cv.emplace_back(v4, 2);
+    auto            v_1 = Point{1, 0, 0};
+    auto            v_2 = Point{0, 1, 0};
+    auto            v_3 = Point{0, 0, 1};
+    auto            v_4 = Point{RADIUS_2, RADIUS_2, RADIUS_2};
+    Causal_vertices causal_vertices;
+    causal_vertices.emplace_back(v_1, 1);
+    causal_vertices.emplace_back(v_2, 1);
+    causal_vertices.emplace_back(v_3, 1);
+    causal_vertices.emplace_back(v_4, 2);
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulation3                          ft(cv);
-      TriangulationTraits<3>::squared_distance        r2;
+      FoliatedTriangulation triangulation(causal_vertices);
+      squared_distance      r_2;
       THEN("The triangulation is initialized correctly.")
       {
-        REQUIRE(ft.is_initialized());
+        REQUIRE(triangulation.is_initialized());
       }
       THEN("The squared distances of vertices from origin are correct.")
       {
-        fmt::print("v1 is {}\n", v1);
-        fmt::print("v2 is {}\n", v2);
-        fmt::print("v3 is {}\n", v3);
-        fmt::print("v4 is {}\n", v4);
+        fmt::print("v_1 is {}\n", v_1);
+        fmt::print("v_2 is {}\n", v_2);
+        fmt::print("v_3 is {}\n", v_3);
+        fmt::print("v_4 is {}\n", v_4);
 
-        auto d1 = r2(origin, v1);
-        fmt::print("The squared distance between v1 and the origin is {}\n",
-                   d1);
-        CHECK(d1 == 1);
+        auto d_1 = r_2(origin, v_1);
+        fmt::print("The squared distance between v_1 and the origin is {}\n",
+                   d_1);
+        CHECK(d_1 == 1);
 
-        auto d2 = r2(origin, v2);
-        fmt::print("The squared distance between v2 and the origin is {}\n",
-                   d2);
-        CHECK(d2 == 1);
+        auto d_2 = r_2(origin, v_2);
+        fmt::print("The squared distance between v_2 and the origin is {}\n",
+                   d_2);
+        CHECK(d_2 == 1);
 
-        auto d3 = r2(origin, v3);
-        fmt::print("The squared distance between v3 and the origin is {}\n",
-                   d3);
-        CHECK(d3 == 1);
+        auto d_3 = r_2(origin, v_3);
+        fmt::print("The squared distance between v_3 and the origin is {}\n",
+                   d_3);
+        CHECK(d_3 == 1);
 
-        auto d4 = r2(origin, v4);
-        fmt::print("The squared distance between v4 and the origin is {}\n",
+        auto d4 = r_2(origin, v_4);
+        fmt::print("The squared distance between v_4 and the origin is {}\n",
                    d4);
         CHECK(d4 == 4);
       }
       THEN("The squared distance between radius=1 vertices are 2.")
       {
-        auto d1 = r2(v1, v2);
-        CHECK(d1 == 2);
-        fmt::print("The squared distance between v1 and v2 is {}\n", d1);
-        auto d2 = r2(v1, v3);
-        CHECK(d2 == 2);
-        fmt::print("The squared distance between v1 and v3 is {}\n", d2);
-        auto d3 = r2(v2, v3);
-        CHECK(d3 == 2);
-        fmt::print("The squared distance between v2 and v3 is {}\n", d3);
+        auto d_1 = r_2(v_1, v_2);
+        CHECK(d_1 == 2);
+        fmt::print("The squared distance between v_1 and v_2 is {}\n", d_1);
+        auto d_2 = r_2(v_1, v_3);
+        CHECK(d_2 == 2);
+        fmt::print("The squared distance between v_1 and v_3 is {}\n", d_2);
+        auto d_3 = r_2(v_2, v_3);
+        CHECK(d_3 == 2);
+        fmt::print("The squared distance between v_2 and v_3 is {}\n", d_3);
       }
       THEN("All vertices have correct timevalues.")
       {
-        CHECK(ft.check_all_vertices());
+        CHECK(triangulation.check_all_vertices());
         // Human verification
-        auto print = [&ft](Vertex_handle_t<3> const& v) {
+        auto print = [&triangulation](Vertex_handle_t<3> const& v)
+        {
           fmt::print(
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
               "{}.\n",
               v->point(), v->info(), squared_radius<3>(v),
-              std::pow(ft.expected_radius(v), 2), ft.expected_timevalue(v));
+              std::pow(triangulation.expected_radius(v), 2),
+              triangulation.expected_timevalue(v));
         };
-        std::for_each(ft.get_vertices().begin(), ft.get_vertices().end(),
-                      print);
+        std::for_each(triangulation.get_vertices().begin(),
+                      triangulation.get_vertices().end(), print);
       }
     }
   }
@@ -151,83 +166,98 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
 SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
          "[tetrahedron]")
 {
+  using Point                 = Point_t<3>;
+  using Causal_vertices       = Causal_vertices_t<3>;
+  using FoliatedTriangulation = FoliatedTriangulation3;
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
-    vector<Point_t<3>>  Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
-                                Point_t<3>{0, 0, 1},
-                                Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point> Vertices{
+        Point{       1,        0,        0},
+        Point{       0,        1,        0},
+        Point{       0,        0,        1},
+        Point{RADIUS_2, RADIUS_2, RADIUS_2}
+    };
     vector<std::size_t> timevalue{1, 1, 1, 2};
 
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
       // This is a complicated way to make Causal_vertices but is left
       // here for reference
-      Causal_vertices_t<3> cv;
-      cv.reserve(Vertices.size());
+      Causal_vertices causal_vertices;
+      causal_vertices.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(cv), [](Point_t<3> a, std::size_t b) {
-                       return std::make_pair(a, b);
-                     });
-      FoliatedTriangulation3 ft(cv);
+                     std::back_inserter(causal_vertices),
+                     [](Point a, std::size_t b)
+                     { return std::make_pair(a, b); });
+      FoliatedTriangulation triangulation(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")
       {
-        REQUIRE(ft.is_initialized());
+        REQUIRE(triangulation.is_initialized());
       }
 
       THEN("The triangulation has dimension 3.")
       {
-        REQUIRE(ft.dimension() == 3);
+        REQUIRE(triangulation.dimension() == 3);
       }
 
       THEN("The triangulation has 4 vertices.")
       {
-        REQUIRE(ft.number_of_vertices() == 4);
+        REQUIRE(triangulation.number_of_vertices() == 4);
       }
 
       THEN("The triangulation has 6 edges.")
       {
-        REQUIRE(ft.number_of_finite_edges() == 6);
+        REQUIRE(triangulation.number_of_finite_edges() == 6);
       }
 
       THEN("The triangulation has 4 faces.")
       {
-        REQUIRE(ft.number_of_finite_facets() == 4);
+        REQUIRE(triangulation.number_of_finite_facets() == 4);
       }
 
       THEN("The triangulation has 1 cell.")
       {
-        REQUIRE(ft.number_of_finite_cells() == 1);
+        REQUIRE(triangulation.number_of_finite_cells() == 1);
       }
 
-      THEN("Timevalues are correct.") { CHECK(ft.check_all_vertices()); }
+      THEN("Timevalues are correct.")
+      {
+        CHECK(triangulation.check_all_vertices());
+      }
 
       THEN("The cell info is correct.")
       {
-        auto cell = ft.get_delaunay().finite_cells_begin();
+        auto cell = triangulation.get_delaunay().finite_cells_begin();
         CHECK(expected_cell_type<3>(cell) == Cell_type::THREE_ONE);
         // Human verification
-        ft.print_cells();
+        triangulation.print_cells();
       }
 
       THEN("There is one (3,1) simplex.")
       {
-        REQUIRE(ft.get_three_one().size() == 1);
+        REQUIRE(triangulation.get_three_one().size() == 1);
       }
 
       THEN("There are no (2,2) simplices.")
       {
-        REQUIRE(ft.get_two_two().empty());
+        REQUIRE(triangulation.get_two_two().empty());
       }
 
       THEN("There are no (1,3) simplices.")
       {
-        REQUIRE(ft.get_one_three().empty());
+        REQUIRE(triangulation.get_one_three().empty());
       }
 
-      THEN("There are 3 timelike edges.") { REQUIRE(ft.N1_TL() == 3); }
+      THEN("There are 3 timelike edges.")
+      {
+        REQUIRE(triangulation.N1_TL() == 3);
+      }
 
-      THEN("There are 3 spacelike edges.") { REQUIRE(ft.N1_SL() == 3); }
+      THEN("There are 3 spacelike edges.")
+      {
+        REQUIRE(triangulation.N1_SL() == 3);
+      }
     }
   }
 }
