@@ -147,9 +147,9 @@ Public Attributes</h2></td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="friends"></a>
 Friends</h2></td></tr>
-<tr class="memitem:a89aa633be477dfd525950f3b0e2d1bf8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">swap</a> (<a class="el" href="struct_geometry.html">Geometry</a>&lt; 3 &gt; &amp;t_first, <a class="el" href="struct_geometry.html">Geometry</a>&lt; 3 &gt; &amp;t_second) noexcept</td></tr>
-<tr class="memdesc:a89aa633be477dfd525950f3b0e2d1bf8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from a Manifold swap.  <a href="struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8">More...</a><br /></td></tr>
-<tr class="separator:a89aa633be477dfd525950f3b0e2d1bf8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae7de75b267250810ecdf896e410d5b97"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="struct_geometry_3_013_01_4.html#ae7de75b267250810ecdf896e410d5b97">swap</a> (<a class="el" href="struct_geometry.html">Geometry</a>&lt; 3 &gt; &amp;swap_from, <a class="el" href="struct_geometry.html">Geometry</a>&lt; 3 &gt; &amp;swap_into) noexcept</td></tr>
+<tr class="memdesc:ae7de75b267250810ecdf896e410d5b97"><td class="mdescLeft">&#160;</td><td class="mdescRight">Non-member swap function for <a class="el" href="struct_geometry.html">Geometry</a>.  <a href="struct_geometry_3_013_01_4.html#ae7de75b267250810ecdf896e410d5b97">More...</a><br /></td></tr>
+<tr class="separator:ae7de75b267250810ecdf896e410d5b97"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>3D <a class="el" href="struct_geometry.html">Geometry</a> </p>
@@ -190,13 +190,13 @@ Friends</h2></td></tr>
 
 <p class="definition">Definition at line <a class="el" href="_geometry_8hpp_source.html#l00061">61</a> of file <a class="el" href="_geometry_8hpp_source.html">Geometry.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01013">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_cells()</a>.</p>
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01012">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_cells()</a>.</p>
 
 </div>
 </div>
 <h2 class="groupheader">Friends And Related Function Documentation</h2>
-<a id="a89aa633be477dfd525950f3b0e2d1bf8"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a89aa633be477dfd525950f3b0e2d1bf8">&#9670;&nbsp;</a></span>swap</h2>
+<a id="ae7de75b267250810ecdf896e410d5b97"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ae7de75b267250810ecdf896e410d5b97">&#9670;&nbsp;</a></span>swap</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -208,13 +208,13 @@ Friends</h2></td></tr>
           <td class="memname">void swap </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="struct_geometry.html">Geometry</a>&lt; 3 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>t_first</em>, </td>
+          <td class="paramname"><em>swap_from</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype"><a class="el" href="struct_geometry.html">Geometry</a>&lt; 3 &gt; &amp;&#160;</td>
-          <td class="paramname"><em>t_second</em>&#160;</td>
+          <td class="paramname"><em>swap_into</em>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -229,11 +229,11 @@ Friends</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Swap two Geometry3 structs Used for no-except updates of geometry data structures Usually called from a Manifold swap. </p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>Non-member swap function for <a class="el" href="struct_geometry.html">Geometry</a>. </p>
+<p>Used for no-except updates of geometry data structures. Usually called from a Manifold swap. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">t_first</td><td>The destination geometry struct to swap out </td></tr>
-    <tr><td class="paramname">t_second</td><td>The source geometry struct to swap in </td></tr>
+    <tr><td class="paramname">swap_from</td><td>The value to be swapped from. Assumed to be discarded. </td></tr>
+    <tr><td class="paramname">swap_into</td><td>The value to be swapped into. </td></tr>
   </table>
   </dd>
 </dl>
@@ -248,7 +248,7 @@ Friends</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Feb 1 2022 03:32:19 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Feb 2 2022 21:10:44 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -15,5 +15,5 @@ var searchData=
   ['squared_5fdistance_231',['squared_distance',['../struct_triangulation_traits_3_013_01_4.html#a5455e1c9ad6d44be587a7645b2bd967f',1,'TriangulationTraits&lt; 3 &gt;']]],
   ['squared_5fradius_232',['squared_radius',['../_foliated__triangulation_8hpp.html#a28f44e248d61839c5eaa9923de6aea76',1,'foliated_triangulations']]],
   ['strategies_233',['Strategies',['../_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30',1,'Move_strategy.hpp']]],
-  ['swap_234',['swap',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#af87d0a9c0d31da0b4befc5d62a958641',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#a89aa633be477dfd525950f3b0e2d1bf8',1,'Geometry&lt; 3 &gt;::swap()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#aed56b4a1e59606b624184c0bd676f84d',1,'manifolds::Manifold&lt; 3 &gt;::swap()']]]
+  ['swap_234',['swap',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#af87d0a9c0d31da0b4befc5d62a958641',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap()'],['../struct_geometry_3_013_01_4.html#ae7de75b267250810ecdf896e410d5b97',1,'Geometry&lt; 3 &gt;::swap()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#af12c15c5c5d8fc258cf3a0fa882bc1c4',1,'manifolds::Manifold&lt; 3 &gt;::swap()']]]
 ];
