@@ -74,27 +74,27 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
 
   {}
 
-  /// @brief Swap two Geometry3 structs
-  /// Used for no-except updates of geometry data structures
-  /// Usually called from a Manifold swap
-  /// @param t_first The destination geometry struct to swap out
-  /// @param t_second The source geometry struct to swap in
-  friend void swap(Geometry<3>& t_first, Geometry<3>& t_second) noexcept
+  /// @brief Non-member swap function for Geometry
+  /// @details Used for no-except updates of geometry data structures.
+  /// Usually called from a Manifold swap.
+  /// @param swap_from The value to be swapped from. Assumed to be discarded.
+  /// @param swap_into The value to be swapped into.
+  friend void swap(Geometry<3> & swap_from, Geometry<3> & swap_into) noexcept
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
     using std::swap;
-    swap(t_first.N3, t_second.N3);
-    swap(t_first.N3_31, t_second.N3_31);
-    swap(t_first.N3_13, t_second.N3_13);
-    swap(t_first.N3_31_13, t_second.N3_31_13);
-    swap(t_first.N3_22, t_second.N3_22);
-    swap(t_first.N2, t_second.N2);
-    swap(t_first.N1, t_second.N1);
-    swap(t_first.N1_TL, t_second.N1_TL);
-    swap(t_first.N1_SL, t_second.N1_SL);
-    swap(t_first.N0, t_second.N0);
+    swap(swap_from.N3, swap_into.N3);
+    swap(swap_from.N3_31, swap_into.N3_31);
+    swap(swap_from.N3_13, swap_into.N3_13);
+    swap(swap_from.N3_31_13, swap_into.N3_31_13);
+    swap(swap_from.N3_22, swap_into.N3_22);
+    swap(swap_from.N2, swap_into.N2);
+    swap(swap_from.N1, swap_into.N1);
+    swap(swap_from.N1_TL, swap_into.N1_TL);
+    swap(swap_from.N1_SL, swap_into.N1_SL);
+    swap(swap_from.N0, swap_into.N0);
   }  // swap
 };   // struct Geometry<3>
 

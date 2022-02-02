@@ -62,7 +62,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
       THEN("A 1 vertex manifold has dimension 0.")
       {
-        REQUIRE(manifold.dim() == 0);
+        REQUIRE(manifold.dimensionality() == 0);
       }
 
       THEN("The vertex is valid.")
@@ -99,7 +99,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
       THEN("A 2 vertex manifold has dimension 1.")
       {
-        REQUIRE(manifold.dim() == 1);
+        REQUIRE(manifold.dimensionality() == 1);
       }
 
       THEN("The vertices are valid.")
@@ -142,7 +142,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
       THEN("A 3 vertex manifold has dimension 2.")
       {
-        REQUIRE(manifold.dim() == 2);
+        REQUIRE(manifold.dimensionality() == 2);
       }
 
       THEN("The vertices are valid.")
@@ -186,7 +186,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
       THEN("A 4 vertex manifold has dimension 3.")
       {
-        REQUIRE(manifold.dim() == 3);
+        REQUIRE(manifold.dimensionality() == 3);
       }
 
       THEN("The vertices are valid.")
@@ -232,7 +232,7 @@ SCENARIO("Vertex operations", "[vertex]")
 
       THEN("A 5 vertex manifold still has dimension 3.")
       {
-        REQUIRE(manifold.dim() == 3);
+        REQUIRE(manifold.dimensionality() == 3);
       }
 
       THEN("The vertices are valid.")

@@ -57,6 +57,7 @@ namespace manifolds
 
    public:
     /// @brief Dimensionality of the manifold
+    /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension  = 3;
 
     /// @brief Default dtor
@@ -76,6 +77,20 @@ namespace manifolds
 
     /// @brief Default move assignment
     auto operator=(Manifold&& other) -> Manifold& = default;
+
+    /// @brief Non-member swap function for Manifolds.
+    /// @details Used for no-except updates of manifolds after moves.
+    /// @param swap_from The value to be swapped from. Assumed to be discarded.
+    /// @param swap_into The value to be swapped into.
+    friend void swap(Manifold<3> & swap_from, Manifold<3> & swap_into) noexcept
+    {
+#ifndef NDEBUG
+      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
+#endif
+      using std::swap;
+      swap(swap_from.m_triangulation, swap_into.m_triangulation);
+      swap(swap_from.m_geometry, swap_into.m_geometry);
+    }  // swap
 
     /// @brief Construct manifold from a Foliated triangulation
     /// @param t_foliated_triangulation Triangulation used to construct manifold
@@ -125,7 +140,7 @@ namespace manifolds
     }
     catch (std::system_error const& ex)
     {
-      fmt::print("Exception thrown: {}\n", ex.what());
+      spdlog::trace("Exception thrown: {}\n", ex.what());
     }  // update
 
     /// @return A read-only reference to the triangulation
@@ -195,14 +210,19 @@ namespace manifolds
           t_edge_candidate.third);
     }  // is_edge
 
-    /// @return Dimensionality of triangulation data structure
-    [[nodiscard]] auto dim() const { return m_triangulation.dimension(); }
+    /// @return Run-time dimensionality of the triangulation data structure
+    [[nodiscard]] auto dimensionality() const
+    {
+      return m_triangulation.dimension();
+    }
 
+    /// @brief Initial radius of the first timeslice
     [[nodiscard]] auto initial_radius() const
     {
       return m_triangulation.initial_radius();
     }
 
+    /// @brief Radial separation between timeslices
     [[nodiscard]] auto foliation_spacing() const
     {
       return m_triangulation.foliation_spacing();
@@ -336,20 +356,6 @@ namespace manifolds
     /// cell->info()
     void print_cells() const { m_triangulation.print_cells(); }
 
-    /// @brief Swap manifolds
-    /// Used for no-except updates of manifolds after moves
-    /// @param t_first The destination manifold to swap out
-    /// @param t_second The source manifold to swap in
-    friend void swap(Manifold<3>& t_first, Manifold<3>& t_second) noexcept
-    {
-#ifndef NDEBUG
-      spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
-#endif
-      using std::swap;
-      swap(t_first.m_triangulation, t_second.m_triangulation);
-      swap(t_first.m_geometry, t_second.m_geometry);
-    }  // swap
-
     /// @brief Print manifold
     void print() const
     try
@@ -421,6 +427,7 @@ namespace manifolds
 
    public:
     /// @brief Dimensionality of the manifold
+    /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension = 4;
   };
 

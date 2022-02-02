@@ -867,12 +867,11 @@ namespace foliated_triangulations
     }
 
     /// @brief Non-member swap function for Foliated Triangulations.
-    /// Note that this function calls swap() from CGAL's Triangulation_3 base
-    /// class, which assumes that the first triangulation is discarded after
-    /// it is swapped into the second one.
+    /// @details Note that this function calls swap() from CGAL's
+    /// Triangulation_3 base class, which assumes that the first triangulation
+    /// is discarded after it is swapped into the second one.
     /// @param swap_from The value to be swapped from. Assumed to be discarded.
     /// @param swap_into The value to be swapped into.
-    /// @todo Look at swap through the entire stack
     friend void swap(FoliatedTriangulation<3>& swap_from,
                      FoliatedTriangulation<3>& swap_into) noexcept
     {

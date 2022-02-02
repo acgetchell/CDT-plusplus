@@ -360,7 +360,7 @@ namespace ergodic_moves
       manifolds::Manifold3 const& manifold,
       Vertex_handle_t<3> const&   candidate) noexcept -> bool
   {
-    if (manifold.dim() != 3)
+    if (manifold.dimensionality() != 3)
     {
 #ifndef NDEBUG
       spdlog::trace("Manifold is not 3-dimensional.\n");
@@ -397,7 +397,7 @@ namespace ergodic_moves
       return false;
     }
 
-    // Vertices should be correct
+    // Run until all vertices are fixed
     while (foliated_triangulations::fix_vertices<3>(
         manifold.get_triangulation().get_delaunay(),
         manifold.get_triangulation().initial_radius(),
@@ -405,12 +405,16 @@ namespace ergodic_moves
     {
       spdlog::warn("Fixing vertices found by is_62_movable().\n");
     }
-
-    //            // Cells should be correct
-    //            while(!foliated_triangulations::check_cells<3>(manifold.get_triangulation().get_delaunay()))
-    //            {
-    //              foliated_triangulations::fix_cells<3>(manifold.get_triangulation().get_delaunay());
-    //            }
+    // Run until all cells fixed or 50 passes
+    for (auto passes = 1; passes < 51; ++passes)  // NOLINT
+    {
+      if (foliated_triangulations::fix_cells<3>(
+              manifold.get_triangulation().get_delaunay()))
+      {
+        spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n",
+                     passes);
+      }
+    }
 
     auto const incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);
