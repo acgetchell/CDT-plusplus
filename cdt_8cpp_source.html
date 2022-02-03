@@ -131,16 +131,16 @@ $(function() {
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;<span class="keywordflow">try</span></div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;{</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="comment">// Start running time</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  Timer t;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  t.start();</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  Timer timer;</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;  timer.start();</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;  fmt::print(<span class="stringliteral">&quot;cdt started at {}\n&quot;</span>, utilities::current_date_time());</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160; </div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  <span class="comment">// docopt option parser</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  gsl::cstring_span&lt;&gt;        usage_string = gsl::ensure_z(<a class="code" href="cdt_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a>);</div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  std::map&lt;std::string, docopt::value, std::less&lt;std::string&gt;&gt; args =</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                     <span class="keyword">true</span>,          <span class="comment">// print help message automatically</span></div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                     <span class="stringliteral">&quot;CDT 0.1.8&quot;</span>);  <span class="comment">// Version</span></div>
+<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  std::string usage_string{<a class="code" href="cdt_8cpp.html#a783a97da858313d8048e695a79fa893a">USAGE</a>};</div>
+<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  std::map&lt;std::string, docopt::value, std::less&lt;std::string&gt;&gt; args</div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;      = docopt::docopt(usage_string, {argv + 1, argv + argc},</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;                       <span class="keyword">true</span>,          <span class="comment">// print help message automatically</span></div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                       <span class="stringliteral">&quot;CDT 0.1.8&quot;</span>);  <span class="comment">// Version</span></div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160; </div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  <span class="comment">// Debugging</span></div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; [key, value] : args)</div>
@@ -180,7 +180,7 @@ $(function() {
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  <span class="keywordflow">if</span> (simplices &lt; 2 || timeslices &lt; 2)</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  {</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    t.stop();</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    timer.stop();</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    <span class="keywordflow">throw</span> invalid_argument(</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;        <span class="stringliteral">&quot;Simplices and timeslices should be greater or equal to 2.&quot;</span>);</div>
 <div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  }</div>
@@ -189,7 +189,7 @@ $(function() {
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;  <span class="comment">// See http://arxiv.org/abs/hep-th/0105267 for details</span></div>
 <div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;  <span class="keywordflow">if</span> (dimensions == 3 &amp;&amp; abs(alpha) &lt; <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.5))  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;  {</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    t.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    timer.stop();  <span class="comment">// End running time counter</span></div>
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    <span class="keywordflow">throw</span> domain_error(<span class="stringliteral">&quot;Alpha in 3D should be greater than 1/2.&quot;</span>);</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  }</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
@@ -214,12 +214,12 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      }</div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      <span class="keywordflow">else</span></div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      {</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        t.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;        timer.stop();  <span class="comment">// End running time counter</span></div>
 <div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
 <div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;      }</div>
 <div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      t.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      timer.stop();  <span class="comment">// End running time counter</span></div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Toroidal triangulations not yet supported.&quot;</span>);</div>
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    <span class="keywordflow">default</span>:</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      <span class="keywordflow">throw</span> domain_error(<span class="stringliteral">&quot;Simulation topology not parsed.&quot;</span>);</div>
@@ -243,9 +243,9 @@ $(function() {
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  Ensures(result.is_valid());</div>
 <div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="comment">// Output results</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  t.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  timer.stop();  <span class="comment">// End running time counter</span></div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  fmt::print(<span class="stringliteral">&quot;=== Run Results ===\n&quot;</span>);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  fmt::print(<span class="stringliteral">&quot;Running time is {} seconds.\n&quot;</span>, t.time());</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  fmt::print(<span class="stringliteral">&quot;Running time is {} seconds.\n&quot;</span>, timer.time());</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  result.print();</div>
 <div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  result.print_details();</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  result.print_volume_per_timeslice();</div>
@@ -293,7 +293,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00047">Manifold.hpp:47</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Feb 2 2022 21:10:44 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Feb 3 2022 05:13:03 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
