@@ -62,16 +62,16 @@ auto main(int argc, char* const argv[]) -> int  // NOLINT
 try
 {
   // Start running time
-  Timer t;
-  t.start();
+  Timer timer;
+  timer.start();
   fmt::print("cdt started at {}\n", utilities::current_date_time());
 
   // docopt option parser
-  gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
-  std::map<std::string, docopt::value, std::less<std::string>> args =
-      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
-                     true,          // print help message automatically
-                     "CDT 0.1.8");  // Version
+  std::string usage_string{USAGE};
+  std::map<std::string, docopt::value, std::less<std::string>> args
+      = docopt::docopt(usage_string, {argv + 1, argv + argc},
+                       true,          // print help message automatically
+                       "CDT 0.1.8");  // Version
 
   // Debugging
   for (auto const& [key, value] : args)
@@ -111,7 +111,7 @@ try
 
   if (simplices < 2 || timeslices < 2)
   {
-    t.stop();
+    timer.stop();
     throw invalid_argument(
         "Simplices and timeslices should be greater or equal to 2.");
   }
@@ -120,7 +120,7 @@ try
   // See http://arxiv.org/abs/hep-th/0105267 for details
   if (dimensions == 3 && abs(alpha) < static_cast<long double>(0.5))  // NOLINT
   {
-    t.stop();  // End running time counter
+    timer.stop();  // End running time counter
     throw domain_error("Alpha in 3D should be greater than 1/2.");
   }
 
@@ -145,12 +145,12 @@ try
       }
       else
       {
-        t.stop();  // End running time counter
+        timer.stop();  // End running time counter
         throw invalid_argument("Currently, dimensions cannot be >3.");
       }
       break;
     case topology_type::TOROIDAL:
-      t.stop();  // End running time counter
+      timer.stop();  // End running time counter
       throw invalid_argument("Toroidal triangulations not yet supported.");
     default:
       throw domain_error("Simulation topology not parsed.");
@@ -174,9 +174,9 @@ try
   Ensures(result.is_valid());
 
   // Output results
-  t.stop();  // End running time counter
+  timer.stop();  // End running time counter
   fmt::print("=== Run Results ===\n");
-  fmt::print("Running time is {} seconds.\n", t.time());
+  fmt::print("Running time is {} seconds.\n", timer.time());
   result.print();
   result.print_details();
   result.print_volume_per_timeslice();

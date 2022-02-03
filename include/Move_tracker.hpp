@@ -33,7 +33,7 @@ namespace move_tracker
       typename std::underlying_type_t<Enumeration>
   {
     return static_cast<typename std::underlying_type_t<Enumeration>>(value);
-  }
+  }  // as_integer
 
   // @brief Convert an integer to move_type
   inline auto as_move(int move_choice) -> move_type
@@ -43,8 +43,9 @@ namespace move_tracker
     if (move_choice == 2) { return move_type::TWO_SIX; }
     if (move_choice == 3) { return move_type::SIX_TWO; }
     return move_type::FOUR_FOUR;
-  }
+  }  // as_move
 
+  /// @brief Generate random ergodic move
   [[nodiscard]] inline auto generate_random_move_3() -> move_type
   {
     auto move_choice = utilities::generate_random_int(0, 4);
@@ -52,7 +53,7 @@ namespace move_tracker
     fmt::print("Move choice = {}\n", move_choice);
 #endif
     return as_move(move_choice);
-  }
+  }  // generate_random_move_3
 
   /// @brief Determine ergodic moves for a given dimension at compile-time
   /// @param dim Dimensionality of the triangulation
@@ -62,7 +63,7 @@ namespace move_tracker
     if (dim == 3) { return NUMBER_OF_3D_MOVES; }
     if (dim == 4) { return NUMBER_OF_4D_MOVES; }
     return 0;  // Error condition
-  }
+  }            // moves_per_dimension
 
   /// @brief The data and methods to track ergodic moves
   /// @tparam ManifoldType The type of manifold on which moves are made
@@ -102,7 +103,7 @@ namespace move_tracker
     auto total() const noexcept
     {
       return std::accumulate(moves.begin(), moves.end(), 0);
-    }
+    }  // total
 
     /// @return Size of container of moves
     auto size() const noexcept { return moves.size(); }

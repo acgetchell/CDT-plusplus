@@ -356,7 +356,8 @@ namespace foliated_triangulations
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    std::array<int, dimension + 1> vertex_timevalues{};
+    std::array<int, static_cast<std::size_t>(dimension) + 1>
+        vertex_timevalues{};
     // There are d+1 vertices in a d-dimensional simplex
     for (auto i = 0; i < dimension + 1; ++i)
     {
@@ -989,7 +990,7 @@ namespace foliated_triangulations
     }  // is_initialized
 
     /// @return True if fixes were done on the Delaunay triangulation
-    [[nodiscard]] auto fix() -> bool
+    [[nodiscard]] auto is_fixed()->bool
     {
       auto fixed_vertices = foliated_triangulations::fix_vertices<3>(
           m_triangulation, m_initial_radius, m_foliation_spacing);
@@ -997,7 +998,7 @@ namespace foliated_triangulations
       auto fixed_timeslices =
           foliated_triangulations::fix_timevalues<3>(m_triangulation);
       return fixed_vertices || fixed_cells || fixed_timeslices;
-    }
+    }  // is_fixed
 
     /// @return A mutable reference to the Delaunay triangulation
     [[nodiscard]] auto delaunay() -> Delaunay_t<3>& { return m_triangulation; }

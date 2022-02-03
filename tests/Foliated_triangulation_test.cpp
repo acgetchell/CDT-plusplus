@@ -749,7 +749,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       THEN("After being fixed, Delaunay3 functions work as expected.")
       {
         // Fix the triangulation
-        CHECK(ft.fix());
+        CHECK(ft.is_fixed());
         CHECK(ft.number_of_finite_cells() == 2);
         fmt::print("Base Delaunay number of cells: {}\n",
                    ft.number_of_finite_cells());

@@ -46,10 +46,9 @@ auto main(int argc, char* const argv[]) -> int  // NOLINT
 try
 {
   // docopt option parser
-  gsl::cstring_span<>        usage_string = gsl::ensure_z(USAGE);
-  std::map<std::string, docopt::value, std::less<string>> args =
-      docopt::docopt(gsl::to_string(usage_string), {argv + 1, argv + argc},
-                     true, "initializer 1.0");
+  std::string                                             usage_string{USAGE};
+  std::map<std::string, docopt::value, std::less<string>> args = docopt::docopt(
+      usage_string, {argv + 1, argv + argc}, true, "initializer 1.0");
 
   auto simplices         = stoll(args["-n"].asString());
   auto timeslices        = stoll(args["-t"].asString());

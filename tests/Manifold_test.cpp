@@ -295,17 +295,17 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.faces() == manifold.N2());
         REQUIRE(manifold.check_simplices());
         // We have 1 to 8 vertices
-        auto vertices{manifold.N0()};
-        CHECK_THAT(vertices,
-                   Predicate<int>(
-                       [](int const a) -> bool { return (1 <= a && a <= 8); },
-                       "There should be 1 to 8 vertices."));
-        // We have 1 to 12 cells
-        auto cells{manifold.N3()};
-        CHECK_THAT(cells,
-                   Predicate<int>(
-                       [](int const a) -> bool { return (1 <= a && a <= 12); },
-                       "There should be 1 to 12 cells."));
+        auto number_of_vertices{manifold.N0()};
+        CHECK_THAT(number_of_vertices,
+                   Predicate<int>([](int const value) -> bool
+                                  { return (1 <= value && value <= 8); },
+                                  "There should be 1 to 8 vertices."));
+        // We have 1 to 12 number_of_cells
+        auto number_of_cells{manifold.N3()};
+        CHECK_THAT(number_of_cells,
+                   Predicate<int>([](int const value) -> bool
+                                  { return (1 <= value && value <= 12); },
+                                  "There should be 1 to 12 cells."));
         // We have all the time values
         CHECK(manifold.min_time() == 1);
         CHECK(manifold.max_time() == desired_timeslices);
