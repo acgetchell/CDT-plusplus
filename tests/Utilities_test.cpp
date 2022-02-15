@@ -305,6 +305,14 @@ SCENARIO("Expected points per timeslice", "[utility]")
         REQUIRE(expected_points_per_timeslice(3, 640000, 64) == 1000);
       }
     }
+    WHEN("We specify 4 dimensions")
+    {
+      THEN("A std::invalid_argument exception is thrown.")
+      {
+        REQUIRE_THROWS_AS(expected_points_per_timeslice(4, 640000, 64),
+                          std::invalid_argument);
+      }
+    }
   }
 }
 

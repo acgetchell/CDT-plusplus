@@ -14,7 +14,7 @@
 using namespace std;
 
 /// Help message parsed by docopt into options
-static constexpr auto* USAGE{
+static constexpr string_view USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2021 Adam Getchell

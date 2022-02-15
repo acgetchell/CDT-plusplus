@@ -159,7 +159,6 @@ namespace utilities
   /// @param t_number_of_timeslices The number of foliated timeslices
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
-  /// @todo Fix write_file() to include cell->info() and vertex->info()
   template <typename ManifoldType>
   void write_file(ManifoldType const&  t_universe,
                   topology_type const& t_topology, Int_precision t_dimension,

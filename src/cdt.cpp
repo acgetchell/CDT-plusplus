@@ -19,7 +19,7 @@ using Timer = CGAL::Real_timer;
 using namespace std;
 
 /// Help message parsed by docopt into options
-static constexpr auto* USAGE{
+static constexpr string_view USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2014-2021 Adam Getchell
@@ -73,11 +73,12 @@ try
                        true,          // print help message automatically
                        "CDT 0.1.8");  // Version
 
-  // Debugging
+#ifndef NDEBUG
   for (auto const& [key, value] : args)
   {
     fmt::print("Key: {} Value: {}\n", key, value);
   }
+#endif
 
   // Parse docopt::values in args map
   auto simplices  = stoll(args["-n"].asString());
@@ -97,7 +98,7 @@ try
 
   // Display job parameters
   fmt::print("Topology is {}\n", topology);
-  fmt::print("Dimensionality: {}\n", dimensions);
+  fmt::print("Dimensionality: {}+{}\n", dimensions - 1, 1);
   fmt::print("Initial radius: {}\n", initial_radius);
   fmt::print("Foliation spacing: {}\n", foliation_spacing);
   fmt::print("Number of desired simplices: {}\n", simplices);

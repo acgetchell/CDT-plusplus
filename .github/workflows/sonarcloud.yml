@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       SONAR_SCANNER_VERSION: 4.6.2.2472 # Find the latest version in the "Linux" link on this page:
-      # https://sonarcloud.io/documentation/analysis/scan/sonarscanner/
+      # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
       SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
@@ -30,7 +30,7 @@ jobs:
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: d15470bb6464a3bb0ce3d98d118190cfd5189080
+          vcpkgGitCommitId: c93faafe6d892aca636765e3a7e67797736b0b09
 
       - name: Install vcpkg packages and configure CMake
         shell: bash

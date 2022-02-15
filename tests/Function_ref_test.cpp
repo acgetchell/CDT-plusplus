@@ -11,7 +11,6 @@
 /// delayed calls
 
 #include "Ergodic_moves_3.hpp"
-//#include "Function_ref.hpp"
 #include <catch2/catch.hpp>
 #include <tl/function_ref.hpp>
 
@@ -73,8 +72,11 @@ SCENARIO("Function_ref operations", "[function-ref]")
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {
-    auto const                 increment_lambda = [](int a) { return ++a; };
-    tl::function_ref<int(int)> lambda_ref(increment_lambda);
+    auto const increment = [](int incr)
+    {
+      return ++incr;
+    };
+    tl::function_ref<int(int)> lambda_ref(increment);
     WHEN("Function_ref is called with 0.")
     {
       THEN("We should get 1.") { REQUIRE(lambda_ref(1) == 2); }
@@ -86,7 +88,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
     auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    tl::function_ref<tl::expected<Manifold3, std::string_view>(Manifold3&)>
+    tl::function_ref<tl::expected<Manifold3, std::string>(Manifold3&)>
         complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
