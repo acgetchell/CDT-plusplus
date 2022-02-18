@@ -845,7 +845,7 @@ namespace foliated_triangulations
     FoliatedTriangulation()  = default;
 
     /// @brief Copy Constructor
-    FoliatedTriangulation(FoliatedTriangulation const& other)
+    FoliatedTriangulation(FoliatedTriangulation const& other) noexcept
         : FoliatedTriangulation(
             static_cast<Delaunay_t<3> const&>(other.get_delaunay()))
     {}
@@ -1335,10 +1335,10 @@ namespace foliated_triangulations
       for (auto fit = get_delaunay().finite_facets_begin();
            fit != get_delaunay().finite_facets_end(); ++fit)
       {
-        Cell_handle_t<3> ch = fit->first;
+        Cell_handle_t<3> cell = fit->first;
         // Each face is valid in the triangulation
-        Ensures(get_delaunay().tds().is_facet(ch, fit->second));
-        Face_handle_t<3> thisFacet{std::make_pair(ch, fit->second)};
+        Ensures(get_delaunay().tds().is_facet(cell, fit->second));
+        Face_handle_t<3> thisFacet{std::make_pair(cell, fit->second)};
         init_faces.emplace_back(thisFacet);
       }
       Ensures(init_faces.size() == get_delaunay().number_of_finite_facets());

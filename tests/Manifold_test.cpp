@@ -41,18 +41,10 @@ SCENARIO("Manifold special member and swap properties", "[manifold]")
       {
         CHECK_FALSE(is_trivially_default_constructible_v<Manifold3>);
       }
-      THEN("It is default constructible.")
+      THEN("It is no-throw copy constructible.")
       {
-        CHECK(is_default_constructible_v<Manifold3>);
-      }
-      THEN("It is copy constructible.")
-      {
-        REQUIRE(is_copy_constructible_v<Manifold3>);
-        spdlog::debug("It is copy constructible.\n");
-      }
-      THEN("It is copy constructible.")
-      {
-        CHECK(is_copy_constructible_v<Manifold3>);
+        REQUIRE(is_nothrow_copy_constructible_v<Manifold3>);
+        spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
@@ -390,7 +382,6 @@ SCENARIO("3-Manifold function checks", "[manifold]")
         CHECK(manifold.N1_TL() == manifold.get_geometry().N1_TL);
         CHECK(manifold.N1_SL() == manifold.get_geometry().N1_SL);
         CHECK(manifold.N0() == manifold.get_geometry().N0);
-        /// TODO: Check more functions
       }
     }
   }
@@ -556,12 +547,13 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
     causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
     Manifold3 manifold(causal_vertices, 0.0, 1.0);
-    auto      print = [&manifold](auto& v) {
+    auto      print = [&manifold](auto& vertex)
+    {
       fmt::print(
-               "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-                    "infinite: {}\n",
-               v->point(), v->info(), manifold.is_vertex(v),
-               manifold.get_triangulation().is_infinite(v));
+          "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+          "infinite: {}\n",
+          vertex->point(), vertex->info(), manifold.is_vertex(vertex),
+          manifold.get_triangulation().is_infinite(vertex));
     };
     WHEN("We ask for a container of vertices given a container of cells.")
     {
