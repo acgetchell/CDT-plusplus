@@ -90,7 +90,7 @@ try
             static_cast<Int_precision>(simplices),
             static_cast<Int_precision>(timeslices), initial_radius,
             foliation_spacing);
-        swap(universe, populated_universe);
+        swap(populated_universe, universe);
       }
       else
       {

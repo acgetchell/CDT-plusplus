@@ -412,7 +412,7 @@ namespace manifolds
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       Geometry geom(m_triangulation);
-      swap(m_geometry, geom);
+      swap(geom, m_geometry);
     }  // update_geometry
   };
 

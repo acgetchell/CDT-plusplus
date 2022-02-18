@@ -142,7 +142,7 @@ try
             static_cast<Int_precision>(timeslices), initial_radius,
             foliation_spacing);
         // Manifold no-throw swapperator
-        swap(universe, populated_universe);
+        swap(populated_universe, universe);
       }
       else
       {

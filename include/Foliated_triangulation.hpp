@@ -188,8 +188,7 @@ namespace foliated_triangulations
   /// @brief Calculate the squared radius from the origin
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertex The vertex to check
-  /// @return The squared radial distance of the vertex
-  /// @todo Generalize to d=3,4
+  /// @return The squared radial distance of the vertex from the origin
   template <int dimension>
   [[nodiscard]] auto squared_radius(Vertex_handle_t<dimension> const& t_vertex)
       -> double
@@ -547,7 +546,6 @@ namespace foliated_triangulations
   /// @param t_facets A container of facets
   /// @param t_debug_flag Debugging info toggle
   /// @return Container with spacelike facets per timeslice
-  /// @todo Generalize to d=3, 4
   template <int dimension, ContainerType Container>
   [[nodiscard]] auto volume_per_timeslice(Container&& t_facets)
       -> std::multimap<Int_precision, Facet_t<3>>
@@ -559,7 +557,7 @@ namespace foliated_triangulations
     for (auto        facets = std::forward<Container>(t_facets);
          auto const& face : facets)
     {
-      Cell_handle_t<dimension> ch             = face.first;
+      Cell_handle_t<dimension> cell           = face.first;
       auto                     index_of_facet = face.second;
 #ifndef NDEBUG
       spdlog::trace("Facet index is {}\n", index_of_facet);
@@ -572,9 +570,9 @@ namespace foliated_triangulations
         {
 #ifndef NDEBUG
           spdlog::trace("Vertex[{}] has timevalue {}\n", i,
-                        ch->vertex(i)->info());
+                        cell->vertex(i)->info());
 #endif
-          facet_timevalues.insert(ch->vertex(i)->info());
+          facet_timevalues.insert(cell->vertex(i)->info());
         }
       }
       // If we have a 1-element set then all timevalues on that facet are
@@ -856,7 +854,7 @@ namespace foliated_triangulations
     auto operator=(FoliatedTriangulation other) noexcept
         -> FoliatedTriangulation&
     {
-      swap(*this, other);
+      swap(other, *this);
       return *this;
     }
 
@@ -864,7 +862,7 @@ namespace foliated_triangulations
     FoliatedTriangulation(FoliatedTriangulation&& other) noexcept
         : FoliatedTriangulation{}
     {
-      swap(*this, other);
+      swap(other, *this);
     }
 
     /// @brief Non-member swap function for Foliated Triangulations.
@@ -976,7 +974,6 @@ namespace foliated_triangulations
     }  // is_tds_valid
 
     /// @return True if the Foliated Triangulation class invariants hold
-    /// @todo Add check_all_vertices
     [[nodiscard]] auto is_correct() const -> bool
     {
       return is_foliated() && is_tds_valid() && check_all_cells();
