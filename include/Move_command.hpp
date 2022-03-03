@@ -19,23 +19,26 @@ template <typename ManifoldType,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>
 class MoveCommand
 {
+  using Queue   = std::deque<move_tracker::move_type>;
+  using Counter = move_tracker::MoveTracker<ManifoldType>;
+
   /// @brief The Manifold on which to make the move
   ManifoldType m_manifold;
 
   /// @brief The queue of moves to make
-  std::deque<move_tracker::move_type> m_moves;
+  Queue m_moves;
 
   /// @brief The queue of moves to retry
-  std::deque<move_tracker::move_type> m_moves_to_retry;
+  Queue m_moves_to_retry;
 
   /// @brief Track attempted moves
-  move_tracker::MoveTracker<ManifoldType> m_attempted;
+  Counter m_attempted;
 
   /// @brief Track successful moves
-  move_tracker::MoveTracker<ManifoldType> m_succeeded;
+  Counter m_succeeded;
 
   /// @brief Track failed moves
-  move_tracker::MoveTracker<ManifoldType> m_failed;
+  Counter m_failed;
 
  public:
   /// @brief No default ctor
@@ -60,8 +63,7 @@ class MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
   /// @return Attempted moves by MoveCommand
-  [[nodiscard]] auto get_attempted() const
-      -> move_tracker::MoveTracker<ManifoldType>
+  [[nodiscard]] auto get_attempted() const -> Counter const&
   {
     return m_attempted;
   }  // get_attempts
@@ -73,8 +75,7 @@ class MoveCommand
   }  // get_succeeded
 
   /// @return Failed moves by MoveCommand
-  [[nodiscard]] auto get_failed() const
-      -> move_tracker::MoveTracker<ManifoldType>
+  [[nodiscard]] auto get_failed() const -> Counter const&
   {
     return m_failed;
   }  // get_errors

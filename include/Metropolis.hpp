@@ -35,8 +35,10 @@ using Gmpzf = CGAL::Gmpzf;
 ///
 /// @tparam ManifoldType The type of Manifold on which to apply the algorithm
 template <typename ManifoldType>
-class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
+class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
 {
+  using Counter = move_tracker::MoveTracker<ManifoldType>;
+
   /// @brief The length of the timelike edges
   long double m_Alpha{};
 
@@ -62,24 +64,24 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>  // NOLINT
 
   /// @brief The number of moves the algorithm tried
   /// @details This equals accepted moves + rejected moves.
-  move_tracker::MoveTracker<ManifoldType> m_proposed_moves;
+  Counter m_proposed_moves;
 
   /// @brief The number of moves accepted by the algorithm
-  move_tracker::MoveTracker<ManifoldType> m_accepted_moves;
+  Counter m_accepted_moves;
 
   /// @brief The number of moves rejected by the algorithm
-  move_tracker::MoveTracker<ManifoldType> m_rejected_moves;
+  Counter m_rejected_moves;
 
   /// @brief The number of moves that were attempted by a MoveCommand.
   /// @details This should equal accepted moves.
-  move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+  Counter m_attempted_moves;
 
   /// @brief The number of moves that succeeded in the MoveCommand
-  move_tracker::MoveTracker<ManifoldType> m_succeeded_moves;
+  Counter m_succeeded_moves;
 
   /// @brief The number of moves that a MoveCommand failed to make due to an
   /// error
-  move_tracker::MoveTracker<ManifoldType> m_failed_moves;
+  Counter m_failed_moves;
 
  public:
   /// @brief Default ctor

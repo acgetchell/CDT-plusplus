@@ -21,6 +21,8 @@
 template <typename ManifoldType>
 class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
 {
+  using Counter = move_tracker::MoveTracker<ManifoldType>;
+
   /// @brief The number of move passes executed by the algorithm
   /// @details Each move pass makes a number of attempts equal to the number of
   /// simplices in the triangulation.
@@ -32,14 +34,14 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   Int_precision m_checkpoint{1};
 
   /// @brief The number of moves that were attempted by a MoveCommand
-  move_tracker::MoveTracker<ManifoldType> m_attempted_moves;
+  Counter m_attempted_moves;
 
   /// @brief The number of moves that succeeded in the MoveCommand
-  move_tracker::MoveTracker<ManifoldType> m_successful_moves;
+  Counter m_successful_moves;
 
   /// @brief The number of moves that a MoveCommand failed to make due to an
   /// error.
-  move_tracker::MoveTracker<ManifoldType> m_failed_moves;
+  Counter m_failed_moves;
 
  public:
   /// @brief Default ctor

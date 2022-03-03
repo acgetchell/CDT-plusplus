@@ -70,8 +70,10 @@ namespace move_tracker
   template <typename ManifoldType>
   class MoveTracker
   {
-    std::array<Int_precision, moves_per_dimension(ManifoldType::dimension)>
-        moves = {0};  // NOLINT
+    using Container = std::array<Int_precision,
+                                 moves_per_dimension(ManifoldType::dimension)>;
+
+    Container moves = {0};  // NOLINT
    public:
     /// @return Read-only container of moves
     auto moves_view() const { return std::span(moves); }

@@ -99,6 +99,9 @@ try
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
+      break;
+    default:
+      throw domain_error("Simulation topology not parsed.");
   }
   universe.print();
   universe.print_volume_per_timeslice();
@@ -106,8 +109,7 @@ try
   if (save_file)
   {
     utilities::write_file(universe, topology,
-                          static_cast<Int_precision>(dimensions),
-                          static_cast<Int_precision>(universe.N3()),
+                          static_cast<Int_precision>(dimensions), universe.N3(),
                           static_cast<Int_precision>(timeslices),
                           initial_radius, foliation_spacing);
   }
