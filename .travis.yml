@@ -103,23 +103,6 @@ jobs:
         - travis_wait 90 ctest -VV
         - cd src
         - ./initialize --s -n32000 -t11 -o
-    # CodeCov
-    - os: linux
-      compiler: g++-10
-      env: CODECOV=true
-      before_script:
-        - export CMAKE_ARGS="-D ENABLE_COVERAGE:BOOL=TRUE"
-      script:
-        - mkdir build
-        - cd build || exit
-        - cmake $CMAKE_ARGS ..
-        - cmake --build . --config Debug
-      after_success:
-        - travis_wait 60 ctest --schedule-random -j2
-        - lcov --capture --directory . --output-file coverage.info
-        - lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg_installed/*' --output-file coverage.info
-        - lcov --list coverage.info
-        - bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
     # Doxygen
     - os: linux
       compiler: g++-10
@@ -153,9 +136,6 @@ jobs:
     - os: linux
       compiler: clang-10
       env: TSAN=true
-    - os: linux
-      compiler: g++-10
-      env: CODECOV=true
 
 before_install:
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-10" CC="gcc-10"; fi

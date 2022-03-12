@@ -51,7 +51,8 @@ class MoveCommand
   /// @param t_manifold The manifold to perform moves upon
   explicit MoveCommand(ManifoldType t_manifold)
       : m_manifold{std::move(t_manifold)}
-  {}
+  {
+  }
 
   /// @return A read-only reference to the manifold
   auto get_const_results() const -> ManifoldType const&

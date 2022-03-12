@@ -13,6 +13,7 @@
 #define INCLUDE_SETTINGS_HPP_
 
 #include <CGAL/Gmpzf.h>
+
 #include <cstdint>
 
 /// Results are converted to a CGAL multi-precision floating point number.

@@ -53,7 +53,8 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   [[maybe_unused]] MoveStrategy(Int_precision t_number_of_passes,
                                 Int_precision t_checkpoint)
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
-  {}
+  {
+  }
 
   /// @return The number of passes made on a triangulation
   [[nodiscard]] auto passes() const { return m_passes; }

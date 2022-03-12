@@ -11,12 +11,13 @@
 #ifndef CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP
 #define CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP
 
-#include "Settings.hpp"
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/point_generators_3.h>
 #include <CGAL/Triangulation_cell_base_with_info_3.h>
 #include <CGAL/Triangulation_vertex_base_with_info_3.h>
+
+#include "Settings.hpp"
 
 template <int dimension>
 struct TriangulationTraits;
@@ -25,10 +26,10 @@ template <>
 struct TriangulationTraits<3>
 {
   using Kernel = CGAL::Exact_predicates_inexact_constructions_kernel;
-  using Vertex_base =
-      CGAL::Triangulation_vertex_base_with_info_3<Int_precision, Kernel>;
-  using Cell_base =
-      CGAL::Triangulation_cell_base_with_info_3<Int_precision, Kernel>;
+  using Vertex_base
+      = CGAL::Triangulation_vertex_base_with_info_3<Int_precision, Kernel>;
+  using Cell_base
+      = CGAL::Triangulation_cell_base_with_info_3<Int_precision, Kernel>;
 #ifdef CGAL_LINKED_WITH_TBB
   using Tds = CGAL::Triangulation_data_structure_3<Vertex_base, Cell_base,
                                                    CGAL::Parallel_tag>;

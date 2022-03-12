@@ -16,8 +16,8 @@
 #include <CGAL/Cartesian_d.h>
 #include <CGAL/constructions_d.h>
 #include <CGAL/point_generators_d.h>
-
 #include <fmt/format.h>
+
 #include <vector>
 
 using Kd        = CGAL::Cartesian_d<double>;

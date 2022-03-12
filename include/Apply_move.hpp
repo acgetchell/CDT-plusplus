@@ -11,8 +11,9 @@
 #ifndef CDT_PLUSPLUS_APPLY_MOVE_HPP
 #define CDT_PLUSPLUS_APPLY_MOVE_HPP
 
-#include <functional>
 #include <spdlog/spdlog.h>
+
+#include <functional>
 #include <string>
 #include <tl/expected.hpp>
 #include <tl/function_ref.hpp>

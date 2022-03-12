@@ -12,6 +12,7 @@
 
 #include <CGAL/Real_timer.h>
 #include <docopt.h>
+
 #include <Metropolis.hpp>
 
 using Timer = CGAL::Real_timer;
@@ -81,16 +82,16 @@ try
 #endif
 
   // Parse docopt::values in args map
-  auto simplices  = stoll(args["-n"].asString());
-  auto timeslices = stoll(args["-t"].asString());
-  auto dimensions = stoll(args["-d"].asString());
+  auto simplices         = stoll(args["-n"].asString());
+  auto timeslices        = stoll(args["-t"].asString());
+  auto dimensions        = stoll(args["-d"].asString());
   auto initial_radius    = stod(args["--init"].asString());
   auto foliation_spacing = stod(args["--foliate"].asString());
-  auto alpha      = stold(args["--alpha"].asString());
-  auto k          = stold(args["-k"].asString());
-  auto lambda     = stold(args["--lambda"].asString());
-  auto passes     = stoll(args["--passes"].asString());
-  auto checkpoint = stoll(args["--checkpoint"].asString());
+  auto alpha             = stold(args["--alpha"].asString());
+  auto k                 = stold(args["-k"].asString());
+  auto lambda            = stold(args["--lambda"].asString());
+  auto passes            = stoll(args["--passes"].asString());
+  auto checkpoint        = stoll(args["--checkpoint"].asString());
 
   // Topology of simulation
   auto topology = (args["--spherical"].asBool()) ? topology_type::SPHERICAL

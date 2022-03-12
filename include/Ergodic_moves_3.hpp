@@ -12,8 +12,9 @@
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 
-#include "Move_tracker.hpp"
 #include <tl/expected.hpp>
+
+#include "Move_tracker.hpp"
 
 using Expected = tl::expected<manifolds::Manifold3, std::string>;
 
@@ -218,8 +219,8 @@ namespace ergodic_moves
 #ifndef NDEBUG
         spdlog::trace("neighboring_31_index is {}.\n", *neighboring_31_index);
 #endif
-        Cell_handle_t<3> const top =
-            bottom->neighbor(neighboring_31_index.value());
+        Cell_handle_t<3> const top
+            = bottom->neighbor(neighboring_31_index.value());
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         if (!bottom->has_neighbor(top, common_face_index))
@@ -258,8 +259,8 @@ namespace ergodic_moves
 
         // Do the (2,6) move
         // Insert new vertex
-        Vertex_handle_t<3> v_center =
-            t_manifold.triangulation().delaunay().tds().insert_in_facet(
+        Vertex_handle_t<3> v_center
+            = t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
         // Checks
@@ -277,14 +278,14 @@ namespace ergodic_moves
         }
 
         // Each incident cell should be combinatorially and geometrically valid
-        if (auto check_cells =
-                std::all_of(incident_cells.begin(), incident_cells.end(),
-                            [&t_manifold](auto const& cell) {
-                              return t_manifold.get_triangulation()
-                                  .get_delaunay()
-                                  .tds()
-                                  .is_cell(cell);
-                            });
+        if (auto check_cells
+            = std::all_of(incident_cells.begin(), incident_cells.end(),
+                          [&t_manifold](auto const& cell) {
+                            return t_manifold.get_triangulation()
+                                .get_delaunay()
+                                .tds()
+                                .is_cell(cell);
+                          });
             !check_cells)
         {
           std::string msg = "A cell is invalid.\n";
@@ -295,8 +296,8 @@ namespace ergodic_moves
         }
 
         // Now assign a geometric point to the center vertex
-        auto center_point =
-            CGAL::centroid(v1->point(), v2->point(), v3->point());
+        auto center_point
+            = CGAL::centroid(v1->point(), v2->point(), v3->point());
 #ifndef NDEBUG
         spdlog::trace("Center point is: ({}).\n", center_point);
 #endif
@@ -472,11 +473,10 @@ namespace ergodic_moves
     std::shuffle(vertices.begin(), vertices.end(),
                  utilities::make_random_generator());
     // Try a (6,2) move on successive vertices in the sequence
-    if (auto movable_vertex_iterator =
-            std::find_if(vertices.begin(), vertices.end(),
-                         [&](auto const& vertex) {
-                           return is_62_movable(t_manifold, vertex);
-                         });
+    if (auto movable_vertex_iterator
+        = std::find_if(vertices.begin(), vertices.end(),
+                       [&](auto const& vertex)
+                       { return is_62_movable(t_manifold, vertex); });
         movable_vertex_iterator != vertices.end())
     {
       t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);
@@ -507,8 +507,8 @@ namespace ergodic_moves
 
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in
-    auto circulator =
-        t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
+    auto circulator
+        = t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
     std::vector<Cell_handle_t<3>> incident_cells;
     do {

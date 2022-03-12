@@ -27,8 +27,8 @@ try
   constexpr Int_precision simplices  = 64;
   constexpr Int_precision timeslices = 3;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
-  constexpr auto alpha = static_cast<long double>(0.6);
-  constexpr auto k     = static_cast<long double>(1.1);
+  constexpr auto alpha               = static_cast<long double>(0.6);
+  constexpr auto k                   = static_cast<long double>(1.1);
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
   constexpr auto          lambda     = static_cast<long double>(0.1);
   constexpr Int_precision passes     = 10;

@@ -14,10 +14,9 @@
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/Periodic_3_Delaunay_triangulation_3.h>
 #include <CGAL/Periodic_3_triangulation_traits_3.h>
-
+#include <CGAL/point_generators_3.h>
 #include <CGAL/Random.h>
 #include <CGAL/Timer.h>
-#include <CGAL/point_generators_3.h>
 
 #include <cassert>
 #include <vector>

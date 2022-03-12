@@ -11,10 +11,11 @@
 #ifndef CDT_PLUSPLUS_MANIFOLD_HPP
 #define CDT_PLUSPLUS_MANIFOLD_HPP
 
-#include "Geometry.hpp"
 #include <cstddef>
 #include <unordered_set>
 #include <utility>
+
+#include "Geometry.hpp"
 
 namespace manifolds
 {
@@ -25,7 +26,8 @@ namespace manifolds
       std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     std::unordered_set<Vertex_handle_t<dimension>> cell_vertices;
-    auto get_vertices = [&cell_vertices](auto const& t_cell) {
+    auto get_vertices = [&cell_vertices](auto const& t_cell)
+    {
       for (int i = 0; i < dimension + 1; ++i)
       {
         cell_vertices.emplace(t_cell->vertex(i));
@@ -70,13 +72,13 @@ namespace manifolds
     Manifold(Manifold const& other) = default;
 
     /// @brief Default copy assignment
-    auto operator=(Manifold const& other) -> Manifold& = default;
+    auto operator=(Manifold const& other)->Manifold& = default;
 
     /// @brief Default move ctor
-    Manifold(Manifold&& other)                         = default;
+    Manifold(Manifold && other)                      = default;
 
     /// @brief Default move assignment
-    auto operator=(Manifold&& other) -> Manifold& = default;
+    auto operator=(Manifold&& other)->Manifold& = default;
 
     /// @brief Non-member swap function for Manifolds.
     /// @details Used for no-except updates of manifolds after moves.
@@ -97,7 +99,8 @@ namespace manifolds
     explicit Manifold(Triangulation t_foliated_triangulation)
         : m_triangulation{std::move(t_foliated_triangulation)}
         , m_geometry{get_triangulation()}
-    {}
+    {
+    }
 
     /// @brief Construct manifold using arguments
     /// @param t_desired_simplices Number of desired simplices
@@ -112,7 +115,8 @@ namespace manifolds
             Triangulation{t_desired_simplices, t_desired_timeslices,
                           t_initial_radius, t_foliation_spacing}
     }
-    {}
+    {
+    }
 
     /// @brief Construct manifold from Causal_vertices
     /// Pass-by-value-then-move.
@@ -126,7 +130,8 @@ namespace manifolds
             Triangulation{causal_vertices, t_initial_radius,
                           t_foliation_spacing}
     }
-    {}
+    {
+    }
 
     /// @brief Update the Manifold data structures
     void update()
@@ -163,27 +168,27 @@ namespace manifolds
 
     /// @brief Forwarding to FoliatedTriangulation3.is_foliated()
     /// @return True if the Manifold triangulation is foliated
-    [[nodiscard]] auto is_foliated() const -> bool
+    [[nodiscard]] auto is_foliated() const->bool
     {
       return m_triangulation.is_foliated();
     }  // is_foliated
 
     /// @brief Forwarding to FoliatedTriangulation.is_delaunay()
     /// @return True if the Manifold triangulation is Delaunay
-    [[nodiscard]] auto is_delaunay() const -> bool
+    [[nodiscard]] auto is_delaunay() const->bool
     {
       return m_triangulation.is_delaunay();
     }  // is_delaunay
 
     /// @brief Forwarding to FoliatedTriangulation.is_tds_valid()
     /// @return True if the TriangulationDataStructure is valid
-    [[nodiscard]] auto is_valid() const -> bool
+    [[nodiscard]] auto is_valid() const->bool
     {
       return m_triangulation.is_tds_valid();
     }  // is_valid
 
     /// @return If base data structures are correct
-    [[nodiscard]] auto is_correct() const -> bool
+    [[nodiscard]] auto is_correct() const->bool
     {
       return m_triangulation.is_correct();
     }  // is_correct
@@ -193,7 +198,7 @@ namespace manifolds
     /// @param t_vertex_candidate The vertex to check
     /// @return True if the vertex candidate is a vertex
     template <typename VertexType>
-    [[nodiscard]] auto is_vertex(VertexType&& t_vertex_candidate) const -> bool
+    [[nodiscard]] auto is_vertex(VertexType && t_vertex_candidate) const->bool
     {
       return m_triangulation.get_delaunay().is_vertex(
           std::forward<VertexType>(t_vertex_candidate));
@@ -202,8 +207,8 @@ namespace manifolds
     /// @brief Forwarding to FoliatedTriangulation3.is_edge()
     /// @param t_edge_candidate The edge to test
     /// @return True if the candidate is an edge
-    [[nodiscard]] auto is_edge(
-        Edge_handle_t<3> const& t_edge_candidate) const noexcept -> bool
+    [[nodiscard]] auto is_edge(Edge_handle_t<3> const& t_edge_candidate)
+        const noexcept->bool
     {
       return m_triangulation.get_delaunay().tds().is_edge(
           t_edge_candidate.first, t_edge_candidate.second,
@@ -253,7 +258,7 @@ namespace manifolds
     [[nodiscard]] auto N2() const { return m_geometry.N2; }
 
     /// @return An associative container of spacelike faces indexed by timevalue
-    [[nodiscard]] auto N2_SL() const -> auto const&
+    [[nodiscard]] auto N2_SL() const->auto const&
     {
       return m_triangulation.N2_SL();
     }  // N2_SL
@@ -304,40 +309,40 @@ namespace manifolds
 
     /// @brief Perfect forwarding to FoliatedTriangulation3.degree()
     template <typename VertexHandle>
-    [[nodiscard]] auto degree(VertexHandle&& t_vertex) const -> decltype(auto)
+    [[nodiscard]] auto degree(VertexHandle && t_vertex) const->decltype(auto)
     {
       return m_triangulation.degree(std::forward<VertexHandle>(t_vertex));
     }  // degree
 
     /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
     template <typename... Ts>
-    [[nodiscard]] auto incident_cells(Ts&&... args) const noexcept
-        -> decltype(auto)
+    [[nodiscard]] auto incident_cells(Ts && ... args)
+        const noexcept->decltype(auto)
     {
       return m_triangulation.incident_cells(std::forward<Ts>(args)...);
     }  // incident_cells
 
     /// @brief Call to triangulation_.get_timelike_edges()
-    [[nodiscard]] auto get_timelike_edges() const noexcept -> auto const&
+    [[nodiscard]] auto get_timelike_edges() const noexcept->auto const&
     {
       return m_triangulation.get_timelike_edges();
     }  // get_timelike_edges
 
     /// @brief Call triangulation.get_spacelike_edges()
-    [[nodiscard]] auto get_spacelike_edges() const -> auto const&
+    [[nodiscard]] auto get_spacelike_edges() const->auto const&
     {
       return m_triangulation.get_spacelike_edges();
     }  // get_spacelike_edges
 
     /// @brief Call FoliatedTriangulation3.get_vertices()
-    [[nodiscard]] auto get_vertices() const noexcept -> auto const&
+    [[nodiscard]] auto get_vertices() const noexcept->auto const&
     {
       return m_triangulation.get_vertices();
     }  // get_vertices
 
     /// @return True if all cells in triangulation are classified and match
     /// number in geometry
-    [[nodiscard]] auto check_simplices() const -> bool
+    [[nodiscard]] auto check_simplices() const->bool
     {
       return (this->simplices() == this->N3()
               && m_triangulation.check_all_cells());

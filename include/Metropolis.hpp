@@ -193,39 +193,39 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   {
     if (dimension == 3)
     {
-      auto currentS3Action =
-          S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
-                         m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
+      auto currentS3Action
+          = S3_bulk_action(m_geometry.N1_TL, m_geometry.N3_31_13,
+                           m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
       auto newS3Action = static_cast<Gmpzf>(0);
       switch (move)
       {
         case move_tracker::move_type::TWO_THREE:
           // A (2,3) move adds a timelike edge
           // and a (2,2) simplex
-          newS3Action =
-              S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
-                             m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
+          newS3Action
+              = S3_bulk_action(m_geometry.N1_TL + 1, m_geometry.N3_31_13,
+                               m_geometry.N3_22 + 1, m_Alpha, m_K, m_Lambda);
           break;
         case move_tracker::move_type::THREE_TWO:
           // A (3,2) move removes a timelike edge
           // and a (2,2) simplex
-          newS3Action =
-              S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
-                             m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
+          newS3Action
+              = S3_bulk_action(m_geometry.N1_TL - 1, m_geometry.N3_31_13,
+                               m_geometry.N3_22 - 1, m_Alpha, m_K, m_Lambda);
           break;
         case move_tracker::move_type::TWO_SIX:
           // A (2,6) move adds 2 timelike edges and
           // 2 (1,3) and 2 (3,1) simplices
-          newS3Action =
-              S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
-                             m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
+          newS3Action
+              = S3_bulk_action(m_geometry.N1_TL + 2, m_geometry.N3_31_13 + 4,
+                               m_geometry.N3_22, m_Alpha, m_K, m_Lambda);
           break;
         case move_tracker::move_type::SIX_TWO:
           // A (6,2) move removes 2 timelike edges and
           // 2 (1,3) and 2 (3,1) simplices
-          newS3Action =
-              S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
-                             m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
+          newS3Action
+              = S3_bulk_action(m_geometry.N1_TL - 2, m_geometry.N3_31_13,
+                               m_geometry.N3_22 - 4, m_Alpha, m_K, m_Lambda);
           break;
         case move_tracker::move_type::FOUR_FOUR:
           // A (4,4) move changes nothing with respect to the action,
