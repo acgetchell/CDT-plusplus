@@ -22,31 +22,31 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="0,-0.5 0,-19.5 65,-19.5 65,-0.5 0,-0.5"/>
-<text text-anchor="middle" x="32.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">functional</text>
+<polygon fill="white" stroke="#bfbfbf" points="0,-0.5 0,-19.5 93,-19.5 93,-0.5 0,-0.5"/>
+<text text-anchor="middle" x="46.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">spdlog/spdlog.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M187.34,-56.44C155.99,-47.24 105.97,-32.56 71.3,-22.39"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="72.1,-18.97 61.52,-19.52 70.13,-25.69 72.1,-18.97"/>
+<path fill="none" stroke="midnightblue" d="M189.56,-56.44C160.84,-47.32 115.17,-32.81 83.18,-22.65"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="83.9,-19.21 73.31,-19.52 81.78,-25.88 83.9,-19.21"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
 <g id="a_node3"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="83,-0.5 83,-19.5 176,-19.5 176,-0.5 83,-0.5"/>
-<text text-anchor="middle" x="129.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">spdlog/spdlog.h</text>
+<polygon fill="white" stroke="#bfbfbf" points="111,-0.5 111,-19.5 176,-19.5 176,-0.5 111,-0.5"/>
+<text text-anchor="middle" x="143.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">functional</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node1&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M202.52,-56.32C188.95,-47.9 168.12,-34.97 152.18,-25.07"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="153.79,-21.95 143.44,-19.65 150.09,-27.9 153.79,-21.95"/>
+<path fill="none" stroke="midnightblue" d="M204.77,-56.32C193.66,-48.11 176.76,-35.6 163.52,-25.81"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="165.56,-22.97 155.44,-19.83 161.4,-28.59 165.56,-22.97"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">
