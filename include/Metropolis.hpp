@@ -157,22 +157,22 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     mpfr_set_default_prec(PRECISION);
 
     // Initialize for MPFR
-    mpfr_t r1;
-    mpfr_t r2;
-    mpfr_t a1;
-    mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
+    mpfr_t r_1;
+    mpfr_t r_2;
+    mpfr_t a_1;
+    mpfr_inits2(PRECISION, a_1, nullptr);
 
-    mpfr_init_set_si(r1, this_move, MPFR_RNDD);  // r1 = this_move
-    mpfr_init_set_si(r2, all_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
+    mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  // r_1 = this_move
+    mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  // r_2 = total_moves
 
     // The result
-    mpfr_div(a1, r1, r2, MPFR_RNDD);  // a1 = r1/r2 NOLINT
+    mpfr_div(a_1, r_1, r_2, MPFR_RNDD);  // a_1 = r_1/r_2
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    auto result = mpfr_get_ld(a1, MPFR_RNDD);  // NOLINT
+    auto result = mpfr_get_ld(a_1, MPFR_RNDD);
 
     // Free memory
-    mpfr_clears(r1, r2, a1, nullptr);  // NOLINT
+    mpfr_clears(r_1, r_2, a_1, nullptr);
 
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -249,21 +249,21 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       mpfr_set_default_prec(PRECISION);
 
       // Initialize for MPFR
-      mpfr_t r1;
-      mpfr_t a2;
-      mpfr_inits2(PRECISION, a2, nullptr);
+      mpfr_t r_1;
+      mpfr_t a_2;
+      mpfr_inits2(PRECISION, a_2, nullptr);
 
       // Set input parameters and constants to mpfr_t equivalents
-      mpfr_init_set_ld(r1, exponent_double, MPFR_RNDD);  // r1 = exponent
+      mpfr_init_set_ld(r_1, exponent_double, MPFR_RNDD);  // r1 = exponent
 
       // e^exponent
-      mpfr_exp(a2, r1, MPFR_RNDD);
+      mpfr_exp(a_2, r_1, MPFR_RNDD);
 
       // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-      auto result = mpfr_get_ld(a2, MPFR_RNDD);
+      auto result = mpfr_get_ld(a_2, MPFR_RNDD);
 
       // Free memory
-      mpfr_clears(r1, a2, nullptr);
+      mpfr_clears(r_1, a_2, nullptr);
 
 #ifndef NDEBUG
       spdlog::trace("A2 is {}\n", result);
@@ -286,24 +286,24 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     m_proposed_moves[move_tracker::as_integer(move)]++;
 
     // Calculate probability
-    auto a1 = CalculateA1(move);
+    auto a_1 = CalculateA1(move);
 
     // Make move if random number < probability
-    auto a2 = CalculateA2<3>(move);
+    auto a_2 = CalculateA2<3>(move);
 
     if (auto const trial_value = utilities::generate_probability();
-        trial_value <= a1 * a2)
+        trial_value <= a_1 * a_2)
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
       spdlog::trace("Trying move.\n");
       spdlog::trace("Move type = {}\n", move_tracker::as_integer(move));
       spdlog::trace("Trial_value = {}\n", trial_value);
-      spdlog::trace("A1 = {}\n", a1);
-      spdlog::trace("A2 = {}\n", a2);
-      spdlog::trace("A1*A2 = {}\n", a1 * a2);
-      spdlog::trace("{}\n", (trial_value <= a1 * a2) ? "Move accepted."
-                                                     : "Move rejected.");
+      spdlog::trace("A1 = {}\n", a_1);
+      spdlog::trace("A2 = {}\n", a_2);
+      spdlog::trace("A1*A2 = {}\n", a_1 * a_2);
+      spdlog::trace("{}\n", (trial_value <= a_1 * a_2) ? "Move accepted."
+                                                       : "Move rejected.");
 #endif
       m_accepted_moves[move_tracker::as_integer(move)]++;
       return true;
