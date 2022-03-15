@@ -21,7 +21,6 @@ addons:
       - gcc-10
       - g++-10
       - clang-10
-      - clang-format-10
       - ninja-build
       - cppcheck
       - doxygen

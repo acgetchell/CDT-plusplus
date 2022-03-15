@@ -10,6 +10,7 @@
 /// @details Tests for S3 ergodic moves: (2,3), (3,2), (2,6), (6,2), and (4,4)
 
 #include "Ergodic_moves_3.hpp"
+
 #include <catch2/catch.hpp>
 
 using namespace std;

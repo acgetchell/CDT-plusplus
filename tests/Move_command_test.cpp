@@ -9,8 +9,10 @@
 /// @author Adam Getchell
 
 #include "Move_command.hpp"
-#include <catch2/catch.hpp>
+
 #include <fmt/ranges.h>
+
+#include <catch2/catch.hpp>
 
 using namespace std;
 using namespace manifolds;
@@ -105,7 +107,8 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold3& manifold_3) {
+      auto const move23 = [](Manifold3& manifold_3)
+      {
         return ergodic_moves::do_23_move(manifold_3).value();
       };
       THEN("Running the lambda makes the move.")
@@ -248,7 +251,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         CHECK(command.get_failed().three_two_moves() == 0);
 
         // Get the results
-        auto result = command.get_results();
+        auto result        = command.get_results();
 
         // Distinct objects?
         auto* manifold_ptr = &manifold;
@@ -286,8 +289,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         auto const& result = command.get_results();
 
         // Triangulation shouldn't have changed
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::FOUR_FOUR));
         fmt::print("Move left triangulation unchanged.\n");
@@ -315,8 +318,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have +1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() + 1);
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells() + 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::TWO_THREE));
         fmt::print("Triangulation added a finite cell.\n");
@@ -344,8 +347,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have -1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() - 1);
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells() - 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::THREE_TWO));
         fmt::print("Triangulation removed a finite cell.\n");
@@ -373,8 +376,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have +4 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() + 4);
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells() + 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::TWO_SIX));
         fmt::print("Triangulation added 4 finite cells.\n");
@@ -402,8 +405,8 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have -1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() - 4);
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells() - 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::SIX_TWO));
         fmt::print("Triangulation removed 4 finite cells.\n");
@@ -455,8 +458,8 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         auto const& result = command.get_const_results();
 
         // The moves should cancel out
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");
@@ -518,8 +521,8 @@ SCENARIO("Executing multiple moves on the queue", "[move command]")
         auto const& result = command.get_const_results();
 
         // The moves should cancel out
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
+        CHECK(result.get_triangulation().number_of_finite_cells()
+              == manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");

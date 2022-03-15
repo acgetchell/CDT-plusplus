@@ -10,8 +10,10 @@
 /// @details Tests applying ergodic moves singly and in groups
 
 #include "Apply_move.hpp"
-#include "Ergodic_moves_3.hpp"
+
 #include <catch2/catch.hpp>
+
+#include "Ergodic_moves_3.hpp"
 
 using namespace std;
 

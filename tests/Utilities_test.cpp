@@ -9,13 +9,13 @@
 /// @author Adam Getchell
 /// @details Tests for random, conversion, and datetime functions.
 
-#include <Manifold.hpp>
 #include <catch2/catch.hpp>
+#include <Manifold.hpp>
 
 using namespace std;
 using namespace utilities;
 
-SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
+SCENARIO("Various string/stream/time utilities", "[utility]")
 {
   spdlog::debug("Various string/stream/time utilities.\n");
   GIVEN("A topology_type.")
@@ -23,8 +23,8 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
     auto constexpr this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
     {
-      stringstream buffer;
-      std::streambuf * backup = cout.rdbuf(buffer.rdbuf());
+      stringstream    buffer;
+      std::streambuf* backup = cout.rdbuf(buffer.rdbuf());
       cout << this_topology;
       cout.rdbuf(backup);
       THEN("The output is correct.")
@@ -62,9 +62,9 @@ SCENARIO("Various string/stream/time utilities", "[utility][!mayfail]")
       auto constexpr dimensions    = 3;
       auto constexpr simplices     = 6700;
       auto constexpr timeslices    = 16;
-      auto const filename =
-          generate_filename(this_topology, dimensions, simplices, timeslices,
-                            INITIAL_RADIUS, FOLIATION_SPACING);
+      auto const filename
+          = generate_filename(this_topology, dimensions, simplices, timeslices,
+                              INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,

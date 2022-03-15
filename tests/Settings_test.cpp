@@ -10,13 +10,15 @@
 /// @details Tests number types and precision settings for the project
 
 #include "Settings.hpp"
-#include <catch2/catch.hpp>
+
 #include <fmt/format.h>
+
+#include <catch2/catch.hpp>
 #include <typeinfo>
 
 using namespace std;
 
-SCENARIO("Check settings", "[settings][!mayfail]")
+SCENARIO("Check settings", "[settings]")
 {
   GIVEN("Settings are retrieved.")
   {

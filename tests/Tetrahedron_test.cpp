@@ -10,8 +10,9 @@
 /// @details Tests that 3D triangulated and foliated tetrahedrons are
 /// constructed correctly.
 
-#include "Foliated_triangulation.hpp"
 #include <catch2/catch.hpp>
+
+#include "Foliated_triangulation.hpp"
 
 using namespace std;
 using namespace foliated_triangulations;

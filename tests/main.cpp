@@ -16,8 +16,9 @@
 #define CATCH_CONFIG_CPP17_OPTIONAL
 #define CATCH_CONFIG_CPP17_BYTE
 #define CATCH_CONFIG_NO_NOMINMAX
-#include "Utilities.hpp"
 #include <catch2/catch.hpp>
+
+#include "Utilities.hpp"
 
 auto main(int argc, char* argv[]) -> int  // NOLINT
 try

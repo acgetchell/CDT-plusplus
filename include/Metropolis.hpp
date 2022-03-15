@@ -162,7 +162,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     mpfr_t a1;
     mpfr_inits2(PRECISION, r1, r2, a1, nullptr);  // NOLINT
 
-    mpfr_init_set_si(r1, this_move, MPFR_RNDD);  // r1 = this_move NOLINT
+    mpfr_init_set_si(r1, this_move, MPFR_RNDD);  // r1 = this_move
     mpfr_init_set_si(r2, all_moves, MPFR_RNDD);  // r2 = total_moves NOLINT
 
     // The result
@@ -251,20 +251,19 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       // Initialize for MPFR
       mpfr_t r1;
       mpfr_t a2;
-      mpfr_inits2(PRECISION, r1, a2, nullptr);  // NOLINT
+      mpfr_inits2(PRECISION, a2, nullptr);
 
       // Set input parameters and constants to mpfr_t equivalents
-      mpfr_init_set_ld(r1, exponent_double,  // NOLINT
-                       MPFR_RNDD);           // r1 = exponent
+      mpfr_init_set_ld(r1, exponent_double, MPFR_RNDD);  // r1 = exponent
 
       // e^exponent
-      mpfr_exp(a2, r1, MPFR_RNDD);  // NOLINT
+      mpfr_exp(a2, r1, MPFR_RNDD);
 
       // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-      auto result = mpfr_get_ld(a2, MPFR_RNDD);  // NOLINT
+      auto result = mpfr_get_ld(a2, MPFR_RNDD);
 
       // Free memory
-      mpfr_clears(r1, a2, nullptr);  // NOLINT
+      mpfr_clears(r1, a2, nullptr);
 
 #ifndef NDEBUG
       spdlog::trace("A2 is {}\n", result);

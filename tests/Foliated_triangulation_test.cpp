@@ -11,6 +11,7 @@
 /// and 4D respectively.
 
 #include "Foliated_triangulation.hpp"
+
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -119,9 +120,12 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
   spdlog::debug("FoliatedTriangulation functions.\n");
   GIVEN("A small foliated triangulation.")
   {
-    vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
-                                Point_t<3>{0, 0, 1},
-                                Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+    vector<Point_t<3>> Vertices{
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
+    };
     vector<std::size_t>  timevalues{1, 1, 1, 2};
     Causal_vertices_t<3> vertices;
     vertices.reserve(Vertices.size());
@@ -236,9 +240,12 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         "It is constructed from a Delaunay triangulation with 4 causal "
         "vertices.")
     {
-      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
-                                  Point_t<3>{0, 0, 1},
-                                  Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point_t<3>> Vertices{
+          Point_t<3>{       1,        0,        0},
+          Point_t<3>{       0,        1,        0},
+          Point_t<3>{       0,        0,        1},
+          Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
+      };
       vector<std::size_t>  timevalues{1, 1, 1, 2};
       Causal_vertices_t<3> vertices;
       vertices.reserve(Vertices.size());
@@ -460,9 +467,12 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
   {
     WHEN("Constructing a triangulation with 4 correct vertices.")
     {
-      vector<Point_t<3>>   Vertices{Point_t<3>{1, 0, 0}, Point_t<3>{0, 1, 0},
-                                  Point_t<3>{0, 0, 1},
-                                  Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}};
+      vector<Point_t<3>> Vertices{
+          Point_t<3>{       1,        0,        0},
+          Point_t<3>{       0,        1,        0},
+          Point_t<3>{       0,        0,        1},
+          Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
+      };
       vector<std::size_t>  timevalues{1, 1, 1, 2};
       Causal_vertices_t<3> vertices;
       vertices.reserve(Vertices.size());

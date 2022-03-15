@@ -9,6 +9,7 @@
 /// @author Adam Getchell
 
 #include "Geometry.hpp"
+
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -80,24 +81,31 @@ SCENARIO("3-Geometry classification", "[geometry]")
             "simplices.\n",
             geometry.N3_31, geometry.N3_22, geometry.N3_13);
         CHECK(geometry.N3 > 2);
-        CHECK(geometry.N3 == static_cast<Int_precision>(
-                                 triangulation.number_of_finite_cells()));
-        CHECK(geometry.N3_31 ==
-              static_cast<Int_precision>(triangulation.get_three_one().size()));
-        CHECK(geometry.N3_13 ==
-              static_cast<Int_precision>(triangulation.get_one_three().size()));
+        CHECK(geometry.N3
+              == static_cast<Int_precision>(
+                  triangulation.number_of_finite_cells()));
+        CHECK(geometry.N3_31
+              == static_cast<Int_precision>(
+                  triangulation.get_three_one().size()));
+        CHECK(geometry.N3_13
+              == static_cast<Int_precision>(
+                  triangulation.get_one_three().size()));
         CHECK(geometry.N3_31 + geometry.N3_22 + geometry.N3_13 == geometry.N3);
-        CHECK(geometry.N3_22 ==
-              static_cast<Int_precision>(triangulation.get_two_two().size()));
-        CHECK(geometry.N2 == static_cast<Int_precision>(
-                                 triangulation.number_of_finite_facets()));
-        CHECK(geometry.N1 == static_cast<Int_precision>(
-                                 triangulation.number_of_finite_edges()));
+        CHECK(
+            geometry.N3_22
+            == static_cast<Int_precision>(triangulation.get_two_two().size()));
+        CHECK(geometry.N2
+              == static_cast<Int_precision>(
+                  triangulation.number_of_finite_facets()));
+        CHECK(geometry.N1
+              == static_cast<Int_precision>(
+                  triangulation.number_of_finite_edges()));
         CHECK_FALSE(geometry.N1_TL == 0);
         CHECK_FALSE(geometry.N1_SL == 0);
         CHECK(geometry.N1 == geometry.N1_TL + geometry.N1_SL);
-        CHECK(geometry.N0 ==
-              static_cast<Int_precision>(triangulation.number_of_vertices()));
+        CHECK(
+            geometry.N0
+            == static_cast<Int_precision>(triangulation.number_of_vertices()));
 
         // Human verification
         triangulation.print_cells();
@@ -147,24 +155,31 @@ SCENARIO("3-Geometry initialization", "[geometry]")
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")
       {
-        CHECK(geometry.N3 == static_cast<Int_precision>(
-                                 triangulation.number_of_finite_cells()));
-        CHECK(geometry.N3_31 ==
-              static_cast<Int_precision>(triangulation.get_three_one().size()));
-        CHECK(geometry.N3_13 ==
-              static_cast<Int_precision>(triangulation.get_one_three().size()));
+        CHECK(geometry.N3
+              == static_cast<Int_precision>(
+                  triangulation.number_of_finite_cells()));
+        CHECK(geometry.N3_31
+              == static_cast<Int_precision>(
+                  triangulation.get_three_one().size()));
+        CHECK(geometry.N3_13
+              == static_cast<Int_precision>(
+                  triangulation.get_one_three().size()));
         CHECK(geometry.N3_31 + geometry.N3_22 + geometry.N3_13 == geometry.N3);
-        CHECK(geometry.N3_22 ==
-              static_cast<Int_precision>(triangulation.get_two_two().size()));
-        CHECK(geometry.N2 == static_cast<Int_precision>(
-                                 triangulation.number_of_finite_facets()));
-        CHECK(geometry.N1 == static_cast<Int_precision>(
-                                 triangulation.number_of_finite_edges()));
+        CHECK(
+            geometry.N3_22
+            == static_cast<Int_precision>(triangulation.get_two_two().size()));
+        CHECK(geometry.N2
+              == static_cast<Int_precision>(
+                  triangulation.number_of_finite_facets()));
+        CHECK(geometry.N1
+              == static_cast<Int_precision>(
+                  triangulation.number_of_finite_edges()));
         CHECK_FALSE(geometry.N1_TL == 0);
         CHECK_FALSE(geometry.N1_SL == 0);
         CHECK(geometry.N1_TL + geometry.N1_SL == geometry.N1);
-        CHECK(geometry.N0 ==
-              static_cast<Int_precision>(triangulation.number_of_vertices()));
+        CHECK(
+            geometry.N0
+            == static_cast<Int_precision>(triangulation.number_of_vertices()));
         triangulation.print();
         triangulation.print_volume_per_timeslice();
       }

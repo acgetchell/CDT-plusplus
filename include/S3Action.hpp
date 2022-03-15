@@ -19,6 +19,8 @@
 
 #include <mpfr.h>
 
+#include <Settings.hpp>
+
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
 /// This result is i* the action for Euclidean dynamically triangulated

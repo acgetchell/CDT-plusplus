@@ -9,6 +9,7 @@
 /// @author Adam Getchell
 
 #include "Move_tracker.hpp"
+
 #include <catch2/catch.hpp>
 
 using namespace std;

@@ -10,6 +10,7 @@
 /// @todo Debug accepted moves != attempted moves (should be equal)
 
 #include "Metropolis.hpp"
+
 #include <catch2/catch.hpp>
 
 using namespace std;
@@ -148,7 +149,7 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
       Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("A lot of moves are done.")
       {
-        auto result = testrun(universe);
+        auto result           = testrun(universe);
         auto total_trial      = testrun.get_proposed().total();
         auto total_accepted   = testrun.get_accepted().total();
         auto total_rejected   = testrun.get_rejected().total();
