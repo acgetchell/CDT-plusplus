@@ -169,22 +169,22 @@ $(function() {
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    mpfr_set_default_prec(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>);</div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    <span class="comment">// Initialize for MPFR</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    mpfr_t r1;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    mpfr_t r2;</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    mpfr_t a1;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    mpfr_inits2(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>, r1, r2, a1, <span class="keyword">nullptr</span>);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    mpfr_t r_1;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    mpfr_t r_2;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    mpfr_t a_1;</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    mpfr_inits2(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>, a_1, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    mpfr_init_set_si(r1, this_move, MPFR_RNDD);  <span class="comment">// r1 = this_move</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    mpfr_init_set_si(r2, all_moves, MPFR_RNDD);  <span class="comment">// r2 = total_moves NOLINT</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  <span class="comment">// r_1 = this_move</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  <span class="comment">// r_2 = total_moves</span></div>
 <div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
 <div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    <span class="comment">// The result</span></div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    mpfr_div(a1, r1, r2, MPFR_RNDD);  <span class="comment">// a1 = r1/r2 NOLINT</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    mpfr_div(a_1, r_1, r_2, MPFR_RNDD);  <span class="comment">// a_1 = r_1/r_2</span></div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="comment">// Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)</span></div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keyword">auto</span> result = mpfr_get_ld(a1, MPFR_RNDD);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;    <span class="keyword">auto</span> result = mpfr_get_ld(a_1, MPFR_RNDD);</div>
 <div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
 <div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    <span class="comment">// Free memory</span></div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    mpfr_clears(r1, r2, a1, <span class="keyword">nullptr</span>);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    mpfr_clears(r_1, r_2, a_1, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
@@ -256,21 +256,21 @@ $(function() {
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;      mpfr_set_default_prec(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>);</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      <span class="comment">// Initialize for MPFR</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      mpfr_t r1;</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      mpfr_t a2;</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;      mpfr_inits2(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>, a2, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      mpfr_t r_1;</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      mpfr_t a_2;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;      mpfr_inits2(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>, a_2, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;      <span class="comment">// Set input parameters and constants to mpfr_t equivalents</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      mpfr_init_set_ld(r1, exponent_double, MPFR_RNDD);  <span class="comment">// r1 = exponent</span></div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      mpfr_init_set_ld(r_1, exponent_double, MPFR_RNDD);  <span class="comment">// r1 = exponent</span></div>
 <div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160; </div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;      <span class="comment">// e^exponent</span></div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;      mpfr_exp(a2, r1, MPFR_RNDD);</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;      mpfr_exp(a_2, r_1, MPFR_RNDD);</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160; </div>
 <div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;      <span class="comment">// Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)</span></div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      <span class="keyword">auto</span> result = mpfr_get_ld(a2, MPFR_RNDD);</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;      <span class="keyword">auto</span> result = mpfr_get_ld(a_2, MPFR_RNDD);</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;      <span class="comment">// Free memory</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      mpfr_clears(r1, a2, <span class="keyword">nullptr</span>);</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      mpfr_clears(r_1, a_2, <span class="keyword">nullptr</span>);</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A2 is {}\n&quot;</span>, result);</div>
@@ -286,24 +286,24 @@ $(function() {
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;    m_proposed_moves[move_tracker::as_integer(move)]++;</div>
 <div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160; </div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;    <span class="comment">// Calculate probability</span></div>
-<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keyword">auto</span> a1 = CalculateA1(move);</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;    <span class="keyword">auto</span> a_1 = CalculateA1(move);</div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160; </div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    <span class="comment">// Make move if random number &lt; probability</span></div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keyword">auto</span> a2 = CalculateA2&lt;3&gt;(move);</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;    <span class="keyword">auto</span> a_2 = CalculateA2&lt;3&gt;(move);</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160; </div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;    <span class="keywordflow">if</span> (<span class="keyword">auto</span> <span class="keyword">const</span> trial_value = utilities::generate_probability();</div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        trial_value &lt;= a1 * a2)</div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        trial_value &lt;= a_1 * a_2)</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;    {</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;      spdlog::debug(<span class="stringliteral">&quot;{} called.\n&quot;</span>, __PRETTY_FUNCTION__);</div>
 <div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;Trying move.\n&quot;</span>);</div>
 <div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;Move type = {}\n&quot;</span>, move_tracker::as_integer(move));</div>
 <div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;Trial_value = {}\n&quot;</span>, trial_value);</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A1 = {}\n&quot;</span>, a1);</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A2 = {}\n&quot;</span>, a2);</div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A1*A2 = {}\n&quot;</span>, a1 * a2);</div>
-<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;{}\n&quot;</span>, (trial_value &lt;= a1 * a2) ? <span class="stringliteral">&quot;Move accepted.&quot;</span></div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                                                     : <span class="stringliteral">&quot;Move rejected.&quot;</span>);</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A1 = {}\n&quot;</span>, a_1);</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A2 = {}\n&quot;</span>, a_2);</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;A1*A2 = {}\n&quot;</span>, a_1 * a_2);</div>
+<div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;{}\n&quot;</span>, (trial_value &lt;= a_1 * a_2) ? <span class="stringliteral">&quot;Move accepted.&quot;</span></div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;                                                       : <span class="stringliteral">&quot;Move rejected.&quot;</span>);</div>
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;<span class="preprocessor">#endif</span></div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;      m_accepted_moves[move_tracker::as_integer(move)]++;</div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">true</span>;</div>
@@ -538,7 +538,7 @@ $(function() {
 <div class="ttc" id="aclass_move_command_html_a2b61695bad760c1bc54457e9e2062231"><div class="ttname"><a href="class_move_command.html#a2b61695bad760c1bc54457e9e2062231">MoveCommand::get_attempted</a></div><div class="ttdeci">auto get_attempted() const -&gt; Counter const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00067">Move_command.hpp:67</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Mar 15 2022 05:52:44 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Mar 15 2022 19:37:06 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
