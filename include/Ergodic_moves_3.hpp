@@ -472,8 +472,9 @@ namespace ergodic_moves
     // Try a (6,2) move on successive vertices in the sequence
     if (auto movable_vertex_iterator
         = std::find_if(vertices.begin(), vertices.end(),
-                       [&](auto const& vertex)
-                       { return is_62_movable(t_manifold, vertex); });
+                       [&](auto const& vertex) {
+                         return is_62_movable(t_manifold, vertex);
+                       });
         movable_vertex_iterator != vertices.end())
     {
       t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);
@@ -510,7 +511,8 @@ namespace ergodic_moves
     std::vector<Cell_handle_t<3>> incident_cells;
     do {
       incident_cells.emplace_back(circulator++);
-    } while (circulator != t_edge_candidate.first);
+    }
+    while (circulator != t_edge_candidate.first);
 #ifndef NDEBUG
     spdlog::trace("Edge has {} incident cells.\n", incident_cells.size());
 #endif

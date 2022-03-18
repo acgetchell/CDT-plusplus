@@ -26,8 +26,7 @@ namespace manifolds
       std::vector<Cell_handle_t<dimension>> const& t_cells)
   {
     std::unordered_set<Vertex_handle_t<dimension>> cell_vertices;
-    auto get_vertices = [&cell_vertices](auto const& t_cell)
-    {
+    auto get_vertices = [&cell_vertices](auto const& t_cell) {
       for (int i = 0; i < dimension + 1; ++i)
       {
         cell_vertices.emplace(t_cell->vertex(i));
@@ -99,8 +98,7 @@ namespace manifolds
     explicit Manifold(Triangulation t_foliated_triangulation)
         : m_triangulation{std::move(t_foliated_triangulation)}
         , m_geometry{get_triangulation()}
-    {
-    }
+    {}
 
     /// @brief Construct manifold using arguments
     /// @param t_desired_simplices Number of desired simplices
@@ -115,8 +113,7 @@ namespace manifolds
             Triangulation{t_desired_simplices, t_desired_timeslices,
                           t_initial_radius, t_foliation_spacing}
     }
-    {
-    }
+    {}
 
     /// @brief Construct manifold from Causal_vertices
     /// Pass-by-value-then-move.
@@ -130,8 +127,7 @@ namespace manifolds
             Triangulation{causal_vertices, t_initial_radius,
                           t_foliation_spacing}
     }
-    {
-    }
+    {}
 
     /// @brief Update the Manifold data structures
     void update()

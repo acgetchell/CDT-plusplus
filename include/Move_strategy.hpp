@@ -26,6 +26,7 @@ enum class Strategies
 /// @tparam strategies The algorithm that chooses ergodic moves
 /// @tparam dimension The dimensionality of the triangulation
 template <Strategies strategies, typename ManifoldType>
-class MoveStrategy {};
+class MoveStrategy
+{};
 
 #endif  // INCLUDE_MOVE_ALGORITHM_HPP_

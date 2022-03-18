@@ -86,8 +86,8 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @return True if timevalue of lhs is less than rhs
   template <int dimension>
-  auto const compare_v_info = [](Vertex_handle_t<dimension> const& lhs,
-                                 Vertex_handle_t<dimension> const& rhs) {
+  auto constexpr compare_v_info = [](Vertex_handle_t<dimension> const& lhs,
+                                     Vertex_handle_t<dimension> const& rhs) {
     return lhs->info() < rhs->info();
   };
 
