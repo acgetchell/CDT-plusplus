@@ -113,12 +113,27 @@ SCENARIO("Metropolis member functions", "[metropolis]")
       THEN("The initial moves are made correctly.")
       {
         auto result           = testrun.initialize(universe);
-        auto total_attempted  = result->get_attempted().total();
-        auto total_successful = result->get_succeeded().total();
-        auto total_failed     = result->get_failed().total();
-        CHECK(total_attempted == 5);
-        CHECK(total_successful == 5);
-        CHECK(total_failed == 0);
+        auto total_rejected   = testrun.get_rejected().total();
+        auto total_attempted  = testrun.get_attempted().total();
+        auto total_successful = testrun.get_succeeded().total();
+        auto total_failed     = testrun.get_failed().total();
+        // Initialization proposes one move of each type
+        for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
+        {
+          CHECK(testrun.get_proposed()[i] == 1);
+        }
+        // Initialization accepts one move of each type
+        for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
+        {
+          CHECK(testrun.get_accepted()[i] == 1);
+        }
+        // Initialization does not reject any moves
+        CHECK(total_rejected == 0);
+        // Initialization attempts one move of each type
+        for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
+        {
+          CHECK(testrun.get_attempted()[i] == 1);
+        }
         CHECK(total_attempted == total_successful + total_failed);
 
         // Human verification
@@ -130,7 +145,9 @@ SCENARIO("Metropolis member functions", "[metropolis]")
   }
 }
 
-SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
+// This may take a while, so the scenario is tagged with [.]
+// to disable by default
+SCENARIO("Using the Metropolis algorithm", "[metropolis][.]")
 {
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);
@@ -139,7 +156,7 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
   auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = 72;
+    auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
     Manifold3 universe(simplices, timeslices);
     // It is correctly constructed
@@ -149,23 +166,30 @@ SCENARIO("Using the Metropolis algorithm", "[metropolis][!mayfail]")
       Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("A lot of moves are done.")
       {
-        auto result           = testrun(universe);
-        auto total_trial      = testrun.get_proposed().total();
-        auto total_accepted   = testrun.get_accepted().total();
-        auto total_rejected   = testrun.get_rejected().total();
-        auto total_attempted  = testrun.get_attempted().total();
-        auto total_successful = testrun.get_succeeded().total();
-        auto total_failed     = testrun.get_failed().total();
-        CHECK(total_trial > universe.N3() * passes);
-        CHECK(total_accepted > 0);
-        CHECK(total_rejected > 0);
-        CHECK(total_trial == total_accepted + total_rejected);
-        // Why does this fail?
-        //                CHECK(total_attempted == total_accepted);
-        CHECK(total_successful > 0);
-        CHECK(total_failed >= 0);
-        CHECK(total_attempted == total_successful + total_failed);
+        auto result = testrun(universe);
+        // Output
         CHECK(result.is_valid());
+        AND_THEN("The correct number of moves are attempted.")
+        {
+          auto total_proposed   = testrun.get_proposed().total();
+          auto total_accepted   = testrun.get_accepted().total();
+          auto total_rejected   = testrun.get_rejected().total();
+          auto total_attempted  = testrun.get_attempted().total();
+          auto total_successful = testrun.get_succeeded().total();
+          auto total_failed     = testrun.get_failed().total();
+          // We should have at least a trial move per simplex on average
+          // per pass, times the number of passes
+          CHECK(total_proposed > universe.N3() * passes);
+          CHECK(total_proposed == total_accepted + total_rejected);
+          // We should attempt a move for each accepted move
+          // Why does this fail?
+          CHECK(total_attempted == total_accepted);
+          CHECK(total_successful > 0);
+          CHECK(total_failed >= 0);
+          CHECK(total_attempted == total_successful + total_failed);
+          // Human verification
+          testrun.print_results();
+        }
       }
     }
   }

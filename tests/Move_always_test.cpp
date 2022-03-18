@@ -122,12 +122,14 @@ SCENARIO("MoveAlways member functions", "[move always]")
   }
 }
 
-SCENARIO("Using the MoveAlways algorithm", "[move always][!mayfail]")
+// This may take a while, so the scenario is tagged with [.]
+// to disable by default
+SCENARIO("Using the MoveAlways algorithm", "[.]")
 {
   spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold3.")
   {
-    auto constexpr simplices  = 72;
+    auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
     Manifold3 manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
@@ -138,11 +140,18 @@ SCENARIO("Using the MoveAlways algorithm", "[move always][!mayfail]")
       MoveAlways3 mover(passes, checkpoint);
       THEN("A lot of moves are made.")
       {
-        // This may take a while, so the scenario is tagged with [.]
-        // to disable by default
         auto result = mover(manifold);
         // Output
         CHECK(result.is_valid());
+        AND_THEN(
+            "The correct number of attempted, successful, and failed moves are "
+            "made.")
+        {
+          CHECK(mover.get_attempted().total()
+                == mover.get_succeeded().total() + mover.get_failed().total());
+          // Human verification
+          mover.print_results();
+        }
       }
     }
   }

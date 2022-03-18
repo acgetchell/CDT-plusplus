@@ -13,7 +13,6 @@
 /// Annals of Physics 132 (1981): 427–62.
 /// http://thy.phy.bnl.gov/~creutz/mypubs/pub044.pdf
 ///
-/// @bug Accepted moves != attempted moves
 /// @todo Implement concurrency
 
 #ifndef INCLUDE_METROPOLIS_HPP_
@@ -160,19 +159,19 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     mpfr_t r_1;
     mpfr_t r_2;
     mpfr_t a_1;
-    mpfr_inits2(PRECISION, a_1, nullptr);
+    mpfr_inits2(PRECISION, a_1, nullptr);  // NOLINT
 
-    mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  // r_1 = this_move
-    mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  // r_2 = total_moves
+    mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  // r_1 = this_move NOLINT
+    mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  // r_2 = total_moves NOLINT
 
     // The result
-    mpfr_div(a_1, r_1, r_2, MPFR_RNDD);  // a_1 = r_1/r_2
+    mpfr_div(a_1, r_1, r_2, MPFR_RNDD);  // a_1 = r_1/r_2 NOLINT
 
     // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-    auto result = mpfr_get_ld(a_1, MPFR_RNDD);
+    auto result = mpfr_get_ld(a_1, MPFR_RNDD);  // NOLINT
 
     // Free memory
-    mpfr_clears(r_1, r_2, a_1, nullptr);
+    mpfr_clears(r_1, r_2, a_1, nullptr);  // NOLINT
 
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -251,19 +250,20 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       // Initialize for MPFR
       mpfr_t r_1;
       mpfr_t a_2;
-      mpfr_inits2(PRECISION, a_2, nullptr);
+      mpfr_inits2(PRECISION, a_2, nullptr);  // NOLINT
 
       // Set input parameters and constants to mpfr_t equivalents
-      mpfr_init_set_ld(r_1, exponent_double, MPFR_RNDD);  // r1 = exponent
+      mpfr_init_set_ld(r_1, exponent_double,  // NOLINT
+                       MPFR_RNDD);            // r1 = exponent
 
       // e^exponent
-      mpfr_exp(a_2, r_1, MPFR_RNDD);
+      mpfr_exp(a_2, r_1, MPFR_RNDD);  // NOLINT
 
       // Convert mpfr_t total to Gmpzf result by using Gmpzf(double d)
-      auto result = mpfr_get_ld(a_2, MPFR_RNDD);
+      auto result = mpfr_get_ld(a_2, MPFR_RNDD);  // NOLINT
 
       // Free memory
-      mpfr_clears(r_1, a_2, nullptr);
+      mpfr_clears(r_1, a_2, nullptr);  // NOLINT
 
 #ifndef NDEBUG
       spdlog::trace("A2 is {}\n", result);
@@ -273,16 +273,15 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     }
   }  // CalculateA2()
 
-  /// @brief Attempt a move of the selected type
+  /// @brief Try a move of the selected type
   /// @details This function implements the core of the Metropolis-Hastings
   /// algorithm by generating a random number and comparing with the results of
-  /// CalculateA1 and CalculateA2. If the move is accepted, this function
-  /// calls make_move(). If not, it updates **attempted_moves_**.
+  /// CalculateA1 and CalculateA2.
   /// @param move The type of move
   /// @return True if the move is accepted
   auto try_move(move_tracker::move_type move) -> bool
   {
-    // Record the trial move
+    // Record the proposed move
     m_proposed_moves[move_tracker::as_integer(move)]++;
 
     // Calculate probability
@@ -305,16 +304,21 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
       spdlog::trace("{}\n", (trial_value <= a_1 * a_2) ? "Move accepted."
                                                        : "Move rejected.");
 #endif
+      // Accept the move
       m_accepted_moves[move_tracker::as_integer(move)]++;
       return true;
     }
 
+    // Reject the move
     m_rejected_moves[move_tracker::as_integer(move)]++;
     return false;
 
   }  // try_move()
 
   /// @brief Initialize the Metropolis algorithm
+  /// @details This function initializes the Metropolis algorithm by
+  /// making a move of each type, so that when A1 is calculated
+  /// we don't have divide by zero
   /// @param t_manifold Manifold on which to operate
   /// @return A manifold with a move of each type completed
   [[nodiscard]] auto initialize(ManifoldType t_manifold)
@@ -344,13 +348,10 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     m_proposed_moves.four_four_moves()++;
     m_accepted_moves.four_four_moves()++;
 
-    // Execute the moves
+    // Execute the initial moves
     command.execute();
-
-    // Update attempted, succeeded, and failed moves
-    m_attempted_moves += command.get_attempted();
-    m_succeeded_moves += command.get_succeeded();
-    m_failed_moves += command.get_failed();
+    command.print_successful();
+    command.print_errors();
 
     // print initial results
     auto initial_results = command.get_results();
@@ -387,7 +388,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     auto command = initialize(t_manifold).value_or(MoveCommand(t_manifold));
 
     fmt::print("Making random moves ...\n");
-    print_results();
+
     // Loop through m_passes
     for (auto pass_number = 1; pass_number <= m_passes; ++pass_number)
     {

@@ -131,7 +131,6 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
       m_successful_moves += command.get_succeeded();
       m_failed_moves += command.get_failed();
     }
-    print_results();
     return command.get_results();
   }
 

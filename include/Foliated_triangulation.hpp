@@ -53,7 +53,8 @@ template <int dimension>
 using Spherical_points_generator_t =
     typename TriangulationTraits<dimension>::Spherical_points_generator;
 
-/// @interface This is equivalent to std::movable from <concepts>
+/// @concept ContainerType
+/// @brief This is equivalent to std::movable from <concepts>
 /// @details Right now the real restriction on Containers is that elements must
 /// be swappable in order for std::shuffle to work. However, std::movable
 /// doesn't seem to be in <concepts> yet.

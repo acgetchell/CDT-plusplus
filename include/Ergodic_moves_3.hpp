@@ -406,8 +406,8 @@ namespace ergodic_moves
     {
       spdlog::warn("Fixing vertices found by is_62_movable().\n");
     }
-    // Run until all cells fixed or 50 passes
-    for (auto passes = 1; passes < 51; ++passes)  // NOLINT
+    // Run until all cells fixed or 10 passes
+    for (auto passes = 1; passes < 11; ++passes)  // NOLINT
     {
       if (foliated_triangulations::fix_cells<3>(
               manifold.get_triangulation().get_delaunay()))

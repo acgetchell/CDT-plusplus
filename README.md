@@ -363,10 +363,6 @@ Optional:
 
 ## Issues
 
-Compilation on Windows currently fails due to the `min` macro bug. [#23572]
-
-[#23572]: https://github.com/microsoft/vcpkg/issues/23572
-
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
