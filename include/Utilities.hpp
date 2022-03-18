@@ -59,12 +59,9 @@ inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
 {
   switch (t_topology)
   {
-    case topology_type::SPHERICAL:
-      return t_os << "spherical";
-    case topology_type::TOROIDAL:
-      return t_os << "toroidal";
-    default:
-      return t_os << "none";
+    case topology_type::SPHERICAL: return t_os << "spherical";
+    case topology_type::TOROIDAL: return t_os << "toroidal";
+    default: return t_os << "none";
   }
 }  // operator<<
 
@@ -97,8 +94,7 @@ namespace utilities
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
-    else
-    {
+    else {
       filename += "T";
     }
     // std::to_string() works in C++11, but not earlier

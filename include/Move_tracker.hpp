@@ -28,6 +28,7 @@ namespace move_tracker
   };
 
   /// @brief Convert enumeration to underlying integer
+  /// @details Used to convert move_type to integer
   template <typename Enumeration>
   auto as_integer(Enumeration value) ->
       typename std::underlying_type_t<Enumeration>
@@ -70,120 +71,128 @@ namespace move_tracker
   template <typename ManifoldType>
   class MoveTracker
   {
-    using Container = std::array<Int_precision,
-                                 moves_per_dimension(ManifoldType::dimension)>;
+      using Container
+          = std::array<Int_precision,
+                       moves_per_dimension(ManifoldType::dimension)>;
 
-    Container moves = {0};  // NOLINT
-   public:
-    /// @return Read-only container of moves
-    auto moves_view() const { return std::span(moves); }
+      Container moves = {0};  // NOLINT
 
-    /// @param index The index of the element to be accessed
-    /// @return The number of moves at the index
-    auto operator[](gsl::index index) -> auto& { return gsl::at(moves, index); }
+    public:
+      /// @return Read-only container of moves
+      auto moves_view() const { return std::span(moves); }
 
-    /// @param move The move_type to be accessed
-    /// @return The number of moves of that move_type
-    auto operator[](move_type move) const -> auto&
-    {
-      return gsl::at(moves, as_integer(move));
-    }  // operator[]
-
-    /// @param rhs The Move_tracker to add
-    /// @return The sum of the individual elements of the left and right
-    /// Move_trackers
-    auto operator+=(MoveTracker const& rhs)
-    {
-      for (std::size_t i = 0; i < moves.size(); ++i)
+      /// @param index The index of the element to be accessed
+      /// @return The number of moves at the index
+      auto operator[](gsl::index index) -> auto&
       {
-        moves[i] += rhs.moves[i];
+        return gsl::at(moves, index);
       }
-      return *this;
-    }  // operator+=
 
-    /// @return The total moves in the MoveTracker
-    auto total() const noexcept
-    {
-      return std::accumulate(moves.begin(), moves.end(), 0);
-    }  // total
+      /// @param move The move_type to be accessed
+      /// @return The number of moves of that move_type
+      auto operator[](move_type move) const -> auto&
+      {
+        return gsl::at(moves, as_integer(move));
+      }  // operator[]
 
-    /// @return Size of container of moves
-    auto size() const noexcept { return moves.size(); }
+      /// @param rhs The Move_tracker to add
+      /// @return The sum of the individual elements of the left and right
+      /// Move_trackers
+      auto operator+=(MoveTracker const& rhs)
+      {
+        for (std::size_t i = 0; i < moves.size(); ++i)
+        {
+          moves[i] += rhs.moves[i];
+        }
+        return *this;
+      }  // operator+=
 
-    // 3D
+      /// @return The total moves in the MoveTracker
+      auto total() const noexcept
+      {
+        return std::accumulate(moves.begin(), moves.end(), 0);
+      }  // total
 
-    /// @brief Write access to (2,3) moves
-    auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
+      /// @return Size of container of moves
+      auto size() const noexcept { return moves.size(); }
 
-    /// @brief Read-only access to (2,3) moves
-    auto two_three_moves() const { return gsl::at(moves, 0); }
+      // 3D
 
-    /// @brief Writeable access to (3,2) moves
-    auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
+      /// @brief Write access to (2,3) moves
+      auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
 
-    /// @brief Read-only access to (3,2) moves
-    auto three_two_moves() const { return gsl::at(moves, 1); }
+      /// @brief Read-only access to (2,3) moves
+      auto two_three_moves() const { return gsl::at(moves, 0); }
 
-    /// @brief Write access to (2,6) moves
-    auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
+      /// @brief Writeable access to (3,2) moves
+      auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
 
-    /// @brief Read-only access to (2,6) moves
-    auto two_six_moves() const { return gsl::at(moves, 2); }
+      /// @brief Read-only access to (3,2) moves
+      auto three_two_moves() const { return gsl::at(moves, 1); }
 
-    /// @brief Write access to (6,2) moves
-    auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
+      /// @brief Write access to (2,6) moves
+      auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
 
-    /// @brief Read access to (6,2) moves
-    auto six_two_moves() const { return gsl::at(moves, 3); }
+      /// @brief Read-only access to (2,6) moves
+      auto two_six_moves() const { return gsl::at(moves, 2); }
 
-    /// @brief Write access to (4,4) moves
-    auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
+      /// @brief Write access to (6,2) moves
+      auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
 
-    /// @brief Read access to (4,4) moves
-    auto four_four_moves() const { return gsl::at(moves, 4); }
+      /// @brief Read access to (6,2) moves
+      auto six_two_moves() const { return gsl::at(moves, 3); }
 
-    // 4D
-    /// @brief Write access to (2,4) moves
-    auto two_four_moves() -> auto& { return gsl::at(moves, 0); }
+      /// @brief Write access to (4,4) moves
+      auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
 
-    /// @brief Read access to (2,4) moves
-    auto two_four_moves() const { return gsl::at(moves, 0); }
+      /// @brief Read access to (4,4) moves
+      auto four_four_moves() const { return gsl::at(moves, 4); }
 
-    /// @brief Write access to (4,2) moves
-    auto four_two_moves() -> auto& { return gsl::at(moves, 1); }
+      // 4D
+      /// @brief Write access to (2,4) moves
+      auto two_four_moves() -> auto& { return gsl::at(moves, 0); }
 
-    /// @brief Read access to (4,2) moves
-    auto four_two_moves() const { return gsl::at(moves, 1); }
+      /// @brief Read access to (2,4) moves
+      auto two_four_moves() const { return gsl::at(moves, 0); }
 
-    /// @brief Write access to (3,3) moves
-    auto three_three_moves() -> auto& { return gsl::at(moves, 2); }
+      /// @brief Write access to (4,2) moves
+      auto four_two_moves() -> auto& { return gsl::at(moves, 1); }
 
-    /// @brief Read access to (3,3) moves
-    auto three_three_moves() const { return gsl::at(moves, 2); }
+      /// @brief Read access to (4,2) moves
+      auto four_two_moves() const { return gsl::at(moves, 1); }
 
-    /// @brief Write access to (4,6) moves
-    auto four_six_moves() -> auto& { return gsl::at(moves, 3); }
+      /// @brief Write access to (3,3) moves
+      auto three_three_moves() -> auto& { return gsl::at(moves, 2); }
 
-    /// @brief Read access to (4,6) moves
-    auto four_six_moves() const { return gsl::at(moves, 3); }
+      /// @brief Read access to (3,3) moves
+      auto three_three_moves() const { return gsl::at(moves, 2); }
 
-    /// @brief Write access to (6,4) moves
-    auto six_four_moves() -> auto& { return gsl::at(moves, 4); }
+      /// @brief Write access to (4,6) moves
+      auto four_six_moves() -> auto& { return gsl::at(moves, 3); }
 
-    /// @brief Read access to (6,4) moves
-    auto six_four_moves() const { return gsl::at(moves, 4); }
+      /// @brief Read access to (4,6) moves
+      auto four_six_moves() const { return gsl::at(moves, 3); }
 
-    /// @brief Write access to (2,8) moves
-    auto two_eight_moves() -> auto& { return gsl::at(moves, 5); }  // NOLINT
+      /// @brief Write access to (6,4) moves
+      auto six_four_moves() -> auto& { return gsl::at(moves, 4); }
 
-    /// @brief Read access to (2,8) moves
-    auto two_eight_moves() const { return gsl::at(moves, 5); }  // NOLINT
+      /// @brief Read access to (6,4) moves
+      auto six_four_moves() const { return gsl::at(moves, 4); }
 
-    /// @brief Write access to (8,2) moves
-    auto eight_two_moves() -> auto& { return gsl::at(moves, 6); }  // NOLINT
+      /// @brief Write access to (2,8) moves
+      auto two_eight_moves() -> auto& { return gsl::at(moves, 5); }  // NOLINT
 
-    /// @brief Read access to (8,2) moves
-    auto eight_two_moves() const { return gsl::at(moves, 6); }  // NOLINT
+      /// @brief Read access to (2,8) moves
+      auto two_eight_moves() const { return gsl::at(moves, 5); }  // NOLINT
+
+      /// @brief Write access to (8,2) moves
+      auto eight_two_moves() -> auto& { return gsl::at(moves, 6); }  // NOLINT
+
+      /// @brief Read access to (8,2) moves
+      auto eight_two_moves() const { return gsl::at(moves, 6); }  // NOLINT
+
+      /// @brief Reset all moves counts to zero
+      void reset() { moves.fill(0); }
   };
 
 }  // namespace move_tracker

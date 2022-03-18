@@ -120,10 +120,7 @@ SCENARIO("Vertex operations", "[vertex]")
       THEN("The vertices are in the manifold.")
       {
         auto vertices = manifold.get_vertices();
-        auto require  = [&manifold](auto& v)
-        {
-          REQUIRE(manifold.is_vertex(v));
-        };
+        auto require = [&manifold](auto& v) { REQUIRE(manifold.is_vertex(v)); };
         std::for_each(vertices.begin(), vertices.end(), require);
       }
 
@@ -164,10 +161,7 @@ SCENARIO("Vertex operations", "[vertex]")
       THEN("The vertices are in the manifold.")
       {
         auto vertices = manifold.get_vertices();
-        auto require  = [&manifold](auto& v)
-        {
-          REQUIRE(manifold.is_vertex(v));
-        };
+        auto require = [&manifold](auto& v) { REQUIRE(manifold.is_vertex(v)); };
         std::for_each(vertices.begin(), vertices.end(), require);
       }
 
@@ -210,8 +204,7 @@ SCENARIO("Vertex operations", "[vertex]")
       THEN("The vertices are in the manifold.")
       {
         auto vertices = manifold.get_vertices();
-        auto require  = [&manifold](auto& vertex_candidate)
-        {
+        auto require  = [&manifold](auto& vertex_candidate) {
           REQUIRE(manifold.is_vertex(vertex_candidate));
         };
         std::for_each(vertices.begin(), vertices.end(), require);

@@ -145,8 +145,7 @@ try
         // Manifold no-throw swapperator
         swap(populated_universe, universe);
       }
-      else
-      {
+      else {
         timer.stop();  // End running time counter
         throw invalid_argument("Currently, dimensions cannot be >3.");
       }
@@ -154,8 +153,7 @@ try
     case topology_type::TOROIDAL:
       timer.stop();  // End running time counter
       throw invalid_argument("Toroidal triangulations not yet supported.");
-    default:
-      throw domain_error("Simulation topology not parsed.");
+    default: throw domain_error("Simulation topology not parsed.");
   }
 
   // Look at triangulation

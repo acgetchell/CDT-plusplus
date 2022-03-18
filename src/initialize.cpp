@@ -93,16 +93,14 @@ try
             foliation_spacing);
         swap(populated_universe, universe);
       }
-      else
-      {
+      else {
         throw invalid_argument("Currently, dimensions cannot be >3.");
       }
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
       break;
-    default:
-      throw domain_error("Simulation topology not parsed.");
+    default: throw domain_error("Simulation topology not parsed.");
   }
   universe.print();
   universe.print_volume_per_timeslice();

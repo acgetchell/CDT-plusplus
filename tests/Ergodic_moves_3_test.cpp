@@ -65,8 +65,7 @@ SCENARIO(
         // Update geometry with new triangulation info
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::debug("{}", result.error());
         // Stop further tests
         REQUIRE(result.has_value());
@@ -101,8 +100,7 @@ SCENARIO(
         // Update geometry with new triangulation info
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::debug(
             "The (2,3) move to set up the manifold for the (3,2) move "
             "failed.\n");
@@ -128,8 +126,7 @@ SCENARIO(
         // Update geometry with new triangulation info
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::debug("{}", result.error());
         // Stop further tests
         REQUIRE(result.has_value());
@@ -205,8 +202,7 @@ SCENARIO(
         // Update geometry with new triangulation info
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::debug("The (2,6) move failed.\n");
         // Stop further tests
         REQUIRE(result.has_value());
@@ -247,8 +243,7 @@ SCENARIO(
         // Update geometry with new triangulation info
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::debug(
             "The (2,6) move to set up the manifold for the (6,2) move "
             "failed.\n");
@@ -275,8 +270,7 @@ SCENARIO(
       {
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::info("The (6,2) move failed.\n");
       }
       THEN("The move is correct and the manifold invariants are maintained")
@@ -366,8 +360,7 @@ SCENARIO(
       {
         manifold.update();
       }
-      else
-      {
+      else {
         spdlog::info("The (4,4) move failed.\n");
       }
       THEN("The move is correct and the manifold invariants are maintained")

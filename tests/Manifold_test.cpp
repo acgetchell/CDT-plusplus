@@ -289,16 +289,18 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.check_simplices());
         // We have 1 to 8 vertices
         auto number_of_vertices{manifold.N0()};
-        CHECK_THAT(number_of_vertices,
-                   Predicate<int>([](int const value) -> bool
-                                  { return (1 <= value && value <= 8); },
-                                  "There should be 1 to 8 vertices."));
+        CHECK_THAT(number_of_vertices, Predicate<int>(
+                                           [](int const value) -> bool {
+                                             return (1 <= value && value <= 8);
+                                           },
+                                           "There should be 1 to 8 vertices."));
         // We have 1 to 12 number_of_cells
         auto number_of_cells{manifold.N3()};
-        CHECK_THAT(number_of_cells,
-                   Predicate<int>([](int const value) -> bool
-                                  { return (1 <= value && value <= 12); },
-                                  "There should be 1 to 12 cells."));
+        CHECK_THAT(number_of_cells, Predicate<int>(
+                                        [](int const value) -> bool {
+                                          return (1 <= value && value <= 12);
+                                        },
+                                        "There should be 1 to 12 cells."));
         // We have all the time values
         CHECK(manifold.min_time() == 1);
         CHECK(manifold.max_time() == desired_timeslices);
@@ -548,13 +550,12 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
     causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
     Manifold3 manifold(causal_vertices, 0.0, 1.0);
-    auto      print = [&manifold](auto& vertex)
-    {
+    auto      print = [&manifold](auto& vertex) {
       fmt::print(
-          "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-          "infinite: {}\n",
-          vertex->point(), vertex->info(), manifold.is_vertex(vertex),
-          manifold.get_triangulation().is_infinite(vertex));
+               "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+                    "infinite: {}\n",
+               vertex->point(), vertex->info(), manifold.is_vertex(vertex),
+               manifold.get_triangulation().is_infinite(vertex));
     };
     WHEN("We ask for a container of vertices given a container of cells.")
     {

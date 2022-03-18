@@ -20,10 +20,7 @@ using namespace manifolds;
 
 SCENARIO("Simple Lambda operations", "[function-ref]")
 {
-  constexpr auto increment_lambda = [](int a)
-  {
-    return ++a;
-  };
+  constexpr auto increment_lambda = [](int a) { return ++a; };
   GIVEN("A simple lambda.")
   {
     WHEN("Lambda is called with 0.")
@@ -53,10 +50,8 @@ SCENARIO("Complex lambda operations", "[function-ref]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold3& m)
-      {
-        return ergodic_moves::do_23_move(m).value();
-      };
+      auto const move23
+          = [](Manifold3& m) { return ergodic_moves::do_23_move(m).value(); };
       THEN("Running the lambda makes the move.")
       {
         auto result = move23(manifold);
@@ -77,10 +72,7 @@ SCENARIO("Function_ref operations", "[function-ref]")
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {
-    auto const increment = [](int incr)
-    {
-      return ++incr;
-    };
+    auto const                 increment = [](int incr) { return ++incr; };
     tl::function_ref<int(int)> lambda_ref(increment);
     WHEN("Function_ref is called with 0.")
     {
@@ -117,10 +109,8 @@ SCENARIO("Function_ref operations", "[function-ref]")
     auto constexpr desired_timeslices = 4;
     Manifold3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    auto const move23 = [](Manifold3& m)
-    {
-      return ergodic_moves::do_23_move(m).value();
-    };
+    auto const move23
+        = [](Manifold3& m) { return ergodic_moves::do_23_move(m).value(); };
     tl::function_ref<Manifold3(Manifold3&)> complex_ref(move23);
     WHEN("The function_ref is invoked.")
     {

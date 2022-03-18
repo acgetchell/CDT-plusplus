@@ -32,12 +32,11 @@ namespace ergodic_moves
   }  // null_move
 
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
-  ///
-  /// <https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4>
-  ///
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
   /// @return If move succeeded
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4
   [[nodiscard]] inline auto try_23_move(
       manifolds::Manifold3&   t_manifold,
       Cell_handle_t<3> const& to_be_moved) noexcept -> bool
@@ -98,12 +97,11 @@ namespace ergodic_moves
   }
 
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
-  ///
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
-  ///
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
   /// @return If move succeeded
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
   [[nodiscard]] inline auto try_32_move(
       manifolds::Manifold3&   t_manifold,
       Edge_handle_t<3> const& to_be_moved) noexcept -> bool
@@ -238,14 +236,14 @@ namespace ergodic_moves
         // except the common_face_index
         // CGAL uses bitwise operations like (common_face_index +1) & 3
         // We use % 4 which is equivalent and doesn't trigger clang-tidy
-        auto const i1 = (common_face_index + 1) % 4;
-        auto const i2 = (common_face_index + 2) % 4;
-        auto const i3 = (common_face_index + 3) % 4;
+        auto const i_1 = (common_face_index + 1) % 4;
+        auto const i_2 = (common_face_index + 2) % 4;
+        auto const i_3 = (common_face_index + 3) % 4;
 
         // Get vertices of common face from indices
-        auto const v1 = bottom->vertex(i1);
-        auto const v2 = bottom->vertex(i2);
-        auto const v3 = bottom->vertex(i3);
+        auto const v1  = bottom->vertex(i_1);
+        auto const v2  = bottom->vertex(i_2);
+        auto const v3  = bottom->vertex(i_3);
 
         // Timeslice of vertices should be same
         if (v1->info() != v2->info() || v2->info() != v3->info())
@@ -312,8 +310,7 @@ namespace ergodic_moves
         {
           spdlog::trace("It's a vertex in the TDS.\n");
         }
-        else
-        {
+        else {
           spdlog::trace("It's not a vertex in the TDS.\n");
         }
         spdlog::trace("Spacelike face timevalue is {}.\n", timevalue);
@@ -647,8 +644,7 @@ namespace ergodic_moves
                 && t_after.N0() == t_before.N0() - 1
                 && t_after.max_time() == t_before.max_time()
                 && t_after.min_time() == t_before.min_time());
-      default:
-        return false;
+      default: return false;
     }
   }  // check_move()
 

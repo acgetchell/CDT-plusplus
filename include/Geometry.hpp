@@ -72,8 +72,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
       , N1_SL{triangulation.N1_SL()}
       , N0{static_cast<Int_precision>(triangulation.number_of_vertices())}
 
-  {
-  }
+  {}
 
   /// @brief Non-member swap function for Geometry
   /// @details Used for no-except updates of geometry data structures.

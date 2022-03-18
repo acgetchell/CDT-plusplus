@@ -147,8 +147,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
       {
         CHECK(triangulation.check_all_vertices());
         // Human verification
-        auto print = [&triangulation](Vertex_handle_t<3> const& v)
-        {
+        auto print = [&triangulation](Vertex_handle_t<3> const& v) {
           fmt::print(
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
@@ -186,10 +185,10 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
       // here for reference
       Causal_vertices causal_vertices;
       causal_vertices.reserve(Vertices.size());
-      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(causal_vertices),
-                     [](Point a, std::size_t b)
-                     { return std::make_pair(a, b); });
+      std::transform(
+          Vertices.begin(), Vertices.end(), timevalue.begin(),
+          std::back_inserter(causal_vertices),
+          [](Point a, std::size_t b) { return std::make_pair(a, b); });
       FoliatedTriangulation triangulation(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")

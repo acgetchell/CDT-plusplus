@@ -25,6 +25,8 @@
 /// @param t_manifold The manifold on which to make the Pachner move
 /// @param t_move The Pachner move
 /// @return The expected or unexpected result in a tl::expected<T,E>
+/// @see https://tl.tartanllama.xyz/en/latest/api/function_ref.html
+/// @see https://tl.tartanllama.xyz/en/latest/api/expected.html
 template <typename ManifoldType,
           typename ExpectedType = tl::expected<ManifoldType, std::string>,
           typename FunctionType = tl::function_ref<ExpectedType(ManifoldType&)>>

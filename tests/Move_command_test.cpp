@@ -107,8 +107,7 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold3& manifold_3)
-      {
+      auto const move23 = [](Manifold3& manifold_3) {
         return ergodic_moves::do_23_move(manifold_3).value();
       };
       THEN("Running the lambda makes the move.")

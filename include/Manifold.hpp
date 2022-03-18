@@ -57,7 +57,7 @@ namespace manifolds
     /// @brief The data structure of scalar values for computations
     Geometry m_geometry;
 
-   public:
+  public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension  = 3;
@@ -393,7 +393,7 @@ namespace manifolds
       throw;
     }  // print_details
 
-   private:
+  private:
     /// @brief Update the triangulation
     void update_triangulation()
     try
@@ -430,7 +430,7 @@ namespace manifolds
     /// @brief The data structure of scalar values for computations
     Geometry4 m_geometry;
 
-   public:
+  public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension = 4;

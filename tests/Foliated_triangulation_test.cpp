@@ -169,8 +169,7 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
         };
         std::for_each(vertices_and_timevalues.begin(),
                       vertices_and_timevalues.end(), print);
-        auto check = [](std::pair<int, Vertex_handle_t<3>> const& pair)
-        {
+        auto check = [](std::pair<int, Vertex_handle_t<3>> const& pair) {
           CHECK(pair.first == pair.second->info());
         };
         std::for_each(vertices_and_timevalues.begin(),
@@ -302,8 +301,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The vertices have correct timevalues.")
       {
-        auto check = [&triangulation](Vertex_handle_t<3> const& vertex)
-        {
+        auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
           CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
         };
         for_each(triangulation.get_vertices().begin(),
@@ -395,15 +393,13 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         CHECK(triangulation.max_time() > 0);
         CHECK(triangulation.min_time() > 0);
         CHECK(triangulation.max_time() > triangulation.min_time());
-        auto check_timelike = [](Edge_handle_t<3> const& edge)
-        {
+        auto check_timelike = [](Edge_handle_t<3> const& edge) {
           CHECK(classify_edge<3>(edge));
         };
         for_each(triangulation.get_timelike_edges().begin(),
                  triangulation.get_timelike_edges().end(), check_timelike);
 
-        auto check_spacelike = [](Edge_handle_t<3> const& edge)
-        {
+        auto check_spacelike = [](Edge_handle_t<3> const& edge) {
           CHECK(!classify_edge<3>(edge));
         };
         for_each(triangulation.get_spacelike_edges().begin(),
@@ -503,10 +499,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_WHEN("The vertices are mis-labelled.")
       {
-        auto break_vertices = [](Vertex_handle_t<3> const& vertex)
-        {
-          vertex->info() = 0;
-        };
+        auto break_vertices
+            = [](Vertex_handle_t<3> const& vertex) { vertex->info() = 0; };
         for_each(triangulation.get_vertices().begin(),
                  triangulation.get_vertices().end(), break_vertices);
 
@@ -533,10 +527,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_WHEN("The cells are mis-labelled.")
       {
-        auto break_cells = [](Cell_handle_t<3> const& cell)
-        {
-          cell->info() = 0;
-        };
+        auto break_cells
+            = [](Cell_handle_t<3> const& cell) { cell->info() = 0; };
         for_each(triangulation.get_cells().begin(),
                  triangulation.get_cells().end(), break_cells);
         THEN("The incorrect cell labelling is identified.")
@@ -868,8 +860,7 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       REQUIRE(triangulation.is_initialized());
       THEN("The degree of each vertex is 4 (including infinite vertex).")
       {
-        auto check = [&triangulation](Vertex_handle_t<3> const& vertex)
-        {
+        auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
           CHECK(triangulation.degree(vertex) == 4);
         };
         for_each(triangulation.get_vertices().begin(),
