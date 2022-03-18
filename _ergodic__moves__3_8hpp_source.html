@@ -403,8 +403,8 @@ $(function() {
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    {</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;      spdlog::warn(<span class="stringliteral">&quot;Fixing vertices found by is_62_movable().\n&quot;</span>);</div>
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;    }</div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="comment">// Run until all cells fixed or 50 passes</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> passes = 1; passes &lt; 51; ++passes)  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;    <span class="comment">// Run until all cells fixed or 10 passes</span></div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span> passes = 1; passes &lt; 11; ++passes)  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;    {</div>
 <div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;      <span class="keywordflow">if</span> (foliated_triangulations::fix_cells&lt;3&gt;(</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;              manifold.get_triangulation().get_delaunay()))</div>
@@ -617,7 +617,7 @@ $(function() {
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a697e71ab3c64caa8890fd945198dab1c"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a697e71ab3c64caa8890fd945198dab1c">ergodic_moves::try_23_move</a></div><div class="ttdeci">auto try_23_move(manifolds::Manifold3 &amp;t_manifold, Cell_handle_t&lt; 3 &gt; const &amp;to_be_moved) noexcept -&gt; bool</div><div class="ttdoc">Perform a TriangulationDataStructure_3::flip on a facet.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00041">Ergodic_moves_3.hpp:41</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 17 2022 15:33:29 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2022 02:37:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

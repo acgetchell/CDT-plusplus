@@ -242,8 +242,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform a (2,3) move. </p>
-<p>A (2,3) move "flips" a timelike face into a timelike edge. <a class="el" href="interface_this.html">This</a> adds a (2,2) simplex and a timelike edge.</p>
-<p><a class="el" href="interface_this.html">This</a> function calls try_23_move on (2,2) simplices drawn from a randomly shuffled container until it succeeds or runs out of simplices.</p>
+<p>A (2,3) move "flips" a timelike face into a timelike edge. This adds a (2,2) simplex and a timelike edge.</p>
+<p>This function calls try_23_move on (2,2) simplices drawn from a randomly shuffled container until it succeeds or runs out of simplices.</p>
 <p>If successful, the triangulation is no longer Delaunay.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -287,8 +287,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform a (2,6) move. </p>
-<p>A (2,6) move inserts a vertex into the spacelike face between a (1,3) simplex on the bottom connected to a (3,1) simplex on top. <a class="el" href="interface_this.html">This</a> adds 2 (1,3) simplices and 2 (3,1) simplices. It adds 2 spacelike faces and 6 timelike faces. It also adds 2 timelike edges and 3 spacelike edges, as well as the vertex.</p>
-<p><a class="el" href="interface_this.html">This</a> function calls find_adjacent_31_cell on (1,3) simplices drawn from a randomly shuffled container until it succeeds or runs out of simplices.</p>
+<p>A (2,6) move inserts a vertex into the spacelike face between a (1,3) simplex on the bottom connected to a (3,1) simplex on top. This adds 2 (1,3) simplices and 2 (3,1) simplices. It adds 2 spacelike faces and 6 timelike faces. It also adds 2 timelike edges and 3 spacelike edges, as well as the vertex.</p>
+<p>This function calls find_adjacent_31_cell on (1,3) simplices drawn from a randomly shuffled container until it succeeds or runs out of simplices.</p>
 <p>If successful, the triangulation is no longer Delaunay.</p>
 <div class="image">
 <img src="26.png" alt=""/>
@@ -335,8 +335,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform a (3,2) move. </p>
-<p>A (3,2) move "flips" a timelike edge into a timelike face. <a class="el" href="interface_this.html">This</a> removes a (2,2) simplex and the timelike edge.</p>
-<p><a class="el" href="interface_this.html">This</a> function calls try_32_move on timelike edges drawn from a randomly shuffled container until it succeeds or runs out of edges.</p>
+<p>A (3,2) move "flips" a timelike edge into a timelike face. This removes a (2,2) simplex and the timelike edge.</p>
+<p>This function calls try_32_move on timelike edges drawn from a randomly shuffled container until it succeeds or runs out of edges.</p>
 <p>If successful, the triangulation is no longer Delaunay.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -380,8 +380,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform a (4,4) move. </p>
-<p>A (4,4) move flips an edge which has exactly 4 incident cells. In CDT specifically, the edge is spacelike and the 4 incident cells are a pair of (1,3) simplices and a pair of (3,1) simplices. It thus re-labels each of the 4 cells in the complex, but doesn't actually change the number of cells, vertices, or edges. <a class="el" href="interface_this.html">This</a> move has the effect of mixing up the simplices, thus possibly creating different potential moves in different locations.</p>
-<p><a class="el" href="interface_this.html">This</a> function calls is_44_movable() on a randomly shuffled container of edges until it succeeds or runs out of edges.</p>
+<p>A (4,4) move flips an edge which has exactly 4 incident cells. In CDT specifically, the edge is spacelike and the 4 incident cells are a pair of (1,3) simplices and a pair of (3,1) simplices. It thus re-labels each of the 4 cells in the complex, but doesn't actually change the number of cells, vertices, or edges. This move has the effect of mixing up the simplices, thus possibly creating different potential moves in different locations.</p>
+<p>This function calls is_44_movable() on a randomly shuffled container of edges until it succeeds or runs out of edges.</p>
 <p>If successful, the triangulation remains Delaunay. (Other moves may change this, however.)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -426,8 +426,8 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Perform a (6,2) move. </p>
-<p>A (6,2) move removes a vertex which has 3 incident (3,1) simplices and 3 (1,3) simplices for a total of 6 incident simplices exactly. <a class="el" href="interface_this.html">This</a> converts the 3 (1,3) simplices into a single (1,3) simplex on the bottom and the 3 (3,1) simplices into a single (3,1) simplex on top. It thus removes 2 (1,3) simplices, 2 (3,1) simplices, 2 spacelike faces, 6 timelike faces, 3 spacelike edges, 2 timelike edges, and a single vertex.</p>
-<p><a class="el" href="interface_this.html">This</a> function calls <a class="el" href="_ergodic__moves__3_8hpp.html#a3fdcd5ecfd36ccaa82ba49b88e221f6f" title="Find a (6,2) move location.">is_62_movable()</a> on a randomly shuffled container of vertices until it succeeds or runs out of vertices.</p>
+<p>A (6,2) move removes a vertex which has 3 incident (3,1) simplices and 3 (1,3) simplices for a total of 6 incident simplices exactly. This converts the 3 (1,3) simplices into a single (1,3) simplex on the bottom and the 3 (3,1) simplices into a single (3,1) simplex on top. It thus removes 2 (1,3) simplices, 2 (3,1) simplices, 2 spacelike faces, 6 timelike faces, 3 spacelike edges, 2 timelike edges, and a single vertex.</p>
+<p>This function calls <a class="el" href="_ergodic__moves__3_8hpp.html#a3fdcd5ecfd36ccaa82ba49b88e221f6f" title="Find a (6,2) move location.">is_62_movable()</a> on a randomly shuffled container of vertices until it succeeds or runs out of vertices.</p>
 <p>If successful, the triangulation remains Delaunay. (Other moves may change this, however.)</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
@@ -481,7 +481,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Find a (4,4) move location. </p>
-<p><a class="el" href="interface_this.html">This</a> function checks to see if a (4,4) move is possible. Starting with a spacelike edge, it checks all incident cells. There must be 4 incident cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices, and there should be no (2,2) simplices.</p>
+<p>This function checks to see if a (4,4) move is possible. Starting with a spacelike edge, it checks all incident cells. There must be 4 incident cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices, and there should be no (2,2) simplices.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_manifold</td><td>The simplicial manifold </td></tr>
@@ -525,7 +525,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Find a (2,6) move location. </p>
-<p><a class="el" href="interface_this.html">This</a> function checks to see if a (2,6) move is possible. Starting with a (1,3) simplex, it checks neighbors for a (3,1) simplex.</p>
+<p>This function checks to see if a (2,6) move is possible. Starting with a (1,3) simplex, it checks neighbors for a (3,1) simplex.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_cell</td><td>The (1,3) simplex that is checked </td></tr>
@@ -578,7 +578,7 @@ Functions</h2></td></tr>
 </div><div class="memdoc">
 
 <p>Find a (6,2) move location. </p>
-<p><a class="el" href="interface_this.html">This</a> function checks to see if a (6,2) move is possible. Starting with a vertex, it checks all incident cells. There must be 6 incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices, and there should be no (2,2) simplices.</p>
+<p>This function checks to see if a (6,2) move is possible. Starting with a vertex, it checks all incident cells. There must be 6 incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices, and there should be no (2,2) simplices.</p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">manifold</td><td>The simplicial manifold </td></tr>
@@ -749,7 +749,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 17 2022 15:33:29 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2022 02:37:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
