@@ -131,277 +131,273 @@ $(function() {
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;{</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;  <span class="keywordflow">switch</span> (t_topology)</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  {</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">case</span> topology_type::SPHERICAL:</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;spherical&quot;</span>;</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;toroidal&quot;</span>;</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;      <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;none&quot;</span>;</div>
-<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  }</div>
-<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;}  <span class="comment">// operator&lt;&lt;</span></div>
-<div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160; </div>
-<div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;<span class="keyword">namespace </span>utilities</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;{</div>
-<div class="line"><a name="l00078"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">   78</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>()</div>
-<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;  {</div>
-<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="keyword">using namespace </span>std::chrono;</div>
-<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    date::zoned_time <span class="keyword">const</span> time(date::current_zone(), system_clock::now());</div>
-<div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="keywordflow">return</span> date::format(<span class="stringliteral">&quot;%Y-%m-%d.%X%Z&quot;</span>, time);</div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }  <span class="comment">// current_date_time</span></div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160; </div>
-<div class="line"><a name="l00093"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">   93</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">generate_filename</a>(</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      topology_type <span class="keyword">const</span>&amp; t_topology, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension,</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices,</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <span class="keywordtype">double</span> t_initial_radius, <span class="keywordtype">double</span> t_foliation_spacing) noexcept</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    std::string filename;</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    <span class="keywordflow">if</span> (t_topology == topology_type::SPHERICAL) { filename += <span class="stringliteral">&quot;S&quot;</span>; }</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="keywordflow">else</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    {</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;      filename += <span class="stringliteral">&quot;T&quot;</span>;</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    }</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="comment">// std::to_string() works in C++11, but not earlier</span></div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    filename += std::to_string(t_dimension);</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;    <span class="keywordflow">case</span> topology_type::SPHERICAL: <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;spherical&quot;</span>;</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL: <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;toroidal&quot;</span>;</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="keywordflow">default</span>: <span class="keywordflow">return</span> t_os &lt;&lt; <span class="stringliteral">&quot;none&quot;</span>;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  }</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;}  <span class="comment">// operator&lt;&lt;</span></div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
+<div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;<span class="keyword">namespace </span>utilities</div>
+<div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;{</div>
+<div class="line"><a name="l00075"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">   75</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>()</div>
+<div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  {</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">using namespace </span>std::chrono;</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    date::zoned_time <span class="keyword">const</span> time(date::current_zone(), system_clock::now());</div>
+<div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    <span class="keywordflow">return</span> date::format(<span class="stringliteral">&quot;%Y-%m-%d.%X%Z&quot;</span>, time);</div>
+<div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;  }  <span class="comment">// current_date_time</span></div>
+<div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160; </div>
+<div class="line"><a name="l00090"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">   90</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">generate_filename</a>(</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;      topology_type <span class="keyword">const</span>&amp; t_topology, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension,</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;      <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices,</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keywordtype">double</span> t_initial_radius, <span class="keywordtype">double</span> t_foliation_spacing) noexcept</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;  {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    std::string filename;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    <span class="keywordflow">if</span> (t_topology == topology_type::SPHERICAL) { filename += <span class="stringliteral">&quot;S&quot;</span>; }</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;    <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      filename += <span class="stringliteral">&quot;T&quot;</span>;</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;    }</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;    <span class="comment">// std::to_string() works in C++11, but not earlier</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    filename += std::to_string(t_dimension);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    filename += <span class="stringliteral">&quot;-&quot;</span>;</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160; </div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    filename += std::to_string(t_number_of_timeslices);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160; </div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    filename += <span class="stringliteral">&quot;-&quot;</span>;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160; </div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    filename += std::to_string(t_number_of_timeslices);</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    filename += std::to_string(t_number_of_simplices);</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160; </div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    filename += <span class="stringliteral">&quot;-&quot;</span>;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    filename += <span class="stringliteral">&quot;-I&quot;</span>;</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    filename += std::to_string(t_number_of_simplices);</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    filename += std::to_string(t_initial_radius);</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    filename += <span class="stringliteral">&quot;-I&quot;</span>;</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    filename += <span class="stringliteral">&quot;-R&quot;</span>;</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160; </div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    filename += std::to_string(t_initial_radius);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    filename += std::to_string(t_foliation_spacing);</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160; </div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    filename += <span class="stringliteral">&quot;-R&quot;</span>;</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160; </div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    filename += std::to_string(t_foliation_spacing);</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    <span class="comment">// Append current time</span></div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;    filename += <span class="stringliteral">&quot;-&quot;</span>;</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;    filename += <a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>();</div>
 <div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160; </div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">// Append current time</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    filename += <span class="stringliteral">&quot;-&quot;</span>;</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    filename += <a class="code" href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">current_date_time</a>();</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160; </div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    <span class="comment">// Append .off file extension</span></div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    filename += <span class="stringliteral">&quot;.off&quot;</span>;</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    <span class="keywordflow">return</span> filename;</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;  }  <span class="comment">// generate_filename</span></div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160; </div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TriangulationType&gt;</div>
-<div class="line"><a name="l00137"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">  137</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">print_delaunay</a>(TriangulationType <span class="keyword">const</span>&amp; t_triangulation)</div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;  {</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    fmt::print(</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        <span class="stringliteral">&quot;Triangulation has {} vertices and {} edges and {} faces and {} &quot;</span></div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        <span class="stringliteral">&quot;simplices.\n&quot;</span>,</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;        t_triangulation.number_of_vertices(),</div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;        t_triangulation.number_of_finite_edges(),</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;        t_triangulation.number_of_finite_facets(),</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        t_triangulation.number_of_finite_cells());</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;  }  <span class="comment">// print_delaunay</span></div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160; </div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType&gt;</div>
-<div class="line"><a name="l00164"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">  164</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">write_file</a>(ManifoldType <span class="keyword">const</span>&amp;  t_universe,</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;                  topology_type <span class="keyword">const</span>&amp; t_topology, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension,</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;                  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices,</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;                  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices, <span class="keywordtype">double</span> t_initial_radius,</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;                  <span class="keywordtype">double</span> t_foliation_spacing)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    <span class="comment">// mutex to protect file access across threads</span></div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    <span class="keyword">static</span> std::mutex mutex;</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    std::string       filename;</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;    filename.assign(<a class="code" href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">generate_filename</a>(</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;        t_topology, t_dimension, t_number_of_simplices, t_number_of_timeslices,</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;        t_initial_radius, t_foliation_spacing));</div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    fmt::print(<span class="stringliteral">&quot;Writing to file {}\n&quot;</span>, filename);</div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    std::scoped_lock <span class="keyword">const</span> lock(mutex);</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;    std::ofstream          file(filename, std::ios::out);</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;    <span class="keywordflow">if</span> (!file.is_open())</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    {</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;      <span class="keywordflow">throw</span> std::filesystem::filesystem_error(</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;          <span class="stringliteral">&quot;Unable to open file.&quot;</span>,</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;          std::make_error_code(std::errc::bad_file_descriptor));</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;    }</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160; </div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;    file &lt;&lt; t_universe.get_triangulation().get_delaunay();</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  }  <span class="comment">// write_file</span></div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">  193</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">die_roll</a>() noexcept</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  {</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;    pcg_extras::seed_seq_from&lt;std::random_device&gt; seed_source;</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160; </div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    <span class="comment">// Make a random number generator</span></div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    pcg64 rng(seed_source);</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;    <span class="comment">// Choose random number from 1 to 6</span></div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;    std::uniform_int_distribution uniform_dist(1, 6);  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;    <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> <span class="keyword">const</span>           roll = uniform_dist(rng);</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;    <span class="keywordflow">return</span> roll;</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  }  <span class="comment">// die_roll()</span></div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> NumberType, <span class="keyword">class</span> Distribution&gt;</div>
-<div class="line"><a name="l00219"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aedec27ac05d190e58d3c930f3e175f48">  219</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#aedec27ac05d190e58d3c930f3e175f48">generate_random</a>(NumberType t_min_value,</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;                                     NumberType t_max_value) noexcept</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;  {</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    pcg_extras::seed_seq_from&lt;std::random_device&gt; seed_source;</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;    <span class="comment">// Make a random number generator</span></div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    pcg64        generator(seed_source);</div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    Distribution distribution(t_min_value, t_max_value);</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <span class="keywordflow">return</span> distribution(generator);</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;  }  <span class="comment">// generate_random()</span></div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00231"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">  231</a></span>&#160;  <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">make_random_generator</a>() noexcept</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  {</div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;    pcg_extras::seed_seq_from&lt;std::random_device&gt; seed_source;</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;    pcg64                                         generator(seed_source);</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;    <span class="keywordflow">return</span> generator;</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  }  <span class="comment">// make_random_generator()</span></div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160; </div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> IntegerType&gt;</div>
-<div class="line"><a name="l00241"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">  241</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> constexpr <a class="code" href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">generate_random_int</a>(</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      IntegerType t_min_value, IntegerType t_max_value) noexcept</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;  {</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;    <span class="keyword">using</span> int_dist = std::uniform_int_distribution&lt;IntegerType&gt;;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    <span class="keywordflow">return</span> generate_random&lt;IntegerType, int_dist&gt;(t_min_value, t_max_value);</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  }  <span class="comment">// generate_random_int()</span></div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> IntegerType&gt;</div>
-<div class="line"><a name="l00250"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">  250</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">generate_random_timeslice</a>(</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      IntegerType&amp;&amp; t_max_timeslice) noexcept -&gt; decltype(<span class="keyword">auto</span>)</div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;  {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">generate_random_int</a>(<span class="keyword">static_cast&lt;</span>IntegerType<span class="keyword">&gt;</span>(1),</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;                               std::forward&lt;IntegerType&gt;(t_max_timeslice));</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  }  <span class="comment">// generate_random_timeslice()</span></div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160; </div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FloatingPo<span class="keywordtype">int</span>Type&gt;</div>
-<div class="line"><a name="l00260"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">  260</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> constexpr <a class="code" href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">generate_random_real</a>(</div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;      FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  {</div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;    <span class="keyword">using</span> real_dist = std::uniform_real_distribution&lt;FloatingPointType&gt;;</div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;    <span class="keywordflow">return</span> generate_random&lt;FloatingPointType, real_dist&gt;(t_min_value,</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;                                                         t_max_value);</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  }  <span class="comment">// generate_random_real()</span></div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160; </div>
-<div class="line"><a name="l00269"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">  269</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> constexpr <a class="code" href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">generate_probability</a>() noexcept</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  {</div>
-<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;    <span class="keyword">auto</span> constexpr min = 0.0L;</div>
-<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;    <span class="keyword">auto</span> constexpr max = 1.0L;</div>
-<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">generate_random_real</a>(min, max);</div>
-<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;  }  <span class="comment">// generate_probability()</span></div>
-<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160; </div>
-<div class="line"><a name="l00290"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a0f6d2294f044766cb777ae53770d09df">  290</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a0f6d2294f044766cb777ae53770d09df">expected_points_per_timeslice</a>(</div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;      <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices,</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;      <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices)</div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;  {</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
-<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} simplices on {} timeslices desired.\n&quot;</span>,</div>
-<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                  t_number_of_simplices, t_number_of_timeslices);</div>
-<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;<span class="preprocessor">#endif</span></div>
-<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160; </div>
-<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> simplices_per_timeslice</div>
-<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;        = t_number_of_simplices / t_number_of_timeslices;</div>
-<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;    <span class="keywordflow">if</span> (t_dimension == 3)</div>
-<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;    {</div>
-<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      <span class="comment">// Avoid segfaults for small values</span></div>
-<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices == t_number_of_timeslices)</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;    <span class="comment">// Append .off file extension</span></div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;    filename += <span class="stringliteral">&quot;.off&quot;</span>;</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;    <span class="keywordflow">return</span> filename;</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;  }  <span class="comment">// generate_filename</span></div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160; </div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> TriangulationType&gt;</div>
+<div class="line"><a name="l00133"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">  133</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">print_delaunay</a>(TriangulationType <span class="keyword">const</span>&amp; t_triangulation)</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  {</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    fmt::print(</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        <span class="stringliteral">&quot;Triangulation has {} vertices and {} edges and {} faces and {} &quot;</span></div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        <span class="stringliteral">&quot;simplices.\n&quot;</span>,</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;        t_triangulation.number_of_vertices(),</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;        t_triangulation.number_of_finite_edges(),</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;        t_triangulation.number_of_finite_facets(),</div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;        t_triangulation.number_of_finite_cells());</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;  }  <span class="comment">// print_delaunay</span></div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType&gt;</div>
+<div class="line"><a name="l00160"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">  160</a></span>&#160;  <span class="keywordtype">void</span> <a class="code" href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">write_file</a>(ManifoldType <span class="keyword">const</span>&amp;  t_universe,</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;                  topology_type <span class="keyword">const</span>&amp; t_topology, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension,</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;                  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices,</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;                  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices, <span class="keywordtype">double</span> t_initial_radius,</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;                  <span class="keywordtype">double</span> t_foliation_spacing)</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    <span class="comment">// mutex to protect file access across threads</span></div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    <span class="keyword">static</span> std::mutex mutex;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160; </div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;    std::string       filename;</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    filename.assign(<a class="code" href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">generate_filename</a>(</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;        t_topology, t_dimension, t_number_of_simplices, t_number_of_timeslices,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;        t_initial_radius, t_foliation_spacing));</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;    fmt::print(<span class="stringliteral">&quot;Writing to file {}\n&quot;</span>, filename);</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;    std::scoped_lock <span class="keyword">const</span> lock(mutex);</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;    std::ofstream          file(filename, std::ios::out);</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;    <span class="keywordflow">if</span> (!file.is_open())</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;    {</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      <span class="keywordflow">throw</span> std::filesystem::filesystem_error(</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;          <span class="stringliteral">&quot;Unable to open file.&quot;</span>,</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;          std::make_error_code(std::errc::bad_file_descriptor));</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;    }</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;    file &lt;&lt; t_universe.get_triangulation().get_delaunay();</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  }  <span class="comment">// write_file</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160; </div>
+<div class="line"><a name="l00189"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">  189</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">die_roll</a>() noexcept</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  {</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;    pcg_extras::seed_seq_from&lt;std::random_device&gt; seed_source;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;    <span class="comment">// Make a random number generator</span></div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;    pcg64 rng(seed_source);</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    <span class="comment">// Choose random number from 1 to 6</span></div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;    std::uniform_int_distribution uniform_dist(1, 6);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;    <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> <span class="keyword">const</span>           roll = uniform_dist(rng);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;    <span class="keywordflow">return</span> roll;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  }  <span class="comment">// die_roll()</span></div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160; </div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> NumberType, <span class="keyword">class</span> Distribution&gt;</div>
+<div class="line"><a name="l00215"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aedec27ac05d190e58d3c930f3e175f48">  215</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#aedec27ac05d190e58d3c930f3e175f48">generate_random</a>(NumberType t_min_value,</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;                                     NumberType t_max_value) noexcept</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;  {</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;    pcg_extras::seed_seq_from&lt;std::random_device&gt; seed_source;</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;    <span class="comment">// Make a random number generator</span></div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;    pcg64        generator(seed_source);</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;    Distribution distribution(t_min_value, t_max_value);</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;    <span class="keywordflow">return</span> distribution(generator);</div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  }  <span class="comment">// generate_random()</span></div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">  227</a></span>&#160;  <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">make_random_generator</a>() noexcept</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;  {</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    pcg_extras::seed_seq_from&lt;std::random_device&gt; seed_source;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;    pcg64                                         generator(seed_source);</div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;    <span class="keywordflow">return</span> generator;</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;  }  <span class="comment">// make_random_generator()</span></div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160; </div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> IntegerType&gt;</div>
+<div class="line"><a name="l00237"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">  237</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> constexpr <a class="code" href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">generate_random_int</a>(</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      IntegerType t_min_value, IntegerType t_max_value) noexcept</div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;  {</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;    <span class="keyword">using</span> int_dist = std::uniform_int_distribution&lt;IntegerType&gt;;</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;    <span class="keywordflow">return</span> generate_random&lt;IntegerType, int_dist&gt;(t_min_value, t_max_value);</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;  }  <span class="comment">// generate_random_int()</span></div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160; </div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> IntegerType&gt;</div>
+<div class="line"><a name="l00246"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">  246</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">generate_random_timeslice</a>(</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      IntegerType&amp;&amp; t_max_timeslice) noexcept -&gt; decltype(<span class="keyword">auto</span>)</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;  {</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">generate_random_int</a>(<span class="keyword">static_cast&lt;</span>IntegerType<span class="keyword">&gt;</span>(1),</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;                               std::forward&lt;IntegerType&gt;(t_max_timeslice));</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;  }  <span class="comment">// generate_random_timeslice()</span></div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> FloatingPo<span class="keywordtype">int</span>Type&gt;</div>
+<div class="line"><a name="l00256"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">  256</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> constexpr <a class="code" href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">generate_random_real</a>(</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  {</div>
+<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;    <span class="keyword">using</span> real_dist = std::uniform_real_distribution&lt;FloatingPointType&gt;;</div>
+<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;    <span class="keywordflow">return</span> generate_random&lt;FloatingPointType, real_dist&gt;(t_min_value,</div>
+<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                                                         t_max_value);</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  }  <span class="comment">// generate_random_real()</span></div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">  265</a></span>&#160;  [[nodiscard]] <span class="keyword">auto</span> constexpr <a class="code" href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">generate_probability</a>() noexcept</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  {</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <span class="keyword">auto</span> constexpr min = 0.0L;</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    <span class="keyword">auto</span> constexpr max = 1.0L;</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;    <span class="keywordflow">return</span> <a class="code" href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">generate_random_real</a>(min, max);</div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  }  <span class="comment">// generate_probability()</span></div>
+<div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
+<div class="line"><a name="l00286"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a0f6d2294f044766cb777ae53770d09df">  286</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a0f6d2294f044766cb777ae53770d09df">expected_points_per_timeslice</a>(</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;      <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension, <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices,</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;      <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices)</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  {</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;    spdlog::debug(<span class="stringliteral">&quot;{} simplices on {} timeslices desired.\n&quot;</span>,</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;                  t_number_of_simplices, t_number_of_timeslices);</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;<span class="preprocessor">#endif</span></div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160; </div>
+<div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> simplices_per_timeslice</div>
+<div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;        = t_number_of_simplices / t_number_of_timeslices;</div>
+<div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;    <span class="keywordflow">if</span> (t_dimension == 3)</div>
+<div class="line"><a name="l00298"></a><span class="lineno">  298</span>&#160;    {</div>
+<div class="line"><a name="l00299"></a><span class="lineno">  299</span>&#160;      <span class="comment">// Avoid segfaults for small values</span></div>
+<div class="line"><a name="l00300"></a><span class="lineno">  300</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices == t_number_of_timeslices)</div>
+<div class="line"><a name="l00301"></a><span class="lineno">  301</span>&#160;      {</div>
+<div class="line"><a name="l00302"></a><span class="lineno">  302</span>&#160;        <span class="keywordflow">return</span> 2 * simplices_per_timeslice;</div>
+<div class="line"><a name="l00303"></a><span class="lineno">  303</span>&#160;      }</div>
+<div class="line"><a name="l00304"></a><span class="lineno">  304</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices &lt; 1000)  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00305"></a><span class="lineno">  305</span>&#160;      {</div>
-<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">return</span> 2 * simplices_per_timeslice;</div>
-<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;      }</div>
-<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices &lt; 1000)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      {</div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;            0.4L *  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;      }</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices &lt; 10000)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;      {</div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;            0.2L *  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
-<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;      }</div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices &lt; 100000)  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      {</div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;            0.15L *  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
-<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;      }</div>
-<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160; </div>
-<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
-<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;          0.1L * <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160;    }</div>
-<div class="line"><a name="l00330"></a><span class="lineno">  330</span>&#160;    <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
-<div class="line"><a name="l00331"></a><span class="lineno">  331</span>&#160; </div>
-<div class="line"><a name="l00332"></a><span class="lineno">  332</span>&#160;  }  <span class="comment">// expected_points_per_timeslice</span></div>
-<div class="line"><a name="l00333"></a><span class="lineno">  333</span>&#160; </div>
-<div class="line"><a name="l00342"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">  342</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">Gmpzf_to_double</a>(Gmpzf <span class="keyword">const</span>&amp; t_value) -&gt; <span class="keywordtype">double</span></div>
-<div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160;  {</div>
-<div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;    <span class="keywordflow">return</span> t_value.to_double();</div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;  }  <span class="comment">// Gmpzf_to_double</span></div>
-<div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
-<div class="line"><a name="l00371"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">  371</a></span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">create_logger</a>()</div>
-<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160;  <span class="keyword">try</span></div>
-<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;  {</div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;    <span class="keyword">auto</span> console_sink = std::make_shared&lt;spdlog::sinks::stdout_color_sink_mt&gt;();</div>
-<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    console_sink-&gt;set_level(spdlog::level::info);</div>
+<div class="line"><a name="l00306"></a><span class="lineno">  306</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;            0.4L *  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
+<div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;      }</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices &lt; 10000)  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;      {</div>
+<div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;            0.2L *  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
+<div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;      }</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;      <span class="keywordflow">if</span> (t_number_of_simplices &lt; 100000)  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;      {</div>
+<div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;            0.15L *  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;            <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;      }</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160; </div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;      <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(</div>
+<div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;          0.1L * <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(simplices_per_timeslice));  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;    }</div>
+<div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;    <span class="keywordflow">throw</span> std::invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
+<div class="line"><a name="l00327"></a><span class="lineno">  327</span>&#160; </div>
+<div class="line"><a name="l00328"></a><span class="lineno">  328</span>&#160;  }  <span class="comment">// expected_points_per_timeslice</span></div>
+<div class="line"><a name="l00329"></a><span class="lineno">  329</span>&#160; </div>
+<div class="line"><a name="l00338"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">  338</a></span>&#160;  [[nodiscard]] <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">Gmpzf_to_double</a>(Gmpzf <span class="keyword">const</span>&amp; t_value) -&gt; <span class="keywordtype">double</span></div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;  {</div>
+<div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160;    <span class="keywordflow">return</span> t_value.to_double();</div>
+<div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;  }  <span class="comment">// Gmpzf_to_double</span></div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160; </div>
+<div class="line"><a name="l00367"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">  367</a></span>&#160;  <span class="keyword">inline</span> <span class="keywordtype">void</span> <a class="code" href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">create_logger</a>()</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  <span class="keyword">try</span></div>
+<div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  {</div>
+<div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;    <span class="keyword">auto</span> console_sink = std::make_shared&lt;spdlog::sinks::stdout_color_sink_mt&gt;();</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;    console_sink-&gt;set_level(spdlog::level::info);</div>
+<div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
+<div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;    <span class="keyword">auto</span> debug_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        <span class="stringliteral">&quot;logs/debug-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;    debug_sink-&gt;set_level(spdlog::level::debug);</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
-<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keyword">auto</span> debug_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="stringliteral">&quot;logs/debug-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    debug_sink-&gt;set_level(spdlog::level::debug);</div>
+<div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    <span class="keyword">auto</span> trace_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        <span class="stringliteral">&quot;logs/trace-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;    trace_sink-&gt;set_level(spdlog::level::trace);</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    <span class="keyword">auto</span> trace_sink = std::make_shared&lt;spdlog::sinks::basic_file_sink_mt&gt;(</div>
-<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        <span class="stringliteral">&quot;logs/trace-log.txt&quot;</span>, <span class="keyword">true</span>);</div>
-<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    trace_sink-&gt;set_level(spdlog::level::trace);</div>
-<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160; </div>
-<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};</div>
-<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160; </div>
-<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="keyword">auto</span>                    logger    = std::make_shared&lt;spdlog::logger&gt;(</div>
-<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        <span class="stringliteral">&quot;multi_sink&quot;</span>, sink_list.begin(), sink_list.end());</div>
-<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    <span class="comment">// This allows the logger to capture all events</span></div>
-<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    logger-&gt;set_level(spdlog::level::trace);</div>
-<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    <span class="comment">// The sinks will filter items further via should_log()</span></div>
-<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;    logger-&gt;info(<span class="stringliteral">&quot;Multi-sink logger initialized.\n&quot;</span>);</div>
-<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    logger-&gt;debug(<span class="stringliteral">&quot;Debug logger initialized.\n&quot;</span>);</div>
-<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    logger-&gt;trace(<span class="stringliteral">&quot;Trace logger initialized.\n&quot;</span>);</div>
-<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    logger-&gt;debug(</div>
-<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="stringliteral">&quot;You must build in Debug mode for anything to be recorded in this &quot;</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        <span class="stringliteral">&quot;file.\n&quot;</span>);</div>
-<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
-<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;    spdlog::register_logger(logger);</div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    spdlog::set_default_logger(logger);</div>
-<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;  }</div>
-<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;  <span class="keywordflow">catch</span> (spdlog::spdlog_ex <span class="keyword">const</span>&amp; ex)</div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;  {</div>
-<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;    <span class="comment">// Use default logger</span></div>
-<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;    spdlog::error(<span class="stringliteral">&quot;Logger initialization failed: {}\n&quot;</span>, ex.what());</div>
-<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;    spdlog::warn(<span class="stringliteral">&quot;Default logger set.\n&quot;</span>);</div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;  }  <span class="comment">// create_logger</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;}  <span class="comment">// namespace utilities</span></div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;<span class="preprocessor">#endif  // INCLUDE_UTILITIES_HPP_</span></div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;    spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160; </div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;    <span class="keyword">auto</span>                    logger    = std::make_shared&lt;spdlog::logger&gt;(</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        <span class="stringliteral">&quot;multi_sink&quot;</span>, sink_list.begin(), sink_list.end());</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="comment">// This allows the logger to capture all events</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    logger-&gt;set_level(spdlog::level::trace);</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;    <span class="comment">// The sinks will filter items further via should_log()</span></div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;    logger-&gt;info(<span class="stringliteral">&quot;Multi-sink logger initialized.\n&quot;</span>);</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;    logger-&gt;debug(<span class="stringliteral">&quot;Debug logger initialized.\n&quot;</span>);</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;    logger-&gt;trace(<span class="stringliteral">&quot;Trace logger initialized.\n&quot;</span>);</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;    logger-&gt;debug(</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        <span class="stringliteral">&quot;You must build in Debug mode for anything to be recorded in this &quot;</span></div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;        <span class="stringliteral">&quot;file.\n&quot;</span>);</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160; </div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    spdlog::register_logger(logger);</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    spdlog::set_default_logger(logger);</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;  }</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;  <span class="keywordflow">catch</span> (spdlog::spdlog_ex <span class="keyword">const</span>&amp; ex)</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;  {</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;    <span class="comment">// Use default logger</span></div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;    spdlog::error(<span class="stringliteral">&quot;Logger initialization failed: {}\n&quot;</span>, ex.what());</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;    spdlog::warn(<span class="stringliteral">&quot;Default logger set.\n&quot;</span>);</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160; </div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;  }  <span class="comment">// create_logger</span></div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;}  <span class="comment">// namespace utilities</span></div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;<span class="preprocessor">#endif  // INCLUDE_UTILITIES_HPP_</span></div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_utilities_8hpp_html_a15defe9a9fcc9aa9227509df7a7c8730"><div class="ttname"><a href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">utilities::generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType t_min_value, IntegerType t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00241">Utilities.hpp:241</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a15defe9a9fcc9aa9227509df7a7c8730"><div class="ttname"><a href="_utilities_8hpp.html#a15defe9a9fcc9aa9227509df7a7c8730">utilities::generate_random_int</a></div><div class="ttdeci">constexpr auto generate_random_int(IntegerType t_min_value, IntegerType t_max_value) noexcept</div><div class="ttdoc">Generate random integers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00237">Utilities.hpp:237</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a009d76fda8b31ee925f5b4c5eb1d12f1"><div class="ttname"><a href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a></div><div class="ttdeci">auto operator&lt;&lt;(std::ostream &amp;t_os, topology_type const &amp;t_topology) -&gt; std::ostream &amp;</div><div class="ttdoc">Convert topology_type to string output.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00057">Utilities.hpp:57</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a5dbf266239fece8d576cac2604be48e5"><div class="ttname"><a href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">utilities::generate_filename</a></div><div class="ttdeci">auto generate_filename(topology_type const &amp;t_topology, Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing) noexcept</div><div class="ttdoc">Generate useful filenames.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00093">Utilities.hpp:93</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a6dfc3dd30b735d36e40982bc52694071"><div class="ttname"><a href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">utilities::current_date_time</a></div><div class="ttdeci">auto current_date_time()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00078">Utilities.hpp:78</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a4f84a968c94e9a185b147439dcae1ce1"><div class="ttname"><a href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">utilities::Gmpzf_to_double</a></div><div class="ttdeci">auto Gmpzf_to_double(Gmpzf const &amp;t_value) -&gt; double</div><div class="ttdoc">Convert Gmpzf into a double.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00342">Utilities.hpp:342</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aedec27ac05d190e58d3c930f3e175f48"><div class="ttname"><a href="_utilities_8hpp.html#aedec27ac05d190e58d3c930f3e175f48">utilities::generate_random</a></div><div class="ttdeci">auto generate_random(NumberType t_min_value, NumberType t_max_value) noexcept</div><div class="ttdoc">Generate random numbers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00219">Utilities.hpp:219</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a25ab15197d039e3e3abe6538456af359"><div class="ttname"><a href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">utilities::generate_random_timeslice</a></div><div class="ttdeci">auto generate_random_timeslice(IntegerType &amp;&amp;t_max_timeslice) noexcept -&gt; decltype(auto)</div><div class="ttdoc">Generate a random timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00250">Utilities.hpp:250</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a32b5c5bace5c9debca9551e61b0ec4f6"><div class="ttname"><a href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">utilities::die_roll</a></div><div class="ttdeci">auto die_roll() noexcept</div><div class="ttdoc">Roll a die with PCG.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00193">Utilities.hpp:193</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a0f6d2294f044766cb777ae53770d09df"><div class="ttname"><a href="_utilities_8hpp.html#a0f6d2294f044766cb777ae53770d09df">utilities::expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices)</div><div class="ttdoc">Calculate expected # of points per simplex.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00290">Utilities.hpp:290</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a7e3042729088a28e05ae118c433b8669"><div class="ttname"><a href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">utilities::make_random_generator</a></div><div class="ttdeci">auto make_random_generator() noexcept</div><div class="ttdoc">Make a high-quality random number generator usable by std::shuffle.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00231">Utilities.hpp:231</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aa319cef130cb2a030f46a4f14bd18c65"><div class="ttname"><a href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">utilities::generate_probability</a></div><div class="ttdeci">constexpr auto generate_probability() noexcept</div><div class="ttdoc">Generate a probability.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00269">Utilities.hpp:269</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a5dbf266239fece8d576cac2604be48e5"><div class="ttname"><a href="_utilities_8hpp.html#a5dbf266239fece8d576cac2604be48e5">utilities::generate_filename</a></div><div class="ttdeci">auto generate_filename(topology_type const &amp;t_topology, Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing) noexcept</div><div class="ttdoc">Generate useful filenames.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00090">Utilities.hpp:90</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a6dfc3dd30b735d36e40982bc52694071"><div class="ttname"><a href="_utilities_8hpp.html#a6dfc3dd30b735d36e40982bc52694071">utilities::current_date_time</a></div><div class="ttdeci">auto current_date_time()</div><div class="ttdoc">Return current date and time.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00075">Utilities.hpp:75</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a4f84a968c94e9a185b147439dcae1ce1"><div class="ttname"><a href="_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1">utilities::Gmpzf_to_double</a></div><div class="ttdeci">auto Gmpzf_to_double(Gmpzf const &amp;t_value) -&gt; double</div><div class="ttdoc">Convert Gmpzf into a double.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00338">Utilities.hpp:338</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aedec27ac05d190e58d3c930f3e175f48"><div class="ttname"><a href="_utilities_8hpp.html#aedec27ac05d190e58d3c930f3e175f48">utilities::generate_random</a></div><div class="ttdeci">auto generate_random(NumberType t_min_value, NumberType t_max_value) noexcept</div><div class="ttdoc">Generate random numbers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00215">Utilities.hpp:215</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a25ab15197d039e3e3abe6538456af359"><div class="ttname"><a href="_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359">utilities::generate_random_timeslice</a></div><div class="ttdeci">auto generate_random_timeslice(IntegerType &amp;&amp;t_max_timeslice) noexcept -&gt; decltype(auto)</div><div class="ttdoc">Generate a random timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00246">Utilities.hpp:246</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a32b5c5bace5c9debca9551e61b0ec4f6"><div class="ttname"><a href="_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6">utilities::die_roll</a></div><div class="ttdeci">auto die_roll() noexcept</div><div class="ttdoc">Roll a die with PCG.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00189">Utilities.hpp:189</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a0f6d2294f044766cb777ae53770d09df"><div class="ttname"><a href="_utilities_8hpp.html#a0f6d2294f044766cb777ae53770d09df">utilities::expected_points_per_timeslice</a></div><div class="ttdeci">auto expected_points_per_timeslice(Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices)</div><div class="ttdoc">Calculate expected # of points per simplex.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00286">Utilities.hpp:286</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a7e3042729088a28e05ae118c433b8669"><div class="ttname"><a href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">utilities::make_random_generator</a></div><div class="ttdeci">auto make_random_generator() noexcept</div><div class="ttdoc">Make a high-quality random number generator usable by std::shuffle.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00227">Utilities.hpp:227</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aa319cef130cb2a030f46a4f14bd18c65"><div class="ttname"><a href="_utilities_8hpp.html#aa319cef130cb2a030f46a4f14bd18c65">utilities::generate_probability</a></div><div class="ttdeci">constexpr auto generate_probability() noexcept</div><div class="ttdoc">Generate a probability.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00265">Utilities.hpp:265</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a48c8107e663e07b7909181660ebf3bda"><div class="ttname"><a href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">utilities::generate_random_real</a></div><div class="ttdeci">constexpr auto generate_random_real(FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept</div><div class="ttdoc">Generate random real numbers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00260">Utilities.hpp:260</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a343d224c91b607f37980bf84760347c4"><div class="ttname"><a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a></div><div class="ttdeci">void print_delaunay(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00137">Utilities.hpp:137</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_ad48fd994ea7e09b699c8981847762176"><div class="ttname"><a href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">utilities::write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00164">Utilities.hpp:164</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_aa715f4183fc64cef39399db9906f229b"><div class="ttname"><a href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">utilities::create_logger</a></div><div class="ttdeci">void create_logger()</div><div class="ttdoc">Create console and file loggers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00371">Utilities.hpp:371</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a48c8107e663e07b7909181660ebf3bda"><div class="ttname"><a href="_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda">utilities::generate_random_real</a></div><div class="ttdeci">constexpr auto generate_random_real(FloatingPointType t_min_value, FloatingPointType t_max_value) noexcept</div><div class="ttdoc">Generate random real numbers by calling generate_random, preserves template argument deduction.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00256">Utilities.hpp:256</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a343d224c91b607f37980bf84760347c4"><div class="ttname"><a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a></div><div class="ttdeci">void print_delaunay(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00133">Utilities.hpp:133</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_ad48fd994ea7e09b699c8981847762176"><div class="ttname"><a href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">utilities::write_file</a></div><div class="ttdeci">void write_file(ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing)</div><div class="ttdoc">Writes the runtime results to a file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00160">Utilities.hpp:160</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_aa715f4183fc64cef39399db9906f229b"><div class="ttname"><a href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">utilities::create_logger</a></div><div class="ttdeci">void create_logger()</div><div class="ttdoc">Create console and file loggers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00367">Utilities.hpp:367</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 18 2022 02:37:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Mar 18 2022 21:28:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
