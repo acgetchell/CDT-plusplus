@@ -70,8 +70,11 @@ namespace utilities
   /// @brief Return current date and time
   /// @details Return current date and time in ISO 8601 format
   /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
-  /// Parser. https://github.com/HowardHinnant/date
+  /// Parser. std::chrono::zoned_time would be a replacement if supported by
+  /// current compilers.
   /// @return A formatted string with the system local time
+  /// @see https://github.com/HowardHinnant/date
+  /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
   [[nodiscard]] inline auto current_date_time()
   {
     using namespace std::chrono;

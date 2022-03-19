@@ -34,4 +34,4 @@ jobs:
       - name: Test
         run:  |
           cd build
-          ctest -j2 --output-on-failure
+          ctest -C Debug -j2 --output-on-failure

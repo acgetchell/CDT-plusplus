@@ -363,6 +363,13 @@ Optional:
 
 ## Issues
 
+[vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
+
+[Catch] also produces ([#2395]) `use-of-uninitialized-value` in [MemorySanitizer].
+
+[#23637]: https://github.com/microsoft/vcpkg/issues/23637
+[#2395]: https://github.com/catchorg/Catch2/issues/2395
+
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
