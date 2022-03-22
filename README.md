@@ -121,6 +121,8 @@ cd vcpkg
 [vcpkg] is then invoked by CMake in [vcpkg manifest] mode and install the project dependencies
 listed in [vcpkg.json] into a local `vcpkg_installed` directory.
 
+Proceed to [Build](#build).
+
 ## Build
 
 You'll need a reasonably modern compiler that supports C++20 features.
@@ -145,6 +147,10 @@ You can optionally pre-build the project dependencies (100+ packages) by running
 ```
 vcpkg install --feature-flags=manifests
 ```
+
+At this point, you can build via the scripts in `scripts`, which will build the project and install
+the dependencies into `vcpkg_installed`.
+
 ### Project Layout
 
 The project is similar to [PitchFork Layout], as follows:
@@ -367,8 +373,12 @@ Optional:
 
 [Catch] also produces ([#2395]) `use-of-uninitialized-value` in [MemorySanitizer].
 
+[Docopt] also has a `use-of-uninitialized-value` bug ([#149]) for which there is pull request [#150].
+
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#2395]: https://github.com/catchorg/Catch2/issues/2395
+[#149]: https://github.com/docopt/docopt.cpp/issues/149
+[#150]: https://github.com/docopt/docopt.cpp/pull/150
 
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
