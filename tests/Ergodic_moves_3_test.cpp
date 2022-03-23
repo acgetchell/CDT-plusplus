@@ -324,12 +324,13 @@ SCENARIO(
         Point_t<3>{          0,           0,          2}
     };
     vector<size_t>       timevalue{0, 1, 1, 1, 1, 2};
-    Causal_vertices_t<3> cv;
-    cv.reserve(vertices.size());
-    transform(vertices.begin(), vertices.end(), timevalue.begin(),
-              back_inserter(cv),
-              [](Point_t<3> a, size_t b) { return make_pair(a, b); });
-    Manifold3 manifold(cv, 0, 1);
+    Causal_vertices_t<3> causal_vertices;
+    causal_vertices.reserve(vertices.size());
+    transform(
+        vertices.begin(), vertices.end(), timevalue.begin(),
+        back_inserter(causal_vertices),
+        [](Point_t<3> point, size_t time) { return make_pair(point, time); });
+    Manifold3 manifold(causal_vertices, 0, 1);
     // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
     REQUIRE(manifold.vertices() == 6);
     REQUIRE(manifold.edges() == 13);

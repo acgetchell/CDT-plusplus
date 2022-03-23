@@ -543,6 +543,25 @@ namespace foliated_triangulations
     }
   }  // debug_print_cells
 
+  /// @brief Print edge
+  /// @details An edge is represented by a cell and two indices which refer
+  /// to the vertices of the cell connected by the edge. The data is stored
+  /// in a CGAL::Triple, which is an extension of std::pair.
+  /// @tparam dimension The dimensionality of the simplices
+  /// @param t_edge The edge to print
+  /// @see https://doc.cgal.org/latest/TDS_3/index.html#fig__TDS3figrepres
+  /// @see https://doc.cgal.org/latest/STL_Extension/classCGAL_1_1Triple.html
+  template <int dimension>
+  void print_edge(Edge_handle_t<dimension> const& t_edge)
+  {
+    fmt::print(
+        "Edge: Vertex({}) Point({}) Timevalue: {} -> Vertex({}) Point({}) Timevalue: {}\n",
+        t_edge.second, t_edge.first->vertex(t_edge.second)->point(),
+        t_edge.first->vertex(t_edge.second)->info(), t_edge.third,
+        t_edge.first->vertex(t_edge.third)->point(),
+        t_edge.first->vertex(t_edge.third)->info());
+  }  // print_edge
+
   /// @brief Collect spacelike facets into a container indexed by time value
   /// @details *Warning!* Turning on debugging info will generate gigabytes
   /// of logs.

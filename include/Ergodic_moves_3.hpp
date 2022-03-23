@@ -205,6 +205,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
+    static auto constexpr INCIDENT_CELLS_FOR_6_2_MOVE = 6;
     auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::shuffle(one_three.begin(), one_three.end(),
@@ -241,12 +242,12 @@ namespace ergodic_moves
         auto const i_3 = (common_face_index + 3) % 4;
 
         // Get vertices of common face from indices
-        auto const v1  = bottom->vertex(i_1);
-        auto const v2  = bottom->vertex(i_2);
-        auto const v3  = bottom->vertex(i_3);
+        auto const v_1 = bottom->vertex(i_1);
+        auto const v_2 = bottom->vertex(i_2);
+        auto const v_3 = bottom->vertex(i_3);
 
         // Timeslice of vertices should be same
-        if (v1->info() != v2->info() || v2->info() != v3->info())
+        if (v_1->info() != v_2->info() || v_2->info() != v_3->info())
         {
           std::string msg = "Vertices have different timeslices.\n";
 #ifndef NDEBUG
@@ -266,7 +267,7 @@ namespace ergodic_moves
         t_manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
-        if (incident_cells.size() != 6)
+        if (incident_cells.size() != INCIDENT_CELLS_FOR_6_2_MOVE)
         {
           std::string msg = "Center vertex is not bounded by 6 simplices.\n";
 #ifndef NDEBUG
@@ -295,14 +296,14 @@ namespace ergodic_moves
 
         // Now assign a geometric point to the center vertex
         auto center_point
-            = CGAL::centroid(v1->point(), v2->point(), v3->point());
+            = CGAL::centroid(v_1->point(), v_2->point(), v_3->point());
 #ifndef NDEBUG
         spdlog::trace("Center point is: ({}).\n", center_point);
 #endif
         v_center->set_point(center_point);
 
         // Assign a timevalue to the new vertex
-        auto timevalue   = v1->info();
+        auto timevalue   = v_1->info();
         v_center->info() = timevalue;
 
 #ifndef NDEBUG
@@ -523,6 +524,27 @@ namespace ergodic_moves
 
   }  // find_44_move()
 
+  /// @brief Perform bistellar flip
+  /// @details This function performs a 3D bistellar flip on 4 cells with
+  /// a common edge. Eventually it should go into
+  /// CGAL::Triangulation_data_structure_3.
+  /// @param t_edge The common edge among the 4 simplices to flip
+  /// @param t_cells The 4 cells common to the edge
+  /// @see https://dl.acm.org/doi/10.1145/777792.777821
+  /// @see
+  /// https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h
+  [[nodiscard]] inline auto bistellar_flip(
+      Edge_handle_t<3> const&              t_edge,
+      std::vector<Cell_handle_t<3>> const& t_cells) -> bool
+  {
+    fmt::print("Attempting (4,4) move ...\n");
+    fmt::print("Pivot edge: \n");
+    foliated_triangulations::print_edge<3>(t_edge);
+    foliated_triangulations::print_cells<3>(t_cells);
+    // Move failed
+    return false;
+  }
+
   /// @brief Perform a (4,4) move
   ///
   /// A (4,4) move flips an edge which has exactly 4 incident cells.
@@ -564,7 +586,7 @@ namespace ergodic_moves
           spdlog::trace("Incident cell is of type {}.\n", cell->info());
         }
 #endif
-        return t_manifold;
+        if (bistellar_flip(edge, *incident_cells)) { return t_manifold; }
       }
       // Try next edge
     }
