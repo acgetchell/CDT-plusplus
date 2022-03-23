@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['vertices_501',['vertices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['vertices_5ffrom_5fcell_502',['vertices_from_cell',['../_foliated__triangulation_8hpp.html#a0ca5a8d59bc88ce2117e0ebdf2e6e727',1,'foliated_triangulations']]],
-  ['volume_5fper_5ftimeslice_503',['volume_per_timeslice',['../_foliated__triangulation_8hpp.html#af723588b51b9e1b82b1eee69b1b64e98',1,'foliated_triangulations']]]
+  ['update_502',['update',['../classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5fgeometry_503',['update_geometry',['../classmanifolds_1_1_manifold_3_013_01_4.html#ac4baf9e0ae5c13bf18f32fcdaed3d355',1,'manifolds::Manifold&lt; 3 &gt;']]],
+  ['update_5ftriangulation_504',['update_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a08fd194e67827ef25bf55960cfa42c85',1,'manifolds::Manifold&lt; 3 &gt;']]]
 ];
