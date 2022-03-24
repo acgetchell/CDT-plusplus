@@ -432,8 +432,8 @@ $(function() {
 <div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold;</div>
 <div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;    THEN(<span class="stringliteral">&quot;There is only one vertex, the infinite vertex.&quot;</span>)</div>
 <div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;    {</div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertices</div>
-<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;          = manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_delaunay().tds().vertices();</div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertices =</div>
+<div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160;          manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_delaunay().tds().vertices();</div>
 <div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertex = vertices.begin();</div>
 <div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160; </div>
 <div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;      CHECK(vertices.size() == 1);</div>
@@ -635,8 +635,8 @@ $(function() {
 <div class="line"><a name="l00559"></a><span class="lineno">  559</span>&#160;    };</div>
 <div class="line"><a name="l00560"></a><span class="lineno">  560</span>&#160;    WHEN(<span class="stringliteral">&quot;We ask for a container of vertices given a container of cells.&quot;</span>)</div>
 <div class="line"><a name="l00561"></a><span class="lineno">  561</span>&#160;    {</div>
-<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertices = get_vertices_from_cells&lt;3&gt;(</div>
-<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;          manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_cells());</div>
+<div class="line"><a name="l00562"></a><span class="lineno">  562</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertices =</div>
+<div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;          get_vertices_from_cells&lt;3&gt;(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_cells());</div>
 <div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;      THEN(<span class="stringliteral">&quot;We get back the correct number of vertices.&quot;</span>)</div>
 <div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;      {</div>
 <div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;        REQUIRE(vertices.size() == 5);</div>
@@ -674,8 +674,8 @@ $(function() {
 <div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;      {</div>
 <div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;        CHECK_FALSE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af6b984475125529aed5d3b706637644f">is_correct</a>());</div>
 <div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;        <span class="comment">// Human verification</span></div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        <span class="keyword">auto</span> bad_vertices</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;            = manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().find_incorrect_vertices();</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;        <span class="keyword">auto</span> bad_vertices =</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;            manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().find_incorrect_vertices();</div>
 <div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        for_each(bad_vertices.begin(), bad_vertices.end(), print);</div>
 <div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;      }</div>
 <div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;      THEN(<span class="stringliteral">&quot;We can detect invalid cells.&quot;</span>)</div>
@@ -745,7 +745,7 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a2169b6004bf256c20b9a410611b94ade"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">manifolds::Manifold&lt; 3 &gt;::get_geometry</a></div><div class="ttdeci">auto get_geometry() const -&gt; Geometry const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00160">Manifold.hpp:160</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a672464a052ac88014270ff406ca48a85"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">manifolds::Manifold&lt; 3 &gt;::min_time</a></div><div class="ttdeci">auto min_time() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00295">Manifold.hpp:295</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00835">Foliated_triangulation.hpp:835</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00834">Foliated_triangulation.hpp:834</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a6a78402de00eb80aa16a796d6d9d7fce"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce">manifolds::Manifold&lt; 3 &gt;::vertices</a></div><div class="ttdeci">auto vertices() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00289">Manifold.hpp:289</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_aa8182a64b6acdd03384bab11ffe0b6a2"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#aa8182a64b6acdd03384bab11ffe0b6a2">manifolds::Manifold&lt; 3 &gt;::print_vertices</a></div><div class="ttdeci">void print_vertices() const</div><div class="ttdoc">Print values of a vertex-&gt;info()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00354">Manifold.hpp:354</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a118b4eafbbb89c5619f64181c5af7e98"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">manifolds::Manifold&lt; 3 &gt;::max_time</a></div><div class="ttdeci">auto max_time() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00301">Manifold.hpp:301</a></div></div>
@@ -758,7 +758,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a48984a05b1459ce1c002e7f81b8a50e3"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a48984a05b1459ce1c002e7f81b8a50e3">manifolds::Manifold&lt; 3 &gt;::N3_31</a></div><div class="ttdeci">auto N3_31() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00236">Manifold.hpp:236</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 23 2022 23:09:42 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 24 2022 19:46:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

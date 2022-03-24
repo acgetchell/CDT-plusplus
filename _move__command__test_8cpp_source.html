@@ -364,8 +364,8 @@ $(function() {
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_results();</div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160; </div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="comment">// Triangulation shouldn&#39;t have changed</span></div>
-<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;              == manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
 <div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        fmt::print(<span class="stringliteral">&quot;Move left triangulation unchanged.\n&quot;</span>);</div>
@@ -393,8 +393,8 @@ $(function() {
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160; </div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +1 cell</span></div>
-<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;              == manifold.get_triangulation().number_of_finite_cells() + 1);</div>
+<div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;              manifold.get_triangulation().number_of_finite_cells() + 1);</div>
 <div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                                          move_tracker::move_type::TWO_THREE));</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation added a finite cell.\n&quot;</span>);</div>
@@ -422,8 +422,8 @@ $(function() {
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160; </div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
-<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;              == manifold.get_triangulation().number_of_finite_cells() - 1);</div>
+<div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;              manifold.get_triangulation().number_of_finite_cells() - 1);</div>
 <div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                                          move_tracker::move_type::THREE_TWO));</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation removed a finite cell.\n&quot;</span>);</div>
@@ -451,8 +451,8 @@ $(function() {
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160; </div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +4 cell</span></div>
-<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;              == manifold.get_triangulation().number_of_finite_cells() + 4);</div>
+<div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;              manifold.get_triangulation().number_of_finite_cells() + 4);</div>
 <div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                                          move_tracker::move_type::TWO_SIX));</div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation added 4 finite cells.\n&quot;</span>);</div>
@@ -480,8 +480,8 @@ $(function() {
 <div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160; </div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
-<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;              == manifold.get_triangulation().number_of_finite_cells() - 4);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;              manifold.get_triangulation().number_of_finite_cells() - 4);</div>
 <div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                                          move_tracker::move_type::SIX_TWO));</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation removed 4 finite cells.\n&quot;</span>);</div>
@@ -533,8 +533,8 @@ $(function() {
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160; </div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
-<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;              == manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
 <div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation moves cancelled out.&quot;</span>);</div>
@@ -596,8 +596,8 @@ $(function() {
 <div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
 <div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells()</div>
-<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;              == manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
+<div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
 <div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
 <div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation moves cancelled out.&quot;</span>);</div>
@@ -613,7 +613,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00048">Manifold.hpp:48</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 23 2022 23:09:42 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 24 2022 19:46:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

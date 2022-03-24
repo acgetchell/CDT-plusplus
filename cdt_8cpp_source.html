@@ -138,10 +138,10 @@ $(function() {
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160; </div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;  <span class="comment">// docopt option parser</span></div>
 <div class="line"><a name="l00071"></a><span class="lineno">   71</span>&#160;  std::string usage_string{<a class="code" href="cdt_8cpp.html#aaf5864dd3dcc4fb2d873b2ee1a53e7fd">USAGE</a>};</div>
-<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  std::map&lt;std::string, docopt::value, std::less&lt;std::string&gt;&gt; args</div>
-<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      = docopt::docopt(usage_string, {argv + 1, argv + argc},</div>
-<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                       <span class="keyword">true</span>,          <span class="comment">// print help message automatically</span></div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                       <span class="stringliteral">&quot;CDT 0.1.8&quot;</span>);  <span class="comment">// Version</span></div>
+<div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160;  std::map&lt;std::string, docopt::value, std::less&lt;std::string&gt;&gt; args =</div>
+<div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;      docopt::docopt(usage_string, {argv + 1, argv + argc},</div>
+<div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;                     <span class="keyword">true</span>,          <span class="comment">// print help message automatically</span></div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;                     <span class="stringliteral">&quot;CDT 0.1.8&quot;</span>);  <span class="comment">// Version</span></div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160; </div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;  <span class="keywordflow">for</span> (<span class="keyword">auto</span> <span class="keyword">const</span>&amp; [key, value] : args)</div>
@@ -293,7 +293,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00048">Manifold.hpp:48</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 23 2022 23:09:42 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu Mar 24 2022 19:46:54 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
