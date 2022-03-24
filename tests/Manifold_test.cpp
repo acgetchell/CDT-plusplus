@@ -356,8 +356,8 @@ SCENARIO("3-Manifold function checks", "[manifold]")
     Manifold3 manifold;
     THEN("There is only one vertex, the infinite vertex.")
     {
-      auto&& vertices
-          = manifold.get_triangulation().get_delaunay().tds().vertices();
+      auto&& vertices =
+          manifold.get_triangulation().get_delaunay().tds().vertices();
       auto&& vertex = vertices.begin();
 
       CHECK(vertices.size() == 1);
@@ -559,8 +559,8 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
     };
     WHEN("We ask for a container of vertices given a container of cells.")
     {
-      auto&& vertices = get_vertices_from_cells<3>(
-          manifold.get_triangulation().get_cells());
+      auto&& vertices =
+          get_vertices_from_cells<3>(manifold.get_triangulation().get_cells());
       THEN("We get back the correct number of vertices.")
       {
         REQUIRE(vertices.size() == 5);
@@ -598,8 +598,8 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
       {
         CHECK_FALSE(manifold.is_correct());
         // Human verification
-        auto bad_vertices
-            = manifold.get_triangulation().find_incorrect_vertices();
+        auto bad_vertices =
+            manifold.get_triangulation().find_incorrect_vertices();
         for_each(bad_vertices.begin(), bad_vertices.end(), print);
       }
       THEN("We can detect invalid cells.")

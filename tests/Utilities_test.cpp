@@ -62,15 +62,15 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       auto constexpr dimensions    = 3;
       auto constexpr simplices     = 6700;
       auto constexpr timeslices    = 16;
-      auto const filename
-          = generate_filename(this_topology, dimensions, simplices, timeslices,
-                              INITIAL_RADIUS, FOLIATION_SPACING);
+      auto const filename =
+          generate_filename(this_topology, dimensions, simplices, timeslices,
+                            INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
         CHECK_THAT(filename,
-                   Catch::Contains("S3") && Catch::Contains("16")
-                       && Catch::Contains("6700") && Catch::Contains("1.0")
-                       && Catch::Contains("2022") && Catch::Contains("off"));
+                   Catch::Contains("S3") && Catch::Contains("16") &&
+                       Catch::Contains("6700") && Catch::Contains("1.0") &&
+                       Catch::Contains("2022") && Catch::Contains("off"));
         // Human verification
         fmt::print("Filename is: {}\n", filename);
       }

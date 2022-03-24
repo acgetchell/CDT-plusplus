@@ -295,8 +295,8 @@ namespace utilities
                   t_number_of_simplices, t_number_of_timeslices);
 #endif
 
-    auto const simplices_per_timeslice
-        = t_number_of_simplices / t_number_of_timeslices;
+    auto const simplices_per_timeslice =
+        t_number_of_simplices / t_number_of_timeslices;
     if (t_dimension == 3)
     {
       // Avoid segfaults for small values

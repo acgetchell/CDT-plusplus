@@ -131,8 +131,9 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
     vertices.reserve(Vertices.size());
     std::transform(Vertices.begin(), Vertices.end(), timevalues.begin(),
                    std::back_inserter(vertices),
-                   [](Point_t<3> vertex, std::size_t timevalue)
-                   { return std::make_pair(vertex, timevalue); });
+                   [](Point_t<3> vertex, std::size_t timevalue) {
+                     return std::make_pair(vertex, timevalue);
+                   });
     FoliatedTriangulation3 triangulation(vertices);
     REQUIRE(triangulation.is_initialized());
     WHEN("check_vertices() is called.")
@@ -162,8 +163,7 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
       {
         // Human verification
         CHECK(vertices_and_timevalues.size() == 4);
-        auto print = [](std::pair<int, Vertex_handle_t<3>> const& pair)
-        {
+        auto print = [](std::pair<int, Vertex_handle_t<3>> const& pair) {
           fmt::print("Vertex: ({}) Timevalue: {}\n", pair.second->point(),
                      pair.first);
         };
@@ -250,8 +250,9 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       vertices.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalues.begin(),
                      std::back_inserter(vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(vertices);
       THEN("Triangulation is valid and foliated.")
       {
@@ -286,16 +287,18 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
 
         // We have 1 to 8 vertex_count
         auto vertex_count{triangulation.number_of_vertices()};
-        CHECK_THAT(vertex_count,
-                   Predicate<int>([](int const count) -> bool
-                                  { return (1 <= count && count <= 8); },
-                                  "There should be 1 to 8 vertices."));
+        CHECK_THAT(vertex_count, Predicate<int>(
+                                     [](int const count) -> bool {
+                                       return (1 <= count && count <= 8);
+                                     },
+                                     "There should be 1 to 8 vertices."));
         // We have 1 to 12 simplex_count
         auto simplex_count{triangulation.number_of_finite_cells()};
-        CHECK_THAT(simplex_count,
-                   Predicate<int>([](int const count) -> bool
-                                  { return (1 <= count && count <= 12); },
-                                  "There should be 1 to 12 simplices."));
+        CHECK_THAT(simplex_count, Predicate<int>(
+                                      [](int const count) -> bool {
+                                        return (1 <= count && count <= 12);
+                                      },
+                                      "There should be 1 to 12 simplices."));
         // Human verification
         triangulation.print();
       }
@@ -307,8 +310,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
         for_each(triangulation.get_vertices().begin(),
                  triangulation.get_vertices().end(), check);
         // Human verification
-        auto print = [&triangulation](Vertex_handle_t<3> const& vertex)
-        {
+        auto print = [&triangulation](Vertex_handle_t<3> const& vertex) {
           fmt::print(
               "Vertex: ({}) Timevalue: {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
@@ -381,10 +383,10 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       {
         triangulation.print();
         // Every cell is classified as (3,1), (2,2), or (1,3)
-        CHECK(triangulation.get_cells().size()
-              == (triangulation.get_three_one().size()
-                  + triangulation.get_two_two().size()
-                  + triangulation.get_one_three().size()));
+        CHECK(triangulation.get_cells().size() ==
+              (triangulation.get_three_one().size() +
+               triangulation.get_two_two().size() +
+               triangulation.get_one_three().size()));
         // Every cell is properly labelled
         CHECK(triangulation.check_all_cells());
 
@@ -440,15 +442,15 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
       THEN("The foliated triangulations have identical properties.")
       {
         CHECK(triangulation.is_initialized() == ft2.is_initialized());
-        CHECK(triangulation.number_of_finite_cells()
-              == ft2.number_of_finite_cells());
+        CHECK(triangulation.number_of_finite_cells() ==
+              ft2.number_of_finite_cells());
         CHECK(triangulation.min_time() == ft2.min_time());
         CHECK(triangulation.get_cells().size() == ft2.get_cells().size());
-        CHECK(triangulation.get_three_one().size()
-              == ft2.get_three_one().size());
+        CHECK(triangulation.get_three_one().size() ==
+              ft2.get_three_one().size());
         CHECK(triangulation.get_two_two().size() == ft2.get_two_two().size());
-        CHECK(triangulation.get_one_three().size()
-              == ft2.get_one_three().size());
+        CHECK(triangulation.get_one_three().size() ==
+              ft2.get_one_three().size());
         CHECK(triangulation.N2_SL().size() == ft2.N2_SL().size());
       }
     }
@@ -474,8 +476,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       vertices.reserve(Vertices.size());
       std::transform(Vertices.begin(), Vertices.end(), timevalues.begin(),
                      std::back_inserter(vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(vertices);
       THEN("No errors in the vertices are detected.")
       {
@@ -499,8 +502,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_WHEN("The vertices are mis-labelled.")
       {
-        auto break_vertices
-            = [](Vertex_handle_t<3> const& vertex) { vertex->info() = 0; };
+        auto break_vertices = [](Vertex_handle_t<3> const& vertex) {
+          vertex->info() = 0;
+        };
         for_each(triangulation.get_vertices().begin(),
                  triangulation.get_vertices().end(), break_vertices);
 
@@ -527,8 +531,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       }
       AND_WHEN("The cells are mis-labelled.")
       {
-        auto break_cells
-            = [](Cell_handle_t<3> const& cell) { cell->info() = 0; };
+        auto break_cells = [](Cell_handle_t<3> const& cell) {
+          cell->info() = 0;
+        };
         for_each(triangulation.get_cells().begin(),
                  triangulation.get_cells().end(), break_cells);
         THEN("The incorrect cell labelling is identified.")
@@ -564,8 +569,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(causal_vertices);
       THEN("The vertex error is detected.")
       {
@@ -610,8 +616,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(causal_vertices);
       THEN("The vertex error is detected.")
       {
@@ -658,8 +665,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(causal_vertices);
       THEN("Timevalue errors are detected.")
       {
@@ -709,8 +717,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(causal_vertices);
       THEN("The vertex error is detected.")
       {
@@ -736,8 +745,9 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       Delaunay_t<3> delaunay_triangulation{causal_vertices.begin(),
                                            causal_vertices.end()};
       // Passing in a Delaunay triangulation directly allows us to skip the
@@ -793,8 +803,9 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](auto vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](auto vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(causal_vertices);
       THEN("The Foliated triangulation is initially wrong.")
       {
@@ -854,8 +865,9 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
       causal_vertices.reserve(vertices.size());
       std::transform(vertices.begin(), vertices.end(), timevalues.begin(),
                      std::back_inserter(causal_vertices),
-                     [](Point_t<3> vertex, std::size_t timevalue)
-                     { return std::make_pair(vertex, timevalue); });
+                     [](Point_t<3> vertex, std::size_t timevalue) {
+                       return std::make_pair(vertex, timevalue);
+                     });
       FoliatedTriangulation3 triangulation(causal_vertices);
       REQUIRE(triangulation.is_initialized());
       THEN("The degree of each vertex is 4 (including infinite vertex).")

@@ -147,8 +147,8 @@ SCENARIO("Using the MoveAlways algorithm", "[.]")
             "The correct number of attempted, successful, and failed moves are "
             "made.")
         {
-          CHECK(mover.get_attempted().total()
-                == mover.get_succeeded().total() + mover.get_failed().total());
+          CHECK(mover.get_attempted().total() ==
+                mover.get_succeeded().total() + mover.get_failed().total());
           // Human verification
           mover.print_results();
         }

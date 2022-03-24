@@ -171,8 +171,8 @@ namespace ergodic_moves
       spdlog::trace("Neighbor {} is of type {}\n", i,
                     t_cell->neighbor(i)->info());
 #endif
-      if (foliated_triangulations::expected_cell_type<3>(t_cell->neighbor(i))
-          == Cell_type::THREE_ONE)
+      if (foliated_triangulations::expected_cell_type<3>(t_cell->neighbor(i)) ==
+          Cell_type::THREE_ONE)
       {
         return std::make_optional(i);
       }
@@ -218,8 +218,8 @@ namespace ergodic_moves
 #ifndef NDEBUG
         spdlog::trace("neighboring_31_index is {}.\n", *neighboring_31_index);
 #endif
-        Cell_handle_t<3> const top
-            = bottom->neighbor(neighboring_31_index.value());
+        Cell_handle_t<3> const top =
+            bottom->neighbor(neighboring_31_index.value());
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         if (!bottom->has_neighbor(top, common_face_index))
@@ -258,8 +258,8 @@ namespace ergodic_moves
 
         // Do the (2,6) move
         // Insert new vertex
-        Vertex_handle_t<3> v_center
-            = t_manifold.triangulation().delaunay().tds().insert_in_facet(
+        Vertex_handle_t<3> v_center =
+            t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
         // Checks
@@ -277,14 +277,14 @@ namespace ergodic_moves
         }
 
         // Each incident cell should be combinatorially and geometrically valid
-        if (auto check_cells
-            = std::all_of(incident_cells.begin(), incident_cells.end(),
-                          [&t_manifold](auto const& cell) {
-                            return t_manifold.get_triangulation()
-                                .get_delaunay()
-                                .tds()
-                                .is_cell(cell);
-                          });
+        if (auto check_cells =
+                std::all_of(incident_cells.begin(), incident_cells.end(),
+                            [&t_manifold](auto const& cell) {
+                              return t_manifold.get_triangulation()
+                                  .get_delaunay()
+                                  .tds()
+                                  .is_cell(cell);
+                            });
             !check_cells)
         {
           std::string msg = "A cell is invalid.\n";
@@ -295,8 +295,8 @@ namespace ergodic_moves
         }
 
         // Now assign a geometric point to the center vertex
-        auto center_point
-            = CGAL::centroid(v_1->point(), v_2->point(), v_3->point());
+        auto center_point =
+            CGAL::centroid(v_1->point(), v_2->point(), v_3->point());
 #ifndef NDEBUG
         spdlog::trace("Center point is: ({}).\n", center_point);
 #endif
@@ -423,8 +423,8 @@ namespace ergodic_moves
         incident_cells, Cell_type::ONE_THREE);
 
     // All cells should be classified
-    if ((incident_13.size() + incident_22.size() + incident_31.size())
-        != 6)  // NOLINT
+    if ((incident_13.size() + incident_22.size() + incident_31.size()) !=
+        6)  // NOLINT
     {
       spdlog::warn("Some incident cells on this vertex need to be fixed.\n");
     }
@@ -437,8 +437,8 @@ namespace ergodic_moves
         incident_13.size());
     foliated_triangulations::debug_print_cells<3>(std::span{incident_cells});
 #endif
-    return ((incident_31.size() == 3) && (incident_22.empty())
-            && (incident_13.size() == 3));
+    return ((incident_31.size() == 3) && (incident_22.empty()) &&
+            (incident_13.size() == 3));
 
   }  // find_62_moves()
 
@@ -471,11 +471,11 @@ namespace ergodic_moves
     std::shuffle(vertices.begin(), vertices.end(),
                  utilities::make_random_generator());
     // Try a (6,2) move on successive vertices in the sequence
-    if (auto movable_vertex_iterator
-        = std::find_if(vertices.begin(), vertices.end(),
-                       [&](auto const& vertex) {
-                         return is_62_movable(t_manifold, vertex);
-                       });
+    if (auto movable_vertex_iterator =
+            std::find_if(vertices.begin(), vertices.end(),
+                         [&](auto const& vertex) {
+                           return is_62_movable(t_manifold, vertex);
+                         });
         movable_vertex_iterator != vertices.end())
     {
       t_manifold.triangulation().delaunay().remove(*movable_vertex_iterator);
@@ -506,8 +506,8 @@ namespace ergodic_moves
 
     // Create the circulator of cells around the edge, starting with the cell
     // the edge is in
-    auto circulator
-        = t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
+    auto circulator =
+        t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
     std::vector<Cell_handle_t<3>> incident_cells;
     do {
@@ -541,8 +541,14 @@ namespace ergodic_moves
     fmt::print("Pivot edge: \n");
     foliated_triangulations::print_edge<3>(t_edge);
     foliated_triangulations::print_cells<3>(t_cells);
-    // Move failed
-    return false;
+
+    // Get vertices from pivot edge
+    auto const& pivot_from_vertex_1 = t_edge.first->vertex(t_edge.second);
+    auto const& pivot_from_vertex_2 = t_edge.first->vertex(t_edge.third);
+    // Get vertices for new pivot edge
+
+    // Move succeeded
+    return true;
   }
 
   /// @brief Perform a (4,4) move
@@ -609,65 +615,65 @@ namespace ergodic_moves
     switch (t_move)
     {
       case move_tracker::move_type::FOUR_FOUR:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3()
-                && t_after.N3_31() == t_before.N3_31()
-                && t_after.N3_22() == t_before.N3_22()
-                && t_after.N3_13() == t_before.N3_13()
-                && t_after.N2() == t_before.N2()
-                && t_after.N1() == t_before.N1()
-                && t_after.N1_TL() == t_before.N1_TL()
-                && t_after.N1_SL() == t_before.N1_SL()
-                && t_after.N0() == t_before.N0()
-                && t_after.max_time() == t_before.max_time()
-                && t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() &&
+                t_after.N3_31() == t_before.N3_31() &&
+                t_after.N3_22() == t_before.N3_22() &&
+                t_after.N3_13() == t_before.N3_13() &&
+                t_after.N2() == t_before.N2() &&
+                t_after.N1() == t_before.N1() &&
+                t_after.N1_TL() == t_before.N1_TL() &&
+                t_after.N1_SL() == t_before.N1_SL() &&
+                t_after.N0() == t_before.N0() &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::TWO_THREE:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1
-                && t_after.N3_31() == t_before.N3_31()
-                && t_after.N3_22() == t_before.N3_22() + 1
-                && t_after.N3_13() == t_before.N3_13()
-                && t_after.N2() == t_before.N2() + 2
-                && t_after.N1() == t_before.N1() + 1
-                && t_after.N1_TL() == t_before.N1_TL() + 1
-                && t_after.N1_SL() == t_before.N1_SL()
-                && t_after.N0() == t_before.N0()
-                && t_after.max_time() == t_before.max_time()
-                && t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 1 &&
+                t_after.N3_31() == t_before.N3_31() &&
+                t_after.N3_22() == t_before.N3_22() + 1 &&
+                t_after.N3_13() == t_before.N3_13() &&
+                t_after.N2() == t_before.N2() + 2 &&
+                t_after.N1() == t_before.N1() + 1 &&
+                t_after.N1_TL() == t_before.N1_TL() + 1 &&
+                t_after.N1_SL() == t_before.N1_SL() &&
+                t_after.N0() == t_before.N0() &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::THREE_TWO:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1
-                && t_after.N3_31() == t_before.N3_31()
-                && t_after.N3_22() == t_before.N3_22() - 1
-                && t_after.N3_13() == t_before.N3_13()
-                && t_after.N2() == t_before.N2() - 2
-                && t_after.N1() == t_before.N1() - 1
-                && t_after.N1_TL() == t_before.N1_TL() - 1
-                && t_after.N1_SL() == t_before.N1_SL()
-                && t_after.N0() == t_before.N0()
-                && t_after.max_time() == t_before.max_time()
-                && t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 1 &&
+                t_after.N3_31() == t_before.N3_31() &&
+                t_after.N3_22() == t_before.N3_22() - 1 &&
+                t_after.N3_13() == t_before.N3_13() &&
+                t_after.N2() == t_before.N2() - 2 &&
+                t_after.N1() == t_before.N1() - 1 &&
+                t_after.N1_TL() == t_before.N1_TL() - 1 &&
+                t_after.N1_SL() == t_before.N1_SL() &&
+                t_after.N0() == t_before.N0() &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::TWO_SIX:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4
-                && t_after.N3_31() == t_before.N3_31() + 2
-                && t_after.N3_22() == t_before.N3_22()
-                && t_after.N3_13() == t_before.N3_13() + 2
-                && t_after.N2() == t_before.N2() + 8 &&  // NOLINT
-                t_after.N1() == t_before.N1() + 5 &&     // NOLINT
-                t_after.N1_TL() == t_before.N1_TL() + 2
-                && t_after.N1_SL() == t_before.N1_SL() + 3
-                && t_after.N0() == t_before.N0() + 1
-                && t_after.max_time() == t_before.max_time()
-                && t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() + 4 &&
+                t_after.N3_31() == t_before.N3_31() + 2 &&
+                t_after.N3_22() == t_before.N3_22() &&
+                t_after.N3_13() == t_before.N3_13() + 2 &&
+                t_after.N2() == t_before.N2() + 8 &&  // NOLINT
+                t_after.N1() == t_before.N1() + 5 &&  // NOLINT
+                t_after.N1_TL() == t_before.N1_TL() + 2 &&
+                t_after.N1_SL() == t_before.N1_SL() + 3 &&
+                t_after.N0() == t_before.N0() + 1 &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       case move_tracker::move_type::SIX_TWO:
-        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4
-                && t_after.N3_31() == t_before.N3_31() - 2
-                && t_after.N3_22() == t_before.N3_22()
-                && t_after.N3_13() == t_before.N3_13() - 2
-                && t_after.N2() == t_before.N2() - 8 &&  // NOLINT
-                t_after.N1() == t_before.N1() - 5 &&     // NOLINT
-                t_after.N1_TL() == t_before.N1_TL() - 2
-                && t_after.N1_SL() == t_before.N1_SL() - 3
-                && t_after.N0() == t_before.N0() - 1
-                && t_after.max_time() == t_before.max_time()
-                && t_after.min_time() == t_before.min_time());
+        return (t_after.is_valid() && t_after.N3() == t_before.N3() - 4 &&
+                t_after.N3_31() == t_before.N3_31() - 2 &&
+                t_after.N3_22() == t_before.N3_22() &&
+                t_after.N3_13() == t_before.N3_13() - 2 &&
+                t_after.N2() == t_before.N2() - 8 &&  // NOLINT
+                t_after.N1() == t_before.N1() - 5 &&  // NOLINT
+                t_after.N1_TL() == t_before.N1_TL() - 2 &&
+                t_after.N1_SL() == t_before.N1_SL() - 3 &&
+                t_after.N0() == t_before.N0() - 1 &&
+                t_after.max_time() == t_before.max_time() &&
+                t_after.min_time() == t_before.min_time());
       default: return false;
     }
   }  // check_move()

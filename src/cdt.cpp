@@ -69,10 +69,10 @@ try
 
   // docopt option parser
   std::string usage_string{USAGE};
-  std::map<std::string, docopt::value, std::less<std::string>> args
-      = docopt::docopt(usage_string, {argv + 1, argv + argc},
-                       true,          // print help message automatically
-                       "CDT 0.1.8");  // Version
+  std::map<std::string, docopt::value, std::less<std::string>> args =
+      docopt::docopt(usage_string, {argv + 1, argv + argc},
+                     true,          // print help message automatically
+                     "CDT 0.1.8");  // Version
 
 #ifndef NDEBUG
   for (auto const& [key, value] : args)

@@ -56,7 +56,7 @@ namespace manifolds
     /// @brief The data structure of scalar values for computations
     Geometry m_geometry;
 
-  public:
+   public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension  = 3;
@@ -110,8 +110,8 @@ namespace manifolds
              double        t_initial_radius    = INITIAL_RADIUS,
              double        t_foliation_spacing = FOLIATION_SPACING)
         : Manifold{
-            Triangulation{t_desired_simplices, t_desired_timeslices,
-                          t_initial_radius, t_foliation_spacing}
+              Triangulation{t_desired_simplices, t_desired_timeslices,
+                            t_initial_radius, t_foliation_spacing}
     }
     {}
 
@@ -124,8 +124,8 @@ namespace manifolds
                       double t_initial_radius    = INITIAL_RADIUS,
                       double t_foliation_spacing = FOLIATION_SPACING)
         : Manifold{
-            Triangulation{causal_vertices, t_initial_radius,
-                          t_foliation_spacing}
+              Triangulation{causal_vertices, t_initial_radius,
+                            t_foliation_spacing}
     }
     {}
 
@@ -340,8 +340,8 @@ namespace manifolds
     /// number in geometry
     [[nodiscard]] auto check_simplices() const->bool
     {
-      return (this->simplices() == this->N3()
-              && m_triangulation.check_all_cells());
+      return (this->simplices() == this->N3() &&
+              m_triangulation.check_all_cells());
     }  // check_simplices
 
     /// @brief Print the codimension 1 volume of simplices (faces) per timeslice
@@ -389,7 +389,7 @@ namespace manifolds
       throw;
     }  // print_details
 
-  private:
+   private:
     /// @brief Update the triangulation
     void update_triangulation()
     try
@@ -426,7 +426,7 @@ namespace manifolds
     /// @brief The data structure of scalar values for computations
     Geometry4 m_geometry;
 
-  public:
+   public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension = 4;
