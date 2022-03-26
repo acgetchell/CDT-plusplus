@@ -545,8 +545,30 @@ namespace ergodic_moves
     // Get vertices from pivot edge
     auto const& pivot_from_vertex_1 = t_edge.first->vertex(t_edge.second);
     auto const& pivot_from_vertex_2 = t_edge.first->vertex(t_edge.third);
-    // Get vertices for new pivot edge
 
+    // Get vertices from cells
+    auto all_vertices =
+        foliated_triangulations::get_vertices_from_cells<3>(t_cells);
+    // Make sure they're correct
+    // Get vertices for new pivot edge
+    std::vector<Vertex_handle_t<3>> new_pivot_vertices;
+    std::copy_if(all_vertices.begin(), all_vertices.end(),
+                 std::back_inserter(new_pivot_vertices),
+                 [&](auto const& vertex) {
+                   return (vertex->info() == pivot_from_vertex_1->info() &&
+                           vertex != pivot_from_vertex_1 &&
+                           vertex != pivot_from_vertex_2);
+                 });
+    // Find the vertex at top
+    auto const& top_vertex = *std::find_if(
+        all_vertices.begin(), all_vertices.end(), [&](auto const& vertex) {
+          return vertex->info() > pivot_from_vertex_1->info();
+        });
+    // Find the vertex at bottom
+    auto const& bottom_vertex = *std::find_if(
+        all_vertices.begin(), all_vertices.end(), [&](auto const& vertex) {
+          return vertex->info() < pivot_from_vertex_2->info();
+        });
     // Move succeeded
     return true;
   }

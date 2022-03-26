@@ -557,17 +557,7 @@ SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
                vertex->point(), vertex->info(), manifold.is_vertex(vertex),
                manifold.get_triangulation().is_infinite(vertex));
     };
-    WHEN("We ask for a container of vertices given a container of cells.")
-    {
-      auto&& vertices =
-          get_vertices_from_cells<3>(manifold.get_triangulation().get_cells());
-      THEN("We get back the correct number of vertices.")
-      {
-        REQUIRE(vertices.size() == 5);
-        // Human verification
-        for_each(vertices.begin(), vertices.end(), print);
-      }
-    }
+
     WHEN("It is constructed.")
     {
       THEN("The number of timeslices is correct.")

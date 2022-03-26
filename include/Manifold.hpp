@@ -19,25 +19,6 @@
 
 namespace manifolds
 {
-  /// @param t_cells The cells from which to extract vertices
-  /// @return All of the vertices contained in the cells
-  template <int dimension>
-  [[nodiscard]] inline auto get_vertices_from_cells(
-      std::vector<Cell_handle_t<dimension>> const& t_cells)
-  {
-    std::unordered_set<Vertex_handle_t<dimension>> cell_vertices;
-    auto get_vertices = [&cell_vertices](auto const& t_cell) {
-      for (int i = 0; i < dimension + 1; ++i)
-      {
-        cell_vertices.emplace(t_cell->vertex(i));
-      }
-    };
-    std::for_each(t_cells.begin(), t_cells.end(), get_vertices);
-    std::vector<Vertex_handle_t<dimension>> result(cell_vertices.begin(),
-                                                   cell_vertices.end());
-    return result;
-  }  // get_vertices_from_cells
-
   /// Manifold class template
   /// @tparam dimension Dimensionality of manifold
   template <int dimension>

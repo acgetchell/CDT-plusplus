@@ -135,6 +135,15 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
                      return std::make_pair(vertex, timevalue);
                    });
     FoliatedTriangulation3 triangulation(vertices);
+    auto                   print = [&triangulation](auto& vertex) {
+      fmt::print(
+                            "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+                                              "infinite: {}\n",
+                            vertex->point(), vertex->info(),
+                            triangulation.get_delaunay().tds().is_vertex(vertex),
+                            triangulation.is_infinite(vertex));
+    };
+
     REQUIRE(triangulation.is_initialized());
     WHEN("check_vertices() is called.")
     {
@@ -154,26 +163,16 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
         triangulation.print_cells();
       }
     }
-    WHEN("vertices_from_cell is called")
+
+    WHEN("We ask for a container of vertices given a container of cells.")
     {
-      auto const& cells                   = triangulation.get_cells();
-      auto        cell                    = cells.front();
-      auto        vertices_and_timevalues = vertices_from_cell<3>(cell);
-      THEN("The vertices are correctly returned.")
+      auto&& all_vertices =
+          get_vertices_from_cells<3>(triangulation.get_cells());
+      THEN("We get back the correct number of vertices.")
       {
+        REQUIRE(all_vertices.size() == 4);
         // Human verification
-        CHECK(vertices_and_timevalues.size() == 4);
-        auto print = [](std::pair<int, Vertex_handle_t<3>> const& pair) {
-          fmt::print("Vertex: ({}) Timevalue: {}\n", pair.second->point(),
-                     pair.first);
-        };
-        std::for_each(vertices_and_timevalues.begin(),
-                      vertices_and_timevalues.end(), print);
-        auto check = [](std::pair<int, Vertex_handle_t<3>> const& pair) {
-          CHECK(pair.first == pair.second->info());
-        };
-        std::for_each(vertices_and_timevalues.begin(),
-                      vertices_and_timevalues.end(), check);
+        for_each(all_vertices.begin(), all_vertices.end(), print);
       }
     }
   }
