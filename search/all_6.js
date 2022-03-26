@@ -33,7 +33,7 @@ var searchData=
   ['get_5ftriangulation_106',['get_triangulation',['../classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['get_5ftwo_5ftwo_107',['get_two_two',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#aa99c8b0417c891e3310cd1ad1242260f',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['get_5fvertices_108',['get_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a845fe21128407bac3663f1b6d68053eb',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_vertices()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#ac74fab84f678eeffd929f0f07fa8948a',1,'manifolds::Manifold&lt; 3 &gt;::get_vertices()']]],
-  ['get_5fvertices_5ffrom_5fcells_109',['get_vertices_from_cells',['../_manifold_8hpp.html#ae43cb7b121162b06832d0cce552be98c',1,'manifolds']]],
+  ['get_5fvertices_5ffrom_5fcells_109',['get_vertices_from_cells',['../_foliated__triangulation_8hpp.html#ad45b5e418add0daa1e23a7686d02a83e',1,'foliated_triangulations']]],
   ['gmpzf_110',['Gmpzf',['../_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5',1,'Settings.hpp']]],
   ['gmpzf_5fto_5fdouble_111',['Gmpzf_to_double',['../_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1',1,'utilities']]],
   ['gv_5fbounding_5fbox_5fsize_112',['GV_BOUNDING_BOX_SIZE',['../_settings_8hpp.html#a1c189d695c12981d88175ed54dd22311',1,'Settings.hpp']]]
