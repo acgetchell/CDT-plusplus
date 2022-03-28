@@ -214,73 +214,74 @@ $(function() {
 <div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;        <span class="comment">// Manifold no-throw swapperator</span></div>
 <div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;        swap(populated_universe, universe);</div>
 <div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      }</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;        timer.stop();  <span class="comment">// End running time counter</span></div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
-<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;      }</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;      timer.stop();  <span class="comment">// End running time counter</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Toroidal triangulations not yet supported.&quot;</span>);</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;    <span class="keywordflow">default</span>: <span class="keywordflow">throw</span> domain_error(<span class="stringliteral">&quot;Simulation topology not parsed.&quot;</span>);</div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  }</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="comment">// Look at triangulation</span></div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">print_details</a>();</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <span class="comment">// The main work of the program</span></div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="keyword">auto</span> result = run(universe);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160; </div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <span class="comment">// Do we have enough timeslices?</span></div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="keywordflow">if</span> (<span class="keyword">auto</span> max_timevalue = result.max_time(); max_timevalue &lt; timeslices)</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  {</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;    fmt::print(<span class="stringliteral">&quot;You wanted {} timeslices, but only got {}.\n&quot;</span>, timeslices,</div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;               max_timevalue);</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  }</div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160; </div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  Ensures(result.is_valid());</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160; </div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <span class="comment">// Output results</span></div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  timer.stop();  <span class="comment">// End running time counter</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  fmt::print(<span class="stringliteral">&quot;=== Run Results ===\n&quot;</span>);</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  fmt::print(<span class="stringliteral">&quot;Running time is {} seconds.\n&quot;</span>, timer.time());</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  result.print();</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  result.print_details();</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  result.print_volume_per_timeslice();</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="comment">// Write results to file</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="comment">// Strong exception-safety guarantee</span></div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  utilities::write_file(result, topology,</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;                        <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(dimensions), result.N3(),</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                        <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices), 1.0, 1.0);</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160; </div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keywordflow">catch</span> (domain_error <span class="keyword">const</span>&amp; DomainError)</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;{</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, DomainError.what());</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Triangle inequalities violated ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;{</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="keywordflow">catch</span> (logic_error <span class="keyword">const</span>&amp; LogicError)</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;{</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, LogicError.what());</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Simulation startup failed ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;}</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;<span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;{</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;}</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      <span class="keywordflow">else</span></div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;      {</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;        timer.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;        <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Currently, dimensions cannot be &gt;3.&quot;</span>);</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;      }</div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;      <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;      timer.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;      <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Toroidal triangulations not yet supported.&quot;</span>);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="keywordflow">default</span>: <span class="keywordflow">throw</span> domain_error(<span class="stringliteral">&quot;Simulation topology not parsed.&quot;</span>);</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  }</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160; </div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <span class="comment">// Look at triangulation</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">print_details</a>();</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160; </div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <span class="comment">// The main work of the program</span></div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <span class="keyword">auto</span> result = run(universe);</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <span class="comment">// Do we have enough timeslices?</span></div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <span class="keywordflow">if</span> (<span class="keyword">auto</span> max_timevalue = result.max_time(); max_timevalue &lt; timeslices)</div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  {</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;    fmt::print(<span class="stringliteral">&quot;You wanted {} timeslices, but only got {}.\n&quot;</span>, timeslices,</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;               max_timevalue);</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  }</div>
+<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160; </div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  Ensures(result.is_valid());</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <span class="comment">// Output results</span></div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  timer.stop();  <span class="comment">// End running time counter</span></div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  fmt::print(<span class="stringliteral">&quot;=== Run Results ===\n&quot;</span>);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  fmt::print(<span class="stringliteral">&quot;Running time is {} seconds.\n&quot;</span>, timer.time());</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  result.print();</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  result.print_details();</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;  result.print_volume_per_timeslice();</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160; </div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <span class="comment">// Write results to file</span></div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="comment">// Strong exception-safety guarantee</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  utilities::write_file(result, topology,</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;                        <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(dimensions), result.N3(),</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;                        <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices), 1.0, 1.0);</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;}</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;<span class="keywordflow">catch</span> (domain_error <span class="keyword">const</span>&amp; DomainError)</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;{</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, DomainError.what());</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Triangle inequalities violated ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;{</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;}</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;<span class="keywordflow">catch</span> (logic_error <span class="keyword">const</span>&amp; LogicError)</div>
+<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;{</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, LogicError.what());</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Simulation startup failed ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;}</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;{</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00342">Manifold.hpp:342</a></div></div>
 <div class="ttc" id="acdt_8cpp_html_ae3c9ca9c80d59823d8711270d8a0d7c2"><div class="ttname"><a href="cdt_8cpp.html#ae3c9ca9c80d59823d8711270d8a0d7c2">main</a></div><div class="ttdeci">auto main(int argc, char *const argv[]) -&gt; int try</div><div class="ttdoc">The main path of the CDT++ program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt_8cpp_source.html#l00062">cdt.cpp:62</a></div></div>
@@ -293,7 +294,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:29</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Mar 26 2022 05:23:37 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Mon Mar 28 2022 14:15:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
