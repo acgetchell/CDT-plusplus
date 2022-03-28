@@ -97,9 +97,7 @@ namespace utilities
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
-    else {
-      filename += "T";
-    }
+    else { filename += "T"; }
     // std::to_string() works in C++11, but not earlier
     filename += std::to_string(t_dimension);
 

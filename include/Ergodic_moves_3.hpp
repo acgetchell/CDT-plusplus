@@ -311,9 +311,7 @@ namespace ergodic_moves
         {
           spdlog::trace("It's a vertex in the TDS.\n");
         }
-        else {
-          spdlog::trace("It's not a vertex in the TDS.\n");
-        }
+        else { spdlog::trace("It's not a vertex in the TDS.\n"); }
         spdlog::trace("Spacelike face timevalue is {}.\n", timevalue);
         spdlog::trace("Inserted vertex ({}) with timevalue {}.\n",
                       v_center->point(), v_center->info());

@@ -93,9 +93,7 @@ try
             foliation_spacing);
         swap(populated_universe, universe);
       }
-      else {
-        throw invalid_argument("Currently, dimensions cannot be >3.");
-      }
+      else { throw invalid_argument("Currently, dimensions cannot be >3."); }
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");

@@ -145,7 +145,8 @@ try
         // Manifold no-throw swapperator
         swap(populated_universe, universe);
       }
-      else {
+      else
+      {
         timer.stop();  // End running time counter
         throw invalid_argument("Currently, dimensions cannot be >3.");
       }

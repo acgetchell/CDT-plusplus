@@ -36,7 +36,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
       }
-      else {
+      else
+      {
         spdlog::debug("{}", result.error());
         REQUIRE(result.has_value());
       }
@@ -63,7 +64,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
       }
-      else {
+      else
+      {
         spdlog::debug("{}", result.error());
         REQUIRE(result.has_value());
       }
@@ -87,7 +89,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
       }
-      else {
+      else
+      {
         spdlog::debug("{}", result.error());
         // Stop further tests
         REQUIRE(result.has_value());
@@ -112,7 +115,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
       }
-      else {
+      else
+      {
         spdlog::debug("{}", result.error());
         // Stop further tests
         REQUIRE(result.has_value());
@@ -137,7 +141,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
       }
-      else {
+      else
+      {
         spdlog::debug("{}", result.error());
         // Stop further tests
         REQUIRE(result.has_value());
@@ -162,7 +167,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
         // Update Geometry and Foliated_triangulation with new info
         manifold.update();
       }
-      else {
+      else
+      {
         spdlog::debug("{}", result.error());
         // Stop further tests
         REQUIRE(result.has_value());

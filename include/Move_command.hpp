@@ -117,7 +117,8 @@ class MoveCommand
         swap(result.value(), m_manifold);
         m_succeeded[move_tracker::as_integer(move_type)]++;
       }
-      else {
+      else
+      {
         fmt::print("{}\n", result.error());
         // Track failed moves
         m_failed[move_tracker::as_integer(move_type)]++;
@@ -162,7 +163,8 @@ class MoveCommand
           m_attempted.two_six_moves(), m_attempted.six_two_moves(),
           m_attempted.four_four_moves());
     }
-    else {
+    else
+    {
       // 4D
       fmt::print(
           "There were {} attempted (2,4) moves and {} attempted (4,2) moves "
@@ -193,7 +195,8 @@ class MoveCommand
           m_succeeded.two_six_moves(), m_succeeded.six_two_moves(),
           m_succeeded.four_four_moves());
     }
-    else {
+    else
+    {
       // 4D
       fmt::print(
           "There were {} successful (2,4) moves and {} successful (4,2) moves "
@@ -218,7 +221,8 @@ class MoveCommand
     {
       fmt::print("There were no failed moves.\n");
     }
-    else {
+    else
+    {
       if (ManifoldType::dimension == 3)
       {
         fmt::print(
@@ -229,7 +233,8 @@ class MoveCommand
             m_failed.two_six_moves(), m_failed.six_two_moves(),
             m_failed.four_four_moves());
       }
-      else {
+      else
+      {
         // 4D
         fmt::print(
             "There were {} failed (2,4) moves and {} failed (4,2) moves and {} "

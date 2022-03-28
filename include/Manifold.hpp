@@ -40,16 +40,16 @@ namespace manifolds
    public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
-    static int constexpr dimension  = 3;
+    static int constexpr dimension                   = 3;
 
     /// @brief Default dtor
-    ~Manifold()                     = default;
+    ~Manifold()                                      = default;
 
     /// @brief Default ctor
-    Manifold()                      = default;
+    Manifold()                                       = default;
 
     /// @brief Default copy ctor
-    Manifold(Manifold const& other) = default;
+    Manifold(Manifold const& other)                  = default;
 
     /// @brief Default copy assignment
     auto operator=(Manifold const& other)->Manifold& = default;
@@ -58,7 +58,7 @@ namespace manifolds
     Manifold(Manifold && other)                      = default;
 
     /// @brief Default move assignment
-    auto operator=(Manifold&& other)->Manifold& = default;
+    auto operator=(Manifold&& other)->Manifold&      = default;
 
     /// @brief Non-member swap function for Manifolds.
     /// @details Used for no-except updates of manifolds after moves.

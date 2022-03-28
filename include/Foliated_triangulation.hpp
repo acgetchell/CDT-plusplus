@@ -613,7 +613,8 @@ namespace foliated_triangulations
 #endif
         space_faces.insert({*facet_timevalues.begin(), face});
       }
-      else {
+      else
+      {
 #ifndef NDEBUG
         spdlog::trace("Facet is timelike.\n");
 #endif
@@ -1256,9 +1257,7 @@ namespace foliated_triangulations
       for (auto const& edge : m_edges)
       {
         if (classify_edge<3>(edge)) { fmt::print("==> timelike\n"); }
-        else {
-          fmt::print("==> spacelike\n");
-        }
+        else { fmt::print("==> spacelike\n"); }
       }
     }  // print_edges
 
