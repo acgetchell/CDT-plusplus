@@ -287,50 +287,25 @@ namespace foliated_triangulations
                        });
   }  // check_vertices
 
-  /// @brief Obtain vertices with incorrect timevalues
-  /// @tparam dimension Dimensionality of the vertices and Delaunay
-  /// triangulation
-  /// @param t_triangulation The Delaunay triangulation
-  /// @param t_initial_radius The initial radius of the radial foliation
-  /// @param t_foliation_spacing The spacing between successive leaves
-  /// @return A container of vertices with incorrect timevalues
-  template <int dimension>
-  [[nodiscard]] auto find_incorrect_vertices(
-      Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
-      double t_foliation_spacing)
-  {
-    auto checked_vertices = get_all_finite_vertices<dimension>(t_triangulation);
-
-    std::vector<Vertex_handle_t<dimension>> incorrect_vertices;
-    std::copy_if(checked_vertices.begin(), checked_vertices.end(),
-                 std::back_inserter(incorrect_vertices),
-                 [&](auto const& vertex) {
-                   return !is_vertex_timevalue_correct<dimension>(
-                       vertex, t_initial_radius, t_foliation_spacing);
-                 });
-    return incorrect_vertices;
-  }  // find_incorrect_vertices
-
-  /// @brief Fix vertices with wrong timevalues
-  /// @details Changes vertex->info() to the correct timevalue
-  /// @tparam dimension Dimensionality of the vertices and Delaunay
-  /// triangulation
+  /// @brief Obtain all finite cells in the Delaunay triangulation
+  /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The triangulation
-  /// @return True if any vertex->info() was fixed
+  /// @return A container of finite vertices
   template <int dimension>
-  [[nodiscard]] auto fix_vertices(Delaunay_t<dimension> const& t_triangulation,
-                                  double                       t_initial_radius,
-                                  double t_foliation_spacing) -> bool
+  [[nodiscard]] auto get_all_finite_cells(
+      Delaunay_t<dimension> const& t_triangulation)
+      -> std::vector<Cell_handle_t<dimension>>
   {
-    auto incorrect_vertices = find_incorrect_vertices<dimension>(
-        t_triangulation, t_initial_radius, t_foliation_spacing);
-    std::for_each(incorrect_vertices.begin(), incorrect_vertices.end(),
-                  [&](auto const& vertex) {
-                    vertex->info() = expected_timevalue<dimension>(
-                        vertex, t_initial_radius, t_foliation_spacing);
-                  });
-    return !incorrect_vertices.empty();
-  }  // fix_vertices
+    std::vector<Cell_handle_t<dimension>> cells;
+    for (auto cit = t_triangulation.finite_cells_begin();
+         cit != t_triangulation.finite_cells_end(); ++cit)
+    {
+      // Each cell is valid
+      Ensures(t_triangulation.tds().is_cell(cit));
+      cells.emplace_back(cit);
+    }
+    return cells;
+  }  // get_all_finite_cells
 
   /// @brief Extracts vertices from cells
   /// @param t_cells The cells from which to extract vertices
@@ -351,6 +326,85 @@ namespace foliated_triangulations
                                                    cell_vertices.end());
     return result;
   }  // get_vertices_from_cells
+
+  /// @brief Obtain vertices with incorrect timevalues
+  /// @tparam dimension Dimensionality of vertices and cells
+  /// @param t_cells Container of cells to check
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
+  /// @return A container of vertices with incorrect timevalues
+  template <int dimension>
+  [[nodiscard]] auto find_incorrect_vertices(
+      std::vector<Cell_handle_t<dimension>> const& t_cells,
+      double t_initial_radius, double t_foliation_spacing)
+  {
+    auto checked_vertices = get_vertices_from_cells<dimension>(t_cells);
+    std::vector<Vertex_handle_t<dimension>> incorrect_vertices;
+
+    std::copy_if(checked_vertices.begin(), checked_vertices.end(),
+                 std::back_inserter(incorrect_vertices),
+                 [&](auto const& vertex) {
+                   return !is_vertex_timevalue_correct<dimension>(
+                       vertex, t_initial_radius, t_foliation_spacing);
+                 });
+    return incorrect_vertices;
+  }  // find_incorrect_vertices
+
+  /// @brief Obtain vertices with incorrect timevalues
+  /// @tparam dimension Dimensionality of the vertices and Delaunay
+  /// triangulation
+  /// @param t_triangulation The Delaunay triangulation
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing The spacing between successive leaves
+  /// @return A container of vertices with incorrect timevalues
+  template <int dimension>
+  [[nodiscard]] auto find_incorrect_vertices(
+      Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
+      double t_foliation_spacing)
+  {
+    auto cells_to_check = get_all_finite_cells<dimension>(t_triangulation);
+    return find_incorrect_vertices<dimension>(cells_to_check, t_initial_radius,
+                                              t_foliation_spacing);
+  }  // find_incorrect_vertices
+
+  /// @brief Fix vertices with incorrect timevalues
+  /// @details Changes vertex->info() to the correct timevalue using
+  /// foliated_triangulations::expected_timevalue
+  /// @tparam dimension Dimensionality of vertices and cells
+  /// @param t_cells Container of cells to check
+  /// @param t_initial_radius The initial radius of the radial foliation
+  /// @param t_foliation_spacing
+  /// @return True if any vertex->info() was fixed
+  template <int dimension>
+  [[nodiscard]] auto fix_vertices(
+      std::vector<Cell_handle_t<dimension>> const& t_cells,
+      double t_initial_radius, double t_foliation_spacing)
+  {
+    auto incorrect_vertices = find_incorrect_vertices<dimension>(
+        t_cells, t_initial_radius, t_foliation_spacing);
+    std::for_each(incorrect_vertices.begin(), incorrect_vertices.end(),
+                  [&](auto const& vertex) {
+                    vertex->info() = expected_timevalue<dimension>(
+                        vertex, t_initial_radius, t_foliation_spacing);
+                  });
+    return !incorrect_vertices.empty();
+  }  // fix_vertices
+
+  /// @brief Fix vertices with incorrect timevalues
+  /// @details Changes vertex->info() to the correct timevalue
+  /// @tparam dimension Dimensionality of the vertices and Delaunay
+  /// triangulation
+  /// @param t_triangulation The triangulation
+  /// @return True if any vertex->info() was fixed
+  template <int dimension>
+  [[nodiscard]] auto fix_vertices(Delaunay_t<dimension> const& t_triangulation,
+                                  double                       t_initial_radius,
+                                  double t_foliation_spacing) -> bool
+  {
+    return fix_vertices<dimension>(
+        get_all_finite_cells<dimension>(t_triangulation), t_initial_radius,
+        t_foliation_spacing);
+  }  // fix_vertices
 
   /// @brief Classifies cells by their timevalues
   /// @tparam dimension The dimensionality of the simplices
@@ -432,26 +486,6 @@ namespace foliated_triangulations
            cell_type != Cell_type::UNCLASSIFIED &&
            cell_type == static_cast<Cell_type>(t_cell->info());
   }  // is_cell_type_correct
-
-  /// @brief Obtain all finite cells in the Delaunay triangulation
-  /// @tparam dimension Dimensionality of the Delaunay triangulation
-  /// @param t_triangulation The triangulation
-  /// @return A container of finite vertices
-  template <int dimension>
-  [[nodiscard]] auto get_all_finite_cells(
-      Delaunay_t<dimension> const& t_triangulation)
-      -> std::vector<Cell_handle_t<dimension>>
-  {
-    std::vector<Cell_handle_t<dimension>> cells;
-    for (auto cit = t_triangulation.finite_cells_begin();
-         cit != t_triangulation.finite_cells_end(); ++cit)
-    {
-      // Each cell is valid
-      Ensures(t_triangulation.tds().is_cell(cit));
-      cells.emplace_back(cit);
-    }
-    return cells;
-  }  // get_all_finite_cells
 
   /// @brief Check all finite cells in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation

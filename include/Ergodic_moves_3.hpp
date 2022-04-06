@@ -396,9 +396,8 @@ namespace ergodic_moves
 
     // Run until all vertices are fixed
     while (foliated_triangulations::fix_vertices<3>(
-        manifold.get_triangulation().get_delaunay(),
-        manifold.get_triangulation().initial_radius(),
-        manifold.get_triangulation().foliation_spacing()))
+        manifold.get_triangulation().get_delaunay(), manifold.initial_radius(),
+        manifold.foliation_spacing()))
     {
       spdlog::warn("Fixing vertices found by is_62_movable().\n");
     }
@@ -522,18 +521,91 @@ namespace ergodic_moves
 
   }  // find_44_move()
 
+  [[nodiscard]] inline auto bistellar_flip_really(
+      manifolds::Manifold3& t_manifold, Cell_handle_t<3> b_1,
+      Cell_handle_t<3> b_2, Cell_handle_t<3> b_3, Cell_handle_t<3> b_4,
+      Vertex_handle_t<3> pivot_from_vertex_1,
+      Vertex_handle_t<3> pivot_from_vertex_2,
+      Vertex_handle_t<3> pivot_to_vertex_1,
+      Vertex_handle_t<3> pivot_to_vertex_2, Vertex_handle_t<3> top,
+      Vertex_handle_t<3> bottom) -> bool
+  {
+    // Check if the cells are valid
+    if (!b_1->is_valid() || !b_2->is_valid() || !b_3->is_valid() ||
+        !b_4->is_valid())
+    {
+      return false;
+    }
+    // Now, find the exterior neighbors of the cells
+    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
+    Cell_handle_t<3> n_1 = b_1->neighbor(b_1->index(pivot_from_vertex_2));
+    Cell_handle_t<3> n_2 = b_1->neighbor(b_1->index(pivot_from_vertex_1));
+    Cell_handle_t<3> n_3 = b_2->neighbor(b_2->index(pivot_from_vertex_1));
+    Cell_handle_t<3> n_4 = b_2->neighbor(b_2->index(pivot_from_vertex_2));
+    Cell_handle_t<3> n_5 = b_3->neighbor(b_3->index(pivot_from_vertex_2));
+    Cell_handle_t<3> n_6 = b_3->neighbor(b_3->index(pivot_from_vertex_1));
+    Cell_handle_t<3> n_7 = b_4->neighbor(b_4->index(pivot_from_vertex_1));
+    Cell_handle_t<3> n_8 = b_4->neighbor(b_4->index(pivot_from_vertex_2));
+
+    // Next, delete the old cells
+    t_manifold.triangulation().delaunay().tds().delete_cell(b_1);
+    t_manifold.triangulation().delaunay().tds().delete_cell(b_2);
+    t_manifold.triangulation().delaunay().tds().delete_cell(b_3);
+    t_manifold.triangulation().delaunay().tds().delete_cell(b_4);
+
+    // Now create the new cells
+    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
+    Cell_handle_t<3> a_1 =
+        t_manifold.triangulation().delaunay().tds().create_cell(
+            top, pivot_from_vertex_1, pivot_to_vertex_1, pivot_to_vertex_2);
+    Cell_handle_t<3> a_2 =
+        t_manifold.triangulation().delaunay().tds().create_cell(
+            top, pivot_from_vertex_2, pivot_to_vertex_1, pivot_to_vertex_2);
+    Cell_handle_t<3> a_3 =
+        t_manifold.triangulation().delaunay().tds().create_cell(
+            bottom, pivot_from_vertex_1, pivot_to_vertex_1, pivot_to_vertex_2);
+    Cell_handle_t<3> a_4 =
+        t_manifold.triangulation().delaunay().tds().create_cell(
+            bottom, pivot_from_vertex_2, pivot_to_vertex_1, pivot_to_vertex_2);
+
+    // Now, set the neighbors
+    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
+    a_1->set_neighbors(n_1, n_4, a_2, a_3);
+    a_2->set_neighbors(n_2, n_3, a_1, a_4);
+    a_3->set_neighbors(n_5, n_8, a_4, a_1);
+    a_4->set_neighbors(n_6, n_7, a_2, a_3);
+
+    // Fix any cell orientation issues
+    // This should fix the tds, but doesn't
+    // https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L639
+    t_manifold.triangulation().delaunay().tds().reorient();
+
+    return a_1->is_valid() && a_2->is_valid() && a_3->is_valid() &&
+           a_4->is_valid();
+
+    // Move succeeded
+    //    return true;
+  }
+
   /// @brief Perform bistellar flip
   /// @details This function performs a 3D bistellar flip on 4 cells with
   /// a common edge. Eventually it should go into
   /// CGAL::Triangulation_data_structure_3.
   /// @param t_edge The common edge among the 4 simplices to flip
   /// @param t_cells The 4 cells common to the edge
+  /// @param t_manifold The simplicial manifold
+  /// @return True if a bistellar_flip completed successfully
   /// @see https://dl.acm.org/doi/10.1145/777792.777821
   /// @see
   /// https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a646b6bd66cd85422f294e60068629d3a
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aee7bebae22e4fe9094b744d8ea54d28b
   [[nodiscard]] inline auto bistellar_flip(
       Edge_handle_t<3> const&              t_edge,
-      std::vector<Cell_handle_t<3>> const& t_cells) -> bool
+      std::vector<Cell_handle_t<3>> const& t_cells,
+      manifolds::Manifold3&                t_manifold) -> bool
   {
     fmt::print("Attempting (4,4) move ...\n");
     fmt::print("Pivot edge: \n");
@@ -548,6 +620,22 @@ namespace ergodic_moves
     auto all_vertices =
         foliated_triangulations::get_vertices_from_cells<3>(t_cells);
     // Make sure they're correct
+    // Run until all vertices are fixed
+    while (foliated_triangulations::fix_vertices<3>(
+        t_cells, t_manifold.initial_radius(), t_manifold.foliation_spacing()))
+    {
+      spdlog::warn("Fixing vertices in bistellar_flip.\n");
+    }
+    // Run until all cells fixed or 10 passes
+    for (auto passes = 1; passes < 11; ++passes)  // NOLINT
+    {
+      if (foliated_triangulations::fix_cells<3>(
+              t_manifold.get_triangulation().get_delaunay()))
+      {
+        spdlog::warn("Fixing cells in bistellar_flip pass {}.\n", passes);
+      }
+    }
+
     // Get vertices for new pivot edge
     std::vector<Vertex_handle_t<3>> new_pivot_vertices;
     std::copy_if(all_vertices.begin(), all_vertices.end(),
@@ -557,6 +645,17 @@ namespace ergodic_moves
                            vertex != pivot_from_vertex_1 &&
                            vertex != pivot_from_vertex_2);
                  });
+    if (new_pivot_vertices.size() != 2)
+    {
+      std::string msg = "Could not find new pivot vertices.\n";
+      spdlog::warn(msg);
+      return false;
+    }
+
+    // Label the vertices in the new pivot edge
+    auto pivot_to_vertex_1 = new_pivot_vertices[0];
+    auto pivot_to_vertex_2 = new_pivot_vertices[1];
+
     // Find the vertex at top
     auto const& top_vertex = *std::find_if(
         all_vertices.begin(), all_vertices.end(), [&](auto const& vertex) {
@@ -567,7 +666,32 @@ namespace ergodic_moves
         all_vertices.begin(), all_vertices.end(), [&](auto const& vertex) {
           return vertex->info() < pivot_from_vertex_2->info();
         });
-    // Move succeeded
+
+    // Now we need to classify the cells by the vertices they contain
+    Cell_handle_t<3> b_1;
+    Cell_handle_t<3> b_2;
+    Cell_handle_t<3> b_3;
+    Cell_handle_t<3> b_4;
+    for (auto const& cell : t_cells)
+    {
+      if (cell->has_vertex(top_vertex))
+      {
+        if (cell->has_vertex(pivot_to_vertex_1)) { b_1 = cell; }
+        else { b_2 = cell; }
+      }
+      else
+      {
+        if (cell->has_vertex(pivot_to_vertex_1)) { b_3 = cell; }
+        else { b_4 = cell; }
+      }
+    }
+
+    // Now really flip the cells
+    // Commented out because this currently makes the tds invalid
+    //    return bistellar_flip_really(t_manifold, b_1, b_2, b_3, b_4,
+    //                                 pivot_from_vertex_1, pivot_from_vertex_2,
+    //                                 pivot_to_vertex_1, pivot_to_vertex_2,
+    //                                 top_vertex, bottom_vertex);
     return true;
   }
 
@@ -612,7 +736,10 @@ namespace ergodic_moves
           spdlog::trace("Incident cell is of type {}.\n", cell->info());
         }
 #endif
-        if (bistellar_flip(edge, *incident_cells)) { return t_manifold; }
+        if (bistellar_flip(edge, *incident_cells, t_manifold))
+        {
+          return t_manifold;
+        }
       }
       // Try next edge
     }
