@@ -1382,6 +1382,7 @@ namespace foliated_triangulations
     /// @return Container of all the finite facets in the triangulation
     [[nodiscard]] auto collect_faces() const->Face_container
     {
+      // Somewhere in bistellar_flip_really a vertex is rendered invalid
       Expects(is_tds_valid());
       Face_container init_faces;
       init_faces.reserve(get_delaunay().number_of_finite_facets());

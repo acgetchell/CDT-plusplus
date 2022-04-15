@@ -7,7 +7,6 @@
 /// @file Ergodic_moves_3.hpp
 /// @brief Pachner moves on 2+1 dimensional foliated Delaunay triangulations
 /// @author Adam Getchell
-/// @todo Invoke complete set of ergodic (Pachner) moves
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
@@ -121,15 +120,11 @@ namespace ergodic_moves
   }
 
   /// @brief Perform a (3,2) move
-  ///
-  /// A (3,2) move "flips" a timelike edge into a timelike face.
+  /// @details A (3,2) move "flips" a timelike edge into a timelike face.
   /// This removes a (2,2) simplex and the timelike edge.
-  ///
   /// This function calls try_32_move on timelike edges drawn from a
   /// randomly shuffled container until it succeeds or runs out of edges.
-  ///
   /// If successful, the triangulation is no longer Delaunay.
-  ///
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
   [[nodiscard]] inline auto do_32_move(
@@ -155,10 +150,8 @@ namespace ergodic_moves
   }  // do_32_move()
 
   /// @brief Find a (2,6) move location
-  ///
-  /// This function checks to see if a (2,6) move is possible. Starting with
-  /// a (1,3) simplex, it checks neighbors for a (3,1) simplex.
-  ///
+  /// @details This function checks to see if a (2,6) move is possible. Starting
+  /// with a (1,3) simplex, it checks neighbors for a (3,1) simplex.
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
   [[nodiscard]] inline auto find_adjacent_31_cell(
@@ -181,22 +174,17 @@ namespace ergodic_moves
   }  // find_26_move()
 
   /// @brief Perform a (2,6) move
-  ///
-  /// A (2,6) move inserts a vertex into the spacelike face between a
+  /// @details A (2,6) move inserts a vertex into the spacelike face between a
   /// (1,3) simplex on the bottom connected to a (3,1) simplex on top.
   /// This adds 2 (1,3) simplices and 2 (3,1) simplices.
   /// It adds 2 spacelike faces and 6 timelike faces.
   /// It also adds 2 timelike edges and 3 spacelike edges, as well as the
   /// vertex.
-  ///
   /// This function calls find_adjacent_31_cell on (1,3) simplices drawn from a
   /// randomly shuffled container until it succeeds or runs out of simplices.
-  ///
   /// If successful, the triangulation is no longer Delaunay.
-  ///
   /// @image html 26.png
   /// @image latex 26.eps width=7cm
-  ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
   [[nodiscard]] inline auto do_26_move(
@@ -319,7 +307,6 @@ namespace ergodic_moves
 
         // Final checks
         // is_valid() checks for combinatorial and geometric validity
-        // and outputs to std::cerr
         if (!t_manifold.get_triangulation().get_delaunay().tds().is_valid(
                 v_center, true, 1))
         {
@@ -344,12 +331,10 @@ namespace ergodic_moves
   }  // do_26_move()
 
   /// @brief Find a (6,2) move location
-  ///
-  /// This function checks to see if a (6,2) move is possible. Starting
+  /// @details This function checks to see if a (6,2) move is possible. Starting
   /// with a vertex, it checks all incident cells. There must be 6
   /// incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices,
   /// and there should be no (2,2) simplices.
-  ///
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return If (6,2) move is possible
@@ -440,7 +425,7 @@ namespace ergodic_moves
   }  // find_62_moves()
 
   /// @brief Perform a (6,2) move
-  ///
+  /// @details This function performs a (6,2) move on the given manifold.
   /// A (6,2) move removes a vertex which has 3 incident (3,1) simplices
   /// and 3 (1,3) simplices for a total of 6 incident simplices exactly.
   /// This converts the 3 (1,3) simplices into a single (1,3) simplex on
@@ -485,12 +470,10 @@ namespace ergodic_moves
   }  // do_62_move()
 
   /// @brief Find a (4,4) move location
-  ///
-  /// This function checks to see if a (4,4) move is possible. Starting with
-  /// a spacelike edge, it checks all incident cells. There must be 4 incident
-  /// cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices,
+  /// @details This function checks to see if a (4,4) move is possible. Starting
+  /// with a spacelike edge, it checks all incident cells. There must be 4
+  /// incident cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices,
   /// and there should be no (2,2) simplices.
-  ///
   /// @param t_manifold The simplicial manifold
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
@@ -521,14 +504,42 @@ namespace ergodic_moves
 
   }  // find_44_move()
 
+  /// @brief Perform a bistellar flip
+  /// @details This function performs a bistellar flip on a complex of
+  /// 4 cells sharing a common edge. The 6 vertices of the complex remain the
+  /// same, but the common edge is rotated from the pair of vertices denoted by
+  /// pivot_from_1 and pivot_from_2 to the pair of vertices denoted by
+  /// pivot_to_1 and pivot_to_2. The external neighbors of the complex should be
+  /// preserved.
+  /// @image html 44.png
+  /// @param t_triangulation The Delaunay triangulation
+  /// @param b_1 The cell containing top, pivot_from_1, pivot_from_2, and
+  /// pivot_to_1
+  /// @param b_2 The cell containing top, pivot_from_1, pivot_from_2, and
+  /// pivot_to_2
+  /// @param b_3 The cell containing bottom, pivot_from_1, pivot_from_2, and
+  /// pivot_to_1
+  /// @param b_4 The cell containing bottom, pivot_from_1, pivot_from_2, and
+  /// pivot_to_2
+  /// @param pivot_from_1 The first vertex of the pivot edge
+  /// @param pivot_from_2 The second vertex of the pivot edge
+  /// @param pivot_to_1 The first vertex of the new edge
+  /// @param pivot_to_2 The second vertex of the new edge
+  /// @param top The top vertex of the two top cells
+  /// @param bottom The bottom vertex of the two bottom cells
+  /// @return True if bistellar flip succeeded
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
+  /// @see
+  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
   [[nodiscard]] inline auto bistellar_flip_really(
-      manifolds::Manifold3& t_manifold, Cell_handle_t<3> b_1,
+      Delaunay_t<3>& t_triangulation, Cell_handle_t<3> b_1,
       Cell_handle_t<3> b_2, Cell_handle_t<3> b_3, Cell_handle_t<3> b_4,
-      Vertex_handle_t<3> pivot_from_vertex_1,
-      Vertex_handle_t<3> pivot_from_vertex_2,
-      Vertex_handle_t<3> pivot_to_vertex_1,
-      Vertex_handle_t<3> pivot_to_vertex_2, Vertex_handle_t<3> top,
-      Vertex_handle_t<3> bottom) -> bool
+      Vertex_handle_t<3> pivot_from_1, Vertex_handle_t<3> pivot_from_2,
+      Vertex_handle_t<3> pivot_to_1, Vertex_handle_t<3> pivot_to_2,
+      Vertex_handle_t<3> top, Vertex_handle_t<3> bottom) -> bool
   {
     // Check if the cells are valid
     if (!b_1->is_valid() || !b_2->is_valid() || !b_3->is_valid() ||
@@ -538,35 +549,31 @@ namespace ergodic_moves
     }
     // Now, find the exterior neighbors of the cells
     // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
-    Cell_handle_t<3> n_1 = b_1->neighbor(b_1->index(pivot_from_vertex_2));
-    Cell_handle_t<3> n_2 = b_1->neighbor(b_1->index(pivot_from_vertex_1));
-    Cell_handle_t<3> n_3 = b_2->neighbor(b_2->index(pivot_from_vertex_1));
-    Cell_handle_t<3> n_4 = b_2->neighbor(b_2->index(pivot_from_vertex_2));
-    Cell_handle_t<3> n_5 = b_3->neighbor(b_3->index(pivot_from_vertex_2));
-    Cell_handle_t<3> n_6 = b_3->neighbor(b_3->index(pivot_from_vertex_1));
-    Cell_handle_t<3> n_7 = b_4->neighbor(b_4->index(pivot_from_vertex_1));
-    Cell_handle_t<3> n_8 = b_4->neighbor(b_4->index(pivot_from_vertex_2));
+    Cell_handle_t<3> n_1 = b_1->neighbor(b_1->index(pivot_from_2));
+    Cell_handle_t<3> n_2 = b_1->neighbor(b_1->index(pivot_from_1));
+    Cell_handle_t<3> n_3 = b_2->neighbor(b_2->index(pivot_from_1));
+    Cell_handle_t<3> n_4 = b_2->neighbor(b_2->index(pivot_from_2));
+    Cell_handle_t<3> n_5 = b_3->neighbor(b_3->index(pivot_from_2));
+    Cell_handle_t<3> n_6 = b_3->neighbor(b_3->index(pivot_from_1));
+    Cell_handle_t<3> n_7 = b_4->neighbor(b_4->index(pivot_from_1));
+    Cell_handle_t<3> n_8 = b_4->neighbor(b_4->index(pivot_from_2));
 
     // Next, delete the old cells
-    t_manifold.triangulation().delaunay().tds().delete_cell(b_1);
-    t_manifold.triangulation().delaunay().tds().delete_cell(b_2);
-    t_manifold.triangulation().delaunay().tds().delete_cell(b_3);
-    t_manifold.triangulation().delaunay().tds().delete_cell(b_4);
+    t_triangulation.tds().delete_cell(b_1);
+    t_triangulation.tds().delete_cell(b_2);
+    t_triangulation.tds().delete_cell(b_3);
+    t_triangulation.tds().delete_cell(b_4);
 
     // Now create the new cells
     // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
-    Cell_handle_t<3> a_1 =
-        t_manifold.triangulation().delaunay().tds().create_cell(
-            top, pivot_from_vertex_1, pivot_to_vertex_1, pivot_to_vertex_2);
-    Cell_handle_t<3> a_2 =
-        t_manifold.triangulation().delaunay().tds().create_cell(
-            top, pivot_from_vertex_2, pivot_to_vertex_1, pivot_to_vertex_2);
-    Cell_handle_t<3> a_3 =
-        t_manifold.triangulation().delaunay().tds().create_cell(
-            bottom, pivot_from_vertex_1, pivot_to_vertex_1, pivot_to_vertex_2);
-    Cell_handle_t<3> a_4 =
-        t_manifold.triangulation().delaunay().tds().create_cell(
-            bottom, pivot_from_vertex_2, pivot_to_vertex_1, pivot_to_vertex_2);
+    Cell_handle_t<3> a_1 = t_triangulation.tds().create_cell(
+        top, pivot_from_1, pivot_to_1, pivot_to_2);
+    Cell_handle_t<3> a_2 = t_triangulation.tds().create_cell(
+        top, pivot_from_2, pivot_to_1, pivot_to_2);
+    Cell_handle_t<3> a_3 = t_triangulation.tds().create_cell(
+        bottom, pivot_from_1, pivot_to_1, pivot_to_2);
+    Cell_handle_t<3> a_4 = t_triangulation.tds().create_cell(
+        bottom, pivot_from_2, pivot_to_1, pivot_to_2);
 
     // Now, set the neighbors
     // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
@@ -576,16 +583,14 @@ namespace ergodic_moves
     a_4->set_neighbors(n_6, n_7, a_2, a_3);
 
     // Fix any cell orientation issues
-    // This should fix the tds, but doesn't
+    // If this function becomes a part of Triangulation_data_structure_3,
+    // we can call change_orientation on just the effected cells instead
     // https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L639
-    t_manifold.triangulation().delaunay().tds().reorient();
+    if (!t_triangulation.is_valid()) { t_triangulation.tds().reorient(); }
 
     return a_1->is_valid() && a_2->is_valid() && a_3->is_valid() &&
            a_4->is_valid();
-
-    // Move succeeded
-    //    return true;
-  }
+  }  // bistellar_flip_really
 
   /// @brief Perform bistellar flip
   /// @details This function performs a 3D bistellar flip on 4 cells with
@@ -607,10 +612,11 @@ namespace ergodic_moves
       std::vector<Cell_handle_t<3>> const& t_cells,
       manifolds::Manifold3&                t_manifold) -> bool
   {
+#ifndef NDEBUG
     fmt::print("Attempting (4,4) move ...\n");
     fmt::print("Pivot edge: \n");
     foliated_triangulations::print_edge<3>(t_edge);
-    foliated_triangulations::print_cells<3>(t_cells);
+#endif
 
     // Get vertices from pivot edge
     auto const& pivot_from_vertex_1 = t_edge.first->vertex(t_edge.second);
@@ -668,35 +674,36 @@ namespace ergodic_moves
         });
 
     // Now we need to classify the cells by the vertices they contain
-    Cell_handle_t<3> b_1;
-    Cell_handle_t<3> b_2;
-    Cell_handle_t<3> b_3;
-    Cell_handle_t<3> b_4;
+    Cell_handle_t<3> before_1;
+    Cell_handle_t<3> before_2;
+    Cell_handle_t<3> before_3;
+    Cell_handle_t<3> before_4;
     for (auto const& cell : t_cells)
     {
       if (cell->has_vertex(top_vertex))
       {
-        if (cell->has_vertex(pivot_to_vertex_1)) { b_1 = cell; }
-        else { b_2 = cell; }
+        if (cell->has_vertex(pivot_to_vertex_1)) { before_1 = cell; }
+        else { before_2 = cell; }
       }
       else
       {
-        if (cell->has_vertex(pivot_to_vertex_1)) { b_3 = cell; }
-        else { b_4 = cell; }
+        if (cell->has_vertex(pivot_to_vertex_1)) { before_3 = cell; }
+        else { before_4 = cell; }
       }
     }
 
     // Now really flip the cells
     // Commented out because this currently makes the tds invalid
-    //    return bistellar_flip_really(t_manifold, b_1, b_2, b_3, b_4,
-    //                                 pivot_from_vertex_1, pivot_from_vertex_2,
-    //                                 pivot_to_vertex_1, pivot_to_vertex_2,
-    //                                 top_vertex, bottom_vertex);
+    //    return bistellar_flip_really(
+    //        t_manifold.triangulation().delaunay(), before_1, before_2,
+    //        before_3, before_4, pivot_from_vertex_1, pivot_from_vertex_2,
+    //        pivot_to_vertex_1, pivot_to_vertex_2, top_vertex, bottom_vertex);
     return true;
   }
 
   /// @brief Perform a (4,4) move
-  ///
+  /// @details This is a bistellar flip pivoting the internal spacelike edge
+  /// between the two spacelike faces.
   /// A (4,4) move flips an edge which has exactly 4 incident cells.
   /// In CDT specifically, the edge is spacelike and the 4 incident cells
   /// are a pair of (1,3) simplices and a pair of (3,1) simplices. It thus
@@ -713,7 +720,6 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
-  /// @todo Fix this move to do something
   [[nodiscard]] inline auto do_44_move(manifolds::Manifold3& t_manifold)
       -> Expected
   {
@@ -729,15 +735,17 @@ namespace ergodic_moves
       // Obtain all incident cells
       if (auto incident_cells = find_44_move(t_manifold, edge); incident_cells)
       {
-        // Do move
 #ifndef NDEBUG
         for (auto const& cell : *incident_cells)
         {
           spdlog::trace("Incident cell is of type {}.\n", cell->info());
         }
 #endif
+        // Do move
         if (bistellar_flip(edge, *incident_cells, t_manifold))
         {
+          fmt::print("After (4,4) move:\n");
+          t_manifold.print_cells();
           return t_manifold;
         }
       }

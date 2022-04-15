@@ -19,6 +19,8 @@ using namespace manifolds;
 static inline double const RADIUS_2   = sqrt(4.0 / 3.0);  // NOLINT
 static inline double const SQRT_2     = sqrt(2);          // NOLINT
 static inline double const INV_SQRT_2 = 1 / sqrt(2);      // NOLINT
+static inline double const INV_SQRT_3 = 1 / sqrt(3);      // NOLINT
+static inline double const SQRT_3     = sqrt(3);          // NOLINT
 
 SCENARIO(
     "Perform ergodic moves on the minimal manifold necessary for that move",
@@ -329,6 +331,20 @@ SCENARIO(
         Point_t<3>{          0,           0,          2}
     };
     vector<size_t>       timevalue{1, 2, 2, 2, 2, 3};
+
+    //    Manifold3 manifold(causal_vertices, 0, 1);
+    //    produces a bug where at some point during copy construction of
+    //    manifolds initial radius defaults to 1
+
+    //    vector<Point_t<3>> vertices{
+    //      Point_t<3>{INV_SQRT_3, INV_SQRT_3, INV_SQRT_3},
+    //      Point_t<3>{SQRT_2, 0, SQRT_2},
+    //      Point_t<3>{0, SQRT_2, SQRT_2},
+    //      Point_t<3>{-SQRT_2, 0, SQRT_2},
+    //      Point_t<3>{0, -SQRT_2, SQRT_2},
+    //      Point_t<3>{SQRT_3, SQRT_3, SQRT_3 }
+    //    };
+    //    vector<size_t>       timevalue{1, 2, 2, 2, 2, 3};
     Causal_vertices_t<3> causal_vertices;
     causal_vertices.reserve(vertices.size());
     transform(
