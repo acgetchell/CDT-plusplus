@@ -115,9 +115,9 @@ Functions</h2></td></tr>
 <tr class="memitem:a94d5795780fde32a270da0b57472eb40"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#a94d5795780fde32a270da0b57472eb40">ergodic_moves::bistellar_flip</a> (Edge_handle_t&lt; 3 &gt; const &amp;t_edge, std::vector&lt; Cell_handle_t&lt; 3 &gt;&gt; const &amp;t_cells, <a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> &amp;t_manifold) -&gt; bool</td></tr>
 <tr class="memdesc:a94d5795780fde32a270da0b57472eb40"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform bistellar flip.  <a href="_ergodic__moves__3_8hpp.html#a94d5795780fde32a270da0b57472eb40">More...</a><br /></td></tr>
 <tr class="separator:a94d5795780fde32a270da0b57472eb40"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b66b55ac2ca43106cb98b8a0dd749de"><td class="memItemLeft" align="right" valign="top"><a id="a9b66b55ac2ca43106cb98b8a0dd749de"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistellar_flip_really</b> (<a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> &amp;t_manifold, Cell_handle_t&lt; 3 &gt; b_1, Cell_handle_t&lt; 3 &gt; b_2, Cell_handle_t&lt; 3 &gt; b_3, Cell_handle_t&lt; 3 &gt; b_4, Vertex_handle_t&lt; 3 &gt; pivot_from_vertex_1, Vertex_handle_t&lt; 3 &gt; pivot_from_vertex_2, Vertex_handle_t&lt; 3 &gt; pivot_to_vertex_1, Vertex_handle_t&lt; 3 &gt; pivot_to_vertex_2, Vertex_handle_t&lt; 3 &gt; top, Vertex_handle_t&lt; 3 &gt; bottom) -&gt; bool</td></tr>
-<tr class="separator:a9b66b55ac2ca43106cb98b8a0dd749de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abe2bade07d5f9a7996bcc217b841c6b0"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#abe2bade07d5f9a7996bcc217b841c6b0">ergodic_moves::bistellar_flip_really</a> (Delaunay_t&lt; 3 &gt; &amp;t_triangulation, Cell_handle_t&lt; 3 &gt; b_1, Cell_handle_t&lt; 3 &gt; b_2, Cell_handle_t&lt; 3 &gt; b_3, Cell_handle_t&lt; 3 &gt; b_4, Vertex_handle_t&lt; 3 &gt; pivot_from_1, Vertex_handle_t&lt; 3 &gt; pivot_from_2, Vertex_handle_t&lt; 3 &gt; pivot_to_1, Vertex_handle_t&lt; 3 &gt; pivot_to_2, Vertex_handle_t&lt; 3 &gt; top, Vertex_handle_t&lt; 3 &gt; bottom) -&gt; bool</td></tr>
+<tr class="memdesc:abe2bade07d5f9a7996bcc217b841c6b0"><td class="mdescLeft">&#160;</td><td class="mdescRight">Perform a bistellar flip.  <a href="_ergodic__moves__3_8hpp.html#abe2bade07d5f9a7996bcc217b841c6b0">More...</a><br /></td></tr>
+<tr class="separator:abe2bade07d5f9a7996bcc217b841c6b0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:af03a6989020daa08c8c75a54482b4649"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">ergodic_moves::check_move</a> (<a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> const &amp;t_before, <a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold3</a> const &amp;t_after, move_tracker::move_type const &amp;t_move) -&gt; bool</td></tr>
 <tr class="memdesc:af03a6989020daa08c8c75a54482b4649"><td class="mdescLeft">&#160;</td><td class="mdescRight">Check move correctness.  <a href="_ergodic__moves__3_8hpp.html#af03a6989020daa08c8c75a54482b4649">More...</a><br /></td></tr>
 <tr class="separator:af03a6989020daa08c8c75a54482b4649"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -158,7 +158,6 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Pachner moves on 2+1 dimensional foliated Delaunay triangulations. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Invoke complete set of ergodic (Pachner) moves </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -221,11 +220,135 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 <dd>
 <a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aee7bebae22e4fe9094b744d8ea54d28b">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aee7bebae22e4fe9094b744d8ea54d28b</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00605">605</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00610">610</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00605">ergodic_moves::bistellar_flip()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00610">ergodic_moves::bistellar_flip()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00605">ergodic_moves::bistellar_flip()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00717">ergodic_moves::do_44_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00610">ergodic_moves::bistellar_flip()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00723">ergodic_moves::do_44_move()</a>.</p>
+
+</div>
+</div>
+<a id="abe2bade07d5f9a7996bcc217b841c6b0"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#abe2bade07d5f9a7996bcc217b841c6b0">&#9670;&nbsp;</a></span>bistellar_flip_really()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto ergodic_moves::bistellar_flip_really </td>
+          <td>(</td>
+          <td class="paramtype">Delaunay_t&lt; 3 &gt; &amp;&#160;</td>
+          <td class="paramname"><em>t_triangulation</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>b_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>b_2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>b_3</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Cell_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>b_4</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>pivot_from_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>pivot_from_2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>pivot_to_1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>pivot_to_2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>top</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>bottom</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; bool
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Perform a bistellar flip. </p>
+<p>This function performs a bistellar flip on a complex of 4 cells sharing a common edge. The 6 vertices of the complex remain the same, but the common edge is rotated from the pair of vertices denoted by pivot_from_1 and pivot_from_2 to the pair of vertices denoted by pivot_to_1 and pivot_to_2. The external neighbors of the complex should be preserved. </p><div class="image">
+<img src="44.png" alt=""/>
+</div>
+ <dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_triangulation</td><td>The Delaunay triangulation </td></tr>
+    <tr><td class="paramname">b_1</td><td>The cell containing top, pivot_from_1, pivot_from_2, and pivot_to_1 </td></tr>
+    <tr><td class="paramname">b_2</td><td>The cell containing top, pivot_from_1, pivot_from_2, and pivot_to_2 </td></tr>
+    <tr><td class="paramname">b_3</td><td>The cell containing bottom, pivot_from_1, pivot_from_2, and pivot_to_1 </td></tr>
+    <tr><td class="paramname">b_4</td><td>The cell containing bottom, pivot_from_1, pivot_from_2, and pivot_to_2 </td></tr>
+    <tr><td class="paramname">pivot_from_1</td><td>The first vertex of the pivot edge </td></tr>
+    <tr><td class="paramname">pivot_from_2</td><td>The second vertex of the pivot edge </td></tr>
+    <tr><td class="paramname">pivot_to_1</td><td>The first vertex of the new edge </td></tr>
+    <tr><td class="paramname">pivot_to_2</td><td>The second vertex of the new edge </td></tr>
+    <tr><td class="paramname">top</td><td>The top vertex of the two top cells </td></tr>
+    <tr><td class="paramname">bottom</td><td>The bottom vertex of the two bottom cells </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>True if bistellar flip succeeded </dd></dl>
+<dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8</a> </dd>
+<dd>
+<a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7</a> </dd>
+<dd>
+<a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1</a> </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">537</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">ergodic_moves::bistellar_flip_really()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00537">ergodic_moves::bistellar_flip_really()</a>.</p>
 
 </div>
 </div>
@@ -281,11 +404,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>True if the move correctly changed the triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00757">757</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00765">765</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00757">ergodic_moves::check_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00765">ergodic_moves::check_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00757">ergodic_moves::check_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00765">ergodic_moves::check_move()</a>.</p>
 
 </div>
 </div>
@@ -326,11 +449,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (2,3) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00076">76</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00075">75</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00076">ergodic_moves::do_23_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00075">ergodic_moves::do_23_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00076">ergodic_moves::do_23_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00075">ergodic_moves::do_23_move()</a>.</p>
 
 </div>
 </div>
@@ -360,13 +483,10 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Perform a (2,6) move. </p>
-<p>A (2,6) move inserts a vertex into the spacelike face between a (1,3) simplex on the bottom connected to a (3,1) simplex on top. This adds 2 (1,3) simplices and 2 (3,1) simplices. It adds 2 spacelike faces and 6 timelike faces. It also adds 2 timelike edges and 3 spacelike edges, as well as the vertex.</p>
-<p>This function calls find_adjacent_31_cell on (1,3) simplices drawn from a randomly shuffled container until it succeeds or runs out of simplices.</p>
-<p>If successful, the triangulation is no longer Delaunay.</p>
-<div class="image">
+<p>A (2,6) move inserts a vertex into the spacelike face between a (1,3) simplex on the bottom connected to a (3,1) simplex on top. This adds 2 (1,3) simplices and 2 (3,1) simplices. It adds 2 spacelike faces and 6 timelike faces. It also adds 2 timelike edges and 3 spacelike edges, as well as the vertex. This function calls find_adjacent_31_cell on (1,3) simplices drawn from a randomly shuffled container until it succeeds or runs out of simplices. If successful, the triangulation is no longer Delaunay. </p><div class="image">
 <img src="26.png" alt=""/>
 </div>
- <dl class="params"><dt>Parameters</dt><dd>
+  <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_manifold</td><td>The simplicial manifold </td></tr>
   </table>
@@ -374,11 +494,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (2,6) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00202">202</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00190">190</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00202">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">ergodic_moves::find_adjacent_31_cell()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00190">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00157">ergodic_moves::find_adjacent_31_cell()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00202">ergodic_moves::do_26_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00190">ergodic_moves::do_26_move()</a>.</p>
 
 </div>
 </div>
@@ -408,10 +528,7 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Perform a (3,2) move. </p>
-<p>A (3,2) move "flips" a timelike edge into a timelike face. This removes a (2,2) simplex and the timelike edge.</p>
-<p>This function calls try_32_move on timelike edges drawn from a randomly shuffled container until it succeeds or runs out of edges.</p>
-<p>If successful, the triangulation is no longer Delaunay.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>A (3,2) move "flips" a timelike edge into a timelike face. This removes a (2,2) simplex and the timelike edge. This function calls try_32_move on timelike edges drawn from a randomly shuffled container until it succeeds or runs out of edges. If successful, the triangulation is no longer Delaunay. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_manifold</td><td>The simplicial manifold </td></tr>
   </table>
@@ -419,11 +536,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (3,2) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00135">135</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00130">130</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00135">ergodic_moves::do_32_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00130">ergodic_moves::do_32_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00135">ergodic_moves::do_32_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00130">ergodic_moves::do_32_move()</a>.</p>
 
 </div>
 </div>
@@ -453,7 +570,7 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Perform a (4,4) move. </p>
-<p>A (4,4) move flips an edge which has exactly 4 incident cells. In CDT specifically, the edge is spacelike and the 4 incident cells are a pair of (1,3) simplices and a pair of (3,1) simplices. It thus re-labels each of the 4 cells in the complex, but doesn't actually change the number of cells, vertices, or edges. This move has the effect of mixing up the simplices, thus possibly creating different potential moves in different locations.</p>
+<p>This is a bistellar flip pivoting the internal spacelike edge between the two spacelike faces. A (4,4) move flips an edge which has exactly 4 incident cells. In CDT specifically, the edge is spacelike and the 4 incident cells are a pair of (1,3) simplices and a pair of (3,1) simplices. It thus re-labels each of the 4 cells in the complex, but doesn't actually change the number of cells, vertices, or edges. This move has the effect of mixing up the simplices, thus possibly creating different potential moves in different locations.</p>
 <p>This function calls is_44_movable() on a randomly shuffled container of edges until it succeeds or runs out of edges.</p>
 <p>If successful, the triangulation remains Delaunay. (Other moves may change this, however.)</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -463,13 +580,12 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
   </dd>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (4,4) moved manifold </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000002">Todo:</a></b></dt><dd>Fix this move to do something </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00717">717</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00723">723</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00605">ergodic_moves::bistellar_flip()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00717">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00497">ergodic_moves::find_44_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00610">ergodic_moves::bistellar_flip()</a>, <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00723">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00480">ergodic_moves::find_44_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00717">ergodic_moves::do_44_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00723">ergodic_moves::do_44_move()</a>.</p>
 
 </div>
 </div>
@@ -499,7 +615,7 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Perform a (6,2) move. </p>
-<p>A (6,2) move removes a vertex which has 3 incident (3,1) simplices and 3 (1,3) simplices for a total of 6 incident simplices exactly. This converts the 3 (1,3) simplices into a single (1,3) simplex on the bottom and the 3 (3,1) simplices into a single (3,1) simplex on top. It thus removes 2 (1,3) simplices, 2 (3,1) simplices, 2 spacelike faces, 6 timelike faces, 3 spacelike edges, 2 timelike edges, and a single vertex.</p>
+<p>This function performs a (6,2) move on the given manifold. A (6,2) move removes a vertex which has 3 incident (3,1) simplices and 3 (1,3) simplices for a total of 6 incident simplices exactly. This converts the 3 (1,3) simplices into a single (1,3) simplex on the bottom and the 3 (3,1) simplices into a single (3,1) simplex on top. It thus removes 2 (1,3) simplices, 2 (3,1) simplices, 2 spacelike faces, 6 timelike faces, 3 spacelike edges, 2 timelike edges, and a single vertex.</p>
 <p>This function calls <a class="el" href="_ergodic__moves__3_8hpp.html#a3fdcd5ecfd36ccaa82ba49b88e221f6f" title="Find a (6,2) move location.">is_62_movable()</a> on a randomly shuffled container of vertices until it succeeds or runs out of vertices.</p>
 <p>If successful, the triangulation remains Delaunay. (Other moves may change this, however.)</p>
 <dl class="params"><dt>Parameters</dt><dd>
@@ -510,11 +626,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The (6,2) moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00460">460</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00445">445</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00460">ergodic_moves::do_62_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00445">ergodic_moves::do_62_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00460">ergodic_moves::do_62_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00445">ergodic_moves::do_62_move()</a>.</p>
 
 </div>
 </div>
@@ -554,8 +670,7 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Find a (4,4) move location. </p>
-<p>This function checks to see if a (4,4) move is possible. Starting with a spacelike edge, it checks all incident cells. There must be 4 incident cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices, and there should be no (2,2) simplices.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>This function checks to see if a (4,4) move is possible. Starting with a spacelike edge, it checks all incident cells. There must be 4 incident cells; 2 should be (3,1) simplices, 2 should be (1,3) simplices, and there should be no (2,2) simplices. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_manifold</td><td>The simplicial manifold </td></tr>
     <tr><td class="paramname">t_edge_candidate</td><td>The edge to check </td></tr>
@@ -564,11 +679,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of incident cells if there are exactly 4 of them </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00497">497</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00480">480</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00497">ergodic_moves::find_44_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00480">ergodic_moves::find_44_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00717">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00497">ergodic_moves::find_44_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00723">ergodic_moves::do_44_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00480">ergodic_moves::find_44_move()</a>.</p>
 
 </div>
 </div>
@@ -598,8 +713,7 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Find a (2,6) move location. </p>
-<p>This function checks to see if a (2,6) move is possible. Starting with a (1,3) simplex, it checks neighbors for a (3,1) simplex.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>This function checks to see if a (2,6) move is possible. Starting with a (1,3) simplex, it checks neighbors for a (3,1) simplex. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">t_cell</td><td>The (1,3) simplex that is checked </td></tr>
   </table>
@@ -607,11 +721,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The integer of the neighboring (3,1) simplex if there is one </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">164</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00157">157</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">ergodic_moves::find_adjacent_31_cell()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00157">ergodic_moves::find_adjacent_31_cell()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00202">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00164">ergodic_moves::find_adjacent_31_cell()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00190">ergodic_moves::do_26_move()</a>, and <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00157">ergodic_moves::find_adjacent_31_cell()</a>.</p>
 
 </div>
 </div>
@@ -651,8 +765,7 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </div><div class="memdoc">
 
 <p>Find a (6,2) move location. </p>
-<p>This function checks to see if a (6,2) move is possible. Starting with a vertex, it checks all incident cells. There must be 6 incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices, and there should be no (2,2) simplices.</p>
-<dl class="params"><dt>Parameters</dt><dd>
+<p>This function checks to see if a (6,2) move is possible. Starting with a vertex, it checks all incident cells. There must be 6 incident cells; 3 should be (3,1) simplices, 3 should be (1,3) simplices, and there should be no (2,2) simplices. </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">manifold</td><td>The simplicial manifold </td></tr>
     <tr><td class="paramname">candidate</td><td>The vertex to check </td></tr>
@@ -661,11 +774,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>If (6,2) move is possible </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00356">356</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00341">341</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00356">ergodic_moves::is_62_movable()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00341">ergodic_moves::is_62_movable()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00356">ergodic_moves::is_62_movable()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00341">ergodic_moves::is_62_movable()</a>.</p>
 
 </div>
 </div>
@@ -703,11 +816,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The null-moved manifold </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00028">28</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00027">27</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00028">ergodic_moves::null_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00027">ergodic_moves::null_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00028">ergodic_moves::null_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00027">ergodic_moves::null_move()</a>.</p>
 
 </div>
 </div>
@@ -757,11 +870,11 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 <dl class="section return"><dt>Returns</dt><dd>If move succeeded </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00040">40</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">39</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00040">ergodic_moves::try_23_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">ergodic_moves::try_23_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00040">ergodic_moves::try_23_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00039">ergodic_moves::try_23_move()</a>.</p>
 
 </div>
 </div>
@@ -811,18 +924,18 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><b>ergodic_moves::bistel
 <dl class="section return"><dt>Returns</dt><dd>If move succeeded </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033</a> </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">105</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00104">104</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">ergodic_moves::try_32_move()</a>.</p>
+<p class="reference">References <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00104">ergodic_moves::try_32_move()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00105">ergodic_moves::try_32_move()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00104">ergodic_moves::try_32_move()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Apr 6 2022 06:01:05 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 15 2022 07:34:55 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
