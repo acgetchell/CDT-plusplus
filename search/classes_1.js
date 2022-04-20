@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['geometry_276',['Geometry',['../struct_geometry.html',1,'']]],
-  ['geometry_3c_203_20_3e_277',['Geometry&lt; 3 &gt;',['../struct_geometry_3_013_01_4.html',1,'']]],
-  ['geometry_3c_204_20_3e_278',['Geometry&lt; 4 &gt;',['../struct_geometry_3_014_01_4.html',1,'']]],
-  ['geometry_3c_20manifoldtype_3a_3adimension_20_3e_279',['Geometry&lt; ManifoldType::dimension &gt;',['../struct_geometry.html',1,'']]]
+  ['foliatedtriangulation_285',['FoliatedTriangulation',['../classfoliated__triangulations_1_1_foliated_triangulation.html',1,'foliated_triangulations']]],
+  ['foliatedtriangulation_3c_203_20_3e_286',['FoliatedTriangulation&lt; 3 &gt;',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html',1,'foliated_triangulations']]],
+  ['foliatedtriangulation_3c_204_20_3e_287',['FoliatedTriangulation&lt; 4 &gt;',['../classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html',1,'foliated_triangulations']]]
 ];

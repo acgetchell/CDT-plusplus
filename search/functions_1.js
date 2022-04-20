@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['bistellar_5fflip_328',['bistellar_flip',['../_ergodic__moves__3_8hpp.html#a94d5795780fde32a270da0b57472eb40',1,'ergodic_moves']]],
-  ['bistellar_5fflip_5freally_329',['bistellar_flip_really',['../_ergodic__moves__3_8hpp.html#abe2bade07d5f9a7996bcc217b841c6b0',1,'ergodic_moves']]]
+  ['bistellar_5fflip_340',['bistellar_flip',['../_ergodic__moves__3_8hpp.html#af2069538a4da0eed5a232ace035aaaaf',1,'ergodic_moves']]],
+  ['bistellar_5fflip_5freally_341',['bistellar_flip_really',['../_ergodic__moves__3_8hpp.html#a98015480c034f1917e7c4fbd6ea23407',1,'ergodic_moves']]]
 ];
