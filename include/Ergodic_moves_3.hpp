@@ -643,7 +643,7 @@ namespace ergodic_moves
   /// @param t_edge The common edge among the 4 simplices to flip
   /// @param t_cells The 4 cells common to the edge
   /// @param t_manifold The simplicial manifold
-  /// @return A manifold with the flip applied if successful, otherwise nullopt
+  /// @return A manifold with the flip applied if successful
   /// @see https://dl.acm.org/doi/10.1145/777792.777821
   /// @see
   /// https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h
@@ -785,7 +785,7 @@ namespace ergodic_moves
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
   /// @todo Need to debug bistellar_flip_really()
-  [[nodiscard]] inline auto do_44_move(manifolds::Manifold3& t_manifold)
+  [[nodiscard]] inline auto do_44_move(manifolds::Manifold3 const& t_manifold)
       -> Expected
   {
 #ifndef NDEBUG
@@ -815,8 +815,10 @@ namespace ergodic_moves
         //          result.value().print_cells();
         //          return result.value();
         //        }
+
+        // For now, just return the manifold - essentially a null move
+        return t_manifold;
       }
-      // For now, just return the manifold
       // Try next edge
     }
     // We've run out of edges to try
