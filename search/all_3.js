@@ -9,7 +9,7 @@ var searchData=
   ['do_5f23_5fmove_44',['do_23_move',['../_ergodic__moves__3_8hpp.html#adc95cf983abc1bad71de22122cdb012f',1,'ergodic_moves']]],
   ['do_5f26_5fmove_45',['do_26_move',['../_ergodic__moves__3_8hpp.html#a59ac3618f1cfaa50a138f7d4fd52d809',1,'ergodic_moves']]],
   ['do_5f32_5fmove_46',['do_32_move',['../_ergodic__moves__3_8hpp.html#aca77b6cb169c883cbabb5344d611ffc9',1,'ergodic_moves']]],
-  ['do_5f44_5fmove_47',['do_44_move',['../_ergodic__moves__3_8hpp.html#a15271475bfc60532ba0d0efa4017aa1a',1,'ergodic_moves']]],
+  ['do_5f44_5fmove_47',['do_44_move',['../_ergodic__moves__3_8hpp.html#af25d9608ead7fbf5f41429ec935260b3',1,'ergodic_moves']]],
   ['do_5f62_5fmove_48',['do_62_move',['../_ergodic__moves__3_8hpp.html#afb70e0877b4d630fb23ab26cf67aa395',1,'ergodic_moves']]],
   ['does_5fvertex_5fradius_5fmatch_5ftimevalue_49',['does_vertex_radius_match_timevalue',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6874b57f398028aaf5e0ce7e1b7408eb',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]]
 ];
