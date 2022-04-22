@@ -164,7 +164,9 @@ Build</h1>
 </div><!-- fragment --><p>To get <a href="https://www.cmake.org">CMake</a> and the build scripts to run correctly, you'll need to set <code>$VCPKG_ROOT</code> to wherever you cloned <a href="https://github.com/Microsoft/vcpkg">vcpkg</a>, e.g.</p>
 <div class="fragment"><div class="line">export VCPKG_ROOT=&quot;$HOME/vcpkg&quot;</div>
 </div><!-- fragment --><p>This will set the <code>CMAKE_TOOLCHAIN_FILE</code> option for <a href="https://www.cmake.org">CMake</a>.</p>
-<p>You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:</p>
+<p>You may also need to set <code>VCPKG_DEFAULT_TRIPLET</code> to your platform <a href="https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks">triplet</a>, e.g.</p>
+<div class="fragment"><div class="line">export VCPKG_DEFAULT_TRIPLET=&quot;x64-linux&quot;</div>
+</div><!-- fragment --><p>You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:</p>
 <div class="fragment"><div class="line">vcpkg install --feature-flags=manifests</div>
 </div><!-- fragment --><p>At this point, you can build via the scripts in <code>scripts</code>, which will build the project and install the dependencies into <code>vcpkg_installed</code>.</p>
 <h2><a class="anchor" id="autotoc_md8"></a>
@@ -295,13 +297,15 @@ Contribute</h1>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Issues</h1>
 <p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a>'s version of <a href="https://howardhinnant.github.io/date/date.html">date</a> has an unfixed bug <a href="https://github.com/microsoft/vcpkg/issues/23637">#23637</a> which produces <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</p>
-<p><a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> also produces (<a href="https://github.com/catchorg/Catch2/issues/2395">#2395</a>) <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</p>
-<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>) for which there is pull request <a href="https://github.com/docopt/docopt.cpp/pull/150">#150</a>. </p>
+<p><a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> also produces (<a href="https://github.com/catchorg/Catch2/issues/2395">#2395</a>) <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, but this won't be addressed.</p>
+<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>).</p>
+<p><a href="https://gmplib.org">GMP</a> won't build on <code>arm64-windows</code> so that platform is not supported <a href="https://github.com/microsoft/vcpkg/issues/24323">#24323</a>.</p>
+<p><code>harupy/find-trailing-whitespace</code> has a pull-request to only check changed files <a href="https://github.com/harupy/find-trailing-whitespace/pull/18">#18</a>, until then it fails from finding whitespace in graphic files for <a href="http://www.doxygen.org">Doxygen</a>. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Apr 21 2022 19:50:10 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Fri Apr 22 2022 05:25:36 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
