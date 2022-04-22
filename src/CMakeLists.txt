@@ -85,6 +85,10 @@ else()
 endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
+add_executable(bistellar ${PROJECT_SOURCE_DIR}/src/bistellar.cpp)
+target_link_libraries(bistellar PRIVATE project_options project_warnings fmt::fmt-header-only CGAL::CGAL)
+target_compile_features(bistellar PRIVATE cxx_std_20)
+
 #
 # Tests    ##
 #

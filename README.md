@@ -142,6 +142,12 @@ export VCPKG_ROOT="$HOME/vcpkg"
 
 This will set the `CMAKE_TOOLCHAIN_FILE` option for [CMake].
 
+You may also need to set `VCPKG_DEFAULT_TRIPLET` to your platform [triplet], e.g.
+
+```bash
+export VCPKG_DEFAULT_TRIPLET="x64-linux"
+```
+
 You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:
 
 ```
@@ -371,15 +377,20 @@ Optional:
 
 [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
-[Catch] also produces ([#2395]) `use-of-uninitialized-value` in [MemorySanitizer].
+[Catch] also produces ([#2395]) `use-of-uninitialized-value` in [MemorySanitizer], but this won't be addressed.
 
-[Docopt] also has a `use-of-uninitialized-value` bug ([#149]) for which there is pull request [#150].
+[Docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
+[GMP] won't build on `arm64-windows` so that platform is not supported [#24323].
+
+`harupy/find-trailing-whitespace` has a pull-request to only check changed files [#18], until then it fails from finding
+whitespace in graphic files for [Doxygen].
+
+[#18]: https://github.com/harupy/find-trailing-whitespace/pull/18
+[#24323]: https://github.com/microsoft/vcpkg/issues/24323
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#2395]: https://github.com/catchorg/Catch2/issues/2395
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
-[#150]: https://github.com/docopt/docopt.cpp/pull/150
-
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
@@ -470,3 +481,4 @@ Optional:
 [vcpkg.json]: https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
 [spdlog]: https://github.com/gabime/spdlog
+[triplet]: https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks
