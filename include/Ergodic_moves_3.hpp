@@ -485,15 +485,19 @@ namespace ergodic_moves
     if (!t_manifold.is_edge(t_edge_candidate)) { return std::nullopt; }
 
     // Create the circulator of cells around the edge, starting with the cell
-    // the edge is in
+    // containing the edge
     auto circulator =
         t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
     std::vector<Cell_handle_t<3>> incident_cells;
     do {
-      incident_cells.emplace_back(circulator++);
+      // filter out boundary edges with incident infinite cells
+      if (!t_manifold.get_triangulation().is_infinite(circulator))
+      {
+        incident_cells.emplace_back(circulator);
+      }
     }
-    while (circulator != t_edge_candidate.first);
+    while (++circulator != t_edge_candidate.first);
 #ifndef NDEBUG
     spdlog::trace("Edge has {} incident cells.\n", incident_cells.size());
 #endif
