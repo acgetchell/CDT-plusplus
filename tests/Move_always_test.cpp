@@ -4,7 +4,7 @@
  Copyright © 2015 Adam Getchell
  ******************************************************************************/
 
-/// @file Move_strategies_test.cpp
+/// @file Move_always_test.cpp
 /// @brief Tests for the Move Always algorithm
 /// @author Adam Getchell
 

@@ -1,6 +1,12 @@
-//
-// Created by Adam Getchell on 4/21/22.
-//
+/// @file bistellar.cpp
+/// @brief Example bistellar fip
+/// @author Adam Getchell
+/// @details Show how to use the bistellar_flip functions on a 3D triangulation.
+/// Some convenience functions are defined here because the internal
+/// functions of the Triangulation_3 class are not currently accessible to
+/// the bistellar_flip functions.
+/// @date Created: 2021-04-21
+
 #include <CGAL/circulator.h>
 #include <CGAL/Delaunay_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>

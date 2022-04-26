@@ -4,7 +4,7 @@
  Copyright © 2017 Adam Getchell
  ******************************************************************************/
 
-/// @file Function_ref.cpp
+/// @file Function_ref_test.cpp
 /// @brief Tests on function pointers, lambdas, and function_refs
 /// @author Adam Getchell
 /// @details Tests for lambdas and function_refs to store function objects for
