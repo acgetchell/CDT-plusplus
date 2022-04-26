@@ -121,3 +121,6 @@ set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
 
 add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
 set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
+
+add_test(NAME bistellar COMMAND $<TARGET_FILE:bistellar>)
+set_tests_properties(bistellar PROPERTIES WILL_FAIL FALSE)

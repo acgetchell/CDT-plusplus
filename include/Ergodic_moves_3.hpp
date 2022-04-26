@@ -370,6 +370,7 @@ namespace ergodic_moves
 
     // Obtain all incident cells
     auto const incident_cells = manifold.incident_cells(candidate);
+
     // We must have 6 cells incident to the vertex to make a (6,2) move
     if (incident_cells.size() != 6)  // NOLINT
     {
@@ -377,6 +378,18 @@ namespace ergodic_moves
       spdlog::trace("Vertex has {} incident cells.\n", incident_cells.size());
 #endif
       return false;
+    }
+
+    // Check that none of the incident cells are infinite
+    for (auto const& cell : incident_cells)
+    {
+      if (manifold.get_triangulation().is_infinite(cell))
+      {
+#ifndef NDEBUG
+        spdlog::trace("Cell is infinite.\n");
+#endif
+        return false;
+      }
     }
 
     // Run until all vertices are fixed
@@ -559,6 +572,7 @@ namespace ergodic_moves
   /// @image html 44.png
   /// @param args A struct containing the arguments for the bistellar flip
   /// @return A delaunay triangulation with the bistellar flip performed
+  /// @see bistellar.cpp
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
   /// @see
