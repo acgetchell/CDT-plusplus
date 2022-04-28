@@ -83,7 +83,7 @@ var sectionId = 'dynsection-1';
 <!-- Node11 -->
 <g id="node11" class="node">
 <title>Node11</title>
-<g id="a_node11"><a xlink:href="bistellar_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node11"><a xlink:href="bistellar_8cpp.html" target="_top" xlink:title="Example bistellar fip.">
 <polygon fill="white" stroke="black" points="408,-185 408,-204 501,-204 501,-185 408,-185"/>
 <text text-anchor="middle" x="454.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">src/bistellar.cpp</text>
 </a>
@@ -129,7 +129,7 @@ var sectionId = 'dynsection-1';
 <!-- Node14 -->
 <g id="node14" class="node">
 <title>Node14</title>
-<g id="a_node14"><a xlink:href="_function__ref__test_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node14"><a xlink:href="_function__ref__test_8cpp.html" target="_top" xlink:title="Tests on function pointers, lambdas, and function_refs.">
 <polygon fill="white" stroke="black" points="822.5,-179.5 822.5,-209.5 926.5,-209.5 926.5,-179.5 822.5,-179.5"/>
 <text text-anchor="start" x="830.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Function_ref</text>
 <text text-anchor="middle" x="874.5" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
@@ -257,7 +257,7 @@ var sectionId = 'dynsection-1';
 <!-- Node9 -->
 <g id="node9" class="node">
 <title>Node9</title>
-<g id="a_node9"><a xlink:href="_move__always__test_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node9"><a xlink:href="_move__always__test_8cpp.html" target="_top" xlink:title="Tests for the Move Always algorithm.">
 <polygon fill="white" stroke="black" points="353,-0.5 353,-19.5 508,-19.5 508,-0.5 353,-0.5"/>
 <text text-anchor="middle" x="430.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_always_test.cpp</text>
 </a>

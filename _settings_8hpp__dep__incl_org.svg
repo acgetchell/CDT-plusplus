@@ -112,7 +112,7 @@
 <!-- Node17 -->
 <g id="node17" class="node">
 <title>Node17</title>
-<g id="a_node17"><a xlink:href="bistellar_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node17"><a xlink:href="bistellar_8cpp.html" target="_top" xlink:title="Example bistellar fip.">
 <polygon fill="white" stroke="black" points="0,-185 0,-204 93,-204 93,-185 0,-185"/>
 <text text-anchor="middle" x="46.5" y="-192" font-family="Helvetica,sans-Serif" font-size="10.00">src/bistellar.cpp</text>
 </a>
@@ -362,7 +362,7 @@
 <!-- Node20 -->
 <g id="node20" class="node">
 <title>Node20</title>
-<g id="a_node20"><a xlink:href="_function__ref__test_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node20"><a xlink:href="_function__ref__test_8cpp.html" target="_top" xlink:title="Tests on function pointers, lambdas, and function_refs.">
 <polygon fill="white" stroke="black" points="279.5,-179.5 279.5,-209.5 383.5,-209.5 383.5,-179.5 279.5,-179.5"/>
 <text text-anchor="start" x="287.5" y="-197.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Function_ref</text>
 <text text-anchor="middle" x="331.5" y="-186.5" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
@@ -490,7 +490,7 @@
 <!-- Node15 -->
 <g id="node15" class="node">
 <title>Node15</title>
-<g id="a_node15"><a xlink:href="_move__always__test_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node15"><a xlink:href="_move__always__test_8cpp.html" target="_top" xlink:title="Tests for the Move Always algorithm.">
 <polygon fill="white" stroke="black" points="554,-0.5 554,-19.5 709,-19.5 709,-0.5 554,-0.5"/>
 <text text-anchor="middle" x="631.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_always_test.cpp</text>
 </a>

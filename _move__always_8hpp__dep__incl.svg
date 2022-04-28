@@ -36,7 +36,7 @@
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:href="_move__always__test_8cpp_source.html" target="_top" xlink:title=" ">
+<g id="a_node3"><a xlink:href="_move__always__test_8cpp.html" target="_top" xlink:title="Tests for the Move Always algorithm.">
 <polygon fill="white" stroke="black" points="107,-0.5 107,-19.5 262,-19.5 262,-0.5 107,-0.5"/>
 <text text-anchor="middle" x="184.5" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_always_test.cpp</text>
 </a>
