@@ -151,7 +151,7 @@ export VCPKG_DEFAULT_TRIPLET="x64-linux"
 You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:
 
 ```
-vcpkg install --feature-flags=manifests
+vcpkg install
 ```
 
 At this point, you can build via the scripts in `scripts`, which will build the project and install

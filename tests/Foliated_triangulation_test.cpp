@@ -18,6 +18,7 @@ using namespace std;
 using namespace foliated_triangulations;
 
 static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+static inline double const INV_SQRT_2 = 1.0 / std::sqrt(2.0);  // NOLINT
 
 SCENARIO("FoliatedTriangulation special member and swap properties",
          "[triangulation]")
@@ -117,7 +118,7 @@ SCENARIO("FoliatedTriangulation special member and swap properties",
 
 SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
 {
-  spdlog::debug("FoliatedTriangulation functions.\n");
+  spdlog::debug("foliated_triangulation:: functions.\n");
   GIVEN("A small foliated triangulation.")
   {
     vector<Point_t<3>> Vertices{
@@ -876,6 +877,93 @@ SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
         };
         for_each(triangulation.get_vertices().begin(),
                  triangulation.get_vertices().end(), check);
+      }
+    }
+  }
+}
+
+SCENARIO("FoliatedTriangulation3 functions", "[triangulation]")
+{
+  spdlog::debug("FoliatedTriangulation3 functions.\n");
+  GIVEN("A triangulation setup for a (4,4) move")
+  {
+    vector<Point_t<3>> vertices{
+        Point_t<3>{          0,           0,          0},
+        Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{-INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{          0,           0,          2}
+    };
+    vector<size_t>       timevalue{1, 2, 2, 2, 2, 3};
+    Causal_vertices_t<3> causal_vertices;
+    causal_vertices.reserve(vertices.size());
+    transform(
+        vertices.begin(), vertices.end(), timevalue.begin(),
+        back_inserter(causal_vertices),
+        [](Point_t<3> point, size_t time) { return make_pair(point, time); });
+    FoliatedTriangulation3 triangulation(causal_vertices, 0, 1);
+    // Verify we have 6 vertices, 13 edges, 12 facets, and 4 cells
+    REQUIRE(triangulation.number_of_vertices() == 6);
+    REQUIRE(triangulation.number_of_finite_edges() == 13);
+    REQUIRE(triangulation.number_of_finite_facets() == 12);
+    REQUIRE(triangulation.number_of_finite_cells() == 4);
+    CHECK(triangulation.initial_radius() == 0);
+    CHECK(triangulation.foliation_spacing() == 1);
+    REQUIRE(triangulation.is_delaunay());
+    REQUIRE(triangulation.is_correct());
+    WHEN("We have a point in the triangulation.")
+    {
+      THEN("We can obtain the vertex")
+      {
+        auto vertex = triangulation.find_vertex(Point_t<3>{0, 0, 0});
+        REQUIRE(vertex);
+        CHECK(vertex.value()->point() == Point_t<3>{0, 0, 0});
+        CHECK(vertex.value()->info() == 1);
+        // Human verification
+        fmt::print(
+            "Point(0,0,0) was found as vertex ({}) with a timevalue of {}.\n",
+            vertex.value()->point(), vertex.value()->info());
+      }
+      WHEN("We choose a point not in the triangulation.")
+      {
+        THEN("No vertex is found.")
+        {
+          auto vertex = triangulation.find_vertex(Point_t<3>{3, 3, 3});
+          REQUIRE_FALSE(vertex);
+          // Human verification
+          fmt::print("Point(3,3,3) was not found.\n");
+        }
+      }
+      WHEN("We check vertices in a cell.")
+      {
+        THEN("The correct vertices yields the correct cell.")
+        {
+          auto v1 = triangulation.find_vertex(Point_t<3>{0, 0, 0});
+          auto v2 =
+              triangulation.find_vertex(Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
+          auto v3 =
+              triangulation.find_vertex(Point_t<3>{0, -INV_SQRT_2, INV_SQRT_2});
+          auto v4 =
+              triangulation.find_vertex(Point_t<3>{-INV_SQRT_2, 0, INV_SQRT_2});
+          auto cell = triangulation.find_cell(v1.value(), v2.value(),
+                                              v3.value(), v4.value());
+          CHECK(cell);
+          // Human verification
+          triangulation.print_cells();
+        }
+        THEN("The incorrect vertices does not return a cell.")
+        {
+          auto v1 = triangulation.find_vertex(Point_t<3>{0, 0, 0});
+          auto v2 =
+              triangulation.find_vertex(Point_t<3>{INV_SQRT_2, 0, INV_SQRT_2});
+          auto v3 =
+              triangulation.find_vertex(Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
+          auto v4   = triangulation.find_vertex(Point_t<3>{0, 0, 2});
+          auto cell = triangulation.find_cell(v1.value(), v2.value(),
+                                              v3.value(), v4.value());
+          REQUIRE_FALSE(cell);
+        }
       }
     }
   }

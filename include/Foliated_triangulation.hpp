@@ -1305,6 +1305,37 @@ namespace foliated_triangulations
       }
     }  // print_volume_per_timeslice
 
+    /// @return The vertex containing the point, if it exists
+    /// @see
+    /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140
+    [[nodiscard]] auto find_vertex(Point_t<3> const& t_point)
+        const->std::optional<Vertex_handle_t<3>>
+    {
+      if (Vertex_handle_t<3> vertex{nullptr};
+          m_triangulation.is_vertex(t_point, vertex))
+      {
+        return vertex;
+      }
+      return std::nullopt;
+    }  // find_vertex
+
+    /// @return The cell containing the vertices, if it exists
+    /// @see
+    /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646
+    [[nodiscard]] auto find_cell(Vertex_handle_t<3> const& t_vertex1,
+                                 Vertex_handle_t<3> const& t_vertex2,
+                                 Vertex_handle_t<3> const& t_vertex3,
+                                 Vertex_handle_t<3> const& t_vertex4)
+        const->std::optional<Cell_handle_t<3>>
+    {
+      if (Cell_handle_t<3> cell{nullptr}; m_triangulation.is_cell(
+              t_vertex1, t_vertex2, t_vertex3, t_vertex4, cell))
+      {
+        return cell;
+      }
+      return std::nullopt;
+    }  // find_cell
+
     /// @return Container of cells
     [[nodiscard]] auto get_cells() const->Cell_container const&
     {
