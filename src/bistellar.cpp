@@ -114,21 +114,23 @@ static inline double const INV_SQRT_2 = 1 / sqrt(2);
       });
   assert(new_pivot_vertices.size() == 2);
   return new_pivot_vertices;
-}
+}  // find_new_pivot
 
 /// @brief Build a Delaunay triangulation and test a bistellar flip
 auto main() -> int
 try
 {
   // Create a Delaunay triangulation
-  Delaunay      dt;
+  std::vector<Point_t<3>> vertices{
+      Point_t<3>{          0,           0,          0},
+      Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
+      Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
+      Point_t<3>{-INV_SQRT_2,           0, INV_SQRT_2},
+      Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
+      Point_t<3>{          0,           0,          2}
+  };
+  Delaunay dt(vertices.begin(), vertices.end());
 
-  Vertex_handle vh_bottom   = dt.insert(Point{0, 0, 0});
-  Vertex_handle vh_middle_1 = dt.insert(Point{INV_SQRT_2, 0, INV_SQRT_2});
-  Vertex_handle vh_middle_2 = dt.insert(Point{0, INV_SQRT_2, INV_SQRT_2});
-  Vertex_handle vh_middle_3 = dt.insert(Point{-INV_SQRT_2, 0, INV_SQRT_2});
-  Vertex_handle vh_middle_4 = dt.insert(Point{0, -INV_SQRT_2, INV_SQRT_2});
-  Vertex_handle vh_top      = dt.insert(Point{0, 0, 2});
   fmt::print("Before bistellar flip:\n");
   fmt::print("dt.dimension(): {}\n", dt.dimension());
   fmt::print("dt.number_of_vertices(): {}\n", dt.number_of_vertices());
@@ -147,6 +149,12 @@ try
   auto edges = get_edges(dt);
   assert(edges.size() == dt.number_of_finite_edges());
 
+  // Get top and bottom vertices
+  auto vh_top =
+      foliated_triangulations::find_vertex<3>(dt, Point_t<3>{0, 0, 2}).value();
+  auto vh_bottom =
+      foliated_triangulations::find_vertex<3>(dt, Point_t<3>{0, 0, 0}).value();
+
   // Flip the pivot
   if (auto pivot = find_pivot(dt, edges); pivot)
   {
@@ -157,26 +165,22 @@ try
                new_pivot[0]->point(), new_pivot[1]->point());
 
     // Calculate the cells that will be flipped
-    Cell_handle b_1 = nullptr;
-    Cell_handle b_2 = nullptr;
-    Cell_handle b_3 = nullptr;
-    Cell_handle b_4 = nullptr;
-    int         i1{0};
-    int         i2{0};
-    int         i3{0};
-    int         i4{0};
-    dt.is_cell(vh_top, pivot->first->vertex(pivot->second),
-               pivot->first->vertex(pivot->third), new_pivot[0], b_1, i1, i2,
-               i3, i4);
-    dt.is_cell(vh_top, pivot->first->vertex(pivot->second),
-               pivot->first->vertex(pivot->third), new_pivot[1], b_2, i1, i2,
-               i3, i4);
-    dt.is_cell(vh_bottom, pivot->first->vertex(pivot->second),
-               pivot->first->vertex(pivot->third), new_pivot[0], b_3, i1, i2,
-               i3, i4);
-    dt.is_cell(vh_bottom, pivot->first->vertex(pivot->second),
-               pivot->first->vertex(pivot->third), new_pivot[1], b_4, i1, i2,
-               i3, i4);
+    auto b_1 = foliated_triangulations::find_cell<3>(
+                   dt, vh_top, pivot->first->vertex(pivot->second),
+                   pivot->first->vertex(pivot->third), new_pivot[0])
+                   .value();
+    auto b_2 = foliated_triangulations::find_cell<3>(
+                   dt, vh_top, pivot->first->vertex(pivot->second),
+                   pivot->first->vertex(pivot->third), new_pivot[1])
+                   .value();
+    auto b_3 = foliated_triangulations::find_cell<3>(
+                   dt, vh_bottom, pivot->first->vertex(pivot->second),
+                   pivot->first->vertex(pivot->third), new_pivot[0])
+                   .value();
+    auto b_4 = foliated_triangulations::find_cell<3>(
+                   dt, vh_bottom, pivot->first->vertex(pivot->second),
+                   pivot->first->vertex(pivot->third), new_pivot[1])
+                   .value();
 
     // Flip the cells
     ergodic_moves::bistellar_flip_arguments arguments{
@@ -207,7 +211,8 @@ try
       fmt::print("dt.number_of_finite_edges(): {}\n",
                  dt.number_of_finite_edges());
       fmt::print("dt.is_valid(): {}\n", dt.is_valid());
-      auto new_cells = get_cells(dt);
+      assert(dt.is_valid());
+      auto new_cells = foliated_triangulations::get_all_finite_cells<3>(dt);
       foliated_triangulations::print_cells<3>(new_cells);
       return EXIT_SUCCESS;
     }

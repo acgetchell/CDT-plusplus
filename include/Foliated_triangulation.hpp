@@ -84,6 +84,77 @@ enum class Cell_type
 
 namespace foliated_triangulations
 {
+  /// @brief Returns a container of all the finite edges in the triangulation
+  /// @tparam dimension The dimensionality of the triangulation
+  /// @param delaunay The triangulation
+  /// @return Container of all the finite edges in the triangulation
+  template <int dimension>
+  [[nodiscard]] auto collect_edges(Delaunay_t<dimension> const& delaunay)
+  {
+    Expects(delaunay.is_valid());
+    std::vector<Edge_handle_t<dimension>> init_edges;
+    init_edges.reserve(delaunay.number_of_finite_edges());
+    for (auto eit = delaunay.finite_edges_begin();
+         eit != delaunay.finite_edges_end(); ++eit)
+    {
+      Cell_handle_t<3> const cell = eit->first;
+      Edge_handle_t<3> thisEdge{cell, cell->index(cell->vertex(eit->second)),
+                                cell->index(cell->vertex(eit->third))};
+      // Each edge is valid in the triangulation
+      Ensures(delaunay.tds().is_valid(thisEdge.first, thisEdge.second,
+                                      thisEdge.third));
+      init_edges.emplace_back(thisEdge);
+    }
+    Ensures(init_edges.size() == delaunay.number_of_finite_edges());
+    return init_edges;
+  }  // collect_edges
+
+  /// @brief Returns the vertex containing the given point
+  /// @tparam dimension The dimensionality of the triangulation
+  /// @param delaunay The triangulation
+  /// @param point The point to find the vertex for
+  /// @return The vertex containing the given point
+  /// @see
+  /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140
+  template <int dimension>
+  [[nodiscard]] auto find_vertex(Delaunay_t<dimension> const& delaunay,
+                                 Point_t<dimension> const&    point)
+      -> std::optional<Vertex_handle_t<dimension>>
+  {
+    if (Vertex_handle_t<dimension> vertex{nullptr};
+        delaunay.is_vertex(point, vertex))
+    {
+      return vertex;
+    }
+    return std::nullopt;
+  }  // find_vertex
+
+  /// @brief Returns the cell containing the vertices
+  /// @tparam dimension The dimensionality of the triangulation
+  /// @param delaunay The triangulation
+  /// @param vh1 The first vertex
+  /// @param vh2 The second vertex
+  /// @param vh3 The third vertex
+  /// @param vh4 The fourth vertex
+  /// @return The cell containing the vertices
+  /// @see
+  /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646
+  template <int dimension>
+  [[nodiscard]] auto find_cell(Delaunay_t<dimension> const&      delaunay,
+                               Vertex_handle_t<dimension> const& vh1,
+                               Vertex_handle_t<dimension> const& vh2,
+                               Vertex_handle_t<dimension> const& vh3,
+                               Vertex_handle_t<dimension> const& vh4)
+      -> std::optional<Cell_handle_t<dimension>>
+  {
+    if (Cell_handle_t<dimension> cell{nullptr};
+        delaunay.is_cell(vh1, vh2, vh3, vh4, cell))
+    {
+      return cell;
+    }
+    return std::nullopt;
+  }  // find_cell
+
   /// @tparam dimension The dimensionality of the simplices
   /// @return True if timevalue of lhs is less than rhs
   template <int dimension>
@@ -1304,37 +1375,6 @@ namespace foliated_triangulations
                    m_spacelike_facets.count(j));
       }
     }  // print_volume_per_timeslice
-
-    /// @return The vertex containing the point, if it exists
-    /// @see
-    /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140
-    [[nodiscard]] auto find_vertex(Point_t<3> const& t_point)
-        const->std::optional<Vertex_handle_t<3>>
-    {
-      if (Vertex_handle_t<3> vertex{nullptr};
-          m_triangulation.is_vertex(t_point, vertex))
-      {
-        return vertex;
-      }
-      return std::nullopt;
-    }  // find_vertex
-
-    /// @return The cell containing the vertices, if it exists
-    /// @see
-    /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646
-    [[nodiscard]] auto find_cell(Vertex_handle_t<3> const& t_vertex1,
-                                 Vertex_handle_t<3> const& t_vertex2,
-                                 Vertex_handle_t<3> const& t_vertex3,
-                                 Vertex_handle_t<3> const& t_vertex4)
-        const->std::optional<Cell_handle_t<3>>
-    {
-      if (Cell_handle_t<3> cell{nullptr}; m_triangulation.is_cell(
-              t_vertex1, t_vertex2, t_vertex3, t_vertex4, cell))
-      {
-        return cell;
-      }
-      return std::nullopt;
-    }  // find_cell
 
     /// @return Container of cells
     [[nodiscard]] auto get_cells() const->Cell_container const&
