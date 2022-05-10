@@ -2,7 +2,7 @@
   "name": "cdt-plusplus",
   "version": "0.1.8",
   "dependencies": [
-    "catch2",
+    "doctest",
     "date",
     "docopt",
     "fmt",

@@ -10,7 +10,8 @@
 /// @details Tests for lambdas and function_refs to store function objects for
 /// delayed calls
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
+
 #include <tl/function_ref.hpp>
 
 #include "Ergodic_moves_3.hpp"
@@ -18,7 +19,7 @@
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("Simple Lambda operations", "[function-ref]")
+SCENARIO("Simple Lambda operations")
 {
   constexpr auto increment_lambda = [](int a) { return ++a; };
   GIVEN("A simple lambda.")
@@ -40,7 +41,7 @@ SCENARIO("Simple Lambda operations", "[function-ref]")
   }
 }
 
-SCENARIO("Complex lambda operations", "[function-ref]")
+SCENARIO("Complex lambda operations")
 {
   GIVEN("A lambda storing a move.")
   {
@@ -69,7 +70,7 @@ SCENARIO("Complex lambda operations", "[function-ref]")
   }
 }
 
-SCENARIO("Function_ref operations", "[function-ref]")
+SCENARIO("Function_ref operations")
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {

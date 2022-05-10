@@ -10,12 +10,12 @@
 
 #include "Geometry.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 using namespace std;
 using namespace foliated_triangulations;
 
-SCENARIO("Geometry special member and swap properties", "[geometry]")
+SCENARIO("Geometry special member and swap properties")
 {
   spdlog::debug("Geometry special member and swap properties.\n");
   GIVEN("A 3-dimensional geometry.")
@@ -61,7 +61,7 @@ SCENARIO("Geometry special member and swap properties", "[geometry]")
   }
 }
 
-SCENARIO("3-Geometry classification", "[geometry]")
+SCENARIO("3-Geometry classification")
 {
   spdlog::debug("3-Geometry classification.\n");
   GIVEN("A small 3-dimensional geometry.")
@@ -116,7 +116,7 @@ SCENARIO("3-Geometry classification", "[geometry]")
   }
 }
 
-SCENARIO("3-Geometry initialization", "[geometry]")
+SCENARIO("3-Geometry initialization")
 {
   spdlog::debug("3-Geometry initialization.\n");
   GIVEN("A 3-dimensional geometry.")

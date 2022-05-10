@@ -10,13 +10,12 @@
 
 #include "Move_always.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
-         "[move always]")
+SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties")
 {
   spdlog::debug(
       "MoveStrategy<MOVE_ALWAYS> special member and swap properties.\n");
@@ -76,7 +75,7 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties",
   }
 }
 
-SCENARIO("MoveAlways member functions", "[move always]")
+SCENARIO("MoveAlways member functions")
 {
   spdlog::debug("MoveAlways member functions.\n");
   GIVEN("A correctly-constructed Manifold3.")
@@ -122,9 +121,9 @@ SCENARIO("MoveAlways member functions", "[move always]")
   }
 }
 
-// This may take a while, so the scenario is tagged with [.]
+// This may take a while, so the scenario decorated with doctest::skip()
 // to disable by default
-SCENARIO("Using the MoveAlways algorithm", "[.]")
+SCENARIO("Using the MoveAlways algorithm" * doctest::skip())
 {
   spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold3.")

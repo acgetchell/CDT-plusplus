@@ -11,14 +11,12 @@
 
 #include "Settings.hpp"
 
+#include <doctest/doctest.h>
 #include <fmt/format.h>
-
-#include <catch2/catch.hpp>
-#include <typeinfo>
 
 using namespace std;
 
-SCENARIO("Check settings", "[settings]")
+SCENARIO("Check settings")
 {
   GIVEN("Settings are retrieved.")
   {

@@ -11,13 +11,13 @@
 
 #include "Apply_move.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 #include "Ergodic_moves_3.hpp"
 
 using namespace std;
 
-SCENARIO("Apply an ergodic move to 2+1 manifolds", "[apply move][!mayfail]")
+SCENARIO("Apply an ergodic move to 2+1 manifolds" * doctest::may_fail())
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {

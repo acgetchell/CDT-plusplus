@@ -10,7 +10,7 @@
 /// @details Tests that 3D triangulated and foliated tetrahedrons are
 /// constructed correctly.
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 #include "Foliated_triangulation.hpp"
 
@@ -19,7 +19,7 @@ using namespace foliated_triangulations;
 
 static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
 
-SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
+SCENARIO("Construct a tetrahedron in a Delaunay triangulation")
 {
   using Causal_vertices = Causal_vertices_t<3>;
   using Point           = Point_t<3>;
@@ -77,7 +77,7 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation", "[tetrahedron]")
   }
 }
 
-SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
+SCENARIO("Find distances between points of the tetrahedron")
 {
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;
@@ -163,8 +163,7 @@ SCENARIO("Find distances between points of the tetrahedron", "[tetrahedron]")
   }
 }
 
-SCENARIO("Construct a foliated tetrahedron in a foliated triangulation",
-         "[tetrahedron]")
+SCENARIO("Construct a foliated tetrahedron in a foliated triangulation")
 {
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;

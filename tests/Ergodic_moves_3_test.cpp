@@ -11,7 +11,7 @@
 
 #include "Ergodic_moves_3.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 using namespace std;
 using namespace manifolds;
@@ -23,8 +23,7 @@ static inline double const INV_SQRT_3 = 1 / sqrt(3);      // NOLINT
 static inline double const SQRT_3     = sqrt(3);          // NOLINT
 
 SCENARIO(
-    "Perform ergodic moves on the minimal manifold necessary for that move",
-    "[ergodic moves]")
+    "Perform ergodic moves on the minimal manifold necessary for that move")
 {
   spdlog::debug(
       "Perform ergodic moves on the minimal simplicial complex necessary for "
@@ -330,7 +329,7 @@ SCENARIO(
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    vector<size_t>       timevalue{1, 2, 2, 2, 2, 3};
+    vector<size_t> timevalue{1, 2, 2, 2, 2, 3};
 
     //    Manifold3 manifold(causal_vertices, 0, 1);
     //    produces a bug where at some point during copy construction of

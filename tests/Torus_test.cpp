@@ -8,11 +8,11 @@
 /// @brief Tests for wraparound grids
 /// @author Adam Getchell
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 #include "Torus_d.hpp"
 
-SCENARIO("Torus construction", "[torus]")
+SCENARIO("Torus construction")
 {
   std::size_t constexpr NUMBER_OF_POINTS = 250;
   std::vector<Point> points;
@@ -28,7 +28,7 @@ SCENARIO("Torus construction", "[torus]")
       }
     }
   }
-  AND_GIVEN("A constructed 2-torus")
+  GIVEN("A constructed 2-torus")
   {
     int dim = 3;
     make_d_cube(points, NUMBER_OF_POINTS, dim);

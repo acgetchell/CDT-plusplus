@@ -12,16 +12,15 @@
 
 #include "Foliated_triangulation.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 using namespace std;
 using namespace foliated_triangulations;
 
-static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+static inline double const RADIUS_2   = std::sqrt(4.0 / 3.0);  // NOLINT
 static inline double const INV_SQRT_2 = 1.0 / std::sqrt(2.0);  // NOLINT
 
-SCENARIO("FoliatedTriangulation special member and swap properties",
-         "[triangulation]")
+SCENARIO("FoliatedTriangulation special member and swap properties")
 {
   spdlog::debug("FoliatedTriangulation special member and swap properties.\n");
   GIVEN("A FoliatedTriangulation3 class.")
@@ -116,7 +115,7 @@ SCENARIO("FoliatedTriangulation special member and swap properties",
   }
 }
 
-SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
+SCENARIO("FoliatedTriangulation free functions")
 {
   spdlog::debug("foliated_triangulation:: functions.\n");
   GIVEN("A small foliated triangulation.")
@@ -318,7 +317,7 @@ SCENARIO("FoliatedTriangulation free functions", "[triangulation]")
   }
 }
 
-SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
+SCENARIO("FoliatedTriangulation3 initialization")
 {
   spdlog::debug("FoliatedTriangulation initialization.\n");
   GIVEN("A 3D foliated triangulation.")
@@ -383,22 +382,31 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
       }
       THEN("The triangulation has sensible values.")
       {
-        using Catch::Matchers::Predicate;
-
-        // We have 1 to 8 vertex_count
+        //        using Catch::Matchers::Predicate;
+        //
+        //        // We have 1 to 8 vertex_count
         auto vertex_count{triangulation.number_of_vertices()};
-        CHECK_THAT(vertex_count, Predicate<int>(
-                                     [](int const count) -> bool {
-                                       return (1 <= count && count <= 8);
-                                     },
-                                     "There should be 1 to 8 vertices."));
-        // We have 1 to 12 simplex_count
+        CHECK(vertex_count >= 1);
+        CHECK(vertex_count <= 8);
+        //        CHECK_THAT(vertex_count, Predicate<int>(
+        //                                     [](int const count) -> bool {
+        //                                       return (1 <= count && count <=
+        //                                       8);
+        //                                     },
+        //                                     "There should be 1 to 8
+        //                                     vertices."));
+        //        // We have 1 to 12 simplex_count
         auto simplex_count{triangulation.number_of_finite_cells()};
-        CHECK_THAT(simplex_count, Predicate<int>(
-                                      [](int const count) -> bool {
-                                        return (1 <= count && count <= 12);
-                                      },
-                                      "There should be 1 to 12 simplices."));
+        CHECK(simplex_count >= 1);
+        CHECK(simplex_count <= 12);
+        //        CHECK_THAT(simplex_count, Predicate<int>(
+        //                                      [](int const count) -> bool {
+        //                                        return (1 <= count && count <=
+        //                                        12);
+        //                                      },
+        //                                      "There should be 1 to 12
+        //                                      simplices."));
+
         // Human verification
         triangulation.print();
       }
@@ -522,7 +530,7 @@ SCENARIO("FoliatedTriangulation3 initialization", "[triangulation]")
   }
 }
 
-SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
+SCENARIO("FoliatedTriangulation3 copying")
 {
   spdlog::debug("FoliatedTriangulation3 copying.\n");
   GIVEN("A FoliatedTriangulation3")
@@ -557,8 +565,7 @@ SCENARIO("FoliatedTriangulation3 copying", "[triangulation]")
   }
 }
 
-SCENARIO("Detecting and fixing problems with vertices and cells",
-         "[triangulation]")
+SCENARIO("Detecting and fixing problems with vertices and cells")
 {
   spdlog::debug("Detecting and fixing problems with vertices and cells.\n");
   GIVEN("A FoliatedTriangulation3.")
@@ -883,7 +890,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells",
   }
 }
 
-SCENARIO("FoliatedTriangulation3 functions from Delaunay3", "[triangulation]")
+SCENARIO("FoliatedTriangulation3 functions from Delaunay3")
 {
   spdlog::debug("FoliatedTriangulation3 functions from Delaunay3.\n");
   GIVEN("A FoliatedTriangulation3.")

@@ -10,13 +10,13 @@
 
 #include "Move_tracker.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 using namespace std;
 using namespace manifolds;
 using namespace move_tracker;
 
-SCENARIO("MoveTracker special members", "[move tracker]")
+SCENARIO("MoveTracker special members")
 {
   spdlog::debug("MoveTracker special members.\n");
   GIVEN("A MoveTracker.")
@@ -63,7 +63,7 @@ SCENARIO("MoveTracker special members", "[move tracker]")
   }
 }
 
-SCENARIO("Move type to integer conversion", "[move tracker]")
+SCENARIO("Move type to integer conversion")
 {
   spdlog::debug("Move type to integer conversion.\n");
   GIVEN("A move type.")
@@ -81,7 +81,7 @@ SCENARIO("Move type to integer conversion", "[move tracker]")
   }
 }
 
-SCENARIO("MoveTracker functionality", "[move tracker]")
+SCENARIO("MoveTracker functionality")
 {
   spdlog::debug("MoveTracker functionality.\n");
   GIVEN("A 3D Move_tracker.")

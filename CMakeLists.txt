@@ -75,7 +75,7 @@ endif()
 # Project vcpkg dependencies
 
 # https://github.com/catchorg/Catch2
-find_package(Catch2 CONFIG REQUIRED)
+#find_package(Catch2 CONFIG REQUIRED)
 
 # https://github.com/CGAL/cgal
 find_package(CGAL CONFIG REQUIRED)
@@ -90,6 +90,8 @@ find_package(date CONFIG REQUIRED)
 
 # https://github.com/docopt/docopt.cpp
 find_package(docopt CONFIG REQUIRED)
+
+find_package(doctest CONFIG REQUIRED)
 
 # https://eigen.tuxfamily.org/index.php?title=Main_Page
 find_package(Eigen3 CONFIG REQUIRED)
