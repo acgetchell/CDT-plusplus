@@ -16,69 +16,77 @@
 using namespace std;
 using namespace utilities;
 
-// SCENARIO("Various string/stream/time utilities")
-//{
-//   spdlog::debug("Various string/stream/time utilities.\n");
-//   GIVEN("A topology_type.")
-//   {
-//     auto constexpr this_topology = topology_type::SPHERICAL;
-//     WHEN("Operator<< is invoked.")
-//     {
-//       stringstream    buffer;
-//       std::streambuf* backup = cout.rdbuf(buffer.rdbuf());
-//       cout << this_topology;
-//       cout.rdbuf(backup);
-//       THEN("The output is correct.")
-//       {
-//         CHECK_THAT(buffer.str(), Catch::Equals("spherical"));
-//         spdlog::debug("buffer.str() contents: {}.\n", buffer.str());
-//       }
-//       WHEN("fmt::print is invoked.")
-//       {
-//         THEN("The output is correct.")
-//         {
-//           auto s = fmt::format("Topology type is: {}.\n", this_topology);
-//           CHECK_THAT(s, Catch::Equals("Topology type is: spherical.\n"));
-//           spdlog::debug("Topology type is: {}.\n", this_topology);
-//         }
-//       }
-//     }
-//   }
-//#ifndef _WIN32
-//   GIVEN("A running environment.")
-//   {
-//     WHEN("The current time is requested.")
-//     {
-//       THEN("The output is correct.")
-//       {
-//         // Update test yearly
-//         CHECK_THAT(current_date_time(), Catch::Contains("2022"));
-//         // Human verification
-//         fmt::print("Current date and time is: {}\n", current_date_time());
-//       }
-//     }
-//     WHEN("A filename is generated.")
-//     {
-//       auto constexpr this_topology = topology_type::SPHERICAL;
-//       auto constexpr dimensions    = 3;
-//       auto constexpr simplices     = 6700;
-//       auto constexpr timeslices    = 16;
-//       auto const filename =
-//           generate_filename(this_topology, dimensions, simplices, timeslices,
-//                             INITIAL_RADIUS, FOLIATION_SPACING);
-//       THEN("The output is correct.")
-//       {
-//         CHECK_THAT(filename,
-//                    Catch::Contains("S3") && Catch::Contains("16") &&
-//                        Catch::Contains("6700") && Catch::Contains("1.0") &&
-//                        Catch::Contains("2022") && Catch::Contains("off"));
-//         // Human verification
-//         fmt::print("Filename is: {}\n", filename);
-//       }
-//     }
-//   }
-//#endif
-// }
+SCENARIO("Various string/stream/time utilities")
+{
+  spdlog::debug("Various string/stream/time utilities.\n");
+  GIVEN("A topology_type.")
+  {
+    auto constexpr this_topology = topology_type::SPHERICAL;
+    WHEN("Operator<< is invoked.")
+    {
+      stringstream    buffer;
+      std::streambuf* backup = cout.rdbuf(buffer.rdbuf());
+      cout << this_topology;
+      cout.rdbuf(backup);
+      THEN("The output is correct.")
+      {
+        CHECK(buffer.str() == "spherical");
+        spdlog::debug("buffer.str() contents: {}.\n", buffer.str());
+      }
+      WHEN("fmt::print is invoked.")
+      {
+        THEN("The output is correct.")
+        {
+          auto result = fmt::format("Topology type is: {}.\n", this_topology);
+          CHECK(result == "Topology type is: spherical.\n");
+          spdlog::debug("Topology type is: {}.\n", this_topology);
+        }
+      }
+    }
+  }
+#ifndef _WIN32
+  GIVEN("A running environment.")
+  {
+    WHEN("The current time is requested.")
+    {
+      THEN("The output is correct.")
+      {
+        // Update test yearly
+        auto const result = current_date_time();
+        auto const year   = result.find("2022");
+        CHECK_FALSE(year == std::string::npos);
+        // Human verification
+        fmt::print("Current date and time is: {}\n", current_date_time());
+      }
+    }
+    WHEN("A filename is generated.")
+    {
+      auto constexpr this_topology = topology_type::SPHERICAL;
+      auto constexpr dimensions    = 3;
+      auto constexpr simplices     = 6700;
+      auto constexpr timeslices    = 16;
+      auto const filename =
+          generate_filename(this_topology, dimensions, simplices, timeslices,
+                            INITIAL_RADIUS, FOLIATION_SPACING);
+      THEN("The output is correct.")
+      {
+        auto const topology = filename.find("S3");
+        CHECK_FALSE(topology == std::string::npos);
+        auto const time = filename.find("16");
+        CHECK_FALSE(time == std::string::npos);
+        auto const cells = filename.find("6700");
+        CHECK_FALSE(cells == std::string::npos);
+        auto const initial_radius = filename.find("1.0");
+        CHECK_FALSE(initial_radius == std::string::npos);
+        auto const file_suffix = filename.find("off");
+        CHECK_FALSE(file_suffix == std::string::npos);
+        // Human verification
+        fmt::print("Filename is: {}\n", filename);
+      }
+    }
+  }
+#endif
+}
 
 SCENARIO("Printing Delaunay triangulations")
 {
@@ -310,8 +318,9 @@ SCENARIO("Expected points per timeslice")
     {
       THEN("A std::invalid_argument exception is thrown.")
       {
-        REQUIRE_THROWS_AS(expected_points_per_timeslice(4, 640000, 64),
-                          std::invalid_argument);
+        REQUIRE_THROWS_AS(
+            auto result = expected_points_per_timeslice(4, 640000, 64),
+            std::invalid_argument);
       }
     }
   }

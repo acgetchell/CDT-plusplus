@@ -382,30 +382,14 @@ SCENARIO("FoliatedTriangulation3 initialization")
       }
       THEN("The triangulation has sensible values.")
       {
-        //        using Catch::Matchers::Predicate;
-        //
         //        // We have 1 to 8 vertex_count
         auto vertex_count{triangulation.number_of_vertices()};
         CHECK(vertex_count >= 1);
         CHECK(vertex_count <= 8);
-        //        CHECK_THAT(vertex_count, Predicate<int>(
-        //                                     [](int const count) -> bool {
-        //                                       return (1 <= count && count <=
-        //                                       8);
-        //                                     },
-        //                                     "There should be 1 to 8
-        //                                     vertices."));
         //        // We have 1 to 12 simplex_count
         auto simplex_count{triangulation.number_of_finite_cells()};
         CHECK(simplex_count >= 1);
         CHECK(simplex_count <= 12);
-        //        CHECK_THAT(simplex_count, Predicate<int>(
-        //                                      [](int const count) -> bool {
-        //                                        return (1 <= count && count <=
-        //                                        12);
-        //                                      },
-        //                                      "There should be 1 to 12
-        //                                      simplices."));
 
         // Human verification
         triangulation.print();

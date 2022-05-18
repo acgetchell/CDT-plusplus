@@ -170,26 +170,29 @@ SCENARIO("3-Manifold initialization")
   spdlog::debug("Manifold initialization.\n");
   GIVEN("A 3-manifold.")
   {
-    //    WHEN("It is default constructed.")
-    //    {
-    //      Manifold3 manifold;
-    //      THEN("The triangulation is valid.")
-    //      {
-    //        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-    //                     Catch::Contains("FoliatedTriangulation"));
-    //        fmt::print("The triangulation data structure is of type {}\n",
-    //                   typeid(manifold.get_triangulation()).name());
-    //        REQUIRE(manifold.is_delaunay());
-    //        REQUIRE(manifold.is_valid());
-    //      }
-    //      THEN("The geometry is of type geometry class.")
-    //      {
-    //        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-    //                     Catch::Contains("Geometry"));
-    //        fmt::print("The Geometry data structure is of type {}\n",
-    //                   typeid(manifold.get_geometry()).name());
-    //      }
-    //    }
+    WHEN("It is default constructed.")
+    {
+      Manifold3 manifold;
+      THEN("The triangulation is valid.")
+      {
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
+      }
+      THEN("The geometry is of type geometry class.")
+      {
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        fmt::print("The Geometry data structure is of type {}\n",
+                   geometry_string);
+      }
+    }
     WHEN("It is constructed from causal vertices.")
     {
       Causal_vertices_t<3> causal_vertices;
@@ -199,18 +202,25 @@ SCENARIO("3-Manifold initialization")
       causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
       causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
       Manifold3 manifold(causal_vertices, 0, 1.0);
-
-      //      THEN("The triangulation is valid.")
-      //      {
-      //        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-      //                     Catch::Contains("FoliatedTriangulation"));
-      //        REQUIRE(manifold.is_correct());
-      //      }
-      //      THEN("The geometry is of type geometry class.")
-      //      {
-      //        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-      //                     Catch::Contains("Geometry"));
-      //      }
+      THEN("The triangulation is valid.")
+      {
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
+      }
+      THEN("The geometry is of type geometry class.")
+      {
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        fmt::print("The Geometry data structure is of type {}\n",
+                   geometry_string);
+      }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -240,18 +250,25 @@ SCENARIO("3-Manifold initialization")
       causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
       causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
       Manifold3 manifold(causal_vertices, 0, 1.0);
-
-      //      THEN("The triangulation is valid.")
-      //      {
-      //        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-      //                     Catch::Contains("FoliatedTriangulation"));
-      //        REQUIRE(manifold.is_correct());
-      //      }
-      //      THEN("The geometry is of type geometry class.")
-      //      {
-      //        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-      //                     Catch::Contains("Geometry"));
-      //      }
+      THEN("The triangulation is valid.")
+      {
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
+      }
+      THEN("The geometry is of type geometry class.")
+      {
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        fmt::print("The Geometry data structure is of type {}\n",
+                   geometry_string);
+      }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
@@ -280,8 +297,6 @@ SCENARIO("3-Manifold initialization")
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
-        //        using Catch::Matchers::Predicate;
-
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
@@ -291,25 +306,10 @@ SCENARIO("3-Manifold initialization")
         auto number_of_vertices{manifold.N0()};
         CHECK(number_of_vertices >= 1);
         CHECK(number_of_vertices <= 8);
-        //        CHECK_THAT(number_of_vertices, Predicate<int>(
-        //                                           [](int const value) -> bool
-        //                                           {
-        //                                             return (1 <= value &&
-        //                                             value <= 8);
-        //                                           },
-        //                                           "There should be 1 to 8
-        //                                           vertices."));
         // We have 1 to 12 number_of_cells
         auto number_of_cells{manifold.N3()};
         CHECK(number_of_cells >= 1);
         CHECK(number_of_cells <= 12);
-        //        CHECK_THAT(number_of_cells, Predicate<int>(
-        //                                        [](int const value) -> bool {
-        //                                          return (1 <= value && value
-        //                                          <= 12);
-        //                                        },
-        //                                        "There should be 1 to 12
-        //                                        cells."));
         // We have all the time values
         CHECK(manifold.min_time() == 1);
         CHECK(manifold.max_time() == desired_timeslices);

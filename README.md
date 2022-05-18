@@ -27,7 +27,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Docopt] provides a beautiful command-line interface.
 [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library provides high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
-[Catch] provides [BDD]/[TDD].
+[doctest] provides [BDD]/[TDD].
 [vcpkg] provides library management and building.
 [Doxygen] provides automated document generation.
 [{fmt}] provides a safe and fast alternative to `iostream`.
@@ -42,7 +42,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Develop with [literate programming] using [Doxygen]
 - [x] [Efficient Pure Functional Programming in C++ Using Move Semantics][functional]
 - [x] Test using [CTest]
-- [x] Develop using Behavior-driven development ([BDD]) with [Catch]
+- [x] Develop using Behavior-driven development ([BDD]) with [doctest]
 - [x] Continuous integration by [Travis-CI] on macOS and Linux with [gcc]/[Clang]
 - [x] Continuous integration by [AppVeyor] on Windows with [MSVC]
 - [x] Continuous integration by [Github Actions] on the leading edge
@@ -259,7 +259,7 @@ If you do not have GraphViz installed, set this option to **NO**
 
 In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
 
-Unit tests run (in `build/tests` or `build\tests\Debug`) via `CDT_test`, the [Catch] executable:
+Unit tests run (in `build/tests` or `build\tests\Debug`) via `CDT_test`, the [doctest] executable:
 
 ~~~bash
 ./CDT_test
@@ -271,7 +271,7 @@ or (Windows):
 CDT_test.exe
 ~~~
 
-You can also run both [CTest] integration and [Catch] unit tests in the `build` directory with:
+You can also run both [CTest] integration and [doctest] unit tests in the `build` directory with:
 
 ~~~bash
 cmake --build . --target test
@@ -377,8 +377,6 @@ Optional:
 
 [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
-[Catch] also produces ([#2395]) `use-of-uninitialized-value` in [MemorySanitizer], but this won't be addressed.
-
 [Docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
 [GMP] won't build on `arm64-windows` so that platform is not supported [#24323].
@@ -389,14 +387,13 @@ whitespace in graphic files for [Doxygen].
 [#18]: https://github.com/harupy/find-trailing-whitespace/pull/18
 [#24323]: https://github.com/microsoft/vcpkg/issues/24323
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
-[#2395]: https://github.com/catchorg/Catch2/issues/2395
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
 [CDT]: https://arxiv.org/abs/hep-th/0105267
 [CGAL]: https://www.cgal.org
 [CMake]: https://www.cmake.org
 [Clang]: https://clang.llvm.org
 [gcc]: https://gcc.gnu.org/
-[Catch]: https://github.com/catchorg/Catch2/blob/master/docs/Readme.md
+[doctest]: https://github.com/doctest/doctest
 [guidelines]: https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines
 [clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh
 [CTest]: https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest
