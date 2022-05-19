@@ -9,7 +9,7 @@
 /// @author Adam Getchell
 /// @details Tests for inserting and deleting vertices.
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "Manifold.hpp"
 

@@ -11,7 +11,7 @@
 
 #include "Apply_move.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "Ergodic_moves_3.hpp"
 

@@ -10,7 +10,8 @@
 
 #include "Manifold.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_predicate.hpp>
 
 using namespace std;
 using namespace manifolds;
@@ -175,19 +176,22 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3 manifold;
       THEN("The triangulation is valid.")
       {
-        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-                     Catch::Contains("FoliatedTriangulation"));
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
         fmt::print("The triangulation data structure is of type {}\n",
-                   typeid(manifold.get_triangulation()).name());
+                   manifold_string);
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
       THEN("The geometry is of type geometry class.")
       {
-        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-                     Catch::Contains("Geometry"));
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
-                   typeid(manifold.get_geometry()).name());
+                   geometry_string);
       }
     }
     WHEN("It is constructed from causal vertices.")
@@ -202,14 +206,22 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 
       THEN("The triangulation is valid.")
       {
-        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-                     Catch::Contains("FoliatedTriangulation"));
-        REQUIRE(manifold.is_correct());
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
       }
       THEN("The geometry is of type geometry class.")
       {
-        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-                     Catch::Contains("Geometry"));
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        fmt::print("The Geometry data structure is of type {}\n",
+                   geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -243,14 +255,23 @@ SCENARIO("3-Manifold initialization", "[manifold]")
 
       THEN("The triangulation is valid.")
       {
-        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-                     Catch::Contains("FoliatedTriangulation"));
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
         REQUIRE(manifold.is_correct());
       }
       THEN("The geometry is of type geometry class.")
       {
-        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-                     Catch::Contains("Geometry"));
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_correct());
       }
       THEN("The geometry matches the triangulation.")
       {

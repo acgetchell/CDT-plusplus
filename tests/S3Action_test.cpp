@@ -12,7 +12,8 @@
 
 #include "S3Action.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_all.hpp>
 
 #include "Manifold.hpp"
 
@@ -90,8 +91,9 @@ SCENARIO("Calculate the bulk action on S3 triangulations", "[action]")
       {
         spdlog::debug("S3_bulk_action() = {}\n", Bulk_action);
         spdlog::debug("S3_bulk_action_alpha_one() = {}\n", Bulk_action_one);
-        Approx target =
-            Approx(utilities::Gmpzf_to_double(Bulk_action)).epsilon(TOLERANCE);
+        Catch::Approx target =
+            Catch::Approx(utilities::Gmpzf_to_double(Bulk_action))
+                .epsilon(TOLERANCE);
         REQUIRE(utilities::Gmpzf_to_double(Bulk_action_one) == target);
       }
     }

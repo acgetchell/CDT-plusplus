@@ -9,14 +9,14 @@
 /// @author https://github.com/catchorg and Adam Getchell
 /// @details Main Catch test and spdlog driver
 
-#define CATCH_CONFIG_RUNNER
+//#define CATCH_CONFIG_RUNNER
 #define CATCH_CONFIG_CPP17_UNCAUGHT_EXCEPTIONS
 #define CATCH_CONFIG_CPP17_STRING_VIEW
 #define CATCH_CONFIG_CPP17_VARIANT
 #define CATCH_CONFIG_CPP17_OPTIONAL
 #define CATCH_CONFIG_CPP17_BYTE
 #define CATCH_CONFIG_NO_NOMINMAX
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 
 #include "Utilities.hpp"
 

@@ -10,7 +10,7 @@
 /// @details Tests that 3D triangulated and foliated tetrahedrons are
 /// constructed correctly.
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 
 #include "Foliated_triangulation.hpp"
 

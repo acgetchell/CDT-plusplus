@@ -10,7 +10,7 @@
 /// @details Tests for lambdas and function_refs to store function objects for
 /// delayed calls
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <tl/function_ref.hpp>
 
 #include "Ergodic_moves_3.hpp"

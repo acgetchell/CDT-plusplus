@@ -9,7 +9,7 @@
 /// @author Adam Getchell
 /// @details Tests for random, conversion, and datetime functions.
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
 #include <Manifold.hpp>
 
 using namespace std;
@@ -29,15 +29,15 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       cout.rdbuf(backup);
       THEN("The output is correct.")
       {
-        CHECK_THAT(buffer.str(), Catch::Equals("spherical"));
+        CHECK(buffer.str() == "spherical");
         spdlog::debug("buffer.str() contents: {}.\n", buffer.str());
       }
       WHEN("fmt::print is invoked.")
       {
         THEN("The output is correct.")
         {
-          auto s = fmt::format("Topology type is: {}.\n", this_topology);
-          CHECK_THAT(s, Catch::Equals("Topology type is: spherical.\n"));
+          auto result = fmt::format("Topology type is: {}.\n", this_topology);
+          CHECK(result == "Topology type is: spherical.\n");
           spdlog::debug("Topology type is: {}.\n", this_topology);
         }
       }
@@ -51,7 +51,9 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
       THEN("The output is correct.")
       {
         // Update test yearly
-        CHECK_THAT(current_date_time(), Catch::Contains("2022"));
+        auto const result = current_date_time();
+        auto const year   = result.find("2022");
+        CHECK_FALSE(year == std::string::npos);
         // Human verification
         fmt::print("Current date and time is: {}\n", current_date_time());
       }
@@ -67,10 +69,16 @@ SCENARIO("Various string/stream/time utilities", "[utility]")
                             INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
-        CHECK_THAT(filename,
-                   Catch::Contains("S3") && Catch::Contains("16") &&
-                       Catch::Contains("6700") && Catch::Contains("1.0") &&
-                       Catch::Contains("2022") && Catch::Contains("off"));
+        auto const topology = filename.find("S3");
+        CHECK_FALSE(topology == std::string::npos);
+        auto const time = filename.find("16");
+        CHECK_FALSE(time == std::string::npos);
+        auto const cells = filename.find("6700");
+        CHECK_FALSE(cells == std::string::npos);
+        auto const initial_radius = filename.find("1.0");
+        CHECK_FALSE(initial_radius == std::string::npos);
+        auto const file_suffix = filename.find("off");
+        CHECK_FALSE(file_suffix == std::string::npos);
         // Human verification
         fmt::print("Filename is: {}\n", filename);
       }

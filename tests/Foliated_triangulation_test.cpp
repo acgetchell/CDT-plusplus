@@ -12,7 +12,8 @@
 
 #include "Foliated_triangulation.hpp"
 
-#include <catch2/catch.hpp>
+#include <catch2/catch_test_macros.hpp>
+#include <catch2/matchers/catch_matchers_predicate.hpp>
 
 using namespace std;
 using namespace foliated_triangulations;
