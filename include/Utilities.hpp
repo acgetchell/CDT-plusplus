@@ -284,7 +284,7 @@ namespace utilities
   /// @param t_output_flag Toggles output
   /// @return  The number of points per timeslice to obtain
   /// the desired number of simplices
-  [[nodiscard]] inline auto expected_points_per_timeslice(
+  inline auto expected_points_per_timeslice(
       Int_precision t_dimension, Int_precision t_number_of_simplices,
       Int_precision t_number_of_timeslices)
   {
