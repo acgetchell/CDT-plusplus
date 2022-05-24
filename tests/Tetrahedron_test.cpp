@@ -12,12 +12,14 @@
 
 #include <doctest/doctest.h>
 
+#include <numbers>
+
 #include "Foliated_triangulation.hpp"
 
 using namespace std;
 using namespace foliated_triangulations;
 
-static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Construct a tetrahedron in a Delaunay triangulation")
 {

@@ -14,11 +14,14 @@
 
 #include <doctest/doctest.h>
 
+#include <numbers>
+
 using namespace std;
 using namespace foliated_triangulations;
 
-static inline double const RADIUS_2   = std::sqrt(4.0 / 3.0);  // NOLINT
-static inline double const INV_SQRT_2 = 1.0 / std::sqrt(2.0);  // NOLINT
+static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline auto constexpr SQRT_2   = std::numbers::sqrt2_v<double>;
+static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
 
 SCENARIO("FoliatedTriangulation special member and swap properties")
 {

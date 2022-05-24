@@ -15,7 +15,6 @@
 #include <fmt/format.h>
 
 #include <algorithm>
-#include <cmath>
 #include <cstdlib>
 #include <iterator>
 #include <numbers>
@@ -39,7 +38,7 @@ using Cell_container   = std::vector<Cell_handle>;
 using Edge_container   = std::vector<Edge_handle>;
 using Vertex_container = std::vector<Vertex_handle>;
 
-static auto INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
+static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
 
 /// @return A container of all finite cells in the triangulation.
 [[nodiscard]] auto get_cells(Delaunay const& triangulation) -> Cell_container

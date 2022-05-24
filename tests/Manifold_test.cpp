@@ -12,10 +12,12 @@
 
 #include <doctest/doctest.h>
 
+#include <numbers>
+
 using namespace std;
 using namespace manifolds;
 
-static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Manifold special member and swap properties")
 {

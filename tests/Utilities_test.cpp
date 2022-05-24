@@ -108,7 +108,7 @@ SCENARIO("Printing Delaunay triangulations")
   }
 }
 
-SCENARIO("Randomizing functions" * doctest::may_fail())
+SCENARIO("Randomizing functions")
 {
   spdlog::debug("Randomizing functions.\n");
   GIVEN("A PCG die roller")
@@ -117,10 +117,7 @@ SCENARIO("Randomizing functions" * doctest::may_fail())
     {
       auto const roll1 = die_roll();
       auto const roll2 = die_roll();
-      THEN("They should probably be different.")
-      {
-        CHECK_FALSE(roll1 == roll2);
-      }
+      THEN("They should probably be different.") { WARN_FALSE(roll1 == roll2); }
     }
   }
   GIVEN("A container of ints")
@@ -134,7 +131,7 @@ SCENARIO("Randomizing functions" * doctest::may_fail())
       THEN("We get back the elements in random order.")
       {
         auto j = 0;
-        for (auto i : v) { CHECK(i != j++); }
+        for (auto i : v) { WARN(i != j++); }
         fmt::print("\nShuffled container verification:\n");
         fmt::print("{}\n", fmt::join(v, " "));
       }
