@@ -5,7 +5,7 @@
 /// Some convenience functions are defined here because the internal
 /// functions of the Triangulation_3 class are not currently accessible to
 /// the bistellar_flip functions.
-/// @date Created: 2021-04-21
+/// @date Created: 2022-04-21
 
 #include <CGAL/circulator.h>
 #include <CGAL/Delaunay_triangulation_3.h>
@@ -18,6 +18,7 @@
 #include <cmath>
 #include <cstdlib>
 #include <iterator>
+#include <numbers>
 #include <optional>
 #include <vector>
 
@@ -28,17 +29,17 @@ using K   = CGAL::Exact_predicates_inexact_constructions_kernel;
 using Vb  = CGAL::Triangulation_vertex_base_with_info_3<int, K>;
 using Cb  = CGAL::Triangulation_cell_base_with_info_3<int, K>;
 using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Sequential_tag>;
-using Delaunay                        = CGAL::Delaunay_triangulation_3<K, Tds>;
-using Cell_handle                     = Delaunay::Cell_handle;
-using Edge_handle                     = CGAL::Triple<Cell_handle, int, int>;
-using Vertex_handle                   = Delaunay::Vertex_handle;
-using Vertex                          = Tds::Vertex;
-using Point                           = Delaunay::Point;
-using Cell_container                  = std::vector<Cell_handle>;
-using Edge_container                  = std::vector<Edge_handle>;
-using Vertex_container                = std::vector<Vertex_handle>;
+using Delaunay         = CGAL::Delaunay_triangulation_3<K, Tds>;
+using Cell_handle      = Delaunay::Cell_handle;
+using Edge_handle      = CGAL::Triple<Cell_handle, int, int>;
+using Vertex_handle    = Delaunay::Vertex_handle;
+using Vertex           = Tds::Vertex;
+using Point            = Delaunay::Point;
+using Cell_container   = std::vector<Cell_handle>;
+using Edge_container   = std::vector<Edge_handle>;
+using Vertex_container = std::vector<Vertex_handle>;
 
-static inline double const INV_SQRT_2 = 1 / sqrt(2);
+static auto INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
 
 /// @return A container of all finite cells in the triangulation.
 [[nodiscard]] auto get_cells(Delaunay const& triangulation) -> Cell_container
