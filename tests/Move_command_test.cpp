@@ -10,14 +10,13 @@
 
 #include "Move_command.hpp"
 
+#include <doctest/doctest.h>
 #include <fmt/ranges.h>
-
-#include <catch2/catch.hpp>
 
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("MoveCommand special members", "[move command]")
+SCENARIO("MoveCommand special members" * doctest::may_fail())
 {
   spdlog::debug("MoveCommand special members.\n");
   GIVEN("A MoveCommand.")
@@ -68,7 +67,7 @@ SCENARIO("MoveCommand special members", "[move command]")
   }
 }
 
-SCENARIO("Invoking a move with a function pointer", "[move command]")
+SCENARIO("Invoking a move with a function pointer")
 {
   spdlog::debug("Invoking a move with a function pointer.\n");
   GIVEN("A valid manifold.")
@@ -96,7 +95,7 @@ SCENARIO("Invoking a move with a function pointer", "[move command]")
   }
 }
 
-SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
+SCENARIO("Invoking a move with a lambda")
 {
   spdlog::debug("Invoking a move with a lambda.\n");
   GIVEN("A valid manifold.")
@@ -126,8 +125,7 @@ SCENARIO("Invoking a move with a lambda", "[move command][!mayfail]")
   }
 }
 
-SCENARIO("Invoking a move with apply_move and a function pointer",
-         "[move command]")
+SCENARIO("Invoking a move with apply_move and a function pointer")
 {
   spdlog::debug("Invoking a move with apply_move and a function pointer.\n");
   GIVEN("A valid manifold.")
@@ -155,7 +153,7 @@ SCENARIO("Invoking a move with apply_move and a function pointer",
   }
 }
 
-SCENARIO("MoveCommand initialization", "[move command]")
+SCENARIO("MoveCommand initialization")
 {
   spdlog::debug("MoveCommand initialization.\n");
   GIVEN("A valid manifold.")
@@ -218,7 +216,7 @@ SCENARIO("MoveCommand initialization", "[move command]")
   }
 }
 
-SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
+SCENARIO("Queueing and executing moves" * doctest::may_fail())
 {
   spdlog::debug("Queueing and executing moves.\n");
   GIVEN("A valid manifold.")
@@ -413,7 +411,7 @@ SCENARIO("Queueing and executing moves", "[move command][!mayfail]")
     }
   }
 }
-SCENARIO("Executing multiple moves on the queue", "[move command]")
+SCENARIO("Executing multiple moves on the queue")
 {
   spdlog::debug("Executing multiple moves on the queue.\n");
   GIVEN("A valid manifold")

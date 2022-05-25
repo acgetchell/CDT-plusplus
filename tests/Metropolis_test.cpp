@@ -7,17 +7,15 @@
 /// @file Metropolis_test.cpp
 /// @brief Tests for the Metropolis-Hastings algorithm
 /// @author Adam Getchell
-/// @todo Debug accepted moves != attempted moves (should be equal)
 
 #include "Metropolis.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
 
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
-         "[metropolis]")
+SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties")
 {
   spdlog::debug(
       "MoveStrategy<METROPOLIS> special member and swap properties.\n");
@@ -79,7 +77,7 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties",
   }
 }
 
-SCENARIO("Metropolis member functions", "[metropolis]")
+SCENARIO("Metropolis member functions")
 {
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);
@@ -145,9 +143,9 @@ SCENARIO("Metropolis member functions", "[metropolis]")
   }
 }
 
-// This may take a while, so the scenario is tagged with [.]
+// This may take a while, so the scenario decorated with doctest::skip()
 // to disable by default
-SCENARIO("Using the Metropolis algorithm", "[metropolis][.]")
+SCENARIO("Using the Metropolis algorithm" * doctest::skip())
 {
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);

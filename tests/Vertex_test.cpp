@@ -9,15 +9,17 @@
 /// @author Adam Getchell
 /// @details Tests for inserting and deleting vertices.
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
+
+#include <numbers>
 
 #include "Manifold.hpp"
 
 using namespace manifolds;
 
-static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
-SCENARIO("Point operations", "[vertex]")
+SCENARIO("Point operations")
 {
   using Point = Point_t<3>;
   GIVEN("Some points.")
@@ -33,7 +35,7 @@ SCENARIO("Point operations", "[vertex]")
   }
 }
 
-SCENARIO("Vertex operations", "[vertex]")
+SCENARIO("Vertex operations")
 {
   using Causal_vertices = Causal_vertices_t<3>;
   using Manifold        = Manifold3;

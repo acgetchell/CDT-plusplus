@@ -10,14 +10,16 @@
 
 #include "Manifold.hpp"
 
-#include <catch2/catch.hpp>
+#include <doctest/doctest.h>
+
+#include <numbers>
 
 using namespace std;
 using namespace manifolds;
 
-static inline double const RADIUS_2 = std::sqrt(4.0 / 3.0);  // NOLINT
+static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
-SCENARIO("Manifold special member and swap properties", "[manifold]")
+SCENARIO("Manifold special member and swap properties")
 {
   spdlog::debug("Manifold special member and swap properties.\n");
   GIVEN("A 3-dimensional manifold.")
@@ -109,7 +111,7 @@ SCENARIO("Manifold special member and swap properties", "[manifold]")
   }
 }
 
-SCENARIO("Manifold static members", "[manifold]")
+SCENARIO("Manifold static members")
 {
   spdlog::debug("Manifold static members.\n");
   GIVEN("A default constructed Manifold3")
@@ -125,7 +127,7 @@ SCENARIO("Manifold static members", "[manifold]")
   }
 }
 
-SCENARIO("Manifold functions", "[manifold]")
+SCENARIO("Manifold functions")
 {
   spdlog::debug("Manifold functions.\n");
   GIVEN("A manifold with four vertices.")
@@ -165,7 +167,7 @@ SCENARIO("Manifold functions", "[manifold]")
   }
 }
 
-SCENARIO("3-Manifold initialization", "[manifold]")
+SCENARIO("3-Manifold initialization")
 {
   spdlog::debug("Manifold initialization.\n");
   GIVEN("A 3-manifold.")
@@ -175,19 +177,22 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       Manifold3 manifold;
       THEN("The triangulation is valid.")
       {
-        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-                     Catch::Contains("FoliatedTriangulation"));
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
         fmt::print("The triangulation data structure is of type {}\n",
-                   typeid(manifold.get_triangulation()).name());
+                   manifold_string);
         REQUIRE(manifold.is_delaunay());
         REQUIRE(manifold.is_valid());
       }
       THEN("The geometry is of type geometry class.")
       {
-        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-                     Catch::Contains("Geometry"));
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
-                   typeid(manifold.get_geometry()).name());
+                   geometry_string);
       }
     }
     WHEN("It is constructed from causal vertices.")
@@ -199,17 +204,24 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
       causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
       Manifold3 manifold(causal_vertices, 0, 1.0);
-
       THEN("The triangulation is valid.")
       {
-        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-                     Catch::Contains("FoliatedTriangulation"));
-        REQUIRE(manifold.is_correct());
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
       }
       THEN("The geometry is of type geometry class.")
       {
-        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-                     Catch::Contains("Geometry"));
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        fmt::print("The Geometry data structure is of type {}\n",
+                   geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -240,17 +252,24 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
       causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
       Manifold3 manifold(causal_vertices, 0, 1.0);
-
       THEN("The triangulation is valid.")
       {
-        REQUIRE_THAT(typeid(manifold.get_triangulation()).name(),
-                     Catch::Contains("FoliatedTriangulation"));
-        REQUIRE(manifold.is_correct());
+        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        std::string manifold_string{manifold_type};
+        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
+                    std::string::npos);
+        fmt::print("The triangulation data structure is of type {}\n",
+                   manifold_string);
+        REQUIRE(manifold.is_delaunay());
+        REQUIRE(manifold.is_valid());
       }
       THEN("The geometry is of type geometry class.")
       {
-        REQUIRE_THAT(typeid(manifold.get_geometry()).name(),
-                     Catch::Contains("Geometry"));
+        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        std::string geometry_string{geometry_type};
+        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        fmt::print("The Geometry data structure is of type {}\n",
+                   geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
@@ -280,8 +299,6 @@ SCENARIO("3-Manifold initialization", "[manifold]")
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
-        using Catch::Matchers::Predicate;
-
         REQUIRE(manifold.is_foliated());
         REQUIRE(manifold.vertices() == manifold.N0());
         REQUIRE(manifold.edges() == manifold.N1());
@@ -289,18 +306,12 @@ SCENARIO("3-Manifold initialization", "[manifold]")
         REQUIRE(manifold.check_simplices());
         // We have 1 to 8 vertices
         auto number_of_vertices{manifold.N0()};
-        CHECK_THAT(number_of_vertices, Predicate<int>(
-                                           [](int const value) -> bool {
-                                             return (1 <= value && value <= 8);
-                                           },
-                                           "There should be 1 to 8 vertices."));
+        CHECK(number_of_vertices >= 1);
+        CHECK(number_of_vertices <= 8);
         // We have 1 to 12 number_of_cells
         auto number_of_cells{manifold.N3()};
-        CHECK_THAT(number_of_cells, Predicate<int>(
-                                        [](int const value) -> bool {
-                                          return (1 <= value && value <= 12);
-                                        },
-                                        "There should be 1 to 12 cells."));
+        CHECK(number_of_cells >= 1);
+        CHECK(number_of_cells <= 12);
         // We have all the time values
         CHECK(manifold.min_time() == 1);
         CHECK(manifold.max_time() == desired_timeslices);
@@ -348,7 +359,7 @@ SCENARIO("3-Manifold initialization", "[manifold]")
   }
 }
 
-SCENARIO("3-Manifold function checks", "[manifold]")
+SCENARIO("3-Manifold function checks")
 {
   spdlog::debug("3-Manifold function checks.\n");
   GIVEN("The default manifold from the default triangulation")
@@ -389,7 +400,7 @@ SCENARIO("3-Manifold function checks", "[manifold]")
     }
   }
 }
-SCENARIO("3-Manifold copying", "[manifold]")
+SCENARIO("3-Manifold copying")
 {
   spdlog::debug("3-Manifold copying.\n");
   GIVEN("A 3-manifold.")
@@ -442,7 +453,7 @@ SCENARIO("3-Manifold copying", "[manifold]")
   }
 }
 
-SCENARIO("3-Manifold update geometry", "[manifold]")
+SCENARIO("3-Manifold update geometry")
 {
   spdlog::debug("3-Manifold update geometry.\n");
   GIVEN("A 3-manifold.")
@@ -478,7 +489,7 @@ SCENARIO("3-Manifold update geometry", "[manifold]")
   }
 }
 
-SCENARIO("3-Manifold mutation", "[manifold]")
+SCENARIO("3-Manifold mutation")
 {
   spdlog::debug("3-Manifold mutation.\n");
   GIVEN("A pair of 3-manifolds.")
@@ -538,7 +549,7 @@ SCENARIO("3-Manifold mutation", "[manifold]")
   }
 }
 
-SCENARIO("3-Manifold validation and fixing", "[manifold][!mayfail]")
+SCENARIO("3-Manifold validation and fixing" * doctest::may_fail())
 {
   spdlog::debug("3-Manifold validation and fixing.\n");
   GIVEN("A (1,3) and (3,1) stacked on each other.")

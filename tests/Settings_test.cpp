@@ -11,14 +11,12 @@
 
 #include "Settings.hpp"
 
+#include <doctest/doctest.h>
 #include <fmt/format.h>
-
-#include <catch2/catch.hpp>
-#include <typeinfo>
 
 using namespace std;
 
-SCENARIO("Check settings", "[settings]")
+SCENARIO("Check settings" * doctest::may_fail())
 {
   GIVEN("Settings are retrieved.")
   {
@@ -28,7 +26,7 @@ SCENARIO("Check settings", "[settings]")
       THEN("The value is std::int_fast32_t.")
       {
         fmt::print("TypeID of Int_precision is {}.\n", int_precision);
-        REQUIRE(int_precision == typeid(std::int_fast32_t).name());
+        CHECK(int_precision == typeid(std::int_fast32_t).name());
       }
     }
     WHEN("MPFR precision is queried.")
