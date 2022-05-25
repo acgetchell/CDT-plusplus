@@ -83,8 +83,8 @@ $(function() {
 <p>Tests of <a class="el" href="class_move_command.html">MoveCommand</a>, that is, that moves are handled properly.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_move__command_8hpp_source.html">Move_command.hpp</a>&quot;</code><br />
+<code>#include &lt;doctest/doctest.h&gt;</code><br />
 <code>#include &lt;fmt/ranges.h&gt;</code><br />
-<code>#include &lt;catch2/catch.hpp&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Move_command_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -98,27 +98,27 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ae27ac4c7a6ba7337af9290155d4c3f3a"><td class="memItemLeft" align="right" valign="top"><a id="ae27ac4c7a6ba7337af9290155d4c3f3a"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Executing multiple moves on the queue&quot;, &quot;[move command]&quot;)</td></tr>
-<tr class="separator:ae27ac4c7a6ba7337af9290155d4c3f3a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab2a01328d11baf999749a86d23f9b97d"><td class="memItemLeft" align="right" valign="top"><a id="ab2a01328d11baf999749a86d23f9b97d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Invoking a move with a function pointer&quot;, &quot;[move command]&quot;)</td></tr>
-<tr class="separator:ab2a01328d11baf999749a86d23f9b97d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5c9e83680b75488bae4979f76202362"><td class="memItemLeft" align="right" valign="top"><a id="ae5c9e83680b75488bae4979f76202362"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Invoking a move with a lambda&quot;, &quot;[move command][!mayfail]&quot;)</td></tr>
-<tr class="separator:ae5c9e83680b75488bae4979f76202362"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae062cdbc2e264e63a613f28c3f81b6c2"><td class="memItemLeft" align="right" valign="top"><a id="ae062cdbc2e264e63a613f28c3f81b6c2"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Invoking a move with <a class="el" href="_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd">apply_move</a> and a function pointer&quot;, &quot;[move command]&quot;)</td></tr>
-<tr class="separator:ae062cdbc2e264e63a613f28c3f81b6c2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a9b3d0f80e9d06df9a9e6b6bd8b945f0c"><td class="memItemLeft" align="right" valign="top"><a id="a9b3d0f80e9d06df9a9e6b6bd8b945f0c"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;MoveCommand initialization&quot;, &quot;[move command]&quot;)</td></tr>
-<tr class="separator:a9b3d0f80e9d06df9a9e6b6bd8b945f0c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:accbf01249a895753214508e414b019dd"><td class="memItemLeft" align="right" valign="top"><a id="accbf01249a895753214508e414b019dd"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;MoveCommand special members&quot;, &quot;[move command]&quot;)</td></tr>
-<tr class="separator:accbf01249a895753214508e414b019dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad12acfd430553d5ccc891229946be0db"><td class="memItemLeft" align="right" valign="top"><a id="ad12acfd430553d5ccc891229946be0db"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Queueing and executing moves&quot;, &quot;[move command][!mayfail]&quot;)</td></tr>
-<tr class="separator:ad12acfd430553d5ccc891229946be0db"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3b6caa7c41bfbf9667294d8260df6e06"><td class="memItemLeft" align="right" valign="top"><a id="a3b6caa7c41bfbf9667294d8260df6e06"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GIVEN</b> (&quot;A MoveCommand.&quot;)</td></tr>
+<tr class="separator:a3b6caa7c41bfbf9667294d8260df6e06"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c43513b920510eb5e3da63cbe23ad97"><td class="memItemLeft" align="right" valign="top"><a id="a4c43513b920510eb5e3da63cbe23ad97"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GIVEN</b> (&quot;A valid manifold.&quot;)</td></tr>
+<tr class="separator:a4c43513b920510eb5e3da63cbe23ad97"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af4729893bfa9cc371d5f2ee72d9eb902"><td class="memItemLeft" align="right" valign="top"><a id="af4729893bfa9cc371d5f2ee72d9eb902"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Executing multiple moves on the queue&quot;)</td></tr>
+<tr class="separator:af4729893bfa9cc371d5f2ee72d9eb902"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a21a7a6076d7f39a7fd08737832389a73"><td class="memItemLeft" align="right" valign="top"><a id="a21a7a6076d7f39a7fd08737832389a73"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Invoking a move with a function pointer&quot;)</td></tr>
+<tr class="separator:a21a7a6076d7f39a7fd08737832389a73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5e36bfdb0e781f7abc422d8771e84dd8"><td class="memItemLeft" align="right" valign="top"><a id="a5e36bfdb0e781f7abc422d8771e84dd8"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Invoking a move with a lambda&quot;)</td></tr>
+<tr class="separator:a5e36bfdb0e781f7abc422d8771e84dd8"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af5318ef02d70f36f7bbb9cd5f4562a90"><td class="memItemLeft" align="right" valign="top"><a id="af5318ef02d70f36f7bbb9cd5f4562a90"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Invoking a move with <a class="el" href="_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd">apply_move</a> and a function pointer&quot;)</td></tr>
+<tr class="separator:af5318ef02d70f36f7bbb9cd5f4562a90"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaab37d2a9feb9ba25c2e03adfecaa4ea"><td class="memItemLeft" align="right" valign="top"><a id="aaab37d2a9feb9ba25c2e03adfecaa4ea"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;MoveCommand initialization&quot;)</td></tr>
+<tr class="separator:aaab37d2a9feb9ba25c2e03adfecaa4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests of <a class="el" href="class_move_command.html">MoveCommand</a>, that is, that moves are handled properly. </p>
@@ -128,7 +128,7 @@ Functions</h2></td></tr>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

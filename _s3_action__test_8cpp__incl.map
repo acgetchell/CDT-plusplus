@@ -1,7 +1,7 @@
 <map id="tests/S3Action_test.cpp" name="tests/S3Action_test.cpp">
 <area shape="rect" id="node1" title="Tests for the S3 action functions." alt="" coords="2635,5,2810,32"/>
 <area shape="rect" id="node2" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="2417,80,2524,107"/>
-<area shape="rect" id="node7" title=" " alt="" coords="2801,80,2933,107"/>
+<area shape="rect" id="node7" title=" " alt="" coords="2801,80,2935,107"/>
 <area shape="rect" id="node8" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="2669,80,2776,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="2369,155,2433,181"/>
 <area shape="rect" id="node4" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="2419,393,2522,420"/>

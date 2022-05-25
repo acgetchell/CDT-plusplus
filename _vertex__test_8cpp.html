@@ -83,7 +83,8 @@ $(function() {
 
 <p>Tests on points and vertices in foliated Delaunay triangulations.  
 <a href="#details">More...</a></p>
-<div class="textblock"><code>#include &lt;catch2/catch.hpp&gt;</code><br />
+<div class="textblock"><code>#include &lt;doctest/doctest.h&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
 <code>#include &quot;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Vertex_test.cpp:</div>
@@ -98,18 +99,18 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a2dae5cf1132ecd08a29c8e420bce1740"><td class="memItemLeft" align="right" valign="top"><a id="a2dae5cf1132ecd08a29c8e420bce1740"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Point operations&quot;, &quot;[vertex]&quot;)</td></tr>
-<tr class="separator:a2dae5cf1132ecd08a29c8e420bce1740"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac0626a210c39e15a490dc66c4cf9f3e4"><td class="memItemLeft" align="right" valign="top"><a id="ac0626a210c39e15a490dc66c4cf9f3e4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Vertex operations&quot;, &quot;[vertex]&quot;)</td></tr>
-<tr class="separator:ac0626a210c39e15a490dc66c4cf9f3e4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac7592c1a5d68f3529210605bcbe663ff"><td class="memItemLeft" align="right" valign="top"><a id="ac7592c1a5d68f3529210605bcbe663ff"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Point operations&quot;)</td></tr>
+<tr class="separator:ac7592c1a5d68f3529210605bcbe663ff"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a74b7bd68a6c9a8fd5ad44533fa636947"><td class="memItemLeft" align="right" valign="top"><a id="a74b7bd68a6c9a8fd5ad44533fa636947"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Vertex operations&quot;)</td></tr>
+<tr class="separator:a74b7bd68a6c9a8fd5ad44533fa636947"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memItemLeft" align="right" valign="top"><a id="afb6a29ed9880f4952ae7f2dda28fd0ab"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = std::sqrt(4.0 / 3.0)</td></tr>
-<tr class="separator:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memItemLeft" align="right" valign="top"><a id="ae5ae301f88edb662a0ee3e5cc707dce9"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = 2.0 * std::numbers::inv_sqrt3_v&lt;double&gt;</td></tr>
+<tr class="separator:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests on points and vertices in foliated Delaunay triangulations. </p>
@@ -120,7 +121,7 @@ static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

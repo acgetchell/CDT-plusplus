@@ -59,8 +59,8 @@ var sectionId = 'dynsection-1';
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Utility functions.">
-<polygon fill="#bfbfbf" stroke="black" points="1423.5,-548.5 1423.5,-567.5 1537.5,-567.5 1537.5,-548.5 1423.5,-548.5"/>
-<text text-anchor="middle" x="1480.5" y="-555.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Utilities.hpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="1346.5,-548.5 1346.5,-567.5 1460.5,-567.5 1460.5,-548.5 1346.5,-548.5"/>
+<text text-anchor="middle" x="1403.5" y="-555.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Utilities.hpp</text>
 </a>
 </g>
 </g>
@@ -76,23 +76,8 @@ var sectionId = 'dynsection-1';
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M1459.6,-542.34C1445.59,-532.52 1427.62,-519.91 1415.84,-511.65"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1457.93,-545.45 1468.13,-548.32 1461.95,-539.72 1457.93,-545.45"/>
-</g>
-<!-- Node29 -->
-<g id="node29" class="node">
-<title>Node29</title>
-<g id="a_node29"><a xlink:href="main_8cpp.html" target="_top" xlink:title="Catch test driver.">
-<polygon fill="white" stroke="black" points="1513,-492.5 1513,-511.5 1602,-511.5 1602,-492.5 1513,-492.5"/>
-<text text-anchor="middle" x="1557.5" y="-499.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/main.cpp</text>
-</a>
-</g>
-</g>
-<!-- Node1&#45;&gt;Node29 -->
-<g id="edge30" class="edge">
-<title>Node1&#45;&gt;Node29</title>
-<path fill="none" stroke="midnightblue" d="M1501.4,-542.34C1515.41,-532.52 1533.38,-519.91 1545.16,-511.65"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="1499.05,-539.72 1492.87,-548.32 1503.07,-545.45 1499.05,-539.72"/>
+<path fill="none" stroke="midnightblue" d="M1403.5,-537.8C1403.5,-528.91 1403.5,-518.78 1403.5,-511.75"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="1400,-538.08 1403.5,-548.08 1407,-538.08 1400,-538.08"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">

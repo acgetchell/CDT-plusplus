@@ -13,9 +13,9 @@
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Tests of MoveTracker, that is, that moves are tracked properly.">
-<polygon fill="#bfbfbf" stroke="black" points="461,-414.5 461,-444.5 571,-444.5 571,-414.5 461,-414.5"/>
-<text text-anchor="start" x="469" y="-432.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_tracker</text>
-<text text-anchor="middle" x="516" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="462,-414.5 462,-444.5 572,-444.5 572,-414.5 462,-414.5"/>
+<text text-anchor="start" x="470" y="-432.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Move_tracker</text>
+<text text-anchor="middle" x="517" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">_test.cpp</text>
 </a>
 </g>
 </g>
@@ -31,23 +31,23 @@
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M502.02,-414.4C493.27,-405.58 481.97,-394.18 472.88,-385.02"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="475.11,-382.29 465.59,-377.66 470.14,-387.22 475.11,-382.29"/>
+<path fill="none" stroke="midnightblue" d="M502.78,-414.4C493.79,-405.49 482.16,-393.95 472.87,-384.74"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="475.3,-382.21 465.73,-377.66 470.37,-387.18 475.3,-382.21"/>
 </g>
 <!-- Node41 -->
 <g id="node41" class="node">
 <title>Node41</title>
 <g id="a_node41"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="526.5,-358.5 526.5,-377.5 625.5,-377.5 625.5,-358.5 526.5,-358.5"/>
-<text text-anchor="middle" x="576" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">catch2/catch.hpp</text>
+<polygon fill="white" stroke="#bfbfbf" points="526.5,-358.5 526.5,-377.5 627.5,-377.5 627.5,-358.5 526.5,-358.5"/>
+<text text-anchor="middle" x="577" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">doctest/doctest.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node41 -->
 <g id="edge41" class="edge">
 <title>Node1&#45;&gt;Node41</title>
-<path fill="none" stroke="midnightblue" d="M530.22,-414.4C539.21,-405.49 550.84,-393.95 560.13,-384.74"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="562.63,-387.18 567.27,-377.66 557.7,-382.21 562.63,-387.18"/>
+<path fill="none" stroke="midnightblue" d="M531.22,-414.4C540.21,-405.49 551.84,-393.95 561.13,-384.74"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="563.63,-387.18 568.27,-377.66 558.7,-382.21 563.63,-387.18"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">

@@ -84,7 +84,8 @@ $(function() {
 <p>Tests for ergodic moves on foliated triangulations.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>&quot;</code><br />
-<code>#include &lt;catch2/catch.hpp&gt;</code><br />
+<code>#include &lt;doctest/doctest.h&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Ergodic_moves_3_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -98,27 +99,21 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a17f370fb974b9f2adf168e8dbfad8945"><td class="memItemLeft" align="right" valign="top"><a id="a17f370fb974b9f2adf168e8dbfad8945"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Perform ergodic moves on the minimal manifold necessary for that move&quot;, &quot;[ergodic moves]&quot;)</td></tr>
-<tr class="separator:a17f370fb974b9f2adf168e8dbfad8945"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb21a477bca51746a860789a73c9cf2e"><td class="memItemLeft" align="right" valign="top"><a id="aeb21a477bca51746a860789a73c9cf2e"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Perform ergodic moves on the minimal manifold necessary for that move&quot;)</td></tr>
+<tr class="separator:aeb21a477bca51746a860789a73c9cf2e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a1b83b16d09ffec6c5ea28191aaa2042d"><td class="memItemLeft" align="right" valign="top"><a id="a1b83b16d09ffec6c5ea28191aaa2042d"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_2</b> = 1 / sqrt(2)</td></tr>
-<tr class="separator:a1b83b16d09ffec6c5ea28191aaa2042d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0c5dbdf2cd49a21d53a29a561c5228c6"><td class="memItemLeft" align="right" valign="top"><a id="a0c5dbdf2cd49a21d53a29a561c5228c6"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_3</b> = 1 / sqrt(3)</td></tr>
-<tr class="separator:a0c5dbdf2cd49a21d53a29a561c5228c6"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memItemLeft" align="right" valign="top"><a id="afb6a29ed9880f4952ae7f2dda28fd0ab"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = sqrt(4.0 / 3.0)</td></tr>
-<tr class="separator:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a61ee8d36601448a8e5a232be8852468e"><td class="memItemLeft" align="right" valign="top"><a id="a61ee8d36601448a8e5a232be8852468e"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>SQRT_2</b> = sqrt(2)</td></tr>
-<tr class="separator:a61ee8d36601448a8e5a232be8852468e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a1d50dc2751b1120bb85aeed5ec1cc461"><td class="memItemLeft" align="right" valign="top"><a id="a1d50dc2751b1120bb85aeed5ec1cc461"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>SQRT_3</b> = sqrt(3)</td></tr>
-<tr class="separator:a1d50dc2751b1120bb85aeed5ec1cc461"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb0846304c69fac63ddbc0e3486f99ad"><td class="memItemLeft" align="right" valign="top"><a id="acb0846304c69fac63ddbc0e3486f99ad"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_2</b> = 1 / SQRT_2</td></tr>
+<tr class="separator:acb0846304c69fac63ddbc0e3486f99ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memItemLeft" align="right" valign="top"><a id="ae5ae301f88edb662a0ee3e5cc707dce9"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = 2.0 * std::numbers::inv_sqrt3_v&lt;double&gt;</td></tr>
+<tr class="separator:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08ba9bf85d183bcb4a5d0dc4f3db0467"><td class="memItemLeft" align="right" valign="top"><a id="a08ba9bf85d183bcb4a5d0dc4f3db0467"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>SQRT_2</b> = std::numbers::sqrt2_v&lt;double&gt;</td></tr>
+<tr class="separator:a08ba9bf85d183bcb4a5d0dc4f3db0467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests for ergodic moves on foliated triangulations. </p>
@@ -129,7 +124,7 @@ static const double&#160;</td><td class="memItemRight" valign="bottom"><b>SQRT_3
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

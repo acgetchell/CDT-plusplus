@@ -91,9 +91,9 @@ $(function() {
 <code>#include &lt;CGAL/Triangulation_vertex_base_with_info_3.h&gt;</code><br />
 <code>#include &lt;fmt/format.h&gt;</code><br />
 <code>#include &lt;algorithm&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;cstdlib&gt;</code><br />
 <code>#include &lt;iterator&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
 <code>#include &lt;optional&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
 <code>#include &quot;<a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>&quot;</code><br />
@@ -171,14 +171,14 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="bist
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a1b83b16d09ffec6c5ea28191aaa2042d"><td class="memItemLeft" align="right" valign="top"><a id="a1b83b16d09ffec6c5ea28191aaa2042d"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_2</b> = 1 / sqrt(2)</td></tr>
-<tr class="separator:a1b83b16d09ffec6c5ea28191aaa2042d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a83c57b5651e38576b7bafb804b4d7d8e"><td class="memItemLeft" align="right" valign="top"><a id="a83c57b5651e38576b7bafb804b4d7d8e"></a>
+static constexpr double&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_2</b> = 1 / std::numbers::sqrt2_v&lt;double&gt;</td></tr>
+<tr class="separator:a83c57b5651e38576b7bafb804b4d7d8e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Example bistellar fip. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell</dd></dl>
-<p>Show how to use the bistellar_flip functions on a 3D triangulation. Some convenience functions are defined here because the internal functions of the Triangulation_3 class are not currently accessible to the bistellar_flip functions. </p><dl class="section date"><dt>Date</dt><dd>Created: 2021-04-21 </dd></dl>
+<p>Show how to use the bistellar_flip functions on a 3D triangulation. Some convenience functions are defined here because the internal functions of the Triangulation_3 class are not currently accessible to the bistellar_flip functions. </p><dl class="section date"><dt>Date</dt><dd>Created: 2022-04-21 </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="bistellar_8cpp_source.html">bistellar.cpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
@@ -305,7 +305,7 @@ static const double&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQ
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

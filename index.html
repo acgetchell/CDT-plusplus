@@ -82,7 +82,7 @@ Small foliated Delaunay triangulation</div></div>
    <h1><a class="anchor" id="autotoc_md1"></a>
 Introduction</h1>
 <p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> and <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
+<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> and <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Goals</h1>
 <ul>
@@ -91,7 +91,7 @@ Goals</h1>
 <li>[x] Develop with <a href="http://www.literateprogramming.com">literate programming</a> using <a href="http://www.doxygen.org">Doxygen</a></li>
 <li>[x] <a href="https://blog.knatten.org/2012/11/02/efficient-pure-functional-programming-in-c-using-move-semantics/">Efficient Pure Functional Programming in C++ Using Move Semantics</a></li>
 <li>[x] Test using <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a></li>
-<li>[x] Develop using Behavior-driven development (<a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>) with <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a></li>
+<li>[x] Develop using Behavior-driven development (<a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>) with <a href="https://github.com/doctest/doctest">doctest</a></li>
 <li>[x] Continuous integration by <a href="https://travis-ci.com/getting_started">Travis-CI</a> on macOS and Linux with <a href="https://gcc.gnu.org/">gcc</a>/<a href="https://clang.llvm.org">Clang</a></li>
 <li>[x] Continuous integration by <a href="https://www.appveyor.com">AppVeyor</a> on Windows with <a href="https://docs.microsoft.com/en-us/cpp/build/reference/compiling-a-c-cpp-program?view=vs-2019">MSVC</a></li>
 <li>[x] Continuous integration by <a href="https://github.com/features/actions">Github Actions</a> on the leading edge</li>
@@ -238,11 +238,11 @@ Document</h1>
 <h1><a class="anchor" id="autotoc_md12"></a>
 Test</h1>
 <p>In the <code>scripts</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
-<p>Unit tests run (in <code>build/tests</code> or <code>build\tests\Debug</code>) via <code>CDT_test</code>, the <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> executable:</p>
+<p>Unit tests run (in <code>build/tests</code> or <code>build\tests\Debug</code>) via <code>CDT_test</code>, the <a href="https://github.com/doctest/doctest">doctest</a> executable:</p>
 <div class="fragment"><div class="line">./CDT_test</div>
 </div><!-- fragment --><p>or (Windows):</p>
 <div class="fragment"><div class="line">CDT_test.exe</div>
-</div><!-- fragment --><p>You can also run both <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a> integration and <a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> unit tests in the <code>build</code> directory with:</p>
+</div><!-- fragment --><p>You can also run both <a href="https://gitlab.kitware.com/cmake/community/wikis/doc/ctest/Testing-With-CTest">CTest</a> integration and <a href="https://github.com/doctest/doctest">doctest</a> unit tests in the <code>build</code> directory with:</p>
 <div class="fragment"><div class="line">cmake --build . --target test</div>
 </div><!-- fragment --><p>or (Windows):</p>
 <div class="fragment"><div class="line">ctest -C Debug</div>
@@ -297,7 +297,6 @@ Contribute</h1>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Issues</h1>
 <p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a>'s version of <a href="https://howardhinnant.github.io/date/date.html">date</a> has an unfixed bug <a href="https://github.com/microsoft/vcpkg/issues/23637">#23637</a> which produces <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</p>
-<p><a href="https://github.com/catchorg/Catch2/blob/master/docs/Readme.md">Catch</a> also produces (<a href="https://github.com/catchorg/Catch2/issues/2395">#2395</a>) <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, but this won't be addressed.</p>
 <p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>).</p>
 <p><a href="https://gmplib.org">GMP</a> won't build on <code>arm64-windows</code> so that platform is not supported <a href="https://github.com/microsoft/vcpkg/issues/24323">#24323</a>.</p>
 <p><code>harupy/find-trailing-whitespace</code> has a pull-request to only check changed files <a href="https://github.com/harupy/find-trailing-whitespace/pull/18">#18</a>, until then it fails from finding whitespace in graphic files for <a href="http://www.doxygen.org">Doxygen</a>. </p>
@@ -305,7 +304,7 @@ Issues</h1>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

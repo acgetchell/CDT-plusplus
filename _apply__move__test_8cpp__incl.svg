@@ -83,16 +83,16 @@ var sectionId = 'dynsection-0';
 <g id="node8" class="node">
 <title>Node8</title>
 <g id="a_node8"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="2723,-414.5 2723,-433.5 2822,-433.5 2822,-414.5 2723,-414.5"/>
-<text text-anchor="middle" x="2772.5" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">catch2/catch.hpp</text>
+<polygon fill="white" stroke="#bfbfbf" points="2723,-414.5 2723,-433.5 2824,-433.5 2824,-414.5 2723,-414.5"/>
+<text text-anchor="middle" x="2773.5" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">doctest/doctest.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node8 -->
 <g id="edge7" class="edge">
 <title>Node1&#45;&gt;Node8</title>
-<path fill="none" stroke="midnightblue" d="M2674.04,-470.44C2693.12,-461.64 2723.07,-447.81 2744.94,-437.72"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2746.43,-440.88 2754.05,-433.52 2743.5,-434.53 2746.43,-440.88"/>
+<path fill="none" stroke="midnightblue" d="M2674.2,-470.44C2693.44,-461.64 2723.65,-447.81 2745.7,-437.72"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2747.25,-440.86 2754.89,-433.52 2744.34,-434.5 2747.25,-440.86"/>
 </g>
 <!-- Node9 -->
 <g id="node9" class="node">

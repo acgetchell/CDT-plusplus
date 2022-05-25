@@ -37,16 +37,16 @@
 <g id="node7" class="node">
 <title>Node7</title>
 <g id="a_node7"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="2096.5,-302.5 2096.5,-321.5 2195.5,-321.5 2195.5,-302.5 2096.5,-302.5"/>
-<text text-anchor="middle" x="2146" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">catch2/catch.hpp</text>
+<polygon fill="white" stroke="#bfbfbf" points="2096.5,-302.5 2096.5,-321.5 2197.5,-321.5 2197.5,-302.5 2096.5,-302.5"/>
+<text text-anchor="middle" x="2147" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">doctest/doctest.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node7 -->
 <g id="edge6" class="edge">
 <title>Node1&#45;&gt;Node7</title>
-<path fill="none" stroke="midnightblue" d="M2055.35,-358.32C2072.67,-349.66 2099.52,-336.24 2119.5,-326.25"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="2121.31,-329.26 2128.69,-321.65 2118.18,-323 2121.31,-329.26"/>
+<path fill="none" stroke="midnightblue" d="M2055.51,-358.32C2073.07,-349.62 2100.33,-336.12 2120.53,-326.11"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="2122.12,-329.23 2129.53,-321.65 2119.02,-322.96 2122.12,-329.23"/>
 </g>
 <!-- Node8 -->
 <g id="node8" class="node">

@@ -78,11 +78,11 @@ $(function() {
 </div><!--header-->
 <div class="contents">
 <a href="_torus__test_8cpp.html">Go to the documentation of this file.</a><div class="fragment"><div class="line"><a name="l00001"></a><span class="lineno">    1</span>&#160; </div>
-<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;catch2/catch.hpp&gt;</span></div>
+<div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160;<span class="preprocessor">#include &lt;doctest/doctest.h&gt;</span></div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160; </div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_torus__d_8hpp.html">Torus_d.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160; </div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;SCENARIO(<span class="stringliteral">&quot;Torus construction&quot;</span>, <span class="stringliteral">&quot;[torus]&quot;</span>)</div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;SCENARIO(<span class="stringliteral">&quot;Torus construction&quot;</span>)</div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;{</div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;  std::size_t constexpr NUMBER_OF_POINTS = 250;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;  std::vector&lt;Point&gt; points;</div>
@@ -98,7 +98,7 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      }</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    }</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;  }</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  AND_GIVEN(<span class="stringliteral">&quot;A constructed 2-torus&quot;</span>)</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;  GIVEN(<span class="stringliteral">&quot;A constructed 2-torus&quot;</span>)</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;  {</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="keywordtype">int</span> dim = 3;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    <a class="code" href="_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f">make_d_cube</a>(points, NUMBER_OF_POINTS, dim);</div>
@@ -129,7 +129,7 @@ $(function() {
 <div class="ttc" id="a_torus__d_8hpp_html"><div class="ttname"><a href="_torus__d_8hpp.html">Torus_d.hpp</a></div><div class="ttdoc">Functions on d-dimensional torus.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

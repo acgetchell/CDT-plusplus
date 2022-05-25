@@ -1,7 +1,7 @@
 <map id="tests/Metropolis_test.cpp" name="tests/Metropolis_test.cpp">
 <area shape="rect" id="node1" title="Tests for the Metropolis&#45;Hastings algorithm." alt="" coords="1735,5,1921,32"/>
 <area shape="rect" id="node2" href="$_metropolis_8hpp.html" title="Perform Metropolis&#45;Hastings algorithm on Delaunay Triangulations." alt="" coords="1694,80,1813,107"/>
-<area shape="rect" id="node50" title=" " alt="" coords="1837,80,1969,107"/>
+<area shape="rect" id="node50" title=" " alt="" coords="1837,80,1971,107"/>
 <area shape="rect" id="node3" href="$_move__strategy_8hpp.html" title="Template class for move algorithms (strategies) on manifolds." alt="" coords="1798,155,1943,181"/>
 <area shape="rect" id="node48" href="$_s3_action_8hpp.html" title="Calculate S3 bulk actions on 3D Delaunay Triangulations." alt="" coords="1625,155,1732,181"/>
 <area shape="rect" id="node4" href="$_move__command_8hpp.html" title="Do ergodic moves using the Command pattern." alt="" coords="2202,229,2361,256"/>

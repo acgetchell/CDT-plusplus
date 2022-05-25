@@ -84,7 +84,8 @@ $(function() {
 <p>Tests for foliated triangulations.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_foliated__triangulation_8hpp_source.html">Foliated_triangulation.hpp</a>&quot;</code><br />
-<code>#include &lt;catch2/catch.hpp&gt;</code><br />
+<code>#include &lt;doctest/doctest.h&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Foliated_triangulation_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -98,33 +99,36 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ab5498a0d028ae1865504e1780ab092a4"><td class="memItemLeft" align="right" valign="top"><a id="ab5498a0d028ae1865504e1780ab092a4"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Detecting and fixing problems with vertices and cells&quot;, &quot;[triangulation]&quot;)</td></tr>
-<tr class="separator:ab5498a0d028ae1865504e1780ab092a4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a979620de74ee35efc35b1137df82f8d7"><td class="memItemLeft" align="right" valign="top"><a id="a979620de74ee35efc35b1137df82f8d7"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation free functions&quot;, &quot;[triangulation]&quot;)</td></tr>
-<tr class="separator:a979620de74ee35efc35b1137df82f8d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a270d6671299f5e62b11eadfc10530d10"><td class="memItemLeft" align="right" valign="top"><a id="a270d6671299f5e62b11eadfc10530d10"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation special member and swap properties&quot;, &quot;[triangulation]&quot;)</td></tr>
-<tr class="separator:a270d6671299f5e62b11eadfc10530d10"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaf0daf7c5a15f634711c5c2810a5caf5"><td class="memItemLeft" align="right" valign="top"><a id="aaf0daf7c5a15f634711c5c2810a5caf5"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation3 copying&quot;, &quot;[triangulation]&quot;)</td></tr>
-<tr class="separator:aaf0daf7c5a15f634711c5c2810a5caf5"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae024973dc708356ea3f4660637cbe4ea"><td class="memItemLeft" align="right" valign="top"><a id="ae024973dc708356ea3f4660637cbe4ea"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation3 functions from Delaunay3&quot;, &quot;[triangulation]&quot;)</td></tr>
-<tr class="separator:ae024973dc708356ea3f4660637cbe4ea"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a30b246a932fbd484c624e2134f9e95fa"><td class="memItemLeft" align="right" valign="top"><a id="a30b246a932fbd484c624e2134f9e95fa"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation3 initialization&quot;, &quot;[triangulation]&quot;)</td></tr>
-<tr class="separator:a30b246a932fbd484c624e2134f9e95fa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa9e84e8f7ec37b9729b8a128fc318d7"><td class="memItemLeft" align="right" valign="top"><a id="aaa9e84e8f7ec37b9729b8a128fc318d7"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Detecting and fixing problems with vertices and cells&quot;)</td></tr>
+<tr class="separator:aaa9e84e8f7ec37b9729b8a128fc318d7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ee0d9525055526d68187542901f8d48"><td class="memItemLeft" align="right" valign="top"><a id="a5ee0d9525055526d68187542901f8d48"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation free functions&quot;)</td></tr>
+<tr class="separator:a5ee0d9525055526d68187542901f8d48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad022bef20d5fcdbc2ed015f2c16f7e5c"><td class="memItemLeft" align="right" valign="top"><a id="ad022bef20d5fcdbc2ed015f2c16f7e5c"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation special member and swap properties&quot;)</td></tr>
+<tr class="separator:ad022bef20d5fcdbc2ed015f2c16f7e5c"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3a8e7c64204393c775fe04ebc452dafa"><td class="memItemLeft" align="right" valign="top"><a id="a3a8e7c64204393c775fe04ebc452dafa"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation3 copying&quot;)</td></tr>
+<tr class="separator:a3a8e7c64204393c775fe04ebc452dafa"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae77910b0ac507c958c599fe2ae00dae9"><td class="memItemLeft" align="right" valign="top"><a id="ae77910b0ac507c958c599fe2ae00dae9"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation3 functions from Delaunay3&quot;)</td></tr>
+<tr class="separator:ae77910b0ac507c958c599fe2ae00dae9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2fe44f23bd6340604e431cdc485cda10"><td class="memItemLeft" align="right" valign="top"><a id="a2fe44f23bd6340604e431cdc485cda10"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;FoliatedTriangulation3 initialization&quot;)</td></tr>
+<tr class="separator:a2fe44f23bd6340604e431cdc485cda10"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:a1b83b16d09ffec6c5ea28191aaa2042d"><td class="memItemLeft" align="right" valign="top"><a id="a1b83b16d09ffec6c5ea28191aaa2042d"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_2</b> = 1.0 / std::sqrt(2.0)</td></tr>
-<tr class="separator:a1b83b16d09ffec6c5ea28191aaa2042d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memItemLeft" align="right" valign="top"><a id="afb6a29ed9880f4952ae7f2dda28fd0ab"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = std::sqrt(4.0 / 3.0)</td></tr>
-<tr class="separator:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acb0846304c69fac63ddbc0e3486f99ad"><td class="memItemLeft" align="right" valign="top"><a id="acb0846304c69fac63ddbc0e3486f99ad"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>INV_SQRT_2</b> = 1.0 / SQRT_2</td></tr>
+<tr class="separator:acb0846304c69fac63ddbc0e3486f99ad"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memItemLeft" align="right" valign="top"><a id="ae5ae301f88edb662a0ee3e5cc707dce9"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = 2.0 * std::numbers::inv_sqrt3_v&lt;double&gt;</td></tr>
+<tr class="separator:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a08ba9bf85d183bcb4a5d0dc4f3db0467"><td class="memItemLeft" align="right" valign="top"><a id="a08ba9bf85d183bcb4a5d0dc4f3db0467"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>SQRT_2</b> = std::numbers::sqrt2_v&lt;double&gt;</td></tr>
+<tr class="separator:a08ba9bf85d183bcb4a5d0dc4f3db0467"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests for foliated triangulations. </p>
@@ -135,7 +139,7 @@ static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

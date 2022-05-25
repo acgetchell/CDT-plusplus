@@ -86,9 +86,9 @@ $(function() {
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;fmt/format.h&gt;</span></div>
 <div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
 <div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;algorithm&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;cmath&gt;</span></div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;iterator&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;cstdlib&gt;</span></div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;iterator&gt;</span></div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;<span class="preprocessor">#include &lt;numbers&gt;</span></div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="preprocessor">#include &lt;optional&gt;</span></div>
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<span class="preprocessor">#include &lt;vector&gt;</span></div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160; </div>
@@ -99,17 +99,17 @@ $(function() {
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;<span class="keyword">using</span> Vb  = CGAL::Triangulation_vertex_base_with_info_3&lt;int, K&gt;;</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;<span class="keyword">using</span> Cb  = CGAL::Triangulation_cell_base_with_info_3&lt;int, K&gt;;</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">using</span> Tds = CGAL::Triangulation_data_structure_3&lt;Vb, Cb, CGAL::Sequential_tag&gt;;</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using</span> Delaunay                        = CGAL::Delaunay_triangulation_3&lt;K, Tds&gt;;</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using</span> Cell_handle                     = Delaunay::Cell_handle;</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using</span> Edge_handle                     = CGAL::Triple&lt;Cell_handle, int, int&gt;;</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using</span> Vertex_handle                   = Delaunay::Vertex_handle;</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using</span> Vertex                          = Tds::Vertex;</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using</span> Point                           = Delaunay::Point;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using</span> Cell_container                  = std::vector&lt;Cell_handle&gt;;</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using</span> Edge_container                  = std::vector&lt;Edge_handle&gt;;</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using</span> Vertex_container                = std::vector&lt;Vertex_handle&gt;;</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;<span class="keyword">using</span> Delaunay         = CGAL::Delaunay_triangulation_3&lt;K, Tds&gt;;</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;<span class="keyword">using</span> Cell_handle      = Delaunay::Cell_handle;</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">using</span> Edge_handle      = CGAL::Triple&lt;Cell_handle, int, int&gt;;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;<span class="keyword">using</span> Vertex_handle    = Delaunay::Vertex_handle;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;<span class="keyword">using</span> Vertex           = Tds::Vertex;</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;<span class="keyword">using</span> Point            = Delaunay::Point;</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;<span class="keyword">using</span> Cell_container   = std::vector&lt;Cell_handle&gt;;</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;<span class="keyword">using</span> Edge_container   = std::vector&lt;Edge_handle&gt;;</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="keyword">using</span> Vertex_container = std::vector&lt;Vertex_handle&gt;;</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160; </div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">double</span> <span class="keyword">const</span> INV_SQRT_2 = 1 / sqrt(2);</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="keyword">static</span> <span class="keyword">inline</span> <span class="keywordtype">double</span> constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v&lt;double&gt;;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno"><a class="line" href="bistellar_8cpp.html#ac3b468d85f25eba189bf987b6c1aa11d">   44</a></span>&#160;[[nodiscard]] <span class="keyword">auto</span> <a class="code" href="bistellar_8cpp.html#ac3b468d85f25eba189bf987b6c1aa11d">get_cells</a>(Delaunay <span class="keyword">const</span>&amp; triangulation) -&gt; Cell_container</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
@@ -307,7 +307,7 @@ $(function() {
 <div class="ttc" id="astructergodic__moves_1_1bistellar__flip__arguments_html_a65cc6ea6ebd50cb3a8506259c3702529"><div class="ttname"><a href="structergodic__moves_1_1bistellar__flip__arguments.html#a65cc6ea6ebd50cb3a8506259c3702529">ergodic_moves::bistellar_flip_arguments::triangulation</a></div><div class="ttdeci">Delaunay_3 triangulation</div><div class="ttdoc">The Delaunay triangulation in which to perform the flip.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00531">Ergodic_moves_3.hpp:531</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

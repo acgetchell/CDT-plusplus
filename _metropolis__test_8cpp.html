@@ -74,7 +74,8 @@ $(function() {
 </div><!-- top -->
 <div class="header">
   <div class="summary">
-<a href="#func-members">Functions</a>  </div>
+<a href="#func-members">Functions</a> &#124;
+<a href="#var-members">Variables</a>  </div>
   <div class="headertitle">
 <div class="title">Metropolis_test.cpp File Reference</div>  </div>
 </div><!--header-->
@@ -83,7 +84,7 @@ $(function() {
 <p>Tests for the Metropolis-Hastings algorithm.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_metropolis_8hpp_source.html">Metropolis.hpp</a>&quot;</code><br />
-<code>#include &lt;catch2/catch.hpp&gt;</code><br />
+<code>#include &lt;doctest/doctest.h&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Metropolis_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -97,26 +98,40 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:ada9d0ec32abfa0c4c0b82f493e4aef64"><td class="memItemLeft" align="right" valign="top"><a id="ada9d0ec32abfa0c4c0b82f493e4aef64"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Metropolis member functions&quot;, &quot;[metropolis]&quot;)</td></tr>
-<tr class="separator:ada9d0ec32abfa0c4c0b82f493e4aef64"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abb7155d9bddf52fa1e5cb8031ea8d716"><td class="memItemLeft" align="right" valign="top"><a id="abb7155d9bddf52fa1e5cb8031ea8d716"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;MoveStrategy&lt;METROPOLIS&gt; special member and swap properties&quot;, &quot;[metropolis]&quot;)</td></tr>
-<tr class="separator:abb7155d9bddf52fa1e5cb8031ea8d716"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a09ec9e84385e0b19c405aabb54356feb"><td class="memItemLeft" align="right" valign="top"><a id="a09ec9e84385e0b19c405aabb54356feb"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Using the Metropolis algorithm&quot;, &quot;[metropolis][.]&quot;)</td></tr>
-<tr class="separator:a09ec9e84385e0b19c405aabb54356feb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6f693c0eb8b1b3cf9da355b12b08a229"><td class="memItemLeft" align="right" valign="top"><a id="a6f693c0eb8b1b3cf9da355b12b08a229"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GIVEN</b> (&quot;A correctly-constructed Manifold3.&quot;)</td></tr>
+<tr class="separator:a6f693c0eb8b1b3cf9da355b12b08a229"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a20d016c043ffd531403463c9ed4341be"><td class="memItemLeft" align="right" valign="top"><a id="a20d016c043ffd531403463c9ed4341be"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Metropolis member functions&quot;)</td></tr>
+<tr class="separator:a20d016c043ffd531403463c9ed4341be"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8e15d64d5fbaf21b57da814040508165"><td class="memItemLeft" align="right" valign="top"><a id="a8e15d64d5fbaf21b57da814040508165"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;MoveStrategy&lt;METROPOLIS&gt; special member and swap properties&quot;)</td></tr>
+<tr class="separator:a8e15d64d5fbaf21b57da814040508165"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
+Variables</h2></td></tr>
+<tr class="memitem:a5079ab7c325f1fe91356f3d762bb2af3"><td class="memItemLeft" align="right" valign="top"><a id="a5079ab7c325f1fe91356f3d762bb2af3"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>K</b> = static_cast&lt;long double&gt;(1.1)</td></tr>
+<tr class="separator:a5079ab7c325f1fe91356f3d762bb2af3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb84997a6ec808f47e3cb7493d93b55a"><td class="memItemLeft" align="right" valign="top"><a id="aeb84997a6ec808f47e3cb7493d93b55a"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>Lambda</b> = static_cast&lt;long double&gt;(0.1)</td></tr>
+<tr class="separator:aeb84997a6ec808f47e3cb7493d93b55a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af7eb1491370179825b9c8823a9267ad1"><td class="memItemLeft" align="right" valign="top"><a id="af7eb1491370179825b9c8823a9267ad1"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>output_every_n_passes</b> = 1</td></tr>
+<tr class="separator:af7eb1491370179825b9c8823a9267ad1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aeb2e0413dd8ad4453f680e2d68b92b8f"><td class="memItemLeft" align="right" valign="top"><a id="aeb2e0413dd8ad4453f680e2d68b92b8f"></a>
+constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>passes</b> = 1</td></tr>
+<tr class="separator:aeb2e0413dd8ad4453f680e2d68b92b8f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests for the Metropolis-Hastings algorithm. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
-<dl class="todo"><dt><b><a class="el" href="todo.html#_todo000005">Todo:</a></b></dt><dd>Debug accepted moves != attempted moves (should be equal) </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_metropolis__test_8cpp_source.html">Metropolis_test.cpp</a>.</p>
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -1,7 +1,6 @@
 <map id="include/Utilities.hpp" name="include/Utilities.hpp">
-<area shape="rect" id="node1" title="Utility functions." alt="" coords="1903,5,2055,32"/>
+<area shape="rect" id="node1" title="Utility functions." alt="" coords="1801,5,1953,32"/>
 <area shape="rect" id="node2" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1755,80,1998,107"/>
-<area shape="rect" id="node29" href="$main_8cpp.html" title="Catch test driver." alt="" coords="2023,80,2141,107"/>
 <area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1509,162,1673,189"/>
 <area shape="rect" id="node16" href="$bistellar_8cpp.html" title="Example bistellar fip." alt="" coords="1432,490,1556,517"/>
 <area shape="rect" id="node27" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="1846,155,2046,196"/>

@@ -13,9 +13,9 @@
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Tests for ergodic moves on foliated triangulations.">
-<polygon fill="#bfbfbf" stroke="black" points="404,-470.5 404,-500.5 522,-500.5 522,-470.5 404,-470.5"/>
-<text text-anchor="start" x="412" y="-488.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Ergodic_moves</text>
-<text text-anchor="middle" x="463" y="-477.5" font-family="Helvetica,sans-Serif" font-size="10.00">_3_test.cpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="470,-470.5 470,-500.5 588,-500.5 588,-470.5 470,-470.5"/>
+<text text-anchor="start" x="478" y="-488.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Ergodic_moves</text>
+<text text-anchor="middle" x="529" y="-477.5" font-family="Helvetica,sans-Serif" font-size="10.00">_3_test.cpp</text>
 </a>
 </g>
 </g>
@@ -31,23 +31,38 @@
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M447.83,-470.4C438.25,-461.49 425.84,-449.95 415.93,-440.74"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="418.02,-437.9 408.31,-433.66 413.25,-443.03 418.02,-437.9"/>
+<path fill="none" stroke="midnightblue" d="M498.19,-470.4C476.67,-460.55 448.16,-447.5 427.23,-437.92"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="428.47,-434.64 417.92,-433.66 425.55,-441 428.47,-434.64"/>
 </g>
 <!-- Node43 -->
 <g id="node43" class="node">
 <title>Node43</title>
 <g id="a_node43"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="478.5,-414.5 478.5,-433.5 577.5,-433.5 577.5,-414.5 478.5,-414.5"/>
-<text text-anchor="middle" x="528" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">catch2/catch.hpp</text>
+<polygon fill="white" stroke="#bfbfbf" points="478.5,-414.5 478.5,-433.5 579.5,-433.5 579.5,-414.5 478.5,-414.5"/>
+<text text-anchor="middle" x="529" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">doctest/doctest.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node43 -->
 <g id="edge43" class="edge">
 <title>Node1&#45;&gt;Node43</title>
-<path fill="none" stroke="midnightblue" d="M478.4,-470.4C488.24,-461.4 500.99,-449.72 511.11,-440.47"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="513.53,-442.99 518.54,-433.66 508.8,-437.83 513.53,-442.99"/>
+<path fill="none" stroke="midnightblue" d="M529,-470.4C529,-462.47 529,-452.46 529,-443.86"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="532.5,-443.66 529,-433.66 525.5,-443.66 532.5,-443.66"/>
+</g>
+<!-- Node44 -->
+<g id="node44" class="node">
+<title>Node44</title>
+<g id="a_node44"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="597.5,-414.5 597.5,-433.5 656.5,-433.5 656.5,-414.5 597.5,-414.5"/>
+<text text-anchor="middle" x="627" y="-421.5" font-family="Helvetica,sans-Serif" font-size="10.00">numbers</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node44 -->
+<g id="edge44" class="edge">
+<title>Node1&#45;&gt;Node44</title>
+<path fill="none" stroke="midnightblue" d="M552.22,-470.4C567.79,-460.95 588.2,-448.56 603.76,-439.11"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="606.01,-441.84 612.74,-433.66 602.38,-435.86 606.01,-441.84"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">

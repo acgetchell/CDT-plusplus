@@ -13,8 +13,8 @@
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Tests on utility functions.">
-<polygon fill="#bfbfbf" stroke="black" points="340,-358.5 340,-377.5 466,-377.5 466,-358.5 340,-358.5"/>
-<text text-anchor="middle" x="403" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Utilities_test.cpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="339,-358.5 339,-377.5 465,-377.5 465,-358.5 339,-358.5"/>
+<text text-anchor="middle" x="402" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Utilities_test.cpp</text>
 </a>
 </g>
 </g>
@@ -22,16 +22,16 @@
 <g id="node2" class="node">
 <title>Node2</title>
 <g id="a_node2"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="299.5,-302.5 299.5,-321.5 398.5,-321.5 398.5,-302.5 299.5,-302.5"/>
-<text text-anchor="middle" x="349" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">catch2/catch.hpp</text>
+<polygon fill="white" stroke="#bfbfbf" points="297.5,-302.5 297.5,-321.5 398.5,-321.5 398.5,-302.5 297.5,-302.5"/>
+<text text-anchor="middle" x="348" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">doctest/doctest.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M394.08,-358.08C386.22,-350.22 374.57,-338.57 365.08,-329.08"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="367.3,-326.35 357.75,-321.75 362.35,-331.3 367.3,-326.35"/>
+<path fill="none" stroke="midnightblue" d="M393.08,-358.08C385.22,-350.22 373.57,-338.57 364.08,-329.08"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="366.3,-326.35 356.75,-321.75 361.35,-331.3 366.3,-326.35"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">
@@ -45,8 +45,8 @@
 <!-- Node1&#45;&gt;Node3 -->
 <g id="edge2" class="edge">
 <title>Node1&#45;&gt;Node3</title>
-<path fill="none" stroke="midnightblue" d="M411.92,-358.08C419.78,-350.22 431.43,-338.57 440.92,-329.08"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="443.65,-331.3 448.25,-321.75 438.7,-326.35 443.65,-331.3"/>
+<path fill="none" stroke="midnightblue" d="M411.08,-358.08C419.17,-350.14 431.2,-338.34 440.91,-328.8"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="443.4,-331.25 448.09,-321.75 438.5,-326.26 443.4,-331.25"/>
 </g>
 <!-- Node4 -->
 <g id="node4" class="node">

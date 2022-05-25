@@ -86,52 +86,50 @@ $(function() {
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="_settings_8hpp.html">Settings.hpp</a>&quot;</span></div>
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
-<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;fmt/format.h&gt;</span></div>
-<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;catch2/catch.hpp&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;typeinfo&gt;</span></div>
+<div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;doctest/doctest.h&gt;</span></div>
+<div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160;<span class="preprocessor">#include &lt;fmt/format.h&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160; </div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="keyword">using namespace </span>std;</div>
 <div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160; </div>
-<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="keyword">using namespace </span>std;</div>
-<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
-<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;SCENARIO(<span class="stringliteral">&quot;Check settings&quot;</span>, <span class="stringliteral">&quot;[settings]&quot;</span>)</div>
-<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;{</div>
-<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;  GIVEN(<span class="stringliteral">&quot;Settings are retrieved.&quot;</span>)</div>
-<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  {</div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    WHEN(<span class="stringliteral">&quot;The integer type is queried.&quot;</span>)</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;    {</div>
-<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span>&amp; int_precision = <span class="keyword">typeid</span>(<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>).name();</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;      THEN(<span class="stringliteral">&quot;The value is std::int_fast32_t.&quot;</span>)</div>
-<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;      {</div>
-<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;        fmt::print(<span class="stringliteral">&quot;TypeID of Int_precision is {}.\n&quot;</span>, int_precision);</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;        REQUIRE(int_precision == <span class="keyword">typeid</span>(std::int_fast32_t).name());</div>
-<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      }</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    }</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    WHEN(<span class="stringliteral">&quot;MPFR precision is queried.&quot;</span>)</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    {</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      <span class="keyword">auto</span> precision = <a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>;</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 256 bits.&quot;</span>)</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      {</div>
-<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.\n&quot;</span>, precision);</div>
-<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;        REQUIRE(precision == 256);</div>
-<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      }</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    }</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    WHEN(<span class="stringliteral">&quot;Memory alignment is queried.&quot;</span>)</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    {</div>
-<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_64 = <a class="code" href="_settings_8hpp.html#a3841f237ed7f4ea1fd5f6a42e4462f5c">ALIGNMENT_64_BIT</a>;</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 64 bits.&quot;</span>)</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;      {</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_64);</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        REQUIRE(align_64 == 64);</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      }</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_32 = <a class="code" href="_settings_8hpp.html#a4ad7a10e56a719ecc3b9e3fa1ce4bf12">ALIGNMENT_32_BIT</a>;</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 32 bits.&quot;</span>)</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;      {</div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_32);</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;        REQUIRE(align_32 == 32);</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      }</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;    }</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  }</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;}</div>
+<div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;SCENARIO(<span class="stringliteral">&quot;Check settings&quot;</span> * doctest::may_fail())</div>
+<div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160;{</div>
+<div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;  GIVEN(<span class="stringliteral">&quot;Settings are retrieved.&quot;</span>)</div>
+<div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;  {</div>
+<div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;    WHEN(<span class="stringliteral">&quot;The integer type is queried.&quot;</span>)</div>
+<div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;    {</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span>&amp; int_precision = <span class="keyword">typeid</span>(<a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a>).name();</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      THEN(<span class="stringliteral">&quot;The value is std::int_fast32_t.&quot;</span>)</div>
+<div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      {</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        fmt::print(<span class="stringliteral">&quot;TypeID of Int_precision is {}.\n&quot;</span>, int_precision);</div>
+<div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        CHECK(int_precision == <span class="keyword">typeid</span>(std::int_fast32_t).name());</div>
+<div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      }</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
+<div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    WHEN(<span class="stringliteral">&quot;MPFR precision is queried.&quot;</span>)</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <span class="keyword">auto</span> precision = <a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>;</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 256 bits.&quot;</span>)</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      {</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.\n&quot;</span>, precision);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        REQUIRE(precision == 256);</div>
+<div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      }</div>
+<div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
+<div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    WHEN(<span class="stringliteral">&quot;Memory alignment is queried.&quot;</span>)</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_64 = <a class="code" href="_settings_8hpp.html#a3841f237ed7f4ea1fd5f6a42e4462f5c">ALIGNMENT_64_BIT</a>;</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 64 bits.&quot;</span>)</div>
+<div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      {</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_64);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        REQUIRE(align_64 == 64);</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      }</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_32 = <a class="code" href="_settings_8hpp.html#a4ad7a10e56a719ecc3b9e3fa1ce4bf12">ALIGNMENT_32_BIT</a>;</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 32 bits.&quot;</span>)</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      {</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_32);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        REQUIRE(align_32 == 32);</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      }</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  }</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="a_settings_8hpp_html_a3841f237ed7f4ea1fd5f6a42e4462f5c"><div class="ttname"><a href="_settings_8hpp.html#a3841f237ed7f4ea1fd5f6a42e4462f5c">ALIGNMENT_64_BIT</a></div><div class="ttdeci">static constexpr int ALIGNMENT_64_BIT</div><div class="ttdoc">Aligns data for ease of access on 64-bit CPUs at the expense of padding.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00057">Settings.hpp:57</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a4ad7a10e56a719ecc3b9e3fa1ce4bf12"><div class="ttname"><a href="_settings_8hpp.html#a4ad7a10e56a719ecc3b9e3fa1ce4bf12">ALIGNMENT_32_BIT</a></div><div class="ttdeci">static constexpr int ALIGNMENT_32_BIT</div><div class="ttdoc">Except when we only need 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00060">Settings.hpp:60</a></div></div>
@@ -140,7 +138,7 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

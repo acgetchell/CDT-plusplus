@@ -13,8 +13,8 @@
 <g id="node1" class="node">
 <title>Node1</title>
 <g id="a_node1"><a xlink:title="Tests of new manifold data structure.">
-<polygon fill="#bfbfbf" stroke="black" points="445.5,-358.5 445.5,-377.5 576.5,-377.5 576.5,-358.5 445.5,-358.5"/>
-<text text-anchor="middle" x="511" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Manifold_test.cpp</text>
+<polygon fill="#bfbfbf" stroke="black" points="500.5,-358.5 500.5,-377.5 631.5,-377.5 631.5,-358.5 500.5,-358.5"/>
+<text text-anchor="middle" x="566" y="-365.5" font-family="Helvetica,sans-Serif" font-size="10.00">tests/Manifold_test.cpp</text>
 </a>
 </g>
 </g>
@@ -30,23 +30,38 @@
 <!-- Node1&#45;&gt;Node2 -->
 <g id="edge1" class="edge">
 <title>Node1&#45;&gt;Node2</title>
-<path fill="none" stroke="midnightblue" d="M502.08,-358.08C494.22,-350.22 482.57,-338.57 473.08,-329.08"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="475.3,-326.35 465.75,-321.75 470.35,-331.3 475.3,-326.35"/>
+<path fill="none" stroke="midnightblue" d="M548.49,-358.32C530.93,-349.62 503.67,-336.12 483.47,-326.11"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="484.98,-322.96 474.47,-321.65 481.88,-329.23 484.98,-322.96"/>
 </g>
 <!-- Node40 -->
 <g id="node40" class="node">
 <title>Node40</title>
 <g id="a_node40"><a xlink:title=" ">
-<polygon fill="white" stroke="#bfbfbf" points="515.5,-302.5 515.5,-321.5 614.5,-321.5 614.5,-302.5 515.5,-302.5"/>
-<text text-anchor="middle" x="565" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">catch2/catch.hpp</text>
+<polygon fill="white" stroke="#bfbfbf" points="515.5,-302.5 515.5,-321.5 616.5,-321.5 616.5,-302.5 515.5,-302.5"/>
+<text text-anchor="middle" x="566" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">doctest/doctest.h</text>
 </a>
 </g>
 </g>
 <!-- Node1&#45;&gt;Node40 -->
 <g id="edge40" class="edge">
 <title>Node1&#45;&gt;Node40</title>
-<path fill="none" stroke="midnightblue" d="M519.92,-358.08C527.78,-350.22 539.43,-338.57 548.92,-329.08"/>
-<polygon fill="midnightblue" stroke="midnightblue" points="551.65,-331.3 556.25,-321.75 546.7,-326.35 551.65,-331.3"/>
+<path fill="none" stroke="midnightblue" d="M566,-358.08C566,-351.01 566,-340.86 566,-331.99"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="569.5,-331.75 566,-321.75 562.5,-331.75 569.5,-331.75"/>
+</g>
+<!-- Node41 -->
+<g id="node41" class="node">
+<title>Node41</title>
+<g id="a_node41"><a xlink:title=" ">
+<polygon fill="white" stroke="#bfbfbf" points="634.5,-302.5 634.5,-321.5 693.5,-321.5 693.5,-302.5 634.5,-302.5"/>
+<text text-anchor="middle" x="664" y="-309.5" font-family="Helvetica,sans-Serif" font-size="10.00">numbers</text>
+</a>
+</g>
+</g>
+<!-- Node1&#45;&gt;Node41 -->
+<g id="edge41" class="edge">
+<title>Node1&#45;&gt;Node41</title>
+<path fill="none" stroke="midnightblue" d="M581.75,-358.32C597.32,-349.74 621.38,-336.49 639.46,-326.52"/>
+<polygon fill="midnightblue" stroke="midnightblue" points="641.22,-329.55 648.29,-321.65 637.85,-323.42 641.22,-329.55"/>
 </g>
 <!-- Node3 -->
 <g id="node3" class="node">

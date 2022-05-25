@@ -84,7 +84,8 @@ $(function() {
 <p>Tests of new manifold data structure.  
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &quot;<a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>&quot;</code><br />
-<code>#include &lt;catch2/catch.hpp&gt;</code><br />
+<code>#include &lt;doctest/doctest.h&gt;</code><br />
+<code>#include &lt;numbers&gt;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Manifold_test.cpp:</div>
 <div id="dynsection-0-summary" class="dynsummary" style="display:block;">
@@ -98,39 +99,42 @@ $(function() {
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:a4936c71015f0f39a1b5b1c45e266a454"><td class="memItemLeft" align="right" valign="top"><a id="a4936c71015f0f39a1b5b1c45e266a454"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold copying&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:a4936c71015f0f39a1b5b1c45e266a454"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a86c0feb15fe431d86236338356a0481e"><td class="memItemLeft" align="right" valign="top"><a id="a86c0feb15fe431d86236338356a0481e"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold function checks&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:a86c0feb15fe431d86236338356a0481e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a294109dfe840a715ad9548c9306c5b6d"><td class="memItemLeft" align="right" valign="top"><a id="a294109dfe840a715ad9548c9306c5b6d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold initialization&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:a294109dfe840a715ad9548c9306c5b6d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa28127f54d13df3b3e51a7f233970e70"><td class="memItemLeft" align="right" valign="top"><a id="aa28127f54d13df3b3e51a7f233970e70"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold mutation&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:aa28127f54d13df3b3e51a7f233970e70"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a431227c453c7e5ae69c99b268e147388"><td class="memItemLeft" align="right" valign="top"><a id="a431227c453c7e5ae69c99b268e147388"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold update geometry&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:a431227c453c7e5ae69c99b268e147388"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac9e2f1d35b0df16624ee269b4050b479"><td class="memItemLeft" align="right" valign="top"><a id="ac9e2f1d35b0df16624ee269b4050b479"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold validation and fixing&quot;, &quot;[manifold][!mayfail]&quot;)</td></tr>
-<tr class="separator:ac9e2f1d35b0df16624ee269b4050b479"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a7c7c23cc1b12ac05eba4796e115778c3"><td class="memItemLeft" align="right" valign="top"><a id="a7c7c23cc1b12ac05eba4796e115778c3"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Manifold functions&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:a7c7c23cc1b12ac05eba4796e115778c3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a6423c86168046b5f9e9e5bc9be05b40d"><td class="memItemLeft" align="right" valign="top"><a id="a6423c86168046b5f9e9e5bc9be05b40d"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Manifold special member and swap properties&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:a6423c86168046b5f9e9e5bc9be05b40d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afb9c4d82fa296190d83a36f2beb139fc"><td class="memItemLeft" align="right" valign="top"><a id="afb9c4d82fa296190d83a36f2beb139fc"></a>
-&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Manifold static members&quot;, &quot;[manifold]&quot;)</td></tr>
-<tr class="separator:afb9c4d82fa296190d83a36f2beb139fc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a130441f7a03d90205647c4d35407d28d"><td class="memItemLeft" align="right" valign="top"><a id="a130441f7a03d90205647c4d35407d28d"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GIVEN</b> (&quot;A (1,3) and (3,1) stacked on each other.&quot;)</td></tr>
+<tr class="separator:a130441f7a03d90205647c4d35407d28d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4e8a8ecb0ad609c615e52ac3df5a64e3"><td class="memItemLeft" align="right" valign="top"><a id="a4e8a8ecb0ad609c615e52ac3df5a64e3"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>GIVEN</b> (&quot;A medium sized manifold.&quot;)</td></tr>
+<tr class="separator:a4e8a8ecb0ad609c615e52ac3df5a64e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a9b018db68d7794b528507a39000223e2"><td class="memItemLeft" align="right" valign="top"><a id="a9b018db68d7794b528507a39000223e2"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold copying&quot;)</td></tr>
+<tr class="separator:a9b018db68d7794b528507a39000223e2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5ba18967bf8fc9b8628385499b0a82ba"><td class="memItemLeft" align="right" valign="top"><a id="a5ba18967bf8fc9b8628385499b0a82ba"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold function checks&quot;)</td></tr>
+<tr class="separator:a5ba18967bf8fc9b8628385499b0a82ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a56bfc4da9a72317bfb42151d093e0bbc"><td class="memItemLeft" align="right" valign="top"><a id="a56bfc4da9a72317bfb42151d093e0bbc"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold initialization&quot;)</td></tr>
+<tr class="separator:a56bfc4da9a72317bfb42151d093e0bbc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1e1f936697af6c5424ee922347f51f57"><td class="memItemLeft" align="right" valign="top"><a id="a1e1f936697af6c5424ee922347f51f57"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold mutation&quot;)</td></tr>
+<tr class="separator:a1e1f936697af6c5424ee922347f51f57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:abcc81550b5562079cb700d2c6a6993cf"><td class="memItemLeft" align="right" valign="top"><a id="abcc81550b5562079cb700d2c6a6993cf"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;3-Manifold update geometry&quot;)</td></tr>
+<tr class="separator:abcc81550b5562079cb700d2c6a6993cf"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a335bded519040a5464d9e0a5c5157d61"><td class="memItemLeft" align="right" valign="top"><a id="a335bded519040a5464d9e0a5c5157d61"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Manifold functions&quot;)</td></tr>
+<tr class="separator:a335bded519040a5464d9e0a5c5157d61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a259ae6da7efa19ee608c4cd7a7206fb4"><td class="memItemLeft" align="right" valign="top"><a id="a259ae6da7efa19ee608c4cd7a7206fb4"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Manifold special member and swap properties&quot;)</td></tr>
+<tr class="separator:a259ae6da7efa19ee608c4cd7a7206fb4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a853fba3ae4f3f4ba12001e85aae34f79"><td class="memItemLeft" align="right" valign="top"><a id="a853fba3ae4f3f4ba12001e85aae34f79"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>SCENARIO</b> (&quot;Manifold static members&quot;)</td></tr>
+<tr class="separator:a853fba3ae4f3f4ba12001e85aae34f79"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="var-members"></a>
 Variables</h2></td></tr>
-<tr class="memitem:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memItemLeft" align="right" valign="top"><a id="afb6a29ed9880f4952ae7f2dda28fd0ab"></a>
-static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = std::sqrt(4.0 / 3.0)</td></tr>
-<tr class="separator:afb6a29ed9880f4952ae7f2dda28fd0ab"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memItemLeft" align="right" valign="top"><a id="ae5ae301f88edb662a0ee3e5cc707dce9"></a>
+static constexpr auto&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS_2</b> = 2.0 * std::numbers::inv_sqrt3_v&lt;double&gt;</td></tr>
+<tr class="separator:ae5ae301f88edb662a0ee3e5cc707dce9"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Tests of new manifold data structure. </p>
@@ -140,7 +144,7 @@ static const double&#160;</td><td class="memItemRight" valign="bottom"><b>RADIUS
 </div></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri May 6 2022 07:52:28 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
