@@ -233,7 +233,7 @@ $(function() {
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    }</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    WHEN(<span class="stringliteral">&quot;An improperly prepared (3,2) move is performed&quot;</span>)</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    {</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_ergodic__moves__3_8hpp.html#aca77b6cb169c883cbabb5344d611ffc9">ergodic_moves::do_32_move</a>(manifold);</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_ergodic__moves__3_8hpp.html#a7308be759d4c0dbbeb6c1dcd547caaf8">ergodic_moves::do_32_move</a>(manifold);</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;      THEN(<span class="stringliteral">&quot;The move is not performed&quot;</span>)</div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;      {</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;        CHECK_FALSE(result);</div>
@@ -386,7 +386,7 @@ $(function() {
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160;    }</div>
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;    WHEN(<span class="stringliteral">&quot;An improperly prepared (6,2) move is performed&quot;</span>)</div>
 <div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;    {</div>
-<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_ergodic__moves__3_8hpp.html#afb70e0877b4d630fb23ab26cf67aa395">ergodic_moves::do_62_move</a>(manifold);</div>
+<div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160;      <span class="keyword">auto</span> result = <a class="code" href="_ergodic__moves__3_8hpp.html#ac152307739562ae71bdcf643746fc5c2">ergodic_moves::do_62_move</a>(manifold);</div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;      THEN(<span class="stringliteral">&quot;The move is not performed&quot;</span>)</div>
 <div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;      {</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160;        CHECK_FALSE(result);</div>
@@ -452,14 +452,69 @@ $(function() {
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;    }</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160;  }</div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;}</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160; </div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;SCENARIO(<span class="stringliteral">&quot;Test bistellar flips&quot;</span>)</div>
+<div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;{</div>
+<div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;  GIVEN(<span class="stringliteral">&quot;A valid Delaunay_3 triangulation.&quot;</span>)</div>
+<div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;  {</div>
+<div class="line"><a name="l00385"></a><span class="lineno">  385</span>&#160;    <span class="comment">// Create a Delaunay triangulation</span></div>
+<div class="line"><a name="l00386"></a><span class="lineno">  386</span>&#160;    std::vector&lt;Point_t&lt;3&gt;&gt; vertices{</div>
+<div class="line"><a name="l00387"></a><span class="lineno">  387</span>&#160;        Point_t&lt;3&gt;{          0,           0,          0},</div>
+<div class="line"><a name="l00388"></a><span class="lineno">  388</span>&#160;        Point_t&lt;3&gt;{ INV_SQRT_2,           0, INV_SQRT_2},</div>
+<div class="line"><a name="l00389"></a><span class="lineno">  389</span>&#160;        Point_t&lt;3&gt;{          0,  INV_SQRT_2, INV_SQRT_2},</div>
+<div class="line"><a name="l00390"></a><span class="lineno">  390</span>&#160;        Point_t&lt;3&gt;{-INV_SQRT_2,           0, INV_SQRT_2},</div>
+<div class="line"><a name="l00391"></a><span class="lineno">  391</span>&#160;        Point_t&lt;3&gt;{          0, -INV_SQRT_2, INV_SQRT_2},</div>
+<div class="line"><a name="l00392"></a><span class="lineno">  392</span>&#160;        Point_t&lt;3&gt;{          0,           0,          2}</div>
+<div class="line"><a name="l00393"></a><span class="lineno">  393</span>&#160;    };</div>
+<div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;    Delaunay_t&lt;3&gt; dt(vertices.begin(), vertices.end());</div>
+<div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160;    CHECK(dt.is_valid());</div>
+<div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;    WHEN(<span class="stringliteral">&quot;We want to make a bistellar flip.&quot;</span>)</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;    {</div>
+<div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160;      <span class="keyword">auto</span> edges = foliated_triangulations::collect_edges&lt;3&gt;(dt);</div>
+<div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;      THEN(<span class="stringliteral">&quot;We can get the cells in the triangulation.&quot;</span>)</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;      {</div>
+<div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160;        <span class="keyword">auto</span> cells = foliated_triangulations::get_all_finite_cells&lt;3&gt;(dt);</div>
+<div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        CHECK_EQ(cells.size(), 4);</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;      }</div>
+<div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160;      THEN(<span class="stringliteral">&quot;We can get the finite edges in the triangulation.&quot;</span>)</div>
+<div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;      {</div>
+<div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        CHECK_EQ(edges.size(), 13);</div>
+<div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160;      }</div>
+<div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;      THEN(<span class="stringliteral">&quot;We can find the pivot edge in the triangulation.&quot;</span>)</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;      {</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;        <span class="keyword">auto</span> pivot_edge = <a class="code" href="_ergodic__moves__3_8hpp.html#abe6c7009b0ee67e8124ad80112723f83">ergodic_moves::find_pivot</a>(dt, edges);</div>
+<div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        <span class="keyword">auto</span> Contains   = [&amp;vertices](Point_t&lt;3&gt; point) {</div>
+<div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;          <span class="keywordflow">return</span> std::any_of(vertices.begin(), vertices.end(),</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;                               [&amp;point](Point_t&lt;3&gt; p) { return p == point; });</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;        };</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;        REQUIRE(pivot_edge);</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;        <span class="keyword">auto</span> pivot_from_1 = pivot_edge.value()</div>
+<div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;                                .first-&gt;vertex(pivot_edge.value().second)</div>
+<div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;                                -&gt;point();</div>
+<div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <span class="keyword">auto</span> pivot_from_2 =</div>
+<div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;            pivot_edge.value().first-&gt;vertex(pivot_edge.value().third)-&gt;point();</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;        <span class="comment">// Verify Contains</span></div>
+<div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;        CHECK_FALSE(Contains(Point_t&lt;3&gt;{0, 0, 1}));</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;        CHECK(Contains(pivot_from_1));</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;        CHECK(Contains(pivot_from_2));</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160; </div>
+<div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;        <span class="comment">// Human verification</span></div>
+<div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;        foliated_triangulations::print_edge&lt;3&gt;(pivot_edge.value());</div>
+<div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;        fmt::print(<span class="stringliteral">&quot;pivot_1: {}\n&quot;</span>, pivot_from_1);</div>
+<div class="line"><a name="l00429"></a><span class="lineno">  429</span>&#160;        fmt::print(<span class="stringliteral">&quot;pivot_2: {}\n&quot;</span>, pivot_from_2);</div>
+<div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;      }</div>
+<div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;    }</div>
+<div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;  }</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_aca77b6cb169c883cbabb5344d611ffc9"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#aca77b6cb169c883cbabb5344d611ffc9">ergodic_moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(manifolds::Manifold3 &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00130">Ergodic_moves_3.hpp:130</a></div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_afb70e0877b4d630fb23ab26cf67aa395"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#afb70e0877b4d630fb23ab26cf67aa395">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(manifolds::Manifold3 &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00458">Ergodic_moves_3.hpp:458</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_a7308be759d4c0dbbeb6c1dcd547caaf8"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a7308be759d4c0dbbeb6c1dcd547caaf8">ergodic_moves::do_32_move</a></div><div class="ttdeci">auto do_32_move(Manifold &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (3,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00136">Ergodic_moves_3.hpp:136</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_ac152307739562ae71bdcf643746fc5c2"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ac152307739562ae71bdcf643746fc5c2">ergodic_moves::do_62_move</a></div><div class="ttdeci">auto do_62_move(Manifold &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (6,2) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00463">Ergodic_moves_3.hpp:463</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_abe6c7009b0ee67e8124ad80112723f83"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#abe6c7009b0ee67e8124ad80112723f83">ergodic_moves::find_pivot</a></div><div class="ttdeci">auto find_pivot(Delaunay const &amp;triangulation, Edge_container const &amp;edges) -&gt; std::optional&lt; Edge_handle &gt;</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00663">Ergodic_moves_3.hpp:663</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:29</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed May 25 2022 20:37:18 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Thu May 26 2022 21:52:53 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
