@@ -377,3 +377,57 @@ SCENARIO(
     }
   }
 }
+
+SCENARIO("Test bistellar flips")
+{
+  GIVEN("A valid Delaunay_3 triangulation.")
+  {
+    // Create a Delaunay triangulation
+    std::vector<Point_t<3>> vertices{
+        Point_t<3>{          0,           0,          0},
+        Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{-INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{          0,           0,          2}
+    };
+    Delaunay_t<3> dt(vertices.begin(), vertices.end());
+    CHECK(dt.is_valid());
+    WHEN("We want to make a bistellar flip.")
+    {
+      auto edges = foliated_triangulations::collect_edges<3>(dt);
+      THEN("We can get the cells in the triangulation.")
+      {
+        auto cells = foliated_triangulations::get_all_finite_cells<3>(dt);
+        CHECK_EQ(cells.size(), 4);
+      }
+      THEN("We can get the finite edges in the triangulation.")
+      {
+        CHECK_EQ(edges.size(), 13);
+      }
+      THEN("We can find the pivot edge in the triangulation.")
+      {
+        auto pivot_edge = ergodic_moves::find_pivot(dt, edges);
+        auto Contains   = [&vertices](Point_t<3> point) {
+          return std::any_of(vertices.begin(), vertices.end(),
+                               [&point](Point_t<3> p) { return p == point; });
+        };
+        REQUIRE(pivot_edge);
+        auto pivot_from_1 = pivot_edge.value()
+                                .first->vertex(pivot_edge.value().second)
+                                ->point();
+        auto pivot_from_2 =
+            pivot_edge.value().first->vertex(pivot_edge.value().third)->point();
+        // Verify Contains
+        CHECK_FALSE(Contains(Point_t<3>{0, 0, 1}));
+        CHECK(Contains(pivot_from_1));
+        CHECK(Contains(pivot_from_2));
+
+        // Human verification
+        foliated_triangulations::print_edge<3>(pivot_edge.value());
+        fmt::print("pivot_1: {}\n", pivot_from_1);
+        fmt::print("pivot_2: {}\n", pivot_from_2);
+      }
+    }
+  }
+}

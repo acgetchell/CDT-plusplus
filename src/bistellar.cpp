@@ -71,29 +71,6 @@ static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
   return edges;
 }  // get_edges
 
-/// @return The center edge of all 4 cells
-[[nodiscard]] auto find_pivot(Delaunay const&       triangulation,
-                              Edge_container const& edges)
-    -> std::optional<Edge_handle>
-{
-  for (auto const& edge : edges)
-  {
-    auto           circulator = triangulation.incident_cells(edge, edge.first);
-    Cell_container incident_cells;
-    do {
-      // filter out boundary edges with incident infinite cells
-      if (!triangulation.is_infinite(circulator))
-      {
-        incident_cells.emplace_back(circulator);
-      }
-    }
-    while (++circulator != edge.first);
-    fmt::print("Edge has {} incident finite cells\n", incident_cells.size());
-    if (incident_cells.size() == 4) { return edge; }
-  }
-  return std::nullopt;
-}  // find_pivot
-
 /// @return The vertices of the new edge of the bistellar flip
 [[nodiscard]] auto find_new_pivot(Cell_container const& cells,
                                   Edge_handle const&    pivot_edge,
@@ -156,7 +133,7 @@ try
       foliated_triangulations::find_vertex<3>(dt, Point_t<3>{0, 0, 0}).value();
 
   // Flip the pivot
-  if (auto pivot = find_pivot(dt, edges); pivot)
+  if (auto pivot = ergodic_moves::find_pivot(dt, edges); pivot)
   {
     fmt::print("Flipping the pivot\n");
     foliated_triangulations::print_edge<3>(pivot.value());

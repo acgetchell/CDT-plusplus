@@ -15,7 +15,13 @@
 
 #include "Move_tracker.hpp"
 
-using Expected = tl::expected<manifolds::Manifold3, std::string>;
+using Manifold       = manifolds::Manifold3;
+using Expected       = tl::expected<Manifold, std::string>;
+using Cell_handle    = Cell_handle_t<3>;
+using Cell_container = std::vector<Cell_handle>;
+using Edge_handle    = Edge_handle_t<3>;
+using Edge_container = std::vector<Edge_handle>;
+using Delaunay       = Delaunay_t<3>;
 
 namespace ergodic_moves
 {
@@ -24,8 +30,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The null-moved manifold
-  [[nodiscard]] inline auto null_move(
-      manifolds::Manifold3 const& t_manifold) noexcept -> Expected
+  [[nodiscard]] inline auto null_move(Manifold const& t_manifold) noexcept
+      -> Expected
   {
     return t_manifold;
   }  // null_move
@@ -36,9 +42,9 @@ namespace ergodic_moves
   /// @return If move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4
-  [[nodiscard]] inline auto try_23_move(
-      manifolds::Manifold3&   t_manifold,
-      Cell_handle_t<3> const& to_be_moved) noexcept -> bool
+  [[nodiscard]] inline auto try_23_move(Manifold&          t_manifold,
+                                        Cell_handle const& to_be_moved) noexcept
+      -> bool
   {
     if (to_be_moved->info() != 22) { return false; }  // NOLINT
     auto flipped = false;
@@ -72,8 +78,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline auto do_23_move(
-      manifolds::Manifold3& t_manifold) noexcept -> Expected
+  [[nodiscard]] inline auto do_23_move(Manifold& t_manifold) noexcept
+      -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -101,9 +107,9 @@ namespace ergodic_moves
   /// @return If move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
-  [[nodiscard]] inline auto try_32_move(
-      manifolds::Manifold3&   t_manifold,
-      Edge_handle_t<3> const& to_be_moved) noexcept -> bool
+  [[nodiscard]] inline auto try_32_move(Manifold&          t_manifold,
+                                        Edge_handle const& to_be_moved) noexcept
+      -> bool
   {
     if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
                                         to_be_moved.third))
@@ -127,8 +133,8 @@ namespace ergodic_moves
   /// If successful, the triangulation is no longer Delaunay.
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
-  [[nodiscard]] inline auto do_32_move(
-      manifolds::Manifold3& t_manifold) noexcept -> Expected
+  [[nodiscard]] inline auto do_32_move(Manifold& t_manifold) noexcept
+      -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -155,7 +161,7 @@ namespace ergodic_moves
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
   [[nodiscard]] inline auto find_adjacent_31_cell(
-      Cell_handle_t<3> const& t_cell) noexcept -> std::optional<int>
+      Cell_handle const& t_cell) noexcept -> std::optional<int>
   {
     if (t_cell->info() != 13) { return std::nullopt; }  // NOLINT
     for (auto i = 0; i < 4; ++i)
@@ -187,8 +193,8 @@ namespace ergodic_moves
   /// @image latex 26.eps width=7cm
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
-  [[nodiscard]] inline auto do_26_move(
-      manifolds::Manifold3& t_manifold) noexcept -> Expected
+  [[nodiscard]] inline auto do_26_move(Manifold& t_manifold) noexcept
+      -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -206,8 +212,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
         spdlog::trace("neighboring_31_index is {}.\n", *neighboring_31_index);
 #endif
-        Cell_handle_t<3> const top =
-            bottom->neighbor(neighboring_31_index.value());
+        Cell_handle const top  = bottom->neighbor(neighboring_31_index.value());
         // Calculate the common face with respect to the bottom cell
         auto common_face_index = std::numeric_limits<int>::max();
         if (!bottom->has_neighbor(top, common_face_index))
@@ -251,7 +256,7 @@ namespace ergodic_moves
                 bottom, *neighboring_31_index);
 
         // Checks
-        std::vector<Cell_handle_t<3>> incident_cells;
+        Cell_container incident_cells;
         t_manifold.triangulation().delaunay().tds().incident_cells(
             v_center, std::back_inserter(incident_cells));
         // the (2,6) center vertex should be bounded by 6 simplices
@@ -339,8 +344,8 @@ namespace ergodic_moves
   /// @param candidate The vertex to check
   /// @return If (6,2) move is possible
   [[nodiscard]] inline auto is_62_movable(
-      manifolds::Manifold3 const& manifold,
-      Vertex_handle_t<3> const&   candidate) noexcept -> bool
+      Manifold const& manifold, Vertex_handle_t<3> const& candidate) noexcept
+      -> bool
   {
     if (manifold.dimensionality() != 3)
     {
@@ -455,8 +460,8 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
-  [[nodiscard]] inline auto do_62_move(
-      manifolds::Manifold3& t_manifold) noexcept -> Expected
+  [[nodiscard]] inline auto do_62_move(Manifold& t_manifold) noexcept
+      -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -491,9 +496,8 @@ namespace ergodic_moves
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
   [[nodiscard]] inline auto find_44_move(
-      manifolds::Manifold3 const& t_manifold,
-      Edge_handle_t<3> const&     t_edge_candidate) noexcept
-      -> std::optional<std::vector<Cell_handle_t<3>>>
+      Manifold const& t_manifold, Edge_handle const& t_edge_candidate) noexcept
+      -> std::optional<Cell_container>
   {
     if (!t_manifold.is_edge(t_edge_candidate)) { return std::nullopt; }
 
@@ -502,7 +506,7 @@ namespace ergodic_moves
     auto circulator =
         t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
 
-    std::vector<Cell_handle_t<3>> incident_cells;
+    Cell_container incident_cells;
     do {
       // filter out boundary edges with incident infinite cells
       if (!t_manifold.get_triangulation().is_infinite(circulator))
@@ -655,6 +659,38 @@ namespace ergodic_moves
     return std::nullopt;
   }  // bistellar_flip_really
 
+  /// @return The center edge of a 4-cell complex
+  [[nodiscard]] inline auto find_pivot(Delaunay const&       triangulation,
+                                       Edge_container const& edges)
+      -> std::optional<Edge_handle>
+  {
+    for (auto const& edge : edges)
+    {
+      auto circulator = triangulation.incident_cells(edge, edge.first);
+      Cell_container incident_cells;
+      do {
+        // filter out boundary edges with incident infinite cells
+        if (!triangulation.is_infinite(circulator))
+        {
+          incident_cells.emplace_back(circulator);
+        }
+      }
+      while (++circulator != edge.first);
+      fmt::print("Edge has {} incident finite cells\n", incident_cells.size());
+      if (incident_cells.size() == 4) { return edge; }
+    }
+    return std::nullopt;
+  }  // find_pivot
+
+  /// @brief Perform bistellar flip
+  [[nodiscard]] inline auto bistellar_flip_really(
+      Delaunay_t<3>& triangulation, Edge_handle const& flipped_edge,
+      Vertex_handle_t<3> const& top, Vertex_handle_t<3> const& bottom)
+      -> std::optional<Delaunay_t<3>>
+  {
+    return std::make_optional(triangulation);
+  }  // bistellar_flip_really
+
   /// @brief Perform bistellar flip
   /// @details This function performs a 3D bistellar flip on 4 cells with
   /// a common edge.
@@ -669,11 +705,10 @@ namespace ergodic_moves
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a646b6bd66cd85422f294e60068629d3a
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aee7bebae22e4fe9094b744d8ea54d28b
-  [[nodiscard]] inline auto bistellar_flip(
-      Edge_handle_t<3> const&              t_edge,
-      std::vector<Cell_handle_t<3>> const& t_cells,
-      manifolds::Manifold3 const&          t_manifold)
-      -> std::optional<manifolds::Manifold3>
+  [[nodiscard]] inline auto bistellar_flip(Edge_handle const&    t_edge,
+                                           Cell_container const& t_cells,
+                                           Manifold const&       t_manifold)
+      -> std::optional<Manifold>
   {
 #ifndef NDEBUG
     fmt::print("Attempting (4,4) move ...\n");
@@ -777,7 +812,7 @@ namespace ergodic_moves
           foliated_triangulations::FoliatedTriangulation3{
               result.value(), t_manifold.initial_radius(),
               t_manifold.foliation_spacing()};
-      auto manifold = manifolds::Manifold3{foliated_triangulation};
+      auto manifold = Manifold{foliated_triangulation};
       return manifold;
     }
     return std::nullopt;
@@ -803,8 +838,7 @@ namespace ergodic_moves
   /// @param t_manifold The simplicial manifold
   /// @return The (4,4) moved manifold
   /// @todo Need to debug bistellar_flip_really()
-  [[nodiscard]] inline auto do_44_move(manifolds::Manifold3 const& t_manifold)
-      -> Expected
+  [[nodiscard]] inline auto do_44_move(Manifold const& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -850,8 +884,8 @@ namespace ergodic_moves
   /// @param t_after The manifold after the move
   /// @param t_move The type of move
   /// @return True if the move correctly changed the triangulation
-  [[nodiscard]] inline auto check_move(manifolds::Manifold3 const&    t_before,
-                                       manifolds::Manifold3 const&    t_after,
+  [[nodiscard]] inline auto check_move(Manifold const&                t_before,
+                                       Manifold const&                t_after,
                                        move_tracker::move_type const& t_move)
       -> bool
   {

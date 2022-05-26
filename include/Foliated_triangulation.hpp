@@ -85,6 +85,8 @@ enum class Cell_type
 namespace foliated_triangulations
 {
   /// @brief Returns a container of all the finite edges in the triangulation
+  /// @details Regardless of the dimensionality of the triangulation, the edges
+  /// are 1-d simplices connecting 0-d vertices.
   /// @tparam dimension The dimensionality of the triangulation
   /// @param delaunay The triangulation
   /// @return Container of all the finite edges in the triangulation
