@@ -23,7 +23,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" * doctest::may_fail())
   {
     constexpr auto       desired_simplices  = 9600;
     constexpr auto       desired_timeslices = 7;
-    manifolds::Manifold3 manifold(desired_simplices, desired_timeslices);
+    manifolds::Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Copy of manifold
     auto manifold_before = manifold;

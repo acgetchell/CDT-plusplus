@@ -59,7 +59,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
   /// @param triangulation Triangulation for which Geometry is being
   /// calculated
   explicit Geometry(
-      foliated_triangulations::FoliatedTriangulation3 const& triangulation)
+      foliated_triangulations::FoliatedTriangulation_3 const& triangulation)
 
       : N3{static_cast<Int_precision>(triangulation.number_of_finite_cells())}
       , N3_31{static_cast<Int_precision>(triangulation.get_three_one().size())}
@@ -98,7 +98,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
   }  // swap
 };   // struct Geometry<3>
 
-using Geometry3 = Geometry<3>;
+using Geometry_3 = Geometry<3>;
 
 template <>
 struct [[nodiscard("This contains data!")]] Geometry<4>
@@ -110,6 +110,6 @@ struct [[nodiscard("This contains data!")]] Geometry<4>
   Int_precision N0{0};
 };  // struct Geometry<4>
 
-using Geometry4 = Geometry<4>;
+using Geometry_4 = Geometry<4>;
 
 #endif  // CDT_PLUSPLUS_GEOMETRY_HPP

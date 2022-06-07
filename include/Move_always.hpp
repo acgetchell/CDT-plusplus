@@ -163,7 +163,9 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
   }
 };
 
-using MoveAlways3 = MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold3>;
-using MoveAlways4 = MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold4>;
+using MoveAlways_3 =
+    MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_3>;
+using MoveAlways_4 =
+    MoveStrategy<Strategies::MOVE_ALWAYS, manifolds::Manifold_4>;
 
 #endif  // INCLUDE_MOVE_ALWAYS_HPP_

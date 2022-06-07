@@ -47,11 +47,11 @@ SCENARIO("Complex lambda operations")
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold3& m) {
+      auto const move23 = [](Manifold_3& m) {
         return ergodic_moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
@@ -85,9 +85,9 @@ SCENARIO("Function_ref operations")
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    tl::function_ref<tl::expected<Manifold3, std::string>(Manifold3&)>
+    tl::function_ref<tl::expected<Manifold_3, std::string>(Manifold_3&)>
         complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
@@ -109,12 +109,12 @@ SCENARIO("Function_ref operations")
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    auto const move23 = [](Manifold3& m) {
+    auto const move23 = [](Manifold_3& m) {
       return ergodic_moves::do_23_move(m).value();
     };
-    tl::function_ref<Manifold3(Manifold3&)> complex_ref(move23);
+    tl::function_ref<Manifold_3(Manifold_3&)> complex_ref(move23);
     WHEN("The function_ref is invoked.")
     {
       auto result = complex_ref(manifold);

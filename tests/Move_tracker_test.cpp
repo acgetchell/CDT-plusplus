@@ -25,38 +25,38 @@ SCENARIO("MoveTracker special members")
     {
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(is_nothrow_destructible_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_nothrow_destructible_v<MoveTracker<Manifold_3>>);
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
-        REQUIRE(is_nothrow_default_constructible_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_nothrow_default_constructible_v<MoveTracker<Manifold_3>>);
         spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is copy constructible.")
       {
-        REQUIRE(is_copy_constructible_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_copy_constructible_v<MoveTracker<Manifold_3>>);
         spdlog::debug("It is copy constructible.\n");
       }
       THEN("It is copy assignable.")
       {
-        REQUIRE(is_copy_assignable_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_copy_assignable_v<MoveTracker<Manifold_3>>);
         spdlog::debug("It is copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        REQUIRE(is_nothrow_move_constructible_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_nothrow_move_constructible_v<MoveTracker<Manifold_3>>);
         spdlog::debug("Small function optimization supported.");
         spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        REQUIRE(is_nothrow_move_assignable_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_nothrow_move_assignable_v<MoveTracker<Manifold_3>>);
         spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable")
       {
-        REQUIRE(is_nothrow_swappable_v<MoveTracker<Manifold3>>);
+        REQUIRE(is_nothrow_swappable_v<MoveTracker<Manifold_3>>);
         spdlog::debug("It is no-throw swappable.\n");
       }
     }
@@ -86,7 +86,7 @@ SCENARIO("MoveTracker functionality")
   spdlog::debug("MoveTracker functionality.\n");
   GIVEN("A 3D Move_tracker.")
   {
-    MoveTracker<Manifold3> tracked_moves;
+    MoveTracker<Manifold_3> tracked_moves;
     THEN("There are the correct number of elements.")
     {
       REQUIRE(tracked_moves.size() == NUMBER_OF_3D_MOVES);
@@ -114,7 +114,7 @@ SCENARIO("MoveTracker functionality")
       tracked_moves.two_six_moves() += 1;
       tracked_moves.six_two_moves() += 1;
       tracked_moves.four_four_moves() += 1;
-      MoveTracker<Manifold3> added_moves;
+      MoveTracker<Manifold_3> added_moves;
       added_moves.two_three_moves() += 2;
       added_moves.three_two_moves() += 2;
       added_moves.two_six_moves() += 2;
@@ -129,7 +129,7 @@ SCENARIO("MoveTracker functionality")
   }
   GIVEN("A 4D Move_tracker.")
   {
-    MoveTracker<Manifold4> tracked_moves;
+    MoveTracker<Manifold_4> tracked_moves;
     THEN("There are the correct number of elements.")
     {
       REQUIRE(tracked_moves.size() == NUMBER_OF_4D_MOVES);
@@ -160,7 +160,7 @@ SCENARIO("MoveTracker functionality")
       tracked_moves.six_four_moves() += 1;
       tracked_moves.two_eight_moves() += 1;
       tracked_moves.eight_two_moves() += 1;
-      MoveTracker<Manifold4> added_moves;
+      MoveTracker<Manifold_4> added_moves;
       added_moves.two_four_moves() += 2;
       added_moves.four_two_moves() += 2;
       added_moves.three_three_moves() += 2;

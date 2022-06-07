@@ -28,8 +28,8 @@ namespace manifolds
   template <>
   class [[nodiscard("This contains data!")]] Manifold<3>
   {
-    using Triangulation = foliated_triangulations::FoliatedTriangulation3;
-    using Geometry      = Geometry3;
+    using Triangulation = foliated_triangulations::FoliatedTriangulation_3;
+    using Geometry      = Geometry_3;
 
     /// @brief The data structure of geometric and combinatorial relationships
     Triangulation m_triangulation;
@@ -143,7 +143,7 @@ namespace manifolds
       return m_geometry;
     }  // get_geometry
 
-    /// @brief Forwarding to FoliatedTriangulation3.is_foliated()
+    /// @brief Forwarding to FoliatedTriangulation_3.is_foliated()
     /// @return True if the Manifold triangulation is foliated
     [[nodiscard]] auto is_foliated() const->bool
     {
@@ -170,7 +170,7 @@ namespace manifolds
       return m_triangulation.is_correct();
     }  // is_correct
 
-    /// @brief Perfect forwarding to FoliatedTriangulation3.is_vertex()
+    /// @brief Perfect forwarding to FoliatedTriangulation_3.is_vertex()
     /// @tparam VertexType The vertex type
     /// @param t_vertex_candidate The vertex to check
     /// @return True if the vertex candidate is a vertex
@@ -181,7 +181,7 @@ namespace manifolds
           std::forward<VertexType>(t_vertex_candidate));
     }  // is_vertex
 
-    /// @brief Forwarding to FoliatedTriangulation3.is_edge()
+    /// @brief Forwarding to FoliatedTriangulation_3.is_edge()
     /// @param t_edge_candidate The edge to test
     /// @return True if the candidate is an edge
     [[nodiscard]] auto is_edge(Edge_handle_t<3> const& t_edge_candidate)
@@ -284,14 +284,14 @@ namespace manifolds
       return m_triangulation.max_time();
     }  // max_time
 
-    /// @brief Perfect forwarding to FoliatedTriangulation3.degree()
+    /// @brief Perfect forwarding to FoliatedTriangulation_3.degree()
     template <typename VertexHandle>
     [[nodiscard]] auto degree(VertexHandle && t_vertex) const->decltype(auto)
     {
       return m_triangulation.degree(std::forward<VertexHandle>(t_vertex));
     }  // degree
 
-    /// @brief Perfect forwarding to FoliatedTriangulation3.incident_cells()
+    /// @brief Perfect forwarding to FoliatedTriangulation_3.incident_cells()
     template <typename... Ts>
     [[nodiscard]] auto incident_cells(Ts && ... args)
         const noexcept->decltype(auto)
@@ -311,7 +311,7 @@ namespace manifolds
       return m_triangulation.get_spacelike_edges();
     }  // get_spacelike_edges
 
-    /// @brief Call FoliatedTriangulation3.get_vertices()
+    /// @brief Call FoliatedTriangulation_3.get_vertices()
     [[nodiscard]] auto get_vertices() const noexcept->auto const&
     {
       return m_triangulation.get_vertices();
@@ -398,14 +398,14 @@ namespace manifolds
     }  // update_geometry
   };
 
-  using Manifold3 = Manifold<3>;
+  using Manifold_3 = Manifold<3>;
 
   /// 4D Manifold
   template <>
   class [[nodiscard("This contains data!")]] Manifold<4>
   {
     /// @brief The data structure of scalar values for computations
-    Geometry4 m_geometry;
+    Geometry_4 m_geometry;
 
    public:
     /// @brief Dimensionality of the manifold
@@ -413,7 +413,7 @@ namespace manifolds
     static int constexpr dimension = 4;
   };
 
-  using Manifold4 = Manifold<4>;
+  using Manifold_4 = Manifold<4>;
 
 }  // namespace manifolds
 

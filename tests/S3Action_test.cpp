@@ -28,7 +28,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations")
     constexpr auto timeslices = 7;
     constexpr auto K          = 1.1L;
     constexpr auto Lambda     = 0.1L;
-    Manifold3      universe(simplices, timeslices);
+    Manifold_3     universe(simplices, timeslices);
     // Verify triangulation
     CHECK(universe.N3() == universe.simplices());
     CHECK(universe.N1() == universe.edges());

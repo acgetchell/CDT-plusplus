@@ -34,7 +34,7 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation")
     causal_vertices.emplace_back(Point(0, 0, 1), 2);
     WHEN("A triangulation is constructed using the vector.")
     {
-      FoliatedTriangulation3 triangulation(causal_vertices, 0, 1);
+      FoliatedTriangulation_3 triangulation(causal_vertices, 0, 1);
 
       THEN("The triangulation has dimension 3.")
       {
@@ -83,7 +83,7 @@ SCENARIO("Find distances between points of the tetrahedron")
 {
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;
-  using FoliatedTriangulation = FoliatedTriangulation3;
+  using FoliatedTriangulation = FoliatedTriangulation_3;
   using squared_distance      = TriangulationTraits<3>::squared_distance;
   GIVEN("Points in a tetrahedron.")
   {
@@ -169,7 +169,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation")
 {
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;
-  using FoliatedTriangulation = FoliatedTriangulation3;
+  using FoliatedTriangulation = FoliatedTriangulation_3;
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
     vector<Point> Vertices{

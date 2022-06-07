@@ -493,7 +493,9 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   }  // print_results
 };   // Metropolis
 
-using Metropolis3 = MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold3>;
-using Metropolis4 = MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold4>;
+using Metropolis_3 =
+    MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold_3>;
+using Metropolis_4 =
+    MoveStrategy<Strategies::METROPOLIS, manifolds::Manifold_4>;
 
 #endif  // INCLUDE_METROPOLIS_HPP_

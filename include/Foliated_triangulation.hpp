@@ -1494,13 +1494,13 @@ namespace foliated_triangulations
     }  // collect_edges
   };
 
-  using FoliatedTriangulation3 = FoliatedTriangulation<3>;
+  using FoliatedTriangulation_3 = FoliatedTriangulation<3>;
 
   /// 4D Triangulation
   template <>
   class [[nodiscard("This contains data!")]] FoliatedTriangulation<4>{};
 
-  using FoliatedTriangulation4 = FoliatedTriangulation<4>;
+  using FoliatedTriangulation_4 = FoliatedTriangulation<4>;
 
 }  // namespace foliated_triangulations
 

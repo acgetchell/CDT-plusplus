@@ -7,6 +7,9 @@
 /// @file Ergodic_moves_3.hpp
 /// @brief Pachner moves on 2+1 dimensional foliated Delaunay triangulations
 /// @author Adam Getchell
+/// @details Pachner moves operate on the level of the Manifold_3.
+/// The helper functions for the moves operate on the level of the
+/// Delaunay_Triangulation_3.
 
 #ifndef CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
 #define CDT_PLUSPLUS_ERGODIC_MOVES_3_HPP
@@ -15,7 +18,7 @@
 
 #include "Move_tracker.hpp"
 
-using Manifold       = manifolds::Manifold3;
+using Manifold       = manifolds::Manifold_3;
 using Expected       = tl::expected<Manifold, std::string>;
 using Cell_handle    = Cell_handle_t<3>;
 using Cell_container = std::vector<Cell_handle>;
@@ -487,6 +490,35 @@ namespace ergodic_moves
     return tl::make_unexpected(msg);
   }  // do_62_move()
 
+  /// @return A container of cells incident to the edge
+  [[nodiscard]] inline auto incident_cells_from_edge(
+      Delaunay_t<3> const& triangulation, Edge_handle const& edge) noexcept
+      -> std::optional<Cell_container>
+  {
+    if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
+    {
+      return std::nullopt;
+    }
+    // Create the circulator of cells around the edge, starting with the cell
+    // containing the edge
+    auto           circulator = triangulation.incident_cells(edge, edge.first);
+    Cell_container incident_cells;
+    // Add cells to the container until we get back to the first one in the
+    // circulator
+    do {
+      // Ignore cells containing the infinite vertex
+      if (!triangulation.is_infinite(circulator))
+      {
+        incident_cells.emplace_back(circulator);
+      }
+    }
+    while (++circulator != edge.first);
+#ifndef NDEBUG
+    spdlog::trace("Found {} incident cells on edge.\n", incident_cells.size());
+#endif
+    return incident_cells;
+  }  // incident_cells_from_edge()
+
   /// @brief Find a (4,4) move location
   /// @details This function checks to see if a (4,4) move is possible. Starting
   /// with a spacelike edge, it checks all incident cells. There must be 4
@@ -495,35 +527,18 @@ namespace ergodic_moves
   /// @param t_manifold The simplicial manifold
   /// @param t_edge_candidate The edge to check
   /// @return A container of incident cells if there are exactly 4 of them
-  [[nodiscard]] inline auto find_44_move(
-      Manifold const& t_manifold, Edge_handle const& t_edge_candidate) noexcept
+  [[nodiscard]] inline auto find_bistellar_flip_location(
+      Delaunay const& t_manifold, Edge_handle const& t_edge_candidate) noexcept
       -> std::optional<Cell_container>
   {
-    if (!t_manifold.is_edge(t_edge_candidate)) { return std::nullopt; }
-
-    // Create the circulator of cells around the edge, starting with the cell
-    // containing the edge
-    auto circulator =
-        t_manifold.incident_cells(t_edge_candidate, t_edge_candidate.first);
-
-    Cell_container incident_cells;
-    do {
-      // filter out boundary edges with incident infinite cells
-      if (!t_manifold.get_triangulation().is_infinite(circulator))
-      {
-        incident_cells.emplace_back(circulator);
-      }
+    if (auto incident_cells =
+            incident_cells_from_edge(t_manifold, t_edge_candidate);
+        incident_cells->size() == 4)
+    {
+      return *incident_cells;
     }
-    while (++circulator != t_edge_candidate.first);
-#ifndef NDEBUG
-    spdlog::trace("Edge has {} incident cells.\n", incident_cells.size());
-#endif
-
-    if (incident_cells.size() == 4) { return incident_cells; }
-
     return std::nullopt;
-
-  }  // find_44_move()
+  }  // find_bistellar_flip_location()
 
   struct [[nodiscard("This contains data!")]] bistellar_flip_arguments
   {
@@ -809,7 +824,7 @@ namespace ergodic_moves
     if (auto result = bistellar_flip_really(arguments); result)
     {
       auto foliated_triangulation =
-          foliated_triangulations::FoliatedTriangulation3{
+          foliated_triangulations::FoliatedTriangulation_3{
               result.value(), t_manifold.initial_radius(),
               t_manifold.foliation_spacing()};
       auto manifold = Manifold{foliated_triangulation};
@@ -850,7 +865,9 @@ namespace ergodic_moves
     for (auto const& edge : spacelike_edges)
     {
       // Obtain all incident cells
-      if (auto incident_cells = find_44_move(t_manifold, edge); incident_cells)
+      if (auto incident_cells = find_bistellar_flip_location(
+              t_manifold.get_triangulation().get_delaunay(), edge);
+          incident_cells)
       {
 #ifndef NDEBUG
         for (auto const& cell : *incident_cells)

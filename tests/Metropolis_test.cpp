@@ -25,51 +25,51 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties")
     {
       THEN("It is no-throw destructible.")
       {
-        REQUIRE(is_nothrow_destructible_v<Metropolis3>);
-        REQUIRE(is_nothrow_destructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_destructible_v<Metropolis_3>);
+        REQUIRE(is_nothrow_destructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw destructible.\n");
       }
       THEN("It is no-throw default constructible.")
       {
-        REQUIRE(is_nothrow_default_constructible_v<Metropolis3>);
-        REQUIRE(is_nothrow_default_constructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_default_constructible_v<Metropolis_3>);
+        REQUIRE(is_nothrow_default_constructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw default constructible.\n");
       }
       THEN("It is no-throw copy constructible.")
       {
-        REQUIRE(is_nothrow_copy_constructible_v<Metropolis3>);
-        REQUIRE(is_nothrow_copy_constructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_copy_constructible_v<Metropolis_3>);
+        REQUIRE(is_nothrow_copy_constructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw copy constructible.\n");
       }
       THEN("It is no-throw copy assignable.")
       {
-        REQUIRE(is_nothrow_copy_assignable_v<Metropolis3>);
-        REQUIRE(is_nothrow_copy_assignable_v<Metropolis4>);
+        REQUIRE(is_nothrow_copy_assignable_v<Metropolis_3>);
+        REQUIRE(is_nothrow_copy_assignable_v<Metropolis_4>);
         spdlog::debug("It is no-throw copy assignable.\n");
       }
       THEN("It is no-throw move constructible.")
       {
-        REQUIRE(is_nothrow_move_constructible_v<Metropolis3>);
-        REQUIRE(is_nothrow_move_constructible_v<Metropolis4>);
+        REQUIRE(is_nothrow_move_constructible_v<Metropolis_3>);
+        REQUIRE(is_nothrow_move_constructible_v<Metropolis_4>);
         spdlog::debug("It is no-throw move constructible.\n");
       }
       THEN("It is no-throw move assignable.")
       {
-        REQUIRE(is_nothrow_move_assignable_v<Metropolis3>);
-        REQUIRE(is_nothrow_move_assignable_v<Metropolis4>);
+        REQUIRE(is_nothrow_move_assignable_v<Metropolis_3>);
+        REQUIRE(is_nothrow_move_assignable_v<Metropolis_4>);
         spdlog::debug("It is no-throw move assignable.\n");
       }
       THEN("It is no-throw swappable.")
       {
-        REQUIRE(is_nothrow_swappable_v<Metropolis3>);
-        REQUIRE(is_nothrow_swappable_v<Metropolis4>);
+        REQUIRE(is_nothrow_swappable_v<Metropolis_3>);
+        REQUIRE(is_nothrow_swappable_v<Metropolis_4>);
         spdlog::debug("It is no-throw swappable.\n");
       }
       THEN("It is constructible from 5 parameters.")
       {
-        REQUIRE(is_constructible_v<Metropolis3, long double, long double,
+        REQUIRE(is_constructible_v<Metropolis_3, long double, long double,
                                    long double, Int_precision, Int_precision>);
-        REQUIRE(is_constructible_v<Metropolis4, long double, long double,
+        REQUIRE(is_constructible_v<Metropolis_4, long double, long double,
                                    long double, Int_precision, Int_precision>);
         spdlog::debug("It is constructible from 5 parameters.\n");
       }
@@ -84,16 +84,16 @@ SCENARIO("Metropolis member functions")
   auto constexpr Lambda                = static_cast<long double>(0.1);
   auto constexpr passes                = 10;
   auto constexpr output_every_n_passes = 1;
-  GIVEN("A correctly-constructed Manifold3.")
+  GIVEN("A correctly-constructed Manifold_3.")
   {
     auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
-    Manifold3 universe(simplices, timeslices);
+    Manifold_3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
-      Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+      Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("The Metropolis function object is initialized correctly.")
       {
         CHECK(testrun.Alpha() == Alpha);
@@ -152,16 +152,16 @@ SCENARIO("Using the Metropolis algorithm" * doctest::skip())
   auto constexpr Lambda                = static_cast<long double>(0.1);
   auto constexpr passes                = 1;
   auto constexpr output_every_n_passes = 1;
-  GIVEN("A correctly-constructed Manifold3.")
+  GIVEN("A correctly-constructed Manifold_3.")
   {
     auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
-    Manifold3 universe(simplices, timeslices);
+    Manifold_3 universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
-      Metropolis3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
+      Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("A lot of moves are done.")
       {
         auto result = testrun(universe);

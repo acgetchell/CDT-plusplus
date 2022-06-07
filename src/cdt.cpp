@@ -127,18 +127,18 @@ try
   }
 
   // Initialize the Metropolis algorithm
-  Metropolis3 run(alpha, k, lambda, static_cast<Int_precision>(passes),
-                  static_cast<Int_precision>(checkpoint));
+  Metropolis_3 run(alpha, k, lambda, static_cast<Int_precision>(passes),
+                   static_cast<Int_precision>(checkpoint));
 
   // Make a triangulation
-  manifolds::Manifold3 universe;
+  manifolds::Manifold_3 universe;
 
   switch (topology)
   {
     case topology_type::SPHERICAL:
       if (dimensions == 3)
       {
-        manifolds::Manifold3 populated_universe(
+        manifolds::Manifold_3 populated_universe(
             static_cast<Int_precision>(simplices),
             static_cast<Int_precision>(timeslices), initial_radius,
             foliation_spacing);

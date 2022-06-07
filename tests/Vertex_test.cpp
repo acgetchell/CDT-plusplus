@@ -38,7 +38,7 @@ SCENARIO("Point operations")
 SCENARIO("Vertex operations")
 {
   using Causal_vertices = Causal_vertices_t<3>;
-  using Manifold        = Manifold3;
+  using Manifold        = Manifold_3;
   using Point           = Point_t<3>;
   GIVEN("A foliated Delaunay triangulation.")
   {

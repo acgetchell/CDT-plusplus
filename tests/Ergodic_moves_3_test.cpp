@@ -44,17 +44,17 @@ SCENARIO(
         vertices.begin(), vertices.end(), timevalue.begin(),
         back_inserter(causal_vertices),
         [](Point_t<3> point, size_t time) { return make_pair(point, time); });
-    Manifold3 manifold(causal_vertices);
+    Manifold_3 manifold(causal_vertices);
 
     REQUIRE(manifold.is_correct());
-    REQUIRE(manifold.vertices() == 5);
-    REQUIRE(manifold.edges() == 9);
-    REQUIRE(manifold.faces() == 7);
-    REQUIRE(manifold.simplices() == 2);
-    REQUIRE(manifold.N3_31() == 1);
-    REQUIRE(manifold.N3_22() == 1);
-    REQUIRE(manifold.N1_SL() == 4);
-    REQUIRE(manifold.N1_TL() == 5);
+    REQUIRE_EQ(manifold.vertices(), 5);
+    REQUIRE_EQ(manifold.edges(), 9);
+    REQUIRE_EQ(manifold.faces(), 7);
+    REQUIRE_EQ(manifold.simplices(), 2);
+    REQUIRE_EQ(manifold.N3_31(), 1);
+    REQUIRE_EQ(manifold.N3_22(), 1);
+    REQUIRE_EQ(manifold.N1_SL(), 4);
+    REQUIRE_EQ(manifold.N1_TL(), 5);
     REQUIRE(manifold.is_delaunay());
     WHEN("A (2,3) move is performed")
     {
@@ -79,14 +79,14 @@ SCENARIO(
                                         move_tracker::move_type::TWO_THREE));
         // Manual check
         REQUIRE(manifold.is_correct());
-        CHECK(manifold.vertices() == 5);
-        CHECK(manifold.edges() == 10);     // +1 timelike edge
-        CHECK(manifold.faces() == 9);      // +2 faces
-        CHECK(manifold.simplices() == 3);  // +1 (2,2) simplex
-        CHECK(manifold.N3_31() == 1);
-        CHECK(manifold.N3_22() == 2);
-        CHECK(manifold.N1_SL() == 4);
-        CHECK(manifold.N1_TL() == 6);
+        CHECK_EQ(manifold.vertices(), 5);
+        CHECK_EQ(manifold.edges(), 10);     // +1 timelike edge
+        CHECK_EQ(manifold.faces(), 9);      // +2 faces
+        CHECK_EQ(manifold.simplices(), 3);  // +1 (2,2) simplex
+        CHECK_EQ(manifold.N3_31(), 1);
+        CHECK_EQ(manifold.N3_22(), 2);
+        CHECK_EQ(manifold.N1_SL(), 4);
+        CHECK_EQ(manifold.N1_TL(), 6);
         CHECK_FALSE(manifold.is_delaunay());
         // Human-readable output
         manifold.print_details();
@@ -112,14 +112,14 @@ SCENARIO(
         REQUIRE(start.has_value());
       }
       // Verify we have 1 (3,1) simplex and 2 (2,2) simplices, etc.
-      REQUIRE(manifold.vertices() == 5);
-      REQUIRE(manifold.edges() == 10);
-      REQUIRE(manifold.faces() == 9);
-      REQUIRE(manifold.simplices() == 3);
-      REQUIRE(manifold.N3_31() == 1);
-      REQUIRE(manifold.N3_22() == 2);
-      REQUIRE(manifold.N1_SL() == 4);
-      REQUIRE(manifold.N1_TL() == 6);
+      REQUIRE_EQ(manifold.vertices(), 5);
+      REQUIRE_EQ(manifold.edges(), 10);
+      REQUIRE_EQ(manifold.faces(), 9);
+      REQUIRE_EQ(manifold.simplices(), 3);
+      REQUIRE_EQ(manifold.N3_31(), 1);
+      REQUIRE_EQ(manifold.N3_22(), 2);
+      REQUIRE_EQ(manifold.N1_SL(), 4);
+      REQUIRE_EQ(manifold.N1_TL(), 6);
 
       // Copy manifold
       auto manifold_before = manifold;
@@ -142,14 +142,14 @@ SCENARIO(
                                         move_tracker::move_type::THREE_TWO));
         // Manual check
         REQUIRE(manifold.is_correct());
-        CHECK(manifold.vertices() == 5);
-        CHECK(manifold.edges() == 9);
-        CHECK(manifold.faces() == 7);
-        CHECK(manifold.simplices() == 2);
-        CHECK(manifold.N3_31() == 1);
-        CHECK(manifold.N3_22() == 1);
-        CHECK(manifold.N1_SL() == 4);
-        CHECK(manifold.N1_TL() == 5);
+        CHECK_EQ(manifold.vertices(), 5);
+        CHECK_EQ(manifold.edges(), 9);
+        CHECK_EQ(manifold.faces(), 7);
+        CHECK_EQ(manifold.simplices(), 2);
+        CHECK_EQ(manifold.N3_31(), 1);
+        CHECK_EQ(manifold.N3_22(), 1);
+        CHECK_EQ(manifold.N1_SL(), 4);
+        CHECK_EQ(manifold.N1_TL(), 5);
         CHECK(manifold.is_delaunay());
         // Human-readable output
         manifold.print_details();
@@ -162,7 +162,7 @@ SCENARIO(
       THEN("The move is not performed")
       {
         CHECK_FALSE(result);
-        CHECK(result.error() == "No (3,2) move possible.\n");
+        CHECK_EQ(result.error(), "No (3,2) move possible.\n");
       }
     }
   }
@@ -182,19 +182,19 @@ SCENARIO(
         vertices.begin(), vertices.end(), timevalue.begin(),
         back_inserter(causal_vertices),
         [](Point_t<3> point, size_t time) { return make_pair(point, time); });
-    Manifold3 manifold(causal_vertices);
+    Manifold_3 manifold(causal_vertices);
 
     REQUIRE(manifold.is_correct());
-    REQUIRE(manifold.vertices() == 5);
-    REQUIRE(manifold.edges() == 9);
-    REQUIRE(manifold.faces() == 7);
-    REQUIRE(manifold.simplices() == 2);
-    REQUIRE(manifold.N3_31() == 1);
-    REQUIRE(manifold.N3_22() == 0);
-    REQUIRE(manifold.N3_13() == 1);
-    REQUIRE(manifold.N3_31_13() == 2);
-    REQUIRE(manifold.N1_SL() == 3);
-    REQUIRE(manifold.N1_TL() == 6);
+    REQUIRE_EQ(manifold.vertices(), 5);
+    REQUIRE_EQ(manifold.edges(), 9);
+    REQUIRE_EQ(manifold.faces(), 7);
+    REQUIRE_EQ(manifold.simplices(), 2);
+    REQUIRE_EQ(manifold.N3_31(), 1);
+    REQUIRE_EQ(manifold.N3_22(), 0);
+    REQUIRE_EQ(manifold.N3_13(), 1);
+    REQUIRE_EQ(manifold.N3_31_13(), 2);
+    REQUIRE_EQ(manifold.N1_SL(), 3);
+    REQUIRE_EQ(manifold.N1_TL(), 6);
     REQUIRE(manifold.is_delaunay());
     WHEN("A (2,6) move is performed")
     {
@@ -220,16 +220,16 @@ SCENARIO(
                                         move_tracker::move_type::TWO_SIX));
         // Manual check
         REQUIRE(manifold.is_correct());
-        CHECK(manifold.vertices() == 6);   // +1 vertex
-        CHECK(manifold.edges() == 14);     // +3 spacelike and +2 timelike edges
-        CHECK(manifold.faces() == 15);     // +8 faces
-        CHECK(manifold.simplices() == 6);  // +2 (3,1) and +2 (1,3) simplices
-        CHECK(manifold.N3_31() == 3);
-        CHECK(manifold.N3_22() == 0);
-        CHECK(manifold.N3_13() == 3);
-        CHECK(manifold.N3_31_13() == 6);
-        CHECK(manifold.N1_SL() == 6);  // +3 spacelike edges
-        CHECK(manifold.N1_TL() == 8);  // +2 timelike edges
+        CHECK_EQ(manifold.vertices(), 6);  // +1 vertex
+        CHECK_EQ(manifold.edges(), 14);    // +3 spacelike and +2 timelike edges
+        CHECK_EQ(manifold.faces(), 15);    // +8 faces
+        CHECK_EQ(manifold.simplices(), 6);  // +2 (3,1) and +2 (1,3) simplices
+        CHECK_EQ(manifold.N3_31(), 3);
+        CHECK_EQ(manifold.N3_22(), 0);
+        CHECK_EQ(manifold.N3_13(), 3);
+        CHECK_EQ(manifold.N3_31_13(), 6);
+        CHECK_EQ(manifold.N1_SL(), 6);  // +3 spacelike edges
+        CHECK_EQ(manifold.N1_TL(), 8);  // +2 timelike edges
         CHECK(manifold.is_delaunay());
         // Human-readable output
         fmt::print("Manifold before (2,6):\n");
@@ -259,16 +259,16 @@ SCENARIO(
         REQUIRE(start.has_value());
       }
       // Verify we have 3 (3,1) simplices and 3 (1,3) simplices, etc.
-      REQUIRE(manifold.vertices() == 6);
-      REQUIRE(manifold.edges() == 14);
-      REQUIRE(manifold.faces() == 15);
-      REQUIRE(manifold.simplices() == 6);
-      REQUIRE(manifold.N3_31() == 3);
-      REQUIRE(manifold.N3_22() == 0);
-      REQUIRE(manifold.N3_13() == 3);
-      REQUIRE(manifold.N3_31_13() == 6);
-      REQUIRE(manifold.N1_SL() == 6);
-      REQUIRE(manifold.N1_TL() == 8);
+      REQUIRE_EQ(manifold.vertices(), 6);
+      REQUIRE_EQ(manifold.edges(), 14);
+      REQUIRE_EQ(manifold.faces(), 15);
+      REQUIRE_EQ(manifold.simplices(), 6);
+      REQUIRE_EQ(manifold.N3_31(), 3);
+      REQUIRE_EQ(manifold.N3_22(), 0);
+      REQUIRE_EQ(manifold.N3_13(), 3);
+      REQUIRE_EQ(manifold.N3_31_13(), 6);
+      REQUIRE_EQ(manifold.N1_SL(), 6);
+      REQUIRE_EQ(manifold.N1_TL(), 8);
       REQUIRE(manifold.is_delaunay());
 
       // Copy manifold
@@ -289,16 +289,16 @@ SCENARIO(
         CHECK(manifold.get_triangulation().is_foliated());
         CHECK(manifold.get_triangulation().is_tds_valid());
         CHECK(manifold.get_triangulation().check_all_cells());
-        CHECK(manifold.vertices() == 5);
-        CHECK(manifold.edges() == 9);
-        CHECK(manifold.faces() == 7);
-        CHECK(manifold.simplices() == 2);
-        CHECK(manifold.N3_31() == 1);
-        CHECK(manifold.N3_22() == 0);
-        CHECK(manifold.N3_13() == 1);
-        CHECK(manifold.N3_31_13() == 2);
-        CHECK(manifold.N1_SL() == 3);
-        CHECK(manifold.N1_TL() == 6);
+        CHECK_EQ(manifold.vertices(), 5);
+        CHECK_EQ(manifold.edges(), 9);
+        CHECK_EQ(manifold.faces(), 7);
+        CHECK_EQ(manifold.simplices(), 2);
+        CHECK_EQ(manifold.N3_31(), 1);
+        CHECK_EQ(manifold.N3_22(), 0);
+        CHECK_EQ(manifold.N3_13(), 1);
+        CHECK_EQ(manifold.N3_31_13(), 2);
+        CHECK_EQ(manifold.N1_SL(), 3);
+        CHECK_EQ(manifold.N1_TL(), 6);
         CHECK(manifold.is_delaunay());
         // Human-readable output
         fmt::print("Manifold before (6,2):\n");
@@ -315,7 +315,7 @@ SCENARIO(
       THEN("The move is not performed")
       {
         CHECK_FALSE(result);
-        CHECK(result.error() == "No (6,2) move possible.\n");
+        CHECK_EQ(result.error(), "No (6,2) move possible.\n");
       }
     }
   }
@@ -336,20 +336,20 @@ SCENARIO(
         vertices.begin(), vertices.end(), timevalue.begin(),
         back_inserter(causal_vertices),
         [](Point_t<3> point, size_t time) { return make_pair(point, time); });
-    Manifold3 manifold(causal_vertices, 0, 1);
+    Manifold_3 manifold(causal_vertices, 0, 1);
     // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
-    REQUIRE(manifold.vertices() == 6);
-    REQUIRE(manifold.edges() == 13);
-    REQUIRE(manifold.faces() == 12);
-    REQUIRE(manifold.simplices() == 4);
-    REQUIRE(manifold.N3_31() == 2);
-    REQUIRE(manifold.N3_22() == 0);
-    REQUIRE(manifold.N3_13() == 2);
-    REQUIRE(manifold.N3_31_13() == 4);
-    REQUIRE(manifold.N1_SL() == 5);
-    REQUIRE(manifold.N1_TL() == 8);
-    CHECK(manifold.initial_radius() == 0);
-    CHECK(manifold.foliation_spacing() == 1);
+    REQUIRE_EQ(manifold.vertices(), 6);
+    REQUIRE_EQ(manifold.edges(), 13);
+    REQUIRE_EQ(manifold.faces(), 12);
+    REQUIRE_EQ(manifold.simplices(), 4);
+    REQUIRE_EQ(manifold.N3_31(), 2);
+    REQUIRE_EQ(manifold.N3_22(), 0);
+    REQUIRE_EQ(manifold.N3_13(), 2);
+    REQUIRE_EQ(manifold.N3_31_13(), 4);
+    REQUIRE_EQ(manifold.N1_SL(), 5);
+    REQUIRE_EQ(manifold.N1_TL(), 8);
+    CHECK_EQ(manifold.initial_radius(), 0);
+    CHECK_EQ(manifold.foliation_spacing(), 1);
     REQUIRE(manifold.is_delaunay());
     REQUIRE(manifold.is_correct());
 
@@ -391,14 +391,15 @@ SCENARIO("Test bistellar flips")
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    Delaunay_t<3> dt(vertices.begin(), vertices.end());
-    CHECK(dt.is_valid());
+    Delaunay_t<3> triangulation(vertices.begin(), vertices.end());
+    CHECK(triangulation.is_valid());
     WHEN("We want to make a bistellar flip.")
     {
-      auto edges = foliated_triangulations::collect_edges<3>(dt);
+      auto edges = foliated_triangulations::collect_edges<3>(triangulation);
       THEN("We can get the cells in the triangulation.")
       {
-        auto cells = foliated_triangulations::get_all_finite_cells<3>(dt);
+        auto cells =
+            foliated_triangulations::get_all_finite_cells<3>(triangulation);
         CHECK_EQ(cells.size(), 4);
       }
       THEN("We can get the finite edges in the triangulation.")
@@ -407,7 +408,7 @@ SCENARIO("Test bistellar flips")
       }
       THEN("We can find the pivot edge in the triangulation.")
       {
-        auto pivot_edge = ergodic_moves::find_pivot(dt, edges);
+        auto pivot_edge = ergodic_moves::find_pivot(triangulation, edges);
         auto Contains   = [&vertices](Point_t<3> point) {
           return std::any_of(vertices.begin(), vertices.end(),
                                [&point](Point_t<3> p) { return p == point; });

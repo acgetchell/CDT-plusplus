@@ -38,10 +38,10 @@ try
   utilities::create_logger();
 
   // Initialize the Metropolis algorithm
-  Metropolis3 run(alpha, k, lambda, passes, checkpoint);
+  Metropolis_3 run(alpha, k, lambda, passes, checkpoint);
 
   // Make a triangulation
-  manifolds::Manifold3 universe(simplices, timeslices);
+  manifolds::Manifold_3 universe(simplices, timeslices);
 
   // Look at triangulation
   universe.print();
