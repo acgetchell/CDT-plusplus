@@ -117,8 +117,8 @@ $(function() {
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <a class="code" href="struct_geometry.html">Geometry</a>() = <span class="keywordflow">default</span>;</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160; </div>
-<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#a4ba77f253df55b6a94bec461cbc46ae5">   61</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="struct_geometry_3_013_01_4.html#a4ba77f253df55b6a94bec461cbc46ae5">Geometry</a>(</div>
-<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation3</a> <span class="keyword">const</span>&amp; triangulation)</div>
+<div class="line"><a name="l00061"></a><span class="lineno"><a class="line" href="struct_geometry_3_013_01_4.html#ae6d3d04d5e0808a8e96791cc7e552c58">   61</a></span>&#160;  <span class="keyword">explicit</span> <a class="code" href="struct_geometry_3_013_01_4.html#ae6d3d04d5e0808a8e96791cc7e552c58">Geometry</a>(</div>
+<div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation_3</a> <span class="keyword">const</span>&amp; triangulation)</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;      : N3{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.<a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#abb261217e69d63a273bbc3ae3c0c02ac">number_of_finite_cells</a>())}</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      , N3_31{<span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(triangulation.get_three_one().size())}</div>
@@ -152,7 +152,7 @@ $(function() {
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  }  <span class="comment">// swap</span></div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;};   <span class="comment">// struct Geometry&lt;3&gt;</span></div>
 <div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160; </div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_013_01_4.html">Geometry3</a> = <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>;</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_013_01_4.html">Geometry_3</a> = <a class="code" href="struct_geometry_3_013_01_4.html">Geometry&lt;3&gt;</a>;</div>
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;<span class="keyword">template</span> &lt;&gt;</div>
 <div class="line"><a name="l00104"></a><span class="lineno"><a class="line" href="struct_geometry_3_014_01_4.html">  104</a></span>&#160;<span class="keyword">struct </span>[[nodiscard(&quot;This contains data!&quot;)]] <a class="code" href="struct_geometry.html">Geometry</a>&lt;4&gt;</div>
@@ -164,7 +164,7 @@ $(function() {
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> N0{0};</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;};  <span class="comment">// struct Geometry&lt;4&gt;</span></div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160; </div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_014_01_4.html">Geometry4</a> = <a class="code" href="struct_geometry_3_014_01_4.html">Geometry&lt;4&gt;</a>;</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keyword">using</span> <a class="code" href="struct_geometry_3_014_01_4.html">Geometry_4</a> = <a class="code" href="struct_geometry_3_014_01_4.html">Geometry&lt;4&gt;</a>;</div>
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160; </div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="preprocessor">#endif  // CDT_PLUSPLUS_GEOMETRY_HPP</span></div>
 </div><!-- fragment --></div><!-- contents -->
@@ -176,10 +176,10 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="astruct_geometry_html"><div class="ttname"><a href="struct_geometry.html">Geometry</a></div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00019">Geometry.hpp:19</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00945">Foliated_triangulation.hpp:945</a></div></div>
-<div class="ttc" id="astruct_geometry_3_013_01_4_html_a4ba77f253df55b6a94bec461cbc46ae5"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#a4ba77f253df55b6a94bec461cbc46ae5">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry(foliated_triangulations::FoliatedTriangulation3 const &amp;triangulation)</div><div class="ttdoc">Constructor with triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00061">Geometry.hpp:61</a></div></div>
+<div class="ttc" id="astruct_geometry_3_013_01_4_html_ae6d3d04d5e0808a8e96791cc7e552c58"><div class="ttname"><a href="struct_geometry_3_013_01_4.html#ae6d3d04d5e0808a8e96791cc7e552c58">Geometry&lt; 3 &gt;::Geometry</a></div><div class="ttdeci">Geometry(foliated_triangulations::FoliatedTriangulation_3 const &amp;triangulation)</div><div class="ttdoc">Constructor with triangulation.</div><div class="ttdef"><b>Definition:</b> <a href="_geometry_8hpp_source.html#l00061">Geometry.hpp:61</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 26 2022 21:52:53 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 7 2022 23:19:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

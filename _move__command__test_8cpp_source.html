@@ -101,42 +101,42 @@ $(function() {
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;    {</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw destructible.&quot;</span>)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;      {</div>
-<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        REQUIRE(is_nothrow_destructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;        REQUIRE(is_nothrow_destructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is no-throw destructible.\n&quot;</span>);</div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;      }</div>
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;      THEN(<span class="stringliteral">&quot;It is not default constructible.&quot;</span>)</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;      {</div>
-<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        CHECK_FALSE(is_default_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;        CHECK_FALSE(is_default_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      }</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      THEN(<span class="stringliteral">&quot;It is copy constructible.&quot;</span>)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      {</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        REQUIRE(is_copy_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        REQUIRE(is_copy_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is copy constructible.\n&quot;</span>);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;      }</div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      THEN(<span class="stringliteral">&quot;It is copy assignable.&quot;</span>)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      {</div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        REQUIRE(is_copy_assignable_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;        REQUIRE(is_copy_assignable_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is copy assignable.\n&quot;</span>);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      }</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw move constructible.&quot;</span>)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      {</div>
-<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        REQUIRE(is_nothrow_move_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        REQUIRE(is_nothrow_move_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;Small function optimization supported.&quot;</span>);</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is no-throw move constructible.\n&quot;</span>);</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      }</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw move assignable.&quot;</span>)</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      {</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        REQUIRE(is_nothrow_move_assignable_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        REQUIRE(is_nothrow_move_assignable_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is no-throw move assignable.\n&quot;</span>);</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;      }</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;      THEN(<span class="stringliteral">&quot;It is no-throw swappable&quot;</span>)</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;      {</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        REQUIRE(is_nothrow_swappable_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>&gt;);</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;        REQUIRE(is_nothrow_swappable_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>&gt;);</div>
 <div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is no-throw swappable.\n&quot;</span>);</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160;      }</div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      THEN(<span class="stringliteral">&quot;It is constructible from a Manifold.&quot;</span>)</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;      {</div>
-<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        REQUIRE(is_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold3&gt;</a>, <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a>&gt;);</div>
+<div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;        REQUIRE(is_constructible_v&lt;<a class="code" href="class_move_command.html">MoveCommand&lt;Manifold_3&gt;</a>, <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&gt;);</div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;It is constructible from a Manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;      }</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    }</div>
@@ -150,7 +150,7 @@ $(function() {
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;  {</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    WHEN(<span class="stringliteral">&quot;A function pointer is constructed for a move.&quot;</span>)</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
@@ -178,11 +178,11 @@ $(function() {
 <div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  {</div>
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;    WHEN(<span class="stringliteral">&quot;A lambda is constructed for a move.&quot;</span>)</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    {</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a>&amp; manifold_3) {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp; manifold_3) {</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;        <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#ab2a6c5d21ebae7eda3cc0dbaa1725f25">ergodic_moves::do_23_move</a>(manifold_3).value();</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;      };</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      THEN(<span class="stringliteral">&quot;Running the lambda makes the move.&quot;</span>)</div>
@@ -208,7 +208,7 @@ $(function() {
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;  {</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;    WHEN(<span class="stringliteral">&quot;Apply_move is used for a move.&quot;</span>)</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;    {</div>
@@ -236,7 +236,7 @@ $(function() {
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  {</div>
 <div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    WHEN(<span class="stringliteral">&quot;A Command is constructed with a manifold.&quot;</span>)</div>
 <div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    {</div>
@@ -299,7 +299,7 @@ $(function() {
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;  {</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 9600;</div>
 <div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 7;</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;    WHEN(<span class="stringliteral">&quot;Move_command copies the manifold and applies the move.&quot;</span>)</div>
 <div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;    {</div>
@@ -494,7 +494,7 @@ $(function() {
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;  {</div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 9600;</div>
 <div class="line"><a name="l00420"></a><span class="lineno">  420</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 7;</div>
-<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00421"></a><span class="lineno">  421</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;    REQUIRE(manifold.is_correct());</div>
 <div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    WHEN(<span class="stringliteral">&quot;(2,3) and (3,2) moves are queued.&quot;</span>)</div>
 <div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    {</div>
@@ -606,12 +606,12 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:20</a></div></div>
 <div class="ttc" id="a_move__command_8hpp_html"><div class="ttname"><a href="_move__command_8hpp.html">Move_command.hpp</a></div><div class="ttdoc">Do ergodic moves using the Command pattern.</div></div>
-<div class="ttc" id="a_ergodic__moves__3_8hpp_html_ab2a6c5d21ebae7eda3cc0dbaa1725f25"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ab2a6c5d21ebae7eda3cc0dbaa1725f25">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(Manifold &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00081">Ergodic_moves_3.hpp:81</a></div></div>
+<div class="ttc" id="a_ergodic__moves__3_8hpp_html_ab2a6c5d21ebae7eda3cc0dbaa1725f25"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#ab2a6c5d21ebae7eda3cc0dbaa1725f25">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(Manifold &amp;t_manifold) noexcept -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00084">Ergodic_moves_3.hpp:84</a></div></div>
 <div class="ttc" id="a_apply__move_8hpp_html_ad43f26129ceeafd0a3bb27275294cadd"><div class="ttname"><a href="_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd">apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType t_move) noexcept -&gt; decltype(auto)</div><div class="ttdoc">An applicative function similar to std::apply, but on manifolds.</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00033">Apply_move.hpp:33</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:29</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu May 26 2022 21:52:53 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Jun 7 2022 23:19:59 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -7,7 +7,7 @@ var searchData=
   ['generate_5frandom_5fmove_5f3_93',['generate_random_move_3',['../_move__tracker_8hpp.html#a317b4ff93dd12ad420bb08f4d0b61c18',1,'move_tracker']]],
   ['generate_5frandom_5freal_94',['generate_random_real',['../_utilities_8hpp.html#a48c8107e663e07b7909181660ebf3bda',1,'utilities']]],
   ['generate_5frandom_5ftimeslice_95',['generate_random_timeslice',['../_utilities_8hpp.html#a25ab15197d039e3e3abe6538456af359',1,'utilities']]],
-  ['geometry_96',['Geometry',['../struct_geometry.html',1,'Geometry&lt; dimension &gt;'],['../struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8',1,'Geometry&lt; 3 &gt;::Geometry()=default'],['../struct_geometry_3_013_01_4.html#a4ba77f253df55b6a94bec461cbc46ae5',1,'Geometry&lt; 3 &gt;::Geometry(foliated_triangulations::FoliatedTriangulation3 const &amp;triangulation)']]],
+  ['geometry_96',['Geometry',['../struct_geometry.html',1,'Geometry&lt; dimension &gt;'],['../struct_geometry_3_013_01_4.html#abd5d97366123fd8ae8b8975213cd52c8',1,'Geometry&lt; 3 &gt;::Geometry()=default'],['../struct_geometry_3_013_01_4.html#ae6d3d04d5e0808a8e96791cc7e552c58',1,'Geometry&lt; 3 &gt;::Geometry(foliated_triangulations::FoliatedTriangulation_3 const &amp;triangulation)']]],
   ['geometry_2ehpp_97',['Geometry.hpp',['../_geometry_8hpp.html',1,'']]],
   ['geometry_3c_203_20_3e_98',['Geometry&lt; 3 &gt;',['../struct_geometry_3_013_01_4.html',1,'']]],
   ['geometry_3c_204_20_3e_99',['Geometry&lt; 4 &gt;',['../struct_geometry_3_014_01_4.html',1,'']]],
