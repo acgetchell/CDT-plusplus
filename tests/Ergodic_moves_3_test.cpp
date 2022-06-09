@@ -429,6 +429,59 @@ SCENARIO("Test bistellar flips")
         fmt::print("pivot_1: {}\n", pivot_from_1);
         fmt::print("pivot_2: {}\n", pivot_from_2);
       }
+      THEN("We can use bistellar_flip_really() to flip the triangulation.")
+      {
+        auto pivot_edge = ergodic_moves::find_pivot(triangulation, edges);
+        // Obtain top and bottom vertices by re-inserting, which returns the
+        // Vertex_handle
+        auto top        = triangulation.insert(Point_t<3>(0, 0, 2));
+        auto bottom     = triangulation.insert(Point_t<3>(0, 0, 0));
+        // Check we didn't actually change the triangulation
+        CHECK_EQ(vertices.size(), 6);
+        // Human verification
+        fmt::print("Before bistellar flip:\n");
+        fmt::print("triangulation.dimension(): {}\n",
+                   triangulation.dimension());
+        fmt::print("triangulation.number_of_vertices(): {}\n",
+                   triangulation.number_of_vertices());
+        fmt::print("triangulation.number_of_finite_cells(): {}\n",
+                   triangulation.number_of_finite_cells());
+        fmt::print("triangulation.number_of_finite_facets(): {}\n",
+                   triangulation.number_of_finite_facets());
+        fmt::print("triangulation.number_of_finite_edges(): {}\n",
+                   triangulation.number_of_finite_edges());
+        fmt::print("triangulation.is_valid(): {}\n", triangulation.is_valid());
+
+        // Do the flip
+        auto flipped_triangulation = ergodic_moves::bistellar_flip_really(
+            triangulation, pivot_edge.value(), top, bottom);
+        CHECK(flipped_triangulation);
+        if (flipped_triangulation)
+        {
+          fmt::print("Flipped the cells\n");
+          triangulation = flipped_triangulation.value();
+          fmt::print("After bistellar flip.\n");
+          fmt::print("triangulation.dimension(): {}\n",
+                     triangulation.dimension());
+          //                  fmt::print("triangulation.number_of_vertices():
+          //                  {}\n", triangulation.number_of_vertices());
+          //                  fmt::print("triangulation.number_of_finite_cells():
+          //                  {}\n",
+          //                             triangulation.number_of_finite_cells());
+          //                  fmt::print("triangulation.number_of_finite_facets():
+          //                  {}\n",
+          //                             triangulation.number_of_finite_facets());
+          //                  fmt::print("triangulation.number_of_finite_edges():
+          //                  {}\n",
+          //                             triangulation.number_of_finite_edges());
+          //                  fmt::print("triangulation.is_valid(): {}\n",
+          //                  triangulation.is_valid());
+          //                  CHECK(triangulation.is_valid());
+          //          auto new_cells =
+          //          foliated_triangulations::get_all_finite_cells<3>(triangulation);
+          //          foliated_triangulations::print_cells<3>(new_cells);
+        }
+      }
     }
   }
 }
