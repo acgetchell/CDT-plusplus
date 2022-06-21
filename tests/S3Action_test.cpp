@@ -19,7 +19,8 @@
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("Calculate the bulk action on S3 triangulations")
+SCENARIO("Calculate the bulk action on S3 triangulations" *
+         doctest::test_suite("s3action"))
 {
   spdlog::debug("Calculate the bulk action on S3 triangulations.\n");
   GIVEN("A 3D 2-sphere foliated triangulation.")

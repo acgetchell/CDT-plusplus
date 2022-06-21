@@ -16,7 +16,8 @@
 
 using namespace std;
 
-SCENARIO("Check settings" * doctest::may_fail())
+SCENARIO("Check settings" * doctest::may_fail() *
+         doctest::test_suite("settings"))
 {
   GIVEN("Settings are retrieved.")
   {

@@ -23,7 +23,8 @@ static inline auto constexpr SQRT_2   = std::numbers::sqrt2_v<double>;
 static inline auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 
 SCENARIO(
-    "Perform ergodic moves on the minimal manifold necessary for that move")
+    "Perform ergodic moves on the minimal manifold necessary for that move" *
+    doctest::test_suite("ergodic"))
 {
   spdlog::debug(
       "Perform ergodic moves on the minimal simplicial complex necessary for "
@@ -378,7 +379,7 @@ SCENARIO(
   }
 }
 
-SCENARIO("Test bistellar flips")
+SCENARIO("Test bistellar flips" * doctest::test_suite("ergodic"))
 {
   GIVEN("A valid Delaunay_3 triangulation.")
   {

@@ -19,7 +19,7 @@
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("Simple Lambda operations")
+SCENARIO("Simple Lambda operations" * doctest::test_suite("function_ref"))
 {
   constexpr auto increment_lambda = [](int a) { return ++a; };
   GIVEN("A simple lambda.")
@@ -41,7 +41,7 @@ SCENARIO("Simple Lambda operations")
   }
 }
 
-SCENARIO("Complex lambda operations")
+SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
 {
   GIVEN("A lambda storing a move.")
   {
@@ -70,7 +70,7 @@ SCENARIO("Complex lambda operations")
   }
 }
 
-SCENARIO("Function_ref operations")
+SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {

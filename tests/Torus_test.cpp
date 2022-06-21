@@ -12,7 +12,7 @@
 
 #include "Torus_d.hpp"
 
-SCENARIO("Torus construction")
+SCENARIO("Torus construction" * doctest::test_suite("torus"))
 {
   std::size_t constexpr NUMBER_OF_POINTS = 250;
   std::vector<Point> points;

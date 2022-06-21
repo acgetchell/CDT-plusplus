@@ -15,7 +15,8 @@
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties")
+SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties" *
+         doctest::test_suite("move_always"))
 {
   spdlog::debug(
       "MoveStrategy<MOVE_ALWAYS> special member and swap properties.\n");
@@ -75,7 +76,7 @@ SCENARIO("MoveStrategy<MOVE_ALWAYS> special member and swap properties")
   }
 }
 
-SCENARIO("MoveAlways member functions")
+SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
 {
   spdlog::debug("MoveAlways member functions.\n");
   GIVEN("A correctly-constructed Manifold_3.")
@@ -123,7 +124,8 @@ SCENARIO("MoveAlways member functions")
 
 // This may take a while, so the scenario decorated with doctest::skip()
 // to disable by default
-SCENARIO("Using the MoveAlways algorithm" * doctest::skip())
+SCENARIO("Using the MoveAlways algorithm" * doctest::skip() *
+         doctest::test_suite("move_always"))
 {
   spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold_3.")

@@ -24,19 +24,13 @@
 #include "Ergodic_moves_3.hpp"
 #include "Foliated_triangulation.hpp"
 
-using K   = CGAL::Exact_predicates_inexact_constructions_kernel;
-using Vb  = CGAL::Triangulation_vertex_base_with_info_3<int, K>;
-using Cb  = CGAL::Triangulation_cell_base_with_info_3<int, K>;
-using Tds = CGAL::Triangulation_data_structure_3<Vb, Cb, CGAL::Sequential_tag>;
-using Delaunay         = CGAL::Delaunay_triangulation_3<K, Tds>;
-using Cell_handle      = Delaunay::Cell_handle;
-using Edge_handle      = CGAL::Triple<Cell_handle, int, int>;
-using Vertex_handle    = Delaunay::Vertex_handle;
-using Vertex           = Tds::Vertex;
-using Point            = Delaunay::Point;
-using Cell_container   = std::vector<Cell_handle>;
-using Edge_container   = std::vector<Edge_handle>;
-using Vertex_container = std::vector<Vertex_handle>;
+using Cell_handle                         = Delaunay::Cell_handle;
+using Edge_handle                         = CGAL::Triple<Cell_handle, int, int>;
+using Vertex_handle                       = Delaunay::Vertex_handle;
+using Point                               = Delaunay::Point;
+using Cell_container                      = std::vector<Cell_handle>;
+using Edge_container                      = std::vector<Edge_handle>;
+using Vertex_container                    = std::vector<Vertex_handle>;
 
 static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
 

@@ -2,9 +2,9 @@
 
 First, thank you!
 
-Writing esoteric scientific software can be it's own reward, but it's not for the faint of heart.
+Writing esoteric scientific software can be its own reward, but it's not for the faint of heart.
 
-If you want a general overview as to why this software package exists, please look at the [Wiki], or my talk
+If you want a general overview as to why this software package exists, please look at the [Wiki] or my talk
 [Causal Dynamical Triangulations with CGAL][slides].
 
 Second, here are some simple guidelines that will make it easier on me to process and accept your contributions.
@@ -16,12 +16,12 @@ New [releases] are periodically made from [develop], then merged back into [mast
 which is the stable work history. [Tagged] versions are [releases] at a point in time, citable via [ORCID].
 for reproducibility.
 
-3. Familiarize yourself with [Catch] and the [Gherkin] syntax.
+3. Familiarize yourself with [doctest] and the [Gherkin] syntax.
 
 4. Write a unit test for your proposed contribution. Unit tests go in the `tests` directory and are named
 \{YourContribution\}_test.cpp, so that they can be automatically built.
 All proposed features of your contribution should have a corresponding test in \{YourContribution\}_test.cpp.
-Consult the [Catch Test cases and sections] if you are unsure, or consult existing tests for examples.
+Consult the [doctest test cases] if you are unsure, or consult existing tests for examples.
 
 5. I highly recommend writing your tests first, before your contribution, as this helps to think about how the
 rest of the program will use your functions and/or classes.
@@ -77,10 +77,10 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [cpp-core]: https://github.com/isocpp/CppCoreGuidelines/blob/master/CppCoreGuidelines.md
 [clang-tidy.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/clang-tidy.sh
 [AppVeyor]: https://ci.appveyor.com/project/acgetchell/cdt-plusplus
-[Catch]: https://github.com/catchorg/Catch2/blob/master/docs/Readme.md
+[doctest]: https://github.com/doctest/doctest
 [Gherkin]: https://www.tutorialspoint.com/behavior_driven_development/behavior_driven_development_gherkin.htm
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
-[Catch Test cases and sections]: https://github.com/catchorg/Catch2/blob/master/docs/test-cases-and-sections.md
+[doctest test cases]: https://github.com/doctest/doctest/blob/master/doc/markdown/testcases.md
 [Gitter]: https://gitter.im/acgetchell/CDT-plusplus
 [ClangTidy]: https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html
 [LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/

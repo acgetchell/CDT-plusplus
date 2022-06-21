@@ -19,6 +19,7 @@ set(_VCPKG_INSTALLED_DIR
 project(
   CDT-plusplus
   VERSION 0.1.8
+  DESCRIPTION "Fast Causal Dynamical Triangulations in C++"
   LANGUAGES CXX)
 
 # Project settings
@@ -29,7 +30,7 @@ include(cmake/PreventInSourceBuilds.cmake)
 
 # Link this 'library' to set the c++ standard / compile-time options requested
 add_library(project_options INTERFACE)
-target_compile_features(project_options INTERFACE cxx_std_17)
+target_compile_features(project_options INTERFACE cxx_std_20)
 
 if(CMAKE_CXX_COMPILER_ID MATCHES ".*Clang")
   option(ENABLE_BUILD_WITH_TIME_TRACE "Enable -ftime-trace to generate time tracing .json files on clang" OFF)
@@ -74,9 +75,6 @@ endif()
 
 # Project vcpkg dependencies
 
-# https://github.com/catchorg/Catch2
-#find_package(Catch2 CONFIG REQUIRED)
-
 # https://github.com/CGAL/cgal
 find_package(CGAL CONFIG REQUIRED)
 # Don't let CGAL override flags
@@ -91,6 +89,7 @@ find_package(date CONFIG REQUIRED)
 # https://github.com/docopt/docopt.cpp
 find_package(docopt CONFIG REQUIRED)
 
+# https://github.com/doctest/doctest
 find_package(doctest CONFIG REQUIRED)
 
 # https://eigen.tuxfamily.org/index.php?title=Main_Page
@@ -120,7 +119,7 @@ find_package(tl-function-ref CONFIG REQUIRED)
 # Header files
 include_directories(BEFORE ${PROJECT_SOURCE_DIR}/include)
 
-# Catch
+# doctest
 if(ENABLE_TESTING)
   enable_testing()
   message(STATUS "Building tests. Look at /tests for unit tests.")

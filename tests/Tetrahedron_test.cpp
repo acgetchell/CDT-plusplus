@@ -21,7 +21,8 @@ using namespace foliated_triangulations;
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
-SCENARIO("Construct a tetrahedron in a Delaunay triangulation")
+SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
+         doctest::test_suite("tetrahedron"))
 {
   using Causal_vertices = Causal_vertices_t<3>;
   using Point           = Point_t<3>;
@@ -79,7 +80,8 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation")
   }
 }
 
-SCENARIO("Find distances between points of the tetrahedron")
+SCENARIO("Find distances between points of the tetrahedron" *
+         doctest::test_suite("tetrahedron"))
 {
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;
@@ -165,7 +167,8 @@ SCENARIO("Find distances between points of the tetrahedron")
   }
 }
 
-SCENARIO("Construct a foliated tetrahedron in a foliated triangulation")
+SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
+         doctest::test_suite("tetrahedron"))
 {
   using Point                 = Point_t<3>;
   using Causal_vertices       = Causal_vertices_t<3>;

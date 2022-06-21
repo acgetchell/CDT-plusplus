@@ -23,7 +23,8 @@ static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 static inline auto constexpr SQRT_2   = std::numbers::sqrt2_v<double>;
 static inline auto constexpr INV_SQRT_2 = 1.0 / SQRT_2;
 
-SCENARIO("FoliatedTriangulation special member and swap properties")
+SCENARIO("FoliatedTriangulation special member and swap properties" *
+         doctest::test_suite("foliated_triangulation"))
 {
   spdlog::debug("FoliatedTriangulation special member and swap properties.\n");
   GIVEN("A FoliatedTriangulation_3 class.")
@@ -119,7 +120,8 @@ SCENARIO("FoliatedTriangulation special member and swap properties")
   }
 }
 
-SCENARIO("FoliatedTriangulation free functions")
+SCENARIO("FoliatedTriangulation free functions" *
+         doctest::test_suite("foliated_triangulation"))
 {
   spdlog::debug("foliated_triangulation:: functions.\n");
   GIVEN("A small foliated triangulation.")
@@ -321,7 +323,8 @@ SCENARIO("FoliatedTriangulation free functions")
   }
 }
 
-SCENARIO("FoliatedTriangulation_3 initialization")
+SCENARIO("FoliatedTriangulation_3 initialization" *
+         doctest::test_suite("foliated_triangulation"))
 {
   spdlog::debug("FoliatedTriangulation initialization.\n");
   GIVEN("A 3D foliated triangulation.")
@@ -518,7 +521,8 @@ SCENARIO("FoliatedTriangulation_3 initialization")
   }
 }
 
-SCENARIO("FoliatedTriangulation_3 copying")
+SCENARIO("FoliatedTriangulation_3 copying" *
+         doctest::test_suite("foliated_triangulation"))
 {
   spdlog::debug("FoliatedTriangulation_3 copying.\n");
   GIVEN("A FoliatedTriangulation_3")
@@ -554,7 +558,8 @@ SCENARIO("FoliatedTriangulation_3 copying")
   }
 }
 
-SCENARIO("Detecting and fixing problems with vertices and cells")
+SCENARIO("Detecting and fixing problems with vertices and cells" *
+         doctest::test_suite("foliated_triangulation"))
 {
   spdlog::debug("Detecting and fixing problems with vertices and cells.\n");
   GIVEN("A FoliatedTriangulation_3.")
@@ -879,7 +884,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells")
   }
 }
 
-SCENARIO("FoliatedTriangulation_3 functions from Delaunay3")
+SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
+         doctest::test_suite("foliated_triangulation"))
 {
   spdlog::debug("FoliatedTriangulation_3 functions from Delaunay3.\n");
   GIVEN("A FoliatedTriangulation_3.")

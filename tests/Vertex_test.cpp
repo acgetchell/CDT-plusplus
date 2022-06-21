@@ -19,7 +19,7 @@ using namespace manifolds;
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
-SCENARIO("Point operations")
+SCENARIO("Point operations" * doctest::test_suite("vertex"))
 {
   using Point = Point_t<3>;
   GIVEN("Some points.")
@@ -35,7 +35,7 @@ SCENARIO("Point operations")
   }
 }
 
-SCENARIO("Vertex operations")
+SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
 {
   using Causal_vertices = Causal_vertices_t<3>;
   using Manifold        = Manifold_3;
@@ -122,7 +122,9 @@ SCENARIO("Vertex operations")
       THEN("The vertices are in the manifold.")
       {
         auto vertices = manifold.get_vertices();
-        auto require = [&manifold](auto& v) { REQUIRE(manifold.is_vertex(v)); };
+        auto require  = [&manifold](auto& vertex) {
+          REQUIRE(manifold.is_vertex(vertex));
+        };
         std::for_each(vertices.begin(), vertices.end(), require);
       }
 
@@ -163,7 +165,9 @@ SCENARIO("Vertex operations")
       THEN("The vertices are in the manifold.")
       {
         auto vertices = manifold.get_vertices();
-        auto require = [&manifold](auto& v) { REQUIRE(manifold.is_vertex(v)); };
+        auto require  = [&manifold](auto& vertex) {
+          REQUIRE(manifold.is_vertex(vertex));
+        };
         std::for_each(vertices.begin(), vertices.end(), require);
       }
 

@@ -19,7 +19,8 @@ using namespace manifolds;
 
 static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
-SCENARIO("Manifold special member and swap properties")
+SCENARIO("Manifold special member and swap properties" *
+         doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold special member and swap properties.\n");
   GIVEN("A 3-dimensional manifold.")
@@ -111,7 +112,7 @@ SCENARIO("Manifold special member and swap properties")
   }
 }
 
-SCENARIO("Manifold static members")
+SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold static members.\n");
   GIVEN("A default constructed Manifold_3")
@@ -127,7 +128,7 @@ SCENARIO("Manifold static members")
   }
 }
 
-SCENARIO("Manifold functions")
+SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold functions.\n");
   GIVEN("A manifold with four vertices.")
@@ -167,7 +168,7 @@ SCENARIO("Manifold functions")
   }
 }
 
-SCENARIO("3-Manifold initialization")
+SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold initialization.\n");
   GIVEN("A 3-manifold.")
@@ -359,7 +360,7 @@ SCENARIO("3-Manifold initialization")
   }
 }
 
-SCENARIO("3-Manifold function checks")
+SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold function checks.\n");
   GIVEN("The default manifold from the default triangulation")
@@ -400,7 +401,7 @@ SCENARIO("3-Manifold function checks")
     }
   }
 }
-SCENARIO("3-Manifold copying")
+SCENARIO("3-Manifold copying" * doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold copying.\n");
   GIVEN("A 3-manifold.")
@@ -453,7 +454,7 @@ SCENARIO("3-Manifold copying")
   }
 }
 
-SCENARIO("3-Manifold update geometry")
+SCENARIO("3-Manifold update geometry" * doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold update geometry.\n");
   GIVEN("A 3-manifold.")
@@ -489,7 +490,7 @@ SCENARIO("3-Manifold update geometry")
   }
 }
 
-SCENARIO("3-Manifold mutation")
+SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold mutation.\n");
   GIVEN("A pair of 3-manifolds.")
@@ -549,7 +550,8 @@ SCENARIO("3-Manifold mutation")
   }
 }
 
-SCENARIO("3-Manifold validation and fixing" * doctest::may_fail())
+SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
+         doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold validation and fixing.\n");
   GIVEN("A (1,3) and (3,1) stacked on each other.")

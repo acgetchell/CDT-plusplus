@@ -16,7 +16,8 @@
 using namespace std;
 using namespace utilities;
 
-SCENARIO("Various string/stream/time utilities")
+SCENARIO("Various string/stream/time utilities" *
+         doctest::test_suite("utilities"))
 {
   spdlog::debug("Various string/stream/time utilities.\n");
   GIVEN("A topology_type.")
@@ -88,7 +89,7 @@ SCENARIO("Various string/stream/time utilities")
 #endif
 }
 
-SCENARIO("Printing Delaunay triangulations")
+SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
 {
   spdlog::debug("Printing Delaunay triangulations.\n");
   GIVEN("A Delaunay_t<3> triangulation.")
@@ -108,7 +109,7 @@ SCENARIO("Printing Delaunay triangulations")
   }
 }
 
-SCENARIO("Randomizing functions")
+SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
 {
   spdlog::debug("Randomizing functions.\n");
   GIVEN("A PCG die roller")
@@ -271,7 +272,7 @@ SCENARIO("Randomizing functions")
   }
 }
 
-SCENARIO("Expected points per timeslice")
+SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
 {
   spdlog::debug("Expected points per timeslice.\n");
   GIVEN("Simplices and timeslices for various foliations")
@@ -322,7 +323,7 @@ SCENARIO("Expected points per timeslice")
   }
 }
 
-SCENARIO("Exact number (Gmpzf) conversion")
+SCENARIO("Exact number (Gmpzf) conversion" * doctest::test_suite("utilities"))
 {
   spdlog::debug("Exact number (Gmpzf) conversion.\n");
   GIVEN("A number not exactly representable in binary.")

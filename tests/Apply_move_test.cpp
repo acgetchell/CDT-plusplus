@@ -17,7 +17,8 @@
 
 using namespace std;
 
-SCENARIO("Apply an ergodic move to 2+1 manifolds" * doctest::may_fail())
+SCENARIO("Apply an ergodic move to 2+1 manifolds" * doctest::may_fail() *
+         doctest::test_suite("apply"))
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {

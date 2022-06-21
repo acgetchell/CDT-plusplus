@@ -15,7 +15,8 @@
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties")
+SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
+         doctest::test_suite("metropolis"))
 {
   spdlog::debug(
       "MoveStrategy<METROPOLIS> special member and swap properties.\n");
@@ -77,7 +78,7 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties")
   }
 }
 
-SCENARIO("Metropolis member functions")
+SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
 {
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);
@@ -145,7 +146,8 @@ SCENARIO("Metropolis member functions")
 
 // This may take a while, so the scenario decorated with doctest::skip()
 // to disable by default
-SCENARIO("Using the Metropolis algorithm" * doctest::skip())
+SCENARIO("Using the Metropolis algorithm" * doctest::skip() *
+         doctest::test_suite("metropolis"))
 {
   auto constexpr Alpha                 = static_cast<long double>(0.6);
   auto constexpr K                     = static_cast<long double>(1.1);
