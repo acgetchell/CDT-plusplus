@@ -9,7 +9,7 @@ var searchData=
   ['torus_5fd_2ehpp_266',['Torus_d.hpp',['../_torus__d_8hpp.html',1,'']]],
   ['torus_5ftest_2ecpp_267',['Torus_test.cpp',['../_torus__test_8cpp.html',1,'']]],
   ['total_268',['total',['../classmove__tracker_1_1_move_tracker.html#ac46f9a41de0dd593e326e2e500338b76',1,'move_tracker::MoveTracker']]],
-  ['triangulation_269',['triangulation',['../structergodic__moves_1_1bistellar__flip__arguments.html#a65cc6ea6ebd50cb3a8506259c3702529',1,'ergodic_moves::bistellar_flip_arguments::triangulation()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#ab02bb3223442972b43d6d73066390349',1,'manifolds::Manifold&lt; 3 &gt;::triangulation()']]],
+  ['triangulation_269',['triangulation',['../structergodic__moves_1_1bistellar__flip__arguments.html#aff8a284dbaa975a0c86ac35e811a130d',1,'ergodic_moves::bistellar_flip_arguments::triangulation()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#ab02bb3223442972b43d6d73066390349',1,'manifolds::Manifold&lt; 3 &gt;::triangulation()']]],
   ['triangulation_5ftraits_2ehpp_270',['Triangulation_traits.hpp',['../_triangulation__traits_8hpp.html',1,'']]],
   ['triangulationtraits_271',['TriangulationTraits',['../struct_triangulation_traits.html',1,'']]],
   ['triangulationtraits_3c_203_20_3e_272',['TriangulationTraits&lt; 3 &gt;',['../struct_triangulation_traits_3_013_01_4.html',1,'']]],
