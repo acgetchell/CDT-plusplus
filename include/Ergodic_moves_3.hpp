@@ -577,8 +577,7 @@ namespace ergodic_moves
     // Check that there are exactly 4 incident cells
     if (!incident_cells || incident_cells->size() != 4)
     {
-      std::string msg = "Expected 4 incident cells, got " +
-                        std::to_string(incident_cells->size()) + ".\n";
+      std::string msg = "Did not get 4 incident cells.\n";
       spdlog::warn(msg);
       return std::nullopt;
     }
