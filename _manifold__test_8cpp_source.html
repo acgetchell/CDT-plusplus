@@ -254,7 +254,7 @@ $(function() {
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold;</div>
 <div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is valid.&quot;</span>)</div>
 <div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;      {</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>  manifold_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>()).name();</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; manifold_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>()).name();</div>
 <div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        std::string manifold_string{manifold_type};</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        CHECK_FALSE(manifold_string.find(<span class="stringliteral">&quot;FoliatedTriangulation&quot;</span>) ==</div>
 <div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;                    std::string::npos);</div>
@@ -265,7 +265,7 @@ $(function() {
 <div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;      }</div>
 <div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;      THEN(<span class="stringliteral">&quot;The geometry is of type geometry class.&quot;</span>)</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;      {</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>  geometry_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a>()).name();</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; geometry_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a>()).name();</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        std::string geometry_string{geometry_type};</div>
 <div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;        CHECK_FALSE(geometry_string.find(<span class="stringliteral">&quot;Geometry&quot;</span>) == std::string::npos);</div>
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;        fmt::print(<span class="stringliteral">&quot;The Geometry data structure is of type {}\n&quot;</span>,</div>
@@ -283,7 +283,7 @@ $(function() {
 <div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(causal_vertices, 0, 1.0);</div>
 <div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is valid.&quot;</span>)</div>
 <div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;      {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>  manifold_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>()).name();</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; manifold_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>()).name();</div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        std::string manifold_string{manifold_type};</div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        CHECK_FALSE(manifold_string.find(<span class="stringliteral">&quot;FoliatedTriangulation&quot;</span>) ==</div>
 <div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;                    std::string::npos);</div>
@@ -294,7 +294,7 @@ $(function() {
 <div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      }</div>
 <div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      THEN(<span class="stringliteral">&quot;The geometry is of type geometry class.&quot;</span>)</div>
 <div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;      {</div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>  geometry_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a>()).name();</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; geometry_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a>()).name();</div>
 <div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        std::string geometry_string{geometry_type};</div>
 <div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        CHECK_FALSE(geometry_string.find(<span class="stringliteral">&quot;Geometry&quot;</span>) == std::string::npos);</div>
 <div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        fmt::print(<span class="stringliteral">&quot;The Geometry data structure is of type {}\n&quot;</span>,</div>
@@ -331,7 +331,7 @@ $(function() {
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(causal_vertices, 0, 1.0);</div>
 <div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is valid.&quot;</span>)</div>
 <div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;      {</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>  manifold_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>()).name();</div>
+<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; manifold_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>()).name();</div>
 <div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160;        std::string manifold_string{manifold_type};</div>
 <div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;        CHECK_FALSE(manifold_string.find(<span class="stringliteral">&quot;FoliatedTriangulation&quot;</span>) ==</div>
 <div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;                    std::string::npos);</div>
@@ -342,7 +342,7 @@ $(function() {
 <div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;      }</div>
 <div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;      THEN(<span class="stringliteral">&quot;The geometry is of type geometry class.&quot;</span>)</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;      {</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>  geometry_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a>()).name();</div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; geometry_type = <span class="keyword">typeid</span>(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a>()).name();</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;        std::string geometry_string{geometry_type};</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160;        CHECK_FALSE(geometry_string.find(<span class="stringliteral">&quot;Geometry&quot;</span>) == std::string::npos);</div>
 <div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;        fmt::print(<span class="stringliteral">&quot;The Geometry data structure is of type {}\n&quot;</span>,</div>
@@ -639,12 +639,12 @@ $(function() {
 <div class="line"><a name="l00563"></a><span class="lineno">  563</span>&#160;    causal_vertices.emplace_back(Point_t&lt;3&gt;(0, 0, 1), 2);</div>
 <div class="line"><a name="l00564"></a><span class="lineno">  564</span>&#160;    causal_vertices.emplace_back(Point_t&lt;3&gt;(RADIUS_2, RADIUS_2, RADIUS_2), 3);</div>
 <div class="line"><a name="l00565"></a><span class="lineno">  565</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(causal_vertices, 0.0, 1.0);</div>
-<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    <span class="keyword">auto</span>      print = [&amp;manifold](<span class="keyword">auto</span>&amp; vertex) {</div>
+<div class="line"><a name="l00566"></a><span class="lineno">  566</span>&#160;    <span class="keyword">auto</span>       print = [&amp;manifold](<span class="keyword">auto</span>&amp; vertex) {</div>
 <div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;      fmt::print(</div>
-<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;               <span class="stringliteral">&quot;Vertex: ({}) Timevalue: {} is a vertex: {} and is &quot;</span></div>
-<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                    <span class="stringliteral">&quot;infinite: {}\n&quot;</span>,</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;               vertex-&gt;point(), vertex-&gt;info(), manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5">is_vertex</a>(vertex),</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;               manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().is_infinite(vertex));</div>
+<div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                <span class="stringliteral">&quot;Vertex: ({}) Timevalue: {} is a vertex: {} and is &quot;</span></div>
+<div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                      <span class="stringliteral">&quot;infinite: {}\n&quot;</span>,</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                vertex-&gt;point(), vertex-&gt;info(), manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5">is_vertex</a>(vertex),</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().is_infinite(vertex));</div>
 <div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;    };</div>
 <div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160; </div>
 <div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
@@ -761,7 +761,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a48984a05b1459ce1c002e7f81b8a50e3"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a48984a05b1459ce1c002e7f81b8a50e3">manifolds::Manifold&lt; 3 &gt;::N3_31</a></div><div class="ttdeci">auto N3_31() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00217">Manifold.hpp:217</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Jun 21 2022 23:37:48 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Jun 22 2022 02:56:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
