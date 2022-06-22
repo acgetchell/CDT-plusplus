@@ -9,13 +9,11 @@
 
 #include <CGAL/circulator.h>
 #include <CGAL/Delaunay_triangulation_3.h>
-#include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
-#include <CGAL/Triangulation_cell_base_with_info_3.h>
-#include <CGAL/Triangulation_vertex_base_with_info_3.h>
 #include <fmt/format.h>
 
 #include <algorithm>
 #include <cstdlib>
+#include <gsl/gsl_assert>
 #include <iterator>
 #include <numbers>
 #include <optional>
@@ -42,7 +40,7 @@ static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
        cit != triangulation.finite_cells_end(); ++cit)
   {
     // Each cell handle is valid
-    assert(triangulation.tds().is_cell(cit));
+    Ensures(triangulation.tds().is_cell(cit));
     cells.push_back(cit);
   }
   return cells;
@@ -59,7 +57,7 @@ static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
     Edge_handle edge{cell, cell->index(cell->vertex(eit->second)),
                      cell->index(cell->vertex(eit->third))};
     // Each edge is valid in the triangulation
-    assert(triangulation.tds().is_valid(edge.first, edge.second, edge.third));
+    Ensures(triangulation.tds().is_valid(edge.first, edge.second, edge.third));
     edges.emplace_back(edge);
   }
   return edges;
@@ -83,12 +81,12 @@ static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
                 vertex != pivot_edge.first->vertex(pivot_edge.third) &&
                 vertex != v_top && vertex != v_bottom);
       });
-  assert(new_pivot_vertices.size() == 2);
+  Ensures(new_pivot_vertices.size() == 2);
   return new_pivot_vertices;
 }  // find_new_pivot
 
 /// @brief Build a Delaunay triangulation and test a bistellar flip
-auto main() -> int
+auto main() -> int // NOLINT
 try
 {
   // Create a Delaunay triangulation
@@ -113,12 +111,12 @@ try
 
   // Get the cells
   auto cells = get_cells(dt);
-  assert(cells.size() == dt.number_of_finite_cells());
+  Ensures(cells.size() == dt.number_of_finite_cells());
   foliated_triangulations::print_cells<3>(cells);
 
   // Get the edges
   auto edges = get_edges(dt);
-  assert(edges.size() == dt.number_of_finite_edges());
+  Ensures(edges.size() == dt.number_of_finite_edges());
 
   // Get top and bottom vertices
   auto vh_top =
@@ -182,7 +180,7 @@ try
       fmt::print("dt.number_of_finite_edges(): {}\n",
                  dt.number_of_finite_edges());
       fmt::print("dt.is_valid(): {}\n", dt.is_valid());
-      assert(dt.is_valid());
+      Ensures(dt.is_valid());
       auto new_cells = foliated_triangulations::get_all_finite_cells<3>(dt);
       foliated_triangulations::print_cells<3>(new_cells);
       return EXIT_SUCCESS;

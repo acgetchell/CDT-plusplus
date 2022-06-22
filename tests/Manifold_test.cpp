@@ -178,7 +178,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       Manifold_3 manifold;
       THEN("The triangulation is valid.")
       {
-        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        auto const& manifold_type = typeid(manifold.get_triangulation()).name();
         std::string manifold_string{manifold_type};
         CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
                     std::string::npos);
@@ -189,7 +189,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       }
       THEN("The geometry is of type geometry class.")
       {
-        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
         CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
@@ -207,7 +207,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       Manifold_3 manifold(causal_vertices, 0, 1.0);
       THEN("The triangulation is valid.")
       {
-        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        auto const& manifold_type = typeid(manifold.get_triangulation()).name();
         std::string manifold_string{manifold_type};
         CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
                     std::string::npos);
@@ -218,7 +218,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       }
       THEN("The geometry is of type geometry class.")
       {
-        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
         CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
@@ -255,7 +255,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       Manifold_3 manifold(causal_vertices, 0, 1.0);
       THEN("The triangulation is valid.")
       {
-        auto const  manifold_type = typeid(manifold.get_triangulation()).name();
+        auto const& manifold_type = typeid(manifold.get_triangulation()).name();
         std::string manifold_string{manifold_type};
         CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
                     std::string::npos);
@@ -266,7 +266,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       }
       THEN("The geometry is of type geometry class.")
       {
-        auto const  geometry_type = typeid(manifold.get_geometry()).name();
+        auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
         CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
@@ -563,12 +563,12 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
     causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
     causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
     Manifold_3 manifold(causal_vertices, 0.0, 1.0);
-    auto      print = [&manifold](auto& vertex) {
+    auto       print = [&manifold](auto& vertex) {
       fmt::print(
-               "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-                    "infinite: {}\n",
-               vertex->point(), vertex->info(), manifold.is_vertex(vertex),
-               manifold.get_triangulation().is_infinite(vertex));
+                "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+                      "infinite: {}\n",
+                vertex->point(), vertex->info(), manifold.is_vertex(vertex),
+                manifold.get_triangulation().is_infinite(vertex));
     };
 
     WHEN("It is constructed.")
