@@ -6,10 +6,10 @@ var searchData=
   ['die_5froll_375',['die_roll',['../_utilities_8hpp.html#a32b5c5bace5c9debca9551e61b0ec4f6',1,'utilities']]],
   ['dimension_376',['dimension',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a222ce36e74cee9dd3e72047e48996edf',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['dimensionality_377',['dimensionality',['../classmanifolds_1_1_manifold_3_013_01_4.html#ab1aa590a12c3926855b5fa5701febe50',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['do_5f23_5fmove_378',['do_23_move',['../_ergodic__moves__3_8hpp.html#ab2a6c5d21ebae7eda3cc0dbaa1725f25',1,'ergodic_moves']]],
-  ['do_5f26_5fmove_379',['do_26_move',['../_ergodic__moves__3_8hpp.html#a7b29029987c36902eb15f3ec64744ece',1,'ergodic_moves']]],
-  ['do_5f32_5fmove_380',['do_32_move',['../_ergodic__moves__3_8hpp.html#a7308be759d4c0dbbeb6c1dcd547caaf8',1,'ergodic_moves']]],
+  ['do_5f23_5fmove_378',['do_23_move',['../_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d',1,'ergodic_moves']]],
+  ['do_5f26_5fmove_379',['do_26_move',['../_ergodic__moves__3_8hpp.html#aa973eda6c8a44d80647fc24a9c5f2384',1,'ergodic_moves']]],
+  ['do_5f32_5fmove_380',['do_32_move',['../_ergodic__moves__3_8hpp.html#a59f0712f608a878efaf2ef9af3aafc8a',1,'ergodic_moves']]],
   ['do_5f44_5fmove_381',['do_44_move',['../_ergodic__moves__3_8hpp.html#a7d16b1cd9c3ceac955f5f079713a6559',1,'ergodic_moves']]],
-  ['do_5f62_5fmove_382',['do_62_move',['../_ergodic__moves__3_8hpp.html#ac152307739562ae71bdcf643746fc5c2',1,'ergodic_moves']]],
+  ['do_5f62_5fmove_382',['do_62_move',['../_ergodic__moves__3_8hpp.html#a98c0b8474c0b5bf14b36c7948d473d29',1,'ergodic_moves']]],
   ['does_5fvertex_5fradius_5fmatch_5ftimevalue_383',['does_vertex_radius_match_timevalue',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a6874b57f398028aaf5e0ce7e1b7408eb',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]]
 ];

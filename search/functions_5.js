@@ -3,7 +3,7 @@ var searchData=
   ['faces_392',['faces',['../classmanifolds_1_1_manifold_3_013_01_4.html#a5a27296e85efd2b55525f866a4a4f42e',1,'manifolds::Manifold&lt; 3 &gt;']]],
   ['filter_5fcells_393',['filter_cells',['../_foliated__triangulation_8hpp.html#aa105c3711eaeb1607dd9c877f0b99191',1,'foliated_triangulations']]],
   ['filter_5fedges_394',['filter_edges',['../_foliated__triangulation_8hpp.html#ab3c03f5cc8d3b2bc59eff77024510cdc',1,'foliated_triangulations']]],
-  ['find_5fadjacent_5f31_5fcell_395',['find_adjacent_31_cell',['../_ergodic__moves__3_8hpp.html#ad4f8ad575d2d8a05a83aa31e3de0cb01',1,'ergodic_moves']]],
+  ['find_5fadjacent_5f31_5fcell_395',['find_adjacent_31_cell',['../_ergodic__moves__3_8hpp.html#a0e30b00c1102d648173602c92f28a2e0',1,'ergodic_moves']]],
   ['find_5fbad_5fvertex_396',['find_bad_vertex',['../_foliated__triangulation_8hpp.html#aeb6bdab0d5756dff23fb2f112d379e42',1,'foliated_triangulations']]],
   ['find_5fbistellar_5fflip_5flocation_397',['find_bistellar_flip_location',['../_ergodic__moves__3_8hpp.html#ad9add7e30ff3f2288e5baa4050ed809a',1,'ergodic_moves']]],
   ['find_5fcell_398',['find_cell',['../_foliated__triangulation_8hpp.html#ab84546e9a07f7898f1f2db87605e81fd',1,'foliated_triangulations']]],

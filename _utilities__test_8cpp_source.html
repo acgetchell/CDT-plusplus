@@ -199,17 +199,17 @@ $(function() {
 <div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;  GIVEN(<span class="stringliteral">&quot;A container of ints&quot;</span>)</div>
 <div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;  {</div>
 <div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    <a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> constexpr VECTOR_TEST_SIZE = 16;</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    vector&lt;Int_precision&gt; v(VECTOR_TEST_SIZE);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    iota(v.begin(), v.end(), 0);</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;    vector&lt;Int_precision&gt; container(VECTOR_TEST_SIZE);</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;    iota(container.begin(), container.end(), 0);</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    WHEN(<span class="stringliteral">&quot;The container is shuffled.&quot;</span>)</div>
 <div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;    {</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      std::shuffle(v.begin(), v.end(), <a class="code" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">make_random_generator</a>());</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      std::shuffle(container.begin(), container.end(), <a class="code" href="_utilities_8hpp.html#a7e3042729088a28e05ae118c433b8669">make_random_generator</a>());</div>
 <div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      THEN(<span class="stringliteral">&quot;We get back the elements in random order.&quot;</span>)</div>
 <div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      {</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keyword">auto</span> j = 0;</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> i : v) { WARN(i != j++); }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;        <span class="keyword">auto</span> j = 0;                                   <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;        <span class="keywordflow">for</span> (<span class="keyword">auto</span> i : container) { WARN(i != j++); }  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;        fmt::print(<span class="stringliteral">&quot;\nShuffled container verification:\n&quot;</span>);</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        fmt::print(<span class="stringliteral">&quot;{}\n&quot;</span>, fmt::join(v, <span class="stringliteral">&quot; &quot;</span>));</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;        fmt::print(<span class="stringliteral">&quot;{}\n&quot;</span>, fmt::join(container, <span class="stringliteral">&quot; &quot;</span>));</div>
 <div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;      }</div>
 <div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;    }</div>
 <div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;  }</div>
@@ -432,7 +432,7 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html_ae951ec1742e61c4fd7f1592e5594ac98"><div class="ttname"><a href="_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98">INITIAL_RADIUS</a></div><div class="ttdeci">static constexpr double INITIAL_RADIUS</div><div class="ttdoc">Default foliated triangulation spacings.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00047">Settings.hpp:47</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 17 2022 17:31:25 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 17 2022 20:04:32 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
