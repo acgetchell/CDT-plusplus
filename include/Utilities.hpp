@@ -33,7 +33,6 @@
 #include "pcg_random.hpp"
 
 // V. Zverovich {fmt} library
-//#include <fmt/format.h>
 #include <fmt/ostream.h>
 
 // G. Melman spdlog library
@@ -409,7 +408,7 @@ namespace utilities
   /// @param t_point The point
   /// @return A string representation of the point
   template <typename Point>
-  inline auto point_to_str(Point const& t_point) -> std::string const
+  inline auto point_to_str(Point const& t_point) -> std::string
   {
     std::stringstream ss;
     ss << t_point;
@@ -419,8 +418,7 @@ namespace utilities
   /// @brief Convert a topology to a string using it's << operator
   /// @param t_topology The topology_type to convert
   /// @return A string representation of the topology_type
-  inline auto topology_to_str(topology_type const& t_topology)
-      -> std::string const
+  inline auto topology_to_str(topology_type const& t_topology) -> std::string
   {
     std::stringstream ss;
     ss << t_topology;
