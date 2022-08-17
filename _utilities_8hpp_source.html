@@ -376,16 +376,16 @@ $(function() {
 <div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;  <span class="keyword">template</span> &lt;<span class="keyword">typename</span> Po<span class="keywordtype">int</span>&gt;</div>
 <div class="line"><a name="l00411"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a46daf1402ad4f3d1bb84cc409e433914">  411</a></span>&#160;  <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a46daf1402ad4f3d1bb84cc409e433914">point_to_str</a>(Point <span class="keyword">const</span>&amp; t_point) -&gt; std::string</div>
 <div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;  {</div>
-<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    std::stringstream ss;</div>
-<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    ss &lt;&lt; t_point;</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="keywordflow">return</span> ss.str();</div>
+<div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;    std::stringstream stream;</div>
+<div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;    stream &lt;&lt; t_point;</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;    <span class="keywordflow">return</span> stream.str();</div>
 <div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;  }  <span class="comment">// point_to_str</span></div>
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160; </div>
 <div class="line"><a name="l00421"></a><span class="lineno"><a class="line" href="_utilities_8hpp.html#a215459cb5448fb06b02611a2a3d76b97">  421</a></span>&#160;  <span class="keyword">inline</span> <span class="keyword">auto</span> <a class="code" href="_utilities_8hpp.html#a215459cb5448fb06b02611a2a3d76b97">topology_to_str</a>(topology_type <span class="keyword">const</span>&amp; t_topology) -&gt; std::string</div>
 <div class="line"><a name="l00422"></a><span class="lineno">  422</span>&#160;  {</div>
-<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    std::stringstream ss;</div>
-<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    ss &lt;&lt; t_topology;</div>
-<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    <span class="keywordflow">return</span> ss.str();</div>
+<div class="line"><a name="l00423"></a><span class="lineno">  423</span>&#160;    std::stringstream stream;</div>
+<div class="line"><a name="l00424"></a><span class="lineno">  424</span>&#160;    stream &lt;&lt; t_topology;</div>
+<div class="line"><a name="l00425"></a><span class="lineno">  425</span>&#160;    <span class="keywordflow">return</span> stream.str();</div>
 <div class="line"><a name="l00426"></a><span class="lineno">  426</span>&#160;  }  <span class="comment">// topology_to_str</span></div>
 <div class="line"><a name="l00427"></a><span class="lineno">  427</span>&#160;}  <span class="comment">// namespace utilities</span></div>
 <div class="line"><a name="l00428"></a><span class="lineno">  428</span>&#160;<span class="preprocessor">#endif  // INCLUDE_UTILITIES_HPP_</span></div>
@@ -411,7 +411,7 @@ $(function() {
 <div class="ttc" id="a_utilities_8hpp_html_aa715f4183fc64cef39399db9906f229b"><div class="ttname"><a href="_utilities_8hpp.html#aa715f4183fc64cef39399db9906f229b">utilities::create_logger</a></div><div class="ttdeci">void create_logger()</div><div class="ttdoc">Create console and file loggers.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00367">Utilities.hpp:367</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Aug 17 2022 04:23:49 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 17 2022 17:31:25 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
