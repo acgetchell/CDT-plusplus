@@ -48,8 +48,7 @@ namespace ergodic_moves
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4
   [[nodiscard]] inline auto try_23_move(Manifold&          t_manifold,
-                                        Cell_handle const& to_be_moved) noexcept
-      -> bool
+                                        Cell_handle const& to_be_moved) -> bool
   {
     if (to_be_moved->info() != 22) { return false; }  // NOLINT
     auto flipped = false;
@@ -83,8 +82,7 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (2,3) moved manifold
-  [[nodiscard]] inline auto do_23_move(Manifold& t_manifold) noexcept
-      -> Expected
+  [[nodiscard]] inline auto do_23_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -113,8 +111,7 @@ namespace ergodic_moves
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
   [[nodiscard]] inline auto try_32_move(Manifold&          t_manifold,
-                                        Edge_handle const& to_be_moved) noexcept
-      -> bool
+                                        Edge_handle const& to_be_moved) -> bool
   {
     return t_manifold.triangulation().flip(
         to_be_moved.first, to_be_moved.second, to_be_moved.third);
@@ -128,8 +125,7 @@ namespace ergodic_moves
   /// If successful, the triangulation is no longer Delaunay.
   /// @param t_manifold The simplicial manifold
   /// @return The (3,2) moved manifold
-  [[nodiscard]] inline auto do_32_move(Manifold& t_manifold) noexcept
-      -> Expected
+  [[nodiscard]] inline auto do_32_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -155,8 +151,8 @@ namespace ergodic_moves
   /// with a (1,3) simplex, it checks neighbors for a (3,1) simplex.
   /// @param t_cell The (1,3) simplex that is checked
   /// @return The integer of the neighboring (3,1) simplex if there is one
-  [[nodiscard]] inline auto find_adjacent_31_cell(
-      Cell_handle const& t_cell) noexcept -> std::optional<int>
+  [[nodiscard]] inline auto find_adjacent_31_cell(Cell_handle const& t_cell)
+      -> std::optional<int>
   {
     if (t_cell->info() != 13) { return std::nullopt; }  // NOLINT
     for (auto i = 0; i < 4; ++i)
@@ -188,8 +184,7 @@ namespace ergodic_moves
   /// @image latex 26.eps width=7cm
   /// @param t_manifold The simplicial manifold
   /// @return The (2,6) moved manifold
-  [[nodiscard]] inline auto do_26_move(Manifold& t_manifold) noexcept
-      -> Expected
+  [[nodiscard]] inline auto do_26_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -340,8 +335,8 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return If (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(
-      Manifold const& manifold, Vertex_handle_t<3> const& candidate) noexcept
+  [[nodiscard]] inline auto is_62_movable(Manifold const&           manifold,
+                                          Vertex_handle_t<3> const& candidate)
       -> bool
   {
     if (manifold.dimensionality() != 3)
@@ -457,8 +452,7 @@ namespace ergodic_moves
   ///
   /// @param t_manifold The simplicial manifold
   /// @return The (6,2) moved manifold
-  [[nodiscard]] inline auto do_62_move(Manifold& t_manifold) noexcept
-      -> Expected
+  [[nodiscard]] inline auto do_62_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -532,9 +526,9 @@ namespace ergodic_moves
   {
     if (auto incident_cells =
             incident_cells_from_edge(triangulation, t_edge_candidate);
-        incident_cells->size() == 4)
+        incident_cells.has_value() && incident_cells->size() == 4)
     {
-      return *incident_cells;
+      return incident_cells.value();
     }
     return std::nullopt;
   }  // find_bistellar_flip_location()
@@ -1017,15 +1011,6 @@ namespace ergodic_moves
           spdlog::trace("Incident cell is of type {}.\n", cell->info());
         }
 #endif
-        // Debug this
-        //        if (auto result = bistellar_flip(edge, *incident_cells,
-        //        t_manifold);
-        //            result)
-        //        {
-        //          fmt::print("After (4,4) move:\n");
-        //          result.value().print_cells();
-        //          return result.value();
-        //        }
 
         // For now, just return the manifold - essentially a null move
         return t_manifold;

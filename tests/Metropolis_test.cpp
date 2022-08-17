@@ -80,10 +80,10 @@ SCENARIO("MoveStrategy<METROPOLIS> special member and swap properties" *
 
 SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
 {
-  auto constexpr Alpha                 = static_cast<long double>(0.6);
-  auto constexpr K                     = static_cast<long double>(1.1);
-  auto constexpr Lambda                = static_cast<long double>(0.1);
-  auto constexpr passes                = 10;
+  auto constexpr Alpha  = static_cast<long double>(0.6);
+  auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
+  auto constexpr Lambda = static_cast<long double>(0.1);
+  auto constexpr passes = 10;
   auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold_3.")
   {
@@ -149,10 +149,10 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
 SCENARIO("Using the Metropolis algorithm" * doctest::skip() *
          doctest::test_suite("metropolis"))
 {
-  auto constexpr Alpha                 = static_cast<long double>(0.6);
-  auto constexpr K                     = static_cast<long double>(1.1);
-  auto constexpr Lambda                = static_cast<long double>(0.1);
-  auto constexpr passes                = 1;
+  auto constexpr Alpha  = static_cast<long double>(0.6);
+  auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
+  auto constexpr Lambda = static_cast<long double>(0.1);
+  auto constexpr passes = 1;
   auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold_3.")
   {

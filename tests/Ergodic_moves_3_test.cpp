@@ -411,8 +411,9 @@ SCENARIO("Test bistellar flips" * doctest::test_suite("ergodic"))
       {
         auto pivot_edge = ergodic_moves::find_pivot(triangulation, edges);
         auto Contains   = [&vertices](Point_t<3> point) {
-          return std::any_of(vertices.begin(), vertices.end(),
-                               [&point](Point_t<3> p) { return p == point; });
+          return std::any_of(
+                vertices.begin(), vertices.end(),
+                [&point](Point_t<3> t_pt) { return t_pt == point; });
         };
         REQUIRE(pivot_edge);
         auto pivot_from_1 = pivot_edge.value()

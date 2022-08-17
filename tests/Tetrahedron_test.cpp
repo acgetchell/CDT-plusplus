@@ -130,10 +130,10 @@ SCENARIO("Find distances between points of the tetrahedron" *
                    d_3);
         CHECK(d_3 == 1);
 
-        auto d4 = r_2(origin, v_4);
+        auto d_4 = r_2(origin, v_4);
         fmt::print("The squared distance between v_4 and the origin is {}\n",
-                   d4);
-        CHECK(d4 == 4);
+                   d_4);
+        CHECK(d_4 == 4);
       }
       THEN("The squared distance between radius=1 vertices are 2.")
       {
@@ -151,15 +151,15 @@ SCENARIO("Find distances between points of the tetrahedron" *
       {
         CHECK(triangulation.check_all_vertices());
         // Human verification
-        auto print = [&triangulation](Vertex_handle_t<3> const& v) {
+        auto print = [&triangulation](Vertex_handle_t<3> const& vertex) {
           fmt::print(
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
               "{}.\n",
-              utilities::point_to_str(v->point()), v->info(),
-              squared_radius<3>(v),
-              std::pow(triangulation.expected_radius(v), 2),
-              triangulation.expected_timevalue(v));
+              utilities::point_to_str(vertex->point()), vertex->info(),
+              squared_radius<3>(vertex),
+              std::pow(triangulation.expected_radius(vertex), 2),
+              triangulation.expected_timevalue(vertex));
         };
         std::for_each(triangulation.get_vertices().begin(),
                       triangulation.get_vertices().end(), print);
@@ -190,10 +190,11 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
       // here for reference
       Causal_vertices causal_vertices;
       causal_vertices.reserve(Vertices.size());
-      std::transform(
-          Vertices.begin(), Vertices.end(), timevalue.begin(),
-          std::back_inserter(causal_vertices),
-          [](Point a, std::size_t b) { return std::make_pair(a, b); });
+      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
+                     std::back_inserter(causal_vertices),
+                     [](Point point, std::size_t size) {
+                       return std::make_pair(point, size);
+                     });
       FoliatedTriangulation triangulation(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")

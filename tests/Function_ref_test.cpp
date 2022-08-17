@@ -21,7 +21,7 @@ using namespace manifolds;
 
 SCENARIO("Simple Lambda operations" * doctest::test_suite("function_ref"))
 {
-  constexpr auto increment_lambda = [](int a) { return ++a; };
+  constexpr auto increment_lambda = [](int a) { return ++a; };  // NOLINT
   GIVEN("A simple lambda.")
   {
     WHEN("Lambda is called with 0.")
@@ -51,7 +51,7 @@ SCENARIO("Complex lambda operations" * doctest::test_suite("function_ref"))
     REQUIRE(manifold.is_correct());
     WHEN("A lambda is constructed for a move.")
     {
-      auto const move23 = [](Manifold_3& m) {
+      auto const move23 = [](Manifold_3& m) {  // NOLINT
         return ergodic_moves::do_23_move(m).value();
       };
       THEN("Running the lambda makes the move.")
@@ -111,8 +111,8 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     auto constexpr desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    auto const move23 = [](Manifold_3& m) {
-      return ergodic_moves::do_23_move(m).value();
+    auto const move23 = [](Manifold_3& t_manifold) {
+      return ergodic_moves::do_23_move(t_manifold).value();
     };
     tl::function_ref<Manifold_3(Manifold_3&)> complex_ref(move23);
     WHEN("The function_ref is invoked.")

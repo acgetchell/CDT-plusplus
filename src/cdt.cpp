@@ -81,7 +81,7 @@ try
   auto initial_radius    = stod(args["--init"].asString());
   auto foliation_spacing = stod(args["--foliate"].asString());
   auto alpha             = stold(args["--alpha"].asString());
-  auto k                 = stold(args["-k"].asString());
+  auto k                 = stold(args["-k"].asString());  // NOLINT
   auto lambda            = stold(args["--lambda"].asString());
   auto passes            = stoll(args["--passes"].asString());
   auto checkpoint        = stoll(args["--checkpoint"].asString());

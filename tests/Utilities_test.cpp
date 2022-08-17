@@ -124,17 +124,17 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
   GIVEN("A container of ints")
   {
     Int_precision constexpr VECTOR_TEST_SIZE = 16;
-    vector<Int_precision> v(VECTOR_TEST_SIZE);
-    iota(v.begin(), v.end(), 0);
+    vector<Int_precision> container(VECTOR_TEST_SIZE);
+    iota(container.begin(), container.end(), 0);
     WHEN("The container is shuffled.")
     {
-      std::shuffle(v.begin(), v.end(), make_random_generator());
+      std::shuffle(container.begin(), container.end(), make_random_generator());
       THEN("We get back the elements in random order.")
       {
-        auto j = 0;
-        for (auto i : v) { WARN(i != j++); }
+        auto j = 0;                                   // NOLINT
+        for (auto i : container) { WARN(i != j++); }  // NOLINT
         fmt::print("\nShuffled container verification:\n");
-        fmt::print("{}\n", fmt::join(v, " "));
+        fmt::print("{}\n", fmt::join(container, " "));
       }
     }
   }

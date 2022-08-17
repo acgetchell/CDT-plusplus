@@ -51,7 +51,8 @@ static inline double constexpr FOLIATION_SPACING           = 1.0;
 static inline double constexpr TOLERANCE                   = 0.01;
 
 /// Depends on INITIAL_RADIUS and RADIAL_FACTOR
-static inline Int_precision constexpr GV_BOUNDING_BOX_SIZE = 100;
+[[maybe_unused]] static inline Int_precision constexpr GV_BOUNDING_BOX_SIZE =
+    100;
 
 /// Aligns data for ease of access on 64-bit CPUs at the expense of padding
 static inline int constexpr ALIGNMENT_64_BIT               = 64;
