@@ -38,9 +38,9 @@ SCENARIO("Various string/stream/time utilities" *
       {
         THEN("The output is correct.")
         {
-          auto result = fmt::format("Topology type is: {}.\n", this_topology);
+          auto result = fmt::format("Topology type is: {}.\n", buffer.str());
           CHECK(result == "Topology type is: spherical.\n");
-          spdlog::debug("Topology type is: {}.\n", this_topology);
+          spdlog::debug("Topology type is: {}.\n", buffer.str());
         }
       }
     }

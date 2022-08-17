@@ -66,7 +66,7 @@ try
                                                  : topology_type::TOROIDAL;
 
   // Display job parameters
-  fmt::print("Topology is {}\n", topology);
+  fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
   fmt::print("Number of dimensions = {}\n", dimensions);
   fmt::print("Number of desired simplices = {}\n", simplices);
   fmt::print("Number of desired timeslices = {}\n", timeslices);

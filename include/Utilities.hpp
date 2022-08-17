@@ -33,7 +33,7 @@
 #include "pcg_random.hpp"
 
 // V. Zverovich {fmt} library
-#include <fmt/format.h>
+//#include <fmt/format.h>
 #include <fmt/ostream.h>
 
 // G. Melman spdlog library
@@ -403,5 +403,28 @@ namespace utilities
     spdlog::warn("Default logger set.\n");
 
   }  // create_logger
+
+  /// @brief Covert a CGAL point to a string
+  /// @tparam Point The type of point (e.g. 3D, 4D)
+  /// @param t_point The point
+  /// @return A string representation of the point
+  template <typename Point>
+  inline auto point_to_str(Point const& t_point) -> std::string const
+  {
+    std::stringstream ss;
+    ss << t_point;
+    return ss.str();
+  }  // point_to_str
+
+  /// @brief Convert a topology to a string using it's << operator
+  /// @param t_topology The topology_type to convert
+  /// @return A string representation of the topology_type
+  inline auto topology_to_str(topology_type const& t_topology)
+      -> std::string const
+  {
+    std::stringstream ss;
+    ss << t_topology;
+    return ss.str();
+  }  // topology_to_str
 }  // namespace utilities
 #endif  // INCLUDE_UTILITIES_HPP_

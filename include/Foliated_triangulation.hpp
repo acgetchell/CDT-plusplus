@@ -628,7 +628,8 @@ namespace foliated_triangulations
       for (int j = 0; j < dimension + 1; ++j)
       {
         fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
-                   cell->vertex(j)->point(), cell->vertex(j)->info());
+                   utilities::point_to_str(cell->vertex(j)->point()),
+                   cell->vertex(j)->info());
       }
       fmt::print("---\n");
     }
@@ -668,9 +669,10 @@ namespace foliated_triangulations
     fmt::print(
         "Edge: Vertex({}) Point({}) Timevalue: {} -> Vertex({}) Point({}) "
         "Timevalue: {}\n",
-        t_edge.second, t_edge.first->vertex(t_edge.second)->point(),
+        t_edge.second,
+        utilities::point_to_str(t_edge.first->vertex(t_edge.second)->point()),
         t_edge.first->vertex(t_edge.second)->info(), t_edge.third,
-        t_edge.first->vertex(t_edge.third)->point(),
+        utilities::point_to_str(t_edge.first->vertex(t_edge.third)->point()),
         t_edge.first->vertex(t_edge.third)->info());
   }  // print_edge
 
@@ -1353,7 +1355,8 @@ namespace foliated_triangulations
       for (auto const& vertex : m_points)
       {
         fmt::print("Vertex Point: ({}) Timevalue: {} Expected Timevalue: {}\n",
-                   vertex->point(), vertex->info(), expected_timevalue(vertex));
+                   utilities::point_to_str(vertex->point()), vertex->info(),
+                   expected_timevalue(vertex));
       }
     }  // print_vertices
 

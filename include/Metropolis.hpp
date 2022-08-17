@@ -362,7 +362,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   catch (std::system_error const& SystemError)
   {
     spdlog::debug("Metropolis initialization failed with {} ... exiting.\n",
-                  SystemError.code());
+                  SystemError.what());
     spdlog::trace("{}\n", SystemError.code().message());
     return std::nullopt;
   }

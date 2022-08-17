@@ -110,10 +110,10 @@ SCENARIO("Find distances between points of the tetrahedron" *
       }
       THEN("The squared distances of vertices from origin are correct.")
       {
-        fmt::print("v_1 is {}\n", v_1);
-        fmt::print("v_2 is {}\n", v_2);
-        fmt::print("v_3 is {}\n", v_3);
-        fmt::print("v_4 is {}\n", v_4);
+        fmt::print("v_1 is {}\n", utilities::point_to_str(v_1));
+        fmt::print("v_2 is {}\n", utilities::point_to_str(v_2));
+        fmt::print("v_3 is {}\n", utilities::point_to_str(v_3));
+        fmt::print("v_4 is {}\n", utilities::point_to_str(v_4));
 
         auto d_1 = r_2(origin, v_1);
         fmt::print("The squared distance between v_1 and the origin is {}\n",
@@ -156,7 +156,8 @@ SCENARIO("Find distances between points of the tetrahedron" *
               "Vertex ({}) with timevalue of {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
               "{}.\n",
-              v->point(), v->info(), squared_radius<3>(v),
+              utilities::point_to_str(v->point()), v->info(),
+              squared_radius<3>(v),
               std::pow(triangulation.expected_radius(v), 2),
               triangulation.expected_timevalue(v));
         };

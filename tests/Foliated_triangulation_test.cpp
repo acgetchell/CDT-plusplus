@@ -141,13 +141,13 @@ SCENARIO("FoliatedTriangulation free functions" *
                      return std::make_pair(vertex, timevalue);
                    });
     FoliatedTriangulation_3 triangulation(vertices);
-    auto                   print = [&triangulation](auto& vertex) {
+    auto                    print = [&triangulation](auto& vertex) {
       fmt::print(
-                            "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-                                              "infinite: {}\n",
-                            vertex->point(), vertex->info(),
-                            triangulation.get_delaunay().tds().is_vertex(vertex),
-                            triangulation.is_infinite(vertex));
+                             "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+                                                "infinite: {}\n",
+                             utilities::point_to_str(vertex->point()), vertex->info(),
+                             triangulation.get_delaunay().tds().is_vertex(vertex),
+                             triangulation.is_infinite(vertex));
     };
 
     REQUIRE(triangulation.is_initialized());
@@ -215,7 +215,8 @@ SCENARIO("FoliatedTriangulation free functions" *
         fmt::print(
             "Vertex ({}) with timevalue of {} has a squared radius of {} and a "
             "squared expected radius of {} with an expected timevalue of {}.\n",
-            vertex->point(), vertex->info(), squared_radius<3>(vertex),
+            utilities::point_to_str(vertex->point()), vertex->info(),
+            squared_radius<3>(vertex),
             std::pow(triangulation.expected_radius(vertex), 2),
             triangulation.expected_timevalue(vertex));
       }
@@ -266,7 +267,8 @@ SCENARIO("FoliatedTriangulation free functions" *
         // Human verification
         fmt::print(
             "Point(0,0,0) was found as vertex ({}) with a timevalue of {}.\n",
-            vertex.value()->point(), vertex.value()->info());
+            utilities::point_to_str(vertex.value()->point()),
+            vertex.value()->info());
       }
       WHEN("We choose a point not in the triangulation.")
       {
@@ -414,7 +416,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
               "Vertex: ({}) Timevalue: {} has a squared radius of {} and "
               "a squared expected radius of {} with an expected timevalue of "
               "{}.\n",
-              vertex->point(), vertex->info(), squared_radius<3>(vertex),
+              utilities::point_to_str(vertex->point()), vertex->info(),
+              squared_radius<3>(vertex),
               std::pow(triangulation.expected_radius(vertex), 2),
               triangulation.expected_timevalue(vertex));
         };
@@ -866,7 +869,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         auto bad_cells  = check_timevalues<3>(delaunay_triangulation).value();
         auto bad_vertex = find_bad_vertex<3>(bad_cells.front());
-        fmt::print("Bad vertex ({}) has timevalues {}.\n", bad_vertex->point(),
+        fmt::print("Bad vertex ({}) has timevalues {}.\n",
+                   utilities::point_to_str(bad_vertex->point()),
                    bad_vertex->info());
         CHECK(bad_vertex->info() == 3);
       }

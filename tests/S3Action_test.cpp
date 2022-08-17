@@ -47,7 +47,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        spdlog::debug("S3_bulk_action_alpha_minus_one() = {}\n", Bulk_action);
+        spdlog::debug("S3_bulk_action_alpha_minus_one() = {}\n",
+                      Bulk_action.to_double());
         REQUIRE(3500 <= Bulk_action);
         REQUIRE(Bulk_action <= 4500);
       }
@@ -58,7 +59,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
           universe.N1_TL(), universe.N3_31_13(), universe.N3_22(), K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        spdlog::debug("S3_bulk_action_alpha_one() = {}\n", Bulk_action);
+        spdlog::debug("S3_bulk_action_alpha_one() = {}\n",
+                      Bulk_action.to_double());
         REQUIRE(2000 <= Bulk_action);
         REQUIRE(Bulk_action <= 3000);
       }
@@ -71,7 +73,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
                                         universe.N3_22(), Alpha, K, Lambda);
       THEN("The action falls within accepted values.")
       {
-        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action);
+        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action.to_double());
         REQUIRE(2700 <= Bulk_action);
         REQUIRE(Bulk_action <= 3700);
       }
@@ -89,8 +91,9 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
           "S3_bulk_action(alpha=1) == S3_bulk_action_alpha_one() within "
           "tolerances.")
       {
-        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action);
-        spdlog::debug("S3_bulk_action_alpha_one() = {}\n", Bulk_action_one);
+        spdlog::debug("S3_bulk_action() = {}\n", Bulk_action.to_double());
+        spdlog::debug("S3_bulk_action_alpha_one() = {}\n",
+                      Bulk_action_one.to_double());
         REQUIRE(utilities::Gmpzf_to_double(Bulk_action_one) ==
                 doctest::Approx(utilities::Gmpzf_to_double(Bulk_action))
                     .epsilon(TOLERANCE));

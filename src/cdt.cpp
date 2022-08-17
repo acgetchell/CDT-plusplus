@@ -98,7 +98,7 @@ try
                                                  : topology_type::TOROIDAL;
 
   // Display job parameters
-  fmt::print("Topology is {}\n", topology);
+  fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
   fmt::print("Dimensionality: {}+{}\n", dimensions - 1, 1);
   fmt::print("Initial radius: {}\n", initial_radius);
   fmt::print("Foliation spacing: {}\n", foliation_spacing);

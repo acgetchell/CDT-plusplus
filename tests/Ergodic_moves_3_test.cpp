@@ -427,8 +427,8 @@ SCENARIO("Test bistellar flips" * doctest::test_suite("ergodic"))
 
         // Human verification
         foliated_triangulations::print_edge<3>(pivot_edge.value());
-        fmt::print("pivot_1: {}\n", pivot_from_1);
-        fmt::print("pivot_2: {}\n", pivot_from_2);
+        fmt::print("pivot_1: {}\n", utilities::point_to_str(pivot_from_1));
+        fmt::print("pivot_2: {}\n", utilities::point_to_str(pivot_from_2));
       }
       THEN("We can use bistellar_flip_really() to flip the triangulation.")
       {

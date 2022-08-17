@@ -16,7 +16,6 @@
 #include <gsl/gsl_assert>
 #include <iterator>
 #include <numbers>
-#include <optional>
 #include <vector>
 
 #include "Ergodic_moves_3.hpp"
@@ -86,7 +85,7 @@ static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
 }  // find_new_pivot
 
 /// @brief Build a Delaunay triangulation and test a bistellar flip
-auto main() -> int // NOLINT
+auto main() -> int  // NOLINT
 try
 {
   // Create a Delaunay triangulation
@@ -131,7 +130,8 @@ try
     foliated_triangulations::print_edge<3>(pivot.value());
     auto new_pivot = find_new_pivot(cells, pivot.value(), vh_top, vh_bottom);
     fmt::print("The new edge will be from ({}) -> ({})\n",
-               new_pivot[0]->point(), new_pivot[1]->point());
+               utilities::point_to_str(new_pivot[0]->point()),
+               utilities::point_to_str(new_pivot[1]->point()));
 
     // Calculate the cells that will be flipped
     auto b_1 = foliated_triangulations::find_cell<3>(

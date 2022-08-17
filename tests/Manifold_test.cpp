@@ -567,7 +567,8 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
       fmt::print(
                 "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
                       "infinite: {}\n",
-                vertex->point(), vertex->info(), manifold.is_vertex(vertex),
+                utilities::point_to_str(vertex->point()), vertex->info(),
+                manifold.is_vertex(vertex),
                 manifold.get_triangulation().is_infinite(vertex));
     };
 
