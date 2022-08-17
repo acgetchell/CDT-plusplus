@@ -99,7 +99,6 @@ $(function() {
 <code>#include &lt;typeindex&gt;</code><br />
 <code>#include &lt;date/tz.h&gt;</code><br />
 <code>#include &quot;pcg_random.hpp&quot;</code><br />
-<code>#include &lt;fmt/format.h&gt;</code><br />
 <code>#include &lt;fmt/ostream.h&gt;</code><br />
 <code>#include &lt;spdlog/sinks/basic_file_sink.h&gt;</code><br />
 <code>#include &lt;spdlog/sinks/stdout_color_sinks.h&gt;</code><br />
@@ -181,10 +180,17 @@ template&lt;typename IntegerType &gt; </td></tr>
 <tr class="memitem:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">operator&lt;&lt;</a> (std::ostream &amp;t_os, topology_type const &amp;t_topology) -&gt; std::ostream &amp;</td></tr>
 <tr class="memdesc:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert topology_type to string output.  <a href="_utilities_8hpp.html#a009d76fda8b31ee925f5b4c5eb1d12f1">More...</a><br /></td></tr>
 <tr class="separator:a009d76fda8b31ee925f5b4c5eb1d12f1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a867970777dcc7e5a1e329bf32b102f69"><td class="memTemplParams" colspan="2">template&lt;typename Point &gt; </td></tr>
+<tr class="memitem:a867970777dcc7e5a1e329bf32b102f69"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a867970777dcc7e5a1e329bf32b102f69">utilities::point_to_str</a> (Point const &amp;t_point) -&gt; std::string const</td></tr>
+<tr class="memdesc:a867970777dcc7e5a1e329bf32b102f69"><td class="mdescLeft">&#160;</td><td class="mdescRight">Covert a CGAL point to a string.  <a href="_utilities_8hpp.html#a867970777dcc7e5a1e329bf32b102f69">More...</a><br /></td></tr>
+<tr class="separator:a867970777dcc7e5a1e329bf32b102f69"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a343d224c91b607f37980bf84760347c4"><td class="memTemplParams" colspan="2">template&lt;typename TriangulationType &gt; </td></tr>
 <tr class="memitem:a343d224c91b607f37980bf84760347c4"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a> (TriangulationType const &amp;t_triangulation)</td></tr>
 <tr class="memdesc:a343d224c91b607f37980bf84760347c4"><td class="mdescLeft">&#160;</td><td class="mdescRight">Print triangulation statistics.  <a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">More...</a><br /></td></tr>
 <tr class="separator:a343d224c91b607f37980bf84760347c4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa7f4ee4368b9d917a36d9c66bf78b076"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#aa7f4ee4368b9d917a36d9c66bf78b076">utilities::topology_to_str</a> (topology_type const &amp;t_topology) -&gt; std::string const</td></tr>
+<tr class="memdesc:aa7f4ee4368b9d917a36d9c66bf78b076"><td class="mdescLeft">&#160;</td><td class="mdescRight">Convert a topology to a string using it's &lt;&lt; operator.  <a href="_utilities_8hpp.html#aa7f4ee4368b9d917a36d9c66bf78b076">More...</a><br /></td></tr>
+<tr class="separator:aa7f4ee4368b9d917a36d9c66bf78b076"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad48fd994ea7e09b699c8981847762176"><td class="memTemplParams" colspan="2">template&lt;typename ManifoldType &gt; </td></tr>
 <tr class="memitem:ad48fd994ea7e09b699c8981847762176"><td class="memTemplItemLeft" align="right" valign="top">void&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">utilities::write_file</a> (ManifoldType const &amp;t_universe, topology_type const &amp;t_topology, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_dimension, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_simplices, <a class="el" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a> t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing)</td></tr>
 <tr class="memdesc:ad48fd994ea7e09b699c8981847762176"><td class="mdescLeft">&#160;</td><td class="mdescRight">Writes the runtime results to a file.  <a href="_utilities_8hpp.html#ad48fd994ea7e09b699c8981847762176">More...</a><br /></td></tr>
@@ -619,6 +625,56 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 
 </div>
 </div>
+<a id="a867970777dcc7e5a1e329bf32b102f69"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a867970777dcc7e5a1e329bf32b102f69">&#9670;&nbsp;</a></span>point_to_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;typename Point &gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::point_to_str </td>
+          <td>(</td>
+          <td class="paramtype">Point const &amp;&#160;</td>
+          <td class="paramname"><em>t_point</em></td><td>)</td>
+          <td> -&gt; std::string const
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Covert a CGAL point to a string. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">Point</td><td>The type of point (e.g. 3D, 4D) </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_point</td><td>The point </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string representation of the point </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00412">412</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00412">utilities::point_to_str()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00412">utilities::point_to_str()</a>.</p>
+
+</div>
+</div>
 <a id="a343d224c91b607f37980bf84760347c4"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a343d224c91b607f37980bf84760347c4">&#9670;&nbsp;</a></span>print_delaunay()</h2>
 
@@ -656,6 +712,48 @@ template&lt;typename TriangulationType &gt; </div>
 <p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00134">utilities::print_delaunay()</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00134">utilities::print_delaunay()</a>.</p>
+
+</div>
+</div>
+<a id="aa7f4ee4368b9d917a36d9c66bf78b076"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa7f4ee4368b9d917a36d9c66bf78b076">&#9670;&nbsp;</a></span>topology_to_str()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto utilities::topology_to_str </td>
+          <td>(</td>
+          <td class="paramtype">topology_type const &amp;&#160;</td>
+          <td class="paramname"><em>t_topology</em></td><td>)</td>
+          <td> -&gt; std::string const
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Convert a topology to a string using it's &lt;&lt; operator. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">t_topology</td><td>The topology_type to convert </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A string representation of the topology_type </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00422">422</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00422">utilities::topology_to_str()</a>.</p>
+
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00422">utilities::topology_to_str()</a>.</p>
 
 </div>
 </div>
@@ -749,7 +847,7 @@ template&lt;typename ManifoldType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 22 2022 02:56:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 17 2022 00:51:30 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

@@ -643,87 +643,88 @@ $(function() {
 <div class="line"><a name="l00567"></a><span class="lineno">  567</span>&#160;      fmt::print(</div>
 <div class="line"><a name="l00568"></a><span class="lineno">  568</span>&#160;                <span class="stringliteral">&quot;Vertex: ({}) Timevalue: {} is a vertex: {} and is &quot;</span></div>
 <div class="line"><a name="l00569"></a><span class="lineno">  569</span>&#160;                      <span class="stringliteral">&quot;infinite: {}\n&quot;</span>,</div>
-<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                vertex-&gt;point(), vertex-&gt;info(), manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5">is_vertex</a>(vertex),</div>
-<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().is_infinite(vertex));</div>
-<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;    };</div>
-<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160; </div>
-<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
-<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;    {</div>
-<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;      THEN(<span class="stringliteral">&quot;The number of timeslices is correct.&quot;</span>)</div>
-<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;      {</div>
-<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">min_time</a>() == 1);</div>
-<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">max_time</a>() == 3);</div>
-<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;      }</div>
-<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;      THEN(<span class="stringliteral">&quot;Every vertex in the manifold has a correct timevalue.&quot;</span>)</div>
-<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;      {</div>
-<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#aa8182a64b6acdd03384bab11ffe0b6a2">print_vertices</a>();</div>
-<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().check_all_vertices());</div>
-<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;      }</div>
-<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;      THEN(<span class="stringliteral">&quot;Every cell in the manifold is correctly classified.&quot;</span>)</div>
-<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;      {</div>
-<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5c6d38cc62275a09e79a280912c16e07">print_cells</a>();</div>
-<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a>());</div>
-<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;      }</div>
-<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;    }</div>
-<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;    WHEN(<span class="stringliteral">&quot;We insert an invalid timevalue into a vertex.&quot;</span>)</div>
-<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;    {</div>
-<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;      <span class="keyword">auto</span> cells         = manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_cells();</div>
-<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;      <span class="keyword">auto</span> broken_cell   = cells[0];</div>
-<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;      <span class="keyword">auto</span> broken_vertex = broken_cell-&gt;vertex(0);</div>
-<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;      fmt::print(<span class="stringliteral">&quot;Info on vertex was {}\n&quot;</span>, broken_vertex-&gt;info());</div>
-<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;      broken_vertex-&gt;info() = std::numeric_limits&lt;int&gt;::max();</div>
-<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;      fmt::print(<span class="stringliteral">&quot;Info on vertex is now {}\n&quot;</span>, broken_vertex-&gt;info());</div>
-<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;      THEN(<span class="stringliteral">&quot;We can detect invalid vertex timevalues.&quot;</span>)</div>
-<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;      {</div>
-<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;        CHECK_FALSE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af6b984475125529aed5d3b706637644f">is_correct</a>());</div>
-<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        <span class="comment">// Human verification</span></div>
-<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;        <span class="keyword">auto</span> bad_vertices =</div>
-<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;            manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().find_incorrect_vertices();</div>
-<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;        for_each(bad_vertices.begin(), bad_vertices.end(), print);</div>
-<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;      }</div>
-<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;      THEN(<span class="stringliteral">&quot;We can detect invalid cells.&quot;</span>)</div>
-<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;      {</div>
-<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff">update</a>();</div>
-<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5c6d38cc62275a09e79a280912c16e07">print_cells</a>();</div>
-<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;        CHECK_FALSE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a>());</div>
-<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;      }</div>
-<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;    }</div>
-<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;  }</div>
-<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;  GIVEN(<span class="stringliteral">&quot;A medium sized manifold.&quot;</span>)</div>
-<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;  {</div>
-<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 6400;</div>
-<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 7;</div>
-<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
-<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;    {</div>
-<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
-<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is valid and Delaunay.&quot;</span>)</div>
-<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;      {</div>
-<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af6b984475125529aed5d3b706637644f">is_correct</a>());</div>
-<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;      }</div>
-<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;      THEN(<span class="stringliteral">&quot;The geometry matches the triangulation.&quot;</span>)</div>
-<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;      {</div>
-<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#ad3d9fc92692cb272e3eccfd957f07e13">is_foliated</a>());</div>
-<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce">vertices</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#adc89d7f9046634ff3cfc82343a2cbd9d">N0</a>());</div>
-<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a3a9c96a4e872487aa3549e389c8b53cb">edges</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#ac719cac43cd430f4996171596bfe8d27">N1</a>());</div>
-<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5a27296e85efd2b55525f866a4a4f42e">faces</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a0f31d3266bba86f6456e2ca56e0ba40e">N2</a>());</div>
-<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220">simplices</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>());</div>
-<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;      }</div>
-<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;      THEN(<span class="stringliteral">&quot;The number of timeslices is correct.&quot;</span>)</div>
-<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;      {</div>
-<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">min_time</a>() == 1);</div>
-<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">max_time</a>() == desired_timeslices);</div>
-<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;      }</div>
-<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;      THEN(<span class="stringliteral">&quot;Every vertex in the manifold has a correct timevalue.&quot;</span>)</div>
-<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;      {</div>
-<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().check_all_vertices());</div>
-<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;      }</div>
-<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;      THEN(<span class="stringliteral">&quot;Every cell in the manifold is correctly classified.&quot;</span>)</div>
-<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;      {</div>
-<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a>());</div>
-<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;      }</div>
-<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;    }</div>
-<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;  }</div>
-<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;}</div>
+<div class="line"><a name="l00570"></a><span class="lineno">  570</span>&#160;                utilities::point_to_str(vertex-&gt;point()), vertex-&gt;info(),</div>
+<div class="line"><a name="l00571"></a><span class="lineno">  571</span>&#160;                manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af76c818684a27ed854e5abbb6629f7c5">is_vertex</a>(vertex),</div>
+<div class="line"><a name="l00572"></a><span class="lineno">  572</span>&#160;                manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().is_infinite(vertex));</div>
+<div class="line"><a name="l00573"></a><span class="lineno">  573</span>&#160;    };</div>
+<div class="line"><a name="l00574"></a><span class="lineno">  574</span>&#160; </div>
+<div class="line"><a name="l00575"></a><span class="lineno">  575</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
+<div class="line"><a name="l00576"></a><span class="lineno">  576</span>&#160;    {</div>
+<div class="line"><a name="l00577"></a><span class="lineno">  577</span>&#160;      THEN(<span class="stringliteral">&quot;The number of timeslices is correct.&quot;</span>)</div>
+<div class="line"><a name="l00578"></a><span class="lineno">  578</span>&#160;      {</div>
+<div class="line"><a name="l00579"></a><span class="lineno">  579</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">min_time</a>() == 1);</div>
+<div class="line"><a name="l00580"></a><span class="lineno">  580</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">max_time</a>() == 3);</div>
+<div class="line"><a name="l00581"></a><span class="lineno">  581</span>&#160;      }</div>
+<div class="line"><a name="l00582"></a><span class="lineno">  582</span>&#160;      THEN(<span class="stringliteral">&quot;Every vertex in the manifold has a correct timevalue.&quot;</span>)</div>
+<div class="line"><a name="l00583"></a><span class="lineno">  583</span>&#160;      {</div>
+<div class="line"><a name="l00584"></a><span class="lineno">  584</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#aa8182a64b6acdd03384bab11ffe0b6a2">print_vertices</a>();</div>
+<div class="line"><a name="l00585"></a><span class="lineno">  585</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().check_all_vertices());</div>
+<div class="line"><a name="l00586"></a><span class="lineno">  586</span>&#160;      }</div>
+<div class="line"><a name="l00587"></a><span class="lineno">  587</span>&#160;      THEN(<span class="stringliteral">&quot;Every cell in the manifold is correctly classified.&quot;</span>)</div>
+<div class="line"><a name="l00588"></a><span class="lineno">  588</span>&#160;      {</div>
+<div class="line"><a name="l00589"></a><span class="lineno">  589</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5c6d38cc62275a09e79a280912c16e07">print_cells</a>();</div>
+<div class="line"><a name="l00590"></a><span class="lineno">  590</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a>());</div>
+<div class="line"><a name="l00591"></a><span class="lineno">  591</span>&#160;      }</div>
+<div class="line"><a name="l00592"></a><span class="lineno">  592</span>&#160;    }</div>
+<div class="line"><a name="l00593"></a><span class="lineno">  593</span>&#160;    WHEN(<span class="stringliteral">&quot;We insert an invalid timevalue into a vertex.&quot;</span>)</div>
+<div class="line"><a name="l00594"></a><span class="lineno">  594</span>&#160;    {</div>
+<div class="line"><a name="l00595"></a><span class="lineno">  595</span>&#160;      <span class="keyword">auto</span> cells         = manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_cells();</div>
+<div class="line"><a name="l00596"></a><span class="lineno">  596</span>&#160;      <span class="keyword">auto</span> broken_cell   = cells[0];</div>
+<div class="line"><a name="l00597"></a><span class="lineno">  597</span>&#160;      <span class="keyword">auto</span> broken_vertex = broken_cell-&gt;vertex(0);</div>
+<div class="line"><a name="l00598"></a><span class="lineno">  598</span>&#160;      fmt::print(<span class="stringliteral">&quot;Info on vertex was {}\n&quot;</span>, broken_vertex-&gt;info());</div>
+<div class="line"><a name="l00599"></a><span class="lineno">  599</span>&#160;      broken_vertex-&gt;info() = std::numeric_limits&lt;int&gt;::max();</div>
+<div class="line"><a name="l00600"></a><span class="lineno">  600</span>&#160;      fmt::print(<span class="stringliteral">&quot;Info on vertex is now {}\n&quot;</span>, broken_vertex-&gt;info());</div>
+<div class="line"><a name="l00601"></a><span class="lineno">  601</span>&#160;      THEN(<span class="stringliteral">&quot;We can detect invalid vertex timevalues.&quot;</span>)</div>
+<div class="line"><a name="l00602"></a><span class="lineno">  602</span>&#160;      {</div>
+<div class="line"><a name="l00603"></a><span class="lineno">  603</span>&#160;        CHECK_FALSE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af6b984475125529aed5d3b706637644f">is_correct</a>());</div>
+<div class="line"><a name="l00604"></a><span class="lineno">  604</span>&#160;        <span class="comment">// Human verification</span></div>
+<div class="line"><a name="l00605"></a><span class="lineno">  605</span>&#160;        <span class="keyword">auto</span> bad_vertices =</div>
+<div class="line"><a name="l00606"></a><span class="lineno">  606</span>&#160;            manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().find_incorrect_vertices();</div>
+<div class="line"><a name="l00607"></a><span class="lineno">  607</span>&#160;        for_each(bad_vertices.begin(), bad_vertices.end(), print);</div>
+<div class="line"><a name="l00608"></a><span class="lineno">  608</span>&#160;      }</div>
+<div class="line"><a name="l00609"></a><span class="lineno">  609</span>&#160;      THEN(<span class="stringliteral">&quot;We can detect invalid cells.&quot;</span>)</div>
+<div class="line"><a name="l00610"></a><span class="lineno">  610</span>&#160;      {</div>
+<div class="line"><a name="l00611"></a><span class="lineno">  611</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a850a08ca14a7e209fcebe3b323c186ff">update</a>();</div>
+<div class="line"><a name="l00612"></a><span class="lineno">  612</span>&#160;        manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5c6d38cc62275a09e79a280912c16e07">print_cells</a>();</div>
+<div class="line"><a name="l00613"></a><span class="lineno">  613</span>&#160;        CHECK_FALSE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a>());</div>
+<div class="line"><a name="l00614"></a><span class="lineno">  614</span>&#160;      }</div>
+<div class="line"><a name="l00615"></a><span class="lineno">  615</span>&#160;    }</div>
+<div class="line"><a name="l00616"></a><span class="lineno">  616</span>&#160;  }</div>
+<div class="line"><a name="l00617"></a><span class="lineno">  617</span>&#160;  GIVEN(<span class="stringliteral">&quot;A medium sized manifold.&quot;</span>)</div>
+<div class="line"><a name="l00618"></a><span class="lineno">  618</span>&#160;  {</div>
+<div class="line"><a name="l00619"></a><span class="lineno">  619</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 6400;</div>
+<div class="line"><a name="l00620"></a><span class="lineno">  620</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 7;</div>
+<div class="line"><a name="l00621"></a><span class="lineno">  621</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
+<div class="line"><a name="l00622"></a><span class="lineno">  622</span>&#160;    {</div>
+<div class="line"><a name="l00623"></a><span class="lineno">  623</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00624"></a><span class="lineno">  624</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is valid and Delaunay.&quot;</span>)</div>
+<div class="line"><a name="l00625"></a><span class="lineno">  625</span>&#160;      {</div>
+<div class="line"><a name="l00626"></a><span class="lineno">  626</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af6b984475125529aed5d3b706637644f">is_correct</a>());</div>
+<div class="line"><a name="l00627"></a><span class="lineno">  627</span>&#160;      }</div>
+<div class="line"><a name="l00628"></a><span class="lineno">  628</span>&#160;      THEN(<span class="stringliteral">&quot;The geometry matches the triangulation.&quot;</span>)</div>
+<div class="line"><a name="l00629"></a><span class="lineno">  629</span>&#160;      {</div>
+<div class="line"><a name="l00630"></a><span class="lineno">  630</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#ad3d9fc92692cb272e3eccfd957f07e13">is_foliated</a>());</div>
+<div class="line"><a name="l00631"></a><span class="lineno">  631</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce">vertices</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#adc89d7f9046634ff3cfc82343a2cbd9d">N0</a>());</div>
+<div class="line"><a name="l00632"></a><span class="lineno">  632</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a3a9c96a4e872487aa3549e389c8b53cb">edges</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#ac719cac43cd430f4996171596bfe8d27">N1</a>());</div>
+<div class="line"><a name="l00633"></a><span class="lineno">  633</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5a27296e85efd2b55525f866a4a4f42e">faces</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a0f31d3266bba86f6456e2ca56e0ba40e">N2</a>());</div>
+<div class="line"><a name="l00634"></a><span class="lineno">  634</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a8bf10956652e1c8340718ba682100220">simplices</a>() == manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>());</div>
+<div class="line"><a name="l00635"></a><span class="lineno">  635</span>&#160;      }</div>
+<div class="line"><a name="l00636"></a><span class="lineno">  636</span>&#160;      THEN(<span class="stringliteral">&quot;The number of timeslices is correct.&quot;</span>)</div>
+<div class="line"><a name="l00637"></a><span class="lineno">  637</span>&#160;      {</div>
+<div class="line"><a name="l00638"></a><span class="lineno">  638</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">min_time</a>() == 1);</div>
+<div class="line"><a name="l00639"></a><span class="lineno">  639</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">max_time</a>() == desired_timeslices);</div>
+<div class="line"><a name="l00640"></a><span class="lineno">  640</span>&#160;      }</div>
+<div class="line"><a name="l00641"></a><span class="lineno">  641</span>&#160;      THEN(<span class="stringliteral">&quot;Every vertex in the manifold has a correct timevalue.&quot;</span>)</div>
+<div class="line"><a name="l00642"></a><span class="lineno">  642</span>&#160;      {</div>
+<div class="line"><a name="l00643"></a><span class="lineno">  643</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().check_all_vertices());</div>
+<div class="line"><a name="l00644"></a><span class="lineno">  644</span>&#160;      }</div>
+<div class="line"><a name="l00645"></a><span class="lineno">  645</span>&#160;      THEN(<span class="stringliteral">&quot;Every cell in the manifold is correctly classified.&quot;</span>)</div>
+<div class="line"><a name="l00646"></a><span class="lineno">  646</span>&#160;      {</div>
+<div class="line"><a name="l00647"></a><span class="lineno">  647</span>&#160;        REQUIRE(manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4">check_simplices</a>());</div>
+<div class="line"><a name="l00648"></a><span class="lineno">  648</span>&#160;      }</div>
+<div class="line"><a name="l00649"></a><span class="lineno">  649</span>&#160;    }</div>
+<div class="line"><a name="l00650"></a><span class="lineno">  650</span>&#160;  }</div>
+<div class="line"><a name="l00651"></a><span class="lineno">  651</span>&#160;}</div>
 </div><!-- fragment --></div><!-- contents -->
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_af3670e170b9e355de1ff1955fc7f4bf9"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">manifolds::Manifold&lt; 3 &gt;::N3</a></div><div class="ttdeci">auto N3() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00214">Manifold.hpp:214</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a3a9c96a4e872487aa3549e389c8b53cb"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a3a9c96a4e872487aa3549e389c8b53cb">manifolds::Manifold&lt; 3 &gt;::edges</a></div><div class="ttdeci">auto edges() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00260">Manifold.hpp:260</a></div></div>
@@ -748,7 +749,7 @@ $(function() {
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a2169b6004bf256c20b9a410611b94ade"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">manifolds::Manifold&lt; 3 &gt;::get_geometry</a></div><div class="ttdeci">auto get_geometry() const -&gt; Geometry const &amp;</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00141">Manifold.hpp:141</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a672464a052ac88014270ff406ca48a85"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a672464a052ac88014270ff406ca48a85">manifolds::Manifold&lt; 3 &gt;::min_time</a></div><div class="ttdeci">auto min_time() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00276">Manifold.hpp:276</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00945">Foliated_triangulation.hpp:945</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00947">Foliated_triangulation.hpp:947</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a6a78402de00eb80aa16a796d6d9d7fce"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a6a78402de00eb80aa16a796d6d9d7fce">manifolds::Manifold&lt; 3 &gt;::vertices</a></div><div class="ttdeci">auto vertices() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00270">Manifold.hpp:270</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_aa8182a64b6acdd03384bab11ffe0b6a2"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#aa8182a64b6acdd03384bab11ffe0b6a2">manifolds::Manifold&lt; 3 &gt;::print_vertices</a></div><div class="ttdeci">void print_vertices() const</div><div class="ttdoc">Print values of a vertex-&gt;info()</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00335">Manifold.hpp:335</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a118b4eafbbb89c5619f64181c5af7e98"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a118b4eafbbb89c5619f64181c5af7e98">manifolds::Manifold&lt; 3 &gt;::max_time</a></div><div class="ttdeci">auto max_time() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00282">Manifold.hpp:282</a></div></div>
@@ -761,7 +762,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a48984a05b1459ce1c002e7f81b8a50e3"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a48984a05b1459ce1c002e7f81b8a50e3">manifolds::Manifold&lt; 3 &gt;::N3_31</a></div><div class="ttdeci">auto N3_31() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00217">Manifold.hpp:217</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Jun 22 2022 02:56:45 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Wed Aug 17 2022 00:51:30 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>

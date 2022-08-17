@@ -1,11 +1,11 @@
 <map id="tests/Geometry_test.cpp" name="tests/Geometry_test.cpp">
 <area shape="rect" id="node1" title="Tests of new geometry data structure." alt="" coords="763,5,946,32"/>
 <area shape="rect" id="node2" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="725,80,838,107"/>
-<area shape="rect" id="node36" title=" " alt="" coords="862,80,997,107"/>
+<area shape="rect" id="node35" title=" " alt="" coords="862,80,997,107"/>
 <area shape="rect" id="node3" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="685,155,877,181"/>
 <area shape="rect" id="node4" title=" " alt="" coords="589,229,669,256"/>
 <area shape="rect" id="node5" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="694,229,869,256"/>
-<area shape="rect" id="node14" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2159,229,2260,256"/>
+<area shape="rect" id="node14" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="2112,229,2213,256"/>
 <area shape="rect" id="node6" title=" " alt="" coords="5,319,245,345"/>
 <area shape="rect" id="node7" title=" " alt="" coords="270,304,442,360"/>
 <area shape="rect" id="node8" title=" " alt="" coords="466,319,665,345"/>
@@ -30,9 +30,8 @@
 <area shape="rect" id="node28" title=" " alt="" coords="2542,319,2629,345"/>
 <area shape="rect" id="node29" title=" " alt="" coords="2653,319,2731,345"/>
 <area shape="rect" id="node30" title=" " alt="" coords="2756,319,2887,345"/>
-<area shape="rect" id="node31" title=" " alt="" coords="2911,319,3017,345"/>
-<area shape="rect" id="node32" title=" " alt="" coords="3041,319,3156,345"/>
-<area shape="rect" id="node33" title=" " alt="" coords="3180,311,3321,353"/>
-<area shape="rect" id="node34" title=" " alt="" coords="3346,311,3494,353"/>
-<area shape="rect" id="node35" title=" " alt="" coords="3518,319,3642,345"/>
+<area shape="rect" id="node31" title=" " alt="" coords="2911,319,3025,345"/>
+<area shape="rect" id="node32" title=" " alt="" coords="3049,311,3191,353"/>
+<area shape="rect" id="node33" title=" " alt="" coords="3215,311,3363,353"/>
+<area shape="rect" id="node34" title=" " alt="" coords="3387,319,3511,345"/>
 </map>
