@@ -410,9 +410,9 @@ namespace utilities
   template <typename Point>
   inline auto point_to_str(Point const& t_point) -> std::string
   {
-    std::stringstream ss;
-    ss << t_point;
-    return ss.str();
+    std::stringstream stream;
+    stream << t_point;
+    return stream.str();
   }  // point_to_str
 
   /// @brief Convert a topology to a string using it's << operator
@@ -420,9 +420,9 @@ namespace utilities
   /// @return A string representation of the topology_type
   inline auto topology_to_str(topology_type const& t_topology) -> std::string
   {
-    std::stringstream ss;
-    ss << t_topology;
-    return ss.str();
+    std::stringstream stream;
+    stream << t_topology;
+    return stream.str();
   }  // topology_to_str
 }  // namespace utilities
 #endif  // INCLUDE_UTILITIES_HPP_

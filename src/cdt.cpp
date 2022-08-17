@@ -74,13 +74,6 @@ try
                      true,          // print help message automatically
                      "CDT 0.1.8");  // Version
 
-#ifndef NDEBUG
-  for (auto const& [key, value] : args)
-  {
-    fmt::print("Key: {} Value: {}\n", key, value);
-  }
-#endif
-
   // Parse docopt::values in args map
   auto simplices         = stoll(args["-n"].asString());
   auto timeslices        = stoll(args["-t"].asString());

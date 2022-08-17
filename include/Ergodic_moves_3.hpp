@@ -116,19 +116,9 @@ namespace ergodic_moves
                                         Edge_handle const& to_be_moved) noexcept
       -> bool
   {
-    if (t_manifold.triangulation().flip(to_be_moved.first, to_be_moved.second,
-                                        to_be_moved.third))
-    {
-#ifndef NDEBUG
-      spdlog::trace("Edge was flippable.\n");
-#endif
-      return true;
-    }
-#ifndef NDEBUG
-    spdlog::trace("Edge not flippable.\n");
-#endif
-    return false;
-  }
+    return t_manifold.triangulation().flip(
+        to_be_moved.first, to_be_moved.second, to_be_moved.third);
+  }  // try_32_move
 
   /// @brief Perform a (3,2) move
   /// @details A (3,2) move "flips" a timelike edge into a timelike face.
@@ -296,7 +286,8 @@ namespace ergodic_moves
         auto center_point =
             CGAL::centroid(v_1->point(), v_2->point(), v_3->point());
 #ifndef NDEBUG
-        spdlog::trace("Center point is: ({}).\n", center_point);
+        spdlog::trace("Center point is: ({}).\n",
+                      utilities::point_to_str(center_point));
 #endif
         v_center->set_point(center_point);
 
@@ -312,7 +303,8 @@ namespace ergodic_moves
         else { spdlog::trace("It's not a vertex in the TDS.\n"); }
         spdlog::trace("Spacelike face timevalue is {}.\n", timevalue);
         spdlog::trace("Inserted vertex ({}) with timevalue {}.\n",
-                      v_center->point(), v_center->info());
+                      utilities::point_to_str(v_center->point()),
+                      v_center->info());
 #endif
 
         // Final checks

@@ -316,7 +316,8 @@ namespace foliated_triangulations
         t_vertex, t_initial_radius, t_foliation_spacing);
 #ifndef NDEBUG
     spdlog::trace("Vertex({}) timevalue {} has expected timevalue == {}\n",
-                  t_vertex->point(), t_vertex->info(), timevalue);
+                  utilities::point_to_str(t_vertex->point()), t_vertex->info(),
+                  timevalue);
 #endif
     return timevalue == t_vertex->info();
   }  // is_vertex_timevalue_correct
@@ -649,7 +650,8 @@ namespace foliated_triangulations
       for (int j = 0; j < dimension + 1; ++j)
       {
         spdlog::debug("Vertex({}) Point: ({}) Timevalue: {}\n", j,
-                      cell->vertex(j)->point(), cell->vertex(j)->info());
+                      utilities::point_to_str(cell->vertex(j)->point()),
+                      cell->vertex(j)->info());
       }
       spdlog::debug("---\n");
     }
