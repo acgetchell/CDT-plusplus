@@ -1,7 +1,7 @@
 var searchData=
 [
   ['passes_501',['passes',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ac140e4c93a5f61bf416393c541294378',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::passes()'],['../class_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a6fe916c85d35884650dde578f4419910',1,'MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::passes()']]],
-  ['point_5fto_5fstr_502',['point_to_str',['../_utilities_8hpp.html#a867970777dcc7e5a1e329bf32b102f69',1,'utilities']]],
+  ['point_5fto_5fstr_502',['point_to_str',['../_utilities_8hpp.html#a46daf1402ad4f3d1bb84cc409e433914',1,'utilities']]],
   ['print_503',['print',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a844d11562ecfaa8add48cbe55d31a259',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd',1,'manifolds::Manifold&lt; 3 &gt;::print()']]],
   ['print_5fattempts_504',['print_attempts',['../class_move_command.html#a409b2d4149c7e0fff03bcc18e78bd754',1,'MoveCommand']]],
   ['print_5fcells_505',['print_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ad4232ecebb4874c5f4cbcfef57fd3974',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a5c6d38cc62275a09e79a280912c16e07',1,'manifolds::Manifold&lt; 3 &gt;::print_cells()'],['../_foliated__triangulation_8hpp.html#adcb2ff959f65c2d5d8074b0da8faf6b5',1,'foliated_triangulations::print_cells()']]],

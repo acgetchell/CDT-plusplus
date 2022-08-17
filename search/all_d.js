@@ -7,7 +7,7 @@ var searchData=
   ['pivot_5ffrom_5fvertex_5f2_227',['pivot_from_vertex_2',['../structergodic__moves_1_1bistellar__flip__arguments.html#a2015875527c27f36c5cd8176dc79a432',1,'ergodic_moves::bistellar_flip_arguments']]],
   ['pivot_5fto_5fvertex_5f1_228',['pivot_to_vertex_1',['../structergodic__moves_1_1bistellar__flip__arguments.html#aa0ed375c7fd5b6541ad66735c9bc09e2',1,'ergodic_moves::bistellar_flip_arguments']]],
   ['pivot_5fto_5fvertex_5f2_229',['pivot_to_vertex_2',['../structergodic__moves_1_1bistellar__flip__arguments.html#a9d88b9f553a560cbb8c13fed12cfcca0',1,'ergodic_moves::bistellar_flip_arguments']]],
-  ['point_5fto_5fstr_230',['point_to_str',['../_utilities_8hpp.html#a867970777dcc7e5a1e329bf32b102f69',1,'utilities']]],
+  ['point_5fto_5fstr_230',['point_to_str',['../_utilities_8hpp.html#a46daf1402ad4f3d1bb84cc409e433914',1,'utilities']]],
   ['precision_231',['PRECISION',['../_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528',1,'Settings.hpp']]],
   ['print_232',['print',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a844d11562ecfaa8add48cbe55d31a259',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd',1,'manifolds::Manifold&lt; 3 &gt;::print()']]],
   ['print_5fattempts_233',['print_attempts',['../class_move_command.html#a409b2d4149c7e0fff03bcc18e78bd754',1,'MoveCommand']]],
