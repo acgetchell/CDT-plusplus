@@ -11,7 +11,12 @@
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
 #define CDT_PLUSPLUS_GEOMETRY_HPP
 
+#include <__utility/swap.h>
+
+#include <vector>
+
 #include "Foliated_triangulation.hpp"
+#include "Settings.hpp"
 
 /// Geometry class template
 /// @tparam dimension Dimensionality of geometry

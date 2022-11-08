@@ -12,7 +12,7 @@
 #ifndef INCLUDE_SETTINGS_HPP_
 #define INCLUDE_SETTINGS_HPP_
 
-#include <CGAL/Gmpzf.h>
+#include <CGAL/GMP/Gmpzf_type.h>
 
 #include <cstdint>
 
@@ -35,7 +35,7 @@ using Int_precision = std::int_fast32_t;
 #define __PRETTY_FUNCTION__ __FUNCSIG__
 #endif
 
-//#define CGAL_LINKED_WITH_TBB
+// #define CGAL_LINKED_WITH_TBB
 
 /// Correctly declare global constants
 /// See Jonathan Boccara's C++ Pitfalls, January 2021

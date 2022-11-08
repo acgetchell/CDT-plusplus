@@ -12,7 +12,7 @@
 #include "Settings.hpp"
 
 #include <doctest/doctest.h>
-#include <fmt/format.h>
+#include <fmt/core.h>
 
 using namespace std;
 

@@ -17,7 +17,8 @@ add_executable(
   Torus_test.cpp
   Utilities_test.cpp
   Vertex_test.cpp)
-
+# Activate C++20 features
+target_compile_features(CDT_test PRIVATE cxx_std_20)
 target_link_libraries(
   CDT_test
   PRIVATE project_options
@@ -26,9 +27,6 @@ target_link_libraries(
           fmt::fmt-header-only
           TBB::tbb
           CGAL::CGAL)
-
-# Activate C++20 features
-target_compile_features(CDT_test PRIVATE cxx_std_20)
 
 # Run unit tests
 add_test(NAME cdt-unit-tests COMMAND $<TARGET_FILE:CDT_test>)

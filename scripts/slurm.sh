@@ -1,6 +1,8 @@
 #!/bin/bash -l
 # For use on Slurm
 # sbatch -p high -t 60 slurm.sh
+# Or, interactively,
+# srun -p med2 -t 1-00 --mem=100G --ntasks 12 --pty /bin/bash -il
 module load spack/cmake
 module load spack/gcc
 module load spack/autoconf-archive
