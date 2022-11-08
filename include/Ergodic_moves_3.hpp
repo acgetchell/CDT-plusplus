@@ -16,6 +16,7 @@
 
 #include <tl/expected.hpp>
 
+#include "Manifold.hpp"
 #include "Move_tracker.hpp"
 
 using Manifold         = manifolds::Manifold_3;

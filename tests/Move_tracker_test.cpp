@@ -12,6 +12,8 @@
 
 #include <doctest/doctest.h>
 
+#include "Manifold.hpp"
+
 using namespace std;
 using namespace manifolds;
 using namespace move_tracker;

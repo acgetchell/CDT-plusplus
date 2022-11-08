@@ -11,7 +11,13 @@
 #ifndef CDT_PLUSPLUS_MOVE_TRACKER_HPP
 #define CDT_PLUSPLUS_MOVE_TRACKER_HPP
 
-#include "Manifold.hpp"
+#include <array>
+#include <cstddef>
+#include <gsl/util>
+#include <span>
+
+#include "Settings.hpp"
+#include "Utilities.hpp"
 
 namespace move_tracker
 {
@@ -59,7 +65,7 @@ namespace move_tracker
   /// @brief Determine ergodic moves for a given dimension at compile-time
   /// @param dim Dimensionality of the triangulation
   /// @return The number of ergodic moves for that dimensionality
-  constexpr auto moves_per_dimension(Int_precision dim) -> Int_precision
+  auto constexpr moves_per_dimension(Int_precision dim) -> Int_precision
   {
     if (dim == 3) { return NUMBER_OF_3D_MOVES; }
     if (dim == 4) { return NUMBER_OF_4D_MOVES; }
