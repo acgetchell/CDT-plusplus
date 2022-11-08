@@ -110,7 +110,7 @@ var sectionId = 'dynsection-0';
 <!-- Node3 -->
 <g id="node3" class="node">
 <title>Node3</title>
-<g id="a_node3"><a xlink:title="STL class.">
+<g id="a_node3"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="310,-485.5 310,-542.5 407,-542.5 407,-485.5 310,-485.5"/>
 <text text-anchor="middle" x="358.5" y="-530.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::vector&lt; T &gt;</text>
 <polyline fill="none" stroke="#bfbfbf" points="310,-523.5 407,-523.5 "/>
@@ -214,7 +214,7 @@ var sectionId = 'dynsection-0';
 <!-- Node6 -->
 <g id="node6" class="node">
 <title>Node6</title>
-<g id="a_node6"><a xlink:title="STL class.">
+<g id="a_node6"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="505.5,-485.5 505.5,-542.5 631.5,-542.5 631.5,-485.5 505.5,-485.5"/>
 <text text-anchor="middle" x="568.5" y="-530.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::multimap&lt; K, T &gt;</text>
 <polyline fill="none" stroke="#bfbfbf" points="505.5,-523.5 631.5,-523.5 "/>
@@ -268,8 +268,8 @@ var sectionId = 'dynsection-0';
 <path fill="none" stroke="#404040" d="M215.78,-347.17C225.96,-325.81 240.08,-297.74 254.5,-274 260.9,-263.47 267.82,-252.7 274.95,-242.04"/>
 <polygon fill="none" stroke="#404040" points="275.11,-241.79 275.16,-234.58 281.83,-231.85 281.78,-239.06 275.11,-241.79"/>
 <text text-anchor="middle" x="304.5" y="-304.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &#45;m_edges</text>
-<text text-anchor="middle" x="304.5" y="-293.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;m_timelike_edges</text>
-<text text-anchor="middle" x="304.5" y="-282.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;m_spacelike_edges</text>
+<text text-anchor="middle" x="304.5" y="-293.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;m_spacelike_edges</text>
+<text text-anchor="middle" x="304.5" y="-282.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45;m_timelike_edges</text>
 </g>
 <!-- Node8&#45;&gt;Node1 -->
 <g id="edge9" class="edge">
