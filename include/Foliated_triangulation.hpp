@@ -986,7 +986,8 @@ namespace foliated_triangulations
     {}
 
     /// @brief Copy/Move Assignment operator
-    auto operator=(FoliatedTriangulation other) noexcept->FoliatedTriangulation&
+    auto operator=(FoliatedTriangulation other) noexcept
+        -> FoliatedTriangulation&
     {
       swap(other, *this);
       return *this;
@@ -1216,8 +1217,8 @@ namespace foliated_triangulations
     }  // N1_SL
 
     /// @return Container of timelike edges
-    [[nodiscard]] auto get_timelike_edges()
-        const noexcept->Edge_container const&
+    [[nodiscard]] auto get_timelike_edges() const noexcept
+        -> Edge_container const&
     {
       return m_timelike_edges;
     }  // get_timelike_edges
@@ -1229,7 +1230,7 @@ namespace foliated_triangulations
     }  // get_spacelike_edges
 
     /// @return Container of vertices
-    [[nodiscard]] auto get_vertices() const noexcept->Vertex_container const&
+    [[nodiscard]] auto get_vertices() const noexcept -> Vertex_container const&
     {
       return m_points;
     }  // get_vertices
@@ -1265,8 +1266,8 @@ namespace foliated_triangulations
     /// @see
     /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a93f8ab30228b2a515a5c9cdacd9d4d36
     template <typename VertexHandle>
-    [[nodiscard]] auto incident_cells(VertexHandle && t_vh)
-        const noexcept->decltype(auto)
+    [[nodiscard]] auto incident_cells(VertexHandle && t_vh) const noexcept
+        -> decltype(auto)
     {
       Cell_container inc_cells;
       get_delaunay().tds().incident_cells(std::forward<VertexHandle>(t_vh),
@@ -1282,8 +1283,8 @@ namespace foliated_triangulations
     /// @see
     /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a93f8ab30228b2a515a5c9cdacd9d4d36
     template <typename... Ts>
-    [[nodiscard]] auto incident_cells(Ts && ... args)
-        const noexcept->decltype(auto)
+    [[nodiscard]] auto incident_cells(Ts && ... args) const noexcept
+        -> decltype(auto)
     {
       return get_delaunay().tds().incident_cells(std::forward<Ts>(args)...);
     }  // incident_cells
@@ -1397,13 +1398,13 @@ namespace foliated_triangulations
     }  // get_three_one
 
     /// @return Container of (2,2) cells
-    [[nodiscard]] auto get_two_two() const noexcept->Cell_container const&
+    [[nodiscard]] auto get_two_two() const noexcept -> Cell_container const&
     {
       return m_two_two;
     }  // get_two_two
 
     /// @return Container of (1,3) cells
-    [[nodiscard]] auto get_one_three() const noexcept->Cell_container const&
+    [[nodiscard]] auto get_one_three() const noexcept -> Cell_container const&
     {
       return m_one_three;
     }  // get_one_three

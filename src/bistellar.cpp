@@ -13,13 +13,12 @@
 
 #include <algorithm>
 #include <cstdlib>
-#include <gsl/gsl_assert>
+#include <gsl/assert>
 #include <iterator>
 #include <numbers>
 #include <vector>
 
 #include "Ergodic_moves_3.hpp"
-#include "Foliated_triangulation.hpp"
 
 using Cell_handle                         = Delaunay::Cell_handle;
 using Edge_handle                         = CGAL::Triple<Cell_handle, int, int>;

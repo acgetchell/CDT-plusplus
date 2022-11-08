@@ -54,7 +54,7 @@ void make_random_T3_triangulation(T* T3, int simplices, int timeslices) noexcept
   int points_per_timeslice    = simplices_per_timeslice / 6;
   /// We're working on 2 dimensional random points with the z component
   /// fixed by the timeslice
-  const int          dim      = 2;
+  int const          dim      = 2;
 
   std::vector<Point> v;
   v.reserve(points);
