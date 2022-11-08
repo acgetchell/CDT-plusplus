@@ -487,8 +487,8 @@ $(function() {
 <div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;        <span class="keyword">auto</span> pivot_edge = <a class="code" href="_ergodic__moves__3_8hpp.html#abe6c7009b0ee67e8124ad80112723f83">ergodic_moves::find_pivot</a>(triangulation, edges);</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        <span class="keyword">auto</span> Contains   = [&amp;vertices](Point_t&lt;3&gt; point) {</div>
 <div class="line"><a name="l00414"></a><span class="lineno">  414</span>&#160;          <span class="keywordflow">return</span> std::any_of(</div>
-<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;                vertices.begin(), vertices.end(),</div>
-<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;                [&amp;point](Point_t&lt;3&gt; t_pt) { return t_pt == point; });</div>
+<div class="line"><a name="l00415"></a><span class="lineno">  415</span>&#160;              vertices.begin(), vertices.end(),</div>
+<div class="line"><a name="l00416"></a><span class="lineno">  416</span>&#160;              [&amp;point](Point_t&lt;3&gt; t_pt) { return t_pt == point; });</div>
 <div class="line"><a name="l00417"></a><span class="lineno">  417</span>&#160;        };</div>
 <div class="line"><a name="l00418"></a><span class="lineno">  418</span>&#160;        REQUIRE(pivot_edge);</div>
 <div class="line"><a name="l00419"></a><span class="lineno">  419</span>&#160;        <span class="keyword">auto</span> pivot_from_1 = pivot_edge.value()</div>
@@ -571,7 +571,7 @@ $(function() {
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:29</a></div></div>
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Oct 14 2022 02:35:56 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
+Generated on Tue Nov 8 2022 00:42:57 for CDT++ by &#160;<a href="http://www.doxygen.org/index.html">
 <img class="footer" src="doxygen.png" alt="doxygen"/>
 </a> 1.8.17
 </small></address>
