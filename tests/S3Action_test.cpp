@@ -25,11 +25,11 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
   spdlog::debug("Calculate the bulk action on S3 triangulations.\n");
   GIVEN("A 3D 2-sphere foliated triangulation.")
   {
-    constexpr auto simplices  = 6400;
-    constexpr auto timeslices = 7;
-    constexpr auto K          = 1.1L;  // NOLINT
-    constexpr auto Lambda     = 0.1L;
-    Manifold_3     universe(simplices, timeslices);
+    auto constexpr simplices  = 6400;
+    auto constexpr timeslices = 7;
+    auto constexpr K          = 1.1L;  // NOLINT
+    auto constexpr Lambda     = 0.1L;
+    Manifold_3 universe(simplices, timeslices);
     // Verify triangulation
     CHECK(universe.N3() == universe.simplices());
     CHECK(universe.N1() == universe.edges());
@@ -67,7 +67,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
     }
     WHEN("The generalized Bulk Action is calculated.")
     {
-      constexpr auto Alpha = 0.6L;
+      auto constexpr Alpha = 0.6L;
       spdlog::debug("(Long double) Alpha = {}\n", Alpha);
       auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
                                         universe.N3_22(), Alpha, K, Lambda);
@@ -82,7 +82,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
         "S3_bulk_action(alpha=1) and S3_bulk_action_alpha_one() are "
         "calculated.")
     {
-      constexpr auto Alpha = 1.0L;
+      auto constexpr Alpha = 1.0L;
       auto Bulk_action = S3_bulk_action(universe.N1_TL(), universe.N3_31_13(),
                                         universe.N3_22(), Alpha, K, Lambda);
       auto Bulk_action_one = S3_bulk_action_alpha_one(

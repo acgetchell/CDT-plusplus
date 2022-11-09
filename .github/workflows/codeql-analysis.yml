@@ -24,7 +24,7 @@ on:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       actions: read
       contents: read
@@ -66,7 +66,7 @@ jobs:
     - name: Restore artifacts, or setup vcpkg
       uses: lukka/run-vcpkg@v10
       with:
-        vcpkgGitCommitId: ec7216c8e1206580ccec7a33024ef38216efdaf8
+        vcpkgGitCommitId: 7e7c62d863b1bf599c1d104b76cd8b74475844d4
 
     - name: Install vcpkg and configure CMake
       shell: bash
@@ -75,7 +75,9 @@ jobs:
         cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
 
     - name: Build
-      run: cmake --build build
+      run: |
+        gcc -v
+        cmake --build build
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1

@@ -21,7 +21,7 @@ using namespace manifolds;
 
 SCENARIO("Simple Lambda operations" * doctest::test_suite("function_ref"))
 {
-  constexpr auto increment_lambda = [](int a) { return ++a; };  // NOLINT
+  auto constexpr increment_lambda = [](int a) { return ++a; };  // NOLINT
   GIVEN("A simple lambda.")
   {
     WHEN("Lambda is called with 0.")

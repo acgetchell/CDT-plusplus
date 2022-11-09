@@ -5,7 +5,7 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   sonarcloud:
     name: SonarCloud
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     env:
       SONAR_SCANNER_VERSION: 4.7.0.2747 # Find the latest version in the "Linux" link on this page:
       # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
@@ -30,7 +30,7 @@ jobs:
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: ec7216c8e1206580ccec7a33024ef38216efdaf8
+          vcpkgGitCommitId: 7e7c62d863b1bf599c1d104b76cd8b74475844d4
 
       - name: Install vcpkg packages and configure CMake
         shell: bash

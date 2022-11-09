@@ -22,8 +22,8 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" * doctest::may_fail() *
 {
   GIVEN("A 2+1 dimensional spherical manifold.")
   {
-    constexpr auto       desired_simplices  = 9600;
-    constexpr auto       desired_timeslices = 7;
+    auto constexpr desired_simplices  = 9600;
+    auto constexpr desired_timeslices = 7;
     manifolds::Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     // Copy of manifold

@@ -565,11 +565,11 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
     Manifold_3 manifold(causal_vertices, 0.0, 1.0);
     auto       print = [&manifold](auto& vertex) {
       fmt::print(
-                "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-                      "infinite: {}\n",
-                utilities::point_to_str(vertex->point()), vertex->info(),
-                manifold.is_vertex(vertex),
-                manifold.get_triangulation().is_infinite(vertex));
+          "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+                "infinite: {}\n",
+          utilities::point_to_str(vertex->point()), vertex->info(),
+          manifold.is_vertex(vertex),
+          manifold.get_triangulation().is_infinite(vertex));
     };
 
     WHEN("It is constructed.")

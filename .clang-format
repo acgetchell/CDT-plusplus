@@ -104,7 +104,7 @@ IndentCaseBlocks: false
 IndentGotoLabels: true
 IndentPPDirectives: None
 IndentExternBlock: AfterExternBlock
-IndentRequires:  false
+IndentRequiresClause:  true
 IndentWidth:     2
 IndentWrappedFunctionNames: false
 InsertBraces: true

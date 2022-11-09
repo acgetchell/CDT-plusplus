@@ -143,11 +143,11 @@ SCENARIO("FoliatedTriangulation free functions" *
     FoliatedTriangulation_3 triangulation(vertices);
     auto                    print = [&triangulation](auto& vertex) {
       fmt::print(
-                             "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
-                                                "infinite: {}\n",
-                             utilities::point_to_str(vertex->point()), vertex->info(),
-                             triangulation.get_delaunay().tds().is_vertex(vertex),
-                             triangulation.is_infinite(vertex));
+          "Vertex: ({}) Timevalue: {} is a vertex: {} and is "
+                             "infinite: {}\n",
+          utilities::point_to_str(vertex->point()), vertex->info(),
+          triangulation.get_delaunay().tds().is_vertex(vertex),
+          triangulation.is_infinite(vertex));
     };
 
     REQUIRE(triangulation.is_initialized());
@@ -186,10 +186,10 @@ SCENARIO("FoliatedTriangulation free functions" *
       "A minimal triangulation with non-default initial radius and radial "
       "separation.")
   {
-    constexpr auto          desired_simplices  = 2;
-    constexpr auto          desired_timeslices = 2;
-    constexpr auto          initial_radius     = 3.0;
-    constexpr auto          foliation_spacing  = 2.0;
+    auto constexpr desired_simplices  = 2;
+    auto constexpr desired_timeslices = 2;
+    auto constexpr initial_radius     = 3.0;
+    auto constexpr foliation_spacing  = 2.0;
     FoliatedTriangulation_3 triangulation(desired_simplices, desired_timeslices,
                                           initial_radius, foliation_spacing);
     THEN("The triangulation is initialized correctly.")
@@ -381,8 +381,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
     }
     WHEN("Constructing the minimum triangulation.")
     {
-      constexpr auto          desired_simplices  = 2;
-      constexpr auto          desired_timeslices = 2;
+      auto constexpr desired_simplices  = 2;
+      auto constexpr desired_timeslices = 2;
       FoliatedTriangulation_3 triangulation(desired_simplices,
                                             desired_timeslices);
       THEN("Triangulation is valid and foliated.")
@@ -429,10 +429,10 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         "Constructing the minimal triangulation with non-default initial "
         "radius and separation.")
     {
-      constexpr auto          desired_simplices  = 2;
-      constexpr auto          desired_timeslices = 2;
-      constexpr auto          initial_radius     = 3.0;
-      constexpr auto          radial_factor      = 2.0;
+      auto constexpr desired_simplices  = 2;
+      auto constexpr desired_timeslices = 2;
+      auto constexpr initial_radius     = 3.0;
+      auto constexpr radial_factor      = 2.0;
       FoliatedTriangulation_3 triangulation(
           desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
@@ -449,10 +449,10 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         "Constructing a small triangulation with fractional initial radius and "
         "separation.")
     {
-      constexpr auto          desired_simplices  = 24;
-      constexpr auto          desired_timeslices = 3;
-      constexpr auto          initial_radius     = 1.5;
-      constexpr auto          radial_factor      = 1.1;
+      auto constexpr desired_simplices  = 24;
+      auto constexpr desired_timeslices = 3;
+      auto constexpr initial_radius     = 1.5;
+      auto constexpr radial_factor      = 1.1;
       FoliatedTriangulation_3 triangulation(
           desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
@@ -467,8 +467,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
     }
     WHEN("Constructing a medium triangulation.")
     {
-      constexpr auto          desired_simplices  = 6400;
-      constexpr auto          desired_timeslices = 7;
+      auto constexpr desired_simplices  = 6400;
+      auto constexpr desired_timeslices = 7;
       FoliatedTriangulation_3 triangulation(desired_simplices,
                                             desired_timeslices);
       THEN("Triangulation is valid and foliated.")
@@ -530,8 +530,8 @@ SCENARIO("FoliatedTriangulation_3 copying" *
   spdlog::debug("FoliatedTriangulation_3 copying.\n");
   GIVEN("A FoliatedTriangulation_3")
   {
-    constexpr auto          desired_simplices  = 6400;
-    constexpr auto          desired_timeslices = 7;
+    auto constexpr desired_simplices  = 6400;
+    auto constexpr desired_timeslices = 7;
     FoliatedTriangulation_3 triangulation(desired_simplices,
                                           desired_timeslices);
     WHEN("It is copied")
