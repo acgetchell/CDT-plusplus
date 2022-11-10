@@ -190,8 +190,9 @@ SCENARIO("FoliatedTriangulation free functions" *
     auto constexpr desired_timeslices = 2;
     auto constexpr initial_radius     = 3.0;
     auto constexpr foliation_spacing  = 2.0;
-    FoliatedTriangulation_3 triangulation(desired_simplices, desired_timeslices,
-                                          initial_radius, foliation_spacing);
+    FoliatedTriangulation_3 const triangulation(
+        desired_simplices, desired_timeslices, initial_radius,
+        foliation_spacing);
     THEN("The triangulation is initialized correctly.")
     {
       REQUIRE(triangulation.is_initialized());
@@ -208,8 +209,8 @@ SCENARIO("FoliatedTriangulation free functions" *
     }
     THEN("Each vertex has a valid timevalue.")
     {
-      for (std::span   checked_vertices(triangulation.get_vertices());
-           auto const& vertex : checked_vertices)
+      for (std::span const checked_vertices(triangulation.get_vertices());
+           auto const&     vertex : checked_vertices)
       {
         CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
         fmt::print(
@@ -239,7 +240,7 @@ SCENARIO("FoliatedTriangulation free functions" *
         vertices.begin(), vertices.end(), timevalue.begin(),
         back_inserter(causal_vertices),
         [](Point_t<3> point, size_t time) { return make_pair(point, time); });
-    FoliatedTriangulation_3 triangulation(causal_vertices, 0, 1);
+    FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
     // Verify we have 6 vertices, 13 edges, 12 facets, and 4 cells
     REQUIRE(triangulation.number_of_vertices() == 6);
     REQUIRE(triangulation.number_of_finite_edges() == 13);
@@ -261,14 +262,17 @@ SCENARIO("FoliatedTriangulation free functions" *
       {
         auto vertex = foliated_triangulations::find_vertex<3>(
             triangulation.get_delaunay(), Point_t<3>{0, 0, 0});
-        REQUIRE(vertex);
-        CHECK(vertex.value()->point() == Point_t<3>{0, 0, 0});
-        CHECK(vertex.value()->info() == 1);
-        // Human verification
-        fmt::print(
-            "Point(0,0,0) was found as vertex ({}) with a timevalue of {}.\n",
-            utilities::point_to_str(vertex.value()->point()),
-            vertex.value()->info());
+        REQUIRE_MESSAGE(vertex, "Vertex not found.");
+        if (vertex)
+        {
+          CHECK(vertex.value()->point() == Point_t<3>{0, 0, 0});
+          CHECK(vertex.value()->info() == 1);
+          // Human verification
+          fmt::print(
+              "Point(0,0,0) was found as vertex ({}) with a timevalue of {}.\n",
+              utilities::point_to_str(vertex.value()->point()),
+              vertex.value()->info());
+        }
       }
       WHEN("We choose a point not in the triangulation.")
       {
@@ -296,14 +300,21 @@ SCENARIO("FoliatedTriangulation free functions" *
           auto v_4 = foliated_triangulations::find_vertex<3>(
               triangulation.get_delaunay(),
               Point_t<3>{-INV_SQRT_2, 0, INV_SQRT_2});
-          auto cell = foliated_triangulations::find_cell<3>(
-              triangulation.get_delaunay(), v_1.value(), v_2.value(),
-              v_3.value(), v_4.value());
-          CHECK(cell);
-          // Human verification
-          triangulation.print_cells();
+          REQUIRE_MESSAGE(v_1, "Vertex v_1 not found.");
+          REQUIRE_MESSAGE(v_2, "Vertex v_2 not found.");
+          REQUIRE_MESSAGE(v_3, "Vertex v_3 not found.");
+          REQUIRE_MESSAGE(v_4, "Vertex v_4 not found.");
+          if (v_1 && v_2 && v_3 && v_4)
+          {
+            auto cell = foliated_triangulations::find_cell<3>(
+                triangulation.get_delaunay(), v_1.value(), v_2.value(),
+                v_3.value(), v_4.value());
+            CHECK(cell);
+            // Human verification
+            triangulation.print_cells();
+          }
         }
-        THEN("The incorrect vertices does not return a cell.")
+        THEN("The incorrect vertices do not return a cell.")
         {
           auto v_1 = foliated_triangulations::find_vertex<3>(
               triangulation.get_delaunay(), Point_t<3>{0, 0, 0});
@@ -315,10 +326,17 @@ SCENARIO("FoliatedTriangulation free functions" *
               Point_t<3>{0, INV_SQRT_2, INV_SQRT_2});
           auto v_4 = foliated_triangulations::find_vertex<3>(
               triangulation.get_delaunay(), Point_t<3>{0, 0, 2});
-          auto cell = foliated_triangulations::find_cell<3>(
-              triangulation.get_delaunay(), v_1.value(), v_2.value(),
-              v_3.value(), v_4.value());
-          REQUIRE_FALSE(cell);
+          REQUIRE_MESSAGE(v_1, "Vertex v_1 not found.");
+          REQUIRE_MESSAGE(v_2, "Vertex v_2 not found.");
+          REQUIRE_MESSAGE(v_3, "Vertex v_3 not found.");
+          REQUIRE_MESSAGE(v_4, "Vertex v_4 not found.");
+          if (v_1 && v_2 && v_3 && v_4)
+          {
+            auto cell = foliated_triangulations::find_cell<3>(
+                triangulation.get_delaunay(), v_1.value(), v_2.value(),
+                v_3.value(), v_4.value());
+            REQUIRE_FALSE(cell);
+          }
         }
       }
     }
@@ -333,7 +351,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
   {
     WHEN("It is default constructed.")
     {
-      FoliatedTriangulation_3 triangulation;
+      FoliatedTriangulation_3 const triangulation;
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(triangulation.is_initialized());
@@ -361,7 +379,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
                      [](auto vertex, std::size_t timevalue) {
                        return std::make_pair(vertex, timevalue);
                      });
-      FoliatedTriangulation_3 triangulation(vertices);
+      FoliatedTriangulation_3 const triangulation(vertices);
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(triangulation.is_initialized());
@@ -433,7 +451,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       auto constexpr desired_timeslices = 2;
       auto constexpr initial_radius     = 3.0;
       auto constexpr radial_factor      = 2.0;
-      FoliatedTriangulation_3 triangulation(
+      FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
       {
@@ -453,7 +471,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       auto constexpr desired_timeslices = 3;
       auto constexpr initial_radius     = 1.5;
       auto constexpr radial_factor      = 1.1;
-      FoliatedTriangulation_3 triangulation(
+      FoliatedTriangulation_3 const triangulation(
           desired_simplices, desired_timeslices, initial_radius, radial_factor);
       THEN("The triangulation is initialized correctly.")
       {
@@ -469,8 +487,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
     {
       auto constexpr desired_simplices  = 6400;
       auto constexpr desired_timeslices = 7;
-      FoliatedTriangulation_3 triangulation(desired_simplices,
-                                            desired_timeslices);
+      FoliatedTriangulation_3 const triangulation(desired_simplices,
+                                                  desired_timeslices);
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(triangulation.is_initialized());
@@ -676,7 +694,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                      [](auto vertex, std::size_t timevalue) {
                        return std::make_pair(vertex, timevalue);
                      });
-      FoliatedTriangulation_3 triangulation(causal_vertices);
+      FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertex error is detected.")
       {
         CHECK_FALSE(triangulation.is_initialized());
@@ -723,7 +741,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                      [](auto vertex, std::size_t timevalue) {
                        return std::make_pair(vertex, timevalue);
                      });
-      FoliatedTriangulation_3 triangulation(causal_vertices);
+      FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertex error is detected.")
       {
         CHECK_FALSE(triangulation.is_initialized());
@@ -772,12 +790,12 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                      [](auto vertex, std::size_t timevalue) {
                        return std::make_pair(vertex, timevalue);
                      });
-      FoliatedTriangulation_3 triangulation(causal_vertices);
+      FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("Timevalue errors are detected.")
       {
         auto invalid_cells = foliated_triangulations::check_timevalues<3>(
             triangulation.get_delaunay());
-        CHECK_FALSE(invalid_cells->empty());
+        REQUIRE_MESSAGE(invalid_cells, "No invalid cells found.");
       }
       THEN("The vertex errors are detected.")
       {
@@ -824,7 +842,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                      [](auto vertex, std::size_t timevalue) {
                        return std::make_pair(vertex, timevalue);
                      });
-      FoliatedTriangulation_3 triangulation(causal_vertices);
+      FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertex error is detected.")
       {
         CHECK_FALSE(triangulation.is_initialized());
@@ -852,8 +870,8 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                      [](auto vertex, std::size_t timevalue) {
                        return std::make_pair(vertex, timevalue);
                      });
-      Delaunay_t<3> delaunay_triangulation{causal_vertices.begin(),
-                                           causal_vertices.end()};
+      Delaunay_t<3> const delaunay_triangulation{causal_vertices.begin(),
+                                                 causal_vertices.end()};
       // Passing in a Delaunay triangulation directly allows us to skip the
       // normal construction process with sanity checks on the triangulation,
       // which is what we're testing here individually.
@@ -947,7 +965,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
     }
     WHEN("Constructing the default triangulation.")
     {
-      FoliatedTriangulation_3 triangulation;
+      FoliatedTriangulation_3 const triangulation;
       REQUIRE(triangulation.is_initialized());
       THEN("is_infinite() identifies a single infinite vertex.")
       {

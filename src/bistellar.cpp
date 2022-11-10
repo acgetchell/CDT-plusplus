@@ -96,34 +96,36 @@ try
       Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
       Point_t<3>{          0,           0,          2}
   };
-  Delaunay dt(vertices.begin(), vertices.end());
+  Delaunay d_t(vertices.begin(), vertices.end());
 
   fmt::print("Before bistellar flip:\n");
-  fmt::print("dt.dimension(): {}\n", dt.dimension());
-  fmt::print("dt.number_of_vertices(): {}\n", dt.number_of_vertices());
-  fmt::print("dt.number_of_finite_cells(): {}\n", dt.number_of_finite_cells());
-  fmt::print("dt.number_of_finite_facets(): {}\n",
-             dt.number_of_finite_facets());
-  fmt::print("dt.number_of_finite_edges(): {}\n", dt.number_of_finite_edges());
-  fmt::print("dt.is_valid(): {}\n", dt.is_valid());
+  fmt::print("d_t.dimension(): {}\n", d_t.dimension());
+  fmt::print("d_t.number_of_vertices(): {}\n", d_t.number_of_vertices());
+  fmt::print("dt_.number_of_finite_cells(): {}\n",
+             d_t.number_of_finite_cells());
+  fmt::print("d_t.number_of_finite_facets(): {}\n",
+             d_t.number_of_finite_facets());
+  fmt::print("d_t.number_of_finite_edges(): {}\n",
+             d_t.number_of_finite_edges());
+  fmt::print("d_t.is_valid(): {}\n", d_t.is_valid());
 
   // Get the cells
-  auto cells = get_cells(dt);
-  Ensures(cells.size() == dt.number_of_finite_cells());
+  auto cells = get_cells(d_t);
+  Ensures(cells.size() == d_t.number_of_finite_cells());
   foliated_triangulations::print_cells<3>(cells);
 
   // Get the edges
-  auto edges = get_edges(dt);
-  Ensures(edges.size() == dt.number_of_finite_edges());
+  auto edges = get_edges(d_t);
+  Ensures(edges.size() == d_t.number_of_finite_edges());
 
   // Get top and bottom vertices
   auto vh_top =
-      foliated_triangulations::find_vertex<3>(dt, Point_t<3>{0, 0, 2}).value();
+      foliated_triangulations::find_vertex<3>(d_t, Point_t<3>{0, 0, 2}).value();
   auto vh_bottom =
-      foliated_triangulations::find_vertex<3>(dt, Point_t<3>{0, 0, 0}).value();
+      foliated_triangulations::find_vertex<3>(d_t, Point_t<3>{0, 0, 0}).value();
 
   // Flip the pivot
-  if (auto pivot = ergodic_moves::find_pivot(dt, edges); pivot)
+  if (auto pivot = ergodic_moves::find_pivot(d_t, edges); pivot)
   {
     fmt::print("Flipping the pivot\n");
     foliated_triangulations::print_edge<3>(pivot.value());
@@ -134,25 +136,25 @@ try
 
     // Calculate the cells that will be flipped
     auto b_1 = foliated_triangulations::find_cell<3>(
-                   dt, vh_top, pivot->first->vertex(pivot->second),
+                   d_t, vh_top, pivot->first->vertex(pivot->second),
                    pivot->first->vertex(pivot->third), new_pivot[0])
                    .value();
     auto b_2 = foliated_triangulations::find_cell<3>(
-                   dt, vh_top, pivot->first->vertex(pivot->second),
+                   d_t, vh_top, pivot->first->vertex(pivot->second),
                    pivot->first->vertex(pivot->third), new_pivot[1])
                    .value();
     auto b_3 = foliated_triangulations::find_cell<3>(
-                   dt, vh_bottom, pivot->first->vertex(pivot->second),
+                   d_t, vh_bottom, pivot->first->vertex(pivot->second),
                    pivot->first->vertex(pivot->third), new_pivot[0])
                    .value();
     auto b_4 = foliated_triangulations::find_cell<3>(
-                   dt, vh_bottom, pivot->first->vertex(pivot->second),
+                   d_t, vh_bottom, pivot->first->vertex(pivot->second),
                    pivot->first->vertex(pivot->third), new_pivot[1])
                    .value();
 
     // Flip the cells
     ergodic_moves::bistellar_flip_arguments arguments{
-        .triangulation       = dt,
+        .triangulation       = d_t,
         .before_flip_cell_1  = b_1,
         .before_flip_cell_2  = b_2,
         .before_flip_cell_3  = b_3,
@@ -168,19 +170,19 @@ try
     if (result)
     {
       fmt::print("Flipped the cells\n");
-      dt = result.value();
+      d_t = result.value();
       fmt::print("After bistellar flip.\n");
-      fmt::print("dt.dimension(): {}\n", dt.dimension());
-      fmt::print("dt.number_of_vertices(): {}\n", dt.number_of_vertices());
-      fmt::print("dt.number_of_finite_cells(): {}\n",
-                 dt.number_of_finite_cells());
-      fmt::print("dt.number_of_finite_facets(): {}\n",
-                 dt.number_of_finite_facets());
-      fmt::print("dt.number_of_finite_edges(): {}\n",
-                 dt.number_of_finite_edges());
-      fmt::print("dt.is_valid(): {}\n", dt.is_valid());
-      Ensures(dt.is_valid());
-      auto new_cells = foliated_triangulations::get_all_finite_cells<3>(dt);
+      fmt::print("d_t.dimension(): {}\n", d_t.dimension());
+      fmt::print("d_t.number_of_vertices(): {}\n", d_t.number_of_vertices());
+      fmt::print("d_t.number_of_finite_cells(): {}\n",
+                 d_t.number_of_finite_cells());
+      fmt::print("d_t.number_of_finite_facets(): {}\n",
+                 d_t.number_of_finite_facets());
+      fmt::print("d_t.number_of_finite_edges(): {}\n",
+                 d_t.number_of_finite_edges());
+      fmt::print("d_t.is_valid(): {}\n", d_t.is_valid());
+      Ensures(d_t.is_valid());
+      auto new_cells = foliated_triangulations::get_all_finite_cells<3>(d_t);
       foliated_triangulations::print_cells<3>(new_cells);
       return EXIT_SUCCESS;
     }

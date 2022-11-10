@@ -33,8 +33,3 @@ jobs:
 
       - name: Build
         run: cmake --build build
-
-      - name: Test
-        run:  |
-          cd build
-          ctest -C Debug -j2 --output-on-failure

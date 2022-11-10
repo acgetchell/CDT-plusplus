@@ -751,6 +751,7 @@ namespace foliated_triangulations
   template <int dimension>
   [[nodiscard]] auto check_timevalues(
       Delaunay_t<dimension> const& t_triangulation)
+      -> std::optional<std::vector<Cell_handle_t<dimension>>>
   {
     auto const& cells = get_all_finite_cells<dimension>(t_triangulation);
     std::vector<Cell_handle_t<dimension>> invalid_cells;
