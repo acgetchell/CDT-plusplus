@@ -11,7 +11,7 @@ var searchData=
   ['check_5fcells_25',['check_cells',['../_foliated__triangulation_8hpp.html#a44eb5d3a1ab4c2e3205fe48873b64e81',1,'foliated_triangulations']]],
   ['check_5fmove_26',['check_move',['../_ergodic__moves__3_8hpp.html#aa3855e4aaade3149b335d1540b37d1ed',1,'ergodic_moves']]],
   ['check_5fsimplices_27',['check_simplices',['../classmanifolds_1_1_manifold_3_013_01_4.html#a255e6f00f739d4f5b5739e6b119cd0d4',1,'manifolds::Manifold&lt; 3 &gt;']]],
-  ['check_5ftimevalues_28',['check_timevalues',['../_foliated__triangulation_8hpp.html#a497c9de18ee043b9f81aef5f4e9e1d50',1,'foliated_triangulations']]],
+  ['check_5ftimevalues_28',['check_timevalues',['../_foliated__triangulation_8hpp.html#a23722addcbd11dbcf0d73217e78c745b',1,'foliated_triangulations']]],
   ['check_5fvertices_29',['check_vertices',['../_foliated__triangulation_8hpp.html#a614b49fe4ccbdaa0f11c99ba8a078c56',1,'foliated_triangulations']]],
   ['checkpoint_30',['checkpoint',['../class_move_strategy_3_01_strategies_1_1_m_o_v_e___a_l_w_a_y_s_00_01_manifold_type_01_4.html#a538cbc968d7bd30f6481803afa75c776',1,'MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::checkpoint()'],['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a9d442a0d9eb99d61526c1af6887b176e',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::checkpoint()']]],
   ['classify_5fcells_31',['classify_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ad97e1462f5b6433e967d85191bb8af83',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
