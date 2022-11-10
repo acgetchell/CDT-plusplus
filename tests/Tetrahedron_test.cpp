@@ -35,7 +35,7 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
     causal_vertices.emplace_back(Point(0, 0, 1), 2);
     WHEN("A triangulation is constructed using the vector.")
     {
-      FoliatedTriangulation_3 triangulation(causal_vertices, 0, 1);
+      FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
 
       THEN("The triangulation has dimension 3.")
       {
@@ -103,7 +103,7 @@ SCENARIO("Find distances between points of the tetrahedron" *
     WHEN("The Foliated triangulation is constructed with these points.")
     {
       FoliatedTriangulation triangulation(causal_vertices);
-      squared_distance      r_2;
+      squared_distance const r_2;
       THEN("The triangulation is initialized correctly.")
       {
         REQUIRE(triangulation.is_initialized());
@@ -195,7 +195,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
                      [](Point point, std::size_t size) {
                        return std::make_pair(point, size);
                      });
-      FoliatedTriangulation triangulation(causal_vertices);
+      FoliatedTriangulation const triangulation(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")
       {

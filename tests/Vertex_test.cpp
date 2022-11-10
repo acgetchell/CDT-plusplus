@@ -46,7 +46,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
     WHEN("A vertex is inserted.")
     {
       causal_vertices.emplace_back(Point(0, 0, 0), 1);
-      Manifold manifold(causal_vertices, 0, 1);
+      Manifold const manifold(causal_vertices, 0, 1);
       THEN("The vertex is in the manifold.")
       {
         auto vertex = manifold.get_vertices();
@@ -79,7 +79,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
     {
       causal_vertices.emplace_back(Point(0, 0, 0), 1);
       causal_vertices.emplace_back(Point(1, 0, 0), 2);
-      Manifold manifold(causal_vertices, 0, 1);
+      Manifold const manifold(causal_vertices, 0, 1);
 
       THEN("The vertices are in the manifold.")
       {

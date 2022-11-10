@@ -89,7 +89,7 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
   {
     auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
-    Manifold_3 universe(simplices, timeslices);
+    Manifold_3 const universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
@@ -136,9 +136,15 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
         CHECK(total_attempted == total_successful + total_failed);
 
         // Human verification
-        result->print_attempts();
-        result->print_successful();
-        result->print_errors();
+        REQUIRE_MESSAGE(result,
+                        "The Metropolis function object failed to "
+                        "initialize the universe.");
+        if (result)
+        {
+          result->print_attempts();
+          result->print_successful();
+          result->print_errors();
+        }
       }
     }
   }
@@ -158,7 +164,7 @@ SCENARIO("Using the Metropolis algorithm" * doctest::skip() *
   {
     auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
-    Manifold_3 universe(simplices, timeslices);
+    Manifold_3 const universe(simplices, timeslices);
     // It is correctly constructed
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")

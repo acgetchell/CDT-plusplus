@@ -51,9 +51,9 @@ static inline double constexpr INV_SQRT_2 = 1 / std::numbers::sqrt2_v<double>;
   for (auto eit = triangulation.finite_edges_begin();
        eit != triangulation.finite_edges_end(); ++eit)
   {
-    Cell_handle cell = eit->first;
-    Edge_handle edge{cell, cell->index(cell->vertex(eit->second)),
-                     cell->index(cell->vertex(eit->third))};
+    Cell_handle const cell = eit->first;
+    Edge_handle const edge{cell, cell->index(cell->vertex(eit->second)),
+                           cell->index(cell->vertex(eit->third))};
     // Each edge is valid in the triangulation
     Ensures(triangulation.tds().is_valid(edge.first, edge.second, edge.third));
     edges.emplace_back(edge);

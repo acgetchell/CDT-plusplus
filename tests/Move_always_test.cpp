@@ -83,13 +83,13 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
   {
     auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
-    Manifold_3 manifold(simplices, timeslices);
+    Manifold_3 const manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways_3 is constructed.")
     {
       auto constexpr passes     = 10;
       auto constexpr checkpoint = 5;
-      MoveAlways_3 mover(passes, checkpoint);
+      MoveAlways_3 const mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
         CHECK(mover.passes() == passes);
@@ -106,7 +106,7 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
     {
       auto constexpr passes     = 1;
       auto constexpr checkpoint = 1;
-      MoveAlways_3 mover(passes, checkpoint);
+      MoveAlways_3 const mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
         CHECK(mover.passes() == passes);
@@ -132,7 +132,7 @@ SCENARIO("Using the MoveAlways algorithm" * doctest::skip() *
   {
     auto constexpr simplices  = 640;
     auto constexpr timeslices = 4;
-    Manifold_3 manifold(simplices, timeslices);
+    Manifold_3 const manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways_3 algorithm is used.")
     {
@@ -162,7 +162,7 @@ SCENARIO("Using the MoveAlways algorithm" * doctest::skip() *
     {
       auto constexpr passes     = 1;
       auto constexpr checkpoint = 1;
-      MoveAlways_4 mover(passes, checkpoint);
+      MoveAlways_4 const mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
         CHECK(mover.passes() == passes);

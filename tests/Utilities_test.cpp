@@ -25,7 +25,7 @@ SCENARIO("Various string/stream/time utilities" *
     auto constexpr this_topology = topology_type::SPHERICAL;
     WHEN("Operator<< is invoked.")
     {
-      stringstream    buffer;
+      stringstream const buffer;
       std::streambuf* backup = cout.rdbuf(buffer.rdbuf());
       cout << this_topology;
       cout.rdbuf(backup);

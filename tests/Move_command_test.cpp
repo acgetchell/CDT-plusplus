@@ -167,7 +167,7 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
     REQUIRE(manifold.is_correct());
     WHEN("A Command is constructed with a manifold.")
     {
-      MoveCommand command(manifold);
+      MoveCommand const command(manifold);
       THEN("The original is still valid.")
       {
         REQUIRE(manifold.is_correct());
@@ -423,7 +423,7 @@ SCENARIO("Executing multiple moves on the queue" *
   {
     auto constexpr desired_simplices  = 9600;
     auto constexpr desired_timeslices = 7;
-    Manifold_3 manifold(desired_simplices, desired_timeslices);
+    Manifold_3 const manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("(2,3) and (3,2) moves are queued.")
     {

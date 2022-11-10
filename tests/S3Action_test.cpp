@@ -29,7 +29,7 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
     auto constexpr timeslices = 7;
     auto constexpr K          = 1.1L;  // NOLINT
     auto constexpr Lambda     = 0.1L;
-    Manifold_3 universe(simplices, timeslices);
+    Manifold_3 const universe(simplices, timeslices);
     // Verify triangulation
     CHECK(universe.N3() == universe.simplices());
     CHECK(universe.N1() == universe.edges());

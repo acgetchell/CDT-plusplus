@@ -19,7 +19,7 @@ SCENARIO("Torus construction" * doctest::test_suite("torus"))
   points.reserve(NUMBER_OF_POINTS);
   GIVEN("A 2-torus")
   {
-    int dim = 3;
+    int const dim = 3;
     WHEN("A 2-torus is constructed.")
     {
       THEN("It should not throw.")
@@ -30,7 +30,7 @@ SCENARIO("Torus construction" * doctest::test_suite("torus"))
   }
   GIVEN("A constructed 2-torus")
   {
-    int dim = 3;
+    int const dim = 3;
     make_d_cube(points, NUMBER_OF_POINTS, dim);
     WHEN("The type is queried")
     {
@@ -44,7 +44,7 @@ SCENARIO("Torus construction" * doctest::test_suite("torus"))
   }
   GIVEN("A 3-torus")
   {
-    int dim = 4;
+    int const dim = 4;
     WHEN("A 3-torus is constructed.")
     {
       THEN("It should not throw.")

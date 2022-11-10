@@ -71,8 +71,8 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
     {
       auto constexpr desired_simplices  = 72;
       auto constexpr desired_timeslices = 3;
-      FoliatedTriangulation_3 triangulation(desired_simplices,
-                                            desired_timeslices);
+      FoliatedTriangulation_3 const triangulation(desired_simplices,
+                                                  desired_timeslices);
       Geometry_3              geometry(triangulation);
       THEN("The Delaunay triangulation is described by the geometry.")
       {
@@ -142,8 +142,8 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
     {
       auto constexpr desired_simplices  = 640;
       auto constexpr desired_timeslices = 4;
-      FoliatedTriangulation_3 triangulation(desired_simplices,
-                                            desired_timeslices);
+      FoliatedTriangulation_3 const triangulation(desired_simplices,
+                                                  desired_timeslices);
       Geometry_3              geometry(triangulation);
       THEN(
           "The properties of the Delaunay triangulation are saved in geometry "

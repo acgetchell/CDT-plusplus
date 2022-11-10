@@ -117,7 +117,7 @@ SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
   spdlog::debug("Manifold static members.\n");
   GIVEN("A default constructed Manifold_3")
   {
-    Manifold_3 test{};
+    Manifold_3 const test{};
     WHEN("The dimensionality of the manifold is queried.")
     {
       THEN("The correct dimensionality is returned.")
@@ -138,7 +138,7 @@ SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
     causal_vertices.emplace_back(Point_t<3>(0, 1, 0), 1);
     causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 1);
     causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 2);
-    Manifold_3 manifold(causal_vertices);
+    Manifold_3 const manifold(causal_vertices);
 
     REQUIRE(manifold.is_correct());
     WHEN("are_vertex_timevalues_valid() is called.")
@@ -153,8 +153,8 @@ SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
     }
     AND_WHEN("The vertices are mis-labelled.")
     {
-      for (std::span   vertices(manifold.get_vertices());
-           auto const& vertex : vertices)
+      for (std::span const vertices(manifold.get_vertices());
+           auto const&     vertex : vertices)
       {
         vertex->info() = std::numeric_limits<int>::max();
       }
@@ -175,7 +175,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
   {
     WHEN("It is default constructed.")
     {
-      Manifold_3 manifold;
+      Manifold_3 const manifold;
       THEN("The triangulation is valid.")
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
@@ -204,7 +204,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       causal_vertices.emplace_back(Point_t<3>(0, 1, 0), 2);
       causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
       causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
-      Manifold_3 manifold(causal_vertices, 0, 1.0);
+      Manifold_3 const manifold(causal_vertices, 0, 1.0);
       THEN("The triangulation is valid.")
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
@@ -252,7 +252,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       causal_vertices.emplace_back(Point_t<3>(0, 1, 0), 2);
       causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
       causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
-      Manifold_3 manifold(causal_vertices, 0, 1.0);
+      Manifold_3 const manifold(causal_vertices, 0, 1.0);
       THEN("The triangulation is valid.")
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
@@ -296,7 +296,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     {
       auto constexpr desired_simplices  = 2;
       auto constexpr desired_timeslices = 2;
-      Manifold_3 manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
@@ -325,7 +325,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     {
       auto constexpr desired_simplices  = 640;
       auto constexpr desired_timeslices = 4;
-      Manifold_3 manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
@@ -343,7 +343,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     {
       auto constexpr desired_simplices  = 6400;
       auto constexpr desired_timeslices = 7;
-      Manifold_3 manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("Triangulation is valid.") { REQUIRE(manifold.is_correct()); }
       THEN("The geometry matches the triangulation.")
       {
@@ -365,7 +365,7 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
   spdlog::debug("3-Manifold function checks.\n");
   GIVEN("The default manifold from the default triangulation")
   {
-    Manifold_3 manifold;
+    Manifold_3 const manifold;
     THEN("There is only one vertex, the infinite vertex.")
     {
       auto&& vertices =
@@ -384,7 +384,7 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
     auto constexpr desired_timeslices = 4;
     WHEN("It is initialized.")
     {
-      Manifold_3 manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("Functions referencing geometry data are accurate")
       {
         CHECK(manifold.N3() == manifold.get_geometry().N3);
@@ -498,7 +498,7 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
     Manifold_3 manifold1(desired_simplices, desired_timeslices);
-    Manifold_3 manifold2(desired_simplices, desired_timeslices);
+    Manifold_3 const manifold2(desired_simplices, desired_timeslices);
     WHEN("We swap the triangulation of one manifold for another.")
     {
       // Get values for manifold1
@@ -620,7 +620,7 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
     auto constexpr desired_timeslices = 7;
     WHEN("It is constructed.")
     {
-      Manifold_3 manifold(desired_simplices, desired_timeslices);
+      Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("The triangulation is valid and Delaunay.")
       {
         REQUIRE(manifold.is_correct());
