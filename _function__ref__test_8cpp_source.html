@@ -149,7 +149,7 @@ $(function() {
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  GIVEN(<span class="stringliteral">&quot;A simple lambda stored in a function_ref.&quot;</span>)</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span>                 increment = [](<span class="keywordtype">int</span> incr) { <span class="keywordflow">return</span> ++incr; };</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    tl::function_ref&lt;int(<span class="keywordtype">int</span>)&gt; lambda_ref(increment);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    tl::function_ref&lt;int(<span class="keywordtype">int</span>)&gt; <span class="keyword">const</span> lambda_ref(increment);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    WHEN(<span class="stringliteral">&quot;Function_ref is called with 0.&quot;</span>)</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      THEN(<span class="stringliteral">&quot;We should get 1.&quot;</span>) { REQUIRE(lambda_ref(1) == 2); }</div>
@@ -161,7 +161,7 @@ $(function() {
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    REQUIRE(manifold.is_correct());</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tl::function_ref&lt;tl::expected&lt;Manifold_3, std::string&gt;(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tl::function_ref&lt;tl::expected&lt;Manifold_3, std::string&gt;(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        complex_ref(ergodic_moves::do_23_move);</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
@@ -188,7 +188,7 @@ $(function() {
 <div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp; t_manifold) {</div>
 <div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d">ergodic_moves::do_23_move</a>(t_manifold).value();</div>
 <div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    };</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    tl::function_ref&lt;<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; complex_ref(move23);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    tl::function_ref&lt;<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span> complex_ref(move23);</div>
 <div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
 <div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    {</div>
 <div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      <span class="keyword">auto</span> result = complex_ref(manifold);</div>
@@ -214,7 +214,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 9 2022 22:17:25 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 10 2022 03:18:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

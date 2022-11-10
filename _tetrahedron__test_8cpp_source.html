@@ -109,7 +109,7 @@ $(function() {
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    causal_vertices.emplace_back(Point(0, 0, 1), 2);</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    WHEN(<span class="stringliteral">&quot;A triangulation is constructed using the vector.&quot;</span>)</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    {</div>
-<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation_3</a> triangulation(causal_vertices, 0, 1);</div>
+<div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">FoliatedTriangulation_3</a> <span class="keyword">const</span> triangulation(causal_vertices, 0, 1);</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation has dimension 3.&quot;</span>)</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;      {</div>
@@ -177,7 +177,7 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    WHEN(<span class="stringliteral">&quot;The Foliated triangulation is constructed with these points.&quot;</span>)</div>
 <div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;    {</div>
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation.html">FoliatedTriangulation</a> triangulation(causal_vertices);</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      squared_distance      r_2;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;      squared_distance <span class="keyword">const</span> r_2;</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is initialized correctly.&quot;</span>)</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;      {</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;        REQUIRE(triangulation.is_initialized());</div>
@@ -269,7 +269,7 @@ $(function() {
 <div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;                     [](Point point, std::size_t size) {</div>
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;                       return std::make_pair(point, size);</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;                     });</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation.html">FoliatedTriangulation</a> triangulation(causal_vertices);</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;      <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation.html">FoliatedTriangulation</a> <span class="keyword">const</span> triangulation(causal_vertices);</div>
 <div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is initialized correctly.&quot;</span>)</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;      {</div>
@@ -348,7 +348,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Nov 9 2022 22:17:25 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 10 2022 03:18:10 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
