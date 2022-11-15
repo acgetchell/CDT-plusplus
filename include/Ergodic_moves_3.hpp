@@ -542,7 +542,7 @@ namespace ergodic_moves
                                                Edge_handle     edge)
       -> std::optional<Cell_container>
   {
-    if (!triangulation.tds().is_valid(edge.first, edge.second, edge.third))
+    if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
     {
       return std::nullopt;
     }
@@ -579,10 +579,6 @@ namespace ergodic_moves
     if (!incident_cells || incident_cells->size() != 4) { return std::nullopt; }
 
     // Check incident cells are valid
-    //  for (auto const& cell : incident_cells.value())
-    //  {
-    //    if (!cell->is_valid()) { return std::nullopt; }
-    //  }
     if (std::any_of(incident_cells->begin(), incident_cells->end(),
                     [](auto const& cell) { return !cell->is_valid(); }))
     {
@@ -682,30 +678,30 @@ namespace ergodic_moves
     after_4->set_neighbors(n_6, n_7, after_2, after_3);
 
     // Now set the neighboring cells to the new cells
-    //  n_1->set_neighbor(n_1->index(triangulation.tds().mirror_vertex(
-    //                        after_1, after_1->index(pivot_to_2))),
-    //                    after_1);
-    //  n_2->set_neighbor(n_2->index(triangulation.tds().mirror_vertex(
-    //                        after_2, after_2->index(pivot_to_2))),
-    //                    after_2);
-    //  n_3->set_neighbor(n_3->index(triangulation.tds().mirror_vertex(
-    //                        after_2, after_2->index(pivot_to_1))),
-    //                    after_2);
-    //  n_4->set_neighbor(n_4->index(triangulation.tds().mirror_vertex(
-    //                        after_1, after_1->index(pivot_to_1))),
-    //                    after_1);
-    //  n_5->set_neighbor(n_5->index(triangulation.tds().mirror_vertex(
-    //                        after_3, after_3->index(pivot_to_2))),
-    //                    after_3);
-    //  n_6->set_neighbor(n_6->index(triangulation.tds().mirror_vertex(
-    //                        after_4, after_4->index(pivot_to_2))),
-    //                    after_4);
-    //  n_7->set_neighbor(n_7->index(triangulation.tds().mirror_vertex(
-    //                        after_4, after_4->index(pivot_to_1))),
-    //                    after_4);
-    //  n_8->set_neighbor(n_8->index(triangulation.tds().mirror_vertex(
-    //                        after_3, after_3->index(pivot_to_1))),
-    //                    after_3);
+    n_1->set_neighbor(n_1->index(triangulation.tds().mirror_vertex(
+                          after_1, after_1->index(pivot_to_2))),
+                      after_1);
+    n_2->set_neighbor(n_2->index(triangulation.tds().mirror_vertex(
+                          after_2, after_2->index(pivot_to_2))),
+                      after_2);
+    n_3->set_neighbor(n_3->index(triangulation.tds().mirror_vertex(
+                          after_2, after_2->index(pivot_to_1))),
+                      after_2);
+    n_4->set_neighbor(n_4->index(triangulation.tds().mirror_vertex(
+                          after_1, after_1->index(pivot_to_1))),
+                      after_1);
+    n_5->set_neighbor(n_5->index(triangulation.tds().mirror_vertex(
+                          after_3, after_3->index(pivot_to_2))),
+                      after_3);
+    n_6->set_neighbor(n_6->index(triangulation.tds().mirror_vertex(
+                          after_4, after_4->index(pivot_to_2))),
+                      after_4);
+    n_7->set_neighbor(n_7->index(triangulation.tds().mirror_vertex(
+                          after_4, after_4->index(pivot_to_1))),
+                      after_4);
+    n_8->set_neighbor(n_8->index(triangulation.tds().mirror_vertex(
+                          after_3, after_3->index(pivot_to_1))),
+                      after_3);
 
     // Alternative way to set the neighbors
     //  auto mirror_index = triangulation.tds().mirror_index(before_1,

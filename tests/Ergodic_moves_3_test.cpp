@@ -487,14 +487,24 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
         auto bottom = triangulation.insert(Point_t<3>{0, 0, 0});
         auto edges  = foliated_triangulations::collect_edges<3>(triangulation);
         auto pivot_edge = ergodic_moves::find_pivot_edge(triangulation, edges);
+        REQUIRE_MESSAGE(pivot_edge, "No pivot edge found.");
+
         // Check this didn't actually change vertices in the triangulation
         REQUIRE_EQ(vertices.size(), 6);
-        auto flipped_triangulation = ergodic_moves::bistellar_flip(
-            triangulation, pivot_edge.value(), top, bottom);
-        REQUIRE_MESSAGE(flipped_triangulation, "Bistellar flip failed.");
-        /// FIXME: This fails because the triangulation is not valid after the
-        /// flip neighbor of c has not c as neighbor
-        WARN(flipped_triangulation->is_valid());
+
+        if (pivot_edge)
+        {
+          auto flipped_triangulation = ergodic_moves::bistellar_flip(
+              triangulation, pivot_edge.value(), top, bottom);
+
+          REQUIRE_MESSAGE(flipped_triangulation, "Bistellar flip failed.");
+          if (flipped_triangulation)
+          {
+            /// FIXME: This fails because the triangulation is not valid after
+            /// the flip neighbor of c has not c as neighbor
+            WARN(flipped_triangulation->is_valid());
+          }
+        }
       }
     }
   }

@@ -879,18 +879,25 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       THEN("The incorrect cell can be identified.")
       {
         auto bad_cells = check_timevalues<3>(delaunay_triangulation);
-        CHECK(bad_cells.has_value());
-        fmt::print("Bad cells:\n");
-        print_cells<3>(bad_cells.value());
+        CHECK_MESSAGE(bad_cells.has_value(), "No bad cells found.");
+        if (bad_cells)
+        {
+          fmt::print("Bad cells:\n");
+          print_cells<3>(bad_cells.value());
+        }
       }
       AND_THEN("The incorrect vertex can be identified.")
       {
-        auto bad_cells  = check_timevalues<3>(delaunay_triangulation).value();
-        auto bad_vertex = find_bad_vertex<3>(bad_cells.front());
-        fmt::print("Bad vertex ({}) has timevalues {}.\n",
-                   utilities::point_to_str(bad_vertex->point()),
-                   bad_vertex->info());
-        CHECK(bad_vertex->info() == 3);
+        auto bad_cells = check_timevalues<3>(delaunay_triangulation);
+        CHECK_MESSAGE(bad_cells.has_value(), "No bad cells found.");
+        if (bad_cells)
+        {
+          auto bad_vertex = find_bad_vertex<3>(bad_cells->front());
+          fmt::print("Bad vertex ({}) has timevalues {}.\n",
+                     utilities::point_to_str(bad_vertex->point()),
+                     bad_vertex->info());
+          CHECK(bad_vertex->info() == 3);
+        }
       }
       AND_THEN("The triangulation is fixed.")
       {
