@@ -151,7 +151,7 @@ install:
   - cd $VCPKG_ROOT
   - git pull origin master --no-rebase
   - ./bootstrap-vcpkg.sh
-  - vcpkg integrate install
+#  - vcpkg integrate install
   - rm -rf downloads buildtrees packages
   - cmake --version
   - cd ..
