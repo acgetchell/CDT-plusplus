@@ -139,8 +139,6 @@ jobs:
 before_install:
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-11" CC="gcc-11"; fi
   - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-14" CC="clang-14"; fi
-#  - sudo apt-get install -yq --allow-downgrades libc6=2.31-0ubuntu9.2 libc6-dev=2.31-0ubuntu9.2
-#  - sudo -E apt-get -yq --no-install-suggests --no-install-recommends --allow-downgrades --allow-remove-essential --allow-change-held-packages install build-essential automake autoconf autoconf-archive libtool-bin texinfo yasm gcc-10 g++-10 clang-10 clang-format-10 clang-tidy-10 ninja-build cppcheck valgrind doxygen graphviz lcov -o Debug::pkgProblemResolver=yes
 
 install:
   # vcpkg should be cached, but clone it if not
@@ -159,7 +157,7 @@ install:
   - cd ..
   - pwd
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - travis_wait 120 vcpkg install --feature-flags=manifests
+  - travis_wait 120 vcpkg install
   - vcpkg list
 
 script:
@@ -168,4 +166,4 @@ script:
 
 after_success:
   - cd build
-  - travis_wait 90 ctest --output-on-failure
+  - travis_wait 90 ctest --output-on-failure -j2

@@ -327,7 +327,7 @@ namespace foliated_triangulations
   /// @param t_triangulation The Delaunay triangulation
   /// @return A container of finite vertices
   template <int dimension>
-  [[nodiscard]] auto get_all_finite_vertices(
+  [[nodiscard]] auto collect_vertices(
       Delaunay_t<dimension> const& t_triangulation)
   {
     std::vector<Vertex_handle_t<dimension>> vertices;
@@ -339,7 +339,7 @@ namespace foliated_triangulations
       vertices.emplace_back(vit);
     }
     return vertices;
-  }  // get_all_finite_vertices
+  }  // collect_vertices
 
   /// @brief Check if vertices have the correct timevalues
   /// @tparam dimension Dimensionality of the vertices and Delaunay
@@ -353,7 +353,7 @@ namespace foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
       double t_foliation_spacing)
   {
-    auto checked_vertices = get_all_finite_vertices<dimension>(t_triangulation);
+    auto checked_vertices = collect_vertices<dimension>(t_triangulation);
     return std::all_of(checked_vertices.begin(), checked_vertices.end(),
                        [&](auto const& vertex) {
                          return is_vertex_timevalue_correct<dimension>(
@@ -364,10 +364,9 @@ namespace foliated_triangulations
   /// @brief Obtain all finite cells in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The triangulation
-  /// @return A container of finite vertices
+  /// @return A container of finite cells
   template <int dimension>
-  [[nodiscard]] auto get_all_finite_cells(
-      Delaunay_t<dimension> const& t_triangulation)
+  [[nodiscard]] auto collect_cells(Delaunay_t<dimension> const& t_triangulation)
       -> std::vector<Cell_handle_t<dimension>>
   {
     std::vector<Cell_handle_t<dimension>> cells;
@@ -379,7 +378,7 @@ namespace foliated_triangulations
       cells.emplace_back(cit);
     }
     return cells;
-  }  // get_all_finite_cells
+  }  // collect_cells
 
   /// @brief Extracts vertices from cells
   /// @param t_cells The cells from which to extract vertices
@@ -436,7 +435,7 @@ namespace foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
       double t_foliation_spacing)
   {
-    auto cells_to_check = get_all_finite_cells<dimension>(t_triangulation);
+    auto cells_to_check = collect_cells<dimension>(t_triangulation);
     return find_incorrect_vertices<dimension>(cells_to_check, t_initial_radius,
                                               t_foliation_spacing);
   }  // find_incorrect_vertices
@@ -475,9 +474,8 @@ namespace foliated_triangulations
                                   double                       t_initial_radius,
                                   double t_foliation_spacing) -> bool
   {
-    return fix_vertices<dimension>(
-        get_all_finite_cells<dimension>(t_triangulation), t_initial_radius,
-        t_foliation_spacing);
+    return fix_vertices<dimension>(collect_cells<dimension>(t_triangulation),
+                                   t_initial_radius, t_foliation_spacing);
   }  // fix_vertices
 
   /// @brief Classifies cells by their timevalues
@@ -570,7 +568,7 @@ namespace foliated_triangulations
   [[nodiscard]] auto check_cells(Delaunay_t<dimension> const& t_triangulation)
       -> bool
   {
-    auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
+    auto checked_cells = collect_cells<dimension>(t_triangulation);
     return (checked_cells.empty())
              ? true
              : std::all_of(checked_cells.begin(), checked_cells.end(),
@@ -587,7 +585,7 @@ namespace foliated_triangulations
   [[nodiscard]] auto find_incorrect_cells(
       Delaunay_t<dimension> const& t_triangulation)
   {
-    auto checked_cells = get_all_finite_cells<dimension>(t_triangulation);
+    auto checked_cells = collect_cells<dimension>(t_triangulation);
 
     std::vector<Cell_handle_t<dimension>> incorrect_cells;
     std::copy_if(checked_cells.begin(), checked_cells.end(),
@@ -753,7 +751,7 @@ namespace foliated_triangulations
       Delaunay_t<dimension> const& t_triangulation)
       -> std::optional<std::vector<Cell_handle_t<dimension>>>
   {
-    auto const& cells = get_all_finite_cells<dimension>(t_triangulation);
+    auto const& cells = collect_cells<dimension>(t_triangulation);
     std::vector<Cell_handle_t<dimension>> invalid_cells;
     std::copy_if(
         cells.begin(), cells.end(), std::back_inserter(invalid_cells),
@@ -1043,7 +1041,7 @@ namespace foliated_triangulations
                                    double initial_radius    = INITIAL_RADIUS,
                                    double foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{std::move(triangulation)}
-        , m_cells{classify_cells(get_all_finite_cells<3>(m_triangulation))}
+        , m_cells{classify_cells(collect_cells<3>(m_triangulation))}
         , m_three_one{filter_cells<3>(m_cells, Cell_type::THREE_ONE)}
         , m_two_two{filter_cells<3>(m_cells, Cell_type::TWO_TWO)}
         , m_one_three{filter_cells<3>(m_cells, Cell_type::ONE_THREE)}
@@ -1052,7 +1050,7 @@ namespace foliated_triangulations
         , m_edges{collect_edges()}
         , m_timelike_edges{filter_edges<3>(m_edges, true)}
         , m_spacelike_edges{filter_edges<3>(m_edges, false)}
-        , m_points{get_all_finite_vertices<3>(m_triangulation)}
+        , m_points{collect_vertices<3>(m_triangulation)}
         , m_max_timevalue{find_max_timevalue<3>(std::span{m_points})}
         , m_min_timevalue{find_min_timevalue<3>(std::span{m_points})}
         , m_initial_radius{initial_radius}

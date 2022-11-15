@@ -534,55 +534,64 @@ namespace ergodic_moves
     return std::nullopt;
   }  // find_bistellar_flip_location()
 
-  /// @brief Perform bistellar flip
-  /// @details This function performs a bistellar flip on the given
-  /// triangulation. The triangulation parameter would not be needed
-  /// if this becomes a member function of the CGAL::Delaunay_triangulation_3
-  /// class. Uses the neighbor(), delete_cell(), set_neighbors(), and reorient()
-  /// functions from the CGAL::Triangulation_data_structure_3 class.
-  /// @param triangulation The triangulation in which to perform the flip
-  /// @param flipped_edge The pivot edge of the 4 cells to flip
-  /// @param top The top vertex of the 4 cells to flip
-  /// @param bottom The bottom vertex of the 4 cells to flip
-  /// @return A triangulation with the bistellar flip performed
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
-  /// @see
-  /// https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L639
-  [[nodiscard]] inline auto bistellar_flip_really(
-      Delaunay& triangulation, Edge_handle const& flipped_edge,
-      Vertex_handle const& top, Vertex_handle const& bottom)
+  /// @brief Return a container of cells incident to an edge.
+  /// @param triangulation The triangulation with the cells.
+  /// @param edge The edge to find the incident cells of.
+  /// @return A container of cells incident to the edge, or std::nullopt
+  [[nodiscard]] inline auto get_incident_cells(Delaunay const& triangulation,
+                                               Edge_handle     edge)
+      -> std::optional<Cell_container>
+  {
+    if (!triangulation.tds().is_valid(edge.first, edge.second, edge.third))
+    {
+      return std::nullopt;
+    }
+    auto           circulator = triangulation.incident_cells(edge, edge.first);
+    Cell_container incident_cells;
+    do {
+      // filter out boundary edges with incident infinite cells
+      if (!triangulation.is_infinite(circulator))
+      {
+        incident_cells.emplace_back(circulator);
+      }
+    }
+    while (++circulator != edge.first);
+
+    return incident_cells;
+  }  // get_incident_cells()
+
+  /// @brief Perform a bistellar flip on triangulation via the given edge
+  /// @param triangulation The triangulation to flip
+  /// @param edge The edge to pivot on
+  /// @param top Top vertex of the cells being flipped
+  /// @param bottom Bottom vertex of the cells being flipped
+  /// @return A flipped triangulation if successful
+  [[nodiscard]] inline auto bistellar_flip(Delaunay&            triangulation,
+                                           Edge_handle const&   edge,
+                                           Vertex_handle const& top,
+                                           Vertex_handle const& bottom)
       -> std::optional<Delaunay>
   {
     // Get the cells incident to the edge
-    auto incident_cells = incident_cells_from_edge(triangulation, flipped_edge);
+    auto incident_cells = get_incident_cells(triangulation, edge);
 
     // Check that there are exactly 4 incident cells
-    if (!incident_cells || incident_cells->size() != 4)
+    if (!incident_cells || incident_cells->size() != 4) { return std::nullopt; }
+
+    // Check incident cells are valid
+    //  for (auto const& cell : incident_cells.value())
+    //  {
+    //    if (!cell->is_valid()) { return std::nullopt; }
+    //  }
+    if (std::any_of(incident_cells->begin(), incident_cells->end(),
+                    [](auto const& cell) { return !cell->is_valid(); }))
     {
-      std::string msg = "Did not get 4 incident cells.\n";
-      spdlog::warn(msg);
       return std::nullopt;
     }
 
-    // Check cells
-    for (auto cell : incident_cells.value())
-    {
-      if (!cell->is_valid())
-      {
-        std::string msg = "Invalid cell.\n";
-        spdlog::warn(msg);
-        return std::nullopt;
-      }
-    }
-
     // Get vertices from pivot edge
-    auto const& pivot_from_1 = flipped_edge.first->vertex(flipped_edge.second);
-    auto const& pivot_from_2 = flipped_edge.first->vertex(flipped_edge.third);
+    auto const& pivot_from_1 = edge.first->vertex(edge.second);
+    auto const& pivot_from_2 = edge.first->vertex(edge.third);
 
     // Get vertices from cells
     auto vertices = foliated_triangulations::get_vertices_from_cells<3>(
@@ -593,28 +602,22 @@ namespace ergodic_moves
     std::copy_if(vertices.begin(), vertices.end(),
                  std::back_inserter(new_pivot_vertices),
                  [&](auto const& vertex) {
-                   return (vertex != pivot_from_1 && vertex != pivot_from_2 &&
-                           vertex != top && vertex != bottom);
+                   return vertex != pivot_from_1 && vertex != pivot_from_2 &&
+                          vertex != top && vertex != bottom;
                  });
 
     // Check that there are exactly 2 new pivot vertices
-    if (new_pivot_vertices.size() != 2)
-    {
-      std::string msg = "Expected 2 new pivot vertices, got " +
-                        std::to_string(new_pivot_vertices.size()) + ".\n";
-      spdlog::warn(msg);
-      return std::nullopt;
-    }
+    if (new_pivot_vertices.size() != 2) { return std::nullopt; }
 
     // Label the vertices in the new pivot edge
     auto const& pivot_to_1 = new_pivot_vertices[0];
     auto const& pivot_to_2 = new_pivot_vertices[1];
 
     // Now we need to classify the cells by the vertices they contain
-    Cell_handle before_1;
-    Cell_handle before_2;
-    Cell_handle before_3;
-    Cell_handle before_4;
+    Cell_handle before_1;  // top, pivot_from_1, pivot_from_2, pivot_to_1
+    Cell_handle before_2;  // top, pivot_from_1, pivot_from_2, pivot_to_2
+    Cell_handle before_3;  // bottom, pivot_from_1, pivot_from_2, pivot_to_1
+    Cell_handle before_4;  // bottom, pivot_from_1, pivot_from_2, pivot_to_2
     for (auto const& cell : incident_cells.value())
     {
       if (cell->has_vertex(top))
@@ -629,17 +632,19 @@ namespace ergodic_moves
       }
     }
 
-    // Verify these are all valid
+    // Verify these cells are valid
     if (!before_1->is_valid() || !before_2->is_valid() ||
         !before_3->is_valid() || !before_4->is_valid())
     {
-      std::string msg = "Invalid cell.\n";
-      spdlog::warn(msg);
       return std::nullopt;
     }
 
-    // Now, find the exterior neighbors of the cells
-    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
+#ifndef NDEBUG
+    fmt::print("Cells in the triangulation before deleting old cells: {}\n",
+               triangulation.number_of_cells());
+#endif
+
+    // Now find the exterior neighbors of the cells
     Cell_handle n_1 = before_1->neighbor(before_1->index(pivot_from_2));
     Cell_handle n_2 = before_1->neighbor(before_1->index(pivot_from_1));
     Cell_handle n_3 = before_2->neighbor(before_2->index(pivot_from_1));
@@ -655,174 +660,100 @@ namespace ergodic_moves
     triangulation.tds().delete_cell(before_3);
     triangulation.tds().delete_cell(before_4);
 
-    // Now, create the new cells
-    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
-    Cell_handle a_1 = triangulation.tds().create_cell(top, pivot_from_1,
-                                                      pivot_to_1, pivot_to_2);
-    Cell_handle a_2 = triangulation.tds().create_cell(top, pivot_from_2,
-                                                      pivot_to_1, pivot_to_2);
-    Cell_handle a_3 = triangulation.tds().create_cell(bottom, pivot_from_1,
-                                                      pivot_to_1, pivot_to_2);
-    Cell_handle a_4 = triangulation.tds().create_cell(bottom, pivot_from_2,
-                                                      pivot_to_1, pivot_to_2);
-
-    // Now, set the neighbors
-    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
-    a_1->set_neighbors(n_1, n_4, a_2, a_3);
-    a_2->set_neighbors(n_2, n_3, a_1, a_4);
-    a_3->set_neighbors(n_5, n_8, a_4, a_1);
-    a_4->set_neighbors(n_6, n_7, a_2, a_3);
-
-    // Fix any cell orientation issues
-    // If this function becomes a part of Triangulation_data_structure_3,
-    // we can call change_orientation on just the effected cells instead
-    // https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L639
-    if (!triangulation.is_valid()) { triangulation.tds().reorient(); }
-
-    // Check validity of cells
-    if (a_1->is_valid() && a_2->is_valid() && a_3->is_valid() &&
-        a_4->is_valid())
-    {
-      return std::make_optional(triangulation);
-    }
-
-    // Invalid result
-    return std::nullopt;
-  }  // bistellar_flip_really()
-
-  struct [[nodiscard("This contains data!")]] bistellar_flip_arguments
-  {
-    /// @brief The Delaunay triangulation in which to perform the flip
-    Delaunay triangulation;
-
-    /// @brief The first incident cell of the edge to flip
-    Cell_handle before_flip_cell_1;
-
-    /// @brief The second incident cell of the edge to flip
-    Cell_handle before_flip_cell_2;
-
-    /// @brief The third incident cell of the edge to flip
-    Cell_handle before_flip_cell_3;
-
-    /// @brief The last incident cell of the edge to flip
-    Cell_handle before_flip_cell_4;
-
-    /// @brief The first vertex of the edge to flip
-    Vertex_handle pivot_from_vertex_1;
-
-    /// @brief The second vertex of the edge to flip
-    Vertex_handle pivot_from_vertex_2;
-
-    /// @brief The first vertex of the new edge
-    Vertex_handle pivot_to_vertex_1;
-
-    /// @brief The second vertex of the new edge
-    Vertex_handle pivot_to_vertex_2;
-
-    /// @brief A vertex unaffected by the flip
-    Vertex_handle top_vertex;
-
-    /// @brief A vertex unaffected by the flip
-    Vertex_handle bottom_vertex;
-  };  // struct bistellar_flip_arguments
-
-  /// @brief Perform a bistellar flip
-  /// @details This function performs a bistellar flip on a complex of
-  /// 4 cells sharing a common edge. The 6 vertices of the complex remain the
-  /// same, but the common edge is rotated from the pair of vertices denoted by
-  /// pivot_from_1 and pivot_from_2 to the pair of vertices denoted by
-  /// pivot_to_1 and pivot_to_2. The external neighbors of the complex should be
-  /// preserved.
-  /// Ideally this should be a function in CGAL::Triangulation_data_structure_3
-  /// @image html 44.png
-  /// @param args A struct containing the arguments for the bistellar flip
-  /// @return A delaunay triangulation with the bistellar flip performed
-  /// @see bistellar.cpp
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
-  /// @see
-  /// https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L639
-  [[nodiscard]] inline auto bistellar_flip_really(bistellar_flip_arguments args)
-      -> std::optional<Delaunay_t<3>>
-  {
-    // Parse input
-    auto triangulation = std::move(args.triangulation);
-    auto b_1           = args.before_flip_cell_1;
-    auto b_2           = args.before_flip_cell_2;
-    auto b_3           = args.before_flip_cell_3;
-    auto b_4           = args.before_flip_cell_4;
-    auto pivot_from_1  = args.pivot_from_vertex_1;
-    auto pivot_from_2  = args.pivot_from_vertex_2;
-    auto pivot_to_1    = args.pivot_to_vertex_1;
-    auto pivot_to_2    = args.pivot_to_vertex_2;
-    auto top           = args.top_vertex;
-    auto bottom        = args.bottom_vertex;
-
-    // Check if the cells are valid
-    if (!b_1->is_valid() || !b_2->is_valid() || !b_3->is_valid() ||
-        !b_4->is_valid())
-    {
-      return std::nullopt;
-    }
-    // Now, find the exterior neighbors of the cells
-    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#a1276d9e37a1460e81f88f4ae33295cb8
-    Cell_handle_t<3> n_1 = b_1->neighbor(b_1->index(pivot_from_2));
-    Cell_handle_t<3> n_2 = b_1->neighbor(b_1->index(pivot_from_1));
-    Cell_handle_t<3> n_3 = b_2->neighbor(b_2->index(pivot_from_1));
-    Cell_handle_t<3> n_4 = b_2->neighbor(b_2->index(pivot_from_2));
-    Cell_handle_t<3> n_5 = b_3->neighbor(b_3->index(pivot_from_2));
-    Cell_handle_t<3> n_6 = b_3->neighbor(b_3->index(pivot_from_1));
-    Cell_handle_t<3> n_7 = b_4->neighbor(b_4->index(pivot_from_1));
-    Cell_handle_t<3> n_8 = b_4->neighbor(b_4->index(pivot_from_2));
-
-    // Next, delete the old cells
-    triangulation.tds().delete_cell(b_1);
-    triangulation.tds().delete_cell(b_2);
-    triangulation.tds().delete_cell(b_3);
-    triangulation.tds().delete_cell(b_4);
+#ifndef NDEBUG
+    fmt::print("Cells in the triangulation after deleting old cells: {}\n",
+               triangulation.number_of_cells());
+#endif
 
     // Now create the new cells
-    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aec0d8528e29ce73226d66d44237cf8c7
-    Cell_handle_t<3> a_1 = triangulation.tds().create_cell(
+    Cell_handle after_1 = triangulation.tds().create_cell(
         top, pivot_from_1, pivot_to_1, pivot_to_2);
-    Cell_handle_t<3> a_2 = triangulation.tds().create_cell(
+    Cell_handle after_2 = triangulation.tds().create_cell(
         top, pivot_from_2, pivot_to_1, pivot_to_2);
-    Cell_handle_t<3> a_3 = triangulation.tds().create_cell(
+    Cell_handle after_3 = triangulation.tds().create_cell(
         bottom, pivot_from_1, pivot_to_1, pivot_to_2);
-    Cell_handle_t<3> a_4 = triangulation.tds().create_cell(
+    Cell_handle after_4 = triangulation.tds().create_cell(
         bottom, pivot_from_2, pivot_to_1, pivot_to_2);
 
-    // Now, set the neighbors
-    // https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3_1_1Cell.html#ace214d6e7a06de2976adbbc18c90a0d1
-    a_1->set_neighbors(n_1, n_4, a_2, a_3);
-    a_2->set_neighbors(n_2, n_3, a_1, a_4);
-    a_3->set_neighbors(n_5, n_8, a_4, a_1);
-    a_4->set_neighbors(n_6, n_7, a_2, a_3);
+    // Now set the neighbors of the new cells
+    after_1->set_neighbors(n_1, n_4, after_2, after_3);
+    after_2->set_neighbors(n_2, n_3, after_1, after_4);
+    after_3->set_neighbors(n_5, n_8, after_4, after_1);
+    after_4->set_neighbors(n_6, n_7, after_2, after_3);
+
+    // Now set the neighboring cells to the new cells
+    //  n_1->set_neighbor(n_1->index(triangulation.tds().mirror_vertex(
+    //                        after_1, after_1->index(pivot_to_2))),
+    //                    after_1);
+    //  n_2->set_neighbor(n_2->index(triangulation.tds().mirror_vertex(
+    //                        after_2, after_2->index(pivot_to_2))),
+    //                    after_2);
+    //  n_3->set_neighbor(n_3->index(triangulation.tds().mirror_vertex(
+    //                        after_2, after_2->index(pivot_to_1))),
+    //                    after_2);
+    //  n_4->set_neighbor(n_4->index(triangulation.tds().mirror_vertex(
+    //                        after_1, after_1->index(pivot_to_1))),
+    //                    after_1);
+    //  n_5->set_neighbor(n_5->index(triangulation.tds().mirror_vertex(
+    //                        after_3, after_3->index(pivot_to_2))),
+    //                    after_3);
+    //  n_6->set_neighbor(n_6->index(triangulation.tds().mirror_vertex(
+    //                        after_4, after_4->index(pivot_to_2))),
+    //                    after_4);
+    //  n_7->set_neighbor(n_7->index(triangulation.tds().mirror_vertex(
+    //                        after_4, after_4->index(pivot_to_1))),
+    //                    after_4);
+    //  n_8->set_neighbor(n_8->index(triangulation.tds().mirror_vertex(
+    //                        after_3, after_3->index(pivot_to_1))),
+    //                    after_3);
+
+    // Alternative way to set the neighbors
+    //  auto mirror_index = triangulation.tds().mirror_index(before_1,
+    //  before_1->index(pivot_from_2)); n_1->set_neighbor(mirror_index,
+    //  after_1); n_1->set_neighbor(triangulation.tds().mirror_index(before_1,
+    //  before_1->index(pivot_from_2)), after_1);
+    //  n_2->set_neighbor(triangulation.tds().mirror_index(before_1,
+    //  before_1->index(pivot_from_1)), after_2);
+    //  n_3->set_neighbor(triangulation.tds().mirror_index(before_2,
+    //  before_2->index(pivot_from_1)), after_2);
+    //  n_4->set_neighbor(triangulation.tds().mirror_index(before_2,
+    //  before_2->index(pivot_from_2)), after_1);
+    //  n_5->set_neighbor(triangulation.tds().mirror_index(before_3,
+    //  before_3->index(pivot_from_2)), after_3);
+    //  n_6->set_neighbor(triangulation.tds().mirror_index(before_3,
+    //  before_3->index(pivot_from_1)), after_4);
+    //  n_7->set_neighbor(triangulation.tds().mirror_index(before_4,
+    //  before_4->index(pivot_from_1)), after_4);
+    //  n_8->set_neighbor(triangulation.tds().mirror_index(before_4,
+    //  before_4->index(pivot_from_2)), after_3);
+
+    // Okay, we'll need to test each before and after cell to see if we
+    // get the n_x's right
+
+#ifndef NDEBUG
+    fmt::print("Cells in the triangulation after adding new cells: {}\n",
+               triangulation.number_of_cells());
+#endif
 
     // Fix any cell orientation issues
-    // If this function becomes a part of Triangulation_data_structure_3,
-    // we can call change_orientation on just the effected cells instead
-    // https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L639
     if (!triangulation.is_valid()) { triangulation.tds().reorient(); }
 
+#ifndef NDEBUG
+    triangulation.tds().is_valid(true, 1);
+#endif
+
     // Check validity of cells
-    if (a_1->is_valid() && a_2->is_valid() && a_3->is_valid() &&
-        a_4->is_valid())
+    if (after_1->is_valid() && after_2->is_valid() && after_3->is_valid() &&
+        after_4->is_valid())
     {
       return std::make_optional(triangulation);
     }
-
-    // Invalid result
-    return std::nullopt;
-  }  // bistellar_flip_really
+    else { return std::nullopt; }
+  }  // bistellar_flip()
 
   /// @return The center edge of a 4-cell complex
-  [[nodiscard]] inline auto find_pivot(Delaunay const&       triangulation,
-                                       Edge_container const& edges)
+  [[nodiscard]] inline auto find_pivot_edge(Delaunay const&       triangulation,
+                                            Edge_container const& edges)
       -> std::optional<Edge_handle>
   {
     for (auto const& edge : edges)
@@ -841,134 +772,21 @@ namespace ergodic_moves
       if (incident_cells.size() == 4) { return edge; }
     }
     return std::nullopt;
-  }  // find_pivot
+  }  // find_pivot_edge()
 
-  /// @brief Perform bistellar flip
-  /// @details This function performs a 3D bistellar flip on 4 cells with
-  /// a common edge.
-  /// @param t_edge The common edge among the 4 simplices to flip
-  /// @param t_cells The 4 cells common to the edge
-  /// @param t_manifold The simplicial manifold
-  /// @return A manifold with the flip applied if successful
-  /// @see https://dl.acm.org/doi/10.1145/777792.777821
-  /// @see
-  /// https://github.com/CGAL/cgal/blob/master/TDS_3/include/CGAL/Triangulation_data_structure_3.h
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a646b6bd66cd85422f294e60068629d3a
-  /// @see
-  /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#aee7bebae22e4fe9094b744d8ea54d28b
-  [[nodiscard]] inline auto bistellar_flip(Edge_handle const&    t_edge,
-                                           Cell_container const& t_cells,
-                                           Manifold const&       t_manifold)
-      -> std::optional<Manifold>
+  /// @brief Return a container of all vertices in a container of cells.
+  /// @param cells The cells to find the vertices of.
+  /// @return A container of vertices in the cells
+  [[nodiscard]] inline auto get_vertices(Cell_container const& cells)
   {
-#ifndef NDEBUG
-    fmt::print("Attempting (4,4) move ...\n");
-    fmt::print("Pivot edge: \n");
-    foliated_triangulations::print_edge<3>(t_edge);
-#endif
-
-    // Get vertices from pivot edge
-    auto const& pivot_from_vertex_1 = t_edge.first->vertex(t_edge.second);
-    auto const& pivot_from_vertex_2 = t_edge.first->vertex(t_edge.third);
-
-    // Get vertices from cells
-    auto all_vertices =
-        foliated_triangulations::get_vertices_from_cells<3>(t_cells);
-    // Make sure they're correct
-    // Run until all vertices are fixed
-    while (foliated_triangulations::fix_vertices<3>(
-        t_cells, t_manifold.initial_radius(), t_manifold.foliation_spacing()))
-    {
-      spdlog::warn("Fixing vertices in bistellar_flip.\n");
-    }
-    // Run until all cells fixed or 10 passes
-    for (auto passes = 1; passes < 11; ++passes)  // NOLINT
-    {
-      if (foliated_triangulations::fix_cells<3>(
-              t_manifold.get_triangulation().get_delaunay()))
-      {
-        spdlog::warn("Fixing cells in bistellar_flip pass {}.\n", passes);
-      }
-    }
-
-    // Get vertices for new pivot edge
-    std::vector<Vertex_handle_t<3>> new_pivot_vertices;
-    std::copy_if(all_vertices.begin(), all_vertices.end(),
-                 std::back_inserter(new_pivot_vertices),
-                 [&](auto const& vertex) {
-                   return (vertex->info() == pivot_from_vertex_1->info() &&
-                           vertex != pivot_from_vertex_1 &&
-                           vertex != pivot_from_vertex_2);
-                 });
-    if (new_pivot_vertices.size() != 2)
-    {
-      spdlog::warn("Could not find new pivot vertices.\n");
-      return std::nullopt;
-    }
-
-    // Label the vertices in the new pivot edge
-    auto pivot_to_vertex_1 = new_pivot_vertices[0];
-    auto pivot_to_vertex_2 = new_pivot_vertices[1];
-
-    // Find the vertex at top
-    auto const& top_vertex = *std::find_if(
-        all_vertices.begin(), all_vertices.end(), [&](auto const& vertex) {
-          return vertex->info() > pivot_from_vertex_1->info();
-        });
-    // Find the vertex at bottom
-    auto const& bottom_vertex = *std::find_if(
-        all_vertices.begin(), all_vertices.end(), [&](auto const& vertex) {
-          return vertex->info() < pivot_from_vertex_2->info();
-        });
-
-    // Now we need to classify the cells by the vertices they contain
-    Cell_handle_t<3> before_1;
-    Cell_handle_t<3> before_2;
-    Cell_handle_t<3> before_3;
-    Cell_handle_t<3> before_4;
-    for (auto const& cell : t_cells)
-    {
-      if (cell->has_vertex(top_vertex))
-      {
-        if (cell->has_vertex(pivot_to_vertex_1)) { before_1 = cell; }
-        else { before_2 = cell; }
-      }
-      else
-      {
-        if (cell->has_vertex(pivot_to_vertex_1)) { before_3 = cell; }
-        else { before_4 = cell; }
-      }
-    }
-
-    auto delaunay_triangulation = t_manifold.get_triangulation().get_delaunay();
-
-    // Now really flip the cells
-    bistellar_flip_arguments arguments{
-        .triangulation       = delaunay_triangulation,
-        .before_flip_cell_1  = before_1,
-        .before_flip_cell_2  = before_2,
-        .before_flip_cell_3  = before_3,
-        .before_flip_cell_4  = before_4,
-        .pivot_from_vertex_1 = pivot_from_vertex_1,
-        .pivot_from_vertex_2 = pivot_from_vertex_2,
-        .pivot_to_vertex_1   = pivot_to_vertex_1,
-        .pivot_to_vertex_2   = pivot_to_vertex_2,
-        .top_vertex          = top_vertex,
-        .bottom_vertex       = bottom_vertex};
-
-    // Currently, invalidates the TriangulationDataStructure_3
-    if (auto result = bistellar_flip_really(arguments); result)
-    {
-      auto foliated_triangulation =
-          foliated_triangulations::FoliatedTriangulation_3{
-              result.value(), t_manifold.initial_radius(),
-              t_manifold.foliation_spacing()};
-      auto manifold = Manifold{foliated_triangulation};
-      return manifold;
-    }
-    return std::nullopt;
-  }  // bistellar_flip
+    std::unordered_set<Vertex_handle> vertices;
+    auto get_vertices = [&vertices](auto const& cell) {
+      for (int i = 0; i < 4; ++i) { vertices.emplace(cell->vertex(i)); }
+    };
+    std::for_each(cells.begin(), cells.end(), get_vertices);
+    Vertex_container result(vertices.begin(), vertices.end());
+    return result;
+  }  // get_vertices()
 
   /// @brief Perform a (4,4) move
   /// @details This is a bistellar flip pivoting the internal spacelike edge

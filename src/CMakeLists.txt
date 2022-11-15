@@ -85,10 +85,6 @@ else()
 endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
-add_executable(bistellar ${PROJECT_SOURCE_DIR}/src/bistellar.cpp)
-target_link_libraries(bistellar PRIVATE project_options project_warnings fmt::fmt-header-only CGAL::CGAL)
-target_compile_features(bistellar PRIVATE cxx_std_20)
-
 #
 # Tests    ##
 #
@@ -121,6 +117,3 @@ set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
 
 add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
 set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
-
-add_test(NAME bistellar COMMAND $<TARGET_FILE:bistellar>)
-set_tests_properties(bistellar PROPERTIES WILL_FAIL FALSE)

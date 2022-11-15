@@ -381,12 +381,12 @@ SCENARIO(
   }
 }
 
-SCENARIO("Test bistellar flips" * doctest::test_suite("ergodic"))
+SCENARIO("Test convenience functions needed for bistellar flip" *
+         doctest::test_suite("ergodic"))
 {
-  GIVEN("A valid Delaunay_3 triangulation.")
+  GIVEN("A triangulation setup for a bistellar flip")
   {
-    // Create a Delaunay triangulation
-    std::vector<Point_t<3>> vertices{
+    vector<Point_t<3>> vertices{
         Point_t<3>{          0,           0,          0},
         Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
         Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
@@ -394,105 +394,107 @@ SCENARIO("Test bistellar flips" * doctest::test_suite("ergodic"))
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    Delaunay_t<3> triangulation(vertices.begin(), vertices.end());
+    Delaunay triangulation(vertices.begin(), vertices.end());
     CHECK(triangulation.is_valid());
-    WHEN("We want to make a bistellar flip.")
+    auto edges = foliated_triangulations::collect_edges<3>(triangulation);
+    WHEN("We get all the finite cells in the triangulation")
     {
-      auto edges = foliated_triangulations::collect_edges<3>(triangulation);
-      THEN("We can get the cells in the triangulation.")
+      auto cells = foliated_triangulations::collect_cells<3>(triangulation);
+      THEN("We have 4 cells") { REQUIRE_EQ(cells.size(), 4); }
+    }
+    WHEN("We get all finite edges in the triangulation")
+    {
+      THEN("We have 13 edges") { REQUIRE_EQ(edges.size(), 13); }
+    }
+    WHEN("We find the pivot edge in the triangulation")
+    {
+      auto pivot_edge = ergodic_moves::find_pivot_edge(triangulation, edges);
+      REQUIRE_MESSAGE(pivot_edge, "No pivot edge found.");
+
+      auto Contains = [&vertices](Point_t<3> point) {
+        return std::any_of(vertices.begin(), vertices.end(),
+                           [&point](Point_t<3> test) { return test == point; });
+      };
+
+      if (pivot_edge)
       {
-        auto cells =
-            foliated_triangulations::get_all_finite_cells<3>(triangulation);
-        CHECK_EQ(cells.size(), 4);
-      }
-      THEN("We can get the finite edges in the triangulation.")
-      {
-        CHECK_EQ(edges.size(), 13);
-      }
-      THEN("We can find the pivot edge in the triangulation.")
-      {
-        auto pivot_edge = ergodic_moves::find_pivot(triangulation, edges);
-        auto Contains   = [&vertices](Point_t<3> point) {
-          return std::any_of(
-              vertices.begin(), vertices.end(),
-              [&point](Point_t<3> t_pt) { return t_pt == point; });
-        };
-        REQUIRE_MESSAGE(pivot_edge, "No pivot edge found.");
-        if (pivot_edge)
+        auto incident_cells = ergodic_moves::get_incident_cells(
+            triangulation, pivot_edge.value());
+        REQUIRE_MESSAGE(incident_cells, "No incident cells found.");
+        THEN("We have a pivot edge")
         {
-          auto pivot_from_1 = pivot_edge.value()
-                                  .first->vertex(pivot_edge.value().second)
-                                  ->point();
-          auto pivot_from_2 = pivot_edge.value()
-                                  .first->vertex(pivot_edge.value().third)
-                                  ->point();
+          CHECK_MESSAGE(pivot_edge, "Pivot edge found");
+          REQUIRE(triangulation.tds().is_edge(
+              pivot_edge->first, pivot_edge->second, pivot_edge->third));
+          auto pivot_from_1 =
+              pivot_edge->first->vertex(pivot_edge->second)->point();
+          auto pivot_from_2 =
+              pivot_edge->first->vertex(pivot_edge->third)->point();
           // Verify Contains
-          CHECK_FALSE(Contains(Point_t<3>{0, 0, 1}));
-          CHECK(Contains(pivot_from_1));
-          CHECK(Contains(pivot_from_2));
-
-          // Human verification
-          foliated_triangulations::print_edge<3>(pivot_edge.value());
-          fmt::print("pivot_1: {}\n", utilities::point_to_str(pivot_from_1));
-          fmt::print("pivot_2: {}\n", utilities::point_to_str(pivot_from_2));
+          REQUIRE_FALSE(Contains(Point_t<3>{0, 0, 1}));
+          REQUIRE(Contains(pivot_from_1));
+          REQUIRE(Contains(pivot_from_2));
         }
-      }
-      THEN("We can use bistellar_flip_really() to flip the triangulation.")
-      {
-        auto pivot_edge = ergodic_moves::find_pivot(triangulation, edges);
-        REQUIRE_MESSAGE(pivot_edge, "No pivot edge found.");
-        // Obtain top and bottom vertices by re-inserting, which returns the
-        // Vertex_handle
-        auto top        = triangulation.insert(Point_t<3>(0, 0, 2));
-        auto bottom     = triangulation.insert(Point_t<3>(0, 0, 0));
-        // Check we didn't actually change the triangulation
-        CHECK_EQ(vertices.size(), 6);
-        // Human verification
-        fmt::print("Before bistellar flip:\n");
-        fmt::print("triangulation.dimension(): {}\n",
-                   triangulation.dimension());
-        fmt::print("triangulation.number_of_vertices(): {}\n",
-                   triangulation.number_of_vertices());
-        fmt::print("triangulation.number_of_finite_cells(): {}\n",
-                   triangulation.number_of_finite_cells());
-        fmt::print("triangulation.number_of_finite_facets(): {}\n",
-                   triangulation.number_of_finite_facets());
-        fmt::print("triangulation.number_of_finite_edges(): {}\n",
-                   triangulation.number_of_finite_edges());
-        fmt::print("triangulation.is_valid(): {}\n", triangulation.is_valid());
-
-        // Do the flip
-        if (pivot_edge)
+        if (incident_cells)
         {
-          auto flipped_triangulation = ergodic_moves::bistellar_flip_really(
-              triangulation, pivot_edge.value(), top, bottom);
-          CHECK(flipped_triangulation);
-          if (flipped_triangulation)
+          THEN("We can obtain the cells incident to that edge")
           {
-            fmt::print("Flipped the cells\n");
-            triangulation = flipped_triangulation.value();
-            fmt::print("After bistellar flip.\n");
-            fmt::print("triangulation.dimension(): {}\n",
-                       triangulation.dimension());
-            //                  fmt::print("triangulation.number_of_vertices():
-            //                  {}\n", triangulation.number_of_vertices());
-            //                  fmt::print("triangulation.number_of_finite_cells():
-            //                  {}\n",
-            //                             triangulation.number_of_finite_cells());
-            //                  fmt::print("triangulation.number_of_finite_facets():
-            //                  {}\n",
-            //                             triangulation.number_of_finite_facets());
-            //                  fmt::print("triangulation.number_of_finite_edges():
-            //                  {}\n",
-            //                             triangulation.number_of_finite_edges());
-            //                  fmt::print("triangulation.is_valid(): {}\n",
-            //                  triangulation.is_valid());
-            //                  CHECK(triangulation.is_valid());
-            //          auto new_cells =
-            //          foliated_triangulations::get_all_finite_cells<3>(triangulation);
-            //          foliated_triangulations::print_cells<3>(new_cells);
+            REQUIRE_EQ(incident_cells->size(), 4);
+          }
+          AND_THEN("We can obtain the vertices from the incident cells")
+          {
+            auto incident_vertices =
+                ergodic_moves::get_vertices(incident_cells.value());
+            REQUIRE_EQ(incident_vertices.size(), 6);
           }
         }
+      }
+    }
+    WHEN("We get all finite vertices in the triangulation")
+    {
+      THEN("We have 6 vertices")
+      {
+        auto all_finite_vertices =
+            foliated_triangulations::collect_vertices<3>(triangulation);
+        REQUIRE_EQ(vertices.size(), 6);
+      }
+    }
+  }
+}
+
+SCENARIO("Perform bistellar flip on Delaunay triangulation" *
+         doctest::test_suite("ergodic"))
+{
+  GIVEN("A triangulation setup for a bistellar flip")
+  {
+    vector<Point_t<3>> vertices{
+        Point_t<3>{          0,           0,          0},
+        Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{-INV_SQRT_2,           0, INV_SQRT_2},
+        Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
+        Point_t<3>{          0,           0,          2}
+    };
+    Delaunay triangulation(vertices.begin(), vertices.end());
+    WHEN("We have a valid triangulation")
+    {
+      CHECK(triangulation.is_valid());
+      THEN("We can perform a bistellar flip")
+      {
+        // Obtain top and bottom vertices by re-inserting, which returns the
+        // Vertex_handle
+        auto top    = triangulation.insert(Point_t<3>{0, 0, 2});
+        auto bottom = triangulation.insert(Point_t<3>{0, 0, 0});
+        auto edges  = foliated_triangulations::collect_edges<3>(triangulation);
+        auto pivot_edge = ergodic_moves::find_pivot_edge(triangulation, edges);
+        // Check this didn't actually change vertices in the triangulation
+        REQUIRE_EQ(vertices.size(), 6);
+        auto flipped_triangulation = ergodic_moves::bistellar_flip(
+            triangulation, pivot_edge.value(), top, bottom);
+        REQUIRE_MESSAGE(flipped_triangulation, "Bistellar flip failed.");
+        /// FIXME: This fails because the triangulation is not valid after the
+        /// flip neighbor of c has not c as neighbor
+        WARN(flipped_triangulation->is_valid());
       }
     }
   }

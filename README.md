@@ -80,8 +80,8 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 
 ## Setup
 
-This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++]20 features, it successfully
-builds with AppleClang, [gcc-10], [clang-10], and [Visual Studio 2019].
+This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++20] features, it successfully
+builds with [AppleClang-14], [gcc-11], [clang-14], and [Visual Studio 2019].
 
 ### Short
 
@@ -125,7 +125,7 @@ Proceed to [Build](#build).
 
 ## Build
 
-You'll need a reasonably modern compiler that supports C++20 features.
+You'll need a reasonably modern compiler that supports [C++20] features.
 
 Clone the repo:
 
@@ -435,9 +435,10 @@ whitespace in graphic files for [Doxygen].
 [Model Optimization]: https://www.comet.ml/parameter-optimization
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
-[clang-10]: https://releases.llvm.org/10.0.0/tools/clang/docs/ReleaseNotes.html
-[gcc-10]: https://gcc.gnu.org/gcc-10/
+[clang-14]: https://releases.llvm.org/14.0.0/tools/clang/docs/ReleaseNotes.html
+[gcc-11]: https://gcc.gnu.org/gcc-11/
 [C++]: https://isocpp.org/
+[C++20]: https://en.cppreference.com/w/cpp/20
 [GeomView]: https://www.geomview.org
 [development]: https://github.com/acgetchell/CDT-plusplus
 [Pitchfork Layout]: https://api.csswg.org/bikeshed/?force=1&url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs
@@ -479,3 +480,4 @@ whitespace in graphic files for [Doxygen].
 [Sonarcloud]: https://sonarcloud.io/project/overview?id=acgetchell_CDT-plusplus
 [spdlog]: https://github.com/gabime/spdlog
 [triplet]: https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks
+[AppleClang-14]: https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes

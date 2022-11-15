@@ -900,7 +900,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
             triangulation.delaunay()));
         CHECK(triangulation.is_initialized());
         fmt::print("Fixed triangulation:\n");
-        print_cells<3>(get_all_finite_cells<3>(triangulation.delaunay()));
+        print_cells<3>(collect_cells<3>(triangulation.delaunay()));
       }
     }
   }
