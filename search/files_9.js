@@ -1,7 +1,7 @@
 var searchData=
 [
-  ['s3action_2ehpp_341',['S3Action.hpp',['../_s3_action_8hpp.html',1,'']]],
-  ['s3action_5ftest_2ecpp_342',['S3Action_test.cpp',['../_s3_action__test_8cpp.html',1,'']]],
-  ['settings_2ehpp_343',['Settings.hpp',['../_settings_8hpp.html',1,'']]],
-  ['settings_5ftest_2ecpp_344',['Settings_test.cpp',['../_settings__test_8cpp.html',1,'']]]
+  ['tetrahedron_5ftest_2ecpp_330',['Tetrahedron_test.cpp',['../_tetrahedron__test_8cpp.html',1,'']]],
+  ['torus_5fd_2ehpp_331',['Torus_d.hpp',['../_torus__d_8hpp.html',1,'']]],
+  ['torus_5ftest_2ecpp_332',['Torus_test.cpp',['../_torus__test_8cpp.html',1,'']]],
+  ['triangulation_5ftraits_2ehpp_333',['Triangulation_traits.hpp',['../_triangulation__traits_8hpp.html',1,'']]]
 ];

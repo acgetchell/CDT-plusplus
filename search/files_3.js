@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['ergodic_5fmoves_5f3_2ehpp_319',['Ergodic_moves_3.hpp',['../_ergodic__moves__3_8hpp.html',1,'']]],
-  ['ergodic_5fmoves_5f3_5ftest_2ecpp_320',['Ergodic_moves_3_test.cpp',['../_ergodic__moves__3__test_8cpp.html',1,'']]]
+  ['foliated_5ftriangulation_2ehpp_306',['Foliated_triangulation.hpp',['../_foliated__triangulation_8hpp.html',1,'']]],
+  ['foliated_5ftriangulation_5ftest_2ecpp_307',['Foliated_triangulation_test.cpp',['../_foliated__triangulation__test_8cpp.html',1,'']]],
+  ['function_5fref_5ftest_2ecpp_308',['Function_ref_test.cpp',['../_function__ref__test_8cpp.html',1,'']]]
 ];

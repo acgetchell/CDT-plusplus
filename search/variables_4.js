@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['gv_5fbounding_5fbox_5fsize_556',['GV_BOUNDING_BOX_SIZE',['../_settings_8hpp.html#a1c189d695c12981d88175ed54dd22311',1,'Settings.hpp']]]
+  ['initial_5fradius_536',['INITIAL_RADIUS',['../_settings_8hpp.html#ae951ec1742e61c4fd7f1592e5594ac98',1,'Settings.hpp']]]
 ];

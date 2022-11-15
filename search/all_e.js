@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['reset_245',['reset',['../classmove__tracker_1_1_move_tracker.html#ad6868bdbeaa886c88268bb8de513d283',1,'move_tracker::MoveTracker']]],
-  ['reset_5fcounters_246',['reset_counters',['../class_move_command.html#a24e90c1d1eadf08b1661b6195fad234a',1,'MoveCommand']]]
+  ['reset_232',['reset',['../classmove__tracker_1_1_move_tracker.html#ad6868bdbeaa886c88268bb8de513d283',1,'move_tracker::MoveTracker']]],
+  ['reset_5fcounters_233',['reset_counters',['../class_move_command.html#a24e90c1d1eadf08b1661b6195fad234a',1,'MoveCommand']]]
 ];
