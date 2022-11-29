@@ -150,10 +150,7 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
   }
 }
 
-// This may take a while, so the scenario decorated with doctest::skip()
-// to disable by default
-SCENARIO("Using the Metropolis algorithm" * doctest::skip() *
-         doctest::test_suite("metropolis"))
+SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
 {
   auto constexpr Alpha  = static_cast<long double>(0.6);
   auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
@@ -188,7 +185,6 @@ SCENARIO("Using the Metropolis algorithm" * doctest::skip() *
           CHECK(total_proposed > universe.N3() * passes);
           CHECK(total_proposed == total_accepted + total_rejected);
           // We should attempt a move for each accepted move
-          // Why does this fail?
           CHECK(total_attempted == total_accepted);
           CHECK(total_successful > 0);
           CHECK(total_failed >= 0);

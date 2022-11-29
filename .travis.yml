@@ -157,7 +157,7 @@ install:
   - cd ..
   - pwd
   # Install required libraries (these are often cached, so you must remove old dependencies first, as above)
-  - travis_wait 120 vcpkg install --feature-flags=manifests
+  - travis_wait 120 vcpkg install
   - vcpkg list
 
 script:

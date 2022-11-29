@@ -7,12 +7,12 @@ jobs:
     name: SonarCloud
     runs-on: ubuntu-22.04
     env:
-      SONAR_SCANNER_VERSION: 4.7.0.2747 # Find the latest version in the "Linux" link on this page:
+#      SONAR_SCANNER_VERSION: 4.7.0.2747 # Find the latest version in the "Linux" link on this page:
       # https://docs.sonarqube.org/latest/analysis/scan/sonarscanner/
-      SONAR_SERVER_URL: "https://sonarcloud.io"
+#      SONAR_SERVER_URL: "https://sonarcloud.io"
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
@@ -30,7 +30,7 @@ jobs:
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: 783e2d8e9983a74fad1b9d7b1d88a020438d32b2
+          vcpkgGitCommitId: 6d6910d8cb7331b0dc35b38ce663f2aa6a4663f4
 
       - name: Install vcpkg packages and configure CMake
         shell: bash
@@ -38,37 +38,40 @@ jobs:
           vcpkg install
           cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
-      - name: Cache SonarCloud packages and analysis
-        uses: actions/cache@v2
-        id: sonarcloud-cache
-        with:
-          path: ~/.sonar
-          key: ${{ runner.os }}-sonar-v${{ env.SONAR_SCANNER_VERSION }}
-          restore-keys: ${{ runner.os }}-sonar-v${{ env.SONAR_SCANNER_VERSION }}
+#      - name: Cache SonarCloud packages and analysis
+#        uses: actions/cache@v2
+#        id: sonarcloud-cache
+#        with:
+#          path: ~/.sonar
+#          key: ${{ runner.os }}-sonar-v${{ env.SONAR_SCANNER_VERSION }}
+#          restore-keys: ${{ runner.os }}-sonar-v${{ env.SONAR_SCANNER_VERSION }}
+#
+#      - name: Download and setup sonar-scanner
+#        shell: bash
+#        env:
+#          SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
+#        if: steps.sonarcloud-cache.outputs.cache-hit != 'true'
+#        run: |
+#          mkdir -p $HOME/.sonar
+#          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }}
+#          unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
+#
+#      - name: Download and setup build-wrapper
+#        shell: bash
+#        env:
+#          BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
+#        if: steps.sonarcloud-cache.outputs.cache-hit != 'true'
+#        run: |
+#          curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ env.BUILD_WRAPPER_DOWNLOAD_URL }}
+#          unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
+#
+#      - name: Set build-wrapper and sonar-scanner paths
+#        run: |
+#          echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
+#          echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
 
-      - name: Download and setup sonar-scanner
-        shell: bash
-        env:
-          SONAR_SCANNER_DOWNLOAD_URL: https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-${{ env.SONAR_SCANNER_VERSION }}-linux.zip
-        if: steps.sonarcloud-cache.outputs.cache-hit != 'true'
-        run: |
-          mkdir -p $HOME/.sonar
-          curl -sSLo $HOME/.sonar/sonar-scanner.zip ${{ env.SONAR_SCANNER_DOWNLOAD_URL }}
-          unzip -o $HOME/.sonar/sonar-scanner.zip -d $HOME/.sonar/
-
-      - name: Download and setup build-wrapper
-        shell: bash
-        env:
-          BUILD_WRAPPER_DOWNLOAD_URL: ${{ env.SONAR_SERVER_URL }}/static/cpp/build-wrapper-linux-x86.zip
-        if: steps.sonarcloud-cache.outputs.cache-hit != 'true'
-        run: |
-          curl -sSLo $HOME/.sonar/build-wrapper-linux-x86.zip ${{ env.BUILD_WRAPPER_DOWNLOAD_URL }}
-          unzip -o $HOME/.sonar/build-wrapper-linux-x86.zip -d $HOME/.sonar/
-
-      - name: Set build-wrapper and sonar-scanner paths
-        run: |
-          echo "$HOME/.sonar/build-wrapper-linux-x86" >> $GITHUB_PATH
-          echo "$HOME/.sonar/sonar-scanner-${{ env.SONAR_SCANNER_VERSION }}-linux/bin" >> $GITHUB_PATH
+      - name: Install sonar-scanner and build-wrapper
+        uses: sonarsource/sonarcloud-github-c-cpp@v1
 
       - name: Build
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
@@ -95,4 +98,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR info, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+        run: sonar-scanner --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
+#        run: sonar-scanner --define sonar.host.url="${{ env.SONAR_SERVER_URL }}" --define sonar.cfamily.build-wrapper-output="${{ env.BUILD_WRAPPER_OUT_DIR }}"
