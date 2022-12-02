@@ -134,6 +134,7 @@ Short</h2>
 </div><!-- fragment --><p> Binaries will be in <code>/CDT-plusplus/build/src</code>. Proceed to <a href="#use">Use</a>.</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
 Long</h2>
+<p>&lt;details&gt;</p>
 <p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://brew.sh">homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>):</p>
 <ul>
 <li>build-essential (Linux only)</li>
@@ -153,6 +154,7 @@ Long</h2>
 <div class="line">./vcpkg integrate install</div>
 </div><!-- fragment --><p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> is then invoked by CMake in <a href="https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md">vcpkg manifest</a> mode and install the project dependencies listed in <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json">vcpkg.json</a> into a local <code>vcpkg_installed</code> directory.</p>
 <p>Proceed to <a href="#build">Build</a>.</p>
+<p>&lt;/details&gt;</p>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Build</h1>
 <p>You'll need a reasonably modern compiler that supports <a href="https://en.cppreference.com/w/cpp/20">C++20</a> features.</p>
@@ -294,14 +296,12 @@ Contribute</h1>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Issues</h1>
 <p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a>'s version of <a href="https://howardhinnant.github.io/date/date.html">date</a> has an unfixed bug <a href="https://github.com/microsoft/vcpkg/issues/23637">#23637</a> which produces <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</p>
-<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>).</p>
-<p><a href="https://gmplib.org">GMP</a> won't build on <code>arm64-windows</code> so that platform is not supported <a href="https://github.com/microsoft/vcpkg/issues/24323">#24323</a>.</p>
-<p><code>harupy/find-trailing-whitespace</code> has a pull-request to only check changed files <a href="https://github.com/harupy/find-trailing-whitespace/pull/18">#18</a>, until then it fails from finding whitespace in graphic files for <a href="http://www.doxygen.org">Doxygen</a>. </p>
+<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>). </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 29 2022 21:43:55 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Dec 2 2022 22:53:33 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
