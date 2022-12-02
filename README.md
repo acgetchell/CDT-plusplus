@@ -96,6 +96,8 @@ Proceed to [Use](#use).
 
 ### Long
 
+<details>
+
 On macOS or Linux, you will first need to install some prerequisites using your favorite
 package manager (e.g. [homebrew] or [apt]):
 
@@ -122,6 +124,8 @@ cd vcpkg
 listed in [vcpkg.json] into a local `vcpkg_installed` directory.
 
 Proceed to [Build](#build).
+
+</details>
 
 ## Build
 
@@ -379,13 +383,6 @@ Optional:
 
 [Docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
-[GMP] won't build on `arm64-windows` so that platform is not supported [#24323].
-
-`harupy/find-trailing-whitespace` has a pull-request to only check changed files [#18], until then it fails from finding
-whitespace in graphic files for [Doxygen].
-
-[#18]: https://github.com/harupy/find-trailing-whitespace/pull/18
-[#24323]: https://github.com/microsoft/vcpkg/issues/24323
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
 [CDT]: https://arxiv.org/abs/hep-th/0105267

@@ -40,7 +40,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     # Initializes the CodeQL tools for scanning.
     - name: Initialize CodeQL
@@ -66,7 +66,7 @@ jobs:
     - name: Restore artifacts, or setup vcpkg
       uses: lukka/run-vcpkg@v10
       with:
-        vcpkgGitCommitId: 6d6910d8cb7331b0dc35b38ce663f2aa6a4663f4
+        vcpkgGitCommitId: 163fe7bd3d67c41200617caaa245b5ba2ba854e6
 
     - name: Install vcpkg and configure CMake
       shell: bash

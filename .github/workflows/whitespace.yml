@@ -7,5 +7,5 @@ jobs:
     name: Find Trailing Whitespace
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
       - uses: erictleung/find-file-whitespace@main
