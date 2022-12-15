@@ -79,7 +79,7 @@ $(function() {
 <h1><a class="anchor" id="autotoc_md1"></a>
 Introduction</h1>
 <p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> and <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
+<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> and <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
 <h1><a class="anchor" id="autotoc_md2"></a>
 Goals</h1>
 <ul>
@@ -103,7 +103,7 @@ Goals</h1>
 <li>[x] Automated code analysis with <a href="https://lgtm.com/projects/g/acgetchell/CDT-plusplus/">LGTM</a></li>
 <li>[x] Build/debug with <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a></li>
 <li>[x] Use <a href="https://github.com/fmtlib/fmt">{fmt}</a> library (instead of <code>iostream</code>)</li>
-<li>[x] Static code analysis with <a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a></li>
+<li>[x] Static code analysis with <a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a></li>
 <li>[x] 3D Metropolis algorithm</li>
 <li>[x] Multithreaded logging with <a href="https://github.com/gabime/spdlog">spdlog</a></li>
 <li>[ ] Output via <a href="https://www.hdfgroup.org">HDF5</a></li>
@@ -134,7 +134,6 @@ Short</h2>
 </div><!-- fragment --><p> Binaries will be in <code>/CDT-plusplus/build/src</code>. Proceed to <a href="#use">Use</a>.</p>
 <h2><a class="anchor" id="autotoc_md6"></a>
 Long</h2>
-<p>&lt;details&gt;</p>
 <p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://brew.sh">homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>):</p>
 <ul>
 <li>build-essential (Linux only)</li>
@@ -154,7 +153,6 @@ Long</h2>
 <div class="line">./vcpkg integrate install</div>
 </div><!-- fragment --><p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> is then invoked by CMake in <a href="https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md">vcpkg manifest</a> mode and install the project dependencies listed in <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json">vcpkg.json</a> into a local <code>vcpkg_installed</code> directory.</p>
 <p>Proceed to <a href="#build">Build</a>.</p>
-<p>&lt;/details&gt;</p>
 <h1><a class="anchor" id="autotoc_md7"></a>
 Build</h1>
 <p>You'll need a reasonably modern compiler that supports <a href="https://en.cppreference.com/w/cpp/20">C++20</a> features.</p>
@@ -184,7 +182,12 @@ Project Layout</h2>
 </ul>
 <h2><a class="anchor" id="autotoc_md9"></a>
 Run</h2>
-<p>If you want to get started right away, run <code>fast-build.sh</code> or <code>fast-build.bat</code>, depending on your operating system, from <code>scripts</code>. This will compile the appropriate executables in <code>RELEASE</code> mode with no tests.</p>
+<p>Run one of the following in <code>scripts</code>, depending on your operating system and environment:</p>
+<ul>
+<li>No tests, <code>Release</code> mode - <code>fast-build.sh</code> or <code>fast-build.bat</code></li>
+<li>Tests, <code>RelWithDebInfo</code> mode - <code>build.sh</code> or <code>build.bat</code></li>
+<li>On an HPC cluster with <a href="https://hpc-wiki.info/hpc/SLURM">SLURM</a>, <a href="https://hpc-wiki.info/hpc/Modules">modules</a>, and <a href="https://spack.io">spack</a> - <code>slurm.sh</code></li>
+</ul>
 <p>This should result in the main program executable, <code>cdt</code> in <code>build/src</code> or <code>build\Debug</code>, along with several others.</p>
 <ul>
 <li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
@@ -259,7 +262,11 @@ Static Analysis</h2>
 <div class="line">cd scripts</div>
 <div class="line">./cppcheck-build.sh</div>
 </div><!-- fragment --><p><a href="https://clang.llvm.org">Clang</a> comes with <a href="https://clang-analyzer.llvm.org/scan-build.html">scan-build</a> which can run a much more thorough, but slower static analysis integrated with <a href="https://www.cmake.org">CMake</a> and <a href="https://ninja-build.org">Ninja</a>.</p>
-<div class="fragment"><div class="line">./scan.sh</div>
+<div class="fragment"><div class="line">cd scripts</div>
+<div class="line">./scan.sh</div>
+</div><!-- fragment --><p><a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> - static analyzer for C, C++, C#, and Java code.</p>
+<div class="fragment"><div class="line">cd scripts</div>
+<div class="line">./pvs-studio.sh</div>
 </div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
 Sanitizers</h2>
 <p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> + <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer">LeakSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a> are run with <code>scripts/asan.sh</code>, <code>scripts/lsan.sh</code>, <code>scripts/msan.sh</code>, and <code>scripts/tsan.sh</code>. They are also checked by <a href="https://travis-ci.com/getting_started">Travis-CI</a> during commits.</p>
@@ -291,17 +298,18 @@ Contribute</h1>
 <p>Optional:</p>
 <ul>
 <li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
-<li><a href="https://www.viva64.com/en/pvs-studio/">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
+<li><a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
 </ul>
 <h1><a class="anchor" id="autotoc_md18"></a>
 Issues</h1>
 <p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a>'s version of <a href="https://howardhinnant.github.io/date/date.html">date</a> has an unfixed bug <a href="https://github.com/microsoft/vcpkg/issues/23637">#23637</a> which produces <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</p>
-<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>). </p>
+<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>).</p>
+<p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> produces build error <a href="https://github.com/microsoft/vcpkg/issues/26039">#26039</a> for <a href="https://gmplib.org">gmp</a> on Intel Macs. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Dec 2 2022 22:53:33 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Dec 15 2022 01:57:37 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
