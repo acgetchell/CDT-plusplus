@@ -4,7 +4,7 @@ var searchData=
   ['periodic_5f3_5fcomplex_2ehpp_216',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
   ['periodic_5f3_5ftriangulations_2ehpp_217',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
   ['point_5fto_5fstr_218',['point_to_str',['../_utilities_8hpp.html#a46daf1402ad4f3d1bb84cc409e433914',1,'utilities']]],
-  ['precision_219',['PRECISION',['../_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528',1,'Settings.hpp']]],
+  ['precision_219',['PRECISION',['../_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb',1,'Settings.hpp']]],
   ['print_220',['print',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a844d11562ecfaa8add48cbe55d31a259',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd',1,'manifolds::Manifold&lt; 3 &gt;::print()']]],
   ['print_5fattempts_221',['print_attempts',['../class_move_command.html#a409b2d4149c7e0fff03bcc18e78bd754',1,'MoveCommand']]],
   ['print_5fcells_222',['print_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ad4232ecebb4874c5f4cbcfef57fd3974',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print_cells()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#a5c6d38cc62275a09e79a280912c16e07',1,'manifolds::Manifold&lt; 3 &gt;::print_cells()'],['../_foliated__triangulation_8hpp.html#adcb2ff959f65c2d5d8074b0da8faf6b5',1,'foliated_triangulations::print_cells()']]],

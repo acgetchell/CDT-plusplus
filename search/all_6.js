@@ -35,5 +35,5 @@ var searchData=
   ['get_5fvertices_5ffrom_5fcells_114',['get_vertices_from_cells',['../_foliated__triangulation_8hpp.html#ad45b5e418add0daa1e23a7686d02a83e',1,'foliated_triangulations']]],
   ['gmpzf_115',['Gmpzf',['../_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5',1,'Settings.hpp']]],
   ['gmpzf_5fto_5fdouble_116',['Gmpzf_to_double',['../_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1',1,'utilities']]],
-  ['gv_5fbounding_5fbox_5fsize_117',['GV_BOUNDING_BOX_SIZE',['../_settings_8hpp.html#a1c189d695c12981d88175ed54dd22311',1,'Settings.hpp']]]
+  ['gv_5fbounding_5fbox_5fsize_117',['GV_BOUNDING_BOX_SIZE',['../_settings_8hpp.html#a7a8433b67af4ea9024edd8d5ae386136',1,'Settings.hpp']]]
 ];

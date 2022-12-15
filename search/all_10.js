@@ -4,7 +4,7 @@ var searchData=
   ['three_5fthree_5fmoves_251',['three_three_moves',['../classmove__tracker_1_1_move_tracker.html#a537d4336d1a8e8b2888c64bf078c02b8',1,'move_tracker::MoveTracker::three_three_moves() -&gt; auto &amp;'],['../classmove__tracker_1_1_move_tracker.html#a7ed29f4d482e022790bfeec750e099a7',1,'move_tracker::MoveTracker::three_three_moves() const']]],
   ['three_5ftwo_5fmoves_252',['three_two_moves',['../classmove__tracker_1_1_move_tracker.html#af46c82f84607c856d1872463ad89f65e',1,'move_tracker::MoveTracker::three_two_moves() -&gt; auto &amp;'],['../classmove__tracker_1_1_move_tracker.html#aaa3ba1b97a114b27fc6bb74623606cbc',1,'move_tracker::MoveTracker::three_two_moves() const']]],
   ['todo_20list_253',['Todo List',['../todo.html',1,'']]],
-  ['tolerance_254',['TOLERANCE',['../_settings_8hpp.html#af106f6f20f5526f2c42c48aeb143c5ab',1,'Settings.hpp']]],
+  ['tolerance_254',['TOLERANCE',['../_settings_8hpp.html#a8221aca4f6455e08b88d98f5e9c6dd2a',1,'Settings.hpp']]],
   ['topology_5fto_5fstr_255',['topology_to_str',['../_utilities_8hpp.html#a215459cb5448fb06b02611a2a3d76b97',1,'utilities']]],
   ['torus_5fd_2ehpp_256',['Torus_d.hpp',['../_torus__d_8hpp.html',1,'']]],
   ['torus_5ftest_2ecpp_257',['Torus_test.cpp',['../_torus__test_8cpp.html',1,'']]],
