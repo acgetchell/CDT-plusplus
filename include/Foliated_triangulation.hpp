@@ -56,15 +56,11 @@ using Spherical_points_generator_t =
     typename TriangulationTraits<dimension>::Spherical_points_generator;
 
 /// @concept ContainerType
-/// @brief This is equivalent to std::movable from <concepts>
+/// @brief This is std::movable from <concepts>
 /// @details Right now the real restriction on Containers is that elements must
-/// be swappable in order for std::shuffle to work. However, std::movable
-/// doesn't seem to be in <concepts> yet.
-/// @see https://en.cppreference.com/w/cpp/concept/Movable
+/// be swappable in order for std::shuffle to work.
 template <typename C>
-concept ContainerType =
-    std::is_object_v<C> && std::is_move_constructible_v<C> &&
-    std::is_assignable_v<C&, C> && std::is_swappable_v<C>;
+concept ContainerType = std::movable<C>;
 
 /// (n,m) is number of vertices on (lower, higher) timeslice
 enum class Cell_type

@@ -3,8 +3,6 @@
 [![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux)](https://app.travis-ci.com/acgetchell/CDT-plusplus)
 [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
 [![](https://github.com/acgetchell/CDT-plusplus/workflows/macOS/badge.svg?label=Actions)](https://github.com/acgetchell/CDT-plusplus/actions)
-[![Language grade: C/C++](https://img.shields.io/lgtm/grade/cpp/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:cpp)
-[![Language grade: Python](https://img.shields.io/lgtm/grade/python/g/acgetchell/CDT-plusplus.svg?logo=lgtm&logoWidth=18)](https://lgtm.com/projects/g/acgetchell/CDT-plusplus/context:python)
 [![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)
@@ -174,9 +172,10 @@ The project is similar to [PitchFork Layout], as follows:
 ### Run
 Run one of the following in `scripts`, depending on your operating system and environment:
 
-- No tests, `Release` mode - `fast-build.sh` or `fast-build.bat`
-- Tests, `RelWithDebInfo` mode - `build.sh` or `build.bat`
+- No unit tests, `Release` mode - `fast-build.sh` or `fast-build.bat`
+- Unit tests, `RelWithDebInfo` mode - `build.sh` or `build.bat`
 - On an HPC cluster with [SLURM], [modules], and [spack] - `slurm.sh`
+- Full debugging mode with asserts and tests, `debug.sh` (this will take some time, ~280 seconds on my current laptop)
 
 This should result in the main program executable, `cdt` in `build/src` or `build\Debug`,
 along with several others.

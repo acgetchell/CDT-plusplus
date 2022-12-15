@@ -190,7 +190,7 @@ namespace ergodic_moves
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-    static auto constexpr INCIDENT_CELLS_FOR_6_2_MOVE = 6;
+    static auto constinit const INCIDENT_CELLS_FOR_6_2_MOVE = 6;
     auto one_three = t_manifold.get_triangulation().get_one_three();
     // Shuffle the container to pick a random sequence of (1,3) cells to try
     std::shuffle(one_three.begin(), one_three.end(),

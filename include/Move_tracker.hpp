@@ -21,8 +21,8 @@
 
 namespace move_tracker
 {
-  static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
-  static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
+  static inline Int_precision constinit const NUMBER_OF_3D_MOVES = 5;
+  static inline Int_precision constinit const NUMBER_OF_4D_MOVES = 7;
 
   enum class move_type
   {

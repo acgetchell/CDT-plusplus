@@ -17,7 +17,8 @@
 using namespace std;
 using namespace manifolds;
 
-static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline auto constinit const RADIUS_2 =
+    2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Manifold special member and swap properties" *
          doctest::test_suite("manifold"))
