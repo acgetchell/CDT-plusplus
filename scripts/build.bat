@@ -13,7 +13,7 @@ set VCPKG_PATH=%HOMEPATH%\Projects\vcpkg
 set PATH=%PATH%;%VCPKG_PATH%
 
 :: Change to your version of Visual Studio
-cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_BUILD_TYPE=Debug -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CACHE:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake -S . -B build
+cmake -G "Visual Studio 16 2019" -A x64 -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CACHE:BOOL=FALSE -D CMAKE_TOOLCHAIN_FILE=%VCPKG_PATH%/scripts/buildsystems/vcpkg.cmake -S . -B build
 cmake --build build
 
 :: Executables are in \build\src\Debug

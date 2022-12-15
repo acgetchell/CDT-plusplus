@@ -100,7 +100,7 @@ namespace ergodic_moves
       return t_manifold;
     }
     // We've run out of (2,2) cells
-    std::string msg = "No (2,3) move possible.\n";
+    std::string const msg = "No (2,3) move possible.\n";
     spdlog::warn(msg);
     return tl::make_unexpected(msg);
   }
@@ -142,7 +142,7 @@ namespace ergodic_moves
       return t_manifold;
     }
     // We've run out of edges to try
-    std::string msg = "No (3,2) move possible.\n";
+    std::string const msg = "No (3,2) move possible.\n";
     spdlog::warn(msg);
     return tl::make_unexpected(msg);
   }  // do_32_move()
@@ -208,7 +208,7 @@ namespace ergodic_moves
         auto common_face_index = std::numeric_limits<int>::max();
         if (!bottom->has_neighbor(top, common_face_index))
         {
-          std::string msg = "Bottom cell does not have a neighbor.\n";
+          std::string const msg = "Bottom cell does not have a neighbor.\n";
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
@@ -233,7 +233,7 @@ namespace ergodic_moves
         // Timeslice of vertices should be same
         if (v_1->info() != v_2->info() || v_2->info() != v_3->info())
         {
-          std::string msg = "Vertices have different timeslices.\n";
+          std::string const msg = "Vertices have different timeslices.\n";
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
@@ -242,7 +242,7 @@ namespace ergodic_moves
 
         // Do the (2,6) move
         // Insert new vertex
-        Vertex_handle_t<3> v_center =
+        Vertex_handle_t<3> const v_center =
             t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
@@ -253,7 +253,8 @@ namespace ergodic_moves
         // the (2,6) center vertex should be bounded by 6 simplices
         if (incident_cells.size() != INCIDENT_CELLS_FOR_6_2_MOVE)
         {
-          std::string msg = "Center vertex is not bounded by 6 simplices.\n";
+          std::string const msg =
+              "Center vertex is not bounded by 6 simplices.\n";
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
@@ -271,7 +272,7 @@ namespace ergodic_moves
                             });
             !check_cells)
         {
-          std::string msg = "A cell is invalid.\n";
+          std::string const msg = "A cell is invalid.\n";
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
@@ -308,7 +309,7 @@ namespace ergodic_moves
         if (!t_manifold.get_triangulation().get_delaunay().tds().is_valid(
                 v_center, true, 1))
         {
-          std::string msg = "v_center is invalid.\n";
+          std::string const msg = "v_center is invalid.\n";
 #ifndef NDEBUG
           spdlog::trace(msg);
 #endif
@@ -323,7 +324,7 @@ namespace ergodic_moves
 #endif
     }
     // We've run out of (1,3) simplices to try
-    std::string msg = "No (2,6) move possible.\n";
+    std::string const msg = "No (2,6) move possible.\n";
     spdlog::warn(msg);
     return tl::make_unexpected(msg);
   }  // do_26_move()
@@ -474,7 +475,7 @@ namespace ergodic_moves
       return t_manifold;
     }
     // We've run out of vertices to try
-    std::string msg = "No (6,2) move possible.\n";
+    std::string const msg = "No (6,2) move possible.\n";
     spdlog::warn(msg);
     return tl::make_unexpected(msg);
   }  // do_62_move()
@@ -641,14 +642,14 @@ namespace ergodic_moves
 #endif
 
     // Now find the exterior neighbors of the cells
-    Cell_handle n_1 = before_1->neighbor(before_1->index(pivot_from_2));
-    Cell_handle n_2 = before_1->neighbor(before_1->index(pivot_from_1));
-    Cell_handle n_3 = before_2->neighbor(before_2->index(pivot_from_1));
-    Cell_handle n_4 = before_2->neighbor(before_2->index(pivot_from_2));
-    Cell_handle n_5 = before_3->neighbor(before_3->index(pivot_from_2));
-    Cell_handle n_6 = before_3->neighbor(before_3->index(pivot_from_1));
-    Cell_handle n_7 = before_4->neighbor(before_4->index(pivot_from_1));
-    Cell_handle n_8 = before_4->neighbor(before_4->index(pivot_from_2));
+    Cell_handle const n_1 = before_1->neighbor(before_1->index(pivot_from_2));
+    Cell_handle const n_2 = before_1->neighbor(before_1->index(pivot_from_1));
+    Cell_handle const n_3 = before_2->neighbor(before_2->index(pivot_from_1));
+    Cell_handle const n_4 = before_2->neighbor(before_2->index(pivot_from_2));
+    Cell_handle const n_5 = before_3->neighbor(before_3->index(pivot_from_2));
+    Cell_handle const n_6 = before_3->neighbor(before_3->index(pivot_from_1));
+    Cell_handle const n_7 = before_4->neighbor(before_4->index(pivot_from_1));
+    Cell_handle const n_8 = before_4->neighbor(before_4->index(pivot_from_2));
 
     // Next, delete the old cells
     triangulation.tds().delete_cell(before_1);
@@ -662,13 +663,13 @@ namespace ergodic_moves
 #endif
 
     // Now create the new cells
-    Cell_handle after_1 = triangulation.tds().create_cell(
+    Cell_handle const after_1 = triangulation.tds().create_cell(
         top, pivot_from_1, pivot_to_1, pivot_to_2);
-    Cell_handle after_2 = triangulation.tds().create_cell(
+    Cell_handle const after_2 = triangulation.tds().create_cell(
         top, pivot_from_2, pivot_to_1, pivot_to_2);
-    Cell_handle after_3 = triangulation.tds().create_cell(
+    Cell_handle const after_3 = triangulation.tds().create_cell(
         bottom, pivot_from_1, pivot_to_1, pivot_to_2);
-    Cell_handle after_4 = triangulation.tds().create_cell(
+    Cell_handle const after_4 = triangulation.tds().create_cell(
         bottom, pivot_from_2, pivot_to_1, pivot_to_2);
 
     // Now set the neighbors of the new cells
@@ -744,7 +745,7 @@ namespace ergodic_moves
     {
       return std::make_optional(triangulation);
     }
-    else { return std::nullopt; }
+    return std::nullopt;
   }  // bistellar_flip()
 
   /// @return The center edge of a 4-cell complex
@@ -833,7 +834,7 @@ namespace ergodic_moves
       // Try next edge
     }
     // We've run out of edges to try
-    std::string msg = "No (4,4) move possible.\n";
+    std::string const msg = "No (4,4) move possible.\n";
     spdlog::warn(msg);
     return tl::make_unexpected(msg);
   }  // do_44_move()

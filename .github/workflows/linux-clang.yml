@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-20.04
 
     steps:
       - uses: actions/checkout@v3
@@ -26,7 +26,7 @@ jobs:
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: 163fe7bd3d67c41200617caaa245b5ba2ba854e6
+          vcpkgGitCommitId: 9074f833496ebd1b3e050f62568b9bba014f2d17
 
       - name: Install vcpkg packages and configure CMake
         shell: bash

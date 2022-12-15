@@ -96,8 +96,6 @@ Proceed to [Use](#use).
 
 ### Long
 
-<details>
-
 On macOS or Linux, you will first need to install some prerequisites using your favorite
 package manager (e.g. [homebrew] or [apt]):
 
@@ -124,8 +122,6 @@ cd vcpkg
 listed in [vcpkg.json] into a local `vcpkg_installed` directory.
 
 Proceed to [Build](#build).
-
-</details>
 
 ## Build
 
@@ -176,8 +172,11 @@ The project is similar to [PitchFork Layout], as follows:
 - tests - Unit tests
 
 ### Run
-If you want to get started right away, run `fast-build.sh` or `fast-build.bat`, depending on your operating system,
-from `scripts`. This will compile the appropriate executables in `RELEASE` mode with no tests.
+Run one of the following in `scripts`, depending on your operating system and environment:
+
+- No tests, `Release` mode - `fast-build.sh` or `fast-build.bat`
+- Tests, `RelWithDebInfo` mode - `build.sh` or `build.bat`
+- On an HPC cluster with [SLURM], [modules], and [spack] - `slurm.sh`
 
 This should result in the main program executable, `cdt` in `build/src` or `build\Debug`,
 along with several others.
@@ -317,7 +316,15 @@ cd scripts
 but slower static analysis integrated with [CMake] and [Ninja].
 
 ~~~bash
+cd scripts
 ./scan.sh
+~~~
+
+[PVS-Studio] - static analyzer for C, C++, C#, and Java code.
+
+~~~bash
+cd scripts
+./pvs-studio.sh
 ~~~
 
 ### Sanitizers
@@ -383,6 +390,9 @@ Optional:
 
 [Docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
+[vcpkg] produces build error [#26039] for [gmp] on Intel Macs.
+
+[#26039]: https://github.com/microsoft/vcpkg/issues/26039
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
 [CDT]: https://arxiv.org/abs/hep-th/0105267
@@ -467,7 +477,7 @@ Optional:
 [lsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/lsan.sh
 [msan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/msan.sh
 [tsan.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/tsan.sh
-[PVS-Studio]: https://www.viva64.com/en/pvs-studio/
+[PVS-Studio]: https://pvs-studio.com/en/pvs-studio/?utm_source=github&utm_medium=organic&utm_campaign=open_source
 [pvs-studio.sh]: https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh
 [CLion]: https://www.jetbrains.com/clion/
 [Docker]: https://www.docker.com/
@@ -478,3 +488,6 @@ Optional:
 [spdlog]: https://github.com/gabime/spdlog
 [triplet]: https://vcpkg.readthedocs.io/en/latest/users/triplets/#additional-remarks
 [AppleClang-14]: https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes
+[spack]: https://spack.io
+[modules]: https://hpc-wiki.info/hpc/Modules
+[SLURM]: https://hpc-wiki.info/hpc/SLURM
