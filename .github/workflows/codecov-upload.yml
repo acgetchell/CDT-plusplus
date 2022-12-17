@@ -13,7 +13,7 @@ jobs:
 
       - name: Setup
         run: |
-          brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache lcov
+          brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache lcov libgl1-mesa-dev libglu1-mesa-dev
 
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10

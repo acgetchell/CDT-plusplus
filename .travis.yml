@@ -16,6 +16,8 @@ addons:
       - autoconf
       - autoconf-archive
       - libtool-bin
+      - libgl1-mesa-dev
+      - libglu1-mesa-dev
       - texinfo
       - yasm
       - gcc-11

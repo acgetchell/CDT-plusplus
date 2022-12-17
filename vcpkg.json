@@ -19,7 +19,12 @@
     },
     {
       "name": "cgal",
-      "features": ["qt"]
+      "features": ["qt"],
+      "platform": "!windows"
+    },
+    {
+      "name": "cgal",
+      "platform": "windows"
     }
   ]
 }

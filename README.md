@@ -58,6 +58,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
+- [ ] Visualization with [Qt]
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
@@ -102,6 +103,7 @@ package manager (e.g. [homebrew] or [apt]):
 - autoconf
 - autoconf-archive
 - libtool (macOS) or libtool-bin (Linux)
+- libgl1-mesa-dev and libglu1-mesa-dev (Linux only)
 - pkg-config
 - texinfo
 - yasm
@@ -181,6 +183,7 @@ This should result in the main program executable, `cdt` in `build/src` or `buil
 along with several others.
 
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
+- `cdt-viewer` (macOS/Linux only) is a simple Qt-based viewer for the output of `cdt`
 - `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
 
 ## Use
@@ -490,3 +493,4 @@ Optional:
 [spack]: https://spack.io
 [modules]: https://hpc-wiki.info/hpc/Modules
 [SLURM]: https://hpc-wiki.info/hpc/SLURM
+[Qt]: https://www.qt.io

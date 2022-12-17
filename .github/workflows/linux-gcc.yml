@@ -21,7 +21,7 @@ jobs:
       - name: Setup
         run: |
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache libgl1-mesa-dev libglu1-mesa-dev
 
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10

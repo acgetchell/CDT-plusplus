@@ -85,18 +85,21 @@ else()
 endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
-add_executable(cdt-view ${PROJECT_SOURCE_DIR}/src/cdt-view.cpp)
-target_link_libraries(
-  cdt-view
-  PRIVATE project_options
-          project_warnings
-          date::date-tz
-          fmt::fmt-header-only
-          Eigen3::Eigen
-          spdlog::spdlog_header_only
-          TBB::tbb
-          CGAL::CGAL_Basic_viewer)
-target_compile_features(cdt-view PRIVATE cxx_std_20)
+if(UNIX)
+  add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
+  target_link_libraries(
+    cdt-viewer
+    PRIVATE project_options
+            project_warnings
+            date::date-tz
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            spdlog::spdlog_header_only
+            TBB::tbb
+            CGAL::CGAL_Basic_viewer)
+  target_compile_features(cdt-viewer PRIVATE cxx_std_20)
+endif()
+
 #
 # Tests    ##
 #
