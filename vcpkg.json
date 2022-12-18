@@ -20,11 +20,11 @@
     {
       "name": "cgal",
       "features": ["qt"],
-      "platform": "!windows"
+      "platform": "osx"
     },
     {
       "name": "cgal",
-      "platform": "windows"
+      "platform": "!osx"
     }
   ]
 }

@@ -2,12 +2,11 @@
 #include <CGAL/draw_triangulation_3.h>
 #include <CGAL/Exact_predicates_inexact_constructions_kernel.h>
 #include <CGAL/point_generators_3.h>
+#include <spdlog/spdlog.h>
 
 using K       = CGAL::Exact_predicates_inexact_constructions_kernel;
 using DT3     = CGAL::Delaunay_triangulation_3<K>;
 using Creator = CGAL::Creator_uniform_3<double, K::Point_3>;
-
-#include <spdlog/spdlog.h>
 
 auto main() -> int
 try

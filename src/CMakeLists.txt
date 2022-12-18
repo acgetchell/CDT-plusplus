@@ -85,7 +85,7 @@ else()
 endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
-if(UNIX)
+if(APPLE)
   add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
   target_link_libraries(
     cdt-viewer
