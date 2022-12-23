@@ -11,6 +11,7 @@
 
 #include <doctest/doctest.h>
 
+#include <filesystem>
 #include <Manifold.hpp>
 
 using namespace std;
@@ -26,7 +27,7 @@ SCENARIO("Various string/stream/time utilities" *
     WHEN("Operator<< is invoked.")
     {
       stringstream const buffer;
-      std::streambuf* backup = cout.rdbuf(buffer.rdbuf());
+      std::streambuf*    backup = cout.rdbuf(buffer.rdbuf());
       cout << this_topology;
       cout.rdbuf(backup);
       THEN("The output is correct.")
@@ -104,6 +105,46 @@ SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
       THEN("No exception is thrown.")
       {
         CHECK_NOTHROW(print_delaunay(triangulation));
+      }
+    }
+  }
+}
+
+SCENARIO("Reading and writing Delaunay triangulations to files" *
+         doctest::test_suite("utilities"))
+{
+  spdlog::debug("Reading and writing Delaunay triangulations to files.\n");
+  GIVEN("A Delaunay_t<3> triangulation")
+  {
+    Delaunay_t<3> triangulation;
+    triangulation.insert(Point_t<3>(0, 0, 0));
+    triangulation.insert(Point_t<3>(1, 0, 0));
+    triangulation.insert(Point_t<3>(0, 1, 0));
+    triangulation.insert(Point_t<3>(0, 0, 1));
+    std::string const& filename = "test.off";
+    WHEN("Writing to a file")
+    {
+      utilities::write_file(filename, triangulation);
+      THEN("The file should exist")
+      {
+        CHECK(std::filesystem::exists(filename));
+      }
+    }
+    WHEN("Reading from a file")
+    {
+      auto triangulation_from_file =
+          utilities::read_file<Delaunay_t<3>>(filename);
+      THEN("The file should contain the text")
+      {
+        CHECK_EQ(triangulation_from_file, triangulation);
+      }
+    }
+    WHEN("Deleting a file")
+    {
+      std::filesystem::remove(filename);
+      THEN("The file should not exist")
+      {
+        CHECK_FALSE(std::filesystem::exists(filename));
       }
     }
   }
