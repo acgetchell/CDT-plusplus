@@ -22,12 +22,12 @@ jobs:
       - name: Setup
         run: |
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov libgl1-mesa-dev libglu1-mesa-dev
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
 
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: 71f51b100be2b5d32e3907572d99dc2f97088c8d
+          vcpkgGitCommitId: 6adca01a3fadca0cc0b80f03ec57c7c3a0be5c02
 
       - name: Install vcpkg packages and configure CMake
         shell: bash

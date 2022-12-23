@@ -6,7 +6,21 @@
 
 using K       = CGAL::Exact_predicates_inexact_constructions_kernel;
 using DT3     = CGAL::Delaunay_triangulation_3<K>;
-using Creator = CGAL::Creator_uniform_3<double, K::Point_3>;
+using Point   = K::Point_3;
+using Creator = CGAL::Creator_uniform_3<double, Point>;
+
+void write_file(std::string filename, DT3 dt3)
+{
+  static std::mutex mutex;
+  fmt::print("Writing to file {}\n", filename);
+  std::scoped_lock const lock(mutex);
+  std::ofstream          file(filename, std::ios::out);
+  if (!file.is_open())
+  {
+    spdlog::error("Could not open file {} for writing.\n", filename);
+  }
+  file << dt3;
+}
 
 auto main() -> int
 try
@@ -17,7 +31,19 @@ try
 
   DT3 dt3(points.begin(), points.end());
 
-  CGAL::draw(dt3);
+  // Write to file as a Point_set_3
+  std::string filename = "test.off";
+  write_file(filename, dt3);
+
+  // Read from file
+  std::ifstream infile(filename, std::ios::in);
+
+  DT3           dt_in;
+  infile >> dt_in;
+
+  //  CGAL::draw(dt3);
+  fmt::print("Reading from file {} to draw\n", filename);
+  CGAL::draw(dt_in);
 
   return EXIT_SUCCESS;
 }
