@@ -176,10 +176,7 @@ try
   result.print_volume_per_timeslice();
 
   // Write results to file
-  // Strong exception-safety guarantee
-  utilities::write_file(result, topology,
-                        static_cast<Int_precision>(dimensions), result.N3(),
-                        static_cast<Int_precision>(timeslices), 1.0, 1.0);
+  utilities::write_file(result);
 
   return EXIT_SUCCESS;
 }

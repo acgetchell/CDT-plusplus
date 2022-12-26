@@ -42,6 +42,9 @@ namespace manifolds
     /// @details Used to determine the manifold dimension at compile-time
     static int constexpr dimension                   = 3;
 
+    /// @brief Topology of the manifold
+    static topology_type constexpr topology          = topology_type::SPHERICAL;
+
     /// @brief Default dtor
     ~Manifold()                                      = default;
 

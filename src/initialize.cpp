@@ -103,13 +103,7 @@ try
   universe.print();
   universe.print_volume_per_timeslice();
   fmt::print("Final number of simplices: {}\n", universe.N3());
-  if (save_file)
-  {
-    utilities::write_file(universe, topology,
-                          static_cast<Int_precision>(dimensions), universe.N3(),
-                          static_cast<Int_precision>(timeslices),
-                          initial_radius, foliation_spacing);
-  }
+  if (save_file) { utilities::write_file(universe); }
   return EXIT_SUCCESS;
 }
 catch (invalid_argument const& InvalidArgument)
