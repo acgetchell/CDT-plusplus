@@ -242,7 +242,7 @@ namespace ergodic_moves
 
         // Do the (2,6) move
         // Insert new vertex
-        Vertex_handle_t<3> const v_center =
+        Vertex_handle const v_center =
             t_manifold.triangulation().delaunay().tds().insert_in_facet(
                 bottom, *neighboring_31_index);
 
@@ -337,8 +337,8 @@ namespace ergodic_moves
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
   /// @return If (6,2) move is possible
-  [[nodiscard]] inline auto is_62_movable(Manifold const&           manifold,
-                                          Vertex_handle_t<3> const& candidate)
+  [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
+                                          Vertex_handle const& candidate)
       -> bool
   {
     if (manifold.dimensionality() != 3)

@@ -12,7 +12,7 @@
 
 **Quantize spacetime on your laptop.**
 
-![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png "8 timeslices 68 vertices 298 simplices")
+![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
 
 ## Introduction
 
@@ -103,7 +103,6 @@ package manager (e.g. [homebrew] or [apt]):
 - autoconf
 - autoconf-archive
 - libtool (macOS) or libtool-bin (Linux)
-- libgl1-mesa-dev and libglu1-mesa-dev (Linux only)
 - pkg-config
 - texinfo
 - yasm
@@ -183,7 +182,7 @@ This should result in the main program executable, `cdt` in `build/src` or `buil
 along with several others.
 
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
-- `cdt-viewer` (macOS/Linux only) is a simple Qt-based viewer for the output of `cdt`
+- `cdt-viewer` (macOS only) is a simple Qt-based viewer for the output of `cdt`
 - `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
 
 ## Use

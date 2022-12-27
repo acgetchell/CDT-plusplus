@@ -68,8 +68,8 @@ SCENARIO("Various string/stream/time utilities" *
       auto constexpr simplices     = 6700;
       auto constexpr timeslices    = 16;
       auto const filename =
-          generate_filename(this_topology, dimensions, simplices, timeslices,
-                            INITIAL_RADIUS, FOLIATION_SPACING);
+          make_filename(this_topology, dimensions, simplices, timeslices,
+                        INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
         auto const topology = filename.find("S3");
@@ -114,17 +114,20 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
          doctest::test_suite("utilities"))
 {
   spdlog::debug("Reading and writing Delaunay triangulations to files.\n");
-  GIVEN("A Delaunay_t<3> triangulation")
+  GIVEN("A Manifold3 constructed from a Delaunay_t<3> triangulation")
   {
     Delaunay_t<3> triangulation;
     triangulation.insert(Point_t<3>(0, 0, 0));
     triangulation.insert(Point_t<3>(1, 0, 0));
     triangulation.insert(Point_t<3>(0, 1, 0));
     triangulation.insert(Point_t<3>(0, 0, 1));
-    std::string const& filename = "test.off";
+    // Construct a manifold from a Delaunay triangulation
+    manifolds::Manifold_3 manifold(
+        foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
+    auto filename = utilities::make_filename(manifold);
     WHEN("Writing to a file")
     {
-      utilities::write_file(filename, triangulation);
+      utilities::write_file(manifold);
       THEN("The file should exist")
       {
         CHECK(std::filesystem::exists(filename));
@@ -134,7 +137,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     {
       auto triangulation_from_file =
           utilities::read_file<Delaunay_t<3>>(filename);
-      THEN("The file should contain the text")
+      THEN("The file should contain the triangulation")
       {
         CHECK_EQ(triangulation_from_file, triangulation);
       }

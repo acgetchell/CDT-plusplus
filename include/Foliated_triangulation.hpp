@@ -943,6 +943,7 @@ namespace foliated_triangulations
   template <>
   class [[nodiscard("This contains data!")]] FoliatedTriangulation<3>  // NOLINT
   {
+    using Delaunay            = Delaunay_t<3>;
     using Cell_container      = std::vector<Cell_handle_t<3>>;
     using Face_container      = std::vector<Face_handle_t<3>>;
     using Edge_container      = std::vector<Edge_handle_t<3>>;
@@ -951,7 +952,7 @@ namespace foliated_triangulations
 
     /// Data members initialized in order of declaration (Working Draft,
     /// Standard for C++ Programming Language, 12.6.2 section 13.3)
-    Delaunay_t<3>       m_triangulation{Delaunay_t<3>{}};
+    Delaunay            m_triangulation{Delaunay{}};
     Cell_container      m_cells;
     Cell_container      m_three_one;
     Cell_container      m_two_two;
@@ -977,7 +978,7 @@ namespace foliated_triangulations
     /// @brief Copy Constructor
     FoliatedTriangulation(FoliatedTriangulation const& other) noexcept
         : FoliatedTriangulation(
-              static_cast<Delaunay_t<3> const&>(other.get_delaunay()))
+              static_cast<Delaunay const&>(other.get_delaunay()))
     {}
 
     /// @brief Copy/Move Assignment operator
@@ -1031,10 +1032,10 @@ namespace foliated_triangulations
 
     /// @brief Constructor using delaunay triangulation
     /// Pass-by-value-then-move.
-    /// Delaunay3 is the ctor for the Delaunay triangulation.
+    /// Delaunay is the ctor for the Delaunay triangulation.
     /// @param triangulation Delaunay triangulation
-    explicit FoliatedTriangulation(Delaunay_t<3> triangulation,
-                                   double initial_radius    = INITIAL_RADIUS,
+    explicit FoliatedTriangulation(Delaunay triangulation,
+                                   double   initial_radius  = INITIAL_RADIUS,
                                    double foliation_spacing = FOLIATION_SPACING)
         : m_triangulation{std::move(triangulation)}
         , m_cells{classify_cells(collect_cells<3>(m_triangulation))}
@@ -1075,7 +1076,7 @@ namespace foliated_triangulations
         double                      t_initial_radius    = INITIAL_RADIUS,
         double                      t_foliation_spacing = FOLIATION_SPACING)
         : FoliatedTriangulation{
-              Delaunay_t<3>{causal_vertices.begin(), causal_vertices.end()},
+              Delaunay{causal_vertices.begin(), causal_vertices.end()},
               t_initial_radius, t_foliation_spacing
     }
     {}
@@ -1128,10 +1129,10 @@ namespace foliated_triangulations
     }  // is_fixed
 
     /// @return A mutable reference to the Delaunay triangulation
-    [[nodiscard]] auto delaunay()->Delaunay_t<3>& { return m_triangulation; }
+    [[nodiscard]] auto delaunay()->Delaunay& { return m_triangulation; }
 
     /// @return A read-only reference to the Delaunay triangulation
-    [[nodiscard]] auto get_delaunay() const->Delaunay_t<3> const&
+    [[nodiscard]] auto get_delaunay() const->Delaunay const&
     {
       return std::cref(m_triangulation);
     }  // get_delaunay

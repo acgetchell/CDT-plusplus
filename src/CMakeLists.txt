@@ -134,6 +134,6 @@ add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
 set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
 
 if(APPLE)
-  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --s -n64 -t3 -a0.6 -k1.1 -l0.1 -p10)
-  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "Reading from file")
+  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer>)
+  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "cdt-viewer started at")
 endif()
