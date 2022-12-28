@@ -245,49 +245,46 @@ $(function() {
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  result.print_volume_per_timeslice();</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160; </div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;  <span class="comment">// Write results to file</span></div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="comment">// Strong exception-safety guarantee</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  utilities::write_file(result, topology,</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;                        <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(dimensions), result.N3(),</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;                        <span class="keyword">static_cast&lt;</span><a class="code" href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a><span class="keyword">&gt;</span>(timeslices), 1.0, 1.0);</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;}</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;<span class="keywordflow">catch</span> (domain_error <span class="keyword">const</span>&amp; DomainError)</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;{</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, DomainError.what());</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Triangle inequalities violated ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;}</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;{</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;}</div>
-<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;<span class="keywordflow">catch</span> (logic_error <span class="keyword">const</span>&amp; LogicError)</div>
-<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;{</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, LogicError.what());</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Simulation startup failed ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;}</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;<span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;{</div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;}</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  utilities::write_file(result);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160; </div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;}</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;<span class="keywordflow">catch</span> (domain_error <span class="keyword">const</span>&amp; DomainError)</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;{</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, DomainError.what());</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Triangle inequalities violated ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;}</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;{</div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;<span class="keywordflow">catch</span> (logic_error <span class="keyword">const</span>&amp; LogicError)</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;{</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, LogicError.what());</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Simulation startup failed ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;}</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;{</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;}</div>
 <div class="ttc" id="a_metropolis_8hpp_html"><div class="ttname"><a href="_metropolis_8hpp.html">Metropolis.hpp</a></div><div class="ttdoc">Perform Metropolis-Hastings algorithm on Delaunay Triangulations.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="acdt_8cpp_html_aaf5864dd3dcc4fb2d873b2ee1a53e7fd"><div class="ttname"><a href="cdt_8cpp.html#aaf5864dd3dcc4fb2d873b2ee1a53e7fd">USAGE</a></div><div class="ttdeci">static constexpr string_view USAGE</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="cdt_8cpp_source.html#l00023">cdt.cpp:23</a></div></div>
 <div class="ttc" id="acdt_8cpp_html_ae3c9ca9c80d59823d8711270d8a0d7c2"><div class="ttname"><a href="cdt_8cpp.html#ae3c9ca9c80d59823d8711270d8a0d7c2">main</a></div><div class="ttdeci">auto main(int argc, char *const argv[]) -&gt; int try</div><div class="ttdoc">The main path of the CDT++ program.</div><div class="ttdef"><b>Definition:</b> <a href="cdt_8cpp_source.html#l00062">cdt.cpp:62</a></div></div>
 <div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00029">Move_strategy.hpp:30</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:30</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00343">Manifold.hpp:343</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a297dbe8152f057816ef39957fd8f7911"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">manifolds::Manifold&lt; 3 &gt;::print_details</a></div><div class="ttdeci">void print_details() const</div><div class="ttdoc">Print details of the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00358">Manifold.hpp:358</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00330">Manifold.hpp:330</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00346">Manifold.hpp:346</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a297dbe8152f057816ef39957fd8f7911"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a297dbe8152f057816ef39957fd8f7911">manifolds::Manifold&lt; 3 &gt;::print_details</a></div><div class="ttdeci">void print_details() const</div><div class="ttdoc">Print details of the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00361">Manifold.hpp:361</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00333">Manifold.hpp:333</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Dec 15 2022 05:05:35 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Wed Dec 28 2022 18:00:11 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
