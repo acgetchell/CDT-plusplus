@@ -92,6 +92,7 @@ if(APPLE)
     PRIVATE project_options
             project_warnings
             date::date-tz
+            docopt_s
             fmt::fmt-header-only
             Eigen3::Eigen
             spdlog::spdlog_header_only
@@ -134,6 +135,6 @@ add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
 set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
 
 if(APPLE)
-  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer>)
-  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "cdt-viewer started at")
+  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --dry-run test.off)
+  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "Dry run. Exiting.")
 endif()

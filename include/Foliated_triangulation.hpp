@@ -267,11 +267,8 @@ namespace foliated_triangulations
   [[nodiscard]] auto squared_radius(Vertex_handle_t<dimension> const& t_vertex)
       -> double
   {
-    typename TriangulationTraits<dimension>::squared_distance r_2;
-
-    if (dimension == 3) { return r_2(t_vertex->point(), Point_t<3>(0, 0, 0)); }
-
-    return 0;
+    typename TriangulationTraits<dimension>::squared_distance const r_2;
+    return r_2(t_vertex->point(), TriangulationTraits<dimension>::ORIGIN_POINT);
   }  // squared_radius
 
   /// @brief Find the expected timevalue for a vertex

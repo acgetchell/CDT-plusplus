@@ -414,7 +414,7 @@ namespace manifolds
    public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
-    static int constexpr dimension = 4;
+    static int constexpr dimension          = 4;
 
     /// @brief Topology of the manifold
     static topology_type constexpr topology = topology_type::SPHERICAL;

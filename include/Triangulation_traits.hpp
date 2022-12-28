@@ -53,9 +53,9 @@ struct TriangulationTraits<3>
   /// @return Square of Euclidean distance between two geometric objects
   using squared_distance = Kernel::Compute_squared_distance_3;
 
-  using Spherical_points_generator  = CGAL::Random_points_on_sphere_3<Point>;
+  using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
 
-  static int constinit const origin = 0;
-};
+  static inline Point const ORIGIN_POINT = Point{0, 0, 0};
+};  // TriangulationTraits<3>
 
 #endif  // CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP

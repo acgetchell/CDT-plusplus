@@ -139,6 +139,16 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
           utilities::read_file<Delaunay_t<3>>(filename);
       THEN("The file should contain the triangulation")
       {
+        REQUIRE(triangulation_from_file.is_valid(true));
+        REQUIRE_EQ(triangulation_from_file.dimension(),
+                   manifold.dimensionality());
+        REQUIRE_EQ(triangulation_from_file.number_of_finite_cells(),
+                   manifold.N3());
+        REQUIRE_EQ(triangulation_from_file.number_of_finite_facets(),
+                   manifold.N2());
+        REQUIRE_EQ(triangulation_from_file.number_of_finite_edges(),
+                   manifold.N1());
+        REQUIRE_EQ(triangulation_from_file.number_of_vertices(), manifold.N0());
         CHECK_EQ(triangulation_from_file, triangulation);
       }
     }

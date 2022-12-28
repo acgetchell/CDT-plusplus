@@ -7,13 +7,37 @@ Copyright © 2022 Adam Getchell
 /// @brief Views 3D spacetimes
 /// @author Adam Getchell
 
-#define DOCTEST_CONFIG_IMPLEMENT
+#ifdef NDEBUG
+#define DOCTEST_CONFIG_DISABLE
+#endif
+
 #include <CGAL/draw_triangulation_3.h>
+
+#define DOCTEST_CONFIG_IMPLEMENT
+#include <docopt/docopt.h>
 #include <doctest/doctest.h>
 #include <spdlog/spdlog.h>
 
 #include "Manifold.hpp"
 #include "Utilities.hpp"
+
+/// Help message parsed by docopt into command line arguments
+static auto constexpr USAGE =
+    R"(Causal Dynamical Triangulations in C++ using CGAL.
+
+Copyright (c) 2022 Adam Getchell
+
+A program that views 3D triangulated spacetimes with a defined causal
+structure. Specify the filename of the triangulation to view.
+
+Usage:
+  cdt-viewer [options] <filename>
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+  --dry-run     Don't actually do anything.
+)";
 
 auto main(int argc, char* const argv[]) -> int
 try
@@ -34,15 +58,32 @@ try
                            // used during the next evaluation of RUN_ALL_TESTS,
                            // which will lead to wrong results
 
+  // docopt option parser
+  std::string usage_string{USAGE};
+  std::map<std::string, docopt::value, std::less<std::string>> args =
+      docopt::docopt(usage_string, {argv + 1, argv + argc},
+                     true,               // show help if requested
+                     "cdt-viewer 1.0");  // version string
+
+#ifndef NDEBUG
+  for (auto const& [first, second] : args)
+  {
+    std::cout << first << ": " << second << std::endl;
+  }
+#endif
+
+  // Parse filename from arguments
+  auto filename = args["<filename>"].asString();
+  auto dry_run  = args["--dry-run"].asBool();
+
+  if (dry_run)
+  {
+    fmt::print("Dry run. Exiting.\n");
+    return res + EXIT_SUCCESS;
+  }
+
   fmt::print("cdt-viewer started at {}\n", utilities::current_date_time());
-
-  auto constexpr simplices  = 6400;
-  auto constexpr timeslices = 7;
-  manifolds::Manifold_3 const manifold(simplices, timeslices);
-
-  // Write to file
-  auto filename = utilities::make_filename(manifold);
-  utilities::write_file(manifold);
+  fmt::print("Reading triangulation from file {}\n", filename);
 
   // Read from file
   auto dt_in = utilities::read_file<Delaunay_t<3>>(filename);
@@ -53,6 +94,13 @@ try
 
   return res + EXIT_SUCCESS;
 }
+
+catch (std::exception const& e)
+{
+  fmt::print(stderr, "Error: {}\n", e.what());
+  return EXIT_FAILURE;
+}
+
 catch (...)
 {
   spdlog::critical("Something went wrong ... Exiting.\n");
@@ -82,6 +130,25 @@ SCENARIO("Given a 3D Manifold, it can be written to file and read back in." *
         REQUIRE_EQ(dt_in.number_of_finite_facets(), manifold.N2());
         REQUIRE_EQ(dt_in.number_of_finite_edges(), manifold.N1());
         REQUIRE_EQ(dt_in.number_of_vertices(), manifold.N0());
+      }
+      THEN("It can be drawn.")
+      {
+        auto dt_in = utilities::read_file<Delaunay_t<3>>(filename);
+        CGAL::draw(dt_in);
+        // Cleanup test file
+        REQUIRE_NOTHROW(std::filesystem::remove(filename));
+      }
+    }
+  }
+  GIVEN("A non-existent filename.")
+  {
+    auto const filename = "non-existent-file.off";
+    WHEN("It is read back in.")
+    {
+      THEN("An exception is thrown.")
+      {
+        REQUIRE_THROWS_AS(utilities::read_file<Delaunay_t<3>>(filename),
+                          std::filesystem::filesystem_error);
       }
     }
   }
