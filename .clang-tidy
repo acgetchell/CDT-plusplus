@@ -1,7 +1,7 @@
 ---
 Checks:          'clang-diagnostic-*,clang-analyzer-*,clang-diagnostic-*,clang-analyzer-*,*,-fuchsia-*,-google-*,-zircon-*,-abseil-*,-llvm-*,-cppcoreguidelines-avoid-c-arrays,-hicpp-avoid-c-arrays,-modernize-avoid-c-arrays, -hicpp-vararg, -cppcoreguidelines-pro-type-vararg, -llvmlibc-*, -readability-function-cognitive-complexity, -readability-function-size, -hicpp-function-size, -altera-*'
 WarningsAsErrors: '0'
-HeaderFilterRegex: ''
+HeaderFilterRegex: '^.(include|src|tests).*'
 AnalyzeTemporaryDtors: false
 FormatStyle:     none
 CheckOptions:

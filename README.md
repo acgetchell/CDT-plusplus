@@ -12,7 +12,7 @@
 
 **Quantize spacetime on your laptop.**
 
-![Small foliated Delaunay triangulation](docs/images/t8-v68-s298.png "8 timeslices 68 vertices 298 simplices")
+![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
 
 ## Introduction
 
@@ -58,6 +58,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
+- [x] Visualization with [Qt]
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
@@ -181,6 +182,7 @@ This should result in the main program executable, `cdt` in `build/src` or `buil
 along with several others.
 
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
+- `cdt-viewer` (macOS only) is a simple Qt-based viewer for the output of `cdt`
 - `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
 
 ## Use
@@ -372,9 +374,6 @@ Your code should pass Continuous Integration:
 
 - [ThreadSanitizer] test with [tsan.sh]
 
-- [LGTM] check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
-  more details.
-
 - [Sonarcloud] provides a lot of good suggestions.
 
 Optional:
@@ -435,7 +434,6 @@ Optional:
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
-[LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
 [CometML]: https://www.comet.ml/
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [Model Optimization]: https://www.comet.ml/parameter-optimization
@@ -461,7 +459,6 @@ Optional:
 [3]: https://github.com/microsoft/vcpkg/issues/8627
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
-[query console]: https://lgtm.com/query/lang:cpp/
 [Github Actions]: https://github.com/features/actions
 [Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt
@@ -490,3 +487,4 @@ Optional:
 [spack]: https://spack.io
 [modules]: https://hpc-wiki.info/hpc/Modules
 [SLURM]: https://hpc-wiki.info/hpc/SLURM
+[Qt]: https://www.qt.io

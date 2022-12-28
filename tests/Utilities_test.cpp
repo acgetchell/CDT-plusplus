@@ -11,6 +11,7 @@
 
 #include <doctest/doctest.h>
 
+#include <filesystem>
 #include <Manifold.hpp>
 
 using namespace std;
@@ -26,7 +27,7 @@ SCENARIO("Various string/stream/time utilities" *
     WHEN("Operator<< is invoked.")
     {
       stringstream const buffer;
-      std::streambuf* backup = cout.rdbuf(buffer.rdbuf());
+      std::streambuf*    backup = cout.rdbuf(buffer.rdbuf());
       cout << this_topology;
       cout.rdbuf(backup);
       THEN("The output is correct.")
@@ -67,8 +68,8 @@ SCENARIO("Various string/stream/time utilities" *
       auto constexpr simplices     = 6700;
       auto constexpr timeslices    = 16;
       auto const filename =
-          generate_filename(this_topology, dimensions, simplices, timeslices,
-                            INITIAL_RADIUS, FOLIATION_SPACING);
+          make_filename(this_topology, dimensions, simplices, timeslices,
+                        INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
         auto const topology = filename.find("S3");
@@ -104,6 +105,59 @@ SCENARIO("Printing Delaunay triangulations" * doctest::test_suite("utilities"))
       THEN("No exception is thrown.")
       {
         CHECK_NOTHROW(print_delaunay(triangulation));
+      }
+    }
+  }
+}
+
+SCENARIO("Reading and writing Delaunay triangulations to files" *
+         doctest::test_suite("utilities"))
+{
+  spdlog::debug("Reading and writing Delaunay triangulations to files.\n");
+  GIVEN("A Manifold3 constructed from a Delaunay_t<3> triangulation")
+  {
+    Delaunay_t<3> triangulation;
+    triangulation.insert(Point_t<3>(0, 0, 0));
+    triangulation.insert(Point_t<3>(1, 0, 0));
+    triangulation.insert(Point_t<3>(0, 1, 0));
+    triangulation.insert(Point_t<3>(0, 0, 1));
+    // Construct a manifold from a Delaunay triangulation
+    manifolds::Manifold_3 manifold(
+        foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
+    auto filename = utilities::make_filename(manifold);
+    WHEN("Writing to a file")
+    {
+      utilities::write_file(manifold);
+      THEN("The file should exist")
+      {
+        CHECK(std::filesystem::exists(filename));
+      }
+    }
+    WHEN("Reading from a file")
+    {
+      auto triangulation_from_file =
+          utilities::read_file<Delaunay_t<3>>(filename);
+      THEN("The file should contain the triangulation")
+      {
+        REQUIRE(triangulation_from_file.is_valid(true));
+        REQUIRE_EQ(triangulation_from_file.dimension(),
+                   manifold.dimensionality());
+        REQUIRE_EQ(triangulation_from_file.number_of_finite_cells(),
+                   manifold.N3());
+        REQUIRE_EQ(triangulation_from_file.number_of_finite_facets(),
+                   manifold.N2());
+        REQUIRE_EQ(triangulation_from_file.number_of_finite_edges(),
+                   manifold.N1());
+        REQUIRE_EQ(triangulation_from_file.number_of_vertices(), manifold.N0());
+        CHECK_EQ(triangulation_from_file, triangulation);
+      }
+    }
+    WHEN("Deleting a file")
+    {
+      std::filesystem::remove(filename);
+      THEN("The file should not exist")
+      {
+        CHECK_FALSE(std::filesystem::exists(filename));
       }
     }
   }

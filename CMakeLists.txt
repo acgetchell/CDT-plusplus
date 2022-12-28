@@ -76,7 +76,7 @@ endif()
 # Project vcpkg dependencies
 
 # https://github.com/CGAL/cgal
-find_package(CGAL CONFIG REQUIRED)
+find_package(CGAL CONFIG REQUIRED OPTIONAL_COMPONENTS Qt5)
 # Don't let CGAL override flags
 set(CGAL_DONT_OVERRIDE_CMAKE_FLAGS
     TRUE

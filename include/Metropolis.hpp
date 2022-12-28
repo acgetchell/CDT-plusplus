@@ -418,9 +418,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
         fmt::print("Writing to file.\n");
         print_results();
         auto result = command.get_results();
-        utilities::write_file(
-            result, topology_type::SPHERICAL, ManifoldType::dimension,
-            result.N3(), result.max_time(), INITIAL_RADIUS, FOLIATION_SPACING);
+        utilities::write_file(result);
       }
     }  // Ends loop through m_passes
 
