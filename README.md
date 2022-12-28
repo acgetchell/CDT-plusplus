@@ -58,7 +58,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] Static code analysis with [PVS-Studio]
 - [x] 3D Metropolis algorithm
 - [x] Multithreaded logging with [spdlog]
-- [ ] Visualization with [Qt]
+- [x] Visualization with [Qt]
 - [ ] Output via [HDF5]
 - [ ] A [Surface mesh] manifold of 3D Triangulation
 - [ ] 4D Simplex
@@ -374,9 +374,6 @@ Your code should pass Continuous Integration:
 
 - [ThreadSanitizer] test with [tsan.sh]
 
-- [LGTM] check to ensure you haven't introduced a security vulnerability. Look at the [query console] for
-  more details.
-
 - [Sonarcloud] provides a lot of good suggestions.
 
 Optional:
@@ -437,7 +434,6 @@ Optional:
 [BDD]: https://en.wikipedia.org/wiki/Behavior-driven_development
 [TDD]: https://en.wikipedia.org/wiki/Test-driven_development
 [.appveyor.yml]: https://github.com/acgetchell/CDT-plusplus/blob/master/.appveyor.yml
-[LGTM]: https://lgtm.com/projects/g/acgetchell/CDT-plusplus/
 [CometML]: https://www.comet.ml/
 [Experiments]: https://www.comet.ml/acgetchell/cdt-plusplus
 [Model Optimization]: https://www.comet.ml/parameter-optimization
@@ -463,7 +459,6 @@ Optional:
 [3]: https://github.com/microsoft/vcpkg/issues/8627
 [CONTRIBUTING.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md
 [CODE_OF_CONDUCT.md]: https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md
-[query console]: https://lgtm.com/query/lang:cpp/
 [Github Actions]: https://github.com/features/actions
 [Visual Studio 2019]: https://visualstudio.microsoft.com/vs/
 [{fmt}]: https://github.com/fmtlib/fmt

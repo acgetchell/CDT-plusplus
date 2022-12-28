@@ -19,13 +19,13 @@ for reproducibility.
 3. Familiarize yourself with [doctest] and the [Gherkin] syntax.
 
 4. Write a unit test for your proposed contribution. Unit tests go in the `tests` directory and are named
-\{YourContribution\}_test.cpp, so that they can be automatically built.
+\{YourContribution\}_test.cpp, don't forget to add to `/tests/CMakeLists.txt`.
 All proposed features of your contribution should have a corresponding test in \{YourContribution\}_test.cpp.
 Consult the [doctest test cases] if you are unsure, or consult existing tests for examples.
 
 5. I highly recommend writing your tests first, before your contribution, as this helps to think about how the
 rest of the program will use your functions and/or classes.
-[Test-Driven Development] (and [BDD]) has saved me quite a lot from various mistakes.
+[Test-Driven Development] (and [BDD]) has saved me quite a bit from various mistakes.
 
 6. Project source files go into the `src` directory; header files go into `include`.
 This makes integration into various tests and the main program easy and modular, and follows convention.
@@ -43,12 +43,13 @@ Consult existing code for examples.
 11. Run `clang-tidy` using the project's [clang-tidy.sh].
 
 12. Open a pull request against the develop branch of the main repository (which is the default).
-[Travis-CI] will test it against combinations of Linux (Ubuntu 18.04) and MacOS with clang and gcc.
-[AppVeyor] will test it against Visual Studio 2017 with `clang-cl` (version 9). Ensure that
+[Travis-CI] will test it against combinations of Linux (Ubuntu 22.04) with clang and gcc. [GitHub Actions] will test
+against macOS and run various other checks.
+[AppVeyor] will test it against Visual Studio 2019 with `clang-cl` (version 14.0.6). Ensure that
 your code compiles on Windows, macOS, and Linux with `msvc`, `gcc`, and `clang`.
 
-13. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
-In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [MSAN], [ClangTidy], , and [LGTM].
+13. All pull requests must pass [Travis-CI], [AppVeyor], and [GitHub Actions] to be accepted.
+In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [MSAN], [ClangTidy], and [GitHub Actions].
 
 14. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
@@ -95,3 +96,4 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [Cppcheck]: http://cppcheck.sourceforge.net
 [ASAN]: https://github.com/google/sanitizers/wiki/AddressSanitizer
 [MSAN]: https://github.com/google/sanitizers/wiki/MemorySanitizer
+[GitHub Actions]: https://github.com/acgetchell/CDT-plusplus/actions
