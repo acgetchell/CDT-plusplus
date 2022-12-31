@@ -5,7 +5,7 @@ skip_tags: true
 skip_branch_with_pr: true
 
 image:
-  - Visual Studio 2019
+  - Visual Studio 2022
 
 clone_folder: c:\projects\cdt-plusplus
 
@@ -24,14 +24,13 @@ environment:
 #  VCPKG_ROOT: c:\tools\vcpkg
 
 cache:
-  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
-  - c:\tools\vcpkg\packages\
+  - c:\tools\vcpkg\installed\
 
 install:
   # Setup vcpkg
   - cd c:\tools\vcpkg
 #  - git clean -d -fx .
-  - git pull origin master --no-rebase
+  - git pull
 #  - git reset --hard 56c0313
   - .\bootstrap-vcpkg.bat
   - set PATH=%PATH%;%VCPKG_ROOT%
@@ -51,8 +50,8 @@ install:
   - clang-cl -v
   - set CC=clang-cl -mrtm
   - set CXX=clang-cl -mrtm
-  # Visual Studio 2019
-  - call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Auxiliary\Build\vcvars64.bat"
+  # Visual Studio 2022
+  - call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
   - set CMAKE_CXX_COMPILER="C:\Program Files\LLVM\bin\clang-cl"
 
 platform:

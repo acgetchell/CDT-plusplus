@@ -13,6 +13,28 @@
 
 ![Small foliated Delaunay triangulation](docs/images/S3-7-27528-I1-R1.png "7 timeslices 27528 simplices")
 
+## Table of contents
+
+- [CDT-plusplus](#cdt-plusplus)
+    - [Introduction](#introduction)
+    - [Roadmap](#roadmap)
+    - [Quickstart](#quickstart)
+    - [Setup](#setup)
+        - [Short](#short)
+        - [Long](#long)
+    - [Build](#build)
+        - [Project Layout](#project-layout)
+        - [Run](#run)
+    - [Usage](#usage)
+    - [Documentation](#documentation)
+    - [Testing](#testing)
+        - [Static Analysis](#static-analysis)
+        - [Sanitizers](#sanitizers)
+    - [Optimizing Parameters](#optimizing-parameters)
+    - [Visualization](#visualization)
+    - [Contributing](#contributing)
+    - [Issues](#issues)
+
 ## Introduction
 
 For an introduction to [Causal Dynamical Triangulations](https://github.com/acgetchell/CDT-plusplus/wiki),
@@ -21,7 +43,7 @@ including the foundations and recent results, please see the [wiki](https://gith
 [Causal Dynamical Triangulations][CDT] in [C++] uses the
 [Computational Geometry Algorithms Library][CGAL], [Boost], [TBB], and [Eigen].
 Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
-[Docopt] provides a beautiful command-line interface.
+[docopt] provides a beautiful command-line interface.
 [Melissa E. O'Neill's Permuted Congruential Generators][PCG] library provides high-quality RNGs that pass L'Ecuyer's
 [TestU01] statistical tests.
 [doctest] provides [BDD]/[TDD].
@@ -29,7 +51,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 [Doxygen] provides automated document generation.
 [{fmt}] provides a safe and fast alternative to `iostream`.
 [spdlog] provides fast, multithreaded logging.
-[PVS-Studio] and [LGTM] provide commercial-grade static analysis and security checks.
+[PVS-Studio] and [CodeQL] provide commercial-grade static analysis and security checks.
 [CometML] provides machine learning for model building.
 
 ## Roadmap
@@ -46,7 +68,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 - [x] 3D Simplex
 - [x] 3D Spherical triangulation
 - [x] 2+1 foliation
-- [x] Integrate [Docopt] CLI
+- [x] Integrate [docopt] CLI
 - [x] S3 Bulk action
 - [x] 3D Ergodic moves
 - [x] High-quality Random Number Generation with M.E. O'Neill's [PCG] library
@@ -89,7 +111,7 @@ docker pull acgetchell/cdt-plusplus
 docker run -it --name cdt cdt-plusplus
 ```
 Binaries will be in `/CDT-plusplus/build/src`.
-Proceed to [Use](#use).
+Proceed to [Use](#usage).
 
 ### Long
 
@@ -181,11 +203,11 @@ along with several others.
 
 - `cdt-opt` is a simplified version with hard-coded inputs, mainly useful for debugging and scripting
 - `cdt-viewer` (macOS only) is a simple Qt-based viewer for the output of `cdt`
-- `initialize` is used by [CometML] to run [parameter optimization](#optimize-parameters)
+- `initialize` is used by [CometML] to run [parameter optimization](#optimizing-parameters)
 
 ## Usage
 
-CDT-plusplus uses [Docopt] to parse options from the help message, and so
+CDT-plusplus uses [docopt] to parse options from the help message, and so
 understands long or short argument formats, provided the short argument given
 is an unambiguous match to a longer one. The help message should be instructive:
 
@@ -383,13 +405,14 @@ Optional:
 
 [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
-[Docopt] also has a `use-of-uninitialized-value` bug ([#149]).
+[docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
 [vcpkg] produces build error [#26039] for [gmp] on Intel Macs.
 
 https://gmplib.org has an expired SSL certificate, so [vcpkg] cannot download [GMP]. This has been reported
-to `gmp-bugs@gmplib.org`.
+to `gmp-bugs@gmplib.org`, and separately to [vcpkg] as bug [#28602].
 
+[#28602]: https://github.com/microsoft/vcpkg/issues/28602
 [#26039]: https://github.com/microsoft/vcpkg/issues/26039
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
@@ -407,7 +430,7 @@ to `gmp-bugs@gmplib.org`.
 [Doxygen]: http://www.doxygen.org
 [Homebrew]: https://brew.sh
 [Ninja]: https://ninja-build.org
-[Docopt]: https://github.com/docopt/docopt.cpp
+[docopt]: https://github.com/docopt/docopt.cpp
 [Mathjax]: https://www.mathjax.org
 [GraphViz]: https://www.graphviz.org
 [Eigen]: http://eigen.tuxfamily.org/index.php?title=Main_Page
@@ -486,3 +509,4 @@ to `gmp-bugs@gmplib.org`.
 [modules]: https://hpc-wiki.info/hpc/Modules
 [SLURM]: https://hpc-wiki.info/hpc/SLURM
 [Qt]: https://www.qt.io
+[CodeQL]: https://codeql.github.com
