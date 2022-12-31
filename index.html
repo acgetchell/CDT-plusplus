@@ -77,10 +77,41 @@ $(function() {
 <p><a href="https://app.travis-ci.com/acgetchell/CDT-plusplus"><img src="https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux" alt="Build Status" style="pointer-events: none;" class="inline"/></a> <a href="https://ci.appveyor.com/project/acgetchell/cdt-plusplus"><img src="https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows" alt="Windows Build status" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions"><img src="https://github.com/acgetchell/CDT-plusplus/workflows/macOS/badge.svg?label=Actions" alt="" style="pointer-events: none;" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml"><img src="https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop" alt="CodeQL" style="pointer-events: none;" class="inline"/></a> <a href="https://codecov.io/gh/acgetchell/CDT-plusplus"><img src="https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg" alt="codecov" style="pointer-events: none;" class="inline"/></a> <a href="https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus"><img src="https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&amp;metric=alert_status" alt="Quality Gate Status" class="inline"/></a> <a href="https://github.com/acgetchell/CDT-plusplus/issues"><img src="https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg" alt="Open Issues" style="pointer-events: none;" class="inline"/></a> <a href="https://gitter.im/acgetchell/CDT-plusplus"><img src="https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg" alt="Join the chat at https://gitter.im/acgetchell/CDT-plusplus" style="pointer-events: none;" class="inline"/></a> <a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"><img src="https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod" alt="Gitpod Ready-to-Code" class="inline"/></a></p>
 <p><img src="S3-7-27528-I1-R1.png" alt="" class="inline" title="Small foliated Delaunay triangulation"/></p>
 <h1><a class="anchor" id="autotoc_md1"></a>
+Table of contents</h1>
+<ul>
+<li><a href="#cdt-plusplus">CDT-plusplus</a><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#roadmap">Roadmap</a></li>
+<li><a href="#quickstart">Quickstart</a></li>
+<li><a href="#setup">Setup</a><ul>
+<li><a href="#short">Short</a></li>
+<li><a href="#long">Long</a></li>
+</ul>
+</li>
+<li><a href="#build">Build</a><ul>
+<li><a href="#project-layout">Project Layout</a></li>
+<li><a href="#run">Run</a></li>
+</ul>
+</li>
+<li><a href="#usage">Usage</a></li>
+<li><a href="#documentation">Documentation</a></li>
+<li><a href="#testing">Testing</a><ul>
+<li><a href="#static-analysis">Static Analysis</a></li>
+<li><a href="#sanitizers">Sanitizers</a></li>
+</ul>
+</li>
+<li><a href="#optimizing-parameters">Optimizing Parameters</a></li>
+<li><a href="#visualization">Visualization</a></li>
+<li><a href="#contributing">Contributing</a></li>
+<li><a href="#issues">Issues</a></li>
+</ul>
+</li>
+</ul>
+<h1><a class="anchor" id="autotoc_md2"></a>
 Introduction</h1>
 <p>For an introduction to <a href="https://github.com/acgetchell/CDT-plusplus/wiki">Causal Dynamical Triangulations</a>, including the foundations and recent results, please see the <a href="https://github.com/acgetchell/CDT-plusplus/wiki">wiki</a>.</p>
-<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">Docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> and [LGTM] provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
-<h1><a class="anchor" id="autotoc_md2"></a>
+<p><a href="https://arxiv.org/abs/hep-th/0105267">Causal Dynamical Triangulations</a> in <a href="https://isocpp.org/">C++</a> uses the <a href="https://www.cgal.org">Computational Geometry Algorithms Library</a>, <a href="https://www.boost.org">Boost</a>, <a href="https://www.threadingbuildingblocks.org">TBB</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a>. Arbitrary-precision numbers and functions are by <a href="https://www.mpfr.org">MPFR</a> and <a href="https://gmplib.org">GMP</a>. <a href="https://github.com/docopt/docopt.cpp">docopt</a> provides a beautiful command-line interface. <a href="http://www.pcg-random.org/paper.html">Melissa E. O'Neill's Permuted Congruential Generators</a> library provides high-quality RNGs that pass L'Ecuyer's <a href="http://simul.iro.umontreal.ca/testu01/tu01.html">TestU01</a> statistical tests. <a href="https://github.com/doctest/doctest">doctest</a> provides <a href="https://en.wikipedia.org/wiki/Behavior-driven_development">BDD</a>/<a href="https://en.wikipedia.org/wiki/Test-driven_development">TDD</a>. <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> provides library management and building. <a href="http://www.doxygen.org">Doxygen</a> provides automated document generation. <a href="https://github.com/fmtlib/fmt">{fmt}</a> provides a safe and fast alternative to <code>iostream</code>. <a href="https://github.com/gabime/spdlog">spdlog</a> provides fast, multithreaded logging. <a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> and <a href="https://codeql.github.com">CodeQL</a> provide commercial-grade static analysis and security checks. <a href="https://www.comet.ml/">CometML</a> provides machine learning for model building.</p>
+<h1><a class="anchor" id="autotoc_md3"></a>
 Roadmap</h1>
 <ul>
 <li>[x] Cross-platform support on Linux, macOS (x64 &amp; arm64), and Windows</li>
@@ -95,7 +126,7 @@ Roadmap</h1>
 <li>[x] 3D Simplex</li>
 <li>[x] 3D Spherical triangulation</li>
 <li>[x] 2+1 foliation</li>
-<li>[x] Integrate <a href="https://github.com/docopt/docopt.cpp">Docopt</a> CLI</li>
+<li>[x] Integrate <a href="https://github.com/docopt/docopt.cpp">docopt</a> CLI</li>
 <li>[x] S3 Bulk action</li>
 <li>[x] 3D Ergodic moves</li>
 <li>[x] High-quality Random Number Generation with M.E. O'Neill's <a href="http://www.pcg-random.org/paper.html">PCG</a> library</li>
@@ -120,19 +151,19 @@ Roadmap</h1>
 <li>[ ] Complete documentation</li>
 <li>[ ] Quantize Spacetime!</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md3"></a>
+<h1><a class="anchor" id="autotoc_md4"></a>
 Quickstart</h1>
 <p><a href="https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus"><img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in Gitpod" style="pointer-events: none;" class="inline"/></a></p>
-<h1><a class="anchor" id="autotoc_md4"></a>
+<h1><a class="anchor" id="autotoc_md5"></a>
 Setup</h1>
 <p>This project uses <a href="https://www.cmake.org">CMake</a>+<a href="https://ninja-build.org">Ninja</a> to build and <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> to manage C++ libraries. Using <a href="https://en.cppreference.com/w/cpp/20">C++20</a> features, it successfully builds with <a href="https://developer.apple.com/documentation/xcode-release-notes/xcode-14-release-notes">AppleClang-14</a>, <a href="https://gcc.gnu.org/gcc-11/">gcc-11</a>, <a href="https://releases.llvm.org/14.0.0/tools/clang/docs/ReleaseNotes.html">clang-14</a>, and <a href="https://visualstudio.microsoft.com/vs/">Visual Studio 2019</a>.</p>
-<h2><a class="anchor" id="autotoc_md5"></a>
+<h2><a class="anchor" id="autotoc_md6"></a>
 Short</h2>
 <p>If you use [Docker]:</p>
 <div class="fragment"><div class="line">docker pull acgetchell/cdt-plusplus</div>
 <div class="line">docker run -it --name cdt cdt-plusplus</div>
-</div><!-- fragment --><p> Binaries will be in <code>/CDT-plusplus/build/src</code>. Proceed to <a href="#use">Use</a>.</p>
-<h2><a class="anchor" id="autotoc_md6"></a>
+</div><!-- fragment --><p> Binaries will be in <code>/CDT-plusplus/build/src</code>. Proceed to <a href="#usage">Use</a>.</p>
+<h2><a class="anchor" id="autotoc_md7"></a>
 Long</h2>
 <p>On macOS or Linux, you will first need to install some prerequisites using your favorite package manager (e.g. <a href="https://brew.sh">homebrew</a> or <a href="https://wiki.debian.org/Apt">apt</a>):</p>
 <ul>
@@ -153,7 +184,7 @@ Long</h2>
 <div class="line">./vcpkg integrate install</div>
 </div><!-- fragment --><p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> is then invoked by CMake in <a href="https://github.com/microsoft/vcpkg/blob/master/docs/users/manifests.md">vcpkg manifest</a> mode and install the project dependencies listed in <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/vcpkg.json">vcpkg.json</a> into a local <code>vcpkg_installed</code> directory.</p>
 <p>Proceed to <a href="#build">Build</a>.</p>
-<h1><a class="anchor" id="autotoc_md7"></a>
+<h1><a class="anchor" id="autotoc_md8"></a>
 Build</h1>
 <p>You'll need a reasonably modern compiler that supports <a href="https://en.cppreference.com/w/cpp/20">C++20</a> features.</p>
 <p>Clone the repo:</p>
@@ -166,7 +197,7 @@ Build</h1>
 </div><!-- fragment --><p>You can optionally pre-build the project dependencies (100+ packages) by running at the top level of the project:</p>
 <div class="fragment"><div class="line">vcpkg install</div>
 </div><!-- fragment --><p>At this point, you can build via the scripts in <code>scripts</code>, which will build the project and install the dependencies into <code>vcpkg_installed</code>.</p>
-<h2><a class="anchor" id="autotoc_md8"></a>
+<h2><a class="anchor" id="autotoc_md9"></a>
 Project Layout</h2>
 <p>The project is similar to <a href="https://api.csswg.org/bikeshed/?force=1&amp;url=https://raw.githubusercontent.com/vector-of-bool/pitchfork/develop/data/spec.bs#tld.docs">PitchFork Layout</a>, as follows:</p>
 <ul>
@@ -180,7 +211,7 @@ Project Layout</h2>
 <li>src - Source files</li>
 <li>tests - Unit tests</li>
 </ul>
-<h2><a class="anchor" id="autotoc_md9"></a>
+<h2><a class="anchor" id="autotoc_md10"></a>
 Run</h2>
 <p>Run one of the following in <code>scripts</code>, depending on your operating system and environment:</p>
 <ul>
@@ -193,11 +224,11 @@ Run</h2>
 <ul>
 <li><code>cdt-opt</code> is a simplified version with hard-coded inputs, mainly useful for debugging and scripting</li>
 <li><code>cdt-viewer</code> (macOS only) is a simple Qt-based viewer for the output of <code>cdt</code></li>
-<li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run <a href="#optimize-parameters">parameter optimization</a></li>
+<li><code>initialize</code> is used by <a href="https://www.comet.ml/">CometML</a> to run <a href="#optimizing-parameters">parameter optimization</a></li>
 </ul>
-<h1><a class="anchor" id="autotoc_md10"></a>
+<h1><a class="anchor" id="autotoc_md11"></a>
 Usage</h1>
-<p>CDT-plusplus uses <a href="https://github.com/docopt/docopt.cpp">Docopt</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
+<p>CDT-plusplus uses <a href="https://github.com/docopt/docopt.cpp">docopt</a> to parse options from the help message, and so understands long or short argument formats, provided the short argument given is an unambiguous match to a longer one. The help message should be instructive:</p>
 <div class="fragment"><div class="line">./build/src/cdt --help</div>
 <div class="line">cdt started at 2021-08-08.20:18:58PDT</div>
 <div class="line">Causal Dynamical Triangulations in C++ using CGAL.</div>
@@ -233,13 +264,13 @@ Usage</h1>
 <div class="line">  -p --passes PASSES          Number of passes [default: 100]</div>
 <div class="line">  -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]</div>
 </div><!-- fragment --><p>The dimensionality of the spacetime is such that each slice of spacetime is <code>d-1</code>-dimensional, so setting <code>d=3</code> generates 2 spacelike dimensions and one timelike dimension, with a defined global time foliation. A <code>d</code>-dimensional simplex will have some <code>d-1</code> sub-simplices that are purely spacelike (all on the same timeslice) as well as some that are timelike (span two timeslices). In <a href="https://arxiv.org/abs/hep-th/0105267">CDT</a> we actually care more about the timelike links (in 2+1 spacetime), and the timelike faces (in 3+1 spacetime).</p>
-<h1><a class="anchor" id="autotoc_md11"></a>
+<h1><a class="anchor" id="autotoc_md12"></a>
 Documentation</h1>
 <p>Online documentation is at <a href="https://adamgetchell.org/CDT-plusplus/">https://adamgetchell.org/CDT-plusplus/</a> automatically generated by <a href="https://travis-ci.com/getting_started">Travis-CI</a>.</p>
 <p>If you have <a href="http://www.doxygen.org">Doxygen</a> installed you can generate the same information locally using the configuration file in <code>docs\Doxyfile</code> by simply typing at the top level directory (<a href="http://www.doxygen.org">Doxygen</a> will recursively search):</p>
 <div class="fragment"><div class="line">doxygen ./docs/Doxyfile</div>
 </div><!-- fragment --><p>This will generate a <code>docs/html/</code> directory containing documentation generated from CDT++ source files. <code>USE_MATHJAX</code> has been enabled in <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/Doxyfile">Doxyfile</a> so that the LaTeX formulae can be rendered in the html documentation using <a href="https://www.mathjax.org">MathJax</a>. <code>HAVE_DOT</code> is set to <b>YES</b> which allows various graphs to be autogenerated by <a href="http://www.doxygen.org">Doxygen</a> using <a href="https://www.graphviz.org">GraphViz</a>. If you do not have GraphViz installed, set this option to <b>NO</b> (along with <code>UML_LOOK</code>).</p>
-<h1><a class="anchor" id="autotoc_md12"></a>
+<h1><a class="anchor" id="autotoc_md13"></a>
 Testing</h1>
 <p>In the <code>scripts</code> directory, run <code>build.sh</code> or <code>build.bat</code> depending on your operating system.</p>
 <p>Unit tests run (in <code>build/tests</code> or <code>build\tests\Debug</code>) via <code>CDT_test</code>, the <a href="https://github.com/doctest/doctest">doctest</a> executable:</p>
@@ -252,7 +283,7 @@ Testing</h1>
 <div class="fragment"><div class="line">ctest -C Debug</div>
 </div><!-- fragment --><p>In addition to the command line output, you can see detailed results in the <code>build/Testing</code> directory which is generated thereby.</p>
 <p>Deactivate Unit tests with <code>-D ENABLE_TESTING:BOOL=FALSE</code>, e.g. <code>scripts/fast-build.sh</code>.</p>
-<h2><a class="anchor" id="autotoc_md13"></a>
+<h2><a class="anchor" id="autotoc_md14"></a>
 Static Analysis</h2>
 <p>This project follows the <a href="https://isocpp.github.io/CppCoreGuidelines/CppCoreGuidelines">CppCore Guidelines</a> as enforced by <a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a>, which you can install and then run using the <a href="https://github.com/acgetchell/CDT-plusplus/blob/master/clang-tidy.sh">clang-tidy.sh</a> script:</p>
 <div class="fragment"><div class="line">sudo apt-get install clang-tidy</div>
@@ -269,19 +300,19 @@ Static Analysis</h2>
 </div><!-- fragment --><p><a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> - static analyzer for C, C++, C#, and Java code.</p>
 <div class="fragment"><div class="line">cd scripts</div>
 <div class="line">./pvs-studio.sh</div>
-</div><!-- fragment --><h2><a class="anchor" id="autotoc_md14"></a>
+</div><!-- fragment --><h2><a class="anchor" id="autotoc_md15"></a>
 Sanitizers</h2>
 <p><a href="https://github.com/google/sanitizers/wiki/AddressSanitizer">AddressSanitizer</a> + <a href="https://clang.llvm.org/docs/UndefinedBehaviorSanitizer.html">UndefinedBehaviorSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer">LeakSanitizer</a>, <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>, and <a href="https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual">ThreadSanitizer</a> are run with <code>scripts/asan.sh</code>, <code>scripts/lsan.sh</code>, <code>scripts/msan.sh</code>, and <code>scripts/tsan.sh</code>. They are also checked by <a href="https://travis-ci.com/getting_started">Travis-CI</a> during commits.</p>
-<h1><a class="anchor" id="autotoc_md15"></a>
+<h1><a class="anchor" id="autotoc_md16"></a>
 Optimizing Parameters</h1>
 <p><a href="https://www.comet.ml/">CometML</a> is used to record <a href="https://www.comet.ml/acgetchell/cdt-plusplus">Experiments</a> which conduct <a href="https://www.comet.ml/parameter-optimization">Model Optimization</a>. The script to do this is <code><a class="el" href="optimize-initialize_8py_source.html">optimize-initialize.py</a></code>. In order for this to work, you must install the following into your Python <a href="https://docs.python.org/3/tutorial/venv.html">virtual environment</a>.</p>
 <div class="fragment"><div class="line">pip install tensorflow</div>
 <div class="line">pip install comet-ml</div>
 </div><!-- fragment --><p>You can then run experiments and look at results on <a href="https://www.comet.ml!">https://www.comet.ml!</a></p>
-<h1><a class="anchor" id="autotoc_md16"></a>
+<h1><a class="anchor" id="autotoc_md17"></a>
 Visualization</h1>
 <p><a href="https://www.qt.io">Qt</a> is used to visualize 3D triangulations via <code>cdt-viewer</code>.</p>
-<h1><a class="anchor" id="autotoc_md17"></a>
+<h1><a class="anchor" id="autotoc_md18"></a>
 Contributing</h1>
 <p>Please see <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CONTRIBUTING.md">CONTRIBUTING.md</a> and our <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/.github/CODE_OF_CONDUCT.md">CODE_OF_CONDUCT.md</a>.</p>
 <p>Your code should pass Continuous Integration:</p>
@@ -301,17 +332,17 @@ Contributing</h1>
 <li><a href="https://releases.llvm.org/6.0.1/tools/clang/tools/extra/docs/clang-tidy/index.html">ClangTidy</a> on all changed files</li>
 <li><a href="https://pvs-studio.com/en/pvs-studio/?utm_source=github&amp;utm_medium=organic&amp;utm_campaign=open_source">PVS-Studio</a> using <a href="https://github.com/acgetchell/CDT-plusplus/blob/develop/scripts/pvs-studio.sh">pvs-studio.sh</a> if you have it installed</li>
 </ul>
-<h1><a class="anchor" id="autotoc_md18"></a>
+<h1><a class="anchor" id="autotoc_md19"></a>
 Issues</h1>
 <p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a>'s version of <a href="https://howardhinnant.github.io/date/date.html">date</a> has an unfixed bug <a href="https://github.com/microsoft/vcpkg/issues/23637">#23637</a> which produces <code>use-of-uninitialized-value</code> in <a href="https://github.com/google/sanitizers/wiki/MemorySanitizer">MemorySanitizer</a>.</p>
-<p><a href="https://github.com/docopt/docopt.cpp">Docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>).</p>
+<p><a href="https://github.com/docopt/docopt.cpp">docopt</a> also has a <code>use-of-uninitialized-value</code> bug (<a href="https://github.com/docopt/docopt.cpp/issues/149">#149</a>).</p>
 <p><a href="https://github.com/Microsoft/vcpkg">vcpkg</a> produces build error <a href="https://github.com/microsoft/vcpkg/issues/26039">#26039</a> for <a href="https://gmplib.org">gmp</a> on Intel Macs.</p>
-<p><a href="https://gmplib.org">https://gmplib.org</a> has an expired SSL certificate, so <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> cannot download <a href="https://gmplib.org">GMP</a>. This has been reported to <code>gmp-bugs@gmplib.org</code>. </p>
+<p><a href="https://gmplib.org">https://gmplib.org</a> has an expired SSL certificate, so <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> cannot download <a href="https://gmplib.org">GMP</a>. This has been reported to <code>gmp-bugs@gmplib.org</code>, and separately to <a href="https://github.com/Microsoft/vcpkg">vcpkg</a> as bug <a href="https://github.com/microsoft/vcpkg/issues/28602">#28602</a>. </p>
 </div></div><!-- PageDoc -->
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Dec 31 2022 00:30:26 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sat Dec 31 2022 23:09:01 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
