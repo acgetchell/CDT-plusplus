@@ -48,8 +48,10 @@ against macOS and run various other checks.
 [AppVeyor] will test it against Visual Studio 2019 with `clang-cl` (version 14.0.6). Ensure that
 your code compiles on Windows, macOS, and Linux with `msvc`, `gcc`, and `clang`.
 
-13. All pull requests must pass [Travis-CI], [AppVeyor], and [GitHub Actions] to be accepted.
-In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [MSAN], [ClangTidy], and [GitHub Actions].
+13. All pull requests must pass [Travis-CI] and [AppVeyor] to be accepted.
+In particular, look at results from [Cppcheck], [Valgrind], [ASAN], [LSAN], [MSAN], and [TSAN], because simulations may
+run for a long time so memory leaks will be eventually fatal.
+[GitHub Actions] also has a lot of useful checks that will help fix your code.
 
 14. I will get to your change as soon as I can.
 Feel free to ping me on [Gitter] with any questions.
@@ -97,3 +99,5 @@ Most editors/IDEs have plugins for `clang-format` and `clang-tidy`.
 [ASAN]: https://github.com/google/sanitizers/wiki/AddressSanitizer
 [MSAN]: https://github.com/google/sanitizers/wiki/MemorySanitizer
 [GitHub Actions]: https://github.com/acgetchell/CDT-plusplus/actions
+[LSAN]: https://github.com/google/sanitizers/wiki/AddressSanitizerLeakSanitizer
+[TSAN]: https://github.com/google/sanitizers/wiki/ThreadSanitizerCppManual

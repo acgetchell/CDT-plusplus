@@ -142,12 +142,11 @@ SCENARIO("Given a 3D Manifold, it can be written to file and read back in." *
   }
   GIVEN("A non-existent filename.")
   {
-    auto const filename = "non-existent-file.off";
     WHEN("It is read back in.")
     {
       THEN("An exception is thrown.")
       {
-        REQUIRE_THROWS_AS(utilities::read_file<Delaunay_t<3>>(filename),
+        REQUIRE_THROWS_AS(utilities::read_file<Delaunay_t<3>>("unused.off"),
                           std::filesystem::filesystem_error);
       }
     }

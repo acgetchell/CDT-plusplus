@@ -129,12 +129,6 @@ jobs:
     - os: linux
       compiler: g++-11
       env: DOXYGEN=true
-    - os: linux
-      compiler: clang-14
-      env: ASAN=true
-    - os: linux
-      compiler: clang-14
-      env: TSAN=true
 
 before_install:
   - if [[ "$CXX" == "g++" ]]; then export CXX="g++-11" CC="gcc-11"; fi
