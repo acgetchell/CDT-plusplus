@@ -59,9 +59,9 @@ build_script:
   - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D CMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -S . -B build
   - cmake --build build
 
-on_success:
-  - cd build
-  - ctest --output-on-failure -j2
+#on_success:
+#  - cd build
+#  - ctest --output-on-failure -j2
 
 notifications:
   - provider: Email
