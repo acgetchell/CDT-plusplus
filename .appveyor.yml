@@ -24,7 +24,8 @@ environment:
 #  VCPKG_ROOT: c:\tools\vcpkg
 
 cache:
-  - c:\tools\vcpkg\installed\
+  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
+  - c:\tools\vcpkg\packages\
 
 install:
   # Setup vcpkg
