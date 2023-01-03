@@ -1,7 +1,7 @@
 /*******************************************************************************
  Causal Dynamical Triangulations in C++ using CGAL
 
- Copyright © 2015 Adam Getchell
+ Copyright © 2021 Adam Getchell
  ******************************************************************************/
 
 /// @file Move_always_test.cpp

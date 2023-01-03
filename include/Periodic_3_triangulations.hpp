@@ -1,6 +1,6 @@
 /// Causal Dynamical Triangulations in C++ using CGAL
 ///
-/// Copyright © 2013-2017 Adam Getchell
+/// Copyright © 2014 Adam Getchell
 ///
 /// Periodic (toroidal) 3D triangulations
 

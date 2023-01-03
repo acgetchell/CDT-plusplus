@@ -1,6 +1,6 @@
 # Causal Dynamical Triangulations in C++ using CGAL
 #
-# Copyright © 2018-2019 Adam Getchell
+# Copyright © 2018 Adam Getchell
 #
 # A program that optimizes spacetime generation parameters
 

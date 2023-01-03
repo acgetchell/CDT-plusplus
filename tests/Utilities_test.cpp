@@ -55,7 +55,7 @@ SCENARIO("Various string/stream/time utilities" *
       {
         // Update test yearly
         auto const result = current_date_time();
-        auto const year   = result.find("2022");
+        auto const year   = result.find("2023");
         CHECK_FALSE(year == std::string::npos);
         // Human verification
         fmt::print("Current date and time is: {}\n", current_date_time());

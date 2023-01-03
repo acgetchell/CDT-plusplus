@@ -409,10 +409,6 @@ Optional:
 
 [vcpkg] produces build error [#26039] for [gmp] on Intel Macs.
 
-https://gmplib.org has an expired SSL certificate, so [vcpkg] cannot download [GMP]. This has been reported
-to `gmp-bugs@gmplib.org`, and separately to [vcpkg] as bug [#28602].
-
-[#28602]: https://github.com/microsoft/vcpkg/issues/28602
 [#26039]: https://github.com/microsoft/vcpkg/issues/26039
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149

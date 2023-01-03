@@ -1,7 +1,7 @@
 /*******************************************************************************
  Causal Dynamical Triangulations in C++ using CGAL
 
- Copyright © 2014 Adam Getchell
+ Copyright © 2017 Adam Getchell
  ******************************************************************************/
 
 /// @file Torus_d.hpp

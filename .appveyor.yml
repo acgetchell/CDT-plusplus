@@ -29,22 +29,11 @@ cache:
 install:
   # Setup vcpkg
   - cd c:\tools\vcpkg
-#  - git clean -d -fx .
   - git pull
-#  - git reset --hard 56c0313
   - .\bootstrap-vcpkg.bat
   - set PATH=%PATH%;%VCPKG_ROOT%
   - vcpkg integrate install
   - cmake --version
-  # Install required libraries in classic mode
-#  - set VCPKG_INSTALL_ROOT=%APPVEYOR_BUILD_FOLDER%\vcpkg_installed
-#  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% docopt doctest date fmt ms-gsl eigen3 pcg tbb tl-expected
-  # CGAL requires GMP which requires yasm-tool:x86-windows, even if you are using x64-windows.
-#  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% --recurse yasm-tool:x86-windows
-#  - vcpkg install --x-install-root=%VCPKG_INSTALL_ROOT% cgal
-  # Upgrade required libraries
-#  - vcpkg upgrade --no-dry-run --x-install-root=%VCPKG_INSTALL_ROOT%
-#  - vcpkg list --x-install-root=%VCPKG_INSTALL_ROOT%
   # Setup Clang-cl
   - set PATH=%PATH%;"C:\Program Files\LLVM\bin"
   - clang-cl -v
@@ -70,9 +59,9 @@ build_script:
   - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D CMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -S . -B build
   - cmake --build build
 
-#on_success:
-#  - cd build
-#  - ctest -VV
+on_success:
+  - cd build
+  - ctest --output-on-failure -j2
 
 notifications:
   - provider: Email

@@ -1,3 +1,16 @@
+# Causal Dynamical Triangulations in C++ using CGAL
+#
+# Copyright © 2021 Adam Getchell
+#
+# First pass at ML for CDT++
+
+# @file test.py
+# @brief ML using TensorFlow
+# @author Adam Getchell
+
+# Usage: python test.py
+#
+
 import tensorflow as tf
 
 mnist = tf.keras.datasets.mnist
