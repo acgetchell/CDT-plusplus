@@ -16,7 +16,7 @@
         "unusedCli": true,
         "systemVars": false
       },"errors": {
-      "dev": true,
+      "dev": false,
       "deprecated": true
       }
     },
