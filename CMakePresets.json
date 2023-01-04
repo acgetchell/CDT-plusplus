@@ -47,7 +47,7 @@
     },
     {
       "name": "ci-unix",
-      "generator": "Unix Makefiles",
+      "generator": "Ninja",
       "hidden": true,
       "inherits": ["flags-unix", "ci-std"],
       "cacheVariables": {
