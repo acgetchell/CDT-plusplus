@@ -213,10 +213,10 @@ is an unambiguous match to a longer one. The help message should be instructive:
 
 ~~~text
 ./build/src/cdt --help
-cdt started at 2021-08-08.20:18:58PDT
+cdt started at 2023-01-03.14:44:22PST
 Causal Dynamical Triangulations in C++ using CGAL.
 
-Copyright (c) 2014-2021 Adam Getchell
+Copyright (c) 2013 Adam Getchell
 
 A program that generates d-dimensional triangulated spacetimes
 with a defined causal structure and evolves them according
@@ -246,8 +246,6 @@ Options:
   -l --lambda LAMBDA          K * Cosmological constant
   -p --passes PASSES          Number of passes [default: 100]
   -c --checkpoint CHECKPOINT  Checkpoint every n passes [default: 10]
-
-
 ~~~
 
 The dimensionality of the spacetime is such that each slice of spacetime is

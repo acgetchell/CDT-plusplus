@@ -47,6 +47,10 @@ function(set_project_warnings project_name)
       -Wnull-dereference # warn if a null dereference is detected
       -Wdouble-promotion # warn if float is implicit promoted to double
       -Wformat=2 # warn on security issues around functions that format output (ie printf)
+      -Wsign-conversion # warn on sign conversions
+      -Wcast-qual # warn on casts which remove qualifiers
+      -Wimplicit-fallthrough # warn on implicit fallthrough in unreachable code
+      -Wextra-semi # warn on extra semicolons
   )
 
   if(WARNINGS_AS_ERRORS)

@@ -5,15 +5,21 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   codecov:
     name: CodeCov
-    runs-on: macos-12
+    runs-on: ubuntu-22.04
+
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
+      - uses: actions/setup-python@v4
+        with:
+          python-version: 3.10
+
       - name: Setup
         run: |
-          brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache lcov
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
 
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
@@ -26,19 +32,20 @@ jobs:
           vcpkg install
           cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
+      - name: Configure
+        run: cmake --preset=ci-coverage
+
       - name: Build
-        run: cmake --build build
+        run: cmake --build build/coverage -j 2
 
-      - name: Generate coverage
-        continue-on-error: true
-        run: |
-          cd $GITHUB_WORKSPACE/build
-          ctest --schedule-random --rerun-failed --output-on-failure -j2
-          lcov --capture --directory . --output-file coverage.info
-          lcov --remove coverage.info '/usr/*' '*/usr/include/*' '*/vcpkg_installed/*' --output-file coverage.info
-          lcov --list coverage.info
+      - name: Test
+        working-directory: build/coverage
+        run: ctest --output-on-failure -j 2
 
-      - name: Upload coverage to CodeCov
-        run: |
-          cd $GITHUB_WORKSPACE/build
-          bash <(curl -s https://codecov.io/bash) -f coverage.info || echo "Codecov did not collect coverage reports"
+      - name: Process coverage info
+        run: cmake --build build/coverage -t coverage
+
+      - name: Submit to codecov.io
+        uses: codecov/codecov-action@v3
+        with:
+          file: build/coverage/coverage.info

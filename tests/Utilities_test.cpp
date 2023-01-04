@@ -122,7 +122,7 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
     triangulation.insert(Point_t<3>(0, 1, 0));
     triangulation.insert(Point_t<3>(0, 0, 1));
     // Construct a manifold from a Delaunay triangulation
-    manifolds::Manifold_3 manifold(
+    manifolds::Manifold_3 const manifold(
         foliated_triangulations::FoliatedTriangulation_3(triangulation, 0, 1));
     auto filename = utilities::make_filename(manifold);
     WHEN("Writing to a file")
