@@ -32,6 +32,7 @@
       "name": "ci-std",
       "description": "This preset makes sure the project actually builds with at least the specified standard",
       "hidden": true,
+      "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_CXX_EXTENSIONS": "OFF",
         "CMAKE_CXX_STANDARD": "20",
@@ -58,7 +59,6 @@
     },
     {
       "name": "coverage-unix",
-      "binaryDir": "${sourceDir}/build/coverage",
       "inherits": "ci-unix",
       "hidden": true,
       "cacheVariables": {
@@ -74,6 +74,39 @@
       "inherits": ["coverage-unix", "dev-mode"],
       "cacheVariables": {
         "COVERAGE_HTML_COMMAND": ""
+      }
+    },
+    {
+      "name": "fast-build",
+      "inherits": "ci-std",
+      "description" : "This preset is used for fast builds",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "ENABLE_TESTING": false,
+        "ENABLE_IPO": "ON"
+      }
+    },
+    {
+      "name": "build",
+      "inherits": "ci-std",
+      "description": "This preset is used for builds with tests",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "RelWithDebInfo",
+        "ENABLE_TESTING": true,
+        "ENABLE_IPO": "ON"
+      }
+    },
+    {
+      "name": "debug",
+      "inherits": "ci-std",
+      "description": "This preset is used for debug builds",
+      "generator": "Ninja",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "ENABLE_TESTING": true,
+        "ENABLE_IPO": "OFF"
       }
     },
     {

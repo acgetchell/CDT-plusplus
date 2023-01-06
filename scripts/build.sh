@@ -5,7 +5,7 @@
 
 cd ..
 rm -rf build/
-cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_IPO=ON -S . -B build
+cmake --preset build
 cmake --build build
 cd build || exit
 ctest --output-on-failure -j2

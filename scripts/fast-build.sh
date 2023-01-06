@@ -5,7 +5,7 @@
 
 cd ..
 rm -rf build/
-cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_TESTING:BOOL=FALSE -D ENABLE_IPO=ON -S . -B build
+cmake --preset fast-build
 cmake --build build
 cd build || exit
 ctest --output-on-failure -j2
