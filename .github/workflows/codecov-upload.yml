@@ -24,7 +24,7 @@ jobs:
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: 0f719b3fdfc36f8dd45229370a0df180fdbf68f6
+          vcpkgGitCommitId: 12c2a93b4007612b5ffa980c9d2235eb0bcac10f
 
       - name: Install vcpkg packages and configure CMake
         shell: bash
@@ -43,9 +43,14 @@ jobs:
         run: ctest --output-on-failure -j 2
 
       - name: Process coverage info
-        run: cmake --build build/coverage -t coverage
+        working-directory: build/coverage
+        run: |
+          lcov -c -d . -o coverage.info
+          lcov -l coverage.info
 
       - name: Submit to codecov.io
         uses: codecov/codecov-action@v3
         with:
-          file: build/coverage/coverage.info
+          files: build/coverage/coverage.info
+          fail_ci_if_error: true
+          verbose: true

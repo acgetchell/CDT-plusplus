@@ -27,6 +27,7 @@ html/
 /cmake-build*
 cov-int
 /out/*
+/Testing
 
 # Editor files
 .clang_complete
