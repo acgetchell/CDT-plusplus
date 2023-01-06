@@ -15,7 +15,7 @@ jobs:
       - name: Setup Clang
         uses: egor-tensin/setup-clang@v1
         with:
-          version: latest
+          version: 15
           platform: x64
 
       - name: Setup
