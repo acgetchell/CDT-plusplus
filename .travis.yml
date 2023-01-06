@@ -10,6 +10,8 @@ cache:
 
 addons:
   apt:
+    sources:
+      - sourceline: 'deb http://apt.llvm.org/jammy/ llvm-toolchain-jammy-15 main'
     packages:
       - build-essential
       - automake
