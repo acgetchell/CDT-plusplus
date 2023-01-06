@@ -16,10 +16,16 @@ jobs:
         with:
           python-version: 3.11.1
 
+      - name: Setup GCC
+        uses: egor-tensin/setup-gcc@v1
+        with:
+          version: 11
+          platform: x64
+
       - name: Setup
         run: |
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache gcov lcov
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
 
       - name: Restore artifacts, or setup vcpkg
         uses: lukka/run-vcpkg@v10
