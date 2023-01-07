@@ -52,12 +52,8 @@ configuration: Release
 build:
   verbosity: detailed
 
-before_build:
-  - cd %APPVEYOR_BUILD_FOLDER%
-  - vcpkg install
-
 build_script:
-  - cmake -G Ninja -D CMAKE_BUILD_TYPE=Release -D ENABLE_CACHE=OFF -D CMAKE_TOOLCHAIN_FILE=C:/Tools/vcpkg/scripts/buildsystems/vcpkg.cmake -S . -B build
+  - cmake --preset=appveyor
   - cmake --build build
 
 #on_success:

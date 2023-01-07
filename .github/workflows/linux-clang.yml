@@ -4,7 +4,7 @@ on: [push, pull_request, workflow_dispatch]
 
 jobs:
   build:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -27,10 +27,6 @@ jobs:
         uses: lukka/run-vcpkg@v10
         with:
           vcpkgGitCommitId: 12c2a93b4007612b5ffa980c9d2235eb0bcac10f
-
-      - name: Install packages
-        shell: bash
-        run: vcpkg install
 
       - name: Configure
         run: cmake --preset=build
