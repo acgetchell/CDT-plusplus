@@ -63,21 +63,20 @@ jobs:
         sudo apt update
         sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
-    - name: Restore artifacts, or setup vcpkg
+    - name: Restore artifacts or setup vcpkg
       uses: lukka/run-vcpkg@v10
       with:
         vcpkgGitCommitId: 12c2a93b4007612b5ffa980c9d2235eb0bcac10f
 
-    - name: Install vcpkg and configure CMake
+    - name: Install packages
       shell: bash
-      run: |
-        vcpkg install
-        cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -S . -B build
+      run: vcpkg install
+
+    - name: Configure
+      run: cmake --preset=build
 
     - name: Build
-      run: |
-        gcc -v
-        cmake --build build
+      run: cmake --build build -j 2
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2

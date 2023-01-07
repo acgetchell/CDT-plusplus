@@ -16,7 +16,7 @@ jobs:
       - name: Setup GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 12
+          version: 11
           platform: x64
 
       - name: Setup
@@ -24,40 +24,36 @@ jobs:
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
 
-      - name: Restore artifacts, or setup vcpkg
+      - name: Install sonar-scanner and build-wrapper
+        uses: sonarsource/sonarcloud-github-c-cpp@v1
+
+      - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
           vcpkgGitCommitId: 12c2a93b4007612b5ffa980c9d2235eb0bcac10f
 
-      - name: Install vcpkg packages and configure CMake
+      - name: Install packages
         shell: bash
-        run: |
-          vcpkg install
-          cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
+        run: vcpkg install
 
-      - name: Install sonar-scanner and build-wrapper
-        uses: sonarsource/sonarcloud-github-c-cpp@v1
+      - name: Configure
+        run: cmake --preset=build
 
       - name: Build
-        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
+        run: cmake --build build -j 2
 
-      - name: Test and generate coverage
+      - name: Test
+        working-directory: build
         continue-on-error: true
-        run: |
-          cd $GITHUB_WORKSPACE/build
-          ctest --schedule-random -j2
+        run: ctest --schedule-random --output-on-failure -j 2
 
-      - name: Compile coverage reports
+      - name: Process coverage info
+        working-directory: build
         run: |
-          cd $GITHUB_WORKSPACE/build
-          mkdir gcov-reports
-          pushd gcov-reports
-          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
-            echo "Processing $f file..."
-            gcov -o ${f} x
-          done
-          ls | wc -l
-          popd
+          gcc -v
+          gcov --version
+          lcov -c -d . -o coverage.info
+          lcov -l coverage.info
 
       - name: Run sonar-scanner
         env:
