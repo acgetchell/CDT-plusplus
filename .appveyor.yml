@@ -53,6 +53,7 @@ build:
   verbosity: detailed
 
 build_script:
+  - cd %APPVEYOR_BUILD_FOLDER%
   - cmake --preset=appveyor
   - cmake --build build
 

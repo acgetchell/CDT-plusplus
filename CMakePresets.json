@@ -118,7 +118,7 @@
         "CMAKE_BUILD_TYPE": "Release",
         "ENABLE_TESTING": true,
         "ENABLE_CACHE": "OFF",
-        "CMAKE_TOOLCHAIN_FILE": "c:/tools/vcpkg/scripts/buildsystems/vcpkg.cmake"
+        "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
       }
     },
     {
