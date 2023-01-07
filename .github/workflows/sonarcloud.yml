@@ -36,12 +36,12 @@ jobs:
         run: cmake --preset=ci-coverage
 
       - name: Build
-        run: cmake --build build -j 2
+        run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
 
       - name: Test
         working-directory: build
         continue-on-error: true
-        run: ctest --schedule-random --output-on-failure -j 2
+        run: ctest --schedule-random -j 2
 
       - name: Process coverage info
         working-directory: build
