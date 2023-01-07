@@ -68,10 +68,10 @@ include(CMakeDependentOption)
 set(ENV{CGAL_DATA_DIR} CMAKE_BINARY_DIR/Data)
 
 # Set NOMINMAX to avoid min/max macro errors on Windows in date.h
-if(WIN32)
-  # Workaround for https://github.com/CGAL/cgal/issues/4665 and https://github.com/microsoft/vcpkg/issues/23572
-  add_compile_options(/DNOMINMAX)
-endif()
+#if(WIN32)
+#  # Workaround for https://github.com/CGAL/cgal/issues/4665 and https://github.com/microsoft/vcpkg/issues/23572
+#  add_compile_options(/DNOMINMAX)
+#endif()
 
 # Project vcpkg dependencies
 
