@@ -59,6 +59,7 @@
     },
     {
       "name": "coverage-unix",
+      "binaryDir": "${sourceDir}/build/coverage",
       "inherits": "ci-unix",
       "hidden": true,
       "cacheVariables": {

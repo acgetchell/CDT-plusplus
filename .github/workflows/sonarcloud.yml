@@ -30,7 +30,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: 12c2a93b4007612b5ffa980c9d2235eb0bcac10f
+          vcpkgGitCommitId: c30de8e1369e03f4a569f8f224eed418dd0949bb
 
       - name: Configure
         run: cmake --preset=ci-coverage
@@ -44,7 +44,7 @@ jobs:
         run: ctest --schedule-random -j 2
 
       - name: Process coverage info
-        working-directory: build
+        working-directory: build/coverage
         continue-on-error: true
         run: |
           gcc -v
