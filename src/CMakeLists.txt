@@ -85,7 +85,8 @@ else()
 endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
-if(APPLE)
+# Build cdt-viewer locally, but not in CI since QT takes more than an hour to build there
+if(APPLE AND NOT ($ENV{CI}))
   add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
   target_link_libraries(
     cdt-viewer
