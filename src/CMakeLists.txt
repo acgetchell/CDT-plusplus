@@ -135,7 +135,7 @@ set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
 add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
 set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
 
-if(APPLE)
+if(APPLE AND NOT ($ENV{CI}))
   add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --dry-run test.off)
   set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "Dry run. Exiting.")
 endif()
