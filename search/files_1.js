@@ -1,6 +1,4 @@
 var searchData=
 [
-  ['cdt_2dopt_2ecpp_305',['cdt-opt.cpp',['../cdt-opt_8cpp.html',1,'']]],
-  ['cdt_2dviewer_2ecpp_306',['cdt-viewer.cpp',['../cdt-viewer_8cpp.html',1,'']]],
-  ['cdt_2ecpp_307',['cdt.cpp',['../cdt_8cpp.html',1,'']]]
+  ['bistellar_2dflip_2ecpp_306',['bistellar-flip.cpp',['../bistellar-flip_8cpp.html',1,'']]]
 ];

@@ -114,7 +114,7 @@ $(function() {
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160;<span class="stringliteral">  --dry-run     Don&#39;t actually do anything.</span></div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;<span class="stringliteral">)&quot;;</span></div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;<span class="stringliteral"></span> </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral"></span><span class="keyword">auto</span> <a class="code" href="cdt-opt_8cpp.html#a72754cd5f3fb19e8241b13dd3f58a01a">main</a>(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]) -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;<span class="stringliteral"></span><span class="keyword">auto</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]) -&gt; <span class="keywordtype">int</span></div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="keywordflow">try</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;{</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  <span class="comment">// Doctest integration into code</span></div>
@@ -182,7 +182,7 @@ $(function() {
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
 <div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="_ergodic__moves__3__test_8cpp.html#a25a96cb7523541ad641a2af1f2625ca7">SCENARIO</a>(<span class="stringliteral">&quot;Given a 3D Manifold, it can be written to file and read back in.&quot;</span> *</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;<a class="code" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Given a 3D Manifold, it can be written to file and read back in.&quot;</span> *</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;         doctest::test_suite(<span class="stringliteral">&quot;cdt-viewer&quot;</span>))</div>
 <div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;{</div>
 <div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  GIVEN(<span class="stringliteral">&quot;A 3D Manifold.&quot;</span>)</div>
@@ -227,18 +227,17 @@ $(function() {
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    }</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  }</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;}</div>
-<div class="ttc" id="a_ergodic__moves__3__test_8cpp_html_a25a96cb7523541ad641a2af1f2625ca7"><div class="ttname"><a href="_ergodic__moves__3__test_8cpp.html#a25a96cb7523541ad641a2af1f2625ca7">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;ergodic&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3__test_8cpp_source.html#l00465">Ergodic_moves_3_test.cpp:465</a></div></div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="a_utilities_8hpp_html"><div class="ttname"><a href="_utilities_8hpp.html">Utilities.hpp</a></div><div class="ttdoc">Utility functions.</div></div>
 <div class="ttc" id="a_utilities_8hpp_html_a05b64bd57f177d515d43913c6bdab6f7"><div class="ttname"><a href="_utilities_8hpp.html#a05b64bd57f177d515d43913c6bdab6f7">utilities::make_filename</a></div><div class="ttdeci">auto make_filename(topology_type const &amp;t_topology, Int_precision t_dimension, Int_precision t_number_of_simplices, Int_precision t_number_of_timeslices, double t_initial_radius, double t_foliation_spacing) noexcept</div><div class="ttdoc">Generate useful filenames.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00092">Utilities.hpp:92</a></div></div>
 <div class="ttc" id="a_utilities_8hpp_html_af04eee6339811b3749be5e71780a1b89"><div class="ttname"><a href="_utilities_8hpp.html#af04eee6339811b3749be5e71780a1b89">utilities::write_file</a></div><div class="ttdeci">void write_file(std::string const &amp;filename, TriangulationType triangulation)</div><div class="ttdoc">Write triangulation to file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00163">Utilities.hpp:163</a></div></div>
-<div class="ttc" id="acdt-opt_8cpp_html_a72754cd5f3fb19e8241b13dd3f58a01a"><div class="ttname"><a href="cdt-opt_8cpp.html#a72754cd5f3fb19e8241b13dd3f58a01a">main</a></div><div class="ttdeci">auto main() -&gt; int try</div><div class="ttdef"><b>Definition:</b> <a href="cdt-opt_8cpp_source.html#l00023">cdt-opt.cpp:23</a></div></div>
+<div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00085">bistellar-flip.cpp:85</a></div></div>
 <div class="ttc" id="acdt-viewer_8cpp_html_aa6a50bed89859f476336638bbad895ac"><div class="ttname"><a href="cdt-viewer_8cpp.html#aa6a50bed89859f476336638bbad895ac">USAGE</a></div><div class="ttdeci">static constexpr auto USAGE</div><div class="ttdoc">Help message parsed by docopt into command line arguments.</div><div class="ttdef"><b>Definition:</b> <a href="cdt-viewer_8cpp_source.html#l00025">cdt-viewer.cpp:25</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:30</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Jan 12 2023 01:49:39 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Jan 13 2023 23:36:07 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
