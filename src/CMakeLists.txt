@@ -102,6 +102,22 @@ if(APPLE AND NOT ($ENV{CI}))
   target_compile_features(cdt-viewer PRIVATE cxx_std_20)
 endif()
 
+# Build bistellar-flip locally, but not in CI since QT takes more than an hour to build there
+if(APPLE AND NOT ($ENV{CI}))
+  add_executable(bistellar-flip ${PROJECT_SOURCE_DIR}/src/bistellar-flip.cpp)
+  target_link_libraries(
+      bistellar-flip
+      PRIVATE project_options
+      project_warnings
+      date::date-tz
+      fmt::fmt-header-only
+      Eigen3::Eigen
+      spdlog::spdlog_header_only
+      TBB::tbb
+      CGAL::CGAL_Basic_viewer)
+  target_compile_features(bistellar-flip PRIVATE cxx_std_20)
+endif()
+
 #
 # Tests    ##
 #

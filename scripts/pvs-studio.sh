@@ -9,7 +9,7 @@
 
 cd ..
 rm -rf build/
-cmake -S . -B build -G Ninja -D CMAKE_BUILD_TYPE=Debug
+cmake --preset debug
 cmake --build build
 cd build || exit
 pvs-studio-analyzer analyze -o pvsreport.log -j8
