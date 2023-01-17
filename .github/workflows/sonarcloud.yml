@@ -33,7 +33,7 @@ jobs:
           vcpkgGitCommitId: ae826fceaa15109814d0531faeda424f43047822
 
       - name: Configure
-        run: cmake --preset=ci-coverage
+        run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
 
       - name: Build
         run: build-wrapper-linux-x86-64 --out-dir ${{ env.BUILD_WRAPPER_OUT_DIR }} cmake --build build
