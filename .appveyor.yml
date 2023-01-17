@@ -23,9 +23,9 @@ environment:
   VCPKG_DEFAULT_TRIPLET: x64-windows
   VCPKG_ROOT: c:\tools\vcpkg
 
-cache:
-  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
-  - c:\tools\vcpkg\packages\
+#cache:
+#  - c:\Users\appveyor\AppData\Local\vcpkg\archives\
+#  - c:\tools\vcpkg\packages\
 
 install:
   # Setup vcpkg
