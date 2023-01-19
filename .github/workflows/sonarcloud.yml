@@ -43,7 +43,7 @@ jobs:
         continue-on-error: true
         run: ctest --schedule-random -j 2
 
-      - name: Process coverage info
+      - name: Generate coverage info
         working-directory: build
         continue-on-error: true
         run: |

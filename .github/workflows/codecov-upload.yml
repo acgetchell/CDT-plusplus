@@ -38,10 +38,22 @@ jobs:
         working-directory: build
         run: ctest --output-on-failure -j 2
 
+      - name: Generate coverage info
+        working-directory: build
+        continue-on-error: true
+        run: |
+          mkdir gcov-reports
+          pushd gcov-reports
+          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
+            echo "Processing $f file..."
+            gcov -o ${f} x
+          done
+          ls | wc -l
+          popd
+
       - name: Submit to codecov.io
         uses: codecov/codecov-action@v3
         with:
-          gcov: true
-          directory: build
+          directory: build/gcov-reports
           fail_ci_if_error: false
           verbose: true
