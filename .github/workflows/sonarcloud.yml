@@ -30,7 +30,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: ae826fceaa15109814d0531faeda424f43047822
+          vcpkgGitCommitId: f1c9431598c2b8aa5168c35485c9a28321ff9f09
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
@@ -44,13 +44,17 @@ jobs:
         run: ctest --schedule-random -j 2
 
       - name: Process coverage info
-        working-directory: build/coverage
+        working-directory: build
         continue-on-error: true
         run: |
-          gcc -v
-          gcov --version
-          lcov -c -d . -o coverage.info
-          lcov -l coverage.info
+          mkdir gcov-reports
+          pushd gcov-reports
+          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
+            echo "Processing $f file..."
+            gcov -o ${f} x
+          done
+          ls | wc -l
+          popd
 
       - name: Run sonar-scanner
         env:

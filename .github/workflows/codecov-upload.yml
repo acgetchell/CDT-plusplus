@@ -26,7 +26,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: ae826fceaa15109814d0531faeda424f43047822
+          vcpkgGitCommitId: f1c9431598c2b8aa5168c35485c9a28321ff9f09
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
@@ -38,17 +38,10 @@ jobs:
         working-directory: build
         run: ctest --output-on-failure -j 2
 
-      - name: Process coverage info
-        working-directory: build/coverage
-        run: |
-          gcc -v
-          gcov --version
-          lcov -c -d . -o coverage.info
-          lcov -l coverage.info
-
       - name: Submit to codecov.io
         uses: codecov/codecov-action@v3
         with:
-          files: build/coverage/coverage.info
+          gcov: true
+          directory: build
           fail_ci_if_error: false
           verbose: true
