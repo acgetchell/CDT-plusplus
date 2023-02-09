@@ -116,6 +116,7 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
             /// FIXME: This fails because the triangulation is not valid after
             /// the flip neighbor of c has not c as neighbor
             WARN(flipped_triangulation->is_valid());
+            fmt::print("Drawing after bistellar flip.\n");
             CGAL::draw(*flipped_triangulation);
           }
         }

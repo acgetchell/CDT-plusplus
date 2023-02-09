@@ -407,6 +407,9 @@ Optional:
 
 [vcpkg] produces build error [#26039] for [gmp] on Intel Macs.
 
+[CodeCov] [coverage dropped significantly](https://codecov.freshdesk.com/support/tickets/13155) switching from deprecated Bash uploader to their GitHub Action.
+But this is possibly an issue with how I'm using [gcov].
+
 [#26039]: https://github.com/microsoft/vcpkg/issues/26039
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
@@ -504,3 +507,5 @@ Optional:
 [SLURM]: https://hpc-wiki.info/hpc/SLURM
 [Qt]: https://www.qt.io
 [CodeQL]: https://codeql.github.com
+[CodeCov]: https://app.codecov.io/gh/acgetchell/CDT-plusplus
+[gcov]: https://gcc.gnu.org/onlinedocs/gcc/Gcov.html
