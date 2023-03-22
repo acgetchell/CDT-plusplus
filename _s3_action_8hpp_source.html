@@ -354,23 +354,23 @@ $(function() {
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;  mpfr_mul(r5, r4, n1_tl, MPFR_RNDD);  <span class="comment">// r5 = r4*n1_tl</span></div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160; </div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160;  <span class="comment">// Second term accumulates in r30</span></div>
-<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  mpfr_sqrt(r6, three, MPFR_RNDD);       <span class="comment">// r6 = sqrt(3)</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  mpfr_mul(r7, four, alpha, MPFR_RNDD);  <span class="comment">// r7 = 4*alpha</span></div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  mpfr_add(r8, one, r7, MPFR_RNDD);      <span class="comment">// r8 = r7+1 = 4*alpha+1</span></div>
-<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  mpfr_sqrt(r9, r8, MPFR_RNDD);          <span class="comment">// r9 = sqrt(r8) = sqrt(4*alpha+1)</span></div>
-<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  mpfr_mul(r10, r6, r9, MPFR_RNDD);      <span class="comment">// r10 = r6*r9</span></div>
-<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  mpfr_div(r11, one, r10, MPFR_RNDD);    <span class="comment">// r11 = 1/r10</span></div>
-<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  mpfr_asinh(r12, r11, MPFR_RNDD);       <span class="comment">// r12 = arcsinh(r11)</span></div>
-<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  mpfr_neg(r13, three, MPFR_RNDD);       <span class="comment">// r13 = -3</span></div>
-<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  mpfr_mul(r14, r13, k, MPFR_RNDD);      <span class="comment">// r14 = r13*k = -3*k</span></div>
-<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  mpfr_mul(r15, r14, r12, MPFR_RNDD);    <span class="comment">// r15 = r14*r12 = -3*k*arcsinh(r11)</span></div>
+<div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;  mpfr_sqrt(r6, three, MPFR_RNDD);         <span class="comment">// r6 = sqrt(3)</span></div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;  mpfr_mul(r7, four, alpha, MPFR_RNDD);    <span class="comment">// r7 = 4*alpha</span></div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;  mpfr_add(r8, one, r7, MPFR_RNDD);        <span class="comment">// r8 = r7+1 = 4*alpha+1</span></div>
+<div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;  mpfr_sqrt(r9, r8, MPFR_RNDD);            <span class="comment">// r9 = sqrt(r8) = sqrt(4*alpha+1)</span></div>
+<div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;  mpfr_mul(r10, r6, r9, MPFR_RNDD);        <span class="comment">// r10 = r6*r9</span></div>
+<div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;  mpfr_div(r11, one, r10, MPFR_RNDD);      <span class="comment">// r11 = 1/r10</span></div>
+<div class="line"><a name="l00356"></a><span class="lineno">  356</span>&#160;  mpfr_asinh(r12, r11, MPFR_RNDD);         <span class="comment">// r12 = arcsinh(r11)</span></div>
+<div class="line"><a name="l00357"></a><span class="lineno">  357</span>&#160;  mpfr_neg(r13, three, MPFR_RNDD);         <span class="comment">// r13 = -3</span></div>
+<div class="line"><a name="l00358"></a><span class="lineno">  358</span>&#160;  mpfr_mul(r14, r13, k, MPFR_RNDD);        <span class="comment">// r14 = r13*k = -3*k</span></div>
+<div class="line"><a name="l00359"></a><span class="lineno">  359</span>&#160;  mpfr_mul(r15, r14, r12, MPFR_RNDD);      <span class="comment">// r15 = r14*r12 = -3*k*arcsinh(r11)</span></div>
 <div class="line"><a name="l00360"></a><span class="lineno">  360</span>&#160; </div>
-<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  mpfr_mul(r16, two, alpha, MPFR_RNDD);  <span class="comment">// r16 = 2*alpha</span></div>
-<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  mpfr_add(r17, r16, one, MPFR_RNDD);    <span class="comment">// r17 = 2*alpha+1</span></div>
-<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  mpfr_div(r18, r17, r8, MPFR_RNDD);     <span class="comment">// r18 = (2*alpha+1)/(4*alpha+1)</span></div>
-<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  mpfr_acos(r19, r18, MPFR_RNDD);        <span class="comment">// r19 = arccos(r18)</span></div>
-<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  mpfr_mul(r20, r14, r3, MPFR_RNDD);     <span class="comment">// r20 = -3*k*sqrt(alpha)</span></div>
-<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  mpfr_mul(r21, r20, r19, MPFR_RNDD);    <span class="comment">// r21 = -3*k*sqrt(alpha)*arccos(r18)</span></div>
+<div class="line"><a name="l00361"></a><span class="lineno">  361</span>&#160;  mpfr_mul(r16, two, alpha, MPFR_RNDD);    <span class="comment">// r16 = 2*alpha</span></div>
+<div class="line"><a name="l00362"></a><span class="lineno">  362</span>&#160;  mpfr_add(r17, r16, one, MPFR_RNDD);      <span class="comment">// r17 = 2*alpha+1</span></div>
+<div class="line"><a name="l00363"></a><span class="lineno">  363</span>&#160;  mpfr_div(r18, r17, r8, MPFR_RNDD);       <span class="comment">// r18 = (2*alpha+1)/(4*alpha+1)</span></div>
+<div class="line"><a name="l00364"></a><span class="lineno">  364</span>&#160;  mpfr_acos(r19, r18, MPFR_RNDD);          <span class="comment">// r19 = arccos(r18)</span></div>
+<div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;  mpfr_mul(r20, r14, r3, MPFR_RNDD);       <span class="comment">// r20 = -3*k*sqrt(alpha)</span></div>
+<div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160;  mpfr_mul(r21, r20, r19, MPFR_RNDD);      <span class="comment">// r21 = -3*k*sqrt(alpha)*arccos(r18)</span></div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160; </div>
 <div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;  mpfr_mul(r22, three, alpha, MPFR_RNDD);  <span class="comment">// r22 = 3*alpha</span></div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160;  mpfr_add(r23, r22, one, MPFR_RNDD);      <span class="comment">// r23 = 3*alpha+1</span></div>
@@ -444,7 +444,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Wed Mar 22 2023 16:06:57 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Wed Mar 22 2023 19:04:29 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
