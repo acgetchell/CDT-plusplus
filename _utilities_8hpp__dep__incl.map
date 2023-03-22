@@ -3,7 +3,7 @@
 <area shape="rect" id="node2" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="1333,80,1575,107"/>
 <area shape="rect" id="node19" href="$cdt-viewer_8cpp.html" title="Views 3D spacetimes." alt="" coords="1109,326,1247,353"/>
 <area shape="rect" id="node29" href="$_move__tracker_8hpp.html" title="Track ergodic moves." alt="" coords="917,244,1105,271"/>
-<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="1269,162,1433,189"/>
+<area shape="rect" id="node3" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="1269,162,1433,189"/>
 <area shape="rect" id="node27" href="$_foliated__triangulation__test_8cpp.html" title="Tests for foliated triangulations." alt="" coords="1458,155,1658,196"/>
 <area shape="rect" id="node28" href="$_tetrahedron__test_8cpp.html" title="Tests for 3D triangulated and foliated tetrahedrons." alt="" coords="1682,162,1877,189"/>
 <area shape="rect" id="node4" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1272,244,1431,271"/>

@@ -415,7 +415,7 @@ var sectionId = 'dynsection-1';
 <!-- Node22 -->
 <g id="node22" class="node">
 <title>Node22</title>
-<g id="a_node22"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric quantities of Manifold used by MoveAlgorithm.">
+<g id="a_node22"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric scalars of the Manifold used to calculate the Regge action.">
 <polygon fill="white" stroke="black" points="713.9,-375 713.9,-394 836.9,-394 836.9,-375 713.9,-375"/>
 <text text-anchor="middle" x="775.4" y="-382" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
 </a>

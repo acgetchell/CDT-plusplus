@@ -156,7 +156,7 @@
 <!-- Node10 -->
 <g id="node10" class="node">
 <title>Node10</title>
-<g id="a_node10"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric quantities of Manifold used by MoveAlgorithm.">
+<g id="a_node10"><a xlink:href="_geometry_8hpp.html" target="_top" xlink:title="Geometric scalars of the Manifold used to calculate the Regge action.">
 <polygon fill="white" stroke="black" points="1444,-246.5 1444,-265.5 1529,-265.5 1529,-246.5 1444,-246.5"/>
 <text text-anchor="middle" x="1486.5" y="-253.5" font-family="Helvetica,sans-Serif" font-size="10.00">Geometry.hpp</text>
 </a>

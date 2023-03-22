@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bistellar_5fflip_346',['bistellar_flip',['../_ergodic__moves__3_8hpp.html#a559fc8a2700ce380fbe8cb6abc4913e6',1,'ergodic_moves']]]
+  ['bistellar_5fflip_346',['bistellar_flip',['../_ergodic__moves__3_8hpp.html#a0754938b8c89a6618dad5a6d76d6a016',1,'ergodic_moves']]]
 ];

@@ -1,7 +1,7 @@
 <map id="manifolds::Manifold&lt; 3 &gt;" name="manifolds::Manifold&lt; 3 &gt;">
-<area shape="rect" id="node1" title="3D Manifold" alt="" coords="260,932,451,1200"/>
-<area shape="rect" id="node2" href="$struct_geometry_3_013_01_4.html" title="3D Geometry" alt="" coords="231,587,357,811"/>
-<area shape="rect" id="node3" href="$classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html" title="3D Triangulation" alt="" coords="381,528,585,869"/>
+<area shape="rect" id="node1" title="3D Manifold" alt="" coords="260,947,451,1215"/>
+<area shape="rect" id="node2" href="$struct_geometry_3_013_01_4.html" title="3D Geometry" alt="" coords="231,594,357,818"/>
+<area shape="rect" id="node3" href="$classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html" title="3D Foliated triangulation" alt="" coords="381,528,585,884"/>
 <area shape="rect" id="node4" title=" " alt="" coords="5,315,153,407"/>
 <area shape="rect" id="node5" title=" " alt="" coords="419,145,548,223"/>
 <area shape="rect" id="node9" title=" " alt="" coords="178,315,367,407"/>

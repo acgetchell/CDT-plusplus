@@ -1,5 +1,5 @@
 <map id="include/Geometry.hpp" name="include/Geometry.hpp">
-<area shape="rect" id="node1" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="699,5,863,32"/>
+<area shape="rect" id="node1" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="699,5,863,32"/>
 <area shape="rect" id="node2" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="685,80,877,107"/>
 <area shape="rect" id="node3" title=" " alt="" coords="589,155,669,181"/>
 <area shape="rect" id="node4" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="694,155,869,181"/>

@@ -12,7 +12,7 @@
 <!-- Node1 -->
 <g id="node1" class="node">
 <title>Node1</title>
-<g id="a_node1"><a xlink:title="Geometric quantities of Manifold used by MoveAlgorithm.">
+<g id="a_node1"><a xlink:title="Geometric scalars of the Manifold used to calculate the Regge action.">
 <polygon fill="#bfbfbf" stroke="black" points="520.5,-246.5 520.5,-265.5 643.5,-265.5 643.5,-246.5 520.5,-246.5"/>
 <text text-anchor="middle" x="582" y="-253.5" font-family="Helvetica,sans-Serif" font-size="10.00">include/Geometry.hpp</text>
 </a>

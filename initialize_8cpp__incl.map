@@ -5,7 +5,7 @@
 <area shape="rect" id="node4" title=" " alt="" coords="406,155,477,181"/>
 <area shape="rect" id="node5" title=" " alt="" coords="501,155,616,181"/>
 <area shape="rect" id="node6" title=" " alt="" coords="641,155,701,181"/>
-<area shape="rect" id="node7" href="$_geometry_8hpp.html" title="Geometric quantities of Manifold used by MoveAlgorithm." alt="" coords="725,155,838,181"/>
+<area shape="rect" id="node7" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="725,155,838,181"/>
 <area shape="rect" id="node8" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="685,229,877,256"/>
 <area shape="rect" id="node9" title=" " alt="" coords="589,304,669,331"/>
 <area shape="rect" id="node10" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="694,304,869,331"/>
