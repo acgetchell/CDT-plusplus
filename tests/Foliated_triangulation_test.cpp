@@ -695,34 +695,11 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                        return std::make_pair(vertex, timevalue);
                      });
       FoliatedTriangulation_3 const triangulation(causal_vertices);
-      THEN("The vertex error is detected.")
+      THEN("The vertex is fixed on construction.")
       {
-        CHECK_FALSE(triangulation.is_initialized());
-        auto cell = triangulation.get_delaunay().finite_cells_begin();
-        CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
-        // Human verification
-        fmt::print("Incorrect high timevalues vertex:\n");
-        triangulation.print_vertices();
-        fmt::print("Causes incorrect cell:\n");
-        triangulation.print_cells();
-      }
-      AND_THEN("The vertex error is fixed.")
-      {
-        CHECK(triangulation.fix_vertices());
-        triangulation.print_vertices();
-        fmt::print("But the cell is still incorrect.\n");
-        CHECK_FALSE(triangulation.is_initialized());
-        triangulation.print_cells();
-      }
-      AND_THEN("The cell error is fixed.")
-      {
-        CHECK(triangulation.fix_vertices());
-        fmt::print("Before fix_cells()\n");
-        triangulation.print_cells();
-        CHECK(triangulation.fix_cells());
-        fmt::print("After fix_cells()\n");
-        triangulation.print_cells();
+        CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
+        triangulation.print_cells();
       }
     }
     WHEN("Constructing a triangulation with an incorrect low value vertex.")
@@ -742,34 +719,11 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                        return std::make_pair(vertex, timevalue);
                      });
       FoliatedTriangulation_3 const triangulation(causal_vertices);
-      THEN("The vertex error is detected.")
+      THEN("The vertex is fixed on construction.")
       {
-        CHECK_FALSE(triangulation.is_initialized());
-        auto cell = triangulation.get_delaunay().finite_cells_begin();
-        CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
-        // Human verification
-        fmt::print("Incorrect low timevalues vertex:\n");
-        triangulation.print_vertices();
-        fmt::print("Causes incorrect cell:\n");
-        triangulation.print_cells();
-      }
-      AND_THEN("The vertex error is fixed.")
-      {
-        CHECK(triangulation.fix_vertices());
-        triangulation.print_vertices();
-        fmt::print("But the cell is still incorrect.\n");
-        CHECK_FALSE(triangulation.is_initialized());
-        triangulation.print_cells();
-      }
-      AND_THEN("The cell error is fixed.")
-      {
-        CHECK(triangulation.fix_vertices());
-        fmt::print("Before fix_cells()\n");
-        triangulation.print_cells();
-        CHECK(triangulation.fix_cells());
-        fmt::print("After fix_cells()\n");
-        triangulation.print_cells();
+        CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
+        triangulation.print_cells();
       }
     }
     WHEN(
@@ -791,38 +745,18 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
                        return std::make_pair(vertex, timevalue);
                      });
       FoliatedTriangulation_3 const triangulation(causal_vertices);
-      THEN("Timevalue errors are detected.")
+      THEN("The vertices are fixed on construction.")
       {
-        auto invalid_cells = foliated_triangulations::check_timevalues<3>(
-            triangulation.get_delaunay());
-        REQUIRE_MESSAGE(invalid_cells, "No invalid cells found.");
-      }
-      THEN("The vertex errors are detected.")
-      {
-        CHECK_FALSE(triangulation.is_initialized());
-        // Human verification
-        fmt::print("Incorrect high timevalues vertex:\n");
-        triangulation.print_vertices();
-        fmt::print("Causes incorrect cell:\n");
-        triangulation.print_cells();
-      }
-      AND_THEN("The vertex errors are fixed.")
-      {
-        CHECK(triangulation.fix_vertices());
-        triangulation.print_vertices();
-        fmt::print("But the cell is still incorrect.\n");
-        CHECK_FALSE(triangulation.is_initialized());
-        triangulation.print_cells();
-      }
-      AND_THEN("The cell error is fixed.")
-      {
-        CHECK(triangulation.fix_vertices());
-        fmt::print("Before fix_cells()\n");
-        triangulation.print_cells();
-        CHECK(triangulation.fix_cells());
-        fmt::print("After fix_cells()\n");
-        triangulation.print_cells();
+        CHECK_FALSE(triangulation.fix_vertices());
         CHECK(triangulation.is_initialized());
+        triangulation.print_cells();
+      }
+      AND_THEN("The cell type is correct.")
+      {
+        CHECK_FALSE(triangulation.fix_vertices());
+        CHECK_FALSE(triangulation.fix_cells());
+        CHECK(triangulation.is_initialized());
+        triangulation.print_cells();
       }
     }
     WHEN(

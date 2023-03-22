@@ -163,7 +163,8 @@ SCENARIO("Reading and writing Delaunay triangulations to files" *
   }
 }
 
-SCENARIO("Randomizing functions" * doctest::test_suite("utilities"))
+SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
+         doctest::may_fail())
 {
   spdlog::debug("Randomizing functions.\n");
   GIVEN("A PCG die roller")

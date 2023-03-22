@@ -607,11 +607,12 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
             manifold.get_triangulation().find_incorrect_vertices();
         for_each(bad_vertices.begin(), bad_vertices.end(), print);
       }
-      THEN("We can detect invalid cells.")
+      THEN("But the invalid cell is fixed on update.")
       {
+        CHECK_FALSE(manifold.check_simplices());
         manifold.update();
         manifold.print_cells();
-        CHECK_FALSE(manifold.check_simplices());
+        CHECK(manifold.check_simplices());
       }
     }
   }

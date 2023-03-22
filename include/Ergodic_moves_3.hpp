@@ -562,15 +562,16 @@ namespace ergodic_moves
   }  // get_incident_cells()
 
   /// @brief Perform a bistellar flip on triangulation via the given edge
+  /// @details Pass by value to avoid modifying the original triangulation
+  /// in the event that the flip is unsuccessful.
   /// @param triangulation The triangulation to flip
   /// @param edge The edge to pivot on
   /// @param top Top vertex of the cells being flipped
   /// @param bottom Bottom vertex of the cells being flipped
   /// @return A flipped triangulation if successful
-  [[nodiscard]] inline auto bistellar_flip(Delaunay&            triangulation,
-                                           Edge_handle const&   edge,
-                                           Vertex_handle const& top,
-                                           Vertex_handle const& bottom)
+  [[nodiscard]] inline auto bistellar_flip(Delaunay    triangulation,
+                                           Edge_handle edge, Vertex_handle top,
+                                           Vertex_handle bottom)
       -> std::optional<Delaunay>
   {
     // Get the cells incident to the edge

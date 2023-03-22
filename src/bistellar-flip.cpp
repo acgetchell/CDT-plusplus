@@ -31,7 +31,7 @@ static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
 static inline auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 
-auto bistellar_triangulation() -> std::vector<Point_t<3>>
+auto bistellar_triangulation_vertices() -> std::vector<Point_t<3>>
 {
   std::vector<Point_t<3>> vertices{
       Point_t<3>{          0,           0,          0},
@@ -63,12 +63,17 @@ try
                            // used during the next evaluation of RUN_ALL_TESTS,
                            // which will lead to wrong results
 
-#ifdef NDEBUG
+                           // #ifdef NDEBUG
   fmt::print("Before bistellar flip.\n");
-  auto     vertices = bistellar_triangulation();
+  auto                  vertices = bistellar_triangulation_vertices();
   Delaunay dt{vertices.begin(), vertices.end()};
+  manifolds::Manifold_3 manifold{
+      foliated_triangulations::FoliatedTriangulation_3{dt}};
   CGAL::draw(dt);
-#endif
+  fmt::print("After bistellar flip.\n");
+  manifold.print_cells();
+  utilities::print_delaunay(dt);
+  // #endif
 }
 catch (std::exception const& e)
 {
@@ -87,7 +92,7 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
 {
   GIVEN("A triangulation setup for a bistellar flip")
   {
-    auto     vertices = bistellar_triangulation();
+    auto     vertices = bistellar_triangulation_vertices();
     Delaunay triangulation(vertices.begin(), vertices.end());
     WHEN("We have a valid triangulation")
     {
@@ -116,8 +121,6 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
             /// FIXME: This fails because the triangulation is not valid after
             /// the flip neighbor of c has not c as neighbor
             WARN(flipped_triangulation->is_valid());
-            fmt::print("Drawing after bistellar flip.\n");
-            CGAL::draw(*flipped_triangulation);
           }
         }
       }

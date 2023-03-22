@@ -5,7 +5,10 @@
  ******************************************************************************/
 
 /// @file  Geometry.hpp
-/// @brief Geometric quantities of Manifold used by MoveAlgorithm.
+/// @brief Geometric scalars of the Manifold used to calculate the Regge action
+/// @details This is a data structure to hold the geometric information of the
+/// Manifold for quick access in calculation of the Regge action. There are
+/// no class invariants, so it is a simple struct.
 /// @author Adam Getchell
 
 #ifndef CDT_PLUSPLUS_GEOMETRY_HPP
@@ -79,7 +82,7 @@ struct [[nodiscard("This contains data!")]] Geometry<3>
   /// Usually called from a Manifold swap.
   /// @param swap_from The value to be swapped from. Assumed to be discarded.
   /// @param swap_into The value to be swapped into.
-  friend void swap(Geometry<3> & swap_from, Geometry<3> & swap_into) noexcept
+  friend void swap(Geometry<3>& swap_from, Geometry<3>& swap_into) noexcept
   {
 #ifndef NDEBUG
     spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
