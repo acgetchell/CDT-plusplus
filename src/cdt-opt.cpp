@@ -24,8 +24,8 @@ auto main() -> int  // NOLINT
 try
 {
   fmt::print("cdt-opt started at {}\n", utilities::current_date_time());
-  constexpr Int_precision simplices  = 64;
-  constexpr Int_precision timeslices = 3;
+  constexpr Int_precision simplices  = 256;
+  constexpr Int_precision timeslices = 4;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
   auto constexpr alpha               = static_cast<long double>(0.6);
   auto constexpr k                   = static_cast<long double>(1.1);  // NOLINT

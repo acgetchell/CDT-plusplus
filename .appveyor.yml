@@ -5,7 +5,7 @@ skip_tags: true
 skip_branch_with_pr: true
 
 image:
-  - Visual Studio 2022
+  - Previous Visual Studio 2022
 
 clone_folder: c:\projects\cdt-plusplus
 
