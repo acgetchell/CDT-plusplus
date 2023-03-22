@@ -158,7 +158,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
     mpfr_t r_1;
     mpfr_t r_2;
     mpfr_t a_1;
-    mpfr_inits2(PRECISION, a_1, nullptr);  // NOLINT
+    mpfr_inits2(PRECISION, a_1, nullptr);         // NOLINT
 
     mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  // r_1 = this_move NOLINT
     mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  // r_2 = total_moves NOLINT

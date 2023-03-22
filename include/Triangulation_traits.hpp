@@ -56,6 +56,6 @@ struct TriangulationTraits<3>
   using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;
 
   static inline Point const ORIGIN_POINT = Point{0, 0, 0};
-};  // TriangulationTraits<3>
+};      // TriangulationTraits<3>
 
 #endif  // CDT_PLUSPLUS_TRIANGULATION_TRAITS_HPP

@@ -347,23 +347,23 @@
   mpfr_mul(r5, r4, n1_tl, MPFR_RNDD);  // r5 = r4*n1_tl
 
   // Second term accumulates in r30
-  mpfr_sqrt(r6, three, MPFR_RNDD);       // r6 = sqrt(3)
-  mpfr_mul(r7, four, alpha, MPFR_RNDD);  // r7 = 4*alpha
-  mpfr_add(r8, one, r7, MPFR_RNDD);      // r8 = r7+1 = 4*alpha+1
-  mpfr_sqrt(r9, r8, MPFR_RNDD);          // r9 = sqrt(r8) = sqrt(4*alpha+1)
-  mpfr_mul(r10, r6, r9, MPFR_RNDD);      // r10 = r6*r9
-  mpfr_div(r11, one, r10, MPFR_RNDD);    // r11 = 1/r10
-  mpfr_asinh(r12, r11, MPFR_RNDD);       // r12 = arcsinh(r11)
-  mpfr_neg(r13, three, MPFR_RNDD);       // r13 = -3
-  mpfr_mul(r14, r13, k, MPFR_RNDD);      // r14 = r13*k = -3*k
-  mpfr_mul(r15, r14, r12, MPFR_RNDD);    // r15 = r14*r12 = -3*k*arcsinh(r11)
+  mpfr_sqrt(r6, three, MPFR_RNDD);         // r6 = sqrt(3)
+  mpfr_mul(r7, four, alpha, MPFR_RNDD);    // r7 = 4*alpha
+  mpfr_add(r8, one, r7, MPFR_RNDD);        // r8 = r7+1 = 4*alpha+1
+  mpfr_sqrt(r9, r8, MPFR_RNDD);            // r9 = sqrt(r8) = sqrt(4*alpha+1)
+  mpfr_mul(r10, r6, r9, MPFR_RNDD);        // r10 = r6*r9
+  mpfr_div(r11, one, r10, MPFR_RNDD);      // r11 = 1/r10
+  mpfr_asinh(r12, r11, MPFR_RNDD);         // r12 = arcsinh(r11)
+  mpfr_neg(r13, three, MPFR_RNDD);         // r13 = -3
+  mpfr_mul(r14, r13, k, MPFR_RNDD);        // r14 = r13*k = -3*k
+  mpfr_mul(r15, r14, r12, MPFR_RNDD);      // r15 = r14*r12 = -3*k*arcsinh(r11)
 
-  mpfr_mul(r16, two, alpha, MPFR_RNDD);  // r16 = 2*alpha
-  mpfr_add(r17, r16, one, MPFR_RNDD);    // r17 = 2*alpha+1
-  mpfr_div(r18, r17, r8, MPFR_RNDD);     // r18 = (2*alpha+1)/(4*alpha+1)
-  mpfr_acos(r19, r18, MPFR_RNDD);        // r19 = arccos(r18)
-  mpfr_mul(r20, r14, r3, MPFR_RNDD);     // r20 = -3*k*sqrt(alpha)
-  mpfr_mul(r21, r20, r19, MPFR_RNDD);    // r21 = -3*k*sqrt(alpha)*arccos(r18)
+  mpfr_mul(r16, two, alpha, MPFR_RNDD);    // r16 = 2*alpha
+  mpfr_add(r17, r16, one, MPFR_RNDD);      // r17 = 2*alpha+1
+  mpfr_div(r18, r17, r8, MPFR_RNDD);       // r18 = (2*alpha+1)/(4*alpha+1)
+  mpfr_acos(r19, r18, MPFR_RNDD);          // r19 = arccos(r18)
+  mpfr_mul(r20, r14, r3, MPFR_RNDD);       // r20 = -3*k*sqrt(alpha)
+  mpfr_mul(r21, r20, r19, MPFR_RNDD);      // r21 = -3*k*sqrt(alpha)*arccos(r18)
 
   mpfr_mul(r22, three, alpha, MPFR_RNDD);  // r22 = 3*alpha
   mpfr_add(r23, r22, one, MPFR_RNDD);      // r23 = 3*alpha+1

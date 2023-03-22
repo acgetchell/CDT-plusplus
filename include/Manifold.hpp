@@ -40,34 +40,34 @@ namespace manifolds
    public:
     /// @brief Dimensionality of the manifold
     /// @details Used to determine the manifold dimension at compile-time
-    static int constexpr dimension                   = 3;
+    static int constexpr dimension          = 3;
 
     /// @brief Topology of the manifold
-    static topology_type constexpr topology          = topology_type::SPHERICAL;
+    static topology_type constexpr topology = topology_type::SPHERICAL;
 
     /// @brief Default dtor
-    ~Manifold()                                      = default;
+    ~Manifold()                             = default;
 
     /// @brief Default ctor
-    Manifold()                                       = default;
+    Manifold()                              = default;
 
     /// @brief Default copy ctor
-    Manifold(Manifold const& other)                  = default;
+    Manifold(Manifold const& other)         = default;
 
     /// @brief Default copy assignment
-    auto operator=(Manifold const& other)->Manifold& = default;
+    auto operator=(Manifold const& other) -> Manifold& = default;
 
     /// @brief Default move ctor
-    Manifold(Manifold && other)                      = default;
+    Manifold(Manifold&& other)                         = default;
 
     /// @brief Default move assignment
-    auto operator=(Manifold&& other)->Manifold&      = default;
+    auto operator=(Manifold&& other) -> Manifold&      = default;
 
     /// @brief Non-member swap function for Manifolds.
     /// @details Used for no-except updates of manifolds after moves.
     /// @param swap_from The value to be swapped from. Assumed to be discarded.
     /// @param swap_into The value to be swapped into.
-    friend void swap(Manifold<3> & swap_from, Manifold<3> & swap_into) noexcept
+    friend void swap(Manifold<3>& swap_from, Manifold<3>& swap_into) noexcept
     {
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
@@ -136,40 +136,40 @@ namespace manifolds
     }  // get_triangulation
 
     /// @return A mutable reference to the triangulation
-    [[nodiscard]] auto triangulation()->Triangulation&
+    [[nodiscard]] auto triangulation() -> Triangulation&
     {
       return m_triangulation;
     }  // triangulation
 
     /// @return A read-only reference to the Geometry
-    [[nodiscard]] auto get_geometry() const->Geometry const&
+    [[nodiscard]] auto get_geometry() const -> Geometry const&
     {
       return m_geometry;
     }  // get_geometry
 
     /// @brief Forwarding to FoliatedTriangulation_3.is_foliated()
     /// @return True if the Manifold triangulation is foliated
-    [[nodiscard]] auto is_foliated() const->bool
+    [[nodiscard]] auto is_foliated() const -> bool
     {
       return m_triangulation.is_foliated();
     }  // is_foliated
 
     /// @brief Forwarding to FoliatedTriangulation.is_delaunay()
     /// @return True if the Manifold triangulation is Delaunay
-    [[nodiscard]] auto is_delaunay() const->bool
+    [[nodiscard]] auto is_delaunay() const -> bool
     {
       return m_triangulation.is_delaunay();
     }  // is_delaunay
 
     /// @brief Forwarding to FoliatedTriangulation.is_tds_valid()
     /// @return True if the TriangulationDataStructure is valid
-    [[nodiscard]] auto is_valid() const->bool
+    [[nodiscard]] auto is_valid() const -> bool
     {
       return m_triangulation.is_tds_valid();
     }  // is_valid
 
     /// @return If base data structures are correct
-    [[nodiscard]] auto is_correct() const->bool
+    [[nodiscard]] auto is_correct() const -> bool
     {
       return m_triangulation.is_correct();
     }  // is_correct
@@ -179,7 +179,7 @@ namespace manifolds
     /// @param t_vertex_candidate The vertex to check
     /// @return True if the vertex candidate is a vertex
     template <typename VertexType>
-    [[nodiscard]] auto is_vertex(VertexType && t_vertex_candidate) const->bool
+    [[nodiscard]] auto is_vertex(VertexType&& t_vertex_candidate) const -> bool
     {
       return m_triangulation.get_delaunay().is_vertex(
           std::forward<VertexType>(t_vertex_candidate));
@@ -188,8 +188,8 @@ namespace manifolds
     /// @brief Forwarding to FoliatedTriangulation_3.is_edge()
     /// @param t_edge_candidate The edge to test
     /// @return True if the candidate is an edge
-    [[nodiscard]] auto is_edge(Edge_handle_t<3> const& t_edge_candidate)
-        const noexcept -> bool
+    [[nodiscard]] auto is_edge(
+        Edge_handle_t<3> const& t_edge_candidate) const noexcept -> bool
     {
       return m_triangulation.get_delaunay().tds().is_edge(
           t_edge_candidate.first, t_edge_candidate.second,
@@ -239,7 +239,7 @@ namespace manifolds
     [[nodiscard]] auto N2() const { return m_geometry.N2; }
 
     /// @return An associative container of spacelike faces indexed by timevalue
-    [[nodiscard]] auto N2_SL() const->auto const&
+    [[nodiscard]] auto N2_SL() const -> auto const&
     {
       return m_triangulation.N2_SL();
     }  // N2_SL
@@ -290,14 +290,14 @@ namespace manifolds
 
     /// @brief Perfect forwarding to FoliatedTriangulation_3.degree()
     template <typename VertexHandle>
-    [[nodiscard]] auto degree(VertexHandle && t_vertex) const->decltype(auto)
+    [[nodiscard]] auto degree(VertexHandle&& t_vertex) const -> decltype(auto)
     {
       return m_triangulation.degree(std::forward<VertexHandle>(t_vertex));
     }  // degree
 
     /// @brief Perfect forwarding to FoliatedTriangulation_3.incident_cells()
     template <typename... Ts>
-    [[nodiscard]] auto incident_cells(Ts && ... args) const noexcept
+    [[nodiscard]] auto incident_cells(Ts&&... args) const noexcept
         -> decltype(auto)
     {
       return m_triangulation.incident_cells(std::forward<Ts>(args)...);
@@ -310,7 +310,7 @@ namespace manifolds
     }  // get_timelike_edges
 
     /// @brief Call triangulation.get_spacelike_edges()
-    [[nodiscard]] auto get_spacelike_edges() const->auto const&
+    [[nodiscard]] auto get_spacelike_edges() const -> auto const&
     {
       return m_triangulation.get_spacelike_edges();
     }  // get_spacelike_edges
@@ -323,7 +323,7 @@ namespace manifolds
 
     /// @return True if all cells in triangulation are classified and match
     /// number in geometry
-    [[nodiscard]] auto check_simplices() const->bool
+    [[nodiscard]] auto check_simplices() const -> bool
     {
       return (this->simplices() == this->N3() &&
               m_triangulation.check_all_cells());
