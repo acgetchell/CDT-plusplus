@@ -14,9 +14,8 @@ Copyright © 2023 Adam Getchell
 
 #ifdef NDEBUG
 #define DOCTEST_CONFIG_DISABLE
-#endif
-
 #include <CGAL/draw_triangulation_3.h>
+#endif
 
 #define DOCTEST_CONFIG_IMPLEMENT
 #include <docopt/docopt.h>
@@ -63,17 +62,18 @@ try
                            // used during the next evaluation of RUN_ALL_TESTS,
                            // which will lead to wrong results
 
-                           // #ifdef NDEBUG
+#ifdef NDEBUG
   fmt::print("Before bistellar flip.\n");
   auto                  vertices = bistellar_triangulation_vertices();
   Delaunay              dt{vertices.begin(), vertices.end()};
   manifolds::Manifold_3 manifold{
-      foliated_triangulations::FoliatedTriangulation_3{dt}};
+      foliated_triangulations::FoliatedTriangulation_3{dt, 0, 1}
+  };
   CGAL::draw(dt);
   fmt::print("After bistellar flip.\n");
   manifold.print_cells();
   utilities::print_delaunay(dt);
-  // #endif
+#endif
 }
 catch (std::exception const& e)
 {
