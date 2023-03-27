@@ -393,7 +393,7 @@ namespace ergodic_moves
 
     // Run until all vertices are fixed
     while (foliated_triangulations::fix_vertices<3>(
-        manifold.get_triangulation().get_delaunay(), manifold.initial_radius(),
+        manifold.get_delaunay(), manifold.initial_radius(),
         manifold.foliation_spacing()))
     {
       spdlog::warn("Fixing vertices found by is_62_movable().\n");
@@ -401,8 +401,7 @@ namespace ergodic_moves
     // Run until all cells fixed or 10 passes
     for (auto passes = 1; passes < 11; ++passes)  // NOLINT
     {
-      if (foliated_triangulations::fix_cells<3>(
-              manifold.get_triangulation().get_delaunay()))
+      if (foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
       {
         spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n",
                      passes);

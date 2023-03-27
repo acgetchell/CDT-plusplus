@@ -405,13 +405,10 @@ Optional:
 
 [docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
-[vcpkg] produces build error [#26039] for [gmp] on Intel Macs.
-
 [CodeCov] [coverage dropped significantly](https://codecov.freshdesk.com/support/tickets/13155), (also see https://community.codecov.com/t/codecov-github-action-doesnt-work-well-compared-to-bash-uploader/4220) switching from deprecated Bash uploader to their GitHub Action.
 
 AppVeyor's VS Studio 2022 Feb. 25 image is broken for C++. See https://help.appveyor.com/discussions/problems/34181-vs-studio-2022-feb-25-image-is-broken-for-c
 
-[#26039]: https://github.com/microsoft/vcpkg/issues/26039
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
 [CDT]: https://arxiv.org/abs/hep-th/0105267

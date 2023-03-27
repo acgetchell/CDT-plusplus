@@ -69,7 +69,7 @@ try
   manifolds::Manifold_3 manifold{
       foliated_triangulations::FoliatedTriangulation_3{dt, 0, 1}
   };
-  CGAL::draw(dt);
+  CGAL::draw(manifold.get_delaunay());
   fmt::print("After bistellar flip.\n");
   manifold.print_cells();
   utilities::print_delaunay(dt);

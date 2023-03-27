@@ -186,7 +186,7 @@ namespace utilities
   {
     std::string filename;
     filename.assign(make_filename(t_universe));
-    write_file(filename, t_universe.get_triangulation().get_delaunay());
+    write_file(filename, t_universe.get_delaunay());
   }  // write_file
 
   /// @brief Read triangulation from file

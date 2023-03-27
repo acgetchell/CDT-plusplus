@@ -135,6 +135,12 @@ namespace manifolds
       return std::cref(m_triangulation);
     }  // get_triangulation
 
+    /// @returns A read-only reference to the Delaunay triangulation
+    [[nodiscard]] auto get_delaunay() const noexcept
+    {
+      return get_triangulation().get_delaunay();
+    }  // get_delaunay
+
     /// @return A mutable reference to the triangulation
     [[nodiscard]] auto triangulation() -> Triangulation&
     {
