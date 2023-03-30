@@ -397,14 +397,16 @@ namespace ergodic_moves
     {
       spdlog::warn("Fixing vertices found by is_62_movable().\n");
     }
-    // Run until all cells fixed or 10 passes
-    for (auto passes = 1; passes < 11; ++passes)  // NOLINT
+
+    // Run until all cells fixed or 50 passes
+    for (auto passes = 1; passes < foliated_triangulations::MAX_FIX_PASSES + 1;
+         ++passes)  // NOLINT
     {
-      if (foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
+      if (!foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
       {
-        spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n",
-                     passes);
+        break;
       }
+      spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n", passes);
     }
 
     auto const incident_31 = foliated_triangulations::filter_cells<3>(

@@ -80,6 +80,8 @@ enum class Cell_type
 
 namespace foliated_triangulations
 {
+  static int constexpr MAX_FIX_PASSES = 50;
+
   /// @brief Returns a container of all the finite edges in the triangulation
   /// @details Regardless of the dimensionality of the triangulation, the edges
   /// are 1-d simplices connecting 0-d vertices.
@@ -896,34 +898,34 @@ namespace foliated_triangulations
     triangulation.insert(causal_vertices.begin(), causal_vertices.end());
 
     // Fix vertices
-    auto vertex_fix_passes = 1;
-    while (fix_vertices<dimension>(triangulation, initial_radius,
-                                   foliation_spacing))
+    for (auto passes = 1; passes < MAX_FIX_PASSES + 1; ++passes)
     {
+      if (!fix_vertices<dimension>(triangulation, initial_radius,
+                                   foliation_spacing))
+      {
+        break;
+      }
 #ifndef NDEBUG
-      spdlog::warn("Deleting incorrect vertices pass #{}\n", vertex_fix_passes);
+      spdlog::warn("Deleting incorrect vertices pass #{}\n", passes);
 #endif
-      ++vertex_fix_passes;
     }
 
     // Fix timeslices
-    auto passes = 1;
-    while (fix_timevalues<dimension>(triangulation))
+    for (auto passes = 1; passes < MAX_FIX_PASSES + 1; ++passes)
     {
+      if (!fix_timevalues<dimension>(triangulation)) { break; }
 #ifndef NDEBUG
       spdlog::warn("Fixing timeslices pass #{}\n", passes);
 #endif
-      ++passes;
     }
 
     // Fix cells
-    auto cell_fix_passes = 1;
-    while (fix_cells<dimension>(triangulation))
+    for (auto i = 1; i < MAX_FIX_PASSES + 1; ++i)
     {
+      if (!fix_cells<dimension>(triangulation)) { break; }
 #ifndef NDEBUG
-      spdlog::warn("Fixing incorrect cells pass #{}\n", cell_fix_passes);
+      spdlog::warn("Fixing incorrect cells pass #{}\n", i);
 #endif
-      ++cell_fix_passes;
     }
 
     utilities::print_delaunay(triangulation);
