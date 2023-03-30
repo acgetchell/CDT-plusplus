@@ -128,7 +128,7 @@ namespace manifolds
       spdlog::trace("Exception thrown: {}\n", ex.what());
     }  // update
 
-    /// @return A read-only reference to the triangulation
+    /// @returns A read-only reference to the triangulation
     [[nodiscard]] auto get_triangulation() const noexcept
         -> Triangulation const&
     {
@@ -141,40 +141,40 @@ namespace manifolds
       return get_triangulation().get_delaunay();
     }  // get_delaunay
 
-    /// @return A mutable reference to the triangulation
+    /// @returns A mutable reference to the triangulation
     [[nodiscard]] auto triangulation() -> Triangulation&
     {
       return m_triangulation;
     }  // triangulation
 
-    /// @return A read-only reference to the Geometry
+    /// @returns A read-only reference to the Geometry
     [[nodiscard]] auto get_geometry() const -> Geometry const&
     {
       return m_geometry;
     }  // get_geometry
 
     /// @brief Forwarding to FoliatedTriangulation_3.is_foliated()
-    /// @return True if the Manifold triangulation is foliated
+    /// @returns True if the Manifold triangulation is foliated
     [[nodiscard]] auto is_foliated() const -> bool
     {
       return m_triangulation.is_foliated();
     }  // is_foliated
 
     /// @brief Forwarding to FoliatedTriangulation.is_delaunay()
-    /// @return True if the Manifold triangulation is Delaunay
+    /// @returns True if the Manifold triangulation is Delaunay
     [[nodiscard]] auto is_delaunay() const -> bool
     {
       return m_triangulation.is_delaunay();
     }  // is_delaunay
 
     /// @brief Forwarding to FoliatedTriangulation.is_tds_valid()
-    /// @return True if the TriangulationDataStructure is valid
+    /// @returns True if the TriangulationDataStructure is valid
     [[nodiscard]] auto is_valid() const -> bool
     {
       return m_triangulation.is_tds_valid();
     }  // is_valid
 
-    /// @return If base data structures are correct
+    /// @returns If base data structures are correct
     [[nodiscard]] auto is_correct() const -> bool
     {
       return m_triangulation.is_correct();
@@ -183,7 +183,7 @@ namespace manifolds
     /// @brief Perfect forwarding to FoliatedTriangulation_3.is_vertex()
     /// @tparam VertexType The vertex type
     /// @param t_vertex_candidate The vertex to check
-    /// @return True if the vertex candidate is a vertex
+    /// @returns True if the vertex candidate is a vertex
     template <typename VertexType>
     [[nodiscard]] auto is_vertex(VertexType&& t_vertex_candidate) const -> bool
     {
@@ -193,7 +193,7 @@ namespace manifolds
 
     /// @brief Forwarding to FoliatedTriangulation_3.is_edge()
     /// @param t_edge_candidate The edge to test
-    /// @return True if the candidate is an edge
+    /// @returns True if the candidate is an edge
     [[nodiscard]] auto is_edge(
         Edge_handle_t<3> const& t_edge_candidate) const noexcept -> bool
     {
@@ -202,7 +202,7 @@ namespace manifolds
           t_edge_candidate.third);
     }  // is_edge
 
-    /// @return Run-time dimensionality of the triangulation data structure
+    /// @returns Run-time dimensionality of the triangulation data structure
     [[nodiscard]] auto dimensionality() const
     {
       return m_triangulation.dimension();
@@ -220,75 +220,76 @@ namespace manifolds
       return m_triangulation.foliation_spacing();
     }
 
-    /// @return Number of 3D simplices in geometry data structure
+    /// @returns Number of 3D simplices in geometry data structure
     [[nodiscard]] auto N3() const { return m_geometry.N3; }
 
-    /// @return Number of (3,1) simplices in geometry data structure
+    /// @returns Number of (3,1) simplices in geometry data structure
     [[nodiscard]] auto N3_31() const { return m_geometry.N3_31; }
 
-    /// @return Number of (2,2) simplices in geometry data structure
+    /// @returns Number of (2,2) simplices in geometry data structure
     [[nodiscard]] auto N3_22() const { return m_geometry.N3_22; }
 
-    /// @return Number of (1,3) simplices in geometry data structure
+    /// @returns Number of (1,3) simplices in geometry data structure
     [[nodiscard]] auto N3_13() const { return m_geometry.N3_13; }
 
-    /// @return Number of (3,1) and (1,3) simplices in geometry data structure
+    /// @returns Number of (3,1) and (1,3) simplices in geometry data structure
     [[nodiscard]] auto N3_31_13() const { return m_geometry.N3_31_13; }
 
-    /// @return Number of 3D simplices in triangulation data structure
+    /// @returns Number of 3D simplices in triangulation data structure
     [[nodiscard]] auto simplices() const
     {
       return static_cast<Int_precision>(m_triangulation.get_cells().size());
     }  // number_of_simplices
 
-    /// @return Number of 2D faces in geometry data structure
+    /// @returns Number of 2D faces in geometry data structure
     [[nodiscard]] auto N2() const { return m_geometry.N2; }
 
-    /// @return An associative container of spacelike faces indexed by timevalue
+    /// @returns An associative container of spacelike faces indexed by
+    /// timevalue
     [[nodiscard]] auto N2_SL() const -> auto const&
     {
       return m_triangulation.N2_SL();
     }  // N2_SL
 
-    /// @return Number of 2D faces in triangulation data structure
+    /// @returns Number of 2D faces in triangulation data structure
     [[nodiscard]] auto faces() const
     {
       return static_cast<Int_precision>(
           m_triangulation.number_of_finite_facets());
     }  // faces
 
-    /// @return Number of 1D edges in geometry data structure
+    /// @returns Number of 1D edges in geometry data structure
     [[nodiscard]] auto N1() const { return m_geometry.N1; }
 
-    /// @return Number of spacelike edges in triangulation data structure
+    /// @returns Number of spacelike edges in triangulation data structure
     [[nodiscard]] auto N1_SL() const { return m_triangulation.N1_SL(); }
 
-    /// @return Number of timelike edges in triangulation data structure
+    /// @returns Number of timelike edges in triangulation data structure
     [[nodiscard]] auto N1_TL() const { return m_triangulation.N1_TL(); }
 
-    /// @return Number of 1D edges in triangulation data structure
+    /// @returns Number of 1D edges in triangulation data structure
     [[nodiscard]] auto edges() const
     {
       return static_cast<Int_precision>(
           m_triangulation.number_of_finite_edges());
     }  // edges
 
-    /// @return Number of vertices in geometry data structure
+    /// @returns Number of vertices in geometry data structure
     [[nodiscard]] auto N0() const { return m_geometry.N0; }
 
-    /// @return Number of vertices in triangulation data structure
+    /// @returns Number of vertices in triangulation data structure
     [[nodiscard]] auto vertices() const
     {
       return static_cast<Int_precision>(m_triangulation.number_of_vertices());
     }  // vertices
 
-    /// @return Minimum timeslice value in triangulation data structure
+    /// @returns Minimum timeslice value in triangulation data structure
     [[nodiscard]] auto min_time() const
     {
       return m_triangulation.min_time();
     }  // min_time
 
-    /// @return Maximum timeslice value in triangulation data structure
+    /// @returns Maximum timeslice value in triangulation data structure
     [[nodiscard]] auto max_time() const
     {
       return m_triangulation.max_time();
@@ -327,7 +328,7 @@ namespace manifolds
       return m_triangulation.get_vertices();
     }  // get_vertices
 
-    /// @return True if all cells in triangulation are classified and match
+    /// @returns True if all cells in triangulation are classified and match
     /// number in geometry
     [[nodiscard]] auto check_simplices() const -> bool
     {

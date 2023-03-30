@@ -438,7 +438,7 @@ SCENARIO("3-Manifold copying" * doctest::test_suite("manifold"))
         fmt::print("Manifold properties:\n");
         manifold.print();
         manifold.print_volume_per_timeslice();
-        auto cells = manifold.get_triangulation().get_delaunay().tds().cells();
+        auto cells = manifold.get_delaunay().tds().cells();
         fmt::print("Cell compact container size == {}\n", cells.size());
         fmt::print("Now compact container size == {}\n", cells.size());
         fmt::print("Vertex compact container size == {}\n",

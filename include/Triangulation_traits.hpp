@@ -50,7 +50,7 @@ struct TriangulationTraits<3>
   /// @brief CGAL::squared_distance
   /// See
   /// https://doc.cgal.org/latest/Kernel_23/group__squared__distance__grp.html#ga1ff73525660a052564d33fbdd61a4f71
-  /// @return Square of Euclidean distance between two geometric objects
+  /// @returns Square of Euclidean distance between two geometric objects
   using squared_distance = Kernel::Compute_squared_distance_3;
 
   using Spherical_points_generator = CGAL::Random_points_on_sphere_3<Point>;

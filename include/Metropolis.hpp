@@ -107,37 +107,37 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
 #endif
   }
 
-  /// @return The length of the timelike edge
+  /// @returns The length of the timelike edge
   [[nodiscard]] auto Alpha() const noexcept { return m_Alpha; }
 
-  /// @return The normalized Newton's constant
+  /// @returns The normalized Newton's constant
   [[nodiscard]] auto K() const noexcept { return m_K; }
 
-  /// @return The normalized Cosmological constant
+  /// @returns The normalized Cosmological constant
   [[nodiscard]] auto Lambda() const noexcept { return m_Lambda; }
 
-  /// @return The number of passes to make
+  /// @returns The number of passes to make
   [[nodiscard]] auto passes() const noexcept { return m_passes; }
 
-  /// @return The number of passes before writing a checkpoint file
+  /// @returns The number of passes before writing a checkpoint file
   [[nodiscard]] auto checkpoint() const noexcept { return m_checkpoint; }
 
-  /// @return The container of trial moves
+  /// @returns The container of trial moves
   auto get_proposed() const { return m_proposed_moves; }
 
-  /// @return The container of accepted moves
+  /// @returns The container of accepted moves
   auto get_accepted() const { return m_accepted_moves; }
 
-  /// @return The container of rejected moves
+  /// @returns The container of rejected moves
   auto get_rejected() const { return m_rejected_moves; }
 
-  /// @return The container of attempted moves
+  /// @returns The container of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
-  /// @return The container of successful moves
+  /// @returns The container of successful moves
   auto get_succeeded() const { return m_succeeded_moves; }
 
-  /// @return The container of failed moves
+  /// @returns The container of failed moves
   auto get_failed() const { return m_failed_moves; }
 
   /// @brief Calculate A1
@@ -146,7 +146,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// \f[a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f]
   ///
   /// @param move The type of move
-  /// @return \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
+  /// @returns \f$a_1=\frac{move[i]}{\sum\limits_{i}move[i]}\f$
   auto CalculateA1(move_tracker::move_type move) const noexcept
   {
     auto all_moves = m_proposed_moves.total();
@@ -185,7 +185,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// @details Calculate \f$a_2=e^{\Delta S}\f$
   /// @tparam dimension The dimensionality of the triangulation
   /// @param move The type of move
-  /// @return \f$a_2=e^{-\Delta S}\f$
+  /// @returns \f$a_2=e^{-\Delta S}\f$
   template <int dimension>
   auto CalculateA2(move_tracker::move_type move) const noexcept
   {
@@ -276,7 +276,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// algorithm by generating a random number and comparing with the results
   /// of CalculateA1 and CalculateA2.
   /// @param move The type of move
-  /// @return True if the move is accepted
+  /// @returns True if the move is accepted
   auto try_move(move_tracker::move_type move) -> bool
   {
     // Record the proposed move
@@ -318,7 +318,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// making a move of each type, so that when A1 is calculated
   /// we don't have divide by zero
   /// @param t_manifold Manifold on which to operate
-  /// @return A manifold with a move of each type completed
+  /// @returns A manifold with a move of each type completed
   [[nodiscard]] auto initialize(ManifoldType t_manifold)
       -> std::optional<MoveCommand<ManifoldType>>
   try
@@ -373,7 +373,7 @@ class MoveStrategy<Strategies::METROPOLIS, ManifoldType>
   /// operator conducts all of the algorithmic work for Metropolis-Hastings on
   /// the manifold.
   /// @param t_manifold Manifold on which to operate
-  /// @return The manifold upon which the passes have been completed
+  /// @returns The manifold upon which the passes have been completed
   auto operator()(ManifoldType const& t_manifold) -> ManifoldType
   {
 #ifndef NDEBUG

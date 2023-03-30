@@ -52,7 +52,7 @@ enum class topology_type
 /// @brief Convert topology_type to string output
 /// @param t_os The output stream
 /// @param t_topology The topology
-/// @return An output string of the topology
+/// @returns An output string of the topology
 inline auto operator<<(std::ostream& t_os, topology_type const& t_topology)
     -> std::ostream&
 {
@@ -71,7 +71,7 @@ namespace utilities
   /// Use Howard Hinnant C++11/14 data and time library and Time Zone Database
   /// Parser. std::chrono::zoned_time would be a replacement if supported by
   /// current compilers.
-  /// @return A formatted string with the system local time
+  /// @returns A formatted string with the system local time
   /// @see https://github.com/HowardHinnant/date
   /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
   [[nodiscard]] inline auto current_date_time()
@@ -88,7 +88,7 @@ namespace utilities
   /// @param t_number_of_timeslices The number of time foliations
   /// @param t_initial_radius The radius of the first foliation t=1
   /// @param t_foliation_spacing The spacing between foliations
-  /// @return A filename
+  /// @returns A filename
   [[nodiscard]] inline auto make_filename(topology_type const& t_topology,
                                           Int_precision        t_dimension,
                                           Int_precision t_number_of_simplices,
@@ -192,7 +192,7 @@ namespace utilities
   /// @brief Read triangulation from file
   /// @tparam TriangulationType The type of triangulation
   /// @param filename The file to read from
-  /// @return A Delaunay triangulation
+  /// @returns A Delaunay triangulation
   template <typename TriangulationType>
   auto read_file(std::string const& filename) -> TriangulationType
   {
@@ -236,7 +236,8 @@ namespace utilities
   /// @tparam Distribution The distribution type, usually uniform
   /// @param t_min_value The minimum value
   /// @param t_max_value The maximum value
-  /// @return A random value in the distribution between min_value and max_value
+  /// @returns A random value in the distribution between min_value and
+  /// max_value
   template <typename NumberType, class Distribution>
   [[nodiscard]] auto generate_random(NumberType t_min_value,
                                      NumberType t_max_value) noexcept
@@ -249,7 +250,7 @@ namespace utilities
   }  // generate_random()
 
   /// @brief Make a high-quality random number generator usable by std::shuffle
-  /// @return A RNG
+  /// @returns A RNG
   inline auto make_random_generator() noexcept
   {
     pcg_extras::seed_seq_from<std::random_device> seed_source;
@@ -307,7 +308,7 @@ namespace utilities
   /// @param t_number_of_simplices  Number of desired simplices
   /// @param t_number_of_timeslices Number of desired timeslices
   /// @param t_output_flag Toggles output
-  /// @return  The number of points per timeslice to obtain
+  /// @returns  The number of points per timeslice to obtain
   /// the desired number of simplices
   inline auto expected_points_per_timeslice(
       Int_precision t_dimension, Int_precision t_number_of_simplices,
@@ -360,7 +361,7 @@ namespace utilities
   /// this function can be expanded.
   ///
   /// @param t_value An exact Gmpzf multiple-precision floating point number
-  /// @return The double conversion
+  /// @returns The double conversion
   [[nodiscard]] inline auto Gmpzf_to_double(Gmpzf const& t_value) -> double
   {
     return t_value.to_double();
@@ -432,7 +433,7 @@ namespace utilities
   /// @brief Covert a CGAL point to a string
   /// @tparam Point The type of point (e.g. 3D, 4D)
   /// @param t_point The point
-  /// @return A string representation of the point
+  /// @returns A string representation of the point
   template <typename Point>
   inline auto point_to_str(Point const& t_point) -> std::string
   {
@@ -443,7 +444,7 @@ namespace utilities
 
   /// @brief Convert a topology to a string using it's << operator
   /// @param t_topology The topology_type to convert
-  /// @return A string representation of the topology_type
+  /// @returns A string representation of the topology_type
   inline auto topology_to_str(topology_type const& t_topology) -> std::string
   {
     std::stringstream stream;

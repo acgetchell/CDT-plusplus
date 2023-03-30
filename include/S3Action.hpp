@@ -38,7 +38,7 @@
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @return \f$S^{(3)}(\alpha=-1)\f$ as a
+/// @returns \f$S^{(3)}(\alpha=-1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
@@ -134,7 +134,7 @@
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @return \f$S^{(3)}(\alpha=1)\f$ as a
+/// @returns \f$S^{(3)}(\alpha=1)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_one(
@@ -241,7 +241,7 @@
 /// @param K      \f$k=\frac{1}{8\pi G_{Newton}}\f$
 /// @param Lambda \f$\lambda=k*\Lambda\f$ where \f$\Lambda\f$ is the
 ///                   Cosmological constant
-/// @return \f$S^{(3)}(\alpha)\f$ as a
+/// @returns \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action(Int_precision N1_TL,

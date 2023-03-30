@@ -55,19 +55,19 @@ class MoveStrategy<Strategies::MOVE_ALWAYS, ManifoldType>  // NOLINT
       : m_passes{t_number_of_passes}, m_checkpoint{t_checkpoint}
   {}
 
-  /// @return The number of passes made on a triangulation
+  /// @returns The number of passes made on a triangulation
   [[nodiscard]] auto passes() const { return m_passes; }
 
-  /// @return The number of passes per checkpoint
+  /// @returns The number of passes per checkpoint
   [[nodiscard]] auto checkpoint() const { return m_checkpoint; }
 
-  /// @return The MoveTracker of attempted moves
+  /// @returns The MoveTracker of attempted moves
   auto get_attempted() const { return m_attempted_moves; }
 
-  /// @return The MoveTracker of successful moves
+  /// @returns The MoveTracker of successful moves
   auto get_succeeded() const { return m_successful_moves; }
 
-  /// @return The array of failed moves
+  /// @returns The array of failed moves
   auto get_failed() const { return m_failed_moves; }
 
   /// @brief Call operator

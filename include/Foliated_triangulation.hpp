@@ -85,7 +85,7 @@ namespace foliated_triangulations
   /// are 1-d simplices connecting 0-d vertices.
   /// @tparam dimension The dimensionality of the triangulation
   /// @param delaunay The triangulation
-  /// @return Container of all the finite edges in the triangulation
+  /// @returns Container of all the finite edges in the triangulation
   template <int dimension>
   [[nodiscard]] auto collect_edges(Delaunay_t<dimension> const& delaunay)
   {
@@ -111,7 +111,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the triangulation
   /// @param delaunay The triangulation
   /// @param point The point to find the vertex for
-  /// @return The vertex containing the given point
+  /// @returns The vertex containing the given point
   /// @see
   /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a5b45572c663e5d2c10f26e7be421e140
   template <int dimension>
@@ -134,7 +134,7 @@ namespace foliated_triangulations
   /// @param vh2 The second vertex
   /// @param vh3 The third vertex
   /// @param vh4 The fourth vertex
-  /// @return The cell containing the vertices
+  /// @returns The cell containing the vertices
   /// @see
   /// https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a8766c9a0c2a84203be31537e5e015646
   template <int dimension>
@@ -154,7 +154,7 @@ namespace foliated_triangulations
   }  // find_cell
 
   /// @tparam dimension The dimensionality of the simplices
-  /// @return True if timevalue of lhs is less than rhs
+  /// @returns True if timevalue of lhs is less than rhs
   template <int dimension>
   auto constexpr compare_v_info = [](Vertex_handle_t<dimension> const& lhs,
                                      Vertex_handle_t<dimension> const& rhs) {
@@ -163,7 +163,7 @@ namespace foliated_triangulations
 
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
-  /// @return The maximum timevalue in the container
+  /// @returns The maximum timevalue in the container
   template <int dimension, ContainerType Container>
   [[nodiscard]] auto find_max_timevalue(Container&& t_vertices) -> Int_precision
   {
@@ -181,7 +181,7 @@ namespace foliated_triangulations
 
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertices The container of vertices
-  /// @return The minimum timevalue in the container
+  /// @returns The minimum timevalue in the container
   template <int dimension, ContainerType Container>
   [[nodiscard]] auto find_min_timevalue(Container&& t_vertices) -> Int_precision
   {
@@ -199,7 +199,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_edge The Edge_handle to classify
   /// @param t_debug_flag Debugging info toggle
-  /// @return True if timelike and false if spacelike
+  /// @returns True if timelike and false if spacelike
   template <int dimension>
   [[nodiscard]] auto classify_edge(Edge_handle_t<dimension> const& t_edge)
       -> bool
@@ -222,7 +222,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_edges The container of edges to filter
   /// @param t_is_Timelike_pred The predicate to filter by
-  /// @return A container of is_Timelike edges
+  /// @returns A container of is_Timelike edges
   template <int dimension>
   [[nodiscard]] auto filter_edges(
       std::vector<Edge_handle_t<dimension>> const& t_edges,
@@ -242,7 +242,7 @@ namespace foliated_triangulations
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_cells The container of simplices
   /// @param t_cell_type The type of simplex to filter by
-  /// @return A container of simplices filtered by type
+  /// @returns A container of simplices filtered by type
   template <int dimension>
   [[nodiscard]] auto filter_cells(
       std::vector<Cell_handle_t<dimension>> const& t_cells,
@@ -262,7 +262,7 @@ namespace foliated_triangulations
   /// @brief Calculate the squared radius from the origin
   /// @tparam dimension The dimensionality of the simplices
   /// @param t_vertex The vertex to check
-  /// @return The squared radial distance of the vertex from the origin
+  /// @returns The squared radial distance of the vertex from the origin
   template <int dimension>
   [[nodiscard]] auto squared_radius(Vertex_handle_t<dimension> const& t_vertex)
       -> double
@@ -282,7 +282,7 @@ namespace foliated_triangulations
   /// @param t_vertex The vertex
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @return The effective radius of the vertex
+  /// @returns The effective radius of the vertex
   template <int dimension>
   [[nodiscard]] auto expected_timevalue(
       Vertex_handle_t<dimension> const& t_vertex, double t_initial_radius,
@@ -299,7 +299,7 @@ namespace foliated_triangulations
   /// @param t_vertex The vertex
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @return True if the timevalue of the vertex matches its effective radius
+  /// @returns True if the timevalue of the vertex matches its effective radius
   template <int dimension>
   [[nodiscard]] auto is_vertex_timevalue_correct(
       Vertex_handle_t<dimension> const& t_vertex, double t_initial_radius,
@@ -318,7 +318,7 @@ namespace foliated_triangulations
   /// @brief Obtain all finite vertices in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The Delaunay triangulation
-  /// @return A container of finite vertices
+  /// @returns A container of finite vertices
   template <int dimension>
   [[nodiscard]] auto collect_vertices(
       Delaunay_t<dimension> const& t_triangulation)
@@ -340,7 +340,7 @@ namespace foliated_triangulations
   /// @param t_triangulation The Delaunay triangulation
   /// @param t_initial_radius The initial radius of the radial foliation
   /// @param t_foliation_spacing The spacing between successive leaves
-  /// @return True if all vertices have correct timevalues
+  /// @returns True if all vertices have correct timevalues
   template <int dimension>
   [[nodiscard]] auto check_vertices(
       Delaunay_t<dimension> const& t_triangulation, double t_initial_radius,
@@ -357,7 +357,7 @@ namespace foliated_triangulations
   /// @brief Obtain all finite cells in the Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
   /// @param t_triangulation The triangulation
-  /// @return A container of finite cells
+  /// @returns A container of finite cells
   template <int dimension>
   [[nodiscard]] auto collect_cells(Delaunay_t<dimension> const& t_triangulation)
       -> std::vector<Cell_handle_t<dimension>>
@@ -375,7 +375,7 @@ namespace foliated_triangulations
 
   /// @brief Extracts vertices from cells
   /// @param t_cells The cells from which to extract vertices
-  /// @return All of the vertices contained in the cells
+  /// @returns All of the vertices contained in the cells
   template <int dimension>
   [[nodiscard]] inline auto get_vertices_from_cells(
       std::vector<Cell_handle_t<dimension>> const& t_cells)

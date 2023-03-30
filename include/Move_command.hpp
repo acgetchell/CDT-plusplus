@@ -53,28 +53,28 @@ class MoveCommand
       : m_manifold{std::move(t_manifold)}
   {}
 
-  /// @return A read-only reference to the manifold
+  /// @returns A read-only reference to the manifold
   auto get_const_results() const -> ManifoldType const&
   {
     return std::cref(m_manifold);
   }  // get_const_results
 
-  /// @return The results of the moves invoked by MoveCommand
+  /// @returns The results of the moves invoked by MoveCommand
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
-  /// @return Attempted moves by MoveCommand
+  /// @returns Attempted moves by MoveCommand
   [[nodiscard]] auto get_attempted() const -> Counter const&
   {
     return m_attempted;
   }  // get_attempts
 
-  /// @return Successful moves by MoveCommand
+  /// @returns Successful moves by MoveCommand
   [[nodiscard]] auto get_succeeded() const
   {
     return m_succeeded;
   }  // get_succeeded
 
-  /// @return Failed moves by MoveCommand
+  /// @returns Failed moves by MoveCommand
   [[nodiscard]] auto get_failed() const -> Counter const&
   {
     return m_failed;
