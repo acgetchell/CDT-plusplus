@@ -689,8 +689,8 @@ namespace foliated_triangulations
     for (auto        facets = std::forward<Container>(t_facets);
          auto const& face : facets)
     {
-      Cell_handle_t<dimension> cell           = face.first;
-      auto                     index_of_facet = face.second;
+      Cell_handle_t<dimension> const cell           = face.first;
+      auto                           index_of_facet = face.second;
 #ifndef NDEBUG
       spdlog::trace("Facet index is {}\n", index_of_facet);
 #endif
@@ -1480,10 +1480,10 @@ namespace foliated_triangulations
       for (auto fit = get_delaunay().finite_facets_begin();
            fit != get_delaunay().finite_facets_end(); ++fit)
       {
-        Cell_handle_t<3> cell = fit->first;
+        Cell_handle_t<3> const cell = fit->first;
         // Each face is valid in the triangulation
         Ensures(get_delaunay().tds().is_facet(cell, fit->second));
-        Face_handle_t<3> thisFacet{std::make_pair(cell, fit->second)};
+        Face_handle_t<3> const thisFacet{std::make_pair(cell, fit->second)};
         init_faces.emplace_back(thisFacet);
       }
       Ensures(init_faces.size() == get_delaunay().number_of_finite_facets());
@@ -1500,8 +1500,9 @@ namespace foliated_triangulations
            eit != get_delaunay().finite_edges_end(); ++eit)
       {
         Cell_handle_t<3> const cell = eit->first;
-        Edge_handle_t<3> thisEdge{cell, cell->index(cell->vertex(eit->second)),
-                                  cell->index(cell->vertex(eit->third))};
+        Edge_handle_t<3> const thisEdge{cell,
+                                        cell->index(cell->vertex(eit->second)),
+                                        cell->index(cell->vertex(eit->third))};
         // Each edge is valid in the triangulation
         Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,
                                               thisEdge.third));

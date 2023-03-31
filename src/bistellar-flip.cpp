@@ -65,7 +65,7 @@ try
 #ifdef NDEBUG
   fmt::print("Before bistellar flip.\n");
   auto                  vertices = bistellar_triangulation_vertices();
-  Delaunay              dt{vertices.begin(), vertices.end()};
+  ergodic_moves::Delaunay dt{vertices.begin(), vertices.end()};
   manifolds::Manifold_3 manifold{
       foliated_triangulations::FoliatedTriangulation_3{dt, 0, 1}
   };
@@ -93,7 +93,7 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
   GIVEN("A triangulation setup for a bistellar flip")
   {
     auto     vertices = bistellar_triangulation_vertices();
-    Delaunay triangulation(vertices.begin(), vertices.end());
+    ergodic_moves::Delaunay triangulation(vertices.begin(), vertices.end());
     WHEN("We have a valid triangulation")
     {
       CHECK(triangulation.is_valid());

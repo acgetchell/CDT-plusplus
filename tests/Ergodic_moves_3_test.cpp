@@ -394,7 +394,7 @@ SCENARIO("Test convenience functions needed for bistellar flip" *
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    Delaunay triangulation(vertices.begin(), vertices.end());
+    ergodic_moves::Delaunay triangulation(vertices.begin(), vertices.end());
     CHECK(triangulation.is_valid());
     auto edges = foliated_triangulations::collect_edges<3>(triangulation);
     WHEN("We get all the finite cells in the triangulation")
@@ -475,7 +475,7 @@ SCENARIO("Perform bistellar flip on Delaunay triangulation" *
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    Delaunay triangulation(vertices.begin(), vertices.end());
+    ergodic_moves::Delaunay triangulation(vertices.begin(), vertices.end());
     WHEN("We have a valid triangulation")
     {
       CHECK(triangulation.is_valid());

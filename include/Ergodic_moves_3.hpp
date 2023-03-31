@@ -19,18 +19,17 @@
 #include "Manifold.hpp"
 #include "Move_tracker.hpp"
 
-using Manifold         = manifolds::Manifold_3;
-using Expected         = tl::expected<Manifold, std::string>;
-using Cell_handle      = Cell_handle_t<3>;
-using Cell_container   = std::vector<Cell_handle>;
-using Edge_handle      = Edge_handle_t<3>;
-using Edge_container   = std::vector<Edge_handle>;
-using Vertex_handle    = Vertex_handle_t<3>;
-using Vertex_container = std::vector<Vertex_handle>;
-using Delaunay         = Delaunay_t<3>;
-
 namespace ergodic_moves
 {
+  using Manifold         = manifolds::Manifold_3;
+  using Expected         = tl::expected<Manifold, std::string>;
+  using Cell_handle      = Cell_handle_t<3>;
+  using Cell_container   = std::vector<Cell_handle>;
+  using Edge_handle      = Edge_handle_t<3>;
+  using Edge_container   = std::vector<Edge_handle>;
+  using Vertex_handle    = Vertex_handle_t<3>;
+  using Vertex_container = std::vector<Vertex_handle>;
+  using Delaunay         = Delaunay_t<3>;
 
   /// @brief Perform a null move
   ///
@@ -400,7 +399,7 @@ namespace ergodic_moves
 
     // Run until all cells fixed or 50 passes
     for (auto passes = 1; passes < foliated_triangulations::MAX_FIX_PASSES + 1;
-         ++passes)  // NOLINT
+         ++passes)
     {
       if (!foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
       {
@@ -500,12 +499,10 @@ namespace ergodic_moves
     Cell_container incident_cells;
     // Add cells to the container until we get back to the first one in the
     // circulator
-    do {
+    do {  // NOLINT(cppcoreguidelines-avoid-do-while)
       // Ignore cells containing the infinite vertex
-      if (!triangulation.is_infinite(circulator))
-      {
-        incident_cells.emplace_back(circulator);
-      }
+      if (triangulation.is_infinite(circulator)) { continue; }
+      incident_cells.emplace_back(circulator);
     }
     while (++circulator != edge.first);
 #ifndef NDEBUG
@@ -538,23 +535,23 @@ namespace ergodic_moves
   /// @brief Return a container of cells incident to an edge.
   /// @param triangulation The triangulation with the cells.
   /// @param edge The edge to find the incident cells of.
-  /// @returns A container of cells incident to the edge, or std::nullopt
+  /// @returns A container of cells incident to the edge or nullopt
   [[nodiscard]] inline auto get_incident_cells(Delaunay const& triangulation,
                                                Edge_handle     edge)
       -> std::optional<Cell_container>
   {
+    // Check that the edge is valid
     if (!triangulation.tds().is_edge(edge.first, edge.second, edge.third))
     {
       return std::nullopt;
     }
-    auto           circulator = triangulation.incident_cells(edge, edge.first);
+
     Cell_container incident_cells;
-    do {
+    auto           circulator = triangulation.incident_cells(edge, edge.first);
+    do {  // NOLINT(cppcoreguidelines-avoid-do-while)
       // filter out boundary edges with incident infinite cells
-      if (!triangulation.is_infinite(circulator))
-      {
-        incident_cells.emplace_back(circulator);
-      }
+      if (triangulation.is_infinite(circulator)) { continue; }
+      incident_cells.emplace_back(circulator);
     }
     while (++circulator != edge.first);
 
@@ -758,12 +755,10 @@ namespace ergodic_moves
     {
       auto circulator = triangulation.incident_cells(edge, edge.first);
       Cell_container incident_cells;
-      do {
+      do {  // NOLINT(cppcoreguidelines-avoid-do-while)
         // filter out boundary edges with incident infinite cells
-        if (!triangulation.is_infinite(circulator))
-        {
-          incident_cells.emplace_back(circulator);
-        }
+        if (triangulation.is_infinite(circulator)) { continue; }
+        incident_cells.emplace_back(circulator);
       }
       while (++circulator != edge.first);
       fmt::print("Edge has {} incident finite cells\n", incident_cells.size());
