@@ -252,7 +252,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A flipped triangulation if successful </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A flipped triangulation or nullopt </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00572">572</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -357,7 +357,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The (2,3) moved manifold </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The Expected (2,3) moved manifold or an Unexpected </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00086">86</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -402,7 +402,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The (2,6) moved manifold </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The Expected (2,6) moved manifold or an Unexpected </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00188">188</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -444,7 +444,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The (3,2) moved manifold </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The Expected (3,2) moved manifold or an Unexpected </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00129">129</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -489,7 +489,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The (4,4) moved manifold </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The Expected (4,4) moved manifold or Unexpected </dd></dl>
 <dl class="todo"><dt><b><a class="el" href="todo.html#_todo000001">Todo:</a></b></dt><dd>Need to debug bistellar_flip_really() </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00809">809</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
@@ -535,7 +535,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The (6,2) moved manifold </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The Expected (6,2) moved manifold or Unexpected </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00457">457</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -577,7 +577,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>The integer of the neighboring (3,1) simplex if there is one </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>The integer of the neighboring (3,1) simplex or nullopt </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00155">155</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -630,7 +630,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A container of incident cells if there are exactly 4 of them </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A container of incident cells if there are exactly 4 or nullopt </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00525">525</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -821,7 +821,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>A container of cells incident to the edge </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>A container of cells incident to the edge or nullopt </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094">https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00489">489</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
@@ -875,7 +875,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>If (6,2) move is possible </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if (6,2) move is possible </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00339">339</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
 
@@ -970,7 +970,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>If move succeeded </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00051">51</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
@@ -1024,7 +1024,7 @@ Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>If move succeeded </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>True if move succeeded </dd></dl>
 <dl class="section see"><dt>See also</dt><dd><a href="https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033">https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033</a> </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_ergodic__moves__3_8hpp_source.html#l00114">114</a> of file <a class="el" href="_ergodic__moves__3_8hpp_source.html">Ergodic_moves_3.hpp</a>.</p>
@@ -1038,7 +1038,7 @@ Functions</h2></td></tr>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Mar 30 2023 18:55:57 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Mar 31 2023 06:54:32 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
