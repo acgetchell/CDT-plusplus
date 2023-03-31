@@ -45,7 +45,7 @@ namespace ergodic_moves
   /// @brief Perform a TriangulationDataStructure_3::flip on a facet
   /// @param t_manifold The manifold containing the cell to flip
   /// @param to_be_moved The cell on which to try the move
-  /// @returns If move succeeded
+  /// @returns True if move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a2ad2941984c1eac5561665700bfd60b4
   [[nodiscard]] inline auto try_23_move(Manifold&          t_manifold,
@@ -82,7 +82,7 @@ namespace ergodic_moves
   /// If successful, the triangulation is no longer Delaunay.
   ///
   /// @param t_manifold The simplicial manifold
-  /// @returns The (2,3) moved manifold
+  /// @returns The Expected (2,3) moved manifold or an Unexpected
   [[nodiscard]] inline auto do_23_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
@@ -108,7 +108,7 @@ namespace ergodic_moves
   /// @brief Perform a TriangulationDataStructure_3::flip on an edge
   /// @param t_manifold The manifold containing the edge to flip
   /// @param to_be_moved The edge on which to try the move
-  /// @returns If move succeeded
+  /// @returns True if move succeeded
   /// @see
   /// https://doc.cgal.org/latest/TDS_3/classTriangulationDataStructure__3.html#a5837d666e4198f707f862003c1ffa033
   [[nodiscard]] inline auto try_32_move(Manifold&          t_manifold,
@@ -125,7 +125,7 @@ namespace ergodic_moves
   /// randomly shuffled container until it succeeds or runs out of edges.
   /// If successful, the triangulation is no longer Delaunay.
   /// @param t_manifold The simplicial manifold
-  /// @returns The (3,2) moved manifold
+  /// @returns The Expected (3,2) moved manifold or an Unexpected
   [[nodiscard]] inline auto do_32_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
@@ -151,7 +151,7 @@ namespace ergodic_moves
   /// @details This function checks to see if a (2,6) move is possible. Starting
   /// with a (1,3) simplex, it checks neighbors for a (3,1) simplex.
   /// @param t_cell The (1,3) simplex that is checked
-  /// @returns The integer of the neighboring (3,1) simplex if there is one
+  /// @returns The integer of the neighboring (3,1) simplex or nullopt
   [[nodiscard]] inline auto find_adjacent_31_cell(Cell_handle const& t_cell)
       -> std::optional<int>
   {
@@ -184,7 +184,7 @@ namespace ergodic_moves
   /// @image html 26.png
   /// @image latex 26.eps width=7cm
   /// @param t_manifold The simplicial manifold
-  /// @returns The (2,6) moved manifold
+  /// @returns The Expected (2,6) moved manifold or an Unexpected
   [[nodiscard]] inline auto do_26_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
@@ -335,7 +335,7 @@ namespace ergodic_moves
   /// and there should be no (2,2) simplices.
   /// @param manifold The simplicial manifold
   /// @param candidate The vertex to check
-  /// @returns If (6,2) move is possible
+  /// @returns True if (6,2) move is possible
   [[nodiscard]] inline auto is_62_movable(Manifold const&      manifold,
                                           Vertex_handle const& candidate)
       -> bool
@@ -453,7 +453,7 @@ namespace ergodic_moves
   /// change this, however.)
   ///
   /// @param t_manifold The simplicial manifold
-  /// @returns The (6,2) moved manifold
+  /// @returns The Expected (6,2) moved manifold or Unexpected
   [[nodiscard]] inline auto do_62_move(Manifold& t_manifold) -> Expected
   {
 #ifndef NDEBUG
@@ -483,7 +483,7 @@ namespace ergodic_moves
   /// @brief Find all cells incident to the edge
   /// @param triangulation The Delaunay triangulation
   /// @param edge The edge
-  /// @returns A container of cells incident to the edge
+  /// @returns A container of cells incident to the edge or nullopt
   /// @see
   /// https://github.com/CGAL/cgal/blob/8430d04539179f25fb8e716f99e19d28589beeda/TDS_3/include/CGAL/Triangulation_data_structure_3.h#L2094
   [[nodiscard]] inline auto incident_cells_from_edge(
@@ -521,7 +521,7 @@ namespace ergodic_moves
   /// and there should be no (2,2) simplices.
   /// @param triangulation The simplicial manifold
   /// @param t_edge_candidate The edge to check
-  /// @returns A container of incident cells if there are exactly 4 of them
+  /// @returns A container of incident cells if there are exactly 4 or nullopt
   [[nodiscard]] inline auto find_bistellar_flip_location(
       Delaunay const& triangulation, Edge_handle const& t_edge_candidate)
       -> std::optional<Cell_container>
@@ -568,7 +568,7 @@ namespace ergodic_moves
   /// @param edge The edge to pivot on
   /// @param top Top vertex of the cells being flipped
   /// @param bottom Bottom vertex of the cells being flipped
-  /// @returns A flipped triangulation if successful
+  /// @returns A flipped triangulation or nullopt
   [[nodiscard]] inline auto bistellar_flip(Delaunay    triangulation,
                                            Edge_handle edge, Vertex_handle top,
                                            Vertex_handle bottom)
@@ -804,7 +804,7 @@ namespace ergodic_moves
   /// change this, however.)
   ///
   /// @param t_manifold The simplicial manifold
-  /// @return The (4,4) moved manifold
+  /// @return The Expected (4,4) moved manifold or Unexpected
   /// @todo Need to debug bistellar_flip_really()
   [[nodiscard]] inline auto do_44_move(Manifold const& t_manifold) -> Expected
   {

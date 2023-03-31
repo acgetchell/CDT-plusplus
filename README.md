@@ -1,7 +1,7 @@
 # CDT-plusplus
 **Quantize spacetime on your laptop.**
 
-[![Build Status](https://img.shields.io/travis/acgetchell/CDT-plusplus.svg?label=Linux)](https://app.travis-ci.com/acgetchell/CDT-plusplus)
+![Build Status](https://img.shields.io/travis/com/acgetchell/CDT-plusplus?label=Linux)
 [![Windows Build status](https://img.shields.io/appveyor/ci/acgetchell/cdt-plusplus.svg?label=Windows)](https://ci.appveyor.com/project/acgetchell/cdt-plusplus)
 [![](https://github.com/acgetchell/CDT-plusplus/workflows/macOS/badge.svg?label=Actions)](https://github.com/acgetchell/CDT-plusplus/actions)
 [![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
