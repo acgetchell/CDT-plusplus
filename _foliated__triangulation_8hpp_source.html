@@ -594,8 +594,8 @@ $(function() {
 <div class="line"><a name="l00689"></a><span class="lineno">  689</span>&#160;    <span class="keywordflow">for</span> (<span class="keyword">auto</span>        facets = std::forward&lt;Container&gt;(t_facets);</div>
 <div class="line"><a name="l00690"></a><span class="lineno">  690</span>&#160;         <span class="keyword">auto</span> <span class="keyword">const</span>&amp; face : facets)</div>
 <div class="line"><a name="l00691"></a><span class="lineno">  691</span>&#160;    {</div>
-<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;      Cell_handle_t&lt;dimension&gt; cell           = face.first;</div>
-<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;      <span class="keyword">auto</span>                     index_of_facet = face.second;</div>
+<div class="line"><a name="l00692"></a><span class="lineno">  692</span>&#160;      Cell_handle_t&lt;dimension&gt; <span class="keyword">const</span> cell           = face.first;</div>
+<div class="line"><a name="l00693"></a><span class="lineno">  693</span>&#160;      <span class="keyword">auto</span>                           index_of_facet = face.second;</div>
 <div class="line"><a name="l00694"></a><span class="lineno">  694</span>&#160;<span class="preprocessor">#ifndef NDEBUG</span></div>
 <div class="line"><a name="l00695"></a><span class="lineno">  695</span>&#160;      spdlog::trace(<span class="stringliteral">&quot;Facet index is {}\n&quot;</span>, index_of_facet);</div>
 <div class="line"><a name="l00696"></a><span class="lineno">  696</span>&#160;<span class="preprocessor">#endif</span></div>
@@ -1211,10 +1211,10 @@ $(function() {
 <div class="line"><a name="l01480"></a><span class="lineno"> 1480</span>&#160;      <span class="keywordflow">for</span> (<span class="keyword">auto</span> fit = get_delaunay().finite_facets_begin();</div>
 <div class="line"><a name="l01481"></a><span class="lineno"> 1481</span>&#160;           fit != get_delaunay().finite_facets_end(); ++fit)</div>
 <div class="line"><a name="l01482"></a><span class="lineno"> 1482</span>&#160;      {</div>
-<div class="line"><a name="l01483"></a><span class="lineno"> 1483</span>&#160;        Cell_handle_t&lt;3&gt; cell = fit-&gt;first;</div>
+<div class="line"><a name="l01483"></a><span class="lineno"> 1483</span>&#160;        Cell_handle_t&lt;3&gt; <span class="keyword">const</span> cell = fit-&gt;first;</div>
 <div class="line"><a name="l01484"></a><span class="lineno"> 1484</span>&#160;        <span class="comment">// Each face is valid in the triangulation</span></div>
 <div class="line"><a name="l01485"></a><span class="lineno"> 1485</span>&#160;        Ensures(get_delaunay().tds().is_facet(cell, fit-&gt;second));</div>
-<div class="line"><a name="l01486"></a><span class="lineno"> 1486</span>&#160;        Face_handle_t&lt;3&gt; thisFacet{std::make_pair(cell, fit-&gt;second)};</div>
+<div class="line"><a name="l01486"></a><span class="lineno"> 1486</span>&#160;        Face_handle_t&lt;3&gt; <span class="keyword">const</span> thisFacet{std::make_pair(cell, fit-&gt;second)};</div>
 <div class="line"><a name="l01487"></a><span class="lineno"> 1487</span>&#160;        init_faces.emplace_back(thisFacet);</div>
 <div class="line"><a name="l01488"></a><span class="lineno"> 1488</span>&#160;      }</div>
 <div class="line"><a name="l01489"></a><span class="lineno"> 1489</span>&#160;      Ensures(init_faces.size() == get_delaunay().number_of_finite_facets());</div>
@@ -1230,29 +1230,30 @@ $(function() {
 <div class="line"><a name="l01500"></a><span class="lineno"> 1500</span>&#160;           eit != get_delaunay().finite_edges_end(); ++eit)</div>
 <div class="line"><a name="l01501"></a><span class="lineno"> 1501</span>&#160;      {</div>
 <div class="line"><a name="l01502"></a><span class="lineno"> 1502</span>&#160;        Cell_handle_t&lt;3&gt; <span class="keyword">const</span> cell = eit-&gt;first;</div>
-<div class="line"><a name="l01503"></a><span class="lineno"> 1503</span>&#160;        Edge_handle_t&lt;3&gt; thisEdge{cell, cell-&gt;index(cell-&gt;vertex(eit-&gt;second)),</div>
-<div class="line"><a name="l01504"></a><span class="lineno"> 1504</span>&#160;                                  cell-&gt;index(cell-&gt;vertex(eit-&gt;third))};</div>
-<div class="line"><a name="l01505"></a><span class="lineno"> 1505</span>&#160;        <span class="comment">// Each edge is valid in the triangulation</span></div>
-<div class="line"><a name="l01506"></a><span class="lineno"> 1506</span>&#160;        Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,</div>
-<div class="line"><a name="l01507"></a><span class="lineno"> 1507</span>&#160;                                              thisEdge.third));</div>
-<div class="line"><a name="l01508"></a><span class="lineno"> 1508</span>&#160;        init_edges.emplace_back(thisEdge);</div>
-<div class="line"><a name="l01509"></a><span class="lineno"> 1509</span>&#160;      }</div>
-<div class="line"><a name="l01510"></a><span class="lineno"> 1510</span>&#160;      Ensures(init_edges.size() == number_of_finite_edges());</div>
-<div class="line"><a name="l01511"></a><span class="lineno"> 1511</span>&#160;      <span class="keywordflow">return</span> init_edges;</div>
-<div class="line"><a name="l01512"></a><span class="lineno"> 1512</span>&#160;    }  <span class="comment">// collect_edges</span></div>
-<div class="line"><a name="l01513"></a><span class="lineno"> 1513</span>&#160;  };</div>
-<div class="line"><a name="l01514"></a><span class="lineno"> 1514</span>&#160; </div>
-<div class="line"><a name="l01515"></a><span class="lineno"> 1515</span>&#160;  <span class="keyword">using</span> FoliatedTriangulation_3 = FoliatedTriangulation&lt;3&gt;;</div>
-<div class="line"><a name="l01516"></a><span class="lineno"> 1516</span>&#160; </div>
-<div class="line"><a name="l01518"></a><span class="lineno"> 1518</span>&#160;  <span class="keyword">template</span> &lt;&gt;</div>
-<div class="line"><a name="l01519"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html"> 1519</a></span>&#160;  <span class="keyword">class </span>[[nodiscard(&quot;This contains data!&quot;)]] <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation.html">FoliatedTriangulation</a>&lt;4&gt;</div>
-<div class="line"><a name="l01520"></a><span class="lineno"> 1520</span>&#160;  {};</div>
-<div class="line"><a name="l01521"></a><span class="lineno"> 1521</span>&#160; </div>
-<div class="line"><a name="l01522"></a><span class="lineno"> 1522</span>&#160;  <span class="keyword">using</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html">FoliatedTriangulation_4</a> = <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html">FoliatedTriangulation&lt;4&gt;</a>;</div>
-<div class="line"><a name="l01523"></a><span class="lineno"> 1523</span>&#160; </div>
-<div class="line"><a name="l01524"></a><span class="lineno"> 1524</span>&#160;}  <span class="comment">// namespace foliated_triangulations</span></div>
-<div class="line"><a name="l01525"></a><span class="lineno"> 1525</span>&#160; </div>
-<div class="line"><a name="l01526"></a><span class="lineno"> 1526</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP</span></div>
+<div class="line"><a name="l01503"></a><span class="lineno"> 1503</span>&#160;        Edge_handle_t&lt;3&gt; <span class="keyword">const</span> thisEdge{cell,</div>
+<div class="line"><a name="l01504"></a><span class="lineno"> 1504</span>&#160;                                        cell-&gt;index(cell-&gt;vertex(eit-&gt;second)),</div>
+<div class="line"><a name="l01505"></a><span class="lineno"> 1505</span>&#160;                                        cell-&gt;index(cell-&gt;vertex(eit-&gt;third))};</div>
+<div class="line"><a name="l01506"></a><span class="lineno"> 1506</span>&#160;        <span class="comment">// Each edge is valid in the triangulation</span></div>
+<div class="line"><a name="l01507"></a><span class="lineno"> 1507</span>&#160;        Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,</div>
+<div class="line"><a name="l01508"></a><span class="lineno"> 1508</span>&#160;                                              thisEdge.third));</div>
+<div class="line"><a name="l01509"></a><span class="lineno"> 1509</span>&#160;        init_edges.emplace_back(thisEdge);</div>
+<div class="line"><a name="l01510"></a><span class="lineno"> 1510</span>&#160;      }</div>
+<div class="line"><a name="l01511"></a><span class="lineno"> 1511</span>&#160;      Ensures(init_edges.size() == number_of_finite_edges());</div>
+<div class="line"><a name="l01512"></a><span class="lineno"> 1512</span>&#160;      <span class="keywordflow">return</span> init_edges;</div>
+<div class="line"><a name="l01513"></a><span class="lineno"> 1513</span>&#160;    }  <span class="comment">// collect_edges</span></div>
+<div class="line"><a name="l01514"></a><span class="lineno"> 1514</span>&#160;  };</div>
+<div class="line"><a name="l01515"></a><span class="lineno"> 1515</span>&#160; </div>
+<div class="line"><a name="l01516"></a><span class="lineno"> 1516</span>&#160;  <span class="keyword">using</span> FoliatedTriangulation_3 = FoliatedTriangulation&lt;3&gt;;</div>
+<div class="line"><a name="l01517"></a><span class="lineno"> 1517</span>&#160; </div>
+<div class="line"><a name="l01519"></a><span class="lineno"> 1519</span>&#160;  <span class="keyword">template</span> &lt;&gt;</div>
+<div class="line"><a name="l01520"></a><span class="lineno"><a class="line" href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html"> 1520</a></span>&#160;  <span class="keyword">class </span>[[nodiscard(&quot;This contains data!&quot;)]] <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation.html">FoliatedTriangulation</a>&lt;4&gt;</div>
+<div class="line"><a name="l01521"></a><span class="lineno"> 1521</span>&#160;  {};</div>
+<div class="line"><a name="l01522"></a><span class="lineno"> 1522</span>&#160; </div>
+<div class="line"><a name="l01523"></a><span class="lineno"> 1523</span>&#160;  <span class="keyword">using</span> <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html">FoliatedTriangulation_4</a> = <a class="code" href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html">FoliatedTriangulation&lt;4&gt;</a>;</div>
+<div class="line"><a name="l01524"></a><span class="lineno"> 1524</span>&#160; </div>
+<div class="line"><a name="l01525"></a><span class="lineno"> 1525</span>&#160;}  <span class="comment">// namespace foliated_triangulations</span></div>
+<div class="line"><a name="l01526"></a><span class="lineno"> 1526</span>&#160; </div>
+<div class="line"><a name="l01527"></a><span class="lineno"> 1527</span>&#160;<span class="preprocessor">#endif  </span><span class="comment">// CDT_PLUSPLUS_FOLIATEDTRIANGULATION_HPP</span></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a0dbff8072c34c1d95c81f5b115a912c1"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a0dbff8072c34c1d95c81f5b115a912c1">foliated_triangulations::make_foliated_ball</a></div><div class="ttdeci">auto make_foliated_ball(Int_precision t_simplices, Int_precision t_timeslices, double initial_radius=INITIAL_RADIUS, double foliation_spacing=FOLIATION_SPACING)</div><div class="ttdoc">Make foliated ball.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00837">Foliated_triangulation.hpp:837</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a0efe7600d0fd62ffa76a663fe23b1313"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a0efe7600d0fd62ffa76a663fe23b1313">foliated_triangulations::print_edge</a></div><div class="ttdeci">void print_edge(Edge_handle_t&lt; dimension &gt; const &amp;t_edge)</div><div class="ttdoc">Print edge.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00662">Foliated_triangulation.hpp:662</a></div></div>
 <div class="ttc" id="a_foliated__triangulation_8hpp_html_a1c50ebabc1eeaa8eab94881e9306c97c"><div class="ttname"><a href="_foliated__triangulation_8hpp.html#a1c50ebabc1eeaa8eab94881e9306c97c">foliated_triangulations::find_min_timevalue</a></div><div class="ttdeci">auto find_min_timevalue(Container &amp;&amp;t_vertices) -&gt; Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00188">Foliated_triangulation.hpp:188</a></div></div>
@@ -1351,13 +1352,13 @@ $(function() {
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_ae98294c7ce324639ed6043922a749f2d"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#ae98294c7ce324639ed6043922a749f2d">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::is_delaunay</a></div><div class="ttdeci">auto is_delaunay() const -&gt; bool</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01102">Foliated_triangulation.hpp:1102</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_af34c7bba597ac42d8ca48487cd9fbef7"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#af34c7bba597ac42d8ca48487cd9fbef7">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::collect_faces</a></div><div class="ttdeci">auto collect_faces() const -&gt; Face_container</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01474">Foliated_triangulation.hpp:1474</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html_af87d0a9c0d31da0b4befc5d62a958641"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#af87d0a9c0d31da0b4befc5d62a958641">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::swap</a></div><div class="ttdeci">friend void swap(FoliatedTriangulation&lt; 3 &gt; &amp;swap_from, FoliatedTriangulation&lt; 3 &gt; &amp;swap_into) noexcept</div><div class="ttdoc">Non-member swap function for Foliated Triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01010">Foliated_triangulation.hpp:1010</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 4 &gt;</a></div><div class="ttdoc">4D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01519">Foliated_triangulation.hpp:1520</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_014_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 4 &gt;</a></div><div class="ttdoc">4D Triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l01520">Foliated_triangulation.hpp:1521</a></div></div>
 <div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation.html">foliated_triangulations::FoliatedTriangulation</a></div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00939">Foliated_triangulation.hpp:939</a></div></div>
 <div class="ttc" id="astruct_triangulation_traits_html"><div class="ttname"><a href="struct_triangulation_traits.html">TriangulationTraits</a></div><div class="ttdef"><b>Definition:</b> <a href="_triangulation__traits_8hpp_source.html#l00023">Triangulation_traits.hpp:23</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Mar 31 2023 06:54:31 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Mar 31 2023 18:01:03 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
