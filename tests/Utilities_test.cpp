@@ -32,7 +32,7 @@ SCENARIO("Various string/stream/time utilities" *
       cout.rdbuf(backup);
       THEN("The output is correct.")
       {
-        CHECK(buffer.str() == "spherical");
+        CHECK_EQ(buffer.str(), "spherical");
         spdlog::debug("buffer.str() contents: {}.\n", buffer.str());
       }
       WHEN("fmt::print is invoked.")
@@ -40,7 +40,7 @@ SCENARIO("Various string/stream/time utilities" *
         THEN("The output is correct.")
         {
           auto result = fmt::format("Topology type is: {}.\n", buffer.str());
-          CHECK(result == "Topology type is: spherical.\n");
+          CHECK_EQ(result, "Topology type is: spherical.\n");
           spdlog::debug("Topology type is: {}.\n", buffer.str());
         }
       }
@@ -56,7 +56,7 @@ SCENARIO("Various string/stream/time utilities" *
         // Update test yearly
         auto const result = current_date_time();
         auto const year   = result.find("2023");
-        CHECK_FALSE(year == std::string::npos);
+        CHECK_NE(year, std::string::npos);
         // Human verification
         fmt::print("Current date and time is: {}\n", current_date_time());
       }
@@ -73,15 +73,15 @@ SCENARIO("Various string/stream/time utilities" *
       THEN("The output is correct.")
       {
         auto const topology = filename.find("S3");
-        CHECK_FALSE(topology == std::string::npos);
+        CHECK_NE(topology, std::string::npos);
         auto const time = filename.find("16");
-        CHECK_FALSE(time == std::string::npos);
+        CHECK_NE(time, std::string::npos);
         auto const cells = filename.find("6700");
-        CHECK_FALSE(cells == std::string::npos);
+        CHECK_NE(cells, std::string::npos);
         auto const initial_radius = filename.find("1.0");
-        CHECK_FALSE(initial_radius == std::string::npos);
+        CHECK_NE(initial_radius, std::string::npos);
         auto const file_suffix = filename.find("off");
-        CHECK_FALSE(file_suffix == std::string::npos);
+        CHECK_NE(file_suffix, std::string::npos);
         // Human verification
         fmt::print("Filename is: {}\n", filename);
       }
@@ -173,21 +173,21 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
     {
       auto const roll1 = die_roll();
       auto const roll2 = die_roll();
-      THEN("They should probably be different.") { WARN_FALSE(roll1 == roll2); }
+      THEN("They should probably be different.") { WARN_NE(roll1, roll2); }
     }
   }
   GIVEN("A container of ints")
   {
-    Int_precision constexpr VECTOR_TEST_SIZE = 16;
-    vector<Int_precision> container(VECTOR_TEST_SIZE);
+    Int_precision constexpr VECTOR_TEST_SIZE = 100;
+    array<Int_precision, VECTOR_TEST_SIZE> container{};
     iota(container.begin(), container.end(), 0);
     WHEN("The container is shuffled.")
     {
       std::shuffle(container.begin(), container.end(), make_random_generator());
       THEN("We get back the elements in random order.")
       {
-        auto j = 0;                                   // NOLINT
-        for (auto i : container) { WARN(i != j++); }  // NOLINT
+        auto j = 0;                                    // NOLINT
+        for (auto i : container) { WARN_NE(i, j++); }  // NOLINT
         fmt::print("\nShuffled container verification:\n");
         fmt::print("{}\n", fmt::join(container, " "));
       }
@@ -197,43 +197,32 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six different random integers within the range.")
     {
-      auto constexpr min = 64;
-      auto constexpr max = 6400;
-      auto const value1  = generate_random_int(min, max);
-      auto const value2  = generate_random_int(min, max);
-      auto const value3  = generate_random_int(min, max);
-      auto const value4  = generate_random_int(min, max);
-      auto const value5  = generate_random_int(min, max);
-      auto const value6  = generate_random_int(min, max);
+      auto constexpr min                = 64;
+      auto constexpr max                = 6400;
+      auto const              value1    = generate_random_int(min, max);
+      auto const              value2    = generate_random_int(min, max);
+      auto const              value3    = generate_random_int(min, max);
+      auto const              value4    = generate_random_int(min, max);
+      auto const              value5    = generate_random_int(min, max);
+      auto const              value6    = generate_random_int(min, max);
+      array<Int_precision, 6> container = {value1, value2, value3,
+                                           value4, value5, value6};
       THEN("They should all fall within the range and all be different.")
       {
-        CHECK(value1 >= min);
-        CHECK(value1 <= max);
-        CHECK(value2 >= min);
-        CHECK(value2 <= max);
-        CHECK(value3 >= min);
-        CHECK(value3 <= max);
-        CHECK(value4 >= min);
-        CHECK(value4 <= max);
-        CHECK(value5 >= min);
-        CHECK(value5 <= max);
-        CHECK(value6 >= min);
-        CHECK(value6 <= max);
-        CHECK_FALSE(value1 == value2);
-        CHECK_FALSE(value1 == value3);
-        CHECK_FALSE(value1 == value4);
-        CHECK_FALSE(value1 == value5);
-        CHECK_FALSE(value1 == value6);
-        CHECK_FALSE(value2 == value3);
-        CHECK_FALSE(value2 == value4);
-        CHECK_FALSE(value2 == value5);
-        CHECK_FALSE(value2 == value6);
-        CHECK_FALSE(value3 == value4);
-        CHECK_FALSE(value3 == value5);
-        CHECK_FALSE(value3 == value6);
-        CHECK_FALSE(value4 == value5);
-        CHECK_FALSE(value4 == value6);
-        CHECK_FALSE(value5 == value6);
+        // All elements are >= min
+        CHECK_GE(*min_element(container.begin(), container.end()), min);
+
+        // All elements are <= max
+        CHECK_LE(*max_element(container.begin(), container.end()), max);
+
+        // All elements are different
+        sort(container.begin(), container.end());
+        CHECK(is_sorted(container.begin(), container.end()));
+        auto adjacent_iterator =
+            adjacent_find(container.begin(), container.end());
+
+        // If the iterator is equal to the end, then all elements are different
+        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
@@ -241,42 +230,32 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six different timeslices within the range.")
     {
-      auto constexpr max = 256;
-      auto const value1  = generate_random_timeslice(max);
-      auto const value2  = generate_random_timeslice(max);
-      auto const value3  = generate_random_timeslice(max);
-      auto const value4  = generate_random_timeslice(max);
-      auto const value5  = generate_random_timeslice(max);
-      auto const value6  = generate_random_timeslice(max);
+      auto constexpr min                = 1;
+      auto constexpr max                = 256;
+      auto const              value1    = generate_random_timeslice(max);
+      auto const              value2    = generate_random_timeslice(max);
+      auto const              value3    = generate_random_timeslice(max);
+      auto const              value4    = generate_random_timeslice(max);
+      auto const              value5    = generate_random_timeslice(max);
+      auto const              value6    = generate_random_timeslice(max);
+      array<Int_precision, 6> container = {value1, value2, value3,
+                                           value4, value5, value6};
       THEN("They should all fall within the range and be different.")
       {
-        CHECK(value1 >= 1);
-        CHECK(value1 <= max);
-        CHECK(value2 >= 1);
-        CHECK(value2 <= max);
-        CHECK(value3 >= 1);
-        CHECK(value3 <= max);
-        CHECK(value4 >= 1);
-        CHECK(value4 <= max);
-        CHECK(value5 >= 1);
-        CHECK(value5 <= max);
-        CHECK(value6 >= 1);
-        CHECK(value6 <= max);
-        CHECK_FALSE(value1 == value2);
-        CHECK_FALSE(value1 == value3);
-        CHECK_FALSE(value1 == value4);
-        CHECK_FALSE(value1 == value5);
-        CHECK_FALSE(value1 == value6);
-        CHECK_FALSE(value2 == value3);
-        CHECK_FALSE(value2 == value4);
-        CHECK_FALSE(value2 == value5);
-        CHECK_FALSE(value2 == value6);
-        CHECK_FALSE(value3 == value4);
-        CHECK_FALSE(value3 == value5);
-        CHECK_FALSE(value3 == value6);
-        CHECK_FALSE(value4 == value5);
-        CHECK_FALSE(value4 == value6);
-        CHECK_FALSE(value5 == value6);
+        // All elements are >= min
+        CHECK_GE(*min_element(container.begin(), container.end()), min);
+
+        // All elements are <= max
+        CHECK_LE(*max_element(container.begin(), container.end()), max);
+
+        // All elements are different
+        sort(container.begin(), container.end());
+        CHECK(is_sorted(container.begin(), container.end()));
+        auto adjacent_iterator =
+            adjacent_find(container.begin(), container.end());
+
+        // If the iterator is equal to the end, then all elements are different
+        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
@@ -289,8 +268,8 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const value   = generate_random_real(min, max);
       THEN("The real number should lie within that range.")
       {
-        REQUIRE(min <= value);
-        REQUIRE(value <= max);
+        REQUIRE_LE(min, value);
+        REQUIRE_LE(value, max);
       }
     }
   }
@@ -304,24 +283,18 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const value4 = generate_probability();
       auto const value5 = generate_probability();
       auto const value6 = generate_probability();
+      array<long double, 6> container = {value1, value2, value3,
+                                         value4, value5, value6};
 
       THEN("They should all be different.")
       {
-        CHECK_FALSE(value1 == value2);
-        CHECK_FALSE(value1 == value3);
-        CHECK_FALSE(value1 == value4);
-        CHECK_FALSE(value1 == value5);
-        CHECK_FALSE(value1 == value6);
-        CHECK_FALSE(value2 == value3);
-        CHECK_FALSE(value2 == value4);
-        CHECK_FALSE(value2 == value5);
-        CHECK_FALSE(value2 == value6);
-        CHECK_FALSE(value3 == value4);
-        CHECK_FALSE(value3 == value5);
-        CHECK_FALSE(value3 == value6);
-        CHECK_FALSE(value4 == value5);
-        CHECK_FALSE(value4 == value6);
-        CHECK_FALSE(value5 == value6);
+        sort(container.begin(), container.end());
+        CHECK(is_sorted(container.begin(), container.end()));
+        auto adjacent_iterator =
+            adjacent_find(container.begin(), container.end());
+
+        // If the iterator is equal to the end, then all elements are different
+        CHECK_EQ(adjacent_iterator, container.end());
       }
     }
   }
@@ -336,35 +309,35 @@ SCENARIO("Expected points per timeslice" * doctest::test_suite("utilities"))
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 2, 2) == 2);
+        REQUIRE_EQ(expected_points_per_timeslice(3, 2, 2), 2);
       }
     }
     WHEN("We request 500 simplices on 4 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 500, 4) == 50);
+        REQUIRE_EQ(expected_points_per_timeslice(3, 500, 4), 50);
       }
     }
     WHEN("We request 5000 simplices on 8 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 5000, 8) == 125);
+        REQUIRE_EQ(expected_points_per_timeslice(3, 5000, 8), 125);
       }
     }
     WHEN("We request 64,000 simplices on 16 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 64000, 16) == 600);
+        REQUIRE_EQ(expected_points_per_timeslice(3, 64000, 16), 600);
       }
     }
     WHEN("We request 640,000 simplices on 64 timeslices.")
     {
       THEN("The results are correct.")
       {
-        REQUIRE(expected_points_per_timeslice(3, 640000, 64) == 1000);
+        REQUIRE_EQ(expected_points_per_timeslice(3, 640000, 64), 1000);
       }
     }
     WHEN("We specify 4 dimensions")
@@ -389,7 +362,7 @@ SCENARIO("Exact number (Gmpzf) conversion" * doctest::test_suite("utilities"))
       auto const converted_value = Gmpzf_to_double(TEST_VALUE);
       THEN("It should be exact when converted back from double to Gmpzf.")
       {
-        REQUIRE(TEST_VALUE == Gmpzf(converted_value));
+        REQUIRE_EQ(TEST_VALUE, Gmpzf(converted_value));
       }
     }
   }

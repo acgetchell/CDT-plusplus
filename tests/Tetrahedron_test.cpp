@@ -39,27 +39,27 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
 
       THEN("The triangulation has dimension 3.")
       {
-        REQUIRE(triangulation.dimension() == 3);
+        REQUIRE_EQ(triangulation.dimension(), 3);
       }
 
       THEN("The triangulation has 4 vertices.")
       {
-        REQUIRE(triangulation.number_of_vertices() == 4);
+        REQUIRE_EQ(triangulation.number_of_vertices(), 4);
       }
 
       THEN("The triangulation has 6 edges.")
       {
-        REQUIRE(triangulation.number_of_finite_edges() == 6);
+        REQUIRE_EQ(triangulation.number_of_finite_edges(), 6);
       }
 
       THEN("The triangulation has 4 faces.")
       {
-        REQUIRE(triangulation.number_of_finite_facets() == 4);
+        REQUIRE_EQ(triangulation.number_of_finite_facets(), 4);
       }
 
       THEN("The triangulation has 1 cell.")
       {
-        REQUIRE(triangulation.number_of_finite_cells() == 1);
+        REQUIRE_EQ(triangulation.number_of_finite_cells(), 1);
       }
 
       THEN("The triangulation is Delaunay.")
@@ -118,33 +118,33 @@ SCENARIO("Find distances between points of the tetrahedron" *
         auto d_1 = r_2(origin, v_1);
         fmt::print("The squared distance between v_1 and the origin is {}\n",
                    d_1);
-        CHECK(d_1 == 1);
+        CHECK_EQ(d_1, doctest::Approx(1.0));
 
         auto d_2 = r_2(origin, v_2);
         fmt::print("The squared distance between v_2 and the origin is {}\n",
                    d_2);
-        CHECK(d_2 == 1);
+        CHECK_EQ(d_2, doctest::Approx(1.0));
 
         auto d_3 = r_2(origin, v_3);
         fmt::print("The squared distance between v_3 and the origin is {}\n",
                    d_3);
-        CHECK(d_3 == 1);
+        CHECK_EQ(d_3, doctest::Approx(1.0));
 
         auto d_4 = r_2(origin, v_4);
         fmt::print("The squared distance between v_4 and the origin is {}\n",
                    d_4);
-        CHECK(d_4 == 4);
+        CHECK_EQ(d_4, doctest::Approx(4.0));
       }
       THEN("The squared distance between radius=1 vertices are 2.")
       {
         auto d_1 = r_2(v_1, v_2);
-        CHECK(d_1 == 2);
+        CHECK_EQ(d_1, doctest::Approx(2.0));
         fmt::print("The squared distance between v_1 and v_2 is {}\n", d_1);
         auto d_2 = r_2(v_1, v_3);
-        CHECK(d_2 == 2);
+        CHECK_EQ(d_2, doctest::Approx(2.0));
         fmt::print("The squared distance between v_1 and v_3 is {}\n", d_2);
         auto d_3 = r_2(v_2, v_3);
-        CHECK(d_3 == 2);
+        CHECK_EQ(d_3, doctest::Approx(2.0));
         fmt::print("The squared distance between v_2 and v_3 is {}\n", d_3);
       }
       THEN("All vertices have correct timevalues.")
@@ -204,27 +204,27 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
 
       THEN("The triangulation has dimension 3.")
       {
-        REQUIRE(triangulation.dimension() == 3);
+        REQUIRE_EQ(triangulation.dimension(), 3);
       }
 
       THEN("The triangulation has 4 vertices.")
       {
-        REQUIRE(triangulation.number_of_vertices() == 4);
+        REQUIRE_EQ(triangulation.number_of_vertices(), 4);
       }
 
       THEN("The triangulation has 6 edges.")
       {
-        REQUIRE(triangulation.number_of_finite_edges() == 6);
+        REQUIRE_EQ(triangulation.number_of_finite_edges(), 6);
       }
 
       THEN("The triangulation has 4 faces.")
       {
-        REQUIRE(triangulation.number_of_finite_facets() == 4);
+        REQUIRE_EQ(triangulation.number_of_finite_facets(), 4);
       }
 
       THEN("The triangulation has 1 cell.")
       {
-        REQUIRE(triangulation.number_of_finite_cells() == 1);
+        REQUIRE_EQ(triangulation.number_of_finite_cells(), 1);
       }
 
       THEN("Timevalues are correct.")
@@ -242,7 +242,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
 
       THEN("There is one (3,1) simplex.")
       {
-        REQUIRE(triangulation.get_three_one().size() == 1);
+        REQUIRE_EQ(triangulation.get_three_one().size(), 1);
       }
 
       THEN("There are no (2,2) simplices.")
@@ -257,12 +257,12 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
 
       THEN("There are 3 timelike edges.")
       {
-        REQUIRE(triangulation.N1_TL() == 3);
+        REQUIRE_EQ(triangulation.N1_TL(), 3);
       }
 
       THEN("There are 3 spacelike edges.")
       {
-        REQUIRE(triangulation.N1_SL() == 3);
+        REQUIRE_EQ(triangulation.N1_SL(), 3);
       }
     }
   }
