@@ -120,10 +120,10 @@ $(function() {
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      THEN(<span class="stringliteral">&quot;The resulting manifold is valid and unchanged.&quot;</span>)</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      {</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        CHECK(manifold.is_valid());</div>
-<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        CHECK(manifold_before.simplices() == manifold.simplices());</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        CHECK(manifold_before.faces() == manifold.faces());</div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        CHECK(manifold_before.edges() == manifold.edges());</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        CHECK(manifold_before.vertices() == manifold.vertices());</div>
+<div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;        CHECK_EQ(manifold_before.simplices(), manifold.simplices());</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;        CHECK_EQ(manifold_before.faces(), manifold.faces());</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        CHECK_EQ(manifold_before.edges(), manifold.edges());</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;        CHECK_EQ(manifold_before.vertices(), manifold.vertices());</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        fmt::print(<span class="stringliteral">&quot;Old manifold.\n&quot;</span>);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;        manifold_before.print_details();</div>
@@ -270,7 +270,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 1 2023 18:40:27 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sat Apr 1 2023 23:06:30 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
