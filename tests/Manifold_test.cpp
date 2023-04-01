@@ -123,7 +123,7 @@ SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
     {
       THEN("The correct dimensionality is returned.")
       {
-        REQUIRE(test.dimension == 3);
+        REQUIRE_EQ(test.dimension, 3);
       }
     }
   }
@@ -146,7 +146,7 @@ SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
     {
       THEN("The vertices have valid timevalues.")
       {
-        REQUIRE(manifold.N0() == 4);
+        REQUIRE_EQ(manifold.N0(), 4);
         CHECK(manifold.is_correct());
         // Human verification
         manifold.print_vertices();
@@ -181,8 +181,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
         std::string manifold_string{manifold_type};
-        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
-                    std::string::npos);
+        CHECK_NE(manifold_string.find("FoliatedTriangulation"),
+                 std::string::npos);
         fmt::print("The triangulation data structure is of type {}\n",
                    manifold_string);
         REQUIRE(manifold.is_delaunay());
@@ -192,7 +192,7 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
-        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
                    geometry_string);
       }
@@ -210,8 +210,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
         std::string manifold_string{manifold_type};
-        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
-                    std::string::npos);
+        CHECK_NE(manifold_string.find("FoliatedTriangulation"),
+                 std::string::npos);
         fmt::print("The triangulation data structure is of type {}\n",
                    manifold_string);
         REQUIRE(manifold.is_delaunay());
@@ -221,24 +221,24 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
-        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
                    geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.N0() == 5);
-        REQUIRE(manifold.N1_SL() == 3);
-        REQUIRE(manifold.N1_TL() == 6);
+        REQUIRE_EQ(manifold.N0(), 5);
+        REQUIRE_EQ(manifold.N1_SL(), 3);
+        REQUIRE_EQ(manifold.N1_TL(), 6);
         // How many spacelike facets have a timevalue of 2? Should be 1.
-        REQUIRE(manifold.N2_SL().count(2) == 1);
+        REQUIRE_EQ(manifold.N2_SL().count(2), 1);
         // There shouldn't be spacelike facets with other time values.
-        REQUIRE(manifold.N2_SL().count(1) == 0);
-        REQUIRE(manifold.N2_SL().count(3) == 0);
-        REQUIRE(manifold.N3() == 2);
-        REQUIRE(manifold.min_time() == 1);
-        REQUIRE(manifold.max_time() == 3);
+        REQUIRE_EQ(manifold.N2_SL().count(1), 0);
+        REQUIRE_EQ(manifold.N2_SL().count(3), 0);
+        REQUIRE_EQ(manifold.N3(), 2);
+        REQUIRE_EQ(manifold.min_time(), 1);
+        REQUIRE_EQ(manifold.max_time(), 3);
         REQUIRE(manifold.check_simplices());
         // Human verification
         manifold.print();
@@ -258,8 +258,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
         std::string manifold_string{manifold_type};
-        CHECK_FALSE(manifold_string.find("FoliatedTriangulation") ==
-                    std::string::npos);
+        CHECK_NE(manifold_string.find("FoliatedTriangulation"),
+                 std::string::npos);
         fmt::print("The triangulation data structure is of type {}\n",
                    manifold_string);
         REQUIRE(manifold.is_delaunay());
@@ -269,24 +269,24 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       {
         auto const& geometry_type = typeid(manifold.get_geometry()).name();
         std::string geometry_string{geometry_type};
-        CHECK_FALSE(geometry_string.find("Geometry") == std::string::npos);
+        CHECK_NE(geometry_string.find("Geometry"), std::string::npos);
         fmt::print("The Geometry data structure is of type {}\n",
                    geometry_string);
       }
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.N0() == 5);
-        REQUIRE(manifold.N1_SL() == 3);
-        REQUIRE(manifold.N1_TL() == 6);
+        REQUIRE_EQ(manifold.N0(), 5);
+        REQUIRE_EQ(manifold.N1_SL(), 3);
+        REQUIRE_EQ(manifold.N1_TL(), 6);
         // How many spacelike facets have a timevalue of 2? Should be 1.
-        REQUIRE(manifold.N2_SL().count(2) == 1);
+        REQUIRE_EQ(manifold.N2_SL().count(2), 1);
         // There shouldn't be spacelike facets with other time values.
-        REQUIRE(manifold.N2_SL().count(1) == 0);
-        REQUIRE(manifold.N2_SL().count(3) == 0);
-        REQUIRE(manifold.N3() == 2);
-        REQUIRE(manifold.min_time() == 1);
-        REQUIRE(manifold.max_time() == 3);
+        REQUIRE_EQ(manifold.N2_SL().count(1), 0);
+        REQUIRE_EQ(manifold.N2_SL().count(3), 0);
+        REQUIRE_EQ(manifold.N3(), 2);
+        REQUIRE_EQ(manifold.min_time(), 1);
+        REQUIRE_EQ(manifold.max_time(), 3);
         REQUIRE(manifold.check_simplices());
         // Human verification
         manifold.print();
@@ -302,21 +302,21 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.vertices() == manifold.N0());
-        REQUIRE(manifold.edges() == manifold.N1());
-        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE_EQ(manifold.vertices(), manifold.N0());
+        REQUIRE_EQ(manifold.edges(), manifold.N1());
+        REQUIRE_EQ(manifold.faces(), manifold.N2());
         REQUIRE(manifold.check_simplices());
         // We have 1 to 8 vertices
         auto number_of_vertices{manifold.N0()};
-        CHECK(number_of_vertices >= 1);
-        CHECK(number_of_vertices <= 8);
+        CHECK_GE(number_of_vertices, 1);
+        CHECK_LE(number_of_vertices, 8);
         // We have 1 to 12 number_of_cells
         auto number_of_cells{manifold.N3()};
-        CHECK(number_of_cells >= 1);
-        CHECK(number_of_cells <= 12);
+        CHECK_GE(number_of_cells, 1);
+        CHECK_LE(number_of_cells, 12);
         // We have all the time values
-        CHECK(manifold.min_time() == 1);
-        CHECK(manifold.max_time() == desired_timeslices);
+        CHECK_EQ(manifold.min_time(), 1);
+        CHECK_EQ(manifold.max_time(), desired_timeslices);
         // Human verification
         manifold.print();
         manifold.print_volume_per_timeslice();
@@ -331,9 +331,9 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.vertices() == manifold.N0());
-        REQUIRE(manifold.edges() == manifold.N1());
-        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE_EQ(manifold.vertices(), manifold.N0());
+        REQUIRE_EQ(manifold.edges(), manifold.N1());
+        REQUIRE_EQ(manifold.faces(), manifold.N2());
         REQUIRE(manifold.check_simplices());
         // Human verification
         manifold.print();
@@ -349,9 +349,9 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.vertices() == manifold.N0());
-        REQUIRE(manifold.edges() == manifold.N1());
-        REQUIRE(manifold.faces() == manifold.N2());
+        REQUIRE_EQ(manifold.vertices(), manifold.N0());
+        REQUIRE_EQ(manifold.edges(), manifold.N1());
+        REQUIRE_EQ(manifold.faces(), manifold.N2());
         REQUIRE(manifold.check_simplices());
         // Human verification
         manifold.print();
@@ -373,7 +373,7 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
           manifold.get_triangulation().get_delaunay().tds().vertices();
       auto&& vertex = vertices.begin();
 
-      CHECK(vertices.size() == 1);
+      CHECK_EQ(vertices.size(), 1);
       CHECK(manifold.is_vertex(vertex));
       CHECK(manifold.get_triangulation().is_infinite(vertex));
     }
@@ -388,16 +388,16 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
       Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("Functions referencing geometry data are accurate")
       {
-        CHECK(manifold.N3() == manifold.get_geometry().N3);
-        CHECK(manifold.N3_31() == manifold.get_geometry().N3_31);
-        CHECK(manifold.N3_13() == manifold.get_geometry().N3_13);
-        CHECK(manifold.N3_31_13() == manifold.get_geometry().N3_31_13);
-        CHECK(manifold.N3_22() == manifold.get_geometry().N3_22);
-        CHECK(manifold.N2() == manifold.get_geometry().N2);
-        CHECK(manifold.N1() == manifold.get_geometry().N1);
-        CHECK(manifold.N1_TL() == manifold.get_geometry().N1_TL);
-        CHECK(manifold.N1_SL() == manifold.get_geometry().N1_SL);
-        CHECK(manifold.N0() == manifold.get_geometry().N0);
+        CHECK_EQ(manifold.N3(), manifold.get_geometry().N3);
+        CHECK_EQ(manifold.N3_31(), manifold.get_geometry().N3_31);
+        CHECK_EQ(manifold.N3_13(), manifold.get_geometry().N3_13);
+        CHECK_EQ(manifold.N3_31_13(), manifold.get_geometry().N3_31_13);
+        CHECK_EQ(manifold.N3_22(), manifold.get_geometry().N3_22);
+        CHECK_EQ(manifold.N2(), manifold.get_geometry().N2);
+        CHECK_EQ(manifold.N1(), manifold.get_geometry().N1);
+        CHECK_EQ(manifold.N1_TL(), manifold.get_geometry().N1_TL);
+        CHECK_EQ(manifold.N1_SL(), manifold.get_geometry().N1_SL);
+        CHECK_EQ(manifold.N0(), manifold.get_geometry().N0);
       }
     }
   }
@@ -418,22 +418,22 @@ SCENARIO("3-Manifold copying" * doctest::test_suite("manifold"))
       {
         auto* manifold_ptr  = &manifold;
         auto* manifold2_ptr = &manifold2;
-        CHECK_FALSE(manifold_ptr == manifold2_ptr);
+        CHECK_NE(manifold_ptr, manifold2_ptr);
       }
       THEN("The manifolds have identical properties.")
       {
-        CHECK(manifold2.N3() == manifold.N3());
-        CHECK(manifold2.N3_31() == manifold.N3_31());
-        CHECK(manifold2.N3_22() == manifold.N3_22());
-        CHECK(manifold2.N3_13() == manifold.N3_13());
-        CHECK(manifold2.N3_31_13() == manifold.N3_31_13());
-        CHECK(manifold2.N2() == manifold.N2());
-        CHECK(manifold2.N1() == manifold.N1());
-        CHECK(manifold2.N1_TL() == manifold.N1_TL());
-        CHECK(manifold2.N1_SL() == manifold.N1_SL());
-        CHECK(manifold2.N0() == manifold.N0());
-        CHECK(manifold2.max_time() == manifold.max_time());
-        CHECK(manifold2.min_time() == manifold.min_time());
+        CHECK_EQ(manifold2.N3(), manifold.N3());
+        CHECK_EQ(manifold2.N3_31(), manifold.N3_31());
+        CHECK_EQ(manifold2.N3_22(), manifold.N3_22());
+        CHECK_EQ(manifold2.N3_13(), manifold.N3_13());
+        CHECK_EQ(manifold2.N3_31_13(), manifold.N3_31_13());
+        CHECK_EQ(manifold2.N2(), manifold.N2());
+        CHECK_EQ(manifold2.N1(), manifold.N1());
+        CHECK_EQ(manifold2.N1_TL(), manifold.N1_TL());
+        CHECK_EQ(manifold2.N1_SL(), manifold.N1_SL());
+        CHECK_EQ(manifold2.N0(), manifold.N0());
+        CHECK_EQ(manifold2.max_time(), manifold.max_time());
+        CHECK_EQ(manifold2.min_time(), manifold.min_time());
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print();
@@ -479,13 +479,13 @@ SCENARIO("3-Manifold update geometry" * doctest::test_suite("manifold"))
       THEN("We get back the same values.")
       {
         fmt::print("Manifold N3 is still {}\n", manifold.N3());
-        CHECK(manifold.N3() == manifold_N3);
+        CHECK_EQ(manifold.N3(), manifold_N3);
         fmt::print("Manifold N2 is still {}\n", manifold.N2());
-        CHECK(manifold.N2() == manifold_N2);
+        CHECK_EQ(manifold.N2(), manifold_N2);
         fmt::print("Manifold N1 is still {}\n", manifold.N1());
-        CHECK(manifold.N1() == manifold_N1);
+        CHECK_EQ(manifold.N1(), manifold_N1);
         fmt::print("Manifold N0 is still {}\n", manifold.N0());
-        CHECK(manifold.N0() == manifold_N0);
+        CHECK_EQ(manifold.N0(), manifold_N0);
       }
     }
   }
@@ -525,10 +525,10 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
       fmt::print("Manifolds swapped.\n");
       THEN("Not calling update() gives old values.")
       {
-        CHECK(manifold1.N3() == manifold1_N3);
-        CHECK(manifold1.N2() == manifold1_N2);
-        CHECK(manifold1.N1() == manifold1_N1);
-        CHECK(manifold1.N0() == manifold1_N0);
+        CHECK_EQ(manifold1.N3(), manifold1_N3);
+        CHECK_EQ(manifold1.N2(), manifold1_N2);
+        CHECK_EQ(manifold1.N1(), manifold1_N1);
+        CHECK_EQ(manifold1.N0(), manifold1_N0);
 
         AND_WHEN("We call update().")
         {
@@ -537,13 +537,13 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
           THEN("The geometry matches the new triangulation.")
           {
             fmt::print("Manifold 1 N3 is now {}\n", manifold1.N3());
-            CHECK(manifold1.N3() == manifold2_N3);
+            CHECK_EQ(manifold1.N3(), manifold2_N3);
             fmt::print("Manifold 1 N2 is now {}\n", manifold1.N2());
-            CHECK(manifold1.N2() == manifold2_N2);
+            CHECK_EQ(manifold1.N2(), manifold2_N2);
             fmt::print("Manifold 1 N1 is now {}\n", manifold1.N1());
-            CHECK(manifold1.N1() == manifold2_N1);
+            CHECK_EQ(manifold1.N1(), manifold2_N1);
             fmt::print("Manifold 1 N0 is now {}\n", manifold1.N0());
-            CHECK(manifold1.N0() == manifold2_N0);
+            CHECK_EQ(manifold1.N0(), manifold2_N0);
           }
         }
       }
@@ -577,8 +577,8 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
     {
       THEN("The number of timeslices is correct.")
       {
-        REQUIRE(manifold.min_time() == 1);
-        REQUIRE(manifold.max_time() == 3);
+        REQUIRE_EQ(manifold.min_time(), 1);
+        REQUIRE_EQ(manifold.max_time(), 3);
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
       {
@@ -630,15 +630,15 @@ SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
       THEN("The geometry matches the triangulation.")
       {
         REQUIRE(manifold.is_foliated());
-        REQUIRE(manifold.vertices() == manifold.N0());
-        REQUIRE(manifold.edges() == manifold.N1());
-        REQUIRE(manifold.faces() == manifold.N2());
-        REQUIRE(manifold.simplices() == manifold.N3());
+        REQUIRE_EQ(manifold.vertices(), manifold.N0());
+        REQUIRE_EQ(manifold.edges(), manifold.N1());
+        REQUIRE_EQ(manifold.faces(), manifold.N2());
+        REQUIRE_EQ(manifold.simplices(), manifold.N3());
       }
       THEN("The number of timeslices is correct.")
       {
-        REQUIRE(manifold.min_time() == 1);
-        REQUIRE(manifold.max_time() == desired_timeslices);
+        REQUIRE_EQ(manifold.min_time(), 1);
+        REQUIRE_EQ(manifold.max_time(), desired_timeslices);
       }
       THEN("Every vertex in the manifold has a correct timevalue.")
       {

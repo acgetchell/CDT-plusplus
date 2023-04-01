@@ -45,10 +45,10 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" * doctest::may_fail() *
       THEN("The resulting manifold is valid and unchanged.")
       {
         CHECK(manifold.is_valid());
-        CHECK(manifold_before.simplices() == manifold.simplices());
-        CHECK(manifold_before.faces() == manifold.faces());
-        CHECK(manifold_before.edges() == manifold.edges());
-        CHECK(manifold_before.vertices() == manifold.vertices());
+        CHECK_EQ(manifold_before.simplices(), manifold.simplices());
+        CHECK_EQ(manifold_before.faces(), manifold.faces());
+        CHECK_EQ(manifold_before.edges(), manifold.edges());
+        CHECK_EQ(manifold_before.vertices(), manifold.vertices());
         // Human verification
         fmt::print("Old manifold.\n");
         manifold_before.print_details();

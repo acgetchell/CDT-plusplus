@@ -26,17 +26,17 @@ SCENARIO("Simple Lambda operations" * doctest::test_suite("function_ref"))
   {
     WHEN("Lambda is called with 0.")
     {
-      THEN("We should get 1.") { REQUIRE(increment_lambda(0) == 1); }
+      THEN("We should get 1.") { REQUIRE_EQ(increment_lambda(0), 1); }
     }
 
     WHEN("Lambda is called with 1.")
     {
-      THEN("We should get 2.") { REQUIRE(increment_lambda(1) == 2); }
+      THEN("We should get 2.") { REQUIRE_EQ(increment_lambda(1), 2); }
     }
 
     WHEN("Lambda is called with 5.")
     {
-      THEN("We should get 6.") { REQUIRE(increment_lambda(5) == 6); }
+      THEN("We should get 6.") { REQUIRE_EQ(increment_lambda(5), 6); }
     }
   }
 }
@@ -78,7 +78,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     tl::function_ref<int(int)> const lambda_ref(increment);
     WHEN("Function_ref is called with 0.")
     {
-      THEN("We should get 1.") { REQUIRE(lambda_ref(1) == 2); }
+      THEN("We should get 1.") { REQUIRE_EQ(lambda_ref(1), 2); }
     }
   }
   GIVEN("A function pointer to a move stored in a function_ref.")

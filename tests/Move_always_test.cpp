@@ -92,14 +92,14 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
       MoveAlways_3 const mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
-        CHECK(mover.passes() == passes);
-        CHECK(mover.checkpoint() == checkpoint);
+        CHECK_EQ(mover.passes(), passes);
+        CHECK_EQ(mover.checkpoint(), checkpoint);
       }
       THEN("Attempted, successful, and failed moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().total() == 0);
-        CHECK(mover.get_succeeded().total() == 0);
-        CHECK(mover.get_failed().total() == 0);
+        CHECK_EQ(mover.get_attempted().total(), 0);
+        CHECK_EQ(mover.get_succeeded().total(), 0);
+        CHECK_EQ(mover.get_failed().total(), 0);
       }
     }
     WHEN("A MoveAlways_3 algorithm is instantiated.")
@@ -109,14 +109,14 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
       MoveAlways_3 const mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
-        CHECK(mover.passes() == passes);
-        CHECK(mover.checkpoint() == checkpoint);
+        CHECK_EQ(mover.passes(), passes);
+        CHECK_EQ(mover.checkpoint(), checkpoint);
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().total() == 0);
-        CHECK(mover.get_succeeded().total() == 0);
-        CHECK(mover.get_failed().total() == 0);
+        CHECK_EQ(mover.get_attempted().total(), 0);
+        CHECK_EQ(mover.get_succeeded().total(), 0);
+        CHECK_EQ(mover.get_failed().total(), 0);
       }
     }
   }
@@ -148,8 +148,8 @@ SCENARIO("Using the MoveAlways algorithm" * doctest::skip() *
             "The correct number of attempted, successful, and failed moves are "
             "made.")
         {
-          CHECK(mover.get_attempted().total() ==
-                mover.get_succeeded().total() + mover.get_failed().total());
+          CHECK_EQ(mover.get_attempted().total(),
+                   mover.get_succeeded().total() + mover.get_failed().total());
           // Human verification
           mover.print_results();
         }
@@ -165,13 +165,13 @@ SCENARIO("Using the MoveAlways algorithm" * doctest::skip() *
       MoveAlways_4 const mover(passes, checkpoint);
       THEN("The correct passes and checkpoints are instantiated.")
       {
-        CHECK(mover.passes() == passes);
-        CHECK(mover.checkpoint() == checkpoint);
+        CHECK_EQ(mover.passes(), passes);
+        CHECK_EQ(mover.checkpoint(), checkpoint);
       }
       THEN("Attempted moves and successful moves are zero-initialized.")
       {
-        CHECK(mover.get_attempted().two_four_moves() == 0);
-        CHECK(mover.get_failed().two_four_moves() == 0);
+        CHECK_EQ(mover.get_attempted().two_four_moves(), 0);
+        CHECK_EQ(mover.get_failed().two_four_moves(), 0);
       }
     }
   }

@@ -97,17 +97,17 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
       Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("The Metropolis function object is initialized correctly.")
       {
-        CHECK(testrun.Alpha() == Alpha);
-        CHECK(testrun.K() == K);
-        CHECK(testrun.Lambda() == Lambda);
-        CHECK(testrun.passes() == passes);
-        CHECK(testrun.checkpoint() == output_every_n_passes);
-        CHECK(testrun.get_proposed().total() == 0);
-        CHECK(testrun.get_accepted().total() == 0);
-        CHECK(testrun.get_rejected().total() == 0);
-        CHECK(testrun.get_attempted().total() == 0);
-        CHECK(testrun.get_succeeded().total() == 0);
-        CHECK(testrun.get_failed().total() == 0);
+        CHECK_EQ(testrun.Alpha(), Alpha);
+        CHECK_EQ(testrun.K(), K);
+        CHECK_EQ(testrun.Lambda(), Lambda);
+        CHECK_EQ(testrun.passes(), passes);
+        CHECK_EQ(testrun.checkpoint(), output_every_n_passes);
+        CHECK_EQ(testrun.get_proposed().total(), 0);
+        CHECK_EQ(testrun.get_accepted().total(), 0);
+        CHECK_EQ(testrun.get_rejected().total(), 0);
+        CHECK_EQ(testrun.get_attempted().total(), 0);
+        CHECK_EQ(testrun.get_succeeded().total(), 0);
+        CHECK_EQ(testrun.get_failed().total(), 0);
       }
       THEN("The initial moves are made correctly.")
       {
@@ -119,21 +119,21 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
         // Initialization proposes one move of each type
         for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
         {
-          CHECK(testrun.get_proposed()[i] == 1);
+          CHECK_EQ(testrun.get_proposed()[i], 1);
         }
         // Initialization accepts one move of each type
         for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
         {
-          CHECK(testrun.get_accepted()[i] == 1);
+          CHECK_EQ(testrun.get_accepted()[i], 1);
         }
         // Initialization does not reject any moves
-        CHECK(total_rejected == 0);
+        CHECK_EQ(total_rejected, 0);
         // Initialization attempts one move of each type
         for (auto i = 0; i < move_tracker::NUMBER_OF_3D_MOVES; ++i)
         {
-          CHECK(testrun.get_attempted()[i] == 1);
+          CHECK_EQ(testrun.get_attempted()[i], 1);
         }
-        CHECK(total_attempted == total_successful + total_failed);
+        CHECK_EQ(total_attempted, total_successful + total_failed);
 
         // Human verification
         REQUIRE_MESSAGE(result,
@@ -182,13 +182,13 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
           auto total_failed     = testrun.get_failed().total();
           // We should have at least a trial move per simplex on average
           // per pass, times the number of passes
-          CHECK(total_proposed > universe.N3() * passes);
-          CHECK(total_proposed == total_accepted + total_rejected);
+          CHECK_GT(total_proposed, universe.N3() * passes);
+          CHECK_EQ(total_proposed, total_accepted + total_rejected);
           // We should attempt a move for each accepted move
-          CHECK(total_attempted == total_accepted);
-          CHECK(total_successful > 0);
-          CHECK(total_failed >= 0);
-          CHECK(total_attempted == total_successful + total_failed);
+          CHECK_EQ(total_attempted, total_accepted);
+          CHECK_GT(total_successful, 0);
+          CHECK_GE(total_failed, 0);
+          CHECK_EQ(total_attempted, total_successful + total_failed);
           // Human verification
           testrun.print_results();
         }

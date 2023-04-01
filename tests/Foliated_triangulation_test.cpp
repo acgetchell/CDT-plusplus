@@ -176,7 +176,7 @@ SCENARIO("FoliatedTriangulation free functions" *
           get_vertices_from_cells<3>(triangulation.get_cells());
       THEN("We get back the correct number of vertices.")
       {
-        REQUIRE(all_vertices.size() == 4);
+        REQUIRE_EQ(all_vertices.size(), 4);
         // Human verification
         for_each(all_vertices.begin(), all_vertices.end(), print);
       }
@@ -199,8 +199,8 @@ SCENARIO("FoliatedTriangulation free functions" *
     }
     THEN("The initial radius and radial separation are correct.")
     {
-      REQUIRE(triangulation.initial_radius() == initial_radius);
-      REQUIRE(triangulation.foliation_spacing() == foliation_spacing);
+      REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
+      REQUIRE_EQ(triangulation.foliation_spacing(), foliation_spacing);
       // Human verification
       fmt::print(
           "The triangulation has an initial radius of {} and a radial "
@@ -242,19 +242,19 @@ SCENARIO("FoliatedTriangulation free functions" *
         [](Point_t<3> point, size_t time) { return make_pair(point, time); });
     FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
     // Verify we have 6 vertices, 13 edges, 12 facets, and 4 cells
-    REQUIRE(triangulation.number_of_vertices() == 6);
-    REQUIRE(triangulation.number_of_finite_edges() == 13);
-    REQUIRE(triangulation.number_of_finite_facets() == 12);
+    REQUIRE_EQ(triangulation.number_of_vertices(), 6);
+    REQUIRE_EQ(triangulation.number_of_finite_edges(), 13);
+    REQUIRE_EQ(triangulation.number_of_finite_facets(), 12);
     REQUIRE(triangulation.number_of_finite_cells() == 4);
-    CHECK(triangulation.initial_radius() == 0);
-    CHECK(triangulation.foliation_spacing() == 1);
+    CHECK_EQ(triangulation.initial_radius(), 0);
+    CHECK_EQ(triangulation.foliation_spacing(), 1);
     REQUIRE(triangulation.is_delaunay());
     REQUIRE(triangulation.is_correct());
     WHEN("We collect edges.")
     {
       auto edges = foliated_triangulations::collect_edges<3>(
           triangulation.get_delaunay());
-      THEN("We have 13 edges.") { REQUIRE(edges.size() == 13); }
+      THEN("We have 13 edges.") { REQUIRE_EQ(edges.size(), 13); }
     }
     WHEN("We have a point in the triangulation.")
     {
@@ -265,8 +265,8 @@ SCENARIO("FoliatedTriangulation free functions" *
         REQUIRE_MESSAGE(vertex, "Vertex not found.");
         if (vertex)
         {
-          CHECK(vertex.value()->point() == Point_t<3>{0, 0, 0});
-          CHECK(vertex.value()->info() == 1);
+          CHECK_EQ(vertex.value()->point(), Point_t<3>{0, 0, 0});
+          CHECK_EQ(vertex.value()->info(), 1);
           // Human verification
           fmt::print(
               "Point(0,0,0) was found as vertex ({}) with a timevalue of {}.\n",
@@ -355,10 +355,10 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       THEN("The default Delaunay triangulation is valid.")
       {
         REQUIRE(triangulation.is_initialized());
-        REQUIRE(triangulation.max_time() == 0);
-        REQUIRE(triangulation.min_time() == 0);
-        REQUIRE(triangulation.initial_radius() == INITIAL_RADIUS);
-        REQUIRE(triangulation.foliation_spacing() == FOLIATION_SPACING);
+        REQUIRE_EQ(triangulation.max_time(), 0);
+        REQUIRE_EQ(triangulation.min_time(), 0);
+        REQUIRE_EQ(triangulation.initial_radius(), INITIAL_RADIUS);
+        REQUIRE_EQ(triangulation.foliation_spacing(), FOLIATION_SPACING);
       }
     }
     WHEN(
@@ -383,15 +383,15 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       THEN("Triangulation is valid and foliated.")
       {
         REQUIRE(triangulation.is_initialized());
-        REQUIRE(triangulation.dimension() == 3);
-        REQUIRE(triangulation.number_of_vertices() == 4);
-        REQUIRE(triangulation.number_of_finite_edges() == 6);
-        REQUIRE(triangulation.number_of_finite_facets() == 4);
-        REQUIRE(triangulation.number_of_finite_cells() == 1);
-        REQUIRE(triangulation.max_time() == 2);
-        REQUIRE(triangulation.min_time() == 1);
-        REQUIRE(triangulation.initial_radius() == INITIAL_RADIUS);
-        REQUIRE(triangulation.foliation_spacing() == FOLIATION_SPACING);
+        REQUIRE_EQ(triangulation.dimension(), 3);
+        REQUIRE_EQ(triangulation.number_of_vertices(), 4);
+        REQUIRE_EQ(triangulation.number_of_finite_edges(), 6);
+        REQUIRE_EQ(triangulation.number_of_finite_facets(), 4);
+        REQUIRE_EQ(triangulation.number_of_finite_cells(), 1);
+        REQUIRE_EQ(triangulation.max_time(), 2);
+        REQUIRE_EQ(triangulation.min_time(), 1);
+        REQUIRE_EQ(triangulation.initial_radius(), INITIAL_RADIUS);
+        REQUIRE_EQ(triangulation.foliation_spacing(), FOLIATION_SPACING);
         REQUIRE(triangulation.is_foliated());
         // Human verification
         triangulation.print_cells();
@@ -411,12 +411,12 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       {
         //        // We have 1 to 8 vertex_count
         auto vertex_count{triangulation.number_of_vertices()};
-        CHECK(vertex_count >= 1);
-        CHECK(vertex_count <= 8);
+        CHECK_GE(vertex_count, 1);
+        CHECK_LE(vertex_count, 8);
         //        // We have 1 to 12 simplex_count
         auto simplex_count{triangulation.number_of_finite_cells()};
-        CHECK(simplex_count >= 1);
-        CHECK(simplex_count <= 12);
+        CHECK_GE(simplex_count, 1);
+        CHECK_LE(simplex_count, 12);
 
         // Human verification
         triangulation.print();
@@ -459,8 +459,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       }
       THEN("The initial radius and radial separation are correct.")
       {
-        REQUIRE(triangulation.initial_radius() == initial_radius);
-        REQUIRE(triangulation.foliation_spacing() == radial_factor);
+        REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
+        REQUIRE_EQ(triangulation.foliation_spacing(), radial_factor);
       }
     }
     WHEN(
@@ -479,8 +479,8 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       }
       THEN("The initial radius and radial separation are correct.")
       {
-        REQUIRE(triangulation.initial_radius() == initial_radius);
-        REQUIRE(triangulation.foliation_spacing() == radial_factor);
+        REQUIRE_EQ(triangulation.initial_radius(), initial_radius);
+        REQUIRE_EQ(triangulation.foliation_spacing(), radial_factor);
       }
     }
     WHEN("Constructing a medium triangulation.")
@@ -495,7 +495,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       }
       THEN("The triangulation has sensible values.")
       {
-        REQUIRE(triangulation.min_time() == 1);
+        REQUIRE_EQ(triangulation.min_time(), 1);
         // Human verification
         triangulation.print();
       }
@@ -503,18 +503,18 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
       {
         triangulation.print();
         // Every cell is classified as (3,1), (2,2), or (1,3)
-        CHECK(triangulation.get_cells().size() ==
-              (triangulation.get_three_one().size() +
-               triangulation.get_two_two().size() +
-               triangulation.get_one_three().size()));
+        CHECK_EQ(triangulation.get_cells().size(),
+                 (triangulation.get_three_one().size() +
+                  triangulation.get_two_two().size() +
+                  triangulation.get_one_three().size()));
         // Every cell is properly labelled
         CHECK(triangulation.check_all_cells());
 
         CHECK_FALSE(triangulation.N2_SL().empty());
 
-        CHECK(triangulation.max_time() > 0);
-        CHECK(triangulation.min_time() > 0);
-        CHECK(triangulation.max_time() > triangulation.min_time());
+        CHECK_GT(triangulation.max_time(), 0);
+        CHECK_GT(triangulation.min_time(), 0);
+        CHECK_GT(triangulation.max_time(), triangulation.min_time());
         auto check_timelike = [](Edge_handle_t<3> const& edge) {
           CHECK(classify_edge<3>(edge));
         };
@@ -559,21 +559,21 @@ SCENARIO("FoliatedTriangulation_3 copying" *
       {
         auto* ft_ptr  = &triangulation;
         auto* ft2_ptr = &ft2;
-        CHECK_FALSE(ft_ptr == ft2_ptr);
+        CHECK_NE(ft_ptr, ft2_ptr);
       }
       THEN("The foliated triangulations have identical properties.")
       {
-        CHECK(triangulation.is_initialized() == ft2.is_initialized());
-        CHECK(triangulation.number_of_finite_cells() ==
-              ft2.number_of_finite_cells());
-        CHECK(triangulation.min_time() == ft2.min_time());
-        CHECK(triangulation.get_cells().size() == ft2.get_cells().size());
-        CHECK(triangulation.get_three_one().size() ==
-              ft2.get_three_one().size());
-        CHECK(triangulation.get_two_two().size() == ft2.get_two_two().size());
-        CHECK(triangulation.get_one_three().size() ==
-              ft2.get_one_three().size());
-        CHECK(triangulation.N2_SL().size() == ft2.N2_SL().size());
+        CHECK_EQ(triangulation.is_initialized(), ft2.is_initialized());
+        CHECK_EQ(triangulation.number_of_finite_cells(),
+                 ft2.number_of_finite_cells());
+        CHECK_EQ(triangulation.min_time(), ft2.min_time());
+        CHECK_EQ(triangulation.get_cells().size(), ft2.get_cells().size());
+        CHECK_EQ(triangulation.get_three_one().size(),
+                 ft2.get_three_one().size());
+        CHECK_EQ(triangulation.get_two_two().size(), ft2.get_two_two().size());
+        CHECK_EQ(triangulation.get_one_three().size(),
+                 ft2.get_one_three().size());
+        CHECK_EQ(triangulation.N2_SL().size(), ft2.N2_SL().size());
       }
     }
   }
@@ -781,7 +781,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
       {
         CHECK_FALSE(triangulation.is_initialized());
         auto cell = triangulation.get_delaunay().finite_cells_begin();
-        CHECK(expected_cell_type<3>(cell) == Cell_type::ACAUSAL);
+        CHECK_EQ(expected_cell_type<3>(cell), Cell_type::ACAUSAL);
         // Human verification
         triangulation.print_cells();
       }
@@ -830,7 +830,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           fmt::print("Bad vertex ({}) has timevalues {}.\n",
                      utilities::point_to_str(bad_vertex->point()),
                      bad_vertex->info());
-          CHECK(bad_vertex->info() == 3);
+          CHECK_EQ(bad_vertex->info(), 3);
         }
       }
       AND_THEN("The triangulation is fixed.")
@@ -883,21 +883,21 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       {
         // Fix the triangulation
         CHECK(triangulation.is_fixed());
-        CHECK(triangulation.number_of_finite_cells() == 2);
+        CHECK_EQ(triangulation.number_of_finite_cells(), 2);
         fmt::print("Base Delaunay number of cells: {}\n",
                    triangulation.number_of_finite_cells());
-        CHECK(triangulation.number_of_finite_facets() == 7);
+        CHECK_EQ(triangulation.number_of_finite_facets(), 7);
         fmt::print("Base Delaunay number of faces: {}\n",
                    triangulation.number_of_finite_facets());
         triangulation.print_volume_per_timeslice();
-        CHECK(triangulation.number_of_finite_edges() == 9);
+        CHECK_EQ(triangulation.number_of_finite_edges(), 9);
         fmt::print("Base Delaunay number of edges: {}\n",
                    triangulation.number_of_finite_edges());
         triangulation.print_edges();
-        CHECK(triangulation.number_of_vertices() == 5);
+        CHECK_EQ(triangulation.number_of_vertices(), 5);
         fmt::print("Base Delaunay number of vertices: {}\n",
                    triangulation.number_of_vertices());
-        CHECK(triangulation.dimension() == 3);
+        CHECK_EQ(triangulation.dimension(), 3);
         fmt::print("Base Delaunay dimension is: {}\n",
                    triangulation.dimension());
         // Human verification
@@ -912,7 +912,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       {
         auto&& vertices = triangulation.get_delaunay().tds().vertices();
         auto&& vertex   = vertices.begin();
-        CHECK(vertices.size() == 1);
+        CHECK_EQ(vertices.size(), 1);
         CHECK(triangulation.get_delaunay().tds().is_vertex(vertex));
         CHECK(triangulation.is_infinite(vertex));
       }
@@ -938,7 +938,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       THEN("The degree of each vertex is 4 (including infinite vertex).")
       {
         auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
-          CHECK(triangulation.degree(vertex) == 4);
+          CHECK_EQ(triangulation.degree(vertex), 4);
         };
         for_each(triangulation.get_vertices().begin(),
                  triangulation.get_vertices().end(), check);
