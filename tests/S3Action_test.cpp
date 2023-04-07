@@ -31,16 +31,16 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
     auto constexpr Lambda     = 0.1L;
     Manifold_3 const universe(simplices, timeslices);
     // Verify triangulation
-    CHECK(universe.N3() == universe.simplices());
-    CHECK(universe.N1() == universe.edges());
-    CHECK(universe.N0() == universe.vertices());
-    CHECK(universe.dimensionality() == 3);
+    CHECK_EQ(universe.N3(), universe.simplices());
+    CHECK_EQ(universe.N1(), universe.edges());
+    CHECK_EQ(universe.N0(), universe.vertices());
+    CHECK_EQ(universe.dimensionality(), 3);
     CHECK(universe.is_correct());
 
     universe.print_volume_per_timeslice();
 
-    CHECK(universe.max_time() == timeslices);
-    CHECK(universe.min_time() == 1);
+    CHECK_EQ(universe.max_time(), timeslices);
+    CHECK_EQ(universe.min_time(), 1);
     WHEN("The alpha=-1 Bulk Action is calculated.")
     {
       auto Bulk_action = S3_bulk_action_alpha_minus_one(
@@ -49,8 +49,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
       {
         spdlog::debug("S3_bulk_action_alpha_minus_one() = {}\n",
                       Bulk_action.to_double());
-        REQUIRE(3500 <= Bulk_action);
-        REQUIRE(Bulk_action <= 4500);
+        REQUIRE_LE(3500, Bulk_action);
+        REQUIRE_LE(Bulk_action, 4500);
       }
     }
     WHEN("The alpha=1 Bulk Action is calculated.")
@@ -61,8 +61,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
       {
         spdlog::debug("S3_bulk_action_alpha_one() = {}\n",
                       Bulk_action.to_double());
-        REQUIRE(2000 <= Bulk_action);
-        REQUIRE(Bulk_action <= 3000);
+        REQUIRE_LE(2000, Bulk_action);
+        REQUIRE_LE(Bulk_action, 3000);
       }
     }
     WHEN("The generalized Bulk Action is calculated.")
@@ -74,8 +74,8 @@ SCENARIO("Calculate the bulk action on S3 triangulations" *
       THEN("The action falls within accepted values.")
       {
         spdlog::debug("S3_bulk_action() = {}\n", Bulk_action.to_double());
-        REQUIRE(2700 <= Bulk_action);
-        REQUIRE(Bulk_action <= 3700);
+        REQUIRE_LE(2700, Bulk_action);
+        REQUIRE_LE(Bulk_action, 3700);
       }
     }
     WHEN(

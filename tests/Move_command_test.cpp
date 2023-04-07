@@ -176,18 +176,18 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
       }
       THEN("It contains the manifold.")
       {
-        CHECK(manifold.N3() == command.get_const_results().N3());
-        CHECK(manifold.N3_31() == command.get_const_results().N3_31());
-        CHECK(manifold.N3_22() == command.get_const_results().N3_22());
-        CHECK(manifold.N3_13() == command.get_const_results().N3_13());
-        CHECK(manifold.N3_31_13() == command.get_const_results().N3_31_13());
-        CHECK(manifold.N2() == command.get_const_results().N2());
-        CHECK(manifold.N1() == command.get_const_results().N1());
-        CHECK(manifold.N1_TL() == command.get_const_results().N1_TL());
-        CHECK(manifold.N1_SL() == command.get_const_results().N1_SL());
-        CHECK(manifold.N0() == command.get_const_results().N0());
-        CHECK(manifold.max_time() == command.get_const_results().max_time());
-        CHECK(manifold.min_time() == command.get_const_results().min_time());
+        CHECK_EQ(manifold.N3(), command.get_const_results().N3());
+        CHECK_EQ(manifold.N3_31(), command.get_const_results().N3_31());
+        CHECK_EQ(manifold.N3_22(), command.get_const_results().N3_22());
+        CHECK_EQ(manifold.N3_13(), command.get_const_results().N3_13());
+        CHECK_EQ(manifold.N3_31_13(), command.get_const_results().N3_31_13());
+        CHECK_EQ(manifold.N2(), command.get_const_results().N2());
+        CHECK_EQ(manifold.N1(), command.get_const_results().N1());
+        CHECK_EQ(manifold.N1_TL(), command.get_const_results().N1_TL());
+        CHECK_EQ(manifold.N1_SL(), command.get_const_results().N1_SL());
+        CHECK_EQ(manifold.N0(), command.get_const_results().N0());
+        CHECK_EQ(manifold.max_time(), command.get_const_results().max_time());
+        CHECK_EQ(manifold.min_time(), command.get_const_results().min_time());
         // Human verification
         fmt::print("Manifold properties:\n");
         manifold.print_details();
@@ -200,13 +200,13 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
       {
         auto*       manifold_ptr  = &manifold;
         auto const* manifold2_ptr = &command.get_const_results();
-        CHECK_FALSE(manifold_ptr == manifold2_ptr);
+        CHECK_NE(manifold_ptr, manifold2_ptr);
       }
       THEN("Attempted, succeeded, and failed moves are initialized to 0.")
       {
-        CHECK(command.get_attempted().total() == 0);
-        CHECK(command.get_succeeded().total() == 0);
-        CHECK(command.get_failed().total() == 0);
+        CHECK_EQ(command.get_attempted().total(), 0);
+        CHECK_EQ(command.get_succeeded().total(), 0);
+        CHECK_EQ(command.get_failed().total(), 0);
 
         // Human verification
         fmt::print("Attempted moves are {}\n",
@@ -243,13 +243,13 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         command.execute();
 
         // An attempted move was recorded
-        CHECK(command.get_attempted().three_two_moves() == 1);
+        CHECK_EQ(command.get_attempted().three_two_moves(), 1);
 
         // A successful move was recorded
-        CHECK(command.get_succeeded().three_two_moves() == 1);
+        CHECK_EQ(command.get_succeeded().three_two_moves(), 1);
 
         // No failures
-        CHECK(command.get_failed().three_two_moves() == 0);
+        CHECK_EQ(command.get_failed().three_two_moves(), 0);
 
         // Get the results
         auto result        = command.get_results();
@@ -263,8 +263,8 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
             "pointers.\n");
 
         // The move should not change the original manifold
-        CHECK_FALSE(manifold.N3_22() == result.N3_22());
-        CHECK_FALSE(manifold.N1_TL() == result.N1_TL());
+        CHECK_NE(manifold.N3_22(), result.N3_22());
+        CHECK_NE(manifold.N1_TL(), result.N1_TL());
         fmt::print("The original manifold is unchanged by Move_command.\n");
       }
     }
@@ -278,20 +278,20 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         command.execute();
 
         // An attempted move was recorded
-        CHECK(command.get_attempted().four_four_moves() == 1);
+        CHECK_EQ(command.get_attempted().four_four_moves(), 1);
 
         // A successful move was recorded
-        CHECK(command.get_succeeded().four_four_moves() == 1);
+        CHECK_EQ(command.get_succeeded().four_four_moves(), 1);
 
         // No failures
-        CHECK(command.get_failed().four_four_moves() == 0);
+        CHECK_EQ(command.get_failed().four_four_moves(), 0);
 
         // Get the results
         auto const& result = command.get_results();
 
         // Triangulation shouldn't have changed
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::FOUR_FOUR));
         fmt::print("Move left triangulation unchanged.\n");
@@ -307,20 +307,20 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         command.execute();
 
         // An attempted move was recorded
-        CHECK(command.get_attempted().two_three_moves() == 1);
+        CHECK_EQ(command.get_attempted().two_three_moves(), 1);
 
         // A successful move was recorded
-        CHECK(command.get_succeeded().two_three_moves() == 1);
+        CHECK_EQ(command.get_succeeded().two_three_moves(), 1);
 
         // No failures
-        CHECK(command.get_failed().two_three_moves() == 0);
+        CHECK_EQ(command.get_failed().two_three_moves(), 0);
 
         // Get the results
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have +1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() + 1);
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() + 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::TWO_THREE));
         fmt::print("Triangulation added a finite cell.\n");
@@ -336,20 +336,20 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         command.execute();
 
         // An attempted move was recorded
-        CHECK(command.get_attempted().three_two_moves() == 1);
+        CHECK_EQ(command.get_attempted().three_two_moves(), 1);
 
         // A successful move was recorded
-        CHECK(command.get_succeeded().three_two_moves() == 1);
+        CHECK_EQ(command.get_succeeded().three_two_moves(), 1);
 
         // No failures
-        CHECK(command.get_failed().three_two_moves() == 0);
+        CHECK_EQ(command.get_failed().three_two_moves(), 0);
 
         // Get the results
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have -1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() - 1);
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() - 1);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::THREE_TWO));
         fmt::print("Triangulation removed a finite cell.\n");
@@ -365,20 +365,20 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         command.execute();
 
         // An attempted move was recorded
-        CHECK(command.get_attempted().two_six_moves() == 1);
+        CHECK_EQ(command.get_attempted().two_six_moves(), 1);
 
         // A successful move was recorded
-        CHECK(command.get_succeeded().two_six_moves() == 1);
+        CHECK_EQ(command.get_succeeded().two_six_moves(), 1);
 
         // No failures
-        CHECK(command.get_failed().two_six_moves() == 0);
+        CHECK_EQ(command.get_failed().two_six_moves(), 0);
 
         // Get the results
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have +4 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() + 4);
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() + 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::TWO_SIX));
         fmt::print("Triangulation added 4 finite cells.\n");
@@ -394,20 +394,20 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         command.execute();
 
         // An attempted move was recorded
-        CHECK(command.get_attempted().six_two_moves() == 1);
+        CHECK_EQ(command.get_attempted().six_two_moves(), 1);
 
         // A successful move was recorded
-        CHECK(command.get_succeeded().six_two_moves() == 1);
+        CHECK_EQ(command.get_succeeded().six_two_moves(), 1);
 
         // No failures
-        CHECK(command.get_failed().six_two_moves() == 0);
+        CHECK_EQ(command.get_failed().six_two_moves(), 0);
 
         // Get the results
         auto const& result = command.get_const_results();
 
         // Did the triangulation actually change? We should have -1 cell
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells() - 4);
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells() - 4);
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::SIX_TWO));
         fmt::print("Triangulation removed 4 finite cells.\n");
@@ -430,38 +430,38 @@ SCENARIO("Executing multiple moves on the queue" *
       MoveCommand command(manifold);
       command.enqueue(move_tracker::move_type::TWO_THREE);
       command.enqueue(move_tracker::move_type::THREE_TWO);
-      THEN("There are two moves in the queue.") { CHECK(command.size() == 2); }
+      THEN("There are two moves in the queue.") { CHECK_EQ(command.size(), 2); }
       THEN("The moves are executed correctly.")
       {
         // Execute the moves
         command.execute();
 
         // There should be 2 attempted moves
-        CHECK(command.get_attempted().total() == 2);
+        CHECK_EQ(command.get_attempted().total(), 2);
         command.print_attempts();
 
         // There should be a successful (2,3) move
         auto successful_23_moves = command.get_succeeded().two_three_moves();
-        CHECK(successful_23_moves == 1);
+        CHECK_EQ(successful_23_moves, 1);
         fmt::print("There was {} successful (2,3) move.\n",
                    successful_23_moves);
 
         // There should be a successful (3,2) move
         auto successful_32_moves = command.get_succeeded().three_two_moves();
-        CHECK(successful_32_moves == 1);
+        CHECK_EQ(successful_32_moves, 1);
         fmt::print("There was {} successful (3,2) move.\n",
                    successful_32_moves);
 
         // There should be no failed moves
-        CHECK(command.get_failed().total() == 0);
+        CHECK_EQ(command.get_failed().total(), 0);
         command.print_errors();
 
         // Get the results
         auto const& result = command.get_const_results();
 
         // The moves should cancel out
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");
@@ -475,56 +475,59 @@ SCENARIO("Executing multiple moves on the queue" *
       command.enqueue(move_tracker::move_type::FOUR_FOUR);
       command.enqueue(move_tracker::move_type::SIX_TWO);
       command.enqueue(move_tracker::move_type::THREE_TWO);
-      THEN("There are five moves in the queue.") { CHECK(command.size() == 5); }
+      THEN("There are five moves in the queue.")
+      {
+        CHECK_EQ(command.size(), 5);
+      }
       THEN("The moves are executed correctly.")
       {
         // Execute the moves
         command.execute();
 
         // There should be 5 attempted moves
-        CHECK(command.get_attempted().total() == 5);
+        CHECK_EQ(command.get_attempted().total(), 5);
         command.print_attempts();
 
         // There should be a successful (2,3) move
         auto successful_23_moves = command.get_succeeded().two_three_moves();
-        CHECK(successful_23_moves == 1);
+        CHECK_EQ(successful_23_moves, 1);
         fmt::print("There was {} successful (2,3) move.\n",
                    successful_23_moves);
 
         // There should be a successful (2,6) move
         auto successful_26_moves = command.get_succeeded().two_six_moves();
-        CHECK(successful_26_moves == 1);
+        CHECK_EQ(successful_26_moves, 1);
         fmt::print("There was {} successful (2,6) move.\n",
                    successful_26_moves);
 
         // There should be a successful (4,4) move
         auto successful_44_moves = command.get_succeeded().four_four_moves();
-        CHECK(successful_44_moves == 1);
+        CHECK_EQ(successful_44_moves, 1);
         fmt::print("There was {} successful (4,4) move.\n",
                    successful_44_moves);
 
         // There should be a successful (6,2) move
         auto successful_62_moves = command.get_succeeded().six_two_moves();
-        CHECK(successful_62_moves == 1);
+        CHECK_EQ(successful_62_moves, 1);
         fmt::print("There was {} successful (6,2) move.\n",
                    successful_62_moves);
 
         // There should be a successful (3,2) move
         auto successful_32_moves = command.get_succeeded().three_two_moves();
-        CHECK(successful_32_moves == 1);
+        CHECK_EQ(successful_32_moves, 1);
         fmt::print("There was {} successful (3,2) move.\n",
                    successful_32_moves);
 
         // There should be no failed moves
-        CHECK(command.get_failed().total() == 0);
+        CHECK_EQ(command.get_failed().total(), 0);
         command.print_errors();
 
         // Get the results
         auto const& result = command.get_const_results();
 
         // The moves should cancel out
-        CHECK(result.get_triangulation().number_of_finite_cells() ==
-              manifold.get_triangulation().number_of_finite_cells());
+        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
+                 manifold.get_triangulation().number_of_finite_cells());
         REQUIRE(ergodic_moves::check_move(manifold, result,
                                           move_tracker::move_type::FOUR_FOUR));
         fmt::print("Triangulation moves cancelled out.");

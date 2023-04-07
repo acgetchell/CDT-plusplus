@@ -235,7 +235,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
       THEN("The cell info is correct.")
       {
         auto cell = triangulation.get_delaunay().finite_cells_begin();
-        CHECK(expected_cell_type<3>(cell) == Cell_type::THREE_ONE);
+        CHECK_EQ(expected_cell_type<3>(cell), Cell_type::THREE_ONE);
         // Human verification
         triangulation.print_cells();
       }

@@ -72,15 +72,15 @@ SCENARIO("Move type to integer conversion" *
   GIVEN("A move type.")
   {
     auto move23 = move_type::TWO_THREE;
-    REQUIRE(as_integer(move23) == 0);
+    REQUIRE_EQ(as_integer(move23), 0);
     auto move32 = move_type::THREE_TWO;
-    REQUIRE(as_integer(move32) == 1);
+    REQUIRE_EQ(as_integer(move32), 1);
     auto move26 = move_type::TWO_SIX;
-    REQUIRE(as_integer(move26) == 2);
+    REQUIRE_EQ(as_integer(move26), 2);
     auto move62 = move_type::SIX_TWO;
-    REQUIRE(as_integer(move62) == 3);
+    REQUIRE_EQ(as_integer(move62), 3);
     auto move44 = move_type::FOUR_FOUR;
-    REQUIRE(as_integer(move44) == 4);
+    REQUIRE_EQ(as_integer(move44), 4);
   }
 }
 
@@ -92,11 +92,11 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
     MoveTracker<Manifold_3> tracked_moves;
     THEN("There are the correct number of elements.")
     {
-      REQUIRE(tracked_moves.size() == NUMBER_OF_3D_MOVES);
+      REQUIRE_EQ(tracked_moves.size(), NUMBER_OF_3D_MOVES);
     }
     THEN("Each element is zero-initialized.")
     {
-      REQUIRE(tracked_moves.total() == 0);
+      REQUIRE_EQ(tracked_moves.total(), 0);
     }
     THEN("Moves can be added.")
     {
@@ -107,7 +107,7 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
       tracked_moves.six_two_moves()++;
       tracked_moves.four_four_moves()++;
       // Now check that it's added
-      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 1); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 1); }
     }
     THEN("Two move trackers can be added.")
     {
@@ -127,7 +127,7 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
       tracked_moves += added_moves;
 
       // Now check
-      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 3); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 3); }
     }
   }
   GIVEN("A 4D Move_tracker.")
@@ -135,11 +135,11 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
     MoveTracker<Manifold_4> tracked_moves;
     THEN("There are the correct number of elements.")
     {
-      REQUIRE(tracked_moves.size() == NUMBER_OF_4D_MOVES);
+      REQUIRE_EQ(tracked_moves.size(), NUMBER_OF_4D_MOVES);
     }
     THEN("Each element is zero-initialized.")
     {
-      REQUIRE(tracked_moves.total() == 0);
+      REQUIRE_EQ(tracked_moves.total(), 0);
     }
     THEN("Moves can be added.")
     {
@@ -151,7 +151,7 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
       tracked_moves.six_four_moves()++;
       tracked_moves.two_eight_moves()++;
       tracked_moves.eight_two_moves()++;
-      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 1); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 1); }
     }
     THEN("Two move trackers can be added.")
     {
@@ -175,7 +175,7 @@ SCENARIO("MoveTracker functionality" * doctest::test_suite("move_tracker"))
       tracked_moves += added_moves;
 
       // Now check
-      for (auto move : tracked_moves.moves_view()) { REQUIRE(move == 3); }
+      for (auto move : tracked_moves.moves_view()) { REQUIRE_EQ(move, 3); }
     }
   }
 }

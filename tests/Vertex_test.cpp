@@ -30,8 +30,8 @@ SCENARIO("Point operations" * doctest::test_suite("vertex"))
     auto point_3 = Point(1, 1, 1);
     WHEN("They are compared.")
     {
-      THEN("Similar points are equal.") { REQUIRE(point_1 == point_2); }
-      THEN("Dissimilar points are not equal.") { REQUIRE(point_1 != point_3); }
+      THEN("Similar points are equal.") { REQUIRE_EQ(point_1, point_2); }
+      THEN("Dissimilar points are not equal.") { REQUIRE_NE(point_1, point_3); }
     }
   }
 }
@@ -59,13 +59,13 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         REQUIRE(manifold.is_valid());
       }
 
-      THEN("There is 1 vertex.") { REQUIRE(manifold.N0() == 1); }
+      THEN("There is 1 vertex.") { REQUIRE_EQ(manifold.N0(), 1); }
 
-      THEN("There are no edges.") { REQUIRE(manifold.N1() == 0); }
+      THEN("There are no edges.") { REQUIRE_EQ(manifold.N1(), 0); }
 
       THEN("A 1 vertex manifold has dimension 0.")
       {
-        REQUIRE(manifold.dimensionality() == 0);
+        REQUIRE_EQ(manifold.dimensionality(), 0);
       }
 
       THEN("The vertex is valid.")
@@ -94,15 +94,15 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         REQUIRE(manifold.is_valid());
       }
 
-      THEN("There are 2 vertices.") { REQUIRE(manifold.N0() == 2); }
+      THEN("There are 2 vertices.") { REQUIRE_EQ(manifold.N0(), 2); }
 
-      THEN("There is 1 edge.") { REQUIRE(manifold.N1() == 1); }
+      THEN("There is 1 edge.") { REQUIRE_EQ(manifold.N1(), 1); }
 
-      THEN("There are no faces.") { REQUIRE(manifold.N2() == 0); }
+      THEN("There are no faces.") { REQUIRE_EQ(manifold.N2(), 0); }
 
       THEN("A 2 vertex manifold has dimension 1.")
       {
-        REQUIRE(manifold.dimensionality() == 1);
+        REQUIRE_EQ(manifold.dimensionality(), 1);
       }
 
       THEN("The vertices are valid.")
@@ -134,17 +134,17 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         REQUIRE(manifold.is_valid());
       }
 
-      THEN("There are 3 vertices.") { REQUIRE(manifold.N0() == 3); }
+      THEN("There are 3 vertices.") { REQUIRE_EQ(manifold.N0(), 3); }
 
-      THEN("There are 3 edges.") { REQUIRE(manifold.N1() == 3); }
+      THEN("There are 3 edges.") { REQUIRE_EQ(manifold.N1(), 3); }
 
-      THEN("There is 1 face.") { REQUIRE(manifold.N2() == 1); }
+      THEN("There is 1 face.") { REQUIRE_EQ(manifold.N2(), 1); }
 
-      THEN("There are no simplices.") { REQUIRE(manifold.N3() == 0); }
+      THEN("There are no simplices.") { REQUIRE_EQ(manifold.N3(), 0); }
 
       THEN("A 3 vertex manifold has dimension 2.")
       {
-        REQUIRE(manifold.dimensionality() == 2);
+        REQUIRE_EQ(manifold.dimensionality(), 2);
       }
 
       THEN("The vertices are valid.")
@@ -177,17 +177,17 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         REQUIRE(manifold.is_valid());
       }
 
-      THEN("There are 4 vertices.") { REQUIRE(manifold.N0() == 4); }
+      THEN("There are 4 vertices.") { REQUIRE_EQ(manifold.N0(), 4); }
 
-      THEN("There are 6 edges.") { REQUIRE(manifold.N1() == 6); }
+      THEN("There are 6 edges.") { REQUIRE_EQ(manifold.N1(), 6); }
 
-      THEN("There are 4 faces.") { REQUIRE(manifold.N2() == 4); }
+      THEN("There are 4 faces.") { REQUIRE_EQ(manifold.N2(), 4); }
 
-      THEN("There is a simplex.") { REQUIRE(manifold.N3() == 1); }
+      THEN("There is a simplex.") { REQUIRE_EQ(manifold.N3(), 1); }
 
       THEN("A 4 vertex manifold has dimension 3.")
       {
-        REQUIRE(manifold.dimensionality() == 3);
+        REQUIRE_EQ(manifold.dimensionality(), 3);
       }
 
       THEN("The vertices are valid.")
@@ -222,17 +222,17 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         REQUIRE(manifold.is_valid());
       }
 
-      THEN("There are 5 vertices.") { REQUIRE(manifold.N0() == 5); }
+      THEN("There are 5 vertices.") { REQUIRE_EQ(manifold.N0(), 5); }
 
-      THEN("There are 9 edges.") { REQUIRE(manifold.N1() == 9); }
+      THEN("There are 9 edges.") { REQUIRE_EQ(manifold.N1(), 9); }
 
-      THEN("There are 7 faces.") { REQUIRE(manifold.N2() == 7); }
+      THEN("There are 7 faces.") { REQUIRE_EQ(manifold.N2(), 7); }
 
-      THEN("There are 2 simplexes.") { REQUIRE(manifold.N3() == 2); }
+      THEN("There are 2 simplexes.") { REQUIRE_EQ(manifold.N3(), 2); }
 
       THEN("A 5 vertex manifold still has dimension 3.")
       {
-        REQUIRE(manifold.dimensionality() == 3);
+        REQUIRE_EQ(manifold.dimensionality(), 3);
       }
 
       THEN("The vertices are valid.")

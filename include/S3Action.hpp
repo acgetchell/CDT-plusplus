@@ -21,6 +21,9 @@
 
 #include <Settings.hpp>
 
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wcomment"
+
 /// @brief Calculates S3 bulk action for \f$\alpha\f$=-1.
 ///
 /// This result is i* the action for Euclidean dynamically triangulated
@@ -426,5 +429,7 @@
 
   return result;
 }  // Gmpzf S3_bulk_action()
+
+#pragma GCC diagnostic pop
 
 #endif  // INCLUDE_S3ACTION_HPP_

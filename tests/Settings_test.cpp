@@ -27,7 +27,7 @@ SCENARIO("Check settings" * doctest::may_fail() *
       THEN("The value is std::int_fast32_t.")
       {
         fmt::print("TypeID of Int_precision is {}.\n", int_precision);
-        CHECK(int_precision == typeid(std::int_fast32_t).name());
+        CHECK_EQ(int_precision, typeid(std::int_fast32_t).name());
       }
     }
     WHEN("MPFR precision is queried.")
@@ -36,7 +36,7 @@ SCENARIO("Check settings" * doctest::may_fail() *
       THEN("The value is 256 bits.")
       {
         fmt::print("MPFR precision set to {}.\n", precision);
-        REQUIRE(precision == 256);
+        REQUIRE_EQ(precision, 256);
       }
     }
     WHEN("Memory alignment is queried.")
@@ -45,13 +45,13 @@ SCENARIO("Check settings" * doctest::may_fail() *
       THEN("The value is 64 bits.")
       {
         fmt::print("Memory alignment is set to {}.\n", align_64);
-        REQUIRE(align_64 == 64);
+        REQUIRE_EQ(align_64, 64);
       }
       auto const align_32 = ALIGNMENT_32_BIT;
       THEN("The value is 32 bits.")
       {
         fmt::print("Memory alignment is set to {}.\n", align_32);
-        REQUIRE(align_32 == 32);
+        REQUIRE_EQ(align_32, 32);
       }
     }
   }
