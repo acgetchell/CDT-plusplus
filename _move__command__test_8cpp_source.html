@@ -252,18 +252,18 @@ $(function() {
 <div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;      }</div>
 <div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;      THEN(<span class="stringliteral">&quot;It contains the manifold.&quot;</span>)</div>
 <div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160;      {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        CHECK(manifold.N3() == command.get_const_results().N3());</div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        CHECK(manifold.N3_31() == command.get_const_results().N3_31());</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        CHECK(manifold.N3_22() == command.get_const_results().N3_22());</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        CHECK(manifold.N3_13() == command.get_const_results().N3_13());</div>
-<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        CHECK(manifold.N3_31_13() == command.get_const_results().N3_31_13());</div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        CHECK(manifold.N2() == command.get_const_results().N2());</div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        CHECK(manifold.N1() == command.get_const_results().N1());</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        CHECK(manifold.N1_TL() == command.get_const_results().N1_TL());</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        CHECK(manifold.N1_SL() == command.get_const_results().N1_SL());</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        CHECK(manifold.N0() == command.get_const_results().N0());</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        CHECK(manifold.max_time() == command.get_const_results().max_time());</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        CHECK(manifold.min_time() == command.get_const_results().min_time());</div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;        CHECK_EQ(manifold.N3(), command.get_const_results().N3());</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;        CHECK_EQ(manifold.N3_31(), command.get_const_results().N3_31());</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;        CHECK_EQ(manifold.N3_22(), command.get_const_results().N3_22());</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;        CHECK_EQ(manifold.N3_13(), command.get_const_results().N3_13());</div>
+<div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160;        CHECK_EQ(manifold.N3_31_13(), command.get_const_results().N3_31_13());</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;        CHECK_EQ(manifold.N2(), command.get_const_results().N2());</div>
+<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;        CHECK_EQ(manifold.N1(), command.get_const_results().N1());</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;        CHECK_EQ(manifold.N1_TL(), command.get_const_results().N1_TL());</div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;        CHECK_EQ(manifold.N1_SL(), command.get_const_results().N1_SL());</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;        CHECK_EQ(manifold.N0(), command.get_const_results().N0());</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;        CHECK_EQ(manifold.max_time(), command.get_const_results().max_time());</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;        CHECK_EQ(manifold.min_time(), command.get_const_results().min_time());</div>
 <div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;        fmt::print(<span class="stringliteral">&quot;Manifold properties:\n&quot;</span>);</div>
 <div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;        manifold.print_details();</div>
@@ -276,13 +276,13 @@ $(function() {
 <div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;      {</div>
 <div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;        <span class="keyword">auto</span>*       manifold_ptr  = &amp;manifold;</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>* manifold2_ptr = &amp;command.get_const_results();</div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        CHECK_FALSE(manifold_ptr == manifold2_ptr);</div>
+<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;        CHECK_NE(manifold_ptr, manifold2_ptr);</div>
 <div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;      }</div>
 <div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160;      THEN(<span class="stringliteral">&quot;Attempted, succeeded, and failed moves are initialized to 0.&quot;</span>)</div>
 <div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;      {</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        CHECK(command.get_attempted().total() == 0);</div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        CHECK(command.get_succeeded().total() == 0);</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        CHECK(command.get_failed().total() == 0);</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;        CHECK_EQ(command.get_attempted().total(), 0);</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;        CHECK_EQ(command.get_succeeded().total(), 0);</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;        CHECK_EQ(command.get_failed().total(), 0);</div>
 <div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160; </div>
 <div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;        fmt::print(<span class="stringliteral">&quot;Attempted moves are {}\n&quot;</span>,</div>
@@ -319,13 +319,13 @@ $(function() {
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;        <span class="comment">// An attempted move was recorded</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        CHECK(command.get_attempted().three_two_moves() == 1);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;        CHECK_EQ(command.get_attempted().three_two_moves(), 1);</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;        <span class="comment">// A successful move was recorded</span></div>
-<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        CHECK(command.get_succeeded().three_two_moves() == 1);</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;        CHECK_EQ(command.get_succeeded().three_two_moves(), 1);</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160; </div>
 <div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;        <span class="comment">// No failures</span></div>
-<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        CHECK(command.get_failed().three_two_moves() == 0);</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;        CHECK_EQ(command.get_failed().three_two_moves(), 0);</div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160; </div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;        <span class="keyword">auto</span> result        = command.get_results();</div>
@@ -339,8 +339,8 @@ $(function() {
 <div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;            <span class="stringliteral">&quot;pointers.\n&quot;</span>);</div>
 <div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
 <div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;        <span class="comment">// The move should not change the original manifold</span></div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        CHECK_FALSE(manifold.N3_22() == result.N3_22());</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        CHECK_FALSE(manifold.N1_TL() == result.N1_TL());</div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;        CHECK_NE(manifold.N3_22(), result.N3_22());</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;        CHECK_NE(manifold.N1_TL(), result.N1_TL());</div>
 <div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;        fmt::print(<span class="stringliteral">&quot;The original manifold is unchanged by Move_command.\n&quot;</span>);</div>
 <div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;      }</div>
 <div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;    }</div>
@@ -354,20 +354,20 @@ $(function() {
 <div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160; </div>
 <div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;        <span class="comment">// An attempted move was recorded</span></div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        CHECK(command.get_attempted().four_four_moves() == 1);</div>
+<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;        CHECK_EQ(command.get_attempted().four_four_moves(), 1);</div>
 <div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160; </div>
 <div class="line"><a name="l00283"></a><span class="lineno">  283</span>&#160;        <span class="comment">// A successful move was recorded</span></div>
-<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        CHECK(command.get_succeeded().four_four_moves() == 1);</div>
+<div class="line"><a name="l00284"></a><span class="lineno">  284</span>&#160;        CHECK_EQ(command.get_succeeded().four_four_moves(), 1);</div>
 <div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160; </div>
 <div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;        <span class="comment">// No failures</span></div>
-<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        CHECK(command.get_failed().four_four_moves() == 0);</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;        CHECK_EQ(command.get_failed().four_four_moves(), 0);</div>
 <div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160; </div>
 <div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_results();</div>
 <div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160; </div>
 <div class="line"><a name="l00292"></a><span class="lineno">  292</span>&#160;        <span class="comment">// Triangulation shouldn&#39;t have changed</span></div>
-<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00293"></a><span class="lineno">  293</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00294"></a><span class="lineno">  294</span>&#160;                 manifold.get_triangulation().number_of_finite_cells());</div>
 <div class="line"><a name="l00295"></a><span class="lineno">  295</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00296"></a><span class="lineno">  296</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
 <div class="line"><a name="l00297"></a><span class="lineno">  297</span>&#160;        fmt::print(<span class="stringliteral">&quot;Move left triangulation unchanged.\n&quot;</span>);</div>
@@ -383,20 +383,20 @@ $(function() {
 <div class="line"><a name="l00307"></a><span class="lineno">  307</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00308"></a><span class="lineno">  308</span>&#160; </div>
 <div class="line"><a name="l00309"></a><span class="lineno">  309</span>&#160;        <span class="comment">// An attempted move was recorded</span></div>
-<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        CHECK(command.get_attempted().two_three_moves() == 1);</div>
+<div class="line"><a name="l00310"></a><span class="lineno">  310</span>&#160;        CHECK_EQ(command.get_attempted().two_three_moves(), 1);</div>
 <div class="line"><a name="l00311"></a><span class="lineno">  311</span>&#160; </div>
 <div class="line"><a name="l00312"></a><span class="lineno">  312</span>&#160;        <span class="comment">// A successful move was recorded</span></div>
-<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        CHECK(command.get_succeeded().two_three_moves() == 1);</div>
+<div class="line"><a name="l00313"></a><span class="lineno">  313</span>&#160;        CHECK_EQ(command.get_succeeded().two_three_moves(), 1);</div>
 <div class="line"><a name="l00314"></a><span class="lineno">  314</span>&#160; </div>
 <div class="line"><a name="l00315"></a><span class="lineno">  315</span>&#160;        <span class="comment">// No failures</span></div>
-<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        CHECK(command.get_failed().two_three_moves() == 0);</div>
+<div class="line"><a name="l00316"></a><span class="lineno">  316</span>&#160;        CHECK_EQ(command.get_failed().two_three_moves(), 0);</div>
 <div class="line"><a name="l00317"></a><span class="lineno">  317</span>&#160; </div>
 <div class="line"><a name="l00318"></a><span class="lineno">  318</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00319"></a><span class="lineno">  319</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00320"></a><span class="lineno">  320</span>&#160; </div>
 <div class="line"><a name="l00321"></a><span class="lineno">  321</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +1 cell</span></div>
-<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;              manifold.get_triangulation().number_of_finite_cells() + 1);</div>
+<div class="line"><a name="l00322"></a><span class="lineno">  322</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00323"></a><span class="lineno">  323</span>&#160;                 manifold.get_triangulation().number_of_finite_cells() + 1);</div>
 <div class="line"><a name="l00324"></a><span class="lineno">  324</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00325"></a><span class="lineno">  325</span>&#160;                                          move_tracker::move_type::TWO_THREE));</div>
 <div class="line"><a name="l00326"></a><span class="lineno">  326</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation added a finite cell.\n&quot;</span>);</div>
@@ -412,20 +412,20 @@ $(function() {
 <div class="line"><a name="l00336"></a><span class="lineno">  336</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00337"></a><span class="lineno">  337</span>&#160; </div>
 <div class="line"><a name="l00338"></a><span class="lineno">  338</span>&#160;        <span class="comment">// An attempted move was recorded</span></div>
-<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        CHECK(command.get_attempted().three_two_moves() == 1);</div>
+<div class="line"><a name="l00339"></a><span class="lineno">  339</span>&#160;        CHECK_EQ(command.get_attempted().three_two_moves(), 1);</div>
 <div class="line"><a name="l00340"></a><span class="lineno">  340</span>&#160; </div>
 <div class="line"><a name="l00341"></a><span class="lineno">  341</span>&#160;        <span class="comment">// A successful move was recorded</span></div>
-<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        CHECK(command.get_succeeded().three_two_moves() == 1);</div>
+<div class="line"><a name="l00342"></a><span class="lineno">  342</span>&#160;        CHECK_EQ(command.get_succeeded().three_two_moves(), 1);</div>
 <div class="line"><a name="l00343"></a><span class="lineno">  343</span>&#160; </div>
 <div class="line"><a name="l00344"></a><span class="lineno">  344</span>&#160;        <span class="comment">// No failures</span></div>
-<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        CHECK(command.get_failed().three_two_moves() == 0);</div>
+<div class="line"><a name="l00345"></a><span class="lineno">  345</span>&#160;        CHECK_EQ(command.get_failed().three_two_moves(), 0);</div>
 <div class="line"><a name="l00346"></a><span class="lineno">  346</span>&#160; </div>
 <div class="line"><a name="l00347"></a><span class="lineno">  347</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00348"></a><span class="lineno">  348</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00349"></a><span class="lineno">  349</span>&#160; </div>
 <div class="line"><a name="l00350"></a><span class="lineno">  350</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
-<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;              manifold.get_triangulation().number_of_finite_cells() - 1);</div>
+<div class="line"><a name="l00351"></a><span class="lineno">  351</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00352"></a><span class="lineno">  352</span>&#160;                 manifold.get_triangulation().number_of_finite_cells() - 1);</div>
 <div class="line"><a name="l00353"></a><span class="lineno">  353</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00354"></a><span class="lineno">  354</span>&#160;                                          move_tracker::move_type::THREE_TWO));</div>
 <div class="line"><a name="l00355"></a><span class="lineno">  355</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation removed a finite cell.\n&quot;</span>);</div>
@@ -441,20 +441,20 @@ $(function() {
 <div class="line"><a name="l00365"></a><span class="lineno">  365</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00366"></a><span class="lineno">  366</span>&#160; </div>
 <div class="line"><a name="l00367"></a><span class="lineno">  367</span>&#160;        <span class="comment">// An attempted move was recorded</span></div>
-<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        CHECK(command.get_attempted().two_six_moves() == 1);</div>
+<div class="line"><a name="l00368"></a><span class="lineno">  368</span>&#160;        CHECK_EQ(command.get_attempted().two_six_moves(), 1);</div>
 <div class="line"><a name="l00369"></a><span class="lineno">  369</span>&#160; </div>
 <div class="line"><a name="l00370"></a><span class="lineno">  370</span>&#160;        <span class="comment">// A successful move was recorded</span></div>
-<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        CHECK(command.get_succeeded().two_six_moves() == 1);</div>
+<div class="line"><a name="l00371"></a><span class="lineno">  371</span>&#160;        CHECK_EQ(command.get_succeeded().two_six_moves(), 1);</div>
 <div class="line"><a name="l00372"></a><span class="lineno">  372</span>&#160; </div>
 <div class="line"><a name="l00373"></a><span class="lineno">  373</span>&#160;        <span class="comment">// No failures</span></div>
-<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        CHECK(command.get_failed().two_six_moves() == 0);</div>
+<div class="line"><a name="l00374"></a><span class="lineno">  374</span>&#160;        CHECK_EQ(command.get_failed().two_six_moves(), 0);</div>
 <div class="line"><a name="l00375"></a><span class="lineno">  375</span>&#160; </div>
 <div class="line"><a name="l00376"></a><span class="lineno">  376</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00377"></a><span class="lineno">  377</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00378"></a><span class="lineno">  378</span>&#160; </div>
 <div class="line"><a name="l00379"></a><span class="lineno">  379</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have +4 cell</span></div>
-<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;              manifold.get_triangulation().number_of_finite_cells() + 4);</div>
+<div class="line"><a name="l00380"></a><span class="lineno">  380</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00381"></a><span class="lineno">  381</span>&#160;                 manifold.get_triangulation().number_of_finite_cells() + 4);</div>
 <div class="line"><a name="l00382"></a><span class="lineno">  382</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00383"></a><span class="lineno">  383</span>&#160;                                          move_tracker::move_type::TWO_SIX));</div>
 <div class="line"><a name="l00384"></a><span class="lineno">  384</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation added 4 finite cells.\n&quot;</span>);</div>
@@ -470,20 +470,20 @@ $(function() {
 <div class="line"><a name="l00394"></a><span class="lineno">  394</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00395"></a><span class="lineno">  395</span>&#160; </div>
 <div class="line"><a name="l00396"></a><span class="lineno">  396</span>&#160;        <span class="comment">// An attempted move was recorded</span></div>
-<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        CHECK(command.get_attempted().six_two_moves() == 1);</div>
+<div class="line"><a name="l00397"></a><span class="lineno">  397</span>&#160;        CHECK_EQ(command.get_attempted().six_two_moves(), 1);</div>
 <div class="line"><a name="l00398"></a><span class="lineno">  398</span>&#160; </div>
 <div class="line"><a name="l00399"></a><span class="lineno">  399</span>&#160;        <span class="comment">// A successful move was recorded</span></div>
-<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        CHECK(command.get_succeeded().six_two_moves() == 1);</div>
+<div class="line"><a name="l00400"></a><span class="lineno">  400</span>&#160;        CHECK_EQ(command.get_succeeded().six_two_moves(), 1);</div>
 <div class="line"><a name="l00401"></a><span class="lineno">  401</span>&#160; </div>
 <div class="line"><a name="l00402"></a><span class="lineno">  402</span>&#160;        <span class="comment">// No failures</span></div>
-<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        CHECK(command.get_failed().six_two_moves() == 0);</div>
+<div class="line"><a name="l00403"></a><span class="lineno">  403</span>&#160;        CHECK_EQ(command.get_failed().six_two_moves(), 0);</div>
 <div class="line"><a name="l00404"></a><span class="lineno">  404</span>&#160; </div>
 <div class="line"><a name="l00405"></a><span class="lineno">  405</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00406"></a><span class="lineno">  406</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00407"></a><span class="lineno">  407</span>&#160; </div>
 <div class="line"><a name="l00408"></a><span class="lineno">  408</span>&#160;        <span class="comment">// Did the triangulation actually change? We should have -1 cell</span></div>
-<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;              manifold.get_triangulation().number_of_finite_cells() - 4);</div>
+<div class="line"><a name="l00409"></a><span class="lineno">  409</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00410"></a><span class="lineno">  410</span>&#160;                 manifold.get_triangulation().number_of_finite_cells() - 4);</div>
 <div class="line"><a name="l00411"></a><span class="lineno">  411</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00412"></a><span class="lineno">  412</span>&#160;                                          move_tracker::move_type::SIX_TWO));</div>
 <div class="line"><a name="l00413"></a><span class="lineno">  413</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation removed 4 finite cells.\n&quot;</span>);</div>
@@ -506,38 +506,38 @@ $(function() {
 <div class="line"><a name="l00430"></a><span class="lineno">  430</span>&#160;      <a class="code" href="class_move_command.html">MoveCommand</a> command(manifold);</div>
 <div class="line"><a name="l00431"></a><span class="lineno">  431</span>&#160;      command.enqueue(move_tracker::move_type::TWO_THREE);</div>
 <div class="line"><a name="l00432"></a><span class="lineno">  432</span>&#160;      command.enqueue(move_tracker::move_type::THREE_TWO);</div>
-<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;      THEN(<span class="stringliteral">&quot;There are two moves in the queue.&quot;</span>) { CHECK(command.size() == 2); }</div>
+<div class="line"><a name="l00433"></a><span class="lineno">  433</span>&#160;      THEN(<span class="stringliteral">&quot;There are two moves in the queue.&quot;</span>) { CHECK_EQ(command.size(), 2); }</div>
 <div class="line"><a name="l00434"></a><span class="lineno">  434</span>&#160;      THEN(<span class="stringliteral">&quot;The moves are executed correctly.&quot;</span>)</div>
 <div class="line"><a name="l00435"></a><span class="lineno">  435</span>&#160;      {</div>
 <div class="line"><a name="l00436"></a><span class="lineno">  436</span>&#160;        <span class="comment">// Execute the moves</span></div>
 <div class="line"><a name="l00437"></a><span class="lineno">  437</span>&#160;        command.execute();</div>
 <div class="line"><a name="l00438"></a><span class="lineno">  438</span>&#160; </div>
 <div class="line"><a name="l00439"></a><span class="lineno">  439</span>&#160;        <span class="comment">// There should be 2 attempted moves</span></div>
-<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        CHECK(command.get_attempted().total() == 2);</div>
+<div class="line"><a name="l00440"></a><span class="lineno">  440</span>&#160;        CHECK_EQ(command.get_attempted().total(), 2);</div>
 <div class="line"><a name="l00441"></a><span class="lineno">  441</span>&#160;        command.print_attempts();</div>
 <div class="line"><a name="l00442"></a><span class="lineno">  442</span>&#160; </div>
 <div class="line"><a name="l00443"></a><span class="lineno">  443</span>&#160;        <span class="comment">// There should be a successful (2,3) move</span></div>
 <div class="line"><a name="l00444"></a><span class="lineno">  444</span>&#160;        <span class="keyword">auto</span> successful_23_moves = command.get_succeeded().two_three_moves();</div>
-<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        CHECK(successful_23_moves == 1);</div>
+<div class="line"><a name="l00445"></a><span class="lineno">  445</span>&#160;        CHECK_EQ(successful_23_moves, 1);</div>
 <div class="line"><a name="l00446"></a><span class="lineno">  446</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (2,3) move.\n&quot;</span>,</div>
 <div class="line"><a name="l00447"></a><span class="lineno">  447</span>&#160;                   successful_23_moves);</div>
 <div class="line"><a name="l00448"></a><span class="lineno">  448</span>&#160; </div>
 <div class="line"><a name="l00449"></a><span class="lineno">  449</span>&#160;        <span class="comment">// There should be a successful (3,2) move</span></div>
 <div class="line"><a name="l00450"></a><span class="lineno">  450</span>&#160;        <span class="keyword">auto</span> successful_32_moves = command.get_succeeded().three_two_moves();</div>
-<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        CHECK(successful_32_moves == 1);</div>
+<div class="line"><a name="l00451"></a><span class="lineno">  451</span>&#160;        CHECK_EQ(successful_32_moves, 1);</div>
 <div class="line"><a name="l00452"></a><span class="lineno">  452</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (3,2) move.\n&quot;</span>,</div>
 <div class="line"><a name="l00453"></a><span class="lineno">  453</span>&#160;                   successful_32_moves);</div>
 <div class="line"><a name="l00454"></a><span class="lineno">  454</span>&#160; </div>
 <div class="line"><a name="l00455"></a><span class="lineno">  455</span>&#160;        <span class="comment">// There should be no failed moves</span></div>
-<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        CHECK(command.get_failed().total() == 0);</div>
+<div class="line"><a name="l00456"></a><span class="lineno">  456</span>&#160;        CHECK_EQ(command.get_failed().total(), 0);</div>
 <div class="line"><a name="l00457"></a><span class="lineno">  457</span>&#160;        command.print_errors();</div>
 <div class="line"><a name="l00458"></a><span class="lineno">  458</span>&#160; </div>
 <div class="line"><a name="l00459"></a><span class="lineno">  459</span>&#160;        <span class="comment">// Get the results</span></div>
 <div class="line"><a name="l00460"></a><span class="lineno">  460</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
 <div class="line"><a name="l00461"></a><span class="lineno">  461</span>&#160; </div>
 <div class="line"><a name="l00462"></a><span class="lineno">  462</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
-<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00463"></a><span class="lineno">  463</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00464"></a><span class="lineno">  464</span>&#160;                 manifold.get_triangulation().number_of_finite_cells());</div>
 <div class="line"><a name="l00465"></a><span class="lineno">  465</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation moves cancelled out.&quot;</span>);</div>
@@ -551,63 +551,66 @@ $(function() {
 <div class="line"><a name="l00475"></a><span class="lineno">  475</span>&#160;      command.enqueue(move_tracker::move_type::FOUR_FOUR);</div>
 <div class="line"><a name="l00476"></a><span class="lineno">  476</span>&#160;      command.enqueue(move_tracker::move_type::SIX_TWO);</div>
 <div class="line"><a name="l00477"></a><span class="lineno">  477</span>&#160;      command.enqueue(move_tracker::move_type::THREE_TWO);</div>
-<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;      THEN(<span class="stringliteral">&quot;There are five moves in the queue.&quot;</span>) { CHECK(command.size() == 5); }</div>
-<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;      THEN(<span class="stringliteral">&quot;The moves are executed correctly.&quot;</span>)</div>
-<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;      {</div>
-<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;        <span class="comment">// Execute the moves</span></div>
-<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;        command.execute();</div>
-<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160; </div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;        <span class="comment">// There should be 5 attempted moves</span></div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        CHECK(command.get_attempted().total() == 5);</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;        command.print_attempts();</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160; </div>
-<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        <span class="comment">// There should be a successful (2,3) move</span></div>
-<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        <span class="keyword">auto</span> successful_23_moves = command.get_succeeded().two_three_moves();</div>
-<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;        CHECK(successful_23_moves == 1);</div>
-<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (2,3) move.\n&quot;</span>,</div>
-<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;                   successful_23_moves);</div>
-<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160; </div>
-<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;        <span class="comment">// There should be a successful (2,6) move</span></div>
-<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;        <span class="keyword">auto</span> successful_26_moves = command.get_succeeded().two_six_moves();</div>
-<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160;        CHECK(successful_26_moves == 1);</div>
-<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (2,6) move.\n&quot;</span>,</div>
-<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;                   successful_26_moves);</div>
-<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160; </div>
-<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        <span class="comment">// There should be a successful (4,4) move</span></div>
-<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;        <span class="keyword">auto</span> successful_44_moves = command.get_succeeded().four_four_moves();</div>
-<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160;        CHECK(successful_44_moves == 1);</div>
-<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (4,4) move.\n&quot;</span>,</div>
-<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;                   successful_44_moves);</div>
-<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160; </div>
-<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        <span class="comment">// There should be a successful (6,2) move</span></div>
-<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;        <span class="keyword">auto</span> successful_62_moves = command.get_succeeded().six_two_moves();</div>
-<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160;        CHECK(successful_62_moves == 1);</div>
-<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (6,2) move.\n&quot;</span>,</div>
-<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;                   successful_62_moves);</div>
-<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160; </div>
-<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        <span class="comment">// There should be a successful (3,2) move</span></div>
-<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;        <span class="keyword">auto</span> successful_32_moves = command.get_succeeded().three_two_moves();</div>
-<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160;        CHECK(successful_32_moves == 1);</div>
-<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (3,2) move.\n&quot;</span>,</div>
-<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;                   successful_32_moves);</div>
-<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160; </div>
-<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;        <span class="comment">// There should be no failed moves</span></div>
-<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;        CHECK(command.get_failed().total() == 0);</div>
-<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160;        command.print_errors();</div>
-<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160; </div>
-<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        <span class="comment">// Get the results</span></div>
-<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
+<div class="line"><a name="l00478"></a><span class="lineno">  478</span>&#160;      THEN(<span class="stringliteral">&quot;There are five moves in the queue.&quot;</span>)</div>
+<div class="line"><a name="l00479"></a><span class="lineno">  479</span>&#160;      {</div>
+<div class="line"><a name="l00480"></a><span class="lineno">  480</span>&#160;        CHECK_EQ(command.size(), 5);</div>
+<div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160;      }</div>
+<div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;      THEN(<span class="stringliteral">&quot;The moves are executed correctly.&quot;</span>)</div>
+<div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;      {</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;        <span class="comment">// Execute the moves</span></div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;        command.execute();</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160; </div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;        <span class="comment">// There should be 5 attempted moves</span></div>
+<div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;        CHECK_EQ(command.get_attempted().total(), 5);</div>
+<div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;        command.print_attempts();</div>
+<div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160; </div>
+<div class="line"><a name="l00491"></a><span class="lineno">  491</span>&#160;        <span class="comment">// There should be a successful (2,3) move</span></div>
+<div class="line"><a name="l00492"></a><span class="lineno">  492</span>&#160;        <span class="keyword">auto</span> successful_23_moves = command.get_succeeded().two_three_moves();</div>
+<div class="line"><a name="l00493"></a><span class="lineno">  493</span>&#160;        CHECK_EQ(successful_23_moves, 1);</div>
+<div class="line"><a name="l00494"></a><span class="lineno">  494</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (2,3) move.\n&quot;</span>,</div>
+<div class="line"><a name="l00495"></a><span class="lineno">  495</span>&#160;                   successful_23_moves);</div>
+<div class="line"><a name="l00496"></a><span class="lineno">  496</span>&#160; </div>
+<div class="line"><a name="l00497"></a><span class="lineno">  497</span>&#160;        <span class="comment">// There should be a successful (2,6) move</span></div>
+<div class="line"><a name="l00498"></a><span class="lineno">  498</span>&#160;        <span class="keyword">auto</span> successful_26_moves = command.get_succeeded().two_six_moves();</div>
+<div class="line"><a name="l00499"></a><span class="lineno">  499</span>&#160;        CHECK_EQ(successful_26_moves, 1);</div>
+<div class="line"><a name="l00500"></a><span class="lineno">  500</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (2,6) move.\n&quot;</span>,</div>
+<div class="line"><a name="l00501"></a><span class="lineno">  501</span>&#160;                   successful_26_moves);</div>
+<div class="line"><a name="l00502"></a><span class="lineno">  502</span>&#160; </div>
+<div class="line"><a name="l00503"></a><span class="lineno">  503</span>&#160;        <span class="comment">// There should be a successful (4,4) move</span></div>
+<div class="line"><a name="l00504"></a><span class="lineno">  504</span>&#160;        <span class="keyword">auto</span> successful_44_moves = command.get_succeeded().four_four_moves();</div>
+<div class="line"><a name="l00505"></a><span class="lineno">  505</span>&#160;        CHECK_EQ(successful_44_moves, 1);</div>
+<div class="line"><a name="l00506"></a><span class="lineno">  506</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (4,4) move.\n&quot;</span>,</div>
+<div class="line"><a name="l00507"></a><span class="lineno">  507</span>&#160;                   successful_44_moves);</div>
+<div class="line"><a name="l00508"></a><span class="lineno">  508</span>&#160; </div>
+<div class="line"><a name="l00509"></a><span class="lineno">  509</span>&#160;        <span class="comment">// There should be a successful (6,2) move</span></div>
+<div class="line"><a name="l00510"></a><span class="lineno">  510</span>&#160;        <span class="keyword">auto</span> successful_62_moves = command.get_succeeded().six_two_moves();</div>
+<div class="line"><a name="l00511"></a><span class="lineno">  511</span>&#160;        CHECK_EQ(successful_62_moves, 1);</div>
+<div class="line"><a name="l00512"></a><span class="lineno">  512</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (6,2) move.\n&quot;</span>,</div>
+<div class="line"><a name="l00513"></a><span class="lineno">  513</span>&#160;                   successful_62_moves);</div>
+<div class="line"><a name="l00514"></a><span class="lineno">  514</span>&#160; </div>
+<div class="line"><a name="l00515"></a><span class="lineno">  515</span>&#160;        <span class="comment">// There should be a successful (3,2) move</span></div>
+<div class="line"><a name="l00516"></a><span class="lineno">  516</span>&#160;        <span class="keyword">auto</span> successful_32_moves = command.get_succeeded().three_two_moves();</div>
+<div class="line"><a name="l00517"></a><span class="lineno">  517</span>&#160;        CHECK_EQ(successful_32_moves, 1);</div>
+<div class="line"><a name="l00518"></a><span class="lineno">  518</span>&#160;        fmt::print(<span class="stringliteral">&quot;There was {} successful (3,2) move.\n&quot;</span>,</div>
+<div class="line"><a name="l00519"></a><span class="lineno">  519</span>&#160;                   successful_32_moves);</div>
+<div class="line"><a name="l00520"></a><span class="lineno">  520</span>&#160; </div>
+<div class="line"><a name="l00521"></a><span class="lineno">  521</span>&#160;        <span class="comment">// There should be no failed moves</span></div>
+<div class="line"><a name="l00522"></a><span class="lineno">  522</span>&#160;        CHECK_EQ(command.get_failed().total(), 0);</div>
+<div class="line"><a name="l00523"></a><span class="lineno">  523</span>&#160;        command.print_errors();</div>
 <div class="line"><a name="l00524"></a><span class="lineno">  524</span>&#160; </div>
-<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
-<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        CHECK(result.get_triangulation().number_of_finite_cells() ==</div>
-<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160;              manifold.get_triangulation().number_of_finite_cells());</div>
-<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
-<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
-<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation moves cancelled out.&quot;</span>);</div>
-<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;      }</div>
-<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;    }</div>
-<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;  }</div>
-<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;}</div>
+<div class="line"><a name="l00525"></a><span class="lineno">  525</span>&#160;        <span class="comment">// Get the results</span></div>
+<div class="line"><a name="l00526"></a><span class="lineno">  526</span>&#160;        <span class="keyword">auto</span> <span class="keyword">const</span>&amp; result = command.get_const_results();</div>
+<div class="line"><a name="l00527"></a><span class="lineno">  527</span>&#160; </div>
+<div class="line"><a name="l00528"></a><span class="lineno">  528</span>&#160;        <span class="comment">// The moves should cancel out</span></div>
+<div class="line"><a name="l00529"></a><span class="lineno">  529</span>&#160;        CHECK_EQ(result.get_triangulation().number_of_finite_cells(),</div>
+<div class="line"><a name="l00530"></a><span class="lineno">  530</span>&#160;                 manifold.get_triangulation().number_of_finite_cells());</div>
+<div class="line"><a name="l00531"></a><span class="lineno">  531</span>&#160;        REQUIRE(ergodic_moves::check_move(manifold, result,</div>
+<div class="line"><a name="l00532"></a><span class="lineno">  532</span>&#160;                                          move_tracker::move_type::FOUR_FOUR));</div>
+<div class="line"><a name="l00533"></a><span class="lineno">  533</span>&#160;        fmt::print(<span class="stringliteral">&quot;Triangulation moves cancelled out.&quot;</span>);</div>
+<div class="line"><a name="l00534"></a><span class="lineno">  534</span>&#160;      }</div>
+<div class="line"><a name="l00535"></a><span class="lineno">  535</span>&#160;    }</div>
+<div class="line"><a name="l00536"></a><span class="lineno">  536</span>&#160;  }</div>
+<div class="line"><a name="l00537"></a><span class="lineno">  537</span>&#160;}</div>
 <div class="ttc" id="a_apply__move_8hpp_html_ad43f26129ceeafd0a3bb27275294cadd"><div class="ttname"><a href="_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd">apply_move</a></div><div class="ttdeci">constexpr auto apply_move(ManifoldType &amp;&amp;t_manifold, FunctionType t_move) noexcept -&gt; decltype(auto)</div><div class="ttdoc">An applicative function similar to std::apply, but on manifolds.</div><div class="ttdef"><b>Definition:</b> <a href="_apply__move_8hpp_source.html#l00033">Apply_move.hpp:33</a></div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a1f2a1247f8f86f72a21db4889e0c6d2d"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(Manifold &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00085">Ergodic_moves_3.hpp:85</a></div></div>
 <div class="ttc" id="a_move__command_8hpp_html"><div class="ttname"><a href="_move__command_8hpp.html">Move_command.hpp</a></div><div class="ttdoc">Do ergodic moves using the Command pattern.</div></div>
@@ -617,7 +620,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 1 2023 23:06:30 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Apr 7 2023 22:12:16 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

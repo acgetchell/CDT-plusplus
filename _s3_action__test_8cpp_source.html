@@ -105,16 +105,16 @@ $(function() {
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    <span class="keyword">auto</span> constexpr Lambda     = 0.1L;</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> universe(simplices, timeslices);</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    <span class="comment">// Verify triangulation</span></div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    CHECK(universe.N3() == universe.simplices());</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    CHECK(universe.N1() == universe.edges());</div>
-<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    CHECK(universe.N0() == universe.vertices());</div>
-<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    CHECK(universe.dimensionality() == 3);</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;    CHECK_EQ(universe.N3(), universe.simplices());</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;    CHECK_EQ(universe.N1(), universe.edges());</div>
+<div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;    CHECK_EQ(universe.N0(), universe.vertices());</div>
+<div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;    CHECK_EQ(universe.dimensionality(), 3);</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;    CHECK(universe.is_correct());</div>
 <div class="line"><a name="l00039"></a><span class="lineno">   39</span>&#160; </div>
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    universe.print_volume_per_timeslice();</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160; </div>
-<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    CHECK(universe.max_time() == timeslices);</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    CHECK(universe.min_time() == 1);</div>
+<div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    CHECK_EQ(universe.max_time(), timeslices);</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;    CHECK_EQ(universe.min_time(), 1);</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;    WHEN(<span class="stringliteral">&quot;The alpha=-1 Bulk Action is calculated.&quot;</span>)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;    {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;      <span class="keyword">auto</span> Bulk_action = <a class="code" href="_s3_action_8hpp.html#a94c1fd33203a8c91ec29a8430e14e510">S3_bulk_action_alpha_minus_one</a>(</div>
@@ -123,8 +123,8 @@ $(function() {
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      {</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;S3_bulk_action_alpha_minus_one() = {}\n&quot;</span>,</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;                      Bulk_action.to_double());</div>
-<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        REQUIRE(3500 &lt;= Bulk_action);</div>
-<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        REQUIRE(Bulk_action &lt;= 4500);</div>
+<div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        REQUIRE_LE(3500, Bulk_action);</div>
+<div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;        REQUIRE_LE(Bulk_action, 4500);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;      }</div>
 <div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;    }</div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;    WHEN(<span class="stringliteral">&quot;The alpha=1 Bulk Action is calculated.&quot;</span>)</div>
@@ -135,8 +135,8 @@ $(function() {
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;      {</div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;S3_bulk_action_alpha_one() = {}\n&quot;</span>,</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160;                      Bulk_action.to_double());</div>
-<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        REQUIRE(2000 &lt;= Bulk_action);</div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        REQUIRE(Bulk_action &lt;= 3000);</div>
+<div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;        REQUIRE_LE(2000, Bulk_action);</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;        REQUIRE_LE(Bulk_action, 3000);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;      }</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    }</div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    WHEN(<span class="stringliteral">&quot;The generalized Bulk Action is calculated.&quot;</span>)</div>
@@ -148,8 +148,8 @@ $(function() {
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;      THEN(<span class="stringliteral">&quot;The action falls within accepted values.&quot;</span>)</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;      {</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;        spdlog::debug(<span class="stringliteral">&quot;S3_bulk_action() = {}\n&quot;</span>, Bulk_action.to_double());</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        REQUIRE(2700 &lt;= Bulk_action);</div>
-<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        REQUIRE(Bulk_action &lt;= 3700);</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;        REQUIRE_LE(2700, Bulk_action);</div>
+<div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;        REQUIRE_LE(Bulk_action, 3700);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;      }</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    }</div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    WHEN(</div>
@@ -177,16 +177,16 @@ $(function() {
 <div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;}</div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="a_s3_action_8hpp_html"><div class="ttname"><a href="_s3_action_8hpp.html">S3Action.hpp</a></div><div class="ttdoc">Calculate S3 bulk actions on 3D Delaunay Triangulations.</div></div>
-<div class="ttc" id="a_s3_action_8hpp_html_a94c1fd33203a8c91ec29a8430e14e510"><div class="ttname"><a href="_s3_action_8hpp.html#a94c1fd33203a8c91ec29a8430e14e510">S3_bulk_action_alpha_minus_one</a></div><div class="ttdeci">auto S3_bulk_action_alpha_minus_one(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates S3 bulk action for =-1.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00044">S3Action.hpp:44</a></div></div>
-<div class="ttc" id="a_s3_action_8hpp_html_aa873fb6fe74703f76d277eedfd1a2148"><div class="ttname"><a href="_s3_action_8hpp.html#aa873fb6fe74703f76d277eedfd1a2148">S3_bulk_action_alpha_one</a></div><div class="ttdeci">auto S3_bulk_action_alpha_one(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates S3 bulk action for =1.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00140">S3Action.hpp:140</a></div></div>
-<div class="ttc" id="a_s3_action_8hpp_html_ad833f7930a98de85f56ef8ac210967e5"><div class="ttname"><a href="_s3_action_8hpp.html#ad833f7930a98de85f56ef8ac210967e5">S3_bulk_action</a></div><div class="ttdeci">auto S3_bulk_action(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double Alpha, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates the generalized S3 bulk action in terms of , , , , , and .</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00247">S3Action.hpp:247</a></div></div>
+<div class="ttc" id="a_s3_action_8hpp_html_a94c1fd33203a8c91ec29a8430e14e510"><div class="ttname"><a href="_s3_action_8hpp.html#a94c1fd33203a8c91ec29a8430e14e510">S3_bulk_action_alpha_minus_one</a></div><div class="ttdeci">auto S3_bulk_action_alpha_minus_one(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates S3 bulk action for =-1.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00047">S3Action.hpp:47</a></div></div>
+<div class="ttc" id="a_s3_action_8hpp_html_aa873fb6fe74703f76d277eedfd1a2148"><div class="ttname"><a href="_s3_action_8hpp.html#aa873fb6fe74703f76d277eedfd1a2148">S3_bulk_action_alpha_one</a></div><div class="ttdeci">auto S3_bulk_action_alpha_one(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates S3 bulk action for =1.</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00143">S3Action.hpp:143</a></div></div>
+<div class="ttc" id="a_s3_action_8hpp_html_ad833f7930a98de85f56ef8ac210967e5"><div class="ttname"><a href="_s3_action_8hpp.html#ad833f7930a98de85f56ef8ac210967e5">S3_bulk_action</a></div><div class="ttdeci">auto S3_bulk_action(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double Alpha, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates the generalized S3 bulk action in terms of , , , , , and .</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00250">S3Action.hpp:250</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8221aca4f6455e08b88d98f5e9c6dd2a"><div class="ttname"><a href="_settings_8hpp.html#a8221aca4f6455e08b88d98f5e9c6dd2a">TOLERANCE</a></div><div class="ttdeci">static double constinit const TOLERANCE</div><div class="ttdoc">Sets epsilon values for floating point comparisons.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00051">Settings.hpp:51</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00029">Manifold.hpp:30</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Apr 1 2023 23:06:30 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Apr 7 2023 22:12:16 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
