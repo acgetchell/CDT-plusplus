@@ -26,7 +26,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v10
         with:
-          vcpkgGitCommitId: cd5a39fc6333563884d9eea15bfb6f5a450b1cf1
+          vcpkgGitCommitId: 4116148a7f5c09d39da34ffb75f33283796d687b
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
@@ -38,26 +38,26 @@ jobs:
         working-directory: build
         run: ctest --output-on-failure -j 2
 
-      - name: collect code coverage
-        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
+#      - name: collect code coverage
+#        run: bash <(curl -s https://codecov.io/bash) || echo "Codecov did not collect coverage reports"
 
-#      - name: Generate coverage info
-#        working-directory: build
-#        continue-on-error: true
-#        run: |
-#          mkdir gcov-reports
-#          pushd gcov-reports
-#          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
-#            echo "Processing $f file..."
-#            gcov -o ${f} x
-#          done
-#          ls | wc -l
-#          popd
-#
-#      - name: Submit to codecov.io
-#        uses: codecov/codecov-action@v3
-#        with:
-#          directory: build/gcov-reports
-#          fail_ci_if_error: false
-#          verbose: true
-#          gcov: true
+      - name: Generate coverage info
+        working-directory: build
+        continue-on-error: true
+        run: |
+          mkdir gcov-reports
+          pushd gcov-reports
+          for f in `find ../tests/CMakeFiles/CDT_test.dir -name '*.o'`; do
+            echo "Processing $f file..."
+            gcov -o ${f} x
+          done
+          ls | wc -l
+          popd
+
+      - name: Submit to codecov.io
+        uses: codecov/codecov-action@v3
+        with:
+          directory: build/gcov-reports
+          fail_ci_if_error: false
+          verbose: true
+          gcov: true
