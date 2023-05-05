@@ -5,7 +5,7 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   sonarcloud:
     name: SonarCloud
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     env:
       BUILD_WRAPPER_OUT_DIR: build_wrapper_output_directory # Directory where build-wrapper output will be placed
     steps:
@@ -16,7 +16,7 @@ jobs:
       - name: Setup GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: 12
           platform: x64
 
       - name: Setup

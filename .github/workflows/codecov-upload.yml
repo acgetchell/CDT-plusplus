@@ -5,17 +5,17 @@ on: [push, pull_request, workflow_dispatch]
 jobs:
   codecov:
     name: CodeCov
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      - name: Setup Clang
+      - name: Setup GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: 12
           platform: x64
 
       - name: Setup
