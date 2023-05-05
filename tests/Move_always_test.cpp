@@ -124,14 +124,13 @@ SCENARIO("MoveAlways member functions" * doctest::test_suite("move_always"))
 
 // This may take a while, so the scenario decorated with doctest::skip()
 // to disable by default
-SCENARIO("Using the MoveAlways algorithm" * doctest::skip() *
-         doctest::test_suite("move_always"))
+SCENARIO("Using the MoveAlways algorithm" * doctest::test_suite("move_always"))
 {
   spdlog::debug("Using the MoveAlways algorithm.\n");
   GIVEN("A correctly-constructed Manifold_3.")
   {
-    auto constexpr simplices  = 640;
-    auto constexpr timeslices = 4;
+    auto constexpr simplices  = 64;
+    auto constexpr timeslices = 3;
     Manifold_3 const manifold(simplices, timeslices);
     REQUIRE(manifold.is_correct());
     WHEN("A MoveAlways_3 algorithm is used.")

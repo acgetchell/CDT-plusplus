@@ -22,7 +22,7 @@ static inline std::floating_point auto constinit const RADIUS_2 =
     2.0 * std::numbers::inv_sqrt3_v<double>;
 static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
-static inline auto constexpr INV_SQRT_2 = 1 / SQRT_2;
+static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 
 SCENARIO(
     "Perform ergodic moves on the minimal manifold necessary for that move" *
