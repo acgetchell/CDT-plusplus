@@ -59,7 +59,7 @@ Options:
 /// @param argc Argument count = 1 + number of arguments
 /// @param argv Argument vector (array) to be passed to docopt
 /// @return Integer value 0 if successful, 1 on failure
-auto main(int argc, char* const argv[]) -> int  // NOLINT
+auto main(int argc, char* const argv[]) -> int
 try
 {
   // Start running time
@@ -147,7 +147,6 @@ try
     case topology_type::TOROIDAL:
       timer.stop();  // End running time counter
       throw invalid_argument("Toroidal triangulations not yet supported.");
-    default: throw domain_error("Simulation topology not parsed.");
   }
 
   // Look at triangulation

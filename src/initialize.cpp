@@ -43,7 +43,7 @@ Options:
   -o --output                 Save triangulation into OFF file
 )"};
 
-auto main(int argc, char* const argv[]) -> int  // NOLINT
+auto main(int argc, char* const argv[]) -> int
 try
 {
   // docopt option parser
@@ -97,8 +97,6 @@ try
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
-      break;
-    default: throw domain_error("Simulation topology not parsed.");
   }
   universe.print();
   universe.print_volume_per_timeslice();

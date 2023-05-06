@@ -20,7 +20,7 @@
 
 using namespace std;
 
-auto main() -> int  // NOLINT
+auto main() -> int
 try
 {
   fmt::print("cdt-opt started at {}\n", utilities::current_date_time());
