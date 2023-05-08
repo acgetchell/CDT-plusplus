@@ -147,6 +147,7 @@ try
     case topology_type::TOROIDAL:
       timer.stop();  // End running time counter
       throw invalid_argument("Toroidal triangulations not yet supported.");
+    default: throw domain_error("Simulation topology not parsed.");
   }
 
   // Look at triangulation
@@ -164,7 +165,7 @@ try
                max_timevalue);
   }
 
-  Ensures(result.is_valid());
+  assert(result.is_valid());
 
   // Output results
   timer.stop();  // End running time counter

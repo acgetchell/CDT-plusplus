@@ -57,7 +57,7 @@ try
                  max_timevalue);
   }
 
-  Ensures(result.is_valid());
+  assert(result.is_valid());
 
   // Print results
   fmt::print("=== Run Results ===\n");

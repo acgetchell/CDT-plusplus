@@ -91,7 +91,7 @@ namespace foliated_triangulations
   template <int dimension>
   [[nodiscard]] auto collect_edges(Delaunay_t<dimension> const& delaunay)
   {
-    Expects(delaunay.is_valid());
+    assert(delaunay.is_valid());
     std::vector<Edge_handle_t<dimension>> init_edges;
     init_edges.reserve(delaunay.number_of_finite_edges());
     for (auto eit = delaunay.finite_edges_begin();
@@ -101,11 +101,11 @@ namespace foliated_triangulations
       Edge_handle_t<3> thisEdge{cell, cell->index(cell->vertex(eit->second)),
                                 cell->index(cell->vertex(eit->third))};
       // Each edge is valid in the triangulation
-      Ensures(delaunay.tds().is_valid(thisEdge.first, thisEdge.second,
-                                      thisEdge.third));
+      assert(delaunay.tds().is_valid(thisEdge.first, thisEdge.second,
+                                     thisEdge.third));
       init_edges.emplace_back(thisEdge);
     }
-    Ensures(init_edges.size() == delaunay.number_of_finite_edges());
+    assert(init_edges.size() == delaunay.number_of_finite_edges());
     return init_edges;
   }  // collect_edges
 
@@ -170,13 +170,13 @@ namespace foliated_triangulations
   [[nodiscard]] auto find_max_timevalue(Container&& t_vertices) -> Int_precision
   {
     auto vertices = std::forward<Container>(t_vertices);
-    Expects(!vertices.empty());
+    assert(!vertices.empty());
     auto max_element  = std::max_element(vertices.begin(), vertices.end(),
                                          compare_v_info<dimension>);
     auto result_index = std::distance(vertices.begin(), max_element);
     // std::distance may be negative if random-access iterators are used and
     // first is reachable from last
-    Ensures(result_index >= 0);
+    assert(result_index >= 0);
     auto const index = static_cast<std::size_t>(std::abs(result_index));
     return vertices[index]->info();
   }  // find_max_timevalue
@@ -188,11 +188,11 @@ namespace foliated_triangulations
   [[nodiscard]] auto find_min_timevalue(Container&& t_vertices) -> Int_precision
   {
     auto vertices = std::forward<Container>(t_vertices);
-    Expects(!vertices.empty());
+    assert(!vertices.empty());
     auto min_element  = std::min_element(vertices.begin(), vertices.end(),
                                          compare_v_info<dimension>);
     auto result_index = std::distance(vertices.begin(), min_element);
-    Ensures(result_index >= 0);
+    assert(result_index >= 0);
     auto const index = static_cast<std::size_t>(std::abs(result_index));
     return vertices[index]->info();
   }  // find_min_timevalue
@@ -330,7 +330,7 @@ namespace foliated_triangulations
          vit != t_triangulation.finite_vertices_end(); ++vit)
     {
       // Each vertex is valid
-      Ensures(t_triangulation.tds().is_vertex(vit));
+      assert(t_triangulation.tds().is_vertex(vit));
       vertices.emplace_back(vit);
     }
     return vertices;
@@ -369,7 +369,7 @@ namespace foliated_triangulations
          cit != t_triangulation.finite_cells_end(); ++cit)
     {
       // Each cell is valid
-      Ensures(t_triangulation.tds().is_cell(cit));
+      assert(t_triangulation.tds().is_cell(cit));
       cells.emplace_back(cit);
     }
     return cells;
@@ -564,12 +564,11 @@ namespace foliated_triangulations
       -> bool
   {
     auto checked_cells = collect_cells<dimension>(t_triangulation);
-    return (checked_cells.empty())
-             ? true
-             : std::all_of(checked_cells.begin(), checked_cells.end(),
-                           [&](auto const& cell) {
-                             return is_cell_type_correct<dimension>(cell);
-                           });
+    return (checked_cells.empty()) ||
+           std::all_of(checked_cells.begin(), checked_cells.end(),
+                       [&](auto const& cell) {
+                         return is_cell_type_correct<dimension>(cell);
+                       });
   }  // check_cells
 
   /// @brief Check all finite cells in the Delaunay triangulation
@@ -816,8 +815,8 @@ namespace foliated_triangulations
       fmt::print("There are {} invalid vertices.\n", vertices_to_remove.size());
       t_triangulation.remove(vertices_to_remove.begin(),
                              vertices_to_remove.end());
-      Ensures(t_triangulation.tds().is_valid());
-      Ensures(t_triangulation.is_valid());
+      assert(t_triangulation.tds().is_valid());
+      assert(t_triangulation.is_valid());
       return true;
     }
     return false;
@@ -843,7 +842,7 @@ namespace foliated_triangulations
     causal_vertices.reserve(static_cast<std::size_t>(t_simplices));
     auto const points_per_timeslice = utilities::expected_points_per_timeslice(
         dimension, t_simplices, t_timeslices);
-    Expects(points_per_timeslice >= 2);
+    assert(points_per_timeslice >= 2);
 
     for (gsl::index i = 0; i < t_timeslices; ++i)
     {
@@ -929,7 +928,7 @@ namespace foliated_triangulations
     }
 
     utilities::print_delaunay(triangulation);
-    Ensures(!check_timevalues<dimension>(triangulation));
+    assert(!check_timevalues<dimension>(triangulation));
     return triangulation;
   }  // make_triangulation
 
@@ -1389,7 +1388,7 @@ namespace foliated_triangulations
     /// @return Container of cells
     [[nodiscard]] auto get_cells() const -> Cell_container const&
     {
-      Ensures(m_cells.size() == number_of_finite_cells());
+      assert(m_cells.size() == number_of_finite_cells());
       return m_cells;
     }  // get_cells
 
@@ -1448,7 +1447,7 @@ namespace foliated_triangulations
     [[nodiscard]] auto classify_vertices(Vertex_container const& vertices) const
         -> Vertex_container
     {
-      Expects(vertices.size() == number_of_vertices());
+      assert(vertices.size() == number_of_vertices());
       for (auto const& vertex : vertices)
       {
         vertex->info() = expected_timevalue(vertex);
@@ -1462,7 +1461,7 @@ namespace foliated_triangulations
     [[nodiscard]] auto classify_cells(Cell_container const& cells) const
         -> Cell_container
     {
-      Expects(cells.size() == number_of_finite_cells());
+      assert(cells.size() == number_of_finite_cells());
       for (auto const& cell : cells)
       {
         cell->info() = static_cast<int>(expected_cell_type<3>(cell));
@@ -1474,7 +1473,7 @@ namespace foliated_triangulations
     [[nodiscard]] auto collect_faces() const -> Face_container
     {
       // Somewhere in bistellar_flip_really a vertex is rendered invalid
-      Expects(is_tds_valid());
+      assert(is_tds_valid());
       Face_container init_faces;
       init_faces.reserve(get_delaunay().number_of_finite_facets());
       for (auto fit = get_delaunay().finite_facets_begin();
@@ -1482,18 +1481,18 @@ namespace foliated_triangulations
       {
         Cell_handle_t<3> const cell = fit->first;
         // Each face is valid in the triangulation
-        Ensures(get_delaunay().tds().is_facet(cell, fit->second));
+        assert(get_delaunay().tds().is_facet(cell, fit->second));
         Face_handle_t<3> const thisFacet{std::make_pair(cell, fit->second)};
         init_faces.emplace_back(thisFacet);
       }
-      Ensures(init_faces.size() == get_delaunay().number_of_finite_facets());
+      assert(init_faces.size() == get_delaunay().number_of_finite_facets());
       return init_faces;
     }  // collect_faces
 
     /// @return Container of all the finite edges in the triangulation
     [[nodiscard]] auto collect_edges() const -> Edge_container
     {
-      Expects(is_tds_valid());
+      assert(is_tds_valid());
       Edge_container init_edges;
       init_edges.reserve(number_of_finite_edges());
       for (auto eit = get_delaunay().finite_edges_begin();
@@ -1504,11 +1503,11 @@ namespace foliated_triangulations
                                         cell->index(cell->vertex(eit->second)),
                                         cell->index(cell->vertex(eit->third))};
         // Each edge is valid in the triangulation
-        Ensures(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,
-                                              thisEdge.third));
+        assert(get_delaunay().tds().is_valid(thisEdge.first, thisEdge.second,
+                                             thisEdge.third));
         init_edges.emplace_back(thisEdge);
       }
-      Ensures(init_edges.size() == number_of_finite_edges());
+      assert(init_edges.size() == number_of_finite_edges());
       return init_edges;
     }  // collect_edges
   };

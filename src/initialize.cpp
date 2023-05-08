@@ -97,6 +97,8 @@ try
       break;
     case topology_type::TOROIDAL:
       throw invalid_argument("Toroidal triangulations not yet supported.");
+      break;
+    default: throw invalid_argument("Invalid topology.");
   }
   universe.print();
   universe.print_volume_per_timeslice();
