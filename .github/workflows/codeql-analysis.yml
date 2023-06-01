@@ -66,7 +66,7 @@ jobs:
     - name: Restore artifacts or setup vcpkg
       uses: lukka/run-vcpkg@v10
       with:
-        vcpkgGitCommitId: 6a3dd0874f153f8b375ec26210ea6d41dee3bb26
+        vcpkgGitCommitId: 65e91ebd9e1d8a5c054b98b87abef68d5d36ce6f
 
     - name: Configure
       run: cmake --preset=build
