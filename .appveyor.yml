@@ -57,9 +57,9 @@ build_script:
   - cmake --preset=appveyor
   - cmake --build build
 
-#on_success:
-#  - cd build
-#  - ctest --output-on-failure -j2
+on_success:
+  - cd build
+  - ctest --output-on-failure -j2
 
 notifications:
   - provider: Email

@@ -33,3 +33,8 @@ jobs:
 
       - name: Build
         run:  cmake --build build -j 2
+
+      - name: Test
+        working-directory: build
+        continue-on-error: true
+        run: ctest --rerun-failed --output-on-failure -j 2
