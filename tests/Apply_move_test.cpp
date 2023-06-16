@@ -145,8 +145,7 @@ SCENARIO("Apply an ergodic move to 2+1 manifolds" *
       else
       {
         spdlog::debug("{}", result.error());
-        // Stop further tests
-        REQUIRE(result.has_value());
+        CHECK(result.has_value());
       }
       THEN("The resulting manifold has the applied move.")
       {

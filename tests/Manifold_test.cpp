@@ -551,8 +551,7 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
   }
 }
 
-SCENARIO("3-Manifold validation and fixing" * doctest::may_fail() *
-         doctest::test_suite("manifold"))
+SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold validation and fixing.\n");
   GIVEN("A (1,3) and (3,1) stacked on each other.")

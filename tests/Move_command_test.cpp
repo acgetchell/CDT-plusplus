@@ -16,8 +16,7 @@
 using namespace std;
 using namespace manifolds;
 
-SCENARIO("MoveCommand special members" * doctest::may_fail() *
-         doctest::test_suite("move_command"))
+SCENARIO("MoveCommand special members" * doctest::test_suite("move_command"))
 {
   spdlog::debug("MoveCommand special members.\n");
   GIVEN("A MoveCommand.")
@@ -219,8 +218,7 @@ SCENARIO("MoveCommand initialization" * doctest::test_suite("move_command"))
   }
 }
 
-SCENARIO("Queueing and executing moves" * doctest::may_fail() *
-         doctest::test_suite("move_command"))
+SCENARIO("Queueing and executing moves" * doctest::test_suite("move_command"))
 {
   spdlog::debug("Queueing and executing moves.\n");
   GIVEN("A valid manifold.")
@@ -408,8 +406,8 @@ SCENARIO("Queueing and executing moves" * doctest::may_fail() *
         // Did the triangulation actually change? We should have -1 cell
         CHECK_EQ(result.get_triangulation().number_of_finite_cells(),
                  manifold.get_triangulation().number_of_finite_cells() - 4);
-        REQUIRE(ergodic_moves::check_move(manifold, result,
-                                          move_tracker::move_type::SIX_TWO));
+        CHECK(ergodic_moves::check_move(manifold, result,
+                                        move_tracker::move_type::SIX_TWO));
         fmt::print("Triangulation removed 4 finite cells.\n");
       }
     }

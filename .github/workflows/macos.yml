@@ -17,9 +17,9 @@ jobs:
         brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache
 
     - name: Restore artifacts or setup vcpkg
-      uses: lukka/run-vcpkg@v10
+      uses: lukka/run-vcpkg@v11
       with:
-        vcpkgGitCommitId: a960fde0b60b6392d70375fe513dfa7eb083cc3a
+        vcpkgGitCommitId: 5d2a0a9814db499f6ba2e847ca7ab5912badcdbf
 
     - name: Configure
       run: cmake --preset=build

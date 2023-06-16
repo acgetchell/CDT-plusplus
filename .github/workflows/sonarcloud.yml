@@ -28,9 +28,9 @@ jobs:
         uses: sonarsource/sonarcloud-github-c-cpp@v1
 
       - name: Restore artifacts or setup vcpkg
-        uses: lukka/run-vcpkg@v10
+        uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 65e91ebd9e1d8a5c054b98b87abef68d5d36ce6f
+          vcpkgGitCommitId: 5d2a0a9814db499f6ba2e847ca7ab5912badcdbf
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
