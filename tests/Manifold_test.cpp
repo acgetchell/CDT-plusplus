@@ -178,7 +178,7 @@ SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
 SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold functions.\n");
-  GIVEN("A manifold with four vertices.")
+  GIVEN("A 3-manifold with four vertices.")
   {
     Causal_vertices_t<3> causal_vertices;
     causal_vertices.emplace_back(Point_t<3>(1, 0, 0), 1);
@@ -218,6 +218,7 @@ SCENARIO("Manifold functions" * doctest::test_suite("manifold"))
 SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold initialization.\n");
+  using Point = Point_t<3>;
   GIVEN("A 3-manifold.")
   {
     WHEN("It is default constructed.")
@@ -245,9 +246,9 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("It is constructed from causal vertices.")
     {
-      vector<Point_t<3>> const Vertices{
-          Point_t<3>(0, 0, 0), Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-          Point_t<3>(0, 0, 1), Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+      vector<Point> const  Vertices{Point(0, 0, 0), Point(1, 0, 0),
+                                   Point(0, 1, 0), Point(0, 0, 1),
+                                   Point(RADIUS_2, RADIUS_2, RADIUS_2)};
       vector<size_t> const Timevalues{1, 2, 2, 2, 3};
       auto                 causal_vertices =
           manifolds::make_causal_vertices<3>(Vertices, Timevalues);
@@ -294,16 +295,17 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     WHEN("It is constructed from a Foliated triangulation.")
     {
       /// FIXME: There is a bug in constructing a manifold from a triangulation.
-      vector<Point_t<3>> const Vertices{
-          Point_t<3>(0, 0, 0), Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-          Point_t<3>(0, 0, 1), Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+      vector<Point> const  Vertices{Point(0, 0, 0), Point(1, 0, 0),
+                                   Point(0, 1, 0), Point(0, 0, 1),
+                                   Point(RADIUS_2, RADIUS_2, RADIUS_2)};
       vector<size_t> const Timevalues{1, 2, 2, 2, 3};
       auto                 causal_vertices =
           manifolds::make_causal_vertices<3>(Vertices, Timevalues);
-      //      foliated_triangulations::FoliatedTriangulation_3 const
-      //      foliated_triangulation(causal_vertices, 0, 1.0);
+      foliated_triangulations::FoliatedTriangulation_3 const
+                       foliated_triangulation(causal_vertices, 1, 1.0);
       Manifold_3 const manifold(causal_vertices, 0, 1.0);
-      //      Manifold_3 const manifold(foliated_triangulation);
+      //                  Manifold_3 const manifold(foliated_triangulation);
+      CHECK_EQ(manifold.get_delaunay(), foliated_triangulation.get_delaunay());
       THEN("The triangulation is valid.")
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
@@ -604,11 +606,12 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
 SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
 {
   spdlog::debug("3-Manifold validation and fixing.\n");
+  using Point = Point_t<3>;
   GIVEN("A (1,3) and (3,1) stacked on each other.")
   {
-    vector<Point_t<3>> const Vertices{Point_t<3>(0, 0, 0), Point_t<3>(1, 0, 0),
-                                      Point_t<3>(0, 1, 0), Point_t<3>(0, 0, 1),
-                                      Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+    vector<Point> const Vertices{Point(0, 0, 0), Point(1, 0, 0), Point(0, 1, 0),
+                                 Point(0, 0, 1),
+                                 Point(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const     Timevalues{1, 2, 2, 2, 3};
     auto                     causal_vertices =
         manifolds::make_causal_vertices<3>(Vertices, Timevalues);

@@ -403,8 +403,9 @@ namespace manifolds
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
-      Triangulation const local_triangulation(m_triangulation.get_delaunay());
-      m_triangulation = local_triangulation;
+      // Constructing a new triangulation updates all data structures
+      Triangulation local_triangulation(m_triangulation.get_delaunay());
+      swap(local_triangulation, m_triangulation);
     }
     catch (std::system_error const& ex)
     {
@@ -418,6 +419,7 @@ namespace manifolds
 #ifndef NDEBUG
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
+      // constructing a new geometry updates all data structures
       Geometry geom(m_triangulation);
       swap(geom, m_geometry);
     }  // update_geometry
