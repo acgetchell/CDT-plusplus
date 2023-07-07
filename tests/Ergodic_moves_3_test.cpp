@@ -24,6 +24,57 @@ static inline std::floating_point auto constexpr SQRT_2 =
     std::numbers::sqrt2_v<double>;
 static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 
+SCENARIO("Use check_move to validate successful move" *
+         doctest::test_suite("ergodic"))
+{
+  GIVEN("A triangulation setup for a (2,3) move")
+  {
+    vector<Point_t<3>> vertices{
+        Point_t<3>{       1,        0,        0},
+        Point_t<3>{       0,        1,        0},
+        Point_t<3>{       0,        0,        1},
+        Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2},
+        Point_t<3>{  SQRT_2,   SQRT_2,        0}
+    };
+    vector<size_t> timevalues{1, 1, 1, 2, 2};
+    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
+    Manifold_3 manifold(causal_vertices);
+    WHEN("A correct (2,3) move is performed.")
+    {
+      spdlog::debug("When a correct (2,3) move is performed.\n");
+      // Copy manifold
+      auto manifold_before = manifold;
+      if (auto result = ergodic_moves::do_23_move(manifold); result)
+      {
+        manifold = result.value();
+        // Update geometry with new triangulation
+        manifold.update();
+      }
+      else
+      {
+        spdlog::debug("{}", result.error());
+        REQUIRE(result.has_value());
+      }
+      // Manual check
+      REQUIRE(manifold.is_correct());
+      CHECK_EQ(manifold.vertices(), 5);
+      CHECK_EQ(manifold.edges(), 10);     // +1 timelike edge
+      CHECK_EQ(manifold.faces(), 9);      // +2 faces
+      CHECK_EQ(manifold.simplices(), 3);  // +1 (2,2) simplex
+      CHECK_EQ(manifold.N3_31(), 1);
+      CHECK_EQ(manifold.N3_22(), 2);
+      CHECK_EQ(manifold.N1_SL(), 4);
+      CHECK_EQ(manifold.N1_TL(), 6);
+      CHECK_FALSE(manifold.is_delaunay());
+      THEN("check_move returns true")
+      {
+        CHECK(ergodic_moves::check_move(manifold_before, manifold,
+                                        move_tracker::move_type::TWO_THREE));
+      }
+    }
+  }
+}
+
 SCENARIO(
     "Perform ergodic moves on the minimal manifold necessary for that move" *
     doctest::test_suite("ergodic"))
@@ -40,13 +91,8 @@ SCENARIO(
         Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2},
         Point_t<3>{  SQRT_2,   SQRT_2,        0}
     };
-    vector<size_t>       timevalue{1, 1, 1, 2, 2};
-    Causal_vertices_t<3> causal_vertices;
-    causal_vertices.reserve(vertices.size());
-    transform(
-        vertices.begin(), vertices.end(), timevalue.begin(),
-        back_inserter(causal_vertices),
-        [](Point_t<3> point, size_t time) { return make_pair(point, time); });
+    vector<size_t> timevalues{1, 1, 1, 2, 2};
+    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
     Manifold_3 manifold(causal_vertices);
 
     REQUIRE(manifold.is_correct());
@@ -178,13 +224,8 @@ SCENARIO(
         Point_t<3>{       0,        0,        1},
         Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
     };
-    vector<size_t>       timevalue{0, 1, 1, 1, 2};
-    Causal_vertices_t<3> causal_vertices;
-    causal_vertices.reserve(vertices.size());
-    transform(
-        vertices.begin(), vertices.end(), timevalue.begin(),
-        back_inserter(causal_vertices),
-        [](Point_t<3> point, size_t time) { return make_pair(point, time); });
+    vector<size_t> timevalues{0, 1, 1, 1, 2};
+    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
     Manifold_3 manifold(causal_vertices);
 
     REQUIRE(manifold.is_correct());
@@ -332,13 +373,8 @@ SCENARIO(
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    vector<size_t>       timevalue{1, 2, 2, 2, 2, 3};
-    Causal_vertices_t<3> causal_vertices;
-    causal_vertices.reserve(vertices.size());
-    transform(
-        vertices.begin(), vertices.end(), timevalue.begin(),
-        back_inserter(causal_vertices),
-        [](Point_t<3> point, size_t time) { return make_pair(point, time); });
+    vector<size_t> timevalues{1, 2, 2, 2, 2, 3};
+    auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
     Manifold_3 manifold(causal_vertices, 0, 1);
     // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
     REQUIRE_EQ(manifold.vertices(), 6);

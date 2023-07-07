@@ -57,7 +57,7 @@ build_script:
   - cmake --preset=appveyor
   - cmake --build build
 
-on_success:
+test_script:
   - cd build
   - ctest --output-on-failure -j2
 

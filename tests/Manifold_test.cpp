@@ -113,6 +113,50 @@ SCENARIO("Manifold special member and swap properties" *
   }
 }
 
+SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
+{
+  GIVEN("A vector of points and timevalues.")
+  {
+    vector<Point_t<3>> const Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+                                      Point_t<3>(0, 0, 1),
+                                      Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+    vector<size_t> const     Timevalues{1, 1, 1, 2};
+    WHEN("Causal vertices are created.")
+    {
+      manifolds::make_causal_vertices<3>(Vertices, Timevalues);
+      THEN("They are correct.")
+      {
+        REQUIRE_EQ(Vertices.size(), Timevalues.size());
+        REQUIRE_EQ(Vertices.size(), 4);
+        REQUIRE_EQ(Timevalues.size(), 4);
+        REQUIRE_EQ(Vertices[0], Point_t<3>(1, 0, 0));
+        REQUIRE_EQ(Vertices[1], Point_t<3>(0, 1, 0));
+        REQUIRE_EQ(Vertices[2], Point_t<3>(0, 0, 1));
+        REQUIRE_EQ(Vertices[3], Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2));
+        REQUIRE_EQ(Timevalues[0], 1);
+        REQUIRE_EQ(Timevalues[1], 1);
+        REQUIRE_EQ(Timevalues[2], 1);
+        REQUIRE_EQ(Timevalues[3], 2);
+      }
+    }
+  }
+  GIVEN("A mismatched set of points and timevalues.")
+  {
+    vector<Point_t<3>> const Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+                                      Point_t<3>(0, 0, 1),
+                                      Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+    vector<size_t> const     Timevalues{1, 1, 1};
+    WHEN("Causal vertices are created.")
+    {
+      THEN("An exception is thrown.")
+      {
+        REQUIRE_THROWS(
+            manifolds::make_causal_vertices<3>(Vertices, Timevalues));
+      }
+    }
+  }
+}
+
 SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
 {
   spdlog::debug("Manifold static members.\n");
@@ -498,7 +542,7 @@ SCENARIO("3-Manifold mutation" * doctest::test_suite("manifold"))
   {
     auto constexpr desired_simplices  = 640;
     auto constexpr desired_timeslices = 4;
-    Manifold_3 manifold1(desired_simplices, desired_timeslices);
+    Manifold_3       manifold1(desired_simplices, desired_timeslices);
     Manifold_3 const manifold2(desired_simplices, desired_timeslices);
     WHEN("We swap the triangulation of one manifold for another.")
     {
