@@ -12,8 +12,8 @@ coverage:
     project:
       default:
         threshold: 3%
-    patch: no
-    changes: no
+    patch: off
+    changes: false
 
   notify:
       gitter:

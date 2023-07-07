@@ -15,13 +15,13 @@ jobs:
       - name: Setup GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: 12
           platform: x64
 
       - name: Setup
         run: |
           sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache gcov
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
