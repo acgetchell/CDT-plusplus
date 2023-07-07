@@ -19,28 +19,18 @@
 
 namespace manifolds
 {
-  /// @brief Create causal vertices from vertices and timevalues
-  /// @tparam dimension Dimensionality of the manifold
-  /// @param vertices The vertices of the manifold
-  /// @param timevalues The timevalue of each vertex
-  /// @return A container of vertices that have an associated timevalue
+  /// @brief Create Causal vertices
+  /// @tparam dimension Dimensionality of vertices
+  /// @param vertices A container of vertices
+  /// @param timevalues A container of matching timevalues
+  /// @return A container of Causal_vertices
   template <int dimension>
-  inline auto make_causal_vertices(std::vector<Point_t<dimension>> vertices,
-                                   std::vector<size_t>             timevalues)
-      -> Causal_vertices_t<dimension>
+  inline auto make_causal_vertices(
+      std::vector<Point_t<dimension>> const& vertices,
+      std::vector<size_t> const& timevalues) -> Causal_vertices_t<dimension>
   {
-    if (vertices.size() != timevalues.size())
-    {
-      throw std::length_error("Vertices and timevalues must be the same size.");
-    }
-    Causal_vertices_t<dimension> causal_vertices;
-    causal_vertices.reserve(vertices.size());
-    transform(vertices.begin(), vertices.end(), timevalues.begin(),
-              back_inserter(causal_vertices),
-              [](Point_t<dimension> point, size_t time) {
-                return std::make_pair(point, time);
-              });
-    return causal_vertices;
+    return foliated_triangulations::make_causal_vertices<dimension>(vertices,
+                                                                    timevalues);
   }
 
   /// Manifold class template

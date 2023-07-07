@@ -24,15 +24,17 @@ static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
          doctest::test_suite("tetrahedron"))
 {
-  using Causal_vertices = Causal_vertices_t<3>;
   using Point           = Point_t<3>;
   GIVEN("A vector of 4 vertices.")
   {
-    Causal_vertices causal_vertices;
-    causal_vertices.emplace_back(Point(0, 0, 0), 1);
-    causal_vertices.emplace_back(Point(1, 0, 0), 2);
-    causal_vertices.emplace_back(Point(0, 1, 0), 2);
-    causal_vertices.emplace_back(Point(0, 0, 1), 2);
+    vector<Point> vertices{
+        Point{0, 0, 0},
+        Point{1, 0, 0},
+        Point{0, 1, 0},
+        Point{0, 0, 1}
+    };
+    vector<std::size_t> timevalues{1, 2, 2, 2};
+    auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
     WHEN("A triangulation is constructed using the vector.")
     {
       FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
@@ -102,7 +104,7 @@ SCENARIO("Find distances between points of the tetrahedron" *
     causal_vertices.emplace_back(v_4, 2);
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulation triangulation(causal_vertices);
+      FoliatedTriangulation  triangulation(causal_vertices);
       squared_distance const r_2;
       THEN("The triangulation is initialized correctly.")
       {
@@ -186,15 +188,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
 
     WHEN("A foliated triangulation is constructed using the vectors.")
     {
-      // This is a complicated way to make Causal_vertices but is left
-      // here for reference
-      Causal_vertices causal_vertices;
-      causal_vertices.reserve(Vertices.size());
-      std::transform(Vertices.begin(), Vertices.end(), timevalue.begin(),
-                     std::back_inserter(causal_vertices),
-                     [](Point point, std::size_t size) {
-                       return std::make_pair(point, size);
-                     });
+      auto causal_vertices = make_causal_vertices<3>(Vertices, timevalue);
       FoliatedTriangulation const triangulation(causal_vertices);
 
       THEN("The triangulation is initialized correctly.")

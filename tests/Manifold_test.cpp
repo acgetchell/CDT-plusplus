@@ -115,6 +115,8 @@ SCENARIO("Manifold special member and swap properties" *
 
 SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
 {
+  spdlog::debug("manifolds:: functions.\n");
+
   GIVEN("A vector of points and timevalues.")
   {
     vector<Point_t<3>> const Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
@@ -123,20 +125,20 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
     vector<size_t> const     Timevalues{1, 1, 1, 2};
     WHEN("Causal vertices are created.")
     {
-      manifolds::make_causal_vertices<3>(Vertices, Timevalues);
+      auto causal_vertices =
+          manifolds::make_causal_vertices<3>(Vertices, Timevalues);
       THEN("They are correct.")
       {
-        REQUIRE_EQ(Vertices.size(), Timevalues.size());
-        REQUIRE_EQ(Vertices.size(), 4);
-        REQUIRE_EQ(Timevalues.size(), 4);
-        REQUIRE_EQ(Vertices[0], Point_t<3>(1, 0, 0));
-        REQUIRE_EQ(Vertices[1], Point_t<3>(0, 1, 0));
-        REQUIRE_EQ(Vertices[2], Point_t<3>(0, 0, 1));
-        REQUIRE_EQ(Vertices[3], Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2));
-        REQUIRE_EQ(Timevalues[0], 1);
-        REQUIRE_EQ(Timevalues[1], 1);
-        REQUIRE_EQ(Timevalues[2], 1);
-        REQUIRE_EQ(Timevalues[3], 2);
+        REQUIRE_EQ(causal_vertices.size(), 4);
+        REQUIRE_EQ(causal_vertices[0].first, Point_t<3>(1, 0, 0));
+        REQUIRE_EQ(causal_vertices[0].second, 1);
+        REQUIRE_EQ(causal_vertices[1].first, Point_t<3>(0, 1, 0));
+        REQUIRE_EQ(causal_vertices[1].second, 1);
+        REQUIRE_EQ(causal_vertices[2].first, Point_t<3>(0, 0, 1));
+        REQUIRE_EQ(causal_vertices[2].second, 1);
+        REQUIRE_EQ(causal_vertices[3].first,
+                   Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2));
+        REQUIRE_EQ(causal_vertices[3].second, 2);
       }
     }
   }
@@ -243,12 +245,12 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("It is constructed from causal vertices.")
     {
-      Causal_vertices_t<3> causal_vertices;
-      causal_vertices.emplace_back(Point_t<3>(0, 0, 0), 1);
-      causal_vertices.emplace_back(Point_t<3>(1, 0, 0), 2);
-      causal_vertices.emplace_back(Point_t<3>(0, 1, 0), 2);
-      causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
-      causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
+      vector<Point_t<3>> const Vertices{
+          Point_t<3>(0, 0, 0), Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+          Point_t<3>(0, 0, 1), Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+      vector<size_t> const Timevalues{1, 2, 2, 2, 3};
+      auto                 causal_vertices =
+          manifolds::make_causal_vertices<3>(Vertices, Timevalues);
       Manifold_3 const manifold(causal_vertices, 0, 1.0);
       THEN("The triangulation is valid.")
       {
@@ -291,13 +293,17 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("It is constructed from a Foliated triangulation.")
     {
-      Causal_vertices_t<3> causal_vertices;
-      causal_vertices.emplace_back(Point_t<3>(0, 0, 0), 1);
-      causal_vertices.emplace_back(Point_t<3>(1, 0, 0), 2);
-      causal_vertices.emplace_back(Point_t<3>(0, 1, 0), 2);
-      causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
-      causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
+      /// FIXME: There is a bug in constructing a manifold from a triangulation.
+      vector<Point_t<3>> const Vertices{
+          Point_t<3>(0, 0, 0), Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+          Point_t<3>(0, 0, 1), Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+      vector<size_t> const Timevalues{1, 2, 2, 2, 3};
+      auto                 causal_vertices =
+          manifolds::make_causal_vertices<3>(Vertices, Timevalues);
+      //      foliated_triangulations::FoliatedTriangulation_3 const
+      //      foliated_triangulation(causal_vertices, 0, 1.0);
       Manifold_3 const manifold(causal_vertices, 0, 1.0);
+      //      Manifold_3 const manifold(foliated_triangulation);
       THEN("The triangulation is valid.")
       {
         auto const& manifold_type = typeid(manifold.get_triangulation()).name();
@@ -324,13 +330,13 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
         REQUIRE_EQ(manifold.N1_SL(), 3);
         REQUIRE_EQ(manifold.N1_TL(), 6);
         // How many spacelike facets have a timevalue of 2? Should be 1.
-        REQUIRE_EQ(manifold.N2_SL().count(2), 1);
+        CHECK_EQ(manifold.N2_SL().count(2), 1);
         // There shouldn't be spacelike facets with other time values.
-        REQUIRE_EQ(manifold.N2_SL().count(1), 0);
+        CHECK_EQ(manifold.N2_SL().count(1), 0);
         REQUIRE_EQ(manifold.N2_SL().count(3), 0);
         REQUIRE_EQ(manifold.N3(), 2);
-        REQUIRE_EQ(manifold.min_time(), 1);
-        REQUIRE_EQ(manifold.max_time(), 3);
+        CHECK_EQ(manifold.min_time(), 1);
+        CHECK_EQ(manifold.max_time(), 3);
         REQUIRE(manifold.check_simplices());
         // Human verification
         manifold.print();
@@ -600,12 +606,12 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
   spdlog::debug("3-Manifold validation and fixing.\n");
   GIVEN("A (1,3) and (3,1) stacked on each other.")
   {
-    Causal_vertices_t<3> causal_vertices;
-    causal_vertices.emplace_back(Point_t<3>(0, 0, 0), 1);
-    causal_vertices.emplace_back(Point_t<3>(1, 0, 0), 2);
-    causal_vertices.emplace_back(Point_t<3>(0, 1, 0), 2);
-    causal_vertices.emplace_back(Point_t<3>(0, 0, 1), 2);
-    causal_vertices.emplace_back(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2), 3);
+    vector<Point_t<3>> const Vertices{Point_t<3>(0, 0, 0), Point_t<3>(1, 0, 0),
+                                      Point_t<3>(0, 1, 0), Point_t<3>(0, 0, 1),
+                                      Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+    vector<size_t> const     Timevalues{1, 2, 2, 2, 3};
+    auto                     causal_vertices =
+        manifolds::make_causal_vertices<3>(Vertices, Timevalues);
     Manifold_3 manifold(causal_vertices, 0.0, 1.0);
     auto       print = [&manifold](auto& vertex) {
       fmt::print(
