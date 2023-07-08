@@ -174,7 +174,6 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
          doctest::test_suite("tetrahedron"))
 {
   using Point                 = Point_t<3>;
-  using Causal_vertices       = Causal_vertices_t<3>;
   using FoliatedTriangulation = FoliatedTriangulation_3;
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
