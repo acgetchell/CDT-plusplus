@@ -75,7 +75,8 @@ $(function() {
 <div class="header">
   <div class="summary">
 <a href="#nested-classes">Classes</a> &#124;
-<a href="#typedef-members">Typedefs</a>  </div>
+<a href="#typedef-members">Typedefs</a> &#124;
+<a href="#func-members">Functions</a>  </div>
   <div class="headertitle">
 <div class="title">Manifold.hpp File Reference</div>  </div>
 </div><!--header-->
@@ -123,16 +124,81 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>manifolds::Manifold_
 <tr class="memitem:a07e9dd44ae62406a59deb765d83c5236"><td class="memItemLeft" align="right" valign="top"><a id="a07e9dd44ae62406a59deb765d83c5236"></a>
 using&#160;</td><td class="memItemRight" valign="bottom"><b>manifolds::Manifold_4</b> = Manifold&lt; 4 &gt;</td></tr>
 <tr class="separator:a07e9dd44ae62406a59deb765d83c5236"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
+Functions</h2></td></tr>
+<tr class="memitem:aa3c9b4a01433edcefbfff3d26de7b0fe"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
+<tr class="memitem:aa3c9b4a01433edcefbfff3d26de7b0fe"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_manifold_8hpp.html#aa3c9b4a01433edcefbfff3d26de7b0fe">manifolds::make_causal_vertices</a> (std::vector&lt; Point_t&lt; dimension &gt;&gt; const &amp;vertices, std::vector&lt; size_t &gt; const &amp;timevalues) -&gt; Causal_vertices_t&lt; dimension &gt;</td></tr>
+<tr class="memdesc:aa3c9b4a01433edcefbfff3d26de7b0fe"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create Causal vertices.  <a href="_manifold_8hpp.html#aa3c9b4a01433edcefbfff3d26de7b0fe">More...</a><br /></td></tr>
+<tr class="separator:aa3c9b4a01433edcefbfff3d26de7b0fe"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structures for manifolds. </p>
 <dl class="section author"><dt>Author</dt><dd>Adam Getchell </dd></dl>
 
 <p class="definition">Definition in file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
-</div></div><!-- contents -->
+</div><h2 class="groupheader">Function Documentation</h2>
+<a id="aa3c9b4a01433edcefbfff3d26de7b0fe"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa3c9b4a01433edcefbfff3d26de7b0fe">&#9670;&nbsp;</a></span>make_causal_vertices()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<div class="memtemplate">
+template&lt;int dimension&gt; </div>
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto manifolds::make_causal_vertices </td>
+          <td>(</td>
+          <td class="paramtype">std::vector&lt; Point_t&lt; dimension &gt;&gt; const &amp;&#160;</td>
+          <td class="paramname"><em>vertices</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">std::vector&lt; size_t &gt; const &amp;&#160;</td>
+          <td class="paramname"><em>timevalues</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> -&gt; Causal_vertices_t&lt;dimension&gt;
+  </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Create Causal vertices. </p>
+<dl class="tparams"><dt>Template Parameters</dt><dd>
+  <table class="tparams">
+    <tr><td class="paramname">dimension</td><td>Dimensionality of vertices </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vertices</td><td>A container of vertices </td></tr>
+    <tr><td class="paramname">timevalues</td><td>A container of matching timevalues </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>A container of Causal_vertices </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00028">28</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+</div>
+</div>
+</div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Fri Jun 16 2023 14:07:53 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Sat Jul 8 2023 00:23:27 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
