@@ -100,7 +100,7 @@ Arbitrary-precision numbers and functions are by [MPFR] and [GMP].
 ## Setup
 
 This project uses [CMake]+[Ninja] to build and [vcpkg] to manage C++ libraries. Using [C++20] features, it successfully
-builds with [AppleClang-14], [gcc-11], [clang-14], and [Visual Studio 2019].
+builds with [AppleClang-14], [gcc-12], [clang-15], and [Visual Studio 2019].
 
 ### Short
 
@@ -127,6 +127,7 @@ package manager (e.g. [homebrew] or [apt]):
 - texinfo
 - yasm
 - ninja (macOS) or ninja-build (Linux)
+- pkg-config (macOS)
 
 Next, install [vcpkg]:
 
@@ -455,8 +456,8 @@ Optional:
 [Model Optimization]: https://www.comet.ml/parameter-optimization
 [virtual environment]: https://docs.python.org/3/tutorial/venv.html
 [vcpkg]: https://github.com/Microsoft/vcpkg
-[clang-14]: https://releases.llvm.org/14.0.0/tools/clang/docs/ReleaseNotes.html
-[gcc-11]: https://gcc.gnu.org/gcc-11/
+[clang-15]: https://releases.llvm.org/15.0.0/tools/clang/docs/ReleaseNotes.html
+[gcc-12]: https://gcc.gnu.org/gcc-12/
 [C++]: https://isocpp.org/
 [C++20]: https://en.cppreference.com/w/cpp/20
 [development]: https://github.com/acgetchell/CDT-plusplus

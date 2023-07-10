@@ -16,7 +16,7 @@ jobs:
       - name: Setup GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 11
+          version: 12
           platform: x64
 
       - name: Setup
@@ -30,7 +30,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: dafef74af53669ef1cc9015f55e0ce809ead62aa
+          vcpkgGitCommitId: 1ec3d05438d4c1edf62a330f65fcfe1d86e791b2
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build
