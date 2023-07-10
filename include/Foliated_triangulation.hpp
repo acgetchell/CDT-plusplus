@@ -1006,7 +1006,8 @@ namespace foliated_triangulations
     /// @brief Copy Constructor
     FoliatedTriangulation(FoliatedTriangulation const& other) noexcept
         : FoliatedTriangulation(
-              static_cast<Delaunay const&>(other.get_delaunay()))
+              static_cast<Delaunay const&>(other.get_delaunay()),
+              other.m_initial_radius, other.m_foliation_spacing)
     {}
 
     /// @brief Copy/Move Assignment operator

@@ -294,7 +294,6 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
     }
     WHEN("It is constructed from a Foliated triangulation.")
     {
-      /// FIXME: There is a bug in constructing a manifold from a triangulation.
       vector<Point> const  Vertices{Point(0, 0, 0), Point(1, 0, 0),
                                    Point(0, 1, 0), Point(0, 0, 1),
                                    Point(RADIUS_2, RADIUS_2, RADIUS_2)};
@@ -302,9 +301,8 @@ SCENARIO("3-Manifold initialization" * doctest::test_suite("manifold"))
       auto                 causal_vertices =
           manifolds::make_causal_vertices<3>(Vertices, Timevalues);
       foliated_triangulations::FoliatedTriangulation_3 const
-                       foliated_triangulation(causal_vertices, 1, 1.0);
-      Manifold_3 const manifold(causal_vertices, 0, 1.0);
-      //                  Manifold_3 const manifold(foliated_triangulation);
+                       foliated_triangulation(causal_vertices, 0, 1.0);
+      Manifold_3 const manifold(foliated_triangulation);
       CHECK_EQ(manifold.get_delaunay(), foliated_triangulation.get_delaunay());
       THEN("The triangulation is valid.")
       {
@@ -612,8 +610,8 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
     vector<Point> const Vertices{Point(0, 0, 0), Point(1, 0, 0), Point(0, 1, 0),
                                  Point(0, 0, 1),
                                  Point(RADIUS_2, RADIUS_2, RADIUS_2)};
-    vector<size_t> const     Timevalues{1, 2, 2, 2, 3};
-    auto                     causal_vertices =
+    vector<size_t> const Timevalues{1, 2, 2, 2, 3};
+    auto                 causal_vertices =
         manifolds::make_causal_vertices<3>(Vertices, Timevalues);
     Manifold_3 manifold(causal_vertices, 0.0, 1.0);
     auto       print = [&manifold](auto& vertex) {
