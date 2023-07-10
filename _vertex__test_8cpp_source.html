@@ -98,7 +98,7 @@ $(function() {
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<a class="code" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Point operations&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;vertex&quot;</span>))</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;{</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <span class="keyword">using</span> Point = Point_t&lt;3&gt;;</div>
-<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#a90477a9522b96659802773d8904b9dcb">GIVEN</a>(<span class="stringliteral">&quot;Some points.&quot;</span>)</div>
+<div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  GIVEN(<span class="stringliteral">&quot;Some points.&quot;</span>)</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;  {</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    <span class="keyword">auto</span> point_1 = Point(0, 0, 0);</div>
 <div class="line"><a name="l00029"></a><span class="lineno">   29</span>&#160;    <span class="keyword">auto</span> point_2 = Point(0, 0.0, 0.0);</div>
@@ -116,7 +116,7 @@ $(function() {
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;  <span class="keyword">using</span> Causal_vertices = Causal_vertices_t&lt;3&gt;;</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;  <span class="keyword">using</span> <a class="code" href="classmanifolds_1_1_manifold.html">Manifold</a>        = <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>;</div>
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keyword">using</span> Point           = Point_t&lt;3&gt;;</div>
-<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#a90477a9522b96659802773d8904b9dcb">GIVEN</a>(<span class="stringliteral">&quot;A foliated Delaunay triangulation.&quot;</span>)</div>
+<div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;  GIVEN(<span class="stringliteral">&quot;A foliated Delaunay triangulation.&quot;</span>)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;  {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;    Causal_vertices causal_vertices;</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;    WHEN(<span class="stringliteral">&quot;A vertex is inserted.&quot;</span>)</div>
@@ -321,14 +321,13 @@ $(function() {
 <div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  }</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;}</div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
-<div class="ttc" id="a_manifold__test_8cpp_html_a90477a9522b96659802773d8904b9dcb"><div class="ttname"><a href="_manifold__test_8cpp.html#a90477a9522b96659802773d8904b9dcb">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;A 3-manifold.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00222">Manifold_test.cpp:222</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00043">Manifold.hpp:44</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_html"><div class="ttname"><a href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a></div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00039">Manifold.hpp:39</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Sat Jul 8 2023 00:23:27 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Mon Jul 10 2023 02:48:11 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
