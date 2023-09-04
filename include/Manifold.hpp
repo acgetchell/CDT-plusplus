@@ -395,6 +395,21 @@ namespace manifolds
       throw;
     }  // print_details
 
+    /// @brief Get a cell handle from 4 vertex handles
+    /// @param vh1 The first vertex handle
+    /// @param vh2 The second vertex handle
+    /// @param vh3 The third vertex handle
+    /// @param vh4 The fourth vertex handle
+    /// @return The cell handle containing the vertex handles
+    auto get_cell(Vertex_handle_t<3> vh1, Vertex_handle_t<3> vh2,
+                  Vertex_handle_t<3> vh3, Vertex_handle_t<3> vh4) const
+        -> Cell_handle_t<3>
+    {
+      Cell_handle_t<3> result;
+      m_triangulation.get_delaunay().is_cell(vh1, vh2, vh3, vh4, result);
+      return result;
+    }  // get_cell_handle
+
    private:
     /// @brief Update the triangulation
     void update_triangulation()

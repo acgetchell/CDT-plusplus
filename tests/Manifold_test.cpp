@@ -157,6 +157,31 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
       }
     }
   }
+  GIVEN("Four vertices.")
+  {
+    Delaunay_t<3> triangulation;
+    auto          Vh1 = triangulation.insert(Point_t<3>(1, 0, 0));
+    auto          Vh2 = triangulation.insert(Point_t<3>(0, 1, 0));
+    auto          Vh3 = triangulation.insert(Point_t<3>(0, 0, 1));
+    auto Vh4 = triangulation.insert(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2));
+    WHEN("A manifold is created from the vertices.")
+    {
+      foliated_triangulations::FoliatedTriangulation_3 const
+                       foliated_triangulation(triangulation, 1, 1.0);
+      Manifold_3 const manifold(foliated_triangulation);
+      REQUIRE(manifold.is_correct());
+      manifold.print();
+      manifold.print_details();
+      manifold.print_vertices();
+      THEN("We can obtain a Cell Handle from the 4 Vertex Handles.")
+      {
+        auto single      = manifold.get_cell(Vh1, Vh2, Vh3, Vh4);
+        // We have to have a valid Cell handle to obtain a tetrahedron
+        auto tetrahedron = triangulation.tetrahedron(single);
+        CHECK_FALSE(tetrahedron.is_degenerate());
+      }
+    }
+  }
 }
 
 SCENARIO("Manifold static members" * doctest::test_suite("manifold"))
