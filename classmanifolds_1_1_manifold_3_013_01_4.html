@@ -143,6 +143,9 @@ template&lt;typename VertexHandle &gt; </td></tr>
 auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a55906d5ca20be93a6767d8191b77c2ce">foliation_spacing</a> () const</td></tr>
 <tr class="memdesc:a55906d5ca20be93a6767d8191b77c2ce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Radial separation between timeslices. <br /></td></tr>
 <tr class="separator:a55906d5ca20be93a6767d8191b77c2ce"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acdb20741702f1cc4ccc27710c2487318"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#acdb20741702f1cc4ccc27710c2487318">get_cell</a> (Vertex_handle_t&lt; 3 &gt; vh1, Vertex_handle_t&lt; 3 &gt; vh2, Vertex_handle_t&lt; 3 &gt; vh3, Vertex_handle_t&lt; 3 &gt; vh4) const -&gt; Cell_handle_t&lt; 3 &gt;</td></tr>
+<tr class="memdesc:acdb20741702f1cc4ccc27710c2487318"><td class="mdescLeft">&#160;</td><td class="mdescRight">Get a cell handle from 4 vertex handles.  <a href="classmanifolds_1_1_manifold_3_013_01_4.html#acdb20741702f1cc4ccc27710c2487318">More...</a><br /></td></tr>
+<tr class="separator:acdb20741702f1cc4ccc27710c2487318"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3c985b7989c15bff820f223f4561d2dd"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a3c985b7989c15bff820f223f4561d2dd">get_delaunay</a> () const noexcept</td></tr>
 <tr class="separator:a3c985b7989c15bff820f223f4561d2dd"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2169b6004bf256c20b9a410611b94ade"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a2169b6004bf256c20b9a410611b94ade">get_geometry</a> () const -&gt; <a class="el" href="struct_geometry_3_013_01_4.html">Geometry</a> const &amp;</td></tr>
@@ -575,6 +578,71 @@ Friends</h2></td></tr>
 <p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00269">269</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01177">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::number_of_finite_facets()</a>.</p>
+
+</div>
+</div>
+<a id="acdb20741702f1cc4ccc27710c2487318"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#acdb20741702f1cc4ccc27710c2487318">&#9670;&nbsp;</a></span>get_cell()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_cell </td>
+          <td>(</td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>vh1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>vh2</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>vh3</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">Vertex_handle_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>vh4</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td> const -&gt; Cell_handle_t&lt;3&gt;
+    </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Get a cell handle from 4 vertex handles. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">vh1</td><td>The first vertex handle </td></tr>
+    <tr><td class="paramname">vh2</td><td>The second vertex handle </td></tr>
+    <tr><td class="paramname">vh3</td><td>The third vertex handle </td></tr>
+    <tr><td class="paramname">vh4</td><td>The fourth vertex handle </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The cell handle containing the vertex handles </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00404">404</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01165">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
 
 </div>
 </div>
@@ -1444,7 +1512,7 @@ template&lt;typename VertexType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Aug 22 2023 16:19:54 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Mon Sep 4 2023 04:13:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
