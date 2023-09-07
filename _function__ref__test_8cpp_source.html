@@ -96,7 +96,7 @@ $(function() {
 <div class="line"><a name="l00022"></a><span class="lineno">   22</span>&#160;<a class="code" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Simple Lambda operations&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;function_ref&quot;</span>))</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;{</div>
 <div class="line"><a name="l00024"></a><span class="lineno">   24</span>&#160;  <span class="keyword">auto</span> constexpr increment_lambda = [](<span class="keywordtype">int</span> a) { <span class="keywordflow">return</span> ++a; };  <span class="comment">// NOLINT</span></div>
-<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  GIVEN(<span class="stringliteral">&quot;A simple lambda.&quot;</span>)</div>
+<div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A simple lambda.&quot;</span>)</div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;  {</div>
 <div class="line"><a name="l00027"></a><span class="lineno">   27</span>&#160;    WHEN(<span class="stringliteral">&quot;Lambda is called with 0.&quot;</span>)</div>
 <div class="line"><a name="l00028"></a><span class="lineno">   28</span>&#160;    {</div>
@@ -117,7 +117,7 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160; </div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<a class="code" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Complex lambda operations&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;function_ref&quot;</span>))</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;{</div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  GIVEN(<span class="stringliteral">&quot;A lambda storing a move.&quot;</span>)</div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A lambda storing a move.&quot;</span>)</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;  {</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
@@ -146,7 +146,7 @@ $(function() {
 <div class="line"><a name="l00072"></a><span class="lineno">   72</span>&#160; </div>
 <div class="line"><a name="l00073"></a><span class="lineno">   73</span>&#160;<a class="code" href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a>(<span class="stringliteral">&quot;Function_ref operations&quot;</span> * doctest::test_suite(<span class="stringliteral">&quot;function_ref&quot;</span>))</div>
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
-<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  GIVEN(<span class="stringliteral">&quot;A simple lambda stored in a function_ref.&quot;</span>)</div>
+<div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A simple lambda stored in a function_ref.&quot;</span>)</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  {</div>
 <div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span>                 increment = [](<span class="keywordtype">int</span> incr) { <span class="keywordflow">return</span> ++incr; };</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    tl::function_ref&lt;int(<span class="keywordtype">int</span>)&gt; <span class="keyword">const</span> lambda_ref(increment);</div>
@@ -155,7 +155,7 @@ $(function() {
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;      THEN(<span class="stringliteral">&quot;We should get 1.&quot;</span>) { REQUIRE_EQ(lambda_ref(1), 2); }</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    }</div>
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  }</div>
-<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  GIVEN(<span class="stringliteral">&quot;A function pointer to a move stored in a function_ref.&quot;</span>)</div>
+<div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A function pointer to a move stored in a function_ref.&quot;</span>)</div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  {</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
@@ -179,7 +179,7 @@ $(function() {
 <div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      }</div>
 <div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
 <div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  GIVEN(<span class="stringliteral">&quot;A lambda invoking a move stored in a function_ref.&quot;</span>)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A lambda invoking a move stored in a function_ref.&quot;</span>)</div>
 <div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  {</div>
 <div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
@@ -210,12 +210,13 @@ $(function() {
 <div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a1f2a1247f8f86f72a21db4889e0c6d2d"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(Manifold &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00085">Ergodic_moves_3.hpp:85</a></div></div>
+<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00160">Manifold_test.cpp:160</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
 <div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00043">Manifold.hpp:44</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 4 2023 04:13:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Sep 7 2023 23:41:21 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

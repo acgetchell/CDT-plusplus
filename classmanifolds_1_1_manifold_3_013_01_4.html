@@ -160,6 +160,9 @@ auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 <tr class="separator:ab82201099375f42c176672da52713a3d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5f539d827e8443e74fc913e249f7cb48"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a> () const noexcept -&gt; <a class="el" href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">Triangulation</a> const &amp;</td></tr>
 <tr class="separator:a5f539d827e8443e74fc913e249f7cb48"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab264a9c50d38b0555d80b5ff7d17ab36"><td class="memItemLeft" align="right" valign="top">auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ab264a9c50d38b0555d80b5ff7d17ab36">get_vertex</a> (Point_t&lt; 3 &gt; point) const -&gt; Vertex_handle_t&lt; 3 &gt;</td></tr>
+<tr class="memdesc:ab264a9c50d38b0555d80b5ff7d17ab36"><td class="mdescLeft">&#160;</td><td class="mdescRight">Obtains a vertex handle from a point.  <a href="classmanifolds_1_1_manifold_3_013_01_4.html#ab264a9c50d38b0555d80b5ff7d17ab36">More...</a><br /></td></tr>
+<tr class="separator:ab264a9c50d38b0555d80b5ff7d17ab36"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac74fab84f678eeffd929f0f07fa8948a"><td class="memItemLeft" align="right" valign="top"><a id="ac74fab84f678eeffd929f0f07fa8948a"></a>
 auto&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classmanifolds_1_1_manifold_3_013_01_4.html#ac74fab84f678eeffd929f0f07fa8948a">get_vertices</a> () const noexcept -&gt; auto const &amp;</td></tr>
 <tr class="memdesc:ac74fab84f678eeffd929f0f07fa8948a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Call <a class="el" href="_ergodic__moves__3_8hpp.html#aaf7fa9564d61c5848330b671ccd2dc91" title="Return a container of all vertices in a container of cells.">FoliatedTriangulation_3.get_vertices()</a> <br /></td></tr>
@@ -640,7 +643,7 @@ Friends</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The cell handle containing the vertex handles </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00404">404</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00414">414</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 <p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01165">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
 
@@ -729,6 +732,46 @@ Friends</h2></td></tr>
 <dl class="section return"><dt>Returns</dt><dd>A read-only reference to the triangulation </dd></dl>
 
 <p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00146">146</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+</div>
+</div>
+<a id="ab264a9c50d38b0555d80b5ff7d17ab36"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab264a9c50d38b0555d80b5ff7d17ab36">&#9670;&nbsp;</a></span>get_vertex()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">auto <a class="el" href="classmanifolds_1_1_manifold.html">manifolds::Manifold</a>&lt; 3 &gt;::get_vertex </td>
+          <td>(</td>
+          <td class="paramtype">Point_t&lt; 3 &gt;&#160;</td>
+          <td class="paramname"><em>point</em></td><td>)</td>
+          <td> const -&gt; Vertex_handle_t&lt;3&gt;
+    </td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Obtains a vertex handle from a point. </p>
+<dl class="params"><dt>Parameters</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">point</td><td>The point to search for </td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Returns</dt><dd>The vertex handle to the vertex containing the point </dd></dl>
+
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00401">401</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+
+<p class="reference">References <a class="el" href="_foliated__triangulation_8hpp_source.html#l01165">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::get_delaunay()</a>.</p>
 
 </div>
 </div>
@@ -1512,7 +1555,7 @@ template&lt;typename VertexType &gt; </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Sep 4 2023 04:13:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Sep 7 2023 23:41:21 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
