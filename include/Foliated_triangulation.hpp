@@ -1038,7 +1038,7 @@ namespace foliated_triangulations
       spdlog::debug("{} called.\n", __PRETTY_FUNCTION__);
 #endif
       // Uses the triangulation swap method in CGAL
-      // This assumes that the first triangulation is not used afterwards!
+      // This assumes that the first triangulation is not used afterward!
       // See
       // https://doc.cgal.org/latest/Triangulation_3/classCGAL_1_1Triangulation__3.html#a767066a964b4d7b14376e5f5d1a04b34
       swap_into.m_triangulation.swap(swap_from.m_triangulation);

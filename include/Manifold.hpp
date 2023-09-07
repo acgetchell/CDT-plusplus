@@ -395,6 +395,16 @@ namespace manifolds
       throw;
     }  // print_details
 
+    /// @brief Obtains a vertex handle from a point
+    /// @param point The point to search for
+    /// @return The vertex handle to the vertex containing the point
+    auto get_vertex(Point_t<3> point) const -> Vertex_handle_t<3>
+    {
+      Vertex_handle_t<3> result;
+      m_triangulation.get_delaunay().is_vertex(point, result);
+      return result;
+    }  // get_vertex
+
     /// @brief Get a cell handle from 4 vertex handles
     /// @param vh1 The first vertex handle
     /// @param vh2 The second vertex handle

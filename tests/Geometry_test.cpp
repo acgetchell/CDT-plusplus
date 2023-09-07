@@ -124,7 +124,7 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
   {
     WHEN("It is default constructed.")
     {
-      Geometry_3 geometry;
+      Geometry_3 const geometry;
       THEN("All data members are zero-initialized.")
       {
         REQUIRE_EQ(geometry.N3, 0);
@@ -144,7 +144,7 @@ SCENARIO("3-Geometry initialization" * doctest::test_suite("geometry"))
       auto constexpr desired_timeslices = 4;
       FoliatedTriangulation_3 const triangulation(desired_simplices,
                                                   desired_timeslices);
-      Geometry_3                    geometry(triangulation);
+      Geometry_3 const              geometry(triangulation);
       THEN(
           "The properties of the Delaunay triangulation are saved in geometry "
           "info.")

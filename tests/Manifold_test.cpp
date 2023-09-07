@@ -157,28 +157,53 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
       }
     }
   }
-  GIVEN("Four vertices.")
+  GIVEN("4 points.")
   {
-    Delaunay_t<3> triangulation;
-    auto          Vh1 = triangulation.insert(Point_t<3>(1, 0, 0));
-    auto          Vh2 = triangulation.insert(Point_t<3>(0, 1, 0));
-    auto          Vh3 = triangulation.insert(Point_t<3>(0, 0, 1));
-    auto Vh4 = triangulation.insert(Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2));
-    WHEN("A manifold is created from the vertices.")
+    using Point              = Point_t<3>;
+    auto                 p_1 = Point(1, 0, 0);
+    auto                 p_2 = Point(0, 1, 0);
+    auto                 p_3 = Point(0, 0, 1);
+    auto                 p_4 = Point(RADIUS_2, RADIUS_2, RADIUS_2);
+    vector<Point> const  Vertices{p_1, p_2, p_3, p_4};
+    vector<size_t> const Timevalues{1, 1, 1, 2};
+    auto                 causal_vertices =
+        manifolds::make_causal_vertices<3>(Vertices, Timevalues);
+
+    WHEN("The manifold is constructed.")
     {
-      foliated_triangulations::FoliatedTriangulation_3 const
-                       foliated_triangulation(triangulation, 1, 1.0);
-      Manifold_3 const manifold(foliated_triangulation);
-      REQUIRE(manifold.is_correct());
-      manifold.print();
-      manifold.print_details();
-      manifold.print_vertices();
-      THEN("We can obtain a Cell Handle from the 4 Vertex Handles.")
+      Manifold_3 manifold(causal_vertices, 1, 1.0);
+      THEN("It is correct.")
       {
-        auto single      = manifold.get_cell(Vh1, Vh2, Vh3, Vh4);
+        REQUIRE(manifold.is_correct());
+        manifold.print();
+        manifold.print_details();
+        manifold.print_vertices();
+      }
+      THEN("We can obtain the vertices from the points.")
+      {
+        Vertex_handle_t<3> const v_1 = manifold.get_vertex(p_1);
+        CHECK(v_1->is_valid());
+        cout << "v_1 contains point " << v_1->point() << '\n';
+        /// @todo Why is this false?
+        //        CHECK(manifold.get_delaunay().is_vertex(v_1));
+      }
+      THEN("We can obtain the cell from the vertices.")
+      {
+        Vertex_handle_t<3> const v_1  = manifold.get_vertex(p_1);
+        Vertex_handle_t<3> const v_2  = manifold.get_vertex(p_2);
+        Vertex_handle_t<3> const v_3  = manifold.get_vertex(p_3);
+        Vertex_handle_t<3> const v_4  = manifold.get_vertex(p_4);
+        auto const&              cell = manifold.get_cell(v_1, v_2, v_3, v_4);
+        CHECK(cell->is_valid());
+        /// @todo Why is this false?
+        //        CHECK(manifold.get_delaunay().is_cell(cell));
         // We have to have a valid Cell handle to obtain a tetrahedron
-        auto tetrahedron = triangulation.tetrahedron(single);
+        auto tetrahedron = manifold.get_delaunay().tetrahedron(cell);
         CHECK_FALSE(tetrahedron.is_degenerate());
+        cout << "Vertex 0 of tetrahedron is " << tetrahedron.vertex(0) << '\n';
+        cout << "Vertex 1 of tetrahedron is " << tetrahedron.vertex(1) << '\n';
+        cout << "Vertex 2 of tetrahedron is " << tetrahedron.vertex(2) << '\n';
+        cout << "Vertex 3 of tetrahedron is " << tetrahedron.vertex(3) << '\n';
       }
     }
   }

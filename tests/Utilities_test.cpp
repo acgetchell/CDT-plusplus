@@ -17,6 +17,8 @@
 using namespace std;
 using namespace utilities;
 
+static inline auto constinit const NUMBER_OF_VALUES = 6;
+
 SCENARIO("Various string/stream/time utilities" *
          doctest::test_suite("utilities"))
 {
@@ -205,8 +207,8 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const              value4    = generate_random_int(min, max);
       auto const              value5    = generate_random_int(min, max);
       auto const              value6    = generate_random_int(min, max);
-      array<Int_precision, 6> container = {value1, value2, value3,
-                                           value4, value5, value6};
+      array<Int_precision, NUMBER_OF_VALUES> container = {
+          value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range and all be different.")
       {
         // All elements are >= min
@@ -218,7 +220,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
         // All elements are different
         sort(container.begin(), container.end());
         CHECK(is_sorted(container.begin(), container.end()));
-        auto adjacent_iterator =
+        auto* adjacent_iterator =
             adjacent_find(container.begin(), container.end());
 
         // If the iterator is equal to the end, then all elements are different
@@ -238,8 +240,8 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       auto const              value4    = generate_random_timeslice(max);
       auto const              value5    = generate_random_timeslice(max);
       auto const              value6    = generate_random_timeslice(max);
-      array<Int_precision, 6> container = {value1, value2, value3,
-                                           value4, value5, value6};
+      array<Int_precision, NUMBER_OF_VALUES> container = {
+          value1, value2, value3, value4, value5, value6};
       THEN("They should all fall within the range and be different.")
       {
         // All elements are >= min
@@ -251,7 +253,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
         // All elements are different
         sort(container.begin(), container.end());
         CHECK(is_sorted(container.begin(), container.end()));
-        auto adjacent_iterator =
+        auto* adjacent_iterator =
             adjacent_find(container.begin(), container.end());
 
         // If the iterator is equal to the end, then all elements are different
@@ -277,20 +279,20 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
   {
     WHEN("We generate six probabilities.")
     {
-      auto const value1 = generate_probability();
-      auto const value2 = generate_probability();
-      auto const value3 = generate_probability();
-      auto const value4 = generate_probability();
-      auto const value5 = generate_probability();
-      auto const value6 = generate_probability();
-      array<long double, 6> container = {value1, value2, value3,
-                                         value4, value5, value6};
+      auto const                           value1    = generate_probability();
+      auto const                           value2    = generate_probability();
+      auto const                           value3    = generate_probability();
+      auto const                           value4    = generate_probability();
+      auto const                           value5    = generate_probability();
+      auto const                           value6    = generate_probability();
+      array<long double, NUMBER_OF_VALUES> container = {value1, value2, value3,
+                                                        value4, value5, value6};
 
       THEN("They should all be different.")
       {
         sort(container.begin(), container.end());
         CHECK(is_sorted(container.begin(), container.end()));
-        auto adjacent_iterator =
+        auto* adjacent_iterator =
             adjacent_find(container.begin(), container.end());
 
         // If the iterator is equal to the end, then all elements are different
