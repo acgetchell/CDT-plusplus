@@ -13,7 +13,8 @@ jobs:
         with:
           fetch-depth: 0
 
-      - uses: actions/setup-java@v3
+      - name: Setup Java
+        uses: actions/setup-java@v3
         with:
           distribution: 'oracle'
           java-version: '17'
@@ -21,7 +22,7 @@ jobs:
       - name: Setup GCC
         uses: egor-tensin/setup-gcc@v1
         with:
-          version: 12
+          version: 11
           platform: x64
 
       - name: Setup
@@ -35,7 +36,7 @@ jobs:
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 56c03b53fcea2defda598b1406c4d40df17c8926
+          vcpkgGitCommitId: 962e5e39f8a25f42522f51fffc574e05a3efd26b
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build

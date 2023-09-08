@@ -220,7 +220,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
         // All elements are different
         sort(container.begin(), container.end());
         CHECK(is_sorted(container.begin(), container.end()));
-        auto* adjacent_iterator =
+        auto adjacent_iterator =
             adjacent_find(container.begin(), container.end());
 
         // If the iterator is equal to the end, then all elements are different
@@ -253,7 +253,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
         // All elements are different
         sort(container.begin(), container.end());
         CHECK(is_sorted(container.begin(), container.end()));
-        auto* adjacent_iterator =
+        auto adjacent_iterator =
             adjacent_find(container.begin(), container.end());
 
         // If the iterator is equal to the end, then all elements are different
@@ -292,7 +292,7 @@ SCENARIO("Randomizing functions" * doctest::test_suite("utilities") *
       {
         sort(container.begin(), container.end());
         CHECK(is_sorted(container.begin(), container.end()));
-        auto* adjacent_iterator =
+        auto adjacent_iterator =
             adjacent_find(container.begin(), container.end());
 
         // If the iterator is equal to the end, then all elements are different
