@@ -17,14 +17,6 @@
       "name": "yasm-tool",
       "platform": "windows"
     },
-    {
-      "name": "cgal",
-      "features": ["qt"],
-      "platform": "osx"
-    },
-    {
-      "name": "cgal",
-      "platform": "!osx"
-    }
+    "cgal"
   ]
 }
