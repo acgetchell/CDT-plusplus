@@ -342,6 +342,12 @@ namespace manifolds
       return m_triangulation.get_vertices();
     }  // get_vertices
 
+    /// @brief Call FoliatedTriangulation_3.get_vertices_span()
+    [[nodiscard]] auto get_vertices_span() const noexcept -> auto
+    {
+      return m_triangulation.get_vertices_span();
+    }  // get_vertices_span
+
     /// @returns True if all cells in triangulation are classified and match
     /// number in geometry
     [[nodiscard]] auto check_simplices() const -> bool

@@ -975,7 +975,8 @@ namespace foliated_triangulations
     using Cell_container      = std::vector<Cell_handle_t<3>>;
     using Face_container      = std::vector<Face_handle_t<3>>;
     using Edge_container      = std::vector<Edge_handle_t<3>>;
-    using Vertex_container    = std::vector<Vertex_handle_t<3>>;
+    using Vertex_handle       = Vertex_handle_t<3>;
+    using Vertex_container    = std::vector<Vertex_handle>;
     using Volume_by_timeslice = std::multimap<Int_precision, Facet_t<3>>;
 
     /// Data members initialized in order of declaration (Working Draft,
@@ -1260,6 +1261,13 @@ namespace foliated_triangulations
     {
       return m_vertices;
     }  // get_vertices
+
+    /// @return A span of vertices
+    [[nodiscard]] auto get_vertices_span() const noexcept
+        -> std::span<Vertex_handle const>
+    {
+      return std::span{m_vertices};
+    }  // get_vertices_span
 
     /// @return Maximum time value in triangulation
     [[nodiscard]] auto max_time() const { return m_max_timevalue; }

@@ -11,6 +11,7 @@
 
 #include <doctest/doctest.h>
 
+#include <algorithm>
 #include <numbers>
 
 #include "Manifold.hpp"
@@ -50,7 +51,8 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
       Manifold const manifold(causal_vertices, 0, 1);
       THEN("The vertex is in the manifold.")
       {
-        auto vertex = manifold.get_vertices();
+        //        auto vertex = manifold.get_vertices();
+        auto vertex = manifold.get_vertices_span();
         REQUIRE(manifold.is_vertex(vertex.front()));
       }
 
@@ -84,7 +86,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
 
       THEN("The vertices are in the manifold.")
       {
-        auto vertex = manifold.get_vertices();
+        auto vertex = manifold.get_vertices_span();
         REQUIRE(manifold.is_vertex(vertex.front()));
         REQUIRE(manifold.is_vertex(vertex.back()));
       }
@@ -122,7 +124,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
 
       THEN("The vertices are in the manifold.")
       {
-        auto vertices = manifold.get_vertices();
+        auto vertices = manifold.get_vertices_span();
         auto require  = [&manifold](auto& vertex) {
           REQUIRE(manifold.is_vertex(vertex));
         };
@@ -165,7 +167,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
 
       THEN("The vertices are in the manifold.")
       {
-        auto vertices = manifold.get_vertices();
+        auto vertices = manifold.get_vertices_span();
         auto require  = [&manifold](auto& vertex) {
           REQUIRE(manifold.is_vertex(vertex));
         };
@@ -210,11 +212,11 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
 
       THEN("The vertices are in the manifold.")
       {
-        auto vertices = manifold.get_vertices();
+        auto vertices = manifold.get_vertices_span();
         auto require  = [&manifold](auto& vertex_candidate) {
           REQUIRE(manifold.is_vertex(vertex_candidate));
         };
-        std::for_each(vertices.begin(), vertices.end(), require);
+        std::ranges::for_each(vertices, require);
       }
 
       THEN("The Delaunay triangulation is valid.")
