@@ -75,7 +75,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="199" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_simplices()</text>
 <text text-anchor="start" x="199" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ degree()</text>
 <text text-anchor="start" x="199" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ dimensionality()</text>
-<text text-anchor="start" x="199" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 43 more...</text>
+<text text-anchor="start" x="199" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 44 more...</text>
 <text text-anchor="start" x="199" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; update_geometry()</text>
 <text text-anchor="start" x="199" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; update_triangulation()</text>
 </a>
@@ -135,7 +135,7 @@ var sectionId = 'dynsection-0';
 <text text-anchor="start" x="290" y="-332.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_cells()</text>
 <text text-anchor="start" x="290" y="-321.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_vertices()</text>
 <text text-anchor="start" x="290" y="-310.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ degree()</text>
-<text text-anchor="start" x="290" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 44 more...</text>
+<text text-anchor="start" x="290" y="-299.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 45 more...</text>
 <text text-anchor="start" x="290" y="-288.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_cells()</text>
 <text text-anchor="start" x="290" y="-277.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_vertices()</text>
 <text text-anchor="start" x="290" y="-266.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_edges()</text>
@@ -156,7 +156,7 @@ var sectionId = 'dynsection-0';
 <g id="a_node4"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="0,-606.5 0,-674.5 111,-674.5 111,-606.5 0,-606.5"/>
 <text text-anchor="start" x="8" y="-662.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::vector&lt; Vertex</text>
-<text text-anchor="middle" x="55.5" y="-651.5" font-family="Helvetica,sans-Serif" font-size="10.00">_handle_t&lt; 3 &gt; &gt;</text>
+<text text-anchor="middle" x="55.5" y="-651.5" font-family="Helvetica,sans-Serif" font-size="10.00">_handle &gt;</text>
 <polyline fill="none" stroke="#bfbfbf" points="0,-644.5 111,-644.5 "/>
 <text text-anchor="start" x="8" y="-632.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ elements</text>
 <polyline fill="none" stroke="#bfbfbf" points="0,-625.5 111,-625.5 "/>
@@ -187,10 +187,9 @@ var sectionId = 'dynsection-0';
 <!-- Node5&#45;&gt;Node4 -->
 <g id="edge4" class="edge">
 <title>Node5&#45;&gt;Node4</title>
-<path fill="none" stroke="orange" d="M299.59,-766.66C235.76,-759.92 138.94,-746.66 108.5,-726 90.3,-713.65 77.12,-692.76 68.45,-674.84"/>
-<polygon fill="orange" stroke="orange" points="299.62,-770.18 309.93,-767.72 300.34,-763.21 299.62,-770.18"/>
-<text text-anchor="start" x="108.5" y="-718" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Vertex_handle_t&lt;</text>
-<text text-anchor="middle" x="159.5" y="-707" font-family="Helvetica,sans-Serif" font-size="10.00"> 3 &gt; &gt;</text>
+<path fill="none" stroke="orange" d="M299.85,-766.08C237.7,-758.92 144.46,-745.37 114.5,-726 95.42,-713.67 80.75,-692.77 70.81,-674.85"/>
+<polygon fill="orange" stroke="orange" points="299.6,-769.58 309.93,-767.22 300.38,-762.62 299.6,-769.58"/>
+<text text-anchor="middle" x="162.5" y="-712.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Vertex_handle &gt;</text>
 </g>
 <!-- Node9 -->
 <g id="node9" class="node">

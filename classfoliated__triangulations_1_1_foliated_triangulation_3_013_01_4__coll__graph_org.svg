@@ -33,7 +33,7 @@
 <text text-anchor="start" x="290" y="-84.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_cells()</text>
 <text text-anchor="start" x="290" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_vertices()</text>
 <text text-anchor="start" x="290" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ degree()</text>
-<text text-anchor="start" x="290" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 44 more...</text>
+<text text-anchor="start" x="290" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 45 more...</text>
 <text text-anchor="start" x="290" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_cells()</text>
 <text text-anchor="start" x="290" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_vertices()</text>
 <text text-anchor="start" x="290" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_edges()</text>
@@ -47,7 +47,7 @@
 <g id="a_node2"><a xlink:title=" ">
 <polygon fill="white" stroke="#bfbfbf" points="0,-358.5 0,-426.5 111,-426.5 111,-358.5 0,-358.5"/>
 <text text-anchor="start" x="8" y="-414.5" font-family="Helvetica,sans-Serif" font-size="10.00">std::vector&lt; Vertex</text>
-<text text-anchor="middle" x="55.5" y="-403.5" font-family="Helvetica,sans-Serif" font-size="10.00">_handle_t&lt; 3 &gt; &gt;</text>
+<text text-anchor="middle" x="55.5" y="-403.5" font-family="Helvetica,sans-Serif" font-size="10.00">_handle &gt;</text>
 <polyline fill="none" stroke="#bfbfbf" points="0,-396.5 111,-396.5 "/>
 <text text-anchor="start" x="8" y="-384.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ elements</text>
 <polyline fill="none" stroke="#bfbfbf" points="0,-377.5 111,-377.5 "/>
@@ -78,10 +78,9 @@
 <!-- Node3&#45;&gt;Node2 -->
 <g id="edge2" class="edge">
 <title>Node3&#45;&gt;Node2</title>
-<path fill="none" stroke="orange" d="M299.59,-518.66C235.76,-511.92 138.94,-498.66 108.5,-478 90.3,-465.65 77.12,-444.76 68.45,-426.84"/>
-<polygon fill="orange" stroke="orange" points="299.62,-522.18 309.93,-519.72 300.34,-515.21 299.62,-522.18"/>
-<text text-anchor="start" x="108.5" y="-470" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Vertex_handle_t&lt;</text>
-<text text-anchor="middle" x="159.5" y="-459" font-family="Helvetica,sans-Serif" font-size="10.00"> 3 &gt; &gt;</text>
+<path fill="none" stroke="orange" d="M299.85,-518.08C237.7,-510.92 144.46,-497.37 114.5,-478 95.42,-465.67 80.75,-444.77 70.81,-426.85"/>
+<polygon fill="orange" stroke="orange" points="299.6,-521.58 309.93,-519.22 300.38,-514.62 299.6,-521.58"/>
+<text text-anchor="middle" x="162.5" y="-464.5" font-family="Helvetica,sans-Serif" font-size="10.00"> &lt; Vertex_handle &gt;</text>
 </g>
 <!-- Node7 -->
 <g id="node7" class="node">
