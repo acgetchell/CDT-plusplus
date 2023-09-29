@@ -1,7 +1,7 @@
 var searchData=
 [
   ['main_464',['main',['../cdt_8cpp.html#ae3c9ca9c80d59823d8711270d8a0d7c2',1,'main(int argc, char *const argv[]) -&gt; int try:&#160;cdt.cpp'],['../cdt-opt_8cpp.html#a72754cd5f3fb19e8241b13dd3f58a01a',1,'main() -&gt; int try:&#160;cdt-opt.cpp']]],
-  ['make_5fcausal_5fvertices_465',['make_causal_vertices',['../_manifold_8hpp.html#aa3c9b4a01433edcefbfff3d26de7b0fe',1,'manifolds::make_causal_vertices()'],['../_foliated__triangulation_8hpp.html#ab103f47204025e6688ef4a93cf6b3245',1,'foliated_triangulations::make_causal_vertices()']]],
+  ['make_5fcausal_5fvertices_465',['make_causal_vertices',['../_manifold_8hpp.html#aa68ab2b19dc3d498268b9f0bcaf937d6',1,'manifolds::make_causal_vertices()'],['../_foliated__triangulation_8hpp.html#a384796901c940f190d02a9a708e3807e',1,'foliated_triangulations::make_causal_vertices()']]],
   ['make_5fd_5fcube_466',['make_d_cube',['../_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f',1,'Torus_d.hpp']]],
   ['make_5ffilename_467',['make_filename',['../_utilities_8hpp.html#a05b64bd57f177d515d43913c6bdab6f7',1,'utilities']]],
   ['make_5ffoliated_5fball_468',['make_foliated_ball',['../_foliated__triangulation_8hpp.html#a0dbff8072c34c1d95c81f5b115a912c1',1,'foliated_triangulations']]],

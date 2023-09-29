@@ -22,7 +22,7 @@ var searchData=
   ['m_5ftriangulation_167',['m_triangulation',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a00adb4f75ef8c877bfacaab913600caf',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::m_triangulation()'],['../classmanifolds_1_1_manifold_3_013_01_4.html#adf31b521633126c1dee522e7d797b248',1,'manifolds::Manifold&lt; 3 &gt;::m_triangulation()']]],
   ['main_168',['main',['../cdt-opt_8cpp.html#a72754cd5f3fb19e8241b13dd3f58a01a',1,'main() -&gt; int try:&#160;cdt-opt.cpp'],['../cdt_8cpp.html#ae3c9ca9c80d59823d8711270d8a0d7c2',1,'main(int argc, char *const argv[]) -&gt; int try:&#160;cdt.cpp']]],
   ['main_2ecpp_169',['main.cpp',['../main_8cpp.html',1,'']]],
-  ['make_5fcausal_5fvertices_170',['make_causal_vertices',['../_foliated__triangulation_8hpp.html#ab103f47204025e6688ef4a93cf6b3245',1,'foliated_triangulations::make_causal_vertices()'],['../_manifold_8hpp.html#aa3c9b4a01433edcefbfff3d26de7b0fe',1,'manifolds::make_causal_vertices()']]],
+  ['make_5fcausal_5fvertices_170',['make_causal_vertices',['../_foliated__triangulation_8hpp.html#a384796901c940f190d02a9a708e3807e',1,'foliated_triangulations::make_causal_vertices()'],['../_manifold_8hpp.html#aa68ab2b19dc3d498268b9f0bcaf937d6',1,'manifolds::make_causal_vertices()']]],
   ['make_5fd_5fcube_171',['make_d_cube',['../_torus__d_8hpp.html#a8121c327137366c97fabaf76848fb32f',1,'Torus_d.hpp']]],
   ['make_5ffilename_172',['make_filename',['../_utilities_8hpp.html#a05b64bd57f177d515d43913c6bdab6f7',1,'utilities']]],
   ['make_5ffoliated_5fball_173',['make_foliated_ball',['../_foliated__triangulation_8hpp.html#a0dbff8072c34c1d95c81f5b115a912c1',1,'foliated_triangulations']]],
