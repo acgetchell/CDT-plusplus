@@ -88,9 +88,9 @@ namespace foliated_triangulations
   /// @param timevalues The timevalue of each vertex
   /// @return A container of vertices that have an associated timevalue
   template <int dimension>
-  inline auto make_causal_vertices(
-      std::vector<Point_t<dimension>> const& vertices,
-      std::vector<size_t> const& timevalues) -> Causal_vertices_t<dimension>
+  inline auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
+                                   std::span<size_t const> timevalues)
+      -> Causal_vertices_t<dimension>
   {
     if (vertices.size() != timevalues.size())
     {
@@ -98,11 +98,11 @@ namespace foliated_triangulations
     }
     Causal_vertices_t<dimension> causal_vertices;
     causal_vertices.reserve(vertices.size());
-    transform(vertices.begin(), vertices.end(), timevalues.begin(),
-              back_inserter(causal_vertices),
-              [](Point_t<dimension> point, size_t time) {
-                return std::make_pair(point, time);
-              });
+    std::ranges::transform(vertices, timevalues,
+                           std::back_inserter(causal_vertices),
+                           [](Point_t<dimension> point, size_t time) {
+                             return std::make_pair(point, time);
+                           });
     return causal_vertices;
   }
 
@@ -972,7 +972,8 @@ namespace foliated_triangulations
   class [[nodiscard("This contains data!")]] FoliatedTriangulation<3>  // NOLINT
   {
     using Delaunay            = Delaunay_t<3>;
-    using Cell_container      = std::vector<Cell_handle_t<3>>;
+    using Cell_handle         = Cell_handle_t<3>;
+    using Cell_container      = std::vector<Cell_handle>;
     using Face_container      = std::vector<Face_handle_t<3>>;
     using Edge_container      = std::vector<Edge_handle_t<3>>;
     using Vertex_handle       = Vertex_handle_t<3>;
@@ -1426,9 +1427,10 @@ namespace foliated_triangulations
     }  // get_cells
 
     /// @return Container of (3,1) cells
-    [[nodiscard]] auto get_three_one() const -> Cell_container const&
+    [[nodiscard]] auto get_three_one() const noexcept
+        -> std::span<Cell_handle const>
     {
-      return m_three_one;
+      return std::span{m_three_one};
     }  // get_three_one
 
     /// @return Container of (2,2) cells

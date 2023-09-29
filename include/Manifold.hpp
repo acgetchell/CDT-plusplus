@@ -25,9 +25,9 @@ namespace manifolds
   /// @param timevalues A container of matching timevalues
   /// @return A container of Causal_vertices
   template <int dimension>
-  inline auto make_causal_vertices(
-      std::vector<Point_t<dimension>> const& vertices,
-      std::vector<size_t> const& timevalues) -> Causal_vertices_t<dimension>
+  inline auto make_causal_vertices(std::span<Point_t<dimension> const> vertices,
+                                   std::span<size_t const> timevalues)
+      -> Causal_vertices_t<dimension>
   {
     return foliated_triangulations::make_causal_vertices<dimension>(vertices,
                                                                     timevalues);
