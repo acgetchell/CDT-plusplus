@@ -171,7 +171,7 @@ SCENARIO("Manifold free functions" * doctest::test_suite("manifold"))
 
     WHEN("The manifold is constructed.")
     {
-      Manifold_3 manifold(causal_vertices, 1, 1.0);
+      Manifold_3 const manifold(causal_vertices, 1, 1.0);
       THEN("It is correct.")
       {
         REQUIRE(manifold.is_correct());

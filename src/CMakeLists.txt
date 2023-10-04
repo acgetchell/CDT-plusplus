@@ -85,38 +85,38 @@ else()
 endif()
 target_compile_features(cdt PRIVATE cxx_std_20)
 
-## Build cdt-viewer locally, but not in CI since QT takes more than an hour to build there
-#if(APPLE AND NOT ($ENV{CI}))
-#  add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
-#  target_link_libraries(
-#    cdt-viewer
-#    PRIVATE project_options
-#            project_warnings
-#            date::date-tz
-#            docopt_s
-#            fmt::fmt-header-only
-#            Eigen3::Eigen
-#            spdlog::spdlog_header_only
-#            TBB::tbb
-#            CGAL::CGAL_Basic_viewer)
-#  target_compile_features(cdt-viewer PRIVATE cxx_std_20)
-#endif()
-#
-## Build bistellar-flip locally, but not in CI since QT takes more than an hour to build there
-#if(APPLE AND NOT ($ENV{CI}))
-#  add_executable(bistellar-flip ${PROJECT_SOURCE_DIR}/src/bistellar-flip.cpp)
-#  target_link_libraries(
-#      bistellar-flip
-#      PRIVATE project_options
-#      project_warnings
-#      date::date-tz
-#      fmt::fmt-header-only
-#      Eigen3::Eigen
-#      spdlog::spdlog_header_only
-#      TBB::tbb
-#      CGAL::CGAL_Basic_viewer)
-#  target_compile_features(bistellar-flip PRIVATE cxx_std_20)
-#endif()
+# Build cdt-viewer locally, but not in CI since QT takes more than an hour to build there
+if(APPLE AND NOT ($ENV{CI}))
+  add_executable(cdt-viewer ${PROJECT_SOURCE_DIR}/src/cdt-viewer.cpp)
+  target_link_libraries(
+    cdt-viewer
+    PRIVATE project_options
+            project_warnings
+            date::date-tz
+            docopt_s
+            fmt::fmt-header-only
+            Eigen3::Eigen
+            spdlog::spdlog_header_only
+            TBB::tbb
+            CGAL::CGAL_Basic_viewer)
+  target_compile_features(cdt-viewer PRIVATE cxx_std_20)
+endif()
+
+# Build bistellar-flip locally, but not in CI since QT takes more than an hour to build there
+if(APPLE AND NOT ($ENV{CI}))
+  add_executable(bistellar-flip ${PROJECT_SOURCE_DIR}/src/bistellar-flip.cpp)
+  target_link_libraries(
+      bistellar-flip
+      PRIVATE project_options
+      project_warnings
+      date::date-tz
+      fmt::fmt-header-only
+      Eigen3::Eigen
+      spdlog::spdlog_header_only
+      TBB::tbb
+      CGAL::CGAL_Basic_viewer)
+  target_compile_features(bistellar-flip PRIVATE cxx_std_20)
+endif()
 
 #
 # Tests    ##
@@ -151,7 +151,7 @@ set_tests_properties(initialize-toroidal PROPERTIES PASS_REGULAR_EXPRESSION
 add_test(NAME cdt-opt COMMAND $<TARGET_FILE:cdt-opt>)
 set_tests_properties(cdt-opt PROPERTIES PASS_REGULAR_EXPRESSION "cdt-opt started at")
 
-#if(APPLE AND NOT ($ENV{CI}))
-#  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --dry-run test.off)
-#  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "Dry run. Exiting.")
-#endif()
+if(APPLE AND NOT ($ENV{CI}))
+  add_test(NAME cdt-viewer COMMAND $<TARGET_FILE:cdt-viewer> --dry-run test.off)
+  set_tests_properties(cdt-viewer PROPERTIES PASS_REGULAR_EXPRESSION "Dry run. Exiting.")
+endif()

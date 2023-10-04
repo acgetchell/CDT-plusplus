@@ -402,7 +402,7 @@ Optional:
 
 ## Issues
 
-[vcpkg]'s version of [qt] is broken on arm64-osx [#33882]
+The [AppVeyor] tests to build on Windows will fail if it takes longer than 60 minutes to build. This is fixed with a paid subscription, but this project is open source.
 
 [vcpkg]'s version of [date] has an unfixed bug [#23637] which produces `use-of-uninitialized-value` in [MemorySanitizer].
 
@@ -410,7 +410,6 @@ Optional:
 
 [CodeCov] [coverage dropped significantly](https://codecov.freshdesk.com/support/tickets/13155), (also see https://community.codecov.com/t/codecov-github-action-doesnt-work-well-compared-to-bash-uploader/4220) switching from deprecated Bash uploader to their GitHub Action.
 
-[#33882]: https://github.com/microsoft/vcpkg/issues/33882
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
 [CDT]: https://arxiv.org/abs/hep-th/0105267
