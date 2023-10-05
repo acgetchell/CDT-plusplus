@@ -29,6 +29,8 @@
 // H. Hinnant date and time library
 #include <date/tz.h>
 
+#include <chrono>
+
 // M. O'Neill Permutation Congruential Generator library
 #include "pcg_random.hpp"
 
@@ -76,8 +78,8 @@ namespace utilities
   /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
   [[nodiscard]] inline auto current_date_time()
   {
-    using namespace std::chrono;
-    date::zoned_time const time(date::current_zone(), system_clock::now());
+    date::zoned_time const time(date::current_zone(),
+                                std::chrono::system_clock::now());
     return date::format("%Y-%m-%d.%X%Z", time);
   }  // current_date_time
 
@@ -95,6 +97,7 @@ namespace utilities
                                           Int_precision t_number_of_timeslices,
                                           double        t_initial_radius,
                                           double t_foliation_spacing) noexcept
+      -> std::filesystem::path
   {
     std::string filename;
     if (t_topology == topology_type::SPHERICAL) { filename += "S"; }
@@ -160,10 +163,11 @@ namespace utilities
   /// @param filename The filename to write to
   /// @param triangulation The triangulation to write
   template <typename TriangulationType>
-  void write_file(std::string const& filename, TriangulationType triangulation)
+  void write_file(std::filesystem::path const& filename,
+                  TriangulationType            triangulation)
   {
     static std::mutex mutex;
-    fmt::print("Writing to file {}\n", filename);
+    fmt::print("Writing to file {}\n", filename.string());
     std::scoped_lock const lock(mutex);
     std::ofstream          file(filename, std::ios::out);
     if (!file.is_open())
@@ -184,7 +188,7 @@ namespace utilities
   template <typename ManifoldType>
   void write_file(ManifoldType const& t_universe)
   {
-    std::string filename;
+    std::filesystem::path filename;
     filename.assign(make_filename(t_universe));
     write_file(filename, t_universe.get_delaunay());
   }  // write_file
@@ -194,10 +198,10 @@ namespace utilities
   /// @param filename The file to read from
   /// @returns A Delaunay triangulation
   template <typename TriangulationType>
-  auto read_file(std::string const& filename) -> TriangulationType
+  auto read_file(std::filesystem::path const& filename) -> TriangulationType
   {
     static std::mutex mutex;
-    fmt::print("Reading from file {}\n", filename);
+    fmt::print("Reading from file {}\n", filename.string());
     std::scoped_lock const lock(mutex);
     std::ifstream          file(filename, std::ios::in);
     if (!file.is_open())

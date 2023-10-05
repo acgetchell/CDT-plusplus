@@ -74,18 +74,18 @@ SCENARIO("Various string/stream/time utilities" *
                         INITIAL_RADIUS, FOLIATION_SPACING);
       THEN("The output is correct.")
       {
-        auto const topology = filename.find("S3");
+        auto const topology = filename.string().find("S3");
         CHECK_NE(topology, std::string::npos);
-        auto const time = filename.find("16");
+        auto const time = filename.string().find("16");
         CHECK_NE(time, std::string::npos);
-        auto const cells = filename.find("6700");
+        auto const cells = filename.string().find("6700");
         CHECK_NE(cells, std::string::npos);
-        auto const initial_radius = filename.find("1.0");
+        auto const initial_radius = filename.string().find("1.0");
         CHECK_NE(initial_radius, std::string::npos);
-        auto const file_suffix = filename.find("off");
+        auto const file_suffix = filename.string().find("off");
         CHECK_NE(file_suffix, std::string::npos);
         // Human verification
-        fmt::print("Filename is: {}\n", filename);
+        fmt::print("Filename is: {}\n", filename.string());
       }
     }
   }

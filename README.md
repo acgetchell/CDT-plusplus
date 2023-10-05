@@ -408,8 +408,6 @@ The [AppVeyor] tests to build on Windows will fail if it takes longer than 60 mi
 
 [docopt] also has a `use-of-uninitialized-value` bug ([#149]).
 
-[CodeCov] [coverage dropped significantly](https://codecov.freshdesk.com/support/tickets/13155), (also see https://community.codecov.com/t/codecov-github-action-doesnt-work-well-compared-to-bash-uploader/4220) switching from deprecated Bash uploader to their GitHub Action.
-
 [#23637]: https://github.com/microsoft/vcpkg/issues/23637
 [#149]: https://github.com/docopt/docopt.cpp/issues/149
 [CDT]: https://arxiv.org/abs/hep-th/0105267
