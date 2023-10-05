@@ -1,5 +1,5 @@
 <map id="include/Utilities.hpp" name="include/Utilities.hpp">
-<area shape="rect" id="node1" title="Utility functions." alt="" coords="974,5,1126,32"/>
+<area shape="rect" id="node1" title="Utility functions." alt="" coords="1021,5,1173,32"/>
 <area shape="rect" id="node2" title=" " alt="" coords="5,87,116,114"/>
 <area shape="rect" id="node3" title=" " alt="" coords="141,87,226,114"/>
 <area shape="rect" id="node4" title=" " alt="" coords="250,87,319,114"/>
@@ -15,12 +15,13 @@
 <area shape="rect" id="node14" title=" " alt="" coords="1213,87,1271,114"/>
 <area shape="rect" id="node15" title=" " alt="" coords="1296,87,1383,114"/>
 <area shape="rect" id="node16" title=" " alt="" coords="1407,87,1485,114"/>
-<area shape="rect" id="node17" title=" " alt="" coords="1510,87,1641,114"/>
-<area shape="rect" id="node18" title=" " alt="" coords="1665,87,1779,114"/>
-<area shape="rect" id="node19" title=" " alt="" coords="1803,80,1945,121"/>
-<area shape="rect" id="node20" title=" " alt="" coords="1969,80,2117,121"/>
-<area shape="rect" id="node21" title=" " alt="" coords="2141,87,2265,114"/>
-<area shape="rect" id="node22" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="2289,87,2392,114"/>
-<area shape="rect" id="node23" title=" " alt="" coords="2171,169,2358,196"/>
-<area shape="rect" id="node24" title=" " alt="" coords="2382,169,2449,196"/>
+<area shape="rect" id="node17" title=" " alt="" coords="1510,87,1577,114"/>
+<area shape="rect" id="node18" title=" " alt="" coords="1601,87,1731,114"/>
+<area shape="rect" id="node19" title=" " alt="" coords="1755,87,1870,114"/>
+<area shape="rect" id="node20" title=" " alt="" coords="1894,80,2035,121"/>
+<area shape="rect" id="node21" title=" " alt="" coords="2060,80,2208,121"/>
+<area shape="rect" id="node22" title=" " alt="" coords="2232,87,2356,114"/>
+<area shape="rect" id="node23" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="2380,87,2483,114"/>
+<area shape="rect" id="node24" title=" " alt="" coords="2262,169,2449,196"/>
+<area shape="rect" id="node25" title=" " alt="" coords="2473,169,2539,196"/>
 </map>
