@@ -398,15 +398,17 @@ namespace ergodic_moves
     }
 
     // Run until all cells fixed or 50 passes
-    for (auto passes = 1; passes < foliated_triangulations::MAX_FIX_PASSES + 1;
-         ++passes)
-    {
-      if (!foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
-      {
-        break;
-      }
-      spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n", passes);
-    }
+    //    for (auto passes = 1; passes < foliated_triangulations::MAX_FIX_PASSES
+    //    + 1;
+    //         ++passes)
+    //    {
+    //      if (!foliated_triangulations::fix_cells<3>(manifold.get_delaunay()))
+    //      {
+    //        break;
+    //      }
+    //      spdlog::warn("Fixing cells found by is_62_movable() pass {}.\n",
+    //      passes);
+    //    }
 
     auto const incident_31 = foliated_triangulations::filter_cells<3>(
         incident_cells, Cell_type::THREE_ONE);

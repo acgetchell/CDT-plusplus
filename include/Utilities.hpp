@@ -30,6 +30,7 @@
 #include <date/tz.h>
 
 #include <chrono>
+#include <format>
 
 // M. O'Neill Permutation Congruential Generator library
 #include "pcg_random.hpp"
@@ -78,6 +79,11 @@ namespace utilities
   /// @see https://en.cppreference.com/w/cpp/chrono/zoned_time
   [[nodiscard]] inline auto current_date_time()
   {
+    /// When AppleClang fully supports std::chrono and std::format, use this:
+    //    auto time = std::chrono::zoned_time(std::chrono::current_zone(),
+    //    std::chrono::system_clock::now());
+    //    return std::formatter<std::chrono::system_clock::time_point,
+    //                          char>::format(time, "{:%Y-%m-%d.%X%Z}");
     date::zoned_time const time(date::current_zone(),
                                 std::chrono::system_clock::now());
     return date::format("%Y-%m-%d.%X%Z", time);

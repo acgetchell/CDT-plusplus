@@ -1493,7 +1493,7 @@ namespace foliated_triangulations
     /// @brief Classify cells
     /// @param cells The container of simplices to classify
     /// @return A container of simplices with Cell_type written to cell->info()
-    [[nodiscard]] auto classify_cells(Cell_container const& cells) const
+    [[nodiscard]] static auto classify_cells(Cell_container const& cells)
         -> Cell_container
     {
       assert(cells.size() == number_of_finite_cells());

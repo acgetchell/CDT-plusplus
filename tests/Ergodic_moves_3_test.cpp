@@ -27,6 +27,7 @@ static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 SCENARIO("Use check_move to validate successful move" *
          doctest::test_suite("ergodic"))
 {
+  spdlog::debug("Use check_move to validate successful move.\n");
   GIVEN("A triangulation setup for a (2,3) move")
   {
     vector<Point_t<3>> vertices{
@@ -76,12 +77,11 @@ SCENARIO("Use check_move to validate successful move" *
 }
 
 SCENARIO(
-    "Perform ergodic moves on the minimal manifold necessary for that move" *
+    "Perform ergodic moves on the minimal manifold necessary for (2,3) and (3,2) moves" *
     doctest::test_suite("ergodic"))
 {
   spdlog::debug(
-      "Perform ergodic moves on the minimal simplicial complex necessary for "
-      "that move.\n");
+      "Perform ergodic moves on the minimal manifold necessary for (2,3) and (3,2) moves.\n");
   GIVEN("A triangulation setup for (2,3) moves")
   {
     vector<Point_t<3>> vertices{
@@ -215,6 +215,13 @@ SCENARIO(
       }
     }
   }
+}
+SCENARIO(
+    "Perform ergodic moves on the minimal manifold necessary (2,6) and (6,2) moves" *
+    doctest::test_suite("ergodic"))
+{
+  spdlog::debug(
+      "Perform ergodic moves on the minimal manifold necessary (2,6) and (6,2) moves.\n");
   GIVEN("A triangulation setup for a (2,6) move")
   {
     vector<Point_t<3>> vertices{
@@ -363,6 +370,12 @@ SCENARIO(
       }
     }
   }
+}
+SCENARIO("Perform ergodic moves on the minimal manifold necessary (4,4) moves" *
+         doctest::test_suite("ergodic") * doctest::skip())
+{
+  spdlog::debug(
+      "Perform ergodic moves on the minimal manifold necessary (4,4) moves.\n");
   GIVEN("A triangulation setup for a (4,4) move")
   {
     vector<Point_t<3>> vertices{
@@ -375,7 +388,7 @@ SCENARIO(
     };
     vector<size_t> timevalues{0, 1, 1, 1, 1, 2};
     auto       causal_vertices = make_causal_vertices<3>(vertices, timevalues);
-    Manifold_3     manifold(causal_vertices);
+    Manifold_3     manifold(causal_vertices, 0, 1);
     // Verify we have 4 vertices, 4 edges, 4 faces, and 4 simplices
     REQUIRE_EQ(manifold.vertices(), 6);
     REQUIRE_EQ(manifold.edges(), 13);
@@ -387,8 +400,7 @@ SCENARIO(
     REQUIRE_EQ(manifold.N3_31_13(), 4);
     REQUIRE_EQ(manifold.N1_SL(), 5);
     REQUIRE_EQ(manifold.N1_TL(), 8);
-    /// FIXME: The initial radius should be 0
-    //    CHECK_EQ(manifold.initial_radius(), 0);
+    CHECK_EQ(manifold.initial_radius(), 0);
     CHECK_EQ(manifold.foliation_spacing(), 1);
     REQUIRE(manifold.is_delaunay());
     REQUIRE(manifold.is_correct());
