@@ -21,7 +21,8 @@ jobs:
         uses: pkgxdev/setup@v1
         with:
           +: clang@16
-        run: clang --version
+
+      -  run: clang --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
