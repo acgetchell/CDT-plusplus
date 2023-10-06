@@ -1,27 +1,27 @@
 <map id="src/cdt&#45;viewer.cpp" name="src/cdt&#45;viewer.cpp">
-<area shape="rect" id="node1" title="Views 3D spacetimes." alt="" coords="995,5,1134,32"/>
-<area shape="rect" id="node2" title=" " alt="" coords="559,80,770,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="795,80,921,107"/>
-<area shape="rect" id="node4" title=" " alt="" coords="945,80,1080,107"/>
+<area shape="rect" id="node1" title="Views 3D spacetimes." alt="" coords="947,5,1086,32"/>
+<area shape="rect" id="node2" title=" " alt="" coords="511,80,722,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="747,80,873,107"/>
+<area shape="rect" id="node4" title=" " alt="" coords="897,80,1032,107"/>
 <area shape="rect" id="node5" title=" " alt="" coords="5,393,129,420"/>
-<area shape="rect" id="node6" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1966,80,2073,107"/>
-<area shape="rect" id="node22" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="1155,304,1257,331"/>
-<area shape="rect" id="node7" title=" " alt="" coords="2211,155,2281,181"/>
-<area shape="rect" id="node8" title=" " alt="" coords="1850,155,1965,181"/>
-<area shape="rect" id="node9" title=" " alt="" coords="1989,155,2049,181"/>
-<area shape="rect" id="node10" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="2073,155,2187,181"/>
-<area shape="rect" id="node11" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="2367,229,2559,256"/>
-<area shape="rect" id="node12" title=" " alt="" coords="2910,304,2990,331"/>
-<area shape="rect" id="node13" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="2711,304,2885,331"/>
-<area shape="rect" id="node14" title=" " alt="" coords="3033,393,3273,420"/>
-<area shape="rect" id="node15" title=" " alt="" coords="3297,379,3469,435"/>
-<area shape="rect" id="node16" title=" " alt="" coords="3493,393,3692,420"/>
-<area shape="rect" id="node17" title=" " alt="" coords="2598,386,2782,427"/>
-<area shape="rect" id="node18" title=" " alt="" coords="2806,386,3009,427"/>
-<area shape="rect" id="node19" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="2471,393,2573,420"/>
-<area shape="rect" id="node20" title=" " alt="" coords="2353,483,2539,509"/>
-<area shape="rect" id="node21" title=" " alt="" coords="2563,483,2630,509"/>
-<area shape="rect" id="node23" title=" " alt="" coords="2336,393,2447,420"/>
+<area shape="rect" id="node6" href="$_manifold_8hpp.html" title="Data structures for manifolds." alt="" coords="1877,80,1983,107"/>
+<area shape="rect" id="node22" href="$_utilities_8hpp.html" title="Utility functions." alt="" coords="1107,304,1209,331"/>
+<area shape="rect" id="node7" title=" " alt="" coords="2121,155,2192,181"/>
+<area shape="rect" id="node8" title=" " alt="" coords="1761,155,1875,181"/>
+<area shape="rect" id="node9" title=" " alt="" coords="1900,155,1960,181"/>
+<area shape="rect" id="node10" href="$_geometry_8hpp.html" title="Geometric scalars of the Manifold used to calculate the Regge action." alt="" coords="1984,155,2097,181"/>
+<area shape="rect" id="node11" href="$_foliated__triangulation_8hpp.html" title="Create foliated spherical triangulations." alt="" coords="2281,229,2473,256"/>
+<area shape="rect" id="node12" title=" " alt="" coords="2826,304,2906,331"/>
+<area shape="rect" id="node13" href="$_triangulation__traits_8hpp.html" title="Traits class for particular uses of CGAL." alt="" coords="2627,304,2801,331"/>
+<area shape="rect" id="node14" title=" " alt="" coords="3165,393,3405,420"/>
+<area shape="rect" id="node15" title=" " alt="" coords="3429,379,3601,435"/>
+<area shape="rect" id="node16" title=" " alt="" coords="2507,393,2705,420"/>
+<area shape="rect" id="node17" title=" " alt="" coords="2730,386,2914,427"/>
+<area shape="rect" id="node18" title=" " alt="" coords="2938,386,3141,427"/>
+<area shape="rect" id="node19" href="$_settings_8hpp.html" title="Global integer and precision settings." alt="" coords="2380,393,2483,420"/>
+<area shape="rect" id="node20" title=" " alt="" coords="2262,483,2449,509"/>
+<area shape="rect" id="node21" title=" " alt="" coords="2473,483,2539,509"/>
+<area shape="rect" id="node23" title=" " alt="" coords="2245,393,2356,420"/>
 <area shape="rect" id="node24" title=" " alt="" coords="154,393,239,420"/>
 <area shape="rect" id="node25" title=" " alt="" coords="263,393,333,420"/>
 <area shape="rect" id="node26" title=" " alt="" coords="357,393,423,420"/>
@@ -37,9 +37,8 @@
 <area shape="rect" id="node36" title=" " alt="" coords="1309,393,1396,420"/>
 <area shape="rect" id="node37" title=" " alt="" coords="1420,393,1499,420"/>
 <area shape="rect" id="node38" title=" " alt="" coords="1523,393,1590,420"/>
-<area shape="rect" id="node39" title=" " alt="" coords="1614,393,1681,420"/>
-<area shape="rect" id="node40" title=" " alt="" coords="1705,393,1835,420"/>
-<area shape="rect" id="node41" title=" " alt="" coords="1859,393,1974,420"/>
-<area shape="rect" id="node42" title=" " alt="" coords="1998,386,2139,427"/>
-<area shape="rect" id="node43" title=" " alt="" coords="2164,386,2312,427"/>
+<area shape="rect" id="node39" title=" " alt="" coords="1614,393,1745,420"/>
+<area shape="rect" id="node40" title=" " alt="" coords="1769,393,1883,420"/>
+<area shape="rect" id="node41" title=" " alt="" coords="1907,386,2049,427"/>
+<area shape="rect" id="node42" title=" " alt="" coords="2073,386,2221,427"/>
 </map>
