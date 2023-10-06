@@ -30,7 +30,8 @@
 #include <date/tz.h>
 
 #include <chrono>
-#include <format>
+/// clang-15 does not support std::format
+//#include <format>
 
 // M. O'Neill Permutation Congruential Generator library
 #include "pcg_random.hpp"

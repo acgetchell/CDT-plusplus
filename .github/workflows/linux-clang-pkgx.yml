@@ -1,0 +1,40 @@
+name: Linux Clang with pkgx
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup
+        run: |
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+
+      - name: Setup pkgx
+        uses: pkgxdev/setup@v1
+        with:
+          +: clang@16
+        run: clang --version
+
+      - name: Restore artifacts or setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 4d999187501e852f76457306b35627dbe63895cd
+
+      - name: Configure
+        run: cmake --preset=build
+
+      - name: Build
+        run:  cmake --build build -j 2
+
+      - name: Test
+        working-directory: build
+        continue-on-error: true
+        run: ctest --rerun-failed --output-on-failure -j 2
