@@ -25,19 +25,13 @@ jobs:
 
       -  run: gcc --version
 
-      - name: Setup Java
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'oracle'
-          java-version: '17'
-
       - name: Install sonar-scanner and build-wrapper
-        uses: sonarsource/sonarcloud-github-c-cpp@v1
+        uses: sonarsource/sonarcloud-github-c-cpp@v2
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11
         with:
-          vcpkgGitCommitId: 4d999187501e852f76457306b35627dbe63895cd
+          vcpkgGitCommitId: 7e4d2ff73b643ca2c685c6cfe0783a0f62cfb15c
 
       - name: Configure
         run: cmake -G Ninja -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_COVERAGE:BOOL=TRUE -S . -B build

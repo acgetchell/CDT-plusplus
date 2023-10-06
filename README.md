@@ -7,6 +7,8 @@
 [![CodeQL](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml/badge.svg?branch=develop)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/codeql-analysis.yml)
 [![codecov](https://codecov.io/gh/acgetchell/CDT-plusplus/branch/develop/graph/badge.svg)](https://codecov.io/gh/acgetchell/CDT-plusplus)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=acgetchell_CDT-plusplus&metric=alert_status)](https://sonarcloud.io/dashboard?id=acgetchell_CDT-plusplus)
+[![cpp-linter](https://github.com/acgetchell/CDT-plusplus/actions/workflows/cpp-linter.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/cpp-linter.yml)
+[![Whitespace](https://github.com/acgetchell/CDT-plusplus/actions/workflows/whitespace.yml/badge.svg)](https://github.com/acgetchell/CDT-plusplus/actions/workflows/whitespace.yml)
 [![Open Issues](https://img.shields.io/github/issues-raw/acgetchell/CDT-plusplus.svg)](https://github.com/acgetchell/CDT-plusplus/issues)
 [![Join the chat at https://gitter.im/acgetchell/CDT-plusplus](https://img.shields.io/badge/gitter-join%20chat%20→-brightgreen.svg)](https://gitter.im/acgetchell/CDT-plusplus)
 [![Gitpod Ready-to-Code](https://img.shields.io/badge/Gitpod-ready--to--code-blue?logo=gitpod)](https://gitpod.io/#https://github.com/acgetchell/CDT-plusplus)
