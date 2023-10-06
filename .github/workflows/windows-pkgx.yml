@@ -1,0 +1,35 @@
+name: Windows pkgx
+
+on: [push, pull_request, workflow_dispatch]
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    env:
+      VCPKG_DEFAULT_TRIPLET: x64-windows
+      VCPKG_ROOT: C:\vcpkg
+
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+          submodules: true
+
+      - name: Setup Clang
+        uses: pkgxdev/setup@v1
+        with:
+          +: clang@16
+
+      - name: Restore artifacts, or setup vcpkg
+        uses: lukka/run-vcpkg@v11
+        with:
+          vcpkgGitCommitId: 4d999187501e852f76457306b35627dbe63895cd
+
+      - name: Install vcpkg packages and configure CMake
+        run: |
+          vcpkg install
+          cmake -D CMAKE_BUILD_TYPE=RelWithDebInfo -D ENABLE_TESTING:BOOL=TRUE -D ENABLE_CACHE:BOOL=FALSE -S . -B build
+
+      - name: Build
+        run: cmake --build build

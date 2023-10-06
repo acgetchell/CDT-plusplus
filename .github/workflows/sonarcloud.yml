@@ -13,22 +13,23 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: Setup
+        run: |
+          sudo apt update
+          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
+
+      - name: Setup GCC
+        uses: pkgxdev/setup@v1
+        with:
+          +: gcc@13
+
+      -  run: gcc --version
+
       - name: Setup Java
         uses: actions/setup-java@v3
         with:
           distribution: 'oracle'
           java-version: '17'
-
-      - name: Setup GCC
-        uses: egor-tensin/setup-gcc@v1
-        with:
-          version: 11
-          platform: x64
-
-      - name: Setup
-        run: |
-          sudo apt update
-          sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache lcov
 
       - name: Install sonar-scanner and build-wrapper
         uses: sonarsource/sonarcloud-github-c-cpp@v1

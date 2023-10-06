@@ -52,16 +52,17 @@ jobs:
         # Prefix the list here with "+" to use these queries and those in the config file.
         # queries: ./path/to/local/query, your-org/your-repo/queries@main
 
-    - name: Setup GCC
-      uses: egor-tensin/setup-gcc@v1
-      with:
-        version: 12
-        platform: x64
-
     - name: Setup
       run: |
         sudo apt update
         sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+
+    - name: Setup GCC
+      uses: pkgxdev/setup@v1
+      with:
+        +: gcc@13
+
+    -  run: gcc --version
 
     - name: Restore artifacts or setup vcpkg
       uses: lukka/run-vcpkg@v11
