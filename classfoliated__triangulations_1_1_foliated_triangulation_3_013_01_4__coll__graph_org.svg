@@ -34,10 +34,10 @@
 <text text-anchor="start" x="298" y="-73.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ check_all_vertices()</text>
 <text text-anchor="start" x="298" y="-62.5" font-family="Helvetica,sans-Serif" font-size="10.00">+ degree()</text>
 <text text-anchor="start" x="298" y="-51.5" font-family="Helvetica,sans-Serif" font-size="10.00">and 45 more...</text>
-<text text-anchor="start" x="298" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_cells()</text>
-<text text-anchor="start" x="298" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_vertices()</text>
-<text text-anchor="start" x="298" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_edges()</text>
-<text text-anchor="start" x="298" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_faces()</text>
+<text text-anchor="start" x="298" y="-40.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_vertices()</text>
+<text text-anchor="start" x="298" y="-29.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_edges()</text>
+<text text-anchor="start" x="298" y="-18.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; collect_faces()</text>
+<text text-anchor="start" x="298" y="-7.5" font-family="Helvetica,sans-Serif" font-size="10.00">&#45; classify_cells()</text>
 </a>
 </g>
 </g>

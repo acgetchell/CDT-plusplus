@@ -99,6 +99,7 @@ $(function() {
 <code>#include &lt;typeindex&gt;</code><br />
 <code>#include &lt;date/tz.h&gt;</code><br />
 <code>#include &lt;chrono&gt;</code><br />
+<code>#include &lt;format&gt;</code><br />
 <code>#include &quot;pcg_random.hpp&quot;</code><br />
 <code>#include &lt;fmt/ostream.h&gt;</code><br />
 <code>#include &lt;spdlog/sinks/basic_file_sink.h&gt;</code><br />
@@ -264,11 +265,11 @@ template&lt;typename ManifoldType &gt; </td></tr>
 </ol>
 <p>If an exception is thrown, then the default global console logger is used. </p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00398">398</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00404">404</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00398">utilities::create_logger()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00404">utilities::create_logger()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00398">utilities::create_logger()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00404">utilities::create_logger()</a>.</p>
 
 </div>
 </div>
@@ -300,12 +301,13 @@ template&lt;typename ManifoldType &gt; </td></tr>
 <dl class="section see"><dt>See also</dt><dd><a href="https://github.com/HowardHinnant/date">https://github.com/HowardHinnant/date</a> </dd>
 <dd>
 <a href="https://en.cppreference.com/w/cpp/chrono/zoned_time">https://en.cppreference.com/w/cpp/chrono/zoned_time</a> </dd></dl>
+<p>When AppleClang fully supports std::chrono and std::format, use this:</p>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00079">79</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00080">80</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00079">utilities::current_date_time()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00080">utilities::current_date_time()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00079">utilities::current_date_time()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00080">utilities::current_date_time()</a>.</p>
 
 </div>
 </div>
@@ -362,11 +364,11 @@ template&lt;typename ManifoldType &gt; </td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The number of points per timeslice to obtain the desired number of simplices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00317">317</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00323">323</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00317">utilities::expected_points_per_timeslice()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00323">utilities::expected_points_per_timeslice()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00317">utilities::expected_points_per_timeslice()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00323">utilities::expected_points_per_timeslice()</a>.</p>
 
 </div>
 </div>
@@ -424,11 +426,11 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A random value in the distribution between min_value and max_value </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00246">246</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00252">252</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00246">utilities::generate_random()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00252">utilities::generate_random()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00246">utilities::generate_random()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00252">utilities::generate_random()</a>.</p>
 
 </div>
 </div>
@@ -467,11 +469,11 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>The double conversion </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00369">369</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00375">375</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00369">utilities::Gmpzf_to_double()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00375">utilities::Gmpzf_to_double()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00369">utilities::Gmpzf_to_double()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00375">utilities::Gmpzf_to_double()</a>.</p>
 
 </div>
 </div>
@@ -548,7 +550,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A filename </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00094">94</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00100">100</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -578,11 +580,11 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 <p>Make a high-quality random number generator usable by std::shuffle. </p>
 <dl class="section return"><dt>Returns</dt><dd>A RNG </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00258">258</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00264">264</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00258">utilities::make_random_generator()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00264">utilities::make_random_generator()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00258">utilities::make_random_generator()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00264">utilities::make_random_generator()</a>.</p>
 
 </div>
 </div>
@@ -631,7 +633,7 @@ template&lt;typename NumberType , class Distribution &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>An output string of the topology </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00058">58</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00059">59</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
 </div>
 </div>
@@ -677,11 +679,11 @@ template&lt;typename Point &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the point </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00442">442</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00448">448</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00442">utilities::point_to_str()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00448">utilities::point_to_str()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00442">utilities::point_to_str()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00448">utilities::point_to_str()</a>.</p>
 
 </div>
 </div>
@@ -717,11 +719,11 @@ template&lt;typename TriangulationType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00147">147</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00153">153</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00147">utilities::print_delaunay()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00153">utilities::print_delaunay()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00147">utilities::print_delaunay()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00153">utilities::print_delaunay()</a>.</p>
 
 </div>
 </div>
@@ -759,11 +761,11 @@ template&lt;typename TriangulationType &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A Delaunay triangulation </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00201">201</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00207">207</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00201">utilities::read_file()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00207">utilities::read_file()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00201">utilities::read_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00207">utilities::read_file()</a>.</p>
 
 </div>
 </div>
@@ -801,11 +803,11 @@ template&lt;typename TriangulationType &gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A string representation of the topology_type </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00452">452</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00458">458</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00452">utilities::topology_to_str()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00458">utilities::topology_to_str()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00452">utilities::topology_to_str()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00458">utilities::topology_to_str()</a>.</p>
 
 </div>
 </div>
@@ -841,9 +843,9 @@ template&lt;typename ManifoldType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00189">189</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00195">195</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00166">utilities::write_file()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00172">utilities::write_file()</a>.</p>
 
 </div>
 </div>
@@ -890,18 +892,18 @@ template&lt;typename TriangulationType &gt; </div>
   </dd>
 </dl>
 
-<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00166">166</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_utilities_8hpp_source.html#l00172">172</a> of file <a class="el" href="_utilities_8hpp_source.html">Utilities.hpp</a>.</p>
 
-<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00166">utilities::write_file()</a>.</p>
+<p class="reference">References <a class="el" href="_utilities_8hpp_source.html#l00172">utilities::write_file()</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00166">utilities::write_file()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_utilities_8hpp_source.html#l00172">utilities::write_file()</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Oct 5 2023 14:35:15 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Fri Oct 6 2023 16:25:43 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
