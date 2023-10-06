@@ -12,16 +12,17 @@ jobs:
           fetch-depth: 0
           submodules: true
 
-      - name: Setup Clang
-        uses: egor-tensin/setup-clang@v1
-        with:
-          version: 15
-          platform: x64
-
       - name: Setup
         run: |
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
+
+      - name: Setup Clang
+        uses: pkgxdev/setup@v1
+        with:
+          +: clang@16
+
+      -  run: clang --version
 
       - name: Restore artifacts or setup vcpkg
         uses: lukka/run-vcpkg@v11

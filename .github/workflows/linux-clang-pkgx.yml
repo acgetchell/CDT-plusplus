@@ -17,10 +17,10 @@ jobs:
           sudo apt update
           sudo apt-get install build-essential automake autoconf autoconf-archive texinfo libtool-bin yasm ninja-build ccache
 
-      - name: Setup pkgx
+      - name: Setup Clang
         uses: pkgxdev/setup@v1
         with:
-          +: clang@16
+          +: clang@17
 
       -  run: clang --version
 
