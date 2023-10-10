@@ -102,11 +102,13 @@ SCENARIO("3-Geometry classification" * doctest::test_suite("geometry"))
                                   triangulation.number_of_vertices()));
 
         // Human verification
-        triangulation.print_cells();
         fmt::print("There are {} edges.\n", geometry.N1);
         fmt::print("There are {} timelike edges and {} spacelike edges.\n",
                    geometry.N1_TL, geometry.N1_SL);
+#ifndef NDEBUG
+        triangulation.print_cells();
         triangulation.print_edges();
+#endif
         fmt::print(
             "There are {} vertices with a max timevalue of {} and a min "
             "timevalue of {}.\n",

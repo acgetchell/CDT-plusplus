@@ -836,7 +836,10 @@ namespace foliated_triangulations
           std::inserter(vertices_to_remove, vertices_to_remove.begin()),
           find_bad_vertex<dimension>);
       // Remove the vertices
-      fmt::print("There are {} invalid vertices.\n", vertices_to_remove.size());
+#ifndef NDEBUG
+      spdlog::warn("There are {} invalid vertices.\n",
+                   vertices_to_remove.size());
+#endif
       t_triangulation.remove(vertices_to_remove.begin(),
                              vertices_to_remove.end());
       assert(t_triangulation.tds().is_valid());
@@ -1493,7 +1496,7 @@ namespace foliated_triangulations
     /// @brief Classify cells
     /// @param cells The container of simplices to classify
     /// @return A container of simplices with Cell_type written to cell->info()
-    [[nodiscard]] static auto classify_cells(Cell_container const& cells)
+    [[nodiscard]] auto classify_cells(Cell_container const& cells) const
         -> Cell_container
     {
       assert(cells.size() == number_of_finite_cells());

@@ -858,8 +858,10 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
       {
         CHECK_FALSE(triangulation.is_initialized());
         // Human verification
+#ifndef NDEBUG
         fmt::print("Unfixed triangulation:\n");
         triangulation.print_cells();
+#endif
       }
       THEN("After being fixed, Delaunay3 functions work as expected.")
       {
@@ -883,7 +885,9 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
         fmt::print("Base Delaunay dimension is: {}\n",
                    triangulation.dimension());
         // Human verification
+#ifndef NDEBUG
         utilities::print_delaunay(triangulation.delaunay());
+#endif
       }
     }
     WHEN("Constructing the default triangulation.")
