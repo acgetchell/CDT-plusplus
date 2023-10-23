@@ -284,16 +284,16 @@ If you do not have GraphViz installed, set this option to **NO**
 
 In the `scripts` directory, run `build.sh` or `build.bat` depending on your operating system.
 
-Unit tests run (in `build/tests` or `build\tests\Debug`) via `CDT_test`, the [doctest] executable:
+Unit tests run (in `build/tests` or `build\tests\Debug`) via `CDT_unit_tests`, the [doctest] executable:
 
 ~~~bash
-./CDT_test
+./CDT_unit_tests
 ~~~
 
 or (Windows):
 
 ~~~cmd
-CDT_test.exe
+CDT_unit_tests.exe
 ~~~
 
 You can also run both [CTest] integration and [doctest] unit tests in the `build` directory with:
