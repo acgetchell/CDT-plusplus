@@ -110,9 +110,6 @@ find_package(spdlog CONFIG REQUIRED)
 # https://github.com/intel/tbb
 find_package(TBB CONFIG REQUIRED)
 
-# https://github.com/TartanLlama/expected
-find_package(tl-expected CONFIG REQUIRED)
-
 # https://github.com/TartanLlama/function_ref
 find_package(tl-function-ref CONFIG REQUIRED)
 
