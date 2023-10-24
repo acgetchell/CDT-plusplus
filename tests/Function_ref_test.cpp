@@ -87,7 +87,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     auto constexpr desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    tl::function_ref<std::expected<Manifold_3, std::string>(Manifold_3&)> const
+    tl::function_ref<tl::expected<Manifold_3, std::string>(Manifold_3&)> const
         complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
