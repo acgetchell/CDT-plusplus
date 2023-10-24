@@ -89,13 +89,13 @@ $(function() {
 <div class="line"><a name="l00013"></a><span class="lineno">   13</span>&#160; </div>
 <div class="line"><a name="l00014"></a><span class="lineno">   14</span>&#160;<span class="preprocessor">#include &lt;spdlog/spdlog.h&gt;</span></div>
 <div class="line"><a name="l00015"></a><span class="lineno">   15</span>&#160; </div>
-<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;expected&gt;</span></div>
-<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
-<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00016"></a><span class="lineno">   16</span>&#160;<span class="preprocessor">#include &lt;functional&gt;</span></div>
+<div class="line"><a name="l00017"></a><span class="lineno">   17</span>&#160;<span class="preprocessor">#include &lt;string&gt;</span></div>
+<div class="line"><a name="l00018"></a><span class="lineno">   18</span>&#160;<span class="preprocessor">#include &lt;tl/expected.hpp&gt;</span></div>
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="preprocessor">#include &lt;tl/function_ref.hpp&gt;</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno">   20</span>&#160; </div>
 <div class="line"><a name="l00030"></a><span class="lineno">   30</span>&#160;<span class="keyword">template</span> &lt;<span class="keyword">typename</span> ManifoldType,</div>
-<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;          <span class="keyword">typename</span> ExpectedType = std::expected&lt;ManifoldType, std::string&gt;,</div>
+<div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;          <span class="keyword">typename</span> ExpectedType = tl::expected&lt;ManifoldType, std::string&gt;,</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;          <span class="keyword">typename</span> FunctionType = tl::function_ref&lt;ExpectedType(ManifoldType&amp;)&gt;&gt;</div>
 <div class="line"><a name="l00033"></a><span class="lineno"><a class="line" href="_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd">   33</a></span>&#160;<span class="keyword">auto</span> constexpr <a class="code" href="_apply__move_8hpp.html#ad43f26129ceeafd0a3bb27275294cadd">apply_move</a>(ManifoldType&amp;&amp; t_manifold,</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;                          FunctionType   t_move) noexcept -&gt; decltype(<span class="keyword">auto</span>)</div>
@@ -119,7 +119,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Oct 24 2023 02:15:24 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Tue Oct 24 2023 18:11:43 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
