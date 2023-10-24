@@ -148,7 +148,7 @@ $(function() {
 <div class="line"><a name="l00074"></a><span class="lineno">   74</span>&#160;{</div>
 <div class="line"><a name="l00075"></a><span class="lineno">   75</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A simple lambda stored in a function_ref.&quot;</span>)</div>
 <div class="line"><a name="l00076"></a><span class="lineno">   76</span>&#160;  {</div>
-<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span>                 increment = [](<span class="keywordtype">int</span> incr) { <span class="keywordflow">return</span> ++incr; };</div>
+<div class="line"><a name="l00077"></a><span class="lineno">   77</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> increment = [](<span class="keywordtype">int</span> incr) { <span class="keywordflow">return</span> ++incr; };</div>
 <div class="line"><a name="l00078"></a><span class="lineno">   78</span>&#160;    tl::function_ref&lt;int(<span class="keywordtype">int</span>)&gt; <span class="keyword">const</span> lambda_ref(increment);</div>
 <div class="line"><a name="l00079"></a><span class="lineno">   79</span>&#160;    WHEN(<span class="stringliteral">&quot;Function_ref is called with 0.&quot;</span>)</div>
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    {</div>
@@ -161,7 +161,7 @@ $(function() {
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    REQUIRE(manifold.is_correct());</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tl::function_ref&lt;tl::expected&lt;Manifold_3, std::string&gt;(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span></div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tl::function_ref&lt;std::expected&lt;Manifold_3, std::string&gt;(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        complex_ref(ergodic_moves::do_23_move);</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
 <div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
@@ -216,7 +216,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Mon Oct 23 2023 19:16:51 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Tue Oct 24 2023 02:15:24 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>
