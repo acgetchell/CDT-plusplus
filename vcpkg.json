@@ -11,7 +11,6 @@
     "pcg",
     "spdlog",
     "tbb",
-    "tl-expected",
     "tl-function-ref",
     {
       "name": "yasm-tool",

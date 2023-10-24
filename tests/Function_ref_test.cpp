@@ -74,7 +74,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
 {
   GIVEN("A simple lambda stored in a function_ref.")
   {
-    auto const                 increment = [](int incr) { return ++incr; };
+    auto const increment = [](int incr) { return ++incr; };
     tl::function_ref<int(int)> const lambda_ref(increment);
     WHEN("Function_ref is called with 0.")
     {
@@ -87,7 +87,7 @@ SCENARIO("Function_ref operations" * doctest::test_suite("function_ref"))
     auto constexpr desired_timeslices = 4;
     Manifold_3 manifold(desired_simplices, desired_timeslices);
     REQUIRE(manifold.is_correct());
-    tl::function_ref<tl::expected<Manifold_3, std::string>(Manifold_3&)> const
+    tl::function_ref<std::expected<Manifold_3, std::string>(Manifold_3&)> const
         complex_ref(ergodic_moves::do_23_move);
     WHEN("The function_ref is invoked.")
     {
