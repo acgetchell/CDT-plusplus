@@ -165,7 +165,7 @@ SCENARIO("FoliatedTriangulation free functions" *
     }
   }
 
-  GIVEN("A small foliated triangulation.")
+  GIVEN("A small foliated 3D triangulation.")
   {
     vector<Point_t<3>> Vertices{
         Point_t<3>{       1,        0,        0},
@@ -202,6 +202,14 @@ SCENARIO("FoliatedTriangulation free functions" *
             triangulation.get_delaunay()));
         // Human verification
         triangulation.print_cells();
+      }
+    }
+
+    WHEN("We print a cell in the triangulation.")
+    {
+      THEN("A cell is printed correctly.")
+      {
+        foliated_triangulations::print_cell<3>(triangulation.get_cells().at(0));
       }
     }
 
@@ -367,6 +375,13 @@ SCENARIO("FoliatedTriangulation free functions" *
                 v_3.value(), v_4.value());
             REQUIRE_FALSE(cell);
           }
+        }
+      }
+      WHEN("A container of cells is printed.")
+      {
+        THEN("The container is printed correctly.")
+        {
+          foliated_triangulations::print_cells<3>(triangulation.get_cells());
         }
       }
     }

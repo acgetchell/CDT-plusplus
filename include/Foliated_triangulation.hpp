@@ -630,6 +630,23 @@ namespace foliated_triangulations
     return !incorrect_cells.empty();
   }  // fix_cells
 
+  /// @brief Print a cell in the triangulation
+  /// @tparam dimension The dimensionality of the triangulation
+  /// @param cell The cell to print
+  template <int dimension>
+  void print_cell(Cell_handle_t<dimension> cell)
+  {
+    fmt::print("Cell info => {}\n", cell->info());
+    // There are d+1 vertices in a d-dimensional simplex
+    for (int j = 0; j < dimension + 1; ++j)
+    {
+      fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
+                 utilities::point_to_str(cell->vertex(j)->point()),
+                 cell->vertex(j)->info());
+    }
+    fmt::print("---\n");
+  }
+
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
   /// @tparam dimension The dimensionality of the simplices
@@ -640,15 +657,7 @@ namespace foliated_triangulations
     for (auto        cells = std::forward<Container>(t_cells);
          auto const& cell : cells)
     {
-      fmt::print("Cell info => {}\n", cell->info());
-      // There are d+1 vertices in a d-dimensional simplex
-      for (int j = 0; j < dimension + 1; ++j)
-      {
-        fmt::print("Vertex({}) Point: ({}) Timevalue: {}\n", j,
-                   utilities::point_to_str(cell->vertex(j)->point()),
-                   cell->vertex(j)->info());
-      }
-      fmt::print("---\n");
+      print_cell<dimension>(cell);
     }
   }  // print_cells
 

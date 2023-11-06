@@ -97,7 +97,7 @@ try
 
 catch (std::exception const& e)
 {
-  fmt::print(stderr, "Error: {}\n", e.what());
+  spdlog::critical("Error: {}\n", e.what());
   return EXIT_FAILURE;
 }
 
