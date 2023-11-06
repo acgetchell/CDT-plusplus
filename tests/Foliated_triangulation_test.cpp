@@ -173,7 +173,7 @@ SCENARIO("FoliatedTriangulation free functions" *
         Point_t<3>{       0,        0,        1},
         Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
     };
-    vector<std::size_t>  timevalues{1, 1, 1, 2};
+    vector<std::size_t> timevalues{1, 1, 1, 2};
     auto vertices = make_causal_vertices<3>(Vertices, timevalues);
     FoliatedTriangulation_3 triangulation(vertices);
     auto                    print = [&triangulation](auto& vertex) {
@@ -276,7 +276,7 @@ SCENARIO("FoliatedTriangulation free functions" *
         Point_t<3>{          0, -INV_SQRT_2, INV_SQRT_2},
         Point_t<3>{          0,           0,          2}
     };
-    vector<size_t>       timevalue{1, 2, 2, 2, 2, 3};
+    vector<size_t> timevalue{1, 2, 2, 2, 2, 3};
     auto causal_vertices = make_causal_vertices<3>(vertices, timevalue);
     FoliatedTriangulation_3 const triangulation(causal_vertices, 0, 1);
     // Verify we have 6 vertices, 13 edges, 12 facets, and 4 cells
@@ -377,12 +377,21 @@ SCENARIO("FoliatedTriangulation free functions" *
           }
         }
       }
-      WHEN("A container of cells is printed.")
+    }
+    WHEN("A container of cells is printed.")
+    {
+      THEN("The container is printed correctly.")
       {
-        THEN("The container is printed correctly.")
-        {
-          foliated_triangulations::print_cells<3>(triangulation.get_cells());
-        }
+        foliated_triangulations::print_cells<3>(triangulation.get_cells());
+      }
+    }
+    WHEN("We choose a cell in the triangulation.")
+    {
+      auto cell = triangulation.get_cells().at(0);
+      THEN("We can print it's neighbors.")
+      {
+        foliated_triangulations::print_cell<3>(cell);
+        foliated_triangulations::print_neighboring_cells<3>(cell);
       }
     }
   }
@@ -416,7 +425,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
           Point_t<3>{       0,        0,        1},
           Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, 2};
+      vector<std::size_t> timevalues{1, 1, 1, 2};
       auto vertices = make_causal_vertices<3>(Vertices, timevalues);
       FoliatedTriangulation_3 const triangulation(vertices);
       THEN("Triangulation is valid and foliated.")
@@ -632,7 +641,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           Point_t<3>{       0,        0,        1},
           Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, 2};
+      vector<std::size_t> timevalues{1, 1, 1, 2};
       auto vertices = make_causal_vertices<3>(Vertices, timevalues);
       FoliatedTriangulation_3 triangulation(vertices);
       THEN("No errors in the vertices are detected.")
@@ -719,7 +728,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           Point_t<3>{       0,        0,        1},
           Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, std::numeric_limits<int>::max()};
+      vector<std::size_t> timevalues{1, 1, 1, std::numeric_limits<int>::max()};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertex is fixed on construction.")
@@ -737,7 +746,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           Point_t<3>{1, 0, 0},
           Point_t<3>{0, 0, 1}
       };
-      vector<std::size_t>  timevalues{0, 2, 2, 2};
+      vector<std::size_t> timevalues{0, 2, 2, 2};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertex is fixed on construction.")
@@ -757,7 +766,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           Point_t<3>{1, 0, 0},
           Point_t<3>{0, 0, 1}
       };
-      vector<std::size_t>  timevalues{0, 0, 2, 2};
+      vector<std::size_t> timevalues{0, 0, 2, 2};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertices are fixed on construction.")
@@ -783,7 +792,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           Point_t<3>{0, 0,  1},
           Point_t<3>{0, 0, -1}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, 1};
+      vector<std::size_t> timevalues{1, 1, 1, 1};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 const triangulation(causal_vertices);
       THEN("The vertex error is detected.")
@@ -805,7 +814,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
           Point_t<3>{2, 0, 0},
           Point_t<3>{0, 3, 0}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, 2, 2, 3};
+      vector<std::size_t> timevalues{1, 1, 1, 2, 2, 3};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       Delaunay_t<3> const delaunay_triangulation{causal_vertices.begin(),
                                                  causal_vertices.end()};
@@ -866,7 +875,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
           Point_t<3>{2, 0, 0},
           Point_t<3>{0, 3, 0}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, 2, 2, 3};
+      vector<std::size_t> timevalues{1, 1, 1, 2, 2, 3};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 triangulation(causal_vertices);
       THEN("The Foliated triangulation is initially wrong.")
@@ -926,7 +935,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
           Point_t<3>{       0,        0,        1},
           Point_t<3>{RADIUS_2, RADIUS_2, RADIUS_2}
       };
-      vector<std::size_t>  timevalues{1, 1, 1, 2};
+      vector<std::size_t> timevalues{1, 1, 1, 2};
       auto causal_vertices = make_causal_vertices<3>(vertices, timevalues);
       FoliatedTriangulation_3 triangulation(causal_vertices);
       REQUIRE(triangulation.is_initialized());

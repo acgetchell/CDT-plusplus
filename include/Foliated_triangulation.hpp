@@ -645,7 +645,7 @@ namespace foliated_triangulations
                  cell->vertex(j)->info());
     }
     fmt::print("---\n");
-  }
+  }  // print_cell
 
   /// @brief Print timevalues of each vertex in the cell and the resulting
   /// cell->info()
@@ -661,26 +661,18 @@ namespace foliated_triangulations
     }
   }  // print_cells
 
-  /// @brief Write to debug log timevalues of each vertex in the cell and the
-  /// resulting cell->info
+  /// @brief Print neighboring cells
   /// @tparam dimension The dimensionality of the simplices
-  /// @param t_cells The cells to write to debug log
-  template <int dimension, ContainerType Container>
-  void debug_print_cells(Container&& t_cells)
+  /// @param cell The cell to print neighbors of
+  template <int dimension>
+  void print_neighboring_cells(Cell_handle_t<dimension> cell)
   {
-    for (auto        cells = std::forward<Container>(t_cells);
-         auto const& cell : cells)
+    for (int j = 0; j < dimension + 1; ++j)
     {
-      spdlog::debug("Cell info => {}\n", cell->info());
-      for (int j = 0; j < dimension + 1; ++j)
-      {
-        spdlog::debug("Vertex({}) Point: ({}) Timevalue: {}\n", j,
-                      utilities::point_to_str(cell->vertex(j)->point()),
-                      cell->vertex(j)->info());
-      }
-      spdlog::debug("---\n");
+      fmt::print("Neighboring cell {}:", j);
+      print_cell<dimension>(cell->neighbor(j));
     }
-  }  // debug_print_cells
+  }  // print_neighboring_cells
 
   /// @brief Print edge
   /// @details An edge is represented by a cell and two indices which refer
@@ -893,7 +885,7 @@ namespace foliated_triangulations
       }  // j
     }    // i
     return causal_vertices;
-  }      // make_foliated_ball
+  }  // make_foliated_ball
 
   /// @brief Make a Delaunay triangulation
   /// @tparam dimension Dimensionality of the Delaunay triangulation
