@@ -661,6 +661,28 @@ namespace foliated_triangulations
     }
   }  // print_cells
 
+  /// @brief Write to debug log timevalues of each vertex in the cell and the
+  /// resulting cell->info
+  /// @tparam dimension The dimensionality of the simplices
+  /// @tparam Container The type of container
+  /// @param t_cells The cells to write to debug log
+  template <int dimension, ContainerType Container>
+  void debug_print_cells(Container&& t_cells)
+  {
+    for (auto        cells = std::forward<Container>(t_cells);
+         auto const& cell : cells)
+    {
+      spdlog::debug("Cell info => {}\n", cell->info());
+      for (int j = 0; j < dimension + 1; ++j)
+      {
+        spdlog::debug("Vertex({}) Point: ({}) Timevalue: {}\n", j,
+                      utilities::point_to_str(cell->vertex(j)->point()),
+                      cell->vertex(j)->info());
+      }
+      spdlog::debug("---\n");
+    }
+  }  // debug_print_cells
+
   /// @brief Print neighboring cells
   /// @tparam dimension The dimensionality of the simplices
   /// @param cell The cell to print neighbors of
