@@ -129,7 +129,9 @@ jobs:
       env: DOXYGEN=true
 
 before_install:
-  - travis_wait 60 curl -fsS https://pkgx.sh | sh
+  - curl -o ./pkgx --compressed -f --proto '=https' https://pkgx.sh/$(uname)/$(uname -m)
+  - sudo install -m 755 pkgx /usr/local/bin
+  - pkgx --help
   - if [[ "$CXX" == "g++" ]]; then
       env +gcc@13
       export CXX="g++-13" CC="gcc-13"
