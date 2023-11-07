@@ -129,7 +129,7 @@ jobs:
       env: DOXYGEN=true
 
 before_install:
-  - eval "$(curl https://pkgx.sh)"
+  - travis_wait 60 eval "$(curl https://pkgx.sh)"
   - if [[ "$CXX" == "g++" ]]; then
       env +gcc@13
       export CXX="g++-13" CC="gcc-13"
