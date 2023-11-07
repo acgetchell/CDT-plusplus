@@ -133,10 +133,12 @@ before_install:
   - sudo install -m 755 pkgx /usr/local/bin
   - pkgx --help
   - if [[ "$CXX" == "g++" ]]; then
+    |
       env +gcc@13
       export CXX="g++-13" CC="gcc-13"
     fi
   - if [[ "$CXX" == "clang++" ]]; then
+    |
       env +clang@16
       export CXX="clang++-16" CC="clang-16"
     fi
