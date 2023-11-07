@@ -20,7 +20,7 @@ using Timer = CGAL::Real_timer;
 using namespace std;
 
 /// Help message parsed by docopt into options
-static constexpr string_view USAGE{
+static string_view constexpr USAGE{
     R"(Causal Dynamical Triangulations in C++ using CGAL.
 
 Copyright (c) 2013 Adam Getchell

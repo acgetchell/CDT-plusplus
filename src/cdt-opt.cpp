@@ -24,15 +24,15 @@ auto main() -> int
 try
 {
   fmt::print("cdt-opt started at {}\n", utilities::current_date_time());
-  constexpr Int_precision simplices  = 256;
-  constexpr Int_precision timeslices = 4;
+  Int_precision constexpr simplices  = 256;
+  Int_precision constexpr timeslices = 4;
   /// @brief Constants in units of \f$c=G=\hbar=1 \alpha\approx 0.0397887\f$
   auto constexpr alpha               = static_cast<long double>(0.6);
   auto constexpr k                   = static_cast<long double>(1.1);  // NOLINT
   /// @brief \f$\Lambda=2.036\times 10^{-35} s^{-2}\approx 0\f$
   auto constexpr lambda              = static_cast<long double>(0.1);
-  constexpr Int_precision passes     = 10;
-  constexpr Int_precision checkpoint = 10;
+  Int_precision constexpr passes     = 10;
+  Int_precision constexpr checkpoint = 10;
 
   // Create logs
   utilities::create_logger();
