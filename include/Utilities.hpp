@@ -11,25 +11,17 @@
 #ifndef INCLUDE_UTILITIES_HPP_
 #define INCLUDE_UTILITIES_HPP_
 
-#include <CGAL/Timer.h>
-
-#include <algorithm>
-#include <cassert>
-#include <cstdlib>
 #include <filesystem>
 #include <fstream>
 #include <gsl/gsl>
-#include <iostream>
 #include <mutex>
 #include <random>
 #include <span>
 #include <stdexcept>
 #include <string>
-#include <typeindex>
 // H. Hinnant date and time library
 #include <date/tz.h>
 
-#include <chrono>
 /// clang-15 does not support std::format
 // #include <format>
 
@@ -87,7 +79,7 @@ namespace utilities
     //                          char>::format(time, "{:%Y-%m-%d.%X%Z}");
     date::zoned_time const time(date::current_zone(),
                                 std::chrono::system_clock::now());
-    return date::format("%Y-%m-%d.%X%Z", time);
+    return format("%Y-%m-%d.%X%Z", time);
   }  // current_date_time
 
   /// @brief  Generate useful filenames
@@ -138,7 +130,7 @@ namespace utilities
   }  // make_filename
 
   template <typename ManifoldType>
-  [[nodiscard]] inline auto make_filename(ManifoldType const& manifold)
+  [[nodiscard]] auto make_filename(ManifoldType const& manifold)
   {
     return make_filename(ManifoldType::topology, ManifoldType::dimension,
                          manifold.N3(), manifold.max_time(),
@@ -321,7 +313,7 @@ namespace utilities
   /// @returns  The number of points per timeslice to obtain
   /// the desired number of simplices
   inline auto expected_points_per_timeslice(
-      Int_precision t_dimension, Int_precision t_number_of_simplices,
+      Int_precision const t_dimension, Int_precision t_number_of_simplices,
       Int_precision t_number_of_timeslices)
   {
 #ifndef NDEBUG
@@ -430,8 +422,8 @@ namespace utilities
         "You must build in Debug mode for anything to be recorded in this "
         "file.\n");
 
-    spdlog::register_logger(logger);
-    spdlog::set_default_logger(logger);
+    register_logger(logger);
+    set_default_logger(logger);
   }
   catch (spdlog::spdlog_ex const& ex)
   {
@@ -446,7 +438,7 @@ namespace utilities
   /// @param t_point The point
   /// @returns A string representation of the point
   template <typename Point>
-  inline auto point_to_str(Point const& t_point) -> std::string
+  auto point_to_str(Point const& t_point) -> std::string
   {
     std::stringstream stream;
     stream << t_point;

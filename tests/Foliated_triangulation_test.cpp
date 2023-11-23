@@ -128,9 +128,9 @@ SCENARIO("FoliatedTriangulation free functions" *
 
   GIVEN("A vector of points and timevalues.")
   {
-    vector<Point_t<3>> const Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-                                      Point_t<3>(0, 0, 1),
-                                      Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+    vector const             Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+                          Point_t<3>(0, 0, 1),
+                          Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const     Timevalues{1, 1, 1, 2};
     WHEN("Causal vertices are created.")
     {
@@ -152,9 +152,9 @@ SCENARIO("FoliatedTriangulation free functions" *
   }
   GIVEN("A mismatched set of points and timevalues.")
   {
-    vector<Point_t<3>> const Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
-                                      Point_t<3>(0, 0, 1),
-                                      Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
+    vector const             Vertices{Point_t<3>(1, 0, 0), Point_t<3>(0, 1, 0),
+                          Point_t<3>(0, 0, 1),
+                          Point_t<3>(RADIUS_2, RADIUS_2, RADIUS_2)};
     vector<size_t> const     Timevalues{1, 1, 1};
     WHEN("Causal vertices are created.")
     {
@@ -167,7 +167,7 @@ SCENARIO("FoliatedTriangulation free functions" *
 
   GIVEN("A small foliated 3D triangulation.")
   {
-    vector<Point_t<3>> Vertices{
+    vector Vertices{
         Point_t<3>{       1,        0,        0},
         Point_t<3>{       0,        1,        0},
         Point_t<3>{       0,        0,        1},
@@ -268,7 +268,7 @@ SCENARIO("FoliatedTriangulation free functions" *
   }
   GIVEN("A triangulation setup for a (4,4) move")
   {
-    vector<Point_t<3>> vertices{
+    vector vertices{
         Point_t<3>{          0,           0,          0},
         Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
         Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
@@ -419,7 +419,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         "It is constructed from a Delaunay triangulation with 4 causal "
         "vertices.")
     {
-      vector<Point_t<3>> Vertices{
+      vector Vertices{
           Point_t<3>{       1,        0,        0},
           Point_t<3>{       0,        1,        0},
           Point_t<3>{       0,        0,        1},
@@ -550,9 +550,9 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         triangulation.print();
         // Every cell is classified as (3,1), (2,2), or (1,3)
         CHECK_EQ(triangulation.get_cells().size(),
-                 (triangulation.get_three_one().size() +
-                  triangulation.get_two_two().size() +
-                  triangulation.get_one_three().size()));
+                 triangulation.get_three_one().size() +
+                     triangulation.get_two_two().size() +
+                     triangulation.get_one_three().size());
         // Every cell is properly labelled
         CHECK(triangulation.check_all_cells());
 
@@ -631,7 +631,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
   {
     WHEN("Constructing a triangulation with 4 correct vertices.")
     {
-      vector<Point_t<3>> Vertices{
+      vector Vertices{
           Point_t<3>{       1,        0,        0},
           Point_t<3>{       0,        1,        0},
           Point_t<3>{       0,        0,        1},
@@ -665,8 +665,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         auto break_vertices = [](Vertex_handle_t<3> const& vertex) {
           vertex->info() = 0;
         };
-        for_each(triangulation.get_vertices().begin(),
-                 triangulation.get_vertices().end(), break_vertices);
+        ranges::for_each(triangulation.get_vertices(), break_vertices);
 
         THEN("The incorrect vertex labelling is identified.")
         {
@@ -694,8 +693,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         auto break_cells = [](Cell_handle_t<3> const& cell) {
           cell->info() = 0;
         };
-        for_each(triangulation.get_cells().begin(),
-                 triangulation.get_cells().end(), break_cells);
+        ranges::for_each(triangulation.get_cells(), break_cells);
         THEN("The incorrect cell labelling is identified.")
         {
           CHECK_FALSE(triangulation.check_all_cells());
@@ -718,7 +716,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         "Constructing a triangulation with an incorrect high timevalue "
         "vertex.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{       1,        0,        0},
           Point_t<3>{       0,        1,        0},
           Point_t<3>{       0,        0,        1},
@@ -736,7 +734,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
     }
     WHEN("Constructing a triangulation with an incorrect low value vertex.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{0, 0, 0},
           Point_t<3>{0, 1, 0},
           Point_t<3>{1, 0, 0},
@@ -756,7 +754,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
         "Constructing a triangulation with two incorrect low values and two "
         "incorrect high values.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{0, 0, 0},
           Point_t<3>{0, 1, 0},
           Point_t<3>{1, 0, 0},
@@ -782,7 +780,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
     WHEN(
         "Constructing a triangulation with all vertices on the same timeslice.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{1, 0,  0},
           Point_t<3>{0, 1,  0},
           Point_t<3>{0, 0,  1},
@@ -802,7 +800,7 @@ SCENARIO("Detecting and fixing problems with vertices and cells" *
     }
     WHEN("Constructing a triangulation with an unfixable vertex.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{1, 0, 0},
           Point_t<3>{0, 1, 0},
           Point_t<3>{0, 0, 1},
@@ -863,7 +861,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
   {
     WHEN("Constructing a small triangulation.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{1, 0, 0},
           Point_t<3>{0, 1, 0},
           Point_t<3>{0, 0, 1},
@@ -925,7 +923,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
     }
     WHEN("Constructing a triangulation with 4 causal vertices.")
     {
-      vector<Point_t<3>> vertices{
+      vector vertices{
           Point_t<3>{       1,        0,        0},
           Point_t<3>{       0,        1,        0},
           Point_t<3>{       0,        0,        1},

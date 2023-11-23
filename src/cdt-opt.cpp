@@ -41,7 +41,7 @@ try
   Metropolis_3 run(alpha, k, lambda, passes, checkpoint);
 
   // Make a triangulation
-  manifolds::Manifold_3 universe(simplices, timeslices);
+  manifolds::Manifold_3 const universe(simplices, timeslices);
 
   // Look at triangulation
   universe.print();
@@ -49,7 +49,7 @@ try
   universe.print_volume_per_timeslice();
 
   // Run algorithm on triangulation
-  auto result = run(universe);
+  auto const result = run(universe);
 
   if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)
   {

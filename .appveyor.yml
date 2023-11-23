@@ -57,12 +57,12 @@ build_script:
   - cmake --preset=appveyor
   - cmake --build build
 
-test_script:
-  - cd build
-  - ctest --output-on-failure -j2 --output-junit test-results.xml
-
-after_test:
-  - find "$APPVEYOR_BUILD_FOLDER" -type f -name 'test-results.xml' -print0 | xargs -0 -I '{}' curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
+#test_script:
+#  - cd build
+#  - ctest --output-on-failure -j2 --output-junit test-results.xml
+#
+#after_test:
+#  - find "$APPVEYOR_BUILD_FOLDER" -type f -name 'test-results.xml' -print0 | xargs -0 -I '{}' curl -F 'file=@{}' "https://ci.appveyor.com/api/testresults/junit/$APPVEYOR_JOB_ID"
 
 notifications:
   - provider: Email

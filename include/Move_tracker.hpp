@@ -21,8 +21,8 @@
 
 namespace move_tracker
 {
-  static inline Int_precision constinit const NUMBER_OF_3D_MOVES = 5;
-  static inline Int_precision constinit const NUMBER_OF_4D_MOVES = 7;
+  static inline Int_precision constexpr NUMBER_OF_3D_MOVES = 5;
+  static inline Int_precision constexpr NUMBER_OF_4D_MOVES = 7;
 
   enum class move_type
   {
@@ -36,14 +36,13 @@ namespace move_tracker
   /// @brief Convert enumeration to underlying integer
   /// @details Used to convert move_type to integer
   template <typename Enumeration>
-  auto as_integer(Enumeration value) ->
-      typename std::underlying_type_t<Enumeration>
+  auto as_integer(Enumeration value) -> std::underlying_type_t<Enumeration>
   {
-    return static_cast<typename std::underlying_type_t<Enumeration>>(value);
+    return static_cast<std::underlying_type_t<Enumeration>>(value);
   }  // as_integer
 
   // @brief Convert an integer to move_type
-  inline auto as_move(int move_choice) -> move_type
+  inline auto as_move(int const move_choice) -> move_type
   {
     if (move_choice == 0) { return move_type::TWO_THREE; }
     if (move_choice == 1) { return move_type::THREE_TWO; }
@@ -65,7 +64,7 @@ namespace move_tracker
   /// @brief Determine ergodic moves for a given dimension at compile-time
   /// @param dim Dimensionality of the triangulation
   /// @return The number of ergodic moves for that dimensionality
-  auto constexpr moves_per_dimension(Int_precision dim) -> Int_precision
+  auto constexpr moves_per_dimension(Int_precision const dim) -> Int_precision
   {
     if (dim == 3) { return NUMBER_OF_3D_MOVES; }
     if (dim == 4) { return NUMBER_OF_4D_MOVES; }
@@ -92,7 +91,7 @@ namespace move_tracker
 
     /// @param move The move_type to be accessed
     /// @return The number of moves of that move_type
-    auto operator[](move_type move) const -> auto&
+    auto operator[](move_type const move) const -> auto&
     {
       return gsl::at(moves, as_integer(move));
     }  // operator[]

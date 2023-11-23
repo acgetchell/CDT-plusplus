@@ -27,7 +27,7 @@ SCENARIO("Construct a tetrahedron in a Delaunay triangulation" *
   using Point           = Point_t<3>;
   GIVEN("A vector of 4 vertices.")
   {
-    vector<Point> vertices{
+    vector vertices{
         Point{0, 0, 0},
         Point{1, 0, 0},
         Point{0, 1, 0},
@@ -104,8 +104,8 @@ SCENARIO("Find distances between points of the tetrahedron" *
     causal_vertices.emplace_back(v_4, 2);
     WHEN("The Foliated triangulation is constructed with these points.")
     {
-      FoliatedTriangulation  triangulation(causal_vertices);
-      squared_distance const r_2;
+      FoliatedTriangulation triangulation(causal_vertices);
+      squared_distance constexpr r_2;
       THEN("The triangulation is initialized correctly.")
       {
         REQUIRE(triangulation.is_initialized());
@@ -163,8 +163,7 @@ SCENARIO("Find distances between points of the tetrahedron" *
               std::pow(triangulation.expected_radius(vertex), 2),
               triangulation.expected_timevalue(vertex));
         };
-        std::for_each(triangulation.get_vertices().begin(),
-                      triangulation.get_vertices().end(), print);
+        ranges::for_each(triangulation.get_vertices(), print);
       }
     }
   }
@@ -177,7 +176,7 @@ SCENARIO("Construct a foliated tetrahedron in a foliated triangulation" *
   using FoliatedTriangulation = FoliatedTriangulation_3;
   GIVEN("A vector of vertices and a vector of timevalues.")
   {
-    vector<Point> Vertices{
+    vector Vertices{
         Point{       1,        0,        0},
         Point{       0,        1,        0},
         Point{       0,        0,        1},

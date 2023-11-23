@@ -32,7 +32,7 @@ static inline std::floating_point auto constexpr INV_SQRT_2 = 1 / SQRT_2;
 
 auto bistellar_triangulation_vertices() -> std::vector<Point_t<3>>
 {
-  std::vector<Point_t<3>> vertices{
+  std::vector vertices{
       Point_t<3>{          0,           0,          0},
       Point_t<3>{ INV_SQRT_2,           0, INV_SQRT_2},
       Point_t<3>{          0,  INV_SQRT_2, INV_SQRT_2},
@@ -43,7 +43,7 @@ auto bistellar_triangulation_vertices() -> std::vector<Point_t<3>>
   return vertices;
 }
 
-auto main(int argc, char* argv[]) -> int
+auto main(int const argc, char* argv[]) -> int
 try
 {
   // Doctest integration into code
@@ -52,7 +52,7 @@ try
                     true);  // don't break in debugger when assertions fail
   context.applyCommandLine(argc, argv);
 
-  int res = context.run();  // run tests unless --no-run is specified
+  int const res = context.run();  // run tests unless --no-run is specified
   if (context.shouldExit())
   {  // important - query flags (and --exit) rely on the user doing this
     return res;  // propagate the result of the tests

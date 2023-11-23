@@ -83,8 +83,6 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
   auto constexpr Alpha  = static_cast<long double>(0.6);
   auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
   auto constexpr Lambda = static_cast<long double>(0.1);
-  auto constexpr passes = 10;
-  auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold_3.")
   {
     auto constexpr simplices  = 640;
@@ -94,6 +92,8 @@ SCENARIO("Metropolis member functions" * doctest::test_suite("metropolis"))
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
+      auto constexpr output_every_n_passes = 1;
+      auto constexpr passes                = 10;
       Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("The Metropolis function object is initialized correctly.")
       {
@@ -155,8 +155,6 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
   auto constexpr Alpha  = static_cast<long double>(0.6);
   auto constexpr K      = static_cast<long double>(1.1);  // NOLINT
   auto constexpr Lambda = static_cast<long double>(0.1);
-  auto constexpr passes = 1;
-  auto constexpr output_every_n_passes = 1;
   GIVEN("A correctly-constructed Manifold_3.")
   {
     auto constexpr simplices  = 640;
@@ -166,6 +164,8 @@ SCENARIO("Using the Metropolis algorithm" * doctest::test_suite("metropolis"))
     REQUIRE(universe.is_correct());
     WHEN("A Metropolis function object is constructed.")
     {
+      auto constexpr output_every_n_passes = 1;
+      auto constexpr passes                = 1;
       Metropolis_3 testrun(Alpha, K, Lambda, passes, output_every_n_passes);
       THEN("A lot of moves are done.")
       {

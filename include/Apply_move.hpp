@@ -13,7 +13,6 @@
 
 #include <spdlog/spdlog.h>
 
-#include <functional>
 #include <string>
 #include <tl/expected.hpp>
 #include <tl/function_ref.hpp>

@@ -90,7 +90,10 @@ class MoveCommand
 
   /// @brief Push a Pachner move onto the move queue
   /// @param t_move The move function object to do on the manifold
-  void enqueue(move_tracker::move_type t_move) { m_moves.push_front(t_move); }
+  void enqueue(move_tracker::move_type const t_move)
+  {
+    m_moves.push_front(t_move);
+  }
 
   auto size() const { return m_moves.size(); }
 
@@ -107,7 +110,7 @@ class MoveCommand
     {
       auto move_type = m_moves.back();
       // Record attempted move
-      m_attempted[move_tracker::as_integer(move_type)]++;
+      ++m_attempted[as_integer(move_type)];
       // Convert move_type to function
       auto move_function = as_move_function(move_type);
       // Execute move
@@ -115,13 +118,13 @@ class MoveCommand
       {
         result->update();
         swap(result.value(), m_manifold);
-        m_succeeded[move_tracker::as_integer(move_type)]++;
+        ++m_succeeded[as_integer(move_type)];
       }
       else
       {
         fmt::print("{}\n", result.error());
         // Track failed moves
-        m_failed[move_tracker::as_integer(move_type)]++;
+        ++m_failed[as_integer(move_type)];
         m_moves_to_retry.push_front(move_type);
       }
       // Remove move from queue
@@ -136,7 +139,7 @@ class MoveCommand
 #endif
   }  // execute
 
-  auto as_move_function(move_tracker::move_type move) -> FunctionType
+  auto as_move_function(move_tracker::move_type const move) -> FunctionType
   {
     switch (move)
     {

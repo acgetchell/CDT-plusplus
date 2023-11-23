@@ -45,8 +45,9 @@
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_minus_one(
-    Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22,
-    long double K, long double Lambda) noexcept -> Gmpzf
+    Int_precision const N1_TL, Int_precision const N3_31_13,
+    Int_precision const N3_22, long double const K,
+    long double const Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -141,8 +142,9 @@
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
 [[nodiscard]] inline auto S3_bulk_action_alpha_one(
-    Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22,
-    long double K, long double Lambda) noexcept -> Gmpzf
+    Int_precision const N1_TL, Int_precision const N3_31_13,
+    Int_precision const N3_22, long double const K,
+    long double const Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);
@@ -247,11 +249,10 @@
 /// @returns \f$S^{(3)}(\alpha)\f$ as a
 /// <a href="http://doc.cgal.org/latest/Number_types/Gmpzf_8h.html">Gmpzf</a>
 ///                   value
-[[nodiscard]] inline auto S3_bulk_action(Int_precision N1_TL,
-                                         Int_precision N3_31_13,
-                                         Int_precision N3_22, long double Alpha,
-                                         long double K,
-                                         long double Lambda) noexcept -> Gmpzf
+[[nodiscard]] inline auto S3_bulk_action(
+    Int_precision const N1_TL, Int_precision const N3_31_13,
+    Int_precision const N3_22, long double const Alpha, long double const K,
+    long double const Lambda) noexcept -> Gmpzf
 {
   // Set precision for initialization and assignment functions
   mpfr_set_default_prec(PRECISION);

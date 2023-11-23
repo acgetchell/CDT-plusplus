@@ -38,9 +38,9 @@ inline auto make_d_cube(std::vector<Point> t_points,
              t_dimension);
 
   t_points.reserve(t_number_of_points);
-  return CGAL::points_on_cube_grid_d(t_dimension, size, t_number_of_points,
-                                     std::back_inserter(t_points),
-                                     Creator_d(t_dimension));
+  return points_on_cube_grid_d(t_dimension, size, t_number_of_points,
+                               std::back_inserter(t_points),
+                               Creator_d(t_dimension));
 }
 
 #endif  // INCLUDE_TORUS_D_HPP_

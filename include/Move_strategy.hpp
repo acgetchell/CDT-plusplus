@@ -24,7 +24,6 @@ enum class Strategies
 
 /// @brief Select an algorithm to make ergodic moves upon triangulations
 /// @tparam strategies The algorithm that chooses ergodic moves
-/// @tparam dimension The dimensionality of the triangulation
 template <Strategies strategies, typename ManifoldType>
 class MoveStrategy
 {};

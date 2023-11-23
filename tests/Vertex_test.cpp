@@ -18,17 +18,16 @@
 
 using namespace manifolds;
 
-static inline auto constinit const RADIUS_2 =
-    2.0 * std::numbers::inv_sqrt3_v<double>;
+static inline auto constexpr RADIUS_2 = 2.0 * std::numbers::inv_sqrt3_v<double>;
 
 SCENARIO("Point operations" * doctest::test_suite("vertex"))
 {
   using Point = Point_t<3>;
   GIVEN("Some points.")
   {
-    auto point_1 = Point(0, 0, 0);
-    auto point_2 = Point(0, 0.0, 0.0);
-    auto point_3 = Point(1, 1, 1);
+    auto const point_1 = Point(0, 0, 0);
+    auto const point_2 = Point(0, 0.0, 0.0);
+    auto const point_3 = Point(1, 1, 1);
     WHEN("They are compared.")
     {
       THEN("Similar points are equal.") { REQUIRE_EQ(point_1, point_2); }
@@ -128,7 +127,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         auto require  = [&manifold](auto& vertex) {
           REQUIRE(manifold.is_vertex(vertex));
         };
-        std::for_each(vertices.begin(), vertices.end(), require);
+        std::ranges::for_each(vertices, require);
       }
 
       THEN("The Delaunay triangulation is valid.")
