@@ -96,12 +96,12 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a2a59484e037acf39abfec0f1a4233969"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a2a59484e037acf39abfec0f1a4233969">MoveCommand</a> (ManifoldType t_manifold)</td></tr>
 <tr class="memdesc:a2a59484e037acf39abfec0f1a4233969"><td class="mdescLeft">&#160;</td><td class="mdescRight"><a class="el" href="class_move_command.html">MoveCommand</a> ctor.  <a href="class_move_command.html#a2a59484e037acf39abfec0f1a4233969">More...</a><br /></td></tr>
 <tr class="separator:a2a59484e037acf39abfec0f1a4233969"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acd4936e1569178e540538b8edf426899"><td class="memItemLeft" align="right" valign="top"><a id="acd4936e1569178e540538b8edf426899"></a>
-auto&#160;</td><td class="memItemRight" valign="bottom"><b>as_move_function</b> (move_tracker::move_type move) -&gt; FunctionType</td></tr>
-<tr class="separator:acd4936e1569178e540538b8edf426899"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a94ab45874166cc6afee62c0b185d57d6"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a94ab45874166cc6afee62c0b185d57d6">enqueue</a> (move_tracker::move_type t_move)</td></tr>
-<tr class="memdesc:a94ab45874166cc6afee62c0b185d57d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a Pachner move onto the move queue.  <a href="class_move_command.html#a94ab45874166cc6afee62c0b185d57d6">More...</a><br /></td></tr>
-<tr class="separator:a94ab45874166cc6afee62c0b185d57d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac6491e3e8765373187f11383bf68ea7e"><td class="memItemLeft" align="right" valign="top"><a id="ac6491e3e8765373187f11383bf68ea7e"></a>
+auto&#160;</td><td class="memItemRight" valign="bottom"><b>as_move_function</b> (move_tracker::move_type const move) -&gt; FunctionType</td></tr>
+<tr class="separator:ac6491e3e8765373187f11383bf68ea7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#ad34586a0be5bff4cc938f4dac82f8d2a">enqueue</a> (move_tracker::move_type const t_move)</td></tr>
+<tr class="memdesc:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Push a Pachner move onto the move queue.  <a href="class_move_command.html#ad34586a0be5bff4cc938f4dac82f8d2a">More...</a><br /></td></tr>
+<tr class="separator:ad34586a0be5bff4cc938f4dac82f8d2a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a18c916e22375e0b510e15fdfc0856cf2"><td class="memItemLeft" align="right" valign="top"><a id="a18c916e22375e0b510e15fdfc0856cf2"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">execute</a> ()</td></tr>
 <tr class="memdesc:a18c916e22375e0b510e15fdfc0856cf2"><td class="mdescLeft">&#160;</td><td class="mdescRight">Execute all moves in the queue on the manifold. <br /></td></tr>
@@ -218,8 +218,8 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a94ab45874166cc6afee62c0b185d57d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a94ab45874166cc6afee62c0b185d57d6">&#9670;&nbsp;</a></span>enqueue()</h2>
+<a id="ad34586a0be5bff4cc938f4dac82f8d2a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ad34586a0be5bff4cc938f4dac82f8d2a">&#9670;&nbsp;</a></span>enqueue()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -232,7 +232,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
         <tr>
           <td class="memname">void <a class="el" href="class_move_command.html">MoveCommand</a>&lt; ManifoldType, ExpectedType, FunctionType &gt;::enqueue </td>
           <td>(</td>
-          <td class="paramtype">move_tracker::move_type&#160;</td>
+          <td class="paramtype">move_tracker::move_type const&#160;</td>
           <td class="paramname"><em>t_move</em></td><td>)</td>
           <td></td>
         </tr>
@@ -256,7 +256,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00029">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_moves</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00322">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::initialize()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_metropolis_8hpp_source.html#l00323">MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;::initialize()</a>, and <a class="el" href="_move__always_8hpp_source.html#l00073">MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>.</p>
 
 </div>
 </div>
@@ -324,7 +324,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 
 <p class="reference">References <a class="el" href="_move__command_8hpp_source.html#l00026">MoveCommand&lt; ManifoldType, ExpectedType, FunctionType &gt;::m_manifold</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00074">MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="_move__always_8hpp_source.html#l00073">MoveStrategy&lt; Strategies::MOVE_ALWAYS, ManifoldType &gt;::operator()()</a>.</p>
 
 </div>
 </div>
@@ -431,7 +431,7 @@ template&lt;typename ManifoldType , typename ExpectedType  = tl::expected&lt;Man
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

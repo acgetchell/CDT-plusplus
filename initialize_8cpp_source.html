@@ -118,27 +118,27 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;<span class="stringliteral">  -o --output                 Save triangulation into OFF file</span></div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;<span class="stringliteral">)&quot;};</span></div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;<span class="stringliteral"></span> </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral"></span><span class="keyword">auto</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]) -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="stringliteral"></span><span class="keyword">auto</span> main(<span class="keywordtype">int</span> <span class="keyword">const</span> argc, <span class="keywordtype">char</span>* <span class="keyword">const</span> argv[]) -&gt; <span class="keywordtype">int</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordflow">try</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// docopt option parser</span></div>
-<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  std::string                                             usage_string{<a class="code" href="initialize_8cpp.html#aaf5864dd3dcc4fb2d873b2ee1a53e7fd">USAGE</a>};</div>
-<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  std::map&lt;std::string, docopt::value, std::less&lt;string&gt;&gt; args = docopt::docopt(</div>
+<div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;  std::string <span class="keyword">const</span>                    usage_string{<a class="code" href="initialize_8cpp.html#aaf5864dd3dcc4fb2d873b2ee1a53e7fd">USAGE</a>};</div>
+<div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;  std::map&lt;std::string, docopt::value&gt; args = docopt::docopt(</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;      usage_string, {argv + 1, argv + argc}, <span class="keyword">true</span>, <span class="stringliteral">&quot;initializer 1.0&quot;</span>);</div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160; </div>
-<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keyword">auto</span> simplices         = stoll(args[<span class="stringliteral">&quot;-n&quot;</span>].asString());</div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">auto</span> timeslices        = stoll(args[<span class="stringliteral">&quot;-t&quot;</span>].asString());</div>
-<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keyword">auto</span> dimensions        = stoll(args[<span class="stringliteral">&quot;-d&quot;</span>].asString());</div>
-<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keyword">auto</span> initial_radius    = stod(args[<span class="stringliteral">&quot;--init&quot;</span>].asString());</div>
-<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keyword">auto</span> foliation_spacing = stod(args[<span class="stringliteral">&quot;--foliate&quot;</span>].asString());</div>
-<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">auto</span> save_file         = args[<span class="stringliteral">&quot;--output&quot;</span>].asBool();</div>
+<div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> simplices         = stoll(args[<span class="stringliteral">&quot;-n&quot;</span>].asString());</div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> timeslices        = stoll(args[<span class="stringliteral">&quot;-t&quot;</span>].asString());</div>
+<div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> dimensions        = stoll(args[<span class="stringliteral">&quot;-d&quot;</span>].asString());</div>
+<div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> initial_radius    = stod(args[<span class="stringliteral">&quot;--init&quot;</span>].asString());</div>
+<div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> foliation_spacing = stod(args[<span class="stringliteral">&quot;--foliate&quot;</span>].asString());</div>
+<div class="line"><a name="l00059"></a><span class="lineno">   59</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> save_file         = args[<span class="stringliteral">&quot;--output&quot;</span>].asBool();</div>
 <div class="line"><a name="l00060"></a><span class="lineno">   60</span>&#160; </div>
 <div class="line"><a name="l00061"></a><span class="lineno">   61</span>&#160;  <span class="comment">// Initialize triangulation</span></div>
 <div class="line"><a name="l00062"></a><span class="lineno">   62</span>&#160;  <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold_3</a> universe;</div>
 <div class="line"><a name="l00063"></a><span class="lineno">   63</span>&#160; </div>
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;  <span class="comment">// Topology of simulation</span></div>
-<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keyword">auto</span> topology = (args[<span class="stringliteral">&quot;--spherical&quot;</span>].asBool()) ? topology_type::SPHERICAL</div>
-<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                                 : topology_type::TOROIDAL;</div>
+<div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;  <span class="keyword">auto</span> <span class="keyword">const</span> topology = args[<span class="stringliteral">&quot;--spherical&quot;</span>].asBool() ? topology_type::SPHERICAL</div>
+<div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;                                                     : topology_type::TOROIDAL;</div>
 <div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160; </div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;  <span class="comment">// Display job parameters</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;  fmt::print(<span class="stringliteral">&quot;Topology is {}\n&quot;</span>, utilities::topology_to_str(topology));</div>
@@ -172,38 +172,36 @@ $(function() {
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <span class="keywordflow">break</span>;</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;    <span class="keywordflow">case</span> topology_type::TOROIDAL:</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Toroidal triangulations not yet supported.&quot;</span>);</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;      <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;    <span class="keywordflow">default</span>: <span class="keywordflow">throw</span> invalid_argument(<span class="stringliteral">&quot;Invalid topology.&quot;</span>);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  }</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  fmt::print(<span class="stringliteral">&quot;Final number of simplices: {}\n&quot;</span>, universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>());</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keywordflow">if</span> (save_file) { <a class="code" href="_utilities_8hpp.html#ac413ab90e8490556d9c06eccb15cfffe">utilities::write_file</a>(universe); }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;}</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;{</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;}</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;<span class="keywordflow">catch</span> (...)</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;{</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;}</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  }</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">print</a>();</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">print_volume_per_timeslice</a>();</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  fmt::print(<span class="stringliteral">&quot;Final number of simplices: {}\n&quot;</span>, universe.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">N3</a>());</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="keywordflow">if</span> (save_file) { <a class="code" href="_utilities_8hpp.html#ac413ab90e8490556d9c06eccb15cfffe">utilities::write_file</a>(universe); }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;  <span class="keywordflow">return</span> EXIT_SUCCESS;</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;}</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;<span class="keywordflow">catch</span> (invalid_argument <span class="keyword">const</span>&amp; InvalidArgument)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;{</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;{}\n&quot;</span>, InvalidArgument.what());</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Invalid parameter ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;}</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;<span class="keywordflow">catch</span> (...)</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;{</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;  spdlog::critical(<span class="stringliteral">&quot;Something went wrong ... Exiting.\n&quot;</span>);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;  <span class="keywordflow">return</span> EXIT_FAILURE;</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;}</div>
 <div class="ttc" id="a_manifold_8hpp_html"><div class="ttname"><a href="_manifold_8hpp.html">Manifold.hpp</a></div><div class="ttdoc">Data structures for manifolds.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_ac413ab90e8490556d9c06eccb15cfffe"><div class="ttname"><a href="_utilities_8hpp.html#ac413ab90e8490556d9c06eccb15cfffe">utilities::write_file</a></div><div class="ttdeci">void write_file(std::filesystem::path const &amp;filename, TriangulationType triangulation)</div><div class="ttdoc">Write triangulation to file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00173">Utilities.hpp:173</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00043">Manifold.hpp:44</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00373">Manifold.hpp:373</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00360">Manifold.hpp:360</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_af3670e170b9e355de1ff1955fc7f4bf9"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">manifolds::Manifold&lt; 3 &gt;::N3</a></div><div class="ttdeci">auto N3() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00238">Manifold.hpp:238</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_ac413ab90e8490556d9c06eccb15cfffe"><div class="ttname"><a href="_utilities_8hpp.html#ac413ab90e8490556d9c06eccb15cfffe">utilities::write_file</a></div><div class="ttdeci">void write_file(std::filesystem::path const &amp;filename, TriangulationType triangulation)</div><div class="ttdoc">Write triangulation to file.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00165">Utilities.hpp:165</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00042">Manifold.hpp:43</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_a17cfe42978b29e2f80199157b8ec6ebd"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd">manifolds::Manifold&lt; 3 &gt;::print</a></div><div class="ttdeci">void print() const</div><div class="ttdoc">Print manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00372">Manifold.hpp:372</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_abb050d77f3f4d5dfb00b2cbd96d5b55d"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#abb050d77f3f4d5dfb00b2cbd96d5b55d">manifolds::Manifold&lt; 3 &gt;::print_volume_per_timeslice</a></div><div class="ttdeci">void print_volume_per_timeslice() const</div><div class="ttdoc">Print the codimension 1 volume of simplices (faces) per timeslice.</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00359">Manifold.hpp:359</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html_af3670e170b9e355de1ff1955fc7f4bf9"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html#af3670e170b9e355de1ff1955fc7f4bf9">manifolds::Manifold&lt; 3 &gt;::N3</a></div><div class="ttdeci">auto N3() const</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00237">Manifold.hpp:237</a></div></div>
 <div class="ttc" id="ainitialize_8cpp_html_aaf5864dd3dcc4fb2d873b2ee1a53e7fd"><div class="ttname"><a href="initialize_8cpp.html#aaf5864dd3dcc4fb2d873b2ee1a53e7fd">USAGE</a></div><div class="ttdeci">static constexpr string_view USAGE</div><div class="ttdoc">Help message parsed by docopt into options.</div><div class="ttdef"><b>Definition:</b> <a href="initialize_8cpp_source.html#l00018">initialize.cpp:18</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

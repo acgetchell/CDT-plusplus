@@ -159,17 +159,17 @@ $(function() {
 <div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;  <span class="keyword">auto</span> constexpr Alpha  = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.6);</div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;  <span class="keyword">auto</span> constexpr K      = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(1.1);  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;  <span class="keyword">auto</span> constexpr Lambda = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.1);</div>
-<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <span class="keyword">auto</span> constexpr passes = 10;</div>
-<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  <span class="keyword">auto</span> constexpr output_every_n_passes = 1;</div>
-<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A correctly-constructed Manifold_3.&quot;</span>)</div>
-<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;  {</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <span class="keyword">auto</span> constexpr simplices  = 640;</div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="keyword">auto</span> constexpr timeslices = 4;</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> universe(simplices, timeslices);</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    <span class="comment">// It is correctly constructed</span></div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    REQUIRE(universe.is_correct());</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;    WHEN(<span class="stringliteral">&quot;A Metropolis function object is constructed.&quot;</span>)</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;    {</div>
+<div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A correctly-constructed Manifold_3.&quot;</span>)</div>
+<div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;  {</div>
+<div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <span class="keyword">auto</span> constexpr simplices  = 640;</div>
+<div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    <span class="keyword">auto</span> constexpr timeslices = 4;</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> universe(simplices, timeslices);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    <span class="comment">// It is correctly constructed</span></div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    REQUIRE(universe.is_correct());</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    WHEN(<span class="stringliteral">&quot;A Metropolis function object is constructed.&quot;</span>)</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;    {</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      <span class="keyword">auto</span> constexpr output_every_n_passes = 1;</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      <span class="keyword">auto</span> constexpr passes                = 10;</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      <a class="code" href="class_move_strategy.html">Metropolis_3</a> testrun(Alpha, K, Lambda, passes, output_every_n_passes);</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;      THEN(<span class="stringliteral">&quot;The Metropolis function object is initialized correctly.&quot;</span>)</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;      {</div>
@@ -231,17 +231,17 @@ $(function() {
 <div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <span class="keyword">auto</span> constexpr Alpha  = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.6);</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <span class="keyword">auto</span> constexpr K      = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(1.1);  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <span class="keyword">auto</span> constexpr Lambda = <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(0.1);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <span class="keyword">auto</span> constexpr passes = 1;</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <span class="keyword">auto</span> constexpr output_every_n_passes = 1;</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A correctly-constructed Manifold_3.&quot;</span>)</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  {</div>
-<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <span class="keyword">auto</span> constexpr simplices  = 640;</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="keyword">auto</span> constexpr timeslices = 4;</div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> universe(simplices, timeslices);</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    <span class="comment">// It is correctly constructed</span></div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    REQUIRE(universe.is_correct());</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;    WHEN(<span class="stringliteral">&quot;A Metropolis function object is constructed.&quot;</span>)</div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;    {</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A correctly-constructed Manifold_3.&quot;</span>)</div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  {</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    <span class="keyword">auto</span> constexpr simplices  = 640;</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    <span class="keyword">auto</span> constexpr timeslices = 4;</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> universe(simplices, timeslices);</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    <span class="comment">// It is correctly constructed</span></div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    REQUIRE(universe.is_correct());</div>
+<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;    WHEN(<span class="stringliteral">&quot;A Metropolis function object is constructed.&quot;</span>)</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;    {</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;      <span class="keyword">auto</span> constexpr output_every_n_passes = 1;</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;      <span class="keyword">auto</span> constexpr passes                = 1;</div>
 <div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;      <a class="code" href="class_move_strategy.html">Metropolis_3</a> testrun(Alpha, K, Lambda, passes, output_every_n_passes);</div>
 <div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;      THEN(<span class="stringliteral">&quot;A lot of moves are done.&quot;</span>)</div>
 <div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;      {</div>
@@ -272,16 +272,16 @@ $(function() {
 <div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;    }</div>
 <div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  }</div>
 <div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;}</div>
-<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00160">Manifold_test.cpp:160</a></div></div>
+<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00159">Manifold_test.cpp:159</a></div></div>
 <div class="ttc" id="a_metropolis_8hpp_html"><div class="ttname"><a href="_metropolis_8hpp.html">Metropolis.hpp</a></div><div class="ttdoc">Perform Metropolis-Hastings algorithm on Delaunay Triangulations.</div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
-<div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00029">Move_strategy.hpp:30</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00043">Manifold.hpp:44</a></div></div>
+<div class="ttc" id="aclass_move_strategy_html"><div class="ttname"><a href="class_move_strategy.html">MoveStrategy</a></div><div class="ttdoc">Select an algorithm to make ergodic moves upon triangulations.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00028">Move_strategy.hpp:29</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00042">Manifold.hpp:43</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

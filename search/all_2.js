@@ -1,7 +1,7 @@
 var searchData=
 [
   ['calculatea1_10',['CalculateA1',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae3138a065512d134ead9a6f281809990',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
-  ['calculatea2_11',['CalculateA2',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad6d9339e23a3f3ddf229240c5b2996c3',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
+  ['calculatea2_11',['CalculateA2',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a470e8622b9861a4e39168e5ed221cac3',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
   ['cdt_2dopt_2ecpp_12',['cdt-opt.cpp',['../cdt-opt_8cpp.html',1,'']]],
   ['cdt_2dplusplus_13',['CDT-plusplus',['../index.html',1,'']]],
   ['cdt_2dviewer_2ecpp_14',['cdt-viewer.cpp',['../cdt-viewer_8cpp.html',1,'']]],

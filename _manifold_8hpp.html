@@ -86,7 +86,6 @@ $(function() {
 <a href="#details">More...</a></p>
 <div class="textblock"><code>#include &lt;cstddef&gt;</code><br />
 <code>#include &lt;unordered_set&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
 <code>#include &quot;<a class="el" href="_geometry_8hpp_source.html">Geometry.hpp</a>&quot;</code><br />
 </div><div class="textblock"><div id="dynsection-0" onclick="return toggleVisibility(this)" class="dynheader closed" style="cursor:pointer;">
   <img id="dynsection-0-trigger" src="closed.png" alt="+"/> Include dependency graph for Manifold.hpp:</div>
@@ -127,10 +126,10 @@ using&#160;</td><td class="memItemRight" valign="bottom"><b>manifolds::Manifold_
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="func-members"></a>
 Functions</h2></td></tr>
-<tr class="memitem:aa68ab2b19dc3d498268b9f0bcaf937d6"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
-<tr class="memitem:aa68ab2b19dc3d498268b9f0bcaf937d6"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_manifold_8hpp.html#aa68ab2b19dc3d498268b9f0bcaf937d6">manifolds::make_causal_vertices</a> (std::span&lt; Point_t&lt; dimension &gt; const &gt; vertices, std::span&lt; size_t const &gt; timevalues) -&gt; Causal_vertices_t&lt; dimension &gt;</td></tr>
-<tr class="memdesc:aa68ab2b19dc3d498268b9f0bcaf937d6"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create Causal vertices.  <a href="_manifold_8hpp.html#aa68ab2b19dc3d498268b9f0bcaf937d6">More...</a><br /></td></tr>
-<tr class="separator:aa68ab2b19dc3d498268b9f0bcaf937d6"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab7761a3bbcc5720cf4922c4f255b1d4c"><td class="memTemplParams" colspan="2">template&lt;int dimension&gt; </td></tr>
+<tr class="memitem:ab7761a3bbcc5720cf4922c4f255b1d4c"><td class="memTemplItemLeft" align="right" valign="top">auto&#160;</td><td class="memTemplItemRight" valign="bottom"><a class="el" href="_manifold_8hpp.html#ab7761a3bbcc5720cf4922c4f255b1d4c">manifolds::make_causal_vertices</a> (std::span&lt; Point_t&lt; dimension &gt; const &gt; vertices, std::span&lt; size_t const &gt; const timevalues) -&gt; Causal_vertices_t&lt; dimension &gt;</td></tr>
+<tr class="memdesc:ab7761a3bbcc5720cf4922c4f255b1d4c"><td class="mdescLeft">&#160;</td><td class="mdescRight">Create Causal vertices.  <a href="_manifold_8hpp.html#ab7761a3bbcc5720cf4922c4f255b1d4c">More...</a><br /></td></tr>
+<tr class="separator:ab7761a3bbcc5720cf4922c4f255b1d4c"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Detailed Description</h2>
 <div class="textblock"><p>Data structures for manifolds. </p>
@@ -138,16 +137,13 @@ Functions</h2></td></tr>
 
 <p class="definition">Definition in file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 </div><h2 class="groupheader">Function Documentation</h2>
-<a id="aa68ab2b19dc3d498268b9f0bcaf937d6"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#aa68ab2b19dc3d498268b9f0bcaf937d6">&#9670;&nbsp;</a></span>make_causal_vertices()</h2>
+<a id="ab7761a3bbcc5720cf4922c4f255b1d4c"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#ab7761a3bbcc5720cf4922c4f255b1d4c">&#9670;&nbsp;</a></span>make_causal_vertices()</h2>
 
 <div class="memitem">
 <div class="memproto">
 <div class="memtemplate">
 template&lt;int dimension&gt; </div>
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
       <table class="memname">
         <tr>
           <td class="memname">auto manifolds::make_causal_vertices </td>
@@ -158,7 +154,7 @@ template&lt;int dimension&gt; </div>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">std::span&lt; size_t const &gt;&#160;</td>
+          <td class="paramtype">std::span&lt; size_t const &gt; const&#160;</td>
           <td class="paramname"><em>timevalues</em>&#160;</td>
         </tr>
         <tr>
@@ -168,11 +164,6 @@ template&lt;int dimension&gt; </div>
   </td>
         </tr>
       </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
 </div><div class="memdoc">
 
 <p>Create Causal vertices. </p>
@@ -191,14 +182,14 @@ template&lt;int dimension&gt; </div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>A container of Causal_vertices </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00028">28</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
+<p class="definition">Definition at line <a class="el" href="_manifold_8hpp_source.html#l00027">27</a> of file <a class="el" href="_manifold_8hpp_source.html">Manifold.hpp</a>.</p>
 
 </div>
 </div>
 </div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

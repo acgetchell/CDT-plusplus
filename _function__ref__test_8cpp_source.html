@@ -161,62 +161,61 @@ $(function() {
 <div class="line"><a name="l00087"></a><span class="lineno">   87</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
 <div class="line"><a name="l00088"></a><span class="lineno">   88</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00089"></a><span class="lineno">   89</span>&#160;    REQUIRE(manifold.is_correct());</div>
-<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tl::function_ref&lt;tl::expected&lt;Manifold_3, std::string&gt;(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span></div>
-<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;        complex_ref(ergodic_moves::do_23_move);</div>
-<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;    {</div>
-<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      <span class="keyword">auto</span> result = complex_ref(manifold);</div>
-<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      result-&gt;update();</div>
-<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      THEN(<span class="stringliteral">&quot;The move from the function_ref is correct.&quot;</span>)</div>
-<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;      {</div>
-<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
-<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;                                        move_tracker::move_type::TWO_THREE));</div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        <span class="comment">// Human verification</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        fmt::print(<span class="stringliteral">&quot;Manifold properties:\n&quot;</span>);</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        manifold.print_details();</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        fmt::print(<span class="stringliteral">&quot;Moved manifold properties:\n&quot;</span>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;        result-&gt;print_details();</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;      }</div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;    }</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  }</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A lambda invoking a move stored in a function_ref.&quot;</span>)</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  {</div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    REQUIRE(manifold.is_correct());</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp; t_manifold) {</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d">ergodic_moves::do_23_move</a>(t_manifold).value();</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    };</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    tl::function_ref&lt;<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span> complex_ref(move23);</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;    {</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      <span class="keyword">auto</span> result = complex_ref(manifold);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      result.update();</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      THEN(</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;          <span class="stringliteral">&quot;The move stored in the lambda invoked by the function_ref is &quot;</span></div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;          <span class="stringliteral">&quot;correct.&quot;</span>)</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      {</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result,</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;                                        move_tracker::move_type::TWO_THREE));</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        <span class="comment">// Human verification</span></div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        fmt::print(<span class="stringliteral">&quot;Manifold properties:\n&quot;</span>);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        manifold.print_details();</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        fmt::print(<span class="stringliteral">&quot;Moved manifold properties:\n&quot;</span>);</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;        result.print_details();</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      }</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;    }</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;  }</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;}</div>
+<div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;    tl::function_ref <span class="keyword">const</span> complex_ref(ergodic_moves::do_23_move);</div>
+<div class="line"><a name="l00091"></a><span class="lineno">   91</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
+<div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;    {</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;      <span class="keyword">auto</span> result = complex_ref(manifold);</div>
+<div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160;      result-&gt;update();</div>
+<div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;      THEN(<span class="stringliteral">&quot;The move from the function_ref is correct.&quot;</span>)</div>
+<div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;      {</div>
+<div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result.value(),</div>
+<div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;                                        move_tracker::move_type::TWO_THREE));</div>
+<div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160;        <span class="comment">// Human verification</span></div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;        fmt::print(<span class="stringliteral">&quot;Manifold properties:\n&quot;</span>);</div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;        manifold.print_details();</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;        fmt::print(<span class="stringliteral">&quot;Moved manifold properties:\n&quot;</span>);</div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;        result-&gt;print_details();</div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;      }</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    }</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A lambda invoking a move stored in a function_ref.&quot;</span>)</div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  {</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> manifold(desired_simplices, desired_timeslices);</div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    REQUIRE(manifold.is_correct());</div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keyword">auto</span> <span class="keyword">const</span> move23 = [](<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp; t_manifold) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      <span class="keywordflow">return</span> <a class="code" href="_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d">ergodic_moves::do_23_move</a>(t_manifold).value();</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;    };</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;    tl::function_ref&lt;<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>(<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a>&amp;)&gt; <span class="keyword">const</span> complex_ref(move23);</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;    WHEN(<span class="stringliteral">&quot;The function_ref is invoked.&quot;</span>)</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;    {</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      <span class="keyword">auto</span> result = complex_ref(manifold);</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      result.update();</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      THEN(</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;          <span class="stringliteral">&quot;The move stored in the lambda invoked by the function_ref is &quot;</span></div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;          <span class="stringliteral">&quot;correct.&quot;</span>)</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      {</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;        CHECK(ergodic_moves::check_move(manifold, result,</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;                                        move_tracker::move_type::TWO_THREE));</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;        <span class="comment">// Human verification</span></div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;        fmt::print(<span class="stringliteral">&quot;Manifold properties:\n&quot;</span>);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;        manifold.print_details();</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;        fmt::print(<span class="stringliteral">&quot;Moved manifold properties:\n&quot;</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;        result.print_details();</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      }</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;    }</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;  }</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;}</div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html_a1f2a1247f8f86f72a21db4889e0c6d2d"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html#a1f2a1247f8f86f72a21db4889e0c6d2d">ergodic_moves::do_23_move</a></div><div class="ttdeci">auto do_23_move(Manifold &amp;t_manifold) -&gt; Expected</div><div class="ttdoc">Perform a (2,3) move.</div><div class="ttdef"><b>Definition:</b> <a href="_ergodic__moves__3_8hpp_source.html#l00085">Ergodic_moves_3.hpp:85</a></div></div>
-<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00160">Manifold_test.cpp:160</a></div></div>
+<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00159">Manifold_test.cpp:159</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00043">Manifold.hpp:44</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00042">Manifold.hpp:43</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

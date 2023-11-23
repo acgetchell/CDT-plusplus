@@ -103,7 +103,7 @@ $(function() {
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160; </div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;<span class="keyword">auto</span> bistellar_triangulation_vertices() -&gt; std::vector&lt;Point_t&lt;3&gt;&gt;</div>
 <div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;{</div>
-<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  std::vector&lt;Point_t&lt;3&gt;&gt; vertices{</div>
+<div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;  std::vector vertices{</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      Point_t&lt;3&gt;{          0,           0,          0},</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;      Point_t&lt;3&gt;{ INV_SQRT_2,           0, INV_SQRT_2},</div>
 <div class="line"><a name="l00038"></a><span class="lineno">   38</span>&#160;      Point_t&lt;3&gt;{          0,  INV_SQRT_2, INV_SQRT_2},</div>
@@ -114,7 +114,7 @@ $(function() {
 <div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;  <span class="keywordflow">return</span> vertices;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;}</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160; </div>
-<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">auto</span> main(<span class="keywordtype">int</span> argc, <span class="keywordtype">char</span>* argv[]) -&gt; <span class="keywordtype">int</span></div>
+<div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;<span class="keyword">auto</span> main(<span class="keywordtype">int</span> <span class="keyword">const</span> argc, <span class="keywordtype">char</span>* argv[]) -&gt; <span class="keywordtype">int</span></div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;<span class="keywordflow">try</span></div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;{</div>
 <div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;  <span class="comment">// Doctest integration into code</span></div>
@@ -123,7 +123,7 @@ $(function() {
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;                    <span class="keyword">true</span>);  <span class="comment">// don&#39;t break in debugger when assertions fail</span></div>
 <div class="line"><a name="l00053"></a><span class="lineno">   53</span>&#160;  context.applyCommandLine(argc, argv);</div>
 <div class="line"><a name="l00054"></a><span class="lineno">   54</span>&#160; </div>
-<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordtype">int</span> res = context.run();  <span class="comment">// run tests unless --no-run is specified</span></div>
+<div class="line"><a name="l00055"></a><span class="lineno">   55</span>&#160;  <span class="keywordtype">int</span> <span class="keyword">const</span> res = context.run();  <span class="comment">// run tests unless --no-run is specified</span></div>
 <div class="line"><a name="l00056"></a><span class="lineno">   56</span>&#160;  <span class="keywordflow">if</span> (context.shouldExit())</div>
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;  {  <span class="comment">// important - query flags (and --exit) rely on the user doing this</span></div>
 <div class="line"><a name="l00058"></a><span class="lineno">   58</span>&#160;    <span class="keywordflow">return</span> res;  <span class="comment">// propagate the result of the tests</span></div>
@@ -197,15 +197,15 @@ $(function() {
 <div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;  }</div>
 <div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;}</div>
 <div class="ttc" id="a_ergodic__moves__3_8hpp_html"><div class="ttname"><a href="_ergodic__moves__3_8hpp.html">Ergodic_moves_3.hpp</a></div><div class="ttdoc">Pachner moves on 2+1 dimensional foliated Delaunay triangulations.</div></div>
-<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00160">Manifold_test.cpp:160</a></div></div>
-<div class="ttc" id="a_utilities_8hpp_html_a343d224c91b607f37980bf84760347c4"><div class="ttname"><a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a></div><div class="ttdeci">void print_delaunay(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00154">Utilities.hpp:154</a></div></div>
+<div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00159">Manifold_test.cpp:159</a></div></div>
+<div class="ttc" id="a_utilities_8hpp_html_a343d224c91b607f37980bf84760347c4"><div class="ttname"><a href="_utilities_8hpp.html#a343d224c91b607f37980bf84760347c4">utilities::print_delaunay</a></div><div class="ttdeci">void print_delaunay(TriangulationType const &amp;t_triangulation)</div><div class="ttdoc">Print triangulation statistics.</div><div class="ttdef"><b>Definition:</b> <a href="_utilities_8hpp_source.html#l00146">Utilities.hpp:146</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
-<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Foliated triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00998">Foliated_triangulation.hpp:999</a></div></div>
-<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00043">Manifold.hpp:44</a></div></div>
+<div class="ttc" id="aclassfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4_html"><div class="ttname"><a href="classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html">foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;</a></div><div class="ttdoc">3D Foliated triangulation</div><div class="ttdef"><b>Definition:</b> <a href="_foliated__triangulation_8hpp_source.html#l00995">Foliated_triangulation.hpp:996</a></div></div>
+<div class="ttc" id="aclassmanifolds_1_1_manifold_3_013_01_4_html"><div class="ttname"><a href="classmanifolds_1_1_manifold_3_013_01_4.html">manifolds::Manifold&lt; 3 &gt;</a></div><div class="ttdoc">3D Manifold</div><div class="ttdef"><b>Definition:</b> <a href="_manifold_8hpp_source.html#l00042">Manifold.hpp:43</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 18:51:48 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

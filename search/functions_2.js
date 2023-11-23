@@ -1,7 +1,7 @@
 var searchData=
 [
   ['calculatea1_355',['CalculateA1',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ae3138a065512d134ead9a6f281809990',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
-  ['calculatea2_356',['CalculateA2',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#ad6d9339e23a3f3ddf229240c5b2996c3',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
+  ['calculatea2_356',['CalculateA2',['../class_move_strategy_3_01_strategies_1_1_m_e_t_r_o_p_o_l_i_s_00_01_manifold_type_01_4.html#a470e8622b9861a4e39168e5ed221cac3',1,'MoveStrategy&lt; Strategies::METROPOLIS, ManifoldType &gt;']]],
   ['check_5fall_5fcells_357',['check_all_cells',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#acd9f18037f31dd590f81665a84435756',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fall_5fvertices_358',['check_all_vertices',['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a8a4b02006df092a030035585cf74feab',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;']]],
   ['check_5fcells_359',['check_cells',['../_foliated__triangulation_8hpp.html#a44eb5d3a1ab4c2e3205fe48873b64e81',1,'foliated_triangulations']]],
