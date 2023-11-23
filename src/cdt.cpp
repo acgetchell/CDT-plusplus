@@ -59,7 +59,7 @@ Options:
 /// @param argc Argument count = 1 + number of arguments
 /// @param argv Argument vector (array) to be passed to docopt
 /// @return Integer value 0 if successful, 1 on failure
-auto main(int argc, char* const argv[]) -> int
+auto main(int const argc, char* const argv[]) -> int
 try
 {
   // Start running time
@@ -76,8 +76,8 @@ try
 
   // Parse docopt::values in args map
   auto simplices         = stoll(args["-n"].asString());
-  auto timeslices        = stoll(args["-t"].asString());
-  auto dimensions        = stoll(args["-d"].asString());
+  auto       timeslices        = stoll(args["-t"].asString());
+  auto const dimensions        = stoll(args["-d"].asString());
   auto initial_radius    = stod(args["--init"].asString());
   auto foliation_spacing = stod(args["--foliate"].asString());
   auto alpha             = stold(args["--alpha"].asString());
@@ -87,8 +87,9 @@ try
   auto checkpoint        = stoll(args["--checkpoint"].asString());
 
   // Topology of simulation
-  auto topology = (args["--spherical"].asBool()) ? topology_type::SPHERICAL
-                                                 : topology_type::TOROIDAL;
+  auto const topology          = (args["--spherical"].asBool())
+                                   ? topology_type::SPHERICAL
+                                   : topology_type::TOROIDAL;
 
   // Display job parameters
   fmt::print("Topology is {}\n", utilities::topology_to_str(topology));
@@ -156,7 +157,7 @@ try
   universe.print_volume_per_timeslice();
 
   // The main work of the program
-  auto result = run(universe);
+  auto const result = run(universe);
 
   // Do we have enough timeslices?
   if (auto max_timevalue = result.max_time(); max_timevalue < timeslices)

@@ -32,7 +32,7 @@ using Creator_d = CGAL::Creator_uniform_d<std::vector<double>::iterator, Point>;
 inline auto make_d_cube(std::vector<Point> t_points,
                         std::size_t t_number_of_points, int t_dimension)
 {
-  double const size = 1.0;
+  double constexpr size = 1.0;
 
   fmt::print("Generating {} grid points in {}D\n", t_number_of_points,
              t_dimension);

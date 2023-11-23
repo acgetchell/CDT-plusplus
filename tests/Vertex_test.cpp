@@ -171,7 +171,7 @@ SCENARIO("Vertex operations" * doctest::test_suite("vertex"))
         auto require  = [&manifold](auto& vertex) {
           REQUIRE(manifold.is_vertex(vertex));
         };
-        std::for_each(vertices.begin(), vertices.end(), require);
+        std::ranges::for_each(vertices, require);
       }
 
       THEN("The Delaunay triangulation is valid.")

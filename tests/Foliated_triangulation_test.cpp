@@ -221,7 +221,7 @@ SCENARIO("FoliatedTriangulation free functions" *
       {
         REQUIRE_EQ(all_vertices.size(), 4);
         // Human verification
-        for_each(all_vertices.begin(), all_vertices.end(), print);
+        ranges::for_each(all_vertices, print);
       }
     }
   }
@@ -405,9 +405,9 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
   {
     WHEN("It is default constructed.")
     {
-      FoliatedTriangulation_3 const triangulation;
       THEN("The default Delaunay triangulation is valid.")
       {
+        FoliatedTriangulation_3 const triangulation;
         REQUIRE(triangulation.is_initialized());
         REQUIRE_EQ(triangulation.max_time(), 0);
         REQUIRE_EQ(triangulation.min_time(), 0);
@@ -474,8 +474,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
           CHECK(triangulation.does_vertex_radius_match_timevalue(vertex));
         };
-        for_each(triangulation.get_vertices().begin(),
-                 triangulation.get_vertices().end(), check);
+        ranges::for_each(triangulation.get_vertices(), check);
         // Human verification
         auto print = [&triangulation](Vertex_handle_t<3> const& vertex) {
           fmt::print(
@@ -487,8 +486,7 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
               std::pow(triangulation.expected_radius(vertex), 2),
               triangulation.expected_timevalue(vertex));
         };
-        for_each(triangulation.get_vertices().begin(),
-                 triangulation.get_vertices().end(), print);
+        ranges::for_each(triangulation.get_vertices(), print);
       }
     }
     WHEN(
@@ -566,14 +564,12 @@ SCENARIO("FoliatedTriangulation_3 initialization" *
         auto check_timelike = [](Edge_handle_t<3> const& edge) {
           CHECK(classify_edge<3>(edge));
         };
-        for_each(triangulation.get_timelike_edges().begin(),
-                 triangulation.get_timelike_edges().end(), check_timelike);
+        ranges::for_each(triangulation.get_timelike_edges(), check_timelike);
 
         auto check_spacelike = [](Edge_handle_t<3> const& edge) {
           CHECK(!classify_edge<3>(edge));
         };
-        for_each(triangulation.get_spacelike_edges().begin(),
-                 triangulation.get_spacelike_edges().end(), check_spacelike);
+        ranges::for_each(triangulation.get_spacelike_edges(), check_spacelike);
         // Human verification
         fmt::print("There are {} edges.\n",
                    triangulation.number_of_finite_edges());
@@ -944,8 +940,7 @@ SCENARIO("FoliatedTriangulation_3 functions from Delaunay3" *
         auto check = [&triangulation](Vertex_handle_t<3> const& vertex) {
           CHECK_EQ(triangulation.degree(vertex), 4);
         };
-        for_each(triangulation.get_vertices().begin(),
-                 triangulation.get_vertices().end(), check);
+        ranges::for_each(triangulation.get_vertices(), check);
       }
     }
   }

@@ -318,7 +318,6 @@ namespace utilities
   /// @param t_dimension  Number of dimensions
   /// @param t_number_of_simplices  Number of desired simplices
   /// @param t_number_of_timeslices Number of desired timeslices
-  /// @param t_output_flag Toggles output
   /// @returns  The number of points per timeslice to obtain
   /// the desired number of simplices
   inline auto expected_points_per_timeslice(
@@ -405,20 +404,21 @@ namespace utilities
   inline void create_logger()
   try
   {
-    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
+    auto const console_sink =
+        std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
     console_sink->set_level(spdlog::level::info);
 
-    auto debug_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+    auto const debug_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
         "logs/debug-log.txt", true);
     debug_sink->set_level(spdlog::level::debug);
 
-    auto trace_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
+    auto const trace_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(
         "logs/trace-log.txt", true);
     trace_sink->set_level(spdlog::level::trace);
 
     spdlog::sinks_init_list sink_list = {console_sink, debug_sink, trace_sink};
 
-    auto                    logger    = std::make_shared<spdlog::logger>(
+    auto const              logger    = std::make_shared<spdlog::logger>(
         "multi_sink", sink_list.begin(), sink_list.end());
     // This allows the logger to capture all events
     logger->set_level(spdlog::level::trace);

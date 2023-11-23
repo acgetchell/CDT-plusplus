@@ -466,9 +466,9 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
   spdlog::debug("3-Manifold function checks.\n");
   GIVEN("The default manifold from the default triangulation")
   {
-    Manifold_3 const manifold;
     THEN("There is only one vertex, the infinite vertex.")
     {
+      Manifold_3 const manifold;
       auto&& vertices =
           manifold.get_triangulation().get_delaunay().tds().vertices();
       auto&& vertex = vertices.begin();
@@ -481,10 +481,10 @@ SCENARIO("3-Manifold function checks" * doctest::test_suite("manifold"))
 
   GIVEN("A 3-manifold")
   {
-    auto constexpr desired_simplices  = 640;
-    auto constexpr desired_timeslices = 4;
     WHEN("It is initialized.")
     {
+      auto constexpr desired_timeslices = 4;
+      auto constexpr desired_simplices  = 640;
       Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("Functions referencing geometry data are accurate")
       {
@@ -705,7 +705,7 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
         // Human verification
         auto bad_vertices =
             manifold.get_triangulation().find_incorrect_vertices();
-        for_each(bad_vertices.begin(), bad_vertices.end(), print);
+        ranges::for_each(bad_vertices, print);
       }
       THEN("But the invalid cell is fixed on update.")
       {
@@ -718,10 +718,10 @@ SCENARIO("3-Manifold validation and fixing" * doctest::test_suite("manifold"))
   }
   GIVEN("A medium sized manifold.")
   {
-    auto constexpr desired_simplices  = 6400;
-    auto constexpr desired_timeslices = 7;
     WHEN("It is constructed.")
     {
+      auto constexpr desired_timeslices = 7;
+      auto constexpr desired_simplices  = 6400;
       Manifold_3 const manifold(desired_simplices, desired_timeslices);
       THEN("The triangulation is valid and Delaunay.")
       {
