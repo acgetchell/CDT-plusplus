@@ -38,5 +38,5 @@ var searchData=
   ['given_119',['GIVEN',['../_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052',1,'Manifold_test.cpp']]],
   ['gmpzf_120',['Gmpzf',['../_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5',1,'Settings.hpp']]],
   ['gmpzf_5fto_5fdouble_121',['Gmpzf_to_double',['../_utilities_8hpp.html#a4f84a968c94e9a185b147439dcae1ce1',1,'utilities']]],
-  ['gv_5fbounding_5fbox_5fsize_122',['GV_BOUNDING_BOX_SIZE',['../_settings_8hpp.html#a7a8433b67af4ea9024edd8d5ae386136',1,'Settings.hpp']]]
+  ['gv_5fbounding_5fbox_5fsize_122',['GV_BOUNDING_BOX_SIZE',['../_settings_8hpp.html#a1c189d695c12981d88175ed54dd22311',1,'Settings.hpp']]]
 ];

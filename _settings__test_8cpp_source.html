@@ -106,7 +106,7 @@ $(function() {
 <div class="line"><a name="l00031"></a><span class="lineno">   31</span>&#160;    }</div>
 <div class="line"><a name="l00032"></a><span class="lineno">   32</span>&#160;    WHEN(<span class="stringliteral">&quot;MPFR precision is queried.&quot;</span>)</div>
 <div class="line"><a name="l00033"></a><span class="lineno">   33</span>&#160;    {</div>
-<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <span class="keyword">auto</span> precision = <a class="code" href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a>;</div>
+<div class="line"><a name="l00034"></a><span class="lineno">   34</span>&#160;      <span class="keyword">auto</span> precision = <a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>;</div>
 <div class="line"><a name="l00035"></a><span class="lineno">   35</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 256 bits.&quot;</span>)</div>
 <div class="line"><a name="l00036"></a><span class="lineno">   36</span>&#160;      {</div>
 <div class="line"><a name="l00037"></a><span class="lineno">   37</span>&#160;        fmt::print(<span class="stringliteral">&quot;MPFR precision set to {}.\n&quot;</span>, precision);</div>
@@ -115,13 +115,13 @@ $(function() {
 <div class="line"><a name="l00040"></a><span class="lineno">   40</span>&#160;    }</div>
 <div class="line"><a name="l00041"></a><span class="lineno">   41</span>&#160;    WHEN(<span class="stringliteral">&quot;Memory alignment is queried.&quot;</span>)</div>
 <div class="line"><a name="l00042"></a><span class="lineno">   42</span>&#160;    {</div>
-<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_64 = <a class="code" href="_settings_8hpp.html#ad20a96c3a52d600ec64189b3be4ff815">ALIGNMENT_64_BIT</a>;</div>
+<div class="line"><a name="l00043"></a><span class="lineno">   43</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_64 = <a class="code" href="_settings_8hpp.html#a3841f237ed7f4ea1fd5f6a42e4462f5c">ALIGNMENT_64_BIT</a>;</div>
 <div class="line"><a name="l00044"></a><span class="lineno">   44</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 64 bits.&quot;</span>)</div>
 <div class="line"><a name="l00045"></a><span class="lineno">   45</span>&#160;      {</div>
 <div class="line"><a name="l00046"></a><span class="lineno">   46</span>&#160;        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_64);</div>
 <div class="line"><a name="l00047"></a><span class="lineno">   47</span>&#160;        REQUIRE_EQ(align_64, 64);</div>
 <div class="line"><a name="l00048"></a><span class="lineno">   48</span>&#160;      }</div>
-<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_32 = <a class="code" href="_settings_8hpp.html#acbdb105d68b271c5e4f8ec0b4f64f7bc">ALIGNMENT_32_BIT</a>;</div>
+<div class="line"><a name="l00049"></a><span class="lineno">   49</span>&#160;      <span class="keyword">auto</span> <span class="keyword">const</span> align_32 = <a class="code" href="_settings_8hpp.html#a4ad7a10e56a719ecc3b9e3fa1ce4bf12">ALIGNMENT_32_BIT</a>;</div>
 <div class="line"><a name="l00050"></a><span class="lineno">   50</span>&#160;      THEN(<span class="stringliteral">&quot;The value is 32 bits.&quot;</span>)</div>
 <div class="line"><a name="l00051"></a><span class="lineno">   51</span>&#160;      {</div>
 <div class="line"><a name="l00052"></a><span class="lineno">   52</span>&#160;        fmt::print(<span class="stringliteral">&quot;Memory alignment is set to {}.\n&quot;</span>, align_32);</div>
@@ -132,15 +132,15 @@ $(function() {
 <div class="line"><a name="l00057"></a><span class="lineno">   57</span>&#160;}</div>
 <div class="ttc" id="a_manifold__test_8cpp_html_af5a66d9a7b978022b90c9bcf489f8052"><div class="ttname"><a href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a></div><div class="ttdeci">GIVEN(&quot;4 points.&quot;)</div><div class="ttdef"><b>Definition:</b> <a href="_manifold__test_8cpp_source.html#l00160">Manifold_test.cpp:160</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html"><div class="ttname"><a href="_settings_8hpp.html">Settings.hpp</a></div><div class="ttdoc">Global integer and precision settings.</div></div>
+<div class="ttc" id="a_settings_8hpp_html_a3841f237ed7f4ea1fd5f6a42e4462f5c"><div class="ttname"><a href="_settings_8hpp.html#a3841f237ed7f4ea1fd5f6a42e4462f5c">ALIGNMENT_64_BIT</a></div><div class="ttdeci">static constexpr int ALIGNMENT_64_BIT</div><div class="ttdoc">Aligns data for ease of access on 64-bit CPUs at the expense of padding.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00058">Settings.hpp:58</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_a3b74ffb172789818cabbba0cfddee528"><div class="ttname"><a href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a></div><div class="ttdeci">static constexpr Int_precision PRECISION</div><div class="ttdoc">Sets the precision for MPFR.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00044">Settings.hpp:44</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_a4ad7a10e56a719ecc3b9e3fa1ce4bf12"><div class="ttname"><a href="_settings_8hpp.html#a4ad7a10e56a719ecc3b9e3fa1ce4bf12">ALIGNMENT_32_BIT</a></div><div class="ttdeci">static constexpr int ALIGNMENT_32_BIT</div><div class="ttdoc">Except when we only need 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00061">Settings.hpp:61</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_acbdb105d68b271c5e4f8ec0b4f64f7bc"><div class="ttname"><a href="_settings_8hpp.html#acbdb105d68b271c5e4f8ec0b4f64f7bc">ALIGNMENT_32_BIT</a></div><div class="ttdeci">static int constinit const ALIGNMENT_32_BIT</div><div class="ttdoc">Except when we only need 32 bits.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00061">Settings.hpp:61</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_ad20a96c3a52d600ec64189b3be4ff815"><div class="ttname"><a href="_settings_8hpp.html#ad20a96c3a52d600ec64189b3be4ff815">ALIGNMENT_64_BIT</a></div><div class="ttdeci">static int constinit const ALIGNMENT_64_BIT</div><div class="ttdoc">Aligns data for ease of access on 64-bit CPUs at the expense of padding.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00058">Settings.hpp:58</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_ad27e08790e0e1ff66dd9e2eb58b42acb"><div class="ttname"><a href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a></div><div class="ttdeci">static Int_precision constinit const PRECISION</div><div class="ttdoc">Sets the precision for MPFR.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00044">Settings.hpp:44</a></div></div>
 <div class="ttc" id="abistellar-flip_8cpp_html_a2aaef472159b871f436c0d1022319bf8"><div class="ttname"><a href="bistellar-flip_8cpp.html#a2aaef472159b871f436c0d1022319bf8">SCENARIO</a></div><div class="ttdeci">SCENARIO(&quot;Perform bistellar flip on Delaunay triangulation&quot; *doctest::test_suite(&quot;bistellar&quot;))</div><div class="ttdef"><b>Definition:</b> <a href="bistellar-flip_8cpp_source.html#l00090">bistellar-flip.cpp:90</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 7 2023 02:47:30 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

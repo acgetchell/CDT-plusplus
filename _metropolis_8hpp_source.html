@@ -166,13 +166,13 @@ $(function() {
 <div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;    <span class="keyword">auto</span> all_moves = m_proposed_moves.<a class="code" href="classmove__tracker_1_1_move_tracker.html#ac46f9a41de0dd593e326e2e500338b76">total</a>();</div>
 <div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;    <span class="keyword">auto</span> this_move = m_proposed_moves[move];</div>
 <div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;    <span class="comment">// Set precision for initialization and assignment functions</span></div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    mpfr_set_default_prec(<a class="code" href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a>);</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;    mpfr_set_default_prec(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>);</div>
 <div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
 <div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;    <span class="comment">// Initialize for MPFR</span></div>
 <div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;    mpfr_t r_1;</div>
 <div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;    mpfr_t r_2;</div>
 <div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;    mpfr_t a_1;</div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    mpfr_inits2(<a class="code" href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a>, a_1, <span class="keyword">nullptr</span>);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;    mpfr_inits2(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>, a_1, <span class="keyword">nullptr</span>);  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160; </div>
 <div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;    mpfr_init_set_si(r_1, this_move, MPFR_RNDD);  <span class="comment">// r_1 = this_move NOLINT</span></div>
 <div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;    mpfr_init_set_si(r_2, all_moves, MPFR_RNDD);  <span class="comment">// r_2 = total_moves NOLINT</span></div>
@@ -252,12 +252,12 @@ $(function() {
 <div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;      <span class="keywordflow">if</span> (exponent &gt;= 0) { <span class="keywordflow">return</span> <span class="keyword">static_cast&lt;</span><span class="keywordtype">long</span> <span class="keywordtype">double</span><span class="keyword">&gt;</span>(1); }</div>
 <div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160; </div>
 <div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      <span class="comment">// Set precision for initialization and assignment functions</span></div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      mpfr_set_default_prec(<a class="code" href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a>);</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      mpfr_set_default_prec(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>);</div>
 <div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160; </div>
 <div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;      <span class="comment">// Initialize for MPFR</span></div>
 <div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;      mpfr_t r_1;</div>
 <div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;      mpfr_t a_2;</div>
-<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      mpfr_inits2(<a class="code" href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a>, a_2, <span class="keyword">nullptr</span>);  <span class="comment">// NOLINT</span></div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      mpfr_inits2(<a class="code" href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a>, a_2, <span class="keyword">nullptr</span>);  <span class="comment">// NOLINT</span></div>
 <div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160; </div>
 <div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;      <span class="comment">// Set input parameters and constants to mpfr_t equivalents</span></div>
 <div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;      mpfr_init_set_ld(r_1, exponent_double,  <span class="comment">// NOLINT</span></div>
@@ -490,9 +490,9 @@ $(function() {
 <div class="ttc" id="a_move__strategy_8hpp_html_a1f7f684780bf3e88cb1f7ad77f4e9c30"><div class="ttname"><a href="_move__strategy_8hpp.html#a1f7f684780bf3e88cb1f7ad77f4e9c30">Strategies</a></div><div class="ttdeci">Strategies</div><div class="ttdoc">The algorithms available to make ergodic moves.</div><div class="ttdef"><b>Definition:</b> <a href="_move__strategy_8hpp_source.html#l00019">Move_strategy.hpp:20</a></div></div>
 <div class="ttc" id="a_s3_action_8hpp_html"><div class="ttname"><a href="_s3_action_8hpp.html">S3Action.hpp</a></div><div class="ttdoc">Calculate S3 bulk actions on 3D Delaunay Triangulations.</div></div>
 <div class="ttc" id="a_s3_action_8hpp_html_ad833f7930a98de85f56ef8ac210967e5"><div class="ttname"><a href="_s3_action_8hpp.html#ad833f7930a98de85f56ef8ac210967e5">S3_bulk_action</a></div><div class="ttdeci">auto S3_bulk_action(Int_precision N1_TL, Int_precision N3_31_13, Int_precision N3_22, long double Alpha, long double K, long double Lambda) noexcept -&gt; Gmpzf</div><div class="ttdoc">Calculates the generalized S3 bulk action in terms of , , , , , and .</div><div class="ttdef"><b>Definition:</b> <a href="_s3_action_8hpp_source.html#l00250">S3Action.hpp:250</a></div></div>
+<div class="ttc" id="a_settings_8hpp_html_a3b74ffb172789818cabbba0cfddee528"><div class="ttname"><a href="_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528">PRECISION</a></div><div class="ttdeci">static constexpr Int_precision PRECISION</div><div class="ttdoc">Sets the precision for MPFR.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00044">Settings.hpp:44</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_a8bfaca71c5cc9c46ffe9f9db47923078"><div class="ttname"><a href="_settings_8hpp.html#a8bfaca71c5cc9c46ffe9f9db47923078">Int_precision</a></div><div class="ttdeci">std::int_fast32_t Int_precision</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00031">Settings.hpp:31</a></div></div>
 <div class="ttc" id="a_settings_8hpp_html_ab09035cfa5e10fa4ee88d95ef5fa7ac5"><div class="ttname"><a href="_settings_8hpp.html#ab09035cfa5e10fa4ee88d95ef5fa7ac5">Gmpzf</a></div><div class="ttdeci">CGAL::Gmpzf Gmpzf</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00021">Settings.hpp:21</a></div></div>
-<div class="ttc" id="a_settings_8hpp_html_ad27e08790e0e1ff66dd9e2eb58b42acb"><div class="ttname"><a href="_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb">PRECISION</a></div><div class="ttdeci">static Int_precision constinit const PRECISION</div><div class="ttdoc">Sets the precision for MPFR.</div><div class="ttdef"><b>Definition:</b> <a href="_settings_8hpp_source.html#l00044">Settings.hpp:44</a></div></div>
 <div class="ttc" id="aclass_move_command_html"><div class="ttname"><a href="class_move_command.html">MoveCommand</a></div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00020">Move_command.hpp:21</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a18c916e22375e0b510e15fdfc0856cf2"><div class="ttname"><a href="class_move_command.html#a18c916e22375e0b510e15fdfc0856cf2">MoveCommand::execute</a></div><div class="ttdeci">void execute()</div><div class="ttdoc">Execute all moves in the queue on the manifold.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00098">Move_command.hpp:98</a></div></div>
 <div class="ttc" id="aclass_move_command_html_a24e90c1d1eadf08b1661b6195fad234a"><div class="ttname"><a href="class_move_command.html#a24e90c1d1eadf08b1661b6195fad234a">MoveCommand::reset_counters</a></div><div class="ttdeci">void reset_counters()</div><div class="ttdoc">Reset the counters.</div><div class="ttdef"><b>Definition:</b> <a href="_move__command_8hpp_source.html#l00084">Move_command.hpp:84</a></div></div>
@@ -541,7 +541,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 7 2023 02:47:30 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

@@ -540,9 +540,9 @@ $(function() {
 <div class="line"><a name="l00466"></a><span class="lineno">  466</span>&#160;  spdlog::debug(<span class="stringliteral">&quot;3-Manifold function checks.\n&quot;</span>);</div>
 <div class="line"><a name="l00467"></a><span class="lineno">  467</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;The default manifold from the default triangulation&quot;</span>)</div>
 <div class="line"><a name="l00468"></a><span class="lineno">  468</span>&#160;  {</div>
-<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> manifold;</div>
-<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    THEN(<span class="stringliteral">&quot;There is only one vertex, the infinite vertex.&quot;</span>)</div>
-<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;    {</div>
+<div class="line"><a name="l00469"></a><span class="lineno">  469</span>&#160;    THEN(<span class="stringliteral">&quot;There is only one vertex, the infinite vertex.&quot;</span>)</div>
+<div class="line"><a name="l00470"></a><span class="lineno">  470</span>&#160;    {</div>
+<div class="line"><a name="l00471"></a><span class="lineno">  471</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> manifold;</div>
 <div class="line"><a name="l00472"></a><span class="lineno">  472</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertices =</div>
 <div class="line"><a name="l00473"></a><span class="lineno">  473</span>&#160;          manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().get_delaunay().tds().vertices();</div>
 <div class="line"><a name="l00474"></a><span class="lineno">  474</span>&#160;      <span class="keyword">auto</span>&amp;&amp; vertex = vertices.begin();</div>
@@ -555,10 +555,10 @@ $(function() {
 <div class="line"><a name="l00481"></a><span class="lineno">  481</span>&#160; </div>
 <div class="line"><a name="l00482"></a><span class="lineno">  482</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A 3-manifold&quot;</span>)</div>
 <div class="line"><a name="l00483"></a><span class="lineno">  483</span>&#160;  {</div>
-<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
-<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
-<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;    WHEN(<span class="stringliteral">&quot;It is initialized.&quot;</span>)</div>
-<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;    {</div>
+<div class="line"><a name="l00484"></a><span class="lineno">  484</span>&#160;    WHEN(<span class="stringliteral">&quot;It is initialized.&quot;</span>)</div>
+<div class="line"><a name="l00485"></a><span class="lineno">  485</span>&#160;    {</div>
+<div class="line"><a name="l00486"></a><span class="lineno">  486</span>&#160;      <span class="keyword">auto</span> constexpr desired_timeslices = 4;</div>
+<div class="line"><a name="l00487"></a><span class="lineno">  487</span>&#160;      <span class="keyword">auto</span> constexpr desired_simplices  = 640;</div>
 <div class="line"><a name="l00488"></a><span class="lineno">  488</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00489"></a><span class="lineno">  489</span>&#160;      THEN(<span class="stringliteral">&quot;Functions referencing geometry data are accurate&quot;</span>)</div>
 <div class="line"><a name="l00490"></a><span class="lineno">  490</span>&#160;      {</div>
@@ -779,7 +779,7 @@ $(function() {
 <div class="line"><a name="l00705"></a><span class="lineno">  705</span>&#160;        <span class="comment">// Human verification</span></div>
 <div class="line"><a name="l00706"></a><span class="lineno">  706</span>&#160;        <span class="keyword">auto</span> bad_vertices =</div>
 <div class="line"><a name="l00707"></a><span class="lineno">  707</span>&#160;            manifold.<a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html#a5f539d827e8443e74fc913e249f7cb48">get_triangulation</a>().find_incorrect_vertices();</div>
-<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;        for_each(bad_vertices.begin(), bad_vertices.end(), print);</div>
+<div class="line"><a name="l00708"></a><span class="lineno">  708</span>&#160;        ranges::for_each(bad_vertices, print);</div>
 <div class="line"><a name="l00709"></a><span class="lineno">  709</span>&#160;      }</div>
 <div class="line"><a name="l00710"></a><span class="lineno">  710</span>&#160;      THEN(<span class="stringliteral">&quot;But the invalid cell is fixed on update.&quot;</span>)</div>
 <div class="line"><a name="l00711"></a><span class="lineno">  711</span>&#160;      {</div>
@@ -792,10 +792,10 @@ $(function() {
 <div class="line"><a name="l00718"></a><span class="lineno">  718</span>&#160;  }</div>
 <div class="line"><a name="l00719"></a><span class="lineno">  719</span>&#160;  <a class="code" href="_manifold__test_8cpp.html#af5a66d9a7b978022b90c9bcf489f8052">GIVEN</a>(<span class="stringliteral">&quot;A medium sized manifold.&quot;</span>)</div>
 <div class="line"><a name="l00720"></a><span class="lineno">  720</span>&#160;  {</div>
-<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    <span class="keyword">auto</span> constexpr desired_simplices  = 6400;</div>
-<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    <span class="keyword">auto</span> constexpr desired_timeslices = 7;</div>
-<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
-<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;    {</div>
+<div class="line"><a name="l00721"></a><span class="lineno">  721</span>&#160;    WHEN(<span class="stringliteral">&quot;It is constructed.&quot;</span>)</div>
+<div class="line"><a name="l00722"></a><span class="lineno">  722</span>&#160;    {</div>
+<div class="line"><a name="l00723"></a><span class="lineno">  723</span>&#160;      <span class="keyword">auto</span> constexpr desired_timeslices = 7;</div>
+<div class="line"><a name="l00724"></a><span class="lineno">  724</span>&#160;      <span class="keyword">auto</span> constexpr desired_simplices  = 6400;</div>
 <div class="line"><a name="l00725"></a><span class="lineno">  725</span>&#160;      <a class="code" href="classmanifolds_1_1_manifold_3_013_01_4.html">Manifold_3</a> <span class="keyword">const</span> manifold(desired_simplices, desired_timeslices);</div>
 <div class="line"><a name="l00726"></a><span class="lineno">  726</span>&#160;      THEN(<span class="stringliteral">&quot;The triangulation is valid and Delaunay.&quot;</span>)</div>
 <div class="line"><a name="l00727"></a><span class="lineno">  727</span>&#160;      {</div>
@@ -868,7 +868,7 @@ $(function() {
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>
-Generated on Tue Nov 7 2023 02:47:30 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
+Generated on Thu Nov 23 2023 06:51:38 for CDT++ by&#160;<a href="https://www.doxygen.org/index.html"><img class="footer" src="doxygen.svg" width="104" height="31" alt="doxygen"/></a> 1.9.1
 </small></address>
 </body>
 </html>

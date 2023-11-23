@@ -4,7 +4,7 @@ var searchData=
   ['periodic_5f3_5fcomplex_2ehpp_223',['Periodic_3_complex.hpp',['../_periodic__3__complex_8hpp.html',1,'']]],
   ['periodic_5f3_5ftriangulations_2ehpp_224',['Periodic_3_triangulations.hpp',['../_periodic__3__triangulations_8hpp.html',1,'']]],
   ['point_5fto_5fstr_225',['point_to_str',['../_utilities_8hpp.html#a46daf1402ad4f3d1bb84cc409e433914',1,'utilities']]],
-  ['precision_226',['PRECISION',['../_settings_8hpp.html#ad27e08790e0e1ff66dd9e2eb58b42acb',1,'Settings.hpp']]],
+  ['precision_226',['PRECISION',['../_settings_8hpp.html#a3b74ffb172789818cabbba0cfddee528',1,'Settings.hpp']]],
   ['print_227',['print',['../classmanifolds_1_1_manifold_3_013_01_4.html#a17cfe42978b29e2f80199157b8ec6ebd',1,'manifolds::Manifold&lt; 3 &gt;::print()'],['../classfoliated__triangulations_1_1_foliated_triangulation_3_013_01_4.html#a844d11562ecfaa8add48cbe55d31a259',1,'foliated_triangulations::FoliatedTriangulation&lt; 3 &gt;::print()']]],
   ['print_5fattempts_228',['print_attempts',['../class_move_command.html#a409b2d4149c7e0fff03bcc18e78bd754',1,'MoveCommand']]],
   ['print_5fcell_229',['print_cell',['../_foliated__triangulation_8hpp.html#a575e918c5fbfa2ae99d9b8e99f0aca75',1,'foliated_triangulations']]],
