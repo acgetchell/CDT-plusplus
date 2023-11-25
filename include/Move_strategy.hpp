@@ -13,17 +13,20 @@
 #ifndef INCLUDE_MOVE_ALGORITHM_HPP_
 #define INCLUDE_MOVE_ALGORITHM_HPP_
 
-#include "Move_command.hpp"
-
-/// @brief The algorithms available to make ergodic moves
+/**
+ * \brief The algorithms available to make ergodic moves on triangulations
+ */
 enum class Strategies
 {
   MOVE_ALWAYS,
   METROPOLIS
 };
 
-/// @brief Select an algorithm to make ergodic moves upon triangulations
-/// @tparam strategies The algorithm that chooses ergodic moves
+/**
+ * \brief Select a move algorithm
+ * \tparam strategies The move algorithm to use
+ * \tparam ManifoldType The manifold to perform moves on
+ */
 template <Strategies strategies, typename ManifoldType>
 class MoveStrategy
 {};

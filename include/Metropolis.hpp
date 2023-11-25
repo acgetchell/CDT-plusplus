@@ -18,6 +18,7 @@
 #define INCLUDE_METROPOLIS_HPP_
 
 // CDT headers
+#include "Move_command.hpp"
 #include "Move_strategy.hpp"
 #include "S3Action.hpp"
 

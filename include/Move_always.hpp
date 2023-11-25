@@ -14,6 +14,7 @@
 #ifndef INCLUDE_MOVE_ALWAYS_HPP_
 #define INCLUDE_MOVE_ALWAYS_HPP_
 
+#include "Move_command.hpp"
 #include "Move_strategy.hpp"
 
 /// @brief The Move Always algorithm

@@ -41,46 +41,62 @@ class MoveCommand
   Counter m_failed;
 
  public:
-  /// @brief No default ctor
+  /**
+   * \brief Remove default ctor
+   */
   MoveCommand() = delete;
 
-  /// @brief MoveCommand ctor
-  /// @details The manifold to be moved should be copied by value into the
-  /// MoveCommand to ensure moves are done atomically and either succeed
-  /// or fail and can be discarded without affecting the original.
-  /// @param t_manifold The manifold to perform moves upon
+  /**
+   * \brief MoveCommand ctor
+   * \param t_manifold The manifold to perform moves on
+   * \details The manifold to perform moves upon should be copied by value into
+   * the MoveCommand to ensure moves are executed atomically and either succeed
+   * or fail and can be discarded without affecting the original manifold.
+   */
   explicit MoveCommand(ManifoldType t_manifold)
       : m_manifold{std::move(t_manifold)}
   {}
 
-  /// @returns A read-only reference to the manifold
+  /**
+   * \return A read-only reference to the manifold
+   */
   auto get_const_results() const -> ManifoldType const&
   {
     return std::cref(m_manifold);
   }  // get_const_results
 
-  /// @returns The results of the moves invoked by MoveCommand
+  /**
+   * \return Results of the moves invoked by MoveCommand
+   */
   [[nodiscard]] auto get_results() -> ManifoldType& { return m_manifold; }
 
-  /// @returns Attempted moves by MoveCommand
+  /**
+   * \return Attempted moves by MoveCommand
+   */
   [[nodiscard]] auto get_attempted() const -> Counter const&
   {
     return m_attempted;
   }  // get_attempts
 
-  /// @returns Successful moves by MoveCommand
+  /**
+   * \return Successful moves by MoveCommand
+   */
   [[nodiscard]] auto get_succeeded() const
   {
     return m_succeeded;
   }  // get_succeeded
 
-  /// @returns Failed moves by MoveCommand
+  /**
+   * \return Failed moves by MoveCommand
+   */
   [[nodiscard]] auto get_failed() const -> Counter const&
   {
     return m_failed;
   }  // get_errors
 
-  /// @brief Reset the counters
+  /**
+   * \brief Reset counters
+   */
   void reset_counters()
   {
     m_attempted.reset();
@@ -88,16 +104,23 @@ class MoveCommand
     m_failed.reset();
   }
 
-  /// @brief Push a Pachner move onto the move queue
-  /// @param t_move The move function object to do on the manifold
+  /**
+   * \brief Push a Pachner move onto the move queue
+   * \param t_move The move to add
+   */
   void enqueue(move_tracker::move_type const t_move)
   {
     m_moves.push_front(t_move);
   }
 
+  /**
+   * \return The number of moves on the queue
+   */
   auto size() const { return m_moves.size(); }
 
-  /// Execute all moves in the queue on the manifold
+  /**
+   * \brief Execute all moves in the queue on the manifold
+   */
   void execute()
   {
 #ifndef NDEBUG
@@ -139,7 +162,13 @@ class MoveCommand
 #endif
   }  // execute
 
-  auto as_move_function(move_tracker::move_type const move) -> FunctionType
+  /**
+   * \brief Execute a move function on a manifold
+   * \param move The move to execute
+   * \return The move function to execute
+   */
+  static auto as_move_function(move_tracker::move_type const move)
+      -> FunctionType
   {
     switch (move)
     {
@@ -151,7 +180,9 @@ class MoveCommand
     }
   }  // move_function
 
-  /// @brief Print attempted moves
+  /**
+   * \brief Print attempted moves
+   */
   void print_attempts() const
   {
     if (ManifoldType::dimension == 3)
@@ -182,7 +213,9 @@ class MoveCommand
     }
   }
 
-  /// @brief Print successful moves
+  /**
+   * \brief Print successful moves
+   */
   void print_successful() const
   {
     if (ManifoldType::dimension == 3)
@@ -216,7 +249,9 @@ class MoveCommand
     }
   }
 
-  /// @brief Print Move errors
+  /**
+   * \brief Print move errors
+   */
   void print_errors() const
   {
     if (std::all_of(m_failed.moves_view().begin(), m_failed.moves_view().end(),

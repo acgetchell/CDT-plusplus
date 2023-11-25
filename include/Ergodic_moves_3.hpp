@@ -725,15 +725,18 @@ namespace ergodic_moves
     // get the n_x's right
 
 #ifndef NDEBUG
-    fmt::print("Cells in the triangulation after adding new cells: {}\n",
-               triangulation.number_of_cells());
+    spdlog::info("Cells in the triangulation after adding new cells: {}\n",
+                 triangulation.number_of_cells());
 #endif
 
     // Fix any cell orientation issues
     if (!triangulation.is_valid()) { triangulation.tds().reorient(); }
 
 #ifndef NDEBUG
-    triangulation.tds().is_valid(true, 1);
+    if (!triangulation.tds().is_valid(true, 1))
+    {
+      spdlog::warn("Triangulation is not valid.\n");
+    }
 #endif
 
     // Check validity of cells

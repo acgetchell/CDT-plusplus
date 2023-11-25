@@ -164,9 +164,9 @@ try
                max_timevalue);
   }
 
-  assert(result.is_valid());
+  if (!result.is_valid()) { throw runtime_error("Result is invalid!\n"); }
 
-  // Output results
+  // Print results
   timer.stop();  // End running time counter
   fmt::print("=== Run Results ===\n");
   fmt::print("Running time is {} seconds.\n", timer.time());
@@ -195,6 +195,11 @@ catch (logic_error const& LogicError)
 {
   spdlog::critical("{}\n", LogicError.what());
   spdlog::critical("Simulation startup failed ... Exiting.\n");
+  return EXIT_FAILURE;
+}
+catch (runtime_error const& RuntimeError)
+{
+  spdlog::critical("{}\n", RuntimeError.what());
   return EXIT_FAILURE;
 }
 catch (...)

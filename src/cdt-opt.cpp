@@ -57,7 +57,7 @@ try
                  max_timevalue);
   }
 
-  assert(result.is_valid());
+  if (!result.is_valid()) { throw runtime_error("Result is invalid!\n"); }
 
   // Print results
   fmt::print("=== Run Results ===\n");
@@ -66,6 +66,11 @@ try
   result.print_volume_per_timeslice();
 
   return EXIT_SUCCESS;
+}
+catch (runtime_error const& RuntimeError)
+{
+  spdlog::critical("{}\n", RuntimeError.what());
+  return EXIT_FAILURE;
 }
 catch (...)
 {
