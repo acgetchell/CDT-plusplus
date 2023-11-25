@@ -32,7 +32,7 @@ os:
   - linux
 
 compiler:
-  - g++
+  - gcc
   - clang
 
 jobs:
@@ -40,14 +40,14 @@ jobs:
   include:
     # CppCheck
     - os: linux
-      compiler: g++
+      compiler: gcc
       env: CPPCHECK=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_CPPCHECK:BOOL=TRUE"
       after_success: skip
     # Valgrind
     - os: linux
-      compiler: g++
+      compiler: gcc
       env: VALGRIND=true
       before_script:
         - export CMAKE_ARGS="-D ENABLE_IPO:BOOL=FALSE -D ENABLE_VALGRIND:BOOL=TRUE"
@@ -104,7 +104,7 @@ jobs:
         - ./initialize --s -n32000 -t11 -o
     # Doxygen
     - os: linux
-      compiler: g++
+      compiler: gcc
       env: DOXYGEN=true
       install: skip
       script:
@@ -127,18 +127,18 @@ jobs:
           condition: $TRAVIS_BRANCH =~ ^(master|develop)$
   allow_failures:
     - os: linux
-      compiler: g++
+      compiler: gcc
       env: DOXYGEN=true
 
 before_install:
   - travis_wait 60 curl -Ssf https://pkgx.sh/$(uname)/$(uname -m).tgz | sudo tar xz -C /usr/local/bin
-    - if [[ "$CXX" == "g++" ]]; then
-    env +gcc@13
-    export CXX="g++-13" CC="gcc-13"
+  - if [[ "$CXX" == "g++" ]]; then
+      env +gcc@13
+      export CXX="g++-13" CC="gcc-13"
     fi
-    - if [[ "$CXX" == "clang++" ]]; then
-    env +clang@16
-    export CXX="clang++-16" CC="clang-16"
+  - if [[ "$CXX" == "clang++" ]]; then
+      env +clang@16
+      export CXX="clang++-16" CC="clang-16"
     fi
 
 install:
