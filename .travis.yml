@@ -20,6 +20,7 @@ addons:
       - libtool-bin
       - texinfo
       - yasm
+      - gcc-12
       - ninja-build
       - cppcheck
       - doxygen
@@ -129,11 +130,6 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
-
-before_install:
-  - sudo add apt-repository -y ppa:ubuntu-toolchain-r/test
-  - sudo apt-get -q update
-  - sudo apg-get -y install gcc-13
 
 install:
   # vcpkg should be cached, but clone it if not
