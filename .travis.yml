@@ -10,8 +10,7 @@ cache:
 
 addons:
   apt:
-    sources:
-      - ubuntu-toolchain-r-test
+    update: true
     packages:
       - build-essential
       - automake
@@ -21,6 +20,7 @@ addons:
       - texinfo
       - yasm
       - gcc-12
+      - g++-12
       - ninja-build
       - cppcheck
       - doxygen
@@ -130,6 +130,10 @@ jobs:
     - os: linux
       compiler: gcc
       env: DOXYGEN=true
+
+before_install:
+  - if [[ "$CXX" == "g++" ]]; then export CXX="g++-12" CC="gcc-12"; fi
+  - if [[ "$CXX" == "clang++" ]]; then export CXX="clang++-16" CC="clang-16"; fi
 
 install:
   # vcpkg should be cached, but clone it if not
