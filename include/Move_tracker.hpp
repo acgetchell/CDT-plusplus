@@ -134,45 +134,81 @@ namespace move_tracker
       return *this;
     }  // operator+=
 
-    /// @return The total moves in the MoveTracker
+    /**
+     * \brief Total moves
+     * \return The total number of moves in the MoveTracker
+     */
     auto total() const noexcept
     {
       return std::accumulate(moves.begin(), moves.end(), 0);
     }  // total
 
-    /// @return Size of container of moves
+    /**
+     * \brief Container size
+     * \return The size of the container of moves
+     */
     auto size() const noexcept { return moves.size(); }
 
     // 3D
 
-    /// @brief Write access to (2,3) moves
+    /**
+     * \brief Write access to (2,3) moves
+     * \return Reference to number of (2,3) moves
+     */
     auto two_three_moves() -> auto& { return gsl::at(moves, 0); }
 
-    /// @brief Read-only access to (2,3) moves
+    /**
+     * \brief Read access to (2,3) moves
+     * \return Value of number of (2,3) moves
+     */
     auto two_three_moves() const { return gsl::at(moves, 0); }
 
-    /// @brief Writeable access to (3,2) moves
+    /**
+     * \brief Write access to (3,2) moves
+     * \return Reference to number of (3,2) moves
+     */
     auto three_two_moves() -> auto& { return gsl::at(moves, 1); }
 
-    /// @brief Read-only access to (3,2) moves
+    /**
+     * \brief Read access to (3,2) moves
+     * \return Value of number of (3,2) moves
+     */
     auto three_two_moves() const { return gsl::at(moves, 1); }
 
-    /// @brief Write access to (2,6) moves
+    /**
+     * \brief Write access to (2,6) moves
+     * \return Reference to number of (2,6) moves
+     */
     auto two_six_moves() -> auto& { return gsl::at(moves, 2); }
 
-    /// @brief Read-only access to (2,6) moves
+    /**
+     * \brief Read access to (2,6) moves
+     * \return Value of number of (2,6) moves
+     */
     auto two_six_moves() const { return gsl::at(moves, 2); }
 
-    /// @brief Write access to (6,2) moves
+    /**
+     * \brief Write access to (6,2) moves
+     * \return Reference to number of (6,2) moves
+     */
     auto six_two_moves() -> auto& { return gsl::at(moves, 3); }
 
-    /// @brief Read access to (6,2) moves
+    /**
+     * \brief Read access to (6,2) moves
+     * \return Value of number of (6,2) moves
+     */
     auto six_two_moves() const { return gsl::at(moves, 3); }
 
-    /// @brief Write access to (4,4) moves
+    /**
+     * \brief Write access to (4,4) moves
+     * \return Reference to number of (4,4) moves
+     */
     auto four_four_moves() -> auto& { return gsl::at(moves, 4); }
 
-    /// @brief Read access to (4,4) moves
+    /**
+     * \brief Read access to (4,4) moves
+     * \return Value of number of (4,4) moves
+     */
     auto four_four_moves() const { return gsl::at(moves, 4); }
 
     // 4D

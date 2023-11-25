@@ -19,6 +19,7 @@ jobs:
     - name: Setup
       run: |
         rm /usr/local/bin/2to3
+        rm /usr/local/bin/2to3-3.11
         brew install automake autoconf autoconf-archive libtool texinfo yasm ninja python ccache pkg-config
 
     - name: Restore artifacts or setup vcpkg
